@@ -1,0 +1,25 @@
+// Ratchild (Kobold witch-doctor)
+IF
+	See([PC])
+	NumTimesTalkedTo(0)
+	Range([PC],20)
+THEN
+	RESPONSE #100
+		SmallWait(2)
+		StartDialog("_RATCHI",[PC])
+END
+
+[monster=race(KOBOLD),walk,smart]
+
+[section=beforeCombat]
+  [spell=Invisibility]
+  [spell=WIZARD_HASTE]
+  [spell=CLERIC_REMOVE_FEAR]
+  [spell=Shield]
+  [spell=CLERIC_PROTECT_FROM_EVIL]
+  [spell=Mirror Image;requireSelf=norandom]
+  [spell=Slow]
+  [spell=WIZARD_POLYMORPH_OTHER]
+  [spell=Cure Light Wounds]
+
+[generate]

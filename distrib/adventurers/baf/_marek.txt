@@ -1,0 +1,48 @@
+// Marek (Assassin-Mage)
+[CLASS=WIZARD;CASTER_LEVEL=12;MAX_SPELL_LEVEL=6]
+[include=autocast_spell_arcane]
+[include=init_npc]
+[include=hide]
+[include=tracking]
+[include=disable_spellcasting]
+
+[action=CONTINGENCY(Improved Invisibility,response<100>);require=seeEnemy]
+
+[spell=Stoneskin]
+[spell=Shadow Door;require=hit]
+
+[spell=Non-Detection;requireSelf=invisible]
+[spell=Ghost Armor;requireSelf=invisible]
+[spell=Improved Haste;requireSelf=invisible]
+[spell=Minor Globe of Invulnerability;requireSelf=invisible]
+[action=walk;requireSelf=invisible,or(spell<Ghost Armor>,spell<Non-Detection>,spell<Improved Haste>,spell<Minor Globe of Invulnerability>)]
+
+[spell=Poison weapon]
+[include=backstab]
+
+[spell=Non-Detection;requireSelf=!invisible,random(25)]
+[spell=Ghost Armor;requireSelf=!invisible,random(25)]
+[spell=Improved Haste;requireSelf=!invisible,random(25)]
+[spell=Minor Globe of Invulnerability;requireSelf=!invisible,random(25)]
+[spell=Reflected Image;requireSelf=!invisible,random(25)]
+
+[spell=Web]
+[spell=Slow]
+
+[spell=Shadow Door;require=random(50)]
+
+[spell=Emotion Despair]
+[spell=Feeblemind]
+
+[spell=Invisibility;require=random(50)]
+
+[spell=Hold Person]
+[spell=Sleep]
+
+[action=MINORSEQUENCER(Mirror Image,Invisibility,response<100>);require=random(50)]
+
+[spell=Color Spray]
+[spell=Blindness]
+
+[include=avoid_melee]
+[include=combat_smart_both]

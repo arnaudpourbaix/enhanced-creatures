@@ -1,0 +1,7 @@
+// Ankheg
+[monster=race(ANKHEG),walk]
+
+[section=beforeCombat]
+  [action=forceSpell(Acidic Enzymes,remove)]
+
+[generate]

@@ -1,0 +1,40 @@
+// Cuchol (Wild Mage)
+[CLASS=WIZARD;CASTER_LEVEL=10;MAX_SPELL_LEVEL=5;RUN_AWAY_FROM_AOE=true]
+[include=autocast_spell_arcane]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+[spell=Chaos Shield]
+[spell=Stoneskin]
+[spell=Minor Globe of Invulnerability;requireSelf=visible]
+[spell=Mirror Image]
+[spell=Minor Globe of Invulnerability]
+[spell=Domination]
+[spell=Dire Charm]
+[spell=Confusion;requireSelf=norandom]
+[spell=Web;requireSelf=norandom]
+[spell=Skull Trap]
+[spell=Fireball]
+[spell=Cone of Cold]
+[spell=Flame Arrow]
+
+[action=MINORSEQUENCER(Melf's Acid Arrow,Melf's Acid Arrow,response<70>),
+        MINORSEQUENCER(Chromatic Orb,Chromatic Orb,response<80>),
+        MINORSEQUENCER(Knock,Knock,response<90>),
+        MINORSEQUENCER(Magic Missile,Magic Missile,response<100>)
+ ;target=player;require=!disable,random(75)]
+
+[spell=Magic Missile;require=state(STATE_MIRRORIMAGE)]
+[spell=Agannazar's Scorcher]
+[spell=Melf's Acid Arrow]
+[spell=Magic Missile]
+[spell=Chromatic Orb]
+
+[offensive_spells=Domination,Dire Charm,Confusion,Web,Skull Trap,Fireball,Cone of Cold,Flame Arrow,Magic Missile
+                  ,Agannazar's Scorcher,Melf's Acid Arrow,Chromatic Orb]
+
+[include=combat_caster]
+[include=combat_smart]

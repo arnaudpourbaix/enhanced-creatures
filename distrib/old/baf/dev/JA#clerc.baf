@@ -1,0 +1,5371 @@
+///////////////////////////////////////////////////////////////////////
+// Initialization script
+// - sleep
+// - initialization
+// - cast long protection spells
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Just after resting, everything is reset and creature is healed
+/////////////////////////////////////////////////////////////////////
+IF
+	GlobalTimerExpired("ja#PrepTimer","LOCALS")
+	!Global("ja#initialize","LOCALS",0)
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		Rest()
+		ForceSpellRES("spin124",Myself) // Shapeshifts Natural Form
+		SelectWeaponAbility(SLOT_WEAPON,0)
+		ApplySpellRES("JA#HEAL",Myself)
+		SetGlobal("ja#initialize","LOCALS",0)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Initialize variables & timers
+///////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#initialize","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#initialize","LOCALS",1)
+		SetGlobal("ja#disable_spellcasting","LOCALS",0)
+		SetGlobal("ja#prepspells","LOCALS",0)
+		SetGlobal("ja#nohealspells","LOCALS",0)
+		SetGlobal("ja#buffdone","LOCALS",0)
+		SetGlobal("ja#castsilence","LOCALS",0)
+		SetGlobal("ja#polymorph","LOCALS",0)
+		SetGlobal("ja#startcombat","LOCALS",0)
+		SetGlobalTimer("ja#holymight","LOCALS",0)
+		SetGlobalTimer("ja#chant","LOCALS",0)
+		SetGlobalTimer("ja#PrepTimer","LOCALS",2400)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Priests always cast their long protection spells before combat
+// (long = 1 turn per level, and in general more than 5 turns)
+// Also some long duration weapons & summons
+////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Ironskin
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_IRONSKIN)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_IRONSKIN)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from evil 3 meters
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from good 3 meters
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpellRES("CDPRGD10")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("CDPRGD10", Myself)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Chaotic commands
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_CHAOTIC_COMMANDS)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_CHAOTIC_COMMANDS)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Death ward
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_DEATH_WARD)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_DEATH_WARD)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Resist fear
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_REMOVE_FEAR)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_REMOVE_FEAR)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Aerial servant
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_AERIAL_SERVANT)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_AERIAL_SERVANT)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Earth elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpellRES("sppr702")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("sppr702", Myself)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Fire elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_CONJURE_FIRE_ELEMENTAL)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_CONJURE_FIRE_ELEMENTAL)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Air elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpellRES("NMCONAIR")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("NMCONAIR", Myself)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Animate dead
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+	HaveSpell(CLERIC_ANIMATE_DEAD)
+THEN
+	RESPONSE #100
+		ReallyForceSpell(Myself,CLERIC_ANIMATE_DEAD)
+		Continue()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// End of long protection spells 
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#prepspells","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#prepspells","LOCALS",1)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Threat Detection for mages
+// - turn hostile if the mage or his summons are being attacked
+// - alert nearby allies
+///////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////
+// Attacked? Spell cast on me? Someone shouted a warning?
+///////////////////////////////////////////////////////////////////////
+IF
+	!Allegiance(Myself,ENEMY)
+	OR(12)
+		AttackedBy([GOODCUTOFF.0.0.0.0.SUMMONED],DEFAULT)
+		AttackedBy([PC],DEFAULT)
+		AttackedBy([FAMILIAR],DEFAULT)
+		AttackedBy([ALLY],DEFAULT)
+		AttackedBy([CONTROLLED],DEFAULT)
+		AttackedBy([CHARMED],DEFAULT)
+		SpellCastOnMe([GOODCUTOFF.0.0.0.0.SUMMONED],0)
+		SpellCastOnMe([PC],0)
+		SpellCastOnMe([FAMILIAR],0)
+		SpellCastOnMe([ALLY],0)
+		SpellCastOnMe([CONTROLLED],0)
+		SpellCastOnMe([CHARMED],0)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+// Summons are beeing attack
+IF
+	Heard([ANYONE],98)
+	Allegiance(Myself,NEUTRAL)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+// Adventurers are beeing attack
+IF
+	Heard([ANYONE],97)
+	Allegiance(Myself,NEUTRAL)
+THEN
+	RESPONSE #100
+		Enemy()
+		//MoveToObject(LastHeardBy(Myself))
+		SetGlobal("ja#startcombat","LOCALS",1)
+END
+
+IF
+	Heard([ANYONE],97)
+	!See(NearestEnemyOf(Myself))	
+THEN
+	RESPONSE #100
+		//MoveToObject(LastHeardBy(Myself))
+		SetGlobal("ja#startcombat","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Alert nearby allies if an enemy is spotted
+/////////////////////////////////////////////////////////////////////
+IF
+	See(NearestEnemyOf(Myself))
+	!GlobalTimerNotExpired("ja#shout","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobal("ja#startcombat","LOCALS",1)
+		VerbalConstant(Myself,BATTLE_CRY)
+		SetGlobalTimer("ja#shout","LOCALS",30)
+		Shout(97)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Lay on hands
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HPPercentLT(Myself,60)
+	HaveSpellRES("spcl211")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl211",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spcl815")
+	HPPercentLT(Myself,60)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl815",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Healing potions
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("POTN55",Myself) // Potion of Superior Healing
+	HPPercentLT(Myself,50)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("POTN55",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("POTN52",Myself) // Potion of Extra Healing
+	HPPercentLT(Myself,60)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("POTN52",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN17",Myself) // Elixir of Health
+	OR(2)
+		HPPercentLT(Myself,30)
+		StateCheck(Myself,STATE_POISONED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN17",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN08",Myself) // Potion of Healing
+	HPPercentLT(Myself,30)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN08",Myself)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Movement and Tracking
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Thieves will try to hide
+/////////////////////////////////////////////////////////////////////
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!GlobalTimerNotExpired("ja#stealth","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#stealth","LOCALS",9)
+		Hide()
+END
+
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!GlobalTimerNotExpired("Stealth","LOCALS")
+	!RandomNum(4,1) // Sometimes, it's good to fight
+THEN
+	RESPONSE #100
+		RunAwayFromNoInterrupt(NearestEnemyOf(Myself),45)
+END
+
+// If thief is not invisible, he won't track down an enemy not in sight
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Are there any enemies that try to escape, follow them
+// It's not about sight but memory (I saw that enemy going in that dir.)
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#startcombat","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(LastAttackerOf(Myself),STATE_INVISIBLE)
+	Range(LastAttackerOf(Myself),70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(LastAttackerOf(Myself))
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player1,STATE_INVISIBLE)
+	Range(Player1,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player1)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player2,STATE_INVISIBLE)
+	Range(Player2,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player2)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player3,STATE_INVISIBLE)
+	Range(Player3,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player3)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player4,STATE_INVISIBLE)
+	Range(Player4,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player4)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player5,STATE_INVISIBLE)
+	Range(Player5,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player5)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player6,STATE_INVISIBLE)
+	Range(Player6,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player6)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Behavior if no enemies have been seen
+///////////////////////////////////////////////////////////////////////
+IF
+	!See(NearestEnemyOf(Myself))
+	Global("ja#randomwalk","LOCALS",1)
+THEN
+	RESPONSE #100
+		RandomWalk()
+END
+
+IF
+	!See(NearestEnemyOf(Myself))
+	Global("ja#randomwalk","LOCALS",0)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Spellcasting for clerics
+// - protection/buff spells
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Unable to cast a spell
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#disable_spellcasting","LOCALS",0)
+	OR(2)
+		StateCheck(Myself,STATE_SILENCED)
+		CheckStatGT(Myself,69,SPELLFAILUREPRIEST)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Able to cast a spell
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#disable_spellcasting","LOCALS",1)
+	!StateCheck(Myself,STATE_SILENCED)
+	CheckStatLT(Myself,70,SPELLFAILUREPRIEST)
+	!CheckStat(Myself,1,SCRIPTINGSTATE3) // Tenser's tranformation
+	!CheckStat(Myself,1,POLYMORPH_SELF)
+	!CheckStat(Myself,1,WIZARD_MISLEAD)
+	!Global("ja#polymorph","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#disable_spellcasting","LOCALS",0)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Neutralize poison
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilnps")
+	StateCheck(Myself,STATE_POISONED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilnps",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Slow poison
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SLOW_POISON)
+	StateCheck(Myself,STATE_POISONED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_SLOW_POISON)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Mantle
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdhmmnt")
+	CheckStat(Myself,0,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+	HitBy([ANYONE],CRUSHING)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdhmmnt",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdxvmtl")
+	CheckStat(Myself,0,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+	HitBy([ANYONE],CRUSHING)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdxvmtl",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmsun14")
+	CheckStat(Myself,0,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+	HitBy([ANYONE],CRUSHING)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("nmsun14",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Shapeshift
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	Kit(Myself,SHAPESHIFTER)
+	OR(2)
+		HPPercentLT(Myself,70)
+		Global("ja#disable_spellcasting","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SelectWeaponAbility(SLOT_WEAPON1,0)  // (Greater)Wolfwere
+		Wait(6) // Morphing time
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	Kit(Myself,BEASTFRIEND)
+	CheckStatGT(Myself,6,LEVEL)
+	OR(2)
+		HPPercentLT(Myself,70)
+		Global("ja#disable_spellcasting","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl633",Myself)  // Baby wyvern
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl632",Myself)  // Sword spider
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl634",Myself)  // Fire salamander
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl611",Myself)  // Brown bear
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl612",Myself)  // Dread Wolf
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	!Kit(Myself,TOTEMIC)
+	!Kit(Myself,BEASTFRIEND)
+	!Kit(Myself,SHAPESHIFTER)
+	CheckStatGT(Myself,6,LEVEL)
+	OR(2)
+		HPPercentLT(Myself,70)
+		Global("ja#disable_spellcasting","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl611",Myself)  // Brown bear
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl612",Myself)  // Dread Wolf
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Priests have weak defenses (comparing to mage)
+// So try a disabling spell before buffing
+// Silence 15' radius
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SILENCE_15_FOOT)
+	See(NearestEnemyOf(Myself))
+	!Range(NearestEnemyOf(Myself),13)
+	Global("ja#castsilence","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_SILENCE_15_FOOT)
+		SetGlobal("ja#castsilence","LOCALS",1)
+		RunAwayFromNoInterrupt(LastSeenBy(Myself),45)
+		Spell(Myself,CLERIC_SANCTUARY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Check if priest have some heal spells
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#nohealspells","LOCALS",0)
+	!HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	!HaveSpell(CLERIC_CURE_MEDIUM_WOUNDS)
+	!HaveSpell(CLERIC_CURE_SERIOUS_WOUNDS)
+	!HaveSpell(CLERIC_HEAL)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#nohealspells","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Mislead
+/////////////////////////////////////////////////////////////////////
+IF
+	False()
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!StateCheck(Myself,STATE_INVISIBLE)
+	HaveSpellRES("nmsun11")
+	OR(2)
+		Global("ja#buffdone","LOCALS",0)
+		!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("nmsun11",Myself)
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sanctuary if priest need to heal himself
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HPPercentLT(Myself,30)
+	Global("nohealspell","LOCALS",0)
+	CheckStat(Myself,0,SANCTUARY)
+	HaveSpell(CLERIC_SANCTUARY)
+THEN
+	RESPONSE #100
+		RunAwayFromNoInterrupt(LastSeenBy(Myself),15)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_SANCTUARY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sanctuary during the initial buffing phase
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#disable_spellcasting","LOCALS",0)
+	Global("ja#buffdone","LOCALS",0)
+	CheckStat(Myself,0,SANCTUARY)
+	HaveSpell(CLERIC_SANCTUARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_SANCTUARY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Potion of invisibility
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!StateCheck(Myself,STATE_INVISIBLE)	
+	HasItem("_POTN10",Myself) // Potion of Invisibility
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN10",Myself) // Potion of Invisibility
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Greater restoration
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdltgrs")
+	HPPercentLT(Myself,50)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdltgrs",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Heal
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_HEAL)
+	HPPercentLT(Myself,50)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_HEAL)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdlthel")
+	HPPercentLT(Myself,50)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdlthel",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Cure serious wounds
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CURE_SERIOUS_WOUNDS)
+	HPPercentLT(Myself,70)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_CURE_SERIOUS_WOUNDS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Cure medium wounds
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CURE_MEDIUM_WOUNDS)
+	HPPercentLT(Myself,80)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_CURE_MEDIUM_WOUNDS)
+END
+
+/////////////////////////////////////////////////////////////////////
+// Cure light wounds
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	HPPercentLT(Myself,100)
+	OR(2)
+		CheckStat(Myself,1,SANCTUARY)
+		!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Shield of the archons
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SHIELD_OF_THE_ARCHONS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from the elements
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslpfe")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslpfe",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from normal weapons
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdhmpnw")
+	CheckStat(Myself,0,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdhmpnw",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Ironskin (recast when have less than 2 stoneskins)
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_IRONSKIN)
+	CheckStatLT(Myself,2,STONESKINS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_IRONSKIN)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Impregnable mind
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmimpreg")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("nmimpreg",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Fire shield : red
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#kos07")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#kos07",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Magical resistance
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("sppr509")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("sppr509",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Defensive harmony
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_DEFENSIVE_HARMONY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_DEFENSIVE_HARMONY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from lightning
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR407")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR407", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from fire
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_PROTECTION_FROM_FIRE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_PROTECTION_FROM_FIRE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Chant
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CHANT)
+	GlobalTimerExpired("ja#chant","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_CHANT)
+		SetGlobalTimer("ja#chant","LOCALS",60)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Free action
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FREE_ACTION)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_FREE_ACTION)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslfre")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslfre",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Holy power
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!CheckStat(Myself,3,SCRIPTINGSTATE5)
+	HaveSpell(CLERIC_HOLY_POWER)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_HOLY_POWER)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!CheckStat(Myself,3,SCRIPTINGSTATE5)
+	HaveSpellRES("a#tem07")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#tem07",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Strenght of Stone
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("NMSTRSTN")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("NMSTRSTN",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Draw upon holy might
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_DRAW_UPON_HOLY_MIGHT)
+	!GlobalTimerNotExpired("ja#holymight","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_DRAW_UPON_HOLY_MIGHT)
+		SetGlobalTimer("ja#holymight","LOCALS",60)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Righteous magic
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!CheckStat(Myself,6,SCRIPTINGSTATE5)
+	HaveSpell(CLERIC_RIGHTEOUS_MAGIC)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_RIGHTEOUS_MAGIC)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// True sight
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_TRUE_SIGHT)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_TRUE_SIGHT)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl232")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl232",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Blade barrier
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_BLADE_BARRIER)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_BLADE_BARRIER)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Regeneration
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_REGENERATE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_REGENERATE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilrgn")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilrgn",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Barkskin
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR202")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR202", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Armor of faith
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_ARMOR_OF_FAITH)
+	!CheckStat(Myself,1,CLERIC_ARMOR_OF_FAITH)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_ARMOR_OF_FAITH)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from Evil
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("sppr107")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("sppr107", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from Good
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("CDPRGOOD")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("CDPRGOOD", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Divine shell
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cddshel")
+	!GlobalTimerNotExpired("ja#divineshell","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cddshel",Myself)
+		SetGlobalTimer("ja#divineshell","LOCALS",48)
+END
+
+/////////////////////////////////////////////////////////////////////
+// Potions of strength
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN04",Myself) // Potion of Frost Giant Strength
+	CheckStatLT(Myself,19,STR)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("DrinkPotion","LOCALS",6)
+		UseItem("_POTN04",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN12",Myself) // Potion of Stone Giant Strength
+	CheckStatLT(Myself,19,STR)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN12",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Other potions
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!StateCheck(Myself,STATE_INVISIBLE)	
+	HasItem("_POTN10",Myself) // Potion of Invisibility
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN10",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN18",Myself) // Potion of Absorption
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN18",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN09",Myself) // Potion of Heroism
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN09",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN14",Myself) // Oil of Speed
+	!StateCheck(Myself,STATE_HASTED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN14",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN34",Myself) // Potion of Magic Protection
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN34",LastSeenBy(Myself))
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN41",Myself) // Potion of Power
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN41",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN36",Myself) // Potion of Master Thievery
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN36",Myself)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Special kit abilities
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Totemic animals
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl621")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl621",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Storm shield
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl721")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl721",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Moon shield
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslmsd")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslmsd",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Boon of Lathander
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!CheckStat(Myself,3,SCRIPTINGSTATE4)
+	HaveSpellRES("spcl741")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl741",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Moon blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdmnbld")
+	!HasItem("fblade",Myself)  // Flame blade
+	!HasItem("cdmnbld",Myself) // Moon blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdmnbld",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Flame blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FLAME_BLADE)
+	!HasItem("fblade",Myself)  // Flame blade
+	!HasItem("cdmnbld",Myself) // Moon blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_FLAME_BLADE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Spiritual weapon
+/////////////////////////////////////////////////////////////////////
+
+// Mace
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdltmac")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdltmac",Myself)
+END
+
+// Bastard sword
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdhmbst")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdhmbst",Myself)
+END
+
+// Spear
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtlspr")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdtlspr",Myself)
+END
+
+// Mace
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslmce")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslmce",Myself)
+END
+
+// Chakram
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#sha0b",Myself)
+END
+
+// Battle axe
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#tem0b",Myself)
+END
+
+// Fist
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilhnd")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilhnd",Myself)
+END
+
+// Flail
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#kos0a")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#kos0a",Myself)
+END
+
+// Scimitar
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdxvscm")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdxvscm",Myself)
+END
+
+// Long sword
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#og0a")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#og0a",Myself)
+END
+
+// Flail
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmsun0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("nmsun0b",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Destructive blow
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtldst")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdtldst",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Berserker rage
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spcl321")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl321",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Ilmater endurance
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilend")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilend",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Tenser transformation
+/////////////////////////////////////////////////////////////////////
+IF
+	False()
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem11")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#tem11",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// If all buffing spells are done, combat can start
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#buffdone","LOCALS",0)
+	!GlobalTimerNotExpired("ja#confirm","LOCALS")
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#confirm","LOCALS",2)
+END
+
+IF
+	Global("ja#buffdone","LOCALS",0)
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	GlobalTimerNotExpired("ja#confirm","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobal("ja#buffdone","LOCALS",1)
+END
+
+IF
+	Global("ja#buffdone","LOCALS",0)
+	CheckStat(Myself,0,SANCTUARY)
+	!HaveSpell(CLERIC_SANCTUARY)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#buffdone","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Not ready to attack, wait
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#buffdone","LOCALS",0)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Invisibility purge
+/////////////////////////////////////////////////////////////////////
+IF
+	Detect(NearestEnemyOf(Myself))
+	!See(NearestEnemyOf(Myself))
+	HaveSpell(CLERIC_INVISIBILITY_PURGE)
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_INVISIBILITY_PURGE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Now, it's time to kill things
+// Priorities are:
+//   Holy word
+//   Charm/dominate the best fighter
+//   Disable spells
+//   Damage spells
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Find a target that has something to dispel
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)
+		CheckStatGT(SixthNearestEnemyOf(Myself),18,STR)
+		HasImmunityEffects(SixthNearestEnemyOf(Myself))
+		CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)
+		CheckStatGT(FifthNearestEnemyOf(Myself),18,STR)
+		HasImmunityEffects(FifthNearestEnemyOf(Myself))
+		CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)	
+		CheckStatGT(FourthNearestEnemyOf(Myself),18,STR)
+		HasImmunityEffects(FourthNearestEnemyOf(Myself))
+		CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)
+		CheckStatGT(ThirdNearestEnemyOf(Myself),18,STR)	
+		HasImmunityEffects(ThirdNearestEnemyOf(Myself))	
+		CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)
+		CheckStatGT(SecondNearestEnemyOf(Myself),18,STR)
+		HasImmunityEffects(SecondNearestEnemyOf(Myself))
+		CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(5)	
+		CheckStatGT(NearestEnemyOf(Myself),18,STR)
+		HasImmunityEffects(NearestEnemyOf(Myself))
+		CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Ruby ray of reversal
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#og14")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(4)
+		HasImmunityEffects(LastSeenBy(Myself))
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#og14",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Secret word
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#og07")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	OR(4)
+		HasImmunityEffects(LastSeenBy(Myself))
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+		CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#og07",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Holy word
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_HOLY_WORD)
+	See(NearestEnemyOf(Myself))
+	Range(NearestEnemyOf(Myself),20)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(NearestEnemyOf(Myself),CLERIC_HOLY_WORD)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Unholy word
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_UNHOLY_WORD)
+	See(NearestEnemyOf(Myself))
+	Range(NearestEnemyOf(Myself),20)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(NearestEnemyOf(Myself),CLERIC_UNHOLY_WORD)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Begin of block:
+// Power word stun
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(SixthNearestEnemyOf(Myself),30)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(FifthNearestEnemyOf(Myself),30)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(FourthNearestEnemyOf(Myself),30)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(ThirdNearestEnemyOf(Myself),30)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(SecondNearestEnemyOf(Myself),30)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(NearestEnemyOf(Myself),30)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha14")
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage	
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	HPLT(LastSeenBy(Myself),30)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#sha14",LastSeenBy(Myself))
+END
+/////////////////////////////////////////////////////////////////////
+// End of block:
+// Power word stun
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Begin of block:
+// Power word silence
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SixthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SixthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SixthNearestEnemyOf(Myself),BARD_ALL)
+		Class(SixthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SixthNearestEnemyOf(Myself),MAGE_ALL)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FifthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FifthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FifthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FifthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FifthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FourthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FourthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FourthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FourthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FourthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(ThirdNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(ThirdNearestEnemyOf(Myself),DRUID_ALL)
+		Class(ThirdNearestEnemyOf(Myself),BARD_ALL)
+		Class(ThirdNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(ThirdNearestEnemyOf(Myself),MAGE_ALL)	
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SecondNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SecondNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SecondNearestEnemyOf(Myself),BARD_ALL)
+		Class(SecondNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SecondNearestEnemyOf(Myself),MAGE_ALL)	
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(NearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(NearestEnemyOf(Myself),DRUID_ALL)
+		Class(NearestEnemyOf(Myself),BARD_ALL)
+		Class(NearestEnemyOf(Myself),CLERIC_ALL)
+		Class(NearestEnemyOf(Myself),MAGE_ALL)	
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#og11")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#og11",LastSeenBy(Myself))
+END
+/////////////////////////////////////////////////////////////////////
+// End of block:
+// Power word silence
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Find a fighter to charm/dominate
+/////////////////////////////////////////////////////////////////////
+IF
+	!Race(SixthNearestEnemyOf(Myself),ELF)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(SixthNearestEnemyOf(Myself),30)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(SixthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(SixthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(SixthNearestEnemyOf(Myself),RANGER_ALL)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(FifthNearestEnemyOf(Myself),ELF)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(FifthNearestEnemyOf(Myself),30)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(FifthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(FifthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(FifthNearestEnemyOf(Myself),RANGER_ALL)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(FourthNearestEnemyOf(Myself),ELF)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(FourthNearestEnemyOf(Myself),30)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(FourthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(FourthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(FourthNearestEnemyOf(Myself),RANGER_ALL)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(ThirdNearestEnemyOf(Myself),ELF)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(ThirdNearestEnemyOf(Myself),30)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(ThirdNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(ThirdNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(ThirdNearestEnemyOf(Myself),RANGER_ALL)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(SecondNearestEnemyOf(Myself),ELF)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(SecondNearestEnemyOf(Myself),30)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(SecondNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(SecondNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(SecondNearestEnemyOf(Myself),RANGER_ALL)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(NearestEnemyOf(Myself),ELF)
+	!CheckStat(NearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(NearestEnemyOf(Myself),30)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(NearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(NearestEnemyOf(Myself),PALADIN_ALL)
+		Class(NearestEnemyOf(Myself),RANGER_ALL)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Domination
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_MENTAL_DOMINATION)
+	!Race(LastSeenBy(Myself),ELF)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_BLIND)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	HPPercentGT(LastSeenBy(Myself),30)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(3)
+		Class(LastSeenBy(Myself),FIGHTER_ALL)
+		Class(LastSeenBy(Myself),PALADIN_ALL)
+		Class(LastSeenBy(Myself),RANGER_ALL)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_MENTAL_DOMINATION)
+END
+
+
+IF
+	!Race(SixthNearestEnemyOf(Myself),ELF)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SixthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(SixthNearestEnemyOf(Myself),30)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(SixthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(SixthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(SixthNearestEnemyOf(Myself),RANGER_ALL)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(FifthNearestEnemyOf(Myself),ELF)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FifthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(FifthNearestEnemyOf(Myself),30)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(FifthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(FifthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(FifthNearestEnemyOf(Myself),RANGER_ALL)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(FourthNearestEnemyOf(Myself),ELF)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FourthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(FourthNearestEnemyOf(Myself),30)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(FourthNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(FourthNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(FourthNearestEnemyOf(Myself),RANGER_ALL)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(ThirdNearestEnemyOf(Myself),ELF)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(ThirdNearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(ThirdNearestEnemyOf(Myself),30)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(ThirdNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(ThirdNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(ThirdNearestEnemyOf(Myself),RANGER_ALL)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(SecondNearestEnemyOf(Myself),ELF)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SecondNearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(SecondNearestEnemyOf(Myself),30)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(SecondNearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(SecondNearestEnemyOf(Myself),PALADIN_ALL)
+		Class(SecondNearestEnemyOf(Myself),RANGER_ALL)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!Race(NearestEnemyOf(Myself),ELF)
+	!CheckStat(NearestEnemyOf(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(NearestEnemyOf(Myself),0,MINORGLOBE)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	HPPercentGT(NearestEnemyOf(Myself),30)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	OR(3)
+		Class(NearestEnemyOf(Myself),FIGHTER_ALL)
+		Class(NearestEnemyOf(Myself),PALADIN_ALL)
+		Class(NearestEnemyOf(Myself),RANGER_ALL)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Charm person
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CHARM_PERSON)
+	!Race(LastSeenBy(Myself),ELF)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_BLIND)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	HPPercentGT(LastSeenBy(Myself),30)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(3)
+		Class(LastSeenBy(Myself),FIGHTER_ALL)
+		Class(LastSeenBy(Myself),PALADIN_ALL)
+		Class(LastSeenBy(Myself),RANGER_ALL)
+	RandomNum(5,1) // 20% to cast
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_CHARM_PERSON)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Begin of block:
+// Creeping doom, Insect plague
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SixthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SixthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SixthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SixthNearestEnemyOf(Myself),BARD_ALL)
+		Class(SixthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SixthNearestEnemyOf(Myself),MAGE_ALL)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FifthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FifthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FifthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FifthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FifthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FifthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FourthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FourthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FourthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FourthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FourthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FourthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(ThirdNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(ThirdNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(ThirdNearestEnemyOf(Myself),DRUID_ALL)
+		Class(ThirdNearestEnemyOf(Myself),BARD_ALL)
+		Class(ThirdNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(ThirdNearestEnemyOf(Myself),MAGE_ALL)	
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SecondNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SecondNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SecondNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SecondNearestEnemyOf(Myself),BARD_ALL)
+		Class(SecondNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SecondNearestEnemyOf(Myself),MAGE_ALL)	
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(NearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(NearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(NearestEnemyOf(Myself),DRUID_ALL)
+		Class(NearestEnemyOf(Myself),BARD_ALL)
+		Class(NearestEnemyOf(Myself),CLERIC_ALL)
+		Class(NearestEnemyOf(Myself),MAGE_ALL)	
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("sppr717")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(LastSeenBy(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))	
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("sppr717", LastSeenBy(Myself))
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(LastSeenBy(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))	
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_INSECT_PLAGUE)
+END
+
+/////////////////////////////////////////////////////////////////////
+// End of block:
+// Insect plague
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Begin of block:
+// Silence 15' radius, miscast magic, summon insects
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SixthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SixthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SixthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SixthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SixthNearestEnemyOf(Myself),BARD_ALL)
+		Class(SixthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SixthNearestEnemyOf(Myself),MAGE_ALL)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FifthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FifthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FifthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FifthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FifthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FifthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FifthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(FourthNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FourthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(FourthNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(FourthNearestEnemyOf(Myself),DRUID_ALL)
+		Class(FourthNearestEnemyOf(Myself),BARD_ALL)
+		Class(FourthNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(FourthNearestEnemyOf(Myself),MAGE_ALL)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(ThirdNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(ThirdNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(ThirdNearestEnemyOf(Myself),DRUID_ALL)
+		Class(ThirdNearestEnemyOf(Myself),BARD_ALL)
+		Class(ThirdNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(ThirdNearestEnemyOf(Myself),MAGE_ALL)	
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(SecondNearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SecondNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(SecondNearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(SecondNearestEnemyOf(Myself),DRUID_ALL)
+		Class(SecondNearestEnemyOf(Myself),BARD_ALL)
+		Class(SecondNearestEnemyOf(Myself),CLERIC_ALL)
+		Class(SecondNearestEnemyOf(Myself),MAGE_ALL)	
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	CheckStat(NearestEnemyOf(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(NearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SILENCED)
+	CheckStatLT(NearestEnemyOf(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	OR(4)
+		Class(NearestEnemyOf(Myself),DRUID_ALL)
+		Class(NearestEnemyOf(Myself),BARD_ALL)
+		Class(NearestEnemyOf(Myself),CLERIC_ALL)
+		Class(NearestEnemyOf(Myself),MAGE_ALL)	
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Silence 15' radius
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SILENCE_15_FOOT)
+	!Range(LastSeenBy(Myself),13)
+	CheckStat(LastSeenBy(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))	
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_SILENCE_15_FOOT)
+		RunAwayFromNoInterrupt(LastSeenBy(Myself),45)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Summon insects
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SUMMON_INSECTS)
+	CheckStat(LastSeenBy(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))	
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_SUMMON_INSECTS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Mistcast magic
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_MISCAST_MAGIC)
+	CheckStat(LastSeenBy(Myself),0,CLERIC_INSECT_PLAGUE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+	CheckStatLT(LastSeenBy(Myself),49,SPELLFAILUREPRIEST)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	OR(4)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),BARD_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)	
+	See(LastSeenBy(Myself))	
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_MISCAST_MAGIC)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// End of block:
+// Silence 15' radius, miscast magic, summon insects
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// *********************  Disabling spells *********************** //
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Level 6+ spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Nature's beauty
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_NATURE_BEAUTY)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_NATURE_BEAUTY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Death spell
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdxvdth")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdxvdth",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Symbol death
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("sppr719")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("sppr719",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Symbol fear
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SYMBOL_FEAR)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_SYMBOL_FEAR)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sphere of chaos
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem14")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("a#tem14",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Finger of death
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FINGER_OF_DEATH)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_FINGER_OF_DEATH)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Level 4-5 spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Cloud kill
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtlcld")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdtlcld",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Greater malison
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdxvgml")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdxvgml",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Chaos
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem09")
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("a#tem09",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Emotion
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmsun07")
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("nmsun07",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Confusion
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("sppr709")
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("sppr709",LastSeenBy(Myself))
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha07")
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("a#sha07",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Feeblemind
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha09")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("a#sha09",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Greater command
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_GREATER_COMMAND)
+	!Race(LastSeenBy(Myself),ELF)
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GREATER_COMMAND)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Cloak of fear
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CLOAK_OF_FEAR)
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_CLOAK_OF_FEAR)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Level 3- spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SixthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FifthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FourthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SecondNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(NearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
+	!StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Curse
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdcurse")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdcurse",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Rigid thinking
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_RIGID_THINKING)
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_RIGID_THINKING)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Hold person
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_HOLD_PERSON)
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_HOLD_PERSON)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Entangle
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_ENTANGLE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_ENTANGLE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Command
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_COMMAND)
+	!Race(LastSeenBy(Myself),ELF)
+	!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4) // Rage
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_COMMAND)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Faerie fire
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdfaerie")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdfaerie",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// *********************  Summoning spells *********************** //
+/////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Deva
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SUMMON_DEVA)
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_SUMMON_DEVA)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Demon
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_GATE)
+	!RandomNum(4,1) // 75% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_GATE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Earth elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CONJURE_EARTH_ELEMENTAL)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_CONJURE_EARTH_ELEMENTAL)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Aerial servant
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_AERIAL_SERVANT)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_AERIAL_SERVANT)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Fire elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CONJURE_FIRE_ELEMENTAL)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_CONJURE_FIRE_ELEMENTAL)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Mountain bears
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CONJURE_ANIMALS)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_CONJURE_ANIMALS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Air elemental
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslair")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslair",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Invisible stalker
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha11")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#sha11",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Nymph
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_CALL_WOODLAND_BEINGS)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Animate dead
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_ANIMATE_DEAD)
+	RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_ANIMATE_DEAD)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Animal Summoning 3
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR602")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR602",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Animal Summoning 2
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR501")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR501",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Animal Summoning 1
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR402")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR402",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Summoning weapons
+/////////////////////////////////////////////////////////////////////	
+
+
+/////////////////////////////////////////////////////////////////////
+// Fire Seeds
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR606")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR606", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sol searing orb
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SOL_SEARING_ORB)
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_SOL_SEARING_ORB)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Slay living
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR511")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("SPPR511", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Moon Blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("CDMNBLD")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("CDMNBLD", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Beast Claw
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("CDBEAST")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("CDBEAST", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Flame Blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR206")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR206", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Shillelagh
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("SPPR110")
+	!HasItem("_shille",Myself) // Shillelagh
+	!HasItem("cdbeast",Myself) // Beast Claw
+	!HasItem("_fblade",Myself) // Flame Blade
+	!HasItem("fblade",Myself) // Flame Blade
+	!HasItem("cdmnbld",Myself) // Moon Blade
+	!HasItem("fireseed",Myself) // Fire Seed
+	!HasItem("sorb",Myself) // Sol searing orb
+	!HasItem("slaylive",Myself) // Slay living
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("SPPR110", Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// *********************  Damaging spells ************************ //
+/////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////
+// Level 6+ spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Firestorm
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FIRE_STORM)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_FIRE_STORM)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Earthquake
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtlqak")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdtlqak",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sunray
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_SUNRAY)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(Myself,CLERIC_SUNRAY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Chain lightning
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtlcnl")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdtlcnl",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Dolorous decay
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_DOLOROUS_DECAY)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_DOLOROUS_DECAY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Bolt of glory
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_BOLT_OF_GLORY)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_BOLT_OF_GLORY)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Level 4-5 spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sun fire
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslsun")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdslsun",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Flame strike
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FLAME_STRIKE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_FLAME_STRIKE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdltflm")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdltflm",LastSeenBy(Myself))
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmsun09")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("nmsun09",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Wand of the Heavens
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HasItemEquiped("_WAND11",Myself) // Wand of the Heavens
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	RandomNum(4,1) // 25% to use
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		UseItem("_WAND11",LastSeenBy(Myself)) // Wand of the Heavens
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Poison
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_POISON)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_POISON)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Level 3- spells
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SixthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SixthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FifthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FifthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(FourthNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(FourthNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(SecondNearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(SecondNearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(NearestEnemyOf(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(NearestEnemyOf(Myself),0,MINORGLOBE)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Call lightning
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_CALL_LIGHTNING)
+	AreaType(OUTDOOR)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_CALL_LIGHTNING)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Holy smite
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_HOLY_SMITE)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Unholy blight
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_UNHOLY_BLIGHT)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_UNHOLY_BLIGHT)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Glyph of warding
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	!Range(LastSeenBy(Myself),12)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdhmglp")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	!Range(LastSeenBy(Myself),12)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("cdhmglp",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Alicorn Lance
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("CDALCRN")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("CDALCRN",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Breathe fireball (fire salamander)
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spin160")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("spin160",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Sunscorch
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("CDSUNSCO")
+	!CheckStat(LastSeenBy(Myself),1,PROTECTION_FROM_MAGIC) 
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_PROTECTION)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_SHIELDING)
+	!CheckStat(LastSeenBy(Myself),1,POTION_OF_MAGIC_BLOCKING)
+	CheckStat(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(LastSeenBy(Myself),0,SANCTUARY)
+	See(LastSeenBy(Myself))
+	!RandomNum(2,1) // 50% to cast
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#_cast","LOCALS",6)
+		SpellRES("CDSUNSCO",LastSeenBy(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Shapeshift if any spells are cast
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#polymorph","LOCALS",0)
+	!GlobalTimerNotExpired("ja#confirm","LOCALS")
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#confirm","LOCALS",6)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	GlobalTimerNotExpired("ja#confirm","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	Kit(Myself,SHAPESHIFTER)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SelectWeaponAbility(SLOT_WEAPON1,0)  // (Greater)Wolfwere
+		Wait(6) // Morphing time
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	GlobalTimerNotExpired("ja#confirm","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	Kit(Myself,BEASTFRIEND)
+	CheckStatGT(Myself,6,LEVEL)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl633",Myself)  // Baby wyvern
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl632",Myself)  // Sword spider
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl634",Myself)  // Fire salamander
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl611",Myself)  // Brown bear
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl612",Myself)  // Dread Wolf
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	GlobalTimerNotExpired("ja#confirm","LOCALS")
+	Global("ja#polymorph","LOCALS",0)
+	!Kit(Myself,TOTEMIC)
+	!Kit(Myself,BEASTFRIEND)
+	!Kit(Myself,SHAPESHIFTER)
+	CheckStatGT(Myself,6,LEVEL)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl611",Myself)  // Brown bear
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("ja#polymorph","LOCALS",1)
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		ForceSpellRES("spcl612",Myself)  // Dread Wolf
+		SetGlobal("ja#disable_spellcasting","LOCALS",1)
+		SetInterrupt(TRUE)
+END
+
+

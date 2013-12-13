@@ -1,0 +1,54 @@
+IF
+	Die()
+THEN
+	RESPONSE #100
+		DestroySelf()
+END
+
+IF
+  Allegiance(LastSummonerOf(Myself),ALLY)
+	Global("Elementalcontrol","LOCALS",0)
+THEN
+	RESPONSE #15
+		FaceObject(LastSummonerOf(Myself))
+		ApplySpell(Myself,THREE_ROUND_ENCHANTMENT_IMMUNITY)
+		Wait(17)
+		PlaySound("EFF_M72D")
+		Enemy()
+		SetGlobal("Elementalcontrol","LOCALS",2)
+	RESPONSE #85
+		FaceObject(LastSummonerOf(Myself))
+		ApplySpell(Myself,THREE_ROUND_ENCHANTMENT_IMMUNITY)
+		Wait(17)
+		PlaySound("EFF_M72C")
+		Ally()
+		SetGlobal("Elementalcontrol","LOCALS",1)
+END
+
+IF
+  Allegiance(LastSummonerOf(Myself),ENEMY)
+	Global("Elementalcontrol","LOCALS",0)
+THEN
+	RESPONSE #15
+		FaceObject(LastSummonerOf(Myself))
+		ApplySpell(Myself,THREE_ROUND_ENCHANTMENT_IMMUNITY)
+		Wait(17)
+		PlaySound("EFF_M72D")
+		Ally()
+		SetGlobal("Elementalcontrol","LOCALS",2)
+	RESPONSE #85
+		FaceObject(LastSummonerOf(Myself))
+		ApplySpell(Myself,THREE_ROUND_ENCHANTMENT_IMMUNITY)
+		Wait(17)
+		PlaySound("EFF_M72C")
+		Enemy()
+		SetGlobal("Elementalcontrol","LOCALS",1)
+END
+
+IF
+	Global("Elementalcontrol","LOCALS",2)
+	Detect(LastSummonerOf(Myself))
+THEN
+	RESPONSE #100
+		AttackReevaluate(LastSummonerOf(Myself),30)
+END

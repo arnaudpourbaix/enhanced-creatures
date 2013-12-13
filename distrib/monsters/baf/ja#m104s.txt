@@ -1,0 +1,3 @@
+// Wolf (summon)
+[monster=race(WOLF),summon]
+[generate]

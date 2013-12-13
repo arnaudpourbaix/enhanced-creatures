@@ -1,0 +1,52 @@
+// Daitel (Wizard)
+[CLASS=WIZARD;CASTER_LEVEL=15;MAX_SPELL_LEVEL=7]
+[include=autocast_spell_arcane]
+
+[action=CONTINGENCY(Improved Invisibility,response<80>),
+        CONTINGENCY(Protection from Missiles,response<100>)
+  ;require=seeEnemy]
+
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+
+[spell=Mantle]
+[spell=Stoneskin]
+
+[spell=Globe of Invulnerability;requireSelf=visible]
+[spell=Mirror Image]
+[spell=Globe of Invulnerability]
+
+[action=SEQUENCER(Remove Magic,Lightning Bolt,Ice Storm,response<60>),
+        SEQUENCER(Remove Magic,Greater Malison,Slow,response<80>),
+        SEQUENCER(Remove Magic,Greater Malison,Dire Charm,response<100>)
+  ;target=player;require=!disable,random(75)]
+
+[spell=Cloudkill]
+[spell=Teleport Field]
+[spell=Sunfire]
+[spell=Chaos]
+[spell=Flesh to Stone]
+[spell=Polymorph Other]
+[spell=Otiluke's Resilient Sphere]
+[spell=Hold Person]
+[spell=Fireball]
+[spell=Lightning Bolt]
+
+[spell=Monster Summoning III]
+
+[action=MINORSEQUENCER(Horror,Knock,response<80>),
+        MINORSEQUENCER(Ray of Enfeeblement,Spook,response<100>)
+ ;target=player,fighter;require=!disable,random(75)]
+
+[spell=Knock]
+[spell=Magic Missile]
+
+[offensive_spells=Cloudkill,Sunfire,Chaos,Flesh to Stone,Polymorph Other,Otiluke's Resilient Sphere,Hold Person,
+    Fireball,Lightning Bolt,Monster Summoning III,Knock,Magic Missile]
+
+[include=combat_caster]
+[include=combat_smart]

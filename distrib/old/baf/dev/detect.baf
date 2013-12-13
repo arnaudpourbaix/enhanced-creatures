@@ -1,0 +1,75 @@
+///////////////////////////////////////////////////////////////////////
+// Threat Detection for mages
+// - turn hostile if the mage or his summons are being attacked
+// - alert nearby allies
+///////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////
+// Attacked? Spell cast on me? Someone shouted a warning?
+///////////////////////////////////////////////////////////////////////
+IF
+	!Allegiance(Myself,ENEMY)
+	OR(12)
+		AttackedBy([GOODCUTOFF.0.0.0.0.SUMMONED],DEFAULT)
+		AttackedBy([PC],DEFAULT)
+		AttackedBy([FAMILIAR],DEFAULT)
+		AttackedBy([ALLY],DEFAULT)
+		AttackedBy([CONTROLLED],DEFAULT)
+		AttackedBy([CHARMED],DEFAULT)
+		SpellCastOnMe([GOODCUTOFF.0.0.0.0.SUMMONED],0)
+		SpellCastOnMe([PC],0)
+		SpellCastOnMe([FAMILIAR],0)
+		SpellCastOnMe([ALLY],0)
+		SpellCastOnMe([CONTROLLED],0)
+		SpellCastOnMe([CHARMED],0)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+// Summons are beeing attack
+IF
+	Heard([ANYONE],98)
+	Allegiance(Myself,NEUTRAL)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+// Adventurers are beeing attack
+IF
+	Heard([ANYONE],97)
+	Allegiance(Myself,NEUTRAL)
+THEN
+	RESPONSE #100
+		Enemy()
+		//MoveToObject(LastHeardBy(Myself))
+		SetGlobal("ja#startcombat","LOCALS",1)
+END
+
+IF
+	Heard([ANYONE],97)
+	!See(NearestEnemyOf(Myself))	
+THEN
+	RESPONSE #100
+		//MoveToObject(LastHeardBy(Myself))
+		SetGlobal("ja#startcombat","LOCALS",1)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Alert nearby allies if an enemy is spotted
+/////////////////////////////////////////////////////////////////////
+IF
+	See(NearestEnemyOf(Myself))
+	!GlobalTimerNotExpired("ja#shout","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobal("ja#startcombat","LOCALS",1)
+		VerbalConstant(Myself,BATTLE_CRY)
+		SetGlobalTimer("ja#shout","LOCALS",30)
+		Shout(97)
+END
+
+

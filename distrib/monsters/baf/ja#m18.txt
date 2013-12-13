@@ -1,0 +1,7 @@
+// Blink Dog
+[monster=race(DOG),walk,teleport,smart]
+
+[section=beforeCombat]
+  [action=MOVE;requireSelf=!blind;require=empty,!range(6),round;target=nearest]
+
+[generate]

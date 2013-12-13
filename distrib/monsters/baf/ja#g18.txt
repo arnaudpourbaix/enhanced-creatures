@@ -1,0 +1,3 @@
+// Gibberling
+[monster=race(GIBBERLING),walk]
+[generate]

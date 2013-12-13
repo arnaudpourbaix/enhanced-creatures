@@ -1,0 +1,19 @@
+// Death Knight
+[monster=class(DEATHKNIGHT),smart;CLASS=WIZARD]
+
+[section=beforeTracking]
+  [reallyForceSpell=Death Knight Spell Turning]
+  [action=timer(ja#detect,24),forceSpell(Detect Invisibility);requireSelf=nodisablecheck,nomem]
+
+[section=beforeCombat]
+  [reallyForceSpell=Demon Knight Fear]
+  [action=forceSpell(WIZARD_TRUE_DISPEL_MAGIC,remove);require=nodisablecheck]
+  [action=forceSpell(DEATHKNIGHT_FIREBALL,remove);require=nodisablecheck]
+  [action=forceSpell(WIZARD_POWER_WORD_KILL),remove(WIZARD_POWER_WORD_KILL,WIZARD_POWER_WORD_STUN,WIZARD_POWER_WORD_BLIND);require=nodisablecheck;actionRequire=random(50)]
+  [action=forceSpell(WIZARD_POWER_WORD_STUN),remove(WIZARD_POWER_WORD_KILL,WIZARD_POWER_WORD_STUN,WIZARD_POWER_WORD_BLIND);require=nodisablecheck;actionRequire=random(60)]
+  [action=forceSpell(WIZARD_POWER_WORD_BLIND),remove(WIZARD_POWER_WORD_KILL,WIZARD_POWER_WORD_STUN,WIZARD_POWER_WORD_BLIND);require=nodisablecheck;actionRequire=random(20)]
+  [action=forceSpell(Symbol of Pain),remove(Symbol of Pain,WIZARD_SYMBOL_FEAR);require=nodisablecheck;actionRequire=random(30)]
+  [action=forceSpell(WIZARD_SYMBOL_FEAR),remove(Symbol of Pain,WIZARD_SYMBOL_FEAR);require=nodisablecheck;actionRequire=random(75)]
+  [action=forceSpell(Wall of Ice);require=nodisablecheck]
+
+[generate]

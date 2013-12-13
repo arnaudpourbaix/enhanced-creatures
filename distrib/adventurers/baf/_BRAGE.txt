@@ -1,0 +1,12 @@
+IF
+	See([PC])
+	Global("BrageRiddle","GLOBAL",0)
+THEN
+	RESPONSE #100
+		Dialogue([PC])
+END
+
+[include=init_npc]
+[include=tracking]
+[include=combat_smart]
+

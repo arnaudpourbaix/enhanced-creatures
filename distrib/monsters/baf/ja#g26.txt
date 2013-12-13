@@ -1,0 +1,19 @@
+// Ogre
+[monster=race(OGRE),walk]
+
+[section=beforeCombat]
+  [spell=Ogre Barbarian Rage]
+
+  IF
+  	Delay(15)
+  	See(NearestEnemyOf(Myself))
+  	Exists(LastAttackerOf(LastSeenBy(Myself)))
+  	NumCreatureGT([ENEMY],1)
+  THEN
+  	RESPONSE #100
+  		RandomWalk()
+  END
+
+  [name=Attack fighter;action=ATTACK;target=fighter(random:false);actionRequire=fighter]
+
+[generate]

@@ -1,0 +1,37 @@
+// add an innate
+COPY_EXISTING ~_AASIM.cre~ ~override~
+READ_BYTE 0x234 "level"
+READ_LONG 0x2a8 "mem_info"
+READ_LONG 0x2b0 "mem_off"
+READ_LONG 0x2b4 "mem_num"
+READ_LONG 0x2b8 "slot_off"
+READ_LONG 0x2bc "item_off"
+READ_LONG 0x2c4 "fx_off"
+READ_SHORT ("%mem_info%" + (16 * 0x10) + 0xc) "innate_num" //current innate 16 spell count
+READ_LONG ("%mem_info%" + (16 * 0x10) + 0xc) "idx_start" //spell mem info 16 spell index
+
+WRITE_LONG 0x244 0x40010000 // kit
+
+//add a number of memorised spells depending on creature's level (add one for lvl 1,5,9,etc.)
+SET "delta" = 0
+SET "period" = 4
+SET "loops" = 1
+WHILE ("%loops%" <= "%level%") BEGIN
+ INSERT_BYTES ("%mem_off%" + (0xc * ("%mem_num%" + "%delta%"))) 0xc
+ WRITE_ASCII ("%mem_off%" + (0xc * ("%mem_num%" + "%delta%"))) ~spcl321~
+ WRITE_SHORT ("%mem_off%" + (0xc * ("%mem_num%" + "%delta%")) + 0x8) 1
+ SET "delta" += 1
+ SET "loops" += "%period%"
+END
+
+//update the number of innate spells memorised, then total number of spells memorised
+WRITE_SHORT ("%mem_info%" + (16 * 0x10) + 0xc) ("%innate_num%" + "%delta%")
+WRITE_LONG 0x2b4 ("%mem_num%" + "%delta%")
+
+//correcting offsets for blocks after memorised spells
+//I guess with generic coding, you can check whether a_off >= b_off before patching, so you can put that back in if you want
+WRITE_LONG 0x2b8 ("%slot_off%" + (0xc * "%delta%"))
+WRITE_LONG 0x2bc ("%item_off%" + (0xc * "%delta%"))
+WRITE_LONG 0x2c4 ("%fx_off%" + (0xc * "%delta%"))
+
+BUT_ONLY_IF_IT_CHANGES

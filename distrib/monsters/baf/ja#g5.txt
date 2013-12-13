@@ -1,0 +1,6 @@
+// Cat
+[monster=race(CAT),walk,hide]
+
+[generate]
+
+

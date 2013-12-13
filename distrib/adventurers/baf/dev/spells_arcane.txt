@@ -1,0 +1,176 @@
+[spell=Vocalize]
+
+[spell=Chaos Shield]
+
+[spell=Protection from Magical Weapons]
+[spell=WIZARD_STONE_SKIN]
+
+[INCLUDE_SPELL_SEQUENCER]
+
+[spell=Mislead]
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+[spell=WIZARD_IMPROVED_INVISIBILITY]
+[spell=Invisibility Sphere]
+[spell=WIZARD_INVISIBILITY]
+
+[spell=Death Spell;target=default]
+
+[spell=Globe of Invulnerability]
+[spell=Minor Globe of Invulnerability]
+
+[spell=Teleport Field]
+
+[spell=WIZARD_MIRROR_IMAGE]
+[spell=Reflected Image]
+
+[spell=Knock;target=attacker]
+
+[spell=Improved Haste]
+//[spell=WIZARD_HASTE]
+[spell=Protection from Magic Energy]
+[spell=Protection from Normal Weapons]
+[spell=WIZARD_SPELL_IMMUNITY_INVOCATION]
+[spell=WIZARD_SPELL_IMMUNITY_ENCHANTMENT]
+[spell=WIZARD_SPELL_IMMUNITY_CONJURATION]
+[spell=WIZARD_SPELL_IMMUNITY_ALTERATION]
+[spell=WIZARD_SPELL_IMMUNITY_NECROMANCY]
+[spell=WIZARD_SPELL_IMMUNITY_DIVINATION]
+[name=Protection from Fire;spell=SPWI524]
+[name=Protection from Cold;spell=SPWI525]
+[name=Protection from Electricity;spell=SPWI512]
+[name=Protection from Acid;spell=SPWI517]
+
+[spell=Acid Fog;target=default]
+[spell=Cloudkill;target=default]
+
+[spell=WIZARD_SPELL_DEFLECTION]
+[spell=Minor Spell Turning]
+[name=Minor Spell Deflection;spell=SPWI318]
+[spell=Wizard Spell Shield]
+[spell=Spirit Armor]
+[spell=WIZARD_PROTECTION_FROM_NORMAL_MISSILES]
+[spell=WIZARD_NON_DETECTION]
+[spell=Ghost Armor]
+[spell=Clairvoyance]
+[spell=Blur]
+[spell=Mage Armor]
+[spell=Shield]
+[spell=WIZARD_PROTECTION_FROM_EVIL]
+[spell=WIZARD_RESIST_FEAR]
+
+[spell=WIZARD_FIRE_SHIELD_RED]
+[spell=WIZARD_FIRE_SHIELD_BLUE]
+
+[spell=WIZARD_TRUE_SIGHT]
+[spell=Oracle;target=Players]
+[spell=Detect Illusion;target=Players]
+[spell=Detect Invisibility;target=Players]
+
+[spell=Remove Magic;target=Player]
+[spell=WIZARD_TRUE_DISPEL_MAGIC]
+[spell=Pierce Magic;target=default]
+[spell=Breach;target=default]
+
+[spell=Melf's Minute Meteors]
+
+[spell=Invisible Stalker]
+[spell=Wyvern Call]
+[spell=WIZARD_CONJURE_FIRE_ELEMENTAL]
+[spell=WIZARD_CONJURE_AIR_ELEMENTAL]
+[spell=WIZARD_CONJURE_EARTH_ELEMENTAL]
+[name=Create Undead;spell=SPWI623]
+[spell=Summon Nishruu]
+[spell=Summon Shadow]
+[spell=WIZARD_CONJURE_LESSER_FIRE_ELEMENTAL]
+[spell=WIZARD_CONJURE_LESSER_AIR_ELEMENTAL]
+[spell=WIZARD_CONJURE_LESSER_EARTH_ELEMENTAL]
+[spell=Spider Spawn]
+[spell=Monster Summoning III]
+[spell=Monster Summoning II]
+[spell=Monster Summoning I]
+
+[spell=WIZARD_HASTE]
+
+[spell=Secret Word]
+[spell=Spell Thrust]
+
+[spell=Greater Malison;target=player]
+
+[spell=Disintegrate;target=default]
+[spell=Flesh to Stone;target=default]
+[spell=WIZARD_POLYMORPH_OTHER;target=default]
+[spell=Hold Monster;target=default]
+[spell=WIZARD_HOLD_PERSON;target=default]
+
+[spell=WIZARD_DOMINATION;target=player,fighter(num:3)]
+[spell=Dire Charm;target=player,fighter(num:3)]
+
+[spell=Power Word Silence;target=Player,Caster(num:3)]
+
+[spell=Slow;target=Player,Fighter(num:3)]
+
+[spell=WIZARD_CHAIN_LIGHTNING;target=default]
+[spell=Sunfire;target=default]
+[spell=Skull Trap;target=default]
+[spell=WIZARD_FIREBALL;target=default]
+[spell=WIZARD_ICE_STORM;target=default]
+[spell=Cone of Cold;target=default]
+
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe]
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+
+[spell=WIZARD_CHAOS]
+[spell=WIZARD_CONFUSION]
+[spell=WIZARD_FEEBLEMIND]
+[spell=Otiluke's Resilient Sphere]
+[spell=WIZARD_POLYMORPH_SELF]
+
+[INCLUDE_MINOR_SEQUENCER]
+
+[spell=Power Word Sleep]
+[spell=WIZARD_WEB]
+[spell=Stinking Cloud]
+[spell=Horror]
+[spell=Sleep]
+[spell=Grease]
+[spell=Color Spray]
+[spell=Spook]
+[spell=Blindness]
+[spell=Glitterdust]
+
+[spell=WIZARD_MAGIC_MISSILE;target=default;require=state(STATE_MIRRORIMAGE)]
+
+[spell=Deafness;target=Caster(num:3)]
+[spell=Ray of Enfeeblement;target=player,fighter(num:3)]
+[spell=WIZARD_CHARM_PERSON;target=player,fighter(num:3)]
+
+[spell=Strength]
+[spell=Phantom Blade]
+[spell=Ghoul Touch]
+[spell=Shocking Grasp]
+[spell=Chill Touch]
+[name=True Strike;spell=SPWI111]
+[spell=Tenser's Transformation]
+
+[spell=WIZARD_EMOTION_HOPELESSNESS;target=player,fighter(num:3)]
+[spell=WIZARD_CONTAGION;target=fighter(num:3)]
+
+// Select target
+[target=Summon(num:5);require=valid,!magicImmunity,!globe]
+[target=Summon(num:5);require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[target=Player;require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+
+[spell=Flame Arrow]
+[spell=WIZARD_LIGHTNING_BOLT]
+[spell=WIZARD_VAMPIRIC_TOUCH]
+[spell=Agannazar's Scorcher]
+[spell=Melf's Acid Arrow]
+[name=Know Opponent;spell=SPWI208]
+[spell=WIZARD_MAGIC_MISSILE]
+[spell=Burning Hands]
+[spell=Larloch's Minor Drain]
+[spell=WIZARD_CHROMATIC_ORB]

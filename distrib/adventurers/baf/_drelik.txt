@@ -1,0 +1,30 @@
+// Drelik (Transmuter)
+[CLASS=WIZARD;CASTER_LEVEL=10;MAX_SPELL_LEVEL=5]
+[include=autocast_spell_arcane]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Stoneskin]
+[spell=Mage Armor]
+[spell=Mirror Image]
+[spell=Domination]
+[spell=Monster Summoning III]
+[spell=Monster Summoning I]
+[spell=Haste]
+[spell=Polymorph Other]
+[spell=Dire Charm]
+[spell=Slow]
+
+[action=MINORSEQUENCER(Chromatic Orb,Chromatic Orb,response<80>),
+        MINORSEQUENCER(Chromatic Orb,Color Spray,response<100>)
+ ;target=player,fighter;require=!disable,random(75)]
+
+[spell=Color Spray]
+[spell=Knock]
+[spell=Chromatic Orb]
+
+[offensive_spells=Domination,Dire Charm,Monster Summoning III,Haste,Slow,Polymorph Other,Color Spray,Monster Summoning I,Knock,Chromatic Orb]
+
+[include=combat_caster]
+[include=combat_smart]

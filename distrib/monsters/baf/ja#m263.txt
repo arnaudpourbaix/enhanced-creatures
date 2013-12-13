@@ -1,0 +1,7 @@
+// Frost Salamander
+[monster=race(ELEMENTAL),walk]
+
+[section=beforeCombat]
+  [reallyForceSpell=Intense Cold]
+
+[generate]

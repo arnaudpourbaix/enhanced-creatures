@@ -1,0 +1,261 @@
+[name=Iron skin;action=SPELL(CLERIC_IRONSKIN,5,,notarget,stoneskin,hit)]
+
+[name=Improved Invisibility;action=SPELL(SPDR401,4,75,notarget);require=!*improvedInvisible]
+
+[name=Pixie Dust;action=SPELL(CLERIC_PIXIE_DUST,5,75,notarget);require=*visible]
+
+[name=Holy Word;action=SPELL(CLERIC_HOLY_WORD,7,75,myself);target=Player;require=range(30),!magicImmunity]
+
+[name=Unholy Word;action=SPELL(CLERIC_UNHOLY_WORD,7,75,myself);require=range(30),!magicImmunity]
+
+[name=Nature's Beauty;action=SPELL(CLERIC_NATURE_BEAUTY,7,75,myself);require=range(30,neareast)]
+
+[name=Sunray;action=SPELL(CLERIC_SUNRAY,7,75,notarget);require=range(30,nearest)]
+
+[name=False Dawn;action=SPELL(CLERIC_FALSE_DAWN,6,75,notarget);require=range(15,nearest)]
+
+[name=Greater Command;action=SPELL(CLERIC_GREATER_COMMAND,5,75);target=Summon(num:5),Player;require=!disable,!magicImmunity,!sleepImmunity]
+
+[name=Cloak of Fear;action=SPELL(CLERIC_CLOAK_OF_FEAR,4,75,notarget);require=range(6,nearest)]
+
+[name=Gust of Wind;action=SPELL(SPPR318,3,75,notarget,hit);require=range(6,attacker)]
+
+[include=healing_spells]
+
+[name=Earthquake;action=SPELL(CLERIC_EARTHQUAKE,7,50),RUN(60);target=Player;require=!range(15)]
+
+[name=Fire Storm;action=SPELL(CLERIC_FIRE_STORM,7,50);target=Summon(num:5),Player;require=!magicImmunity,!fireImmunity]
+
+[level=5;target=Player,Caster(num:3);require=valid,!disable,!magicImmunity]
+[name=Creeping Doom;action=SPELL(CLERIC_CREEPING_DOOM,7,50);require=!disable,!magicImmunity]
+[name=Insect Plague;action=SPELL(CLERIC_INSECT_PLAGUE,5,50);require=!disable,!magicImmunity]
+
+[name=Chaos;action=SPELL(SPDR501,5,50);target=Player;require=!disable,!magicImmunity,!mindImmunity]
+
+[name=Symbol of Death;action=SPELL(SPPR719,7,50);target=Summon(num:5),Player;require=!hpgt(60),!magicImmunity,!deathImmunity]
+
+[name=Symbol of Stunning;action=SPELL(SPPR718,7,50);target=Summon(num:5),Player;require=!disable,!magicImmunity,!stunImmunity]
+
+[name=Symbol of Weakness;action=SPELL(SPPR706,7,50);target=Summon(num:5),Player,Fighter(num:3);require=!disable,!magicImmunity]
+
+[level=7;target=Player;require=valid,!disable,!magicImmunity,!deathImmunity]
+[level=7;target=Player;require=valid,!disable,!magicImmunity,!deathImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,7,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!deathImmunity,!globe]
+[name=Finger of Death;action=SPELL(CLERIC_FINGER_OF_DEATH,7,75);require=!magicImmunity,!deathImmunity]
+
+[name=Sphere of Chaos;action=SPELL(SPPR709,7,50);target=Player;require=!disable,!magicImmunity,!mindImmunity]
+
+[name=Silence 15' Radius;action=SPELL(CLERIC_SILENCE_15_FOOT,2,50);target=Player,Caster(num:3);require=!disable,!silence,!failure,!magicImmunity,!globe]
+
+[name=Sanctuary;action=SPELL(CLERIC_SANCTUARY,1,,notarget)]
+
+[name=Shield of the Archons;action=SPELL(CLERIC_SHIELD_OF_THE_ARCHONS,7,75,notarget)]
+
+[name=Storm Shield;action=SPELL(SPCL721,0,75,notarget);require=!*stat(1,SCRIPTINGSTATE3)]
+
+[name=Physical Mirror;action=SPELL(CLERIC_PHYSICAL_MIRROR,6,50,notarget)]
+
+[name=Blade Barrier;action=SPELL(CLERIC_BLADE_BARRIER,6,50,notarget)]
+
+[name=Magic Resistance;action=SPELL(CLERIC_MAGIC_RESISTANCE,5,50,notarget)]
+
+[name=Protection from Fire;action=SPELL(SPPR523,5,50,notarget)]
+
+[name=Protection from Cold;action=SPELL(SPPR521,5,50,notarget)]
+
+[name=Protection from Electricity;action=SPELL(SPPR522,5,50,notarget)]
+
+[name=Protection from Acid;action=SPELL(SPPR520,5,50,notarget)]
+
+[name=Defensive Harmony;action=SPELL(CLERIC_DEFENSIVE_HARMONY,4,50,notarget)]
+
+[name=Strength of One;action=SPELL(CLERIC_STRENGTH_OF_ONE,3,50,notarget)]
+
+[name=Protection from Evil 10 foot;action=SPELL(CLERIC_PROTECTION_FROM_EVIL_10_FOOT,4,50,notarget)]
+
+[name=Death Ward;action=SPELL(CLERIC_DEATH_WARD,4,50,notarget)]
+
+[name=Chaotic Commands;action=SPELL(CLERIC_CHAOTIC_COMMANDS,5,50,notarget)]
+
+[name=Free action;action=SPELL(CLERIC_FREE_ACTION,4,50,notarget)]
+
+[name=Summon Shambling Mound;action=SPELL(SPPR702,7,50,notarget)]
+
+[name=Summon Death Knight;action=SPELL(SPPR703,7,50,notarget)]
+
+[name=Aerial servant;action=SPELL(CLERIC_AERIAL_SERVANT,6,50,notarget)]
+
+[name=Create Undead;action=SPELL(SPPR623,6,50,notarget)]
+
+[name=Animal Summoning 3;action=SPELL(CLERIC_ANIMAL_SUMMONING_3,6,50,notarget)]
+
+[name=Earth elemental;action=SPELL(SPPR622,6,50,notarget)]
+
+[name=Fire elemental;action=SPELL(SPPR605,6,50,notarget)]
+
+[name=Air elemental;action=SPELL(SPPR621,6,50,notarget)]
+
+[name=Animal Summoning 2;action=SPELL(CLERIC_ANIMAL_SUMMONING_2,5,50,notarget)]
+
+[name=Woodland beings;action=SPELL(CLERIC_CALL_WOODLAND_BEINGS,4,50,notarget)]
+
+[name=Animate Dead;action=SPELL(CLERIC_ANIMATE_DEAD,3,50,notarget)]
+
+[name=Animal Summoning 1;action=SPELL(CLERIC_ANIMAL_SUMMONING_1,4,50,notarget)]
+
+[name=Totemic Animals;action=TIMER(ja#totemic,30),SPELL(SPCL621,0,50,notarget)]
+
+[name=Dispel Magic;action=SPELL(CLERIC_DISPEL_MAGIC,3,50),RUN(30);target=Player;require=enchanted,!range(15)]
+
+[level=1;target=Summon(num:5),Player;require=valid,!disable,!magicImmunity,!globe]
+[name=Web;action=SPELL(SPDR201,2,50);require=!disable,!magicImmunity,!globe]
+[name=Entangle;action=SPELL(CLERIC_ENTANGLE,1,50);require=!disable,!magicImmunity,!globe]
+
+[name=True Sight;action=SPELL(CLERIC_TRUE_SIGHT,5,50,notarget)]
+[name=True Sight;action=TIMER(ja#true_sight,60),SPELL(SPCL732,0,50,notarget)]
+
+[name=Invisibility Purge;action=SPELL(CLERIC_INVISIBILITY_PURGE,3,50,notarget);require=detect,!see,range(20);target=Players]
+
+[name=Fire Seeds;action=SPELL(CLERIC_FIRE_SEEDS,6,50,notarget);require=!*magicalWeaponItem]
+
+[name=Sol Searing Orb;action=SPELL(CLERIC_SOL_SEARING_ORB,6,50,notarget);require=!*magicalWeaponItem]
+
+[name=Chain Lightning;action=SPELL(SPDR601,6,50);target=Summon(num:5),Player;require=!magicImmunity,!electricityImmunity]
+
+[name=Flame Strike;action=SPELL(CLERIC_FLAME_STRIKE,5,50);target=Summon(num:5),Player;require=!magicImmunity,!fireImmunity]
+
+[name=Ice Storm;action=SPELL(SPPR418,4,50);target=Summon(num:5),Player;require=*resistCold,!magicImmunity,!coldImmunity]
+
+[name=Storm shield;action=SPELL(SPPR322,3,50,notarget)]
+
+[level=6;target=Player;require=valid,!disable,!magicImmunity]
+[level=6;target=Player;require=valid,!disable,!magicImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[level=6;target=Fighter(num:3);require=valid,!disable,!magicImmunity]
+[level=6;target=Fighter(num:3);require=valid,!disable,!magicImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,6,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe]
+[name=Dolorous Decay;action=SPELL(CLERIC_DOLOROUS_DECAY,6,75);require=!disable,!magicImmunity]
+
+[level=5;target=Player;require=valid,!disable,!magicImmunity,!charmImmunity]
+[level=5;target=Player;require=valid,!disable,!magicImmunity,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[level=5;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!charmImmunity]
+[level=5;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,5,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe,!charmImmunity]
+[name=Domination;action=SPELL(CLERIC_MENTAL_DOMINATION,5,75);require=!disable,!magicImmunity,!charmImmunity]
+
+[level=5;target=Player;require=valid,!disable,!magicImmunity]
+[level=5;target=Player;require=valid,!disable,!magicImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,5,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity]
+[name=Polymorph Other;action=SPELL(SPPR519,5,75);require=!disable,!magicImmunity]
+
+[level=3;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity]
+[level=3;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,3,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe,!holdImmunity]
+[name=Hold Person or Animal;action=SPELL(SPPR305,3,75);require=!disable,!magicImmunity,!globe,!holdImmunity]
+
+[level=2;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity]
+[level=2;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,2,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe,!holdImmunity]
+[name=Hold Person;action=SPELL(CLERIC_HOLD_PERSON,2,75);require=!disable,!magicImmunity,!globe,!holdImmunity]
+
+[level=2;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=2;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[level=2;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=2;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,2,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe,!charmImmunity]
+[name=Charm Person or Animal;action=SPELL(CLERIC_CHARM_PERSON,2,75);require=!disable,!magicImmunity,!globe,!charmImmunity]
+
+[level=3;target=Caster(num:3);require=valid,!disable,!silence,!failure,!magicImmunity,!globe]
+[level=3;target=Caster(num:3);require=valid,!disable,!silence,!failure,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,3,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!silence,!failure,!magicImmunity,!globe]
+[name=Summon Insects;action=SPELL(CLERIC_SUMMON_INSECTS,3,75,caster);require=!disable,!silence,!failure,!magicImmunity,!globe]
+[name=Mistcast Magic;action=SPELL(CLERIC_MISCAST_MAGIC,3,75,caster);require=!disable,!silence,!failure,!magicImmunity,!globe]
+
+[level=3;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe]
+[level=3;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,3,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe]
+[name=Contagion;action=SPELL(SPPR311,3,75,fighter);require=!disable,!magicImmunity,!globe]
+
+// Select target and may cast doom on it
+[target=Summon(num:5);require=valid,!magicImmunity,!globe]
+[target=Summon(num:5);require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[target=Player;require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,1,25);require=!summon,!stat(1,WIZARD_GREATER_MALISON),!magicImmunity,!globe]
+
+[name=Bolt of Glory;action=SPELL(CLERIC_BOLT_OF_GLORY,6,50);require=!magicImmunity]
+
+[name=Poison;action=SPELL(CLERIC_POISON,4,50);require=!magicImmunity,!poisonImmunity]
+
+[name=Glyph of Warding;action=SPELL(CLERIC_GLYPH_OF_WARDING,3,50);require=!magicImmunity,!globe]
+
+[name=Holy Smite;action=SPELL(CLERIC_HOLY_SMITE,3,50);require=!magicImmunity,!globe]
+
+[name=Unholy Smite;action=SPELL(CLERIC_UNHOLY_BLIGHT,3,50);require=!magicImmunity,!globe]
+
+[name=Call Lightning ;action=SPELL(CLERIC_CALL_LIGHTNING,3,50);require=!magicImmunity,!globe,!electricityImmunity]
+
+[name=Lightning Bolt;action=SPELL(SPDR301,3,50);require=!magicImmunity,!globe,!electricityImmunity]
+[name=Lightning Bolt;action=SPELL(SPCL722,0,50);require=!magicImmunity,!globe,!electricityImmunity]
+
+[name=Fire Trap;action=SPELL(SPPR216,2,50);require=!magicImmunity,!globe,!fireImmunity]
+
+[name=Neutralize poison;action=SPELL(CLERIC_NEUTRALIZE_POISON,4,50,notarget)]
+
+[name=Chant;action=SPELL(CLERIC_CHANT,2,50,notarget)]
+
+[name=Bless;action=SPELL(CLERIC_BLESS,1,50,notarget)]
+
+[name=Remove Fear;action=SPELL(CLERIC_REMOVE_FEAR,1,50,notarget)]
+
+[name=Protection from Evil;action=SPELL(CLERIC_PROTECT_FROM_EVIL,1,50,notarget);require=!*pfe]
+
+[name=Aid;action=SPELL(CLERIC_AID,2,50,notarget)]
+
+[name=Barkskin;action=SPELL(CLERIC_BARKSKIN,2,50,notarget)]
+
+[name=Resist Fire and Cold;action=SPELL(CLERIC_RESIST_FIRE,2,50,notarget)]
+
+[name=Armor of faith;action=SPELL(CLERIC_ARMOR_OF_FAITH,1,50,notarget);require=*stat(0,CLERIC_ARMOR_OF_FAITH)]
+
+[name=Harm;action=SPELL(CLERIC_HARM,6,50,notarget);require=!*magicalWeaponItem]
+
+[name=Slay living;action=SPELL(CLERIC_SLAY_LIVING,5,50,notarget);require=!*magicalWeaponItem]
+
+[name=Cause Critical Wounds;action=SPELL(SPPR414,4,50,notarget);require=!*magicalWeaponItem]
+
+[name=Cause Serious Wounds;action=SPELL(SPPR321,3,50,notarget);require=!*magicalWeaponItem]
+
+[name=Spiritual Hammer;action=SPELL(CLERIC_SPIRITUAL_HAMMER,2,50,notarget);require=!*magicalWeaponItem]
+
+[name=Flame Blade;action=SPELL(CLERIC_FLAME_BLADE,2,50,notarget);require=!*magicalWeaponItem]
+
+[name=Shillelagh;action=SPELL(CLERIC_SHILLELAGH,1,50,notarget);require=!*magicalWeaponItem]
+
+[name=Divine Power;action=SPELL(CLERIC_HOLY_POWER,4,50,notarget);require=!*stat(3,SCRIPTINGSTATE6)]
+
+[name=Righteous Fury;action=SPELL(CLERIC_RIGHTEOUS_MAGIC,5,50,notarget);require=!*stat(6,SCRIPTINGSTATE6)]
+
+[name=Champion's Strength;action=SPELL(CLERIC_CHAMPIONS_STRENGTH,5,50,notarget)]
+
+[name=Draw upon Divine Might;action=SPELL(CLERIC_DRAW_UPON_HOLY_MIGHT,2,50,notarget);require=!*state(STATE_DRAWUPONHOLYMIGHT)]
+
+[name=Boon of Lathander;action=SPELL(SPCL741,0,75,notarget);require=!*stat(1,SCRIPTINGSTATE3)]
+
+[name=Strength of Stone;action=SPELL(SPPR115,1,50,notarget)]
+
+[name=Know Opponent;action=SPELL(SPPR209,2,50);require=!magicImmunity,!globe]
+
+[name=Faerie Fire;action=SPELL(SPPR114,1,50);require=!magicImmunity,!globe]
+
+[name=Chromatic Orb;action=SPELL(SPDR101,1,75);require=!magicImmunity,!globe]
+
+[name=Sunscorch;action=SPELL(SPPR116,1);require=!magicImmunity,!globe,!fireImmunity]
+
+[level=1;target=Player;require=!disable,!magicImmunity,!globe,!sleepImmunity]
+[level=1;target=Player;require=!disable,!magicImmunity,!globe,!sleepImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(CLERIC_DOOM,1,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity,!globe,!sleepImmunity]
+[name=Command;action=SPELL(CLERIC_COMMAND,1,75);require=!disable,!magicImmunity,!globe,!sleepImmunity]
+
+[name=Seeking sword;action=SPELL(SPCL731,0,50,notarget);require=!*magicalWeaponItem]

@@ -1,0 +1,7 @@
+[action=INIT]
+[action=REST]
+[name=Turn hostile if attacked;action=ENEMY]
+//[name=Shout;action=SHOUT(npc)]
+//[name=Listen;action=LISTEN(npc)]
+[action=GLOBAL(ja#combat,1);requireSelf=GLOBAL(ja#combat,0),allegiance(enemy),detectEnemy]
+[name=Nothing to do;action=NOACTION;require=global(ja#combat,0)]

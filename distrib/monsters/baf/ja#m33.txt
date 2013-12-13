@@ -1,0 +1,8 @@
+// Greater Doppelganger
+[monster=race(DOPPLEGANGER),walk,smart;CLASS=WIZARD]
+
+[section=beforeCombat]
+  [action=forceSpell(WIZARD_MIRROR_IMAGE,remove)]
+  [action=forceSpell(WIZARD_IMPROVED_HASTE,remove)]
+
+[generate]

@@ -1,0 +1,14 @@
+// Hamadryad
+[monster=race(FAIRY),walk,smart]
+
+[section=beforeTracking]
+  [TELEPORT_LOCATION=1272.3625,812.3159,1420.3169,1640.3554;RANDOM_LOCATION=false;RANDOM_TELEPORT=true]
+
+[section=beforeCombat]
+  [action=forceSpell(Dryad Charm,remove);teleport]
+  [action=timer(ja#entangle,30),forceSpell(Entangle);teleport]
+
+  // Don't attack if no enemies in melee
+  [action=NOACTION;require=!range(5,nearest)]
+  
+[generate]

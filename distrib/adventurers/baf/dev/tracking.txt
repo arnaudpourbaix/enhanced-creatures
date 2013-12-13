@@ -1,0 +1,6 @@
+// Track escaping target 
+[action=MOVE;requireSelf=!blind;require=!seeEnemy,visible,hpgt(0),range(150);target=players(random:true)]
+
+// if no enemies seen, random walk
+[action=walk;require=empty,!seeEnemy]
+

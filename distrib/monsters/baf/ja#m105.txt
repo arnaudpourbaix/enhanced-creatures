@@ -1,0 +1,3 @@
+// Worg
+[monster=race(WOLF),walk]
+[generate]

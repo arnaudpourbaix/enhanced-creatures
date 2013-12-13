@@ -1,0 +1,9 @@
+// Thief
+[CLASS=THIEF]
+[include=init_npc]
+[include=hide]
+[include=tracking]
+[include=potions]
+[spell=Poison weapon]
+[include=backstab]
+[include=combat_smart_both]

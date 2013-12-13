@@ -1,0 +1,9 @@
+// Track escaping target 
+[action=MOVE;requireSelf=!blind;require=empty,!seeNearest,visible,hpgt(0),range(100);target=attacker]
+
+// Follow summoner
+[action=MOVE;requireSelf=!blind;require=empty,!seeNearest,!see,!invisible,hpgt(0),range(100);target=summoner]
+
+// if no enemies seen, do nothing
+[action=noaction;require=empty,!seeNearest]
+

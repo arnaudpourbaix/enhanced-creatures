@@ -1,0 +1,71 @@
+// Dradeel (Enchanter)
+[CLASS=WIZARD;CASTER_LEVEL=20;MAX_SPELL_LEVEL=10]
+[include=autocast_spell_arcane]
+
+[action=CHAINCONTINGENCY(Improved Mantle,Ghostform,Protection from Energy,response<100>);require=seeEnemy]
+[action=CONTINGENCY(Shadow Door,response<100>);requireSelf=hp%lt(51)]
+
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+
+[spell=Absolute Immunity]
+[spell=Protection from Magical Weapons]
+[spell=Stoneskin]
+
+[spell=Spell Shield]
+[spell=True Seeing]
+[spell=Remove Magic]
+[spell=Greater Malison]
+
+[action=TRIGGER(Remove Magic,Hold Monster,Disintegrate,response<80>),
+        TRIGGER(Remove Magic,Chaos,Disintegrate,response<100>)
+ ;target=player;require=!disable,random(75)]
+
+[spell=Selune's Blessing]
+[spell=Selune's Curse;requireSelf=random(50)]
+
+[spell=Comet]
+[spell=Power Word Kill]
+[spell=Symbol of Stunning]
+[spell=Power Word Stun]
+[spell=Power Word Blind]
+[spell=Symbol of Weakness]
+[spell=Prismatic Spray]
+
+[action=SEQUENCER(Stoneskin,Protection from Missiles,Haste,response<100>);require=random(50)]
+[action=SEQUENCER(Remove Magic,Greater Malison,Emotion Despair,response<100>);target=player;require=!disable,random(75)]
+
+[spell=Domination]
+[spell=Dire Charm]
+[spell=Charm Person]
+[spell=Disintegrate]
+[spell=Power Word Silence]
+[spell=Hold Monster]
+[spell=Otiluke's Resilient Sphere]
+[spell=Hold Person]
+[spell=Confusion]
+[spell=Emotion Despair]
+[spell=Slow]
+
+[spell=Selune's Blade]
+
+[action=MINORSEQUENCER(Sleep,Power Word Sleep,response<80>),
+        MINORSEQUENCER(Sleep,Ray of Enfeeblement,response<100>)
+ ;target=player,fighter;require=!disable,random(75)]
+
+[spell=Sleep]
+[spell=Power Word Sleep]
+[spell=Color Spray]
+[spell=Knock]
+[spell=Ray of Enfeeblement]
+[spell=Melf's Acid Arrow]
+[spell=Chromatic Orb]
+
+[offensive_spells=Selune's Blade,Selune's Blessing,Selune's Curse]
+
+[include=combat_caster]
+[include=combat_smart]

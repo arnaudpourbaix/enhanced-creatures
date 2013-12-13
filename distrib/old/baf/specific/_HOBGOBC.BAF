@@ -1,0 +1,15 @@
+IF
+  Heard("cattack",1)
+THEN
+  RESPONSE #100
+    ChangeAIScript("ja#walk",RACE)
+END
+
+IF
+  Heard("cattack",2)
+THEN
+  RESPONSE #100
+    EscapeArea()
+END
+
+

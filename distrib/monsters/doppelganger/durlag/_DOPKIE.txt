@@ -1,0 +1,63 @@
+[CLASS=CLERIC;CASTER_LEVEL=9;MAX_SPELL_LEVEL=5]
+
+[spell=Mental Domination]
+[spell=Champion Strength;target=cre(dopdur)]
+[spell=Champion Strength;target=cre(dopfue)]
+
+[spell=True Sight]
+[spell=Gust of Wind]
+
+[spell=Cure Critical Wounds]
+[spell=Cure Critical Wounds;target=cre(dopdur)]
+[spell=Cure Critical Wounds;target=cre(dopfue)]
+[spell=Cure Critical Wounds;target=cre(dopkie)]
+[spell=Cure Critical Wounds;target=cre(dopdop)]
+[spell=Cure Critical Wounds;target=cre(dopisl)]
+
+[spell=Chant]
+[spell=Hold Person]
+[spell=Silence]
+[spell=Glyph of Warding]
+
+[spell=Cure Serious Wounds]
+[spell=Cure Serious Wounds;target=cre(dopdur)]
+[spell=Cure Serious Wounds;target=cre(dopfue)]
+[spell=Cure Serious Wounds;target=cre(dopkie)]
+[spell=Cure Serious Wounds;target=cre(dopdop)]
+[spell=Cure Serious Wounds;target=cre(dopisl)]
+
+[spell=Command]
+
+[spell=Cure Light Wounds]
+[spell=Cure Light Wounds;target=cre(dopdur)]
+[spell=Cure Light Wounds;target=cre(dopfue)]
+[spell=Cure Light Wounds;target=cre(dopkie)]
+[spell=Cure Light Wounds;target=cre(dopdop)]
+[spell=Cure Light Wounds;target=cre(dopisl)]
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	Delay(20)
+	See(NearestEnemyOf(Myself))
+	Range(NearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		ChangeAnimation("_DOPDOP") // Greater Doppelganger
+END
+
+[include=tracking]
+
+[spell=Spiritual Hammer]
+[spell=Seeking Sword]
+[include=combat_caster]
+[include=combat_smart]
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	Delay(20)
+	See(NearestEnemyOf(Myself))
+	!Range(NearestEnemyOf(Myself),9)
+THEN
+	RESPONSE #100
+		ChangeAnimation("_DOPISL") // Islanne
+END

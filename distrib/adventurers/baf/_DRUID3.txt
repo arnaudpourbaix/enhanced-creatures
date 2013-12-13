@@ -1,0 +1,43 @@
+// Druid (Druid)
+[CLASS=DRUID;CASTER_LEVEL=5;MAX_SPELL_LEVEL=3]
+IF
+	Die()
+THEN
+	RESPONSE #100
+		IncrementGlobal("KilledDruids","GLOBAL",1)
+END
+IF
+	Heard("seniyad",1)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+IF
+	Heard("seniyad",2)
+THEN
+	RESPONSE #100
+		MoveToPointNoInterrupt([2744.2164])
+END
+IF
+	Heard("seniyad",3)
+THEN
+	RESPONSE #100
+		EscapeArea()
+END
+
+[include=autocast_spell_divine]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Summon Insects]
+[spell=Charm Person or Animal]
+[spell=Fire Trap]
+[spell=Flame Blade]
+[spell=Faerie Fire]
+[spell=Sunscorch]
+
+[offensive_spells=Flame Blade,Fire Trap,Sunscorch,Faerie Fire,Summon Insects,Charm Person or Animal]
+
+[include=combat_caster]
+[include=combat_smart]

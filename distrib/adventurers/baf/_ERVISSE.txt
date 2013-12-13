@@ -1,0 +1,53 @@
+// Gervisse (Wild Mage)
+[CLASS=WIZARD;CASTER_LEVEL=9;MAX_SPELL_LEVEL=5]
+[include=autocast_spell_arcane]
+
+IF
+	See([PC])
+	NumTimesTalkedTo(0)
+THEN
+	RESPONSE #100
+		Dialogue([PC])
+END
+IF
+	Die()
+THEN
+	RESPONSE #100
+		SetGlobal("HelpLaerta","GLOBAL",1)
+END
+
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[action=MINORSEQUENCER(Mirror Image,Invisibility,response<100>)]
+
+[spell=Chaos Shield;requireSelf=invisible]
+[spell=Minor Globe of Invulnerability;requireSelf=invisible]
+[spell=Immunity: Evocation;requireSelf=invisible]
+
+[spell=Stoneskin]
+[spell=Minor Globe of Invulnerability]
+[spell=Chaos Shield]
+[spell=Fire Shield Red]
+[spell=Immunity: Evocation]
+[spell=Mage Armor]
+
+[spell=Cloudkill]
+[spell=Stinking Cloud]
+[spell=Domination]
+[spell=Skull Trap]
+[spell=Fireball]
+[spell=Lightning Bolt]
+[spell=Chromatic Orb]
+[spell=Vampiric Touch]
+[spell=Agannazar's Scorcher]
+[spell=Melf's Acid Arrow]
+[spell=Color Spray]
+[spell=Burning Hands]
+[spell=Larloch's Minor Drain]
+
+[offensive_spells=Cloudkill,Stinking Cloud,Domination,Skull Trap,Fireball,Lightning Bolt,Chromatic Orb,Agannazar's Scorcher,Melf's Acid Arrow]
+
+[include=combat_caster]
+[include=combat_smart]

@@ -1,0 +1,17 @@
+///////////////////////////////////////////////////////////////////////
+// Avoid fighting, flee from battle, enemies
+///////////////////////////////////////////////////////////////////////
+IF
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		RunAwayFrom(NearestEnemyOf(Myself),150)
+END
+
+IF
+	AttackedBy([ANYONE],DEFAULT)
+THEN
+	RESPONSE #100
+		RunAwayFrom(LastAttackerOf(Myself),150)
+END
+

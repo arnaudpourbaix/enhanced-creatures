@@ -1,0 +1,1103 @@
+/* Enhanced Creatures */
+BACKUP ~Enhanced_Creatures/backup~
+AUTHOR "Aigleborgne"
+
+VERSION ~v01~
+
+ALWAYS
+INCLUDE ~Enhanced_Creatures/Setup-Enhanced_Creatures.tph~
+//AT_INTERACTIVE_EXIT ~view Enhanced_Creatures/readme.txt~
+END
+
+//ASK_EVERY_COMPONENT
+
+LANGUAGE ~English~ ~Languages/English~ ~Enhanced_Creatures/languages/english/setup.tra~ // English
+
+
+// TODO :
+// For all shapeshit forms, check weapon and immunities
+// group 9 and 10 (tanari and succubus)
+// group 15 (djinni, dao, ...)
+// group 16 (ghost, helmite ghost)
+
+
+//-------------------------------------------------------------------------
+// Enhanced Creatures core component (required)
+//-------------------------------------------------------------------------
+BEGIN @0
+
+// Detectable spells
+OUTER_SPRINT ds_file ~Enhanced_Creatures/ds/cddetect.2da~
+LAUNCH_ACTION_MACRO ~DETECTABLE_SPELLS~
+
+// STATE_SLEEPING | STATE_PANIC | STATE_STUNNED | STATE_HELPLESS | STATE_CHARMED | STATE_FEEBLEMINDED | STATE_CONFUSED | STATE_BLIND
+APPEND ~STATE.IDS~ ~0x8014202D STATE_OUT_OF_ACTION~ UNLESS ~STATE_OUT_OF_ACTION~
+
+// STATE_SLEEPING | STATE_PANIC | STATE_STUNNED | STATE_HELPLESS | STATE_CHARMED | STATE_FEEBLEMINDED | STATE_CONFUSED
+APPEND ~STATE.IDS~ ~0x8010202D STATE_DISABLED~ UNLESS ~STATE_DISABLED~
+
+// Remove unwanted messages because enemies will use these abilities too
+COPY_EXISTING ~SPCL321.SPL~ ~override~    // Berserker rage
+ 				      ~SPCL321D.SPL~ ~override~   // Berserker rage (end)
+ 				      ~SPWI416.SPL~ ~override~    // Polymorph self
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+			PATCH_IF ("%eff_type%" = 139) BEGIN
+				WRITE_BYTE ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x12) 0   // 0% prob
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+
+// Remove unwanted message "You cannot cast this spell until the current casting has run out" because enemies will use these abilities too
+COPY_EXISTING ~SPWI702.SPL~ ~override~    // Protection from the elements
+				      ~SPCL423.SPL~ ~override~    // Poison weapon
+				      ~SPPR111.SPL~ ~override~    // Armor of faith
+				      ~SPPR412.SPL~ ~override~    // Holy power
+				      ~SPPR513.SPL~ ~override~    // Righteous magic
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+			PATCH_IF ("%eff_type%" = 206) BEGIN
+				WRITE_LONG ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x04) 0   // No text
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+
+// Remove unwanted message "A vampiric touch spell is already active" because enemies will use these abilities too
+COPY_EXISTING ~SPWI314.SPL~ ~override~     // Vampiric touch
+              ~SPWI314B.SPL~ ~override~    // Vampiric touch
+              ~SPIN997.SPL~ ~override~     // Vampiric touch
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+			PATCH_IF ("%eff_type%" = 206) BEGIN
+				WRITE_LONG ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x04) 0   // No text
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+
+// Temple will now have greater restoration
+COPY_EXISTING ~_tem0002.sto~ ~override/_tem0002.sto~
+             ~_tem0131.sto~ ~override/_tem0131.sto~
+             ~_tem0132.sto~ ~override/_tem0132.sto~
+             ~_tem2304.sto~ ~override/_tem2304.sto~
+             ~_tem2601.sto~ ~override/_tem2601.sto~
+             ~_tem3402.sto~ ~override/_tem3402.sto~
+             ~_tem4802.sto~ ~override/_tem4802.sto~
+	READ_LONG 0x70 "cure_offset"
+	READ_LONG 0x74 "cure_num"
+	READ_LONG 0x2c "itm_purchased_offset"
+	INSERT_BYTES ("%cure_offset%") 0xc
+	WRITE_ASCII ("%cure_offset%") ~SPPR713~
+	WRITE_LONG ("%cure_offset%" + 0x8) 750 // price
+	WRITE_LONG 0x74 ("%cure_num%" + 1)
+	WRITE_LONG 0x2c ("%itm_purchased_offset%" + 0xc)
+BUT_ONLY_IF_IT_CHANGES
+
+// Undead creatures are erroneously immuned to Lightning Bolt instead of Hold Person (code from aVENGER)
+COPY_EXISTING ~ring95.itm~ ~override~ // undead immunity ring
+PATCH_IF (%SOURCE_SIZE% > 0x71) THEN BEGIN // file size sanity check
+READ_LONG   0x6a "fx_off"
+READ_SHORT  0x70 "fx_num"
+  FOR (index = 0; index < fx_num; index = index + 1) BEGIN
+    READ_SHORT ("%fx_off%" +        ("%index%" * 0x30)) "opcode"
+    READ_ASCII ("%fx_off%" + 0x14 + ("%index%" * 0x30)) "resref"
+    PATCH_IF (("%opcode%" = 206) AND ("%resref%" STRING_EQUAL_CASE ~SPWI308~)) BEGIN // Lightning Bolt
+      WRITE_ASCII ("%fx_off%" + 0x14 + ("%index%" * 0x30)) "SPWI306" #8 // Hold Person
+    END
+  END
+END
+BUT_ONLY_IF_IT_CHANGES
+
+// Mordenkainen sword fixes
+COPY_EXISTING ~SWORD01.CRE~ ~override~
+  WRITE_BYTE 0x271 101
+  WRITE_BYTE 0x272 201
+  WRITE_BYTE 0x273 201 
+  WRITE_BYTE 0x5d  100
+
+// Wizard eye fixes
+COPY_EXISTING ~WIZEYE.CRE~ ~override~
+  WRITE_BYTE 0x271 101
+  WRITE_BYTE 0x272 255
+
+// Correct innates level
+COPY_EXISTING ~SPIN681.spl~ ~override~ // Wail of the Banshee
+              ~SPWI952.spl~ ~override~ // Selune's Blade
+              ~SPWI953.spl~ ~override~ // Selune's Curse
+              ~SPWI954.spl~ ~override~ // Selune's Blessing
+              ~SPWI955.spl~ ~override~ // Symbol of Pain
+              ~SPIN701.spl~ ~override~ // Fireball
+  WRITE_LONG  0x34 1
+
+// Add hidden Deathbringer kit
+ADD_KIT ~IK_DEATHBRINGER~
+  ~IK_DEATHBRINGER 0 0 0 0 0 0 0 0~
+  ~IK_DEATHBRINGER 0 0 0 0 0 0 0 0 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 2 2 2 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0~
+  ~IK_DEATHBRINGER 9 0 0 0 0 0~
+  ~IK_DEATHBRINGER 0 0 0 0 0 0~
+  ~IK_DEATHBRINGER 17 0 0 0 0 0~
+  ~IK_DEATHBRINGER 15 0 0 0 0 0~
+  ~IK_DEATHBRINGER 1 1 1 1 1 1 1 1 1~
+  ~IK_DEATHBRINGER 0 1 1 1 1 0~
+  ~Enhanced_Creatures/deathbringer/clabikdb.2da~
+  ~~
+  ~0x00004000 2~
+  ~ikdb~
+  ~* * * * * * * * * * * * * * * * * * * *~
+  SAY @99201
+  SAY @99202
+  SAY @99203
+  
+COPY ~Enhanced_Creatures/deathbringer/deathbringer1.spl~ ~override/ikdb1.spl~ // immunity to fear and morale failure
+COPY_EXISTING ~spwi125.spl~ ~override/ikdb2.spl~ // Spook
+  READ_LONG 0x64 "abilitiesoffset"
+  READ_SHORT 0x68 "#abilities"
+  WRITE_SHORT 0x1c 4
+  WRITE_LONG 0x34 1
+  WHILE (0 < "%#abilities%") BEGIN
+    WRITE_SHORT ("%abilitiesoffset%" + ("%#abilities%" - 1) * 0x28 + 0x02) 4
+  SET "#abilities" = ("%#abilities%" - 1)
+  END
+COPY ~Enhanced_Creatures/deathbringer/deathbringer3.spl~ ~override/ikdb3.spl~ // add Deathbringer Assault
+
+//COPY ~Enhanced_Creatures/itm~ ~override~
+
+COPY ~Enhanced_Creatures/spl~ ~override~
+
+COMPILE ~Enhanced_Creatures/baf~
+
+//-------------------------------------------------------------------------
+// Enhanced Monsters
+//-------------------------------------------------------------------------
+
+// Enhanced Monsters core component
+BEGIN @100
+GROUP @1
+
+COPY ~Enhanced_Creatures/monsters/itm~ ~override~
+
+//COPY ~Enhanced_Creatures/monsters/spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#1.spl~ ~override~
+  SAY NAME1 @1000 SAY NAME2 @1000
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#2.spl~ ~override~
+  SAY NAME1 @1001 SAY NAME2 @1001
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#3.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#175.spl~ ~override~
+  SAY NAME1 @1002 SAY NAME2 @1002
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#24_1.spl~ ~override~
+  SAY NAME1 @1003 SAY NAME2 @1003
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#24_2.spl~ ~override~
+  SAY NAME1 @1004 SAY NAME2 @1004
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#263.spl~ ~override~
+  SAY NAME1 @1006 SAY NAME2 @1006
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#57.spl~ ~override~
+  SAY NAME1 @1007 SAY NAME2 @1007
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#58.spl~ ~override~
+  SAY NAME1 @1008 SAY NAME2 @1008
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_1.spl~ ~override~
+  SAY NAME1 @1009 SAY NAME2 @1009
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_2.spl~ ~override~
+  SAY NAME1 @1010 SAY NAME2 @1010
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_3.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_4.spl~ ~override~
+  SAY NAME1 @1011 SAY NAME2 @1011
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_5.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_6.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_7.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_8.SPL~ ~override~
+  SAY NAME1 @1012 SAY NAME2 @1012
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_9.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#79_10.spl~ ~override~
+
+COPY ~Enhanced_Creatures/monsters/spl/ja#80.spl~ ~override~
+
+ADD_PROJECTILE ~Enhanced_Creatures/monsters/PRO/ja#m2.PRO~
+
+COPY_EXISTING ~ja#2.spl~ ~override~
+  READ_LONG  0x64 ab_off
+  READ_SHORT 0x68 ab_num
+  FOR(i=0; i<ab_num; i+=1) BEGIN
+    WRITE_SHORT (ab_off+i*0x28+0x26) %ja#m2%
+  END
+
+ADD_PROJECTILE ~Enhanced_Creatures/monsters/PRO/ja#m3.PRO~
+
+COPY_EXISTING ~ja#3.spl~ ~override~
+  READ_LONG  0x64 ab_off
+  READ_SHORT 0x68 ab_num
+  FOR(i=0; i<ab_num; i+=1) BEGIN
+    WRITE_SHORT (ab_off+i*0x28+0x26) %ja#m3%
+  END
+
+ADD_PROJECTILE ~Enhanced_Creatures/monsters/PRO/ja#m79_3.PRO~
+
+COPY_EXISTING ~ja#79_3.spl~ ~override~
+  READ_LONG  0x64 ab_off
+  READ_SHORT 0x68 ab_num
+  FOR(i=0; i<ab_num; i+=1) BEGIN
+    WRITE_SHORT (ab_off+i*0x28+0x26) %ja#m79_3%
+  END
+
+ADD_PROJECTILE ~Enhanced_Creatures/monsters/PRO/ja#m79_8.PRO~
+
+COPY_EXISTING ~ja#79_8.spl~ ~override~
+  READ_LONG  0x64 ab_off
+  READ_SHORT 0x68 ab_num
+  FOR(i=0; i<ab_num; i+=1) BEGIN
+    WRITE_SHORT (ab_off+i*0x28+0x26) %ja#m79_8%
+  END
+
+// Remove proficiency from monster's weapon.
+COPY_EXISTING //~ja#19.ITM~ ~override~
+              //~ja#20.ITM~ ~override~
+              //~ja#22.ITM~ ~override~
+              ~ja#267.ITM~ ~override~
+              ~ja#79.ITM~  ~override~
+  WRITE_BYTE 0x31 0
+
+// Detectable spells
+OUTER_SPRINT ds_file ~Enhanced_Creatures/ds/monsters.2da~
+LAUNCH_ACTION_MACRO ~DETECTABLE_SPELLS~
+
+COMPILE ~Enhanced_Creatures/monsters/baf~
+
+
+// Ankheg
+BEGIN @102
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon001
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Basilisk
+BEGIN @103
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon002
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Bear
+BEGIN @104
+GROUP @1
+DEPRECATED @80
+
+COPY_EXISTING ~ja#4.ITM~ ~override/BRBLP.ITM~
+  READ_LONG 0x18 flags
+  PATCH_IF (%flags% BOR 0b0111111111111111111111111) BEGIN
+    WRITE_LONG 0x18 (%flags% BOR 0b1000000000000000000000000) // undispellable magical weapon
+  END
+
+// Wizard and Priest use the same weapon
+COPY_EXISTING ~SPWI498.spl~ ~override~
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR ("index" = 0; "%index%" < "%abil_num%"; "index" += 1) BEGIN
+    READ_SHORT  ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+    READ_SHORT  ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+    FOR ("index2" = 0; "%index2%" < "%abil_fx_num%"; "index2" += 1) BEGIN
+      READ_SHORT ("%fx_off%" +        (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+      PATCH_IF ("%opcode%" = 111) BEGIN // create item
+        WRITE_ASCII ("%fx_off%"+0x30*(index2+abil_fx_idx)+0x14) ~BRBLP~ #8
+      END
+    END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~ja#5.ITM~ ~override/BRBRP.ITM~
+  READ_LONG 0x18 flags
+  PATCH_IF (%flags% BOR 0b0111111111111111111111111) BEGIN
+    WRITE_LONG 0x18 (%flags% BOR 0b1000000000000000000000000) // undispellable magical weapon
+  END
+
+COPY_EXISTING ~SPWI497.spl~ ~override~
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR ("index" = 0; "%index%" < "%abil_num%"; "index" += 1) BEGIN
+    READ_SHORT  ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+    READ_SHORT  ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+    FOR ("index2" = 0; "%index2%" < "%abil_fx_num%"; "index2" += 1) BEGIN
+      READ_SHORT ("%fx_off%" +        (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+      PATCH_IF ("%opcode%" = 111) BEGIN // create item
+        WRITE_ASCII ("%fx_off%"+0x30*(index2+abil_fx_idx)+0x14) ~BRBRP~ #8
+      END
+    END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+// Speed bonus
+OUTER_SPRINT bonus 6
+
+OUTER_SPRINT item BRBLP
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+
+OUTER_SPRINT item BRBRP
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+
+COMPILE ~Enhanced_Creatures/monsters/bear~
+
+OUTER_SPRINT basename_file mon003
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Carrion Crawler
+BEGIN @105
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon004
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Cat
+BEGIN @106
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon005
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Dog
+BEGIN @107
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon006
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Construct
+BEGIN @108
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon007
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Death Knight
+BEGIN @109
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/deathknight~
+COPY ~Enhanced_Creatures/monsters/deathknight/SW2HDEAT.ITM~ ~override~
+
+OUTER_SPRINT basename_file mon008
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Doppelganger
+BEGIN @110
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/doppelganger~
+
+OUTER_SPRINT basename_file mon011
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Doppelganger in Durlag's Tower
+BEGIN @111
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/doppelganger/durlag~
+
+OUTER_SPRINT basename_file mon011b
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Dryad
+BEGIN @112
+GROUP @1
+REQUIRE_PREDICATE !FILE_EXISTS_IN_GAME rr#fdrya.bcs @50
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/dryad~
+
+OUTER_SPRINT basename_file mon012
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Elemental
+BEGIN @113
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/elemental~
+
+OUTER_SPRINT basename_file mon013
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Elder Fire Elemental
+COPY_EXISTING ~DRUFIR01.CRE~ ~override/DRUFIR01.CRE~
+              ~ELFIRPR3.CRE~ ~override/ELFIRPR3.CRE~
+              ~ELFIRSU4.CRE~ ~override/ELFIRSU4.CRE~
+  SAY NAME1 @2000 SAY NAME2 @2000
+
+// Elder Earth Elemental
+COPY_EXISTING ~DRUEAR01.CRE~ ~override/DRUEAR01.CRE~
+              ~ELEARPR3.CRE~ ~override/ELEARPR3.CRE~
+              ~ELEARSU4.CRE~ ~override/ELEARSU4.CRE~
+              ~MDEARTH.CRE~  ~override/MDEARTH.CRE~
+              ~MDEARTH2.CRE~ ~override/MDEARTH2.CRE~
+  SAY NAME1 @2001 SAY NAME2 @2001
+
+// Elder Air Elemental
+COPY_EXISTING ~SWAAIR02.CRE~ ~override/SWAAIR02.CRE~
+              ~ELAIRSU3.CRE~ ~override/ELAIRSU3.CRE~
+  SAY NAME1 @2002 SAY NAME2 @2002
+
+COPY_EXISTING ~ja#371.ITM~ ~override/DRUFIR.ITM~
+COPY_EXISTING ~ja#372.ITM~ ~override/DRUEAR.ITM~
+
+OUTER_SPRINT itemSource ja#ele
+OUTER_SPRINT itemDestination DRUFIR
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+OUTER_SPRINT itemDestination DRUEAR
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+
+OUTER_SPRINT itemSource immune2
+OUTER_SPRINT itemDestination DRUFIR
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+OUTER_SPRINT itemDestination DRUEAR
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+
+COPY_EXISTING ~DRUFIR.ITM~ ~override~
+  READ_LONG 0x18 flags
+  PATCH_IF (%flags% BOR 0b0111111111111111111111111) BEGIN
+    WRITE_LONG 0x18 (%flags% BOR 0b1000000000000000000000000) // undispellable magical weapon
+  END
+
+COPY_EXISTING ~DRUEAR.ITM~ ~override~
+  READ_LONG 0x18 flags
+  PATCH_IF (%flags% BOR 0b0111111111111111111111111) BEGIN
+    WRITE_LONG 0x18 (%flags% BOR 0b1000000000000000000000000) // undispellable magical weapon
+  END
+
+// Salamander doesn't have any fireball
+COPY_EXISTING ~SPCL634.SPL~ ~override~    // Shapeshifts Fire Salamander
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+			READ_ASCII ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x14)  "ressource"
+			PATCH_IF ("%eff_type%" = 171 AND "%ressource%" STRING_EQUAL "SpIn160") BEGIN
+				WRITE_BYTE ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x12) 0   // 0% prob
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~ja#50.ITM~ ~override/PLYSALA.ITM~
+
+OUTER_SPRINT itemSource ja#ele
+OUTER_SPRINT itemDestination PLYSALA
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+
+OUTER_SPRINT item PLYSALA
+OUTER_SPRINT bonus 3
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+
+COPY_EXISTING ~PLYSALA.ITM~ ~override~
+  READ_LONG 0x18 flags
+  PATCH_IF (%flags% BOR 0b0111111111111111111111111) BEGIN
+    WRITE_LONG 0x18 (%flags% BOR 0b1000000000000000000000000) // undispellable magical weapon
+  END
+
+// Ettercap
+BEGIN @115
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon014
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Ghost
+BEGIN @116
+DEPRECATED @80
+GROUP @1
+
+COMPILE ~Enhanced_Creatures/monsters/ghost~
+
+OUTER_SPRINT basename_file mon016
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Ghoul
+BEGIN @117
+GROUP @1
+
+OUTER_SPRINT basename_file mon017
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Gibberling
+BEGIN @118
+GROUP @1
+DEPRECATED @80
+
+OUTER_SPRINT basename_file mon018
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Gnoll
+BEGIN @119
+GROUP @1
+DEPRECATED @80
+
+// Disable disarm for polymorph flind as foes can't pick up items
+COPY_EXISTING ~ja#66.ITM~ ~override/PLYFLIND.ITM~
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+			READ_ASCII ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x14)  "ressource"
+			PATCH_IF ("%eff_type%" = 264) BEGIN
+				WRITE_BYTE ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x12) 0   // 0% prob
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+
+OUTER_SPRINT item PLYFLIND
+OUTER_SPRINT bonus 3
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+
+OUTER_SPRINT basename_file mon019
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Golem
+BEGIN @120
+GROUP @1
+DEPRECATED @80
+
+COPY ~Enhanced_Creatures/monsters/golem/_DOOMSA.CRE~ ~override~
+
+OUTER_SPRINT basename_file mon020
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Hobgoblin
+BEGIN @121
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/hobgoblin~
+
+OUTER_SPRINT basename_file mon021
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Kobold
+BEGIN @122
+GROUP @1
+DEPRECATED @80
+
+COMPILE ~Enhanced_Creatures/monsters/kobold~
+
+OUTER_SPRINT basename_file mon022
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Ogre
+BEGIN @125
+GROUP @1
+
+COMPILE ~Enhanced_Creatures/monsters/ogre~
+
+OUTER_SPRINT basename_file mon023
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Spectre
+BEGIN @124
+GROUP @1
+
+COPY ~Enhanced_Creatures/monsters/spectre/_HOULLOR.CRE~ ~override~
+  SAY NAME1 @2003 SAY NAME2 @2003
+
+OUTER_SPRINT basename_file mon025
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+
+
+// ******************************************************************************************************************
+// ******************************************************************************************************************
+// ******************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+// Werewolf, Wolfwere, Loup-Garou
+BEGIN @123
+GROUP @1
+
+COMPILE ~Enhanced_Creatures/monsters/werewolf~
+
+COPY_EXISTING ~SPCL643.spl~ ~override~
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR ("index" = 0; "%index%" < "%abil_num%"; "index" += 1) BEGIN
+    READ_SHORT  ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+    READ_SHORT  ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+    FOR ("index2" = 0; "%index2%" < "%abil_fx_num%"; "index2" += 1) BEGIN
+      READ_SHORT ("%fx_off%" +        (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+      PATCH_IF ("%opcode%" = 111) BEGIN // create item
+        WRITE_ASCII ("%fx_off%"+0x30*(index2+abil_fx_idx)+0x14) ~ja#w34~ #8
+      END
+    END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~SPCL644.spl~ ~override~
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR ("index" = 0; "%index%" < "%abil_num%"; "index" += 1) BEGIN
+    READ_SHORT  ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+    READ_SHORT  ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+    FOR ("index2" = 0; "%index2%" < "%abil_fx_num%"; "index2" += 1) BEGIN
+      READ_SHORT ("%fx_off%" +        (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+      PATCH_IF ("%opcode%" = 111) BEGIN // create item
+        WRITE_ASCII ("%fx_off%"+0x30*(index2+abil_fx_idx)+0x14) ~ja#w143~ #8
+      END
+    END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+OUTER_SPRINT itemSource immune1
+OUTER_SPRINT itemDestination ja#w34
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+OUTER_SPRINT itemDestination ja#w143
+LAUNCH_ACTION_MACRO ~COPY_ITEM_EFFECTS~
+
+OUTER_SPRINT item ja#w34
+OUTER_SPRINT bonus 3
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+
+OUTER_SPRINT item ja#w143
+OUTER_SPRINT bonus 6
+LAUNCH_ACTION_MACRO ~ITEM_DISABLE_SPELLCASTING_EFFECTS~
+LAUNCH_ACTION_MACRO ~ITEM_MOVEMENT_RATE_EFFECT~
+
+OUTER_SPRINT basename_file mon034
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+
+
+
+
+// Rebalance Totemic Druid Spirit Summons
+BEGIN @101
+GROUP @1
+
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum1.eff~
+  WRITE_ASCII 0x30 spirsum1
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum2.eff~
+  WRITE_ASCII 0x30 spirsum2
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum3.eff~
+  WRITE_ASCII 0x30 spirsum3
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum4.eff~
+  WRITE_ASCII 0x30 spirsum4
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum5.eff~
+  WRITE_ASCII 0x30 spirsum5
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum6.eff~
+  WRITE_ASCII 0x30 spirsum6
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum7.eff~
+  WRITE_ASCII 0x30 spirsum7
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum8.eff~
+  WRITE_ASCII 0x30 spirsum8
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum9.eff~
+  WRITE_ASCII 0x30 spirsum9
+COPY_EXISTING ~SPIRSUMM.EFF~ ~override/spirsum0.eff~
+  WRITE_ASCII 0x30 spirsum0
+
+COPY ~Enhanced_Creatures/spirit_animals~ ~override~
+
+
+//-------------------------------------------------------------------------
+// Enhanced Adventurers
+//-------------------------------------------------------------------------
+
+// Enhanced Adventurers core component
+BEGIN @200
+GROUP @2
+
+COPY ~Enhanced_Creatures/adventurers/itm~ ~override~
+
+COMPILE ~Enhanced_Creatures/adventurers/baf~
+
+//COPY ~Enhanced_Creatures/cre~ ~override~
+
+OUTER_SPRINT basename_file adv
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+
+// Give Sarevok Deathbringer kit
+BEGIN @201
+GROUP @2
+
+COPY_EXISTING ~_SAREVO.CRE~ ~override~
+              ~_SAREVO2.CRE~ ~override~
+  INNER_ACTION BEGIN
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      COUNT_2DA_ROWS ~9~ kit_rows
+      SET kit_num = 0
+      FOR ( kit_index = 1 ; kit_index < kit_rows ; kit_index += 1 ) BEGIN
+        READ_2DA_ENTRY %kit_index% 1 9 kit_name
+        READ_2DA_ENTRY %kit_index% 8 9 classkit
+        PATCH_IF ("%kit_name%" STRING_EQUAL "IK_DEATHBRINGER") BEGIN
+          SET kit_num = %kit_index%
+        END
+      END
+    BUT_ONLY_IF_IT_CHANGES
+  END
+  // Set kit
+  PATCH_IF %kit_num% > 0 BEGIN
+    WRITE_SHORT 0x244 0
+    WRITE_BYTE 0x246 %kit_num%
+    WRITE_BYTE 0x247 0x40
+  END
+  // Add kit abilities
+  READ_LONG 0x2c4 fx_off
+  READ_LONG 0x2c8 fx_num
+  INSERT_BYTES %fx_off% 0x108 // inserting new prof effect
+  WRITE_LONG (%fx_off% + 0x08) 248 // opcode
+  WRITE_LONG (%fx_off% + 0x0c) 1  // myself
+  WRITE_ASCII (%fx_off% + 0x28) ~sareveff~ // eff
+  WRITE_LONG (%fx_off% + 0x1c) 9 // timing
+  WRITE_SHORT (%fx_off% + 0x24) 100 // prob
+  WRITE_BYTE 0x33 1 //effects flag
+  WRITE_LONG 0x2c8 %fx_num% + 1
+
+
+//-------------------------------------------------------------------------
+// Tweak powerful items
+//-------------------------------------------------------------------------
+BEGIN @3
+
+// Correct wands power level : heaven level 5
+COPY_EXISTING ~WAND11.itm~   ~override~
+              ~_WAND11.itm~  ~override~
+              ~WAND06.itm~  ~override~
+              ~_WAND06.itm~  ~override~
+ READ_LONG  0x64 ability_offset
+ READ_SHORT 0x68 abil_cnt
+ READ_LONG  0x6a eff_offset
+ FOR( cnt=0; cnt<%abil_cnt%; cnt=cnt+1 ) BEGIN
+   READ_SHORT (%ability_offset%+0x38*cnt+0x1e)  eff_number
+   READ_SHORT (%ability_offset%+0x38*cnt+0x20)  eff_idx
+   FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+     WRITE_BYTE (%eff_offset% + 0x30 * (%eff_idx% + cnt2) + 0x03) 5
+   END
+ END
+BUT_ONLY_IF_IT_CHANGES
+
+// Correct wands power level : polymorph level 4
+COPY_EXISTING ~WAND09.itm~   ~override~
+              ~_WAND09.itm~  ~override~
+ READ_LONG  0x64 ability_offset
+ READ_SHORT 0x68 abil_cnt
+ READ_LONG  0x6a eff_offset
+ FOR( cnt=0; cnt<%abil_cnt%; cnt=cnt+1 ) BEGIN
+   READ_SHORT (%ability_offset%+0x38*cnt+0x1e)  eff_number
+   READ_SHORT (%ability_offset%+0x38*cnt+0x20)  eff_idx
+   FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+     WRITE_BYTE (%eff_offset% + 0x30 * (%eff_idx% + cnt2) + 0x03) 5
+   END
+ END
+BUT_ONLY_IF_IT_CHANGES
+
+// Correct wands power level : lightning, fire, paralyzation level 3
+COPY_EXISTING ~WAND07.itm~   ~override~
+              ~_WAND07.itm~  ~override~
+              ~WAND05.itm~   ~override~
+              ~_WAND05.itm~  ~override~
+              ~WAND04.itm~   ~override~
+              ~_WAND04.itm~  ~override~
+ READ_LONG  0x64 ability_offset
+ READ_SHORT 0x68 abil_cnt
+ READ_LONG  0x6a eff_offset
+ FOR( cnt=0; cnt<%abil_cnt%; cnt=cnt+1 ) BEGIN
+   READ_SHORT (%ability_offset%+0x38*cnt+0x1e)  eff_number
+   READ_SHORT (%ability_offset%+0x38*cnt+0x20)  eff_idx
+   FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+     WRITE_BYTE (%eff_offset% + 0x30 * (%eff_idx% + cnt2) + 0x03) 3
+   END
+ END
+BUT_ONLY_IF_IT_CHANGES
+
+// Correct wands power level : fear level 2
+COPY_EXISTING ~WAND02.itm~   ~override~
+              ~_WAND02.itm~  ~override~
+ READ_LONG  0x64 ability_offset
+ READ_SHORT 0x68 abil_cnt
+ READ_LONG  0x6a eff_offset
+ FOR( cnt=0; cnt<%abil_cnt%; cnt=cnt+1 ) BEGIN
+   READ_SHORT (%ability_offset%+0x38*cnt+0x1e)  eff_number
+   READ_SHORT (%ability_offset%+0x38*cnt+0x20)  eff_idx
+   FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+     WRITE_BYTE (%eff_offset% + 0x30 * (%eff_idx% + cnt2) + 0x03) 2
+   END
+ END
+BUT_ONLY_IF_IT_CHANGES
+
+// Correct wands power level : sleep level 1
+COPY_EXISTING ~WAND08.itm~   ~override~
+              ~_WAND08.itm~  ~override~
+ READ_LONG  0x64 ability_offset
+ READ_SHORT 0x68 abil_cnt
+ READ_LONG  0x6a eff_offset
+ FOR( cnt=0; cnt<%abil_cnt%; cnt=cnt+1 ) BEGIN
+   READ_SHORT (%ability_offset%+0x38*cnt+0x1e)  eff_number
+   READ_SHORT (%ability_offset%+0x38*cnt+0x20)  eff_idx
+   FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+     WRITE_BYTE (%eff_offset% + 0x30 * (%eff_idx% + cnt2) + 0x03) 1
+   END
+ END
+BUT_ONLY_IF_IT_CHANGES
+
+// Arrows of slaying
+COPY_EXISTING ~_AROW03.ITM~    ~override~
+						  ~AROW03.ITM~     ~override~
+ READ_LONG  0x64 "ability_offset"
+ READ_SHORT 0x68 "abil_cnt"
+ READ_LONG  0x6a "eff_offset"
+ WRITE_SHORT 0x86 1 // to hit
+ FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+   READ_BYTE  ("%ability_offset%"+cnt*0x28)  "type"
+   READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+   READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+     FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+       READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+       PATCH_IF (("%eff_type%" = 55) OR ("%eff_type%" = 174)) BEGIN // Slay or Play sound
+         WRITE_BYTE ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x24) 0b00000100   // save vs death
+         WRITE_LONG ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x28) 0xffffffff   // 0
+       END
+     END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+// Arrows of detonation
+COPY_EXISTING ~_AROW06.ITM~    ~override~
+						  ~AROW06.ITM~     ~override~
+ READ_LONG  0x64 "ability_offset"
+ READ_SHORT 0x68 "abil_cnt"
+ READ_LONG  0x6a "eff_offset"
+ WRITE_SHORT 0x86 1 // to hit
+ WRITE_SHORT 0x88 6 // dice size
+ WRITE_SHORT 0x8a 1 // # dice
+ WRITE_SHORT 0x9c 2 // Arrow type (single target)
+BUT_ONLY_IF_IT_CHANGES
+
+// Arrows of dispelling
+COPY_EXISTING ~_AROW07.ITM~    ~override~
+						  ~AROW07.ITM~     ~override~
+ READ_LONG  0x64 "ability_offset"
+ READ_SHORT 0x68 "abil_cnt"
+ READ_LONG  0x6a "eff_offset"
+ WRITE_LONG 0x34 1000 // price
+ WRITE_SHORT 0x86 1 // to hit
+ FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+   READ_BYTE  ("%ability_offset%"+cnt*0x28)  "type"
+   READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+   READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+     FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+       READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx))  "eff_type"
+       PATCH_IF ("%eff_type%" = 58) BEGIN // Dispel effects
+         WRITE_BYTE ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x8) 0b00000001  // Ignore level : no
+       END
+     END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+BEGIN ~TEMP~
+  OUTER_SPRINT spellSource ~SPWI801~
+  OUTER_SPRINT itemDestination ~ja#ghost~
+  LAUNCH_ACTION_MACRO ~COPY_SPELL_EFFECTS~
+
+
+//-------------------------------------------------------------------------
+// Tweak items quantity in stores
+//-------------------------------------------------------------------------
+BEGIN @4
+
+// Sorcerous sundries store
+COPY_EXISTING ~_sto0703.sto~ ~override/_sto0703.sto~
+	ADD_STORE_ITEM + ~_arow06~ #5 #0 #0 ~IDENTIFIED~ #8 // arrow of detonation
+	ADD_STORE_ITEM + ~_arow07~ #5 #0 #0 ~IDENTIFIED~ #4 // arrow of dispelling
+	ADD_STORE_ITEM + ~_scrl5p~ #1 #0 #0 ~IDENTIFIED~ #2 // scroll : chaos
+	ADD_STORE_ITEM + ~_scrl5m~ #1 #0 #0 ~IDENTIFIED~ #2 // scroll : polymorph self
+	ADD_STORE_ITEM + ~_scrl5i~ #1 #0 #0 ~IDENTIFIED~ #2 // scroll : greater malison
+	ADD_STORE_ITEM + ~_scrl5j~ #1 #0 #0 ~IDENTIFIED~ #2 // scroll : otiluke resilient sphere
+	ADD_STORE_ITEM + ~_scrl5k~ #1 #0 #0 ~IDENTIFIED~ #2 // scroll : spirit armor
+	ADD_STORE_ITEM + ~_wand02~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of fear
+	ADD_STORE_ITEM + ~_wand03~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of magic missile
+	ADD_STORE_ITEM + ~_wand04~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of paralyzation
+	ADD_STORE_ITEM + ~_wand05~ #5 #5 #0 ~IDENTIFIED~ #2 // wand of fire
+	ADD_STORE_ITEM + ~_wand06~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of frost
+	ADD_STORE_ITEM + ~_wand07~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of lightning
+	ADD_STORE_ITEM + ~_wand08~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of sleep
+	ADD_STORE_ITEM + ~_wand10~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of summoning
+	ADD_STORE_ITEM + ~_wand11~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of the heavens
+
+// Temple lady's hall
+COPY_EXISTING ~_tem0132.sto~ ~override/_tem0132.sto~
+	ADD_STORE_ITEM + ~_potn17~ #1 #0 #0 ~IDENTIFIED~ #20 // elixir of health
+	ADD_STORE_ITEM + ~_potn20~ #1 #0 #0 ~IDENTIFIED~ #18 // antidote
+
+// Thalantyr store (TODO purpose?? maybe try and see)
+COPY_EXISTING ~_ighhedg.sto~ ~override/_ighhedg.sto~
+  ADD_STORE_ITEM + ~_wand02~ #5 #0 #0 ~IDENTIFIED~ #1 // wand of fear
+  ADD_STORE_ITEM + ~_wand08~ #5 #0 #0 ~IDENTIFIED~ #1 // wand of sleep
+
+// Ulgoth store (TODO purpose?? maybe try and see)
+COPY_EXISTING ~_ighhedg.sto~ ~override/_ighhedg.sto~
+  ADD_STORE_ITEM + ~_wand06~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of frost
+  ADD_STORE_ITEM + ~_wand11~ #5 #0 #0 ~IDENTIFIED~ #2 // wand of the heavens
+
+
+//-------------------------------------------------------------------------
+// BG2 spells in stores
+//-------------------------------------------------------------------------
+BEGIN @5
+
+// Sorcerous sundries store
+COPY_EXISTING ~_sto0703.sto~ ~override/_sto0703.sto~
+  ADD_STORE_ITEM ~SCRL1W~ #1 #0 #0 ~IDENTIFIED~ #2 // Fire Shield (Blue)
+  ADD_STORE_ITEM ~SCRL1X~ #1 #0 #0 ~IDENTIFIED~ #2 // Ice Storm
+  ADD_STORE_ITEM ~SCRL1V~ #1 #0 #0 ~IDENTIFIED~ #2 // Stoneskin (or is it SCRL2B)
+  ADD_STORE_ITEM ~SCRLA8~ #1 #0 #0 ~IDENTIFIED~ #2 // Contagion
+  ADD_STORE_ITEM ~SCRL6N~ #1 #0 #0 ~IDENTIFIED~ #2 // Fire Shield (Red)
+  ADD_STORE_ITEM ~SCRL6O~ #1 #0 #0 ~IDENTIFIED~ #2 // Secret Word
+  ADD_STORE_ITEM ~SCRL6P~ #1 #0 #0 ~IDENTIFIED~ #2 // Minor Sequencer
+  ADD_STORE_ITEM ~SCRL6Q~ #1 #0 #0 ~IDENTIFIED~ #2 // Teleport Field
+  ADD_STORE_ITEM ~SCRL6R~ #1 #0 #0 ~IDENTIFIED~ #2 // Spider Spawn
+  ADD_STORE_ITEM ~SCRLAJ~ #1 #0 #0 ~IDENTIFIED~ #2 // Farsight
+  ADD_STORE_ITEM ~SCRLA1~ #1 #0 #0 ~IDENTIFIED~ #2 // Wizard Eye
+  ADD_STORE_ITEM ~SCRL2D~ #1 #0 #0 ~IDENTIFIED~ #2 // Animate Dead
+  ADD_STORE_ITEM ~SCRL2E~ #1 #0 #0 ~IDENTIFIED~ #2 // Cloudkill
+  ADD_STORE_ITEM ~SCRL2F~ #1 #0 #0 ~IDENTIFIED~ #2 // Cone of Cold
+  ADD_STORE_ITEM ~SCRL2G~ #1 #0 #0 ~IDENTIFIED~ #2 // Monster Summoning III
+  ADD_STORE_ITEM ~SCRL2H~ #1 #0 #0 ~IDENTIFIED~ #2 // Shadow Door
+  ADD_STORE_ITEM ~SCRL5N~ #1 #0 #0 ~IDENTIFIED~ #2 // Domination
+  ADD_STORE_ITEM ~SCRL5O~ #1 #0 #0 ~IDENTIFIED~ #2 // Hold Monster
+  ADD_STORE_ITEM ~SCRL5P~ #1 #0 #0 ~IDENTIFIED~ #2 // Chaos
+  ADD_STORE_ITEM ~SCRL5Q~ #1 #0 #0 ~IDENTIFIED~ #2 // Feeblemind
+  ADD_STORE_ITEM ~SCRL6S~ #1 #0 #0 ~IDENTIFIED~ #2 // Spell Immunity
+  ADD_STORE_ITEM ~SCRL6T~ #1 #0 #0 ~IDENTIFIED~ #2 // Protection from Normal Weapons
+  ADD_STORE_ITEM ~SCRL05~ #1 #0 #0 ~IDENTIFIED~ #2 // Protection from Electricity
+  ADD_STORE_ITEM ~SCRL6U~ #1 #0 #0 ~IDENTIFIED~ #2 // Breach
+  ADD_STORE_ITEM ~SCRL6V~ #1 #0 #0 ~IDENTIFIED~ #2 // Lower Resistance
+  ADD_STORE_ITEM ~SCRL6W~ #1 #0 #0 ~IDENTIFIED~ #2 // Oracle
+  ADD_STORE_ITEM ~SCRL6X~ #1 #0 #0 ~IDENTIFIED~ #2 // Conjure Lesser Fire Elemental
+  ADD_STORE_ITEM ~SCRL6Y~ #1 #0 #0 ~IDENTIFIED~ #2 // Protection from Acid
+  ADD_STORE_ITEM ~SCRL6Z~ #1 #0 #0 ~IDENTIFIED~ #2 // Phantom Blade
+  ADD_STORE_ITEM ~SCRL8X~ #1 #0 #0 ~IDENTIFIED~ #2 // Spell Shield
+  ADD_STORE_ITEM ~SCRL7B~ #1 #0 #0 ~IDENTIFIED~ #2 // Conjure Lesser Air Elemental
+  ADD_STORE_ITEM ~SCRL7C~ #1 #0 #0 ~IDENTIFIED~ #2 // Conjure Lesser Earth Elemental
+  ADD_STORE_ITEM ~SCRL7D~ #1 #0 #0 ~IDENTIFIED~ #2 // Minor Spell Turning
+  ADD_STORE_ITEM ~SCRLAL~ #1 #0 #0 ~IDENTIFIED~ #2 // Sunfire
+  
+ // Thalantyr store
+COPY_EXISTING ~_ighhedg.sto~ ~override/_ighhedg.sto~
+  ADD_STORE_ITEM ~SCRL5U~ #1 #0 #0 ~IDENTIFIED~ #2 // Reflected Image
+  ADD_STORE_ITEM ~SCRL6D~ #1 #0 #0 ~IDENTIFIED~ #2 // Find Familiar
+  ADD_STORE_ITEM ~SCRLA6~ #1 #0 #0 ~IDENTIFIED~ #2 // Spook
+  ADD_STORE_ITEM ~SCRL6E~ #1 #0 #0 ~IDENTIFIED~ #2 // Power Word, Sleep
+  ADD_STORE_ITEM ~SCRL6F~ #1 #0 #0 ~IDENTIFIED~ #2 // Ray of Enfeeblement 
+  ADD_STORE_ITEM ~SCRLA2~ #1 #0 #0 ~IDENTIFIED~ #2 // Deafness
+  ADD_STORE_ITEM ~SCRLA3~ #1 #0 #0 ~IDENTIFIED~ #2 // Glitterdust
+  ADD_STORE_ITEM ~SCRLA7~ #1 #0 #0 ~IDENTIFIED~ #2 // Remove Magic
+  ADD_STORE_ITEM ~SCRL1J~ #1 #0 #0 ~IDENTIFIED~ #2 // Invisibility 10' Radius
+  ADD_STORE_ITEM ~SCRL6G~ #1 #0 #0 ~IDENTIFIED~ #2 // Minor Spell Deflection
+  ADD_STORE_ITEM ~SCRL6H~ #1 #0 #0 ~IDENTIFIED~ #2 // Protection from Fire
+  ADD_STORE_ITEM ~SCRL6I~ #1 #0 #0 ~IDENTIFIED~ #2 // Protection from Cold
+  ADD_STORE_ITEM ~SCRL6J~ #1 #0 #0 ~IDENTIFIED~ #2 // Spell Thrust
+  ADD_STORE_ITEM ~SCRL6K~ #1 #0 #0 ~IDENTIFIED~ #2 // Detect Illusion
+  ADD_STORE_ITEM ~SCRL6L~ #1 #0 #0 ~IDENTIFIED~ #2 // Hold Undead
+  ADD_STORE_ITEM ~SCRLA5~ #1 #0 #0 ~IDENTIFIED~ #2 // Melf's Minute Meteors
+  ADD_STORE_ITEM ~SCRL1E~ #1 #0 #0 ~IDENTIFIED~ #2 // Dispel Magic
+  
+  // Ulgoth store
+COPY_EXISTING ~_ighhedg.sto~ ~override/_ighhedg.sto~
+
+  
+  
+  
+//-------------------------------------------------------------------------
+// Double duration for charm spells
+//-------------------------------------------------------------------------
+BEGIN @6
+
+COPY_EXISTING ~SPWI104.SPL~ ~override~  // Charm person
+			        ~SPPR204.SPL~ ~override~  // Charm person/mamal
+			        ~SPWI316.SPL~ ~override~  // Dire charm
+			        ~SPPR405.SPL~ ~override~  // Mental domination
+			        ~SPWI506.SPL~ ~override~  // Domination
+			        ~SPIN883.SPL~ ~override~  // Vampire domination
+			        ~SPIN985.SPL~ ~override~  // Beholder domination
+	READ_LONG  0x64 "ability_offset"
+	READ_SHORT 0x68 "abil_cnt"
+	READ_LONG  0x6a "eff_offset"
+	FOR( cnt=0; cnt<"%abil_cnt%"; cnt=cnt+1 ) BEGIN
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x1e)  eff_number
+		READ_SHORT ("%ability_offset%"+0x28*cnt+0x20)  eff_idx
+		FOR( cnt2=0; cnt2<eff_number; cnt2=cnt2+1 ) BEGIN
+			READ_SHORT ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x0e)  "eff_duration"
+			PATCH_IF ("%eff_duration%" > 20) BEGIN
+				WRITE_LONG ("%eff_offset%"+0x30*(cnt2+eff_idx)+0x0e) (2 * "%eff_duration%")
+			END
+		END
+	END
+BUT_ONLY_IF_IT_CHANGES
+

@@ -1,0 +1,86 @@
+///////////////////////////////////////////////////////////////////////
+// Movement and Tracking:
+// Not in combat : do nothing
+// In combat : random walk or track the target
+///////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////
+// Are there any enemies that try to escape, follow them
+// It's not about sight but memory (I saw that enemy going in that dir.)
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#startcombat","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(LastAttackerOf(Myself),STATE_INVISIBLE)
+	Range(LastAttackerOf(Myself),70)
+THEN
+	RESPONSE #100
+		MoveToObject(LastAttackerOf(Myself))
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player1,STATE_INVISIBLE)
+	Range(Player1,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player1)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player2,STATE_INVISIBLE)
+	Range(Player2,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player2)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player3,STATE_INVISIBLE)
+	Range(Player3,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player3)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player4,STATE_INVISIBLE)
+	Range(Player4,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player4)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player5,STATE_INVISIBLE)
+	Range(Player5,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player5)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player6,STATE_INVISIBLE)
+	Range(Player6,70)
+THEN
+	RESPONSE #100
+		MoveToObject(Player6)
+END
+

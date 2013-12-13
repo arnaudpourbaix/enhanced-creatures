@@ -1,0 +1,22 @@
+/////////////////////////////////////////////////////////////////////
+// Shapeshift
+/////////////////////////////////////////////////////////////////////
+IF
+  !GlobalTimerNotExpired("ja#round","LOCALS")
+  Global("ja#polymorph","LOCALS",0)
+  Dead("mendas3")
+  OR(2)
+    HPPercentLT(Myself,70)
+    Global("ja#disable_spellcasting","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("ja#polymorph","LOCALS",1)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON1,0)  // (Greater)Wolfwere   _WEREWO.CRE
+    Wait(6) // Morphing time
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+    SetInterrupt(TRUE)
+END
+
+

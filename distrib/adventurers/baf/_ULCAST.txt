@@ -1,0 +1,68 @@
+// Ulcaster (Invoker)
+[CLASS=WIZARD;CASTER_LEVEL=16;MAX_SPELL_LEVEL=8]
+[include=autocast_spell_arcane]
+
+[action=CONTINGENCY(Shadow Door,response<80>),
+        CONTINGENCY(Cloudkill,response<100>)
+ ;require=seeEnemy]
+
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+
+[spell=Mantle]
+[spell=Stoneskin]
+
+[spell=Globe of Invulnerability;requireSelf=visible]
+[spell=Mirror Image]
+[spell=Protection from Missiles;requireSelf=invisible]
+[spell=Protection from the Elements]
+[spell=Fire Shield Blue;requireSelf=invisible]
+[spell=Globe of Invulnerability]
+
+[spell=True Seeing]
+[spell=Remove Magic]
+
+[action=TRIGGER(Chain Lightning,Chain Lightning,Chain Lightning,response<80>),
+        TRIGGER(Chain Lightning,Acid Fog,Cone of Cold,response<100>)
+ ;target=player;require=!disable,random(75)]
+
+[spell=Incendiary Cloud]
+[spell=Delayed Blast Fireball]
+[spell=Bigby's Clenched Fist]
+[spell=Mordenkainen's Sword]
+
+[action=SEQUENCER(Stoneskin,Fire Shield Red,Ice Storm,response<100>);require=random(30)]
+[action=SEQUENCER(Ice Storm,Fireball,Lightning Bolt,response<100>);target=player;require=!disable,random(75)]
+
+[spell=Acid Fog]
+[spell=Cloudkill]
+[spell=Chain Lightning]
+[spell=Sunfire]
+[spell=Cone of Cold]
+
+[spell=Protection from Missiles]
+[spell=Fire Shield Blue]
+
+[spell=Stinking Cloud]
+[spell=Ice Storm]
+[spell=Fireball]
+[spell=Lightning Bolt]
+
+[action=MINORSEQUENCER(Magic Missile,Magic Missile,response<80>),
+        MINORSEQUENCER(Agannazar's Scorcher,Agannazar's Scorcher,response<100>)
+ ;target=player;require=!disable,random(75)]
+
+[spell=Color Spray]
+[spell=Knock]
+[spell=Agannazar's Scorcher]
+[spell=Magic Missile]
+
+[offensive_spells=Delayed Blast Fireball,Bigby's Clenched Fist,Mordenkainen's Sword,Acid Fog,Cloudkill,Chain Lightning,
+    Sunfire,Cone of Cold,Ice Storm,Fireball,Lightning Bolt,Knock,Agannazar's Scorcher,Magic Missile]
+
+[include=combat_caster]
+[include=combat_smart]

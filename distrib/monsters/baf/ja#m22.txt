@@ -1,0 +1,19 @@
+// Battle Horror
+[monster=race(PLATE),walk,smart]
+[initVariables=ja#teleport(0)]
+
+[section=beforeTracking]
+  [action=forcespell(WIZARD_DIMENSION_DOOR),global(ja#teleport,1);requireSelf=global(ja#teleport,0),nodisablecheck,nomem,!blind;require=empty,!seeEnemy,visible,hpgt(0),range(70);target=attacker]
+  [action=forcespell(WIZARD_DIMENSION_DOOR),global(ja#teleport,1);requireSelf=global(ja#teleport,0),nodisablecheck,nomem,!blind;require=empty,!seeEnemy,visible,hpgt(0),range(70);target=players(random:true)]
+
+[section=beforeCombat]
+  IF
+  	SpellCastOnMe([ANYONE],WIZARD_MAGIC_MISSILE)
+  THEN
+  	RESPONSE #100
+  		ApplySpell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+  END
+
+  [forceSpell=Battle Horror Magic Missile]
+
+[generate]

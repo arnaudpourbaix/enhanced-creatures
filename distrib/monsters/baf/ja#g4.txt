@@ -1,0 +1,7 @@
+// Carrion Crawler
+[monster=race(CARRIONCRAWLER),walk]
+
+[section=beforeCombat]
+  [name=Prioritize non-held target;action=ATTACK;target=nearest(num:6,random:false);require=!hold]
+
+[generate]

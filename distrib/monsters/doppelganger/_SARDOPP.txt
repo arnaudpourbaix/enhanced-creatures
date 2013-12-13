@@ -1,0 +1,28 @@
+// Greater Doppelganger
+[monster=race(DOPPLEGANGER),walk,smart]
+
+[section=beforeCombat]
+  [action=forceSpell(WIZARD_MIRROR_IMAGE,remove)]
+  [action=forceSpell(WIZARD_HASTE,remove)]
+
+[section=combat]
+  IF
+    OR(3)
+      !HPGT("LIIA",0)
+      !See("LIIA")
+      RandomNumGT(1000,667)
+    OR(3)  
+      !HPGT("BELT",0)
+      !See("BELT")
+      RandomNumGT(1000,500)
+    OR(2)
+      !CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
+      !See(NearestEnemyOf(Myself))
+  THEN
+    RESPONSE #100
+      Continue()
+  END
+  [action=ATTACK;require=hpgt(0)]
+  
+[generate]
+

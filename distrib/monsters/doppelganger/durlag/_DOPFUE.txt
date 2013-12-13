@@ -1,0 +1,92 @@
+[CLASS=FIGHTER]
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	HPPercentLT(Myself,50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	See([0.0.DOPPLEGANGER.FIGHTER])
+	HPPercentLT([0.0.DOPPLEGANGER.FIGHTER],50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	See([0.0.DOPPLEGANGER.BARD])
+	HPPercentLT([0.0.DOPPLEGANGER.BARD],50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	See([0.0.DOPPLEGANGER.CLERIC])
+	HPPercentLT([0.0.DOPPLEGANGER.CLERIC],50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	See([0.0.DOPPLEGANGER.DOPPLEGANGER_GREATER])
+	HPPercentLT([0.0.DOPPLEGANGER.DOPPLEGANGER_GREATER],50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	See([0.0.DOPPLEGANGER.MAGE])
+	HPPercentLT([0.0.DOPPLEGANGER.MAGE],50)
+THEN
+	RESPONSE #25
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+	RESPONSE #75
+		Continue()
+END
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	Delay(10)
+	See(NearestEnemyOf(Myself))
+	Range(NearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		ChangeAnimation("_DOPKIE") // Kiel the Legion Killer
+END
+
+[include=avoid_melee]
+
+IF
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	Delay(20)
+	See(NearestEnemyOf(Myself))
+	!Range(NearestEnemyOf(Myself),9)
+	!HasItem("_AROW01",Myself) // Arrows
+THEN
+	RESPONSE #100
+		ChangeAnimation("_DOPISL") // Islanne
+END
+
+[name=Attack caster;action=ATTACK;target=caster(random:false);actionRequire=caster]
+[include=combat_smart]

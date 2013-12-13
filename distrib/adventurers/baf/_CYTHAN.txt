@@ -1,0 +1,62 @@
+// Cythandria (Conjurer)
+[CLASS=WIZARD;CASTER_LEVEL=12;MAX_SPELL_LEVEL=6]
+
+IF
+	See([PC])
+	NumTimesTalkedTo(0)
+THEN
+	RESPONSE #100
+		SmallWait(2)
+		StartDialog("_CYTHAN",[PC])
+END
+IF
+	HPPercentLT(Myself,50)
+	Global("TalkedToCythan","GLOBAL",0)
+THEN
+	RESPONSE #100
+		SetGlobal("TalkedToCythan","GLOBAL",1)
+		StartDialog("_CYTHAN",[PC])
+END
+
+[include=autocast_spell_arcane]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[action=CONTINGENCY(Spider Spawn,response<70>),
+        CONTINGENCY(Minor Globe of Invulnerability,response<80>),
+        CONTINGENCY(Improved Invisibility,response<100>)
+ ;require=seeEnemy]
+
+[spell=Protection from Magical Weapons]
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+[spell=Stoneskin]
+
+[spell=Minor Globe of Invulnerability;requireSelf=visible]
+[spell=Spirit Armor]
+[spell=Mirror Image]
+[spell=Protection from Missiles]
+[spell=Minor Globe of Invulnerability]
+[spell=Invisible Stalker;requireSelf=norandom]
+[spell=Monster Summoning III;requireSelf=norandom]
+[spell=Spider Spawn;requireSelf=norandom]
+[spell=Haste]
+[spell=Remove Magic]
+[spell=Chaos]
+[spell=Hold Monster]
+[spell=Slow]
+[spell=Sleep]
+[spell=Grease]
+
+[action=MINORSEQUENCER(Melf's Acid Arrow,Melf's Acid Arrow,response<100>);target=player;require=!disable,random(75)]
+
+[spell=Flame Arrow]
+[spell=Melf's Acid Arrow]
+[spell=Chromatic Orb]
+
+[offensive_spells=Invisible Stalker,Monster Summoning III,Spider Spawn,Haste,Chaos,Hold Monster,Slow,Sleep,Grease
+                  ,Flame Arrow,Melf's Acid Arrow,Chromatic Orb]
+
+[include=combat_caster]
+[include=combat_smart]

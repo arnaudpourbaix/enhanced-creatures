@@ -1,0 +1,2189 @@
+<html>
+<head>
+  <title>Enhanced Monsters</title>
+  <link rel="stylesheet" href="monsters.css" type="text/css" />
+  <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="monsters.js" /></script>
+</head>
+  
+<body>
+<div class="title">Enhanced Monsters</div>
+<div class="intro">
+This component brings all monsters closer to their PnP counterparts. For this purpose, I used many books, from 2nd to 3.5 edition.<br>
+For each monster, I checked:<br>
+- name<br>
+- general / race / class<br>
+- ability scores<br>
+- gender<br>
+- morale<br>
+- alignment<br>
+- thac0<br>
+- level<br>
+- hit points<br>
+- animation<br>
+- armor class<br>
+- attack per round<br>
+- saving throws<br>
+- resistances<br>
+- experience<br>
+- hide in shadow / move silently<br>
+- scripts (all replaced by better ones)<br>
+- items (weapons and special)<br>
+- effects (special resistances and immunities)<br>
+- movement speed<br>
+- proficiencies (if applied)<br>
+- spells and innates<br>
+<br>
+Optional : <br>
+- high constitution affect monsters hit points. Currently, most monsters don't have a constitution score and even if they had one, it would make no difference as their class don't give constitution bonus hit points. This way, a 8hd hobgoblin would have the same hp as a 8hd mountain bear. For each monster, I added these bonus hit points in the following form : <b>[+x]</b><br>
+- experience. I think that PnP experience is inconsistent and inappropriate in some cases. I tried to make a new system based on hit dice and difficulty level.
+</div>
+<div class="content">Table of Contents</div><a name="content"></a>
+  <div class="summary">
+    <div><ul id="contentCol1"></ul></div>
+    <div><ul id="contentCol2"></ul></div>
+    <div><ul id="contentCol3"></ul></div>
+    <div><ul id="contentCol4"></ul></div>
+  </div>
+</div>
+
+<br /><br />
+
+<div class="adv">
+	<a class="name">Ankheg</a>
+  <div><span>Type:</span><a class="link" href="#Magical Beast">Magical Beast</a></div>
+	<div><span>Ability Scores:</span>STR 18/80, DEX 10, CON 17, INT 1, WIS 13, CHA 6</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>8 (80hp [+24])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>3-18 crushing + 1d4 acid, target is grabbed for less than 2 rounds with no saves</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>975</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Acidic Enzymes">Acidic Enzymes</a></div>
+</div>
+
+<div class="adv">
+	<a class="name">Basilisk (Lesser)</a>
+  <div><span>Type:</span><a class="link" href="#Magical Beast">Magical Beast</a>, <a class="link" href="#Extraplanar">Extraplanar</a></div>
+	<div><span>Ability Scores:</span>STR 15, DEX 8, CON 15, INT 2, WIS 12, CHA 10</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>6 (60hp [+12])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 crushing</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>2000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Petrification">Petrification</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Basilisk (Greater)</a>
+  <div><span>Type:</span><a class="link" href="#Magical Beast">Magical Beast</a></div>
+	<div><span>Ability Scores:</span>STR 19, DEX 8, CON 21, INT 7, WIS 10, CHA 15</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>10 (100hp [+45])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-8 slashing (average damage between claws and bite), 67% to inflicts poison (saving throws vs. poison are made with a +4 bonus), 33% to release a foul breath.</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>6000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Petrification">Petrification</a>, <a class="link" href="#Foul Breath">Foul Breath</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Bear (Black)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18/50, DEX 13, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>3 (24hp [+6])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>500</div>
+	<div><span>Special attacks:</span>15% chance to hug its target for 2-8 crushing damage with each attack.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Bear (Brown)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18/100, DEX 13, CON 19, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>5 (40hp [+20])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-7 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1000</div>
+	<div><span>Special attacks:</span>15% chance to hug its target for 2-12 crushing damage with each attack.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Bear (Cave)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 19, DEX 13, CON 19, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>6 (48hp [+24])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-9 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1500</div>
+	<div><span>Special attacks:</span>15% chance to hug its target for 2-16 crushing damage with each attack.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Bear (Grizzly)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 20, DEX 13, CON 19, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>7 (56hp [+28])</div>
+	<div><span>THAC0:</span>12</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-9 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>2000</div>
+	<div><span>Special attacks:</span>15% chance to hug its target for 2-16 crushing damage with each attack.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Bear (Mountain)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 13, CON 19, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>8 (64hp [+32])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-11 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>2500</div>
+	<div><span>Special attacks:</span>15% chance to hug its target for 3-18 crushing damage with each attack.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Carrion Crawler</a>
+  <div><span>Type:</span><a class="link" href="#Aberration">Aberration</a></div>
+	<div><span>Ability Scores:</span>STR 14, DEX 15, CON 14, INT 1, WIS 15, CHA 6</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>3 (24hp [+6])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>8</div>
+	<div><span>Attack:</span>1-2 crushing</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>800</div>
+	<div><span>Special attacks:</span>Paralysis</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Giant Lynx)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 15, INT 12, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>2 (16hp [+4])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-2 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>325</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 2-6 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Leopard)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>3 (24hp [+6])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>520</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 2-8 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Cheetah)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 15, INT 1, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>3 (24hp [+6])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>520</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 2-4 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Jaguar)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>4 (32hp [+8])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-5 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>750</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 4-10 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Panther)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>4 (32hp [+8])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-5 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>650</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 4-10 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Mountain Lion)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18/80, DEX 17, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>3 (24hp [+6])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>560</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 2-8 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Lion)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18/80, DEX 17, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>5 (40hp [+10])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-5 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1000</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 4-14 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Spotted Lion)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18, DEX 17, CON 15, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>6 (48hp [+12])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-7 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1200</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 4-16 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Cat (Wild Tiger)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 18/100, DEX 15, CON 17, INT 4, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>5 (40hp [+15])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>2-7 slashing (average damage between claws and bite)</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1200</div>
+	<div><span>Special attacks:</span>15% chance to attack with rear claws for 4-16 slashing damage.</div>
+	<div><span>Special defense:</span>Never surprised (immune to backstab)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dog (Wild Dog)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 13, DEX 17, CON 15, INT 2, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>1 (8hp [+2])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-4 piercing</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>50</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dog (War Dog)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 13, DEX 17, CON 15, INT 2, WIS 12, CHA 6</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>2 (16hp [+4])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-8 piercing</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>100</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dog (Blink Dog)</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 10, DEX 17, CON 10, INT 10, WIS 13, CHA 11</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>4 (32hp [+0])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 piercing</div>
+	<div><span>Resistances:</span>None</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>200</div>
+	<div><span>Spell-like abilities:</span>Blink</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dog (Hell Hound)</a>
+  <div><span>Type:</span><a class="link" href="#Outsider">Outsider</a></div>
+	<div><span>Ability Scores:</span>STR 13, DEX 13, CON 13, INT 7, WIS 10, CHA 6</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>7 (56hp [+0])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 piercing</div>
+	<div><span>Resistances:</span>immune to fire</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>500</div>
+	<div><span>Special attacks:</span>5% chance to grab a victim in its jaws and breathes fire on the victim, doing 7 fire damage.</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Breath Fire">Breath Fire</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Dog (Moon Dog)</a>
+  <div><span>Type:</span><a class="link" href="#Outsider">Outsider</a>, <a class="link" href="#Extraplanar">Extraplanar</a></div>
+	<div><span>Ability Scores:</span>STR 16, DEX 15, CON 12, INT 16, WIS 16, CHA 17</div>
+	<div><span>Armor Class:</span>0</div>
+	<div><span>Hit Dice:</span>9 (75hp [+9])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>3-12 piercing</div>
+	<div><span>Resistances:</span>25% magic, 25% physical</div>
+	<div><span>Movement speed:</span>30</div>
+	<div><span>XP Value:</span>4000</div>
+	<div><span>Special attacks:</span>&nbsp;</div>
+	<div><span>Spell-like abilities:</span>&nbsp;</div>
+</div>
+
+<div class="adv">
+  <a class="name">Construct (Helmed Horror)</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Medium Construct</a></div>
+	<div><span>Ability Scores:</span>STR 18/60, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>8 (80hp [+20])</div>
+	<div><span>THAC0:</span>12</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>2000</div>
+	<div><span>Spell-like abilities:</span>can see invisible creatures</div>
+</div>
+
+<div class="adv">
+  <a class="name">Construct (Battle Horror)</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Medium Construct</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>10 (100hp [+20])</div>
+	<div><span>THAC0:</span>10</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>4000</div>
+	<div><span>Spell-like abilities:</span>can see invisible creatures, dimension door once per day, magic missile every 3 rounds.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Construct (Doom Guard)</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Medium Construct</a></div>
+	<div><span>Ability Scores:</span>STR 17, DEX 11, CON 10, INT 7, WIS 13, CHA 2</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>5 (50hp [+20])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 slashing</div>
+	<div><span>Resistances:</span>50% fire, 50% cold</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>1000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Construct (Dwarven Doom Guard)</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Medium Construct</a></div>
+	<div><span>Ability Scores:</span>STR 17, DEX 11, CON 10, INT 7, WIS 13, CHA 2</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>9 (90hp [+20])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 slashing</div>
+	<div><span>Resistances:</span>50% fire, 50% cold</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>1500</div>
+</div>
+
+<div class="adv">
+  <a class="name">Demon Knight (Durlag's Tower)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a>, <a class="link" href="#Skeleton">Skeleton</a></div>
+	<div><span>Ability Scores:</span>STR 18/100, DEX 13, CON 10, INT 18, WIS 16, CHA 18</div>
+	<div><span>Armor Class:</span>0</div>
+	<div><span>Hit Dice:</span>14 (168hp [+0])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>two handed sword +3</div>
+	<div><span>Resistances:</span>75% magic, 100% electricity</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>15000</div>
+	<div><span>Special defense:</span>spell turning (50% chance to be effective each round)</div>
+	<div><span>Spell-like abilities:</span>fear aura, detect invisibility and wall of ice at will, dispel magic (2x), power word (kill, blind, or stun), symbol (fear or pain), 20-dice fireball</div>
+</div>
+
+<div class="adv">
+  <a class="name">Doppelganger</a>
+	<div><span>Ability Scores:</span>STR 12, DEX 13, CON 12, INT 13, WIS 14, CHA 13</div>
+  <div><span>Type:</span><a class="link" href="#Monstrous Humanoid">Monstrous Humanoid</a></div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>4 (32hp [+4])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-12 slashing</div>
+	<div><span>Resistances:</span>immune to sleep and charm spells and rolls all saving throws as if he was a 10th-level fighter</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>300</div>
+</div>
+
+<div class="adv">
+  <a class="name">Doppelganger (Greater)</a>
+	<div><span>Ability Scores:</span>STR 12, DEX 17, CON 12, INT 18, WIS 17, CHA 13</div>
+  <div><span>Type:</span><a class="link" href="#Monstrous Humanoid">Monstrous Humanoid</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>9 (72hp [+9])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>1-12 slashing</div>
+	<div><span>Resistances:</span>immune to sleep, charm and hold spells and rolls all saving throws as if he was a 18th-level fighter</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1500</div>
+	<div><span>Spell-like abilities:</span>can see invisible creatures</div>
+</div>
+
+<div class="adv">
+  <a class="name">Doppelganger (Greater ones in Durlag's Tower)</a>
+	<div><span>&nbsp;</span>They can polymorph and fully use form's abilities (unlike in P&P)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dryad</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 19, CON 11, INT 13, WIS 15, CHA 18</div>
+  <div><span>Type:</span><a class="link" href="#Fey">Fey</a></div>
+	<div><span>Armor Class:</span>9</div>
+	<div><span>Hit Dice:</span>2 (16hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-4 piercing</div>
+	<div><span>Resistances:</span>50% magic</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>750</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Dryad Charm">Charm person</a> (3x)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Dryad (Hamadryad)</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 19, CON 11, INT 14, WIS 15, CHA 18</div>
+  <div><span>Type:</span><a class="link" href="#Fey">Fey</a></div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>4 (24hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-4 piercing</div>
+	<div><span>Resistances:</span>75% magic</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>1200</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Dryad Charm">Charm person</a> (3x), entangle (at will), dimension door (at will)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Aerial Servant</a>
+	<div><span>Ability Scores:</span>STR 23, DEX 21, CON 18, INT 4, WIS 10, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>16 (128hp [+36])</div>
+	<div><span>THAC0:</span>5</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>8-32 crushing</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit</div>
+	<div><span>Movement speed:</span>24</div>
+	<div><span>XP Value:</span>0</div>
+</div>
+
+<div class="adv">
+  <a class="name">Air Elemental (Lesser)</a>
+	<div><span>Ability Scores:</span>STR 14, DEX 20, CON 16, INT 6, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>8 (64hp [+24])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-20 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>30</div>
+	<div><span>XP Value:</span>3000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Whirlwind">Whirlwind</a> (every 3 rounds)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Air Elemental</a>
+	<div><span>Ability Scores:</span>STR 16, DEX 22, CON 17, INT 6, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>12 (96hp [+27])</div>
+	<div><span>THAC0:</span>9</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-20 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>30</div>
+	<div><span>XP Value:</span>6000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Whirlwind">Whirlwind</a> (every 3 rounds)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Air Elemental (Greater)</a>
+	<div><span>Ability Scores:</span>STR 18, DEX 24, CON 18, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>16 (128hp [+27])</div>
+	<div><span>THAC0:</span>5</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-20 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>30</div>
+	<div><span>XP Value:</span>9000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Whirlwind">Whirlwind</a> (every 3 rounds)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Air Elemental (Elder)</a>
+	<div><span>Ability Scores:</span>STR 18/95, DEX 25, CON 18, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>24 (hp [+36])</div>
+	<div><span>THAC0:</span>0</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-20 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>30</div>
+	<div><span>XP Value:</span>15000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Whirlwind">Whirlwind</a> (every 3 rounds)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Earth Elemental (Lesser)</a>
+	<div><span>Ability Scores:</span>STR 20, DEX 8, CON 19, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>8 (64hp [+32])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-32 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>3000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Earth Elemental</a>
+	<div><span>Ability Scores:</span>STR 22, DEX 8, CON 20, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>12 (96hp [+45])</div>
+	<div><span>THAC0:</span>9</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-32 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>6000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Earth Elemental (Greater)</a>
+	<div><span>Ability Scores:</span>STR 24, DEX 8, CON 21, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>16 (128hp [+45])</div>
+	<div><span>THAC0:</span>5</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-40 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>9000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Earth Elemental (Elder)</a>
+	<div><span>Ability Scores:</span>STR 25, DEX 8, CON 21, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>24 (192hp [+45])</div>
+	<div><span>THAC0:</span>0</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-40 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>15000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Fire Elemental (Lesser)</a>
+	<div><span>Ability Scores:</span>STR 14, DEX 18, CON 16, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>8 (64hp [+24])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit, immune to fire</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>3000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Fire Elemental</a>
+	<div><span>Ability Scores:</span>STR 16, DEX 19, CON 16, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>12 (96hp [+27])</div>
+	<div><span>THAC0:</span>9</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit, immune to fire</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>6000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Fire Elemental (Greater)</a>
+	<div><span>Ability Scores:</span>STR 18, DEX 20, CON 18, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>16 (128hp [+27])</div>
+	<div><span>THAC0:</span>5</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-16 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit, immune to fire</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>9000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Fire Elemental (Elder)</a>
+	<div><span>Ability Scores:</span>STR 18/95, DEX 24, CON 18, INT 7, WIS 11, CHA 11</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>192 (hp [+36])</div>
+	<div><span>THAC0:</span>0</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-16 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit, immune to fire</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>15000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Fire Salamander</a>
+	<div><span>Ability Scores:</span>STR 14, DEX 13, CON 14, INT 14, WIS 15, CHA 13</div>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>7 (56hp [+14])</div>
+	<div><span>THAC0:</span>12</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>1-9 piercing plus 1-6 fire</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit, immune to fire, -50% cold</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>2000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ettercap</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 17, CON 13, INT 7, WIS 15, CHA 8</div>
+	<div><span>Type:</span><a class="link" href="#Aberration">Aberration</a></div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>5 (40hp [+5])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-5 piercing, 34% to inflicts poison (saving throws vs. poison)</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>1200</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ghoul</a>
+	<div><span>Ability Scores:</span>STR 13, DEX 15, CON 10, INT 7, WIS 14, CHA 16</div>
+	<div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>2 (24hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing, 67% to hold humans or demi-humans (except elves) unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>420</div>
+	<div><span>Note:</span>Any human or demi-human (except elves) killed by a ghoulish attack will become a ghoul unless blessed</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ghoul (Lacedon)</a>
+	<div><span>Ability Scores:</span>STR 16, DEX 15, CON 10, INT 14, WIS 14, CHA 16</div>
+	<div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>2 (24hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-4 slashing, 67% to hold humans or demi-humans (except elves) unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>420</div>
+	<div><span>Note:</span>Any human or demi-human (except elves) killed by a ghoulish attack will become a lacedon unless blessed</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ghoul (Ghast)</a>
+	<div><span>Ability Scores:</span>STR 17, DEX 17, CON 10, INT 12, WIS 14, CHA 16</div>
+	<div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>4 (48hp [+0])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-5 slashing, 67% to hold humans or demi-humans unless a saving throw versus paralyzation is successful. This paralysis lasts for 8 rounds</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>1000</div>
+	<div><span>Spell-like abilities:</span>carrion stench in a 10' radius which causes retching and nausea unless a saving throw versus poison is made. Those failing to make this save will attack at a penalty of -2.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ghoul (Lord)</a>
+	<div><span>Ability Scores:</span>STR 13, DEX 15, CON 10, INT 7, WIS 14, CHA 16</div>
+	<div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>6 (72hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>3</div>
+	<div><span>Attack:</span>1-7 slashing, 67% to hold humans or demi-humans unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds. 33% to inflicts a horrible rotting disease.</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>2000</div>
+	<div><span>Note:</span>Any human or demi-human (except elves) killed by a ghoulish attack will become a ghoul unless blessed</div>
+</div>
+
+<div class="adv">
+  <a class="name">Gibberling</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 10, CON 10, INT 7, WIS 7, CHA 2</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>10</div>
+	<div><span>Hit Dice:</span>1 (8hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>50</div>
+</div>
+
+<div class="adv">
+  <a class="name">Gibberling (Diseased)</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 10, CON 10, INT 7, WIS 7, CHA 2</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>10</div>
+	<div><span>Hit Dice:</span>1 (8hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>50</div>
+</div>
+
+<div class="adv">
+  <a class="name">Gibberling (Mutated)</a>
+	<div><span>Ability Scores:</span>STR 10, DEX 10, CON 10, INT 7, WIS 7, CHA 2</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>10</div>
+	<div><span>Hit Dice:</span>1 (8hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>50</div>
+</div>
+
+<div class="adv">
+  <a class="name">Gnoll</a>
+	<div><span>Ability Scores:</span>STR 15, DEX 10, CON 13, INT 7, WIS 11, CHA 8</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>2 (16hp [+2])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>120</div>
+</div>
+
+<div class="adv">
+  <a class="name">Gnoll (Flind)</a>
+	<div><span>Ability Scores:</span>STR 17, DEX 12, CON 15, INT 10, WIS 11, CHA 10</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>2 (16hp [+4])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>1-4 crushing. Each successful hit requires the victim to save vs. wands or drops its weapon.</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>240</div>
+</div>
+
+<div class="adv">
+	<a class="name">Gnoll (Leader)</a>
+	<div><span>Ability Scores:</span>STR 15, DEX 10, CON 13, INT 7, WIS 11, CHA 8</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>3 (24hp [+3])</div>
+	<div><span>THAC0:</span>18</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>180</div>
+</div>
+
+<div class="adv">
+	<a class="name">Gnoll (Elite)</a>
+	<div><span>Ability Scores:</span>STR 18, DEX 10, CON 13, INT 7, WIS 11, CHA 8</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>3 (24hp [+0])</div>
+	<div><span>THAC0:</span>18</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>240</div>
+</div>
+
+<div class="adv">
+	<a class="name">Gnoll (Chieftain)</a>
+	<div><span>Ability Scores:</span>STR 18, DEX 10, CON 13, INT 7, WIS 11, CHA 8</div>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>4 (32hp [+0])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>300</div>
+</div>
+
+<div class="adv">
+  <a class="name">Flesh Golem</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Large Construct</a></div>
+	<div><span>Ability Scores:</span>STR 19, DEX 9, CON 10, INT 4, WIS 11, CHA 1</div>
+	<div><span>Armor Class:</span>9</div>
+	<div><span>Hit Dice:</span>9 (90hp [+30])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>2-16 crushing</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit. Fire and cold based spells merely slow them for 5 rounds. Any electrical attack restores 1 hit point for each die of damage it would normally have done. All other spells are ignored by the creature.</div>
+	<div><span>Movement speed:</span>8</div>
+	<div><span>XP Value:</span>3500</div>
+</div>
+
+<div class="adv">
+  <a class="name">Stone Golem</a>
+  <div><span>Type:</span><a class="link" href="#Construct">Large Construct</a></div>
+	<div><span>Ability Scores:</span>STR 22, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>14 (140hp [+30])</div>
+	<div><span>THAC0:</span>7</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>3-24 crushing</div>
+	<div><span>Resistances:</span>+2 weapon or better to hit. All spells are ignored by the creature.</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>8000</div>
+	<div><span>Spell-like abilities:</span>can cast a slow spell upon any opponent with 10 feet every 2 rounds.
+</div>
+</div>
+
+<div class="adv">
+  <a class="name">Hobgoblin</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 11, DEX 13, CON 13, INT 10, WIS 10, CHA 10</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>1 (8hp [+1])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>sword (various ones)</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>50</div>
+	<div><span>Note:</span>Hobgoblins hate elves and always attack them first</div>
+</div>
+
+<div class="adv">
+  <a class="name">Hobgoblin (Elite and sub-chief)</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 18, DEX 13, CON 13, INT 10, WIS 10, CHA 10</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>3 (24p [+3])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>sword and bow (various ones)</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>300</div>
+	<div><span>Note:</span>Hobgoblins hate elves and always attack them first</div>
+</div>
+
+<div class="adv">
+  <a class="name">Hobgoblin (Chief)</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 18/25, DEX 13, CON 13, INT 10, WIS 10, CHA 10</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>4 (32hp [+3])</div>
+	<div><span>THAC0:</span>16</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>sword and bow (various ones)</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>450</div>
+	<div><span>Note:</span>Hobgoblins hate elves and always attack them first</div>
+</div>
+
+<div class="adv">
+  <a class="name">Kobold</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Small Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 6, DEX 13, CON 11, INT 10, WIS 10, CHA 10</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>0.5 (4hp [+0])</div>
+	<div><span>THAC0:</span>20</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 slashing</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>25</div>
+</div>
+
+<div class="adv">
+  <a class="name">Kobold (Commando)</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Small Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 6, DEX 17, CON 11, INT 10, WIS 10, CHA 10</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>1 (7hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 slashing</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>75</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre (Half-ogre)</a>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 18/65, DEX 8, CON 15, INT 13, WIS 10, CHA 7</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>2 (22hp [+4])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-10 slashing</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>175</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre (Ogrillon)</a>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 18/50, DEX 8, CON 15, INT 7, WIS 10, CHA 7</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>2 (20hp [+4])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>2-7 crushing</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>270</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre</a>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 19, DEX 8, CON 15, INT 6, WIS 10, CHA 7</div>
+	<div><span>Armor Class:</span>5/div>
+	<div><span>Hit Dice:</span>4 (33hp [+8])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-14 crushing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>350</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre (Berserker)</a>
+	<div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 20, DEX 11, CON 18, INT 8, WIS 10, CHA 4</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>5 (50hp [+20])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>5-19 crushing</div>
+	<div><span>Resistances:</span>immune to backstab</div>
+	<div><span>XP Value:</span>650</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Barbarian Rage">Rage (2x)</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre (Mage)</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 18/80, DEX 10, CON 17, INT 16, WIS 14, CHA 17</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>5 (42hp [+15])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-12 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>1600</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Fly">Fly</a> (at will), <a class="link" href="#Regenerate">Regenerate</a> (at will), Invisibility (at will), <a class="link" href="#Darkness 10-foot radius">Darkness 10-foot radius</a> (at will), Dire charm (1x), Sleep (1x), <a class="link" href="#Gaseous Form">Assume Gaseous Form</a> (1x), <a class="link" href="#Cone of Cold">Cone of Cold</a> (1x)</div>
+	<div><span>Note:</span>As ogre magi are intelligent, they will not fight if faced with overwhelming odds, but will flee to gather their forces or hide.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ogre (Mage, Chief)</a>
+  <div><span>Type:</span><a class="link" href="#Humanoid">Giant Humanoid</a></div>
+	<div><span>Ability Scores:</span>STR 19, DEX 10, CON 17, INT 16, WIS 14, CHA 17</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>9 (72hp [+27])</div>
+	<div><span>THAC0:</span>11</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-12 slashing</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>1600</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Fly">Fly</a> (at will), <a class="link" href="#Regenerate">Regenerate</a> (at will), Invisibility (at will), <a class="link" href="#Darkness 10-foot radius">Darkness 10-foot radius</a> (at will), Dire charm (2x), Sleep (2x), <a class="link" href="#Gaseous Form">Assume Gaseous Form</a> (1x), <a class="link" href="#Cone of Cold">Cone of Cold</a> (2x)</div>
+	<div><span>Note:</span>As ogre magi are intelligent, they will not fight if faced with overwhelming odds, but will flee to gather their forces or hide.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ooze (Green Slime)</a>
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 1, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>9</div>
+	<div><span>Hit Dice:</span>2 (16hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>0</div>
+	<div><span>Attack:</span>Green slime attaches itself to living flesh and in 1-4 melee rounds turns the creature into green slime (no resurrection possible)</div>
+	<div><span>Resistances:</span>A cure disease spell kills green slime, but other attacks, including weapons and spells, have no effect.</div>
+	<div><span>Movement speed:</span>0</div>
+	<div><span>XP Value:</span>65</div>
+</div>
+
+Slithering Tracker would replace green slime ? http://www.padnd.com/mm00233.php
+
+<div class="adv">
+  <a class="name">Ooze (Gray Ooze)</a>
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 1, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>8</div>
+	<div><span>Hit Dice:</span>3 (24hp [+3])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-16 acid, each attack corrodes metal (drop weapon and armor ?)</div>
+	<div><span>Resistances:</span>Spells have no effect on this monster, nor do fire or cold-based attacks. Lightning and blows from weapons cause full damage. Note that weapons striking a gray ooze may corrode and break. </div>
+	<div><span>Movement speed:</span>1</div>
+	<div><span>XP Value:</span>270</div>
+  
+</div>
+
+<div class="adv">
+  <a class="name">Ooze (Ochre Jelly)</a>
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 1, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>8</div>
+	<div><span>Hit Dice:</span>6 (48hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>3-12 acid</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>270</div>
+  The ochre jelly attacks by attempting to envelop its prey. Its secretions dissolve flesh, inflicting 3-12 (d10+2) points of damage per round of exposure. While a lightning bolt will divide the creature into one or more smaller jellies, each doing one-half normal damage, fire- and cold-based attacks have normal effects. 
+</div>
+
+<div class="adv">
+  <a class="name">Ooze (Mustard Jelly)</a>
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 10, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>7 (56hp [+14])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>5-20 acid</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit, immune to electrical. A magic missile spell will only cause it to grow (it gains hit points equal in number to the damage rolled). Cold causes only half damage, and other attacks have normal effects.</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>4000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="#Acidic Vapor">Acidic Vapor</a>, can divide itself into 2 <a class="link" href="#Ooze (Small Mustard Jelly)">faster halves</a></div>
+  <div><span>Note:</span>Mustard jelly is translucent and very hard to see until it attacks. Thus, it will be invisible until it attacks.</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ooze (Small Mustard Jelly)</a>
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 10, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>4 (32hp [+7])</div>
+	<div><span>THAC0:</span>16</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>5-20 acid</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit, immune to electrical. A magic missile spell will only cause it to grow (it gains hit points equal in number to the damage rolled). Cold causes only half damage, and other attacks have normal effects.</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>2000</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="Acidic Vapor">Acidic Vapor</a></div>
+</div>
+
+http://www.enworld.org/forum/general-monster-talk/215478-all-different-types-oozes.html
+
+  <a class="name">Ooze (Fission slime)</a>
+<div class="adv">
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 acid</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ooze (Dense Pudding)</a>  Monstrous Compendium Annual Volume Two
+  <div><span>Type:</span><a class="link" href="#Ooze">Ooze</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 acid</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Revenant</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>10</div>
+	<div><span>Hit Dice:</span>8 (96hp [+0])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-16 crushing, paralyzation (saving throw vs. spell or be paralyzed with terror for 2d4 rounds)</div>
+	<div><span>Resistances:</span>can regenerate 3 hit points each round, immune to acid and gas, cannot be turned by priests. Only burning can destroy a revenant</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>3000</div>
+  <div><span>Spell-like abilities:</span><a class="link" href="Revenant's Stare">Revenant's Stare</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Spectre</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>7 (84hp [+3])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 cold, drains 2 levels</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit, immune to cold</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>3000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Skeleton</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a>, <a class="link" href="#Skeleton">Skeleton</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>1 (12hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 slashing</div>
+	<div><span>Resistances:</span>&nbsp;</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>65</div>
+</div>
+
+<div class="adv">
+  <a class="name">Skeleton (Giant)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a>, <a class="link" href="#Skeleton">Skeleton</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>4 (48hp [+4])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-12 slashing (bone-bladed scythes or spears)</div>
+	<div><span>Resistances:</span>100% fire, 50% cold, only 1 point of damage per die from all manner of arrows, quarrels, or missiles</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>975</div>
+	<div><span>Spell-like abilities:</span><a class="link" href="Sphere of Fire">Sphere of Fire</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Skeleton (Warrior)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a>, <a class="link" href="#Skeleton">Skeleton</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>2</div>
+	<div><span>Hit Dice:</span>9 (108hp [+12])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>two-handed swords 1-10 slashing the weapon itself is not magical.</div>
+	<div><span>Resistances:</span>90% magic, +1 weapon or better to hit, cannot be turned by priests</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>4000</div>
+	<div><span>Spell-like abilities:</span>fear aura (the mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic)</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spider (Huge)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 1, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>2 (18hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 piercing, type A poison (saving throws vs poison at +1)</div>
+	<div><span>Resistances:</span>immune to web</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>270</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spider (Giant)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 7, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>4</div>
+	<div><span>Hit Dice:</span>4 (36hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-8 piercing, poison (saving throws vs poison at +1)</div>
+	<div><span>Resistances:</span>immune to web</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>650</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spider (Phase)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 7, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>5 (45hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-6 piercing, type F poison (saving throws vs poison at -2)</div>
+	<div><span>Resistances:</span>immune to web</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>1400</div>
+</div>
+
+They have a unique ability to phase in and out of the Prime material plane. They phase in, attack, and phase out, all in a single round. This gives them a -3 modifier on initiative rolls; if a phase spider wins initiative by more than 4, it attacks and phases out before its opponent has a chance to strike back. 
+Then too, a phase spider usually phases into existence behind its chosen victim, so they get a +4 modifier for attacking from behind. 
+Phase spiders flee to the Ethereal plane when outmatched; there, they gain only a -1 modifier to initiative and can be attacked every round, regardless of the initiative result.
+
+<div class="adv">
+  <a class="name">Spider (Sword)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>5 (45hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>2-8 (bite) / 2-12 per leg</div>
+	<div><span>Resistances:</span>immune to web</div>
+	<div><span>Movement speed:</span>8</div>
+	<div><span>XP Value:</span>2000</div>
+</div>
+
+A sword spider leaps horizontally as far as 30 feet, and lands legs forward, impaling its prey. Only one attack roll is made for the creature. If the attack is successful, the victim is struck by a number of legs based on its size: size L, five legs; size H, six legs; size G, all eight legs. 
+If the spider's leap is greater than 20 feet, each leg receives a +1 bonus to damage. 
+Any upward attack against the leaping spider receives a -4 to the attack roll, due to the impaling blades which protect the spider. 
+
+<div class="adv">
+  <a class="name">Spider (Astral)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spider (Astral Phase)</a>
+  <div><span>Type:</span><a class="link" href="#Vermin">Vermin</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Invisible Stalker</a>
+  <div><span>Type:</span><a class="link" href="#Elemental">Elemental</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>8 (64hp [+0])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-16 slashing</div>
+	<div><span>Resistances:</span>30% magic, invisibility</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>3000</div>
+</div>
+ 
+ Invisible stalkers attack by using the air itself as a weapon. It is capable of creating a sudden, intense vortex that batters a victim for 4-16 (4d4) points of damage. Such attacks affect a single victim on the same plane as the invisible stalker.
+ 
+Due to their invisibility, these creatures impose a -6 penalty on the surprise rolls of those they choose to attack. Similarly, all opponents who are unable to see or detect invisible foes are at a -2 on their attack rolls. Although they are fully invisible on the Prime Material plane, their outlines can be dimly perceived on the Astral or Ethereal planes.
+
+Invisible stalkers can only be killed on the elemental plane of Air. If attacked on another plane, they automatically return to their home plane when their total hit points are exceeded by the damage they suffered. 
+
+<div class="adv">
+  <a class="name">Tasloi</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>1 (8hp [+0])</div>
+	<div><span>THAC0:</span>19</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>by weapon</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>35</div>
+	<div><span>Note:</span>hide in shadows (75%)</div>
+</div>
+
+Tasloi carry the following weapons: small shield (AC 5) and javelin -- 20%, club and javelin -- 40%, short sword and small shield (AC 5) -- 10%, javelin and net -- 15%, short sword and net -- 10%, or javelin and lasso -- 5%. Tasloi without shields are AC 6.
+
+chief of 5 Hit Dice. Tasloi shamans may advance up to 5th level. 
+
+<div class="adv">
+  <a class="name">Tasloi (Elite Trooper)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Werewolf</a>
+  <div><span>Type:</span><a class="link" href="#Lycanthrope">Lycanthrope</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>4 (35p [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-8 piercing</div>
+	<div><span>Resistances:</span>+1 weapon or better to hit</div>
+	<div><span>Movement speed:</span>15</div>
+	<div><span>XP Value:</span>420</div>
+</div>
+
+In lycanthrope form, the monster can be struck only by silver or magical weapons. Wounds from any other weapon heal too quickly to cause actual damage. Damage from spells, acid, fire, and other special effects apply normally. 
+
+Strength increases temporarily to 19. Armor Class, number of attacks, movement rate, and immunities, become identical to those of the type of lycanthrope that bit the character.
+When the character returns to normal form, 10% to 60% (1d6>010) of any wounds suffered while in animal form heal instantly.
+
+In almost every case, the new lycanthrope should have at least 1-2 Hit Dice more than the base animal. 
+The lycanthrope gets the same attack forms as the base animal type, such as claws, bite, tail slap, head butt, or whatever. The damage should be very similar to that caused by the base animal.
+
+Armor Class depends on the base animal's natural toughness, speed, and dexterity. The lycanthrope should have a slightly better AC than the base animal, perhaps by 1 or 2 places. 
+
+Movement rate should be the same as that of the base animal, as should diet and habitat. Morale should be about one category better than that of the base animal. 
+
+In addition to their abilities of shapeshifting, calling normal animals to their aid, and so forth, some lycanthropes have other special powers. These should not be rolled randomly for a new lycanthrope type, but chosen to fit with the attitude and style of the base animal. A few samples are listed below:
+Thief skills, level 1-6
+Charm person by gaze or voice
+Regeneration (except for damage from silver weapons)
+Wizard spells, casting level 1-6
+Cause fear
+Psionicist abilities, level 1-6
+Cast sleep, once per day
+Poison 
+
+
+Werewolves attack in packs; packs including females and young drive the adults to hit harder. If the female is attacked, the male fights at +2 to hit and does full damage with each blow. If the young are attacked, the female attacks at +3 to hit and does full damage.
+
+http://dnd-wiki.org/wiki/SRD:Werewolf
+http://dnd-wiki.org/wiki/SRD:Werewolf_Lord
+
+http://en.wikipedia.org/wiki/Lycanthrope_%28Dungeons_%26_Dragons%29
+
+
+<div class="adv">
+  <a class="name">Werewolf (Greater)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolfwere</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolfwere (Greater)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Loup-garou</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Loup-garou (Greater)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf</a>
+  <div><span>Type:</span><a class="link" href="#Animal">Animal</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>3 (24hp [+0])</div>
+	<div><span>THAC0:</span>18</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-5 piercing</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>65</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Worg)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>3 (27hp [+0])</div>
+	<div><span>THAC0:</span>17</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-8 piercing</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>120</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Dire)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>4 (36hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-8 piercing</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>175</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Winter)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>5</div>
+	<div><span>Hit Dice:</span>6 (48hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-8 piercing</div>
+  <div><span>Resistances:</span>immune to cold, -25% to fire</div>
+	<div><span>Movement speed:</span>18</div>
+	<div><span>XP Value:</span>975</div>
+</div>
+
+they can unleash a stream of frost from their lungs once every 10 rounds, causing 6d4 points of damage to everything within 10 feet. A save vs. breath weapon is allowed for half damage
+
+<div class="adv">
+  <a class="name">Wolf (Vampiric)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Dread)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Shade)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wolf (Zombie)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wyvern</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>3</div>
+	<div><span>Hit Dice:</span>7 (63hp [+0])</div>
+	<div><span>THAC0:</span>13</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Movement speed:</span>24</div>
+	<div><span>XP Value:</span>1400</div>
+</div>
+
+Fly (E)
+
+If trapped on the ground it will bite (2-16 points of damage) and use its stinger (1-6 points of damage), attacking the most convenient target or targets. The tail is very mobile, easily striking over the back of the wyvern to hit an opponent to its front. The stinger injects poison (type F) into the wound, against which the victim must make a save vs. poison or die. Even if the saving throw is successful, the victim suffers 1-6 points of physical damage from the sting.
+As a hunter, the wyvern is cunning. It will avoid letting its shadow fall across its prey as a warning. The final approach of the dive is done in complete silence, imposing a -2 surprise modifier on the target. It trails its prey from downwind whenever possible. A mature wyvern often waits for the right moment to strike, and is willing to let prey go that is too powerful or within easy reach of cover. Such a wyvern understands that men, particularly those armed in bright metal, are stronger than their size would indicate. Given a perfect opportunity, it will attempt to snatch up an unarmored member and fly out of range. 
+From the air the wyvern is a far more deadly opponent. It dives upon ground targets, attempting to snatch them up in its two taloned claws (1-6 points of damage each) and fly off. Man-sized victims are snatched if at least one talon hits for damage. Large victims require both talons to hit in order to snatch them up. The wyvern cannot fly while carrying anything bigger. After a dive, it takes the wyvern a full round to circle around. On the next round it can dive again. Once airborne with prey in its talons, the wyvern stings and bites each round, both at +4 to hit, until the victim is motionless. In aerial combat, the wyvern will make a pass during which it will either bite or sting. Then it will land and feast, not hunting again until the next day.
+
+<div class="adv">
+  <a class="name">Wyvern (Baby)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-16/1-6 </div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Wyvern (Greater)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Xvart</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Zombie</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>6 (72hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>4-16 slashing</div>
+	<div><span>Resistances:</span>immune to cold</div>
+	<div><span>Movement speed:</span>9</div>
+	<div><span>XP Value:</span>650</div>
+</div>
+
+<div class="adv">
+  <a class="name">Zombie (Lord)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>6</div>
+	<div><span>Hit Dice:</span>6 (72hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>2</div>
+	<div><span>Attack:</span>2-8 slashing</div>
+	<div><span>Resistances:</span>immune to cold</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>650</div>
+  <div><span>Spell-like abilities:</span><a class="link" href="#Odor of Death">Odor of Death</a>, <a class="link" href="#Animate Dead">Animate Dead</a></div>
+</div>
+
+<div class="adv">
+  <a class="name">Zombie (Sea)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>7</div>
+	<div><span>Hit Dice:</span>5 (60hp [+0])</div>
+	<div><span>THAC0:</span>15</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>1-10 slashing</div>
+	<div><span>Resistances:</span>immune to cold</div>
+	<div><span>Movement speed:</span>6</div>
+	<div><span>XP Value:</span>420</div>
+</div>
+
+<div class="adv">
+  <a class="name">Zombie (Sea Lord)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 crushing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Ashiruku</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Hakeashar</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Nishruu</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spirit Animal (Bear)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spirit Animal (Lion)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spirit Animal (Snake)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+  <a class="name">Spirit Animal (Wolf)</a>
+  <div><span>Type:</span><a class="link" href="#Undead">Undead</a></div>
+	<div><span>Ability Scores:</span>STR 21, DEX 15, CON 10, INT 14, WIS 16, CHA 16</div>
+	<div><span>Armor Class:</span>-1</div>
+	<div><span>Hit Dice:</span>12 (120hp [+20])</div>
+	<div><span>THAC0:</span>8</div>
+	<div><span>Attacks per Round:</span>1</div>
+	<div><span>Attack:</span>2-12 slashing</div>
+	<div><span>Resistances:</span>immune to magic missiles, fireball, lightning bolt and slow</div>
+	<div><span>Movement speed:</span>12</div>
+	<div><span>XP Value:</span>7000</div>
+</div>
+
+<div class="adv">
+	<a name="Acidic Enzymes">Acidic Enzymes</a>
+	<div>
+The ankheg can squirt a stream of acidic enzymes once every six hours to a distance of 30 feet. However, since it is unable to digest food for six hours after it squirts enzymes, it uses this attack technique only when desperate. A victim struck by the stream of acidic enzymes suffers 8d4 points of damage (half damage if the victim rolls a successful saving throw vs. poison). 	
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Whirlwind">Whirlwind</a>
+	<div>
+This whirlwind lasts for one melee round, sweeps away and kills all creatures under 3 Hit Dice in the area of its cone, and does 2-16 points of damage to all creatures it fails to kill outright.
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Dryad Charm">Dryad Charm Person</a>
+	<div>
+Dryads have the ability to throw a powerful charm person spell three times a day (but only once per round). This spell is so powerful that targets of the spell suffer a -3 penalty to their saving throws. A Dryad always uses this spell if seriously threatened, attempting to gain control of the attacker who could help her most against his comrades. Dryads will only attempt to charm elves as a last resort because of their natural resistance to this type of spell. 
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Petrification">Petrification</a>
+	<div>
+These reptilian monsters all posses a gaze that enables them to turn any fleshy creature to stone. Each round, all creatures looking at basilisk's eyes will be petrified.
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Foul Breath">Foul Breath</a>
+	<div>
+Greater Basilisk's foul breath is poisonous, and all creatures, coming within 5 feet of its mouth, even if just for a moment, must roll successful saving throws vs. poison (with a +2 bonus) or die (check each round of exposure).
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Humanoid">Humanoid</a>
+	<div><ul>
+		<li>8-sided Hit Dice.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Animal">Animal</a>
+	<div><ul>
+		<li>8-sided Hit Dice.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Aberration">Aberration</a>
+	<div><ul>
+		<li>8-sided Hit Dice.</li>
+		<li>Darkvision out to 60 feet.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Outsider">Outsider</a>
+	<div><ul>
+		<li>8-sided Hit Dice.</li>
+		<li>Darkvision out to 60 feet.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Fey">Fey</a>
+	<div><ul>
+		<li>6-sided Hit Dice.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Magical Beast">Magical Beast</a>
+	<div><ul>
+		<li>10-sided Hit Dice.</li>
+		<li>Darkvision out to 60 feet.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Monstrous Humanoid">Monstrous Humanoid</a>
+	<div><ul>
+		<li>8-sided Hit Dice.</li>
+		<li>Darkvision out to 60 feet.</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Skeleton">Skeleton</a>
+	<div><ul>
+		<li>Cold immunity</li>
+		<li>Half damage from piercing or slashing weapons, 90% resistance from missiles</li>
+	</div></ul>
+</div>
+
+<div class="adv">
+	<a name="Construct">Construct</a>
+	<div><ul>
+<li>10-sided Hit Dice.</li>
+<li>No good saving throws (20 in all of them).</li>
+<li>No Constitution score.</li>
+<li>Darkvision out to 60 feet.</li>
+<li>Immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).</li>
+<li>Immunity to poison, sleep effects, paralysis, stunning, disease, and death effects, and necromancy effects.</li>
+<li>Not subject to critical hits, nonlethal damage, ability drain, or energy drain</li>
+<li>Because its body is a mass of unliving matter, a construct is hard to destroy. It gains bonus hit points based on size, as shown on the table.
+      <table cellspacing="0" style="margin-left:50px">
+        <tr>
+          <th style="width:150px">Construct Size</th>
+          <th>Bonus Hit Points</th>
+        </tr>
+        <tr>
+          <td>Fine</td>
+          <td align="center">-</td>
+        </tr>
+        <tr>
+          <td>Diminutive</td>
+          <td align="center">-</td>
+        </tr>
+        <tr>
+          <td>Tiny</td>
+          <td align="center">-</td>
+        </tr>
+        <tr>
+          <td>Small</td>
+          <td align="center">10</td>
+        </tr>
+        <tr>
+          <td>Medium</td>
+          <td align="center">20</td>
+        </tr>
+        <tr>
+          <td>Large</td>
+          <td align="center">30</td>
+        </tr>
+        <tr>
+          <td>Huge</td>
+          <td align="center">40</td>
+        </tr>
+        <tr>
+          <td>Gargantuan</td>
+          <td align="center">60</td>
+        </tr>
+        <tr>
+          <td>Colossal</td>
+          <td align="center">80</td>
+        </tr>
+      </table>
+</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Elemental">Elemental</a>
+	<div><ul>
+<li>8-sided Hit Dice.</li>
+<li>Darkvision out to 60 feet.</li>
+<li>Immunity to poison, sleep effects, paralysis, and stunning.</li>
+<li>Not subject to critical hits or flanking.</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Dragon">Dragon</a>
+	<div><ul>
+<li>12-sided Hit Dice.</li>
+<li>Darkvision out to 60 feet and low-light vision.</li>
+<li>Immunity to magic sleep effects and paralysis effects.</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Ooze">Ooze</a>
+	<div><ul>
+<li>10-sided Hit Dice.</li>
+<li>No good saving throws (20 in all of them).</li>
+<li>Mindless: No Intelligence score, and immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).</li>
+<li>Blind (but have the blindsight special quality), with immunity to gaze attacks, visual effects, illusions, and other attack forms that rely on sight.</li>
+<li>Immunity to poison, sleep effects, paralysis, polymorph, and stunning.</li>
+<li>Not subject to critical hits or flanking.</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Vermin">Vermin (insects, arachnids, other arthropods, worms, and similar invertebrates)</a>
+	<div><ul>
+<li>8-sided Hit Dice.</li>
+<li>Mindless: No Intelligence score, and immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).</li>
+<li>Darkvision out to 60 feet.</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Extraplanar">Extraplanar</a>
+	<div><ul>
+<li>- Immunity to death spells</li>
+<li>- Immunity to all healing spells</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Incorporeal">Incorporeal</a>
+	<div><ul>
+  <li>No Strength score.</li>
+  <li>An incorporeal creature can be harmed only by magical weapons and spells.</li>
+  <li>Even when hit by spells or magic weapons, any damage sustained is reduced by 50% (except for positive energy, negative energy, force effects such as magic missile, or attacks made with ghost touch weapons).</li>
+  <li>Non-damaging spell effects affect the caster normally unless they require corporeal targets to function (e.g. Polymorph Other, Flesh to Stone, Disintegrate, and Implosion) or create a corporeal effect that incorporeal creatures would normally be unaffected by (e.g. Entangle, Grease, and Web).</li>
+  <li>An incorporeal creature has a base armor class of 0 due to its deflection ability</li>
+  <li>An incorporeal creature has no weight and does not set off traps that are triggered by weight.</li>
+  <li>An incorporeal creature moves silently and cannot be heard.</li>
+  <li>Immunity to poison and disease effects</li>
+  <li>Immunity to backstab</li>
+  </ul></div>
+</div>
+
+<div class="adv">
+	<a name="Gaseous Form">Gaseous Form</a>
+	<div><ul>
+  <li>No Strength score.</li>
+  <li>A gaseous form can be harmed only by magical weapons and spells.</li>
+  <li>Even when hit by spells or magic weapons, any damage sustained is reduced by 50% (except for positive energy, negative energy, force effects such as magic missile, or attacks made with ghost touch weapons).</li>
+  <li>Non-damaging spell effects affect the caster normally unless they require corporeal targets to function (e.g. Polymorph Other, Flesh to Stone, Disintegrate, and Implosion) or create a corporeal effect that incorporeal creatures would normally be unaffected by (e.g. Entangle, Grease, and Web).</li>
+  <li>A gaseous form has a base armor class of 0 due to its deflection ability</li>
+  <li>A gaseous form has no weight and does not set off traps that are triggered by weight.</li>
+  <li>A gaseous form moves silently and cannot be heard.</li>
+  <li>Immunity to poison and disease effects</li>
+  <li>Immunity to backstab</li>
+  <li>Not subject to critical hits</li>  
+  <li>50% magic resistance</li>
+  <li>Flying at a movement speed of 18 with perfect maneuverability</li>
+  </ul></div>
+</div>
+
+<div class="adv">
+	<a name="Fly">Fly</a>
+	<div>
+  Flying at a movement speed of 15 with perfect maneuverability for 12 turns. Creature is also immune to ground-based spells such as Earthquake, Entangle, Grease and Web.
+  </div>
+</div>
+
+<div class="adv">
+	<a name="Regenerate">Regenerate</a>
+	<div>
+  Regenerate one hit point per round for 3 turns.
+  </div>
+</div>
+
+<div class="adv">
+	<a name="Darkness 10-foot radius">Darkness 10-foot radius</a>
+	<div>
+  This spell causes total, impenetrable darkness in the area of effect. Infravision is useless. Neither normal nor magical light works unless a light or continual light spell is used. Affected creatures are blind for 15 rounds, save vs spell to negate.
+  </div>
+</div>
+
+<div class="adv">
+	<a name="Cone of Cold">Cone of Cold</a>
+	<div>
+  Cone of cold creates an area of extreme cold, originating at your hand and extending outward in a cone (60 feet long with a terminal diameter of 20 feet). It drains heat, dealing 8d8 points of cold damage, half is a save vs spell is successful.
+  </div>
+</div>
+
+<div class="adv">
+	<a name="Undead">Undead</a>
+	<div><ul>
+<li>12-sided Hit Dice.</li>
+<li>No Constitution score.</li>
+<li>Darkvision out to 60 feet.</li>
+<li>Immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).</li>
+<li>Immunity to poison, sleep effects, paralysis, stunning, disease, and death effects.</li>
+<li>Not subject to critical hits, nonlethal damage, ability drain, or energy drain. Immune to damage to its physical ability scores (Strength, Dexterity, and Constitution), as well as to fatigue and exhaustion effects.</li>
+<li>Cannot heal damage on its own if it has no Intelligence score, although it can be healed. Negative energy (such as an inflict spell) can heal undead creatures. The fast healing special quality works regardless of the creature's Intelligence score.</li>
+	</ul></div>
+</div>
+
+<div class="adv">
+	<a name="Breath Fire">Breath Fire</a>
+	<div>Hell hounds attack first by breathing fire at an opponent up to 10 yards away. The fire causes 1 point of damage for each of the hell hound's Hit Dice. A successful saving throw vs. breath weapon cuts the damage in half.
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Acidic Vapor">Acidic Vapor</a>
+	<div>The jelly monster secretes a vapor over a 10-foot radius. Those near the jelly must roll a saving throw vs. poison each round. Those who fail the saving throw become lethargic and move at half-normal speed, due to the effects of the vapor. The toxic effects last for two rounds and they are cumulative. 
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Revenant's Stare">Revenant's Stare</a>
+	<div>If the revenant stares into its victim's eyes, that person must roll a successful saving throw vs. spell or be paralyzed with terror for 2d4 rounds. This power affects only the revenant's killer. 
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Sphere of Fire">Sphere of Fire</a>
+	<div>Once per hour (6 turns), a skeleton may reach into its chest and draw forth a sphere of fire from the flames that burn within its rib cage. This flaming sphere can be hurled as if it were a fireball that delivers 8d6 points of damage. Because these creatures are immune to harm from both magical and normal fires, they will freely use this attack in close quarters.
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Odor of Death">Odor of Death</a>
+	<div>The odor of death surrounding the zombie lord is so potent it causes horrible effects in those who breathe it. On the first round a character comes within 30 yards, he must save vs. poison or be affected in some way. The following results are possible:
+  <ul>
+  <li>Weakness</li>
+	<li>Disease</li>
+	<li>-1 point of Constitution</li>
+	<li>Contagion (as the spell)</li>
+  <li>Character unable to act for 1d4 rounds due to nausea and vomiting</li>
+  <li>Character dies instantly and becomes a zombie under control of the zombie lord</li>
+  </ul>
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Animate Dead">Animate Dead</a>
+	<div>Once per day, the zombie lord can animate dead to transform dead creatures into zombies. This works as described in the Player's Handbook except that it can be used on the living. Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner. A target who fails a saving throw vs. death is slain. In 1d4 rounds, the slain creature rises as a zombie under the zombie lord's command. 
+	</div>
+</div>
+
+<div class="adv">
+	<a name="Barbarian Rage">Rage</a>
+	<div>Twice per day, berserker ogres can enter in a rage (between berserker and barbarian) that lasts 9 rounds. Then, they are fatigued for 5 turns.
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+Bard Kits
+
+Blade
+The blade is an expert fighter and adventurer, whose bardic acting abilities make him appear more intimidating and fearsome. His fighting style is flashy and entertaining, but is also quite deadly.
+
+Advantages: 
+
+May use Offensive Spin and Defensive Spin abilities once per day per 4 levels. Offensive Spin lasts 24 seconds, granting the blade +2 to hit, +2 to damage, and an extra attack. As well, all of his attacks do maximum damage for the duration. Defensive Spin lasts 24 seconds, roots him to the spot, but gives -1 AC per level of experience. This armor class bonus does not go over -10. 
+May place three slots into two-weapon fighting style.
+Disadvantages: 
+
+Only has one-half normal Lore value. 
+Only has one-half Pick Pockets percentage. 
+Bard Song does not become better with levels.
+Jester
+This bard is well versed in the arts of ridicule and hilarity, and uses his abilities to distract and confuse his enemies, cavorting madly during combat.
+
+Advantages: 
+
+Jester's song does not help allies. Instead, it affects every opponent within 30 feet, and they must save vs. magic at +4 once per round or be confused.
+Disadvantages: 
+
+None
+Skald
+This Nordic bard is also a warrior of great strength, skill and virtue. His songs are inspiring sagas of battle and valor, and the skald devotes his life to those pursuits.
+
+Advantages: 
+
++1 to hit and +1 damage with all weapons. 
+The skald's song is different from the typical bard and varies with level: 
+1st: Gives allies +2 to hit, +2 to damage and -2 to AC. 
+15th: Gives allies +4 to hit, +4 to damage, -4 to AC, and immunity to fear. 
+20th: Gives allies +4 to hit, +4 to damage, -4 to AC, and immunity to fear, stun and confusion.
+Disadvantages: 
+
+Pick Pockets ability one-quarter normal.
+Cleric Kits
+
+The character can't become a specialty priest until completing a specific quest in the game. 
+
+Priest of Talos
+Talos is the evil god of storms, destruction and rebellion. Clerics of the Stormlord warn that Talos must be appeased or he will rain destruction upon the land.
+
+Advantages: 
+
+May cast Lightning Bolt once per day per 5 levels of the caster (starts at 1st level with one use). 
+May cast Storm Shield once per day per 10 levels of the caster (starts at 1st level with one use). This spell lasts 6 seconds per level of the caster. It protects the caster from lightning, fire, cold and normal missiles.
+Disadvantages: 
+
+None
+Priest of Lathander
+Lathander is the good god of renewal, creativity and youth, and is celebrated nearly everywhere. His followers are very popular throughout the Realms, and there are numerous wealthy temples devoted to him.
+
+Advantages: 
+
+May cast Hold Undead once per day for every 5 levels of the caster (starts at 1st level with one use). 
+May cast Boon of Lathander once per day per 10 levels of the caster (starts at 1st level with one use). This spell lasts for 6 seconds per level of the caster. It gives the caster +1 to hit, +1 to damage, +1 to all saving throws and gives the caster 1 extra attack per round. It also protects the recipient from level drain.
+Disadvantages: 
+
+None
+Priest of Helm
+Followers of the neutral God of Watchers and Protectors are warriors in their own right and are often seen as defenders of the innocent.
+
+Advantages: 
+
+May cast True Sight once per day per 5 levels (starts at 1st level with one use). 
+May cast Seeking Sword once per day per 10 levels (starts at 1st level with on use). This spell creates a sword in the player's hand (that cannot be dropped or unequipped). The sword is +4 for purposes of determining what it can hit (but this bonus does not apply to damage), and it deals out 2-8 damage to any target it hits. The weapon sets the number of attacks of the cleric to 3. It lasts for 1 round per level of the caster. When equipped, the wielder cannot cast further spells.
+Disadvantages: 
+
+None
+Druid Kits
+
+Shapeshifter
+This druid is not called shapeshifter because he has access to a great variety of forms, rather because of his complete dedication to a single alternate form. This druid has willingly allowed himself to become infected with lycanthropy, but due to intense study and training he has the ability to control his affliction. The creature he becomes is that of the werewolf, the most famous of the lycanthrope shape changers.
+
+Advantages: 
+
+May shapeshift into the form of a werewolf once per day for every 2 levels (starts at 1st level with one use). 
+At 13th level, gains the ability to change into a greater werewolf once per day.
+Disadvantages: 
+
+No other shapeshifting abilities due to the effort required for maintaining balance in his primary forms. 
+Cannot wear any armor.
+Totemic Druid
+This druid closely identifies with a particular animal, an animal that he feels represents his spirit. This grants him a special connection to the animal kingdom, and he is able to call upon their spirits to aid him.
+
+Advantages: 
+
+May summon a special 'spirit' animal once per day per 5 levels of experience. Spirit animal is randomly selected from 'Spirit Bear', 'Spirit Wolf', 'Spirit Lion' and 'Spirit Snake'.
+Disadvantages: 
+
+Cannot shapeshift.
+Avenger
+A member of a special sect within the Druidic order, a druid of this type is dedicated to fighting those who would defile nature. Avengers have powers the average druid does not; additional abilities that have been earned through extensive rituals, a process that is very physically draining.
+
+Advantages: 
+
+May shapechange into normal forms, as well as those of sword spider, baby wyvern and fire salamander. 
+6 mage spells are added to his repertoire, all the way up to 6th level:
+1st: Chromatic Orb 
+2nd: Web 
+3rd: Lightning Bolt 
+4th: Improved Invisibility 
+5th: Chaos 
+6th: Chain Lightning
+Disadvantages: 
+
+May not wear better than leather armor. 
+On character creation, he receives a -2 to strength and constitution.
+Fighter Kits
+
+Berserker
+This is a warrior who is in tune with his animalistic side and, during combat, can achieve an ecstatic state of mind that will enable him to fight longer, harder and more savagely than any human has a right to. Berserkers tend to be barbarian-like in nature, but not always. Sometimes it is a conscious choice that a warrior in training makes. Regardless, opponents on the battlefield will be unsettled when they see the savage and inhuman elements of the berserker's personality. This class is common amongst dwarves, known to them as "battleragers."
+
+Advantages: 
+
+May use Enrage ability once per day per 4 levels. While enraged: +2 to hit, +2 damage, -2 AC. The berserker at this time is immune to charm, hold, fear, maze, imprisonment, stun and sleep. He also gains 15 hit points while enraged. These hit points are temporary, and are taken away at the end of his berserk spree, possibly killing the berserker.
+Disadvantages: 
+
+Becomes winded after berserking. While he's winded, he receives -2 to hit, -2 to damage and a +2 penalty to AC. 
+Cannot specialize in ranged weapons.
+Wizardslayer
+This warrior has been specially trained by his sect to excel in hunting and attacking spellcasters of all kinds.
+
+Advantages: 
+
+For each successful hit on an opponent, 10% cumulative spell failure penalty is applied. 
+2% magic resistance per level.
+Disadvantages: 
+
+May not use any magic items except for weapons and armor.
+Kensai
+This class is also known as the Sword Saint, and consists of a warrior who has been specially trained to be one with his sword. They are deadly and fast and trained to fight without encumbrance.
+
+Advantages: 
+
++1 to hit and +1 damage for every three levels. 
+-2 bonus to AC. 
+-1 bonus to speed factor for every 4 levels. 
+May use Kai ability one time per day for every 4 levels (starts at 1st level with one use). This ability lasts 10 seconds and makes all the attacks do maximum damage.
+Disadvantages: 
+
+May not use missile weapons. 
+May not wear armor. 
+May not wear gauntlets or bracers.
+Mage Kits
+
+Mage specialists gain an extra spell per level, but can't cast spells in their opposition school.
+
+Specialist - Races - Stat Required
+Abjurer - Human - 15 Wisdom
+Conjurer - Human, Half-Elf - 15 Constitution
+Diviner - Any - 16 Wisdom
+Enchanter - Human, Half-Elf, Elf - 16 Charisma
+Illusionist - Human, Gnome - 16 Dexterity
+Invoker - Human - 16 Constitution
+Necromancer - Human - 16 Wisdom
+Transmuter - Human, Half-Elf - 15 Dexterity
+
+Specialist - School - Opposition School(s)
+
+Abjurer - Abjuration - Alteration
+Conjurer - Conjuration/Summoning - Divination
+Diviner - Divination - Conjuration/Summoning
+Enchanter - Enchantment/Charm - Evocation
+Illusionist - Illusion - Necromancy
+Invoker - Invocation/Evocation - Enchantment/Charm, Conjuration
+Necromancer - Necromancy - Illusion
+Transmuter - Alteration - Abjuration, Necromancy
+
+Paladin Kits
+
+Cavalier
+This class represents the most common picture of the knight: the gentleman warrior who epitomizes honor, courage, and loyalty. He is specialized in battling 'classical' evil monsters such as demons and dragons.
+
+Advantages: 
+
+Bonus +3 to hit and +3 damage against all demonic and draconic creatures. 
+May cast Remove Fear 1 time per day per level. 
+Immune to fear and morale failure. 
+Immune to poison. 
+20% resistance to fire. 
+20% resistance to acid.
+Disadvantages: 
+
+May not use missile weapons.
+Inquisitor
+The inquisitor has dedicated his life to finding and eliminating practitioners of evil magic and defeating the forces of darkness, and his god has provided him with special abilities towards that end.
+
+Advantages: 
+
+May use Dispel Magic ability once per day per 4 levels (starts at 1st level with one use). The ability is used at a speed factor of 1 and acts at twice his actual level. 
+May cast True Sight once per day per 4 levels (starts at 1st level with one use). 
+Immune to Hold and Charm spells.
+Disadvantages: 
+
+May not use Lay on Hands ability. 
+May not cast priest spells. 
+May not turn undead. 
+May not use Cure Disease ability.
+Undead Slayer
+This holy avenger has honed his abilities towards the destruction of the undead and other unnatural creatures, and is immune to many of their more devastating abilities.
+
+Advantages: 
+
++3 to hit and +3 damage vs. undead. 
+Immune to hold. 
+Immune to level drain.
+Disadvantages: 
+
+May not use Lay on Hands ability.
+Ranger Kits
+
+Archer
+The archer is the epitome of skill with the bow. He is the ultimate marksman, able to make almost any shot, not matter how difficult. To become so skilled with the bow, the archer has had to sacrifice some of his proficiency with melee weapons and armor.
+
+Advantages: 
+
++1 to hit and +1 to damage with any missile weapon for every 3 levels of experience. 
+Every 4 levels he gains the ability to make a called shot once per day. When he activates this ability, any shot made within the next 10 seconds is augmented in the following manner (according to the level of the archer): 
+4th level: -1 to THACO of target 
+8th level: -1 to save vs magic of target 
+12th: -1 to strength of target 
+16th: +2 bonus to damage
+Disadvantages: 
+
+An archer can only become proficient in melee weapons; he may never specialize. 
+An archer cannot wear any metal armor.
+Beastmaster
+This ranger is a wanderer, and is not comfortable in civilized lands. He maintains a natural affinity for animals; they are his friends and comrades-in-arms, and the Beast Master has a limited form of telepathic communication with them.
+
+Advantages: 
+
++15% to stealth ability 
+Enhanced spell ability with regard to the following spells: 
+May cast the 4th level druid spell Animal Summoning I at 8th level. 
+May cast Animal Summoning II at 10th level. 
+May cast Animal Summoning III at 12th level.
+May cast Find Familiar (special abilities menu) 
+Disadvantages: 
+
+Cannot use metal weapons (such as swords, halberds, hammers or morning stars).
+Stalker
+Stalkers serve as covert intelligence gatherers, comfortable in both wilderness and urban settings. They are the spies, informants, and interrogators, and their mastery of stealth makes them deadly opponents.
+
+Advantages: 
+
++20% to stealth ability 
+May backstab for a lesser amount than the thief class (level 1-8: x1, level 9-16: x2, level 17+: x3) 
+Has access to three mage spells at 12th level. They are Haste, Protection from Normal Missiles and Minor Spell Deflection.
+Disadvantages: 
+
+May not wear armor greater than studded leather.
+Thief Kits
+
+Assassin
+This is a killer trained in discrete and efficient murder, relying on anonymity and surprise to perform his task. Assassins must be of Evil or Chaotic Neutral alignment.
+
+Advantages: 
+
+May coat his weapon in poison once per day per 4 levels. The next hit with that weapon will inject the poison into the target, dealing out 1 damage per second for 24 seconds (3 damage for the first 6 seconds). A saving throw vs. poison limits damage to 12 total.
+Bonus +1 to hit and +1 damage.
+Disadvantages: 
+
+Only 15 points per level to distribute on abilities.
+Swashbuckler
+This rogue is part acrobat, part swordsman, and part wit: the epitome of charm and grace.
+
+Advantages: 
+
+Bonus +1 to AC. 
+Another +1 to AC for every 5 levels. 
++1 to hit and damage every 5 levels. 
+May specialize in any weapon that a thief can use 
+May place three stars in two-weapon fighting style proficiency
+Disadvantages: 
+
+No backstab multiplier.
+Bounty Hunter
+This is a hunter of men, skilled in tracking quarry and bringing them back alive... whether for lawful authorities or underworld masters. Bounty Hunters are specially trained at their task and make fearsome opponents. They have honed their trap-making abilities well beyond that of the average thief.
+
+Advantages: 
+
++15% to trap setting. 
+He can lay special traps (other than the ones that all thieves receive). The traps are more powerful than the typical thief trap, and the effect varies according to the level:
+1st: The trap deals out damage and slows the target (if save is failed). 
+11th: The trap holds the target if a save is failed. 
+16th: The trap erects an Otiluke's Resilient Sphere around the target (if a save is failed). 
+21st: The trap mazes the target.
+Disadvantages: 
+
+Gets only 20 points to distribute between thief abilities each level.
+Barbarian, Monk & Sorcerer
+
+Barbarian
+A barbarian can be an excellent warrior. While not as disciplined or as skilled as a normal fighter, the barbarian can willingly throw himself into a berserker rage, becoming a tougher and stronger opponent. The barbarian uses the fighter avatar.
+
+Advantages: 
+
+They move at 2 points faster than the usual character. 
+Barbarians are immune to backstab. 
+Can Rage once per day for every 4 levels (starts at 1st level with one use). Rage gives them +4 to constitution and strength for 5 rounds. Gives a -2 armor class penalty and +2 to saves vs. magic (for 5 rounds). Rage also gives immunity to all charm, hold, fear, maze, confusion and level-drain spells. 
+At 11th level, the barbarian gains 10% resistance to slashing, piercing, crushing and missile damage. He gains +5% to this every 4 levels thereafter. 
+The barbarian rolls d12 for hit points instead of a fighter's d10. 
+Disadvantages: 
+
+A barbarian cannot wear full plate or plate mail. 
+A barbarian cannot specialize past normal specialization.
+Monk
+Monks are warriors who pursue perfection through contemplation as well as action. They are versatile fighters, especially skilled in combat without weapons or armor. Though monks cannot cast spells, they have a unique magic of their own. They channel a subtle energy, called ki, which allows them to perform amazing feats. The monk's best known feat is their ability to stun an opponent with an unarmed blow.
+
+Advantages: 
+
+The monk can make one unarmed attack per round; he gains one additional attack every 3 levels. 
+As the monk increases in levels, the damage his fists inflict does as well: 
+Level 1-2: 1-6 
+Level 3-5: 1-8 
+Level 6-8: 1-10 
+Level 9-14: 1-12 
+Level 15+: 1-20 
+A monk's natural armor class gets better as he goes up in levels. His armor class starts off at 9, and then decreases by 1 for every 2 levels. 
+Stunning blow, once per day for every 4 levels. All attacks in the next 6 seconds force the victim to save or be stunned. Note: This special ability automatically modifies a monk's normal attack, no targeting needs to be done. 
+Monks have the Deflect Missiles ability. This gives them a -1 to their AC vs missiles for every 3 levels. 
+The monk gains a +2 to save vs. spells. 
+A monk starts off moving at +2 move, then +1 move every 5 levels. 
+5th level: Immunity to all diseases, and cannot be Slowed or Hasted. 
+7th level: Lay on Hands to heal 2 hit points per level. 
+8th level: -1 to speed factor. 
+9th level: +1 to all saves. Immune to charm. The monk's fist is considered a +1 weapon (+2 at 12th, +3 at 15th). 
+11th level: Immune to poison. 
+12th level: Another -1 to speed factor. 
+13th level: Quivering Palm spell once per day. This spell gives them one hand attack. If they hit an opponent, the opponent must save or die. 
+14th level: The monk gains 3% magic resistance per level (ie. 42% at 14th level). 
+20th level: Immune to non-magical weapons. 
+Disadvantages: 
+
+The monk cannot wear armor. 
+A monk can only use weapons available to the thief class (except two-handed).
+Sorcerer
+Sorcerers are practitioners of magic who were born with the innate ability to cast spells. It is thought that the blood of some powerful creature flows through their veins; perhaps they are the spawn of the gods themselves, or even dragons walking in humanoid form. Regardless, the sorcerer's magic is intuitive rather than logical. They know fewer spells than wizards, and acquire spells more slowly, but they can cast spells more often and have no need to select and prepare spells ahead of time. Sorcerers cannot specialize in magic the way wizards do. Other than these differences, a sorcerer is very similar to the wizard.
+
+Note: A sorcerer does NOT learn spells from scrolls. He chooses new spells with each level. A sorcerer's prime requisite in BG2 is INTELLIGENCE.

@@ -1,0 +1,36 @@
+// Seniyad (Druid)
+[CLASS=DRUID;CASTER_LEVEL=10;MAX_SPELL_LEVEL=5]
+
+IF
+	Die()
+THEN
+	RESPONSE #100
+		IncrementGlobal("KilledDruids","GLOBAL",1)
+END
+
+[include=autocast_spell_divine]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+//[include=shapeshift_druid]
+
+[spell=Ironskin]
+[spell=Gust of Wind]
+[spell=Animal Summoning II]
+[spell=Call Woodland Beings]
+[spell=Summon Spirit Animal]
+[spell=Animal Summoning I]
+[spell=Hold Person or Animal]
+[spell=Charm Person or Animal]
+[spell=Fire Trap]
+[spell=Barkskin]
+[spell=Call Lightning]
+[spell=Poison]
+[spell=Bless]
+[spell=Flame Blade]
+[spell=Faerie Fire]
+[spell=Sunscorch]
+
+[offensive_spells=Animal Summoning II,Call Woodland Beings,Summon Spirit Animal,Animal Summoning I,Hold Person or Animal,Charm Person or Animal,Fire Trap,Call Lightning,Poison,Flame Blade,Sunscorch,Faerie Fire]
+[include=combat_caster]
+[include=combat_smart]

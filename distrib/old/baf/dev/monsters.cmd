@@ -1,0 +1,2 @@
+copy /y cleric_init.baf + detect.baf + healing_pot.baf + movement.baf + baresh.baf + cleric_buff.baf + potions.baf + cleric_abilities.baf + cleric_spells.baf + combat.baf   ..\baf\_baresh.baf
+copy /y mage_init.baf + detect.baf + healing_pot.baf + movement.baf + necromancer.baf + daese.baf + mage_buff.baf + potions.baf + abilities.baf + mage_spells.baf + combat.baf   ..\baf\_daese.baf

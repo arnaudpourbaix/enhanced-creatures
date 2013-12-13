@@ -1,0 +1,6 @@
+[action=AutoCast(Mage Armor)]
+[action=AutoCast(Melf's Minute Meteors)]
+[action=AutoCast(Stoneskin)]
+[action=AutoCast(Invisible Stalker)]
+[action=GLOBAL(JA#AUTOCAST,1),CONTINUE;require=global(JA#AUTOCAST,0)]
+

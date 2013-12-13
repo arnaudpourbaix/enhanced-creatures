@@ -1,0 +1,15 @@
+// Moon Dog
+[monster=race(DOG),walk,smart]
+  
+[section=beforeCombat]
+  [include=disable_spellcasting]
+  [spell=CLERIC_SLOW_POISON]
+  [spell=Cure Light Wounds]
+  [spell=WIZARD_NON_DETECTION]
+  [spell=WIZARD_IMPROVED_INVISIBILITY]
+  [spell=WIZARD_MIRROR_IMAGE]
+  [spell=Moon Dog Sight]
+  [spell=Moon Dog Howl]
+
+[generate]
+

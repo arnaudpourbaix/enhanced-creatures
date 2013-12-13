@@ -1,0 +1,298 @@
+///////////////////////////////////////////////////////////////////////
+// Special kit abilities
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Totemic animals
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl621")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl621",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Storm shield
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl721")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl721",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Moon shield
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslmsd")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslmsd",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Boon of Lathander
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	!CheckStat(Myself,3,SCRIPTINGSTATE4)
+	HaveSpellRES("spcl741")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl741",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Moon blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdmnbld")
+	!HasItem("fblade",Myself)  // Flame blade
+	!HasItem("cdmnbld",Myself) // Moon blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdmnbld",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Flame blade
+/////////////////////////////////////////////////////////////////////	
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpell(CLERIC_FLAME_BLADE)
+	!HasItem("fblade",Myself)  // Flame blade
+	!HasItem("cdmnbld",Myself) // Moon blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		Spell(Myself,CLERIC_FLAME_BLADE)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Spiritual weapon
+/////////////////////////////////////////////////////////////////////
+
+// Mace
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdltmac")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdltmac",Myself)
+END
+
+// Bastard sword
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdhmbst")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdhmbst",Myself)
+END
+
+// Spear
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtlspr")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdtlspr",Myself)
+END
+
+// Mace
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdslmce")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdslmce",Myself)
+END
+
+// Chakram
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#sha0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#sha0b",Myself)
+END
+
+// Battle axe
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#tem0b",Myself)
+END
+
+// Fist
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilhnd")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilhnd",Myself)
+END
+
+// Flail
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#kos0a")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#kos0a",Myself)
+END
+
+// Scimitar
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdxvscm")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdxvscm",Myself)
+END
+
+// Long sword
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#og0a")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#og0a",Myself)
+END
+
+// Flail
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("nmsun0b")
+	!HasItem("cdmnbld",Myself) // Moon blade
+	!HasItem("fblade",Myself)  // Flame blade
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("nmsun0b",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Destructive blow
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdtldst")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdtldst",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Berserker rage
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spcl321")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl321",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Ilmater endurance
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("cdilend")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("cdilend",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Tenser transformation
+/////////////////////////////////////////////////////////////////////
+IF
+	False()
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("a#tem11")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("a#tem11",Myself)
+END
+
+

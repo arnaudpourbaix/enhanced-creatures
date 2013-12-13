@@ -1,0 +1,208 @@
+// Greater Doppelganger
+
+
+
+IF
+  Global("JA#INIT","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("JA#INIT","LOCALS",1)
+    SetGlobalTimer("JA#REST","LOCALS",2400)
+    SetGlobal("JA#COMBAT","LOCALS",0)
+    SetGlobal("JA#DISABLE_SPELLCASTING","LOCALS",0)
+END
+
+IF
+  Global("JA#INIT","LOCALS",1)
+  GlobalTimerExpired("JA#REST","LOCALS")
+  !Detect([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobal("JA#INIT","LOCALS",0)
+    Rest()
+    ApplySpellRES("JA#HEAL",Myself)
+    SetGlobal("JA#MELEE","LOCALS",0)
+END
+
+// Turn hostile if attacked
+IF
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobal("JA#COMBAT","LOCALS",1)
+    Shout(95)
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  Heard([EVILCUTOFF.0.DOPPLEGANGER],95)
+THEN
+  RESPONSE #100
+    SetGlobal("JA#COMBAT","LOCALS",1)
+    Enemy()
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    RandomWalk()
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+// Track escaping target 
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player6,0,SANCTUARY)
+  !StateCheck(Player6,STATE_NOT_VISIBLE)
+  HPGT(Player6,0)
+  Range(Player6,150)
+  RandomNumGT(1000,167)
+THEN
+  RESPONSE #100
+    MoveToObject(Player6)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player5,0,SANCTUARY)
+  !StateCheck(Player5,STATE_NOT_VISIBLE)
+  HPGT(Player5,0)
+  Range(Player5,150)
+  RandomNumGT(1000,200)
+THEN
+  RESPONSE #100
+    MoveToObject(Player5)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player4,0,SANCTUARY)
+  !StateCheck(Player4,STATE_NOT_VISIBLE)
+  HPGT(Player4,0)
+  Range(Player4,150)
+  RandomNumGT(1000,250)
+THEN
+  RESPONSE #100
+    MoveToObject(Player4)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player3,0,SANCTUARY)
+  !StateCheck(Player3,STATE_NOT_VISIBLE)
+  HPGT(Player3,0)
+  Range(Player3,150)
+  RandomNumGT(1000,333)
+THEN
+  RESPONSE #100
+    MoveToObject(Player3)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player2,0,SANCTUARY)
+  !StateCheck(Player2,STATE_NOT_VISIBLE)
+  HPGT(Player2,0)
+  Range(Player2,150)
+  RandomNumGT(1000,500)
+THEN
+  RESPONSE #100
+    MoveToObject(Player2)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player1,0,SANCTUARY)
+  !StateCheck(Player1,STATE_NOT_VISIBLE)
+  HPGT(Player1,0)
+  Range(Player1,150)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+// if no enemies seen, random walk
+IF
+  ActionListEmpty()
+  !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    RandomWalk()
+END
+
+// Mirror Image
+IF
+  HaveSpell(WIZARD_MIRROR_IMAGE)
+  Global("JA#DISABLE_SPELLCASTING","LOCALS",0)
+  !CheckStat(Myself,1,MIRROR_IMAGE)
+  !GlobalTimerNotExpired("JA#ROUND","LOCALS")
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("JA#ROUND","LOCALS",6)
+    ForceSpell(Myself,WIZARD_MIRROR_IMAGE)
+    RemoveSpell(WIZARD_MIRROR_IMAGE)
+END
+
+// Haste
+IF
+  HaveSpell(WIZARD_HASTE)
+  Global("JA#DISABLE_SPELLCASTING","LOCALS",0)
+  !GlobalTimerNotExpired("JA#ROUND","LOCALS")
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_HASTED)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("JA#ROUND","LOCALS",6)
+    ForceSpell(Myself,WIZARD_HASTE)
+    RemoveSpell(WIZARD_HASTE)
+END
+
+  IF
+    OR(3)
+      !HPGT("LIIA",0)
+      !See("LIIA")
+      RandomNumGT(1000,667)
+    OR(3)  
+      !HPGT("BELT",0)
+      !See("BELT")
+      RandomNumGT(1000,500)
+    OR(2)
+      !CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
+      !See(NearestEnemyOf(Myself))
+  THEN
+    RESPONSE #100
+      Continue()
+  END
+IF
+  !General(LastSeenBy(Myself),WEAPON)
+  !CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+  See(LastSeenBy(Myself))
+  ActionListEmpty()
+  HPGT(LastSeenBy(Myself),0)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+  

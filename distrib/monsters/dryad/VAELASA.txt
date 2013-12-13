@@ -1,0 +1,30 @@
+// Hamadryad
+[monster=race(FAIRY),walk,smart;CLASS=WIZARD]
+
+IF
+	Global("SummonDryads","AR1200",1)
+THEN
+	RESPONSE #100
+		SetGlobal("SummonDryads","AR1200",2)
+		StartCutSceneMode()
+		StartCutScene("Cut23a")
+END
+
+IF
+	Global("VaelasaHostile","GLOBAL",0)
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+		SetGlobal("VaelasaHostile","GLOBAL",1)
+    Enemy()
+END
+
+[section=beforeCombat]
+  [action=forceSpell(Improved Invisibility,remove)]
+  [action=forceSpell(Dryad Charm,remove)]
+
+  // Don't attack if no enemies in melee
+  [action=NOACTION;require=!range(5,nearest)]
+  
+[generate]

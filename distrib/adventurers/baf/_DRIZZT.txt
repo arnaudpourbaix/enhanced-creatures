@@ -1,0 +1,31 @@
+// Drizzt (Ranger)
+[CLASS=PRIEST;CASTER_LEVEL=15;MAX_SPELL_LEVEL=3]
+IF
+	See([PC])
+	NumTimesTalkedTo(0)
+THEN
+	RESPONSE #100
+		SetGlobal("DrizztFight","GLOBAL",1)
+		Dialogue([PC])
+END
+
+IF
+	See([0.0.GNOLL])
+	!Allegiance(Myself,ENEMY)
+THEN
+	RESPONSE #100
+		Attack([0.0.GNOLL])
+END
+
+[action=init(ja#guen)]
+[include=init_npc]
+[include=tracking]
+[action=GLOBAL(ja#guen,1),CreateCreature(c6guen);requireSelf=global(ja#guen,0),allegiance(enemy)]
+
+[item=Potion of Superior Healing;requireSelf=norandom]
+[item=Elixir of Health;requireSelf=norandom]
+[spell=Ranger Charm Animal]
+[spell=Hold Person or Animal;target=animal;actionRequire=general(animal)]
+//[spell=Charm Person or Animal;target=animal;actionRequire=general(animal)]
+
+[include=combat_smart]

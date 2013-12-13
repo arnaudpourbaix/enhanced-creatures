@@ -1,0 +1,51 @@
+// Davaeorn (Invoker)
+[CLASS=WIZARD;CASTER_LEVEL=11;MAX_SPELL_LEVEL=5;RUN_AWAY_FROM_AOE=false]
+[include=autocast_spell_arcane]
+
+IF
+	Detect([PC])
+	NumTimesTalkedTo(0)
+THEN
+	RESPONSE #100
+		StartDialog("_DAVAEO",LastSeenBy(Myself))
+END
+
+[include=init_npc]
+[include=disable_spellcasting]
+
+// Track escaping target 
+[action=MOVE;requireSelf=!blind;require=!seeEnemy,visible,hpgt(0),range(70);target=attacker]
+[action=MOVE;requireSelf=!blind;require=!seeEnemy,visible,hpgt(0),range(70);target=players(random:true)]
+
+// Dimension Door
+[TELEPORT_LOCATION=1244.780,1388.421,812.450,856.825;RANDOM_LOCATION=false;RANDOM_TELEPORT=true]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+[spell=Stoneskin]
+
+[spell=Minor Globe of Invulnerability;requireSelf=visible]
+[spell=Mirror Image]
+[spell=Protection from Missiles]
+[spell=Minor Globe of Invulnerability]
+[spell=Immunity: Evocation]
+
+[spell=Stinking Cloud;teleport]
+[spell=Ice Storm;teleport]
+[spell=Fireball;teleport]
+[spell=Lightning Bolt;teleport]
+[spell=Cone of Cold;teleport]
+
+[action=MINORSEQUENCER(Magic Missile,Magic Missile,response<60>),
+        MINORSEQUENCER(Agannazar's Scorcher,Agannazar's Scorcher,response<80>),
+        MINORSEQUENCER(Magic Missile,Agannazar's Scorcher,response<100>)
+ ;teleport;target=player;require=!disable,random(75)]
+
+[spell=Magic Missile;require=state(STATE_MIRRORIMAGE);teleport]
+[spell=Agannazar's Scorcher]
+[spell=Magic Missile;teleport]
+
+[offensive_spells=Stinking Cloud,Ice Storm,Fireball,Lightning Bolt,Cone of Cold,Magic Missile,Agannazar's Scorcher]
+
+[include=combat_caster]
+[include=combat_smart]

@@ -1,0 +1,39 @@
+// Entillis Fulsom (Enchanter)
+[CLASS=WIZARD;CASTER_LEVEL=11;MAX_SPELL_LEVEL=5]
+
+[include=autocast_spell_arcane]
+[include=init_npc]
+[include=tracking]
+[include=disable_spellcasting]
+
+[spell=Shadow Door;requireSelf=!improvedInvisible]
+[spell=Shadow Door;requireSelf=hit]
+[spell=Stoneskin]
+
+[spell=Mirror Image;requireSelf=norandom]
+[spell=Protection from Missiles;requireSelf=norandom]
+[spell=Monster Summoning III]
+[spell=Greater Malison;requireSelf=norandom]
+[spell=Domination]
+[spell=Chaos]
+[spell=Polymorph Other]
+[spell=Dire Charm]
+[spell=Hold Person]
+[spell=Sleep]
+[spell=Charm Person]
+
+[action=MINORSEQUENCER(Sleep,Power Word Sleep,response<80>),
+        MINORSEQUENCER(Sleep,Ray of Enfeeblement,response<100>)
+ ;target=player,fighter;require=!disable,random(75)]
+
+[spell=Power Word Sleep]
+[spell=Ray of Enfeeblement]
+[spell=Flame Arrow]
+[spell=Melf's Acid Arrow]
+[spell=Chromatic Orb]
+
+[offensive_spells=Monster Summoning III,Domination,Chaos,Polymorph Other,Dire Charm,Hold Person,Sleep,Charm Person,
+                  Power Word Sleep,Ray of Enfeeblement,Flame Arrow,Melf's Acid Arrow,Chromatic Orb]
+                  
+[include=combat_caster]
+[include=combat_smart]

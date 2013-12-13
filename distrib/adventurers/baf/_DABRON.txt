@@ -1,0 +1,11 @@
+IF
+	Allegiance(Myself,NEUTRAL)
+	See([PC])
+	Global("TalkedWithParty","GLOBAL",0)
+	Dead("aldeth")
+THEN
+	RESPONSE #100
+		StartDialogueNoSet([PC])
+END
+
+
