@@ -1,0 +1,44 @@
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Iron Golem);requireSelf=stat(1,SHAPECHANGE),stat(14,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(25)]
+  
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Greater Wolfwere);requireSelf=stat(1,SHAPECHANGE),stat(8,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(40)]
+  
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Spirit Troll);requireSelf=stat(1,SHAPECHANGE),stat(16,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(60)]
+  
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Mind Flayer);requireSelf=stat(1,SHAPECHANGE),stat(15,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(70)]
+  
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Earth Elemental);requireSelf=stat(1,SHAPECHANGE),stat(10,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(80)]
+  
+[minCasterLevel=18;action=TIMER(ja#polyform,18),FORCESPELL(Shapechange Fire Elemental);requireSelf=stat(1,SHAPECHANGE),stat(9,SHAPESHIFT)
+  ,nomem,nodisablecheck]
+
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Spider);requireSelf=stat(1,POLYMORPH_SELF),stat(4,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(25)]
+  
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Ogre);requireSelf=stat(1,POLYMORPH_SELF),stat(12,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(40)]
+  
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Mustard Jelly);requireSelf=stat(1,POLYMORPH_SELF),stat(13,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(60)]
+  
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Brown Bear);requireSelf=stat(1,POLYMORPH_SELF),stat(1,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(70)]
+  
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Flind);requireSelf=stat(1,POLYMORPH_SELF),stat(11,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(80)]
+  
+[action=TIMER(ja#polyform,18),FORCESPELL(Shapeshifts Wolf);requireSelf=stat(1,POLYMORPH_SELF),stat(2,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(50)]
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+// Ranger
+[CLASS=RANGER]
+[include=init_npc]
+[include=hide]
+[include=tracking]
+[include=potions]
+[include=combat_smart_both]

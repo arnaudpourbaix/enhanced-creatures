@@ -1,0 +1,80 @@
+// Kahrk
+// TODO : 
+// - gaseous form cancel Fly, Regenerate, Invisible (if any)
+[monster=race(OGRE),smart,walk]
+
+[section=beforeInit]
+  [initVariables=ja#shapeshift(0)]
+  IF
+    HasItem("ja#mist",Myself)
+    Die()
+  THEN
+    RESPONSE #100
+      DestroySelf()
+  END
+
+  // Monk, level 5 immunity to all diseases, and cannot be slowed or hasted
+  [action=APPLYSPELL(SPCL814),CONTINUE]
+  
+  // Monk, level 9 immunity to charm
+  [action=APPLYSPELL(SPCL817),CONTINUE]
+  
+  // Monk, level 11 immunity to poison
+  [action=APPLYSPELL(SPCL818),CONTINUE]
+  
+  // Kit special abilities are done
+  [action=GLOBAL(ja#kit,1),CONTINUE;require=global(ja#kit,0)]
+
+[section=beforeTracking]
+  [include=disable_spellcasting]
+  // if in gaseous form, revert to natural form
+  [action=forceSpell(Ogre-Mage Shapeshifts Natural Form,remove);requireSelf=empty,!seeEnemy,mist]
+  // if no enemy in sight, become invisible
+  [action=forceSpell(Ogre-Mage Invisibility);require=empty,!seeEnemy]
+  // if injured and no enemy in sight, cast regenerate
+  [action=forceSpell(Regenerate);require=empty,!seeEnemy]
+  // if no enemy in sight, cast fly (will be easier to catch enemies)
+  [action=forceSpell(Fly);require=empty,!seeEnemy]
+  // Lay on Hand
+  [spell=MONK_LAY_ON_HANDS;requireSelf=!seeEnemy,hplostgt(25)]
+  // if injured and no enemy in sight, just wait a moment
+  [action=noaction;require=empty,!seeEnemy,hp%lt(50)]
+
+[section=beforeCombat]
+  [action=run(30);requireSelf=seeNearest,mist,random(80)]
+  [action=forceSpell(Ogre-Mage Shapeshifts Natural Form,remove);requireSelf=empty,mist]
+  [action=forceSpell(Assume gaseous form,remove),run(75);requireSelf=hp%lt(50),seeNearest]
+  
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=!stat(1,FLY),!stat(1,REGENERATE)]
+  [action=forceSpell(Fly)]
+  [action=forceSpell(Regenerate);requireSelf=hplostgt(10)]
+  [spell=MONK_LAY_ON_HANDS;requireSelf=hplostgt(25),random(50)]
+
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=random(20)]
+  
+  IF
+  	Delay(15)
+  	See(NearestEnemyOf(Myself))
+  	Exists(LastAttackerOf(LastSeenBy(Myself)))
+  	NumCreatureGT([ENEMY],1)
+  THEN
+  	RESPONSE #100
+  		RandomWalk()
+  END
+  
+  [action=forceSpell(Ogre-Mage Dire Charm,remove);require=random(30)]
+  [action=forceSpell(Ogre-Mage Sleep,remove);require=random(40)]
+  [action=forceSpell(Ogre-Mage Cone of Cold,remove);require=random(50)]
+  [action=forceSpell(Darkness 10-foot radius);require=random(75)]
+  
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=random(25)]
+  
+  [action=walk;requireSelf=empty,!stat(1,FLY),!stat(1,REGENERATE)]
+
+  // Quivering Palm
+  [action=SPELL(MONK_QUIVERING_PALM,,90,notarget,innate);requireSelf=!stat(2,SCRIPTINGSTATE4),!stat(5,SCRIPTINGSTATE4);require=range(5,nearest)]
+  
+  // Stunning Blow
+  [action=SPELL(MONK_STUNNING_BLOW,,90,notarget,innate);requireSelf=!stat(2,SCRIPTINGSTATE4),!stat(5,SCRIPTINGSTATE4);require=range(5,nearest),!stun]
+
+[generate]

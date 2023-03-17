@@ -1,0 +1,4 @@
+// Cat (summon)
+[monster=race(CAT),hide,summon]
+
+[generate]

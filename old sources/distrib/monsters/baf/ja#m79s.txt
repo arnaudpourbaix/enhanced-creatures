@@ -1,0 +1,53 @@
+// Ogre-Mage (summon)
+[monster=race(OGRE),smart,walk,summon]
+
+[section=beforeTracking]
+  [initVariables=ja#shapeshift(0)]
+  IF
+    HasItem("ja#mist",Myself)
+    Die()
+  THEN
+    RESPONSE #100
+      DestroySelf()
+  END
+
+[section=beforeTracking]
+  [include=disable_spellcasting]
+  // if in gaseous form, revert to natural form
+  [action=forceSpell(Ogre-Mage Shapeshifts Natural Form,remove);requireSelf=empty,!seeEnemy,mist]
+  // if no enemy in sight, become invisible
+  [action=forceSpell(Ogre-Mage Invisibility);require=empty,!seeEnemy]
+  // if injured and no enemy in sight, cast regenerate
+  [action=forceSpell(Regenerate);require=empty,!seeEnemy]
+  // if no enemy in sight, cast fly (will be easier to catch enemies)
+  [action=forceSpell(Fly);require=empty,!seeEnemy]
+  // if injured and no enemy in sight, just wait a moment
+  [action=walk;require=empty,!seeEnemy,hp%lt(50)]
+
+[section=beforeCombat]
+  [action=forceSpell(Ogre-Mage Shapeshifts Natural Form,remove);requireSelf=empty,mist]
+  [action=forceSpell(Assume gaseous form,remove),run(75);requireSelf=hp%lt(50),seeNearest]
+  
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=!stat(1,FLY),!stat(1,REGENERATE)]
+  [action=forceSpell(Fly)]
+  [action=forceSpell(Regenerate);requireSelf=hplostgt(10)]
+
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=random(20)]
+  
+  [action=forceSpell(Ogre-Mage Dire Charm,remove);require=random(30)]
+  [action=forceSpell(Ogre-Mage Sleep,remove);require=random(40)]
+  [action=forceSpell(Ogre-Mage Cone of Cold,remove);require=random(50)]
+  [action=forceSpell(Ogre-Mage Blindness,remove);require=random(50)]
+  
+  [action=forceSpell(Ogre-Mage Invisibility);requireSelf=random(50)]
+  
+  [action=walk;requireSelf=empty,!stat(1,FLY),!stat(1,REGENERATE)]
+
+  [offensive_spells=Ogre-Mage Dire Charm,Ogre-Mage Sleep,Ogre-Mage Cone of Cold,Ogre-Mage Blindness]
+
+  // is there is any nearest enemy able to hurt me ?
+  [target=nearest(num:10,random:false);require=!outOfAction,!stat(1,POLYMORPH_OTHER),see]
+
+  [name=Avoid combat if able to cast spells;action=WALK;requireSelf=global(ja#disable_spellcasting,0),global(ja#melee,0),movementgt(6);require=!disable,!stat(1,POLYMORPH_OTHER),see]
+
+[generate]

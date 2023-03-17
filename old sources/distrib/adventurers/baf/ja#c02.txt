@@ -1,0 +1,15 @@
+// Fighter
+[CLASS=FIGHTER]
+
+// Deathbringer
+[action=APPLYSPELL(ikdb1),CONTINUE]
+// Kit special abilities are done
+[action=GLOBAL(ja#kit,1),CONTINUE;require=global(ja#kit,0)]
+
+[include=init_npc]
+[include=tracking]
+[include=potions]
+[spell=Enrage]
+[spell=Barbarian Rage]
+[spell=Kai]
+[include=combat_smart_both]

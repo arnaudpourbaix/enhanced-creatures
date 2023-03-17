@@ -1,7 +1,0 @@
-// Dryad
-[monster=class(FAIRY_DRYAD),walk,notracking,nocombat]
-
-[section=beforeCombat]
-  [action=forceSpell(Dryad Charm,remove)]
-
-[generate]

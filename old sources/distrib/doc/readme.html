@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <title>Enhanced Creatures</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <link rel="stylesheet" href="readme.css" type="text/css" />
+</head>
+<body>
+<h1>Enhanced Creatures</h1>
+<div class="section">
+  <p>
+    Author: <a target="_new" href="http://forums.blackwyrmlair.net/index.php?showuser=401">Aigleborgne</a><br />
+    <strong><a target="_new" href="http://forums.blackwyrmlair.net/index.php?showforum=91">Forum</a></strong>
+  </p>
+  <p><strong>Version 0.1</strong>
+</div>
+
+<h2>Overview</h2>
+<div class="section">
+  <p>Enhanced Creatures is basically an AI mod, but it is also more than that. It is designed for Tutu and it will be compatible with BGT.</p>
+  <p>One of the main purpose of this mod is to look at each creature and see how it can be improved. By creature, I am referring to a CRE file, so it can be a monster or any adventurers (neutral or enemy). All creatures were changed one by one and many of them got new script.</p>
+  <p>It quickly became impossible to maintain, so I made a creature's editor and a script generator. I know there are already a few creature's editors but none of them have all the features I was needed, especially an export for Weidu's patching.</p>
+  <p>Script's generator was clearly needed too. Scripts quickly become big and it is a headache to correct a few bugs in a 4000 lines' script and I am not speaking about refactoring a few spells in several scripts. I have looked at SCS SSL but it didn't cover all my needs.<br />
+  My generator was built with configuration and flexibility in mind. With it, scripts are about 100 times shorter (40 lines generate 4000 lines).
+However, it can't handle everything but it is possible to write normal blocks within scripts.<br />
+</div>
+
+<h2>Compatibility</h2>
+<div class="section">
+  <p>This mod has been designed to work exclusively with BG2: Throne of Bhaal version 26498 for several reasons:<br/>
+  <ul>
+    <li>It is heavily based on <a target="_new" href="http://www.spellholdstudios.net/ie/tobex">TobEx</a>. It uses many of its new functionalities and bring the game to a new level. Well, without it, Enhanced Creatures would be gimped.</li>
+    <li>I have used ToB kit (Wild Mage) and high level abilities</li>
+  </ul>
+  <p>While Enhanced Creatures has been developped and tested with Tutu, I highly recommend Tutu over BGT. Currently it's not compatible with BGT but will be one day.</p>
+  <p>Lastly, Spell Revisions is also required and not optional. All spellbooks were built manually with careful thinking and Spell Revisions in mind. Mage scripts are not generic but made for its own spellbook. Beside these technical reasons, think about it: without Spell Revisions, spells selection is very limited because many spells are useless. Then, most spellcasters would have a very similar spellbooks.</p>
+  <p>I don't recommend installing any others AI mod, especially SCS because its changes are huge. I know that SCS is very popular but there is a choice to make : EC or SCS, not both.</p>
+</div>
+
+<h2>Installation</h2>
+<div class="section">
+  <p>Enhanced Creatures is packaged and installed with WeiDU.</p>
+  <p>It should be installed after most mods, just before WildScreen mod.</p>
+  <p>TobEx should be installed first, but there might be some <a target="_new" href="http://forums.gibberlings3.net/index.php?showtopic=23689">problems</a> with Spell Revisions. It might be necessary to adapt TobEx configuration as explained in previous link.
+  <p>Before installing Enhanced Creatures, it is possible to customize a few things.</p>
+  <ul>
+    <li>config.ini defines many parameters for script's generation.</li>
+    <li>spells.csv contains all spells' informations. It is possible to change some values but any unexpected value will crash script's generator.</li>
+    <li>items.csv contains all items' informations, mostly potions and wands. It is possible to change some values but any unexpected value will crash script's generator.</li>
+    <li>all 2da files in root directory contain list of adventurers or monsters. Again, it is possible to change any value if you know what you are doing. Otherwise, it might crash at install. If you don't want to install a CRE, just delete its line</li>
+  </ul>
+</div>
+
+<h2>Components</h2>
+<div class="section">
+  <p>
+    <strong>Enhanced Creatures Core component</strong> (<em>required</em>)<br />
+  </p>
+  <p>
+    <strong>Enhanced Monsters Core component</strong> (<em>contains many subcomponents)</em>)<br />
+    For all monsters, I try to make them as close as possible to P&P. Mainly sticking to 2nd edition, but taking some numbers from 3rd edition (str, dex, con, wis, int, cha).<br />
+    There are quite many monsters in the game, and many variants that don't exist in P&P. In consequences, I haven't made a masterpiece because it would have taken a long time for each monster.<br /><br />
+    I highly recommand to install aTweaks P&P monsters over mine and they should be installed before Enhanced Creatures. Then, they will be detected at installation and skipped.<br /> aVENGER and Wisp have done very high quality P&P monsters but they don't cover all monsters, so my component still have its uses.<br />
+    <a target="_new" href="monsters.html">More informations</a>
+  </p>
+  <p>
+    <strong>Enhanced Adventurers Core component</strong><br />
+    There is lot to say about adventurers. Bioware has made a great game, but looking closely to each adventurers is scary! 
+    About 50-80% of numbers are wrong. It is clear that some numbers don't matter but many do. I have seen some mages with missing spells or worst, missing all spells of a specific level. I've seen fighters with axe and proficiencies in swords. Level, class, hit points, thac0 are almost never right [...]<br />
+    In summary:
+    <ul>
+      <li>many inconsistencies</li>
+      <li>no kit (a few mages have a kit, but their spellbooks don't match</li>
+      <li>no dual wielding</li>
+      <li>no weapon style proficiencies</li>
+      <li>not always use their own magical items (not equiped)</li>
+      <li>no potions for level 7+</li>
+      <li>poor equipment for level 7+. Many high level fighters wear studded leather armor, this is why a level 5 fighter with a full plate mail (AC 1) can kill most of them in a duel.</li>
+      <li>very basic scripts</li>
+    </ul>
+    When rebalancing each adventurer, I have assumed than there is a full party of 6 characters. It means that some encounters might become almost impossible for solo players. Most of my tests were made with a level 5 party using basic AI scripts, and I was able to defeat most single adventurers except very high level mages.<br />
+    <span class="remark">Some high level adventurers are not meant to be killed and while they can certainly be killed with cheesy tactics, they will probably kill most parties.</span><br />
+    Globally, with my changes, you can expect a battle matching class and level of your opponent. But bear in mind that script and items are his greatest weakness. It means that an opponent still needs more hit dices to eventually match a player.<br />
+    <a target="_new" href="adventurers.html">More informations</a>
+  </p>
+  <p>
+    <strong>Tweak powerful items</strong><br />
+    Some items are definitly overpowered. Below my tweaks:
+    <ul>
+      <li>Arrows of slaying : save vs death at ??</li>
+      <li>Arrows of detonation : single target <i>instead of</i> area of effect</li>
+      <li>Arrows of dispelling : doesn't ignore level</li>
+      <li>Protection from magic : </li>
+      <li>Protection from undead : </li>
+    </ul>
+  </p>  
+  <p>
+    <strong>Tweak items quantity in stores</strong><br />
+    Some wands, scrolls, or powerful arrows have an unlimited stock. It was changed to a small number (between 1 and 5).<br />
+    A few temples have limited stock of potions. Party can still buy them in other temples but it is annoying and potions aren't game breaking anyway. This component gives an unlimited stock to all potions in temples.
+  </p>  
+  <p>
+    <strong>Baldur's Gate 2 spells in stores</strong><br />
+    I have changed all caster spellbooks, they will now use all BG2 spells. It is fair to add BG2 scrolls for players.<br />
+    I have added all scrolls in Sorcerous sundries and Thalantyr's stores.
+  </p>  
+  <p>
+    <strong>Double duration for charm spells</strong><br />
+    In P&P, charm spells have a very long duration. I have doubled all durations to make them more appealing.
+  </p>  
+</div>
+
+<h2>Issues</h2>
+<div class="section">
+  <ul>
+    <li>When a creature starts a battle, there might be a few seconds (between 0 and 2) before it really starts to do something. It is clearly a script issue but I wasn't able to correct it.<br/>
+    If you want easy battles, attack very fast, you might drop many creatures very quickly and easily, or at least gain a subtantial advantage.<br/>
+    If you want fair fight, wait until creature does something (casting, moving, or attacking).<br/>
+    </li>
+  </ul>
+</div>
+
+<h2>Credits</h2>
+<div class="section">
+  <p>While I spent thousand hours over 7 years on this mod, a lot of people have helped me and I might not remember everyone.
+  Thus, I don't take credits of everything included in this mod as I don't want to offense anyone.<br />
+  Salk has been a great supporter in the beginning, he was a source of motivation at times. He also gave me a few ideas and made several things for this mod.
+  </p>
+  <p>I'd like to thank all people that have helped me during all these years and the whole community that has provided a very good platform for modding (WEIDU, TobEx, IEDSP, Near Infinity, Tutu, BGT).
+  </p>
+</div>
+
+
+<h2>Version History</h2>
+<div class="section">
+  <p><strong>Version alpha 0.1 - Jan 7, 2011</strong></p>
+  <ul>
+    <li>Started from scratch project (almost nothing from previous version were restored). It's using a new set of tools entirely different and is now fully patching files.</li>
+    <li>This is mainly a demonstration release, just to see what to expect for the final version.</li>
+  </ul>
+  
+  <p><strong>Version alpha 0.8 - Dec 4, 2005</strong></p>
+  <ul>
+    <li>First public release</li>
+  </ul>
+</div>
+</body>
+</html>

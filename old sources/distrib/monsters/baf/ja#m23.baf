@@ -1,0 +1,407 @@
+// Stone Golem
+
+
+IF
+  Global("JA#INIT","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("JA#INIT","LOCALS",1)
+    SetGlobalTimer("JA#REST","LOCALS",2400)
+    SetGlobal("JA#COMBAT","LOCALS",0)
+    SetGlobal("JA#DISABLE_SPELLCASTING","LOCALS",0)
+END
+
+IF
+  Global("JA#INIT","LOCALS",1)
+  GlobalTimerExpired("JA#REST","LOCALS")
+  !Detect([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobal("JA#INIT","LOCALS",0)
+    Rest()
+    ApplySpellRES("JA#HEAL",Myself)
+END
+
+// Turn hostile if attacked
+IF
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobal("JA#COMBAT","LOCALS",1)
+    Shout(95)
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  Heard([EVILCUTOFF.0.GOLEM],95)
+THEN
+  RESPONSE #100
+    SetGlobal("JA#COMBAT","LOCALS",1)
+    Enemy()
+END
+
+IF
+  Global("JA#COMBAT","LOCALS",0)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+// Track escaping target 
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player6,0,SANCTUARY)
+  !StateCheck(Player6,STATE_NOT_VISIBLE)
+  HPGT(Player6,0)
+  Range(Player6,150)
+  RandomNumGT(1000,167)
+THEN
+  RESPONSE #100
+    MoveToObject(Player6)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player5,0,SANCTUARY)
+  !StateCheck(Player5,STATE_NOT_VISIBLE)
+  HPGT(Player5,0)
+  Range(Player5,150)
+  RandomNumGT(1000,200)
+THEN
+  RESPONSE #100
+    MoveToObject(Player5)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player4,0,SANCTUARY)
+  !StateCheck(Player4,STATE_NOT_VISIBLE)
+  HPGT(Player4,0)
+  Range(Player4,150)
+  RandomNumGT(1000,250)
+THEN
+  RESPONSE #100
+    MoveToObject(Player4)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player3,0,SANCTUARY)
+  !StateCheck(Player3,STATE_NOT_VISIBLE)
+  HPGT(Player3,0)
+  Range(Player3,150)
+  RandomNumGT(1000,333)
+THEN
+  RESPONSE #100
+    MoveToObject(Player3)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player2,0,SANCTUARY)
+  !StateCheck(Player2,STATE_NOT_VISIBLE)
+  HPGT(Player2,0)
+  Range(Player2,150)
+  RandomNumGT(1000,500)
+THEN
+  RESPONSE #100
+    MoveToObject(Player2)
+END
+IF
+  !StateCheck(Myself,STATE_BLIND)
+  !See([GOODCUTOFF])
+  !CheckStatGT(Player1,0,SANCTUARY)
+  !StateCheck(Player1,STATE_NOT_VISIBLE)
+  HPGT(Player1,0)
+  Range(Player1,150)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+// if no enemies seen, random walk
+IF
+  ActionListEmpty()
+  !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    RandomWalk()
+END
+
+IF
+  OR(8)
+    CheckStat(Player6,1,POLYMORPH_OTHER)
+    CheckStatGT(Player6,0,SANCTUARY)
+    StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player6,STATE_DISABLED)
+    StateCheck(Player6,STATE_SLOWED)
+    StateCheck(Player6,STATE_REALLY_DEAD)
+    !See(Player6)
+    RandomNumGT(1000,167)
+  OR(8)
+    CheckStat(Player5,1,POLYMORPH_OTHER)
+    CheckStatGT(Player5,0,SANCTUARY)
+    StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player5,STATE_DISABLED)
+    StateCheck(Player5,STATE_SLOWED)
+    StateCheck(Player5,STATE_REALLY_DEAD)
+    !See(Player5)
+    RandomNumGT(1000,200)
+  OR(8)
+    CheckStat(Player4,1,POLYMORPH_OTHER)
+    CheckStatGT(Player4,0,SANCTUARY)
+    StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player4,STATE_DISABLED)
+    StateCheck(Player4,STATE_SLOWED)
+    StateCheck(Player4,STATE_REALLY_DEAD)
+    !See(Player4)
+    RandomNumGT(1000,250)
+  OR(8)
+    CheckStat(Player3,1,POLYMORPH_OTHER)
+    CheckStatGT(Player3,0,SANCTUARY)
+    StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player3,STATE_DISABLED)
+    StateCheck(Player3,STATE_SLOWED)
+    StateCheck(Player3,STATE_REALLY_DEAD)
+    !See(Player3)
+    RandomNumGT(1000,333)
+  OR(8)
+    CheckStat(Player2,1,POLYMORPH_OTHER)
+    CheckStatGT(Player2,0,SANCTUARY)
+    StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player2,STATE_DISABLED)
+    StateCheck(Player2,STATE_SLOWED)
+    StateCheck(Player2,STATE_REALLY_DEAD)
+    !See(Player2)
+    RandomNumGT(1000,500)
+  OR(7)
+    CheckStat(Player1,1,POLYMORPH_OTHER)
+    CheckStatGT(Player1,0,SANCTUARY)
+    StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player1,STATE_DISABLED)
+    StateCheck(Player1,STATE_SLOWED)
+    StateCheck(Player1,STATE_REALLY_DEAD)
+    !See(Player1)
+THEN
+  RESPONSE #100
+    Continue()
+END
+
+IF
+  OR(8)
+    General(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),WEAPON)
+    CheckStat(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_SLOWED)
+    !See(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]))
+    RandomNumGT(1000,111)
+  OR(8)
+    General(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),WEAPON)
+    CheckStat(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_SLOWED)
+    !See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]))
+    RandomNumGT(1000,125)
+  OR(8)
+    General(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),WEAPON)
+    CheckStat(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]),STATE_SLOWED)
+    !See(NearestEnemyOfType([GOODCUTOFF.0.0.RANGER_ALL.0.0]))
+    RandomNumGT(1000,143)
+  OR(8)
+    General(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),WEAPON)
+    CheckStat(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),0,SANCTUARY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_DISABLED)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_SLOWED)
+    !See(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]))
+    RandomNumGT(1000,167)
+  OR(8)
+    General(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),WEAPON)
+    CheckStat(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),0,SANCTUARY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_DISABLED)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_SLOWED)
+    !See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]))
+    RandomNumGT(1000,200)
+  OR(8)
+    General(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),WEAPON)
+    CheckStat(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),0,SANCTUARY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_DISABLED)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]),STATE_SLOWED)
+    !See(NearestEnemyOfType([GOODCUTOFF.0.0.PALADIN_ALL.0.0]))
+    RandomNumGT(1000,250)
+  OR(8)
+    General(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),WEAPON)
+    CheckStat(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_SLOWED)
+    !See(ThirdNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]))
+    RandomNumGT(1000,333)
+  OR(8)
+    General(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),WEAPON)
+    CheckStat(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_SLOWED)
+    !See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]))
+    RandomNumGT(1000,500)
+  OR(7)
+    General(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),WEAPON)
+    CheckStat(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),1,POLYMORPH_OTHER)
+    CheckStatGT(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),0,SANCTUARY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_IMPROVEDINVISIBILITY)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_DISABLED)
+    StateCheck(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]),STATE_SLOWED)
+    !See(NearestEnemyOfType([GOODCUTOFF.0.0.FIGHTER_ALL.0.0]))
+THEN
+  RESPONSE #100
+    Continue()
+END
+
+// Slow
+IF
+  !General(LastSeenBy(Myself),WEAPON)
+  !CheckStat(LastSeenBy(Myself),1,POLYMORPH_OTHER)
+  !CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  See(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_DISABLED)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  !GlobalTimerNotExpired("JA#ROUND","LOCALS")
+  !StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("JA#ROUND","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+// Nearest target
+IF
+  OR(3)
+    General(NearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
+    !See(NearestEnemyOf(Myself))
+  OR(3)
+    General(SecondNearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+    !See(SecondNearestEnemyOf(Myself))
+  OR(3)
+    General(ThirdNearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+    !See(ThirdNearestEnemyOf(Myself))
+  OR(3)
+    General(FourthNearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+    !See(FourthNearestEnemyOf(Myself))
+  OR(3)
+    General(FifthNearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+    !See(FifthNearestEnemyOf(Myself))
+  OR(3)
+    General(SixthNearestEnemyOf(Myself),WEAPON)
+    CheckStatGT(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+    !See(SixthNearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    Continue()
+END
+
+IF
+  !General(LastSeenBy(Myself),WEAPON)
+  !CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+  See(LastSeenBy(Myself))
+  OR(2)
+    ActionListEmpty()
+    GlobalTimerNotExpired("JA#ATTACK","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("JA#ATTACK","LOCALS",1)
+    Attack(LastSeenBy(Myself))
+END
+
+// Attack sleeping target
+IF
+  Allegiance(Myself,ENEMY)
+  OR(5)
+    CheckStatGT(Player1,0,SANCTUARY)
+    !StateCheck(Player1,STATE_SLEEPING)
+    StateCheck(Player1,STATE_CHARMED)
+    StateCheck(Player1,STATE_REALLY_DEAD)
+    !See(Player1)
+  OR(5)
+    CheckStatGT(Player2,0,SANCTUARY)
+    !StateCheck(Player2,STATE_SLEEPING)
+    StateCheck(Player2,STATE_CHARMED)
+    StateCheck(Player2,STATE_REALLY_DEAD)
+    !See(Player2)
+  OR(5)
+    CheckStatGT(Player3,0,SANCTUARY)
+    !StateCheck(Player3,STATE_SLEEPING)
+    StateCheck(Player3,STATE_CHARMED)
+    StateCheck(Player3,STATE_REALLY_DEAD)
+    !See(Player3)
+  OR(5)
+    CheckStatGT(Player4,0,SANCTUARY)
+    !StateCheck(Player4,STATE_SLEEPING)
+    StateCheck(Player4,STATE_CHARMED)
+    StateCheck(Player4,STATE_REALLY_DEAD)
+    !See(Player4)
+  OR(5)
+    CheckStatGT(Player5,0,SANCTUARY)
+    !StateCheck(Player5,STATE_SLEEPING)
+    StateCheck(Player5,STATE_CHARMED)
+    StateCheck(Player5,STATE_REALLY_DEAD)
+    !See(Player5)
+  OR(5)
+    CheckStatGT(Player6,0,SANCTUARY)
+    !StateCheck(Player6,STATE_SLEEPING)
+    StateCheck(Player6,STATE_CHARMED)
+    StateCheck(Player6,STATE_REALLY_DEAD)
+    !See(Player6)
+THEN
+  RESPONSE #100
+    Continue()
+END
+
+IF
+  !General(LastSeenBy(Myself),WEAPON)
+  !CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+  See(LastSeenBy(Myself))
+  Allegiance(Myself,ENEMY)
+  StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+  OR(2)
+    ActionListEmpty()
+    GlobalTimerNotExpired("JA#ATTACK","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("JA#ATTACK","LOCALS",1)
+    Attack(LastSeenBy(Myself))
+END
+

@@ -1,0 +1,179 @@
+///////////////////////////////////////////////////////////////////////
+// Special kit abilities
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Poison weapon
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!CheckStat(Myself,4,SCRIPTINGSTATE4)
+	HaveSpellRES("spcl423")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl423",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Berserker rage
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!GlobalTimerNotExpired("ja#berserkerrage","LOCALS")
+	HaveSpellRES("spcl321")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SetGlobalTimer("ja#berserkerrage","LOCALS",120)
+		SpellRES("spcl321",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Barbarian rage
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!CheckStat(Myself,1,SCRIPTINGSTATE4)
+	HaveSpellRES("spcl152")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl152",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Kai
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!GlobalTimerNotExpired("ja#kai","LOCALS")
+	HaveSpellRES("spcl144")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SetGlobalTimer("ja#kai","LOCALS",10)
+		SpellRES("spcl144",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Called shot
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!GlobalTimerNotExpired("ja#calledshot","LOCALS")
+	HaveSpellRES("spcl121")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SetGlobalTimer("ja#calledshot","LOCALS",10)
+		SpellRES("spcl121",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Protection from evil
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!CheckStat(Myself,3,SCRIPTINGSTATE3)
+	HaveSpellRES("spcl213")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl213",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// True sight
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	CheckStat(Myself,0,TRUE_SIGHT)
+	HaveSpellRES("spcl232")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl232",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Dispel magic
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	Global("ja#disable_spellcasting","LOCALS",0)
+	HaveSpellRES("spcl231")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl231",NearestEnemyOf(Myself))
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Defensive spin
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!CheckStat(Myself,2,SCRIPTINGSTATE4)
+	HitBy([ANYONE],CRUSHING)
+	HaveSpellRES("spcl522")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl522",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Offensive spin
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!CheckStat(Myself,2,SCRIPTINGSTATE4)
+	Global("ja#buffdone","LOCALS",1)
+	HaveSpellRES("spcl521")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl521",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Stunning Blow
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!GlobalTimerNotExpired("ja#stunning","LOCALS")
+	HaveSpellRES("spcl811")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SetGlobalTimer("ja#stunning","LOCALS",9)
+		SpellRES("spcl811",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Quivering Palm
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spcl820")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl820",Myself)
+END
+
+

@@ -1,0 +1,72 @@
+///////////////////////////////////////////////////////////////////////
+// Threat Detection for monsters that don't call for help
+// This script has many purposes:
+// - turn hostile if attacked
+// - alert nearby monsters, requesting help
+// - entering/leaving combat
+// - sleep
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Rest - everything is reset
+/////////////////////////////////////////////////////////////////////
+IF
+	GlobalTimerExpired("ja#PrepTimer","LOCALS")
+	!Global("ja#initialize","LOCALS",0)
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		Rest()
+		ApplySpellRES("ja#HEAL",Myself) // it can be considered as a cheat, but it prevents many exploits
+		SetGlobal("ja#initialize","LOCALS",0)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Initialize variables & timers
+///////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#initialize","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#initialize","LOCALS",1)
+		SetGlobal("ja#startcombat","LOCALS",0)
+		SetGlobalTimer("ja#PrepTimer","LOCALS",2400)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Attacked? Spell cast on me? Someone shouted a warning?
+///////////////////////////////////////////////////////////////////////
+IF
+	!Allegiance(Myself,ENEMY)
+	OR(12)
+		AttackedBy([GOODCUTOFF.0.0.0.0.SUMMONED],DEFAULT)
+		AttackedBy([PC],DEFAULT)
+		AttackedBy([FAMILIAR],DEFAULT)
+		AttackedBy([ALLY],DEFAULT)
+		AttackedBy([CONTROLLED],DEFAULT)
+		AttackedBy([CHARMED],DEFAULT)
+		SpellCastOnMe([GOODCUTOFF.0.0.0.0.SUMMONED],0)
+		SpellCastOnMe([PC],0)
+		SpellCastOnMe([FAMILIAR],0)
+		SpellCastOnMe([ALLY],0)
+		SpellCastOnMe([CONTROLLED],0)
+		SpellCastOnMe([CHARMED],0)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// See an enemy
+/////////////////////////////////////////////////////////////////////
+IF
+	See(NearestEnemyOf(Myself))
+	Global("ja#startcombat","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("ja#startcombat","LOCALS",1)
+END

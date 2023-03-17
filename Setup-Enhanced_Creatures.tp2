@@ -1,0 +1,37 @@
+/* Enhanced Creatures */
+BACKUP ~enhanced_Creatures/backup~
+AUTHOR "Aigleborgne"
+
+VERSION ~v01~
+
+ALWAYS
+INCLUDE ~Enhanced_Creatures/Setup-Enhanced_Creatures.tph~
+//AT_INTERACTIVE_EXIT ~view Enhanced_Creatures/readme.txt~
+END
+
+//ASK_EVERY_COMPONENT
+
+LANGUAGE ~English~ ~languages/English~ ~enhanced_Creatures/languages/english/setup.tra~ // English
+
+//-------------------------------------------------------------------------
+// Enhanced Creatures core component (required)
+//-------------------------------------------------------------------------
+// BEGIN @0
+
+
+//-------------------------------------------------------------------------
+// Enhanced Monsters
+//-------------------------------------------------------------------------
+
+// Enhanced Monsters core component
+// BEGIN @100
+// GROUP @1
+// Construct
+
+// Enhanced Monsters core component
+BEGIN @1001
+GROUP @1000
+
+OUTER_SPRINT basename_file mon007
+LAUNCH_ACTION_MACRO ~PATCH_CREATURES~
+

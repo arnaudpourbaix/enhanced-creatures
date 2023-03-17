@@ -1,8 +1,0 @@
-// Lesser Basilisk
-[monster=race(BASILISK),walk]
-
-[section=beforeCombat]
-  [reallyForceSpell=Petrification]
-
-[generate]
-

@@ -1,3 +1,0 @@
-// Doom guard
-[monster=race(PLATE),walk,smart]
-[generate]

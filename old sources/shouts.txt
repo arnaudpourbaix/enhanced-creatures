@@ -1,0 +1,6 @@
+Shouts
+======
+99 : Innocent
+98 : Summons
+97 : NPC (Adventurers)
+95 : Monsters

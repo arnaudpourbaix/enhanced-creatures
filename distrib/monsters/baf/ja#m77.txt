@@ -1,9 +1,0 @@
-// Half-Ogre
-[monster=race(OGRE),walk,smart]
-
-[section=beforeCombat]
-
-  [name=Attack caster;action=ATTACK;target=caster(random:false);actionRequire=caster]
-  [name=Attack fighter;action=ATTACK;target=fighter(random:false);actionRequire=fighter]
-
-[generate]

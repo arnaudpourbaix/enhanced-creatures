@@ -1,0 +1,3 @@
+// Dog (summon)
+[monster=race(DOG),summon]
+[generate]

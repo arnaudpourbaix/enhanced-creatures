@@ -1,0 +1,23 @@
+/////////////////////////////////////////////////////////////////////
+// Potions of strength
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN04",Myself) // Potion of Frost Giant Strength
+	CheckStatLT(Myself,19,STR)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("DrinkPotion","LOCALS",6)
+		UseItem("_POTN04",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN12",Myself) // Potion of Stone Giant Strength
+	CheckStatLT(Myself,19,STR)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN12",Myself)
+END
+

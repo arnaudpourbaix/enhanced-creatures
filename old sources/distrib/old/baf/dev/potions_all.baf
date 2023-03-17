@@ -1,0 +1,69 @@
+/////////////////////////////////////////////////////////////////////
+// Other potions
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	!StateCheck(Myself,STATE_INVISIBLE)	
+	HasItem("_POTN10",Myself) // Potion of Invisibility
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN10",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN18",Myself) // Potion of Absorption
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN18",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN09",Myself) // Potion of Heroism
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN09",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN14",Myself) // Oil of Speed
+	!StateCheck(Myself,STATE_HASTED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN14",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN34",Myself) // Potion of Magic Protection
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN34",LastSeenBy(Myself))
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN41",Myself) // Potion of Power
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN41",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN36",Myself) // Potion of Master Thievery
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN36",Myself)
+END
+
+

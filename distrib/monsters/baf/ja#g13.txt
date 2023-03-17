@@ -1,3 +1,0 @@
-// Elemental
-[monster=race(ELEMENTAL),walk]
-[generate]

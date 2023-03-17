@@ -1,0 +1,222 @@
+[name=Vocalize;action=SPELL(WIZARD_VOCALIZE,2,,notarget);requireSelf=silence]
+
+[name=Chaos Shield;action=SPELL(SPWI222,2,50,notarget)]
+
+[name=Stoneskin;action=SPELL(WIZARD_STONE_SKIN,4,,notarget,stoneskin,hit)]
+
+[INCLUDE_SPELL_SEQUENCER]
+
+[name=Improved Invisibility;action=SPELL(WIZARD_IMPROVED_INVISIBILITY,4,75,notarget);requireSelf=!improvedInvisible]
+[name=Invisibility Sphere;action=SPELL(WIZARD_INVISIBILITY_10_FOOT,3,75,notarget);requireSelf=visible]
+[name=Invisibility;action=SPELL(WIZARD_INVISIBILITY,2,75,notarget);requireSelf=visible]
+
+[name=Minor Globe of Invulnerability;action=SPELL(WIZARD_MINOR_GLOBE_OF_INVULNERABILITY,4,75,notarget);requireSelf=!spellProtection]
+
+[name=Teleport Field;action=SPELL(WIZARD_TELEPORT_FIELD,4,50,notarget)]
+
+[name=Mirror Image;action=SPELL(WIZARD_MIRROR_IMAGE,2,50,notarget);requireSelf=!state(STATE_MIRRORIMAGE)]
+[name=Reflected Image;action=SPELL(WIZARD_REFLECTED_IMAGE,1,50,notarget);requireSelf=!state(STATE_MIRRORIMAGE)]
+
+[name=Knock;action=SPELL(WIZARD_KNOCK,2,75,hit);target=attacker]
+
+[name=Haste;action=SPELL(WIZARD_HASTE,3,50,notarget);requireSelf=!state(STATE_HASTED)]
+
+[name=Minor Spell Deflection;action=SPELL(SPWI318,3,50,notarget);requireSelf=!spellProtection]
+
+[name=Spirit Armor;action=SPELL(WIZARD_SPIRIT_ARMOR,4,50,notarget)]
+
+[name=Protection from Normal Missiles;action=SPELL(WIZARD_PROTECTION_FROM_NORMAL_MISSILES,3,50,notarget)]
+
+[name=Non Detection;action=SPELL(WIZARD_NON_DETECTION,3,50,notarget)]
+
+[name=Ghost Armor;action=SPELL(WIZARD_GHOST_ARMOR,3,50,notarget)]
+
+[name=Clairvoyance;action=SPELL(SPWI301,3,50,notarget)]
+
+[name=Blur;action=SPELL(WIZARD_BLUR,2,50,notarget)]
+
+[name=Mage Armor;action=SPELL(WIZARD_ARMOR,1,50,notarget);requireSelf=!stat(3,SCRIPTINGSTATE5)]
+
+[name=Shield;action=SPELL(WIZARD_SHIELD,1,50,notarget);requireSelf=!shield]
+
+[name=Protection from Evil;action=SPELL(WIZARD_PROTECTION_FROM_EVIL,1,50,notarget);requireSelf=!pfe]
+
+[name=Resist Fear;action=SPELL(WIZARD_RESIST_FEAR,2,50,notarget)]
+
+[name=Fire Shield Red;action=SPELL(WIZARD_FIRE_SHIELD_RED,4,50,notarget)]
+
+[name=Fire Shield Blue;action=SPELL(WIZARD_FIRE_SHIELD_BLUE,4,50,notarget)]
+
+[name=Detect Illusion;action=SPELL(WIZARD_DETECT_ILLUSION,3,50,notarget);require=illusion,range(20);target=Players]
+
+[name=Detect Invisibility;action=SPELL(WIZARD_DETECT_INVISIBILITY,2,50,notarget);require=detect,!see,range(20);target=Players]
+
+[name=Remove Magic;action=SPELL(WIZARD_DISPEL_MAGIC,3,50);target=Player;require=enchanted]
+
+[name=Dispel Magic;action=SPELL(WIZARD_TRUE_DISPEL_MAGIC,3,50),RUN(30);target=Player;require=enchanted,!range(15)]
+
+[name=Melf Meteor;action=SPELL(WIZARD_MELF_METEOR,3,50,notarget);requireSelf=!magicalWeaponItem]
+
+[name=Spider Spawn;action=SPELL(WIZARD_SPIDER_SPAWN,4,50,notarget)]
+[name=Monster Summoning 2;action=SPELL(WIZARD_MONSTER_SUMMONING_2,4,50,notarget)]
+[name=Monster Summoning 1;action=SPELL(WIZARD_MONSTER_SUMMONING_1,3,50,notarget)]
+
+[name=Secret Word;action=SPELL(WIZARD_SECRET_WORD,4,50,notarget)]
+[name=Spell Thrust;action=SPELL(WIZARD_SPELL_THRUST,3,50,notarget)]
+
+[level=4;target=Player;require=valid,!disable,!magicImmunity]
+[level=4;target=Player;require=valid,!disable,!magicImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(WIZARD_GREATER_MALISON,4,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity]
+[name=Polymorph Other;action=SPELL(WIZARD_POLYMORPH_OTHER,4,75);require=!disable,!magicImmunity]
+
+[level=3;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity]
+[level=3;target=Player;require=!disable,!magicImmunity,!globe,!holdImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[name=Hold Person;action=SPELL(WIZARD_HOLD_PERSON,3,50);require=!disable,!magicImmunity,!globe,!holdImmunity]
+
+[level=3;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=3;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[level=3;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=3;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[name=Dire Charm;action=SPELL(WIZARD_DIRE_CHARM,3,50);require=!disable,!magicImmunity,!globe,!charmImmunity]
+
+[name=Slow;action=SPELL(WIZARD_SLOW,3,50);target=Player,Fighter(num:3);require=!slow,!disable,!magicImmunity,!globe]
+
+[name=Skull Trap;action=SPELL(WIZARD_SKULL_TRAP,3,50);target=Summon(num:5),Player;requireSelf=or(globe,magicDamageImmunity);require=!magicImmunity,!globe]
+[action=SPELL(WIZARD_SKULL_TRAP,3,50),RUN(30);require=!range(14),!magicImmunity,!globe]
+
+[name=Fireball;action=SPELL(WIZARD_FIREBALL,3,50);target=Summon(num:5),Player;requireSelf=or(globe,fireImmunity);require=!magicImmunity,!globe,!fireImmunity]
+[action=SPELL(WIZARD_FIREBALL,3,50),RUN(30);require=!range(16),!magicImmunity,!globe,!fireImmunity]
+
+[name=Ice Storm;action=SPELL(WIZARD_ICE_STORM,4,50);target=Summon(num:5),Player;requireSelf=coldImmunity;require=!magicImmunity,!coldImmunity]
+
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe]
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+
+[name=Confusion;action=SPELL(WIZARD_CONFUSION,4,50);require=!disable,!magicImmunity,!confusionImmunity]
+
+[name=Otilukes Resilient Sphere;action=SPELL(WIZARD_OTILUKES_RESILIENT_SPHERE,4,50);require=!disable,!magicImmunity]
+
+[INCLUDE_MINOR_SEQUENCER]
+
+[name=Power Word Sleep;action=SPELL(WIZARD_POWER_WORD_SLEEP,2,50);require=!disable,!magicImmunity,!globe,!sleepImmunity]
+
+[name=Web;action=SPELL(WIZARD_WEB,2,50);require=!disable,!magicImmunity,!globe]
+
+[name=Stinking Cloud;action=SPELL(WIZARD_STINKING_CLOUD,2,50);require=!disable,!magicImmunity,!globe]
+
+[name=Horror;action=SPELL(WIZARD_HORROR,2,50);require=!disable,!magicImmunity,!globe,fearImmunity]
+
+[name=Sleep;action=SPELL(WIZARD_SLEEP,1,50);require=!disable,!magicImmunity,!globe,!sleepImmunity]
+
+[name=Grease;action=SPELL(WIZARD_GREASE,1,50);require=!disable,!magicImmunity,!globe]
+
+//[name=Knock;action=SPELL(WIZARD_KNOCK,2,50);require=!disable,!magicImmunity,!globe]
+
+[name=Color Spray;action=SPELL(WIZARD_COLOR_SPRAY,1,50);require=!disable,!magicImmunity,!globe]
+
+[name=Spook;action=SPELL(WIZARD_SPOOK,1,50);require=!disable,!magicImmunity,!globe,!fearImmunity]
+
+[name=Blindness;action=SPELL(WIZARD_BLINDNESS,1,50);require=!disable,!blind,!magicImmunity,!globe]
+
+[name=Glitterdust;action=SPELL(WIZARD_GLITTERDUST,2,50);target=Player;require=!magicImmunity,!globe]
+
+[name=Magic Missile;action=SPELL(WIZARD_MAGIC_MISSILE,1,50);target=Player;require=state(STATE_MIRRORIMAGE),!magicImmunity,!globe,!shield]
+
+[level=2;target=Caster(num:3);require=valid,!disable,!silence,!failure,!magicImmunity,!globe]
+[level=2;target=Caster(num:3);require=valid,!disable,!silence,!failure,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[name=Deafness;action=SPELL(WIZARD_DEAFNESS,2,50);require=!disable,!silence,!failure,!globe,!magicImmunity]
+
+[level=2;target=Player;require=valid,!disable,!magicImmunity,!globe]
+[level=2;target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[level=2;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe]
+[level=2;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[name=Ray of Enfeeblement;action=SPELL(WIZARD_RAY_OF_ENFEEBLEMENT,2,50);require=!disable,!magicImmunity,!globe]
+
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=1;target=Player;require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[level=1;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity]
+[level=1;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,!charmImmunity,stat(1,WIZARD_GREATER_MALISON)]
+[name=Charm Person;action=SPELL(WIZARD_CHARM_PERSON,1,50);require=!disable,!magicImmunity,!globe,!charmImmunity]
+
+[name=Strength;action=SPELL(WIZARD_STRENGTH,2,50,notarget)]
+
+[name=Ghoul Touch;action=SPELL(WIZARD_GHOUL_TOUCH,2,50,notarget);requireSelf=!magicalWeaponItem]
+[name=Shocking Grasp;action=SPELL(WIZARD_SHOCKING_GRASP,1,50,notarget);requireSelf=!magicalWeaponItem]
+[name=Chill Touch;action=SPELL(WIZARD_CHILL_TOUCH,1,50,notarget);requireSelf=!magicalWeaponItem]
+
+[name=True Strike;action=SPELL(SPWI111,1,50,notarget)]
+
+[name=Emotion: Despair;action=SPELL(WIZARD_EMOTION_HOPELESSNESS,4,50);target=Player,Fighter(num:3);require=!disable,!magicImmunity]
+
+[level=4;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe]
+[level=4;target=Fighter(num:3);require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[action=SPELL(WIZARD_GREATER_MALISON,4,25);require=!stat(1,WIZARD_GREATER_MALISON),!disable,!magicImmunity]
+[name=Contagion;action=SPELL(WIZARD_CONTAGION,4,75,fighter);require=!disable,!magicImmunity]
+
+// Select target
+[target=Summon(num:5);require=valid,!magicImmunity,!globe]
+[target=Summon(num:5);require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe]
+[target=Player;require=valid,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+[target=Player;require=valid,!disable,!magicImmunity,!globe]
+[target=Player;require=valid,!disable,!magicImmunity,!globe,stat(1,WIZARD_GREATER_MALISON)]
+
+[name=Flame Arrow;action=SPELL(WIZARD_FLAME_ARROW,3,50);require=!magicImmunity,!globe,!fireImmunity]
+
+[name=Lightning Bolt;action=SPELL(WIZARD_LIGHTNING_BOLT,3,50);require=!magicImmunity,!globe,!electricityImmunity]
+
+[name=Vampiric Touch;action=SPELL(WIZARD_VAMPIRIC_TOUCH,3,50);require=!magicImmunity,!globe]
+
+[name=Agannazar's Scorcher;action=SPELL(WIZARD_AGANNAZAR_SCORCHER,2,50);require=!magicImmunity,!globe,!fireImmunity]
+
+[name=Melf Acid Arrow;action=SPELL(WIZARD_MELF_ACID_ARROW,2,50)require=!magicImmunity,!globe,!acidImmunity]
+
+[name=Know Opponent;action=SPELL(SPWI208,2,50);require=!magicImmunity,!globe]
+
+[name=Magic Missile;action=SPELL(WIZARD_MAGIC_MISSILE,1,50);require=!magicImmunity,!globe,!shield]
+
+[name=Burning Hands;action=SPELL(WIZARD_BURNING_HANDS,1,50);require=!magicImmunity,!globe,!fireImmunity]
+
+[name=Larloch Minor Drain;action=SPELL(WIZARD_LARLOCH_MINOR_DRAIN,1,50);require=!magicImmunity,!globe]
+
+[name=Chromatic Orb;action=SPELL(WIZARD_CHROMATIC_ORB,1,50);require=!magicImmunity,!globe]
+
+[name=Polymorph Self;action=SPELL(WIZARD_POLYMORPH_SELF,4,50,notarget)]
+
+// Polymorph Self
+IF
+  !GlobalTimerNotExpired("ja#round","LOCALS")
+  OR(5)
+    HaveSpellRES("SPWI495") // Sword spider
+    HaveSpellRES("SPWI494") // Ogre
+    HaveSpellRES("SPWI497") // Brown bear
+    HaveSpellRES("SPWI496") // Mustard jelly
+    HaveSpellRES("SPWI499") // Dread Wolf
+  !GlobalTimerNotExpired("ja#polyform","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("ja#polyform","LOCALS",24)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    ForceSpellRES("spwi495",Myself)  // Sword spider
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+  RESPONSE #100
+    SetGlobalTimer("ja#polyform","LOCALS",24)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    ForceSpellRES("spwi497",Myself)  // Brown bear
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+  RESPONSE #90
+    SetGlobalTimer("ja#polyform","LOCALS",24)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    ForceSpellRES("spwi494",Myself)  // Ogre
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+  RESPONSE #90
+    SetGlobalTimer("ja#polyform","LOCALS",24)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    ForceSpellRES("spwi496",Myself)  // Mustard jelly
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+  RESPONSE #50
+    SetGlobalTimer("ja#polyform","LOCALS",24)
+    SetGlobalTimer("ja#round","LOCALS",6)
+    ForceSpellRES("spwi499",Myself)  // Dread Wolf
+    SetGlobal("ja#disable_spellcasting","LOCALS",1)
+END

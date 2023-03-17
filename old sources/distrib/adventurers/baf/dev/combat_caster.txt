@@ -1,0 +1,16 @@
+// is there is any nearest enemy able to hurt me ?
+[target=nearest(num:10,random:false);require=!disable,!stat(1,POLYMORPH_OTHER),see]
+
+[name=Avoid melee if able to cast spells and no magical melee weapon
+  ;action=RUN(60);requireSelf=global(ja#disable_spellcasting,0),global(ja#melee,0),movementgt(6)
+                            ,!item(chillt),!item(ghoult),!item(phanblad),!item(blakblad),!item(sblade)
+                            ,!item(shille),!item(shille2),!item(shille3),!item(shille3),!item(serious),!item(critical),!item(slaylive),!item(harm)
+                            ,!item(fblade1),!item(fblade2),!item(fblade3),!item(fblade4),!item(fblade5),!item(fblade6),!item(fblade7),!item(fblade8),!item(fblade9),!item(fblade)
+                            ,!item(shammr),!item(shammr2),!item(shammr3),!item(shammr4),!item(shammr5)
+  ;require=!disable,!stat(1,POLYMORPH_OTHER),range(5),see]
+
+[name=Avoid combat if able to cast spells and no magical weapon or invisible
+  ;action=WALK;requireSelf=global(ja#disable_spellcasting,0),global(ja#melee,0),movementgt(6),!magicalWeaponItem;require=!disable,!stat(1,POLYMORPH_OTHER),see]
+
+[action=WALK;requireSelf=global(ja#disable_spellcasting,0),global(ja#melee,0),!movementgt(6),!magicalWeaponItem;require=!disable,!stat(1,POLYMORPH_OTHER),see]
+

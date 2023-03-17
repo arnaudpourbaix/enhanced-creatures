@@ -1,0 +1,30 @@
+// Monk
+[CLASS=MONK]
+
+// Monk, level 5 immunity to all diseases, and cannot be slowed or hasted
+[action=APPLYSPELL(SPCL814),CONTINUE]
+
+// Monk, level 9 immunity to charm
+[action=APPLYSPELL(SPCL817),CONTINUE]
+
+// Monk, level 11 immunity to poison
+[action=APPLYSPELL(SPCL818),CONTINUE]
+
+// Kit special abilities are done
+[action=GLOBAL(ja#kit,1),CONTINUE;require=global(ja#kit,0)]
+
+[include=init_npc]
+[include=tracking]
+[include=potions]
+
+// Lay on Hand
+[spell=MONK_LAY_ON_HANDS;requireSelf=hplostgt(25),random(50)]
+
+// Quivering Palm
+[action=SPELL(MONK_QUIVERING_PALM,,90,notarget,innate);requireSelf=!stat(2,SCRIPTINGSTATE4),!stat(5,SCRIPTINGSTATE4);require=range(5,nearest)]
+
+// Stunning Blow
+[action=SPELL(MONK_STUNNING_BLOW,,90,notarget,innate);requireSelf=!stat(2,SCRIPTINGSTATE4),!stat(5,SCRIPTINGSTATE4);require=range(5,nearest),!stun]
+
+
+[include=combat_smart_both]

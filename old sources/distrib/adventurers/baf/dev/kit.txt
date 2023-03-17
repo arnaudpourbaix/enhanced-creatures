@@ -1,0 +1,29 @@
+// don't use this file, test and dispatch in appropriate scripts
+
+// Monk, level 5 immunity to all diseases, and cannot be slowed or hasted
+[type=MONK;action=APPLYSPELL(SPCL814),CONTINUE]
+
+// Monk, level 9 immunity to charm
+[type=MONK;action=APPLYSPELL(SPCL817),CONTINUE]
+
+// Monk, level 11 immunity to poison
+[type=MONK;action=APPLYSPELL(SPCL818),CONTINUE]
+
+// Monk, level 20 immunity to non-magical weapons
+[type=MONK;action=APPLYSPELL(SPCL821),CONTINUE]
+
+// Cavalier
+[type=PALADIN;action=APPLYSPELL(SPCL221),CONTINUE]
+
+// Undead Slayer
+[type=PALADIN;action=APPLYSPELL(SPCL242),CONTINUE]
+
+// Inquisitor
+[type=PALADIN;action=APPLYSPELL(SPCL233B),CONTINUE]
+
+// Deathbringer
+[action=APPLYSPELL(ikdb1),CONTINUE]
+
+// Kit special abilities are done
+[action=GLOBAL(ja#kit,1),CONTINUE;require=global(ja#kit,0)]
+

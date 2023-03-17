@@ -1,6 +1,0 @@
-// Run away if enemy is too close
-[action=RUN(60);requireSelf=!slow,movementGT(5);require=seeEnemy,range(5),!haste]
-
-// Run away if attacked in melee
-[action=RUN(60);requireSelf=!slow,movementGT(5);require=hit,range(5),!haste;target=attacker]
-

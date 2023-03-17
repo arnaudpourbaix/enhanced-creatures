@@ -1,0 +1,3 @@
+[action=RANGED;require=empty]
+[action=MELEE;require=empty]
+[include=combat_simple]

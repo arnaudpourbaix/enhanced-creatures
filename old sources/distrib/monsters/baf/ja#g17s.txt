@@ -1,0 +1,3 @@
+// Ghoul (summon)
+[monster=race(GHOUL),summon]
+[generate]

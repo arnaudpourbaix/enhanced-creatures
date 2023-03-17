@@ -1,9 +1,0 @@
-// Archer
-[CLASS=RANGER]
-[include=init_npc]
-[include=hide]
-[include=tracking]
-[include=potions]
-[spell=Called Shot]
-[include=avoid_melee]
-[include=combat_smart]

@@ -1,7 +1,0 @@
-// Ghast (summon)
-[monster=race(GHOUL),smart,summon]
-
-[section=beforeCombat]
-  [reallyForceSpell=Carrion Stench]
-
-[generate]

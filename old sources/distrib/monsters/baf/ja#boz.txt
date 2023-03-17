@@ -1,0 +1,18 @@
+// Ogre
+[monster=race(OGRE),walk]
+
+[section=beforeCombat]
+  IF
+  	See(NearestEnemyOf(Myself))
+  	Global("shouted","LOCALS",0)
+  THEN
+  	RESPONSE #100
+  		SetGlobal("shouted","LOCALS",1)
+  		DisplayString(Myself,46152) // slay the child of darkness!
+  END
+
+  [spell=Ogre Barbarian Rage]
+
+  [name=Attack fighter;action=ATTACK;target=fighter(random:false);actionRequire=fighter]
+
+[generate]

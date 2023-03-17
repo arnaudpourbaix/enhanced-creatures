@@ -1,0 +1,116 @@
+///////////////////////////////////////////////////////////////////////
+// Blink Dog
+///////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////
+// Track player if appropriate, otherwise random walk
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Are there any enemies that try to escape, follow them
+// It's not about sight but memory (I saw that enemy going in that dir.)
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#startcombat","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(LastAttackerOf(Myself),STATE_INVISIBLE)
+	Range(LastAttackerOf(Myself),70)
+THEN
+	RESPONSE #100
+		ForceSpell(LastAttackerOf(Myself),PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player1,STATE_INVISIBLE)
+	Range(Player1,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player1,PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player2,STATE_INVISIBLE)
+	Range(Player2,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player2,PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player3,STATE_INVISIBLE)
+	Range(Player3,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player3,PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player4,STATE_INVISIBLE)
+	Range(Player4,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player4,PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player5,STATE_INVISIBLE)
+	Range(Player5,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player5,PHASE_SPIDER_TELEPORT)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player6,STATE_INVISIBLE)
+	Range(Player6,70)
+THEN
+	RESPONSE #100
+		ForceSpell(Player6,PHASE_SPIDER_TELEPORT)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Random walk
+///////////////////////////////////////////////////////////////////////
+IF
+	!See(NearestEnemyOf(Myself))
+	ActionListEmpty()
+THEN
+	RESPONSE #100
+		RandomWalk()
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Teleport to nearest enemy
+///////////////////////////////////////////////////////////////////////
+IF
+	Allegiance(Myself,Enemy)
+	!StateCheck(NearestEnemyOf(Myself),STATE_CHARMED)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)	
+	See(NearestEnemyOf(Myself))
+	!Range(NearestEnemyOf(Myself),15)
+THEN
+	RESPONSE #100
+		ForceSpell(LastSeenBy(Myself),PHASE_SPIDER_TELEPORT)
+END	

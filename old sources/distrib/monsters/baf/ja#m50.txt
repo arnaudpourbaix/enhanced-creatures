@@ -1,0 +1,3 @@
+// Fire salamander
+[monster=race(ELEMENTAL),walk,smart]
+[generate]

@@ -1,8 +1,0 @@
-// Aerial Servant (summon)
-[monster=summon]
-
-[section=beforeCombat]
-  // Attack nearest target
-  [action=ATTACK;target=nearest(num:6,random:false)]
-
-[generate]

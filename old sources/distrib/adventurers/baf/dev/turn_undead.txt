@@ -1,0 +1,12 @@
+// Turn Undead (UD level+1 , TU level-1)
+[action=TURNUNDEAD(12,17)]
+[action=TURNUNDEAD(11,15)]
+[action=TURNUNDEAD(10,13)]
+[action=TURNUNDEAD(9,12)]
+[action=TURNUNDEAD(8,11)]
+[action=TURNUNDEAD(7,10)]
+[action=TURNUNDEAD(6,8)]
+[action=TURNUNDEAD(5,7)]
+[action=TURNUNDEAD(4,6)]
+[action=TURNUNDEAD(3,5)]
+[action=TURNUNDEAD(2,3)]

@@ -1,0 +1,7 @@
+[name=Backstab a held target;action=backstab(melee);target=nearest(num:9,random:false);require=hold]
+[name=Backstab a stunned target;action=backstab(melee);target=nearest(num:9,random:false);require=stun]
+[name=Backstab a sleeping target;action=backstab(melee);target=nearest(num:9,random:false);require=sleep]
+[name=Backstab slowed or blinded target;action=backstab(melee);target=nearest(num:9,random:false);require=or(slow,blind)]
+[name=Backstab random target;action=backstab(melee);target=nearest(num:9,random:false);require=!summon]
+
+[action=noaction;requireSelf=invisible]

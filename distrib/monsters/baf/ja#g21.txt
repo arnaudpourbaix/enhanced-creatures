@@ -1,9 +1,0 @@
-// Hobgoblin
-[monster=race(HOBGOBLIN),walk,both]
-
-[section=beforeCombat]
-  [action=RANGED;require=empty]
-  [action=MELEE;require=empty]
-  [name=Attack elves;action=ATTACK;target=elf(random:false);actionRequire=race(elf)]
-
-[generate]

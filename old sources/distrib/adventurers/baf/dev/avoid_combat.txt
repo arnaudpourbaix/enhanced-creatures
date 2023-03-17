@@ -1,0 +1,4 @@
+// Avoid combat, flee from battle
+[action=RUN(150);requireSelf=seeEnemy]
+[action=RUN(150);requireSelf=hit;target=attacker]
+

@@ -1,0 +1,9 @@
+IF
+  InParty(Myself)
+  Global("IKNPCKit","LOCALS",0)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("IKitSar1",Myself)
+    AddKit(IK_DEATHBRINGER)
+    SetGlobal("IKNPCKit","LOCALS",1)
+END

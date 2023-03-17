@@ -1,0 +1,11 @@
+// Wizard Slayer
+[CLASS=FIGHTER]
+[include=init_npc]
+[include=tracking]
+[include=potions]
+
+[action=RANGED;require=empty]
+[action=MELEE;require=empty]
+
+[name=Attack caster;action=ATTACK;target=caster(random:false);actionRequire=caster]
+[include=combat_smart]

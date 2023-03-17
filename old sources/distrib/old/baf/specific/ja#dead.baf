@@ -1,0 +1,8 @@
+IF
+  Die()
+THEN
+  RESPONSE #100
+    DestroyAllEquipment()
+    ReallyForceSpellDead(Myself,RED_HOLY_MIGHT)
+END
+

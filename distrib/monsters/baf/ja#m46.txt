@@ -1,7 +1,0 @@
-// Air Elemental
-[monster=race(ELEMENTAL),walk]
-
-[section=beforeCombat]
-  [forceSpell=Air Elemental Whirlwind]
-
-[generate]

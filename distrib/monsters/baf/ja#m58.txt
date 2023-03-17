@@ -1,7 +1,0 @@
-// Ghoul Lord
-[monster=race(GHOUL),walk,smart]
-
-[section=beforeCombat]
-  [reallyForceSpell=Reek of Evil]
-
-[generate]

@@ -1,3 +1,0 @@
-// Enable/Disable Spellcasting
-[action=GLOBAL(ja#disable_spellcasting,0);requireSelf=global(ja#disable_spellcasting,1),canCast]
-[action=GLOBAL(ja#disable_spellcasting,1);requireSelf=global(ja#disable_spellcasting,0),!canCast]

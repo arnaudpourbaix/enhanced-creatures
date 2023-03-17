@@ -1,0 +1,3 @@
+// Bear (summon)
+[monster=race(BEAR),summon]
+[generate]

@@ -1,0 +1,5 @@
+// Nearest target
+[action=ATTACK;target=nearest(num:6,random:false)]
+
+// Attack sleeping target
+[action=ATTACK;target=Player(random:false);requireSelf=allegiance(enemy);require=sleep]

@@ -1,9 +1,0 @@
-// Ogre (Berserker)
-[monster=race(OGRE),walk]
-
-[section=beforeCombat]
-  [spell=Ogre Barbarian Rage]
-
-  [name=Attack fighter;action=ATTACK;target=fighter(random:false);actionRequire=fighter]
-
-[generate]

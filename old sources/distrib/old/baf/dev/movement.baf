@@ -1,0 +1,168 @@
+///////////////////////////////////////////////////////////////////////
+// Movement and Tracking
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Thieves will try to hide
+/////////////////////////////////////////////////////////////////////
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!GlobalTimerNotExpired("ja#stealth","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#stealth","LOCALS",9)
+		Hide()
+END
+
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!GlobalTimerNotExpired("Stealth","LOCALS")
+	!RandomNum(4,1) // Sometimes, it's good to fight
+THEN
+	RESPONSE #100
+		RunAwayFromNoInterrupt(NearestEnemyOf(Myself),45)
+END
+
+// If thief is not invisible, he won't track down an enemy not in sight
+IF
+	OR(2)
+		Class(Myself,THIEF)
+		Class(Myself,THIEF_ALL)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Are there any enemies that try to escape, follow them
+// It's not about sight but memory (I saw that enemy going in that dir.)
+/////////////////////////////////////////////////////////////////////
+IF
+	Global("ja#startcombat","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(LastAttackerOf(Myself),STATE_INVISIBLE)
+	Range(LastAttackerOf(Myself),70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(LastAttackerOf(Myself))
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player1,STATE_INVISIBLE)
+	Range(Player1,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player1)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player2,STATE_INVISIBLE)
+	Range(Player2,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player2)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player3,STATE_INVISIBLE)
+	Range(Player3,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player3)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player4,STATE_INVISIBLE)
+	Range(Player4,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player4)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player5,STATE_INVISIBLE)
+	Range(Player5,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player5)
+END
+
+IF
+	Global("ja#startcombat","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!See(NearestEnemyOf(Myself))
+	!StateCheck(Player6,STATE_INVISIBLE)
+	Range(Player6,70)
+	OR(2)
+		!Class(Myself,THIEF_ALL)
+		StateCheck(Myself,STATE_INVISIBLE)
+THEN
+	RESPONSE #100
+		MoveToObject(Player6)
+END
+
+
+///////////////////////////////////////////////////////////////////////
+// Behavior if no enemies have been seen
+///////////////////////////////////////////////////////////////////////
+IF
+	!See(NearestEnemyOf(Myself))
+	Global("ja#randomwalk","LOCALS",1)
+THEN
+	RESPONSE #100
+		RandomWalk()
+END
+
+IF
+	!See(NearestEnemyOf(Myself))
+	Global("ja#randomwalk","LOCALS",0)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+

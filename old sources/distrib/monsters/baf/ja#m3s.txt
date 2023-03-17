@@ -1,0 +1,8 @@
+// Lesser Basilisk (summon)
+[monster=race(BASILISK),summon]
+
+[section=beforeCombat]
+  [reallyForceSpell=Petrification]
+
+[generate]
+

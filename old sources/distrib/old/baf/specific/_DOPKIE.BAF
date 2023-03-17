@@ -1,0 +1,153 @@
+IF
+  HPPercentLT(Myself,70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See([0.0.DOPPLEGANGER.FIGHTER])
+  HPPercentLT([0.0.DOPPLEGANGER.FIGHTER],70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell([0.0.DOPPLEGANGER.FIGHTER],CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See([0.0.DOPPLEGANGER.BARD])
+  HPPercentLT([0.0.DOPPLEGANGER.BARD],70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell([0.0.DOPPLEGANGER.BARD],CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See([0.0.DOPPLEGANGER.CLERIC])
+  HPPercentLT([0.0.DOPPLEGANGER.CLERIC],70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell([0.0.DOPPLEGANGER.CLERIC],CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See([0.0.DOPPLEGANGER.DOPPLEGANGER_GREATER])
+  HPPercentLT([0.0.DOPPLEGANGER.DOPPLEGANGER_GREATER],70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell([0.0.DOPPLEGANGER.DOPPLEGANGER_GREATER],CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See([0.0.DOPPLEGANGER.MAGE])
+  HPPercentLT([0.0.DOPPLEGANGER.MAGE],70)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell([0.0.DOPPLEGANGER.MAGE],CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  Delay(20)
+  See(NearestEnemyOf(Myself))
+  Range(NearestEnemyOf(Myself),4)
+THEN
+  RESPONSE #100
+    ChangeAnimation("_DOPDOP") // Greater Doppelganger
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopdur")
+  HPPercentLT("dopdur",75)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell("dopdur",CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopfue")
+  HPPercentLT("dopfue",75)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell("dopfue",CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopkie")
+  HPPercentLT("dopkie",75)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell("dopkie",CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopdop")
+  HPPercentLT("dopdop",75)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell("dopdop",CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopisl")
+  HPPercentLT("dopisl",75)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell("dopisl",CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+  See("dopdur")
+  HaveSpell(CLERIC_CHANT)
+THEN
+  RESPONSE #100
+    Spell("dopdur",CLERIC_CHANT)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),4)
+  Range(NearestEnemyOf(Myself),9)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackReevaluate(NearestEnemyOf(Myself),30)
+END
+
+IF
+  Delay(20)
+  See(NearestEnemyOf(Myself))
+  !Range(NearestEnemyOf(Myself),9)
+THEN
+  RESPONSE #100
+    ChangeAnimation("_DOPISL") // Islanne
+END
+
+

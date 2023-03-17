@@ -1,0 +1,84 @@
+///////////////////////////////////////////////////////////////////////
+// Warrior skeleton
+///////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////
+// Warrior skeleton fear
+/////////////////////////////////////////////////////////////////////
+IF
+	!CheckStat(SixthNearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SixthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FifthNearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FifthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(FourthNearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	See(FourthNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(ThirdNearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	See(ThirdNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(SecondNearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	See(SecondNearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	!CheckStat(NearestEnemyOf(Myself),1,SCRIPTINGSTATE3) // Protection from magic
+	!StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
+	!StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	CheckStat(NearestEnemyOf(Myself),0,SANCTUARY)
+	See(NearestEnemyOf(Myself))
+	False()
+THEN
+	RESPONSE #100
+END
+
+IF
+	See(LastSeenBy(Myself))
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	Range(LastSeenBy(Myself),10)
+	!GlobalTimerNotExpired("ja#fear","LOCALS")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#fear","LOCALS",15)
+		ForceSpellRES("ja#WSKEL",LastSeenBy(Myself))
+END

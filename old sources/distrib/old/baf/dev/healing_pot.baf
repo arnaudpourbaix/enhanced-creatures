@@ -1,0 +1,70 @@
+/////////////////////////////////////////////////////////////////////
+// Lay on hands
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HPPercentLT(Myself,60)
+	HaveSpellRES("spcl211")
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl211",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HaveSpellRES("spcl815")
+	HPPercentLT(Myself,60)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		SpellRES("spcl815",Myself)
+END
+
+
+/////////////////////////////////////////////////////////////////////
+// Healing potions
+/////////////////////////////////////////////////////////////////////
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("POTN55",Myself) // Potion of Superior Healing
+	HPPercentLT(Myself,50)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("POTN55",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("POTN52",Myself) // Potion of Extra Healing
+	HPPercentLT(Myself,60)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("POTN52",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN17",Myself) // Elixir of Health
+	OR(2)
+		HPPercentLT(Myself,30)
+		StateCheck(Myself,STATE_POISONED)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN17",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("ja#cast","LOCALS")
+	HasItem("_POTN08",Myself) // Potion of Healing
+	HPPercentLT(Myself,30)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("ja#cast","LOCALS",6)
+		UseItem("_POTN08",Myself)
+END
+
+

@@ -1,0 +1,29 @@
+  Abjurer      Human                 15 Wisdom
+  Conjurer     Human, Half-Elf       15 Constitution
+  Diviner      Any                   16 Wisdom
+  Enchanter    Human, Half-Elf, Elf  16 Charisma
+  Illusionist  Human, Gnome          16 Dexterity
+  Invoker      Human                 16 Constitution
+  Necromancer  Human                 16 Wisdom
+  Transmuter   Human, Half-Elf       15 Dexterity
+
+
+P&P:
+Abjurer          Alteration, Illusion
+Conjurer         Divination, Evocation
+Diviner          Conjuration
+Enchanter        Evocation, Necromancy
+Illusionist      Necromancy, Evocation, Abjuration
+Invoker          Enchantment, Conjuration
+Necromancer      Illusion, Enchantment
+Transmuter       Abjuration, Necromancy
+
+Ingame:
+Abjurer          Alteration
+Conjurer         Divination
+Diviner          Conjuration
+Enchanter        Evocation
+Illusionist      Necromancy
+Invoker          Enchantment, Conjuration
+Necromancer      Illusion
+Transmuter       Abjuration, Necromancy

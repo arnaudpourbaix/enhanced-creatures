@@ -1,0 +1,26 @@
+[minCasterLevel=7;name=Can't cast spells;action=global(ja#shapeshift,1)
+  ;requireSelf=global(ja#shapeshift,0),global(ja#disable_spellcasting,1)]
+
+[minCasterLevel=7;name=No offensive spells left;action=global(ja#shapeshift,1)
+  ;requireSelf=global(ja#shapeshift,0),global(ja#melee,1)]
+
+[minCasterLevel=7;name=Attacked by someone, no iron-skin, and less than 75% HP;action=global(ja#shapeshift,1)
+  ;requireSelf=global(ja#shapeshift,0),attacked,!spell(CLERIC_IRONSKIN),hp%lt(75)]
+  
+[minCasterLevel=20;name=Strong forms, may change at any moment;action=TIMER(ja#random_shapeshift,12),global(ja#shapeshift,1)
+  ;requireSelf=global(ja#shapeshift,0),or(hp%lt<50>,random<10>)]
+  
+[minCasterLevel=7;maxCasterLevel=19;name=Lesser forms, less likely to change;action=TIMER(ja#random_shapeshift,12),global(ja#shapeshift,1)
+  ;requireSelf=global(ja#shapeshift,0),hp%lt(67),random(10)]
+
+[minCasterLevel=20;action=FORCESPELL(Earth Elemental Transformation);requireSelf=global(ja#shapeshift,1),stat(0,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(50)]
+
+[minCasterLevel=20;action=FORCESPELL(Fire Elemental Transformation);requireSelf=global(ja#shapeshift,1),stat(0,SHAPESHIFT)
+  ,nomem,nodisablecheck,norandom]
+
+[minCasterLevel=7;maxCasterLevel=19;action=FORCESPELL(Shapeshifts Brown Bear);requireSelf=global(ja#shapeshift,1),stat(0,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(75)]
+
+[minCasterLevel=7;maxCasterLevel=19;action=FORCESPELL(Shapeshifts Wolf);requireSelf=global(ja#shapeshift,1),stat(0,SHAPESHIFT)
+  ,nomem,nodisablecheck,random(25)]

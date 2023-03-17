@@ -1,0 +1,60 @@
+BG1:
+
+- Alatos 'Ravenscar' Thuibuld (guildmaster of the Baldur's Gate Thieves Guild)
+- Aldeth Sashenstar (resident of Baldur's Gate; co-owner of the Merchant's League)
+- Alyth Elendara (proprietor of the Elfsong Tavern)
+- Belt (Grand Duke of Baldur's Gate)
+- Bentley and Gellana Mirrorshade (proprietors of the Friendly Arm Inn; former adventurers; Gellana is priestess of Garl Glittergold)
+- Berrun Ghastkill (Mayor of Nashkell; brother of the head of the Ghastkill family, Evan Ghastkill; former adventurer)
+- Brielbara (minor mage)
+- Cadderly (priest and Chosen of Deneir)
+- Chanthalas Ulbright (high priest of Tymora in Baldur's Gate)
+- Dabron Sashenstar (either the son or nephew of Aldeth, depending on which sourcebook you believe... though in BG1, they're brothers)
+- Drizzt Do'Urden (renegade drow ranger)
+- Elminster Aumar (sage and Chosen of Mystra)
+- Eltan (Grand Duke of Baldur's Gate)
+- Entar Silvershield (Grand Duke of Baldur's Gate)
+- Halbrazzer Drin (Owner and Proprietor of Sorcerous Sundries)
+- Haspur (seer in Baldur's Gate)
+- Ithtyl Calantrin (resident of Baldur's Gate; serving wench in the Three Old Kegs)
+- Irlentree (resident of Baldur's Gate; co-owner of the Merchant's League)
+- Jalantha Mistmyr (high priestess of Umberlee in Baldur's Gate)
+- Jhasso (founding partner of the Seven Suns)
+- Kelddath Ormlyr (governor of Beregost; high priest of Lathander)
+- Kestor (member of the Merchants' League; senior Knight of the Shield)
+- Krammoch Arkhstaff (resident of Baldur's Gate, only mentioned in BG1)
+- Liia Jannath (Grand Duchess of Baldur's Gate)
+- Nantrin Bellowglyn (proprietor of the Three Old Kegs)
+- Ragefast (resident of Baldur's Gate; mage and expert on history & genealogy)
+- Ramazith Flamesinger (resident of Baldur's Gate; mage and expert on marine botany and zoology)
+- Shandalar (resident of Ulgoth's Beard; mage)
+- Taerom "Thunderhammer" Fuiruim (resident of Beregost; smithy)
+- Tethtoril (First Reader of Candlekeep)
+- Thalantyr the Conjurer (resident of Beregost; mage)
+- Tuth (member of the Shield Council)
+- Ulraunt (Keep of the Tomes in Candlekeep)
+- Volothamp Geddarm (bard extraordinare)
+- Zorl Miyar (resident of Baldur's Gate; co-owner of the Merchant's League)
+
+
+BG2:
+
+- Cyric (evil god)
+- Drizzt Do'Urden (renegade drow ranger) and friends
+- Ellesime (Queen of Suldanessellar)
+- Elminster Aumar (sage and Chosen of Mystra)
+- Ketlaar Argrim (Athkatla noble; head of the Argrim Family; distant relation of Watchful Skull Tynnos Argrim, who's a fanatical priest of Cyric)
+- Kiser Jhaeri (head of the Cats Claw assassins, who have strong ties with the Shadow Thieves)
+- Lilith Lurraxol (Tradmeet noble; grandaughter of Ximora Lurraxol, the matron of the Lurraxol Family)
+- Pehllus Tanislove (senior Knight of the Shield; member of the Council of Six)
+- Qar Jysstev (member of the Council of Six)
+- Renal Bloodscalp (Shadow Thief Silhouette)
+- Ribald Barterman (proprietor of the Adventurer's Mart)
+- Shangalar the Black and Shyressa (Runemasters of the Twisted Rune)
+- Skarmaen Alibakkar (Trademeet noble; third brother of the head of the Alibakkar family, Erlranther Alibakkar (who, unbeknownst to Skarmaen, is the head of the Council of Six)).
+- Vaxall (agent of the Twisted Rune)
+- Volothamp Geddarm (bard extraordinare)
+- Zallanora (Cowled Wizardess; swapped bodies 12 years before SoA with Emperor Shoon VII, a 1,000+ year old Demi-Lich, and is now trapped inside a book called the Tome of the Unicorn)
+
+
+Sources: Forgotten Realms Campaign Setting (2nd and 3rd Edition), Empires of the Sands, Lands of Intrigue, Volo's Guide to the Sword Coast, Heroes' Lorebook, Villains' Lorebook 
