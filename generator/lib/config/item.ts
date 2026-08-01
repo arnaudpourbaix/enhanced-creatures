@@ -1,0 +1,36 @@
+export const ITEMS = {
+  CloudSpells: "ja#i1",
+  Construct: "ja#i2",
+  CriticalHitImmunity: "ja#i3",
+  EntangleImmunity: "ja#i4",
+  Fey: "ja#i5",
+  GhostVisuals1: "ja#6",
+  GhostVisuals2: "ja#7",
+  GhostVisuals3: "ja#8",
+  Giant: "ja#i9",
+  Hover: "ja#i10",
+  Incorporeal: "ja#i11",
+  MagicalBeast: "ja#i12",
+  Ooze: "ja#i13",
+  Plant: "ja#i14",
+  Sketetal: "ja#i15",
+  Spider: "ja#i16",
+  Undead: "ja#i17",
+  Vermin: "ja#i18",
+};
+
+export enum MonsterItemIconEnum {
+  Traits = "IRING15",
+  ISQUIRL = "ISQUIRL",
+  MindFlayer = "ISHAPE02",
+  Golem = "ISHAPE03",
+  Troll = "ISHAPE04",
+  Wolfwere = "ISHAPE05",
+  EarthElemental = "ISHAPE06",
+  FireElemental = "ISHAPE07",
+  Ghoul = "IGHOUL",
+  Fist = "IFIST",
+  Wolf = "IWOLF",
+  Jelly = "IJELLY",
+  Jaws = "SPPR416B", // not great, until a better icon is found or created
+}

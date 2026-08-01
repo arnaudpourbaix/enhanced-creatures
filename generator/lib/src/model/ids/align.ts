@@ -1,0 +1,20 @@
+export const ALIGN_IDENTIFIERS = [
+  "NONE",
+  "LAWFUL_GOOD",
+  "LAWFUL_NEUTRAL",
+  "LAWFUL_EVIL",
+  "NEUTRAL_GOOD",
+  "NEUTRAL",
+  "NEUTRAL_EVIL",
+  "CHAOTIC_GOOD",
+  "CHAOTIC_NEUTRAL",
+  "CHAOTIC_EVIL",
+  "MASK_GOOD",
+  "MASK_GENEUTRAL",
+  "MASK_EVIL",
+  "MASK_LAWFUL",
+  "MASK_LCNEUTRAL",
+  "MASK_CHAOTIC",
+] as const;
+
+export type AlignIdentifier = (typeof ALIGN_IDENTIFIERS)[number];

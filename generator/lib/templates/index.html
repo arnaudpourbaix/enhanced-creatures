@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>PnP creatures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="monsters.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="topbar">
+    <button class="menu-toggle" type="button" aria-label="Toggle creature menu">☰ Creatures</button>
+  </div>
+  <div class="backdrop"></div>
+  <header class="intro">
+    <h1>PnP creatures</h1>
+    <p>
+      This component brings all creatures in the game closer to their
+      <abbr title="Pen and Paper">PnP</abbr> counterparts. Legitimately
+      missing abilities are restored and spuriously granted benefits are
+      removed. For this purpose, the AD&amp;D Monstrous Manual and the
+      Monstrous Compendium were used as reference. The creatures'
+      <abbr title="Artificial Intelligence">AI</abbr> has been improved
+      as well, and it now allows them to act in accordance with the
+      behavior described in the source books. In effect, these changes
+      may increase or decrease the difficulty of dealing with these
+      creatures.
+    </p>
+  </header>
+  <div class="layout">
+    <nav class="sidebar">
+      <ul>{{families}}</ul>
+    </nav>
+    <main class="content">
+      {{monsters}}
+      <section class="traits-glossary">
+        <h2>Traits</h2>
+        <div class="traits">{{traits}}</div>
+      </section>
+    </main>
+  </div>
+  <script src="monsters.js" defer></script>
+</body>
+
+</html>

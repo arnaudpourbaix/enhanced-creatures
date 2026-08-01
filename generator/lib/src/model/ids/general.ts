@@ -1,0 +1,26 @@
+export const GENERAL_IDENTIFIERS = [
+  "HUMANOID",
+  "ANIMAL",
+  "DEAD",
+  "UNDEAD",
+  "GIANTHUMANOID",
+  "FROZEN",
+  "PLANT",
+  "MONSTER",
+  "WEAPON",
+  "ARMOR",
+  "AMULET",
+  "BELT",
+  "BOOTS",
+  "AMMO",
+  "GENERAL_ITEM",
+  "HELMET",
+  "KEY",
+  "POTION",
+  "RING",
+  "SCROLL",
+  "SHIELD",
+  "GLOVES",
+] as const;
+
+export type GeneralIdentifier = (typeof GENERAL_IDENTIFIERS)[number];
