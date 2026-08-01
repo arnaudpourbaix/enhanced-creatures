@@ -1,5 +1,0 @@
-// Wail
-[action=SPELL(BANSHEE_WAIL,,,notarget,force,remove,nodisablecheck,!res);require=playerRange(20)]
-
-// Fear
-[action=TIMER(ja#fear,12),REALLYFORCESPELL(ja#175,notarget);require=range(10,nearest)]

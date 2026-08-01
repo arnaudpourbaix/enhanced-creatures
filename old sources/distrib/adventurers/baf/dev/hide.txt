@@ -1,8 +1,0 @@
-// try to hide if possible
-[action=TIMER(ja#action_hide,9),HIDE;requireSelf=statgt(49,STEALTH),!invisible,!seeEnemy]
-
-// might escape fight to hide in shadows
-[action=RUN(90);requireSelf=class(THIEF_ALL),!kit(SWASHBUCKLER),!invisible,statgt(79,STEALTH),seeEnemy,!timer(ja#action_hide),!slow,haste,!magicalWeaponItem,random(5)]
-[action=RUN(90);requireSelf=class(THIEF_ALL),!kit(SWASHBUCKLER),!invisible,statgt(79,STEALTH),seeEnemy,!timer(ja#action_hide),!slow,!haste,!magicalWeaponItem,random(1)]
-// If thief is not hidden, he won't track down an enemy not in sight
-//[action=NOACTION;requireSelf=class(THIEF_ALL),!invisible,statgt(79,STEALTH),!seeEnemy]

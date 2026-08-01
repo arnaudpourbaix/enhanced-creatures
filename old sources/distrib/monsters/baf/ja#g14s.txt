@@ -1,3 +1,0 @@
-// Ettercap (summon)
-[monster=race(ETTERCAP),summon]
-[generate]

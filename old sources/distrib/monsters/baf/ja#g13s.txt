@@ -1,3 +1,0 @@
-// Elemental (summon)
-[monster=race(ELEMENTAL),summon]
-[generate]

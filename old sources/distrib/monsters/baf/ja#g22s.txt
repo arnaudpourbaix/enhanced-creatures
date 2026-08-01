@@ -1,9 +1,0 @@
-// Kobold (summon)
-[monster=race(KOBOLD),smart,both,summon]
-
-[section=beforeCombat]
-  [action=RANGED;require=empty]
-  [action=MELEE;require=empty]
-  [name=Attack caster;action=ATTACK;target=caster(random:false);actionRequire=caster]
-
-[generate]

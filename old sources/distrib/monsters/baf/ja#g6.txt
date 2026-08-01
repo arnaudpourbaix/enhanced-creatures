@@ -1,3 +1,0 @@
-// Dog
-[monster=race(DOG),walk]
-[generate]

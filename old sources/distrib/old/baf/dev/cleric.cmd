@@ -1,1 +1,0 @@
-copy /y cleric_init.baf + detect.baf + healing_pot.baf + movement.baf + cleric_buff.baf + potions.baf + cleric_abilities.baf + cleric_spells.baf  ..\baf\JA#clerc.baf

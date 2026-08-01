@@ -1,3 +1,0 @@
-// Lycanthrope
-[monster=race(LYCANTHROPE),walk,smart]
-[generate]

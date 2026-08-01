@@ -1,3 +1,0 @@
-// Ghoul
-[monster=race(GHOUL),walk]
-[generate]

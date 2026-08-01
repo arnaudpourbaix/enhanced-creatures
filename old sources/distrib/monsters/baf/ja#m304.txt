@@ -1,7 +1,0 @@
-// Stone Golem
-[monster=race(GOLEM)]
-
-[section=beforeCombat]
-  [reallyForceSpell=Golem Slow]
-
-[generate]

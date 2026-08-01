@@ -1,3 +1,0 @@
-// Doppelganger
-[monster=race(DOPPLEGANGER),walk,smart]
-[generate]

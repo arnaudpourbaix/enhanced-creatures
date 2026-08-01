@@ -1,7 +1,0 @@
-[name=Destroyed upon death;action=DESTROY]
-[name=Shout;action=SHOUT(summon)]
-[name=Listen;action=LISTEN(summon)]
-[name=Follow summoner;action=MOVE;requireSelf=!blind;require=empty,!seeEnemy,!see,!invisible,hpgt(0),range(70);target=summoner]
-[name=Nothing to do;action=NOACTION;require=global(ja#combat,0)]
-[name=Try to hide if possible;action=TIMER(ja#hide,9),HIDE;requireSelf=empty,statgt(49,STEALTH),!invisible,!seeEnemy]
-[include=tracking]

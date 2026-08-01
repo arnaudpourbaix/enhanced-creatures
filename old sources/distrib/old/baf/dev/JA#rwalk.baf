@@ -1,7 +1,0 @@
-// Active randomwalk
-IF
-	Global("ja#randomwalk","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("ja#randomwalk","LOCALS",1)
-END

@@ -1,1 +1,0 @@
-copy /y fight_init.baf + detect.baf + healing_pot.baf + movement.baf + potions.baf + abilities.baf + backstab.baf + combat_thieves.baf   ..\baf\JA#thief.baf

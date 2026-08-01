@@ -1,9 +1,0 @@
-// Kobold
-[monster=race(KOBOLD),walk,both]
-
-[section=beforeCombat]
-  [action=RANGED;require=empty]
-  [action=MELEE;require=empty]
-  [name=Attack caster;action=ATTACK;target=caster(random:false);actionRequire=caster]
-
-[generate]

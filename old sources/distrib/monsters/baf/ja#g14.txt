@@ -1,3 +1,0 @@
-// Ettercap
-[monster=race(ETTERCAP),walk]
-[generate]

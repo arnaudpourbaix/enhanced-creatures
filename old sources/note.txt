@@ -1,7 +1,0 @@
-ABCASRQ.2DA -> classes/kit prereq
-alignment.2DA -> class kit / aligment
-anisum01-04.2DA -> animal summoning
-monsum01-05.2DA -> monsters summoning
-clab*.2DA -> kit abilities
-kitlist.2da
-lu*.2DA -> high level abilities

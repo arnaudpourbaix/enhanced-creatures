@@ -1,4 +1,0 @@
-// Spectre
-[monster=race(SPECTRE),walk,smart]
-
-[generate]

@@ -1,7 +1,0 @@
-// Hell Hound
-[monster=race(DOG),walk]
-
-[section=beforeCombat]
-  [forceSpell=Hell Hound Flame Breath]
-
-[generate]
