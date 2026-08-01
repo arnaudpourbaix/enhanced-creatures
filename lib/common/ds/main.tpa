@@ -1,0 +1,7 @@
+// G3 Detectable Spells (special thanks to CamDawg, DavidW and all the other DS contributors)
+ACTION_IF NOT FILE_EXISTS_IN_GAME ~RR#DS.RR~ BEGIN                           // only install Detectable Spells once from within RR
+  COPY_EXISTING ~sw1h01.itm~ ~override/RR#DS.RR~                             // dummy file, prevents other RR components from re-installing DS
+  PRINT ~Initializing Detectable Spells installation ...~                    // let the user know that DS are being installed
+  INCLUDE ~%MOD_FOLDER%/lib/ds/ds.tph~
+  LAF detectable_spells END
+END

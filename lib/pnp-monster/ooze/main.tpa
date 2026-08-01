@@ -1,0 +1,53 @@
+LAM load_secondary_types
+// Toxic Vapors
+CREATE EFF "ja#s0fc"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~ja#s0fc~ #8
+
+COPY_EXISTING "dvstink.pro" ~override/ja#s0fc.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_SHORT 0x28 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 180
+	WRITE_SHORT 0x206 180
+	WRITE_SHORT 0x210 12
+	WRITE_BYTE 0x216 6
+ADD_PROJECTILE ~override/ja#s0fc.pro~ ~Mustard jelly Toxic Vapors~
+
+CREATE SPL "ja#s0fc"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s0fc.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10237)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI213C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10238)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=10 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#s0fc~)) + 1 STR_VAR icon="SPWI213B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELEMENTAL~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~GOLEM~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=3 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=1 target=2 power=1 parameter2=1 duration=12 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=60 target=2 power=1 parameter1=100 duration=12 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=60 target=2 power=1 parameter1=100 parameter2=1 duration=12 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 duration=12 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=126 duration=12 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="ja#s0fc" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/2f.tpa" // Black Pudding
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/36.tpa" // White Pudding
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/2e.tpa" // Mustard Jelly
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/30.tpa" // Fission Slime
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/32.tpa" // Gray Ooze
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/33.tpa" // Green Slime
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/31.tpa" // Ochre Jelly
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/34.tpa" // Olive Slime Creature
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/35.tpa" // Slithering Tracker

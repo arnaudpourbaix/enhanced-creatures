@@ -1,0 +1,10 @@
+ACTION_FOR_EACH cre IN ~ja#dryad~ ~ja#hama~ ~ja#trea1~ ~ja#trea2~ ~ja#trea3~ ~ja#trea4~ BEGIN
+	CREATE EFF ~%cre%~
+		WRITE_LONG 0x10 67
+		WRITE_LONG 0x14 2
+		WRITE_LONG 0x24 1
+		WRITE_SHORT 0x2c 100
+		WRITE_ASCII 0x30 ~%cre%~ #8
+END
+
+LAF create_spell_callWoodlandBeeings END   

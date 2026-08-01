@@ -1,0 +1,8 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/common.tpa"
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/11.tpa" // Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/13.tpa" // Dire Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/16.tpa" // Dread Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/15.tpa" // Vampiric Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/14.tpa" // Winter Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/12.tpa" // Worg

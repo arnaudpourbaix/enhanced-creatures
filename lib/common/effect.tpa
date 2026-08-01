@@ -1,0 +1,133 @@
+// Add an immunity to a CRE, ITM, or SPL
+DEFINE_PATCH_FUNCTION ADD_IMMUNITY_CRE_ITM_SPL
+INT_VAR
+  displaySpellIneffective=0 // only apply to "Protection from Spell" effect
+  power=0
+  resist_dispel=0
+  duration=0
+STR_VAR
+  effects = ""        // string value with space separator
+  prevent_icons = ""  // string value with space separator
+  display_icons = ""  // string value with space separator
+  strings = ""        // string value with space separator
+  animations = ""     // string value with space separator
+  spells = ""         // string array
+BEGIN
+  LPF STRING_TO_ARRAY STR_VAR string=EVALUATE_BUFFER "%effects%" RET_ARRAY effectArray=array END
+  PATCH_PHP_EACH effectArray AS _ => v BEGIN
+    // Immunity to effect
+    LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR opcode=101 parameter2=v power resist_dispel duration END  
+  END
+  LPF STRING_TO_ARRAY STR_VAR string=EVALUATE_BUFFER "%prevent_icons%" RET_ARRAY preventIconArray=array END
+  PATCH_PHP_EACH preventIconArray AS _ => v BEGIN
+    // Prevent portrait icon
+    LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR opcode=169 parameter2=v power resist_dispel duration END  
+  END
+  LPF STRING_TO_ARRAY STR_VAR string=EVALUATE_BUFFER "%display_icons%" RET_ARRAY displayIconArray=array END
+  PATCH_PHP_EACH displayIconArray AS _ => v BEGIN
+    // Display portrait icon
+    LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR opcode=142 parameter2=v power resist_dispel duration END  
+  END
+  LPF STRING_TO_ARRAY STR_VAR string=EVALUATE_BUFFER "%strings%" RET_ARRAY displayStringArray=array END
+  PATCH_PHP_EACH displayStringArray AS _ => v BEGIN
+    // Disable display string
+    LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR opcode=267 parameter1=v power resist_dispel duration END  
+  END
+  LPF STRING_TO_ARRAY STR_VAR string=EVALUATE_BUFFER "%animations%" RET_ARRAY animationArray=array END
+  PATCH_PHP_EACH animationArray AS _ => v BEGIN
+    // Protection from Specific Animation
+    LPF ADD_CRE_EFFECT INT_VAR opcode=296 STR_VAR resource=EVALUATE_BUFFER "%v%" END
+  END
+  PATCH_PHP_EACH spells AS _ => spell BEGIN
+      // Protection from Spell
+      SET stringref = 24534 // Spell Ineffective
+      SET parameter1 = displaySpellIneffective ? %stringref% : 0
+      LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR opcode=206 
+                                         parameter1
+                                         power 
+                                         resist_dispel 
+                                         duration
+                                 STR_VAR resource=EVALUATE_BUFFER "%spell%" 
+      END
+  END
+END
+
+
+
+// Add an effect to a CRE, ITM, or SPL
+DEFINE_PATCH_FUNCTION ADD_EFFECT_CRE_ITM_SPL
+INT_VAR
+  opcode=0
+  parameter1=0
+  parameter2=0
+  parameter3=0
+  parameter4=0
+  special=0
+  power=0           // only apply to a SPL file
+  resist_dispel=0   // only apply to a SPL file
+  duration=0        // only apply to a SPL file
+STR_VAR
+  resource=""
+BEGIN
+  PATCH_MATCH "%SOURCE_EXT%" WITH
+    ~CRE~ BEGIN
+      LPF ADD_CRE_EFFECT INT_VAR target=1 timing=9 opcode parameter1 parameter2 parameter3 parameter4 special STR_VAR resource END  
+    END
+    ~ITM~ BEGIN
+      LPF ADD_ITEM_EQEFFECT INT_VAR target=1 timing=2 opcode parameter1 parameter2 parameter3 parameter4 special STR_VAR resource END  
+    END
+    ~SPL~ BEGIN
+      LPF ADD_SPELL_EFFECT INT_VAR target=2 opcode parameter1 parameter2 parameter3 parameter4 special power resist_dispel duration STR_VAR resource END  
+    END
+  DEFAULT END
+END
+
+
+
+/**
+ * Adds an opcode 206 (protection from spell) with the resref spell to the extended header of the source spell or item if an effect of type opcode is found on the header
+ * 
+ * the string which is displayed when the spell fails can be set via stringref which defaults to 0 (meaning no message)
+ */
+DEFINE_PATCH_FUNCTION add_conditional_immunity 
+INT_VAR 
+  opcode = 999 
+  stringref = 0
+STR_VAR 
+  spell = ""
+BEGIN
+  PATCH_IF SOURCE_SIZE > 0x71 BEGIN
+    READ_LONG  0x64 ao
+    READ_LONG  0x6a eo
+    READ_SHORT 0x70 ei
+    al = "%SOURCE_EXT%" STRING_EQUAL_CASE spl ? 0x28 : 0x38
+    FOR (i=0;i<SHORT_AT 0x68;++i) BEGIN
+      WRITE_SHORT ao + al*i + 0x20 ei
+      READ_SHORT  ao + al*i + 0x1e ne
+      FOR (j=0;j<ne;++j) BEGIN
+        READ_SHORT eo + 0x30*(ei + j) type
+        PATCH_IF type = opcode BEGIN
+          READ_ASCII   eo + 0x30*(ei + j) copy (0x30)
+          INSERT_BYTES eo + 0x30*(ei + j) 0x30
+            WRITE_ASCIIE eo + 0x30*(ei + j)        "%copy%"
+            WRITE_SHORT  eo + 0x30*(ei + j)        206
+            WRITE_LONG   eo + 0x30*(ei + j) + 0x4  "%stringref%"
+            WRITE_ASCIIE eo + 0x30*(ei + j) + 0x14 "%spell%" #8
+          ++ne
+          j=ne
+        END
+      END
+      WRITE_SHORT ao + al*i + 0x1e ne
+      ei+=ne
+    END
+  END
+END
+
+/**
+ * Remove most cre effects except visual or delay effects
+ */
+DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
+  PATCH_FOR_EACH opcode IN 292 BEGIN
+    LPF DELETE_EFFECT INT_VAR	match_opcode = opcode END
+  END
+END

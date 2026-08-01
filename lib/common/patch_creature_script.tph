@@ -1,0 +1,127 @@
+// Creature Script modification function
+// Useful for situations where you want to put your custom script at the top tier possible, without deleting other scripts (unless so desired)
+DEFINE_PATCH_FUNCTION patchCreatureScript
+INT_VAR
+  assigned  = 0   // new script has been assigned or file is skiped
+  foundFile = 0
+  skip  = 0       // file is skipped
+  overrideEmpty = 0
+  classEmpty = 0
+  raceEmpty = 0
+  generalEmpty = 0
+  defaultEmpty = 0
+  logging = 0
+STR_VAR
+  script        = "" // Script to assign to first available slot in this order: override, class, race, general, default
+  slot          = "" // Slot, will fail if not empty
+  removeScripts = "" // Array of scripts to remove
+  files         = "" // Array of files (usefull what there are more files to skip than to patch)
+  skipFiles     = "" // Array of files to skip
+BEGIN
+  PATCH_IF "%script%" STRING_EQUAL_CASE "" BEGIN             
+    PATCH_FAIL ~Missing new script for %SOURCE_RES%~
+  END
+  PATCH_PHP_EACH EVAL ~%files%~ AS _ => file BEGIN
+    // PATCH_PRINT ~%SOURCE_RES% => file: %file% (script: %script%)~
+    PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE "%file%" BEGIN             
+      SET foundFile=1
+    END
+  END
+  PATCH_IF NOT "%files%" STRING_EQUAL_CASE "" AND foundFile = 0 BEGIN
+    SET skip=1
+  END
+  PATCH_PHP_EACH EVAL ~%skipFiles%~ AS _ => skipfile BEGIN
+    PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE "%skipfile%" BEGIN             
+      SET skip=1
+    END
+  END
+  PATCH_IF skip = 0 BEGIN
+    READ_ASCII  0x248 overrideScript
+    READ_ASCII  0x250 classScript
+    READ_ASCII  0x258 raceScript
+    READ_ASCII  0x260 generalScript
+    READ_ASCII  0x268 defaultScript
+    // PATCH_PRINT ~%SOURCE_RES% => Assigning %script% (to slot %slot%)~
+    PATCH_PHP_EACH EVAL ~%removeScripts%~ AS _ => s BEGIN
+      PATCH_IF "%overrideScript%" STRING_EQUAL_CASE "%s%" BEGIN             
+        SPRINT overrideScript ""
+      END
+      PATCH_IF "%classScript%" STRING_EQUAL_CASE "%s%" BEGIN
+        SPRINT classScript ""
+      END
+      PATCH_IF "%raceScript%" STRING_EQUAL_CASE "%s%" BEGIN
+        SPRINT raceScript ""
+      END
+      PATCH_IF "%generalScript%" STRING_EQUAL_CASE "%s%" BEGIN
+        SPRINT generalScript ""
+      END
+      PATCH_IF "%defaultScript%" STRING_EQUAL_CASE "%s%" BEGIN
+        SPRINT defaultScript ""
+      END
+    END
+
+    PATCH_IF "%overrideScript%" STRING_EQUAL "" OR "%overrideScript%" STRING_EQUAL_CASE none BEGIN             
+      SET overrideEmpty=1
+    END
+    PATCH_IF "%classScript%" STRING_EQUAL "" OR "%classScript%" STRING_EQUAL_CASE none BEGIN
+      SET classEmpty=1
+    END
+    PATCH_IF "%raceScript%" STRING_EQUAL "" OR "%raceScript%" STRING_EQUAL_CASE none BEGIN
+      SET raceEmpty=1
+    END
+    PATCH_IF "%generalScript%" STRING_EQUAL "" OR "%generalScript%" STRING_EQUAL_CASE none BEGIN
+      SET generalEmpty=1
+    END
+    PATCH_IF "%defaultScript%" STRING_EQUAL "" OR "%defaultScript%" STRING_EQUAL_CASE none BEGIN
+      SET defaultEmpty=1
+    END
+
+    SPRINT log ~~
+    PATCH_IF overrideEmpty = 0 BEGIN
+      SPRINT log ~overrideScript:%overrideScript% ~
+    END
+    PATCH_IF classEmpty = 0 BEGIN
+      SPRINT log ~%log%classScript:%classScript% ~
+    END
+    PATCH_IF raceEmpty = 0 BEGIN
+      SPRINT log ~%log%raceScript:%raceScript% ~
+    END
+    PATCH_IF generalEmpty = 0 BEGIN
+      SPRINT log ~%log%generalScript:%generalScript% ~
+    END
+    PATCH_IF defaultEmpty = 0 BEGIN
+      SPRINT log ~%log%defaultScript:%defaultScript% ~
+    END
+    PATCH_IF logging = 1 AND (overrideEmpty = 0 OR classEmpty = 0 OR raceEmpty = 0 OR generalEmpty = 0 OR defaultEmpty = 0) BEGIN
+      PATCH_PRINT ~[Script] %SOURCE_RES% (assign: %script%) => %log%~
+    END
+    PATCH_IF defaultEmpty = 1 AND assigned = 0 AND ("%slot%" STRING_EQUAL_CASE "" OR "%slot%" STRING_EQUAL_CASE "Default") BEGIN
+      SPRINT defaultScript EVALUATE_BUFFER "%script%"
+      SET assigned = 1
+    END
+    PATCH_IF generalEmpty = 1 AND assigned = 0 AND ("%slot%" STRING_EQUAL_CASE "" OR "%slot%" STRING_EQUAL_CASE "General") BEGIN
+      SPRINT generalScript EVALUATE_BUFFER "%script%"
+      SET assigned=1
+    END
+    PATCH_IF raceEmpty = 1 AND assigned = 0 AND ("%slot%" STRING_EQUAL_CASE "" OR "%slot%" STRING_EQUAL_CASE "Race") BEGIN
+      SPRINT raceScript EVALUATE_BUFFER "%script%"
+      SET assigned=1
+    END
+    PATCH_IF classEmpty = 1 AND assigned = 0 AND ("%slot%" STRING_EQUAL_CASE "" OR "%slot%" STRING_EQUAL_CASE "Class") BEGIN
+      SPRINT classScript EVALUATE_BUFFER "%script%"
+      SET assigned=1
+    END
+    PATCH_IF overrideEmpty = 1 AND assigned = 0 AND ("%slot%" STRING_EQUAL_CASE "" OR "%slot%" STRING_EQUAL_CASE "Override") BEGIN
+      SPRINT overrideScript EVALUATE_BUFFER "%script%"
+      SET assigned=1
+    END
+
+    PATCH_IF assigned = 1 BEGIN
+      WRITE_EVALUATED_ASCII 0x248 "%overrideScript%" #8
+      WRITE_EVALUATED_ASCII 0x250 "%classScript%" #8
+      WRITE_EVALUATED_ASCII 0x258 "%raceScript%" #8
+      WRITE_EVALUATED_ASCII 0x260 "%generalScript%" #8
+      WRITE_EVALUATED_ASCII 0x268 "%defaultScript%" #8
+    END ELSE PATCH_FAIL ~No available slot to assign script %script% for %SOURCE_RES%~
+  END
+END

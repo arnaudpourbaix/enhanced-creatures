@@ -1,0 +1,11 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/40.tpa" // Gargantuan Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/3a.tpa" // Ghostwalk Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/38.tpa" // Giant Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/3e.tpa" // Hairy Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/37.tpa" // Huge Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/41.tpa" // Hunting Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/39.tpa" // Phase Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/3b.tpa" // Sword Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/3f.tpa" // Vortex Spider
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/3c.tpa" // Wraith Spider

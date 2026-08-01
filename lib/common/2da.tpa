@@ -1,0 +1,186 @@
+DEFINE_ACTION_FUNCTION get_from_file_by_row_count 
+  INT_VAR 
+    f_Label_col = 0 
+  STR_VAR 
+    f_Label = "" 
+    f_File = "" 
+  RET 
+    f_Value 
+  BEGIN
+    ACTION_IF "%f_Label%" STR_CMP "" AND "%f_File%" STR_CMP "" BEGIN
+      COPY_EXISTING "%f_File%" override
+        READ_2DA_ENTRIES_NOW buff 2
+        FOR (i = 0; i < buff; ++i) BEGIN
+          READ_2DA_ENTRY_FORMER buff i f_Label_col label
+          PATCH_IF "%label%" STRING_EQUAL_CASE "%f_Label%" BEGIN
+            f_Value = i - 1 // -1 because row 0 is (2DA|IDS) V1.0
+            i = buff
+          END
+        END
+      BUT_ONLY
+  END
+END
+
+
+/**
+ * Adds a new entry to SPLPROT.2DA and returns its index. If an identical entry already exists it will return 
+ * the index of that entry instead.
+ * INT_VAR stat     A code from STATS.IDS or an extended stat code starting at 0x100 (256).
+ * STR_VAR value    Either a numeric value that is evaluated by "stat", or a default value "*" for specific stats.
+ *                  (Note: "-1" indicates a user-defined value.)
+ * STR_VAR relation Specifies how to evaluate the value.
+ *                  (Note: Not all extended stats require a relation code. Use "*" in this case.)
+ * RET index        Entry number that can be used to refer to this operation in various effect opcodes.
+ *                  Returns -1 on error.
+ */
+DEFINE_ACTION_FUNCTION ADD_SPLPROT_ENTRY
+INT_VAR
+  stat      = "-1"
+STR_VAR
+  value     = "*"
+  relation  = "*"
+RET
+  index
+BEGIN
+  OUTER_SET index = "-1"
+
+  ACTION_IF (stat >= 0) BEGIN
+    LAF TO_HEX_NUMBER INT_VAR value = stat RET hexNumber END
+    OUTER_TEXT_SPRINT valueHex ~0x%hexNumber%~
+    ACTION_IF (~%value%~ STRING_EQUAL ~~) BEGIN
+      OUTER_TEXT_SPRINT value ~*~
+    END
+    ACTION_IF (~%relation%~ STRING_EQUAL ~~) BEGIN
+      OUTER_TEXT_SPRINT relation ~*~
+    END
+
+    ACTION_IF (FILE_EXISTS_IN_GAME ~splprot.2da~) BEGIN
+      COPY_EXISTING ~splprot.2da~ ~override~
+        READ_2DA_ENTRIES_NOW table 4
+        // Search for identical entries
+        FOR (idx = 0; idx < table; idx += 1) BEGIN
+          READ_2DA_ENTRY_FORMER table idx 1 curStat
+          PATCH_IF (~%stat%~ STRING_EQUAL ~%curStat%~ OR ~%valueHex%~ STRING_EQUAL_CASE ~%curStat%~) BEGIN
+            READ_2DA_ENTRY_FORMER table idx 2 curValue
+            PATCH_IF (~%value%~ STRING_EQUAL ~%curValue%~) BEGIN
+              READ_2DA_ENTRY_FORMER table idx 3 curRelation
+              PATCH_IF (~%relation%~ STRING_EQUAL ~%curRelation%~) BEGIN
+                SET index = idx
+                SET idx = table
+              END
+            END
+          END
+        END
+
+        PATCH_IF (index < 0) BEGIN
+          // Add new entry
+          PATCH_IF (stat >= 0x100) BEGIN
+            TEXT_SPRINT line ~%table%        %valueHex%        %value%         %relation%~
+          END ELSE BEGIN
+            TEXT_SPRINT line ~%table%        %stat%          %value%         %relation%~
+          END
+          INSERT_2DA_ROW table 4 ~%line%~
+          SET index = table + 1 // +1 so index is consistent with existing index
+        END
+      BUT_ONLY
+    END
+  END
+END
+
+
+/**
+ * Returns column and row index of the 2DA entry that matches the specified search text of the given 2da file.
+ */
+DEFINE_PATCH_FUNCTION GET_2DA_ENTRY_OF
+INT_VAR
+  row_match = "-1"  // neg. value indicates to search all rows
+  col_match = "-1"  // neg. value indicates to search all columns
+STR_VAR
+  file          = ~~  // the 2da filename
+  entry_match   = ~~  // search text
+RET
+  row col
+BEGIN
+  SET row = "-1"
+  SET col = "-1"
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~%file%.2da~ ~override~
+      LPF GET_2DA_ENTRY INT_VAR row_match col_match STR_VAR entry_match RET row col END
+    BUT_ONLY IF_EXISTS
+  END
+END
+
+
+/**
+ * Returns column and row index of the 2DA entry that matches the specified search text of the given 2da file.
+ */
+DEFINE_PATCH_FUNCTION GET_2DA_ENTRY
+INT_VAR
+  row_match = "-1"  // neg. value indicates to search all rows
+  col_match = "-1"  // neg. value indicates to search all columns
+STR_VAR
+  entry_match   = ~~  // search text
+RET
+  row col
+BEGIN
+  SET row = "-1"
+  SET col = "-1"
+  COUNT_2DA_COLS numCols
+  COUNT_2DA_ROWS numCols numRows
+  SET rowOffset = (numCols = 1 || numCols = 2) ? 1 : 0  // to compensate for 2DA headers
+  SET rowMin = (row_match < 0) ? 0 : row_match
+  SET rowMax = (row_match < 0) ? (numRows - 1) : row_match
+  SET colMin = (col_match < 0) ? 0 : col_match
+  SET colMax = (col_match < 0) ? (numCols - 1) : col_match
+  // PATCH_PRINT ~%entry_match%, rowMin=%rowMin%, rowMax=%rowMax%, colMin=%colMin%, colMax=%colMax%, row_match=%row_match%, col_match=%col_match%~
+  FOR (curRow = rowMin + rowOffset; curRow <= rowMax; ++curRow) BEGIN
+    FOR (curCol = colMin; curCol <= colMax; ++curCol) BEGIN
+      READ_2DA_ENTRY curRow curCol numCols value
+      // PATCH_PRINT ~Read %value%~
+      PATCH_IF (~%entry_match%~ STR_EQ ~%value%~) BEGIN
+        SET row = curRow - rowOffset
+        SET col = curCol
+        SET curRow = rowMax + 1
+        SET curCol = colMax + 1
+      END
+    END
+  END
+END
+
+DEFINE_ACTION_FUNCTION HIDE_SPELL
+INT_VAR
+  hide = 1
+  silent = 0    // Silent error, will produce a warning if 1
+STR_VAR 
+  ids = ""
+  resource = ""
+BEGIN
+  COPY_EXISTING ~hidespl.2da~ ~override~
+    COUNT_2DA_COLS cols
+    PATCH_IF NOT cols = 4 BEGIN
+      PATCH_FAIL "hide_spell: unexpected number of columns '%cols%'."
+    END
+    PATCH_IF "%resource%" STRING_EQUAL_CASE "" BEGIN
+      INNER_ACTION BEGIN
+        LAF GET_RESOURCE_FROM_SPELL_IDS STR_VAR ids RET resource END
+      END
+    END
+    PATCH_IF "%resource%" STRING_EQUAL_CASE "" BEGIN
+      PATCH_IF silent = 1 BEGIN
+        PATCH_WARN "hide_spell: resource name for spell '%ids%' not found."
+      END ELSE BEGIN
+        PATCH_FAIL "hide_spell: resource name for spell '%ids%' not found."
+      END
+    END ELSE BEGIN
+      LPF GET_2DA_ENTRY INT_VAR col_match = 0 STR_VAR entry_match = EVAL "%resource%" RET row END
+      PATCH_IF NOT (row = 0 - 1) AND hide = 0 BEGIN
+        REMOVE_2DA_ROW row cols
+      END ELSE PATCH_IF NOT (row = 0 - 1) BEGIN
+        SET_2DA_ENTRY row 1 cols 1
+      END ELSE PATCH_IF hide = 1 BEGIN
+        COUNT_2DA_ROWS cols rows
+        INSERT_2DA_ROW rows cols "%resource% 1 0 0"
+      END
+    END
+  BUT_ONLY
+END

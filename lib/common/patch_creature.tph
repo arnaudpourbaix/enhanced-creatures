@@ -1,0 +1,354 @@
+// Creature modification function
+// Useful for situations where you don't want to lower a pre-existing value in case it's higher than the one you define
+// However, it is possible to enforce the values on CREs that are marked using the enfcXX string variables
+// When enforce, will always use specified values even if the existing ones are better
+DEFINE_PATCH_FUNCTION patchCreature
+INT_VAR
+  movement=999          // movement rate
+  xpv=0                 // XP value
+  hp=0                  // hit point value
+  ac=99                 // Armor Class value
+  crushingAC=99         // Armor Class value vs crushing attack
+  missileAC=99          // Armor Class value vs missile attack
+  piercingAC=99         // Armor Class value vs piercing attack
+  slashingAC=99         // Armor Class value vs slashing attack
+  thac0=99              // THAC0 value
+  apr=99                // number of attacks per round
+  doubleApr=0           // double attacks per round
+  saveDeath=20          // Save vs. Death
+  saveWand=20           // Save vs. Wand
+  savePolymorph=20      // Save vs. Polymorph
+  saveBreath=20         // Save vs. Breath
+  saveSpell=20          // Save vs. Spell
+  level1=0              // level (first class)
+  level2=0              // level (second)
+  level3=0              // level (third)
+  resistFire=0          // Resist Fire value
+  resistCold=0          // Resist Cold value
+  resistElectricity=0   // Resist Electricity value
+  resistAcid=0          // Resist Acid value
+  resistMagic=0         // Resist Magic value
+  resistSlashing=0      // Resist Slashing
+  resistCrushing=0      // Resist Crushing
+  resistPiercing=0      // Resist Piercing
+  resistMissile=0       // Resist Missiles
+  strength=0            // strength value
+  exceptionalStrength=0 // Exceptional strength value
+  intelligence=0        // Intelligence value
+  wisdom=0              // Wisdom value
+  dexterity=0           // Dexterity value
+  constitution=0        // Constitution value
+  charisma=0            // Charisma value
+  morale=99             // morale value
+  moraleBreak=99        // morale break value
+  moraleRecovery=99     // morale recovery value
+  allegiance=999        // Allegiance value
+  general=999           // general value
+  race=999              // race
+  class=999             // class
+  kit=999               // kit
+  gender=999            // gender
+  alignment=99          // alignment
+  hideShadow=999        // Hide in Shadows value
+  moveSilent=999        // Move Silently value
+  animation="-1"
+  modAnimation="-1"
+  metalColor="-1"
+  minorColor="-1"
+  majorColor="-1"
+  skinColor="-1"
+  leatherColor="-1"
+  armorColor="-1"
+  hairColor="-1"
+  perfect2weapon=0      // perfect two weapon fighting (for creatures with multiple weapons)
+  bump=0                // NPC bump (allows the creature to movee others out of its way)
+  seeInvisible=0        // See invisible creatures
+  backstabImmunity=0    // Backstab immunity
+  infravision=0         // Infravision
+  blur=0                // Blur
+  summon=0              // is it a summon ?
+  enforce=0             // values are not enforced by default
+STR_VAR
+  enforceFiles=""            // Array of files to enforce
+  notEnforceFiles=""         // Array of files to not enforce
+  proficiencies=""           // Associative array
+  enforceFileRegexp="^$"     // Enforce stats for all matching SOURCE_RES
+  notEnforceFileRegexp="^$"  // Do not enforce stats for any matching SOURCE_RES
+BEGIN
+  READ_LONG   0x14 oldXpv
+  READ_SHORT  0x24 currentHP
+  READ_SHORT  0x26 maxHP
+  READ_SSHORT 0x46 naturalAC
+  READ_SSHORT 0x48 effectiveAC
+  READ_SSHORT 0x4a oldCrushingAC
+  READ_SSHORT 0x4c oldMissileAC
+  READ_SSHORT 0x4e oldPiercingAC
+  READ_SSHORT 0x50 oldSlashingAC
+  READ_SBYTE  0x52 oldThac0
+  READ_SBYTE  0x53 oldApr
+  READ_SBYTE  0x54 oldSaveDeath
+  READ_SBYTE  0x55 oldSaveWand
+  READ_SBYTE  0x56 oldSavePolymorph
+  READ_SBYTE  0x57 oldSaveBreath
+  READ_SBYTE  0x58 oldSaveSpell
+  READ_SBYTE  0x59 oldResistFire
+  READ_SBYTE  0x5a oldResistCold
+  READ_SBYTE  0x5b oldResistElectricity
+  READ_SBYTE  0x5c oldResistAcid
+  READ_SBYTE  0x5d oldResistMagic
+  READ_SBYTE  0x60 oldResistSlashing
+  READ_SBYTE  0x61 oldResistCrushing
+  READ_SBYTE  0x62 oldResistPiercing
+  READ_SBYTE  0x63 oldResistMissile
+  READ_BYTE  0x234 oldLevel1
+  READ_BYTE  0x235 oldLevel2
+  READ_BYTE  0x236 oldLevel3
+  READ_BYTE  0x237 oldGender
+  READ_BYTE  0x238 oldStrength
+  READ_BYTE  0x239 oldExceptionalStrength
+  READ_BYTE  0x23a oldIntelligence
+  READ_BYTE  0x23b oldWisdom
+  READ_BYTE  0x23c oldDexterity
+  READ_BYTE  0x23d oldConstitution
+  READ_BYTE  0x23e oldCharisma
+  READ_BYTE  0x23f oldMorale
+  READ_BYTE  0x240 oldMoraleBreak
+  READ_BYTE  0x242 oldMoraleRecovery
+  READ_BYTE  0x45  oldHideShadow
+  READ_BYTE  0x68  oldMoveSilent
+
+  PATCH_PHP_EACH EVAL ~%enforceFiles%~ AS _ => f BEGIN
+    PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE "%f%" BEGIN             
+      SET enforce=1
+    END
+  END
+  PATCH_IF "%SOURCE_RES%" STRING_MATCHES_REGEXP "%enforceFileRegexp%" = 0 BEGIN
+    enforce=1
+  END
+  PATCH_PHP_EACH EVAL ~%notEnforceFiles%~ AS _ => f BEGIN
+    PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE "%f%" BEGIN             
+      SET enforce=0
+    END
+  END
+  PATCH_IF "%SOURCE_RES%" STRING_MATCHES_REGEXP "%notEnforceFileRegexp%" = 0 BEGIN
+    enforce=0
+  END
+  // PATCH_PRINT ~Enforce for %SOURCE_RES%: %enforce%~
+
+  PATCH_IF oldXpv < xpv OR (enforce = 1 AND xpv != 0) OR summon = 1 BEGIN
+    WRITE_LONG 0x14 xpv // XP value
+  END
+  PATCH_IF currentHP < hp OR (enforce = 1 AND hp != 0) BEGIN
+    WRITE_SHORT 0x24 hp // current hit points
+  END
+  PATCH_IF maxHP < hp OR (enforce = 1 AND hp != 0) BEGIN
+    WRITE_SHORT 0x26 hp // maximum hit points
+  END
+  PATCH_IF naturalAC > ac OR (enforce = 1 AND ac != 99) BEGIN
+    WRITE_SHORT 0x46 ac // natural Armor Class
+  END
+  PATCH_IF effectiveAC > ac OR (enforce = 1 AND ac != 99) BEGIN
+    WRITE_SHORT 0x48 ac // effective Armor Class
+  END
+  PATCH_IF oldCrushingAC > crushingAC OR (enforce = 1 AND crushingAC != 99) BEGIN
+    WRITE_SHORT 0x4a crushingAC // armor class vs crushing
+  END
+  PATCH_IF oldMissileAC > missileAC OR (enforce = 1 AND missileAC != 99) BEGIN
+    WRITE_SHORT 0x4c missileAC // armor class vs missile
+  END
+  PATCH_IF oldPiercingAC > piercingAC OR (enforce = 1 AND piercingAC != 99) BEGIN
+    WRITE_SHORT 0x4e piercingAC // armor class vs piercing
+  END
+  PATCH_IF oldSlashingAC > slashingAC OR (enforce = 1 AND slashingAC != 99) BEGIN
+    WRITE_SHORT 0x50 slashingAC // armor class vs slashing
+  END
+  PATCH_IF oldThac0 > thac0 OR (enforce = 1 AND thac0 != 99) BEGIN
+    WRITE_BYTE 0x52 thac0 // set new THAC0 value
+  END
+  PATCH_IF apr != 99 AND (oldApr < apr OR enforce = 1) BEGIN
+    WRITE_BYTE 0x53 apr // set new number of attacks per round
+  END
+  PATCH_IF oldSaveDeath > saveDeath OR (enforce = 1 AND saveDeath != 20) BEGIN
+    WRITE_BYTE 0x54 saveDeath // set the Save vs. Death value
+  END
+  PATCH_IF oldSaveWand > saveWand OR (enforce = 1 AND saveWand != 20) BEGIN
+    WRITE_BYTE 0x55 saveWand // set the Save vs. Wand value
+  END
+  PATCH_IF oldSavePolymorph > savePolymorph OR (enforce = 1 AND savePolymorph != 20) BEGIN
+    WRITE_BYTE 0x56 savePolymorph // set the Save vs. Polymorph value
+  END
+  PATCH_IF oldSaveBreath > saveBreath OR (enforce = 1 AND saveBreath != 20) BEGIN
+    WRITE_BYTE 0x57 saveBreath // set the Save vs. Breath value
+  END
+  PATCH_IF oldSaveSpell > saveSpell OR (enforce = 1 AND saveSpell != 20) BEGIN
+    WRITE_BYTE 0x58 saveSpell // set the Save vs. Spell value
+  END
+  PATCH_IF oldResistFire < resistFire OR enforce = 1 BEGIN
+    WRITE_BYTE 0x59 resistFire // set new Resist Fire value
+    WRITE_BYTE 0x5e resistFire // set new Resist Magic Fire value
+  END
+  PATCH_IF oldResistCold < resistCold OR enforce = 1 BEGIN
+    WRITE_BYTE 0x5a resistCold // set new Resist Cold value
+    WRITE_BYTE 0x5f resistCold // set new Resist Magic Cold value
+  END
+  PATCH_IF oldResistElectricity < resistElectricity OR enforce = 1 BEGIN                                             
+    WRITE_BYTE 0x5b resistElectricity // set new Resist Electricity value
+  END
+  PATCH_IF oldResistAcid < resistAcid OR enforce = 1 BEGIN
+    WRITE_BYTE 0x5c resistAcid // set new Resist Acid value
+  END
+  PATCH_IF oldResistMagic < resistMagic OR enforce = 1 BEGIN
+    WRITE_BYTE 0x5d resistMagic // set new Resist Magic value
+  END
+  PATCH_IF oldResistSlashing < resistSlashing OR enforce = 1 BEGIN
+    WRITE_BYTE 0x60 resistSlashing // set new Resist Slashing value
+  END
+  PATCH_IF oldResistCrushing < resistCrushing OR enforce = 1 BEGIN
+    WRITE_BYTE 0x61 resistCrushing // set new Resist Crushing value
+  END
+  PATCH_IF oldResistPiercing < resistPiercing OR enforce = 1 BEGIN
+    WRITE_BYTE 0x62 resistPiercing // set new Resist Piercing value
+  END
+  PATCH_IF oldResistMissile < resistMissile OR enforce = 1 BEGIN
+    WRITE_BYTE 0x63 resistMissile // set new Resist Missiles value
+  END
+  PATCH_IF oldLevel1 < level1 OR enforce = 1 BEGIN
+    WRITE_BYTE 0x234 level1 // set new level (first class) value
+  END
+  PATCH_IF oldLevel2 < level2 OR enforce = 1 BEGIN
+    WRITE_BYTE 0x235 level2 // set new level (second class) value
+  END
+  PATCH_IF oldLevel3 < level3 OR enforce = 1 BEGIN
+    WRITE_BYTE 0x236 level3 // set new level (third class) value
+  END
+  PATCH_IF gender != 999 BEGIN // AND (oldGender != gender OR enforce = 1)
+    WRITE_BYTE 0x237 gender
+    WRITE_BYTE 0x275 gender
+  END
+  PATCH_IF oldStrength < strength OR enforce = 1 BEGIN
+    WRITE_BYTE 0x238 strength // set new strength value
+  END
+  PATCH_IF oldExceptionalStrength < exceptionalStrength OR enforce = 1 BEGIN
+    WRITE_BYTE 0x239 exceptionalStrength // set new Exceptional strength value
+  END
+  PATCH_IF oldIntelligence < intelligence OR enforce = 1 BEGIN
+    WRITE_BYTE 0x23a intelligence // set new Intelligence value
+  END
+  PATCH_IF oldWisdom < wisdom OR enforce = 1 BEGIN
+    WRITE_BYTE 0x23b wisdom // set new Wisdom value
+  END
+  PATCH_IF oldDexterity < dexterity OR enforce = 1 BEGIN
+    WRITE_BYTE 0x23c dexterity // set new Dexterity value
+  END
+  PATCH_IF oldConstitution < constitution OR enforce = 1 BEGIN
+    WRITE_BYTE 0x23d constitution // set new Constitution value
+  END
+  PATCH_IF oldCharisma < charisma OR enforce = 1 BEGIN
+    WRITE_BYTE 0x23e charisma // set new Charisma value
+  END
+  PATCH_IF morale != 99 AND (oldMorale < morale OR enforce = 1) BEGIN
+    WRITE_BYTE 0x23f morale // set new morale value
+  END
+  PATCH_IF moraleBreak != 99 AND (oldMoraleBreak > moraleBreak OR enforce = 1) BEGIN
+    WRITE_BYTE 0x240 moraleBreak // set new morale break value
+  END
+  PATCH_IF moraleRecovery != 99 AND (oldMoraleRecovery > moraleRecovery OR enforce = 1) BEGIN
+    WRITE_BYTE 0x242 moraleRecovery // set new morale recovery value
+  END
+  PATCH_IF allegiance != 999 BEGIN
+    WRITE_BYTE 0x270 allegiance // set new Allegiance value
+  END
+  PATCH_IF general != 999 BEGIN
+    WRITE_BYTE 0x271 general // set new general value
+  END
+  PATCH_IF race != 999 BEGIN
+    WRITE_BYTE 0x272 race // set new race value
+  END
+  PATCH_IF class != 999 BEGIN
+    WRITE_BYTE 0x273 class // set new class value
+  END
+  PATCH_IF kit != 999 BEGIN
+    WRITE_SHORT 0x246 kit // set new kit value
+  END
+  PATCH_IF alignment != 99 BEGIN
+    WRITE_BYTE 0x27b alignment // set new alignment value
+  END
+  PATCH_IF hideShadow != 999 AND (oldHideShadow < hideShadow OR enforce = 1) BEGIN
+    WRITE_BYTE 0x45 hideShadow // set new Hide in Shadows value
+  END
+  PATCH_IF moveSilent != 999 AND (oldMoveSilent < moveSilent OR enforce = 1) BEGIN
+    WRITE_BYTE 0x68 moveSilent // set new Hide in Shadows value
+  END
+  PATCH_IF modAnimation != "-1" BEGIN
+    WRITE_LONG 0x28 modAnimation
+  END ELSE PATCH_IF animation != "-1" BEGIN
+    WRITE_LONG 0x28 animation
+  END
+  PATCH_IF metalColor != "-1" BEGIN
+    WRITE_BYTE 0x2c metalColor
+  END
+  PATCH_IF minorColor != "-1" BEGIN
+    WRITE_BYTE 0x2d minorColor
+  END
+  PATCH_IF majorColor != "-1" BEGIN
+    WRITE_BYTE 0x2e majorColor
+  END
+  PATCH_IF skinColor != "-1" BEGIN
+    WRITE_BYTE 0x2f skinColor
+  END
+  PATCH_IF leatherColor != "-1" BEGIN
+    WRITE_BYTE 0x30 leatherColor
+  END
+  PATCH_IF armorColor != "-1" BEGIN
+    WRITE_BYTE 0x31 armorColor
+  END
+  PATCH_IF hairColor != "-1" BEGIN
+    WRITE_BYTE 0x32 hairColor
+  END
+
+  PATCH_IF movement != 999 BEGIN // creature movement rate
+    LPF set_movement_speed INT_VAR value=movement END
+  END
+
+  PATCH_IF ~%proficiencies%~ STRING_COMPARE ~~ BEGIN
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=233 END
+    PATCH_PHP_EACH proficiencies AS parameter2 => parameter1 BEGIN
+      //  Proficiency Modifier
+      LPF ADD_CRE_EFFECT INT_VAR opcode=233 target=1 timing=9 parameter1 parameter2 END
+    END
+  END
+
+  PATCH_IF perfect2weapon = 1 BEGIN // perfect two weapon fighting (for creatures with multiple weapons)
+    SET_BG2_PROFICIENCY ~PROFICIENCY2WEAPON~ 3
+    LPF ADD_CRE_EFFECT INT_VAR opcode=305 target=1 timing=9 parameter1=2 END
+  END
+
+  PATCH_IF bump = 1 BEGIN // NPC bump (allows the creature to move others out of its way)
+    LPF ADD_CRE_EFFECT INT_VAR opcode=300 target=1 timing=9 parameter2=1 END
+  END
+
+  PATCH_IF doubleApr = 1 BEGIN // Double Attack per round
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=16 END
+    LPF ADD_CRE_EFFECT INT_VAR opcode=317 target=1 timing=9 parameter2=1 END
+  END
+
+  PATCH_IF seeInvisible = 1 BEGIN // See Invisible creatures
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=193 END
+    LPF ADD_CRE_EFFECT INT_VAR opcode=193 target=1 timing=9 parameter2=1 END
+  END
+
+  PATCH_IF backstabImmunity = 1 BEGIN // Backstab immunity
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=292 END
+    LPF ADD_CRE_EFFECT INT_VAR opcode=292 target=1 timing=9 parameter2=1 END
+  END
+
+  PATCH_IF infravision = 1 BEGIN // Infravision
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=63 END
+    LPF ADD_CRE_EFFECT INT_VAR opcode=63 target=1 timing=9 END
+  END
+
+  PATCH_IF blur = 1 BEGIN // Blur
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=65 END
+    LPF ADD_CRE_EFFECT INT_VAR opcode=65 target=1 timing=9 END
+  END
+END

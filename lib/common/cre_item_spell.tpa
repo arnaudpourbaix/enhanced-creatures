@@ -1,0 +1,92 @@
+// Tightly based on Nythrun's ~fj_spl_itm_reindex~ patch 
+DEFINE_PATCH_FUNCTION FJ_SPL_ITM_REINDEX BEGIN
+  PATCH_IF !(~%SOURCE_FILE%~ STRING_MATCHES_REGEXP ~^.+\.spl~) BEGIN
+    hs = 0x28
+    WRITE_LONG 0xc ~-1~   //Identified name
+    WRITE_LONG 0x54 ~-1~  //Identified description
+    PATCH_FOR_EACH tz IN 0x44 0x48 0x58 0x5c BEGIN
+      WRITE_LONG tz 0
+    END
+  END ELSE PATCH_IF !(~%SOURCE_FILE%~ STRING_MATCHES_REGEXP ~^.+\.itm~) BEGIN
+    hs = 0x38
+  END
+  READ_LONG 0x64 hf     //Extended header offset
+  READ_SHORT 0x68 hc    //Extended header count
+  READ_LONG 0x6a fb     //Feature block table offset
+  READ_SHORT 0x70 fc    //Feature block count
+  PATCH_IF ((hf > fb) AND (hc > 0)) BEGIN
+    READ_ASCII hf ~eh~ ELSE ~fail~ (hs * hc)
+    PATCH_IF (~%eh%~ STRING_EQUAL ~fail~) BEGIN
+      WHILE ((~%eh%~ STRING_EQUAL ~fail~) AND (hc > 0)) BEGIN
+        READ_ASCII hf ~eh~ ELSE ~fail~ (hs * hc)
+        hc -= 1
+      END
+    END
+    DELETE_BYTES hf (hs * hc)
+    hf = 0x72
+    WRITE_LONG 0x64 hf
+    WRITE_SHORT 0x68 hc
+    fb = (0x72 + (hs * hc))
+    WRITE_LONG 0x6a fb
+    PATCH_IF !(~%eh%~ STRING_EQUAL ~fail~) BEGIN
+      INSERT_BYTES hf (hs * hc)
+      WRITE_ASCIIE hf ~%eh%~
+    END
+  END ELSE PATCH_IF ((hf != 0x72) AND (hc = 0)) BEGIN
+    hf = 0x72
+    WRITE_LONG 0x64 hf
+  END
+  FOR (i1 = 0; i1 < (hs * hc); i1 += hs) BEGIN
+    WRITE_SHORT (hf + i1 + 0x20) fc
+    READ_SHORT (hf + i1 + 0x1e) cx
+    fc += cx
+  END
+  PATCH_IF (SOURCE_SIZE > (0x72 + (hs * hc) + (0x30 * fc))) BEGIN
+    DELETE_BYTES (0x72 + (hs * hc) + (0x30 * fc)) (SOURCE_SIZE - (0x72 + (hs * hc) + (0x30 * fc)))
+  END
+  // added by Ardanis
+  WRITE_SHORT 0x6e 0
+END
+
+// Deletes all effects and extended headers from the source item or spell and inserts a new extended header of type f_Type (defaults to f_Type = 1), provided f_Type >= 0
+// if the source file is an item file and f_Type = 1, the function launches an auxilliary function to set up the basics of the melee header
+// FAILs if the source file is too small or doesn't have an ITM or SPL file extension
+// DEFINE_PATCH_FUNCTION prep_itm_spl INT_VAR f_Type = 1 BEGIN
+//   PATCH_IF SOURCE_SIZE > 0x71 AND ("%SOURCE_EXT%" STRING_EQUAL_CASE itm OR "%SOURCE_EXT%" STRING_EQUAL_CASE spl) BEGIN
+//     al = "%SOURCE_EXT%" STRING_EQUAL_CASE spl ? 0x28 : 0x38
+//     READ_LONG  0x64 ao
+//     READ_SHORT 0x68 na
+//     READ_LONG  0x6a eo
+//     FOR (i = na - 1; i >= 0; --i) BEGIN
+//       READ_SHORT ao + al*i + 0x1e ne
+//       READ_SHORT ao + al*i + 0x20 ei
+//       FOR (j = ne - 1; j >= 0; --j) BEGIN
+//         DELETE_BYTES eo + 0x30*(ei + j) 0x30
+//       END
+//       DELETE_BYTES ao + al*i al
+//       --na
+//       eo -= al
+//     END
+//     READ_SHORT 0x70 ne
+//     FOR (i=0;i<ne;++i) BEGIN
+//       DELETE_BYTES eo + 0x30*i 0x30
+//       --ne
+//       --i
+//     END
+//     WRITE_SHORT 0x70 ne
+//     PATCH_IF f_Type >= 0 BEGIN
+//       INSERT_BYTES ao al
+//       WRITE_BYTE ao f_Type
+//       ++na
+//       eo+=al
+//     END
+//     WRITE_SHORT 0x68 na
+//     WRITE_LONG  0x6a eo
+//     READ_ASCII 0x3a f_Icon
+//     PATCH_IF f_Type = 1 AND al = 0x38 BEGIN
+//       LPF configure_weapon_header STR_VAR f_Icon END
+//     END
+//   END ELSE BEGIN
+//     PATCH_FAIL ~File %SOURCE_FILE% is below required size or of unrecognised type.~
+//   END
+// END

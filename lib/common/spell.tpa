@@ -1,0 +1,196 @@
+DEFINE_PATCH_FUNCTION ADD_SPELL_HEADER
+  INT_VAR
+    type=1
+    location=4
+    target=1
+    target_count=0
+    range=0
+    required_level=1
+    speed=0
+    projectile=1
+    copy_header=0
+    insert_point="-1"
+  STR_VAR
+    icon=""
+  RET
+    insert_point
+BEGIN
+  LPF FJ_SPL_ITM_REINDEX END
+  hs=0x28
+  READ_LONG 0x64 ho
+  READ_SHORT 0x68 hc
+  READ_LONG 0x6a eo
+  insert_point = (insert_point>hc || insert_point<0) ? hc : insert_point
+  copy_header = (copy_header<0) ? 0 : copy_header
+  PATCH_IF copy_header>hc BEGIN
+    PATCH_WARN ~Unable to copy %copy_header%th header, %SOURCE_FILE% contains only %hc% headers!~
+  END ELSE BEGIN
+    INSERT_BYTES ho+insert_point*hs hs
+    hc+=1
+    eo+=hs
+    PATCH_IF copy_header BEGIN
+      READ_SHORT ho+(copy_header - 1)*hs+0x1e ec
+      READ_SHORT ho+(copy_header - 1)*hs+0x20 ei
+      READ_ASCII eo+ei*0x30 effs (ec*0x30)
+      READ_ASCII ho+(copy_header - 1)*hs copy (hs)
+      WRITE_ASCIIE ho+insert_point*hs ~%copy%~ (hs)
+    END
+    WRITE_SHORT 0x68 hc
+    WRITE_LONG 0x6a eo
+    READ_SHORT 0x70 ei // technically, it is a counter
+    FOR (i=ho;i<ho+hc*hs;i+=hs) BEGIN
+      READ_SHORT i+0x1e ec
+      WRITE_SHORT i+0x20 ei
+      ei+=ec
+    END
+    PATCH_IF copy_header BEGIN
+      READ_SHORT ho+insert_point*hs+0x1e ec
+      READ_SHORT ho+insert_point*hs+0x20 ei
+      INSERT_BYTES eo+ei*0x30 ec*0x30
+      WRITE_ASCIIE eo+ei*0x30 ~%effs%~ (ec*0x30)
+    END ELSE BEGIN
+      off=ho+insert_point*hs
+      WRITE_BYTE off type
+      WRITE_BYTE off+0x2 location
+      WRITE_ASCIIE off+0x4 ~%icon%~ (8)
+      WRITE_BYTE off+0xc target
+      WRITE_BYTE off+0xd target_count
+      WRITE_SHORT off+0xe range
+      WRITE_SHORT off+0x10 required_level
+      WRITE_LONG off+0x12 speed
+      WRITE_SHORT off+0x26 projectile
+    END
+  END
+END
+
+
+/**
+ * Merge spell resources with ids converted to resources
+ */
+DEFINE_ACTION_FUNCTION MERGE_SPELL_ARRAY_WITH_IDS
+	STR_VAR 
+    spells = ""
+    ids = ""
+  RET_ARRAY
+    spells
+BEGIN
+  OUTER_SET index = 0
+  ACTION_PHP_EACH ~%spells%~ AS _ => spell BEGIN  OUTER_SET index=index+1 END
+	ACTION_PHP_EACH ~%ids%~ AS _ => id BEGIN
+		LAF GET_RESOURCE_FROM_SPELL_IDS STR_VAR ids=EVALUATE_BUFFER "%id%" RET resource END
+    ACTION_IF NOT "%resource%" STRING_EQUAL "" BEGIN
+		  OUTER_SPRINT $spells("%index%") "%resource%"
+		  OUTER_SET index = index + 1
+    END
+	END
+END
+
+
+// Convert spell into innate ability macro
+// Useful for assigning spells-like abilities to creatures who have no caster levels
+DEFINE_PATCH_FUNCTION SPELL_TO_INNATE  
+INT_VAR
+  type   = 4
+  level  = 1
+  ctime  = 1 // new casting time, set to 99 to leave as is
+  rinvs  = 0 // spell removes invisibility when cast
+  renew  = 0 // spell renews after being cast
+BEGIN
+  LPF CHANGE_SPELL INT_VAR type level ctime rinvs renew END
+END
+
+
+// Make generic changes to a spell
+// Useful for assigning spells-like abilities to creatures who have no caster levels
+DEFINE_PATCH_FUNCTION CHANGE_SPELL
+INT_VAR
+  type   = 99 // spell type (Wizard=1, Priest=2, Innate=4)
+  level  = 99 // spell level
+  ctime  = 99 // new casting time
+  rinvs  = 0  // spell removes invisibility when cast
+  renew  = 0  // spell renews after being cast, value is the number of rounds delay
+BEGIN
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  PATCH_IF type < 99 BEGIN
+    WRITE_SHORT 0x1c type // Set spell type
+  END
+  PATCH_IF type = 4 BEGIN // spell level must be 1 for innates
+    level = 1
+  END
+  PATCH_IF level < 99 BEGIN
+    WRITE_LONG 0x34 level // spell level
+  END
+  FOR (i=0; i<abil_num; i=i+1) BEGIN
+    PATCH_IF type < 99 BEGIN
+      WRITE_BYTE abil_off+0x02+0x28*i type                // change ability icon location
+    END
+    PATCH_IF ctime != 99 BEGIN
+      WRITE_SHORT abil_off+0x12+0x28*i ctime              // set casting time to the predetermined value
+    END
+  END
+
+  PATCH_IF rinvs = 1 BEGIN // if the spell should remove invisibility
+    LPF ADD_EFFECT INT_VAR global=1 opcode=136 target=1 timing=1 END
+  END
+  PATCH_IF renew > 0 BEGIN // if the spell should be renewed after being cast
+    LPF ADD_EFFECT INT_VAR global=1 opcode=172 target=1 timing=1 STR_VAR resource=EVAL "%DEST_RES%" END
+    LPF ADD_EFFECT INT_VAR global=1 opcode=171 target=1 timing=4 duration=(renew*6) STR_VAR resource=EVAL "%DEST_RES%" END
+  END
+  LPF FJ_SPL_ITM_REINDEX END
+END
+
+
+// Writes to the more and less usual fields of the spell header (count starts at 1)
+// writes to all headers if f_Header < 0 (default)
+// Minimum level defaults to header number (starting from 1)
+// DEFINE_PATCH_FUNCTION configure_spell_header 
+// INT_VAR
+//   f_Header = "-1"
+//   f_Type = 1
+//   f_Location = 2
+//   f_Target = 1
+//   f_Range = 30
+//   f_Level = "-1"
+//   f_CastTime = 1
+//   f_Projectile = 1
+// STR_VAR
+//   f_Icon = ~~
+// BEGIN
+//   READ_LONG  0x64 ao
+//   READ_SHORT 0x68 na
+//   FOR (i=0;i<na;++i) BEGIN
+//     PATCH_IF (i+1) = f_Header OR f_Header < 0 BEGIN
+//      WRITE_ASCIIE ao + 0x28*i + 0x4  "%f_Icon%" #8
+//       WRITE_BYTE  ao + 0x28*i + 0x0  f_Type
+//       WRITE_SHORT ao + 0x28*i + 0x2  f_Location
+//       WRITE_BYTE  ao + 0x28*i + 0xc  f_Target
+//       WRITE_SHORT ao + 0x28*i + 0xe  f_Range
+//       WRITE_SHORT ao + 0x28*i + 0x10 f_Level < 0 ? i + 1 : f_Level
+//       WRITE_SHORT ao + 0x28*i + 0x12 f_CastTime
+//       WRITE_SHORT ao + 0x28*i + 0x26 f_Projectile
+//     END
+//   END
+// END
+
+
+
+// Creates copies of the first header up to f_FillLimit (default is 20 headers)
+// DEFINE_PATCH_FUNCTION fill_spl_headers INT_VAR f_FillLimit = 20 BEGIN
+//   al = "%SOURCE_EXT%" STRING_EQUAL_CASE spl ? 0x28 : 0x38
+//   READ_LONG   0x64 ao
+//   READ_SHORT  0x68 na
+//   READ_LONG   0x6a eo
+//   READ_ASCII  ao ab_copy (al)
+//   number = f_FillLimit - na
+//   FOR (i=0;i<number;++i) BEGIN
+//     INSERT_BYTES   ao + al*na al
+//       WRITE_ASCIIE ao + al*na "%ab_copy%"
+//     ++na
+//     eo += al
+//   END
+//   WRITE_SHORT 0x68 na
+//   WRITE_LONG  0x6a eo
+// END
+
+

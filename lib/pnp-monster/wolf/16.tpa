@@ -1,0 +1,192 @@
+// Generated file (don't edit)
+
+// Dread Wolf
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wolf/ja#m16.baf~
+
+// Dread Wolf down state
+CREATE EFF "ja#s0m16"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~ja#s0m16~ #8
+
+CREATE SPL "ja#s0m16"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s0m16.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10270)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10768)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s0m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s0m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 timing=1 probability1=100 STR_VAR resource="ja#i0m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=4 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=75 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=242 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=81 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=79 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=77 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=11 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=2 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=46 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=162 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=161 target=1 power=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=1 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_RING_LEFT~) duration=12 probability1=100 STR_VAR resource="ja#i1m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=39 target=1 power=1 parameter2=1 duration=12 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=17 target=1 power=1 parameter1=1 parameter2=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=1 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_RING_LEFT~) timing=4 duration=12 probability1=100 STR_VAR resource="ja#i0m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=17 target=1 power=1 parameter1=6 parameter2=1 timing=4 duration=12 probability1=100 END
+	
+	// Rotting Disease
+CREATE SPL "ja#s1m16"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s1m16.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10274)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10275)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="ja#s1m16" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=300 parameter2=3 duration=216000 probability1=100 special=7 END
+OUTER_SET $f_AddSecType(ja#s1m16.spl) = DiseaseSecType
+
+// Dread Wolf traits
+CREATE ITM "ja#i0m16"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10767)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10767)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10269)
+COPY_EXISTING ~ja#i0m16.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=87 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=208 target=1 global=1 parameter1=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=19 timing=2 probability1=100 special=6 STR_VAR resource="ja#s0m16" END
+	LPF coldSpells_immunity END
+	LPF cold_immunity END
+	LPF lightningResistance_resistance END
+	LPF charm_immunity END
+	LPF hold_immunity END
+
+// Dread Wolf down state
+CREATE ITM "ja#i1m16"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10270)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10270)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING01~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10271)
+COPY_EXISTING ~ja#i1m16.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+	END
+	LPF poison_immunity END
+	LPF disease_immunity END
+	LPF cold_immunity END
+	LPF lightning_immunity END
+	LPF magicDamage_immunity END
+	LPF physicalDamage_immunity END
+
+// Jaws
+CREATE ITM "ja#i2m16"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10268)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10268)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10769)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~ja#i2m16.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 10
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 STR_VAR resource="ja#s1m16" END
+	END
+
+ACTION_FOR_EACH ~file~ IN
+	"BDWOLFDR"
+	"D5WOLFD1"
+	"DW#REWO"
+	"P#WOLF03"
+	"P#WOLF05"
+	"PLYWOLF"
+	"WOLFD1"
+	"WOLFDR"
+	"L#HALWO"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDWOLFDR~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~D5WOLFD1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~DW#REWO~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~P#WOLF03~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~P#WOLF05~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~PLYWOLF~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WOLFD1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WOLFDR~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~L#HALWO~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~P1-10~
+			REMOVE_CRE_ITEM ~RING95~
+			REMOVE_CRE_ITEM ~TROLLIMM~
+			REMOVE_CRE_ITEM ~BDWOLFD1~
+			REMOVE_CRE_ITEM ~BDWOLFDR~
+			REPLACE_CRE_ITEM ~ja#i0m16~ #0 #0 #0 ~UNDROPPABLE~ ~LRING~ 
+			REPLACE_CRE_ITEM ~ja#i2m16~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=650
+					hp=46
+					ac=6
+					thac0=15
+					apr=1
+					saveDeath=13
+					saveWand=15
+					savePolymorph=14
+					saveBreath=16
+					saveSpell=16
+					level1=4
+					gender=IDS_OF_SYMBOL (~gender~ ~MALE~)
+					strength=18
+					intelligence=9
+					wisdom=12
+					dexterity=13
+					constitution=14
+					charisma=8
+					morale=18
+					general=IDS_OF_SYMBOL (~general~ ~ANIMAL~)
+					race=IDS_OF_SYMBOL (~race~ ~WOLF~)
+					class=IDS_OF_SYMBOL (~class~ ~WOLF_DREAD~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					movement=14
+					enforce=1
+			END
+			// Assigning ja#m16
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BPWTSIGT BPWTRSGT BPWDRSGT BPWDASGT BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT DVMELEE DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#GPSHM DW#GPSHT dw1melbe DW1MELGE DW2RS0MO DW#PRSHT DW1RANGE DW2MC3MO dw1ranmo DW2MC1GE dw1melmo DW2MS1GE DW2MC0MO DW2MC1MO DW2RC0MO DW2MS0MO DW2MC0GE DW2MC0GW DW2MC2GE DW2MP2GW DW2MM0GE DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MS0GE DW2RC2MO GENSHT01 HUNTER initdlg SHOUT SUMSHT02 TUTU_SCR WTASIGHT WDASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=ja#m16 END
+		BUT_ONLY_IF_IT_CHANGES
+	END ELSE BEGIN
+		PRINT ~====> CRE %file% not found!~
+	END
+END

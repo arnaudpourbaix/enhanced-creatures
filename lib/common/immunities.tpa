@@ -1,0 +1,1063 @@
+// Generated file (don't edit)
+
+DEFINE_ACTION_MACRO load_splprot BEGIN
+	OUTER_SET value=IDS_OF_SYMBOL (~areatype~ ~OUTDOOR~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x106 STR_VAR value relation="9" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET NOT_OUTDOOR_CHECK=index - 1
+	END
+	OUTER_SET stat=IDS_OF_SYMBOL (~stats~ ~RESISTPOISON~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat STR_VAR value=100 relation="4" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET POISON_IMMUNITY=index - 1
+	END
+	OUTER_SET value=IDS_OF_SYMBOL (~ea~ ~ANYONE~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10a STR_VAR value relation="4" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET ANYONE=index - 1
+	END
+	OUTER_SET value=IDS_OF_SYMBOL (~class~ ~CLERIC_ALL~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10d STR_VAR value relation="1" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET CLERIC=index - 1
+	END
+END
+LAM load_splprot
+
+DEFINE_PATCH_FUNCTION abilityDrain_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="19 15 44 10" strings="14791 26184 23744" END
+END
+
+DEFINE_PATCH_FUNCTION acid_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=27 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION acidResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=27 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION acidSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_acidSpells_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION airAffinity_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~BEHOLDER~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~BEHOLDER~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~MEPHIT~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~MEPHIT~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~SOLAR~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~SOLAR~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANTISOLAR~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANTISOLAR~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~PLANATAR~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~PLANATAR~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~DARKPLANATAR~) parameter2=4 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~DARKPLANATAR~) parameter2=4 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_AIR~) parameter2=5 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_AIR~) parameter2=5 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_DJINNI~) parameter2=5 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_DJINNI~) parameter2=5 special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_NOBLE_DJINNI~) parameter2=5 special=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_NOBLE_DJINNI~) parameter2=5 special=1 END
+END
+
+DEFINE_PATCH_FUNCTION backstab_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=292 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION bleeding_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_bleeding_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR prevent_icons="137" strings="25137" spells END
+END
+
+DEFINE_PATCH_FUNCTION blindness_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_blindness_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="74" prevent_icons="8" spells END
+END
+
+DEFINE_PATCH_FUNCTION blindsight_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF gazeAttacks_immunity INT_VAR resist_dispel duration END
+	LPF seeInvisible_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION causeWoundSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="LIGHT" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="SERIOUS" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="CRITICAL" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="HARM" END
+END
+
+DEFINE_PATCH_FUNCTION charm_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="5 241" prevent_icons="0 1 43" strings="26328 26206 14672 31787 14780 158915" animations="SPNWCHRM" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~CHARM_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION cloudSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_cloud_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION cold_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=28 parameter1=100 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=85 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION coldResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=28 parameter1=50 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=85 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION coldSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_cold_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION confusion_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_confusion_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="128" prevent_icons="3" strings="14791 26184 23744 14782 25807" animations="SPCONFUS" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~CONFUSION_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION construct_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF sleep_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF bleeding_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF disease_immunity INT_VAR resist_dispel duration END
+	LPF deathEffects_immunity INT_VAR resist_dispel duration END
+	LPF necromancyEffects_immunity INT_VAR resist_dispel duration END
+	LPF mindSpells_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF abilityDrain_immunity INT_VAR resist_dispel duration END
+	LPF energyDrain_immunity INT_VAR resist_dispel duration END
+	LPF fatigue_immunity INT_VAR resist_dispel duration END
+	LPF petrification_immunity INT_VAR resist_dispel duration END
+	LPF insectSpells_immunity INT_VAR resist_dispel duration END
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION criticalHit_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+END
+
+DEFINE_PATCH_FUNCTION crushingDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=87 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION crushingDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=87 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION cureWoundSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_cureWounds_resources RET_ARRAY array1=resources END
+		LAF get_curePoison_resources RET_ARRAY array2=resources END
+		LAF MERGE_ARRAYS STR_VAR array1 array2 RET_ARRAY spells=array END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION deathEffects_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="209 13 55" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~DEATH_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION deathSpell_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_death_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION devourBrain_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="19" END
+END
+
+DEFINE_PATCH_FUNCTION disease_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_disease_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="78" prevent_icons="7" strings="31238" spells END
+END
+
+DEFINE_PATCH_FUNCTION earthAffinity_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~BEHOLDER~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~BEHOLDER~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~MEPHIT~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~MEPHIT~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~SOLAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~SOLAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANTISOLAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANTISOLAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~PLANATAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~PLANATAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~DARKPLANATAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~DARKPLANATAR~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_AIR~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_AIR~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_DJINNI~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_DJINNI~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_NOBLE_DJINNI~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~GENIE_NOBLE_DJINNI~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~SAHUAGIN~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~SAHUAGIN~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~RACE~ ~KUO-TOA~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~RACE~ ~KUO-TOA~) parameter2=4 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_WATER~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~ELEMENTAL_WATER~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=179 parameter1=IDS_OF_SYMBOL (~CLASS~ ~FAIRY_NEREID~) parameter2=5 special="-2" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=178 parameter1=IDS_OF_SYMBOL (~CLASS~ ~FAIRY_NEREID~) parameter2=5 special="-2" END
+	LPF earthquake_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION earthquake_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_earthquake_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION elemental_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF sleep_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF bleeding_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF devourBrain_immunity INT_VAR resist_dispel duration END
+	LPF petrification_immunity INT_VAR resist_dispel duration END
+	LPF insectSpells_immunity INT_VAR resist_dispel duration END
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION energyDrain_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="216" strings="25802 25803 25804 25805 25806" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~ITEM_LEVELDRAIN~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION entangle_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_entangle_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="154" prevent_icons="144" spells END
+END
+
+DEFINE_PATCH_FUNCTION extraplanar_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF cureWoundSpells_immunity INT_VAR resist_dispel duration END
+	LPF causeWoundSpells_immunity INT_VAR resist_dispel duration END
+	LPF deathSpell_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION fatigue_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_fatigue_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="93" spells END
+END
+
+DEFINE_PATCH_FUNCTION fear_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_fear_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="24 23 106" prevent_icons="36" strings="14007 17427 25818 20568" animations="CDHORROR" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~RESIST_FEAR~)) special=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PANIC_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION fey_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=189 parameter1=1 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION fire_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=30 parameter1=100 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=84 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION fireResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=30 parameter1=50 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=84 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION fireSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_fire_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION fireballSpell_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_fireball_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION flameArrowSpell_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_flameArrow_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION gazeAttacks_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF petrification_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION ghostVisual1_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=9 parameter1="-3547648" parameter2=2818053 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=9 parameter1="-2181376" parameter2=3080213 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=9 parameter1="-2380288" parameter2=2621493 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=9 parameter1="-102768896" parameter2=2752549 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=65 END
+END
+
+DEFINE_PATCH_FUNCTION giant_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION hold_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_hold_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="109 175" prevent_icons="13" strings="14650 14102 25866 25866 31799" animations="SPFLAYER SPMINDAT" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~HOLD_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION hover_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_ground_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+	LPF entangle_immunity INT_VAR resist_dispel duration END
+	LPF web_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION illusion_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_illusion_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION incorporeal_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=66 parameter1=99 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=9 parameter1=2105376000 parameter2=1966335 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=61 parameter1=1511938560 parameter2=1638400 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=184 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=300 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=142 parameter2=23 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=0 parameter1=3 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=278 parameter1=4 parameter2=0 END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF fireResistance_resistance INT_VAR resist_dispel duration END
+	LPF coldResistance_resistance INT_VAR resist_dispel duration END
+	LPF lightningResistance_resistance INT_VAR resist_dispel duration END
+	LPF acidResistance_resistance INT_VAR resist_dispel duration END
+	LPF poisonResistance_resistance INT_VAR resist_dispel duration END
+	LPF magicDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF physicalDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF nonMagicalWeapons_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION infravision_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=63 END
+END
+
+DEFINE_PATCH_FUNCTION insectSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_insect_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION lightning_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=29 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION lightningBoltSpell_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_lightningBolt_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION lightningResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=29 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION lightningSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_electrical_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION magic_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=166 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION magicDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=31 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION magicDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=31 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION magicMissile_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_magicMissile_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+END
+
+DEFINE_PATCH_FUNCTION magicResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=166 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION magicalBeast_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION maze_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_maze_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="213" prevent_icons="78" spells END
+END
+
+DEFINE_PATCH_FUNCTION mindSpells_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="3" END
+	LPF charm_immunity INT_VAR resist_dispel duration END
+	LPF fear_immunity INT_VAR resist_dispel duration END
+	LPF confusion_immunity INT_VAR resist_dispel duration END
+	LPF illusion_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION missileDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=89 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION missileDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=89 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION missileWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=1 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=2 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=3 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=4 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=6 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=7 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=8 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=9 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=10 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=11 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=12 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=13 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=14 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=15 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=16 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=17 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=18 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=19 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=26 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=27 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=28 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=29 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=30 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=31 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=32 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=33 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=34 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=35 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=55 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=56 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=57 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=58 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=59 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=102 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=232 END
+END
+
+DEFINE_PATCH_FUNCTION necromancyEffects_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_necromancyEffects_resources RET_ARRAY array1=resources END
+		LAF get_curePoison_resources RET_ARRAY array2=resources END
+		LAF MERGE_ARRAYS STR_VAR array1 array2 RET_ARRAY spells=array END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
+	LPF cureWoundSpells_immunity INT_VAR resist_dispel duration END
+	LPF causeWoundSpells_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION nonMagicalWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=0 parameter2=2 END
+END
+
+DEFINE_PATCH_FUNCTION nonSilverNonMagicalWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=0 parameter2=5 END
+END
+
+DEFINE_PATCH_FUNCTION ooze_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=66 parameter1=100 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=184 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=300 parameter2=1 END
+	LPF mindSpells_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF sleep_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF bleeding_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF infravision_trait INT_VAR resist_dispel duration END
+	LPF polymorph_immunity INT_VAR resist_dispel duration END
+	LPF blindsight_trait INT_VAR resist_dispel duration END
+	LPF blindness_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION petrification_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_petrification_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="134" strings="14665 25863" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PETRIFY_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION physicalDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF slashingDamage_immunity INT_VAR resist_dispel duration END
+	LPF crushingDamage_immunity INT_VAR resist_dispel duration END
+	LPF piercingDamage_immunity INT_VAR resist_dispel duration END
+	LPF missileDamage_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION physicalDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF slashingDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF crushingDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF piercingDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF missileDamageResistance_resistance INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION piercingDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=88 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION piercingDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=88 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION plant_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF mindSpells_immunity INT_VAR resist_dispel duration END
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF sleep_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF polymorph_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF disease_immunity INT_VAR resist_dispel duration END
+	LPF bleeding_immunity INT_VAR resist_dispel duration END
+	LPF petrification_immunity INT_VAR resist_dispel duration END
+	LPF insectSpells_immunity INT_VAR resist_dispel duration END
+	LPF entangle_immunity INT_VAR resist_dispel duration END
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION plusOneWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=1 parameter2=0 END
+	LPF nonMagicalWeapons_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION plusTwoWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=2 parameter2=0 END
+	LPF plusOneWeapons_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION poison_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_poison_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="25" prevent_icons="6" display_icons="30" strings="14017 26215 14662 25425" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=173 parameter1=100 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~ITEM_POISON~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION poisonResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=173 parameter1=50 END
+END
+
+DEFINE_PATCH_FUNCTION polymorph_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_polymorph_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR prevent_icons="124" strings="14128 25124 31729 31732 31757" spells END
+END
+
+DEFINE_PATCH_FUNCTION seeInvisible_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=193 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION skeletal_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF cold_immunity INT_VAR resist_dispel duration END
+	LPF coldSpells_immunity INT_VAR resist_dispel duration END
+	LPF slashingDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF missileDamageResistance_resistance INT_VAR resist_dispel duration END
+	LPF piercingDamageResistance_resistance INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION slashingDamage_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=86 parameter1=100 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION slashingDamageResistance_resistance
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=86 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION sleep_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="39 217" prevent_icons="14 130" strings="12047 12958 13027 14001 17405 26040 26371 20438 25130" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~SLEEP_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION spider_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF web_immunity INT_VAR resist_dispel duration END
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF vermin_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION stun_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="45 210" prevent_icons="55" strings="14043 25862 26050" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~STUN_IMMUNITY~)) special=1 END
+END
+
+DEFINE_PATCH_FUNCTION turnUndead_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=297 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION undead_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF poison_immunity INT_VAR resist_dispel duration END
+	LPF sleep_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF bleeding_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF disease_immunity INT_VAR resist_dispel duration END
+	LPF deathEffects_immunity INT_VAR resist_dispel duration END
+	LPF necromancyEffects_immunity INT_VAR resist_dispel duration END
+	LPF mindSpells_immunity INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF abilityDrain_immunity INT_VAR resist_dispel duration END
+	LPF energyDrain_immunity INT_VAR resist_dispel duration END
+	LPF fatigue_immunity INT_VAR resist_dispel duration END
+	LPF petrification_immunity INT_VAR resist_dispel duration END
+	LPF insectSpells_immunity INT_VAR resist_dispel duration END
+	LPF infravision_trait INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION vermin_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF infravision_trait INT_VAR resist_dispel duration END
+	LPF mindSpells_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION vorpal_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="13 55" strings="14026" END
+END
+
+DEFINE_PATCH_FUNCTION web_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	INNER_ACTION BEGIN
+		LAF get_web_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="157" prevent_icons="129" spells END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=83 parameter2=319 END
+END

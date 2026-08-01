@@ -1,0 +1,323 @@
+// Generated file (don't edit)
+
+// Greater Mummy
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4f.baf~
+
+// Fear Aura
+CREATE SPL "ja#s0m4f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s0m4f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10346)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Fear
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10811)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=4227072 parameter2=1310720 timing=1 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=1 timing=1 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 savingthrow=1 savebonus="-1" STR_VAR resource="EFF_P11" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-1" STR_VAR resource="EFF_E05" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10349) timing=1 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="ja#s0m4f" END
+OUTER_SET $f_AddSecType(ja#s0m4f.spl) = FearSecType
+
+// Fear Aura
+CREATE EFF "ja#s1m4f"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~ja#s1m4f~ #8
+
+CREATE SPL "ja#s1m4f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s1m4f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10346)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Fear
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10812)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="ja#s1m4f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=4227072 parameter2=1310720 timing=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=1 timing=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_P11" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E05" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10349) timing=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="ja#s1m4f" END
+OUTER_SET $f_AddSecType(ja#s1m4f.spl) = FearSecType
+
+// Fear Aura
+CREATE EFF "ja#s2m4f"
+	WRITE_LONG 0x10 146
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x1c 0
+	WRITE_LONG 0x24 1
+	WRITE_LONG 0x20 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~ja#s0m4f~ #8
+
+CREATE SPL "ja#s2m4f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s2m4f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10346)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR416C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10348)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#sight~)) + 1 STR_VAR icon="SPPR416B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="ja#s1m4f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s2m4f" END
+	LPF CHANGE_SPELL INT_VAR    renew=2 END
+	
+	// Rotting Disease
+CREATE SPL "ja#s3m4f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~ja#s3m4f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10340)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10342)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF cureWoundSpells_immunity INT_VAR duration=14400 dispelResistance=0 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=5188352 duration=2 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10343) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 duration=14400 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=2400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=2400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=4800 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4800 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=4800 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=7200 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=7200 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=7200 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=9600 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=9600 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=9600 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=12000 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=12000 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=12000 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=14400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=14400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=14400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10344) timing=4 duration=12000 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10345) timing=4 duration=14399 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=4 duration=14400 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=14400 probability1=100 STR_VAR resource="ja#s3m4f" END
+OUTER_SET $f_AddSecType(ja#s3m4f.spl) = DiseaseSecType
+
+// Greater Mummy traits
+CREATE ITM "ja#i0m4f"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10810)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10810)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10813)
+COPY_EXISTING ~ja#i0m4f.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=20 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=30 target=1 global=1 parameter1=100 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=29 target=1 global=1 parameter1="-50" parameter2=1 timing=2 probability1=100 END
+	LPF physicalDamageResistance_resistance END
+	LPF cold_immunity END
+	LPF plusTwoWeapons_immunity END
+
+// Claws
+CREATE ITM "ja#i1m4f"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10312)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10312)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IGHOUL~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10814)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~ja#i1m4f.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IGHOUL~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s3m4f" END
+	END
+
+ACTION_FOR_EACH ~file~ IN
+	"mumgre01"
+	"riftcr03"
+	"MUMMYX1"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~mumgre01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~riftcr03~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~MUMMYX1~ BEGIN
+				LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=292 END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~immune2~
+			REMOVE_CRE_ITEM ~immune3~
+			REMOVE_CRE_ITEM ~mumgrew~
+			ADD_CRE_ITEM ~ja#i0m4f~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~ja#i1m4f~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~ja#i17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~ja#i3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			PATCH_IF MOD_IS_INSTALLED Faiths_and_Powers.tp2 80 BEGIN
+				ADD_MEMORIZED_SPELL ~d5p1329~ #0 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (6) 
+				ADD_MEMORIZED_SPELL ~b_c201~ #1 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~d5p1311~ #1 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~b_pr201~ #1 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~d5p2114~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~sppr332~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~d5p2433~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~sppr322~ #2 ~priest~ (6) 
+				ADD_MEMORIZED_SPELL ~d5p1301~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~sppr414~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~d5p2527~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~d5p2411~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~d5p2412~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~d5p2508~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~d5p1709~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~d5p1424~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR530~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~d5p2632~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR533~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~d5pp422~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR740~ #6 ~priest~ (1) 
+			END ELSE PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN
+				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR101~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR109~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR203~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR304~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR303~ #2 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR314~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR407~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR603~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR601~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR719~ #6 ~priest~ (1) 
+			END ELSE BEGIN
+				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR101~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR109~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR203~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR304~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR303~ #2 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR314~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR407~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR603~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR601~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR719~ #6 ~priest~ (1) 
+			END
+			ADD_MEMORIZED_SPELL ~ja#s2m4f~ #0 ~innate~ (1) // Fear Aura
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=16000
+					hp=147
+					ac=0
+					thac0=7
+					apr=1
+					saveDeath=6
+					saveWand=10
+					savePolymorph=9
+					saveBreath=12
+					saveSpell=11
+					level1=20
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=15
+					intelligence=18
+					wisdom=22
+					dexterity=16
+					constitution=9
+					charisma=20
+					morale=18
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~GHOUL~)
+					class=IDS_OF_SYMBOL (~class~ ~CLERIC~)
+					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~MUMMY~)
+					movement=7
+					enforce=1
+			END
+			// Assigning ja#m4f
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN bdmumm01 d0mummy mummy01 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BPWTSIGT BPWTRSGT BPWDRSGT BPWDASGT BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT DVMELEE DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#GPSHM DW#GPSHT dw1melbe DW1MELGE DW2RS0MO DW#PRSHT DW1RANGE DW2MC3MO dw1ranmo DW2MC1GE dw1melmo DW2MS1GE DW2MC0MO DW2MC1MO DW2RC0MO DW2MS0MO DW2MC0GE DW2MC0GW DW2MC2GE DW2MP2GW DW2MM0GE DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MS0GE DW2RC2MO GENSHT01 HUNTER initdlg SHOUT SUMSHT02 TUTU_SCR WTASIGHT WDASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=ja#m4f END
+		BUT_ONLY_IF_IT_CHANGES
+	END ELSE BEGIN
+		PRINT ~====> CRE %file% not found!~
+	END
+END

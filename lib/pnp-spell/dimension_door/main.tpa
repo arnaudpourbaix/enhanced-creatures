@@ -1,0 +1,38 @@
+// Dimension Door
+LAF create_spell_DimensionDoor END
+
+LAF HIDE_SPELL INT_VAR hide=0 STR_VAR ids="WIZARD_DIMENSION_DOOR" END
+LAF HIDE_SPELL INT_VAR hide=1 silent=1 STR_VAR ids="WIZARD_DIMENSION_JUMP" END
+  
+
+ACTION_FOR_EACH ~file~ IN
+	scrl1v    // Spell Revisions
+	d0scrldd  // D0 Tweaks
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.itm~ BEGIN
+		COPY_EXISTING ~%file%.itm~ ~override~
+      PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN
+        WRITE_LONG 0xc 12082
+        WRITE_LONG 0x34 500
+        WRITE_ASCII 0x3a ~SPWI402A~ #8
+        WRITE_ASCII 0x76 ~SPWI402A~ #8
+        WRITE_ASCII 0xae ~SPWI402A~ #8
+        SAY DESC @1891
+        LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=147 STR_VAR resource=~SPWI402~ END
+        LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=148 STR_VAR resource=~SPWI402~ END
+      END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+// TODO: 
+// COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~                                   // parses through all stores in the game (even those added by mods)
+//   PATCH_IF (%SOURCE_SIZE% > 0x9b) THEN BEGIN                                       // file size sanity check (filters out 0 byte files i.e. ALLOW_MISSING)
+//     READ_LONG 0x08 "itemtype" ELSE 0                                               // check store type
+//     PATCH_IF "%itemtype%" != 5 BEGIN                                               // if the store isn't a container
+//       ADD_STORE_ITEM ~rr#scr1v~ AFTER ~SCRL1U~ #1 #0 #0 ~IDENTIFIED~ #2            // Add 2x Dimension Door scroll
+//     END
+//   END
+// IF "_?SCRL1U" //confusion
+// UNLESS "d0scrldd\|BGSCRL1V\|_?SCRL1V_?" //DD from d0Tweaks, BGT, Tutu and EET
+// BUT_ONLY_IF_IT_CHANGES

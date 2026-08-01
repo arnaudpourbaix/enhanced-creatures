@@ -1,0 +1,2 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/2d.tpa" // Treant

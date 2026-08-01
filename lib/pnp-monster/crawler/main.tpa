@@ -1,0 +1,2 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/9.tpa" // Carrion Crawler

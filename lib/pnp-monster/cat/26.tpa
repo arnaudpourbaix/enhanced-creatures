@@ -1,0 +1,127 @@
+// Generated file (don't edit)
+
+// Displacer Beast
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/cat/ja#m26.baf~
+
+// Displacer Beast traits
+CREATE ITM "ja#i0m26"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10624)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10624)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10625)
+COPY_EXISTING ~ja#i0m26.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=65 target=1 global=1 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=159 target=1 global=1 parameter1=1 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=7 timing=2 resist_dispel=2 probability1=100 STR_VAR resource="BDDISPLC" END
+	LPF magic_immunity END
+	LPF fire_immunity END
+	LPF cold_immunity END
+
+// Tentacles
+CREATE ITM "ja#i1m26"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10149)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10149)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IJELLY~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10626)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~ja#i1m26.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IJELLY~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 4
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 6
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+ACTION_FOR_EACH ~file~ IN
+	"BDDISPBE"
+	"BDDISPBP"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBE~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~BDDISPBE~
+			ADD_CRE_ITEM ~ja#i0m26~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~ja#i1m26~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			LPF clear_proficiencies END
+			LPF infravision_trait END
+			LPF patchCreature
+				INT_VAR
+					xpv=975
+					hp=60
+					ac=7
+					thac0=15
+					apr=2
+					saveDeath=5
+					saveWand=7
+					savePolymorph=6
+					saveBreath=6
+					saveSpell=8
+					level1=6
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=18
+					intelligence=4
+					wisdom=12
+					dexterity=15
+					constitution=16
+					charisma=8
+					morale=14
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~CAT~)
+					class=IDS_OF_SYMBOL (~class~ ~CAT~)
+					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)
+					movement=12
+					enforce=1
+			END
+			// Assigning ja#m26
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BPWTSIGT BPWTRSGT BPWDRSGT BPWDASGT BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT DVMELEE DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#GPSHM DW#GPSHT dw1melbe DW1MELGE DW2RS0MO DW#PRSHT DW1RANGE DW2MC3MO dw1ranmo DW2MC1GE dw1melmo DW2MS1GE DW2MC0MO DW2MC1MO DW2RC0MO DW2MS0MO DW2MC0GE DW2MC0GW DW2MC2GE DW2MP2GW DW2MM0GE DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MS0GE DW2RC2MO GENSHT01 HUNTER initdlg SHOUT SUMSHT02 TUTU_SCR WTASIGHT WDASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=ja#m26 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~) BEGIN 
+				WRITE_LONG 0x14 1200 // xpv
+				WRITE_SHORT 0x24 117 // hp
+				WRITE_SHORT 0x26 117 // hp
+				WRITE_SHORT 0x46 2 // ac
+				WRITE_SHORT 0x48 2 // ac
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 7 // saveDeath
+				WRITE_BYTE 0x55 9 // saveWand
+				WRITE_BYTE 0x56 8 // savePolymorph
+				WRITE_BYTE 0x57 8 // saveBreath
+				WRITE_BYTE 0x58 10 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
+				WRITE_BYTE 0x238 19 // strength
+				WRITE_BYTE 0x23d 19 // constitution
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END ELSE BEGIN
+		PRINT ~====> CRE %file% not found!~
+	END
+END

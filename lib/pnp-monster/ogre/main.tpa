@@ -1,0 +1,7 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/1e.tpa" // Ogre
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/1c.tpa" // Ogrillon
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/1d.tpa" // Half Ogre
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/20.tpa" // Ogre Mage
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/1f.tpa" // Ogre Berserker
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/28.tpa" // Ogre Shaman

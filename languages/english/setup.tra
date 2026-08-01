@@ -1,5 +1,25 @@
-// Enhanced Creatures, English
+@6 = ~PnP monster tweaks~
 
-@0 = ~Enhanced Creatures core component (required)~
+@1908 = ~* * * This component requires 'PnP Fey creatures' * * *~
+@2000 = ~* * * This component requires 'PnP Elementals' * * *~
 
-@1000 = ~Enhanced Monsters~
+@5000 = ~Core monsters (required)~
+@5001 = ~Core monsters component is not installed.~
+@5002 = ~Fey component is not installed.~
+@5003 = ~Plant component is not installed.~
+@5010 = ~Ankhegs~
+@5020 = ~Basilisks~
+@5030 = ~Bears~
+@5040 = ~Carrion Crawlers~
+@5050 = ~Greater Cats~
+@5060 = ~Dogs~
+@5070 = ~Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)~
+@5090 = ~Wolves~
+@5100 = ~Golems~
+@5110 = ~Ogres~
+@5120 = ~Fey (Dryad, Hamadryad, Sirene)~
+@5130 = ~Oozes/slimes~
+@5140 = ~Spiders~
+@5150 = ~Minotaurs~
+@5160 = ~Wyverns~
+@5170 = ~Undead~

@@ -1,0 +1,33 @@
+ACTION_FOR_EACH ~file~ IN                                                          // for each of the following files
+                ~shammr.itm~                                                       // Spiritual Hammer at level 1
+                ~shammr2.itm~                                                      // Spiritual Hammer at level 2
+                ~shammr3.itm~                                                      // Spiritual Hammer at level 3
+                ~shamme1.itm~                                                      // Spiritual Hammer at level 1 (IWD:EE)
+                ~shamme2.itm~                                                      // Spiritual Hammer at level 2 (IWD:EE)
+                ~shamme3.itm~                                                      // Spiritual Hammer at level 3 (IWD:EE)
+BEGIN
+ACTION_IF FILE_EXISTS_IN_GAME ~%file%~ BEGIN
+  COPY_EXISTING ~%file%~ ~override~
+    PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN
+      LPF ALTER_ITEM_HEADER INT_VAR range = 100 dicesize = 0 dicenumber = 0 damage_bonus = 0 damage_type = 0 flag_strength = 0 speed = 0 END  // increase attack range, disallow strength bonus, disable physical damage, set speed factor to 0
+      PATCH_IF GAME_IS ~iwdee~ BEGIN
+        LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 50 target = 2 dispel_resist = 1 parameter1 = "-1778359296" parameter2 = 983040 END      // color glow on hit (IWD:EE)
+      END ELSE BEGIN
+        LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 50 target = 2 dispel_resist = 1 parameter1 = "-1771831296" parameter2 = 983040 END      // color glow on hit (BG games)
+        LPF ALTER_EFFECT INT_VAR check_globals = 0 match_opcode = 141 match_parameter2 = 5 parameter2 = 1 END                                 // change hit animation to aqua SHEARTH
+      END
+      LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 12 dicenumber = 1 dicesize = 4 target = 2 dispel_resist = 1 parameter2 = 4194304 END      // 1d4 points of magical damage
+      PATCH_IF (("%SOURCE_RES%" STRING_EQUAL_CASE "shammr") OR ("%SOURCE_RES%" STRING_EQUAL_CASE "shamme1")) BEGIN                            // Spiritual Hammer at level 1
+        LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 12 target = 2 dispel_resist = 1 parameter1 = 1 parameter2 = 4194304 END                 // 1 point of magical damage
+      END
+      PATCH_IF (("%SOURCE_RES%" STRING_EQUAL_CASE "shammr2") OR ("%SOURCE_RES%" STRING_EQUAL_CASE "shamme2")) BEGIN                           // Spiritual Hammer at level 2
+        LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 12 target = 2 dispel_resist = 1 parameter1 = 2 parameter2 = 4194304 END                 // 2 points of magical damage
+      END
+      PATCH_IF (("%SOURCE_RES%" STRING_EQUAL_CASE "shammr3") OR ("%SOURCE_RES%" STRING_EQUAL_CASE "shamme3")) BEGIN                           // Spiritual Hammer at level 3
+        LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 12 target = 2 dispel_resist = 1 parameter1 = 3 parameter2 = 4194304 END                 // 3 points of magical damage
+      END
+      LPF ALTER_EFFECT INT_VAR check_globals = 0 match_opcode = "-1" dispel_resist = 1 END                                                    // make all effects not bypass magic resistance
+    END
+  BUT_ONLY_IF_IT_CHANGES
+  END
+END

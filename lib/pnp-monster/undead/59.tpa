@@ -1,0 +1,104 @@
+// Generated file (don't edit)
+
+// Greater Shadow
+// Greater Shadow traits
+CREATE ITM "ja#i0m59"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10820)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10820)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10821)
+COPY_EXISTING ~ja#i0m59.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+	END
+	LPF cold_immunity END
+	LPF incorporeal_trait END
+
+// Claws
+CREATE ITM "ja#i1m59"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10312)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10312)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IGHOUL~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10822)
+	WRITE_LONG 0x60 3
+COPY_EXISTING ~ja#i1m59.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IGHOUL~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8c 2
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=44 target=2 parameter1="-3" duration=300 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=142 target=2 parameter2=91 duration=300 probability1=100 END
+	END
+
+ACTION_FOR_EACH ~file~ IN
+	"BDSHADGR"
+	"BDSHADOW"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADGR~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADOW~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~BDSHADGR~
+			REMOVE_CRE_ITEM ~immune1~
+			REMOVE_CRE_ITEM ~ring95~
+			ADD_CRE_ITEM ~ja#i0m59~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~ja#i1m59~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~ja#i17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~ja#i3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=3000
+					hp=104
+					ac=7
+					thac0=11
+					apr=1
+					saveDeath=10
+					saveWand=12
+					savePolymorph=11
+					saveBreath=12
+					saveSpell=13
+					level1=8
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=10
+					intelligence=11
+					wisdom=14
+					dexterity=16
+					constitution=9
+					charisma=12
+					morale=20
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~SHADOW~)
+					class=IDS_OF_SYMBOL (~class~ ~SHADOW~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					movement=10
+					enforce=1
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END ELSE BEGIN
+		PRINT ~====> CRE %file% not found!~
+	END
+END
