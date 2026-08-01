@@ -1,0 +1,4 @@
+backup
+generator/coverage
+generator/dist
+generator/node_modules
