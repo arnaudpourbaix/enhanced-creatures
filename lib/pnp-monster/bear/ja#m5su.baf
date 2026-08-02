@@ -167,7 +167,7 @@ IF
 	ActionListEmpty()
 	HaveSpell(BERSERKER_RAGE)
 	See(NearestEnemyOf(Myself))
-	CheckStat(Myself,0,OFFENSIVE_MODIFIER)
+	CheckSpellState(Myself,BERSERKER_RAGE)
 	HPPercentLT(Myself,75)
 	RandomNumGT(800,400)
 THEN

@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>PnP creatures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="monsters.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="topbar">
+    <button class="menu-toggle" type="button" aria-label="Toggle creature menu">☰ Creatures</button>
+  </div>
+  <div class="backdrop"></div>
+  <header class="intro">
+    <h1>PnP creatures</h1>
+    <p>
+      This component brings all creatures in the game closer to their
+      <abbr title="Pen and Paper">PnP</abbr> counterparts. Legitimately
+      missing abilities are restored and spuriously granted benefits are
+      removed. For this purpose, the AD&amp;D Monstrous Manual and the
+      Monstrous Compendium were used as reference. The creatures'
+      <abbr title="Artificial Intelligence">AI</abbr> has been improved
+      as well, and it now allows them to act in accordance with the
+      behavior described in the source books. In effect, these changes
+      may increase or decrease the difficulty of dealing with these
+      creatures.
+    </p>
+  </header>
+  <div class="layout">
+    <nav class="sidebar">
+      <ul><li class="family"><details><summary>Ankheg</summary><ul><li><a href="#m1">Ankheg</a></li></ul></details></li><li class="family"><details><summary>Basilisk</summary><ul><li><a href="#m2">Lesser Basilisk</a></li><li><a href="#m3">Greater Basilisk</a></li></ul></details></li><li class="family"><details><summary>Bear</summary><ul><li><a href="#m4">Black Bear</a></li><li><a href="#m5">Brown Bear</a></li><li><a href="#m6">Cave Bear</a></li><li><a href="#m7">Polar Bear</a></li></ul></details></li><li class="family"><details><summary>Crawler</summary><ul><li><a href="#m9">Carrion Crawler</a></li></ul></details></li><li class="family"><details><summary>Cat</summary><ul><li><a href="#m34">Jaguar</a></li><li><a href="#m36">Leopard</a></li><li><a href="#m10">Lion</a></li><li><a href="#m11">Mountain Lion</a></li><li><a href="#m37">Hellcat</a></li><li><a href="#m38">Displacer Beast</a></li></ul></details></li><li class="family"><details><summary>Construct</summary><ul><li><a href="#m15">Helmed Horror</a></li><li><a href="#m8">Battle Horror</a></li><li><a href="#m66">Doom Sayer</a></li><li><a href="#m16">Doom Guard</a></li></ul></details></li><li class="family"><details><summary>Dog</summary><ul><li><a href="#m12">Wild Dog</a></li><li><a href="#m13">War Dog</a></li><li><a href="#m14">Blink Dog</a></li><li><a href="#m39">Spectral Hound</a></li></ul></details></li><li class="family"><details><summary>Ettercap</summary><ul><li><a href="#m69">Ettercap</a></li></ul></details></li><li class="family"><details><summary>Ettin</summary><ul><li><a href="#m94">Banshee</a></li></ul></details></li><li class="family"><details><summary>Fey</summary><ul><li><a href="#m41">Dryad</a></li><li><a href="#m42">Hamadryad</a></li><li><a href="#m44">Nymph</a></li><li><a href="#m43">Sirine</a></li></ul></details></li><li class="family"><details><summary>Golem</summary><ul><li><a href="#m23">Flesh Golem</a></li><li><a href="#m24">Clay Golem</a></li><li><a href="#m25">Stone Golem</a></li><li><a href="#m26">Iron Golem</a></li><li><a href="#m27">Bone Golem</a></li><li><a href="#m33">Juggernaut Golem</a></li><li><a href="#m67">Snow Golem</a></li></ul></details></li><li class="family"><details><summary>Minotaur</summary><ul><li><a href="#m68">Minotaur</a></li></ul></details></li><li class="family"><details><summary>Ogre</summary><ul><li><a href="#m30">Ogre</a></li><li><a href="#m28">Ogrillon</a></li><li><a href="#m29">Half Ogre</a></li><li><a href="#m32">Ogre Mage</a></li><li><a href="#m31">Ogre Berserker</a></li><li><a href="#m40">Ogre Shaman</a></li></ul></details></li><li class="family"><details><summary>Plant</summary><ul><li><a href="#m45">Treant</a></li></ul></details></li><li class="family"><details><summary>Ooze</summary><ul><li><a href="#m47">Black Pudding</a></li><li><a href="#m54">White Pudding</a></li><li><a href="#m46">Mustard Jelly</a></li><li><a href="#m48">Fission Slime</a></li><li><a href="#m50">Gray Ooze</a></li><li><a href="#m51">Green Slime</a></li><li><a href="#m49">Ochre Jelly</a></li><li><a href="#m52">Olive Slime Creature</a></li><li><a href="#m53">Slithering Tracker</a></li></ul></details></li><li class="family"><details><summary>Spider</summary><ul><li><a href="#m64">Gargantuan Spider</a></li><li><a href="#m58">Ghostwalk Spider</a></li><li><a href="#m56">Giant Spider</a></li><li><a href="#m62">Hairy Spider</a></li><li><a href="#m55">Huge Spider</a></li><li><a href="#m65">Hunting Spider</a></li><li><a href="#m57">Phase Spider</a></li><li><a href="#m59">Sword Spider</a></li><li><a href="#m63">Vortex Spider</a></li><li><a href="#m60">Wraith Spider</a></li></ul></details></li><li class="family"><details><summary>Wolf</summary><ul><li><a href="#m17">Wolf</a></li><li><a href="#m19">Dire Wolf</a></li><li><a href="#m22">Dread Wolf</a></li><li><a href="#m21">Vampiric Wolf</a></li><li><a href="#m20">Winter Wolf</a></li><li><a href="#m18">Worg</a></li></ul></details></li><li class="family"><details><summary>Wyvern</summary><ul><li><a href="#m70">Wyvern</a></li><li><a href="#m71">Baby Wyvern</a></li><li><a href="#m72">Greater Wyvern</a></li></ul></details></li><li class="family"><details><summary>Undead</summary><ul><li><a href="#m73">Banshee</a></li><li><a href="#m76">Ghoul</a></li><li><a href="#m75">Ghast</a></li><li><a href="#m77">Ghoul Lord</a></li><li><a href="#m78">Mummy</a></li><li><a href="#m79">Greater Mummy</a></li><li><a href="#m80">Shadow</a></li><li><a href="#m89">Greater Shadow</a></li><li><a href="#m90">Baneguard</a></li><li><a href="#m91">Bonebat</a></li><li><a href="#m81">Skeleton</a></li><li><a href="#m82">Skeleton Warrior</a></li><li><a href="#m83">Spectre</a></li><li><a href="#m93">Ghost</a></li></ul></details></li></ul>
+    </nav>
+    <main class="content">
+      <div class="creature" id="m1">
+  <h3>Ankheg</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 11, CON 13, INT 1, WIS 13, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (80 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Mandibles
+
+Melee damage: 3D6 (Crushing)
+Speed Factor: 5
+Enchantment: 2
+Range: 2 feet
+
+Cast spell Digestive Enzymes:
+The ankheg can secret acidic digestive enzymes to cause an additional 1d4 points of damage per round for 4 rounds.
+
+Cast spell Grab (saves vs poison/death at -9):
+Grab and hold your target for 3 rounds.
+Grabbed creature will suffer these effects:
+- can not move
+- loose armor class from dexterity bonus
+- -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
+- -4 THAC0</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Stream of acidic enzymes (1/day)</h5><p>The ankheg can squirt a stream of acidic enzymes once every six hours to a distance of 30 feet.
+A victim struck by the stream of acidic enzymes suffers 8d4 points of damage (half damage if the victim rolls a successful saving throw vs. poison).
+It uses this attack technique only when desperate.</p></div></div>
+  
+</div>
+<div class="creature" id="m2">
+  <h3>Lesser Basilisk</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 8, CON 15, INT 2, WIS 8, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (67 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D10 (Piercing)
+Speed Factor: 5
+Enchantment: 1
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Petrifying Gaze (at will)</h5><p>Any creature, that can see and within 30 feet of the basilisk, must save vs petrify at -4. On a failed save, the creature is petrified until freed by the greater restoration spell or other magic.</p></div></div>
+  
+</div>
+<div class="creature" id="m3">
+  <h3>Greater Basilisk</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 8, CON 19, INT 7, WIS 12, CHA 11</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>10 (150 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>16</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>7000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D6 (Slashing)
+Speed Factor: 5
+Enchantment: 3
+Range: 2 feet
+
+Cast spell Type K poison:
+Poison damage: 5 over 10 seconds (saves vs poison/death at +4)</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D8 (Piercing)
+Speed Factor: 5
+Enchantment: 3
+Range: 2 feet
+
+Cast spell Foul Breath:
+All creatures within 5 feet must roll successful saving throws vs. poison (with a +2 bonus) or die (check each round of exposure).</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Petrifying Gaze (at will)</h5><p>Any creature, that can see and within 30 feet of the basilisk, must save vs petrify at -4. On a failed save, the creature is petrified until freed by the greater restoration spell or other magic.</p></div></div>
+  
+</div>
+<div class="creature" id="m4">
+  <h3>Black Bear</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 10, CON 15, INT 4, WIS 12, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (30 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>175</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+
+Cast spell Hug (10%):
+Crushing damage: 2D4</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m5">
+  <h3>Brown Bear</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 19, DEX 10, CON 16, INT 4, WIS 13, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (63 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>420</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D6 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 2 feet
+
+Cast spell Hug (10%):
+Crushing damage: 2D6</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m6">
+  <h3>Cave Bear</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 10, CON 16, INT 4, WIS 13, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (74 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D8 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 2 feet
+
+Cast spell Hug (10%):
+Crushing damage: 2D6</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D12 (Piercing)
+Speed Factor: 3
+Enchantment: 2
+Range: 2 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m7">
+  <h3>Polar Bear</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 10, CON 16, INT 4, WIS 13, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (100 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D10 (Slashing)
+Speed Factor: 5
+Enchantment: 3
+Range: 2 feet
+
+Cast spell Hug (10%):
+Crushing damage: 3D6</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D6 (Piercing)
+Speed Factor: 3
+Enchantment: 3
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits">Resistance to cold (50%)</div></div>
+  
+  
+</div>
+<div class="creature" id="m9">
+  <h3>Carrion Crawler</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 13, CON 16, INT 1, WIS 12, CHA 5</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (31 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>4</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>420</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Tentacles
+
+Melee damage: 1D2 (Piercing)
+Speed Factor: 3
+Range: 2 feet
+Paralyze target for 7 rounds (saves vs poison/death).</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m34">
+  <h3>Jaguar</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 15, CON 10, INT 4, WIS 14, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (33 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>420</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 2 feet
+
+Cast spell Rear claws attack (20%):
+Slashing damage: 1D4
+Slashing damage: 1D4</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m36">
+  <h3>Leopard</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 19, CON 15, INT 4, WIS 12, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (29 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+
+Cast spell Rear claws attack (20%):
+Slashing damage: 1D4+1
+Slashing damage: 1D4+1</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m10">
+  <h3>Lion</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 15, CON 13, INT 4, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (42 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D4 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Rear claws attack (20%):
+Slashing damage: 1D6+1
+Slashing damage: 1D6+1</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D10 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m11">
+  <h3>Mountain Lion</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 15, CON 13, INT 4, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (25 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+
+Cast spell Rear claws attack (20%):
+Slashing damage: 1D4+1
+Slashing damage: 1D4+1</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m37">
+  <h3>Hellcat</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 21, DEX 21, CON 19, INT 10, WIS 14, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (93 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>5000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Paws
+
+Melee damage: 1D4 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 2 feet
+
+Cast spell Rear claws attack (20%):
+Slashing damage: 2D4+9
+Slashing damage: 2D4+9</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D6 (Piercing)
+Speed Factor: 3
+Enchantment: 2
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5><div>Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
+Immune to non-magical weapons
+Extraplanar
+Magic Resistance: 20%
+Improved invisibility</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m38">
+  <h3>Displacer Beast</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 15, CON 16, INT 4, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (60 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Tentacles
+
+Melee damage: 2D4 (PiercingOrCrushing)
+Speed Factor: 3
+Enchantment: 1
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#infravision">Infravision</a></h5><div>Immune to magic
+Immune to fire
+Immune to cold
++2 AC
+Blur (visual effect only)
+Mirror image (1)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m15">
+  <h3>Helmed Horror</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 13, CON 9, INT 14, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (60 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Flaming Greatsword
+
+Melee damage: 2D6 (Slashing)
+Fire damage: 1D6
+Speed Factor: 10
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>True sight
+Immune to fireball spell
+Immune to lightning bolt spell
+Immune to flame arrow spell
+Immune to magic missiles spell
+Hover (flight)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m8">
+  <h3>Battle Horror</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 13, CON 9, INT 14, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (100 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>4000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Flaming Greatsword
+
+Melee damage: 2D6 (Slashing)
+Fire damage: 1D6
+Speed Factor: 10
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>True sight
+Immune to fireball spell
+Immune to lightning bolt spell
+Immune to flame arrow spell
+Immune to magic missiles spell
+Hover (flight)</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Magic Missiles (1/day)</h5></div><div class="ability-entry"><h5>Dimension Door (at will)</h5></div></div>
+  
+</div>
+<div class="creature" id="m66">
+  <h3>Doom Sayer</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 13, CON 9, INT 14, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (100 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>4000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Flaming Greatsword
+
+Melee damage: 2D6 (Slashing)
+Fire damage: 1D6
+Speed Factor: 10
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a>, <a href="#incorporeal">Incorporeal</a></h5><div>True sight
+Immune to fireball spell
+Immune to lightning bolt spell
+Immune to flame arrow spell
+Immune to magic missiles spell
+Hover (flight)</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Magic Missiles (1/day)</h5></div><div class="ability-entry"><h5>Dimension Door (at will)</h5></div></div>
+  
+</div>
+<div class="creature" id="m16">
+  <h3>Doom Guard</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 10, CON 9, INT 7, WIS 11, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (70 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Long Sword
+
+Melee damage: 1D8 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
+Resistance to fire (50%)
+Resistance to cold (50%)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m12">
+  <h3>Wild Dog</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 17, CON 15, INT 4, WIS 13, CHA 11</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>1 (10 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>6</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>35</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D4 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m13">
+  <h3>War Dog</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 17, CON 15, INT 4, WIS 13, CHA 11</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (20 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>65</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m14">
+  <h3>Blink Dog</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 17, CON 15, INT 9, WIS 13, CHA 11</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (44 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Blink (at will)</h5><p>Teleport to target
+Thac0:+2 for a round</p></div></div>
+  
+</div>
+<div class="creature" id="m39">
+  <h3>Spectral Hound</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 15, CON 14, INT 4, WIS 14, CHA 12</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>-1</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (40 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>19</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D6 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Astral Plane Shift:
+Slow target for 6 rounds</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m69">
+  <h3>Ettercap</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 15, CON 13, INT 7, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (40 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 1 feet</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 2
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Type J poison:
+Death within 5 seconds (saves vs poison/death); 20 damage if the saving throw is successful</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits">Immune to web effects</div></div>
+  
+  
+</div>
+<div class="creature" id="m94">
+  <h3>Banshee</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 21, DEX 8, CON 17, INT 7, WIS 10, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>10 (110 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Large Spiked Club
+
+Melee damage: 3D6 (Crushing)
+Speed Factor: 8
+Enchantment: 3
+Range: 2 feet</div><hr/><div class="weapon">Large Spiked Club
+
+Melee damage: 2D8 (Crushing)
+Speed Factor: 8
+Enchantment: 3
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Immune to backstab
+Giant</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m41">
+  <h3>Dryad</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 12, CON 11, INT 14, WIS 15, CHA 18</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>9</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (12 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#fey">Fey</a></h5><div>Resistance to magic (50%)</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Dimension Door (at will)</h5></div><div class="ability-entry"><h5>Speak With Plants (at will)</h5><p>Immunity to entangle spell for 10 rounds.
+The caster can question plants as to whether or not creatures have passed through them, cause thickets to part to enable easy passage, require vines to entangle pursuers, and command similar services.</p></div><div class="ability-entry"><h5>Dryad Charm (3/day)</h5><p>Dire Charm target for 3 turns (saves vs spell at -3).</p></div></div>
+  
+</div>
+<div class="creature" id="m42">
+  <h3>Hamadryad</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 18, CON 12, INT 14, WIS 14, CHA 18</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (24 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#fey">Fey</a></h5><div>Immune to entangle effects
+Magic Resistance: 75%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Dimension Door (at will)</h5></div><div class="ability-entry"><h5>Speak With Plants (at will)</h5><p>Immunity to entangle spell for 10 rounds.
+The caster can question plants as to whether or not creatures have passed through them, cause thickets to part to enable easy passage, require vines to entangle pursuers, and command similar services.</p></div><div class="ability-entry"><h5>Entangle (every 3 rounds)</h5><p>Hamadryad can cast Entangle as the priest spell, but it won't affect its allies since her affinity with nature.</p></div><div class="ability-entry"><h5>Dryad Charm (3/day)</h5><p>Dire Charm target for 3 turns (saves vs spell at -3).</p></div><div class="ability-entry"><h5>Animal Friendship (at will)</h5><p>The caster can use this spell to attract up to 2 Hit Dice of animal(s) per experience level he possesses (save vs spell to negate).</p></div><div class="ability-entry"><h5>Detect snares and pits (every 16 rounds)</h5><p>When cast, all traps concealed -normally or magically- of magical or mechanical nature become apparent for 2 turns.</p></div></div>
+  
+</div>
+<div class="creature" id="m44">
+  <h3>Nymph</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 17, CON 12, INT 16, WIS 12, CHA 19</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_GOOD</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (18 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>0</dd></div>
+    <div class="stat"><dt>Special</dt><dd>Cast spells as a level 7 caster</dd></div>
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>7</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#fey">Fey</a></h5><div>Resistance to magic (50%)</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Blinding Beauty (at will)</h5><p>Looking at a nymph will cause permanent blindness unless the onlookers save versus spell.
+If the nymph is nude or disrobes, an onlooker will die unless a saving throw versus spell is successful.</p></div><div class="ability-entry"><h5>Dimension Door (1/day)</h5></div><div class="ability-entry"><h5>Call Woodland Beeings (1/day)</h5><p>Call Woodland Beings
+(Conjuration, Summoning)
+Level: 4
+Sphere: Animal, Summoning
+Range: Visual Range of Caster
+Duration: 2 turns
+Casting Time: 9
+Area of Effect: Special
+Saving Throw: None
+
+By means of this spell, the caster is able to summon certain woodland creatures to his location. Naturally, this spell works only outdoors, but not necessarily only in wooded areas.
+
+7th: Dryad (55%), Hamadryad (30%), 5HD Treant (15%)
+10th: Hamadryad (55%), 5HD Treant (30%), 7HD Treant (15%)
+13th: 7HD Treant (55%), 9HD Treant (30%), 11HD Treant (15%)
+
+The summoned creatures aid the caster by whatever means they possess, staying until they are slain or the spell duration expires.
+
+Dryad (2 Hit Dice):
+STR 10, DEX 12, CON 11, INT 14, WIS 15, CHA 18
+HP 16, AC 9, THAC0 19, 50% magic resistance
+Dimension Door (at will) in wilderness area only.
+Dryad Charm (x3), saves vs spell at -3.
+
+Hamadryad (4 Hit Dice):
+STR 10, DEX 18, CON 12, INT 14, WIS 14, CHA 18
+HP 32, AC 6, THAC0 17, 75% magic resistance
+Dimension Door (at will) in wilderness area only.
+Dryad Charm (x3), saves vs spell at -3.
+Entangle (at will)
+Animal Friendship (at will)
+
+5HD Treant:
+STR 19, DEX 8, CON 19, INT 12, WIS 16, CHA 12
+HP 65, AC 0, THAC0 15, -25% fire resistance
+2 Attacks Per Round, 2d6 crushing
+
+7HD Treant:
+STR 20, DEX 8, CON 20, INT 12, WIS 16, CHA 12
+HP 91, AC 0, THAC0 13, -25% fire resistance
+2 Attacks Per Round, 2d8 crushing
+
+9HD Treant:
+STR 21, DEX 8, CON 20, INT 12, WIS 16, CHA 12
+HP 117, AC 0, THAC0 11, -25% fire resistance
+2 Attacks Per Round, 3d6 crushing
+
+11HD Treant:
+STR 23, DEX 8, CON 21, INT 12, WIS 16, CHA 12
+HP 142, AC 0, THAC0 9, -25% fire resistance
+2 Attacks Per Round, 4d6 crushing</p></div><div class="ability-entry"><h5>Bless (1/day)</h5></div><div class="ability-entry"><h5>Barkskin (1/day)</h5></div><div class="ability-entry"><h5>Call Lightning (1/day)</h5></div><div class="ability-entry"><h5>Summon Insects (1/day)</h5></div><div class="ability-entry"><h5>Entangle (1/day)</h5></div><div class="ability-entry"><h5>Charm Person or Animal (1/day)</h5></div><div class="ability-entry"><h5>Animal Friendship (at will)</h5><p>The caster can use this spell to attract up to 2 Hit Dice of animal(s) per experience level he possesses (save vs spell to negate).</p></div><div class="ability-entry"><h5>Cure Light Wounds (1/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m43">
+  <h3>Sirine</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 18, CON 11, INT 13, WIS 16, CHA 17</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (30 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    <div class="stat"><dt>Special</dt><dd>Cast spells as a level 11 caster</dd></div>
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Sirine Touch
+
+Melee damage: 1D3 (Crushing)
+Speed Factor: 2
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Touch of Tranquility</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#fey">Fey</a></h5><div>Immune to cloud spells
+Magic Resistance: 20%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Improved Invisibility (1/day)</h5></div><div class="ability-entry"><h5>Charm Song (1/day)</h5><p>The charm ability is used through the sirine's song, and all people within 30 feet are subject to it, even if they are hostile or attacking.
+Each victim can save vs spell to negate or be charmed for 3 turns.</p></div><div class="ability-entry"><h5>Fog Cloud (1/day)</h5><p>As a fog bank, this spell creates a fog of any size and shape up to a maximum 20-foot cube per caster level. The fog obscures all sight, normal and infravision, beyond 2 feet.
+Victims are blinded for one round, no save.</p></div></div>
+  
+</div>
+<div class="creature" id="m23">
+  <h3>Flesh Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 19, DEX 9, CON 18, INT 3, WIS 10, CHA 5</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>9</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>8</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>9 (156 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 2D8 (Crushing)
+Speed Factor: 4
+Enchantment: 3
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to magic
+Immune to fire
+Immune to cold
+Electricity Resistance: 125%</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m24">
+  <h3>Clay Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 9, CON 18, INT 3, WIS 8, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>7</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>11 (184 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>9</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>5000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 3D10 (Crushing)
+Speed Factor: 4
+Enchantment: 4
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to magic
+Immune to non-magical weapons
+Immune to slashing damage
+Immune to piercing damage
+Immune to missile damage</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Haste (1/day)</h5><p>Haste caster for 3 rounds</p></div></div>
+  
+</div>
+<div class="creature" id="m25">
+  <h3>Stone Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 22, DEX 9, CON 20, INT 3, WIS 11, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>14 (240 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>7</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>8000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 3D8 (Crushing)
+Speed Factor: 4
+Enchantment: 4
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to magic
+Immune to all weapons of +1 or less enchantment</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Slow (1/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m26">
+  <h3>Iron Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 24, DEX 9, CON 20, INT 3, WIS 11, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>18 (300 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>3</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>13000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 4D10 (Crushing)
+Speed Factor: 4
+Enchantment: 4
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to magic
+Immune to all weapons of +2 or less enchantment
+Immune to lightning
+Fire Resistance: 125%
+Magical Fire Resistance: 125%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Cloud Of Poisonous Gas (every 7 rounds)</h5><p>The gas cloud fills a 10-foot cube directly in front of it, which dissipates by the following round, assuming there is somewhere for the gas to go.</p></div></div>
+  
+</div>
+<div class="creature" id="m27">
+  <h3>Bone Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 13, CON 16, INT 3, WIS 8, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>0</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>14 (188 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>7</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>18000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 3D8 (Slashing)
+Speed Factor: 4
+Enchantment: 4
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a>, <a href="#skeletal">Skeletal</a></h5><div>Immune to magic
+Immune to fire
+Immune to cold
+Electricity Resistance: 125%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Hideous Laugh (every 3 rounds)</h5><p></p></div></div>
+  
+</div>
+<div class="creature" id="m33">
+  <h3>Juggernaut Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 22, DEX 9, CON 20, INT 3, WIS 11, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>3</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>18 (300 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>3</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>16</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>11000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 2D6 (Crushing)
+Speed Factor: 4
+Enchantment: 4
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to magic
+Immune to fire</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Charge (every 5 rounds)</h5><p>Gradually increases movement for 4 rounds. Peak speed is reached after 2 rounds.</p></div></div>
+  
+</div>
+<div class="creature" id="m67">
+  <h3>Snow Golem</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 19, DEX 6, CON 14, INT 3, WIS 6, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>1</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>12 (150 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>9</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>7000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 2D12 (Crushing)
+Speed Factor: 4
+Enchantment: 4
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#construct">Construct</a></h5><div>Immune to all weapons of +1 or less enchantment
+Immune to lightning
+Cold Resistance: 125%
+Magical Cold Resistance: 125%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Cone of Cold (every 5 rounds)</h5><p>Cone of Cold
+Casting Time: 1
+Saving Throw: Breath half
+When this spell is cast, it causes a cone-shaped spray of extreme cold to spring forth.
+The cone is 30 feet long and spread out in a horizontal arc of 60 degrees in front of the caster.
+It drains heat and causes 10d4+10 cold damage, with a save vs. breath at -4 allowed for half damage.</p></div></div>
+  
+</div>
+<div class="creature" id="m68">
+  <h3>Minotaur</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 11, CON 16, INT 6, WIS 16, CHA 9</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (63 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Huge Axe
+STATISTICS:
+Damage: 1D12
+Damage type: slashing
+Weight: 15
+Speed Factor: 8
+Proficiency Type: Halberds</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Infravision
+Immune to maze spells</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Charge (at will)</h5><p>If a minotaur is 30 feet or more from its opponent, it can lower its head and charge against any creature that is at least 6 feet tall.
+If successful, the charge causes double head-butt damage</p></div></div>
+  
+</div>
+<div class="creature" id="m30">
+  <h3>Ogre</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 8, CON 16, INT 8, WIS 7, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (41 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 2D6 (Crushing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m28">
+  <h3>Ogrillon</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 9, CON 14, INT 6, WIS 7, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (20 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>175</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 1D6 (Crushing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m29">
+  <h3>Half Ogre</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 10, CON 14, INT 9, WIS 9, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (22 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>175</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m32">
+  <h3>Ogre Mage</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18/100, DEX 10, CON 17, INT 16, WIS 14, CHA 17</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (57 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Similar to the glaive, the naginata is a pole weapon. Naginata were originally used by the samurai class.
+STATISTICS:
+Damage: 1D12
+Damage type: slashing
+Weight: 15
+Speed Factor: 8
+Proficiency Type: Halberds</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5><div>Regeneration: 1 hp/round</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Invisibility (1/day)</h5></div><div class="ability-entry"><h5>Fly (at will)</h5><p>The creature affected is able to move vertically and horizontally at a rate of 18.
+This effectively prevents ground-based spells such as Earthquake, Entangle, Grease and Web from affecting the creature.
+Furthermore, creatures with this ability can cross lava and acid pools without taking damage by hovering above them.</p></div><div class="ability-entry"><h5>Cone of Cold (1/day)</h5><p>Cone of Cold
+Casting Time: 1
+Saving Throw: Breath half
+When this spell is cast, it causes a cone-shaped spray of extreme cold to spring forth.
+The cone is 60 feet long with a terminal diameter of 20 feet.
+It drains heat and causes 8d8 cold damage, with a save vs. breath at -4 allowed for half damage.</p></div><div class="ability-entry"><h5>Darkness 15' Radius (1/day)</h5></div><div class="ability-entry"><h5>Sleep (1/day)</h5></div><div class="ability-entry"><h5>Charm Person (1/day)</h5></div><div class="ability-entry"><h5>Gaseous form (at will)</h5><p>The gaseous form cannot be physically harmed except by magical fires or lightning, in which case damage is normal, but the gaseous creature may be affected by mind-related attacks such as charm, hold or suggestion spells.</p></div></div>
+  
+</div>
+<div class="creature" id="m31">
+  <h3>Ogre Berserker</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18/100, DEX 8, CON 17, INT 8, WIS 7, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (33 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Giant Flail
+
+Melee damage: 2D8 (Crushing)
+Speed Factor: 8
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Berserker Rage (1/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m40">
+  <h3>Ogre Shaman</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 8, CON 16, INT 12, WIS 13, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (43 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>420</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Fists
+
+Melee damage: 1D10 (Crushing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#giant">Giant</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Bless (1/day)</h5></div><div class="ability-entry"><h5>Chant (1/day)</h5></div><div class="ability-entry"><h5>Hold Person (1/day)</h5></div><div class="ability-entry"><h5>Command (2/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m45">
+  <h3>Treant</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 23, DEX 8, CON 21, INT 12, WIS 16, CHA 12</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_GOOD</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>0</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>11 (154 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>9</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>16</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>6000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Branch
+
+Melee damage: 4D6 (Crushing)
+Speed Factor: 8
+Enchantment: 4
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#plant">Plant</a></h5><div>Fire Resistance: -25%
+Magical Fire Resistance: -25%</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m47">
+  <h3>Black Pudding</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 5, CON 16, INT 1, WIS 6, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>10 (120 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Acid damage: 3D8
+Speed Factor: 4
+Enchantment: 3
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to acid
+Immune to cold
+Immune to poison
+Electricity Resistance: 90%</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m54">
+  <h3>White Pudding</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 5, CON 16, INT 1, WIS 6, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>8</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>9 (108 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Acid damage: 7D4
+Speed Factor: 4
+Enchantment: 3
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to acid
+Immune to cold
+Immune to poison
+Electricity Resistance: 90%</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m46">
+  <h3>Mustard Jelly</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 10, CON 21, INT 10, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (126 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>4000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Melee damage: 2D4 (Crushing)
+Acid damage: 3D4
+Speed Factor: 4
+Enchantment: 2
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to lightning
+Immune to non-magical weapons
+Immune to magic missiles spell
+Resistance to cold (50%)
+Magic Resistance: 10%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Toxic Vapors (at will)</h5><p>Unleash a toxic vapor over a 10-foot radius.
+Those near the jelly must roll a saving throw vs. poison each round.
+Those who fail the saving throw become lethargic.
+Lethargic characters are unable to attack or cast spells, but can still move at half-normal speed.
+The toxic effects last for two rounds.</p></div></div>
+  
+</div>
+<div class="creature" id="m48">
+  <h3>Fission Slime</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 10, CON 21, INT 10, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>12 (206 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>7</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>5000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Melee damage: 3D6 (Crushing)
+Acid damage: 3D6
+Speed Factor: 4
+Enchantment: 4
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to lightning
+Immune to non-magical weapons
+Immune to magic missiles spell
+Resistance to cold (50%)
+Magic Resistance: 10%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Toxic Vapors (at will)</h5><p>Unleash a toxic vapor over a 10-foot radius.
+Those near the jelly must roll a saving throw vs. poison each round.
+Those who fail the saving throw become lethargic.
+Lethargic characters are unable to attack or cast spells, but can still move at half-normal speed.
+The toxic effects last for two rounds.</p></div></div>
+  
+</div>
+<div class="creature" id="m50">
+  <h3>Gray Ooze</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 6, CON 16, INT 1, WIS 6, CHA 2</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>8</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>1</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (39 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Acid damage: 2D8
+Speed Factor: 4
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to magic
+Immune to fire
+Immune to cold</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m51">
+  <h3>Green Slime</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 4, DEX 12, CON 8, INT 1, WIS 3, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>9</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>0</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (20 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>65</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Acid damage: 1D4
+Speed Factor: 4
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to magic
+Immune to physical damage</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m49">
+  <h3>Ochre Jelly</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 6, CON 14, INT 1, WIS 6, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>8</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>3</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (60 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Acid damage: 1D10+2
+Speed Factor: 4
+Enchantment: 1
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to lightning</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m52">
+  <h3>Olive Slime Creature</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 10, CON 21, INT 10, WIS 10, CHA 10</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>9</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>12 (194 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>9</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>9</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2500</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Melee damage: 2D4 (Crushing)
+Acid damage: 2D4
+Speed Factor: 4
+Enchantment: 4
+Range: 5 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5><div>Immune to lightning
+Immune to entangle effects
+Immune to non-magical weapons</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m53">
+  <h3>Slithering Tracker</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 8, CON 18, INT 9, WIS 7, CHA 2</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (70 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Pseudopod
+
+Melee damage: 1D6 (Crushing)
+Acid damage: 4D6
+Speed Factor: 4
+Enchantment: 1
+Range: 5 feet
+Paralyze target for a turn (saves vs poison/death).</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#ooze">Ooze</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m64">
+  <h3>Gargantuan Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 15, CON 17, INT 7, WIS 11, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (96 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Gargantuan</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D6 (Piercing)
+Speed Factor: 2
+Enchantment: 3
+Range: 3 feet
+
+Cast spell Type Q poison (saves vs poison/death at -2):
+Fall into a coma for an hour</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Web Tangle (every 2 rounds)</h5><p>The spider can shoot web strands up to 5 feet to bind a foe.
+Characters in contact with the webs must make a saving throw vs. paralyzation or be immobilized by the web for 3 rounds.</p></div></div>
+  
+</div>
+<div class="creature" id="m58">
+  <h3>Ghostwalk Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 20, CON 17, INT 9, WIS 14, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>14 (154 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>7</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>5000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 3D10 (Piercing)
+Speed Factor: 2
+Enchantment: 4
+Range: 2 feet
+An incorporeal creature has no physical body.
+Immune to backstab and critical hits
+Immune to all non-magical attacks.
+Has a 50% resistance to every damages.
+Deflection bonus (+3 AC).
+Attacks pass through armor (+4 THAC0).
+Blur (visual effect only)</div><hr/><div class="weapon">Jaws
+
+Melee damage: 3D10 (Piercing)
+Speed Factor: 2
+Enchantment: 4
+Range: 2 feet
+
+Cast spell Type E poison:
+Death within 3 rounds (saves vs poison/death at -2); 20 damage if the saving throw is successful</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5><div>True sight</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Web Tangle (every 2 rounds)</h5><p>The spider can shoot invisible web strands up to 5 feet to bind a foe.
+Characters in contact with the webs must make a saving throw vs. paralyzation at -2 or be immobilized by the web for 3 rounds.
+While restrained in this way, the target is invisible.</p></div></div>
+  
+</div>
+<div class="creature" id="m56">
+  <h3>Giant Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 16, CON 12, INT 7, WIS 11, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>3</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (36 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 2
+Enchantment: 1
+Range: 2 feet
+
+Cast spell Type F poison:
+Death within 3 rounds (saves vs poison/death)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m62">
+  <h3>Hairy Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 2, DEX 14, CON 8, INT 1, WIS 10, CHA 2</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>8</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>1 (9 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>20</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Tiny</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>65</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D1 (Piercing)
+Speed Factor: 2
+
+Cast spell Type R poison (saves vs poison/death at +2):
+The victim's AC and attack rolls are penalized by 1, and Dexterity is penalized by -3 for 4 rounds</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5><div>Resistance to crushing damage (50%)</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Detect Invisibility (1/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m55">
+  <h3>Huge Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 16, CON 12, INT 7, WIS 11, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (18 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>8</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>270</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 2
+Range: 1 feet
+
+Cast spell Type A poison:
+Poison damage: 15 over 50 seconds (saves vs poison/death at +1)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m65">
+  <h3>Hunting Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 14, DEX 16, CON 12, INT 10, WIS 11, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>8</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (27 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D3 (Piercing)
+Speed Factor: 2
+Range: 2 feet
+
+Cast spell Type A poison:
+Poison damage: 15 over 50 seconds (saves vs poison/death at +2)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a>, <a href="#seeInvisible">True sight</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Leap (at will)</h5><p>Leaps horizontally as far as 30 feet.</p></div></div>
+  
+</div>
+<div class="creature" id="m57">
+  <h3>Phase Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 15, CON 12, INT 7, WIS 10, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (55 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 2
+Enchantment: 1
+Range: 2 feet
+
+Cast spell Phase out
+
+Cast spell Type F poison:
+Death within 3 rounds (saves vs poison/death at -2)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a>, <a href="#magicalBeast">Magical Beast</a></h5><div>Invisibility</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Phase out (at will)</h5><p></p></div></div>
+  
+</div>
+<div class="creature" id="m59">
+  <h3>Sword Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 18, CON 14, INT 9, WIS 14, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (45 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 2
+Enchantment: 1
+Range: 2 feet</div><hr/><div class="weapon">Leg
+
+Melee damage: 1D12 (Piercing)
+Speed Factor: 1
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Leap Attack (at will)</h5><p>Leaps horizontally as far as 30 feet.
+Gains Impaling Attack ability for one round.</p></div></div>
+  
+</div>
+<div class="creature" id="m63">
+  <h3>Vortex Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 15, CON 12, INT 7, WIS 10, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (60 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2700</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 2
+Enchantment: 2
+Range: 2 feet
+
+Cast spell Type F poison:
+Death within 3 rounds (saves vs poison/death at -2)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a></h5><div>Magic Resistance: 15%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Slow (1/day)</h5></div></div>
+  
+</div>
+<div class="creature" id="m60">
+  <h3>Wraith Spider</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 15, CON 9, INT 10, WIS 10, CHA 1</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (26 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Cold damage: 1D4+1
+Speed Factor: 2
+Range: 1 feet
+Drain 1 level from target.
+
+Cast spell Type S poison (saves vs poison/death):
+This poison remains active for 5 rounds and drains 1 point of Constitution each round it is active.
+Constitution points can be regained at the rate of 1 per week; a heal spell restores 1-4 points per spell.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#spider">Spider</a>, <a href="#undead">Undead</a></h5><div>Immune to cold
+Immune to non-magical and non-silver weapons
+Magic Resistance: 15%</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m17">
+  <h3>Wolf</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 15, CON 12, INT 4, WIS 12, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (24 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>65</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D4 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m19">
+  <h3>Dire Wolf</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 15, CON 15, INT 4, WIS 12, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (40 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>10</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>175</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  
+  
+  
+</div>
+<div class="creature" id="m22">
+  <h3>Dread Wolf</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 13, CON 14, INT 9, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (46 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>18</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 1D10 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Rotting Disease (saves vs poison/death):
+Dread wolves cause a nasty rotting disease that can infect a bitten opponent who fails a save vs. poison within one hour of the fight.
+He loses 1 hp per hour until death.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Dread wolf regenerates like a troll, regaining 3 hp per round after the first combat round.
+Only acid, fire, or total dismemberment will inflict permanent damage.
+It is immune to charm, hold, and cold-based spells. Electricity-based spells cause only half damage.
+Total dismemberment occurs when the creature's negative hit-point total is equal to or greater than its full positive hit-point total.
+However, the creature continues to fight until it reaches -10 hp. It then goes down until it regenerates to at least 0 hit points.</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m21">
+  <h3>Vampiric Wolf</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 13, CON 9, INT 6, WIS 12, CHA 7</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>24</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (52 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Small</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 8 (Piercing)
+Speed Factor: 3
+Enchantment: 2
+Range: 1 feet
+Heal: 10
+Sleep for 2 rounds (wake on damage) (saves vs poison/death)</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Immune to sleep
+Immune to charm
+Immune to hold
+Immune to non-magical and non-silver weapons</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m20">
+  <h3>Winter Wolf</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 13, CON 14, INT 9, WIS 12, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (60 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Large</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5><div>Immune to cold
+Fire Resistance: -10%
+Magical Fire Resistance: -10%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Stream of frost (every 10 rounds)</h5><p>Unleash a stream of frost, causing 6d4 points of damage to everything within 10 feet. A save vs. breath weapon is allowed for half damage.</p></div></div>
+  
+</div>
+<div class="creature" id="m18">
+  <h3>Worg</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 13, CON 13, INT 7, WIS 11, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (33 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>11</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>120</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 3
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#magicalBeast">Magical Beast</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m70">
+  <h3>Wyvern</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 19, DEX 10, CON 16, INT 7, WIS 12, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>24</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (77 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Gargantuan</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>1400</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Stinger
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Enchantment: 2
+Range: 3 feet
+
+Cast spell Type F poison:
+Death within 3 rounds (saves vs poison/death)</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D8 (Piercing)
+Speed Factor: 2
+Enchantment: 2
+Range: 3 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Hover (flight)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m71">
+  <h3>Baby Wyvern</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 17, DEX 10, CON 16, INT 7, WIS 12, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>24</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>5 (55 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Huge</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Stinger
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 2 feet
+
+Cast spell Type J poison:
+Death within 5 seconds (saves vs poison/death); 20 damage if the saving throw is successful</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D8 (Piercing)
+Speed Factor: 2
+Enchantment: 1
+Range: 2 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Hover (flight)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m72">
+  <h3>Greater Wyvern</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 20, DEX 10, CON 16, INT 7, WIS 12, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>1</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>24</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>11 (121 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>9</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Gargantuan</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>16</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>2000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Stinger
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Enchantment: 4
+Range: 3 feet
+
+Cast spell Type F poison:
+Death within 3 rounds (saves vs poison/death at -2)</div><hr/><div class="weapon">Jaws
+
+Melee damage: 2D8 (Piercing)
+Speed Factor: 2
+Enchantment: 4
+Range: 3 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><div>Hover (flight)</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m73">
+  <h3>Banshee</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 9, DEX 14, CON 9, INT 16, WIS 11, CHA 17</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>0</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (84 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    <div class="stat"><dt>Special</dt><dd>Turned as a level 17 undead</dd></div>
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>13</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>4000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Touch
+
+Melee damage: 1D8 (Crushing)
+Speed Factor: 3
+Enchantment: 2
+Range: 1 feet</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to non-magical weapons
+Resistance to magic (50%)
+Incorporeal
+Immune to cold
+Immune to lightning</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Death Wail (1/day)</h5><p>Any creature within 30 feet of a groaning spirit when she keens must roll a saving throw vs. death magic.
+Those who fail die immediately, their faces contorted in horror.</p></div><div class="ability-entry"><h5>Fear Aura (at will)</h5><p>The mere sight of one causes fear, unless a successful saving throw vs. spell is rolled.
+Those who fail must flee in terror for 10 rounds and are 50% likely to drop any items they were carrying in their hands.</p></div></div>
+  
+</div>
+<div class="creature" id="m76">
+  <h3>Ghoul</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 13, DEX 15, CON 9, INT 7, WIS 10, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>6</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>2 (24 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>175</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D3 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+
+Cast spell Ghoul's Touch:
+Their touch causes humanoids (excluding elves) to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D6 (Piercing)
+Speed Factor: 3
+Range: 1 feet
+
+Cast spell Ghoul's Touch:
+Their touch causes humanoids (excluding elves) to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5></div></div>
+  
+  
+</div>
+<div class="creature" id="m75">
+  <h3>Ghast</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 17, CON 9, INT 12, WIS 10, CHA 6</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (48 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>650</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D4 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+
+Cast spell Ghast's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 3
+Range: 1 feet
+
+Cast spell Ghast's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Carrion Stench (at will)</h5><p>Ghasts exude a carrion stench in a 10' radius which causes retching and nausea unless a saving throw versus poison is made.
+Those failing to make this save will attack at a penalty of -2.</p></div></div>
+  
+</div>
+<div class="creature" id="m77">
+  <h3>Ghoul Lord</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18, DEX 17, CON 9, INT 14, WIS 11, CHA 13</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>4</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (72 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>15</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>
+    <div class="stat"><dt>Special</dt><dd>Turned as a level 7 undead</dd></div>
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>14</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D6 (Slashing)
+Speed Factor: 5
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Ghoul Lord's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds.</div><hr/><div class="weapon">Jaws
+
+Melee damage: 1D10 (Piercing)
+Speed Factor: 3
+Enchantment: 1
+Range: 1 feet
+
+Cast spell Ghoul Lord's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds.
+
+Cast spell Rotting Disease (saves vs poison/death):
+Loose 10 hit points every 8 hours and 4 point of Constitution and Charisma.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to non-magical and non-silver weapons</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Aura of Evil (at will)</h5><p>Ghoul lords do radiate an aura of evil. In fact, this effect is so potent that those of good alignment suffer a -4 on all attack rolls when within 30 feet of these creatures.</p></div></div>
+  
+</div>
+<div class="creature" id="m78">
+  <h3>Mummy</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 8, CON 9, INT 7, WIS 10, CHA 12</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>3</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>6 (75 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D12 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 1 feet
+
+Cast spell Rotting Disease:
+The scabrous touch infects the victim with a rotting disease which is fatal in 6 days.
+For each day the rot progresses, the victim permanently loses 2 points of Charisma.
+The disease can be cured only with a cure disease spell.
+Cure wounds spells have no effect on a person inflicted with mummy rot.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Resistance to physical damage (50%)
+Immune to cold
+Immune to non-magical weapons
+Fire Resistance: -33%
+Magical Fire Resistance: -33%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Fear Aura (every 2 rounds)</h5><p>The mere sight of a mummy causes such terror in any creature that a saving throw versus spell must be made or the victim becomes paralyzed with fright for 3 rounds.
+Humans save against mummies at an additional +2.</p></div></div>
+  
+</div>
+<div class="creature" id="m79">
+  <h3>Greater Mummy</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 15, DEX 16, CON 9, INT 18, WIS 22, CHA 20</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>-2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>12 (147 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>7</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    <div class="stat"><dt>Special</dt><dd>Cast spells as a level 20 caster</dd></div>
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>18</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>16000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 3D6 (Slashing)
+Speed Factor: 5
+Enchantment: 4
+Range: 1 feet
+
+Cast spell Rotting Disease:
+The scabrous touch infects the victim with a rotting disease which is fatal in 48 hours.
+Every 8 hours, the victim permanently loses 2 points of Charisma and 1 point each of Strength and Constitution.
+The disease can be cured only with a cure disease spell.
+Cure wounds spells have no effect on a person inflicted with mummy rot.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Resistance to physical damage (50%)
+Immune to cold
+Immune to all weapons of +2 or less enchantment
+Magic Resistance: 20%
+Fire Resistance: 100%
+Electricity Resistance: -50%</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Fear Aura (every 2 rounds)</h5><p>The mere sight of a greater mummy causes such terror in any creature that a saving throw versus spell at -3 must be made or the victim becomes paralyzed with fright for 4 rounds.
+Humans save against mummies at an additional +2.</p></div></div>
+  <h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist"><button type="button" class="spellbook-tab-button active" data-tab="spellbook-m79-0">Faiths & Powers</button><button type="button" class="spellbook-tab-button" data-tab="spellbook-m79-1">Spell Revisions</button><button type="button" class="spellbook-tab-button" data-tab="spellbook-m79-2">Vanilla</button></div><div class="spellbook-tab-panel abilities active" id="spellbook-m79-0"><div class="ability-entry"><h5>Greater Malison (1/day)</h5></div><div class="ability-entry"><h5>Finger of Death (1/day)</h5></div><div class="ability-entry"><h5>Wither (1/day)</h5></div><div class="ability-entry"><h5>Dolorous Decay (3/day)</h5></div><div class="ability-entry"><h5>Harm (1/day)</h5></div><div class="ability-entry"><h5>Magic Resistance (1/day)</h5></div><div class="ability-entry"><h5>Summon Shadows (1/day)</h5></div><div class="ability-entry"><h5>Chaos (1/day)</h5></div><div class="ability-entry"><h5>Cloud of Pestilence (1/day)</h5></div><div class="ability-entry"><h5>Mass Cause Light Wounds (1/day)</h5></div><div class="ability-entry"><h5>Shades (1/day)</h5></div><div class="ability-entry"><h5>Slay Living (2/day)</h5></div><div class="ability-entry"><h5>Waves of Agony (1/day)</h5></div><div class="ability-entry"><h5>Greater Command (1/day)</h5></div><div class="ability-entry"><h5>Emotion (1/day)</h5></div><div class="ability-entry"><h5>Poison (2/day)</h5></div><div class="ability-entry"><h5>Waves of Fatigue (1/day)</h5></div><div class="ability-entry"><h5>Demi-Shadow Monsters (2/day)</h5></div><div class="ability-entry"><h5>Cause Critical Wounds (2/day)</h5></div><div class="ability-entry"><h5>Animate Dead (2/day)</h5></div><div class="ability-entry"><h5>Circle of Bones (3/day)</h5></div><div class="ability-entry"><h5>Shadow Monsters (3/day)</h5></div><div class="ability-entry"><h5>Cause Serious Wounds (6/day)</h5></div><div class="ability-entry"><h5>Shield (1/day)</h5></div><div class="ability-entry"><h5>Rigid Thinking (4/day)</h5></div><div class="ability-entry"><h5>Forbiddance (5/day)</h5></div><div class="ability-entry"><h5>Shatter (2/day)</h5></div><div class="ability-entry"><h5>Cause Disease (3/day)</h5></div><div class="ability-entry"><h5>Doom (3/day)</h5></div><div class="ability-entry"><h5>Command (6/day)</h5></div></div><div class="spellbook-tab-panel abilities" id="spellbook-m79-1"><div class="ability-entry"><h5>Sanctuary (1/day)</h5></div><div class="ability-entry"><h5>Finger of Death (1/day)</h5></div><div class="ability-entry"><h5>Dolorous Decay (2/day)</h5></div><div class="ability-entry"><h5>Harm (1/day)</h5></div><div class="ability-entry"><h5>Magic Resistance (1/day)</h5></div><div class="ability-entry"><h5>Slay Living (2/day)</h5></div><div class="ability-entry"><h5>Greater Command (1/day)</h5></div><div class="ability-entry"><h5>Poison (3/day)</h5></div><div class="ability-entry"><h5>Animate Dead (4/day)</h5></div><div class="ability-entry"><h5>Symbol of Death (1/day)</h5></div><div class="ability-entry"><h5>Aerial Servant (1/day)</h5></div><div class="ability-entry"><h5>Blade Barrier (1/day)</h5></div><div class="ability-entry"><h5>True Seeing (1/day)</h5></div><div class="ability-entry"><h5>Righteous Magic (1/day)</h5></div><div class="ability-entry"><h5>Flame Strike (3/day)</h5></div><div class="ability-entry"><h5>Holy Power (2/day)</h5></div><div class="ability-entry"><h5>Mental Domination (3/day)</h5></div><div class="ability-entry"><h5>Draw Upon Holy Might (3/day)</h5></div><div class="ability-entry"><h5>Protection From Lightning (1/day)</h5></div><div class="ability-entry"><h5>Bless (1/day)</h5></div><div class="ability-entry"><h5>Chant (1/day)</h5></div><div class="ability-entry"><h5>Silence (3/day)</h5></div><div class="ability-entry"><h5>Hold Person (5/day)</h5></div><div class="ability-entry"><h5>Dispel Magic (2/day)</h5></div><div class="ability-entry"><h5>Unholy Blight (3/day)</h5></div><div class="ability-entry"><h5>Glyph of Warding (3/day)</h5></div><div class="ability-entry"><h5>Cause Serious Wounds (2/day)</h5></div><div class="ability-entry"><h5>Doom (5/day)</h5></div><div class="ability-entry"><h5>Command (5/day)</h5></div></div><div class="spellbook-tab-panel abilities" id="spellbook-m79-2"><div class="ability-entry"><h5>Sanctuary (1/day)</h5></div><div class="ability-entry"><h5>Finger of Death (1/day)</h5></div><div class="ability-entry"><h5>Dolorous Decay (2/day)</h5></div><div class="ability-entry"><h5>Harm (1/day)</h5></div><div class="ability-entry"><h5>Magic Resistance (1/day)</h5></div><div class="ability-entry"><h5>Slay Living (2/day)</h5></div><div class="ability-entry"><h5>Greater Command (1/day)</h5></div><div class="ability-entry"><h5>Poison (3/day)</h5></div><div class="ability-entry"><h5>Animate Dead (4/day)</h5></div><div class="ability-entry"><h5>Symbol of Death (1/day)</h5></div><div class="ability-entry"><h5>Aerial Servant (1/day)</h5></div><div class="ability-entry"><h5>Blade Barrier (1/day)</h5></div><div class="ability-entry"><h5>True Seeing (1/day)</h5></div><div class="ability-entry"><h5>Righteous Magic (1/day)</h5></div><div class="ability-entry"><h5>Flame Strike (3/day)</h5></div><div class="ability-entry"><h5>Holy Power (2/day)</h5></div><div class="ability-entry"><h5>Mental Domination (3/day)</h5></div><div class="ability-entry"><h5>Draw Upon Holy Might (3/day)</h5></div><div class="ability-entry"><h5>Protection From Lightning (1/day)</h5></div><div class="ability-entry"><h5>Bless (1/day)</h5></div><div class="ability-entry"><h5>Chant (1/day)</h5></div><div class="ability-entry"><h5>Silence (3/day)</h5></div><div class="ability-entry"><h5>Hold Person (5/day)</h5></div><div class="ability-entry"><h5>Dispel Magic (2/day)</h5></div><div class="ability-entry"><h5>Unholy Blight (3/day)</h5></div><div class="ability-entry"><h5>Glyph of Warding (3/day)</h5></div><div class="ability-entry"><h5>Cause Serious Wounds (2/day)</h5></div><div class="ability-entry"><h5>Doom (5/day)</h5></div><div class="ability-entry"><h5>Command (5/day)</h5></div></div></div>
+</div>
+<div class="creature" id="m80">
+  <h3>Shadow</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 6, DEX 14, CON 9, INT 7, WIS 10, CHA 8</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>3 (39 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>420</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D4+1 (Slashing)
+Speed Factor: 5
+Range: 1 feet
+Strength: -1 for an hour</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to cold
+Incorporeal</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m89">
+  <h3>Greater Shadow</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 16, CON 9, INT 11, WIS 14, CHA 12</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>CHAOTIC_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>5</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>8 (104 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>20</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 2D6+2 (Slashing)
+Speed Factor: 5
+Enchantment: 3
+Range: 1 feet
+Strength: -3 for an hour</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to cold
+Incorporeal</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m90">
+  <h3>Baneguard</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 16, DEX 11, CON 9, INT 1, WIS 8, CHA 5</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>9 (108 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Skeletal</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Magic Missiles (1/day)</h5></div><div class="ability-entry"><h5>Blink (every 14 rounds)</h5><p></p></div></div>
+  
+</div>
+<div class="creature" id="m91">
+  <h3>Bonebat</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 12, DEX 13, CON 9, INT 7, WIS 10, CHA 14</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>18</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>4 (48 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>17</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>975</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Jaws
+
+Melee damage: 2D4 (Piercing)
+Speed Factor: 3
+Range: 1 feet
+
+Cast spell Bonebat's Touch:
+A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, unless a successful saving throw vs. paralyzation is made.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Skeletal</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m81">
+  <h3>Skeleton</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 10, DEX 14, CON 9, INT 1, WIS 8, CHA 5</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>7</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>12</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>1 (12 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>19</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>12</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>65</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Skeletal</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m82">
+  <h3>Skeleton Warrior</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 18/40, DEX 14, CON 9, INT 16, WIS 12, CHA 4</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>NEUTRAL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>6</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>9 (116 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>4000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">By weapon</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Skeletal
+Immune to non-magical weapons
+Immune to turn undead
+Magic Resistance: 90%
+Thac0:+3</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Fear Aura (at will)</h5><p>The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.</p></div></div>
+  
+</div>
+<div class="creature" id="m83">
+  <h3>Spectre</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 1, DEX 14, CON 9, INT 14, WIS 10, CHA 11</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>2</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>15</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>7 (87 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>13</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>3000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Melee damage: 1D8 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 1 feet
+
+Cast spell Specter's Touch:
+Their touch drains two life energy levels from the victim.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to cold
+Incorporeal</div></div></div>
+  
+  
+</div>
+<div class="creature" id="m93">
+  <h3>Ghost</h3>
+  <dl class="stat-grid">
+    <div class="stat"><dt>Ability Scores</dt><dd>STR 7, DEX 13, CON 9, INT 14, WIS 12, CHA 17</dd></div>
+    <div class="stat"><dt>Alignment</dt><dd>LAWFUL_EVIL</dd></div>
+    <div class="stat"><dt>Base Armor Class</dt><dd>0</dd></div>
+    <div class="stat"><dt>Movement</dt><dd>9</dd></div>
+    <div class="stat"><dt>Hit Dice</dt><dd>10 (120 hp)</dd></div>
+    <div class="stat"><dt>THAC0</dt><dd>11</dd></div>
+    <div class="stat"><dt>Attacks per Round</dt><dd>1</dd></div>
+    
+    <div class="stat"><dt>Size</dt><dd>Medium</dd></div>
+    <div class="stat"><dt>Morale</dt><dd>15</dd></div>
+    <div class="stat"><dt>XP Value</dt><dd>7000</dd></div>
+  </dl>
+  <div class="detail-section">
+    <h4>Attacks</h4>
+    <div class="weapon">Claws
+
+Enchantment: 3
+Range: 1 feet
+
+Cast spell Ghost's Touch:
+Their touch drains two life energy levels from the victim.</div>
+  </div>
+  <div class="detail-section"><h4>Traits</h4><div class="traits"><h5><a href="#undead">Undead</a></h5><div>Immune to cold
+Incorporeal</div></div></div>
+  <h4>Abilities</h4><div class="abilities"><div class="ability-entry"><h5>Fear Aura (every 2 rounds)</h5><p>The supernatural power of a ghost is such, however, that the mere sight of one causes any humanoid being to age 10 years and flee in panic for 8 turns unless a saving throw versus spell is made.
+Priests above 6th level are immune to this effect, and all other humanoids above 8th level may add +2 to their saving throws.</p></div></div>
+  
+</div>
+
+      <section class="traits-glossary">
+        <h2>Traits</h2>
+        <div class="traits"><h5><a id="airAffinity">Air affinity</a></h5><p>Creatures with this trait receive a +1 bonus to hit and a +4 bonus to damage when fighting airborne opponents.</p><h5><a id="blindsight">Blindsight</a></h5><p>Invisibility, darkness, and most kinds of concealment are irrelevant.
+Blindsight does not subject a creature to gaze attacks.</p><h5><a id="construct">Construct</a></h5><p>Immunity to poison, sleep effects, paralysis, stunning, disease, death effects, necromancy effects, mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects).
+Not subject to critical hits, backstab, nonlethal damage, ability damage, ability drain, fatigue, exhaustion, energy drain, flesh to Stone, insect Plague and similar spells.
+Darkvision out to 60 feet.</p><h5><a id="earthAffinity">Earth affinity</a></h5><p>Creatures with this trait receive a -2 penalty to hit and damage when fighting airborne and waterborne opponents. They are also unaffected by the Earthquake spell.</p><h5><a id="elemental">Elemental</a></h5><p>Immunity to poison, sleep effects, paralysis, bleeding, and stunning.
+Not subject to critical hits or backstab. Due to their unique physiology, elementals are not subject to the Mind Flayers' Devour Brain attack.
+They are also unaffected by Flesh to Stone, Insect Plague and similar spells.
+Darkvision out to 60 feet.</p><h5><a id="extraplanar">Extraplanar</a></h5><p>Extraplanar creatures are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.</p><h5><a id="fey">Fey</a></h5><p>Fey creatures cannot be interrupted while using their spell-like abilities, all of which have a casting time of 1.
+In all other aspects, spell-like abilities function exactly like the spells which they mimic.</p><h5><a id="giant">Giant</a></h5><p>Darkvision out to 60 feet.</p><h5><a id="hover">Hover (flight)</a></h5><p>Can flight and is immune to ground-based spells and effects (Earthquake, Entangle, Grease, Web, Lava, Acid pools)</p><h5><a id="incorporeal">Incorporeal</a></h5><p>An incorporeal creature has no physical body.
+Immune to backstab and critical hits
+Immune to all non-magical attacks.
+Has a 50% resistance to every damages.
+Deflection bonus (+3 AC).
+Attacks pass through armor (+4 THAC0).</p><h5><a id="infravision">Infravision</a></h5><p>Darkvision out to 60 feet</p><h5><a id="magicalBeast">Magical Beast</a></h5><p>Darkvision out to 60 feet.</p><h5><a id="ooze">Ooze</a></h5><p>Blindsight (can see invisible, not subject to gaze attacks).
+Immunity to poison, sleep effects, paralysis, stunning, polymorph, blindness, mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects).
+Not subject to critical hits, backstab.
+Darkvision out to 60 feet.
+Translucent
+Hit Dice: d10</p><h5><a id="plant">Plant</a></h5><p>Immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).
+Immunity to poison, sleep effects, paralysis, polymorph, and stunning.
+Not subject to critical hits and backstab.
+Infravision.</p><h5><a id="seeInvisible">True sight</a></h5><p>Can see invisible creatures.</p><h5><a id="skeletal">Skeletal</a></h5><p>Skeletal undead suffer no damage from cold-based attacks. Due to their bony frames, edged and piercing weapons inflict only half damage.</p><h5><a id="spider">Spider</a></h5><p>Immune to web effects
+Poison Resistance: 100%
+Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
+Darkvision out to 60 feet.</p><h5><a id="undead">Undead</a></h5><p>Immunity to poison, sleep effects, paralysis, stunning, disease, death effects, necromancy effects, mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects).
+Not subject to critical hits, backstab, nonlethal damage, ability damage, ability drain, fatigue, exhaustion, energy drain, flesh to Stone, insect Plague and similar spells.
+Undead with no Intelligence scores cannot heal damage on their own, though they can be healed.
+Negative energy (such as an inflict wounds spell) can heal undead creatures.
+Hit Dice: d12
+Darkvision out to 60 feet.</p><h5><a id="vermin">Vermin</a></h5><p>Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
+Darkvision out to 60 feet.</p></div>
+      </section>
+    </main>
+  </div>
+  <script src="monsters.js" defer></script>
+</body>
+
+</html>
