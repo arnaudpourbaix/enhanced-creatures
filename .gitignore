@@ -4,3 +4,4 @@ generator/dist
 generator/node_modules
 .superpowers
 .worktrees
+.claude/worktrees/
