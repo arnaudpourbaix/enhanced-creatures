@@ -1,0 +1,6 @@
+docs/*.html text eol=crlf
+docs/*.css text eol=crlf
+docs/*.js text eol=crlf
+CHANGELOG.md text eol=crlf
+tra/**/*.tra text eol=crlf
+lib/pnp-monster/** text eol=crlf
