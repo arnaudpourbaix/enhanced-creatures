@@ -3,3 +3,4 @@ generator/coverage
 generator/dist
 generator/node_modules
 .superpowers
+.worktrees
