@@ -3,12 +3,28 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>PnP creatures</title>
+  <title>PnP creatures — Enhanced Creatures</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9876;</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <link href="assets/site.css" rel="stylesheet" type="text/css" />
   <link href="monsters.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+  <header class="site-nav">
+    <a class="brand" href="index.html">&#9876; Enhanced Creatures</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="monsters.html" class="active">Monsters</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+    </ul>
+  </header>
   <div class="topbar">
     <button class="menu-toggle" type="button" aria-label="Toggle creature menu">☰ Creatures</button>
   </div>
@@ -40,6 +56,10 @@
       </section>
     </main>
   </div>
+  <footer class="site-footer">
+    Enhanced Creatures is an independent Baldur's Gate II: Enhanced Edition mod, not affiliated with Gibberlings3.
+    Licensed under CC BY-NC-SA 3.0.
+  </footer>
   <script src="monsters.js" defer></script>
 </body>
 
