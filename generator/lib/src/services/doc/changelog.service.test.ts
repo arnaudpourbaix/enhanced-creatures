@@ -20,4 +20,13 @@ describe("render", () => {
       /Token \{\{changelog\}\} not found/,
     );
   });
+
+  it("preserves literal $ replacement-pattern sequences from the markdown content", () => {
+    const html = changelogService.render(
+      "<main>{{changelog}}</main>",
+      "Fixed cost for $1,000 and the $& token",
+    );
+
+    expect(html).toContain("<p>Fixed cost for $1,000 and the $&amp; token</p>");
+  });
 });

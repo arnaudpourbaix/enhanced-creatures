@@ -42,7 +42,7 @@ class ChangelogService {
   private replace(template: { text: string }, key: string, value: string) {
     key = `{{${key}}}`;
     if (!template.text.includes(key)) throw new Error(`Token ${key} not found !`);
-    template.text = template.text.replace(new RegExp(key, "g"), value);
+    template.text = template.text.split(key).join(value);
   }
 }
 
