@@ -4,6 +4,7 @@ import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import bafGeneratorService from "./baf/baf-generator.service";
+import changelogService from "./doc/changelog.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
 import logService from "./log.service";
@@ -34,6 +35,7 @@ class MainService {
       documentationService.addFamily(family);
     }
     documentationService.generate();
+    changelogService.generate();
   }
 
   generateCreature(creature: Creature) {

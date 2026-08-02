@@ -34,6 +34,7 @@ const FIXED_GENERATED_FILES = [
   "lib/common/spell-functions.tpa",
   "lib/common/immunities.tpa",
   "docs/monsters.html",
+  "docs/changelog.html",
   ...LANGUAGES.map((lang) => `tra/${lang}/generated.tra`),
 ];
 
@@ -86,6 +87,7 @@ beforeAll(async () => {
   tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-golden-"));
   const pnpMonsterSrc = path.join(MOD_ROOT, PNP_MONSTER_DIR);
   copyRecursive(pnpMonsterSrc, path.join(tempDir, PNP_MONSTER_DIR));
+  fs.copyFileSync(path.join(MOD_ROOT, "CHANGELOG.md"), path.join(tempDir, "CHANGELOG.md"));
 
   await stateService.init();
   State.modFolder = tempDir;
