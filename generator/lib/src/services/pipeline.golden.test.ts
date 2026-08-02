@@ -35,7 +35,7 @@ const FIXED_GENERATED_FILES = [
   "lib/common/immunities.tpa",
   "docs/monsters.html",
   "docs/changelog.html",
-  ...LANGUAGES.map((lang) => `tra/${lang}/generated.tra`),
+  ...LANGUAGES.map((lang) => `languages/${lang}/generated.tra`),
 ];
 
 function copyRecursive(src: string, dest: string): void {

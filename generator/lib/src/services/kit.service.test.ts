@@ -85,7 +85,7 @@ describe("applyKit", () => {
     expect(creature.data.immunities).toContain("backstab");
     // eslint-disable-next-line @typescript-eslint/unbound-method -- see the note above.
     expect(creature.setBehavior).toHaveBeenCalledWith({
-      abilities: [expect.objectContaining({ name: "ability.enrage" })],
+      abilities: [expect.objectContaining({ name: "spell.BarbarianRage.name" })],
     });
   });
 
