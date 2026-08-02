@@ -39,6 +39,7 @@
     "figlet": "^1.5.2",
     "figures": "^6.1.0",
     "glob": "^9.3.4",
+    "marked": "^18.0.7",
     "path": "^0.12.7"
   },
   "devDependencies": {
