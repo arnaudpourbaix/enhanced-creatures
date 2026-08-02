@@ -8,12 +8,12 @@ import abilityEn from "./en/ability";
 
 export const LANGUAGES = [
   "english",
-  "french",
-  "german",
-  "italian",
-  "polish",
-  "russian",
-  "spanish",
+  // "french",
+  // "german",
+  // "italian",
+  // "polish",
+  // "russian",
+  // "spanish",
 ] as const;
 export type Language = (typeof LANGUAGES)[number];
 

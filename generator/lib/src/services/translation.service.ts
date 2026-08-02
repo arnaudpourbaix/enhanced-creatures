@@ -115,7 +115,7 @@ class TranslationService extends AbstractCodeService {
       this.add(lines, `@${t.stringRef} = ~${t.text}~`);
     }
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    utils.writeFile(`tra/${lang}/generated.tra`, content);
+    utils.writeFile(`languages/${lang}/generated.tra`, content);
   }
 }
 
