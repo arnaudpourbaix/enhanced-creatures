@@ -182,6 +182,7 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
     });
     ankheg.setAdjustments([
       { files: ["BDANKH01"], data: { level1: 10, xpv: 1400 } },
+      { files: ["OHDRANKH"], data: { level1: 15, xpv: 1500 } },
       { files: ["BDANKHSU"], summon: true },
     ]);
     return ankheg;
