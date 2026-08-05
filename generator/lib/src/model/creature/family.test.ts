@@ -4,6 +4,8 @@ import { Item, Spell } from "../spell-item/spell-item";
 import { Projectile } from "../spell-item/projectile";
 import { CreatureFamily } from "./family";
 import { Creature } from "./creature";
+import { TranslationKey } from "../../../translations/i18n";
+import { InputMainCreatureData } from "./data-input";
 
 class TestFamily extends CreatureFamily<Creature> {
   createCreature(id: MonsterEnum): Creature {
@@ -14,6 +16,8 @@ class TestFamily extends CreatureFamily<Creature> {
 function fakeFamily(): TestFamily {
   return new TestFamily(1);
 }
+
+const CREATURE_NAME_KEY: TranslationKey = "common.creatureTraits";
 
 describe("creature", () => {
   it("throws when no creature in the family has the given id", () => {
@@ -96,5 +100,55 @@ describe("projectile (override, family-wide fallback)", () => {
   it("re-throws the original error when not found anywhere in the family", () => {
     const family = fakeFamily();
     expect(() => family.projectile(99)).toThrow(/No projectile found with id 99/);
+  });
+});
+
+describe("create (files resolution)", () => {
+  it("merges creatures.csv-validated files with the hand-authored backup list, deduped", () => {
+    const family = fakeFamily();
+
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      files: ["ANKHEG", "SOME_BACKUP_FILE"],
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(cre.files).toEqual(
+      expect.arrayContaining(["ANKHEG", "BDNEO", "BDANKH01", "SOME_BACKUP_FILE"]),
+    );
+    expect(cre.files.filter((f) => f === "ANKHEG")).toHaveLength(1);
+  });
+
+  it("works with no backup files at all", () => {
+    const family = fakeFamily();
+
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO"]));
+  });
+});
+
+describe("createFrom (files resolution)", () => {
+  it("merges creatures.csv-validated files with the hand-authored backup list, deduped", () => {
+    const family = fakeFamily();
+    const from = {
+      name: CREATURE_NAME_KEY,
+      data: { movement: {} },
+      attack: { dualWielding: false },
+    } as unknown as Creature;
+
+    const cre = family.createFrom({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      files: ["SOME_BACKUP_FILE"],
+      from,
+    });
+
+    expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO", "SOME_BACKUP_FILE"]));
   });
 });

@@ -8,6 +8,7 @@ import { Creature, CreatureAutoGenerate, CreatureNewFile } from "./creature";
 import { InputMainCreatureData } from "./data-input";
 import abilityService from "../../services/baf/ability.service";
 import logService from "../../services/log.service";
+import monsterFilesService from "../../services/monster-files.service";
 
 export interface Family {
   id: number;
@@ -35,7 +36,7 @@ export abstract class CreatureFamily<T extends Creature>
   create(p: {
     name: TranslationKey;
     monster: MonsterEnum;
-    files: string[];
+    files?: string[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
     data: InputMainCreatureData;
@@ -45,7 +46,7 @@ export abstract class CreatureFamily<T extends Creature>
     const cre = this.createCreature(p.monster);
     cre.name = p.name;
     cre.family = this.id;
-    cre.files = p.files;
+    cre.files = this.resolveFiles(p.monster, p.files);
     cre.newFiles = p.newFiles ?? [];
     cre.notEnforceFiles = p.notEnforceFiles ?? [];
     cre.setData(p.data);
@@ -62,7 +63,7 @@ export abstract class CreatureFamily<T extends Creature>
     name: TranslationKey;
     from: T;
     monster: MonsterEnum;
-    files: string[];
+    files?: string[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
   }): T {
@@ -71,7 +72,7 @@ export abstract class CreatureFamily<T extends Creature>
     Object.setPrototypeOf(cre.data.movement, p.from.data.movement);
     cre.id = p.monster;
     cre.name = p.name;
-    cre.files = p.files;
+    cre.files = this.resolveFiles(p.monster, p.files);
     cre.newFiles = p.newFiles ?? [];
     cre.notEnforceFiles = p.notEnforceFiles ?? [];
     cre.data.hp = undefined;
@@ -95,6 +96,10 @@ export abstract class CreatureFamily<T extends Creature>
     );
     this.creatures.push(cre);
     return cre;
+  }
+
+  private resolveFiles(monster: MonsterEnum, backupFiles: string[] = []): string[] {
+    return [...new Set([...monsterFilesService.getFiles(monster), ...backupFiles])];
   }
 
   addCreature(creature: T) {
