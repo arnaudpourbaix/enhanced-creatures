@@ -69,11 +69,15 @@ creature's `files` in `State.creatures`, and if any overlap, logs a warning and 
 `valid = false` — `mainService.generateCreature()` then skips generating it (`isCreatureValid()`).
 This is a warning, not a hard build failure (`logService.warn` doesn't affect
 `logService.hasErrors()`'s exit-1 check), and it operates on whatever's in `creature.files` at
-validation time — so it automatically extends to CSV-sourced files once `create()` merges them in,
-with zero new code required. The safety net against a file being claimed both by CSV (for monster X)
-and a stale hand-authored backup entry (for monster Y) is therefore already in place; the
-implementation plan just needs a test proving it still fires when the collision comes from a
-CSV-sourced file.
+validation time — a plain array filter with no awareness of where the array's contents came from —
+so it automatically extends to CSV-sourced files once `create()` merges them in, with zero new code
+required. The safety net against a file being claimed both by CSV (for monster X) and a stale
+hand-authored backup entry (for monster Y) is therefore already in place. No new test is planned for
+this specifically: `validate()` unconditionally cascades into several unrelated subsystems
+(`creatureService.check`, `immunityService.handleImmunities`, ability resolution, etc.) that would
+need stubbing to exercise it in isolation, and the check itself is a five-line array filter — the
+existing code already proves it by inspection, and driving the full `validate()` pipeline just to
+re-prove that is disproportionate.
 
 ### Migration: trimming the hand-authored arrays
 
