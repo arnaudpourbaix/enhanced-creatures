@@ -10,9 +10,7 @@ function parseArgs(): { generatorDir: string; csvPath: string } {
     return idx >= 0 ? args[idx + 1] : undefined;
   };
   const generatorDir = path.resolve(flag("--generator") ?? process.cwd());
-  const csvPath = path.resolve(
-    flag("--csv") ?? path.join(generatorDir, "assets", "creatures.csv"),
-  );
+  const csvPath = path.resolve(flag("--csv") ?? path.join(generatorDir, "assets", "creatures.csv"));
   return { generatorDir, csvPath };
 }
 
@@ -34,7 +32,10 @@ if (!fs.existsSync(csvPath)) {
 // supplied by MonsterFilesService afterward (same condition, not a re-derived approximation).
 const rawByMonster = parseMonsterFilesCsv(fs.readFileSync(csvPath, "utf-8"));
 const validatedFilesByMonster = new Map<string, Set<string>>(
-  [...rawByMonster].map(([monster, files]) => [monster, new Set(files.map((f) => f.toUpperCase()))]),
+  [...rawByMonster].map(([monster, files]) => [
+    monster,
+    new Set(files.map((f) => f.toUpperCase())),
+  ]),
 );
 
 const skip = new Set(["monster.ts", "common.ts", "index.ts", "test.ts"]);
@@ -68,7 +69,9 @@ for (const file of fs.readdirSync(creaturesDir)) {
       );
       const monsterInit = monsterProp?.initializer;
       const monsterName =
-        monsterInit && ts.isPropertyAccessExpression(monsterInit) ? monsterInit.name.text : undefined;
+        monsterInit && ts.isPropertyAccessExpression(monsterInit)
+          ? monsterInit.name.text
+          : undefined;
       const validatedFiles = monsterName ? validatedFilesByMonster.get(monsterName) : undefined;
 
       const filesProp = obj.properties.find(
