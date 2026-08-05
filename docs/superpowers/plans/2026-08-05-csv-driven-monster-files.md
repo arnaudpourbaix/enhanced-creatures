@@ -368,7 +368,19 @@ git commit -m "feat: merge creatures.csv-validated files into create()/createFro
 
 **Files:**
 - Create: `generator/scripts/trim-monster-files.ts`
-- Modify (by running the script, not by hand): `generator/lib/creatures/undead.ts`, `generator/lib/creatures/feys.ts`, `generator/lib/creatures/dogs.ts`, `generator/lib/creatures/wolves.ts` (the only families with any filename absent from `creatures.csv`, per the 49-entry gap already catalogued this session — every other family's `files:` array will end up empty)
+- Modify (by running the script, not by hand): every non-skipped file in `generator/lib/creatures/`
+  (all except `monster.ts`, `common.ts`, `index.ts`, `test.ts`) — 18 files as of the current
+  `creatures.csv`: `ankhegs.ts`, `basilisks.ts`, `bears.ts`, `cats.ts`, `constructs.ts`,
+  `crawlers.ts`, `dogs.ts`, `ettercaps.ts`, `ettin.ts`, `feys.ts`, `golems.ts`, `minotaurs.ts`,
+  `ogres.ts`, `slimes.ts`, `spiders.ts`, `undead.ts`, `wolves.ts`, `wyvern.ts`. Correction: an
+  earlier draft of this plan said only 4 files (undead/feys/dogs/wolves) would be touched, for
+  ~49 removed filenames — that was backwards. The "49-entry gap" catalogued earlier this session
+  was the count of filenames with **no** CSV row at all (i.e. the ones that must stay hardcoded);
+  the complement — 636 total referenced filenames minus those 49 — is **587**, and those are
+  exactly the ones this script removes, since each already has a validated CSV row for its own
+  monster. `undead.ts`/`feys.ts`/`dogs.ts`/`wolves.ts` aren't the only files touched — they're the
+  only families that *keep* any backup entries afterward (the 49 un-mappable filenames all belong
+  to monsters in those 4 files); every other family's `files:` array goes fully empty.
 
 **Interfaces:**
 - Consumes: `parseMonsterFilesCsv` from Task 1's `generator/lib/src/services/monster-files.service.ts`
@@ -486,7 +498,7 @@ for (const file of fs.readdirSync(creaturesDir)) {
             // Reconstruct the interior from only the kept elements in one shot, rather than
             // deleting each matched element's span individually - adjacent matched elements'
             // spans would otherwise overlap (each claiming the same separating comma).
-            const matchedSet = new Set(matched);
+            const matchedSet = new Set<ts.Expression>(matched);
             const kept = elements.filter((e) => !matchedSet.has(e));
             const interiorStart = arrayNode.getStart(sourceFile) + 1;
             const interiorEnd = arrayNode.getEnd() - 1;
@@ -537,9 +549,12 @@ git commit -m "feat: add one-off script to trim files: arrays now covered by cre
 Run (from `generator/`): `npx ts-node scripts/trim-monster-files.ts`
 
 Expected: console output listing removed filenames per family file, ending with a `Done. Removed
-49 filename(s)...` summary. Only `undead.ts`, `feys.ts`, `dogs.ts`, and `wolves.ts` should be
-touched — every other family's hardcoded list is already 100% covered by the CSV and will be
-fully emptied.
+587 filename(s)... across 18 file(s).` summary (see the corrected count/file-list note in this
+task's **Files** section above — every non-skipped family file is touched; only `undead.ts`,
+`feys.ts`, `dogs.ts`, and `wolves.ts` keep any entries afterward, everything else goes fully
+empty). If the actual count differs meaningfully from this, stop and report BLOCKED rather than
+proceeding — that would mean `creatures.csv` has changed since this plan was last verified against
+it, which needs a human decision, not a guess.
 
 - [ ] **Step 4: Clean up formatting**
 
@@ -550,11 +565,11 @@ normalizes spacing in any single-line arrays the script rewrote. Exit code 0.
 
 - [ ] **Step 5: Review the diff**
 
-Run (from `generator/`): `git diff -- lib/creatures/undead.ts lib/creatures/feys.ts lib/creatures/dogs.ts lib/creatures/wolves.ts`
+Run (from `generator/`): `git diff -- lib/creatures/` (all 18 touched families, not a fixed 4-file list)
 
-Expected: only `files:` array elements are removed (the ones from the 49-entry unmatched list
-gathered earlier this session); no `setAdjustments(...)` blocks, `notEnforceFiles`, or any other
-code changed. If anything else changed, stop and investigate before proceeding.
+Expected: only `files:` array elements are removed, across all 18 non-skipped family files; no
+`setAdjustments(...)` blocks, `notEnforceFiles`, or any other code changed anywhere. If anything
+else changed, stop and investigate before proceeding.
 
 - [ ] **Step 6: Verify the build and tests still pass**
 
@@ -563,13 +578,14 @@ Run (from `generator/`):
 npm run build
 npm test
 ```
-Expected: both exit 0. (No lint step here — `scripts/trim-monster-files.ts` isn't part of
-`tsconfig.eslint.json`'s project, same as the two scripts already there; see Global Constraints.)
+Expected: build exits 0. `npm test` should show exactly one failure —
+`pipeline.golden.test.ts` (the documented, expected gap from Global Constraints; Task 4 resolves
+it for real) — every other test must pass.
 
 - [ ] **Step 7: Commit the trimmed source**
 
 ```bash
-git add generator/lib/creatures/undead.ts generator/lib/creatures/feys.ts generator/lib/creatures/dogs.ts generator/lib/creatures/wolves.ts
+git add generator/lib/creatures/*.ts
 git commit -m "chore: trim monster files: arrays now supplied by creatures.csv"
 ```
 
