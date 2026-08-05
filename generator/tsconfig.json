@@ -17,5 +17,5 @@
         "esModuleInterop": true,
         "resolveJsonModule": true
     },
-    "exclude": ["node_modules", "dist", "vitest.config.ts", "lib/**/*.test.ts"]
+    "exclude": ["node_modules", "dist", "vitest.config.ts", "lib/**/*.test.ts", "scripts"]
 }
