@@ -515,7 +515,13 @@ class WeiduCreatureService extends AbstractWeiduService {
   private handleAdjustments(lines: CodeLine[], tab: number, creature: Creature) {
     for (const adjustment of creature.adjustments) {
       for (const f of adjustment.files)
-        if (!creature.files.includes(f)) throw new Error(`Unknown adjustment file ${f}`);
+        // Case-insensitive: WeiDU/Infinity Engine resrefs are case-insensitive on disk, but
+        // creature.files can now mix casing (CSV-sourced entries are always uppercase, while
+        // hand-authored adjustment references keep whatever case the author originally used) -
+        // see e.g. undead.ts's Ghast/Shadow adjustments referencing lowercase "ghastgsu"/
+        // "va#shdgl" against a CSV-supplied uppercase "GHASTGSU"/"VA#SHDGL" base file.
+        if (!creature.files.some((known) => known.toUpperCase() === f.toUpperCase()))
+          throw new Error(`Unknown adjustment file ${f}`);
       // data is required by the type, but real adjustments can omit it (see the "skips
       // adjustments with neither data nor summon" test for this method).
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

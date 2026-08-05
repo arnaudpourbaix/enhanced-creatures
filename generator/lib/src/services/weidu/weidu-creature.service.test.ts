@@ -337,6 +337,16 @@ describe("handleAdjustments (private)", () => {
     }).toThrow(/Unknown adjustment file UNKNOWN1/);
   });
 
+  it("matches an adjustment file against creature.files case-insensitively", () => {
+    const creature = fakeCreature({
+      files: ["KNOWN1"],
+      adjustments: [fakeAdjustment({ files: ["known1"], data: undefined, summon: false })],
+    });
+    expect(() => {
+      service.handleAdjustments([], 0, creature);
+    }).not.toThrow();
+  });
+
   it("skips adjustments with neither data nor summon", () => {
     const creature = fakeCreature({
       files: ["KNOWN1"],
