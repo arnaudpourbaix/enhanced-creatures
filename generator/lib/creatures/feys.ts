@@ -105,27 +105,9 @@ class FeyFamily extends CreatureFamily<Fey> {
       monster: MonsterEnum.Dryad,
       name: "monster.fey.name.dryad",
       files: [
-        "DRYAD", // Dryad of the Cloudpeaks
         ATWEAKS_CREATURES.DryadSummon,
-        "DRY01", // Dryad (unused?)
-        "DRYAD01", // Dryad (unused?)
-        "DRYAD02", // Dryad (unused?)
-        "DRYAD03", // Dryad (unused?)
-        "IDRYAD01", // Ulene (one of Irenicus captive Dryads)
-        "IDRYAD02", // Cania (one of Irenicus captive Dryads)
-        "IDRYAD03", // Elyme (one of Irenicus captive Dryads)
         "dr01mod", // Dryad (PofQuestPack)
         "drmod", // Dryad (PofQuestPack)
-        "RE_DRYAD", // Dryad (PofQuestPack)
-        "H_KATREC", // Katreda
-        "L#APEST", // Y'Uula
-        "NTARCHAN", // Archandra
-        "NTASSAIA", // Assaia
-        "NTESSILA", // Essila
-        "NTLUCRET", // Lucretia
-        "NTMILEA", // Milea
-        "NTPAULIA", // Paulia
-        "NTTAMAEL", // Tamael
       ],
       newFiles: [
         {
@@ -216,16 +198,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     const hamadryad = this.create({
       monster: MonsterEnum.Hamadryad,
       name: "monster.fey.name.hamadryad",
-      files: [
-        "DRYADHA",
-        ATWEAKS_CREATURES.HamadryadSummon,
-        "VAELASA", // Vaelasa (Fairy Queen in Windsper Hills)
-        "WQXHAMA", // The White Queen
-        "WIDRYAD1", // Dryad of Peldvale
-        "WIDRYAD2", // Dryad of Peldvale
-        "BDHAMADC", // Corrupted Hamadryad
-        "BDHAMADR", // Hamadryad
-      ],
+      files: [ATWEAKS_CREATURES.HamadryadSummon],
       newFiles: [
         {
           files: [ATWEAKS_CREATURES.HamadryadSummon],
@@ -349,14 +322,8 @@ class FeyFamily extends CreatureFamily<Fey> {
       monster: MonsterEnum.Nymph,
       name: "monster.fey.name.nymph",
       files: [
-        "BDNYMP01",
-        "HGNYMPH", // Nymph
-        "BDNYMP02", // Corrupted Nymph
-        "NYMPHSU", // default summoned Nymph
         "NYMPHSUM", // summoned Nymph
         "DW#NYMSU", // SCSII summoned Nymph
-        "ABELA", // Abela the Nymph
-        "WQXNYM", // White Queen
       ],
       data: {
         level1: { pnpValue: 3, value: 7, type: "caster" }, // can employ druidical priest spells at 7th ability level
@@ -490,21 +457,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       monster: MonsterEnum.Sirine,
       name: "monster.fey.name.sirine",
       files: [
-        "ISLSIR", // Sirine Queen
-        "J#SIRIN1", // Sirine
-        "J#SIRIN2", // Sirine
-        "MEIALA", // Meiala the Sirine
-        "NTSILUA", // Sirine
-        "NTSIRIN2", // Sirine
-        "NTSIRIN4", // Sirine
-        "NTSIRINE", // Krestian's friend
-        "SIL", // Sil
-        "SIRINE", // Sirine
-        "SIRINE02", // Sirine
-        "SIRINE_A", // Sirine
-        "SIRINE_B", // Sirine
-        "LARRIA", // Larriaz
-        "L#NDC1", // Southern Edge
         "QSEROMOD", // Sirine (PofQuestPack)
       ],
       data: {

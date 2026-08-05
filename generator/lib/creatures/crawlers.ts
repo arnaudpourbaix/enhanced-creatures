@@ -30,15 +30,7 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
     const carrionCrawler = this.create({
       monster: MonsterEnum.CarrionCrawler,
       name: "monster.carrionCrawler.name",
-      files: [
-        "BDCCRAW1",
-        "BPCRCW01",
-        "CARRIO",
-        "CRYPTCRA",
-        "BDCRAWMU",
-        "BDMCARRI",
-        "CARRIOSU",
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 1,

@@ -118,8 +118,6 @@ class CatFamily extends CreatureFamily<Cat> {
       monster: MonsterEnum.Jaguar,
       name: "monster.cat.name.jaguar",
       files: [
-        "BDHELP04",
-        "CATJAG01",
         // "BDSHA06B", //TODO: Panther Spirit
       ],
       data: {
@@ -162,7 +160,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const leopard = this.create({
       monster: MonsterEnum.Leopard,
       name: "monster.cat.name.leopard",
-      files: ["CATJAGSU"],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -203,9 +201,6 @@ class CatFamily extends CreatureFamily<Cat> {
       monster: MonsterEnum.Lion,
       name: "monster.cat.name.lion",
       files: [
-        "BDHELP02",
-        "CATLIOSU",
-        "CATLIOWP", // Joolon
         // "SPIRLION", //TODO: Spirit Lion
         // "SPLION1", //TODO: Spirit Lion
         // "SPLION2", //TODO: Spirit Lion
@@ -252,7 +247,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const mountainLion = this.create({
       monster: MonsterEnum.MountainLion,
       name: "monster.cat.name.mountainLion",
-      files: ["CATLIM01"],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 1,
@@ -292,7 +287,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const hellcat = this.create({
       monster: MonsterEnum.Hellcat,
       name: "monster.cat.name.hellcat",
-      files: ["BDHELCAT"],
+      files: [],
       data: {
         level1: 7,
         bonusHp: 2,
@@ -353,7 +348,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const displacerBeast = this.create({
       monster: MonsterEnum.DisplacerBeast,
       name: "monster.cat.name.displacerBeast",
-      files: ["BDDISPBE", "BDDISPBP"],
+      files: [],
       data: {
         level1: 6,
         strength: 18,

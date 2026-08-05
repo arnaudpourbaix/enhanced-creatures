@@ -75,12 +75,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
     const wyvern = this.create({
       monster: MonsterEnum.Wyvern,
       name: "monster.wyvern.name.wyvern",
-      files: [
-        "WYVERN", // Wyvern
-        "WYVERNSU", // Wyvern
-        "BDWYVR01", // Wyvern
-        "CORWYVRN", // Wyvern
-      ],
+      files: [],
       data: {
         level1: 7,
         bonusHp: 7,
@@ -124,13 +119,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       from: this.creature(MonsterEnum.Wyvern),
       monster: MonsterEnum.BabyWyvern,
       name: "monster.wyvern.name.baby",
-      files: [
-        "BDWYVR02", // Baby Wyvern
-        "C#Q04002", // Baby Wyvern
-        "PLYWYVRN", // Baby Wyvern
-        "WYVBABSU", // Baby Wyvern
-        "WYVERBA", // Baby Wyvern
-      ],
+      files: [],
     });
     baby.setData({
       level1: 5,
@@ -162,10 +151,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       from: this.creature(MonsterEnum.Wyvern),
       monster: MonsterEnum.GreaterWyvern,
       name: "monster.wyvern.name.greater",
-      files: [
-        "BDWYVR03", // Greater Wyvern
-        "WYVERNBI", // Greater Wyvern
-      ],
+      files: [],
     });
     greater.setData({
       level1: 11,

@@ -121,7 +121,7 @@ class BearFamily extends CreatureFamily<Bear> {
     const black = this.create({
       monster: MonsterEnum.BlackBear,
       name: "monster.bear.name.black",
-      files: ["BDBEARBL", "BEARBL", "BEARBLSU", "PLYBEAR2", "RSBEARBL", "UBDBEAR"],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 3,
@@ -171,12 +171,6 @@ class BearFamily extends CreatureFamily<Bear> {
       monster: MonsterEnum.BrownBear,
       name: "monster.bear.name.brown",
       files: [
-        "BDBEARBN",
-        "BDBEARBR",
-        "BDGRIZHU",
-        "BEARBR",
-        "BEARBRSU",
-        "PLYBEAR1",
         // "BDSHA06A", //TODO: Summon bear spirit
       ],
       data: {
@@ -234,7 +228,7 @@ class BearFamily extends CreatureFamily<Bear> {
     const cave = this.create({
       monster: MonsterEnum.CaveBear,
       name: "monster.bear.name.cave",
-      files: ["BD328OSO", "BDBEARCA", "BEARCA", "BEARCASU", "CAVENE", "URSA"],
+      files: [],
       data: {
         level1: 6,
         bonusHp: 6,
@@ -290,16 +284,6 @@ class BearFamily extends CreatureFamily<Bear> {
       monster: MonsterEnum.PolarBear,
       name: "monster.bear.name.polar",
       files: [
-        "BEARPO",
-        "BEARPO1",
-        "BEARPO2",
-        "BEARPO3",
-        "BEARPOSU",
-        "NTBEARPO",
-        "SPIRBEAR",
-        "BDGHBRSU", // Ghost Polar Bear
-        "BDGHOSTF", // Ghost Polar Bear
-        "KALDRAN",
         // "SPBEAR1", //TODO: Spirit Bear
         // "SPBEAR2", //TODO: Spirit Bear
         // "SPBEAR3", //TODO: Spirit Bear

@@ -168,10 +168,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const black = this.create({
       monster: MonsterEnum.BlackPudding,
       name: "monster.slime.name.black",
-      files: [
-        "BDPUDDBL", // Black Pudding
-        ATWEAKS_CREATURES.SplitBlackPudding,
-      ],
+      files: [ATWEAKS_CREATURES.SplitBlackPudding],
       newFiles: [
         {
           files: [ATWEAKS_CREATURES.SplitBlackPudding],
@@ -264,11 +261,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const white = this.create({
       monster: MonsterEnum.WhitePudding,
       name: "monster.slime.name.white",
-      files: [
-        "AC#FPWP2", // White Blob
-        "AC#FPWPU", // White Blob
-        ATWEAKS_CREATURES.SplitWhitePudding,
-      ],
+      files: [ATWEAKS_CREATURES.SplitWhitePudding],
       newFiles: [
         {
           files: [ATWEAKS_CREATURES.SplitWhitePudding],
@@ -353,16 +346,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const mustard = this.create({
       monster: MonsterEnum.MustardJelly,
       name: "monster.slime.name.mustard",
-      files: [
-        "BDJELLMU", // Mustard Jelly
-        "BPJLMU01", // Mustard Jelly
-        "JELLMU", // Mustard Jelly
-        "JELLMUL", // Mustard Jelly
-        "JELLMUSU", // Mustard Jelly
-        "JELLYMU", // Mustard Jelly
-        "PLYJELL1", // Mustard Jelly
-        ATWEAKS_CREATURES.SplitMustardJelly,
-      ],
+      files: [ATWEAKS_CREATURES.SplitMustardJelly],
       newFiles: [
         {
           files: [ATWEAKS_CREATURES.SplitMustardJelly],
@@ -453,7 +437,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const fission = this.create({
       monster: MonsterEnum.FissionSlime,
       name: "monster.slime.name.fission",
-      files: ["JELLSPA", "BPSLFS01", "BPSLFS02"],
+      files: [],
       data: {
         level1: 12,
         bonusHp: 14,
@@ -524,10 +508,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const gray = this.create({
       monster: MonsterEnum.GrayOoze,
       name: "monster.slime.name.gray",
-      files: [
-        "BPJLGR01", // Gray Ooze
-        "JELLGR", // Gray Ooze
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 3,
@@ -586,13 +567,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const green = this.create({
       monster: MonsterEnum.GreenSlime,
       name: "monster.slime.name.green",
-      files: [
-        "JELLGRSU", // Green Slime
-        "JELLYGR", // Green Slime
-        "JELLYGR2", // Green Slime
-        "X#JELLY", // Green Slime
-        "X#SLIME", // Green Slime
-      ],
+      files: [],
       data: {
         level1: 2,
         thac0: 19,
@@ -658,13 +633,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const ochre = this.create({
       monster: MonsterEnum.OchreJelly,
       name: "monster.slime.name.ochre",
-      files: [
-        "BDJELLOC", // Ochre Jelly
-        "BDSHJELL", // Ochre Jelly
-        "BPJLOC01", // Ochre Jelly
-        "JELLOC", // Ochre Jelly
-        "JELLYCO", // Ochre Jelly
-      ],
+      files: [],
       data: {
         level1: 6,
         thac0: 15,
@@ -717,9 +686,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const olive = this.create({
       monster: MonsterEnum.OliveSlimeCreature,
       name: "monster.slime.name.olive",
-      files: [
-        "SCHLUM", // Schlumpsha the Sewer King. Note: is an olive slime, was a former mage that appears to have transformed itself into a slime.
-      ],
+      files: [],
       data: {
         level1: 12,
         bonusHp: 2,
@@ -778,9 +745,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const tracker = this.create({
       monster: MonsterEnum.SlitheringTracker,
       name: "monster.slime.name.slitheringTracker",
-      files: [
-        "AC#FPSLT", // Slithering Tracker
-      ],
+      files: [],
       data: {
         level1: 5,
         thac0: 15,

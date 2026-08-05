@@ -27,11 +27,7 @@ enum Ids {
 }
 
 class Dog extends Creature {
-  createJaws(
-    diceThrown: number,
-    diceSize: number,
-    castSpell?: WeaponCastSpell,
-  ) {
+  createJaws(diceThrown: number, diceSize: number, castSpell?: WeaponCastSpell) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.dog.weapon.jaws",
@@ -89,9 +85,7 @@ class Dog extends Creature {
         spell: {
           type: "force",
         },
-        actionsAfter: [
-          { name: "AttackOneRound", params: [ScriptTarget.lastSeen] },
-        ],
+        actionsAfter: [{ name: "AttackOneRound", params: [ScriptTarget.lastSeen] }],
       },
     });
   }
@@ -117,16 +111,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const wild = this.create({
       monster: MonsterEnum.WildDog,
       name: "monster.dog.name.wild",
-      files: [
-        "BDBDOG",
-        "BDDEADOG",
-        "DOGWI",
-        "DOGWISU",
-        "BDCRUDOG",
-        "BDDOG",
-        "DW#RNDWI",
-        "BDDOGW01", // Little Wanderer
-      ],
+      files: ["DW#RNDWI"],
       data: {
         level1: 1,
         bonusHp: 1,
@@ -173,15 +158,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const war = this.create({
       monster: MonsterEnum.WarDog,
       name: "monster.dog.name.war",
-      files: [
-        "BDPRISD1",
-        "BDPRISD2",
-        "DOGWA",
-        "DOGWASU",
-        "DW#RNDWA",
-        "UBNIMDOG",
-        "NTPOOCH", // Pooch
-      ],
+      files: ["DW#RNDWA"],
       data: {
         level1: 2,
         bonusHp: 2,
@@ -221,7 +198,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const blinkDog = this.create({
       monster: MonsterEnum.BlinkDog,
       name: "monster.dog.name.blink",
-      files: ["DOGBLINK"],
+      files: [],
       data: {
         level1: 4,
         strength: 12,
@@ -259,10 +236,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const spectralHound = this.create({
       monster: MonsterEnum.SpectralHound,
       name: "monster.dog.name.spectralHound",
-      files: [
-        "BDSHA01C", // Hound Spirit
-        "DOGWAWP", // Astral Hound
-      ],
+      files: [],
       data: {
         level1: 5,
         bonusHp: 0,

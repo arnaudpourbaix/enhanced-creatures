@@ -396,50 +396,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       monster: MonsterEnum.Ogre,
       name: "monster.ogre.name.ogre",
       files: [
-        "AC#FP2O1",
-        "AC#FP2O2",
-        "BDOGRE01",
-        "BDOGRE1D",
-        "BDOGREF",
-        "BDOGREM",
-        "BPOGRE01",
-        "BSOGRED",
-        "OGRE",
-        "OGRE02",
-        "OGRE03",
-        "OGRE04",
-        "OGRE05",
-        "OGRECO",
-        "OGRED",
-        "OGRES",
-        "OGRESU",
-        "OGREUNSH",
-        "OGRE_A",
-        "OGRE_B",
-        "OGRE_C",
-        "OGRE_D",
-        "OGRE_E",
-        "PLYOGRE",
-        "WIOGRE01",
-        "X3HOGRE",
-        "X3HOGRE2",
-        "X3HOGRED",
-        "BDSOGR1",
-        "BDSOGR2",
-        "AC#FP2OT", // Thrall
-        "AC#FPOG4", // Bagut
-        "AC#WRIM1", // Wrimbog
-        "ACQ13002", // Ugh
         //"BDCCOGR1", // Ogre Crusader (doesn't seem to be used because no script)
-        "GORF", // Gorf
-        "HACK", // Hack
-        "LARZE", // Larze
-        "NTOGREDA", // Daddy
-        "NTWELT", // Welt
-        "WELT", // Welt
-        "OOPAH", // The Amazing Oopah
-        "OOPAH2", // The Amazing Oopah
-        "SEWERF4", // Ogre Leader
       ],
       data: {
         level1: 4,
@@ -582,23 +539,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const ogrillon = this.create({
       monster: MonsterEnum.Ogrillon,
       name: "monster.ogre.name.ogrillon",
-      files: [
-        "BDKORDEO",
-        "GNARL",
-        "HAIRTO",
-        "OGREGR",
-        "OGREGR1",
-        "OGREGR2",
-        "OGREGR3",
-        "OGREGR4",
-        "OGREGR_A",
-        "OGREGR_B",
-        "OGREGR_C",
-        "OGREGR_D",
-        "OGRELESU",
-        "OGREMIRI",
-        "SEWERF1",
-      ],
+      files: [],
       data: {
         level1: 2,
         bonusHp: 4,
@@ -664,27 +605,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const halfOgre = this.create({
       monster: MonsterEnum.HalfOgre,
       name: "monster.ogre.name.half",
-      files: [
-        "OGREBJOR",
-        "OGREHA",
-        "OGREHA1",
-        "OGREHA2",
-        "OGREHA3",
-        "OGREHA4",
-        "OGREHA5",
-        "OGREHA_A",
-        "OGREHA_B",
-        "OGREHA_C",
-        "OGREHA_D",
-        "OGREHA_E",
-        "BDOGRE04", // Half-Ogre Veteran
-        "ARGHAI", // Arghain
-        "L#CHIEN", // Eglarh
-        "TAZOK", // Tazok (bandit camp)
-        "TAZOK2", // Tazok (finale fight)
-        "X#CHOP", // Chop The Lady Ogre
-        "X#CRU11", // Cru The Lady Ogre
-      ],
+      files: [],
       data: {
         level1: 2,
         bonusHp: 6,
@@ -809,32 +730,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const ogreMage = this.create({
       monster: MonsterEnum.OgreMage,
       name: "monster.ogre.name.mage",
-      files: [
-        "BDOGRE03",
-        "BDWAVE16",
-        "BPOGMA01",
-        "OGREMA",
-        "OGREMA02",
-        "OGREMA03",
-        "OGREMASU",
-        "OGREMA_A",
-        "OGREMA_B",
-        "OGREMA_C",
-        "OGREMA_D",
-        "OGREMBA",
-        "OGRMBA",
-        "UBOGMA01",
-        "UBOGMA02",
-        "NTFOREOG",
-        "BDMURS", // Murs
-        "BDMURS2", // Murs
-        "DROTH", // Droth
-        "KAHRK", // Kahrk
-        "KROTAN", // Krotan
-        "NTKROTAN", // Krotan
-        "WIGENTLE", // The Gentleman
-        "WIOGMA01", // Yondak Master of Portals
-      ],
+      files: [],
       data: {
         level1: 5,
         level2: 5,
@@ -1026,24 +922,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const berserker = this.create({
       monster: MonsterEnum.OgreBerserker,
       name: "monster.ogre.name.berserker",
-      files: [
-        "BDOGRE02",
-        "BDOGREDS",
-        "NEOGRE",
-        "OGREBERZ",
-        "OGREGRSU",
-        "X3HOGREC", // Ogre Champion
-        "X3HOGREL", // Ogre King
-        "BDOGRE06", // Ogre Chieftain
-        "BDARBING", // Arbinge
-        "BDBERTOR", // Betror
-        "BDCHESKI", // Cheski
-        "BDEINER", // Einer
-        "BDSLUG", // Slug
-        "BDSLUG2", // Slug
-        "BDWAVE13", // Ogre Crusader
-        "BDYAROK", // Yarok
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 1,
@@ -1161,7 +1040,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const shaman = this.create({
       monster: MonsterEnum.OgreShaman,
       name: "monster.ogre.name.shaman",
-      files: ["BDOGRE05"],
+      files: [],
       data: {
         level1: 5,
         level2: 5,

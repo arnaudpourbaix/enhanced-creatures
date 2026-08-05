@@ -368,7 +368,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const flesh = this.create({
       monster: MonsterEnum.FleshGolem,
       name: "monster.golem.name.flesh",
-      files: ["BPGOFL01", "FGOLEM", "GOLEMF", "GOLEMF2", "TOMEGOL1"],
+      files: [],
       data: {
         level1: 9,
         bonusHp: 0,
@@ -421,7 +421,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const clay = this.create({
       monster: MonsterEnum.ClayGolem,
       name: "monster.golem.name.clay",
-      files: ["AC#FPCLG", "AC#FPCLY", "BPCLAY", "TOMEGOL2", "WICLAYGO"],
+      files: [],
       data: {
         level1: 11,
         bonusHp: 0,
@@ -477,7 +477,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const stone = this.create({
       monster: MonsterEnum.StoneGolem,
       name: "monster.golem.name.stone",
-      files: ["BDGOLSTO", "BDMENGO", "NTGOLSTO", "TOMEGOL3", "WISTOGOL"],
+      files: [],
       data: {
         level1: 14,
         bonusHp: 0,
@@ -541,7 +541,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const iron = this.create({
       monster: MonsterEnum.IronGolem,
       name: "monster.golem.name.iron",
-      files: ["SHIRON"],
+      files: [],
       data: {
         level1: 18,
         strength: 24,
@@ -598,7 +598,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const bone = this.create({
       monster: MonsterEnum.BoneGolem,
       name: "monster.golem.name.bone",
-      files: ["NTGOLBON"],
+      files: [],
       data: {
         level1: 14,
         bonusHp: 0,
@@ -651,7 +651,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const juggernaut = this.create({
       monster: MonsterEnum.JuggernautGolem,
       name: "monster.golem.name.juggernaut",
-      files: ["TOMEGOL4"],
+      files: [],
       data: {
         level1: 18,
         strength: 22,
@@ -699,7 +699,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const snow = this.create({
       monster: MonsterEnum.SnowGolem,
       name: "monster.golem.name.snow",
-      files: ["UBSNOGOL"],
+      files: [],
       data: {
         level1: 12,
         strength: 19,

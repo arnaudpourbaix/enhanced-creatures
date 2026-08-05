@@ -1139,9 +1139,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Banshee,
       name: "monster.undead.name.banshee",
       files: [
-        "BD302BAN", // Banshee
-        "banshe01", //ToB Banshee
-        "firmon01", //Unused critter from Firkraag's
         "dsbanshe", //DSotSC
         "f_wailin", //Drizzt Saga
       ],
@@ -1288,33 +1285,12 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Ghast,
       name: "monster.undead.name.ghast",
       files: [
-        "BDGHAST", // Ghast
-        "BSGHAST1", // Ghast
-        "BPGHAS01", // Ghast
-        "GHAST", // Ghast
-        "GHASTD", // Durlag's Tower Ghast Trap Ghast
-        "GHASTS", // Tiax' summoned ghast
-        "GHASTF01", // Fell Ghast
-        "GRAEL", // Grael
-        "SEWERF3", // Sewerfolk
-        "L#SKEST", // Skeletal Mother (looks like a ghast)
-        "BHGHOUL2",
-        "BHGHOUL4",
-        "ghast01", // BG2 standard Ghast
-        "ghastgsu",
-        "gmayor", // Theshal
-        "nevm3", // Nev's undead trap Ghast
-        "theshal",
-        "besamen", // Quest Pack
         "bpghast", // BP
-        "bsghast1", // BST mod
         "CDI4GHST", // IWDification
         "MH#GLGHA", // Made in heaven Q&E
         "sghastgr", // Bonehill
         "sk#algol", // Neh'taniel
         "sk#ssp3", // Neh'taniel
-        "XGHAST1", // Mod added
-        "XGHAST2", // Mod added
       ],
       data: {
         level1: 4,
@@ -1394,20 +1370,9 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Ghoul,
       name: "monster.undead.name.ghoul",
       files: [
-        "AC#FPGHL", // Ghoul
-        "GHOUL", // Ghoul
-        "GHOULSU", // Ghoul
-        "WAGHOUL", // Ghoul
-        "KORAX", // Korax the Ghoul
-        "BHGHOUL1",
-        "ghoul01",
-        "GTCIT1",
-        "GTCIT2",
         "bodakmd", // BP
         "ghuldmod", // PofQuestPack
         "MH#GLGHO", // Made in heaven Q&E
-        "lacedo01", // Lacedon
-        "sahlace", // Lacedon
         "JA#SUTY1", // Mod added Lacedon
         "JA#SUTY3", // Mod added Lacedon
       ],
@@ -1473,15 +1438,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.GhoulLord,
       name: "monster.undead.name.ghoulLord",
       files: [
-        "BPGHGR01", // Greater Ghoul
-        "GHOULLOR", // Greater Ghoul
-        "BDGHASTG", // Greater Ghast
-        "ghogr01",
-        "gholor01",
-        "riftcr01",
-        "lacedo02", //Sahuagin Greater Lacedon
         "cmghau01", //Dark Horizons
-        "MALKAL", // Mal-Kalen
       ],
       data: {
         level1: { pnpValue: 6, value: 7, type: "turn" },
@@ -1558,18 +1515,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Mummy,
       name: "monster.undead.name.mummy",
       files: [
-        "BDMUMM01", // Mummy
-        "BDMUMMY", // Fanegonorom
-        "AC#FPMMY", // Bog Mummy
-        "mummy",
-        "mummy01",
         "F_MUMMY", // Drizzt Saga
-        "O#LLARU1", // Mod added
-        "O#LLARU2", // Mod added
-        "O#LLARU3", // Mod added
-        "O#LLARU4", // Mod added
-        "O#LLARU5", // Mod added
-        "O#LLARU6", // Mod added
         "mumx1", // TDD
       ],
       data: {
@@ -1645,8 +1591,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.GreaterMummy,
       name: "monster.undead.name.greaterMummy",
       files: [
-        "mumgre01",
-        "riftcr03",
         "MUMMYX1", // TDD
       ],
       data: {
@@ -1862,23 +1806,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Shadow,
       name: "monster.undead.name.shadow",
       files: [
-        "AC#FPSHD", // Shadow
-        "BDSHAD04", // Shadow
-        "BPSHADOW", // Shadow
-        "D5_MASK3", // Shadow
-        "L#GNOSH", // Shadow (SotSC)
-        "WISHADO2", // Shadow
-        "kshadow", //circus
-        "rngsha",
-        "rngsha01", //in shadow temple
-        "rngsha03", //in shadow temple
-        "rngsha04", //Shadow Jailer
-        "sdshadow", //Spawned by area script in shadow temple
-        "sewsha03", //Saradush sewers
-        "shadow01", //regular
-        "shadowsu", //summoned shadow (shadow altar)
         "sumshad", // summons ?
-        "uhcreat", //with the kids in umar cave
         "lshadfi", //From BP, apparently
         "lshadow", //likewise
         "a#sdsha1", // Song and Silence Shadowdancer summoning
@@ -1886,17 +1814,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         "a#sdsha3", // Song and Silence Shadowdancer summoning
         "a#sdsha4", // Song and Silence Shadowdancer summoning
         //"acq10119", // AC_Quest (this doesn't seem to be a shadow!)
-        "acshad01", //
         "specx1", // TDD
-        "va#shdgl", // Tower of Deception
-        "AC#FPMDS", // Mindshadow, drain wisdom instead of strength
-        "BDSHAD02", // Angry Spirit
-        "BDSHSOUL", // Shadowed Soul
-        "L#GNOAL", // Shadow Prophet
-        "L#GNOEN", // Shadow Master
-        "SHADOW01", // Shadow Warrior
-        "SHADOWSU", // Never liked that Narlen. In fact, I never cared much for you either!
-        "WISHADO1", // Shadow Demon
       ],
       data: {
         level1: 3,
@@ -1995,10 +1913,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const shadow = this.create({
       monster: MonsterEnum.GreaterShadow,
       name: "monster.undead.name.greaterShadow",
-      files: [
-        "BDSHADGR", // Greater Shadow
-        "BDSHADOW", // Greater Shadow
-      ],
+      files: [],
       data: {
         level1: 8,
         bonusHp: 8,
@@ -2049,10 +1964,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const baneguard = this.create({
       monster: MonsterEnum.Baneguard,
       name: "monster.undead.name.baneguard",
-      files: [
-        "BDSKGR03", // Bladed Skeleton
-        "BDTEAM61", // Bladed Skeleton
-      ],
+      files: [],
       data: {
         level1: 9,
         level2: 3, // for magic missiles as a level 3 wizard
@@ -2122,9 +2034,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const bonebat = this.create({
       monster: MonsterEnum.Bonebat,
       name: "monster.undead.name.bonebat",
-      files: [
-        "BDBONBAT", // Bonebat
-      ],
+      files: [],
       data: {
         level1: 4,
         strength: 12,
@@ -2178,58 +2088,8 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.Skeleton,
       name: "monster.undead.name.skeleton",
       files: [
-        "AD3SKLM", // Skeleton
         //"APPAR", // Skeleton (he is just here to talk)
-        "BDSKGR00", // Skeleton
-        "CDMHSKEL", // Skeleton (Mulahey)
-        "DW#MULSA", // Skeleton (Mulahey)
-        "DW#MULSK", // Skeleton (Mulahey)
-        "ISKELET", // Skeleton
-        "KRYSKEL", // Skeleton
-        "SKELACI", // Skeleton (shoots acid)
-        "GHASTSU", // Skeleton
-        "SKELDIS", // Skeleton (shoots dispelling arrows)
-        "SKELE2", // Skeleton
-        "SKELET", // Skeleton
-        "SKELET02", // Skeleton
-        "SKELET03", // Skeleton
-        "SKELETB", // Skeleton (with Bassilus): can melee and range
-        "SKELETS", // Skeleton (throwing daggers)
-        "SKELET_A", // Skeleton
-        "SKELET_B", // Skeleton
-        "SKELET_C", // Skeleton
-        "SKELFIRE", // Skeleton (shoots fire)
-        "SKELICE", // Skeleton (shoots ice)
-        "SKELLESU", // Skeleton
-        "SKELMEL", // Skeleton
-        "SKELPETR", // Skeleton
-        "X3RSKEL1", // Skeleton
-        "X3RSKEL2", // Skeleton
-        "WISKEL", // Crumbling Skeleton
-        "BPSKEL", // Crumbling Skeleton
-        "SKELGRSU", // Greater Skeleton
-        "BDSKGR02", // Tattered Skeleton
-        "BDSKGR05", // Burning Skeleton
-        "BDSKGR06", // Burning Skeleton
-        "BDSKGR04", // Skeleton Archer
-        "BDTEAM63", // Skeleton Archer
-        "SKELAR01", // Skeleton Archer (with Vongoethe)
-        "SKELAR02", // Skeleton Archer (with Vongoethe)
-        "BDSKGR07", // Skeletal Mage
-        "BDTEAM60", // Skeletal Mage
-        "L#HAUSK", // Skeletal Captain
-        "KNIGHTSK", // Undead Knight
-        "KRYSKEL1", // Rick
-        "KRYSKEL2", // Shane
-        "KRYSKEL3", // Daryl
-        "KRYSKEL4", // Glenn
-        "KRYSKEL5", // Lori
-        "KRYSKEL6", // Hagar
         //"MS7BGRD", // Boneguard (unknown monster)
-        "YSRSDEAD", // Restless Dead
-        "YSRSTDD1", // Restless Dead
-        "YSRSTDD2", // Restless Dead
-        "YSRSTDD3", // Restless Dead
         "bpskelar", //BP
         "CMSKE01", // Dark Horizons
         "CMSKE02", // Dark Horizons
@@ -2413,40 +2273,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
       monster: MonsterEnum.SkeletonWarrior,
       name: "monster.undead.name.skeletonWarrior",
       files: [
-        "BDSKGR08", // Skeleton Warrior
-        "SKELWA", // Skeleton Warrior
-        "SKELWA01", // Skeleton Warrior
-        "SKELWA02", // Skeleton Warrior
-        "SKELWA03", // Skeleton Warrior
-        "SKELWASU", // Skeleton Warrior
-        "C0DESUM1", // Skeleton Warrior
-        "C0DESUM2", // Skeleton Warrior
-        "C0DESUM3", // Skeleton Warrior
-        "C0DESUM4", // Skeleton Warrior
-        "C0DESUM5", // Skeleton Warrior
-        "DW#ANGSK", // Skeleton Warrior
-        "DW#DIASK", // Skeleton Warrior
-        "DW#SEMSK", // Skeleton Warrior
-        "SKELSU01", // Skeleton Warrior
-        "SKELSU07", // Skeleton Warrior
-        "SKELSU11", // Skeleton Warrior
-        "ICHARY", // Icharyd
-        "BDUNSEN", // Undead Sentry
-        "BDSKGR01", // Armored Skeleton
-        "BDTEAM62", // Armored Skeleton
         // following are from atweaks, not tested:
-        "ar18skel",
-        "ceskel01",
-        "grskel1",
-        "grskel2",
-        "grtomb01",
-        "hgskl04",
-        "nevm2",
-        "riftcr02",
-        "rskel02",
-        "sahskel",
-        "suundead",
-        "tanskw1",
         "bgskel02", //BG1
         "bgskelwa", //BG1
         //"bpduehi",  // BP - Not Tested
@@ -2608,33 +2435,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const spectre = this.create({
       monster: MonsterEnum.Spectre,
       name: "monster.undead.name.spectre",
-      files: [
-        "BDSOTUK", // Sotuk
-        "BDSPIRIT", // Restless Spirit
-        "BDWORIS", // Woris
-        "BSPLSPRT", // Drowned Spirit
-        "DURLAGT", // Durlag Trollkiller
-        "ISLA", // Islanne
-        "L#AMBAM", // Amber Flower
-        "L#BASTRE", // Tree of Shades
-        "L#FWMMER", // Long Gone Merchant
-        "L#HIGBO", // Bookshelf
-        "L#ORM1", // Ormyrr Corpse
-        "L#ORM2", // Ormyrr Corpse
-        "L#ORMETT", // Ettin - Revenant
-        "L#ULCC1", // Tomasz
-        "L#ULCC2", // Monarah
-        "L#ULCC3", // Ynak
-        "L#ULCC4", // Peepuu
-        "L#ULCCH", // Czaya
-        "L#ULGEN1", // Captain Gloghaff Mintshow
-        "L#ULGGH", // Moontia
-        "NTBKNIGH", // Knight from the Grave
-        "NTGGHOT1", // General Ghotal
-        "NTGGHOTA", // General Ghotal
-        "SLAYSH01", // Slayer Shadow
-        "X#GARWYL", // Myr'Cutio
-      ],
+      files: [],
       data: {
         level1: 7,
         bonusHp: 3,
@@ -2682,11 +2483,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const ghost = this.create({
       monster: MonsterEnum.Ghost,
       name: "monster.undead.name.ghost",
-      files: [
-        "BDGHOSTM", // Ghost
-        "daitel",
-        "BDLITLA", // Litla
-      ],
+      files: [],
       data: {
         level1: 10,
         strength: 7,

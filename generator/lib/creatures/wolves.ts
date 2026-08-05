@@ -128,14 +128,7 @@ class Wolf extends Creature {
       stringRef: "monster.wolf.ability.dreadWolfDownState.name",
       id: Ids.DreadWolfDownState,
       description: "monster.wolf.ability.dreadWolfDownState.description",
-      immunities: [
-        "poison",
-        "disease",
-        "cold",
-        "lightning",
-        "magicDamage",
-        "physicalDamage",
-      ],
+      immunities: ["poison", "disease", "cold", "lightning", "magicDamage", "physicalDamage"],
       category: ItemCategoryEnum.Rings,
       icon: "IRING01",
     });
@@ -322,15 +315,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const wolf = this.create({
       monster: MonsterEnum.Wolf,
       name: "monster.wolf.name.wolf",
-      files: [
-        "BDURE6D",
-        "BDWOLF",
-        "BDWOLF02",
-        "DW#RNWLF",
-        "RSWOLF",
-        "WOLF",
-        "WOLFSU",
-      ],
+      files: ["DW#RNWLF"],
       data: {
         level1: 3,
         bonusHp: 0,
@@ -371,16 +356,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const dire = this.create({
       monster: MonsterEnum.DireWolf,
       name: "monster.wolf.name.dire",
-      files: [
-        "BDWOLFDI",
-        "P#WOLF02",
-        "WOLFDI",
-        "WOLFDISU",
-        "UBNIMWLF",
-        "SHAWOL01", // Shade Wolf
-        "RUFIE", // Rufie
-        "L#FAIEN3", // Apsu
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 4,
@@ -430,17 +406,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const dread = this.create({
       monster: MonsterEnum.DreadWolf,
       name: "monster.wolf.name.dread",
-      files: [
-        "BDWOLFDR",
-        "D5WOLFD1",
-        "DW#REWO",
-        "P#WOLF03",
-        "P#WOLF05",
-        "PLYWOLF",
-        "WOLFD1",
-        "WOLFDR",
-        "L#HALWO", // Cu-sith
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 4,
@@ -471,13 +437,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
       id: Ids.DreadWolfTrait,
       description: "monster.wolf.trait.dread",
       equippedSlot: "LRING",
-      immunities: [
-        "coldSpells",
-        "cold",
-        "lightningResistance",
-        "charm",
-        "hold",
-      ],
+      immunities: ["coldSpells", "cold", "lightningResistance", "charm", "hold"],
       effects: [
         {
           opcode: EffectTypeEnum.Regeneration,
@@ -521,12 +481,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const vampiric = this.create({
       monster: MonsterEnum.VampiricWolf,
       name: "monster.wolf.name.vampiric",
-      files: [
-        "BDWOLFVA",
-        "P#WOLF04",
-        "WOLFVA",
-        "DW#ULCWO", // Wolf of Ulcaster
-      ],
+      files: [],
       notEnforceFiles: ["DW#ULCWO"],
       data: {
         level1: 6,
@@ -597,11 +552,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       monster: MonsterEnum.WinterWolf,
       name: "monster.wolf.name.winter",
       files: [
-        "P#WOLF01",
-        "WOLFWI",
-        "WOLFWISU",
-        "WOLFWWSU",
-        "L#WOLST", // Pregnant Wolf
         // "SPIRWOLF", //TODO: Spirit Wolf
         // "SPWOLF1", //TODO: Spirit Wolf
         // "SPWOLF2", //TODO: Spirit Wolf
@@ -669,7 +619,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const worg = this.create({
       monster: MonsterEnum.Worg,
       name: "monster.wolf.name.worg",
-      files: ["WOLFCH", "BDWORG", "WORG", "WORGAR", "WORGSU"],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 3,

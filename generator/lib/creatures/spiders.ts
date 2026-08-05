@@ -396,9 +396,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const gargantuan = this.create({
       monster: MonsterEnum.GargantuanSpider,
       name: "monster.spider.name.gargantuan",
-      files: [
-        "BDSPIDGA", // Gargantuan Spider
-      ],
+      files: [],
       data: {
         level1: 8,
         bonusHp: 8,
@@ -457,10 +455,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const ghostwalk = this.create({
       monster: MonsterEnum.GhostwalkSpider,
       name: "monster.spider.name.ghostwalk",
-      files: [
-        "C#LCCENS", // Ghostly Spirit
-        "L#ULCSP", // Ssimkh, the Ghost-Feeding Spider
-      ],
+      files: [],
       data: {
         level1: 14,
         strength: 15,
@@ -548,17 +543,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const giant = this.create({
       monster: MonsterEnum.GiantSpider,
       name: "monster.spider.name.giant",
-      files: [
-        "BDHELP01", // Giant Spider
-        "BDSPIDGI", // Giant Spider
-        "BDWISTAK", // Wistak
-        "BPSPID02", // Giant Spider
-        "PLYSPID2", // Giant Spider
-        "RSSPIDGI", // Giant Spider
-        "SPIDGI", // Giant Spider
-        "SPIDGISU", // Giant Spider
-        "SPIDFGSU", // Kitthix
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 4,
@@ -608,10 +593,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const hairy = this.create({
       monster: MonsterEnum.HairySpider,
       name: "monster.spider.name.hairy",
-      files: [
-        "BDSPIDER", // Small Spider
-        "SPIDSM01", // Small Spider
-      ],
+      files: [],
       data: {
         level1: 1,
         bonusHp: 1,
@@ -676,11 +658,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const huge = this.create({
       monster: MonsterEnum.HugeSpider,
       name: "monster.spider.name.huge",
-      files: [
-        "BDSPIDHU", // Huge Spider
-        "SPIDHU", // Huge Spider
-        "SPIDLAND", // Huge Spider
-      ],
+      files: [],
       data: {
         level1: 2,
         bonusHp: 2,
@@ -727,9 +705,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const hunting = this.create({
       monster: MonsterEnum.HuntingSpider,
       name: "monster.spider.name.hunting",
-      files: [
-        "D5SMSPID", // Beetle Swarm (Faiths and Powers)
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 3,
@@ -779,11 +755,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const phase = this.create({
       monster: MonsterEnum.PhaseSpider,
       name: "monster.spider.name.phase",
-      files: [
-        "SPIDPH", // Phase Spider
-        "SPIDPHSU", // Phase Spider
-        "SPIDPHAS", // Astral Phase Spider
-      ],
+      files: [],
       data: {
         level1: 5,
         bonusHp: 5,
@@ -865,20 +837,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const sword = this.create({
       monster: MonsterEnum.SwordSpider,
       name: "monster.spider.name.sword",
-      files: [
-        "BDHELP03", // Sword Spider
-        "BDSPID7L", // Seven-Legged Spider
-        "BPSPID03", // Sword Spider
-        "PLYSPID", // Sword Spider
-        "SPIDSW", // Sword Spider
-        "SPIDSW01", // Sword Spider
-        "SPIDSWSU", // Sword Spider
-        "BPSPID01", // Spider
-        "GV#SPID", // Spider
-        "WISPID01", // Spider
-        "WISPID02", // Spider
-        "WISPID03", // Lightning Sword Spider (+2 electricity damage with leg)
-      ],
+      files: [],
       data: {
         level1: 5,
         bonusHp: 5,
@@ -960,9 +919,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const vortex = this.create({
       monster: MonsterEnum.VortexSpider,
       name: "monster.spider.name.vortex",
-      files: [
-        "SMSPID02", // Vortex Spider
-      ],
+      files: [],
       data: {
         level1: 7,
         bonusHp: 4,
@@ -1033,10 +990,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
       monster: MonsterEnum.WraithSpider,
       name: "monster.spider.name.wraith",
       files: [
-        "C#Q04009", // Wraith Spider
-        "SPIDWR", // Wraith Spider
-        "SPIDWR01", // Wraith Spider
-        "TTSPID", // Wraith Spider
         // "D5DRSSP1", //TODO: Spirit Spider (Faiths and Powers)
         // "D5DRSSP2", //TODO: Spirit Spider (Faiths and Powers)
         // "D5DRSSP3", //TODO: Spirit Spider (Faiths and Powers)

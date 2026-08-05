@@ -109,9 +109,7 @@ class Minotaur extends Creature {
           isAttack: true,
         },
         disableInterrupt: true,
-        actionsAfter: [
-          { name: "AttackOneRound", params: [ScriptTarget.lastSeen] },
-        ],
+        actionsAfter: [{ name: "AttackOneRound", params: [ScriptTarget.lastSeen] }],
       },
     });
   }
@@ -134,9 +132,7 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
     const minotaur = this.create({
       monster: MonsterEnum.Minotaur,
       name: "monster.minotaur.name.minotaur",
-      files: [
-        "L#MCMIN", // Minotaur
-      ],
+      files: [],
       data: {
         level1: 6,
         bonusHp: 3,

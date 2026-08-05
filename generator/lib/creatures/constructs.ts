@@ -49,7 +49,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
     const helmedHorror = this.create({
       monster: MonsterEnum.HelmedHorror,
       name: "monster.construct.name.helmedHorror",
-      files: ["HELMHO", "GLOWTEST"],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 10,
@@ -79,20 +79,10 @@ class ConstructFamily extends CreatureFamily<Construct> {
         leatherColor: 63,
         movement: 12,
         items: {
-          remove: [
-            "HELM08",
-            "SHLD18",
-            "RING95",
-            "BLUN08",
-            "FBLADE",
-            "PLAT07",
-            "HELM13",
-          ],
+          remove: ["HELM08", "SHLD18", "RING95", "BLUN08", "FBLADE", "PLAT07", "HELM13"],
         },
         immunities: ["construct"],
-        proficiencies: [
-          { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 },
-        ],
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 }],
       },
     });
     helmedHorror.addTrait({
@@ -122,7 +112,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
       name: "monster.construct.name.battleHorror",
       monster: MonsterEnum.BattleHorror,
       from: this.creature(MonsterEnum.HelmedHorror),
-      files: ["BATTHO", "dw#davho"],
+      files: [],
     });
     battleHorror.setData({
       level1: 8,
@@ -146,9 +136,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
           spell: {
             type: "noDec",
           },
-          triggers: [
-            { name: "Range", params: ["NearestEnemyOf", 10], negation: true },
-          ],
+          triggers: [{ name: "Range", params: ["NearestEnemyOf", 10], negation: true }],
           requireVocal: false,
           timer: { name: "MagicMissiles", value: 18 },
         },
@@ -178,7 +166,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
       name: "monster.construct.name.doomSayer",
       monster: MonsterEnum.DoomSayer,
       from: this.creature(MonsterEnum.BattleHorror),
-      files: ["DOOMSA"],
+      files: [],
     });
     doomSayer.setData({
       immunities: ["incorporeal"],
@@ -194,7 +182,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
     const doomGuard = this.create({
       monster: MonsterEnum.DoomGuard,
       name: "monster.construct.name.doomGuard",
-      files: ["DOOMGU", "DOOMDUR"],
+      files: [],
       data: {
         level1: 5,
         strength: 20,
@@ -216,9 +204,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         movement: 12,
         items: { remove: ["HELM13", "PLAT07", "SW1H11", "RING95"] },
         immunities: ["construct"],
-        proficiencies: [
-          { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 2 },
-        ],
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 2 }],
       },
     });
     doomGuard.addTrait({
@@ -235,9 +221,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         files: ["DOOMDUR"],
         data: {
           level1: 8,
-          proficiencies: [
-            { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 3 },
-          ],
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 3 }],
         },
       },
     ]);

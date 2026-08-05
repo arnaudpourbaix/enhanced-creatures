@@ -84,7 +84,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     const lesser = this.create({
       monster: MonsterEnum.LesserBasilisk,
       name: "monster.basilisk.name.lesser",
-      files: ["BASILL", "BASILLSU", "BPBASL01"],
+      files: [],
       data: {
         level1: 6,
         bonusHp: 1,
@@ -134,7 +134,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     const greater = this.create({
       monster: MonsterEnum.GreaterBasilisk,
       name: "monster.basilisk.name.greater",
-      files: ["AC#BASGR", "BASILG", "BASILGSU", "BASILMUT", "BASILNAD", "BD302BAS", "BPBASG01"],
+      files: [],
       data: {
         level1: 10,
         strength: 20,

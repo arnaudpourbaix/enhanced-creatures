@@ -28,11 +28,7 @@ class EttercapFamily extends CreatureFamily<Ettercap> {
     const ettercap = this.create({
       monster: MonsterEnum.Ettercap,
       name: "monster.ettercap.name.ettercap",
-      files: [
-        "ETTERC", // Ettercap
-        "ETTERC1", // Ettercap
-        "ETTERCSU", // Ettercap
-      ],
+      files: [],
       data: {
         level1: 5,
         strength: 14,

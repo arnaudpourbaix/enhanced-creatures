@@ -84,18 +84,7 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
     const ankheg = this.create({
       monster: MonsterEnum.Ankheg,
       name: "monster.ankheg.name",
-      files: [
-        "BDNEO",
-        "ANKHEG",
-        "ANKHEGF",
-        "ANKHEGG",
-        "ANKHEGQ",
-        "BDANKH01",
-        "BDANKHEG",
-        "BDANKHSU",
-        "BPANKHE1",
-        "WIANKHE1",
-      ],
+      files: [],
       data: {
         level1: 8,
         strength: 17,
