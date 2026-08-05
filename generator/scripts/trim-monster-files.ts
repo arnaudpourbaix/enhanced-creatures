@@ -43,90 +43,141 @@ const skip = new Set(["monster.ts", "common.ts", "index.ts", "test.ts"]);
 let totalRemoved = 0;
 let filesChanged = 0;
 
-for (const file of fs.readdirSync(creaturesDir)) {
-  if (!file.endsWith(".ts") || skip.has(file)) continue;
+interface TrimContext {
+  sourceFile: ts.SourceFile;
+  linesToDelete: Set<number>;
+  replacements: { start: number; end: number; replacement: string }[];
+  removedNames: string[];
+}
+
+// Matches `this.create({...})` / `this.createFrom({...})` calls with a single object literal
+// argument - the only shape this script knows how to inspect for a `files:` array. Split into
+// sequential guard checks (rather than one large `&&` expression) to keep both nesting depth and
+// per-expression operator count low.
+function isTrimmableCreateCall(node: ts.Node): node is ts.CallExpression {
+  if (!ts.isCallExpression(node)) return false;
+  if (!ts.isPropertyAccessExpression(node.expression)) return false;
+  const name = node.expression.name.text;
+  if (name !== "create" && name !== "createFrom") return false;
+  if (node.expression.expression.kind !== ts.SyntaxKind.ThisKeyword) return false;
+  return node.arguments.length === 1 && ts.isObjectLiteralExpression(node.arguments[0]);
+}
+
+function getMonsterName(obj: ts.ObjectLiteralExpression): string | undefined {
+  const monsterProp = obj.properties.find(
+    (p): p is ts.PropertyAssignment =>
+      ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "monster",
+  );
+  const monsterInit = monsterProp?.initializer;
+  return monsterInit && ts.isPropertyAccessExpression(monsterInit)
+    ? monsterInit.name.text
+    : undefined;
+}
+
+function getFilesArrayNode(obj: ts.ObjectLiteralExpression): ts.ArrayLiteralExpression | undefined {
+  const filesProp = obj.properties.find(
+    (p): p is ts.PropertyAssignment =>
+      ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "files",
+  );
+  const init = filesProp?.initializer;
+  return init && ts.isArrayLiteralExpression(init) ? init : undefined;
+}
+
+function markMultilineRemovals(
+  sourceFile: ts.SourceFile,
+  matched: ts.StringLiteral[],
+  linesToDelete: Set<number>,
+): void {
+  for (const el of matched) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(el.getStart(sourceFile));
+    linesToDelete.add(line);
+  }
+}
+
+function replaceSingleLineArray(
+  sourceFile: ts.SourceFile,
+  arrayNode: ts.ArrayLiteralExpression,
+  matched: ts.StringLiteral[],
+  replacements: { start: number; end: number; replacement: string }[],
+): void {
+  // Reconstruct the interior from only the kept elements in one shot, rather than deleting each
+  // matched element's span individually - adjacent matched elements' spans would otherwise
+  // overlap (each claiming the same separating comma).
+  const matchedSet = new Set<ts.Expression>(matched);
+  const kept = arrayNode.elements.filter((e) => !matchedSet.has(e));
+  const interiorStart = arrayNode.getStart(sourceFile) + 1;
+  const interiorEnd = arrayNode.getEnd() - 1;
+  const replacement = kept.map((e) => e.getText(sourceFile)).join(", ");
+  replacements.push({ start: interiorStart, end: interiorEnd, replacement });
+}
+
+function processFilesArray(ctx: TrimContext, obj: ts.ObjectLiteralExpression): void {
+  const monsterName = getMonsterName(obj);
+  const validatedFiles = monsterName ? validatedFilesByMonster.get(monsterName) : undefined;
+  if (!validatedFiles) return;
+
+  const arrayNode = getFilesArrayNode(obj);
+  if (!arrayNode) return;
+
+  const stringElements = arrayNode.elements.filter(ts.isStringLiteral);
+  const matched = stringElements.filter((e) => validatedFiles.has(e.text.toUpperCase()));
+  if (!matched.length) return;
+
+  ctx.removedNames.push(...matched.map((e) => e.text));
+  const isMultiline = arrayNode.getText(ctx.sourceFile).includes("\n");
+  if (isMultiline) {
+    markMultilineRemovals(ctx.sourceFile, matched, ctx.linesToDelete);
+  } else {
+    replaceSingleLineArray(ctx.sourceFile, arrayNode, matched, ctx.replacements);
+  }
+}
+
+function visitNode(ctx: TrimContext, node: ts.Node): void {
+  if (isTrimmableCreateCall(node) && ts.isObjectLiteralExpression(node.arguments[0])) {
+    processFilesArray(ctx, node.arguments[0]);
+  }
+  ts.forEachChild(node, (child) => {
+    visitNode(ctx, child);
+  });
+}
+
+function processFile(file: string): void {
   const filePath = path.join(creaturesDir, file);
   const source = fs.readFileSync(filePath, "utf-8");
   const sourceFile = ts.createSourceFile(filePath, source, ts.ScriptTarget.Latest, true);
 
-  const linesToDelete = new Set<number>();
-  const replacements: { start: number; end: number; replacement: string }[] = [];
-  const removedNames: string[] = [];
+  const ctx: TrimContext = {
+    sourceFile,
+    linesToDelete: new Set<number>(),
+    replacements: [],
+    removedNames: [],
+  };
+  visitNode(ctx, sourceFile);
 
-  function visit(node: ts.Node) {
-    if (
-      ts.isCallExpression(node) &&
-      ts.isPropertyAccessExpression(node.expression) &&
-      (node.expression.name.text === "create" || node.expression.name.text === "createFrom") &&
-      node.expression.expression.kind === ts.SyntaxKind.ThisKeyword &&
-      node.arguments.length === 1 &&
-      ts.isObjectLiteralExpression(node.arguments[0])
-    ) {
-      const obj = node.arguments[0];
-      const monsterProp = obj.properties.find(
-        (p): p is ts.PropertyAssignment =>
-          ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "monster",
-      );
-      const monsterInit = monsterProp?.initializer;
-      const monsterName =
-        monsterInit && ts.isPropertyAccessExpression(monsterInit)
-          ? monsterInit.name.text
-          : undefined;
-      const validatedFiles = monsterName ? validatedFilesByMonster.get(monsterName) : undefined;
-
-      const filesProp = obj.properties.find(
-        (p): p is ts.PropertyAssignment =>
-          ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "files",
-      );
-      if (validatedFiles && filesProp && ts.isArrayLiteralExpression(filesProp.initializer)) {
-        const arrayNode = filesProp.initializer;
-        const isMultiline = arrayNode.getText(sourceFile).includes("\n");
-        const elements = arrayNode.elements;
-        const stringElements = elements.filter(ts.isStringLiteral);
-        const matched = stringElements.filter((e) => validatedFiles.has(e.text.toUpperCase()));
-
-        if (matched.length) {
-          removedNames.push(...matched.map((e) => e.text));
-          if (isMultiline) {
-            for (const el of matched) {
-              const { line } = sourceFile.getLineAndCharacterOfPosition(el.getStart(sourceFile));
-              linesToDelete.add(line);
-            }
-          } else {
-            // Reconstruct the interior from only the kept elements in one shot, rather than
-            // deleting each matched element's span individually - adjacent matched elements'
-            // spans would otherwise overlap (each claiming the same separating comma).
-            const matchedSet = new Set<ts.Expression>(matched);
-            const kept = elements.filter((e) => !matchedSet.has(e));
-            const interiorStart = arrayNode.getStart(sourceFile) + 1;
-            const interiorEnd = arrayNode.getEnd() - 1;
-            const replacement = kept.map((e) => e.getText(sourceFile)).join(", ");
-            replacements.push({ start: interiorStart, end: interiorEnd, replacement });
-          }
-        }
-      }
-    }
-    ts.forEachChild(node, visit);
-  }
-  visit(sourceFile);
-
-  if (!removedNames.length) continue;
+  if (!ctx.removedNames.length) return;
 
   let text = source;
-  for (const { start, end, replacement } of [...replacements].sort((a, b) => b.start - a.start)) {
+  for (const { start, end, replacement } of [...ctx.replacements].sort(
+    (a, b) => b.start - a.start,
+  )) {
     text = text.slice(0, start) + replacement + text.slice(end);
   }
-  if (linesToDelete.size) {
+  if (ctx.linesToDelete.size) {
     text = text
       .split(/\r?\n/)
-      .filter((_, i) => !linesToDelete.has(i))
+      .filter((_, i) => !ctx.linesToDelete.has(i))
       .join("\n");
   }
 
   fs.writeFileSync(filePath, text);
   filesChanged++;
-  totalRemoved += removedNames.length;
-  console.log(`${file}: removed ${removedNames.length} (${removedNames.join(", ")})`);
+  totalRemoved += ctx.removedNames.length;
+  console.log(`${file}: removed ${ctx.removedNames.length} (${ctx.removedNames.join(", ")})`);
+}
+
+for (const file of fs.readdirSync(creaturesDir)) {
+  if (!file.endsWith(".ts") || skip.has(file)) continue;
+  processFile(file);
 }
 
 console.log(
