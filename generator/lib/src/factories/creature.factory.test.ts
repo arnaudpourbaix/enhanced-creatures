@@ -3,6 +3,7 @@ import { Creature } from "../model/creature/creature";
 import { EquippedItem } from "../model/creature/item";
 import { MainCreatureData } from "../model/creature/data";
 import { Item } from "../model/spell-item/spell-item";
+import { PartialCreatureAdjustment } from "../model/creature/adjustment";
 import creatureFactory from "./creature.factory";
 import logService from "../services/log.service";
 import abilityOrderService from "../services/baf/ability-order.service";
@@ -20,11 +21,15 @@ function fakeCreature(): Creature {
   return creature;
 }
 
+// Reused across several describe blocks below purely as a placeholder ability/name value - a
+// shared constant avoids sonarjs/no-duplicate-string flagging the repeated literal.
+const PLACEHOLDER_NAME_KEY = "common.potion.use";
+
 describe("checkValidation", () => {
   it("throws when the creature was already validated", () => {
     const creature = fakeCreature();
     creature.valid = true;
-    creature.name = "common.potion.use";
+    creature.name = PLACEHOLDER_NAME_KEY;
     expect(() => {
       creatureFactory.checkValidation(creature);
     }).toThrow(/has already been validated/);
@@ -87,6 +92,15 @@ describe("equipItem", () => {
   });
 });
 
+describe("setAdjustments", () => {
+  it("uppercases a lowercase files entry, since generated WeiDU STRING_EQUAL_CASE comparisons against creature.files (always uppercase, from creatures.csv) are case-sensitive", () => {
+    const creature = fakeCreature();
+    const adjustment = { files: ["ghastgsu"] } as unknown as PartialCreatureAdjustment;
+    creatureFactory.setAdjustments(creature, [adjustment]);
+    expect(creature.adjustments[0].files).toEqual(["GHASTGSU"]);
+  });
+});
+
 describe("setBehavior", () => {
   it("stores entries as pendingAbilityEntries without resolving them immediately", () => {
     const creature = fakeCreature();
@@ -99,7 +113,7 @@ describe("setBehavior", () => {
   it("still resolves a plain array eagerly, unchanged from today", () => {
     const creature = fakeCreature();
     creatureFactory.setBehavior(creature, {
-      abilities: [{ name: "common.potion.use", triggers: [], targets: [] }],
+      abilities: [{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }],
     });
     expect(creature.behavior.abilities).toHaveLength(1);
     expect(creature.pendingAbilityEntries).toBeUndefined();
@@ -124,7 +138,7 @@ describe("resolveAbilities", () => {
     creature.pendingAbilityEntries = [{ spell: { file: "sppr101" }, insertFirst: true }];
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
-      .mockReturnValue([{ name: "common.potion.use", triggers: [], targets: [] }]);
+      .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
     creatureFactory.resolveAbilities(creature);
     expect(resolveSpy).toHaveBeenCalledWith(creature);
     expect(creature.behavior.abilities).toHaveLength(1);
@@ -136,7 +150,7 @@ describe("resolveAbilities", () => {
     creature.behavior = { abilities: [], customCodes: [] } as unknown as Creature["behavior"];
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
-      .mockReturnValue([{ name: "common.potion.use", triggers: [], targets: [] }]);
+      .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
     creatureFactory.resolveAbilities(creature);
     expect(creature.pendingAbilityEntries).toBeUndefined();
     expect(resolveSpy).toHaveBeenCalledWith(creature);

@@ -75,6 +75,7 @@ class CreatureFactory {
     for (const adjustment of adjustments) {
       const result: CreatureAdjustment = {
         ...adjustment,
+        files: adjustment.files.map((f) => f.toUpperCase()),
         noWeapon: adjustment.noWeapon ?? false,
         summon: adjustment.summon ?? false,
         scriptName: adjustment.scriptName ?? false,

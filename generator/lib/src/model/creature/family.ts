@@ -48,7 +48,7 @@ export abstract class CreatureFamily<T extends Creature>
     cre.family = this.id;
     cre.files = this.resolveFiles(p.monster, p.files);
     cre.newFiles = p.newFiles ?? [];
-    cre.notEnforceFiles = p.notEnforceFiles ?? [];
+    cre.notEnforceFiles = (p.notEnforceFiles ?? []).map((f) => f.toUpperCase());
     cre.setData(p.data);
     cre.logging = this.logging;
     if (p.autoGenerate) {
@@ -74,7 +74,7 @@ export abstract class CreatureFamily<T extends Creature>
     cre.name = p.name;
     cre.files = this.resolveFiles(p.monster, p.files);
     cre.newFiles = p.newFiles ?? [];
-    cre.notEnforceFiles = p.notEnforceFiles ?? [];
+    cre.notEnforceFiles = (p.notEnforceFiles ?? []).map((f) => f.toUpperCase());
     cre.data.hp = undefined;
     cre.data.thac0 = undefined;
     cre.data.saveBreath = undefined;
@@ -99,7 +99,9 @@ export abstract class CreatureFamily<T extends Creature>
   }
 
   private resolveFiles(monster: MonsterEnum, backupFiles: string[] = []): string[] {
-    return [...new Set([...monsterFilesService.getFiles(monster), ...backupFiles])];
+    return [
+      ...new Set([...monsterFilesService.getFiles(monster), ...backupFiles].map((f) => f.toUpperCase())),
+    ];
   }
 
   addCreature(creature: T) {

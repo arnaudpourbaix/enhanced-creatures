@@ -131,6 +131,33 @@ describe("create (files resolution)", () => {
 
     expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO"]));
   });
+
+  it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
+    const family = fakeFamily();
+
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      files: ["some_backup_file"],
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(cre.files).toContain("SOME_BACKUP_FILE");
+    expect(cre.files).not.toContain("some_backup_file");
+  });
+
+  it("uppercases notEnforceFiles entries", () => {
+    const family = fakeFamily();
+
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      notEnforceFiles: ["some_backup_file"],
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(cre.notEnforceFiles).toEqual(["SOME_BACKUP_FILE"]);
+  });
 });
 
 describe("createFrom (files resolution)", () => {
@@ -150,5 +177,24 @@ describe("createFrom (files resolution)", () => {
     });
 
     expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO", "SOME_BACKUP_FILE"]));
+  });
+
+  it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
+    const family = fakeFamily();
+    const from = {
+      name: CREATURE_NAME_KEY,
+      data: { movement: {} },
+      attack: { dualWielding: false },
+    } as unknown as Creature;
+
+    const cre = family.createFrom({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      files: ["some_backup_file"],
+      from,
+    });
+
+    expect(cre.files).toContain("SOME_BACKUP_FILE");
+    expect(cre.files).not.toContain("some_backup_file");
   });
 });
