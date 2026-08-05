@@ -93,7 +93,7 @@ for (const file of fs.readdirSync(creaturesDir)) {
             // Reconstruct the interior from only the kept elements in one shot, rather than
             // deleting each matched element's span individually - adjacent matched elements'
             // spans would otherwise overlap (each claiming the same separating comma).
-            const matchedSet = new Set(matched);
+            const matchedSet = new Set<ts.Expression>(matched);
             const kept = elements.filter((e) => !matchedSet.has(e));
             const interiorStart = arrayNode.getStart(sourceFile) + 1;
             const interiorEnd = arrayNode.getEnd() - 1;
