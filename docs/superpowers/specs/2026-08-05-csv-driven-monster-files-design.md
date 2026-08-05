@@ -60,14 +60,20 @@ New file: `generator/lib/src/services/monster-files.service.ts`.
   files first, hand-authored backup entries appended, duplicates collapsed via `Set`. Order isn't
   semantically meaningful to WeiDU; this ordering just keeps output deterministic (stable git diffs).
 
-### Cross-monster collision check
+### Cross-monster collision check (already exists — no new code)
 
-After all creature families are constructed, a new validation pass (called from
-`mainService.generateCreatures()`, alongside the existing family/adjustment validation) collects
-every monster's final `cre.files` and errors out — same severity as the existing
-`Unknown adjustment file` throw in `weidu-creature.service.ts:518` — if any filename appears in two
-different monsters' lists. This is the safety net against a file being claimed both by CSV (for
-monster X) and by a stale hand-authored backup entry (for monster Y).
+`creature.factory.ts`'s `validate()` (called via `family.ts`'s `addCreature()`, right after
+`create()`/`createFrom()` populates `cre.files`) already does this check today, at
+`creature.factory.ts:163-173`: it filters the creature's `files` against every previously-validated
+creature's `files` in `State.creatures`, and if any overlap, logs a warning and marks the creature
+`valid = false` — `mainService.generateCreature()` then skips generating it (`isCreatureValid()`).
+This is a warning, not a hard build failure (`logService.warn` doesn't affect
+`logService.hasErrors()`'s exit-1 check), and it operates on whatever's in `creature.files` at
+validation time — so it automatically extends to CSV-sourced files once `create()` merges them in,
+with zero new code required. The safety net against a file being claimed both by CSV (for monster X)
+and a stale hand-authored backup entry (for monster Y) is therefore already in place; the
+implementation plan just needs a test proving it still fires when the collision comes from a
+CSV-sourced file.
 
 ### Migration: trimming the hand-authored arrays
 
@@ -114,4 +120,3 @@ mods, which should be rare. Not solved here — revisit if it causes real fricti
   `scripts/build-monster-id.ts` (offline tooling) — likely stays duplicated since one runs under
   `ts-node` from `generator/scripts` and the other is part of the compiled `lib/` runtime, unless a
   shared parsing module is worth extracting.
-- Where exactly the collision-check call site lives in `mainService.generateCreatures()`.
