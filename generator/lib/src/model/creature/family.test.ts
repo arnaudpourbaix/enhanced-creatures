@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
 import { Item, Spell } from "../spell-item/spell-item";
 import { Projectile } from "../spell-item/projectile";
@@ -6,6 +6,7 @@ import { CreatureFamily } from "./family";
 import { Creature } from "./creature";
 import { TranslationKey } from "../../../translations/i18n";
 import { InputMainCreatureData } from "./data-input";
+import logService from "../../services/log.service";
 
 class TestFamily extends CreatureFamily<Creature> {
   createCreature(id: MonsterEnum): Creature {
@@ -18,6 +19,12 @@ function fakeFamily(): TestFamily {
 }
 
 const CREATURE_NAME_KEY: TranslationKey = "common.creatureTraits";
+
+// Several tests below spy on logService.warn without restoring it themselves, relying on getting
+// a fresh spy (no leftover call history) in the next test.
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("creature", () => {
   it("throws when no creature in the family has the given id", () => {
@@ -196,5 +203,35 @@ describe("createFrom (files resolution)", () => {
 
     expect(cre.files).toContain("SOME_BACKUP_FILE");
     expect(cre.files).not.toContain("some_backup_file");
+  });
+});
+
+describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => {
+  it("warns with the monster's unvalidated creatures.csv guesses", () => {
+    const family = fakeFamily();
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("OHDRANKH"));
+  });
+
+  it("does not warn when the monster has no unvalidated guesses at all", () => {
+    const family = fakeFamily();
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    // MutatedSpider is declared in MonsterEnum but never implemented in any creature family
+    // definition, so monster-id-mapping can never assign it a MonsterId - guaranteed zero rows.
+    family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.MutatedSpider,
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(logSpy).not.toHaveBeenCalled();
   });
 });

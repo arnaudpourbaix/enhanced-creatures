@@ -47,6 +47,7 @@ export abstract class CreatureFamily<T extends Creature>
     cre.name = p.name;
     cre.family = this.id;
     cre.files = this.resolveFiles(p.monster, p.files);
+    this.warnUnvalidatedFiles(p.monster);
     cre.newFiles = p.newFiles ?? [];
     cre.notEnforceFiles = (p.notEnforceFiles ?? []).map((f) => f.toUpperCase());
     cre.setData(p.data);
@@ -73,6 +74,7 @@ export abstract class CreatureFamily<T extends Creature>
     cre.id = p.monster;
     cre.name = p.name;
     cre.files = this.resolveFiles(p.monster, p.files);
+    this.warnUnvalidatedFiles(p.monster);
     cre.newFiles = p.newFiles ?? [];
     cre.notEnforceFiles = (p.notEnforceFiles ?? []).map((f) => f.toUpperCase());
     cre.data.hp = undefined;
@@ -102,6 +104,15 @@ export abstract class CreatureFamily<T extends Creature>
     return [
       ...new Set([...monsterFilesService.getFiles(monster), ...backupFiles].map((f) => f.toUpperCase())),
     ];
+  }
+
+  private warnUnvalidatedFiles(monster: MonsterEnum): void {
+    const files = monsterFilesService.getUnvalidatedFiles(monster);
+    if (files.length) {
+      logService.warn(
+        `${MonsterEnum[monster]} has unvalidated creatures.csv guesses, needs review: ${files.join(", ")}`,
+      );
+    }
   }
 
   addCreature(creature: T) {

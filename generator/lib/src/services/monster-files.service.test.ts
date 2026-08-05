@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { MonsterEnum } from "../../creatures/monster";
-import monsterFilesService, { parseMonsterFilesCsv } from "./monster-files.service";
+import monsterFilesService, {
+  parseMonsterFilesCsv,
+  parseUnvalidatedMonsterFilesCsv,
+} from "./monster-files.service";
 
 const HEADER =
   "file;general;race;class;anim;deathvar;dialog;origin;name;MonsterId;ValidatedMonsterId";
@@ -42,5 +45,46 @@ describe("monsterFilesService.getFiles", () => {
     const files = monsterFilesService.getFiles(MonsterEnum.Ankheg);
 
     expect(files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO", "BDANKH01"]));
+  });
+});
+
+describe("parseUnvalidatedMonsterFilesCsv", () => {
+  it("groups unvalidated (false) guesses under their MonsterId, in row order", () => {
+    const csv = [
+      HEADER,
+      "GUESS1;MONSTER;WOLF;WOLF;WOLF;guess1;;BD;Wolf guess;Wolf;false",
+      "GUESS2;MONSTER;WOLF;WOLF;WOLF;guess2;;BD;Wolf guess 2;Wolf;false",
+    ].join("\n");
+
+    const result = parseUnvalidatedMonsterFilesCsv(csv);
+
+    expect(result.get("Wolf")).toEqual(["GUESS1", "GUESS2"]);
+  });
+
+  it("excludes rows that are already validated or aren't mapped to a monster", () => {
+    const csv = [
+      HEADER,
+      "ANKHEG;MONSTER;ANKHEG;ANKHEG;ANKHEG;ankheg;;VIENXAY;Ankheg;Ankheg;true",
+      "BLANK1;MONSTER;WOLF;WOLF;WOLF;blank1;;BD;Wolf blank;;",
+    ].join("\n");
+
+    const result = parseUnvalidatedMonsterFilesCsv(csv);
+
+    expect(result.has("Ankheg")).toBe(false);
+    expect(result.has("Wolf")).toBe(false);
+  });
+
+  it("returns an empty map for a header-only CSV", () => {
+    const result = parseUnvalidatedMonsterFilesCsv(HEADER);
+
+    expect(result.size).toBe(0);
+  });
+});
+
+describe("monsterFilesService.getUnvalidatedFiles", () => {
+  it("returns the unvalidated creatures.csv guesses for a known monster", () => {
+    const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Ankheg);
+
+    expect(files).toEqual(expect.arrayContaining(["OHDRANKH"]));
   });
 });
