@@ -13,7 +13,15 @@
 - Only `creatures.csv` rows with `ValidatedMonsterId === "true"` may feed the generator — never unvalidated guesses. A wrong guess must never drive a real `.cre` file patch.
 - `setAdjustments()` and `notEnforceFiles` are completely out of scope — untouched by both the runtime change and the migration script.
 - No mass-edit is "safe" until `family.ts` already merges in CSV files — the trim task (Task 3) MUST run after Task 2, never before, or trimmed filenames would silently stop being generated.
-- Full test suite (`npm test`), lint (`npm run lint`), and build (`npm run build`) must pass at the end of every task.
+- Full test suite (`npm test`) and build (`npm run build`) must pass at the end of every task.
+- Lint: `tsconfig.eslint.json` only ever included `lib/**/*.ts` (pre-existing, predates this plan —
+  `generator/scripts/build-monster-id.ts` and `extract-monster-defs.ts` were never added to it
+  either, and linting them for the first time surfaces ~20 unrelated pre-existing violations, not
+  something this plan should absorb). Task 1/2 touch only `lib/`, so lint those specific files with
+  `npx eslint <path>` (not a blanket `npm run lint`, which also reports one unrelated pre-existing
+  `lib/translations/i18n.ts` failure and, once Task 3 lands, parsing errors on every `scripts/*.ts`
+  file — none of that is this plan's to fix). Task 3's new `scripts/trim-monster-files.ts` is not
+  lint-checked at all, consistent with the other two scripts already there.
 
 ---
 
@@ -138,7 +146,18 @@ export default monsterFilesService;
 Run: `npm test -- monster-files.service` (from `generator/`)
 Expected: PASS (4 tests)
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Lint the new files**
+
+Run (from `generator/`): `npx eslint lib/src/services/monster-files.service.ts lib/src/services/monster-files.service.test.ts`
+Expected: exit 0, no output. (Not `npm run lint` — see Global Constraints: that also reports
+unrelated pre-existing failures outside this task's files.)
+
+- [ ] **Step 6: Verify the build still passes**
+
+Run (from `generator/`): `npm run build`
+Expected: exit 0, no output.
+
+- [ ] **Step 7: Commit**
 
 ```bash
 git add generator/lib/src/services/monster-files.service.ts generator/lib/src/services/monster-files.service.test.ts
@@ -320,7 +339,17 @@ Run: `npm test` (from `generator/`)
 Expected: PASS — no other test constructs a real creature through `create()`/`createFrom()` and
 asserts on `.files` today, so nothing else should change.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 6: Lint the changed files**
+
+Run (from `generator/`): `npx eslint lib/src/model/creature/family.ts lib/src/model/creature/family.test.ts`
+Expected: exit 0, no output. (Not `npm run lint` — see Global Constraints.)
+
+- [ ] **Step 7: Verify the build still passes**
+
+Run (from `generator/`): `npm run build`
+Expected: exit 0, no output.
+
+- [ ] **Step 8: Commit**
 
 ```bash
 git add generator/lib/src/model/creature/family.ts generator/lib/src/model/creature/family.test.ts
@@ -336,14 +365,20 @@ git commit -m "feat: merge creatures.csv-validated files into create()/createFro
 - Modify (by running the script, not by hand): `generator/lib/creatures/undead.ts`, `generator/lib/creatures/feys.ts`, `generator/lib/creatures/dogs.ts`, `generator/lib/creatures/wolves.ts` (the only families with any filename absent from `creatures.csv`, per the 49-entry gap already catalogued this session — every other family's `files:` array will end up empty)
 
 **Interfaces:**
-- Consumes: `creatures.csv`'s `file` column (any row, matched or not — presence alone means Task 1/2's `MonsterFilesService` will already supply that filename at runtime, since every hardcoded entry with any CSV row is guaranteed `ValidatedMonsterId=true` for that exact monster already, per `monster-id-mapping`'s direct-match pass having absolute priority over guessing).
+- Consumes: `parseMonsterFilesCsv` from Task 1's `generator/lib/src/services/monster-files.service.ts`
+  (imported directly, not re-implemented — same validated-rows-grouped-by-`MonsterId` parsing
+  `MonsterFilesService.getFiles()` uses at runtime). A hardcoded `files:` entry is only removed if
+  there's a validated CSV row for that filename under that array's own `monster:` value, so removal
+  is provably safe on its own terms (guaranteed to still be supplied by `MonsterFilesService` after
+  trimming).
 - Produces: no new runtime interface — this is a one-off source rewrite, not a reusable module. Not
   wired into any skill or npm script; run manually, once, from `generator/`.
 
 This task has no unit test of its own (matching `generator/scripts/build-monster-id.ts` and
 `generator/scripts/extract-monster-defs.ts`, the two existing one-off migration scripts in this
 repo, neither of which has a test file) — its correctness is verified by running it against the
-real repo and checking the resulting diff compiles, lints, and passes the full test suite.
+real repo and checking the resulting diff builds and passes the full test suite (see Global
+Constraints for why lint doesn't apply to this script).
 
 - [ ] **Step 1: Write the script**
 
@@ -353,6 +388,7 @@ Create `generator/scripts/trim-monster-files.ts`:
 import * as fs from "fs";
 import * as path from "path";
 import * as ts from "typescript";
+import { parseMonsterFilesCsv } from "../lib/src/services/monster-files.service";
 
 function parseArgs(): { generatorDir: string; csvPath: string } {
   const args = process.argv.slice(2);
@@ -380,16 +416,12 @@ if (!fs.existsSync(csvPath)) {
   process.exit(1);
 }
 
-// Every filename (uppercased) with any row in creatures.csv, matched or not - a hardcoded files:
-// entry that appears here is guaranteed ValidatedMonsterId=true for this exact monster already
-// (monster-id-mapping's direct-match pass has absolute priority over guessing), so no separate
-// MonsterId check is needed: presence alone means MonsterFilesService will supply it going forward.
-const raw = fs.readFileSync(csvPath, "utf-8");
-const csvLines = raw.split(/\r?\n/).filter((l) => l.length > 0);
-const header = csvLines[0].split(";");
-const fileIdx = header.indexOf("file");
-const csvFiles = new Set(
-  csvLines.slice(1).map((l) => (l.split(";")[fileIdx] ?? "").toUpperCase()),
+// Validated files per monster - reuses the exact same parser MonsterFilesService.getFiles() uses
+// at runtime, so a hardcoded files: entry is only removed below if it's guaranteed to still be
+// supplied by MonsterFilesService afterward (same condition, not a re-derived approximation).
+const rawByMonster = parseMonsterFilesCsv(fs.readFileSync(csvPath, "utf-8"));
+const validatedFilesByMonster = new Map<string, Set<string>>(
+  [...rawByMonster].map(([monster, files]) => [monster, new Set(files.map((f) => f.toUpperCase()))]),
 );
 
 const skip = new Set(["monster.ts", "common.ts", "index.ts", "test.ts"]);
@@ -417,16 +449,25 @@ for (const file of fs.readdirSync(creaturesDir)) {
       ts.isObjectLiteralExpression(node.arguments[0])
     ) {
       const obj = node.arguments[0];
+      const monsterProp = obj.properties.find(
+        (p): p is ts.PropertyAssignment =>
+          ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "monster",
+      );
+      const monsterInit = monsterProp?.initializer;
+      const monsterName =
+        monsterInit && ts.isPropertyAccessExpression(monsterInit) ? monsterInit.name.text : undefined;
+      const validatedFiles = monsterName ? validatedFilesByMonster.get(monsterName) : undefined;
+
       const filesProp = obj.properties.find(
         (p): p is ts.PropertyAssignment =>
           ts.isPropertyAssignment(p) && ts.isIdentifier(p.name) && p.name.text === "files",
       );
-      if (filesProp && ts.isArrayLiteralExpression(filesProp.initializer)) {
+      if (validatedFiles && filesProp && ts.isArrayLiteralExpression(filesProp.initializer)) {
         const arrayNode = filesProp.initializer;
         const isMultiline = arrayNode.getText(sourceFile).includes("\n");
         const elements = arrayNode.elements;
         const stringElements = elements.filter(ts.isStringLiteral);
-        const matched = stringElements.filter((e) => csvFiles.has(e.text.toUpperCase()));
+        const matched = stringElements.filter((e) => validatedFiles.has(e.text.toUpperCase()));
 
         if (matched.length) {
           removedNames.push(...matched.map((e) => e.text));
@@ -509,15 +550,15 @@ Expected: only `files:` array elements are removed (the ones from the 49-entry u
 gathered earlier this session); no `setAdjustments(...)` blocks, `notEnforceFiles`, or any other
 code changed. If anything else changed, stop and investigate before proceeding.
 
-- [ ] **Step 6: Verify the build, lint, and tests still pass**
+- [ ] **Step 6: Verify the build and tests still pass**
 
 Run (from `generator/`):
 ```bash
 npm run build
-npm run lint
 npm test
 ```
-Expected: all three exit 0.
+Expected: both exit 0. (No lint step here — `scripts/trim-monster-files.ts` isn't part of
+`tsconfig.eslint.json`'s project, same as the two scripts already there; see Global Constraints.)
 
 - [ ] **Step 7: Commit the trimmed source**
 
