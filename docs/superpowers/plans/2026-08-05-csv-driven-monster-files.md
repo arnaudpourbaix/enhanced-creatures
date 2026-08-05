@@ -13,7 +13,13 @@
 - Only `creatures.csv` rows with `ValidatedMonsterId === "true"` may feed the generator — never unvalidated guesses. A wrong guess must never drive a real `.cre` file patch.
 - `setAdjustments()` and `notEnforceFiles` are completely out of scope — untouched by both the runtime change and the migration script.
 - No mass-edit is "safe" until `family.ts` already merges in CSV files — the trim task (Task 3) MUST run after Task 2, never before, or trimmed filenames would silently stop being generated.
-- Full test suite (`npm test`) and build (`npm run build`) must pass at the end of every task.
+- Full test suite (`npm test`) and build (`npm run build`) must pass at the end of every task, with
+  one documented exception: `lib/src/services/pipeline.golden.test.ts` diffs a fresh `npm run
+  generate` against the committed `generator/lib/pnp-monster/**`/`docs/`/`generator/lib/common/`/
+  `languages/` output — once `create()`/`createFrom()` start contributing CSV-sourced files (Task
+  2 onward), that diff legitimately changes for every affected monster, and only Task 4's
+  regenerate-and-commit step resolves it for real. Tasks 2 and 3 are expected to leave this one
+  test (and only this one) red; every other test must still pass.
 - Lint: `tsconfig.eslint.json` only ever included `lib/**/*.ts` (pre-existing, predates this plan —
   `generator/scripts/build-monster-id.ts` and `extract-monster-defs.ts` were never added to it
   either, and linting them for the first time surfaces ~20 unrelated pre-existing violations, not
@@ -571,11 +577,16 @@ git commit -m "chore: trim monster files: arrays now supplied by creatures.csv"
 
 ### Task 4: Final end-to-end verification
 
-**Files:** none (verification only). `generator/lib/pnp-monster/**` and the `docs/` HTML/JS output
-are committed, generated artifacts (not gitignored) — regenerating them for real is a separate,
-consequential decision (it changes the actual shipped mod content for every monster whose file list
-just grew, not only the 4 families Task 3 touched) that the user should explicitly make, not
-something this verification task commits on its own initiative.
+**Files:** none by hand — this task runs `npm run generate` and commits its real output.
+`generator/lib/pnp-monster/**`, `docs/monsters.html`, `docs/changelog.html`,
+`generator/lib/common/{spell-resources,spell-functions,immunities}.tpa`, and
+`languages/*/generated.tra` are committed, generated artifacts (not gitignored) — regenerating
+them for real changes the actual shipped mod content for every monster whose file list just grew
+(not only the 4 families Task 3 touched). That's confirmed as the intended point of this feature
+(user decision, superseding this plan's original draft which discarded the regeneration): without
+committing it, `lib/src/services/pipeline.golden.test.ts` — a full-pipeline regression test that
+diffs a fresh generate against exactly these committed paths — would stay red forever after this
+plan merges, since nothing else ever re-syncs them.
 
 **Interfaces:** none — this task confirms the whole feature works together, it doesn't add code.
 
@@ -585,7 +596,8 @@ Run (from `generator/`): `npm run generate`
 
 Expected: exits 0, no `ERROR:` lines, `Finished!` printed. This exercises every family's
 `create()`/`createFrom()` (now CSV-merged) end-to-end, including the trimmed families from Task 3,
-and writes real output under `generator/lib/pnp-monster/**` and `docs/`.
+and writes real output under `generator/lib/pnp-monster/**`, `docs/`, `generator/lib/common/`, and
+`languages/`.
 
 - [ ] **Step 2: Spot-check that a trimmed monster's generated output still includes its full file list**
 
@@ -601,21 +613,29 @@ Expected: the generated file lists Skeleton's CSV-sourced resrefs together with 
 ones — i.e. trimming the source didn't shrink the actual generated output, since `MonsterFilesService`
 now supplies what was removed from the source array.
 
-- [ ] **Step 3: Run the full test suite one more time**
+- [ ] **Step 3: Run the full test suite and confirm it's fully green**
 
 Run (from `generator/`): `npm test`
-Expected: PASS.
 
-- [ ] **Step 4: Show the generated-output diff to the user, then discard it**
+Expected: 100% passing, including `pipeline.golden.test.ts` — Step 1 already wrote fresh output to
+the real on-disk paths, so this test's own fresh-generate-into-a-temp-dir-and-diff-against-disk
+check now compares generation against itself and should match exactly (deterministic generation).
+If `pipeline.golden.test.ts` is still red here, do not proceed to Step 4 — investigate first (either
+generation isn't deterministic, or something in Steps 1-3 didn't run as expected).
 
-Run (from repo root): `git status --short` and `git diff --stat -- generator/lib/pnp-monster docs`
+- [ ] **Step 4: Show the generated-output diff to the user, then commit it**
+
+Run (from repo root): `git status --short` and
+`git diff --stat -- generator/lib/pnp-monster docs generator/lib/common languages`
 
 Expected: a real diff across many monster families (every monster whose CSV-validated file list
 includes files beyond what was already hardcoded gains them here — expected and is the actual
-point of this feature, not a bug). Report the summary to the user. Then run
-`git checkout -- generator/lib/pnp-monster docs` (from repo root) to discard the regenerated output,
-since committing it is a separate decision for the user to make explicitly, not part of this
-plan's scope.
+point of this feature, not a bug). Report the summary to the user. Then commit it:
+
+```bash
+git add generator/lib/pnp-monster docs generator/lib/common languages
+git commit -m "chore: regenerate mod output for CSV-driven monster files"
+```
 
 - [ ] **Step 5: Confirm the working tree is clean aside from this plan's own commits**
 
