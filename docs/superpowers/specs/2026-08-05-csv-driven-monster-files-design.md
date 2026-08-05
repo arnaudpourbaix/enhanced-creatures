@@ -101,9 +101,14 @@ expected to be a recurring step.
 
 ### Test impact
 
-`baf-generator.service.golden.test.ts` and any other test asserting on a creature's `.files` (via
-`createAnkhegs()` or similar) will change output once CSV-sourced files are merged in. Snapshots
-need updating as part of this work; the full test suite must pass before this is considered done.
+Checked: no existing test actually asserts on a real creature's `.files` built through
+`create()`/`createFrom()`. `baf-generator.service.golden.test.ts` builds a real Ankheg via
+`createAnkhegs()` but only asserts on BAF *script* text (`bafGeneratorService.buildContent`), which
+doesn't reference `creature.files`; `weidu-creature.service.test.ts` constructs fake `Creature`-like
+objects directly with hand-set `.files`, bypassing `create()` entirely. So no existing snapshot
+needs updating — the full suite should pass unchanged once `family.ts` is wired up, which itself is
+a useful regression signal. New tests are still needed (see plan) to actually cover the merge
+behavior, since nothing does today.
 
 ## Trade-offs
 
