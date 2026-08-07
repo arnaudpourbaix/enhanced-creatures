@@ -62,6 +62,12 @@ describe("addCreature (doubleApr)", () => {
   });
 });
 
+function runAttackDisplay(description: string, idPrefix = "m1-w0") {
+  const entries: { id: string; html: string }[] = [];
+  const text = documentationService.getAttackDisplayText(description, entries, idPrefix);
+  return { text, entries };
+}
+
 describe("getAttackDisplayText", () => {
   it("strips the weapon name, blank lines, THAC0/Speed Factor/Range, and folds enchantment into the damage line", () => {
     const description = [
@@ -72,44 +78,146 @@ describe("getAttackDisplayText", () => {
       "Speed Factor: 5",
       "Enchantment: 2",
       "Range: 2 feet",
-      "",
-      "Cast spell Digestive Enzymes:",
     ].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe(
-      ["3D6 (Crushing) at +2", "Cast spell Digestive Enzymes:"].join("\r\n"),
-    );
+    expect(runAttackDisplay(description).text).toBe("3D6 (Crushing) at +2");
   });
 
   it("strips the damage-type label but leaves the value bare when there is no enchantment", () => {
     const description = ["Jaws", "", "Ranged damage: 1D6 (Piercing)"].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe("1D6 (Piercing)");
+    expect(runAttackDisplay(description).text).toBe("1D6 (Piercing)");
   });
 
   it("falls back to a standalone Enchantment line when there is no damage line", () => {
     const description = ["Ring", "", "Enchantment: 3"].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe("Enchantment: +3");
+    expect(runAttackDisplay(description).text).toBe("Enchantment: +3");
   });
 
-  it("passes through unchanged when there is neither damage nor enchantment", () => {
-    const description = ["Fists", "", "Cast spell Rend:"].join("\r\n");
+  it("passes through unchanged when there is neither damage, enchantment, nor a linkable spell block", () => {
+    const description = ["Fists", "", "Cast spell Rend (10%)"].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe("Cast spell Rend:");
+    expect(runAttackDisplay(description).text).toBe("Cast spell Rend (10%)");
   });
 
   it("leaves a description with no name/blank-line header untouched, e.g. a trait item's description", () => {
     const description = ["Melee damage: 1D4 (Piercing)"].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe("1D4 (Piercing)");
+    expect(runAttackDisplay(description).text).toBe("1D4 (Piercing)");
   });
 
   it("returns the input unchanged for an empty description", () => {
-    expect(documentationService.getAttackDisplayText("")).toBe("");
+    expect(runAttackDisplay("").text).toBe("");
   });
 
-  it("collapses blank separator lines between multiple cast-spell entries", () => {
+  it("collapses a single cast-spell block into a popover link, keeping the save condition inline", () => {
+    const description = [
+      "Jaws",
+      "",
+      "Melee damage: 1D10 (Piercing)",
+      "",
+      "Cast spell Type K poison (saves vs poison/death at +4):",
+      "Poison damage: 5 over 10 seconds.",
+    ].join("\r\n");
+
+    const { text, entries } = runAttackDisplay(description);
+
+    expect(text).toBe(
+      '1D10 (Piercing)\r\n<a href="#m1-w0-spell-0" class="trait-link">Type K poison</a> (saves vs poison/death at +4)',
+    );
+    expect(entries).toEqual([
+      { id: "m1-w0-spell-0", html: "<p>Poison damage: 5 over 10 seconds.</p>" },
+    ]);
+  });
+
+  it("keeps a probability condition inline the same way", () => {
+    const description = ["Paws", "", "Cast spell Hug (10%):", "Crushing damage: 2D4"].join("\r\n");
+
+    const { text, entries } = runAttackDisplay(description);
+
+    expect(text).toBe('<a href="#m1-w0-spell-0" class="trait-link">Hug</a> (10%)');
+    expect(entries).toEqual([{ id: "m1-w0-spell-0", html: "<p>Crushing damage: 2D4</p>" }]);
+  });
+
+  it("renders each description line as its own paragraph and groups '- ' lines into a <ul>", () => {
+    const description = [
+      "Jaws",
+      "",
+      "Cast spell Grab (saves vs poison/death at -9):",
+      "Grab and hold your target for 3 rounds.",
+      "Grabbed creature will suffer these effects:",
+      "- can not move",
+      "- -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)",
+      "- -4 THAC0",
+    ].join("\r\n");
+
+    const { entries } = runAttackDisplay(description);
+
+    expect(entries).toEqual([
+      {
+        id: "m1-w0-spell-0",
+        html:
+          "<p>Grab and hold your target for 3 rounds.</p>" +
+          "<p>Grabbed creature will suffer these effects:</p>" +
+          "<ul><li>can not move</li>" +
+          "<li>-4 AC (opponents get +4 bonus on their attack rolls against grabbed target)</li>" +
+          "<li>-4 THAC0</li></ul>",
+      },
+    ]);
+  });
+
+  it("splits a description whose internal lines use a bare \\n instead of \\r\\n (e.g. spell.grab.description's hand-authored template literal)", () => {
+    const description =
+      "Jaws\r\n\r\nCast spell Grab (saves vs poison/death at -9):\r\n" +
+      "Grab and hold your target for 3 rounds.\nGrabbed creature will suffer these effects:\n- can not move\n- -4 THAC0";
+
+    const { entries } = runAttackDisplay(description);
+
+    expect(entries).toEqual([
+      {
+        id: "m1-w0-spell-0",
+        html:
+          "<p>Grab and hold your target for 3 rounds.</p>" +
+          "<p>Grabbed creature will suffer these effects:</p>" +
+          "<ul><li>can not move</li><li>-4 THAC0</li></ul>",
+      },
+    ]);
+  });
+
+  it("supports a bullet list not preceded by any lead-in paragraph", () => {
+    const description = [
+      "Jaws",
+      "",
+      "Cast spell Curse:",
+      "- weakened",
+      "- blinded",
+    ].join("\r\n");
+
+    const { entries } = runAttackDisplay(description);
+
+    expect(entries).toEqual([
+      { id: "m1-w0-spell-0", html: "<ul><li>weakened</li><li>blinded</li></ul>" },
+    ]);
+  });
+
+  it("supports a paragraph resuming after a bullet list", () => {
+    const description = [
+      "Jaws",
+      "",
+      "Cast spell Curse:",
+      "- weakened",
+      "Lasts 3 rounds.",
+    ].join("\r\n");
+
+    const { entries } = runAttackDisplay(description);
+
+    expect(entries).toEqual([
+      { id: "m1-w0-spell-0", html: "<ul><li>weakened</li></ul><p>Lasts 3 rounds.</p>" },
+    ]);
+  });
+
+  it("assigns distinct ids and descriptions to consecutive cast-spell blocks", () => {
     const description = [
       "Jaws",
       "",
@@ -122,15 +230,28 @@ describe("getAttackDisplayText", () => {
       "Deals disease damage.",
     ].join("\r\n");
 
-    expect(documentationService.getAttackDisplayText(description)).toBe(
+    const { text, entries } = runAttackDisplay(description);
+
+    expect(text).toBe(
       [
         "1D6 (Piercing)",
-        "Cast spell Poison:",
-        "Deals poison damage.",
-        "Cast spell Disease:",
-        "Deals disease damage.",
+        '<a href="#m1-w0-spell-0" class="trait-link">Poison</a>',
+        '<a href="#m1-w0-spell-1" class="trait-link">Disease</a>',
       ].join("\r\n"),
     );
+    expect(entries).toEqual([
+      { id: "m1-w0-spell-0", html: "<p>Deals poison damage.</p>" },
+      { id: "m1-w0-spell-1", html: "<p>Deals disease damage.</p>" },
+    ]);
+  });
+
+  it("leaves a cast-spell line with no trailing colon (documented elsewhere) as plain text", () => {
+    const description = ["Fists", "", "Cast spell Bless (25%)"].join("\r\n");
+
+    const { text, entries } = runAttackDisplay(description);
+
+    expect(text).toBe("Cast spell Bless (25%)");
+    expect(entries).toEqual([]);
   });
 });
 

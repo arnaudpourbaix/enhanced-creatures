@@ -116,14 +116,23 @@ class DocumentationService {
 
   getCreatureAttacks(template: { text: string }, creature: Creature) {
     let attacks = "";
+    let weaponIndex = 0;
     for (const equippedItem of creature.data.items.equipped) {
       if (itemService.isEquippedWeapon(equippedItem)) {
         const weapon = State.items.find((i) => i.file === equippedItem.file);
         if (weapon?.doc) {
-          attacks += attacks ? "<hr/>" : "";
-          attacks += `<div class="weapon">${this.getAttackDisplayText(
+          const entries: { id: string; html: string }[] = [];
+          const text = this.getAttackDisplayText(
             translationService.fromOptional(weapon.description),
-          )}</div>`;
+            entries,
+            `m${creature.id}-w${weaponIndex}`,
+          );
+          attacks += attacks ? "<hr/>" : "";
+          attacks += `<div class="weapon">${text}</div>`;
+          attacks += entries
+            .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+            .join("");
+          weaponIndex++;
         }
       }
     }
@@ -139,16 +148,28 @@ class DocumentationService {
   // redundant with the attack's own heading in the monster page, the blank lines (e.g. before
   // "Cast spell ...") were only needed to visually separate sections of the longer in-game text,
   // and the numbers are covered elsewhere. The in-game description itself is left untouched.
-  getAttackDisplayText(description: string): string {
+  //
+  // `entries` is populated with one hidden {id, html} pair per "Cast spell" block collapsed to a
+  // popover link (see collapseSpellBlocks) - the caller renders them into the page so the shared
+  // trait-popover mechanism (docs/monsters.js) can look them up by id on hover/click.
+  getAttackDisplayText(
+    description: string,
+    entries: { id: string; html: string }[],
+    idPrefix: string,
+  ): string {
     if (!description) return description;
-    let lines = description.split(CR);
+    // Most of item.description is joined with CR ("\r\n"), but some hand-authored ability
+    // descriptions (e.g. spell.grab.description in translations/en/spell.ts) are template
+    // literals using a bare "\n" instead - split on either so those still break into one
+    // array entry per physical line like everything else here expects.
+    let lines = description.split(/\r\n|\n/);
     if (lines.length > 1 && lines[1] === "") {
       lines = lines.slice(2);
     }
     const enchantmentIndex = lines.findIndex((l) => /^Enchantment: \d+$/.test(l));
     const enchantment =
       enchantmentIndex >= 0 ? /\d+/.exec(lines[enchantmentIndex])?.[0] : undefined;
-    const filtered = lines.filter(
+    let filtered = lines.filter(
       (l, i) => i !== enchantmentIndex && l !== "" && !/^(THAC0|Speed Factor|Range): /.test(l),
     );
     const damageIndex = filtered.findIndex((l) => /^(Melee|Ranged) damage: /.test(l));
@@ -159,7 +180,72 @@ class DocumentationService {
     } else if (enchantment) {
       filtered.push(`Enchantment: +${enchantment}`);
     }
+    filtered = this.collapseSpellBlocks(filtered, entries, idPrefix);
     return filtered.join(CR);
+  }
+
+  // Replaces each "Cast spell Name (condition):" line plus the description line(s) that follow it
+  // (everything up to the next "Cast spell " line or the end) with just the name as a popover
+  // link, keeping the probability/save condition inline. The description text moves into a
+  // hidden entry (appended to `entries`) that the shared trait-popover (docs/monsters.js) reveals
+  // on hover/click - reused as-is since it already works off any `a.trait-link` + id-matched
+  // element, nothing spell-specific needed there. A "Cast spell Name (condition)" line with no
+  // trailing colon has no inline description to show (the spell is documented elsewhere via its
+  // own Abilities entry) and is left as plain text.
+  private collapseSpellBlocks(
+    lines: string[],
+    entries: { id: string; html: string }[],
+    idPrefix: string,
+  ): string[] {
+    const result: string[] = [];
+    let spellIndex = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const match = /^Cast spell (.+?)( \([^)]*\))?:$/.exec(lines[i]);
+      if (!match) {
+        result.push(lines[i]);
+        continue;
+      }
+      const [, name, condition] = match;
+      const descLines: string[] = [];
+      let j = i + 1;
+      while (j < lines.length && !lines[j].startsWith("Cast spell ")) {
+        descLines.push(lines[j]);
+        j++;
+      }
+      const id = `${idPrefix}-spell-${spellIndex++}`;
+      entries.push({ id, html: this.buildSpellDescriptionHtml(descLines) });
+      result.push(`<a href="#${id}" class="trait-link">${name}</a>${condition ?? ""}`);
+      i = j - 1;
+    }
+    return result;
+  }
+
+  // Renders a spell's description lines as paragraphs, so line breaks (e.g. between a lead-in
+  // sentence and the list that follows it) survive instead of being flattened into one run-on
+  // paragraph. Consecutive "- " prefixed lines become a single <ul>, since that prefix is how
+  // effect lists (e.g. Grab's "- can not move" / "- -4 THAC0") are written in the plain-text
+  // in-game description - the "- " marks the bullet, any further hyphen (as in "-4 THAC0") is
+  // just part of the item's own text and is left untouched.
+  private buildSpellDescriptionHtml(descLines: string[]): string {
+    const html: string[] = [];
+    let bullets: string[] = [];
+    const flushBullets = () => {
+      if (bullets.length) {
+        html.push(`<ul>${bullets.map((b) => `<li>${b}</li>`).join("")}</ul>`);
+        bullets = [];
+      }
+    };
+    for (const line of descLines) {
+      const bulletMatch = /^- (.+)$/.exec(line);
+      if (bulletMatch) {
+        bullets.push(bulletMatch[1]);
+      } else {
+        flushBullets();
+        if (line) html.push(`<p>${line}</p>`);
+      }
+    }
+    flushBullets();
+    return html.join("");
   }
 
   getCreatureTraits(template: { text: string }, creature: Creature) {

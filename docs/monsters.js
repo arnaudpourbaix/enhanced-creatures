@@ -51,8 +51,10 @@
 
     // Allow the popover to receive programmatic focus, and give assistive
     // tech an accessible name, without needing a template change + regenerate.
+    // Generic wording: this popover is shared by trait links and, since the
+    // attacks section started linkifying "Cast spell" entries, spell links too.
     popover.setAttribute("tabindex", "-1");
-    popover.setAttribute("aria-label", "Trait description");
+    popover.setAttribute("aria-label", "Description");
 
     var OPEN_DELAY = 300;
     var CLOSE_DELAY = 250;
