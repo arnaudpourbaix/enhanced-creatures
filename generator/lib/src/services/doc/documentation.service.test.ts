@@ -62,6 +62,78 @@ describe("addCreature (doubleApr)", () => {
   });
 });
 
+describe("getAttackDisplayText", () => {
+  it("strips the weapon name, blank lines, THAC0/Speed Factor/Range, and folds enchantment into the damage line", () => {
+    const description = [
+      "Mandibles",
+      "",
+      "THAC0: +2",
+      "Melee damage: 3D6 (Crushing)",
+      "Speed Factor: 5",
+      "Enchantment: 2",
+      "Range: 2 feet",
+      "",
+      "Cast spell Digestive Enzymes:",
+    ].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe(
+      ["3D6 (Crushing) at +2", "Cast spell Digestive Enzymes:"].join("\r\n"),
+    );
+  });
+
+  it("strips the damage-type label but leaves the value bare when there is no enchantment", () => {
+    const description = ["Jaws", "", "Ranged damage: 1D6 (Piercing)"].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe("1D6 (Piercing)");
+  });
+
+  it("falls back to a standalone Enchantment line when there is no damage line", () => {
+    const description = ["Ring", "", "Enchantment: 3"].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe("Enchantment: +3");
+  });
+
+  it("passes through unchanged when there is neither damage nor enchantment", () => {
+    const description = ["Fists", "", "Cast spell Rend:"].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe("Cast spell Rend:");
+  });
+
+  it("leaves a description with no name/blank-line header untouched, e.g. a trait item's description", () => {
+    const description = ["Melee damage: 1D4 (Piercing)"].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe("1D4 (Piercing)");
+  });
+
+  it("returns the input unchanged for an empty description", () => {
+    expect(documentationService.getAttackDisplayText("")).toBe("");
+  });
+
+  it("collapses blank separator lines between multiple cast-spell entries", () => {
+    const description = [
+      "Jaws",
+      "",
+      "Melee damage: 1D6 (Piercing)",
+      "",
+      "Cast spell Poison:",
+      "Deals poison damage.",
+      "",
+      "Cast spell Disease:",
+      "Deals disease damage.",
+    ].join("\r\n");
+
+    expect(documentationService.getAttackDisplayText(description)).toBe(
+      [
+        "1D6 (Piercing)",
+        "Cast spell Poison:",
+        "Deals poison damage.",
+        "Cast spell Disease:",
+        "Deals disease damage.",
+      ].join("\r\n"),
+    );
+  });
+});
+
 describe("getFamilyMenu", () => {
   it("builds a collapsible family entry linking to every creature in the family", () => {
     const family = {

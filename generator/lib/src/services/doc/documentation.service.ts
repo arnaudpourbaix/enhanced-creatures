@@ -2,6 +2,7 @@ import * as fs from "fs";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { SPELLBOOK_MODS } from "../../../config/mods";
 import { CreatureAbility } from "../../model/creature/ability";
+import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { MemorizedSpell } from "../../model/creature/data";
 import { Family } from "../../model/creature/family";
@@ -120,8 +121,8 @@ class DocumentationService {
         const weapon = State.items.find((i) => i.file === equippedItem.file);
         if (weapon?.doc) {
           attacks += attacks ? "<hr/>" : "";
-          attacks += `<div class="weapon">${translationService.fromOptional(
-            weapon.description,
+          attacks += `<div class="weapon">${this.getAttackDisplayText(
+            translationService.fromOptional(weapon.description),
           )}</div>`;
         }
       }
@@ -130,6 +131,35 @@ class DocumentationService {
       attacks = `<div class="weapon">By weapon</div>`;
     }
     this.replace(template, "attacks", attacks);
+  }
+
+  // Docs-only trim of the in-game weapon description (which also feeds the .tra item text, see
+  // description.service.ts): drops the leading weapon-name line, blank separator lines,
+  // THAC0/Speed Factor/Range, and folds the enchantment into the damage line - the name is
+  // redundant with the attack's own heading in the monster page, the blank lines (e.g. before
+  // "Cast spell ...") were only needed to visually separate sections of the longer in-game text,
+  // and the numbers are covered elsewhere. The in-game description itself is left untouched.
+  getAttackDisplayText(description: string): string {
+    if (!description) return description;
+    let lines = description.split(CR);
+    if (lines.length > 1 && lines[1] === "") {
+      lines = lines.slice(2);
+    }
+    const enchantmentIndex = lines.findIndex((l) => /^Enchantment: \d+$/.test(l));
+    const enchantment =
+      enchantmentIndex >= 0 ? /\d+/.exec(lines[enchantmentIndex])?.[0] : undefined;
+    const filtered = lines.filter(
+      (l, i) => i !== enchantmentIndex && l !== "" && !/^(THAC0|Speed Factor|Range): /.test(l),
+    );
+    const damageIndex = filtered.findIndex((l) => /^(Melee|Ranged) damage: /.test(l));
+    if (damageIndex >= 0) {
+      let line = filtered[damageIndex].replace(/^(Melee|Ranged) damage: /, "");
+      if (enchantment) line += ` at +${enchantment}`;
+      filtered[damageIndex] = line;
+    } else if (enchantment) {
+      filtered.push(`Enchantment: +${enchantment}`);
+    }
+    return filtered.join(CR);
   }
 
   getCreatureTraits(template: { text: string }, creature: Creature) {
