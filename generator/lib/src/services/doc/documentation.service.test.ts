@@ -167,7 +167,7 @@ describe("getCreatureTraits", () => {
 
     expect(template.text).toBe(
       '<div class="detail-section"><h4>Traits</h4><div class="traits">' +
-        '<h5><a href="#construct">Construct</a></h5>' +
+        '<h5><a href="#construct" class="trait-link">Construct</a></h5>' +
         "</div></div>",
     );
   });

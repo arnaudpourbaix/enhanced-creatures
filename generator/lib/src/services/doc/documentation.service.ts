@@ -141,7 +141,9 @@ class DocumentationService {
     const traits: string[] = [];
     for (const immunity of immunities.filter((i) => i.type === "trait")) {
       traits.push(
-        `<a href="#${immunity.name}">${translationService.fromOptional(immunity.stringRef)}</a>`,
+        `<a href="#${immunity.name}" class="trait-link">${translationService.fromOptional(
+          immunity.stringRef,
+        )}</a>`,
       );
     }
     if (traits.length) result += `<h5>${traits.join(", ")}</h5>`;
