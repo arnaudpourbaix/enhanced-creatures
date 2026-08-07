@@ -13,6 +13,10 @@ interface PathsConfig {
 }
 
 const MOD_ITEMS = ["enhanced_creatures.tp2", "lib", "languages"];
+// The tp2's %MOD_FOLDER% macro resolves to wherever enhanced_creatures.tp2 itself sits, so
+// everything must land inside this subfolder (with the tp2) rather than at the destination's
+// root - otherwise %MOD_FOLDER%/lib/... resolves to the game root instead of the mod's own files.
+const MOD_SUBFOLDER = "enhanced_creatures";
 
 class CopyService {
   repoRoot = path.resolve(__dirname, "..", "..", "..", "..");
@@ -54,7 +58,7 @@ class CopyService {
     logService.header(`Copying mod to ${label} (${destRoot})`);
     for (const item of MOD_ITEMS) {
       const src = path.join(this.repoRoot, item);
-      const dest = path.join(destRoot, item);
+      const dest = path.join(destRoot, MOD_SUBFOLDER, item);
       await fs.promises.cp(src, dest, { recursive: true, force: true });
       logService.log(`Copied ${item}`);
     }

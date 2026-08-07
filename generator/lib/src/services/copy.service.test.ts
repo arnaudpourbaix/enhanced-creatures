@@ -8,6 +8,7 @@ import copyService from "./copy.service";
 describe("CopyService", () => {
   const TP2_FILE = "enhanced_creatures.tp2";
   const TP2_CONTENTS = "tp2 contents";
+  const MOD_SUBFOLDER = "enhanced_creatures";
 
   let repoDir: string;
   let bg1Dir: string;
@@ -43,6 +44,10 @@ describe("CopyService", () => {
     fs.writeFileSync(copyService.configPath, JSON.stringify(config));
   }
 
+  function modPath(dest: string, ...segments: string[]): string {
+    return path.join(dest, MOD_SUBFOLDER, ...segments);
+  }
+
   it("throws a clear error when paths.local.json is missing", async () => {
     await expect(copyService.copy({ bg1: true, bg2: true })).rejects.toThrow(/paths\.local\.json/);
   });
@@ -54,7 +59,7 @@ describe("CopyService", () => {
     await copyService.copy({ bg1: true, bg2: false });
 
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("BG1 path is not configured"));
-    expect(fs.existsSync(path.join(bg1Dir, TP2_FILE))).toBe(false);
+    expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(false);
   });
 
   it("warns and skips a target whose configured path does not exist on disk", async () => {
@@ -67,17 +72,17 @@ describe("CopyService", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining(missing));
   });
 
-  it("copies the tp2, lib, and languages folders into each configured, existing target", async () => {
+  it("copies the tp2, lib, and languages folders, nested under enhanced_creatures/, into each configured, existing target", async () => {
     writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
 
     await copyService.copy({ bg1: true, bg2: true });
 
     for (const dest of [bg1Dir, bg2Dir]) {
-      expect(fs.readFileSync(path.join(dest, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
-      expect(fs.readFileSync(path.join(dest, "lib", "common", "index.tpa"), "utf-8")).toBe(
+      expect(fs.readFileSync(modPath(dest, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
+      expect(fs.readFileSync(modPath(dest, "lib", "common", "index.tpa"), "utf-8")).toBe(
         "lib contents",
       );
-      expect(fs.readFileSync(path.join(dest, "languages", "english", "setup.tra"), "utf-8")).toBe(
+      expect(fs.readFileSync(modPath(dest, "languages", "english", "setup.tra"), "utf-8")).toBe(
         "tra contents",
       );
     }
@@ -88,26 +93,32 @@ describe("CopyService", () => {
 
     await copyService.copy({ bg1: true, bg2: false });
 
-    expect(fs.existsSync(path.join(bg1Dir, TP2_FILE))).toBe(true);
-    expect(fs.existsSync(path.join(bg2Dir, TP2_FILE))).toBe(false);
+    expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(true);
+    expect(fs.existsSync(modPath(bg2Dir, TP2_FILE))).toBe(false);
   });
 
   it("merges into an existing destination without deleting unrelated files", async () => {
     writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
     fs.writeFileSync(path.join(bg1Dir, "some-other-mod.tp2"), "unrelated mod");
+    fs.mkdirSync(modPath(bg1Dir), { recursive: true });
+    fs.writeFileSync(modPath(bg1Dir, "leftover.txt"), "leftover from a previous install");
 
     await copyService.copy({ bg1: true, bg2: false });
 
     expect(fs.readFileSync(path.join(bg1Dir, "some-other-mod.tp2"), "utf-8")).toBe("unrelated mod");
-    expect(fs.existsSync(path.join(bg1Dir, TP2_FILE))).toBe(true);
+    expect(fs.readFileSync(modPath(bg1Dir, "leftover.txt"), "utf-8")).toBe(
+      "leftover from a previous install",
+    );
+    expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(true);
   });
 
   it("overwrites a stale copy of the mod already present in the destination", async () => {
     writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
-    fs.writeFileSync(path.join(bg1Dir, TP2_FILE), "stale contents");
+    fs.mkdirSync(modPath(bg1Dir), { recursive: true });
+    fs.writeFileSync(modPath(bg1Dir, TP2_FILE), "stale contents");
 
     await copyService.copy({ bg1: true, bg2: false });
 
-    expect(fs.readFileSync(path.join(bg1Dir, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
+    expect(fs.readFileSync(modPath(bg1Dir, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
   });
 });
