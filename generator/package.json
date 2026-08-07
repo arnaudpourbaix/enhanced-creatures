@@ -9,6 +9,7 @@
   "scripts": {
     "start": "nodemon --watch lib/src/**/*.ts --exec ts-node src/index.ts",
     "generate": "ts-node lib/src/index.ts",
+    "copy": "ts-node lib/src/index.ts copy",
     "build": "tsc -p .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
