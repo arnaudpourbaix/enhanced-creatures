@@ -3,6 +3,7 @@ generator/coverage
 generator/dist
 generator/node_modules
 generator/monster-defs.json
+generator/paths.local.json
 .superpowers
 .worktrees
 .claude/worktrees/
