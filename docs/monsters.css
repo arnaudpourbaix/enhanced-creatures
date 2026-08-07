@@ -229,12 +229,19 @@
 .trait-popover {
   position: fixed;
   z-index: 30;
+  /* Must match `maxWidth` in docs/monsters.js's positionPopover(). */
   max-width: 320px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   background: var(--color-panel);
   border: 1px solid var(--color-gold);
   border-radius: 4px;
   padding: 14px 16px;
   box-shadow: 0 4px 14px rgba(59, 42, 23, 0.35);
+}
+
+.trait-popover[hidden] {
+  display: none;
 }
 
 .trait-popover-close {

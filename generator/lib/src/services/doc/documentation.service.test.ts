@@ -274,10 +274,11 @@ describe("getTraits", () => {
         type: "trait",
         doc: true,
         stringRef: "common.traits.construct.name",
+        description: "common.traits.construct.name",
       } as unknown as ImmunityConfig,
     ];
     expect(documentationService.getTraits()).toBe(
-      '<div class="trait-entry" id="construct"><h5>Construct</h5></div>',
+      '<div class="trait-entry" id="construct"><h5>Construct</h5><p>Construct</p></div>',
     );
   });
 });
