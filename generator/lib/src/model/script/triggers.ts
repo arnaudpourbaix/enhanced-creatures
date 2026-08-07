@@ -14,6 +14,7 @@ import { SplStateIdentifier } from "../ids/splstate";
 import { StateIdentifier } from "../ids/state";
 import { StatsIdentifier } from "../ids/stats";
 import { ParamObject } from "../parameter";
+import { Aera } from "./aera";
 
 // Converting to a plain module would mean updating every `Triggers.X` reference across ~24 files
 // (same reasoning as actions.ts's Actions namespace) - out of scope for this pass.
@@ -223,23 +224,19 @@ export namespace Triggers {
     params: [string, ParamObject];
   }
 
-  // `(string & {})` keeps autocomplete on the two well-known scopes while still accepting any
-  // other area name string, without tripping no-redundant-type-constituents.
-  export type GlobalScope = "LOCALS" | "GLOBAL" | (string & {});
-
   export interface Global extends BaseTrigger {
     name: "Global";
-    params: [string, GlobalScope, number];
+    params: [string, Aera, number];
   }
 
   export interface GlobalGT extends BaseTrigger {
     name: "GlobalGT";
-    params: [string, GlobalScope, number];
+    params: [string, Aera, number];
   }
 
   export interface GlobalLT extends BaseTrigger {
     name: "GlobalLT";
-    params: [string, GlobalScope, number];
+    params: [string, Aera, number];
   }
 
   export interface GlobalsEqual extends BaseTrigger {

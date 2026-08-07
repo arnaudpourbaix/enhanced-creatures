@@ -8,6 +8,7 @@ import { AreaTypeValue } from "../model/ids/misc";
 import { StateIdentifier } from "../model/ids/state";
 import { StatsIdentifier } from "../model/ids/stats";
 import { ParamObject } from "../model/parameter";
+import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
 import targetService from "../services/baf/target.service";
 
@@ -28,12 +29,20 @@ class TriggerFactory {
     return { name: "HPLT", params: [ScriptTarget.token, value], negation };
   }
 
+  hpgt(value: number, negation = false): Triggers.Trigger {
+    return { name: "HPGT", params: [ScriptTarget.token, value], negation };
+  }
+
   hpPercentLt(value: number, negation = false): Triggers.Trigger {
     return { name: "HPPercentLT", params: [ScriptTarget.token, value], negation };
   }
 
   range(value: number, negation = false): Triggers.Trigger {
     return { name: "Range", params: [ScriptTarget.token, value], negation };
+  }
+
+  name(value: string, negation = false): Triggers.Trigger {
+    return { name: "Name", params: [value, ScriptTarget.token], negation };
   }
 
   attackedBy(obj: ParamObject, type: AStylesIdentifiers, negation = false): Triggers.Trigger {
@@ -80,9 +89,25 @@ class TriggerFactory {
     }));
   }
 
-  global(name: string, value: number, area = "LOCALS", negation = false): Triggers.Trigger {
+  global(name: string, value: number, area: Aera = "LOCALS", negation = false): Triggers.Trigger {
     return {
       name: "Global",
+      params: [name, area, value],
+      negation,
+    };
+  }
+
+  globalLT(name: string, value: number, area: Aera = "LOCALS", negation = false): Triggers.Trigger {
+    return {
+      name: "GlobalLT",
+      params: [name, area, value],
+      negation,
+    };
+  }
+
+  globalGT(name: string, value: number, area: Aera = "LOCALS", negation = false): Triggers.Trigger {
+    return {
+      name: "GlobalGT",
       params: [name, area, value],
       negation,
     };

@@ -4,6 +4,7 @@ import { DamageIdentifier } from "../ids/damage";
 import { SlotIdentifier } from "../ids/slot";
 import { SpellIdentifier } from "../ids/spell";
 import { ParamObject } from "../parameter";
+import { Aera } from "./aera";
 
 // Converting to a plain module would mean updating every `Actions.X` reference across ~24 files
 // (baf-generator.service.ts, statement-builder.service.ts, action.factory.ts, etc.) - out of
@@ -190,7 +191,7 @@ export namespace Actions {
 
   export interface SetGlobal {
     name: "SetGlobal";
-    params: [string, "LOCALS" | "GLOBAL" | (string & {}), number];
+    params: [string, Aera, number];
   }
 
   export interface AddGlobals {
@@ -200,12 +201,12 @@ export namespace Actions {
 
   export interface IncrementGlobal {
     name: "IncrementGlobal";
-    params: [string, "LOCALS" | "GLOBAL", number];
+    params: [string, Aera, number];
   }
 
   export interface SetGlobalTimer {
     name: "SetGlobalTimer";
-    params: [string, "LOCALS" | "GLOBAL", number];
+    params: [string, Aera, number];
   }
 
   export interface Spell {

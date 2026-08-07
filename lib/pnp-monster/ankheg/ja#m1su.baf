@@ -6,6 +6,29 @@ THEN
 		DestroySelf()
 END
 
+// Dreadful Zombie Ankheg
+IF
+	Name("L#XZEANK",Myself)
+	See([PC])
+	Global("L#XZEAnkheGreater","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("L#XZEAnkheGreater","LOCALS",1)
+		ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+		Enemy()
+END
+
+// Assassin Ankheg
+IF
+	Name("WIANKHE1",Myself)
+	GlobalLT("BP_HOSTILE","GLOBAL",3)
+	HPGT(Myself,0)
+THEN
+	RESPONSE #100
+		IncrementGlobal("BP_HOSTILE","GLOBAL",1)
+		Enemy()
+END
+
 // Precast Stoneskin
 IF
 	Global("JA#PRECAST_LONG","LOCALS",0)

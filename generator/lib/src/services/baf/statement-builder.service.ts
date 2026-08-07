@@ -88,8 +88,14 @@ class StatementBuilderService {
 
   private processStatements(statements: Statements, newStatements: Statements) {
     for (const statement of newStatements) {
-      if (!statement.target) statements.push(statement);
-      else {
+      if (!statement.target) {
+        const tokens = [{ key: ScriptTarget.token, value: ScriptTarget.myself }];
+        statements.push({
+          ...statement,
+          triggers: utils.replaceTriggerTokens(statement.triggers, tokens),
+          responses: utils.replaceResponseTokens(statement.responses, tokens),
+        });
+      } else {
         const { triggers, targetTriggers } = targetService.getTriggersFromTargetList(
           statement.target,
         );

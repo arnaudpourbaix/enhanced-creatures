@@ -85,6 +85,6 @@ describe("monsterFilesService.getUnvalidatedFiles", () => {
   it("returns the unvalidated creatures.csv guesses for a known monster", () => {
     const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Ankheg);
 
-    expect(files).toEqual(expect.arrayContaining(["OHDRANKH"]));
+    expect(files).toEqual(expect.arrayContaining(["L#MIMMI"]));
   });
 });

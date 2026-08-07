@@ -10,7 +10,7 @@ ALWAYS
     RANDOM_SEED go
 END
 
-// README ~%MOD_FOLDER%/doc/readme_atweaks.html~
+README ~%MOD_FOLDER%/docs/index.html~
 // ASK_EVERY_COMPONENT
 
 LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/tra/english/setup.tra~ ~%MOD_FOLDER%/tra/english/game.tra~ ~%MOD_FOLDER%/tra/english/generated.tra~
@@ -18,7 +18,7 @@ LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/tra/english/setup.tra~ ~%MOD_FOLDER%/
 BEGIN ~Monsters test~
 DESIGNATED 9999
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion/main.tpa"
@@ -35,7 +35,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

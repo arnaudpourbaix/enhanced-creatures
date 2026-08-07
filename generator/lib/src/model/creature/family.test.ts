@@ -217,7 +217,7 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
       data: {} as unknown as InputMainCreatureData,
     });
 
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("OHDRANKH"));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("L#MIMMI"));
   });
 
   it("does not warn when the monster has no unvalidated guesses at all", () => {

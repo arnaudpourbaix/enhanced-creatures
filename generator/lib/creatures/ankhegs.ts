@@ -1,10 +1,14 @@
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-names";
+import actionFactory from "../src/factories/action.factory";
 import effectFactory from "../src/factories/effect.factory";
+import responseFactory from "../src/factories/response.factory";
+import triggerFactory from "../src/factories/trigger.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
+import { ConditionalStatement } from "../src/model/script/script";
 import {
   AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
@@ -106,7 +110,7 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
         movement: 6,
         immunities: ["magicalBeast"],
         script: {
-          remove: ["ANKHEG"],
+          remove: ["ANKHEG", "ANKHEGB", "L#XZEANK"],
           location: "Race",
         },
         items: {
@@ -168,13 +172,61 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
     });
     ankheg.setBehavior({
       abilities: [this.ability(Ids.Stream)],
+      customCodes: [
+        {
+          location: "init",
+          type: "insertBefore",
+          statements: [...this.dreadfulZombieAnkheg(), ...this.assassinAnkheg()],
+        },
+      ],
     });
     ankheg.setAdjustments([
-      { files: ["BDANKH01"], data: { level1: 10, xpv: 1400 } },
-      // { files: ["OHDRANKH"], data: { level1: 15, xpv: 1500 } },
+      { files: ["BDANKH01"], data: { level1: 10 } },
+      { files: ["L#MIMMI"], data: { level1: 12, xpv: 2000 } },
+      { files: ["OHDRANKH"], data: { level1: 15, xpv: 1200 } },
+      { files: ["L#NDC2"], data: { level1: 15, xpv: 1200 } },
+      { files: ["L#XZEANS"], data: { level1: 15, xpv: 1500, immunities: ["undead"] } },
+      { files: ["L#XZEANK"], data: { level1: 15, xpv: 2000, immunities: ["undead"] } },
       { files: ["BDANKHSU"], summon: true },
     ]);
     return ankheg;
+  }
+
+  private dreadfulZombieAnkheg(): ConditionalStatement[] {
+    const global = "L#XZEAnkheGreater";
+    return [
+      {
+        comment: "Dreadful Zombie Ankheg",
+        triggers: [
+          triggerFactory.name("L#XZEANK"),
+          { name: "See", params: ["PC"] },
+          triggerFactory.global(global, 0),
+        ],
+        responses: responseFactory.response([
+          actionFactory.setGlobal(global, 1),
+          { name: "ReallyForceSpell", params: [ScriptTarget.myself, "WIZARD_STONE_SKIN"] },
+          { name: "Enemy" },
+        ]),
+      },
+    ];
+  }
+
+  private assassinAnkheg(): ConditionalStatement[] {
+    const global = "BP_HOSTILE";
+    return [
+      {
+        comment: "Assassin Ankheg",
+        triggers: [
+          triggerFactory.name("WIANKHE1"),
+          triggerFactory.globalLT(global, 3, "GLOBAL"),
+          triggerFactory.hpgt(0),
+        ],
+        responses: responseFactory.response([
+          actionFactory.incrementGlobal(global, 1, "GLOBAL"),
+          { name: "Enemy" },
+        ]),
+      },
+    ];
   }
 }
 

@@ -1168,6 +1168,22 @@ describe("processStatements (private)", () => {
     expect(statements).toEqual([{ triggers: [], responses: [], comment: "x" }]);
   });
 
+  it("replaces {Target} tokens with Myself when a statement has no target", () => {
+    const statements: Statements = [];
+    service.processStatements(statements, [
+      {
+        triggers: [{ name: "See", params: ["{Target}"] }],
+        responses: [
+          { weight: 1, actions: [{ name: "AttackReevaluate", params: ["{Target}", 30] }] },
+        ],
+      },
+    ]);
+    expect(statements[0].triggers).toEqual([{ name: "See", params: ["Myself"] }]);
+    expect(statements[0].responses[0].actions).toEqual([
+      { name: "AttackReevaluate", params: ["Myself", 30] },
+    ]);
+  });
+
   it("expands a statement with a target into one statement per resolved target", () => {
     const statements: Statements = [];
     service.processStatements(statements, [

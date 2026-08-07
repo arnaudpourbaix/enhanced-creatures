@@ -141,16 +141,29 @@ Generating creatures
 
 Creating Ankheg...
     warning: No attack defined, using defaults
-    base files: ["BDNEO","ANKHEG","ANKHEGF","ANKHEGG","ANKHEGQ","BDANKH01","BDANKHEG","BDANKHSU","BPANKHE1","WIANKHE1"]
+    base files: ["ANKHEG","ANKHEG01","ANKHEGF","ANKHEGG","ANKHEGQ","BDANKH01","BDANKHEG","BDANKHSU","BDNEO","BPANKHE1","L#MIMMI","L#NDC2","L#XZEANK","L#XZEANS","OHDRANKH","WIANKHE1"]
     → Level: 8, hit points: 80 (base)  = 80
     base files: ["BDANKH01"]
     → Level: 10, hit points: 100 (base)  = 100
+    base files: ["L#MIMMI"]
+    → Level: 12, hit points: 120 (base)  = 120
+    base files: ["OHDRANKH"]
+    → Level: 15, hit points: 150 (base)  = 150
+    base files: ["L#NDC2"]
+    → Level: 15, hit points: 150 (base)  = 150
+    base files: ["L#XZEANS"]
+    → Level: 15, hit points: 150 (base)  = 150
+    base files: ["L#XZEANK"]
+    → Level: 15, hit points: 150 (base)  = 150
     base files: ["BDANKHSU"]
+    → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
+    → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i0m1 enchant: 2
     → Melee range: 2
     Generating documentation for Ankheg
 
 Creating Lesser Basilisk...
+    warning: LesserBasilisk has unvalidated creatures.csv guesses, needs review: BASLES01, L#FOMIST, L#NSBAS2, PLYBASS
     warning: No attack defined, using defaults
     base files: ["BASILL","BASILLSU","BPBASL01"]
     → Level: 6, hit points: 60 (base) +6 (con) +1 (bonus) = 67
@@ -159,6 +172,7 @@ Creating Lesser Basilisk...
     → Melee range: 1
 
 Creating Greater Basilisk...
+    warning: GreaterBasilisk has unvalidated creatures.csv guesses, needs review: ANBASIL, BASGRT01, L#NSBAS1, L#NSSULJ
     poison (1dmg/x seconds) (normal) => 5/10 ==> 3: 2/10 (total=5, diff duration=0)
     adding projectile ja#s1m3 for spell Foul Breath
     warning: No attack defined, using defaults
@@ -176,6 +190,7 @@ Creating Greater Basilisk...
     adding projectile ja#s0f3 for spell Improved stream of frost
 
 Creating Black Bear...
+    warning: BlackBear has unvalidated creatures.csv guesses, needs review: BEARBL01, D9EARBL, ESXBEA, GLBEAR2, NBEARBL, VBEARBL
     warning: No attack defined, using defaults
     base files: ["BDBEARBL","BEARBL","BEARBLSU","PLYBEAR2","RSBEARBL","UBDBEAR"]
     → dual wielding detected
@@ -188,6 +203,7 @@ Creating Black Bear...
     → Melee range: 1
 
 Creating Brown Bear...
+    warning: BrownBear has unvalidated creatures.csv guesses, needs review: BEARBR01, BEARGR, BEARGRSU, C0MBEAR, CB585AN2, CB585AN7, CB595BRB, CB595GRB, CBCHIMRA, CEBEAR01, D9VBEA9, D9VBEAE, D9VBEAR, D9VBEAT, NBEARBR, OHBMENA3, TREVIL04, VBEARBR, WILSON13, WILSON9
     warning: No attack defined, using defaults
     base files: ["BDBEARBN","BDBEARBR","BDGRIZHU","BEARBR","BEARBRSU","PLYBEAR1"]
     → dual wielding detected
@@ -204,6 +220,7 @@ Creating Brown Bear...
     → Melee range: 2
 
 Creating Cave Bear...
+    warning: CaveBear has unvalidated creatures.csv guesses, needs review: BEARCA01, B_BEAR1, OHDANIM1, TRANIM01, VBEARCA
     warning: No attack defined, using defaults
     base files: ["BD328OSO","BDBEARCA","BEARCA","BEARCASU","CAVENE","URSA"]
     → dual wielding detected
@@ -220,8 +237,9 @@ Creating Cave Bear...
     → Melee range: 2
 
 Creating Polar Bear...
+    warning: PolarBear has unvalidated creatures.csv guesses, needs review: BEARPO01, B_PBEAR1, C0D2_S1, C0D2_S1, D9ARPO01, OBSICE04, SPBEAR1, SPBEAR1, SPBEAR2, SPBEAR2, SPBEAR3, SPBEAR3, SPBEAR4, SPBEAR4, SPBEAR5, SPBEAR5
     warning: No attack defined, using defaults
-    base files: ["BEARPO","BEARPO1","BEARPO2","BEARPO3","BEARPOSU","NTBEARPO","SPIRBEAR","BDGHBRSU","BDGHOSTF","KALDRAN"]
+    base files: ["BDGHBRSU","BDGHOSTF","BEARPO","BEARPO1","BEARPO2","BEARPO3","BEARPOSU","KALDRAN","NTBEARPO","SPIRBEAR"]
     → dual wielding detected
     → setting dual wield: 2 APR +1 offhand
     → Level: 8, hit points: 64 (base) +16 (con) +8 (bonus)+12 (special) = 100
@@ -245,8 +263,9 @@ Creating Polar Bear...
     Generating documentation for Polar Bear
 
 Creating Carrion Crawler...
+    warning: CarrionCrawler has unvalidated creatures.csv guesses, needs review: AC#FPFEY, CARCRA01, ISNFPAR, OHBMENA6, POLYCARR, SEWCC
     warning: No behavior defined, using defaults
-    base files: ["BDCCRAW1","BPCRCW01","CARRIO","CRYPTCRA","BDCRAWMU","BDMCARRI","CARRIOSU"]
+    base files: ["BDCCRAW1","BDCRAWMU","BDMCARRI","BPCRCW01","CARRIO","CARRIOSU","CRYPTCRA"]
     → Level: 3, hit points: 24 (base) +6 (con) +1 (bonus) = 31
     base files: ["CARRIOSU"]
     base files: ["CRYPTCRA"]
@@ -255,6 +274,7 @@ Creating Carrion Crawler...
     Generating documentation for Carrion Crawler
 
 Creating Jaguar...
+    warning: Jaguar has unvalidated creatures.csv guesses, needs review: C02AKOKO, C0AKOKO, C0AKOKO2, C6GUEN, C6GUEN2, CAT, CATDEAD, CATDEAD, CATJAGWP, CATP, CATPAN01, CB585AN5, CEFALD02, D9CATJ, D9CATT, GORCAMB6, GORCAMB7, HGFEL01, H_CATCAC, JAGUARSU, JY_00DB, JY_00DB1, OHDANIM3, OHNREFIN, OHNSUB11, OHNSUB13, OHNSUB34, OHNSUB42, OHNSUB5, OHNSUB55, OHNSUB69, OHNSUB9, RR#SCRL, TRANIM03, TREVIL05
     warning: No attack defined, using defaults
     base files: ["BDHELP04","CATJAG01"]
     → dual wielding detected
@@ -268,6 +288,7 @@ Creating Jaguar...
     → Melee range: 2
 
 Creating Leopard...
+    warning: Leopard has unvalidated creatures.csv guesses, needs review: ANLION1, B_CAT1, CATCHE01, CATLEO01, CATLIO01, CATLIS01, CATLYN01, CATTIG01, CB585AN1, COPLION, D9CAT, D9CAX, OHBMENA4, OHRLEOP, RAMAZ, SPIRLION, WAUKLEO
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
     base files: ["CATJAGSU"]
@@ -334,13 +355,15 @@ Creating Displacer Beast...
     Generating documentation for Displacer Beast
 
 Creating Helmed Horror...
+    warning: HelmedHorror has unvalidated creatures.csv guesses, needs review: BDBRONZE, C02AUTO, GORSTA02, GORSTA05, GORSTA09, ROOK
     warning: No attack defined, using defaults
-    base files: ["HELMHO","GLOWTEST"]
+    base files: ["GLOWTEST","HELMHO"]
     → Level: 4, hit points: 40 (base) +20 (size) = 60
     → calculating THAC0 as a level 5 creature
+    warning: BattleHorror has unvalidated creatures.csv guesses, needs review: CD51GHO, KING, KNIGHT, L#2SDVO2, L#2SDVO5, L#2SDVO6, L#2SDVO7
 
 Creating Battle Horror from Helmed Horror...
-    base files: ["BATTHO","dw#davho"]
+    base files: ["BATTHO","DW#DAVHO"]
     → Level: 8, hit points: 80 (base) +20 (size) = 100
     → calculating THAC0 as a level 9 creature
 
@@ -350,8 +373,9 @@ Creating Doom Sayer from Battle Horror...
     → calculating THAC0 as a level 9 creature
 
 Creating Doom Guard...
+    warning: DoomGuard has unvalidated creatures.csv guesses, needs review: GORSTA01, PAWN, PRIDEM
     warning: No attack defined, using defaults
-    base files: ["DOOMGU","DOOMDUR"]
+    base files: ["DOOMDUR","DOOMGU"]
     → Level: 5, hit points: 50 (base) +20 (size) = 70
     base files: ["DOOMDUR"]
     → Level: 8, hit points: 80 (base) +20 (size) = 100
@@ -361,8 +385,9 @@ Creating Doom Guard...
     Generating documentation for Doom Guard
 
 Creating Wild Dog...
+    warning: WildDog has unvalidated creatures.csv guesses, needs review: A#FERA01, CB585AN4, CB585AN6, DOGWIL01, FAMDOG, KPDOG01, KPDOG02, KPDOG03, KPDOG04, NDOG, OHRDOG, UDDOG
     warning: No attack defined, using defaults
-    base files: ["BDBDOG","BDDEADOG","DOGWI","DOGWISU","BDCRUDOG","BDDOG","DW#RNDWI","BDDOGW01"]
+    base files: ["BDBDOG","BDCRUDOG","BDDEADOG","BDDOG","BDDOGW01","DOGWI","DOGWISU","DW#RNDWI"]
     → AC reduced to 10 (was 7) because of dexterity bonus (-3)
     → Level: 1, hit points: 8 (base) +1 (con) +1 (bonus) = 10
     base files: ["DOGWISU"]
@@ -371,9 +396,10 @@ Creating Wild Dog...
     → Melee range: 1
 
 Creating War Dog...
+    warning: WarDog has unvalidated creatures.csv guesses, needs review: CPCHICK1, CPCHICK2, D0FUNDOG, DADOG, DOGWAR01, FAMWAR, FSDOG, GPDOG1, HELLHO01, HELLIL01, L#2EDDOG, L#ASGUD, L#NIDOG, MOONDOG, OBSFIR05, OHDCDAWG, TELDOG
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["BDPRISD1","BDPRISD2","DOGWA","DOGWASU","DW#RNDWA","UBNIMDOG","NTPOOCH"]
+    base files: ["BDPRISD1","BDPRISD2","DOGWA","DOGWASU","NTPOOCH","UBNIMDOG","DW#RNDWA"]
     → AC reduced to 9 (was 6) because of dexterity bonus (-3)
     → Level: 2, hit points: 16 (base) +2 (con) +2 (bonus) = 20
     base files: ["DOGWASU"]
@@ -402,6 +428,7 @@ Creating Spectral Hound...
     Generating documentation for Spectral Hound
 
 Creating Ettercap...
+    warning: Ettercap has unvalidated creatures.csv guesses, needs review: DUPLICA2, DUPLICA4, DUPLICA5, ETTER01
     warning: No behavior defined, using defaults
     base files: ["ETTERC","ETTERC1","ETTERCSU"]
     → dual wielding detected
@@ -416,6 +443,7 @@ Creating Ettercap...
     Generating documentation for Ettercap
 
 Creating Banshee...
+    warning: Ettin has unvalidated creatures.csv guesses, needs review: D0QPSY10, OHNETTIN, PETTIN, PETTIN, PLSHFG01, PLSHFG02, SAHOTY01
     warning: No attack defined, using defaults
     base files: ["BDETTIN"]
     → dual wielding detected
@@ -434,22 +462,24 @@ Creating Banshee...
     adding effect file ja#s9f8 for spell monster.fey.ability.charmSong.name
 
 Creating Dryad...
-    base files: ["DRYAD","ja#dryad","DRY01","DRYAD01","DRYAD02","DRYAD03","IDRYAD01","IDRYAD02","IDRYAD03","dr01mod","drmod","RE_DRYAD","H_KATREC","L#APEST","NTARCHAN","NTASSAIA","NTESSILA","NTLUCRET","NTMILEA","NTPAULIA","NTTAMAEL"]
+    warning: Dryad has unvalidated creatures.csv guesses, needs review: ANSIRENE, BDNEREID, BDPWATER, C0AYUKI, CD09HAG, KSLAVE01, OHDNYMPH, OHDWNTRB, OHDYARR, RSPIRIT1, SHOAL, SUDRYAD, VA#PANDA, VA#WISTE
+    base files: ["DRY01","DRYAD","DRYAD01","DRYAD02","DRYAD03","H_KATREC","IDRYAD01","IDRYAD02","IDRYAD03","L#APEST","NTARCHAN","NTASSAIA","NTESSILA","NTLUCRET","NTMILEA","NTPAULIA","NTTAMAEL","RE_DRYAD","JA#DRYAD","DR01MOD","DRMOD"]
     → Level: 2, hit points: 12 (base)  = 12
-    base files: ["ja#dryad"]
+    base files: ["JA#DRYAD"]
     base files: ["DRYAD","L#APEST"]
 
 Creating Hamadryad...
-    base files: ["DRYADHA","ja#hama","VAELASA","WQXHAMA","WIDRYAD1","WIDRYAD2","BDHAMADC","BDHAMADR"]
+    base files: ["BDHAMADC","BDHAMADR","DRYADHA","VAELASA","WIDRYAD1","WIDRYAD2","WQXHAMA","JA#HAMA"]
     → AC reduced to 10 (was 6) because of dexterity bonus (-4)
     → Level: 4, hit points: 24 (base)  = 24
-    base files: ["ja#hama"]
+    base files: ["JA#HAMA"]
     base files: ["WIDRYAD1","WIDRYAD2"]
     → Level: 8, hit points: 48 (base)  = 48
     base files: ["BDHAMADC"]
 
 Creating Nymph...
-    base files: ["BDNYMP01","HGNYMPH","BDNYMP02","NYMPHSU","NYMPHSUM","DW#NYMSU","ABELA","WQXNYM"]
+    warning: Nymph has unvalidated creatures.csv guesses, needs review: DVNYMPH, DVNYMPH, HAMASU, HAMASU
+    base files: ["ABELA","BDNYMP01","BDNYMP02","HGNYMPH","NYMPHSU","WQXNYM","NYMPHSUM","DW#NYMSU"]
     → AC reduced to 10 (was 7) because of dexterity bonus (-3)
     → Level: 3, hit points: 18 (base)  = 18
     → Level: 3, class: DRUID, saving throws table: priest, {"levels":[1,3],"saveDeath":10,"saveWand":14,"savePolymorph":13,"saveBreath":16,"saveSpell":15}
@@ -457,8 +487,9 @@ Creating Nymph...
     base files: ["BDNYMP02"]
 
 Creating Sirine...
+    warning: Sirine has unvalidated creatures.csv guesses, needs review: CD41SHA, RE_MEKRN
     autogenerate: {"thac0":true,"hitPoints":true,"enchantment":true,"meleeRange":true,"savingThrows":{"level":11,"classe":"MAGE","bonus":{"saveDeath":2}}}
-    base files: ["ISLSIR","J#SIRIN1","J#SIRIN2","MEIALA","NTSILUA","NTSIRIN2","NTSIRIN4","NTSIRINE","SIL","SIRINE","SIRINE02","SIRINE_A","SIRINE_B","LARRIA","L#NDC1","QSEROMOD"]
+    base files: ["ISLSIR","J#SIRIN1","J#SIRIN2","L#NDC1","LARRIA","MEIALA","NTSILUA","NTSIRIN2","NTSIRIN4","NTSIRINE","SIL","SIRINE","SIRINE02","SIRINE_A","SIRINE_B","QSEROMOD"]
     → AC reduced to 7 (was 3) because of dexterity bonus (-4)
     → Level: 5, hit points: 30 (base)  = 30
     → Level: 11, class: MAGE, saving throws table: wizard, {"levels":[11,15],"saveDeath":11,"saveWand":7,"savePolymorph":9,"saveBreath":11,"saveSpell":8}
@@ -489,6 +520,7 @@ Creating Sirine...
     Generating documentation for Sirine
 
 Creating Flesh Golem...
+    warning: FleshGolem has unvalidated creatures.csv guesses, needs review: A7!GLDO, A7!GLFL1, A7!GLFL1, A7!GLFL2, A7!GLFL2, A7!GLFL3, A7!GLFL3, A7!GLFL4, A7!GLFL4, A7!GLMG, A7!GLMG, A7!GSFL1, A7!GSFL1, A7!GSFL2, A7!GSFL2, A7!GXDO, A7!GXFL1, A7!GXFL1, A7!GXFL2, A7!GXFL2, A7!GXFL3, A7!GXFL3, A7!GXFL4, A7!GXFL4, A7!GXMG, A7!GXMG, A7!GYFL1, A7!GYFL1, A7!GYFL2, A7!GYFL2, ARNGOL01, BDGOLEMF, C0AUIN3D, C0AUIN3D, D9LFLE01, D9LFLE0X, DUPLICA1, GOLFLE01, KPGOL01, KPGOL06, L#XZEGOL, XGOLEM, XGOLEM1
     warning: No attack defined, using defaults
     base files: ["BPGOFL01","FGOLEM","GOLEMF","GOLEMF2","TOMEGOL1"]
     → Level: 9, hit points: 90 (base) +36 (con) +30 (size) = 156
@@ -498,6 +530,7 @@ Creating Flesh Golem...
     → Melee range: 2
 
 Creating Clay Golem...
+    warning: ClayGolem has unvalidated creatures.csv guesses, needs review: A7!GLBR, A7!GLBR, A7!GLCL1, A7!GLCL1, A7!GLCL2, A7!GLCL2, A7!GLCL3, A7!GLCL3, A7!GLCL4, A7!GLCL4, A7!GLLT, A7!GLLT, A7!GLMA, A7!GLMA, A7!GSCL1, A7!GSCL1, A7!GSCL2, A7!GSCL2, A7!GXBR, A7!GXBR, A7!GXCL1, A7!GXCL1, A7!GXCL2, A7!GXCL2, A7!GXCL3, A7!GXCL3, A7!GXCL4, A7!GXCL4, A7!GXLT, A7!GXLT, A7!GXMA, A7!GXMA, A7!GYCL1, A7!GYCL1, A7!GYCL2, A7!GYCL2, BISHOP, CLGOL01, CSGOLEM, D5CLGOL, D5CLGOL, D9LCLA01, D9LSAN01, GOLBRA01, GOLCLA01, GOLEM01, GOLMAG01, GOLSAN01, IGOLEM01, IGOLEM02, IGOLFLE1, IGOLFLE2, IGOLFLE3, IGOLFLE4, KPGOL02, L#2SDNM2, L#NIGOL, L#RVGOLE, MOBHA59, O#LLARG1, O#LLARG2, O#LLARG3, O#LLGOL1, O#LLGOL2, O#LLGOL3, O#WIZGO1, O#WIZGO2, OBSGOL01, OBSGOL02, OHBGOL02, OHBGOL03, PPIRON, RR#STGOL, UDGOLEM
     warning: No attack defined, using defaults
     base files: ["AC#FPCLG","AC#FPCLY","BPCLAY","TOMEGOL2","WICLAYGO"]
     → Level: 11, hit points: 110 (base) +44 (con) +30 (size) = 184
@@ -507,6 +540,7 @@ Creating Clay Golem...
     → Melee range: 2
 
 Creating Stone Golem...
+    warning: StoneGolem has unvalidated creatures.csv guesses, needs review: A7!GLST1, A7!GLST1, A7!GLST2, A7!GLST2, A7!GLST3, A7!GLST3, A7!GLST4, A7!GLST4, A7!GSST1, A7!GSST1, A7!GSST2, A7!GSST2, A7!GXST1, A7!GXST1, A7!GXST2, A7!GXST2, A7!GXST3, A7!GXST3, A7!GXST4, A7!GXST4, A7!GYST1, A7!GYST1, A7!GYST2, A7!GYST2, ARGHH, BDPETSG, BDPETSG2, BDPETSGS, C0AGOL04, C0AGOL07, D5STGOL, D5STGOL, D9LJUG01, D9LSTO01, DSTONE1, DW#DRCTG, GOLJUG01, GOLSTO01, GOLSTO01, JUGJUG01, JUGJUG02, KPGOL03, KPGOL05, STGOL01, STONEC, STONED, STONEDL, STONEDW, STONEG, UDDOOR07, UGHH
     warning: No attack defined, using defaults
     base files: ["BDGOLSTO","BDMENGO","NTGOLSTO","TOMEGOL3","WISTOGOL"]
     → Level: 14, hit points: 140 (base) +70 (con) +30 (size) = 240
@@ -516,6 +550,7 @@ Creating Stone Golem...
     → Melee range: 2
 
 Creating Iron Golem...
+    warning: IronGolem has unvalidated creatures.csv guesses, needs review: 0XSILDG, A7!GLAD1, A7!GLAD1, A7!GLAD2, A7!GLAD2, A7!GLAD3, A7!GLAD3, A7!GLAD4, A7!GLAD4, A7!GLIC, A7!GLIC, A7!GLIR1, A7!GLIR1, A7!GLIR2, A7!GLIR2, A7!GLIR3, A7!GLIR3, A7!GLIR4, A7!GLIR4, A7!GLMI1, A7!GLMI1, A7!GLMI2, A7!GLMI2, A7!GLMI3, A7!GLMI3, A7!GLMI4, A7!GLMI4, A7!GLRU, A7!GLRU, A7!GSAD1, A7!GSAD1, A7!GSAD2, A7!GSAD2, A7!GSIR1, A7!GSIR1, A7!GSIR2, A7!GSIR2, A7!GSMI1, A7!GSMI1, A7!GSMI2, A7!GSMI2, A7!GXAD1, A7!GXAD1, A7!GXAD2, A7!GXAD2, A7!GXAD3, A7!GXAD3, A7!GXAD4, A7!GXAD4, A7!GXIC, A7!GXIC, A7!GXIR1, A7!GXIR1, A7!GXIR2, A7!GXIR2, A7!GXIR3, A7!GXIR3, A7!GXIR4, A7!GXIR4, A7!GXMI1, A7!GXMI1, A7!GXMI2, A7!GXMI2, A7!GXMI3, A7!GXMI3, A7!GXMI4, A7!GXMI4, A7!GXRU, A7!GXRU, A7!GYAD1, A7!GYAD1, A7!GYAD2, A7!GYAD2, A7!GYIR1, A7!GYIR1, A7!GYIR2, A7!GYIR2, A7!GYMI1, A7!GYMI1, A7!GYMI2, A7!GYMI2, AVARICE, B_PH08D, C0AGOL01, C0AGOL02, C0AGOL03, C0AGOL05, C0AGOL06, CBGORGRD, CBGORGRE, CD41HEA, D5JUGOL, D5JUGOL, D9LICE01, D9LIRO01, D9LKILL2, DUMFUE, DUMISL, DUMKIE, DW#VIGOL, GOLADA01, GOLICE01, GOLIRO01, GOLIROXT, GOLIROXX, GOLKILL2, GORDECKB, GORGOLI, GORGRD01, GORGRD02, GORSTA08, KPGOL04, L#2SDVDE, L#2SDVO1, L#2SDVO3, L#2SDVO4, L#GOLIR, L#HNDDU, L#HNDRST, L#KEGST, LOVE, LOVEM, OBSMOD01, OHBBANNO, OHBFAN02, OHBGOL01, PRIDE, WQXGOL
     adding projectile ja#s0m1a for spell Cloud Of Poisonous Gas
     adding effect file ja#s0m1a for spell monster.golem.ability.cloudOfPoisonousGas.name
     warning: No attack defined, using defaults
@@ -526,6 +561,7 @@ Creating Iron Golem...
     → Melee range: 2
 
 Creating Bone Golem...
+    warning: BoneGolem has unvalidated creatures.csv guesses, needs review: A7!GLBO, A7!GLBO, A7!GXBO, A7!GXBO, ICBONE01, OHBGOLB1
     warning: No attack defined, using defaults
     base files: ["NTGOLBON"]
     → Level: 14, hit points: 140 (base) +28 (con) +20 (size) = 188
@@ -569,8 +605,9 @@ Creating Minotaur...
     Generating documentation for Minotaur
 
 Creating Ogre...
+    warning: Ogre has unvalidated creatures.csv guesses, needs review: AC#W#MI1, AC#W4BB1, AC#W4BB2, AC#W4CM1, AC#W4CM2, AC#W4CM3, AC#W4CM4, AC#WBAPH, BDCCOGR1, BDOCK1, BDOCK2, BOGRE1, CBELHOE, CHAK, D0QPSY05, D0QPSY09, D9TAZOK, D9TAZOKX, DW#SPHMI, GORF03, ICMIN01, MUGGER4, OGRE01, OHNOGREB, SHTHASS3, SLANDOR, UDOGRE, UHOGRE01, UHOGRE02, VA#MINOT, WIOGRE02
     replacing item in slot WEAPON1
-    base files: ["AC#FP2O1","AC#FP2O2","BDOGRE01","BDOGRE1D","BDOGREF","BDOGREM","BPOGRE01","BSOGRED","OGRE","OGRE02","OGRE03","OGRE04","OGRE05","OGRECO","OGRED","OGRES","OGRESU","OGREUNSH","OGRE_A","OGRE_B","OGRE_C","OGRE_D","OGRE_E","PLYOGRE","WIOGRE01","X3HOGRE","X3HOGRE2","X3HOGRED","BDSOGR1","BDSOGR2","AC#FP2OT","AC#FPOG4","AC#WRIM1","ACQ13002","GORF","HACK","LARZE","NTOGREDA","NTWELT","WELT","OOPAH","OOPAH2","SEWERF4"]
+    base files: ["AC#FP2O1","AC#FP2O2","AC#FP2OT","AC#FPOG4","AC#WRIM1","ACQ13002","BDOGRE01","BDOGRE1D","BDOGREF","BDOGREM","BDSOGR1","BDSOGR2","BPOGRE01","BSOGRED","GORF","HACK","LARZE","NTOGREDA","NTWELT","OGRE","OGRE02","OGRE03","OGRE04","OGRE05","OGRECO","OGRED","OGRES","OGRESU","OGREUNSH","OGRE_A","OGRE_B","OGRE_C","OGRE_D","OGRE_E","OOPAH","OOPAH2","PLYOGRE","SEWERF4","WELT","WIOGRE01","X3HOGRE","X3HOGRE2","X3HOGRED"]
     → Level: 4, hit points: 32 (base) +8 (con) +1 (bonus) = 41
     base files: ["OGRESU"]
     base files: ["X3HOGRE","X3HOGRE2","X3HOGRED"]
@@ -599,6 +636,7 @@ Creating Ogre...
     → Melee range: 2
 
 Creating Ogrillon...
+    warning: Ogrillon has unvalidated creatures.csv guesses, needs review: D0QPSY07, OGRILL01
     base files: ["BDKORDEO","GNARL","HAIRTO","OGREGR","OGREGR1","OGREGR2","OGREGR3","OGREGR4","OGREGR_A","OGREGR_B","OGREGR_C","OGREGR_D","OGRELESU","OGREMIRI","SEWERF1"]
     → Level: 2, hit points: 16 (base) +4 (bonus) = 20
     → calculating THAC0 as a level 3 creature
@@ -610,7 +648,8 @@ Creating Ogrillon...
     → Melee range: 1
 
 Creating Half Ogre...
-    base files: ["OGREBJOR","OGREHA","OGREHA1","OGREHA2","OGREHA3","OGREHA4","OGREHA5","OGREHA_A","OGREHA_B","OGREHA_C","OGREHA_D","OGREHA_E","BDOGRE04","ARGHAI","L#CHIEN","TAZOK","TAZOK2","X#CHOP","X#CRU11"]
+    warning: HalfOgre has unvalidated creatures.csv guesses, needs review: OGRHAL01
+    base files: ["ARGHAI","BDOGRE04","L#CHIEN","OGREBJOR","OGREHA","OGREHA1","OGREHA2","OGREHA3","OGREHA4","OGREHA5","OGREHA_A","OGREHA_B","OGREHA_C","OGREHA_D","OGREHA_E","TAZOK","TAZOK2","X#CHOP","X#CRU11"]
     → Level: 2, hit points: 16 (base) +6 (bonus) = 22
     → calculating THAC0 as a level 3 creature
     base files: ["BDOGRE04","ARGHAI","X#CHOP","X#CRU11"]
@@ -627,8 +666,9 @@ Creating Half Ogre...
     base files: ["L#CHIEN"]
 
 Creating Ogre Mage...
+    warning: OgreMage has unvalidated creatures.csv guesses, needs review: CBHAKSH1, CBHAKSHR, CHEVIL03, D0OGREMA, D9OGMAGE, DRUSH, IOGREMAG, L#ASPT2, L#CURS, OGREMA01, OGRMAG01, PLSHOM01, YSOGREMA
     adding projectile ja#s0m20 for spell Cone of Cold
-    base files: ["BDOGRE03","BDWAVE16","BPOGMA01","OGREMA","OGREMA02","OGREMA03","OGREMASU","OGREMA_A","OGREMA_B","OGREMA_C","OGREMA_D","OGREMBA","OGRMBA","UBOGMA01","UBOGMA02","NTFOREOG","BDMURS","BDMURS2","DROTH","KAHRK","KROTAN","NTKROTAN","WIGENTLE","WIOGMA01"]
+    base files: ["BDMURS","BDMURS2","BDOGRE03","BDWAVE16","BPOGMA01","DROTH","KAHRK","KROTAN","NTFOREOG","NTKROTAN","OGREMA","OGREMA02","OGREMA03","OGREMASU","OGREMA_A","OGREMA_B","OGREMA_C","OGREMA_D","OGREMBA","OGRMBA","UBOGMA01","UBOGMA02","WIGENTLE","WIOGMA01"]
     → Level: 5, hit points: 40 (base) +15 (con) +2 (bonus) = 57
     base files: ["OGREMASU"]
     base files: ["BDWAVE16","WIOGMA01","WIGENTLE","DROTH"]
@@ -646,7 +686,8 @@ Creating Ogre Mage...
     → Melee range: 2
 
 Creating Ogre Berserker...
-    base files: ["BDOGRE02","BDOGREDS","NEOGRE","OGREBERZ","OGREGRSU","X3HOGREC","X3HOGREL","BDOGRE06","BDARBING","BDBERTOR","BDCHESKI","BDEINER","BDSLUG","BDSLUG2","BDWAVE13","BDYAROK"]
+    warning: OgreBerserker has unvalidated creatures.csv guesses, needs review: BDCRUM46, BDCRUS10, D9OGRGA2, GAROCK, GPFIGHT1, OHBMIN01, OHBMINSU, OHNGHALL, ROCK, ZILFGT01
+    base files: ["BDARBING","BDBERTOR","BDCHESKI","BDEINER","BDOGRE02","BDOGRE06","BDOGREDS","BDSLUG","BDSLUG2","BDWAVE13","BDYAROK","NEOGRE","OGREBERZ","OGREGRSU","X3HOGREC","X3HOGREL"]
     → Level: 4, hit points: 32 (base) +1 (bonus) = 33
     base files: ["OGREGRSU"]
     base files: ["BDOGREDS","X3HOGREC","X3HOGREL","BDOGRE06","BDARBING","BDCHESKI","BDSLUG","BDSLUG2","BDBERTOR","BDEINER","BDWAVE13","BDYAROK"]
@@ -674,15 +715,16 @@ Creating Ogre Shaman...
     Generating documentation for Ogre Shaman
 
 Creating Treant...
+    warning: Treant has unvalidated creatures.csv guesses, needs review: BDTREANT, WITREANT
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["ja#trea4","ja#trea3","ja#trea2","ja#trea1"]
+    base files: ["JA#TREA4","JA#TREA3","JA#TREA2","JA#TREA1"]
     → Level: 11, hit points: 88 (base) +66 (con)  = 154
-    base files: ["ja#trea3"]
+    base files: ["JA#TREA3"]
     → Level: 9, hit points: 72 (base) +45 (con)  = 117
-    base files: ["ja#trea2"]
+    base files: ["JA#TREA2"]
     → Level: 7, hit points: 56 (base) +35 (con)  = 91
-    base files: ["ja#trea1"]
+    base files: ["JA#TREA1"]
     → Level: 5, hit points: 40 (base) +25 (con)  = 65
     → plant needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i0m2d enchant: 4
@@ -695,39 +737,41 @@ Creating Treant...
 
 Creating Black Pudding...
     warning: No attack defined, using defaults
-    base files: ["BDPUDDBL","ja#blpud"]
+    base files: ["BDPUDDBL","JA#BLPUD"]
     → AC reduced to 5 (was 6) because of dexterity bonus (1)
     → Level: 10, hit points: 100 (base) +20 (con)  = 120
-    base files: ["ja#blpud"]
+    base files: ["JA#BLPUD"]
     warning: Black Pudding: ability references spell 'ja#s0m2f' (Slime Split) which isn't memorized anywhere.
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i1m2f enchant: 3
 
 Creating White Pudding...
+    warning: WhitePudding has unvalidated creatures.csv guesses, needs review: AC#FPOBL, AC#FPPIP, AC#FPSL2, DW#GHGRA, JELGRA01
     warning: No attack defined, using defaults
-    base files: ["AC#FPWP2","AC#FPWPU","ja#whpud"]
+    base files: ["AC#FPWP2","AC#FPWPU","JA#WHPUD"]
     → AC reduced to 7 (was 8) because of dexterity bonus (1)
     → Level: 9, hit points: 90 (base) +18 (con)  = 108
-    base files: ["ja#whpud"]
+    base files: ["JA#WHPUD"]
     warning: White Pudding: ability references spell 'ja#s0m36' (Slime Split) which isn't memorized anywhere.
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i1m36 enchant: 3
 
 Creating Mustard Jelly...
+    warning: MustardJelly has unvalidated creatures.csv guesses, needs review: 0XGREDG, D9LMUS01, GHJMU, GORJELF2, GORJELFU, JELMUS01, L#2SDNM1, POLYOCHR, PUDDEN01, PUDDEN02, SLIFIS01, SLIFIS02, WIOOZE
     warning: No attack defined, using defaults
-    base files: ["BDJELLMU","BPJLMU01","JELLMU","JELLMUL","JELLMUSU","JELLYMU","PLYJELL1","ja#jelmu"]
+    base files: ["BDJELLMU","BPJLMU01","JELLMU","JELLMUL","JELLMUSU","JELLYMU","PLYJELL1","JA#JELMU"]
     → Level: 7, hit points: 70 (base) +42 (con) +14 (bonus) = 126
     → calculating THAC0 as a level 8 creature
     base files: ["JELLMUSU"]
     base files: ["PLYJELL1"]
-    base files: ["ja#jelmu"]
+    base files: ["JA#JELMU"]
     warning: Mustard Jelly: ability references spell 'ja#s0m2e' (Slime Split) which isn't memorized anywhere.
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i1m2e enchant: 2
 
 Creating Fission Slime...
     warning: No attack defined, using defaults
-    base files: ["JELLSPA","BPSLFS01","BPSLFS02"]
+    base files: ["BPSLFS01","BPSLFS02","JELLSPA"]
     → Level: 12, hit points: 120 (base) +72 (con) +14 (bonus) = 206
     → calculating THAC0 as a level 13 creature
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
@@ -740,6 +784,7 @@ Creating Gray Ooze...
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
 
 Creating Green Slime...
+    warning: GreenSlime has unvalidated creatures.csv guesses, needs review: AC#FPOX1, DW#GHGRE, GORJELGR, JELGRE01
     warning: No attack defined, using defaults
     base files: ["JELLGRSU","JELLYGR","JELLYGR2","X#JELLY","X#SLIME"]
     → Level: 2, hit points: 20 (base)  = 20
@@ -748,6 +793,7 @@ Creating Green Slime...
     → ooze needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
 
 Creating Ochre Jelly...
+    warning: OchreJelly has unvalidated creatures.csv guesses, needs review: AC#DTOIO, D9LLOC, DW#GHOCH, JELOCH01, L#RVHONE
     warning: No attack defined, using defaults
     base files: ["BDJELLOC","BDSHJELL","BPJLOC01","JELLOC","JELLYCO"]
     → Level: 6, hit points: 60 (base)  = 60
@@ -755,6 +801,7 @@ Creating Ochre Jelly...
     → ja#i1m31 enchant: 1
 
 Creating Olive Slime Creature...
+    warning: OliveSlimeCreature has unvalidated creatures.csv guesses, needs review: JELOLI01
     warning: No attack defined, using defaults
     base files: ["SCHLUM"]
     → Level: 12, hit points: 120 (base) +72 (con) +2 (bonus) = 194
@@ -796,9 +843,10 @@ Creating Ghostwalk Spider...
     → Melee range: 2
 
 Creating Giant Spider...
+    warning: GiantSpider has unvalidated creatures.csv guesses, needs review: C#SOSPD1, C#SOSPDD, D9IDGI01, D9IDGI02, D9IDGI03, O#LLSPI1, O#LLSPI2, O#LLSPI3, O#LLSPI4, OHHSPID1, SPIDGI01, SPSPID05, UDSPID01, UDSPID02, UDSPID03, UDSPID04, UDSPID05, UDSPID06, UDSPID07, UDSPID08
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["BDHELP01","BDSPIDGI","BDWISTAK","BPSPID02","PLYSPID2","RSSPIDGI","SPIDGI","SPIDGISU","SPIDFGSU"]
+    base files: ["BDHELP01","BDSPIDGI","BDWISTAK","BPSPID02","PLYSPID2","RSSPIDGI","SPIDFGSU","SPIDGI","SPIDGISU"]
     → AC reduced to 6 (was 4) because of dexterity bonus (-2)
     → Level: 4, hit points: 32 (base) +4 (bonus) = 36
     base files: ["SPIDGISU","BDHELP01","SPIDFGSU"]
@@ -807,6 +855,7 @@ Creating Giant Spider...
     → Melee range: 2
 
 Creating Hairy Spider...
+    warning: HairySpider has unvalidated creatures.csv guesses, needs review: D9IDSM01, D9IDSM02, OHBSPI01, OHDANIM4, OHHSPID2, SENSMSP, SPIDSM02, SPSPIDER
     warning: No attack defined, using defaults
     base files: ["BDSPIDER","SPIDSM01"]
     → Level: 1, hit points: 8 (base) +1 (bonus) = 9
@@ -814,6 +863,7 @@ Creating Hairy Spider...
     → Melee range: 0
 
 Creating Huge Spider...
+    warning: HugeSpider has unvalidated creatures.csv guesses, needs review: C0PKITT, SPIDHU01
     poison (1dmg/x seconds) (normal) => 15/50 ==> 3: 3/50 (total=16.666666666666668, diff duration=0)
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
@@ -832,8 +882,9 @@ Creating Hunting Spider...
     → Melee range: 2
 
 Creating Phase Spider...
+    warning: PhaseSpider has unvalidated creatures.csv guesses, needs review: AC#W30SP, AC#WSTWS, D9IDPH01, OHBMENA7, SENSPI01, SPIDPH01, SPIDVO01, SPSPID06
     warning: No attack defined, using defaults
-    base files: ["SPIDPH","SPIDPHSU","SPIDPHAS"]
+    base files: ["SPIDPH","SPIDPHAS","SPIDPHSU"]
     → AC reduced to 8 (was 7) because of dexterity bonus (-1)
     → Level: 5, hit points: 50 (base) +5 (bonus) = 55
     → calculating THAC0 as a level 6 creature
@@ -844,8 +895,9 @@ Creating Phase Spider...
     → Melee range: 2
 
 Creating Sword Spider...
+    warning: SwordSpider has unvalidated creatures.csv guesses, needs review: C2KIT, D9IDSW01, D9IDSW03, D9IDSW0A, D9IDSW0B, D9IDSW0C, D9IDSWXC, L0SPID, L0SPIDX, OHHSPI01, OHHSPI02, OHHSPI03, SPSPID07
     warning: No attack defined, using defaults
-    base files: ["BDHELP03","BDSPID7L","BPSPID03","PLYSPID","SPIDSW","SPIDSW01","SPIDSWSU","BPSPID01","GV#SPID","WISPID01","WISPID02","WISPID03"]
+    base files: ["BDHELP03","BDSPID7L","BPSPID01","BPSPID03","GV#SPID","PLYSPID","SPIDSW","SPIDSW01","SPIDSWSU","WISPID01","WISPID02","WISPID03"]
     → dual wielding detected
     → setting dual wield: 1 APR +1 offhand
     → AC reduced to 7 (was 3) because of dexterity bonus (-4)
@@ -892,18 +944,20 @@ Creating Wraith Spider...
     Generating documentation for Wraith Spider
 
 Creating Wolf...
+    warning: Wolf has unvalidated creatures.csv guesses, needs review: 9XDOG, A#FERA02, CB585AN3, CB585AN8, CB595BLB, GATEKE, L#JNDOG, MEMNIS, NWOLF, OHDANIM2, OHHWOLF, OHRWOLF, TRANIM02, WOLF01, WOLFW2, WOLFW3, WOLFZO01
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["BDURE6D","BDWOLF","BDWOLF02","DW#RNWLF","RSWOLF","WOLF","WOLFSU"]
+    base files: ["BDURE6D","BDWOLF","BDWOLF02","RSWOLF","WOLF","WOLFSU","DW#RNWLF"]
     → AC reduced to 8 (was 7) because of dexterity bonus (-1)
     → Level: 3, hit points: 24 (base)  = 24
     base files: ["WOLFSU"]
     → Melee range: 1
 
 Creating Dire Wolf...
+    warning: DireWolf has unvalidated creatures.csv guesses, needs review: A#FERA03, A#FERA04, C0AUWLF1, C0D2_S2, C0D2_S2, D9LFDI01, D9LFDI02, D9LFDI03, D9LFDICC, D9LFDICH, DW#VMWO1, DW#VMWO2, OHRGEWLF, SPIRWOLF, SPIRWOLF, SPWOLF1, SPWOLF1, SPWOLF2, SPWOLF2, SPWOLF3, SPWOLF3, SPWOLF4, SPWOLF4, SPWOLF5, SPWOLF5, WOLFDI01
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["BDWOLFDI","P#WOLF02","WOLFDI","WOLFDISU","UBNIMWLF","SHAWOL01","RUFIE","L#FAIEN3"]
+    base files: ["BDWOLFDI","L#FAIEN3","P#WOLF02","RUFIE","SHAWOL01","UBNIMWLF","WOLFDI","WOLFDISU"]
     → AC reduced to 7 (was 6) because of dexterity bonus (-1)
     → Level: 4, hit points: 32 (base) +4 (con) +4 (bonus) = 40
     → calculating THAC0 as a level 5 creature
@@ -914,18 +968,20 @@ Creating Dire Wolf...
     → Melee range: 2
 
 Creating Dread Wolf...
+    warning: DreadWolf has unvalidated creatures.csv guesses, needs review: ANWOLF1, CD41WOL2, D9LFDR01, D9LFDR02, D9LFDR03, DW#VMWO3, DW#VMWO4, L#JNCOY, WOLFCHAR, WOLFCHAR, WOLFDR01
     adding effect file ja#s0m16 for spell monster.wolf.ability.dreadWolfDownState.name
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["BDWOLFDR","D5WOLFD1","DW#REWO","P#WOLF03","P#WOLF05","PLYWOLF","WOLFD1","WOLFDR","L#HALWO"]
+    base files: ["BDWOLFDR","D5WOLFD1","DW#REWO","L#HALWO","P#WOLF03","P#WOLF05","PLYWOLF","WOLFD1","WOLFDR"]
     → Level: 4, hit points: 32 (base) +4 (bonus)+10 (special) = 46
     → calculating THAC0 as a level 5 creature
     → ja#i2m16 enchant: 1
     → Melee range: 1
 
 Creating Vampiric Wolf...
+    warning: VampiricWolf has unvalidated creatures.csv guesses, needs review: BSVPRAB, CD41WOL1, OHBMENA1, WOLFVA01
     warning: No behavior defined, using defaults
-    base files: ["BDWOLFVA","P#WOLF04","WOLFVA","DW#ULCWO"]
+    base files: ["BDWOLFVA","DW#ULCWO","P#WOLF04","WOLFVA"]
     → Level: 6, hit points: 48 (base) +4 (bonus) = 52
     → calculating THAC0 as a level 7 creature
     → ja#i0m15 enchant: 2
@@ -936,17 +992,19 @@ Creating Vampiric Wolf...
     → Melee range: 1
 
 Creating Winter Wolf...
+    warning: WinterWolf has unvalidated creatures.csv guesses, needs review: B_WLF, D9LFWI01, OBSICE03, WOLFWI01, WQXWOL
     adding projectile ja#s0m14 for spell Stream of frost
     warning: No attack defined, using defaults
-    base files: ["P#WOLF01","WOLFWI","WOLFWISU","WOLFWWSU","L#WOLST"]
+    base files: ["L#WOLST","P#WOLF01","WOLFWI","WOLFWISU","WOLFWWSU"]
     → Level: 6, hit points: 60 (base)  = 60
     → ja#i1m14 enchant: 1
     → Melee range: 2
 
 Creating Worg...
+    warning: Worg has unvalidated creatures.csv guesses, needs review: C0CARNIF, MOBHA54, WOLFWO01
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["WOLFCH","BDWORG","WORG","WORGAR","WORGSU"]
+    base files: ["BDWORG","WOLFCH","WORG","WORGAR","WORGSU"]
     → Level: 3, hit points: 30 (base) +3 (bonus) = 33
     → calculating THAC0 as a level 4 creature
     base files: ["WORGSU"]
@@ -959,9 +1017,10 @@ Creating Worg...
     Generating documentation for Worg
 
 Creating Wyvern...
+    warning: Wyvern has unvalidated creatures.csv guesses, needs review: BDWYRML1, BDWYRMLI, L#FFAM, L#GNOWY, L#XZECHI, NTWYVERN, OHBMENA8, PWYVV01, WQXWYV, WYVERN01, WYVGRE01
     warning: No attack defined, using defaults
     warning: No behavior defined, using defaults
-    base files: ["WYVERN","WYVERNSU","BDWYVR01","CORWYVRN"]
+    base files: ["BDWYVR01","CORWYVRN","WYVERN","WYVERNSU"]
     → dual wielding detected
     → setting dual wield: 1 APR +1 offhand
     → Level: 7, hit points: 56 (base) +14 (con) +7 (bonus) = 77
@@ -971,6 +1030,7 @@ Creating Wyvern...
     → Melee range: 3
     → ja#i2m46 enchant: 2
     → Melee range: 3
+    warning: BabyWyvern has unvalidated creatures.csv guesses, needs review: AIRASPEC, AMWYVERN, B2#AML25, B2#AMML, B2#PHNX, FAMFAI25, FAMFAI25, FAMFAIR, FAMFAIR, FAMPSD, FAMPSD, FAMPSD25, FAMPSD25, NWYVBAB, OHDFAER, OHDTMFIL, WYVBAB01
 
 Creating Baby Wyvern from Wyvern...
     replacing item in slot WEAPON1
@@ -1004,17 +1064,19 @@ Creating Greater Wyvern from Wyvern...
     Generating documentation for Greater Wyvern
 
 Creating Banshee...
+    warning: Banshee has unvalidated creatures.csv guesses, needs review: L#RVBANS
     warning: No attack defined, using defaults
-    base files: ["BD302BAN","banshe01","firmon01","dsbanshe","f_wailin"]
+    base files: ["BANSHE01","BD302BAN","FIRMON01","DSBANSHE","F_WAILIN"]
     → Level: 7, hit points: 84 (base)  = 84
-    base files: ["dsbanshe"]
+    base files: ["DSBANSHE"]
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
     → ja#i1m49 enchant: 2
     → Melee range: 1
 
 Creating Ghoul...
+    warning: Ghoul has unvalidated creatures.csv guesses, needs review: AC#DTLAC, AC#W50G1, AC#WBDK1, AC#WBLBO, AC#WGHOU, BDJUNIA2, D9OLO999, D9OLOR01, L#XZEOHM, LESTER, NEVM1
     warning: No attack defined, using defaults
-    base files: ["AC#FPGHL","GHOUL","GHOULSU","WAGHOUL","KORAX","BHGHOUL1","ghoul01","GTCIT1","GTCIT2","bodakmd","ghuldmod","MH#GLGHO","lacedo01","sahlace","JA#SUTY1","JA#SUTY3"]
+    base files: ["AC#FPGHL","BHGHOUL1","GHOUL","GHOUL01","GHOULSU","GTCIT1","GTCIT2","KORAX","LACEDO01","SAHLACE","WAGHOUL","BODAKMD","GHULDMOD","MH#GLGHO","JA#SUTY1","JA#SUTY3"]
     → dual wielding detected
     → setting dual wield: 2 APR +1 offhand
     → AC reduced to 7 (was 6) because of dexterity bonus (-1)
@@ -1027,14 +1089,15 @@ Creating Ghoul...
     → Melee range: 1
 
 Creating Ghast...
+    warning: Ghast has unvalidated creatures.csv guesses, needs review: AC#DT01L, AC#WGHSU, BDYMORI, CD41COR, D9AST01, D9AST0G, D9AST0Y, D9ASTHH, D9OGR01, D9OGR0M, D9OGRRT, D9OGYYY, GRON, L#BHACO, L#LIGWI, L#ORMWIL, WICULT1, ZOMBLO01
     warning: No attack defined, using defaults
-    base files: ["BDGHAST","BSGHAST1","BPGHAS01","GHAST","GHASTD","GHASTS","GHASTF01","GRAEL","SEWERF3","L#SKEST","BHGHOUL2","BHGHOUL4","ghast01","ghastgsu","gmayor","nevm3","theshal","besamen","bpghast","bsghast1","CDI4GHST","MH#GLGHA","sghastgr","sk#algol","sk#ssp3","XGHAST1","XGHAST2"]
+    base files: ["BDGHAST","BESAMEN","BHGHOUL2","BHGHOUL4","BPGHAS01","BSGHAST1","GHAST","GHAST01","GHASTD","GHASTF01","GHASTGSU","GHASTS","GMAYOR","GRAEL","L#SKEST","NEVM3","SEWERF3","THESHAL","XGHAST1","XGHAST2","BPGHAST","CDI4GHST","MH#GLGHA","SGHASTGR","SK#ALGOL","SK#SSP3"]
     → dual wielding detected
     → setting dual wield: 2 APR +1 offhand
     → AC reduced to 7 (was 4) because of dexterity bonus (-3)
     → Level: 4, hit points: 48 (base)  = 48
-    base files: ["GHASTS","ghastgsu"]
-    base files: ["CDI4GHST","GHASTS","ghastgsu"]
+    base files: ["GHASTS","GHASTGSU"]
+    base files: ["CDI4GHST","GHASTS","GHASTGSU"]
     base files: ["GRAEL"]
     → Level: 11, hit points: 132 (base)  = 132
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
@@ -1043,7 +1106,7 @@ Creating Ghast...
 
 Creating Ghoul Lord...
     warning: No attack defined, using defaults
-    base files: ["BPGHGR01","GHOULLOR","BDGHASTG","ghogr01","gholor01","riftcr01","lacedo02","cmghau01","MALKAL"]
+    base files: ["BDGHASTG","BPGHGR01","GHOGR01","GHOLOR01","GHOULLOR","LACEDO02","MALKAL","RIFTCR01","CMGHAU01"]
     → dual wielding detected
     → setting dual wield: 2 APR +1 offhand
     → AC reduced to 7 (was 4) because of dexterity bonus (-3)
@@ -1056,9 +1119,10 @@ Creating Ghoul Lord...
     → Melee range: 1
 
 Creating Mummy...
+    warning: Mummy has unvalidated creatures.csv guesses, needs review: BPREVE01, D9MGRE01, D9MMY, FEAR, FEARM, FIRMON04, FSMUMM, FSMUMM2, FSMUMM3, GRREVEN, OHHMUMMY, REVEN01, REVENT, UBMALKAL, UBSVLREV
     adding effect file ja#s1m4e for spell monster.undead.ability.mummyFearAura.name
     warning: No attack defined, using defaults
-    base files: ["BDMUMM01","BDMUMMY","AC#FPMMY","mummy","mummy01","F_MUMMY","O#LLARU1","O#LLARU2","O#LLARU3","O#LLARU4","O#LLARU5","O#LLARU6","mumx1"]
+    base files: ["AC#FPMMY","BDMUMM01","BDMUMMY","MUMMY","MUMMY01","O#LLARU1","O#LLARU2","O#LLARU3","O#LLARU4","O#LLARU5","O#LLARU6","F_MUMMY","MUMX1"]
     → Level: 6, hit points: 72 (base) +3 (bonus) = 75
     → calculating THAC0 as a level 7 creature
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
@@ -1066,9 +1130,10 @@ Creating Mummy...
     → Melee range: 1
 
 Creating Greater Mummy...
+    warning: GreaterMummy has unvalidated creatures.csv guesses, needs review: DX#MUMMY, OHHGMUM, OHHKUNG
     adding effect file ja#s1m4f for spell monster.undead.ability.mummyFearAura.name
     warning: No attack defined, using defaults
-    base files: ["mumgre01","riftcr03","MUMMYX1"]
+    base files: ["MUMGRE01","RIFTCR03","MUMMYX1"]
     → AC reduced to 0 (was -2) because of dexterity bonus (-2)
     → Level: 12, hit points: 144 (base) +3 (bonus) = 147
     → calculating THAC0 as a level 13 creature
@@ -1078,12 +1143,13 @@ Creating Greater Mummy...
     → Melee range: 1
 
 Creating Shadow...
+    warning: Shadow has unvalidated creatures.csv guesses, needs review: AC#DT10S, AC#DT21W, AC#DTPL1, AC#DTPL2, AC#DTPL3, AC#DTPL4, AC#DTPL5, AC#DTPL6, AC#DTSH2, AC#W40G1, AC#WSHAS, BDUNSLGU, L#FSPS2, L#SHA1, O#LLSHA1, O#LLSHA2, O#LLSHA3, O#LLSHA4, O#LLSHA5, O#LLSHA6, O#LLSHAD, OHHSHAD, OHHSHFI1, OHHSHFI2, OHRSHAD1, OHRSHAD2, OHRSHAD3, OHRSHFIE, RNGSHA02, RNGSHA2D, SDSHADFI, SENDARK, SEWSHA01, SEWSHA02, SHADEL, SHADELD, SHADFI01, SHADFI02, SHADFI02, STALKESU, UHOSTILE, WIBHSHA1, WIBHSHA2, WIPINATA
     warning: No attack defined, using defaults
-    base files: ["AC#FPSHD","BDSHAD04","BPSHADOW","D5_MASK3","L#GNOSH","WISHADO2","kshadow","rngsha","rngsha01","rngsha03","rngsha04","sdshadow","sewsha03","shadow01","shadowsu","sumshad","uhcreat","lshadfi","lshadow","a#sdsha1","a#sdsha2","a#sdsha3","a#sdsha4","acshad01","specx1","va#shdgl","AC#FPMDS","BDSHAD02","BDSHSOUL","L#GNOAL","L#GNOEN","SHADOW01","SHADOWSU","WISHADO1"]
+    base files: ["AC#FPMDS","AC#FPSHD","ACSHAD01","BDSHAD02","BDSHAD04","BDSHSOUL","BPSHADOW","D5_MASK3","KSHADOW","L#GNOAL","L#GNOEN","L#GNOSH","RNGSHA","RNGSHA01","RNGSHA03","RNGSHA04","SDSHADOW","SEWSHA03","SHADOW01","SHADOWSU","UHCREAT","VA#SHDGL","WISHADO1","WISHADO2","SUMSHAD","LSHADFI","LSHADOW","A#SDSHA1","A#SDSHA2","A#SDSHA3","A#SDSHA4","SPECX1"]
     → Level: 3, hit points: 36 (base) +3 (bonus) = 39
     → calculating THAC0 as a level 4 creature
-    base files: ["va#shdgl","sumshad","a#sdsha1","a#sdsha2","a#sdsha3","a#sdsha4"]
-    base files: ["a#sdsha1","a#sdsha2","a#sdsha3","a#sdsha4"]
+    base files: ["VA#SHDGL","SUMSHAD","A#SDSHA1","A#SDSHA2","A#SDSHA3","A#SDSHA4"]
+    base files: ["A#SDSHA1","A#SDSHA2","A#SDSHA3","A#SDSHA4"]
     base files: ["AC#FPMDS"]
     base files: ["BDSHAD02","L#GNOAL","L#GNOEN"]
     → Level: 5, hit points: 60 (base) +3 (bonus) = 63
@@ -1095,6 +1161,7 @@ Creating Shadow...
     → Melee range: 1
 
 Creating Greater Shadow...
+    warning: GreaterShadow has unvalidated creatures.csv guesses, needs review: 9XEA, 9XEB, 9XEC, 9XED, 9XEE
     warning: No attack defined, using defaults
     base files: ["BDSHADGR","BDSHADOW"]
     → AC reduced to 7 (was 5) because of dexterity bonus (-2)
@@ -1105,6 +1172,7 @@ Creating Greater Shadow...
     → Melee range: 1
 
 Creating Baneguard...
+    warning: Baneguard has unvalidated creatures.csv guesses, needs review: MS7BGRD, MS7BGRD, OHHBONEG, OHHTLASS
     base files: ["BDSKGR03","BDTEAM61"]
     → Level: 9, hit points: 108 (base)  = 108
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
@@ -1117,7 +1185,8 @@ Creating Bonebat...
     → Melee range: 1
 
 Creating Skeleton...
-    base files: ["AD3SKLM","BDSKGR00","CDMHSKEL","DW#MULSA","DW#MULSK","ISKELET","KRYSKEL","SKELACI","GHASTSU","SKELDIS","SKELE2","SKELET","SKELET02","SKELET03","SKELETB","SKELETS","SKELET_A","SKELET_B","SKELET_C","SKELFIRE","SKELICE","SKELLESU","SKELMEL","SKELPETR","X3RSKEL1","X3RSKEL2","WISKEL","BPSKEL","SKELGRSU","BDSKGR02","BDSKGR05","BDSKGR06","BDSKGR04","BDTEAM63","SKELAR01","SKELAR02","BDSKGR07","BDTEAM60","L#HAUSK","KNIGHTSK","KRYSKEL1","KRYSKEL2","KRYSKEL3","KRYSKEL4","KRYSKEL5","KRYSKEL6","YSRSDEAD","YSRSTDD1","YSRSTDD2","YSRSTDD3","bpskelar","CMSKE01","CMSKE02"]
+    warning: Skeleton has unvalidated creatures.csv guesses, needs review: 0XUDDG, 0XYHDG, ADSKELET, APPAR, CBAPPAR1, CBUNDEAD, D9ELARAA, D9ELARBB, D9ELARFF, D9ELARFX, D9ELARGG, D9ELARKK, D9ELARTT, D9ELARXX, D9ELARYC, D9ELARYY, D9ELARZZ, D9SC12, D9SC12A, D9SC12B, D9SC13, D9SC13A, D9SC13B, D9SC14, D9SC14A, D9SC14B, D9SC16, D9SC16B, D9SC17, D9SC17B, D9SC18, D9SC18B, D9SC7, D9SC7A, D9SC7B, D9SC8, D9SC8A, D9SC8B, D9SC9, D9SC9A, D9SC9B, D9SKL01, D9SKL02, D9SKL03, D9SKL06, D9SKL07, D9SKL08, D9SM12, D9SM12A, D9SM12B, D9SM13, D9SM13A, D9SM13B, D9SM14, D9SM14A, D9SM14B, D9SM16, D9SM16B, D9SM17, D9SM17B, D9SM18, D9SM18B, D9SM7, D9SM7A, D9SM7B, D9SM8, D9SM8A, D9SM8B, D9SM9, D9SM9A, D9SM9B, FSSKEL, GPSKEL1, HGSKL01, HGSKL02, HGSKL03, L#NIMF6, L#RVSKLP, L#XZECLE, L#XZEP1A, L#XZEP1B, L#XZEP1C, L#XZEP1D, L#XZEP1E, L#XZEP1F, RSKEL01, RSKEL03, SKELET01, SKELHP1, TTSKEL, TTSKEL
+    base files: ["AD3SKLM","BDSKGR00","BDSKGR02","BDSKGR04","BDSKGR05","BDSKGR06","BDSKGR07","BDTEAM60","BDTEAM63","BPSKEL","CDMHSKEL","DW#MULSA","DW#MULSK","GHASTSU","ISKELET","KNIGHTSK","KRYSKEL","KRYSKEL1","KRYSKEL2","KRYSKEL3","KRYSKEL4","KRYSKEL5","KRYSKEL6","L#HAUSK","SKELACI","SKELAR01","SKELAR02","SKELDIS","SKELE2","SKELET","SKELET02","SKELET03","SKELETB","SKELETS","SKELET_A","SKELET_B","SKELET_C","SKELFIRE","SKELGRSU","SKELICE","SKELLESU","SKELMEL","SKELPETR","WISKEL","X3RSKEL1","X3RSKEL2","YSRSDEAD","YSRSTDD1","YSRSTDD2","YSRSTDD3","BPSKELAR","CMSKE01","CMSKE02"]
     → Level: 1, hit points: 12 (base)  = 12
     base files: ["AD3SKLM","GHASTSU","SKELLESU","SKELGRSU"]
     base files: ["KRYSKEL"]
@@ -1172,7 +1241,8 @@ Creating Skeleton...
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
 
 Creating Skeleton Warrior...
-    base files: ["BDSKGR08","SKELWA","SKELWA01","SKELWA02","SKELWA03","SKELWASU","C0DESUM1","C0DESUM2","C0DESUM3","C0DESUM4","C0DESUM5","DW#ANGSK","DW#DIASK","DW#SEMSK","SKELSU01","SKELSU07","SKELSU11","ICHARY","BDUNSEN","BDSKGR01","BDTEAM62","ar18skel","ceskel01","grskel1","grskel2","grtomb01","hgskl04","nevm2","riftcr02","rskel02","sahskel","suundead","tanskw1","bgskel02","bgskelwa","cmskel01","cmskel02","fhlskl1","fhlskl2","jc_ske01","tg#dud1","ranske7","ranske9","skelwa04","skelwax2","skelwmod"]
+    warning: SkeletonWarrior has unvalidated creatures.csv guesses, needs review: AC#DT12W, AC#W52SK, AC#W56SK, ANSCELET, B_PH07, CBC8CTU3, CBZOMB02, CBZOMBD2, D9ELSU11, D9ELWA, D9SKL04, D9SKL09, DECK622, DECK622, ENDSKE01, ENDSKE02, ENDSKE03, ENDSKE04, FIRMON02, GOLBON01, SHBONES, SKELDED, SKELDED
+    base files: ["AR18SKEL","BDSKGR01","BDSKGR08","BDTEAM62","BDUNSEN","C0DESUM1","C0DESUM2","C0DESUM3","C0DESUM4","C0DESUM5","CESKEL01","DW#ANGSK","DW#DIASK","DW#SEMSK","GRSKEL1","GRSKEL2","GRTOMB01","HGSKL04","ICHARY","NEVM2","RIFTCR02","RSKEL02","SAHSKEL","SKELSU01","SKELSU07","SKELSU11","SKELWA","SKELWA01","SKELWA02","SKELWA03","SKELWASU","SUUNDEAD","TANSKW1","BGSKEL02","BGSKELWA","CMSKEL01","CMSKEL02","FHLSKL1","FHLSKL2","JC_SKE01","TG#DUD1","RANSKE7","RANSKE9","SKELWA04","SKELWAX2","SKELWMOD"]
     → Level: 9, hit points: 108 (base) +8 (bonus) = 116
     → calculating THAC0 as a level 10 creature
     base files: ["SKELWASU"]
@@ -1197,6 +1267,7 @@ Creating Skeleton Warrior...
     → undead needs a helmet to cover immunity from critical hits. Adding a helmet to cover it.
 
 Creating Spectre...
+    warning: Spectre has unvalidated creatures.csv guesses, needs review: AC#FPGHO, ASHIRU, BDCROMMU, BDENDLES, BHCRYPT, FSGHOS, FSGHOS2, KNIGHT1, KNIGHT2, KNIGHT3, KNIGHT4, KNIGHT5, KNIGHT6, L#RVSERV, SARSPIR
     warning: No attack defined, using defaults
     base files: ["BDSOTUK","BDSPIRIT","BDWORIS","BSPLSPRT","DURLAGT","ISLA","L#AMBAM","L#BASTRE","L#FWMMER","L#HIGBO","L#ORM1","L#ORM2","L#ORMETT","L#ULCC1","L#ULCC2","L#ULCC3","L#ULCC4","L#ULCCH","L#ULGEN1","L#ULGGH","NTBKNIGH","NTGGHOT1","NTGGHOTA","SLAYSH01","X#GARWYL"]
     → Level: 7, hit points: 84 (base) +3 (bonus) = 87
@@ -1206,8 +1277,9 @@ Creating Spectre...
     → Melee range: 1
 
 Creating Ghost...
+    warning: Ghost has unvalidated creatures.csv guesses, needs review: ELEARB01, ELEARB02, ELEARB03, ELEARB04, ELEARB05, ELEARB06, ELEARB07, ELEARB08, ELEARB09, ELEARB10, ELEARB11, L0MERCH, L0SUMM5, SAHSPC01, SPECTR01, TG#SPIR
     warning: No attack defined, using defaults
-    base files: ["BDGHOSTM","daitel","BDLITLA"]
+    base files: ["BDGHOSTM","BDLITLA","DAITEL"]
     → Level: 10, hit points: 120 (base)  = 120
     base files: ["BDLITLA"]
     warning: Ghost: ability references spell 'SPWI219' (Vocalize) which isn't memorized anywhere.
@@ -1276,5 +1348,5 @@ Generating translations
 Summary
 -------
 No errors
-149 warnings
+209 warnings
 Finished!

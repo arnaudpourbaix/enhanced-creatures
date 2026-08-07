@@ -1,10 +1,18 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { Actions } from "../model/script/actions";
+import { Aera } from "../model/script/aera";
 
 class ActionFactory {
-  setGlobal(name: string, value: number, area = "LOCALS"): Actions.Action {
+  setGlobal(name: string, value: number, area: Aera = "LOCALS"): Actions.Action {
     return {
       name: "SetGlobal",
+      params: [name, area, value],
+    };
+  }
+
+  incrementGlobal(name: string, value: number, area: Aera = "LOCALS"): Actions.Action {
+    return {
+      name: "IncrementGlobal",
       params: [name, area, value],
     };
   }
