@@ -1,4 +1,5 @@
 backup
+generator.log
 generator/coverage
 generator/dist
 generator/node_modules
