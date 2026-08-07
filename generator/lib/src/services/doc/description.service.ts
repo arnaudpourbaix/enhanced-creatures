@@ -173,6 +173,8 @@ class DescriptionService {
   // functions would reduce, just relocate.
   private getEffectDescription(effect: Effect, target: ItemAbilityTargetEnum): string[] {
     switch (effect.opcode) {
+      case EffectTypeEnum.Panic:
+        return this.getPanic(effect);
       case EffectTypeEnum.Damage:
         return this.getDamage(effect);
       case EffectTypeEnum.Poison:
@@ -464,6 +466,12 @@ class DescriptionService {
     return [
       `${type}:${value}${this.getDuration(effect.duration, " for ")}${this.getSaveText(effect)}`,
     ];
+  }
+
+  private getPanic(effect: Effect): string[] {
+    const results: string[] = [];
+    results.push(`Panic for ${this.getDuration(effect.duration)}${this.getSaveText(effect)}`);
+    return results;
   }
 
   private getDamage(effect: DamageEffect): string[] {

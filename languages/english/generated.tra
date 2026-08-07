@@ -1137,7 +1137,7 @@ Speed Factor: 4
 Enchantment: 4
 Range: 2 feet~
 @10672 = ~Bone Golem traits~
-@10673 = ~~
+@10673 = ~Panic for 7 rounds (saves vs spell)~
 @10674 = ~Immune to magic
 Immune to fire
 Immune to cold
@@ -1682,8 +1682,10 @@ Their touch causes humanoids to become rigid unless a saving throw versus paraly
 Cast spell Rotting Disease (saves vs poison/death):
 Loose 10 hit points every 8 hours and 4 point of Constitution and Charisma.~
 @10805 = ~Mummy traits~
-@10806 = ~Paralyze target for 3 rounds (saves vs spell at +2).~
-@10807 = ~Paralyze target for 3 rounds (saves vs spell).~
+@10806 = ~Paralyze target for 3 rounds (saves vs spell at +2).
+Panic for 3 rounds (saves vs spell at +2)~
+@10807 = ~Paralyze target for 3 rounds (saves vs spell).
+Panic for 3 rounds (saves vs spell)~
 @10808 = ~Resistance to physical damage (50%)
 Immune to cold
 Immune to non-magical weapons
@@ -1702,8 +1704,10 @@ For each day the rot progresses, the victim permanently loses 2 points of Charis
 The disease can be cured only with a cure disease spell.
 Cure wounds spells have no effect on a person inflicted with mummy rot.~
 @10810 = ~Greater Mummy traits~
-@10811 = ~Paralyze target for 3 rounds (saves vs spell at -1).~
-@10812 = ~Paralyze target for 3 rounds (saves vs spell at -3).~
+@10811 = ~Paralyze target for 3 rounds (saves vs spell at -1).
+Panic for 3 rounds (saves vs spell at -1)~
+@10812 = ~Paralyze target for 3 rounds (saves vs spell at -3).
+Panic for 3 rounds (saves vs spell at -3)~
 @10813 = ~Resistance to physical damage (50%)
 Immune to cold
 Immune to all weapons of +2 or less enchantment

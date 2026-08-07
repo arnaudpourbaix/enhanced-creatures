@@ -1,17 +1,47 @@
 <div class="creature" id="{{id}}">
   <h3>{{name}}</h3>
   <dl class="stat-grid">
-    <div class="stat"><dt>Ability Scores</dt><dd>STR {{str}}, DEX {{dex}}, CON {{con}}, INT {{int}}, WIS {{wis}}, CHA {{cha}}</dd></div>
-    <div class="stat"><dt>Alignment</dt><dd>{{align}}</dd></div>
-    <div class="stat"><dt>Base Armor Class</dt><dd>{{ac}}</dd></div>
-    <div class="stat"><dt>Movement</dt><dd>{{movement}}</dd></div>
-    <div class="stat"><dt>Hit Dice</dt><dd>{{hitDice}}</dd></div>
-    <div class="stat"><dt>THAC0</dt><dd>{{thac0}}</dd></div>
-    <div class="stat"><dt>Attacks per Round</dt><dd>{{apr}}</dd></div>
+    <div class="stat stat-wide">
+      <dt>Ability Scores</dt>
+      <dd>STR {{str}}, DEX {{dex}}, CON {{con}}, INT {{int}}, WIS {{wis}}, CHA {{cha}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Hit Dice</dt>
+      <dd>{{hitDice}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Armor Class</dt>
+      <dd>{{ac}}</dd>
+    </div>
+    <div class="stat">
+      <dt>THAC0</dt>
+      <dd>{{thac0}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Attacks per Round</dt>
+      <dd>{{apr}}</dd>
+    </div>
     {{special}}
-    <div class="stat"><dt>Size</dt><dd>{{size}}</dd></div>
-    <div class="stat"><dt>Morale</dt><dd>{{morale}}</dd></div>
-    <div class="stat"><dt>XP Value</dt><dd>{{xp}}</dd></div>
+    <div class="stat">
+      <dt>Movement</dt>
+      <dd>{{movement}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Morale</dt>
+      <dd>{{morale}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Alignment</dt>
+      <dd>{{align}}</dd>
+    </div>
+    <div class="stat">
+      <dt>Size</dt>
+      <dd>{{size}}</dd>
+    </div>
+    <div class="stat">
+      <dt>XP Value</dt>
+      <dd>{{xp}}</dd>
+    </div>
   </dl>
   <div class="detail-section">
     <h4>Attacks</h4>

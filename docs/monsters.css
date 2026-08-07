@@ -152,6 +152,16 @@
   text-align: right;
 }
 
+.stat-wide {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+}
+
+.stat-wide dd {
+  white-space: nowrap;
+  text-align: left;
+}
+
 .weapon {
   white-space: pre-line;
   font-size: 0.85rem;
