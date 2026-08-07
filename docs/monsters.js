@@ -64,16 +64,23 @@
 
     function clearOpenTimer() {
       if (openTimer) {
-        clearTimeout(openTimer);
+        window.clearTimeout(openTimer);
         openTimer = null;
       }
     }
 
     function clearCloseTimer() {
       if (closeTimer) {
-        clearTimeout(closeTimer);
+        window.clearTimeout(closeTimer);
         closeTimer = null;
       }
+    }
+
+    function scheduleClose() {
+      closeTimer = window.setTimeout(function () {
+        closeTimer = null;
+        hidePopover();
+      }, CLOSE_DELAY);
     }
 
     function hidePopover(skipRefocus) {
@@ -134,7 +141,7 @@
         showPopover(link, entry, true);
         return;
       }
-      if (pinned && !popover.hidden && !event.target.closest(".trait-popover")) {
+      if (!popover.hidden && !event.target.closest(".trait-popover")) {
         // Outside click: the browser has typically already moved focus to
         // whatever was clicked. Don't yank it back to the trait link.
         hidePopover(true);
@@ -146,7 +153,7 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && pinned && !popover.hidden) hidePopover();
+      if (event.key === "Escape" && !popover.hidden) hidePopover();
     });
 
     window.addEventListener(
@@ -158,6 +165,7 @@
         // is pinned: the page can scroll without the mouse ever leaving the
         // trait link, which would otherwise strand a hover-opened popover
         // next to where the link used to be.
+        clearOpenTimer();
         if (!popover.hidden && !popover.contains(event.target)) hidePopover();
       },
       true,
@@ -186,10 +194,7 @@
       link.addEventListener("mouseleave", function () {
         if (pinned) return;
         clearOpenTimer();
-        closeTimer = window.setTimeout(function () {
-          closeTimer = null;
-          hidePopover();
-        }, CLOSE_DELAY);
+        scheduleClose();
       });
     });
 
@@ -199,10 +204,7 @@
 
     popover.addEventListener("mouseleave", function () {
       if (pinned) return;
-      closeTimer = window.setTimeout(function () {
-        closeTimer = null;
-        hidePopover();
-      }, CLOSE_DELAY);
+      scheduleClose();
     });
   }
 

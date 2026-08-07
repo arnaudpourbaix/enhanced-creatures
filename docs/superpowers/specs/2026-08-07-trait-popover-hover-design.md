@@ -10,7 +10,7 @@ Add hover as a second way to open the popover, without weakening anything the cl
 
 ## Non-goals
 
-- No change to touch behavior (no `mouseenter` fires on touch; touch users keep exactly today's click flow).
+- Touch behavior should be effectively unaffected: touch users keep today's click flow. Some mobile browsers do synthesize compatibility `mouseenter`/`mouseover` events on tap (not "no `mouseenter` fires on touch" as originally assumed here) — the implementation tolerates this because the synthesized click cancels any pending hover-open timer, and the Escape/outside-click listeners no longer require `pinned`, so a stray hover-armed popover is always dismissible without relying on hover-out.
 - No change to keyboard behavior (Tab + Enter keeps exactly today's click flow, including focus-into-popover and focus-return-on-dismiss).
 - No new CSS needed — same popover, same styling, just a second way to trigger `showPopover`/`hidePopover`.
 
