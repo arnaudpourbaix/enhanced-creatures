@@ -1,4 +1,5 @@
 # ie-code-generator
+
 Code generator (WEIDU, BAF) for Infinity Engine
 
 ## Install
@@ -15,10 +16,8 @@ Purpose of this is to reduce target prediction. By comparaison, SCS is using a s
 
 ## Copy (local testing)
 
-To copy the mod's `enhanced_creatures.tp2`, `lib/`, and `languages/` into local BG1/BG2 installs for testing, copy `paths.example.json` to `paths.local.json` and fill in your install paths, then run `npm run copy`. Pass `--bg1` or `--bg2` to copy to only one of them. This does not delete anything already in the destination — it only overwrites matching files.
+To copy the mod's `enhanced_creatures.tp2`, `lib/`, and `languages/` into local BG1/BG2 installs for testing, copy `paths.example.json` to `paths.local.json` and fill in your install paths, then run `npm run copy`. Pass `npm run copy -- --bg1` or `npm run copy -- --bg2` to copy to only one of them (the `--` is required so npm forwards the flag to the script instead of consuming it). This does not delete anything already in the destination — it only overwrites matching files. Because `lib/` and `languages/` are copied directly into the game root, a same-named file belonging to a different mod's `lib/` or `languages/` folder in the destination will be silently overwritten too, not just this mod's own stale files.
 
 ## Customize
 
 If you want to make easy edits, you can edit files inside config folder. Strong typings should prevent you to make errors, but it can still happen if you don't know what you are doing.
-
-

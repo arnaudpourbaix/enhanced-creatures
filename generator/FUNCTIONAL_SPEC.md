@@ -40,7 +40,7 @@ Output is written to the **mod root**, one directory above `generator/` (`c:/Gam
 
 ## 3. CLI Entry Point (`src/index.ts`)
 
-Uses `commander` only for `--version`/`--description`/`--help`; there are no real subcommands or flags — it is a single fixed pipeline, run via `npm run atweaks` (`ts-node lib/src/index.ts`) or compiled via `npm run build` (`tsc`) into `lib/index.js`, exposed as the `generate` bin.
+Uses `commander` with two subcommands: `generate` (the default, running the fixed pipeline below via `npm run atweaks`/`ts-node lib/src/index.ts`) and `copy` (with `--bg1`/`--bg2` flags, copying the mod into local BG1/BG2 installs for testing); compiled via `npm run build` (`tsc`) into `lib/index.js`, exposed as the `generate` bin.
 
 ```
 stateService.init()

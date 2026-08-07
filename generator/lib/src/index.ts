@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { program } from "commander";
+import * as path from "path";
 import copyService, { CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
@@ -60,13 +61,19 @@ async function runCopy(opts: { bg1?: boolean; bg2?: boolean }): Promise<void> {
   const bg2 = !!opts.bg2;
   const both = !bg1 && !bg2;
   const targets: CopyTargets = { bg1: bg1 || both, bg2: bg2 || both };
+  logService.filePath = path.join(process.cwd(), "copy.log");
   logService.init();
-  await copyService.copy(targets);
+  const copiedCount = await copyService.copy(targets);
   logService.summary();
   if (logService.hasErrors()) {
-    console.error(chalk.red(`\nCopy finished with errors, see generator.log`));
+    console.error(chalk.red(`\nCopy finished with errors, see copy.log`));
     process.exit(1);
   }
+  if (copiedCount === 0) {
+    console.error(chalk.yellow(`\nNo targets were copied, see copy.log`));
+    process.exit(1);
+  }
+  logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
 

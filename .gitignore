@@ -4,6 +4,7 @@ generator/dist
 generator/node_modules
 generator/monster-defs.json
 generator/paths.local.json
+generator/copy.log
 .superpowers
 .worktrees
 .claude/worktrees/

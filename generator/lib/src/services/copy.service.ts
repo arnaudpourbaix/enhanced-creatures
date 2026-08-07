@@ -19,10 +19,12 @@ class CopyService {
   configPath = path.join(this.repoRoot, "generator", "paths.local.json");
   exampleConfigPath = path.join(this.repoRoot, "generator", "paths.example.json");
 
-  async copy(targets: CopyTargets): Promise<void> {
+  async copy(targets: CopyTargets): Promise<number> {
     const config = this.loadConfig();
-    if (targets.bg1) await this.copyToTarget("BG1", config.bg1);
-    if (targets.bg2) await this.copyToTarget("BG2", config.bg2);
+    let copiedCount = 0;
+    if (targets.bg1 && (await this.copyToTarget("BG1", config.bg1))) copiedCount++;
+    if (targets.bg2 && (await this.copyToTarget("BG2", config.bg2))) copiedCount++;
+    return copiedCount;
   }
 
   private loadConfig(): PathsConfig {
@@ -32,17 +34,22 @@ class CopyService {
       );
     }
     const raw = fs.readFileSync(this.configPath, "utf-8");
-    return JSON.parse(raw) as PathsConfig;
+    try {
+      return JSON.parse(raw) as PathsConfig;
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      throw new Error(`Failed to parse ${this.configPath}: ${message}`, { cause: e });
+    }
   }
 
-  private async copyToTarget(label: string, destRoot: string | undefined): Promise<void> {
+  private async copyToTarget(label: string, destRoot: string | undefined): Promise<boolean> {
     if (!destRoot) {
       logService.warn(`${label} path is not configured in paths.local.json, skipping`);
-      return;
+      return false;
     }
     if (!fs.existsSync(destRoot)) {
       logService.warn(`${label} path "${destRoot}" does not exist, skipping`);
-      return;
+      return false;
     }
     logService.header(`Copying mod to ${label} (${destRoot})`);
     for (const item of MOD_ITEMS) {
@@ -51,6 +58,7 @@ class CopyService {
       await fs.promises.cp(src, dest, { recursive: true, force: true });
       logService.log(`Copied ${item}`);
     }
+    return true;
   }
 }
 

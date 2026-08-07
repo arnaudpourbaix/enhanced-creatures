@@ -8,7 +8,7 @@ import stateService from "./state.service";
 import { State } from "../state";
 
 // End-to-end regression test: runs the real generation pipeline (the same
-// sequence as src/index.ts's main()) with State.modFolder redirected to a
+// sequence as src/index.ts's runGenerate()) with State.modFolder redirected to a
 // disposable temp directory, then compares every file it produces against
 // what's currently committed/on disk in the mod. This is the only reliable
 // way to test the WeiDU/TPA output: string reference numbers embedded in

@@ -13,7 +13,7 @@ END
 README ~%MOD_FOLDER%/docs/index.html~
 // ASK_EVERY_COMPONENT
 
-LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/tra/english/setup.tra~ ~%MOD_FOLDER%/tra/english/game.tra~ ~%MOD_FOLDER%/tra/english/generated.tra~
+LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FOLDER%/languages/english/generated.tra~
 
 BEGIN ~Monsters test~
 DESIGNATED 9999

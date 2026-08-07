@@ -73,15 +73,13 @@ describe("CopyService", () => {
     await copyService.copy({ bg1: true, bg2: true });
 
     for (const dest of [bg1Dir, bg2Dir]) {
-      expect(fs.readFileSync(path.join(dest, TP2_FILE), "utf-8")).toBe(
-        TP2_CONTENTS,
-      );
+      expect(fs.readFileSync(path.join(dest, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
       expect(fs.readFileSync(path.join(dest, "lib", "common", "index.tpa"), "utf-8")).toBe(
         "lib contents",
       );
-      expect(
-        fs.readFileSync(path.join(dest, "languages", "english", "setup.tra"), "utf-8"),
-      ).toBe("tra contents");
+      expect(fs.readFileSync(path.join(dest, "languages", "english", "setup.tra"), "utf-8")).toBe(
+        "tra contents",
+      );
     }
   });
 
@@ -100,9 +98,7 @@ describe("CopyService", () => {
 
     await copyService.copy({ bg1: true, bg2: false });
 
-    expect(fs.readFileSync(path.join(bg1Dir, "some-other-mod.tp2"), "utf-8")).toBe(
-      "unrelated mod",
-    );
+    expect(fs.readFileSync(path.join(bg1Dir, "some-other-mod.tp2"), "utf-8")).toBe("unrelated mod");
     expect(fs.existsSync(path.join(bg1Dir, TP2_FILE))).toBe(true);
   });
 
@@ -112,8 +108,6 @@ describe("CopyService", () => {
 
     await copyService.copy({ bg1: true, bg2: false });
 
-    expect(fs.readFileSync(path.join(bg1Dir, TP2_FILE), "utf-8")).toBe(
-      TP2_CONTENTS,
-    );
+    expect(fs.readFileSync(path.join(bg1Dir, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
   });
 });
