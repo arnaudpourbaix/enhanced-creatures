@@ -54,11 +54,32 @@
     popover.setAttribute("tabindex", "-1");
     popover.setAttribute("aria-label", "Trait description");
 
+    var OPEN_DELAY = 300;
+    var CLOSE_DELAY = 250;
+
     var openLink = null;
+    var pinned = false;
+    var openTimer = null;
+    var closeTimer = null;
+
+    function clearOpenTimer() {
+      if (openTimer) {
+        clearTimeout(openTimer);
+        openTimer = null;
+      }
+    }
+
+    function clearCloseTimer() {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+    }
 
     function hidePopover(skipRefocus) {
       popover.hidden = true;
       popover.setAttribute("aria-hidden", "true");
+      pinned = false;
       if (openLink && !skipRefocus) {
         var linkToRefocus = openLink;
         openLink = null;
@@ -88,13 +109,16 @@
       popover.style.top = top + "px";
     }
 
-    function showPopover(link, entry) {
-      openLink = link;
+    function showPopover(link, entry, isPinned) {
+      pinned = isPinned;
+      openLink = isPinned ? link : null;
       body.innerHTML = entry.innerHTML;
       popover.hidden = false;
       popover.setAttribute("aria-hidden", "false");
       positionPopover(link);
-      popover.focus();
+      if (isPinned) {
+        popover.focus();
+      }
     }
 
     document.addEventListener("click", function (event) {
@@ -105,10 +129,12 @@
         var entry = document.getElementById(targetId);
         if (!entry) return;
         event.preventDefault();
-        showPopover(link, entry);
+        clearOpenTimer();
+        clearCloseTimer();
+        showPopover(link, entry, true);
         return;
       }
-      if (!popover.hidden && !event.target.closest(".trait-popover")) {
+      if (pinned && !popover.hidden && !event.target.closest(".trait-popover")) {
         // Outside click: the browser has typically already moved focus to
         // whatever was clicked. Don't yank it back to the trait link.
         hidePopover(true);
@@ -120,7 +146,7 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && !popover.hidden) hidePopover();
+      if (event.key === "Escape" && pinned && !popover.hidden) hidePopover();
     });
 
     window.addEventListener(
@@ -128,10 +154,56 @@
       function (event) {
         // Scrolling the popover's own (scrollable, overflow-y: auto) content
         // must not dismiss it -- only dismiss on scrolls of the underlying page.
+        // Unlike outside-click/Escape, this fires whether or not the popover
+        // is pinned: the page can scroll without the mouse ever leaving the
+        // trait link, which would otherwise strand a hover-opened popover
+        // next to where the link used to be.
         if (!popover.hidden && !popover.contains(event.target)) hidePopover();
       },
       true,
     );
+
+    document.querySelectorAll("a.trait-link").forEach(function (link) {
+      link.addEventListener("mouseenter", function () {
+        if (pinned) return;
+        clearCloseTimer();
+        var targetId = link.getAttribute("href").slice(1);
+        var entry = document.getElementById(targetId);
+        if (!entry) return;
+        if (!popover.hidden) {
+          // Already showing another link's content (pointer moved directly
+          // from one trait link to another) - swap immediately, no delay.
+          showPopover(link, entry, false);
+          return;
+        }
+        clearOpenTimer();
+        openTimer = window.setTimeout(function () {
+          openTimer = null;
+          showPopover(link, entry, false);
+        }, OPEN_DELAY);
+      });
+
+      link.addEventListener("mouseleave", function () {
+        if (pinned) return;
+        clearOpenTimer();
+        closeTimer = window.setTimeout(function () {
+          closeTimer = null;
+          hidePopover();
+        }, CLOSE_DELAY);
+      });
+    });
+
+    popover.addEventListener("mouseenter", function () {
+      if (!pinned) clearCloseTimer();
+    });
+
+    popover.addEventListener("mouseleave", function () {
+      if (pinned) return;
+      closeTimer = window.setTimeout(function () {
+        closeTimer = null;
+        hidePopover();
+      }, CLOSE_DELAY);
+    });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
