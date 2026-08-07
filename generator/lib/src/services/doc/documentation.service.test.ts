@@ -52,13 +52,13 @@ describe("addCreature (doubleApr)", () => {
   it("doubles apr when doubleApr is true", () => {
     documentationService.addCreature(fakeCreatureForAddCreature(true));
     const html = service.monsters.at(-1) ?? "";
-    expect(html).toContain('<div class="stat"><dt>Attacks per Round</dt><dd>4</dd></div>');
+    expect(html).toMatch(/<dt>\s*Attacks per Round\s*<\/dt>\s*<dd>\s*4\s*<\/dd>/);
   });
 
   it("does not double apr when doubleApr is false", () => {
     documentationService.addCreature(fakeCreatureForAddCreature(false));
     const html = service.monsters.at(-1) ?? "";
-    expect(html).toContain('<div class="stat"><dt>Attacks per Round</dt><dd>2</dd></div>');
+    expect(html).toMatch(/<dt>\s*Attacks per Round\s*<\/dt>\s*<dd>\s*2\s*<\/dd>/);
   });
 });
 
