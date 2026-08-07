@@ -161,10 +161,9 @@
       function (event) {
         // Scrolling the popover's own (scrollable, overflow-y: auto) content
         // must not dismiss it -- only dismiss on scrolls of the underlying page.
-        // Unlike outside-click/Escape, this fires whether or not the popover
-        // is pinned: the page can scroll without the mouse ever leaving the
-        // trait link, which would otherwise strand a hover-opened popover
-        // next to where the link used to be.
+        // Also cancels a pending hover-open timer: the page can scroll without
+        // the mouse ever leaving the trait link, which could otherwise pop the
+        // popover open mid-scroll only to have the next scroll event close it.
         clearOpenTimer();
         if (!popover.hidden && !popover.contains(event.target)) hidePopover();
       },
