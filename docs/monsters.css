@@ -226,6 +226,40 @@
   padding: 0 24px 48px;
 }
 
+.trait-popover {
+  position: fixed;
+  z-index: 30;
+  max-width: 320px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-gold);
+  border-radius: 4px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 14px rgba(59, 42, 23, 0.35);
+}
+
+.trait-popover-close {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  padding: 0 0 4px 8px;
+}
+
+.trait-popover-close:hover {
+  color: var(--color-red);
+}
+
+.trait-popover-body {
+  clear: both;
+}
+
+.trait-popover-body h5:first-child {
+  margin-top: 0;
+}
+
 @media (max-width: 860px) {
   .topbar {
     display: flex;
