@@ -56,13 +56,15 @@
 
     var openLink = null;
 
-    function hidePopover() {
+    function hidePopover(skipRefocus) {
       popover.hidden = true;
       popover.setAttribute("aria-hidden", "true");
-      if (openLink) {
+      if (openLink && !skipRefocus) {
         var linkToRefocus = openLink;
         openLink = null;
         linkToRefocus.focus();
+      } else {
+        openLink = null;
       }
     }
 
@@ -107,11 +109,15 @@
         return;
       }
       if (!popover.hidden && !event.target.closest(".trait-popover")) {
-        hidePopover();
+        // Outside click: the browser has typically already moved focus to
+        // whatever was clicked. Don't yank it back to the trait link.
+        hidePopover(true);
       }
     });
 
-    closeButton.addEventListener("click", hidePopover);
+    closeButton.addEventListener("click", function () {
+      hidePopover();
+    });
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && !popover.hidden) hidePopover();
