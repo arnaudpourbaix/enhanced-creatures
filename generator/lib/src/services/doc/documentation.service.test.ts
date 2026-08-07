@@ -266,6 +266,20 @@ describe("getTraits", () => {
     ];
     expect(documentationService.getTraits()).not.toContain("<p>");
   });
+
+  it("wraps each trait entry in a container div keyed by the trait's name", () => {
+    State.immunities = [
+      {
+        name: "construct",
+        type: "trait",
+        doc: true,
+        stringRef: "common.traits.construct.name",
+      } as unknown as ImmunityConfig,
+    ];
+    expect(documentationService.getTraits()).toBe(
+      '<div class="trait-entry" id="construct"><h5>Construct</h5></div>',
+    );
+  });
 });
 
 describe("getSpellQuantity", () => {

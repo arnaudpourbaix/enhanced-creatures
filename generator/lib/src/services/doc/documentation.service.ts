@@ -259,11 +259,11 @@ class DocumentationService {
     // sorted first).
     for (const immunity of State.immunities) {
       if (immunity.type === "trait" && immunity.doc) {
-        result += `<h5><a id="${immunity.name}">${translationService.fromOptional(
-          immunity.stringRef,
-        )}</a></h5>`;
-        if (immunity.description)
-          result += `<p>${translationService.from(immunity.description)}</p>`;
+        let entry = `<h5>${translationService.fromOptional(immunity.stringRef)}</h5>`;
+        if (immunity.description) {
+          entry += `<p>${translationService.from(immunity.description)}</p>`;
+        }
+        result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
       }
     }
     return result;
