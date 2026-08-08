@@ -120,7 +120,7 @@ class DocumentationService {
       special += `Turned as a level ${creature.data.level1.value} undead`;
     }
     if (special) {
-      special = `<div class="stat"><dt>Special</dt><dd>${special}</dd></div>`;
+      special = `<div class="stat stat-half"><dt>Special</dt><dd>${special}</dd></div>`;
     }
     this.replace(template, "special", special);
   }

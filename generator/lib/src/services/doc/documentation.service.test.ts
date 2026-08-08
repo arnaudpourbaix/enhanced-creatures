@@ -323,7 +323,7 @@ describe("addSpecial", () => {
     documentationService.addSpecial(template, creature);
 
     expect(template.text).toBe(
-      '<div class="stat"><dt>Special</dt><dd>Cast spells as a level 9 caster</dd></div>',
+      '<div class="stat stat-half"><dt>Special</dt><dd>Cast spells as a level 9 caster</dd></div>',
     );
   });
 
@@ -336,7 +336,7 @@ describe("addSpecial", () => {
     documentationService.addSpecial(template, creature);
 
     expect(template.text).toBe(
-      '<div class="stat"><dt>Special</dt><dd>Turned as a level 3 undead</dd></div>',
+      '<div class="stat stat-half"><dt>Special</dt><dd>Turned as a level 3 undead</dd></div>',
     );
   });
 
