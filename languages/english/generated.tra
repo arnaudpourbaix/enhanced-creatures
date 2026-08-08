@@ -1080,7 +1080,8 @@ Speed Factor: 2
 Enchantment: 1
 Range: 1 feet
 
-Cast spell Touch of Tranquility~
+Cast spell Touch of Tranquility:
+If the sirine touches an opponent, the victim must make a saving throw vs. poison; those failing to save are reduced to an Intelligence of 2.~
 @10657 = ~Dire Charm target for 3 turns (saves vs spell at -3).~
 @10658 = ~~
 @10659 = ~Dire Charm target for 3 turns (saves vs spell).~

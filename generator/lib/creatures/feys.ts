@@ -1303,6 +1303,13 @@ class FeyFamily extends CreatureFamily<Fey> {
     return this.addSpell({
       name: "monster.fey.ability.touchOfTranquility.name",
       id: Ids.TouchOfTranquility,
+      // Only ever reached via the weapon's on-hit CastSpell effect (below) - it isn't a
+      // memorized/learnable ability, so it never gets its own Abilities entry (see
+      // documentation.service.ts's getCreatureSpell, which requires a `memorized` match). Without
+      // `doc: false` it falls into documentation.service.ts's "documented elsewhere" branch and
+      // the attack description drops the spell's description entirely, same mechanism ankheg's
+      // digestiveEnzyme relies on via addWeapon's castSpells (see attachSpellToWeapon).
+      doc: false,
       description: "monster.fey.ability.touchOfTranquility.description",
       // options: { renew: 1 },
       castingSound: "EFF_P11",
