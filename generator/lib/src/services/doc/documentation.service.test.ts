@@ -97,7 +97,7 @@ function runAttackDisplay(description: string, idPrefix = "m1-w0") {
 }
 
 describe("getAttackDisplayText", () => {
-  it("strips the weapon name, blank lines, THAC0/Speed Factor/Range, and folds enchantment into the damage line", () => {
+  it("strips the weapon name, blank lines, THAC0/Speed Factor/Range/damage type, and folds enchantment into the damage line", () => {
     const description = [
       "Mandibles",
       "",
@@ -108,13 +108,13 @@ describe("getAttackDisplayText", () => {
       "Range: 2 feet",
     ].join("\r\n");
 
-    expect(runAttackDisplay(description).text).toBe("3D6 (Crushing) at +2");
+    expect(runAttackDisplay(description).text).toBe("3D6 at +2");
   });
 
-  it("strips the damage-type label but leaves the value bare when there is no enchantment", () => {
+  it("strips the damage-type label and the type in parens, leaving the bare value, when there is no enchantment", () => {
     const description = ["Jaws", "", "Ranged damage: 1D6 (Piercing)"].join("\r\n");
 
-    expect(runAttackDisplay(description).text).toBe("1D6 (Piercing)");
+    expect(runAttackDisplay(description).text).toBe("1D6");
   });
 
   it("falls back to a standalone Enchantment line when there is no damage line", () => {
@@ -132,7 +132,7 @@ describe("getAttackDisplayText", () => {
   it("leaves a description with no name/blank-line header untouched, e.g. a trait item's description", () => {
     const description = ["Melee damage: 1D4 (Piercing)"].join("\r\n");
 
-    expect(runAttackDisplay(description).text).toBe("1D4 (Piercing)");
+    expect(runAttackDisplay(description).text).toBe("1D4");
   });
 
   it("returns the input unchanged for an empty description", () => {
@@ -152,7 +152,7 @@ describe("getAttackDisplayText", () => {
     const { text, entries } = runAttackDisplay(description);
 
     expect(text).toBe(
-      '1D10 (Piercing)\r\n<a href="#m1-w0-spell-0" class="trait-link">Type K poison</a> (saves vs poison/death at +4)',
+      '1D10\r\n<a href="#m1-w0-spell-0" class="trait-link">Type K poison</a> (saves vs poison/death at +4)',
     );
     expect(entries).toEqual([
       { id: "m1-w0-spell-0", html: "<p>Poison damage: 5 over 10 seconds.</p>" },
@@ -262,7 +262,7 @@ describe("getAttackDisplayText", () => {
 
     expect(text).toBe(
       [
-        "1D6 (Piercing)",
+        "1D6",
         '<a href="#m1-w0-spell-0" class="trait-link">Poison</a>',
         '<a href="#m1-w0-spell-1" class="trait-link">Disease</a>',
       ].join("\r\n"),

@@ -154,10 +154,11 @@ class DocumentationService {
 
   // Docs-only trim of the in-game weapon description (which also feeds the .tra item text, see
   // description.service.ts): drops the leading weapon-name line, blank separator lines,
-  // THAC0/Speed Factor/Range, and folds the enchantment into the damage line - the name is
-  // redundant with the attack's own heading in the monster page, the blank lines (e.g. before
-  // "Cast spell ...") were only needed to visually separate sections of the longer in-game text,
-  // and the numbers are covered elsewhere. The in-game description itself is left untouched.
+  // THAC0/Speed Factor/Range, and the damage type, and folds the enchantment into the damage line
+  // - the name is redundant with the attack's own heading in the monster page, the blank lines
+  // (e.g. before "Cast spell ...") were only needed to visually separate sections of the longer
+  // in-game text, and the numbers/damage type are covered elsewhere. The in-game description
+  // itself is left untouched.
   //
   // `entries` is populated with one hidden {id, html} pair per "Cast spell" block collapsed to a
   // popover link (see collapseSpellBlocks) - the caller renders them into the page so the shared
@@ -184,7 +185,9 @@ class DocumentationService {
     );
     const damageIndex = filtered.findIndex((l) => /^(Melee|Ranged) damage: /.test(l));
     if (damageIndex >= 0) {
-      let line = filtered[damageIndex].replace(/^(Melee|Ranged) damage: /, "");
+      let line = filtered[damageIndex]
+        .replace(/^(Melee|Ranged) damage: /, "")
+        .replace(/ \([^)]*\)$/, "");
       if (enchantment) line += ` at +${enchantment}`;
       filtered[damageIndex] = line;
     } else if (enchantment) {
