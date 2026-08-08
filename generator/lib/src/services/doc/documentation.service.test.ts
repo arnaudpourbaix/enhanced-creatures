@@ -123,6 +123,27 @@ describe("getAttackDisplayText", () => {
     expect(runAttackDisplay(description).text).toBe("Enchantment: +3");
   });
 
+  // e.g. a slime's pseudopod, whose base header dice are 0-0 so the weapon has no "Melee damage:"
+  // line of its own - all damage comes from a typed Damage effect instead (see slimes.ts).
+  it("folds enchantment into a typed damage-effect line when there is no base weapon damage line", () => {
+    const description = ["Pseudopod", "", "Acid damage: 1D10+2", "Enchantment: 1"].join("\r\n");
+
+    expect(runAttackDisplay(description).text).toBe("1D10+2 at +1");
+  });
+
+  it("does not mistake unrelated 'X damage: N ...' text (no dice) for the damage line", () => {
+    const description = [
+      "Ring",
+      "",
+      "Poison damage: 5 over 10 seconds.",
+      "Enchantment: 1",
+    ].join("\r\n");
+
+    expect(runAttackDisplay(description).text).toBe(
+      "Poison damage: 5 over 10 seconds.\r\nEnchantment: +1",
+    );
+  });
+
   it("passes through unchanged when there is neither damage, enchantment, nor a linkable spell block", () => {
     const description = ["Fists", "", "Cast spell Rend (10%)"].join("\r\n");
 

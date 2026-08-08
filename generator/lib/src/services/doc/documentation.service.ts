@@ -194,10 +194,27 @@ class DocumentationService {
         l !== "" &&
         !/^(THAC0|Speed Factor|Range|Damage type|Weight|Proficiency Type): /.test(l),
     );
-    const damageIndex = filtered.findIndex((l) => /^((Melee|Ranged) )?[Dd]amage: /.test(l));
+    // Matches the base weapon's own line ("Melee damage: 8 (Piercing)", dice optional - a flat
+    // value like "8" is valid too) OR a typed Damage effect's line ("Acid damage: 1D10+2", from
+    // description.service.ts's getDamage - used e.g. by slimes' pseudopods, whose base header dice
+    // are 0-0 and deal damage purely through the effect). The typed-line alternative requires
+    // dice notation so it doesn't also match unrelated hand-authored text carried over from a
+    // collapsed spell block (e.g. "Poison damage: 5 over 10 seconds.", which has no dice
+    // notation). The search is further limited to lines before the first "Cast spell ...:" line -
+    // generateWeaponDescription always emits the weapon's own damage lines before any Cast Spell
+    // effect, so a same-shaped "X damage: NDN" line appearing only inside a cast-spell's own
+    // description (like the fixture above) is never mistaken for it.
+    const firstCastSpellIndex = filtered.findIndex((l) => /^Cast spell /.test(l));
+    const damageSearchEnd = firstCastSpellIndex === -1 ? filtered.length : firstCastSpellIndex;
+    const damageIndex = filtered
+      .slice(0, damageSearchEnd)
+      .findIndex(
+        (l) =>
+          /^((Melee|Ranged) )?[Dd]amage: /.test(l) || /^\w+ [Dd]amage: \d+D\d+/.test(l),
+      );
     if (damageIndex >= 0) {
       let line = filtered[damageIndex]
-        .replace(/^((Melee|Ranged) )?[Dd]amage: /, "")
+        .replace(/^((Melee|Ranged) )?(\w+ )?[Dd]amage: /, "")
         .replace(/ \([^)]*\)$/, "");
       if (enchantment) line += ` at +${enchantment}`;
       filtered[damageIndex] = line;
