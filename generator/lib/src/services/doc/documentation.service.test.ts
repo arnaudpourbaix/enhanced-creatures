@@ -504,6 +504,20 @@ describe("getTraits", () => {
   });
 });
 
+describe("formatEnumLabel", () => {
+  it("renders a SCREAMING_SNAKE_CASE value as Title Case words", () => {
+    expect(documentationService.formatEnumLabel("CHAOTIC_EVIL")).toBe("Chaotic Evil");
+  });
+
+  it("handles a single word", () => {
+    expect(documentationService.formatEnumLabel("NEUTRAL")).toBe("Neutral");
+  });
+
+  it("returns an empty string for undefined", () => {
+    expect(documentationService.formatEnumLabel(undefined)).toBe("");
+  });
+});
+
 describe("getSpellQuantity", () => {
   it("returns 'unknown' when memorizedCount is 0 or undefined", () => {
     expect(documentationService.getSpellQuantity(undefined)).toBe("unknown");

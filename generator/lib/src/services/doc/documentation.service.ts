@@ -80,7 +80,7 @@ class DocumentationService {
     this.replace(template, "int", creature.data.intelligence);
     this.replace(template, "wis", creature.data.wisdom);
     this.replace(template, "cha", creature.data.charisma);
-    this.replace(template, "align", creature.data.alignment);
+    this.replace(template, "align", this.formatEnumLabel(creature.data.alignment));
     this.replace(template, "ac", creatureService.getFinalArmorClass(creature));
     this.replace(template, "movement", creature.data.movement.pnpValue);
     this.replace(
@@ -420,6 +420,15 @@ class DocumentationService {
       }
     }
     return result;
+  }
+
+  // Renders a SCREAMING_SNAKE_CASE stat (e.g. alignment's "CHAOTIC_EVIL") as "Chaotic Evil".
+  formatEnumLabel(value: string | undefined): string {
+    if (!value) return "";
+    return value
+      .split("_")
+      .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
+      .join(" ");
   }
 
   getSpellQuantity(memorizedCount: number | undefined, renew?: number): string {
