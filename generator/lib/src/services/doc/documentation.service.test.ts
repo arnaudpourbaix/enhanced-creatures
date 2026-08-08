@@ -281,6 +281,38 @@ describe("getAttackDisplayText", () => {
     expect(text).toBe("Cast spell Bless (25%)");
     expect(entries).toEqual([]);
   });
+
+  // Some weapons (minotaur's Huge Axe, ogre's Naginata) carry a hand-authored, BG2-item-tooltip
+  // style description instead of the auto-generated one (see description.service.ts's
+  // generateWeaponDescription, which only fills item.description when unset). These cases cover
+  // that "STATISTICS:" block format.
+  it("drops line 0 (name or flavor text) and the STATISTICS block, folding damage the same way", () => {
+    const description = [
+      "Huge Axe",
+      "STATISTICS:",
+      "Damage: 1D12",
+      "Damage type: slashing",
+      "Weight: 15",
+      "Speed Factor: 8",
+      "Proficiency Type: Halberds",
+    ].join("\r\n");
+
+    expect(runAttackDisplay(description).text).toBe("1D12");
+  });
+
+  it("drops flavor text on line 0 the same way as a name-repeat line", () => {
+    const description = [
+      "Similar to the glaive, the naginata is a pole weapon.",
+      "STATISTICS:",
+      "Damage: 1D12",
+      "Damage type: slashing",
+      "Weight: 15",
+      "Speed Factor: 8",
+      "Proficiency Type: Halberds",
+    ].join("\r\n");
+
+    expect(runAttackDisplay(description).text).toBe("1D12");
+  });
 });
 
 describe("getFamilyMenu", () => {

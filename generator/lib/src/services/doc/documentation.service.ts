@@ -175,19 +175,29 @@ class DocumentationService {
     // literals using a bare "\n" instead - split on either so those still break into one
     // array entry per physical line like everything else here expects.
     let lines = description.split(/\r\n|\n/);
-    if (lines.length > 1 && lines[1] === "") {
+    if (lines.length > 1 && (lines[1] === "" || lines[1] === "STATISTICS:")) {
+      // Two shapes both start with a throwaway line 0: the auto-generated format's own
+      // name+blank-line header (see description.service.ts's generateWeaponDescription), and a
+      // few weapons' (the minotaur's Huge Axe, the ogre's Naginata) hand-authored,
+      // BG2-item-tooltip-style description, whose line 0 is name/flavor text followed by a
+      // "STATISTICS:" label. Neither line 0 nor "STATISTICS:" itself add anything here - the
+      // weapon's own name/flavor isn't shown on this page at all, and the stat lines under
+      // "STATISTICS:" (further filtered below) are covered by the numbers shown elsewhere.
       lines = lines.slice(2);
     }
     const enchantmentIndex = lines.findIndex((l) => /^Enchantment: \d+$/.test(l));
     const enchantment =
       enchantmentIndex >= 0 ? /\d+/.exec(lines[enchantmentIndex])?.[0] : undefined;
     let filtered = lines.filter(
-      (l, i) => i !== enchantmentIndex && l !== "" && !/^(THAC0|Speed Factor|Range): /.test(l),
+      (l, i) =>
+        i !== enchantmentIndex &&
+        l !== "" &&
+        !/^(THAC0|Speed Factor|Range|Damage type|Weight|Proficiency Type): /.test(l),
     );
-    const damageIndex = filtered.findIndex((l) => /^(Melee|Ranged) damage: /.test(l));
+    const damageIndex = filtered.findIndex((l) => /^((Melee|Ranged) )?[Dd]amage: /.test(l));
     if (damageIndex >= 0) {
       let line = filtered[damageIndex]
-        .replace(/^(Melee|Ranged) damage: /, "")
+        .replace(/^((Melee|Ranged) )?[Dd]amage: /, "")
         .replace(/ \([^)]*\)$/, "");
       if (enchantment) line += ` at +${enchantment}`;
       filtered[damageIndex] = line;
