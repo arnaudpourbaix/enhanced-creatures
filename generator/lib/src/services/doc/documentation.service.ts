@@ -89,7 +89,7 @@ class DocumentationService {
       `${creature.data.level1.pnpValue} (${creature.data.hp ?? 0} hp)`,
     );
     this.replace(template, "thac0", creature.data.thac0);
-    this.replace(template, "apr", creature.data.apr * (creature.data.doubleApr ? 2 : 1));
+    this.replace(template, "apr", this.getEffectiveApr(creature));
     this.replace(template, "size", creature.data.size);
     this.addSpecial(template, creature);
     this.replace(template, "morale", creature.data.morale);
@@ -99,6 +99,16 @@ class DocumentationService {
     this.getCreatureSpells(template, creature);
     this.getCreatureSpellbooks(template, creature);
     this.monsters.push(template.text);
+  }
+
+  // creature.data.apr is the raw CRE-file stat, not the attacks the player actually sees: when a
+  // weapon is equipped in the off-hand (SHIELD) slot, checkDualWielding() (creature.service.ts)
+  // pre-subtracts 1 from it, because the engine automatically grants +1 attack for that off-hand
+  // weapon on top of whatever's stored. Docs must add that 1 back, or a bear authored with `apr:
+  // 3` (see lib/creatures/bears.ts) shows up here as 2.
+  getEffectiveApr(creature: Creature): number {
+    const stored = creature.data.apr * (creature.data.doubleApr ? 2 : 1);
+    return stored + (creature.attack.dualWielding ? 1 : 0);
   }
 
   addSpecial(template: { text: string }, creature: Creature) {
@@ -285,9 +295,13 @@ class DocumentationService {
 
   getCreatureSpells(template: { text: string }, creature: Creature) {
     let spells = "";
-    for (const ability of this.getResourceAbilities(creature)) {
-      spells += this.getCreatureSpell(ability, creature.data.spells.memorized);
-    }
+    this.getResourceAbilities(creature).forEach((ability, index) => {
+      spells += this.getCreatureSpell(
+        ability,
+        creature.data.spells.memorized,
+        `m${creature.id}-ability-${index}`,
+      );
+    });
     if (spells) {
       spells = `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
     }
@@ -303,9 +317,13 @@ class DocumentationService {
     const tabs = (creature.data.spells.spellbooks ?? [])
       .map((spellbook, index) => {
         let spells = "";
-        for (const ability of abilities) {
-          spells += this.getCreatureSpell(ability, spellbook.memorized);
-        }
+        abilities.forEach((ability, abilityIndex) => {
+          spells += this.getCreatureSpell(
+            ability,
+            spellbook.memorized,
+            `m${creature.id}-sb${index}-ability-${abilityIndex}`,
+          );
+        });
         return {
           id: `spellbook-m${creature.id}-${index}`,
           name: SPELLBOOK_MODS[spellbook.mod].name,
@@ -340,19 +358,28 @@ class DocumentationService {
     ].filter((a) => a.resource);
   }
 
-  getCreatureSpell(ability: CreatureAbility, memorizedList: MemorizedSpell[]) {
+  getCreatureSpell(ability: CreatureAbility, memorizedList: MemorizedSpell[], idPrefix: string) {
     const memorized = memorizedList.find((m) => m.file === ability.resource);
     const spell = State.spells.find((s) => s.file === ability.resource);
     let result = "";
+    let popoverEntry = "";
     const infiniteUse = ability.infiniteUse ? 1 : undefined;
     if (spell && spell.doc && memorized) {
       const rounds = spell.options?.renew ?? infiniteUse;
-      const title = `<h5>${translationService.from(
-        spell.name,
-      )} (${this.getSpellQuantity(memorized.memorizedCount, rounds)})</h5>`;
-      const desc =
-        spell.doc !== "name" ? `<p>${translationService.fromOptional(spell.description)}</p>` : "";
-      result = `${title}${desc}`;
+      const quantity = this.getSpellQuantity(memorized.memorizedCount, rounds);
+      const name = translationService.from(spell.name);
+      const description =
+        spell.doc !== "name" ? translationService.fromOptional(spell.description) : "";
+      if (description) {
+        // Same popover mechanism as the attacks section's "Cast spell" links (see
+        // getAttackDisplayText/collapseSpellBlocks) - only the name is shown inline, with the
+        // full description revealed on hover/click via docs/monsters.js's shared trait-popover.
+        const id = `${idPrefix}-desc`;
+        popoverEntry = `<div class="spell-popover-entry" id="${id}" hidden>${this.buildSpellDescriptionHtml(description.split(/\r\n|\n/))}</div>`;
+        result = `<h5><a href="#${id}" class="trait-link">${name}</a> (${quantity})</h5>`;
+      } else {
+        result = `<h5>${name} (${quantity})</h5>`;
+      }
     } else if (memorized) {
       // A real daily memorized count (spellbook-granted spells always have one) is authoritative
       // - ability.timer is a re-cast cooldown, not a substitute for it, so it's ignored here.
@@ -362,9 +389,10 @@ class DocumentationService {
         ability.name,
       )} (${this.getSpellQuantity(memorized.memorizedCount)})</h5>`;
     }
+    if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
-    // ability's title and description together instead of splitting them across columns.
-    return result ? `<div class="ability-entry">${result}</div>` : "";
+    // ability's title together instead of splitting it across columns.
+    return `<div class="ability-entry">${result}</div>${popoverEntry}`;
   }
 
   getTraits() {

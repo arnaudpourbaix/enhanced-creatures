@@ -10,6 +10,7 @@ import { Family } from "../../model/creature/family";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { State } from "../../state";
 import documentationService from "./documentation.service";
+import translationService from "../translation.service";
 
 interface DocumentationServicePrivate {
   monsters: string[];
@@ -17,7 +18,7 @@ interface DocumentationServicePrivate {
 }
 const service = documentationService as unknown as DocumentationServicePrivate;
 
-function fakeCreatureForAddCreature(doubleApr: boolean): Creature {
+function fakeCreatureForAddCreature(doubleApr: boolean, dualWielding = false): Creature {
   return {
     id: 1,
     name: "common.potion.use",
@@ -45,6 +46,7 @@ function fakeCreatureForAddCreature(doubleApr: boolean): Creature {
       spells: { memorized: [] },
     },
     behavior: { abilities: [], customCodes: [] },
+    attack: { dualWielding },
   } as unknown as Creature;
 }
 
@@ -59,6 +61,32 @@ describe("addCreature (doubleApr)", () => {
     documentationService.addCreature(fakeCreatureForAddCreature(false));
     const html = service.monsters.at(-1) ?? "";
     expect(html).toMatch(/<dt>\s*Attacks per Round\s*<\/dt>\s*<dd>\s*2\s*<\/dd>/);
+  });
+});
+
+describe("getEffectiveApr", () => {
+  it("returns the stored apr as-is when not dual wielding and not doubled", () => {
+    const creature = fakeCreatureForAddCreature(false, false);
+    expect(documentationService.getEffectiveApr(creature)).toBe(2);
+  });
+
+  it("doubles the stored apr when doubleApr is set", () => {
+    const creature = fakeCreatureForAddCreature(true, false);
+    expect(documentationService.getEffectiveApr(creature)).toBe(4);
+  });
+
+  // A weapon equipped in the off-hand (SHIELD) slot makes creature.service.ts's
+  // checkDualWielding() pre-subtract 1 from data.apr, since the engine grants that +1 attack
+  // automatically. The docs must add it back to show the actual number of attacks a player sees
+  // (e.g. a bear authored with `apr: 3` in lib/creatures/bears.ts, stored as 2 for this reason).
+  it("adds back the 1 attack pre-subtracted for an off-hand (dual-wielding) weapon", () => {
+    const creature = fakeCreatureForAddCreature(false, true);
+    expect(documentationService.getEffectiveApr(creature)).toBe(3);
+  });
+
+  it("adds the dual-wielding attack after doubling, not before", () => {
+    const creature = fakeCreatureForAddCreature(true, true);
+    expect(documentationService.getEffectiveApr(creature)).toBe(5);
   });
 });
 
@@ -515,30 +543,42 @@ function fakeCreatureForSpells(
 }
 
 describe("getCreatureSpell", () => {
+  const originalSpells = State.spells;
+
+  afterEach(() => {
+    State.spells = originalSpells;
+  });
+
   it("finds a spell in the given memorized list", () => {
-    const html = documentationService.getCreatureSpell(fakeAbility("SPPR101"), [
-      { file: "SPPR101", memorizedCount: 3 },
-    ]);
+    const html = documentationService.getCreatureSpell(
+      fakeAbility("SPPR101"),
+      [{ file: "SPPR101", memorizedCount: 3 }],
+      "m1-ability-0",
+    );
     expect(html).toContain("3/day");
   });
 
   it("wraps a found entry in .ability-entry so multi-column layout keeps it intact", () => {
-    const html = documentationService.getCreatureSpell(fakeAbility("SPPR101"), [
-      { file: "SPPR101", memorizedCount: 3 },
-    ]);
+    const html = documentationService.getCreatureSpell(
+      fakeAbility("SPPR101"),
+      [{ file: "SPPR101", memorizedCount: 3 }],
+      "m1-ability-0",
+    );
     expect(html).toMatch(/^<div class="ability-entry">.*<\/div>$/);
   });
 
   it("renders nothing when the resource isn't in the given list", () => {
-    const html = documentationService.getCreatureSpell(fakeAbility("SPPR101"), []);
+    const html = documentationService.getCreatureSpell(fakeAbility("SPPR101"), [], "m1-ability-0");
     expect(html).toBe("");
   });
 
   it("ignores the recast cooldown timer entirely when there's a real daily memorized count", () => {
     const ability = fakeAbility("SPPR101", { name: "Summoning", value: 2 * 6 });
-    const html = documentationService.getCreatureSpell(ability, [
-      { file: "SPPR101", memorizedCount: 2 },
-    ]);
+    const html = documentationService.getCreatureSpell(
+      ability,
+      [{ file: "SPPR101", memorizedCount: 2 }],
+      "m1-ability-0",
+    );
     // The bug: a timer used to fully replace "2/day" with "every 2 rounds", hiding the real
     // daily cap. A real count is authoritative, so the timer must not show at all.
     expect(html).toContain("2/day");
@@ -551,11 +591,44 @@ describe("getCreatureSpell", () => {
     // infiniteUse ends up true for most presets regardless of intent - it isn't a reliable
     // signal here, so this branch must not special-case it.
     const ability = fakeAbility("SPPR101", { name: "Summoning", value: 2 * 6 }, true);
-    const html = documentationService.getCreatureSpell(ability, [
-      { file: "SPPR101", memorizedCount: 2 },
-    ]);
+    const html = documentationService.getCreatureSpell(
+      ability,
+      [{ file: "SPPR101", memorizedCount: 2 }],
+      "m1-ability-0",
+    );
     expect(html).toContain("2/day");
     expect(html).not.toContain("round");
+  });
+
+  it("links the spell name to a hidden popover entry holding its description, keeping the quantity inline", () => {
+    const name = translationService.addCustomTranslation(["Test Spell"]);
+    const description = translationService.addCustomTranslation(["A test description."]);
+    State.spells = [
+      { file: "SPPR101", name, doc: true, description },
+    ] as unknown as typeof State.spells;
+    const html = documentationService.getCreatureSpell(
+      fakeAbility("SPPR101"),
+      [{ file: "SPPR101", memorizedCount: 3 }],
+      "m1-ability-0",
+    );
+
+    expect(html).toBe(
+      '<div class="ability-entry"><h5><a href="#m1-ability-0-desc" class="trait-link">Test Spell</a> (3/day)</h5></div>' +
+        '<div class="spell-popover-entry" id="m1-ability-0-desc" hidden><p>A test description.</p></div>',
+    );
+  });
+
+  it("renders a bare name with no popover when the spell has doc: 'name' (no description to show)", () => {
+    const name = translationService.addCustomTranslation(["Test Spell"]);
+    State.spells = [{ file: "SPPR101", name, doc: "name" }] as unknown as typeof State.spells;
+    const html = documentationService.getCreatureSpell(
+      fakeAbility("SPPR101"),
+      [{ file: "SPPR101", memorizedCount: 3 }],
+      "m1-ability-0",
+    );
+
+    expect(html).toBe('<div class="ability-entry"><h5>Test Spell (3/day)</h5></div>');
+    expect(html).not.toContain("trait-link");
   });
 });
 

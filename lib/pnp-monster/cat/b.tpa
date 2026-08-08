@@ -13,8 +13,7 @@ COPY_EXISTING ~ja#s0mb.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10616)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=1 parameter2=16777216 probability1=100 dicesize=4 dicenumber=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=1 parameter2=16777216 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=2 parameter2=16777216 probability1=100 dicesize=4 dicenumber=2 END
 	
 	// Paws
 CREATE ITM "ja#i0mb"

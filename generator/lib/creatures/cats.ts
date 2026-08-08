@@ -56,16 +56,9 @@ class Cat extends Creature {
                   {
                     opcode: EffectTypeEnum.Damage,
                     type: EffectDamageTypeEnum.Slashing,
-                    diceThrown: rear.diceThrown,
+                    diceThrown: rear.diceThrown * 2,
                     diceSize: rear.diceSize,
-                    amount,
-                  },
-                  {
-                    opcode: EffectTypeEnum.Damage,
-                    type: EffectDamageTypeEnum.Slashing,
-                    diceThrown: rear.diceThrown,
-                    diceSize: rear.diceSize,
-                    amount,
+                    amount: amount * 2,
                   },
                 ],
               },

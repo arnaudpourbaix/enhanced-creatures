@@ -174,8 +174,7 @@
   color: var(--color-red);
 }
 
-.traits p,
-.ability-entry p {
+.traits p {
   font-size: 0.85rem;
   margin: 2px 0 8px;
 }

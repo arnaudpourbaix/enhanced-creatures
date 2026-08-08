@@ -882,8 +882,7 @@ Melee damage: 1D2 (Piercing)
 Speed Factor: 3
 Range: 2 feet
 Paralyze target for 7 rounds (saves vs poison/death).~
-@10607 = ~Slashing damage: 1D4
-Slashing damage: 1D4~
+@10607 = ~Slashing damage: 2D4~
 @10608 = ~Paws
 
 Melee damage: 1D3 (Slashing)
@@ -892,16 +891,14 @@ Enchantment: 1
 Range: 2 feet
 
 Cast spell Rear claws attack (20%):
-Slashing damage: 1D4
-Slashing damage: 1D4~
+Slashing damage: 2D4~
 @10609 = ~Jaws
 
 Melee damage: 1D8 (Piercing)
 Speed Factor: 3
 Enchantment: 1
 Range: 2 feet~
-@10610 = ~Slashing damage: 1D4+1
-Slashing damage: 1D4+1~
+@10610 = ~Slashing damage: 2D4+2~
 @10611 = ~Paws
 
 Melee damage: 1D3 (Slashing)
@@ -909,15 +906,13 @@ Speed Factor: 5
 Range: 1 feet
 
 Cast spell Rear claws attack (20%):
-Slashing damage: 1D4+1
-Slashing damage: 1D4+1~
+Slashing damage: 2D4+2~
 @10612 = ~Jaws
 
 Melee damage: 1D6 (Piercing)
 Speed Factor: 3
 Range: 1 feet~
-@10613 = ~Slashing damage: 1D6+1
-Slashing damage: 1D6+1~
+@10613 = ~Slashing damage: 2D6+2~
 @10614 = ~Paws
 
 Melee damage: 1D4 (Slashing)
@@ -926,16 +921,14 @@ Enchantment: 1
 Range: 1 feet
 
 Cast spell Rear claws attack (20%):
-Slashing damage: 1D6+1
-Slashing damage: 1D6+1~
+Slashing damage: 2D6+2~
 @10615 = ~Jaws
 
 Melee damage: 1D10 (Piercing)
 Speed Factor: 3
 Enchantment: 1
 Range: 1 feet~
-@10616 = ~Slashing damage: 1D4+1
-Slashing damage: 1D4+1~
+@10616 = ~Slashing damage: 2D4+2~
 @10617 = ~Paws
 
 Melee damage: 1D3 (Slashing)
@@ -943,16 +936,14 @@ Speed Factor: 5
 Range: 1 feet
 
 Cast spell Rear claws attack (20%):
-Slashing damage: 1D4+1
-Slashing damage: 1D4+1~
+Slashing damage: 2D4+2~
 @10618 = ~Jaws
 
 Melee damage: 1D6 (Piercing)
 Speed Factor: 3
 Range: 1 feet~
 @10619 = ~Hellcat traits~
-@10620 = ~Slashing damage: 2D4+9
-Slashing damage: 2D4+9~
+@10620 = ~Slashing damage: 4D4+18~
 @10621 = ~Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
 Immune to non-magical weapons
 Extraplanar
@@ -966,8 +957,7 @@ Enchantment: 2
 Range: 2 feet
 
 Cast spell Rear claws attack (20%):
-Slashing damage: 2D4+9
-Slashing damage: 2D4+9~
+Slashing damage: 4D4+18~
 @10623 = ~Jaws
 
 Melee damage: 2D6 (Piercing)
