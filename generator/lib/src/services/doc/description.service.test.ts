@@ -1060,7 +1060,7 @@ describe("getItemSpellDescription (private)", () => {
     ).toEqual(["", "Cast spell Fireball (50%):", "Deals fire damage in an area."]);
   });
 
-  it("omits the description block when the spell's doc is truthy", () => {
+  it("still shows the description inline even when the spell's doc is truthy (doc only controls its separate Abilities entry)", () => {
     const nameRef = translationService.addCustomTranslation(["Fireball"]);
     const descRef = translationService.addCustomTranslation(["Deals fire damage in an area."]);
     State.spells = [
@@ -1071,7 +1071,7 @@ describe("getItemSpellDescription (private)", () => {
         opcode: EffectTypeEnum.CastSpell,
         resource: "fireball",
       }),
-    ).toEqual(["", "Cast spell Fireball"]);
+    ).toEqual(["", "Cast spell Fireball:", "Deals fire damage in an area."]);
   });
 
   it("prefers save text over probability when both are present", () => {

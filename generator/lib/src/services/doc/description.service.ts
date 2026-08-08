@@ -158,7 +158,7 @@ class DescriptionService {
     const saveText = this.getSaveText(effect);
     const probability = this.getProbability(effect);
     const condition = saveText || probability;
-    const description = spell?.description && !spell.doc ? spell.description : "";
+    const description = spell?.description ?? "";
     const text = `Cast spell ${name}${condition}${description ? ":" : ""}`;
     const results: string[] = ["", text];
     if (description) {

@@ -1408,7 +1408,8 @@ Range: 2 feet
 Cast spell Type F poison:
 Immediate death (saves vs poison/death at -2)
 
-Cast spell Phase out~
+Cast spell Phase out:
+Phase out of the Prime material plane, going invisible until the next phase in.~
 @10750 = ~Jaws
 
 Melee damage: 2D4 (Piercing)

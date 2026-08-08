@@ -39,12 +39,13 @@ export interface BaseSpell {
 }
 
 /**
- * Controls how a spell is documented in the generated docs (see
- * documentation.service.ts's getCreatureSpell and description.service.ts's
- * getItemSpellDescription):
- * - "both": name and description both appear
- * - "name": only the name appears, no description popover
- * - false: the description is inlined instead wherever the spell is cast from. Also, no description popover in abilities
+ * Controls whether/how a spell gets its own entry in the Abilities/Spellbook listing (see
+ * documentation.service.ts's getCreatureSpell). Wherever the spell is cast from (e.g. a
+ * weapon's CastSpell effect, see description.service.ts's getItemSpellDescription), its
+ * description always shows inline too, regardless of this setting - the two are independent.
+ * - "both": name and description both appear in the Abilities listing
+ * - "name": only the name appears in the Abilities listing, no description popover
+ * - false: no entry at all in the Abilities listing
  */
 export type SpellDocOption = "both" | "name" | false;
 
