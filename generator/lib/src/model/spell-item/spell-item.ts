@@ -38,7 +38,16 @@ export interface BaseSpell {
   name?: StringReference;
 }
 
-export type SpellDocOption = "both" | "name" | "desc" | false;
+/**
+ * Controls how a spell is documented in the generated docs (see
+ * documentation.service.ts's getCreatureSpell and description.service.ts's
+ * getItemSpellDescription):
+ * - "both": name and description both appear
+ * - "name": only the name appears, no description popover
+ * - false: the description is inlined instead wherever the spell is cast from. Also, no description popover in abilities
+ */
+export type SpellDocOption = "both" | "name" | false;
+
 export type SpellSecondaryType = ItemAbilitySecondaryTypeEnum | "Fear" | "Disease" | "Poison";
 
 export interface Spell extends BaseSpell {
@@ -220,4 +229,10 @@ export interface WeaponCastSpell {
    * removes after cast
    */
   remove?: boolean;
+  /**
+   * Rounds to wait before casting instead of instantly (e.g. an effect that only kicks in a
+   * couple of rounds after the hit, like a phase spider phasing back out).
+   */
+  delay?: number;
+  doc?: SpellDocOption;
 }

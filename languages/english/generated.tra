@@ -1405,10 +1405,10 @@ Speed Factor: 2
 Enchantment: 1
 Range: 2 feet
 
-Cast spell Phase out
-
 Cast spell Type F poison:
-Immediate death (saves vs poison/death at -2)~
+Immediate death (saves vs poison/death at -2)
+
+Cast spell Phase out~
 @10750 = ~Jaws
 
 Melee damage: 2D4 (Piercing)

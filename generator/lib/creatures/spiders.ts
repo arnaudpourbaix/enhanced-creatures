@@ -10,7 +10,6 @@ import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect, DamageEffect, Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
-  EffectCastSpellTypeEnum,
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
   EffectModifierTypeEnum,
@@ -28,6 +27,7 @@ import {
   WingBuffetDirectionEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
 import {
   SpellProtection,
   SpellProtectionRelation,
@@ -59,6 +59,7 @@ class Spider extends Creature {
     saveBonus?: number;
     slot?: ItemSlot;
     doc?: boolean;
+    castSpells?: WeaponCastSpell[];
   }) {
     return this.addWeapon({
       weapon: {
@@ -77,14 +78,12 @@ class Spider extends Creature {
           effects: p.effects,
         },
       },
-      castSpells: p.poisonType
-        ? [
-            poisonService.getSpell({
-              poisonType: p.poisonType,
-              saveBonus: p.saveBonus,
-            }),
-          ]
-        : undefined,
+      castSpells: [
+        ...(p.poisonType
+          ? [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })]
+          : []),
+        ...(p.castSpells ?? []),
+      ],
     });
   }
 
@@ -809,16 +808,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
       diceSize: 6,
       poisonType: "F",
       saveBonus: -2,
-      effects: [
-        {
-          opcode: EffectTypeEnum.CastSpell,
-          type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-          target: EffectTargetEnum.Self,
-          timing: EffectTimingEnum.DelayPermanent,
-          duration: 2,
-          resource: this.spell(Ids.PhaseOut).file,
-        },
-      ],
+      castSpells: [{ spell: this.spell(Ids.PhaseOut).file, delay: 2, doc: "both" }],
     });
     phase.setBehavior({
       abilities: [this.ability(Ids.PhaseOut)],

@@ -78,8 +78,8 @@ COPY_EXISTING ~ja#i1m39.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=1 parameter2=1 timing=4 duration=2 probability1=100 STR_VAR resource="ja#s0m39" END
 	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s1m39" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 timing=4 duration=2 probability1=100 STR_VAR resource="ja#s0m39" END
 	END
 
 ACTION_FOR_EACH ~file~ IN

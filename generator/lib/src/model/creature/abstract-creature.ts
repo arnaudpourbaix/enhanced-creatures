@@ -7,7 +7,11 @@ import {
   getSpellFilename,
 } from "../../services/utils/misc.func";
 import { BaseEffect } from "../spell-item/effect";
-import { EffectCastSpellTypeEnum, EffectTargetEnum } from "../spell-item/effect.enums";
+import {
+  EffectCastSpellTypeEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+} from "../spell-item/effect.enums";
 import { EffectTypeEnum } from "../spell-item/effect.type";
 import { PartialProjectile, Projectile } from "../spell-item/projectile";
 import {
@@ -100,7 +104,7 @@ export abstract class AbstractCreature {
   protected attachSpellToWeapon(weapon: Weapon, cast: WeaponCastSpell) {
     const spell =
       typeof cast.spell === "string" ? this.spell(cast.spell) : this.addSpell(cast.spell);
-    spell.doc = false;
+    spell.doc = cast.doc ?? false;
     const baseEffect: WithRequired<Omit<BaseEffect, "opcode">, "resource"> = {
       resource: spell.file,
       probability1: cast.probability1,
@@ -108,6 +112,10 @@ export abstract class AbstractCreature {
       saveTypes: cast.saveTypes,
       saveBonus: cast.saveBonus,
     };
+    if (cast.delay) {
+      baseEffect.timing = EffectTimingEnum.DelayPermanent;
+      baseEffect.duration = cast.delay;
+    }
     weapon.header.effects.push(
       effectService.getEffect({
         opcode: EffectTypeEnum.CastSpell,
