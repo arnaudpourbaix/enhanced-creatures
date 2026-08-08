@@ -54,7 +54,7 @@ class EttinFamily extends CreatureFamily<Ettin> {
   private ettin() {
     const ettin = this.create({
       monster: MonsterEnum.Ettin,
-      name: "monster.undead.name.banshee",
+      name: "monster.ettin.name.ettin",
       files: [],
       data: {
         level1: 10,

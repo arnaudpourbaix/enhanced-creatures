@@ -1,6 +1,6 @@
 // Generated file (don't edit)
 
-// Banshee
+// Ettin
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ettin/ja#m5e.baf~
 
 // Large Spiked Club
@@ -67,7 +67,7 @@ COPY_EXISTING ~ja#i1m5e.itm~ ~override~
 	WRITE_LONG 0x98 1
 	END
 
-// Banshee traits
+// Ettin traits
 CREATE ITM "ja#i2m5e"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10644)

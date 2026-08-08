@@ -7,6 +7,7 @@ import { Creature } from "../../model/creature/creature";
 import { MemorizedSpell } from "../../model/creature/data";
 import { Family } from "../../model/creature/family";
 import { ImmunityConfig } from "../../model/final/immunity";
+import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
 import itemService from "../item.service";
@@ -280,8 +281,7 @@ class DocumentationService {
     for (const equippedItem of creature.data.items.equipped) {
       const item = State.items.find((i) => i.file === equippedItem.file);
       if (item?.trait) {
-        const desc = translationService.fromOptional(item.description);
-        result += this.buildDescriptionHtml(desc.split(/\r\n|\n/));
+        result += this.getTraitItemHtml(item);
       }
     }
     for (const immunity of immunities.filter((i) => i.type !== "trait")) {
@@ -296,6 +296,34 @@ class DocumentationService {
       result = `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
     }
     this.replace(template, "traits", result);
+  }
+
+  // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain
+  // text description (see description.service.ts's generateItemTraitDescription, onlyName=true)
+  // is reused as the real in-game item tooltip and so can't contain markup. When a bundled
+  // sub-immunity is itself a globally documented trait (e.g. "giant", "skeletal" - granted to
+  // some creatures directly via data.immunities and to others only through a bundle like this),
+  // it still deserves the same clickable popover link either way. This reattaches that link
+  // docs-only, by matching each plain-text description line back to the sub-immunity name it
+  // came from.
+  private getTraitItemHtml(item: Item): string {
+    const traitLines = new Map<string, string>();
+    for (const subName of item.immunities) {
+      const sub = State.immunities.find((i) => i.name === subName);
+      if (sub?.type === "trait" && sub.doc) {
+        traitLines.set(translationService.fromOptional(sub.stringRef), sub.name);
+      }
+    }
+    const lines = translationService.fromOptional(item.description).split(/\r\n|\n/);
+    return lines
+      .filter((line) => line !== "")
+      .map((line) => {
+        const traitName = traitLines.get(line);
+        return traitName
+          ? `<p><a href="#${traitName}" class="trait-link">${line}</a></p>`
+          : `<p>${line}</p>`;
+      })
+      .join("");
   }
 
   getCreatureSpells(template: { text: string }, creature: Creature) {
