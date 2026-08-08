@@ -134,7 +134,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
         remove: ["BDWYV02"],
       },
     });
-    baby.createStinger("J", 0);
+    baby.createStinger("F", 2);
     baby.createJaws();
     baby.setAdjustments([
       { files: ["PLYWYVRN"], data: { script: { location: "None" } } },

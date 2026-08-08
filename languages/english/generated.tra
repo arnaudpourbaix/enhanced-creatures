@@ -1578,9 +1578,8 @@ Melee damage: 2D8 (Piercing)
 Speed Factor: 2
 Enchantment: 2
 Range: 3 feet~
-@10786 = ~Type J poison~
-@10787 = ~Immediate death (saves vs poison/death)
-20 damage if the saving throw is successful~
+@10786 = ~Type F poison~
+@10787 = ~Immediate death (saves vs poison/death at +2)~
 @10788 = ~Stinger
 
 Melee damage: 1D6 (Piercing)
@@ -1588,9 +1587,8 @@ Speed Factor: 3
 Enchantment: 1
 Range: 2 feet
 
-Cast spell Type J poison:
-Immediate death (saves vs poison/death)
-20 damage if the saving throw is successful~
+Cast spell Type F poison:
+Immediate death (saves vs poison/death at +2)~
 @10789 = ~Jaws
 
 Melee damage: 2D8 (Piercing)

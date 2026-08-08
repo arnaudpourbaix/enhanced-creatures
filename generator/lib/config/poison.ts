@@ -9,7 +9,7 @@ export interface PoisonModel {
 }
 
 export const poisonFatalDamage = 250;
-export const poisonImmediateDeathDuration = 18; // 3 rounds so it gives some time to cure it
+export const poisonImmediateDeathDuration = 12; // 2 rounds so it gives some time to cure it
 
 export const POISONS: PoisonModel[] = [
   {
@@ -24,21 +24,21 @@ export const POISONS: PoisonModel[] = [
     type: "B",
     damage: 20,
     saveDamage: 2,
-    duration: 2 * Durations.minute,
+    duration: 6 * Durations.minute,
   },
   {
     // 2–5 minutes 25/2-8
     type: "C",
     damage: 25,
     saveDamage: 5,
-    duration: 2 * Durations.minute,
+    duration: 3 * Durations.minute,
   },
   {
     // 1–2 minutes 30/2-12
     type: "D",
     damage: 30,
     saveDamage: 7,
-    duration: Durations.minute,
+    duration: 2 * Durations.minute,
   },
   {
     // Immediate Death/20
@@ -73,14 +73,14 @@ export const POISONS: PoisonModel[] = [
     type: "I",
     damage: 30,
     saveDamage: 15,
-    duration: 2 * Durations.minute,
+    duration: 6 * Durations.minute,
   },
   {
     // 1–4 minutes Death/20
     type: "J",
     damage: poisonFatalDamage,
     saveDamage: 20,
-    duration: Durations.minute,
+    duration: poisonImmediateDeathDuration + 2 * Durations.minute,
   },
   {
     // 2–8 minutes 5/0
@@ -101,14 +101,14 @@ export const POISONS: PoisonModel[] = [
     type: "M",
     damage: 20,
     saveDamage: 5,
-    duration: Durations.minute,
+    duration: 2 * Durations.minute,
   },
   {
     // 1 minute Death/25
     type: "N",
     damage: poisonFatalDamage,
     saveDamage: 25,
-    duration: Durations.minute,
+    duration: poisonImmediateDeathDuration + Durations.minute,
   },
   {
     // 2–24 minutes Paralytic.

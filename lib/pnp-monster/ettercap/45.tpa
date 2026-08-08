@@ -14,8 +14,8 @@ COPY_EXISTING ~ja#s0m45.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10645)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=4 parameter2=2 duration=5 probability1=100 special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=46 parameter2=2 duration=5 probability1=100 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=3 duration=22 probability1=100 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=10 parameter2=2 duration=23 probability1=100 savingthrow=4 special=6 END
 OUTER_SET $f_AddSecType(ja#s0m45.spl) = PoisonSecType
 
 // Claws
