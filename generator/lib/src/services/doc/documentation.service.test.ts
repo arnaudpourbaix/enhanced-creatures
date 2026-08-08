@@ -586,18 +586,29 @@ describe("getCreatureSpell", () => {
     expect(html).not.toContain("round");
   });
 
-  it("still ignores the timer even when infiniteUse is true, as long as a real count was found", () => {
-    // parseAbilitySpell() defaults spell.type to "normal" *after* computing infiniteUse, so
-    // infiniteUse ends up true for most presets regardless of intent - it isn't a reliable
-    // signal here, so this branch must not special-case it.
-    const ability = fakeAbility("SPPR101", { name: "Summoning", value: 2 * 6 }, true);
+  it("uses the recast timer instead of the daily count when infiniteUse is true (e.g. a noDec cast)", () => {
+    // A noDec/force/reallyForce cast (without a remove flag) never decrements the memorized
+    // slot, so the daily count isn't the real limiter - the timer (in seconds, 6 per round) is.
+    // Regression test for Battle Horror's Magic Missiles: memorizedCount: 1 but a 18-second
+    // (3-round) noDec recast timer - docs used to say "1/day" instead of "every 3 rounds".
+    const ability = fakeAbility("SPPR101", { name: "Summoning", value: 3 * 6 }, true);
     const html = documentationService.getCreatureSpell(
       ability,
-      [{ file: "SPPR101", memorizedCount: 2 }],
+      [{ file: "SPPR101", memorizedCount: 1 }],
       "m1-ability-0",
     );
-    expect(html).toContain("2/day");
-    expect(html).not.toContain("round");
+    expect(html).toContain("every 3 rounds");
+    expect(html).not.toContain("1/day");
+  });
+
+  it("treats an infiniteUse ability with no timer as unlimited ('at will')", () => {
+    const ability = fakeAbility("SPPR101", undefined, true);
+    const html = documentationService.getCreatureSpell(
+      ability,
+      [{ file: "SPPR101", memorizedCount: 1 }],
+      "m1-ability-0",
+    );
+    expect(html).toContain("at will");
   });
 
   it("links the spell name to a hidden popover entry holding its description, keeping the quantity inline", () => {

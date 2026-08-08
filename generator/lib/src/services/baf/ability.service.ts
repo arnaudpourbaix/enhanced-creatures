@@ -130,9 +130,9 @@ class AbilityService {
   ): CreatureAbility {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
     result.isSpell = !spell.isAttack;
-    result.infiniteUse = spell.type !== "normal" && !spell.remove;
     result.resource = spell.resource ?? ability.preset;
     spell.type ??= "normal";
+    result.infiniteUse = spell.type !== "normal" && !spell.remove;
     spell.memorizedSpellCheck ??= true;
     if (!spell.id && !spell.resource)
       throw new Error(`No spell specified for ability ${ability.name ?? "unknown"}`);

@@ -152,6 +152,19 @@ describe("getAbilities - single spell", () => {
     expect(ability.infiniteUse).toBe(true);
   });
 
+  it("marks infiniteUse false when spell.type is left unset (defaults to 'normal')", () => {
+    // Regression test: infiniteUse must be computed against the *defaulted* type, not the raw
+    // (possibly-undefined) input - checking before the `spell.type ??= "normal"` default made
+    // every type-less spell (the common case) register as infiniteUse: true.
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        spell: { id: SPWI001 },
+      },
+    ]);
+    expect(ability.infiniteUse).toBe(false);
+  });
+
   it("casts at the spell's explicit targetName instead of the default LastSeenBy/Myself target", () => {
     const [ability] = abilityService.getAbilities([
       {

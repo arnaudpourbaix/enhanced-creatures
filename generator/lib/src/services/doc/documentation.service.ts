@@ -386,13 +386,16 @@ class DocumentationService {
         result = `<h5>${name} (${quantity})</h5>`;
       }
     } else if (memorized) {
-      // A real daily memorized count (spellbook-granted spells always have one) is authoritative
-      // - ability.timer is a re-cast cooldown, not a substitute for it, so it's ignored here.
-      // The renew/infiniteUse-driven "every N rounds" phrasing above is for the innate-ability
-      // case instead, where casts aren't capped by a memorized daily count at all.
-      result = `<h5>${translationService.from(
-        ability.name,
-      )} (${this.getSpellQuantity(memorized.memorizedCount)})</h5>`;
+      // ability.infiniteUse (noDec/force/reallyForce without a remove flag - see
+      // ability.service.ts's parseAbilitySpell) means the scripted cast never decrements the
+      // memorized slot, so the daily memorized count isn't actually consumed and isn't the real
+      // limiter - the ability's own recast timer is (converted from seconds to rounds, as
+      // action.factory.ts's setGlobalRoundTimer uses 6 seconds/round), or "at will" if untimed.
+      // Only when the cast does decrement the slot is the memorized daily count authoritative.
+      const quantity = ability.infiniteUse
+        ? this.getSpellQuantity(1, ability.timer ? ability.timer.value / 6 : 1)
+        : this.getSpellQuantity(memorized.memorizedCount);
+      result = `<h5>${translationService.from(ability.name)} (${quantity})</h5>`;
     }
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
