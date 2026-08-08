@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4d.baf~
 CREATE SPL "ja#s0m4d"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0m4d.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10337)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10338)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10338)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10339)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="ja#s0m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=60 probability1=100 savingthrow=4 END
@@ -25,11 +25,11 @@ COPY_EXISTING ~ja#s0m4d.SPL~  ~override~
 CREATE SPL "ja#s1m4d"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s1m4d.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10342)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10343)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10343)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10344)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="ja#s1m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=100 parameter2=3 duration=720000 probability1=100 special=7 END
@@ -49,14 +49,14 @@ CREATE EFF "ja#s2m4d"
 CREATE SPL "ja#s2m4d"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s2m4d.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10357)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10358)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10358)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10359)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#sight~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~ALIGN~ ~MASK_GOOD~) parameter2=8 duration=6 probability1=100 STR_VAR resource="ja#s2m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=126 duration=6 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10359) duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10360) duration=6 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="ja#s2m4d" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
@@ -81,8 +81,8 @@ CREATE ITM "ja#i1m4d"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10316)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10316)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10317)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10317)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10803)
@@ -112,8 +112,8 @@ CREATE ITM "ja#i2m4d"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10317)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10317)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10318)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10318)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10804)

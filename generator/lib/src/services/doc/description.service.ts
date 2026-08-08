@@ -4,6 +4,7 @@ import { Durations } from "../../model/game-data/durations";
 import {
   ArmorClassBonusEffect,
   CastingTimeModifierEffect,
+  CastSpellEffect,
   CharmCreatureEffect,
   CurrentHPbonusEffect,
   DamageEffect,
@@ -151,7 +152,7 @@ class DescriptionService {
     return results;
   }
 
-  private getItemSpellDescription(effect: Effect): string[] {
+  private getItemSpellDescription(effect: CastSpellEffect): string[] {
     const spell = State.spells.find((s) => s.file === effect.resource);
     const name = spell ? translationService.from(spell.name) : (effect.resource ?? "");
     const saveText = this.getSaveText(effect);

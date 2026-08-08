@@ -58,11 +58,13 @@ class Spider extends Creature {
     poisonType?: PnPPoisonType;
     saveBonus?: number;
     slot?: ItemSlot;
+    doc?: boolean;
   }) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.spider.weapon.jaws",
         icon: MonsterItemIconEnum.Jaws,
+        doc: p.doc ?? true,
         equippedSlot: [p.slot ?? "WEAPON1"],
         immunities: p.immunities,
         header: {
@@ -484,7 +486,10 @@ class SpiderFamily extends CreatureFamily<Spider> {
         },
       },
     });
-    ghostwalk.addTrait({ immunities: ["seeInvisible"] });
+    ghostwalk.addTrait({
+      description: "monster.spider.trait.ghostwalk",
+      immunities: ["seeInvisible"],
+    });
     ghostwalk.createWeb({
       id: Ids.InvisibleWebTangle,
       duration: 3 * Durations.round,
@@ -497,6 +502,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
       diceSize: 10,
       slot: "WEAPON1",
       immunities: ["incorporeal", "ghostVisual1"],
+      doc: false,
     });
     ghostwalk.createJaws({
       diceThrown: 3,

@@ -3,7 +3,13 @@ export const Durations = {
   // 1 game hour = 5 turns
   // 1 game day = 120 turns
   // note: effects are not entirely applied on their full-time during a rest, it's about 500s of triggers during a rest
+  /**
+   * 72 game seconds
+   */
   round: 6,
+  /**
+   * 12 game minutes
+   */
   turn: 60,
   hour: 300,
   minute: 5,

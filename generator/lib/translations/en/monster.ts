@@ -1,4 +1,7 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
+
+import description from "./description";
+
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
@@ -302,10 +305,15 @@ Magic Resistance: 10%`,
       wraith: "Wraith Spider",
     },
     weapon: { jaws: "Jaws", leg: "Leg" },
+    trait: {
+      ghostwalk: `Can switch in a ghostly form and becomes incorporeal but can't poison its target while in this form.
+True sight`,
+    },
     ability: {
       phase: {
         name: "Phase out",
-        description: "",
+        description:
+          "Phase out of the Prime material plane, going invisible until the next phase in.",
       },
       leap: {
         name: "Leap",
