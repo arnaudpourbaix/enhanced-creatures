@@ -322,7 +322,10 @@ True sight`,
       leapAttack: {
         name: "Leap Attack",
         description: `Leaps horizontally as far as 30 feet.
-Gains Impaling Attack ability for one round.`,
+Gains Impaling Attack ability for one round.
+If the attack is successful, the victim is struck by 4 legs. 
+If the spider's leap is greater than 20 feet, each leg receives a +1 bonus to damage. 
+Any upward attack against the leaping spider receives a -4 to the attack roll, due to the impaling blades which protect the spider.`,
       },
       impale: {
         name: "Impaling Attack",
