@@ -12,7 +12,7 @@ COPY_EXISTING ~ja#s0m27.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10638)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10641)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=40 target=2 power=1 resist_dispel=1 duration=36 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=66 target=2 power=1 parameter1=99 resist_dispel=1 duration=36 probability1=100 END
@@ -30,7 +30,7 @@ CREATE ITM "ja#i0m27"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10164)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10639)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10642)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~ja#i0m27.itm~ ~override~
 	READ_SHORT 0x68 abicount

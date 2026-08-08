@@ -2,6 +2,13 @@
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
+// Shared between slime.ability.split (the in-game spell/ability text) and slime.trait.split (the
+// docs-only trait entry, which also folds in the creature's immunity bullets - see
+// slimes.ts's addTrait calls) so the flavor text has one source of truth.
+const SLIME_SPLIT_NAME = "Slime Split";
+const SLIME_SPLIT_PUDDING_DESC = `Lightning bolts and blows from weapons divide them into smaller puddings, each able to attack exactly as the original pudding. Smallest pudding does the same damage as the largest.`;
+const SLIME_SPLIT_MUSTARD_DESC = `This large creature can divide itself at will into two smaller, faster halves (movement rate 18). Each is capable of attacking, but has only half the hit points the creature had before dividing.`;
+
 export default {
   ankheg: {
     name: "Ankheg",
@@ -246,11 +253,9 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
     },
     ability: {
       split: {
-        name: "Slime Split",
-        puddingDesc: `Lightning bolts and blows from weapons divide them into smaller puddings, each able to attack exactly as the original pudding.
-Because puddings do not use all of their mouth openings (which cover their exposed surfaces), the smallest pudding does the same damage as the largest.`,
-        mustardDesc: `This large creature can divide itself at will into two smaller, faster halves (movement rate 18).
-Each is capable of attacking, but has only half the hit points the creature had before dividing.`,
+        name: SLIME_SPLIT_NAME,
+        puddingDesc: SLIME_SPLIT_PUDDING_DESC,
+        mustardDesc: SLIME_SPLIT_MUSTARD_DESC,
       },
       toxicVapors: {
         name: "Toxic Vapors",
@@ -260,6 +265,27 @@ Those who fail the saving throw become lethargic.
 Lethargic characters are unable to attack or cast spells, but can still move at half-normal speed.
 The toxic effects last for two rounds.`,
       },
+    },
+    trait: {
+      split: {
+        pudding: `${SLIME_SPLIT_PUDDING_DESC}
+Immune to acid
+Immune to cold
+Immune to poison
+Electricity Resistance: 90%`,
+        mustard: `${SLIME_SPLIT_MUSTARD_DESC}
+Immune to lightning
+Immune to non-magical weapons
+Immune to magic missiles spell
+Resistance to cold (50%)
+Magic Resistance: 10%`,
+      },
+      fission: `They divide into smaller slimes on death, except if they recieved fire damage.
+Immune to lightning
+Immune to non-magical weapons
+Immune to magic missiles spell
+Resistance to cold (50%)
+Magic Resistance: 10%`,
     },
   },
   spider: {

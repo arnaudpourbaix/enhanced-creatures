@@ -218,6 +218,10 @@ class SlimeFamily extends CreatureFamily<Slime> {
     });
     black.addTrait({
       // 5e: Damage Immunities: Lightning, Slashing
+      // description overrides the auto-generated immunity bullets so the split trait (a
+      // passive, always-on behavior that the doc generator otherwise has no way to list - see
+      // monster.ts's slime.trait.split comment) can be folded into the same trait entry.
+      description: "monster.slime.trait.split.pudding",
       immunities: ["acid", "cold", "poison"],
       effects: [
         {
@@ -298,6 +302,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     });
     white.addTrait({
       // 5e: Damage Immunities: Lightning, Slashing
+      description: "monster.slime.trait.split.pudding",
       immunities: ["acid", "cold", "poison"],
       effects: [
         {
@@ -383,6 +388,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       },
     });
     mustard.addTrait({
+      description: "monster.slime.trait.split.mustard",
       immunities: ["lightning", "nonMagicalWeapons", "magicMissile", "coldResistance"],
       // 5e: Immunity to magic damage
       effects: [
@@ -474,6 +480,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       },
     });
     fission.addTrait({
+      description: "monster.slime.trait.fission",
       immunities: ["lightning", "nonMagicalWeapons", "magicMissile", "coldResistance"],
       // 5e: Immunity to magic damage
       effects: [
