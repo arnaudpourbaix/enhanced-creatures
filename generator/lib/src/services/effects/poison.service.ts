@@ -103,9 +103,7 @@ class PoisonService {
         { duration, save },
       );
     }
-    const death = translationService.interpolate("common.poison.death", {
-      duration,
-    });
+    const death = translationService.from("common.poison.death");
     const damage = translationService.interpolate("common.poison.damage", {
       damage: poison.damage,
       duration,

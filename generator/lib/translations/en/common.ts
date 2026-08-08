@@ -176,7 +176,7 @@ Darkvision out to 60 feet.`,
     name: "Type {{type}} poison",
     description: `{{damage}}{{save}}{{saveDamage}}`,
     damage: "Poison damage: {{damage}} over {{duration}}",
-    death: "Death within {{duration}}",
+    death: "Immediate death",
     saveDamage: `; {{damage}} damage if the saving throw is successful`,
     typeO: `Paralytic poisons leave the character unable to move for {{duration}}.`,
     typeP: `Weaken the character for {{duration}}.
