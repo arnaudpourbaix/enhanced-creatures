@@ -31,7 +31,6 @@ class DocumentationService {
     const template = { text: content };
     this.replace(template, "monsters", this.monsters.join(""));
     this.replace(template, "families", this.families.join(""));
-    this.replace(template, "traits", this.getTraits());
     try {
       utils.writeFile("docs/monsters.html", template.text);
     } catch (e) {
@@ -209,8 +208,7 @@ class DocumentationService {
     const damageIndex = filtered
       .slice(0, damageSearchEnd)
       .findIndex(
-        (l) =>
-          /^((Melee|Ranged) )?[Dd]amage: /.test(l) || /^\w+ [Dd]amage: \d+D\d+/.test(l),
+        (l) => /^((Melee|Ranged) )?[Dd]amage: /.test(l) || /^\w+ [Dd]amage: \d+D\d+/.test(l),
       );
     if (damageIndex >= 0) {
       let line = filtered[damageIndex]
@@ -456,25 +454,6 @@ class DocumentationService {
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
     // ability's title together instead of splitting it across columns.
     return `<div class="ability-entry">${result}</div>${popoverEntry}`;
-  }
-
-  getTraits() {
-    let result = "";
-    // State.immunities is sorted once when loaded (see stateService.loadImmunities()) - both
-    // this trait listing and weiduFunctionService's generated function order rely on that same
-    // invariant rather than either one re-sorting (or silently depending on the other having
-    // sorted first).
-    for (const immunity of State.immunities) {
-      if (immunity.type === "trait" && immunity.doc) {
-        let entry = `<h5>${translationService.fromOptional(immunity.stringRef)}</h5>`;
-        if (immunity.description) {
-          const desc = translationService.from(immunity.description);
-          entry += this.buildDescriptionHtml(desc.split(/\r\n|\n/));
-        }
-        result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
-      }
-    }
-    return result;
   }
 
   // Renders a SCREAMING_SNAKE_CASE stat (e.g. alignment's "CHAOTIC_EVIL") as "Chaotic Evil".
