@@ -226,20 +226,21 @@ class DocumentationService {
         j++;
       }
       const id = `${idPrefix}-spell-${spellIndex++}`;
-      entries.push({ id, html: this.buildSpellDescriptionHtml(descLines) });
+      entries.push({ id, html: this.buildDescriptionHtml(descLines) });
       result.push(`<a href="#${id}" class="trait-link">${name}</a>${condition ?? ""}`);
       i = j - 1;
     }
     return result;
   }
 
-  // Renders a spell's description lines as paragraphs, so line breaks (e.g. between a lead-in
-  // sentence and the list that follows it) survive instead of being flattened into one run-on
-  // paragraph. Consecutive "- " prefixed lines become a single <ul>, since that prefix is how
-  // effect lists (e.g. Grab's "- can not move" / "- -4 THAC0") are written in the plain-text
-  // in-game description - the "- " marks the bullet, any further hyphen (as in "-4 THAC0") is
-  // just part of the item's own text and is left untouched.
-  private buildSpellDescriptionHtml(descLines: string[]): string {
+  // Renders a plain-text description's lines as paragraphs, so line breaks (e.g. between a
+  // lead-in sentence and the list that follows it) survive instead of being flattened into one
+  // run-on paragraph by HTML whitespace collapsing. Consecutive "- " prefixed lines become a
+  // single <ul>, since that prefix is how effect lists (e.g. Grab's "- can not move" /
+  // "- -4 THAC0") are written in the plain-text in-game description - the "- " marks the bullet,
+  // any further hyphen (as in "-4 THAC0") is just part of the item's own text and is left
+  // untouched. Used for spell/trait/immunity descriptions alike.
+  private buildDescriptionHtml(descLines: string[]): string {
     const html: string[] = [];
     let bullets: string[] = [];
     const flushBullets = () => {
@@ -280,13 +281,14 @@ class DocumentationService {
       const item = State.items.find((i) => i.file === equippedItem.file);
       if (item?.trait) {
         const desc = translationService.fromOptional(item.description);
-        result += `<div>${desc}</div>`;
+        result += this.buildDescriptionHtml(desc.split(/\r\n|\n/));
       }
     }
     for (const immunity of immunities.filter((i) => i.type !== "trait")) {
       let text = translationService.fromOptional(immunity.stringRef);
       if (immunity.description) {
-        text = `<h5>${text}</h5><p>${translationService.from(immunity.description)}</p>`;
+        const desc = translationService.from(immunity.description);
+        text = `<h5>${text}</h5>${this.buildDescriptionHtml(desc.split(/\r\n|\n/))}`;
       }
       result += text;
     }
@@ -378,7 +380,7 @@ class DocumentationService {
         // getAttackDisplayText/collapseSpellBlocks) - only the name is shown inline, with the
         // full description revealed on hover/click via docs/monsters.js's shared trait-popover.
         const id = `${idPrefix}-desc`;
-        popoverEntry = `<div class="spell-popover-entry" id="${id}" hidden>${this.buildSpellDescriptionHtml(description.split(/\r\n|\n/))}</div>`;
+        popoverEntry = `<div class="spell-popover-entry" id="${id}" hidden>${this.buildDescriptionHtml(description.split(/\r\n|\n/))}</div>`;
         result = `<h5><a href="#${id}" class="trait-link">${name}</a> (${quantity})</h5>`;
       } else {
         result = `<h5>${name} (${quantity})</h5>`;
@@ -408,7 +410,8 @@ class DocumentationService {
       if (immunity.type === "trait" && immunity.doc) {
         let entry = `<h5>${translationService.fromOptional(immunity.stringRef)}</h5>`;
         if (immunity.description) {
-          entry += `<p>${translationService.from(immunity.description)}</p>`;
+          const desc = translationService.from(immunity.description);
+          entry += this.buildDescriptionHtml(desc.split(/\r\n|\n/));
         }
         result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
       }
