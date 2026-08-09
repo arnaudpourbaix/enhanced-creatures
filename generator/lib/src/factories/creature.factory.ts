@@ -189,11 +189,12 @@ class CreatureFactory {
     this.resolveAbilities(creature);
     creatureService.checkSpellAbilities(creature);
     creatureService.checkDuplicateAbilities(creature);
+    const dialogValid = creatureService.checkDialog(creature);
     immunityService.handleImmunities(creature);
     creatureService.checkWeapons(creature);
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
-    creature.valid = valid;
+    creature.valid = valid && dialogValid;
   }
 }
 
