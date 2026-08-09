@@ -15,6 +15,7 @@ import hitPointService from "./hit-point.service";
 import itemService from "./item.service";
 import kitService from "./kit.service";
 import logService from "./log.service";
+import monsterFilesService from "./monster-files.service";
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import { State } from "../state";
@@ -117,6 +118,29 @@ class CreatureService {
       }
       seen.add(signature);
     }
+  }
+
+  checkDialog(creature: Creature): boolean {
+    if (!creature.behavior.dialog.length) return true;
+    const rows = monsterFilesService.getDialogRows(creature.id).filter((r) => r.deathvar);
+    if (!rows.length) {
+      logService.error(
+        `${translationService.from(creature.name)}: behavior defines dialog but ` +
+          `creatures.csv has no entry with a deathVar for this creature.`,
+      );
+      return false;
+    }
+    let ok = true;
+    for (const row of rows) {
+      if (row.dialog !== row.deathvar) {
+        logService.error(
+          `${translationService.from(creature.name)}: creatures.csv entry '${row.file}' has ` +
+            `deathVar '${row.deathvar}' that doesn't match its dialog '${row.dialog}'.`,
+        );
+        ok = false;
+      }
+    }
+    return ok;
   }
 
   private stableStringify(value: unknown): string {
