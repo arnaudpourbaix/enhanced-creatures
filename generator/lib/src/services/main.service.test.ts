@@ -62,7 +62,9 @@ describe("generateCreature", () => {
       .mockImplementation(() => {});
 
     const creature = fakeCreature(true);
-    expect(() => mainService.generateCreature(creature)).not.toThrow();
+    expect(() => {
+      mainService.generateCreature(creature);
+    }).not.toThrow();
 
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
     expect(creature.valid).toBe(false);
@@ -78,7 +80,9 @@ describe("generateCreature", () => {
     });
 
     const creature = fakeCreature(true);
-    expect(() => mainService.generateCreature(creature)).not.toThrow();
+    expect(() => {
+      mainService.generateCreature(creature);
+    }).not.toThrow();
 
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("weidu boom"));
     expect(creature.valid).toBe(false);

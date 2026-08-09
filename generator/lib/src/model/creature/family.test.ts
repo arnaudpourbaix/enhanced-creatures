@@ -8,6 +8,7 @@ import { TranslationKey } from "../../../translations/i18n";
 import { InputMainCreatureData } from "./data-input";
 import logService from "../../services/log.service";
 import creatureFactory from "../../factories/creature.factory";
+import translationService from "../../services/translation.service";
 
 class TestFamily extends CreatureFamily<Creature> {
   createCreature(id: MonsterEnum): Creature {
@@ -260,11 +261,11 @@ describe("addCreature", () => {
     const family = fakeFamily();
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
-    expect(() =>
+    expect(() => {
       family.addCreature(() => {
         throw new Error("boom");
-      }),
-    ).not.toThrow();
+      });
+    }).not.toThrow();
 
     expect(family.creatures).toHaveLength(0);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
@@ -274,20 +275,26 @@ describe("addCreature", () => {
     const family = fakeFamily();
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
-    expect(() =>
+    expect(() => {
       family.addCreature(() => {
-        const cre = family.create({
+        family.create({
           name: CREATURE_NAME_KEY,
           monster: MonsterEnum.Ankheg,
           data: {} as unknown as InputMainCreatureData,
         });
         throw new Error("boom");
-      }),
-    ).not.toThrow();
+      });
+    }).not.toThrow();
 
     expect(family.creatures).toHaveLength(1);
     expect(family.creatures[0].valid).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
+    // The .at(-1) fallback (see family.ts's addCreature()) recovers the actual creature, so the
+    // log message names it - not the generic "creature" label used when the builder throws
+    // before create() ever runs (see the previous test).
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining(translationService.from(CREATURE_NAME_KEY)),
+    );
   });
 
   it("logs and invalidates the creature when validate() throws", () => {
@@ -297,15 +304,15 @@ describe("addCreature", () => {
       throw new Error("validate boom");
     });
 
-    expect(() =>
+    expect(() => {
       family.addCreature(() =>
         family.create({
           name: CREATURE_NAME_KEY,
           monster: MonsterEnum.Ankheg,
           data: {} as unknown as InputMainCreatureData,
         }),
-      ),
-    ).not.toThrow();
+      );
+    }).not.toThrow();
 
     expect(family.creatures).toHaveLength(1);
     expect(family.creatures[0].valid).toBe(false);

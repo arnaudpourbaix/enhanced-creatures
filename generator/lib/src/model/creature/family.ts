@@ -125,7 +125,8 @@ export abstract class CreatureFamily<T extends Creature>
       // If the builder throws after calling create()/createFrom() (which already pushed the
       // creature onto this.creatures) but before returning, the `creature = build()` assignment
       // above never completes - fall back to the just-pushed creature so it can still be found
-      // and invalidated.
+      // and invalidated. This relies on the undocumented invariant that a builder creates at
+      // most one creature per addCreature() call - `.at(-1)` would be wrong otherwise.
       creature ??= this.creatures.length > countBefore ? this.creatures.at(-1) : undefined;
       const message = e instanceof Error ? e.message : String(e);
       const label = creature ? translationService.from(creature.name) : "creature";
