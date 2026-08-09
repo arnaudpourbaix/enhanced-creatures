@@ -443,3 +443,50 @@ Run: `cd generator && npm run generate; echo "exit code: $?"`
 Expected: same as Step 1 — `exit code: 0`, `Finished!`, `No errors` in the log summary.
 
 No commit for this task — it's verification only, and Step 4 already discards the temporary change.
+
+---
+
+### Task 5: Regenerate and commit stale mod output
+
+**Files:**
+- Modify (regenerated, not hand-edited): `lib/pnp-monster/**` (repo root, sibling of `generator/`), plus any of the fixed generated files listed in `generator/lib/src/services/pipeline.golden.test.ts`'s `FIXED_GENERATED_FILES` that changed: `lib/common/spell-resources.tpa`, `lib/common/spell-functions.tpa`, `lib/common/immunities.tpa`, `docs/monsters.html`, `docs/changelog.html`, `languages/*/generated.tra`.
+
+**Interfaces:**
+- Consumes: `npm run generate` (writes to the real mod folder this time, not a temp dir — this is what discovers the discrepancy `pipeline.golden.test.ts` reports).
+
+Discovered during Task 3's review (not anticipated when this plan was written): `generator/lib/src/services/pipeline.golden.test.ts` runs the full pipeline against a temp directory and diffs it against what's actually committed under `lib/pnp-monster/**` (and the fixed generated files) in the repo. Before Tasks 1-3, some creature's generation threw and crashed the whole pipeline before it reached many families — so those families' output was never committed, and the test never noticed because it also crashed (all 7 of its tests showed as "skipped", not failing). With Tasks 1-3 in place, the pipeline no longer crashes, so it now produces output for those previously-unreached creatures/families — and `pipeline.golden.test.ts`'s "regenerates lib/pnp-monster identically to what's on disk" test fails with a list of "unexpected" new files, because the committed mod output is now stale relative to what the fixed generator actually produces. This is the same situation the repo's prior commit `2af1e33` ("chore: regenerate mod output for creatures now failing dialog/deathVar validation") addressed — regenerate and commit.
+
+- [ ] **Step 1: Run the real generator**
+
+Run: `cd generator && npm run generate; echo "exit code: $?"`
+
+This writes output for real into the repo's actual `lib/pnp-monster/**` and the other `FIXED_GENERATED_FILES` locations (unlike Task 4, which redirected `State.modFolder` to a temp dir — this step intentionally writes to the real, tracked locations). Expected: `exit code: 0` (no errors — if this run reports errors, stop and investigate before continuing; don't commit generator output produced by a run that logged errors).
+
+- [ ] **Step 2: Review what changed**
+
+Run: `git status --short -- ../lib/pnp-monster ../lib/common ../docs/monsters.html ../docs/changelog.html ../languages` (paths are relative to `generator/`, so `..` reaches the repo root)
+Expected: new/modified files, all additions of creature output that previously never got generated (families/creatures that were downstream of whatever used to crash the pipeline) — no deletions of previously-working output, and no modifications to hand-authored files outside the generator's known output paths.
+
+- [ ] **Step 3: Run the golden test to confirm it's now clean**
+
+Run: `cd generator && npx vitest run lib/src/services/pipeline.golden.test.ts`
+Expected: `Tests  7 passed (7)` — no failures, no skips.
+
+- [ ] **Step 4: Run the full test suite**
+
+Run: `cd generator && npm test`
+Expected: only the pre-existing baseline failures remain (`monster-files.service.test.ts`, `family.test.ts`'s "unvalidated creatures.csv guesses warning", `documentation.service.test.ts`'s 3 `getTraits` tests, `poison.service.test.ts`) — `pipeline.golden.test.ts` no longer among them.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add lib/pnp-monster lib/common docs/monsters.html docs/changelog.html languages
+git commit -m "$(cat <<'EOF'
+chore: regenerate mod output now that the pipeline no longer crashes early
+
+Tasks 1-3 stopped a single broken creature from aborting the whole
+generator run, which means families/creatures previously unreachable
+after an early crash now get generated for the first time.
+EOF
+)"
+```
