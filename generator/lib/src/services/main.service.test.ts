@@ -50,4 +50,37 @@ describe("generateCreature", () => {
     expect(bafSpy).not.toHaveBeenCalled();
     expect(weiduSpy).not.toHaveBeenCalled();
   });
+
+  it("logs the error and invalidates the creature when baf generation throws, without propagating", () => {
+    vi.spyOn(logService, "warn").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    vi.spyOn(bafGeneratorService, "generate").mockImplementation(() => {
+      throw new Error("boom");
+    });
+    const weiduSpy = vi
+      .spyOn(weiduCreatureService, "generateWeiduScript")
+      .mockImplementation(() => {});
+
+    const creature = fakeCreature(true);
+    expect(() => mainService.generateCreature(creature)).not.toThrow();
+
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
+    expect(creature.valid).toBe(false);
+    expect(weiduSpy).not.toHaveBeenCalled();
+  });
+
+  it("logs the error and invalidates the creature when weidu script generation throws", () => {
+    vi.spyOn(logService, "warn").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    vi.spyOn(bafGeneratorService, "generate").mockImplementation(() => {});
+    vi.spyOn(weiduCreatureService, "generateWeiduScript").mockImplementation(() => {
+      throw new Error("weidu boom");
+    });
+
+    const creature = fakeCreature(true);
+    expect(() => mainService.generateCreature(creature)).not.toThrow();
+
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("weidu boom"));
+    expect(creature.valid).toBe(false);
+  });
 });

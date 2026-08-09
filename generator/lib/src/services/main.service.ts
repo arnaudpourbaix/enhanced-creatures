@@ -40,8 +40,17 @@ class MainService {
 
   generateCreature(creature: Creature) {
     if (!this.isCreatureValid(creature)) return;
-    bafGeneratorService.generate(creature);
-    weiduCreatureService.generateWeiduScript(creature);
+    try {
+      bafGeneratorService.generate(creature);
+      weiduCreatureService.generateWeiduScript(creature);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      logService.error(
+        `${translationService.from(creature.name)}: failed to generate - ${message}`,
+      );
+      if (e instanceof Error && e.stack) logService.log(e.stack);
+      creature.valid = false;
+    }
   }
 
   isCreatureValid(creature: Creature) {
