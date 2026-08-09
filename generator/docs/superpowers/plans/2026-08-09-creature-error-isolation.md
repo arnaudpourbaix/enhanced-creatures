@@ -22,7 +22,7 @@
 **Files:**
 - Modify: `generator/lib/src/model/creature/family.ts:118-120`
 - Test: `generator/lib/src/model/creature/family.test.ts`
-- Modify (mechanical, 92 call sites across 23 files): `generator/lib/creatures/ankhegs.ts`, `bears.ts`, `basilisks.ts`, `cats.ts`, `constructs.ts`, `crawlers.ts`, `dogs.ts`, `ettercaps.ts`, `ettin.ts`, `feys.ts`, `golems.ts`, `minotaurs.ts`, `ogres.ts`, `plants.ts`, `slimes.ts`, `spiders.ts`, `undead.ts`, `wolves.ts`, `wyvern.ts`
+- Modify (mechanical, 85 active call sites across 19 files): `generator/lib/creatures/ankhegs.ts`, `bears.ts`, `basilisks.ts`, `cats.ts`, `constructs.ts`, `crawlers.ts`, `dogs.ts`, `ettercaps.ts`, `ettin.ts`, `feys.ts`, `golems.ts`, `minotaurs.ts`, `ogres.ts`, `plants.ts`, `slimes.ts`, `spiders.ts`, `undead.ts`, `wolves.ts`, `wyvern.ts`
 
 **Interfaces:**
 - Consumes: `logService.error(message: string): void`, `logService.log(message: string): void` (both already exist on the default-exported singleton from `generator/lib/src/services/log.service.ts`); `translationService.from(ref: StringReference): string` (default-exported singleton from `generator/lib/src/services/translation.service.ts`); `creature.validate(family: MonsterFamilyEnum): void` (instance method on `Creature`, already implemented in `generator/lib/src/model/creature/creature.ts:203-205`).
@@ -174,7 +174,7 @@ Run: `cd generator && grep -rn "addCreature(this\." lib/creatures/*.ts`
 Expected: only the 7 commented-out lines in `undead.ts` remain (each prefixed with `//`). Every active call site now reads `this.addCreature(() => this.xxx());`.
 
 Run: `cd generator && grep -c "addCreature(() =>" lib/creatures/*.ts | awk -F: '{sum+=$2} END {print sum}'`
-Expected: `92`.
+Expected: `85`.
 
 - [ ] **Step 7: Confirm the full build and test suite are green**
 
@@ -454,7 +454,7 @@ No commit for this task — it's verification only, and Step 4 already discards 
 **Interfaces:**
 - Consumes: `npm run generate` (writes to the real mod folder this time, not a temp dir — this is what discovers the discrepancy `pipeline.golden.test.ts` reports).
 
-Discovered during Task 3's review (not anticipated when this plan was written): `generator/lib/src/services/pipeline.golden.test.ts` runs the full pipeline against a temp directory and diffs it against what's actually committed under `lib/pnp-monster/**` (and the fixed generated files) in the repo. Before Tasks 1-3, some creature's generation threw and crashed the whole pipeline before it reached many families — so those families' output was never committed, and the test never noticed because it also crashed (all 7 of its tests showed as "skipped", not failing). With Tasks 1-3 in place, the pipeline no longer crashes, so it now produces output for those previously-unreached creatures/families — and `pipeline.golden.test.ts`'s "regenerates lib/pnp-monster identically to what's on disk" test fails with a list of "unexpected" new files, because the committed mod output is now stale relative to what the fixed generator actually produces. This is the same situation the repo's prior commit `2af1e33` ("chore: regenerate mod output for creatures now failing dialog/deathVar validation") addressed — regenerate and commit.
+Discovered during Task 3's review (not anticipated when this plan was written): `generator/lib/src/services/pipeline.golden.test.ts` runs the full pipeline against a temp directory and diffs it against what's actually committed under `lib/pnp-monster/**` (and the fixed generated files) in the repo. That test had been silently skipping all 7 of its cases (not failing), so it never caught that base commit `915743a` ("feat: wip basilisks") re-sorted/extended `GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove` in `generator/lib/config/generate.ts` (adding `DW2RM2MO`) without regenerating output — `weidu-creature.service.ts` splices that array into every creature's `.tpa`, so every committed creature file drifted identically from what the generator now produces. Tasks 1-3's real contribution here is unblocking `pipeline.golden.test.ts` itself (see Task 4), which is what surfaces this pre-existing staleness as a failing "regenerates lib/pnp-monster identically to what's on disk" test rather than a silently-skipped one. This is the same situation the repo's prior commit `2af1e33` ("chore: regenerate mod output for creatures now failing dialog/deathVar validation") addressed — regenerate and commit.
 
 - [ ] **Step 1: Run the real generator**
 
@@ -465,7 +465,7 @@ This writes output for real into the repo's actual `lib/pnp-monster/**` and the 
 - [ ] **Step 2: Review what changed**
 
 Run: `git status --short -- ../lib/pnp-monster ../lib/common ../docs/monsters.html ../docs/changelog.html ../languages` (paths are relative to `generator/`, so `..` reaches the repo root)
-Expected: new/modified files, all additions of creature output that previously never got generated (families/creatures that were downstream of whatever used to crash the pipeline) — no deletions of previously-working output, and no modifications to hand-authored files outside the generator's known output paths.
+Expected: modified files reflecting `915743a`'s `genericScriptsToRemove` re-sort (the `DW2RM2MO` addition) landing in every creature's `.tpa` — no new/deleted files, and no modifications to hand-authored files outside the generator's known output paths.
 
 - [ ] **Step 3: Run the golden test to confirm it's now clean**
 
@@ -484,9 +484,14 @@ git add lib/pnp-monster lib/common docs/monsters.html docs/changelog.html langua
 git commit -m "$(cat <<'EOF'
 chore: regenerate mod output now that the pipeline no longer crashes early
 
-Tasks 1-3 stopped a single broken creature from aborting the whole
-generator run, which means families/creatures previously unreachable
-after an early crash now get generated for the first time.
+The 71 changed files are pure modifications (no additions): output had
+been stale since 915743a's genericScriptsToRemove re-sort in
+generate.ts (which added DW2RM2MO), because weidu-creature.service.ts
+splices that array into every creature's .tpa, shifting all 71
+identically. This branch's real contribution here is unblocking
+pipeline.golden.test.ts, which had been silently skipping all its
+tests and masking the staleness - not making previously-unreachable
+output reachable for the first time.
 EOF
 )"
 ```

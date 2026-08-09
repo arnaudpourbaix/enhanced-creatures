@@ -99,7 +99,7 @@ this.addCreature(this.lesser());
 this.addCreature(() => this.lesser());
 ```
 
-This is a mechanical one-line edit at all 92 active call sites across the 23
+This is a mechanical one-line edit at all 85 active call sites across the 19
 family files under `lib/creatures/`. Commented-out call sites (e.g. the
 disabled undead entries in `undead.ts`) are left untouched since they don't
 compile either way.
