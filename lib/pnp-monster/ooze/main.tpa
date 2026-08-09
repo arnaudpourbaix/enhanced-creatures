@@ -49,5 +49,4 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/30.tpa" // Fission Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/32.tpa" // Gray Ooze
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/33.tpa" // Green Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/31.tpa" // Ochre Jelly
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/34.tpa" // Olive Slime Creature
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/35.tpa" // Slithering Tracker

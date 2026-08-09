@@ -12,6 +12,7 @@ import { Weapon } from "../model/spell-item/spell-item";
 import { CreatureAbility } from "../model/creature/ability";
 import creatureService from "./creature.service";
 import logService from "./log.service";
+import monsterFilesService from "./monster-files.service";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -873,5 +874,78 @@ describe("checkDuplicateAbilities", () => {
     creatureService.checkDuplicateAbilities(creature);
     expect(errorSpy).toHaveBeenCalledTimes(1);
     errorSpy.mockRestore();
+  });
+});
+
+function fakeDialogCreature(dialog: string[]): Creature {
+  return {
+    name: "test",
+    id: 1,
+    behavior: { dialog },
+  } as unknown as Creature;
+}
+
+describe("checkDialog", () => {
+  it("passes without consulting creatures.csv when behavior.dialog is empty", () => {
+    const creature = fakeDialogCreature([]);
+    const getRowsSpy = vi.spyOn(monsterFilesService, "getDialogRows");
+    expect(creatureService.checkDialog(creature)).toBe(true);
+    expect(getRowsSpy).not.toHaveBeenCalled();
+    getRowsSpy.mockRestore();
+  });
+
+  it("passes when a matching row has dialog equal to deathvar", () => {
+    const creature = fakeDialogCreature(["L#MIMMI"]);
+    const getRowsSpy = vi
+      .spyOn(monsterFilesService, "getDialogRows")
+      .mockReturnValue([{ file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "L#MIMMI" }]);
+    expect(creatureService.checkDialog(creature)).toBe(true);
+    expect(getRowsSpy).toHaveBeenCalledWith(1);
+    getRowsSpy.mockRestore();
+  });
+
+  it("discards rows with an empty deathvar and still passes on a remaining valid row", () => {
+    const creature = fakeDialogCreature(["L#MIMMI"]);
+    vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
+      { file: "ANKHEG01", deathvar: "", dialog: "" },
+      { file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "L#MIMMI" },
+    ]);
+    expect(creatureService.checkDialog(creature)).toBe(true);
+    vi.restoreAllMocks();
+  });
+
+  it("errors and fails when every row has an empty deathvar (nothing to validate against)", () => {
+    const creature = fakeDialogCreature(["L#MIMMI"]);
+    vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
+      { file: "ANKHEG01", deathvar: "", dialog: "" },
+    ]);
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkDialog(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("no entry with a deathVar"));
+    vi.restoreAllMocks();
+  });
+
+  it("errors and fails when a row's deathvar doesn't match its dialog", () => {
+    const creature = fakeDialogCreature(["L#MIMMI"]);
+    vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
+      { file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "WRONGDLG" },
+    ]);
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkDialog(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("deathVar 'L#MIMMI'"));
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("dialog 'WRONGDLG'"));
+    vi.restoreAllMocks();
+  });
+
+  it("reports every mismatched row when more than one disagrees", () => {
+    const creature = fakeDialogCreature(["A", "B"]);
+    vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
+      { file: "F1", deathvar: "A", dialog: "WRONG1" },
+      { file: "F2", deathvar: "B", dialog: "WRONG2" },
+    ]);
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkDialog(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledTimes(2);
+    vi.restoreAllMocks();
   });
 });

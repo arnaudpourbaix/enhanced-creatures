@@ -106,5 +106,4 @@ COPY_EXISTING ~ja#i3f6.itm~ ~override~
 
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/f.tpa" // Helmed Horror
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/8.tpa" // Battle Horror
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/42.tpa" // Doom Sayer
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/10.tpa" // Doom Guard

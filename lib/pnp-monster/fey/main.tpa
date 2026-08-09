@@ -338,7 +338,4 @@ COPY_EXISTING ~ja#scf8.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=23744 timing=1 duration=300 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 savingthrow=4 STR_VAR resource="ja#scf8" END
 	
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/29.tpa" // Dryad
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/2a.tpa" // Hamadryad
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/2c.tpa" // Nymph
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/2b.tpa" // Sirine
