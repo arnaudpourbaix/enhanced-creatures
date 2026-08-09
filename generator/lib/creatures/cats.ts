@@ -91,12 +91,12 @@ class Cat extends Creature {
 class CatFamily extends CreatureFamily<Cat> {
   constructor() {
     super(MonsterFamilyEnum.Cat);
-    this.addCreature(this.jaguar());
-    this.addCreature(this.leopard());
-    this.addCreature(this.lion());
-    this.addCreature(this.mountainLion());
-    this.addCreature(this.hellcat());
-    this.addCreature(this.displacerBeast());
+    this.addCreature(() => this.jaguar());
+    this.addCreature(() => this.leopard());
+    this.addCreature(() => this.lion());
+    this.addCreature(() => this.mountainLion());
+    this.addCreature(() => this.hellcat());
+    this.addCreature(() => this.displacerBeast());
   }
 
   createCreature(id: MonsterEnum): Cat {

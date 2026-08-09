@@ -33,7 +33,7 @@ class Plant extends Creature {
 class PlantFamily extends CreatureFamily<Plant> {
   constructor() {
     super(MonsterFamilyEnum.Plant);
-    this.addCreature(this.treant());
+    this.addCreature(() => this.treant());
   }
 
   createCreature(id: MonsterEnum): Plant {

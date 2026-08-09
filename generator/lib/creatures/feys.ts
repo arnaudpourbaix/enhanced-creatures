@@ -87,10 +87,10 @@ class FeyFamily extends CreatureFamily<Fey> {
     this.createCharmSong();
     this.createFogCloud();
     this.createTouchOfTranquility();
-    this.addCreature(this.dryad());
-    this.addCreature(this.hamadryad());
-    this.addCreature(this.nymph());
-    this.addCreature(this.sirine());
+    this.addCreature(() => this.dryad());
+    this.addCreature(() => this.hamadryad());
+    this.addCreature(() => this.nymph());
+    this.addCreature(() => this.sirine());
   }
 
   createCreature(id: MonsterEnum): Fey {

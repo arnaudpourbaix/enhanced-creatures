@@ -74,7 +74,7 @@ class Ankheg extends Creature {
 class AnkhegFamily extends CreatureFamily<Ankheg> {
   constructor() {
     super(MonsterFamilyEnum.Ankheg);
-    this.addCreature(this.ankheg());
+    this.addCreature(() => this.ankheg());
   }
 
   createCreature(id: MonsterEnum): Ankheg {

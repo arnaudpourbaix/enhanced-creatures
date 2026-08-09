@@ -348,13 +348,13 @@ class Golem extends Creature {
 class GolemFamily extends CreatureFamily<Golem> {
   constructor() {
     super(MonsterFamilyEnum.Golem);
-    this.addCreature(this.flesh());
-    this.addCreature(this.clay());
-    this.addCreature(this.stone());
-    this.addCreature(this.iron());
-    this.addCreature(this.bone());
-    this.addCreature(this.juggernaut());
-    this.addCreature(this.snow());
+    this.addCreature(() => this.flesh());
+    this.addCreature(() => this.clay());
+    this.addCreature(() => this.stone());
+    this.addCreature(() => this.iron());
+    this.addCreature(() => this.bone());
+    this.addCreature(() => this.juggernaut());
+    this.addCreature(() => this.snow());
   }
 
   createCreature(id: MonsterEnum): Golem {

@@ -32,10 +32,10 @@ class ConstructFamily extends CreatureFamily<Construct> {
     this.createLongsword();
     this.createArmor();
     this.createHelmet();
-    this.addCreature(this.helmedHorror());
-    this.addCreature(this.battleHorror());
-    this.addCreature(this.doomSayer());
-    this.addCreature(this.doomGuard());
+    this.addCreature(() => this.helmedHorror());
+    this.addCreature(() => this.battleHorror());
+    this.addCreature(() => this.doomSayer());
+    this.addCreature(() => this.doomGuard());
   }
 
   createCreature(id: MonsterEnum): Construct {

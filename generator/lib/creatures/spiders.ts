@@ -374,16 +374,16 @@ class Spider extends Creature {
 class SpiderFamily extends CreatureFamily<Spider> {
   constructor() {
     super(MonsterFamilyEnum.Spider);
-    this.addCreature(this.gargantuan());
-    this.addCreature(this.ghostwalk());
-    this.addCreature(this.giant());
-    this.addCreature(this.hairy());
-    this.addCreature(this.huge());
-    this.addCreature(this.hunting());
-    this.addCreature(this.phase());
-    this.addCreature(this.sword());
-    this.addCreature(this.vortex());
-    this.addCreature(this.wraith());
+    this.addCreature(() => this.gargantuan());
+    this.addCreature(() => this.ghostwalk());
+    this.addCreature(() => this.giant());
+    this.addCreature(() => this.hairy());
+    this.addCreature(() => this.huge());
+    this.addCreature(() => this.hunting());
+    this.addCreature(() => this.phase());
+    this.addCreature(() => this.sword());
+    this.addCreature(() => this.vortex());
+    this.addCreature(() => this.wraith());
   }
 
   createCreature(id: MonsterEnum): Spider {

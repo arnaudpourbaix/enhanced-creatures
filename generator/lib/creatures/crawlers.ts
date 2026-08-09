@@ -16,7 +16,7 @@ class Crawler extends Creature {}
 class CrawlerFamily extends CreatureFamily<Crawler> {
   constructor() {
     super(MonsterFamilyEnum.Crawler);
-    this.addCreature(this.carrionCrawler());
+    this.addCreature(() => this.carrionCrawler());
   }
 
   createCreature(id: MonsterEnum): Crawler {

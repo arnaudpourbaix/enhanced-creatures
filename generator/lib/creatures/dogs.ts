@@ -94,10 +94,10 @@ class Dog extends Creature {
 class DogFamily extends CreatureFamily<Dog> {
   constructor() {
     super(MonsterFamilyEnum.Dog);
-    this.addCreature(this.wildDog());
-    this.addCreature(this.warDog());
-    this.addCreature(this.blinkDog());
-    this.addCreature(this.spectralHound());
+    this.addCreature(() => this.wildDog());
+    this.addCreature(() => this.warDog());
+    this.addCreature(() => this.blinkDog());
+    this.addCreature(() => this.spectralHound());
   }
 
   createCreature(id: MonsterEnum): Dog {
