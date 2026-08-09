@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { MonsterEnum } from "../../creatures/monster";
 import monsterFilesService, {
+  parseMonsterDialogCsv,
   parseMonsterFilesCsv,
   parseUnvalidatedMonsterFilesCsv,
 } from "./monster-files.service";
@@ -86,5 +87,50 @@ describe("monsterFilesService.getUnvalidatedFiles", () => {
     const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Ankheg);
 
     expect(files).toEqual(expect.arrayContaining(["L#MIMMI"]));
+  });
+});
+
+describe("parseMonsterDialogCsv", () => {
+  it("groups deathvar/dialog rows under their MonsterId, in row order", () => {
+    const csv = [
+      HEADER,
+      "0XAL2DG;HUMANOID;HUMAN;MAGE;MONK;0XAL2DG;0XAL2DG;TOTDG;Hooded Alchemist;Alchemist;true",
+      "0XAL3DG;HUMANOID;HUMAN;MAGE;MONK;;;TOTDG;Hooded Alchemist 2;Alchemist;true",
+    ].join("\n");
+
+    const result = parseMonsterDialogCsv(csv);
+
+    expect(result.get("Alchemist")).toEqual([
+      { file: "0XAL2DG", deathvar: "0XAL2DG", dialog: "0XAL2DG" },
+      { file: "0XAL3DG", deathvar: "", dialog: "" },
+    ]);
+  });
+
+  it("excludes rows that aren't validated or aren't mapped to a monster", () => {
+    const csv = [
+      HEADER,
+      "GUESS1;MONSTER;WOLF;WOLF;WOLF;guess1;guess1;BD;Wolf guess;Wolf;false",
+      "BLANK1;MONSTER;WOLF;WOLF;WOLF;blank1;blank1;BD;Wolf blank;;",
+    ].join("\n");
+
+    const result = parseMonsterDialogCsv(csv);
+
+    expect(result.has("Wolf")).toBe(false);
+  });
+
+  it("returns an empty map for a header-only CSV", () => {
+    const result = parseMonsterDialogCsv(HEADER);
+
+    expect(result.size).toBe(0);
+  });
+});
+
+describe("monsterFilesService.getDialogRows", () => {
+  it("returns the validated deathvar/dialog rows for a known monster", () => {
+    const rows = monsterFilesService.getDialogRows(MonsterEnum.Ankheg);
+
+    expect(rows).toEqual(
+      expect.arrayContaining([{ file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "L#MIMMI" }]),
+    );
   });
 });
