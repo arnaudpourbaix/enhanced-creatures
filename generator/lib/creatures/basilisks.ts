@@ -240,7 +240,16 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     greater.setBehavior({
       abilities: [this.ability(Ids.Petrification)],
     });
-    greater.setAdjustments([{ files: ["BASILGSU"], summon: true }]);
+    greater.setAdjustments([
+      { files: ["BASILGSU"], summon: true },
+      {
+        files: ["L#NSSULJ"],
+        data: {
+          level1: 15,
+          xpv: 10000,
+        },
+      },
+    ]);
     return greater;
   }
 
