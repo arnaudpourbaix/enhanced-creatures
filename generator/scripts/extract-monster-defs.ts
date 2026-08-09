@@ -72,9 +72,9 @@ for (const file of fs.readdirSync(creaturesDir)) {
   const source = fs.readFileSync(filePath, "utf-8");
   const sourceFile = ts.createSourceFile(filePath, source, ts.ScriptTarget.Latest, true);
 
-  // Active methods = those actually invoked (non-commented) as this.addCreature(this.xxx())
-  // in the family's constructor. Commented-out lines never become AST nodes, so this
-  // naturally excludes unfinished/disabled monster definitions.
+  // Active methods = those actually invoked (non-commented) as
+  // this.addCreature(() => this.xxx()) in the family's constructor. Commented-out lines never
+  // become AST nodes, so this naturally excludes unfinished/disabled monster definitions.
   const activeMethods = new Set<string>();
   function collectActive(node: ts.Node) {
     if (
@@ -82,10 +82,11 @@ for (const file of fs.readdirSync(creaturesDir)) {
       ts.isPropertyAccessExpression(node.expression) &&
       node.expression.name.text === "addCreature" &&
       node.arguments.length === 1 &&
-      ts.isCallExpression(node.arguments[0]) &&
-      ts.isPropertyAccessExpression(node.arguments[0].expression)
+      ts.isArrowFunction(node.arguments[0]) &&
+      ts.isCallExpression(node.arguments[0].body) &&
+      ts.isPropertyAccessExpression(node.arguments[0].body.expression)
     ) {
-      activeMethods.add(node.arguments[0].expression.name.text);
+      activeMethods.add(node.arguments[0].body.expression.name.text);
     }
     ts.forEachChild(node, collectActive);
   }
