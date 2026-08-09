@@ -22,7 +22,7 @@
 **Files:**
 - Modify: `generator/lib/src/model/creature/family.ts:118-120`
 - Test: `generator/lib/src/model/creature/family.test.ts`
-- Modify (mechanical, 92 call sites across 23 files): `generator/lib/creatures/ankhegs.ts`, `bears.ts`, `basilisks.ts`, `cats.ts`, `constructs.ts`, `crawlers.ts`, `dogs.ts`, `ettercaps.ts`, `ettin.ts`, `feys.ts`, `golems.ts`, `minotaurs.ts`, `ogres.ts`, `plants.ts`, `slimes.ts`, `spiders.ts`, `undead.ts`, `wolves.ts`, `wyvern.ts`
+- Modify (mechanical, 85 active call sites across 19 files): `generator/lib/creatures/ankhegs.ts`, `bears.ts`, `basilisks.ts`, `cats.ts`, `constructs.ts`, `crawlers.ts`, `dogs.ts`, `ettercaps.ts`, `ettin.ts`, `feys.ts`, `golems.ts`, `minotaurs.ts`, `ogres.ts`, `plants.ts`, `slimes.ts`, `spiders.ts`, `undead.ts`, `wolves.ts`, `wyvern.ts`
 
 **Interfaces:**
 - Consumes: `logService.error(message: string): void`, `logService.log(message: string): void` (both already exist on the default-exported singleton from `generator/lib/src/services/log.service.ts`); `translationService.from(ref: StringReference): string` (default-exported singleton from `generator/lib/src/services/translation.service.ts`); `creature.validate(family: MonsterFamilyEnum): void` (instance method on `Creature`, already implemented in `generator/lib/src/model/creature/creature.ts:203-205`).
@@ -174,7 +174,7 @@ Run: `cd generator && grep -rn "addCreature(this\." lib/creatures/*.ts`
 Expected: only the 7 commented-out lines in `undead.ts` remain (each prefixed with `//`). Every active call site now reads `this.addCreature(() => this.xxx());`.
 
 Run: `cd generator && grep -c "addCreature(() =>" lib/creatures/*.ts | awk -F: '{sum+=$2} END {print sum}'`
-Expected: `92`.
+Expected: `85`.
 
 - [ ] **Step 7: Confirm the full build and test suite are green**
 
@@ -443,3 +443,55 @@ Run: `cd generator && npm run generate; echo "exit code: $?"`
 Expected: same as Step 1 — `exit code: 0`, `Finished!`, `No errors` in the log summary.
 
 No commit for this task — it's verification only, and Step 4 already discards the temporary change.
+
+---
+
+### Task 5: Regenerate and commit stale mod output
+
+**Files:**
+- Modify (regenerated, not hand-edited): `lib/pnp-monster/**` (repo root, sibling of `generator/`), plus any of the fixed generated files listed in `generator/lib/src/services/pipeline.golden.test.ts`'s `FIXED_GENERATED_FILES` that changed: `lib/common/spell-resources.tpa`, `lib/common/spell-functions.tpa`, `lib/common/immunities.tpa`, `docs/monsters.html`, `docs/changelog.html`, `languages/*/generated.tra`.
+
+**Interfaces:**
+- Consumes: `npm run generate` (writes to the real mod folder this time, not a temp dir — this is what discovers the discrepancy `pipeline.golden.test.ts` reports).
+
+Discovered during Task 3's review (not anticipated when this plan was written): `generator/lib/src/services/pipeline.golden.test.ts` runs the full pipeline against a temp directory and diffs it against what's actually committed under `lib/pnp-monster/**` (and the fixed generated files) in the repo. That test had been silently skipping all 7 of its cases (not failing), so it never caught that base commit `915743a` ("feat: wip basilisks") re-sorted/extended `GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove` in `generator/lib/config/generate.ts` (adding `DW2RM2MO`) without regenerating output — `weidu-creature.service.ts` splices that array into every creature's `.tpa`, so every committed creature file drifted identically from what the generator now produces. Tasks 1-3's real contribution here is unblocking `pipeline.golden.test.ts` itself (see Task 4), which is what surfaces this pre-existing staleness as a failing "regenerates lib/pnp-monster identically to what's on disk" test rather than a silently-skipped one. This is the same situation the repo's prior commit `2af1e33` ("chore: regenerate mod output for creatures now failing dialog/deathVar validation") addressed — regenerate and commit.
+
+- [ ] **Step 1: Run the real generator**
+
+Run: `cd generator && npm run generate; echo "exit code: $?"`
+
+This writes output for real into the repo's actual `lib/pnp-monster/**` and the other `FIXED_GENERATED_FILES` locations (unlike Task 4, which redirected `State.modFolder` to a temp dir — this step intentionally writes to the real, tracked locations). Expected: `exit code: 0` (no errors — if this run reports errors, stop and investigate before continuing; don't commit generator output produced by a run that logged errors).
+
+- [ ] **Step 2: Review what changed**
+
+Run: `git status --short -- ../lib/pnp-monster ../lib/common ../docs/monsters.html ../docs/changelog.html ../languages` (paths are relative to `generator/`, so `..` reaches the repo root)
+Expected: modified files reflecting `915743a`'s `genericScriptsToRemove` re-sort (the `DW2RM2MO` addition) landing in every creature's `.tpa` — no new/deleted files, and no modifications to hand-authored files outside the generator's known output paths.
+
+- [ ] **Step 3: Run the golden test to confirm it's now clean**
+
+Run: `cd generator && npx vitest run lib/src/services/pipeline.golden.test.ts`
+Expected: `Tests  7 passed (7)` — no failures, no skips.
+
+- [ ] **Step 4: Run the full test suite**
+
+Run: `cd generator && npm test`
+Expected: only the pre-existing baseline failures remain (`monster-files.service.test.ts`, `family.test.ts`'s "unvalidated creatures.csv guesses warning", `documentation.service.test.ts`'s 3 `getTraits` tests, `poison.service.test.ts`) — `pipeline.golden.test.ts` no longer among them.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add lib/pnp-monster lib/common docs/monsters.html docs/changelog.html languages
+git commit -m "$(cat <<'EOF'
+chore: regenerate mod output now that the pipeline no longer crashes early
+
+The 71 changed files are pure modifications (no additions): output had
+been stale since 915743a's genericScriptsToRemove re-sort in
+generate.ts (which added DW2RM2MO), because weidu-creature.service.ts
+splices that array into every creature's .tpa, shifting all 71
+identically. This branch's real contribution here is unblocking
+pipeline.golden.test.ts, which had been silently skipping all its
+tests and masking the staleness - not making previously-unreachable
+output reachable for the first time.
+EOF
+)"
+```

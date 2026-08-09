@@ -118,7 +118,7 @@ class Minotaur extends Creature {
 class MinotaurFamily extends CreatureFamily<Minotaur> {
   constructor() {
     super(MonsterFamilyEnum.Minotaur);
-    this.addCreature(this.minotaur());
+    this.addCreature(() => this.minotaur());
   }
 
   createCreature(id: MonsterEnum): Minotaur {

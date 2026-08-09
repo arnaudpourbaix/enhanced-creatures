@@ -1106,22 +1106,22 @@ class Undead extends Creature {
 class UndeadFamily extends CreatureFamily<Undead> {
   constructor() {
     super(MonsterFamilyEnum.Undead);
-    this.addCreature(this.banshee());
+    this.addCreature(() => this.banshee());
     // this.addCreature(this.deathKnight());
     // this.addCreature(this.deathShade());
-    this.addCreature(this.ghoul());
-    this.addCreature(this.ghast());
-    this.addCreature(this.ghoulLord());
-    this.addCreature(this.mummy());
-    this.addCreature(this.greaterMummy());
-    this.addCreature(this.shadow());
-    this.addCreature(this.greaterShadow());
-    this.addCreature(this.baneguard());
-    this.addCreature(this.bonebat());
-    this.addCreature(this.skeleton());
-    this.addCreature(this.skeletonWarrior());
-    this.addCreature(this.spectre());
-    this.addCreature(this.ghost());
+    this.addCreature(() => this.ghoul());
+    this.addCreature(() => this.ghast());
+    this.addCreature(() => this.ghoulLord());
+    this.addCreature(() => this.mummy());
+    this.addCreature(() => this.greaterMummy());
+    this.addCreature(() => this.shadow());
+    this.addCreature(() => this.greaterShadow());
+    this.addCreature(() => this.baneguard());
+    this.addCreature(() => this.bonebat());
+    this.addCreature(() => this.skeleton());
+    this.addCreature(() => this.skeletonWarrior());
+    this.addCreature(() => this.spectre());
+    this.addCreature(() => this.ghost());
     // this.addCreature(this.wight());
     // this.addCreature(this.wraith());
     // this.addCreature(this.zombie());

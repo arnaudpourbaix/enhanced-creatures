@@ -14,7 +14,7 @@ class Ettercap extends Creature {}
 class EttercapFamily extends CreatureFamily<Ettercap> {
   constructor() {
     super(MonsterFamilyEnum.Ettercap);
-    this.addCreature(this.ettercap());
+    this.addCreature(() => this.ettercap());
   }
 
   createCreature(id: MonsterEnum): Ettercap {

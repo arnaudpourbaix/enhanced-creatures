@@ -146,15 +146,15 @@ class SlimeFamily extends CreatureFamily<Slime> {
   constructor() {
     super(MonsterFamilyEnum.Ooze);
     this.createToxicVapors();
-    this.addCreature(this.blackPudding());
-    this.addCreature(this.whitePudding());
-    this.addCreature(this.mustardJelly());
-    this.addCreature(this.fissionSlime());
-    this.addCreature(this.grayOoze());
-    this.addCreature(this.greenSlime());
-    this.addCreature(this.ochreJelly());
-    this.addCreature(this.oliveSlimeCreature());
-    this.addCreature(this.slitheringTracker());
+    this.addCreature(() => this.blackPudding());
+    this.addCreature(() => this.whitePudding());
+    this.addCreature(() => this.mustardJelly());
+    this.addCreature(() => this.fissionSlime());
+    this.addCreature(() => this.grayOoze());
+    this.addCreature(() => this.greenSlime());
+    this.addCreature(() => this.ochreJelly());
+    this.addCreature(() => this.oliveSlimeCreature());
+    this.addCreature(() => this.slitheringTracker());
   }
 
   createCreature(id: MonsterEnum): Slime {

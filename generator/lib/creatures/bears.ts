@@ -104,10 +104,10 @@ class BearFamily extends CreatureFamily<Bear> {
   constructor() {
     super(MonsterFamilyEnum.Bear);
     this.createImprovedStreamOfFrost();
-    this.addCreature(this.black());
-    this.addCreature(this.brown());
-    this.addCreature(this.cave());
-    this.addCreature(this.polar());
+    this.addCreature(() => this.black());
+    this.addCreature(() => this.brown());
+    this.addCreature(() => this.cave());
+    this.addCreature(() => this.polar());
   }
 
   createCreature(id: MonsterEnum): Bear {

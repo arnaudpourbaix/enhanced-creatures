@@ -376,12 +376,12 @@ class Ogre extends Creature {
 class OgreFamily extends CreatureFamily<Ogre> {
   constructor() {
     super(MonsterFamilyEnum.Ogre);
-    this.addCreature(this.ogre());
-    this.addCreature(this.ogrillon());
-    this.addCreature(this.halfOgre());
-    this.addCreature(this.ogreMage());
-    this.addCreature(this.berserker());
-    this.addCreature(this.shaman());
+    this.addCreature(() => this.ogre());
+    this.addCreature(() => this.ogrillon());
+    this.addCreature(() => this.halfOgre());
+    this.addCreature(() => this.ogreMage());
+    this.addCreature(() => this.berserker());
+    this.addCreature(() => this.shaman());
   }
 
   createCreature(id: MonsterEnum): Ogre {

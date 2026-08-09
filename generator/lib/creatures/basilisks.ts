@@ -69,8 +69,8 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     super(MonsterFamilyEnum.Basilisk);
     this.createPetrificationProjectile();
     this.createPetrification2e();
-    this.addCreature(this.lesser());
-    this.addCreature(this.greater());
+    this.addCreature(() => this.lesser());
+    this.addCreature(() => this.greater());
   }
 
   createCreature(id: MonsterEnum): Basilisk {

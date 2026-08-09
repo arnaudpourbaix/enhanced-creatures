@@ -59,9 +59,9 @@ class Wyvern extends Creature {
 class WyvernFamily extends CreatureFamily<Wyvern> {
   constructor() {
     super(MonsterFamilyEnum.Wyvern);
-    this.addCreature(this.wyvern());
-    this.addCreature(this.baby());
-    this.addCreature(this.greater());
+    this.addCreature(() => this.wyvern());
+    this.addCreature(() => this.baby());
+    this.addCreature(() => this.greater());
   }
 
   createCreature(id: MonsterEnum): Wyvern {

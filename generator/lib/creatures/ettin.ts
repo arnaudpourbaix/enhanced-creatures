@@ -43,7 +43,7 @@ class Ettin extends Creature {
 class EttinFamily extends CreatureFamily<Ettin> {
   constructor() {
     super(MonsterFamilyEnum.Ettin);
-    this.addCreature(this.ettin());
+    this.addCreature(() => this.ettin());
   }
   createCreature(id: MonsterEnum): Ettin {
     return new Ettin(id);

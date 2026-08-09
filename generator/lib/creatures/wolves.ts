@@ -296,12 +296,12 @@ class Wolf extends Creature {
 class WolfFamily extends CreatureFamily<Wolf> {
   constructor() {
     super(MonsterFamilyEnum.Wolf);
-    this.addCreature(this.wolf());
-    this.addCreature(this.dire());
-    this.addCreature(this.dread());
-    this.addCreature(this.vampiric());
-    this.addCreature(this.winter());
-    this.addCreature(this.worg());
+    this.addCreature(() => this.wolf());
+    this.addCreature(() => this.dire());
+    this.addCreature(() => this.dread());
+    this.addCreature(() => this.vampiric());
+    this.addCreature(() => this.winter());
+    this.addCreature(() => this.worg());
   }
 
   createCreature(id: MonsterEnum): Wolf {

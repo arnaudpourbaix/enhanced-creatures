@@ -7,6 +7,8 @@ import { Creature } from "./creature";
 import { TranslationKey } from "../../../translations/i18n";
 import { InputMainCreatureData } from "./data-input";
 import logService from "../../services/log.service";
+import creatureFactory from "../../factories/creature.factory";
+import translationService from "../../services/translation.service";
 
 class TestFamily extends CreatureFamily<Creature> {
   createCreature(id: MonsterEnum): Creature {
@@ -233,5 +235,87 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
     });
 
     expect(logSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("addCreature", () => {
+  it("builds, validates, and keeps the creature when nothing throws", () => {
+    const family = fakeFamily();
+    const validateSpy = vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+
+    family.addCreature(() =>
+      family.create({
+        name: CREATURE_NAME_KEY,
+        monster: MonsterEnum.Ankheg,
+        data: {} as unknown as InputMainCreatureData,
+      }),
+    );
+
+    expect(family.creatures).toHaveLength(1);
+    expect(validateSpy).toHaveBeenCalledWith(family.creatures[0], family.id);
+    expect(errorSpy).not.toHaveBeenCalled();
+  });
+
+  it("logs and continues, without adding a creature, when the builder throws before create()", () => {
+    const family = fakeFamily();
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+
+    expect(() => {
+      family.addCreature(() => {
+        throw new Error("boom");
+      });
+    }).not.toThrow();
+
+    expect(family.creatures).toHaveLength(0);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
+  });
+
+  it("logs, invalidates, and keeps the partially-built creature when the builder throws after create()", () => {
+    const family = fakeFamily();
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+
+    expect(() => {
+      family.addCreature(() => {
+        family.create({
+          name: CREATURE_NAME_KEY,
+          monster: MonsterEnum.Ankheg,
+          data: {} as unknown as InputMainCreatureData,
+        });
+        throw new Error("boom");
+      });
+    }).not.toThrow();
+
+    expect(family.creatures).toHaveLength(1);
+    expect(family.creatures[0].valid).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
+    // The .at(-1) fallback (see family.ts's addCreature()) recovers the actual creature, so the
+    // log message names it - not the generic "creature" label used when the builder throws
+    // before create() ever runs (see the previous test).
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining(translationService.from(CREATURE_NAME_KEY)),
+    );
+  });
+
+  it("logs and invalidates the creature when validate() throws", () => {
+    const family = fakeFamily();
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "validate").mockImplementation(() => {
+      throw new Error("validate boom");
+    });
+
+    expect(() => {
+      family.addCreature(() =>
+        family.create({
+          name: CREATURE_NAME_KEY,
+          monster: MonsterEnum.Ankheg,
+          data: {} as unknown as InputMainCreatureData,
+        }),
+      );
+    }).not.toThrow();
+
+    expect(family.creatures).toHaveLength(1);
+    expect(family.creatures[0].valid).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("validate boom"));
   });
 });
