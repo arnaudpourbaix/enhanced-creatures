@@ -109,7 +109,9 @@ class CreatureService {
         targets: ability.targets,
       });
       if (seen.has(signature)) {
-        const spellName = ability.resource ? spellService.getSpellName(ability.resource) : undefined;
+        const spellName = ability.resource
+          ? spellService.getSpellName(ability.resource)
+          : undefined;
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(
           `${translationService.from(creature.name)}: duplicate ability for '${ability.resource ?? ability.name}'${spellText} - the same spell and trigger context is listed twice.`,
@@ -131,11 +133,10 @@ class CreatureService {
       return false;
     }
     let ok = true;
-    for (const row of rows) {
-      if (row.dialog !== row.deathvar) {
+    for (const dialog of creature.behavior.dialog) {
+      if (!rows.some((r) => r.deathvar.toLowerCase() === dialog.toLowerCase())) {
         logService.error(
-          `${translationService.from(creature.name)}: creatures.csv entry '${row.file}' has ` +
-            `deathVar '${row.deathvar}' that doesn't match its dialog '${row.dialog}'.`,
+          `${translationService.from(creature.name)}: creatures.csv deathvar '${dialog}' not found.`,
         );
         ok = false;
       }

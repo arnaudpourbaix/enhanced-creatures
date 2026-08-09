@@ -85,6 +85,7 @@ export const GLOBAL_CONFIG = {
       "dw1melbe",
       "DW1MELGE",
       "dw1melmo",
+      "dw1melmw",
       "DW1RANGE",
       "dw1ranmo",
       "DW2MC0GE",
@@ -92,6 +93,7 @@ export const GLOBAL_CONFIG = {
       "DW2MC0MO",
       "DW2MC1GE",
       "DW2MC1MO",
+      "DW2MC2MO",
       "DW2MC2GE",
       "DW2MC3MO",
       "DW2MM0GE",
@@ -108,10 +110,10 @@ export const GLOBAL_CONFIG = {
       "DW2RM2MO",
       "DW2RS0MO",
       "GENSHT01",
-      "HUNTER",
-      "initdlg",
+      // "HUNTER", Some mods added specifics inside
+      // "initdlg", Needed for creatures that has no death var so dialog is not possible
       "SHOUT",
-      "SUMSHT02",
+      //"SUMSHT02", Some mods added specifics inside
       "TUTU_SCR",
       "WDASIGHT",
       "WTASIGHT",

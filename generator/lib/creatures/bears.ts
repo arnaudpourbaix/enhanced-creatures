@@ -107,6 +107,7 @@ class BearFamily extends CreatureFamily<Bear> {
     this.addCreature(() => this.black());
     this.addCreature(() => this.brown());
     this.addCreature(() => this.cave());
+    this.addCreature(() => this.grizzly());
     this.addCreature(() => this.polar());
   }
 
@@ -207,16 +208,10 @@ class BearFamily extends CreatureFamily<Bear> {
     brown.setBehavior({
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
-      abilities: [this.rage],
     });
     brown.setAdjustments([
       { files: ["BEARBRSU"], summon: true },
       { files: ["PLYBEAR1"], data: { script: { location: "None" } } },
-      { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
-      // { do we want to give them rage? this is not RAW
-      //   files: ["BDBEARBN", "BDGRIZHU"],
-      //   data: { removeMemorizedSpells: false },
-      // },
     ]);
     return brown;
   }
@@ -251,7 +246,7 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["B1-10", "BEARCASU"],
+          remove: ["B1-10", "BEARCASU", "BEARCA"],
         },
         script: {
           remove: ["CBEAR", "BEAR"],
@@ -263,15 +258,11 @@ class BearFamily extends CreatureFamily<Bear> {
     cave.setBehavior({
       customCodes: [this.turningHostile],
       walk: true,
-      abilities: [this.rage],
     });
     cave.setAdjustments([
-      { files: ["BEARCASU"], summon: true },
+      { files: ["BEARCASU", "B_BEAR1"], summon: true },
       { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
-      // { do we want to give them rage? this is not RAW
-      //   files: ["BDBEARCA"],
-      //   data: { removeMemorizedSpells: false },
-      // },
+      { files: ["B_BEAR1"], data: { level1: 9 } },
     ]);
     return cave;
   }
@@ -312,10 +303,10 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["B1-12", "B1-12M3", "BEARPOSU", "KALDW1"],
+          remove: ["B1-12", "B1-12M3", "BEARPO", "BEARPOSU", "KALDW1"],
         },
         script: {
-          remove: ["CBEAR", "BEAR", "kaldran"],
+          remove: ["CBEAR", "BEAR", "kaldran", "gnsummm"],
         },
         immunities: ["coldResistance"],
       },
@@ -328,9 +319,10 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, this.kaldranInit],
     });
     polar.setAdjustments([
-      { files: ["BEARPOSU", "BDGHBRSU", "BDGHOSTF"], summon: true },
+      { files: ["BEARPOSU", "BDGHBRSU", "BDGHOSTF", "B_PBEAR1"], summon: true },
       { files: ["BDGHOSTF"], data: { immunities: ["undead", "incorporeal"] } },
       { files: ["BDGHBRSU"], data: { level1: 9 } },
+      { files: ["B_PBEAR1"], data: { level1: 13 } },
       {
         files: ["KALDRAN"],
         data: {
@@ -350,6 +342,56 @@ class BearFamily extends CreatureFamily<Bear> {
       },
     ]);
     return polar;
+  }
+
+  /**
+   * Grizzly Bear
+   */
+  private grizzly() {
+    const grizzly = this.create({
+      monster: MonsterEnum.GrizzlyBear,
+      name: "monster.bear.name.grizzly",
+      files: [],
+      data: {
+        level1: 10,
+        bonusHp: 10,
+        specialBonusHp: 12,
+        strength: 20,
+        dexterity: 14,
+        constitution: 20,
+        intelligence: 4,
+        wisdom: 13,
+        charisma: 7,
+        ac: 5,
+        apr: 3,
+        xpv: 1500,
+        alignment: "NEUTRAL",
+        morale: 9,
+        general: "ANIMAL",
+        race: "BEAR",
+        class: "BEAR_BROWN",
+        gender: "NIETHER",
+        size: "Huge",
+        movement: 12,
+        items: {
+          remove: ["B1-12"],
+        },
+        script: {
+          remove: ["BEAR"],
+        },
+      },
+    });
+    grizzly.createPaws(1, 12, { diceThrown: 3, diceSize: 6 });
+    grizzly.createJaws(2, 6);
+    grizzly.setBehavior({
+      walk: true,
+      customCodes: [this.turningHostile, hunterCustomCode],
+    });
+    grizzly.setAdjustments([
+      { files: ["BEARGRSU"], summon: true },
+      { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
+    ]);
+    return grizzly;
   }
 
   /**
@@ -475,12 +517,6 @@ class BearFamily extends CreatureFamily<Bear> {
       },
     ],
     abilities: [],
-  };
-
-  rage: RawCreatureAbility = {
-    preset: SPELLS.Class.BerserkerRage.file,
-    triggers: [{ name: "HPPercentLT", params: [ScriptTarget.myself, 75] }],
-    probability: 50,
   };
 
   kaldranInit: CustomCode = {

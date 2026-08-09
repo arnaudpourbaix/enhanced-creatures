@@ -22,6 +22,7 @@ export enum MonsterFamilyEnum {
 }
 
 export enum MonsterEnum {
+  Medusa = 0,
   Ankheg = 1,
   LesserBasilisk = 2,
   GreaterBasilisk = 3,
@@ -116,4 +117,6 @@ export enum MonsterEnum {
   DeathShade = 92,
   Ghost = 93,
   Ettin = 94,
+  Chimera = 95,
+  GrizzlyBear = 96,
 }

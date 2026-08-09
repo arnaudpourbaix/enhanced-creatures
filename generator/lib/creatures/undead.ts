@@ -2137,7 +2137,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
     });
     skeleton.setBehavior({
       restHeal: true,
-      dialog: ["KNIGHTSK"],
       abilities: [
         this.preset(SPELLS.Wizard.Vocalize.file),
         this.preset(SPELLS.Wizard.MirrorImages.file),

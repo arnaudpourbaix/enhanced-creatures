@@ -176,20 +176,6 @@ THEN
 		RandomWalkContinuous()
 END
 
-// Berserker Rage
-IF
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	HaveSpell(BERSERKER_RAGE)
-	See(NearestEnemyOf(Myself))
-	CheckSpellState(Myself,BERSERKER_RAGE)
-	HPPercentLT(Myself,75)
-	RandomNumGT(800,400)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		Spell(Myself,BERSERKER_RAGE)
-END
-
 // Attack NoCheck enemy
 IF
 	OR(4)

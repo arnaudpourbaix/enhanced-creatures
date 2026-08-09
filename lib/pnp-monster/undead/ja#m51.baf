@@ -1,18 +1,5 @@
 // Skeleton
 
-// Initiate dialog
-IF
-	Global("JA#DIALOG","LOCALS",0)
-	Name("KNIGHTSK",Myself)
-	NumTimesTalkedTo(0)
-	See([PC])
-THEN
-	RESPONSE #100
-		SetGlobal("JA#DIALOG","LOCALS",1)
-		FaceObject([PC])
-		StartDialogueNoSet([PC])
-END
-
 // Init
 IF
 	Global("JA#INIT","LOCALS",0)

@@ -62,6 +62,7 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       brown: "Brown Bear",
       cave: "Cave Bear",
       polar: "Polar Bear",
+      grizzly: "Grizzly Bear",
     },
     weapon: { claws: "Paws", jaws: "Jaws" },
     hug: { name: "Hug" },

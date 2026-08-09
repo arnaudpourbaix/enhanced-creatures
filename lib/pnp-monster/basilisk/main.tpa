@@ -35,3 +35,4 @@ COPY_EXISTING ~ja#s0f2.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/2.tpa" // Lesser Basilisk
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/3.tpa" // Greater Basilisk
