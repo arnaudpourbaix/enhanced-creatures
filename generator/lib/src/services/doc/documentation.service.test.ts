@@ -2,7 +2,7 @@
 // stringRef) recur because many independent test cases exercise the same template-replace
 // contract on different inputs - not copy-paste.
 /* eslint-disable sonarjs/no-duplicate-string */
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CreatureAbility } from "../../model/creature/ability";
 import { Creature } from "../../model/creature/creature";
@@ -14,6 +14,7 @@ import translationService from "../translation.service";
 
 interface DocumentationServicePrivate {
   monsters: string[];
+  families: string[];
   replace(template: { text: string }, key: string, value: string | number | undefined): void;
 }
 const service = documentationService as unknown as DocumentationServicePrivate;
@@ -341,8 +342,8 @@ describe("getFamilyMenu", () => {
     const family = {
       id: MonsterFamilyEnum.Bear,
       creatures: [
-        { id: 4, name: "monster.bear.name.black" },
-        { id: 5, name: "monster.bear.name.brown" },
+        { id: 4, name: "monster.bear.name.black", valid: true },
+        { id: 5, name: "monster.bear.name.brown", valid: true },
       ],
     } as unknown as Family;
 
@@ -350,6 +351,22 @@ describe("getFamilyMenu", () => {
       '<li class="family"><details><summary>Bear</summary><ul>' +
         '<li><a href="#m4">Black Bear</a></li>' +
         '<li><a href="#m5">Brown Bear</a></li>' +
+        "</ul></details></li>",
+    );
+  });
+
+  it("omits invalid creatures from the family menu", () => {
+    const family = {
+      id: MonsterFamilyEnum.Bear,
+      creatures: [
+        { id: 4, name: "monster.bear.name.black", valid: true },
+        { id: 5, name: "monster.bear.name.brown", valid: false },
+      ],
+    } as unknown as Family;
+
+    expect(documentationService.getFamilyMenu(family)).toBe(
+      '<li class="family"><details><summary>Bear</summary><ul>' +
+        '<li><a href="#m4">Black Bear</a></li>' +
         "</ul></details></li>",
     );
   });
@@ -363,6 +380,52 @@ describe("getFamilyMenu", () => {
     expect(documentationService.getFamilyMenu(family)).toBe(
       '<li class="family"><details><summary>Bear</summary><ul></ul></details></li>',
     );
+  });
+});
+
+describe("addFamily", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  // Reproduces the CreatureFamily.addCreature() failure mode where a builder throws after
+  // create() already pushed the creature: the creature stays in family.creatures with
+  // valid=false and never reached Creature.validate(), so creature.attack is still undefined.
+  // Before this test's fix, addFamily() passed every creature (valid or not) to addCreature(),
+  // which reads creature.attack.dualWielding via getEffectiveApr() and threw, aborting the whole
+  // documentation pass. addFamily() must skip invalid creatures instead.
+  it("does not pass an invalid creature to addCreature()", () => {
+    const addCreatureSpy = vi
+      .spyOn(documentationService, "addCreature")
+      .mockImplementation(() => {});
+    const validCreature = { id: 4, name: "monster.bear.name.black", valid: true } as Creature;
+    const invalidCreature = { id: 5, name: "monster.bear.name.brown", valid: false } as Creature;
+    const family = {
+      id: MonsterFamilyEnum.Bear,
+      creatures: [validCreature, invalidCreature],
+    } as unknown as Family;
+
+    documentationService.addFamily(family);
+
+    expect(addCreatureSpy).toHaveBeenCalledTimes(1);
+    expect(addCreatureSpy).toHaveBeenCalledWith(validCreature);
+  });
+
+  it("omits an invalid creature from the pushed family menu", () => {
+    vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
+    const family = {
+      id: MonsterFamilyEnum.Bear,
+      creatures: [
+        { id: 4, name: "monster.bear.name.black", valid: true },
+        { id: 5, name: "monster.bear.name.brown", valid: false },
+      ],
+    } as unknown as Family;
+
+    documentationService.addFamily(family);
+
+    const menu = service.families.at(-1) ?? "";
+    expect(menu).toContain('<a href="#m4">Black Bear</a>');
+    expect(menu).not.toContain("#m5");
   });
 });
 

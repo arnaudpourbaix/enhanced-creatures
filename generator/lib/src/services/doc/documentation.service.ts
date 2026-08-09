@@ -42,6 +42,7 @@ class DocumentationService {
 
   getFamilyMenu(family: Family): string {
     const links = family.creatures
+      .filter((creature) => creature.valid)
       .map(
         (creature) =>
           `<li><a href="#m${creature.id}">${translationService.from(creature.name)}</a></li>`,
@@ -55,6 +56,11 @@ class DocumentationService {
   addFamily(family: Family) {
     this.families.push(this.getFamilyMenu(family));
     for (const creature of family.creatures) {
+      // A creature whose builder threw after create() (see CreatureFamily.addCreature()) is left
+      // in family.creatures with valid=false and never reached Creature.validate(), so fields
+      // like creature.attack are still unset - skip it here rather than crash the whole
+      // documentation pass on one bad creature.
+      if (!creature.valid) continue;
       this.addCreature(creature);
     }
   }
