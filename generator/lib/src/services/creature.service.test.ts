@@ -925,23 +925,21 @@ describe("checkDialog", () => {
     vi.restoreAllMocks();
   });
 
-  it("errors and fails when a row's deathvar doesn't match its dialog", () => {
-    const creature = fakeDialogCreature(["L#MIMMI"]);
+  it("errors and fails when a declared dialog value has no matching deathvar row", () => {
+    const creature = fakeDialogCreature(["MISSING"]);
     vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
-      { file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "WRONGDLG" },
+      { file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "L#MIMMI" },
     ]);
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     expect(creatureService.checkDialog(creature)).toBe(false);
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("deathVar 'L#MIMMI'"));
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("dialog 'WRONGDLG'"));
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("deathvar 'MISSING' not found"));
     vi.restoreAllMocks();
   });
 
-  it("reports every mismatched row when more than one disagrees", () => {
+  it("reports every declared dialog value that has no matching deathvar row", () => {
     const creature = fakeDialogCreature(["A", "B"]);
     vi.spyOn(monsterFilesService, "getDialogRows").mockReturnValue([
-      { file: "F1", deathvar: "A", dialog: "WRONG1" },
-      { file: "F2", deathvar: "B", dialog: "WRONG2" },
+      { file: "F1", deathvar: "OTHER", dialog: "OTHER" },
     ]);
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     expect(creatureService.checkDialog(creature)).toBe(false);

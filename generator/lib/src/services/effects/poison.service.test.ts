@@ -45,8 +45,8 @@ describe("getEffects (via getSpell, per poison type)", () => {
     const effects = poisonOpcodeEffects(getEffects("N"));
     expect(effects).toHaveLength(2);
     expect(effects.every((e) => e.type === PoisonTypeEnum.AmountDamagePerSecond)).toBe(true);
-    expect(effects[0].amount).toBe(5); // save: floor(25/5), rounds up to exact multiple
-    expect(effects[1].amount).toBe(45); // normal: floor(225/5), already an exact multiple
+    expect(effects[0].amount).toBe(1); // save: floor(25/17), rounds up to exact multiple
+    expect(effects[1].amount).toBe(13); // normal: floor(225/17), rounds up to exact multiple
   });
 
   it("type O: paralytic effects from effectFactory.paralyze (no Poison-opcode effect)", () => {

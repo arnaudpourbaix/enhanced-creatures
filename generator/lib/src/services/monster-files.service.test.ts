@@ -84,9 +84,9 @@ describe("parseUnvalidatedMonsterFilesCsv", () => {
 
 describe("monsterFilesService.getUnvalidatedFiles", () => {
   it("returns the unvalidated creatures.csv guesses for a known monster", () => {
-    const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Ankheg);
+    const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Wolf);
 
-    expect(files).toEqual(expect.arrayContaining(["L#MIMMI"]));
+    expect(files).toEqual(expect.arrayContaining(["9XDOG"]));
   });
 });
 

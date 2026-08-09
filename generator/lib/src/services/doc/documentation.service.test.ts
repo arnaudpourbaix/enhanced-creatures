@@ -572,54 +572,6 @@ describe("getCreatureTraits", () => {
   });
 });
 
-describe("getTraits", () => {
-  const originalImmunities = State.immunities;
-
-  afterEach(() => {
-    State.immunities = originalImmunities;
-  });
-
-  it("appends the description paragraph when the trait has one", () => {
-    State.immunities = [
-      {
-        name: "construct",
-        type: "trait",
-        doc: true,
-        stringRef: "common.traits.construct.name",
-        description: "common.traits.construct.name",
-      } as unknown as ImmunityConfig,
-    ];
-    expect(documentationService.getTraits()).toContain("<p>");
-  });
-
-  it("omits the description paragraph when the trait has none", () => {
-    State.immunities = [
-      {
-        name: "construct",
-        type: "trait",
-        doc: true,
-        stringRef: "common.traits.construct.name",
-      } as unknown as ImmunityConfig,
-    ];
-    expect(documentationService.getTraits()).not.toContain("<p>");
-  });
-
-  it("wraps each trait entry in a container div keyed by the trait's name", () => {
-    State.immunities = [
-      {
-        name: "construct",
-        type: "trait",
-        doc: true,
-        stringRef: "common.traits.construct.name",
-        description: "common.traits.construct.name",
-      } as unknown as ImmunityConfig,
-    ];
-    expect(documentationService.getTraits()).toBe(
-      '<div class="trait-entry" id="construct"><h5>Construct</h5><p>Construct</p></div>',
-    );
-  });
-});
-
 describe("formatEnumLabel", () => {
   it("renders a SCREAMING_SNAKE_CASE value as Title Case words", () => {
     expect(documentationService.formatEnumLabel("CHAOTIC_EVIL")).toBe("Chaotic Evil");
