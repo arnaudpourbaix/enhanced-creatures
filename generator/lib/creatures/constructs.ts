@@ -208,7 +208,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
       },
     });
     doomGuard.addTrait({
-      immunities: ["mindSpells", "fireResistance", "coldResistance"],
+      immunities: ["fireResistance", "coldResistance"],
     });
     doomGuard.equipItem(this.item(Ids.Longsword));
     doomGuard.equipItem(this.item(Ids.Armor));
