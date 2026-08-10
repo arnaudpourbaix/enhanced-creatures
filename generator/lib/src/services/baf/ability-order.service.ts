@@ -1,4 +1,7 @@
-import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
+import {
+  SPELL_PRIORITY_ORDER,
+  SPELL_PRIORITY_ORDER_UNVETTED,
+} from "../../../config/spell-priority-order";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
 import { Creature } from "../../model/creature/creature";
 import creatureService from "../creature.service";
@@ -31,8 +34,15 @@ class AbilityOrderService {
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
     const autoFiles = memorizedFiles.filter((file) => !explicitFiles.has(file));
 
+    // Concatenated per call (not at module load) so that mutating either exported array -
+    // e.g. tests push()ing fake entries onto SPELL_PRIORITY_ORDER - is still picked up.
+    // SPELL_PRIORITY_ORDER holds the entries a human or real evidence has placed;
+    // SPELL_PRIORITY_ORDER_UNVETTED holds everything not yet reviewed - both still need
+    // to resolve to *some* ability order, or an unreviewed but memorized spell would
+    // silently never be cast.
+    const priorityOrder = [...SPELL_PRIORITY_ORDER, ...SPELL_PRIORITY_ORDER_UNVETTED];
     const ordered: OrderedAbility[] = autoFiles
-      .map((file) => ({ identity: file, index: SPELL_PRIORITY_ORDER.indexOf(file) }))
+      .map((file) => ({ identity: file, index: priorityOrder.indexOf(file) }))
       .filter(({ identity, index }) => {
         if (index === -1) {
           logService.error(

@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { SPELLS } from "../lib/config/spells/spell-names";
 import {
-  SPELL_PRIORITY_ORDER_RANKED,
+  SPELL_PRIORITY_ORDER,
   SPELL_PRIORITY_ORDER_UNVETTED,
 } from "../lib/config/spell-priority-order";
 
@@ -10,19 +10,26 @@ import {
 // assets/emulti.baf. Full rationale and the alternatives it replaced:
 // docs/superpowers/specs/2026-08-10-spell-priority-order-emulti-design.md
 //
-// The file holds two lists: SPELL_PRIORITY_ORDER_RANKED (real evidence, sorted by
-// first-cast line) and SPELL_PRIORITY_ORDER_UNVETTED (no evidence exists for these -
-// the old hand-tuned list wasn't a reliable stand-in for one, so they're kept in their
-// own list below the ranked ones rather than interleaved among them on a guess).
+// The file holds two lists:
+// - SPELL_PRIORITY_ORDER: entries with real emulti.baf evidence are sorted by their
+//   first-cast line. Entries with no evidence that are ALREADY in this list (because a
+//   human moved them here after deciding where they belong) are left anchored in place -
+//   the evidence-backed entries sort around them, but nothing ever relocates a
+//   no-evidence entry within this list. That's the "ordinal placement" idea from an
+//   earlier round of this design, now scoped to entries a human has actively chosen to
+//   place here, not applied wholesale to everything without evidence.
+// - SPELL_PRIORITY_ORDER_UNVETTED: no evidence, not yet reviewed. Order preserved
+//   exactly as found - this script never invents an opinion about where an unvetted
+//   entry belongs. An entry only ever leaves this list automatically if it gains real
+//   evidence (promoted straight into SPELL_PRIORITY_ORDER, sorted by that evidence);
+//   otherwise a human moves it by hand, and from then on this script treats it as
+//   anchored per the rule above.
 //
-// When to run this: after adding, removing, or renaming a SPELLS.*/FNP_SPELLS.*/
-// PRESET_NAMES.* entry anywhere in either list. It doesn't matter which list you add it
-// to, or where within that list: every entry is reclassified into RANKED or UNVETTED
-// from scratch each run, purely by whether emulti.baf casts it. What DOES stay exactly
-// as you left it is the relative order of entries that end up in UNVETTED together -
-// this script never invents an opinion about where an unvetted entry belongs, so hand-
-// order that list yourself as you develop one. Running with no source changes is a
-// no-op.
+// When to run this: after adding, removing, or renaming an entry in either list, or
+// after moving one between them. It doesn't matter where within SPELL_PRIORITY_ORDER you
+// drop a no-evidence entry you're promoting from the unvetted list - just put it where
+// you think it belongs; this script will never move it again once it's there. Running
+// with no source changes is a no-op.
 //
 // Usage: npx ts-node scripts/derive-spell-priority-order.ts   (from generator/)
 
@@ -33,7 +40,7 @@ const BAF_FILE = path.join(ROOT, "assets/emulti.baf");
 const HOTKEY_EXCLUDE_START_LINE = 2871;
 const HOTKEY_EXCLUDE_END_LINE = 5055;
 
-const RANKED_MARKER = "export const SPELL_PRIORITY_ORDER_RANKED";
+const MAIN_MARKER = "export const SPELL_PRIORITY_ORDER:";
 const UNVETTED_MARKER = "export const SPELL_PRIORITY_ORDER_UNVETTED";
 
 interface RawEntry {
@@ -43,7 +50,7 @@ interface RawEntry {
 
 interface ResolvedEntry extends RawEntry {
   file: string;
-  originalIndex: number; // index in the combined (ranked-then-unvetted) source sequence
+  originalIndex: number; // index within its own list (main or unvetted), before this run
   bafRank?: number;
 }
 
@@ -74,30 +81,27 @@ function parseArrayEntries(lines: string[], fromLine: number): { entries: RawEnt
 
 // --- parse the current file: preserve the header (imports, top doc comment) verbatim,
 // find both named arrays, preserve the comment block between them (the UNVETTED doc
-// comment) verbatim, and ignore everything from UNVETTED's "];" onward (the trailing
-// concatenation export is always regenerated, never hand-edited). ---
+// comment) verbatim, and ignore anything after UNVETTED's "];". ---
 function parseSource(source: string): {
   header: string;
   betweenLists: string;
-  rankedRaw: RawEntry[];
+  mainRaw: RawEntry[];
   unvettedRaw: RawEntry[];
 } {
   const lines = source.split(/\r?\n/);
-  const rankedStart = lines.findIndex((l) => l.includes(RANKED_MARKER));
-  if (rankedStart === -1) throw new Error(`Could not find "${RANKED_MARKER}" in ${TARGET_FILE}`);
-  const header = lines.slice(0, rankedStart + 1).join("\n");
+  const mainStart = lines.findIndex((l) => l.includes(MAIN_MARKER));
+  if (mainStart === -1) throw new Error(`Could not find "${MAIN_MARKER}" in ${TARGET_FILE}`);
+  const header = lines.slice(0, mainStart + 1).join("\n");
 
-  const { entries: rankedRaw, closingLine: rankedClose } = parseArrayEntries(lines, rankedStart);
+  const { entries: mainRaw, closingLine: mainClose } = parseArrayEntries(lines, mainStart);
 
-  const unvettedStart = lines.findIndex(
-    (l, i) => i > rankedClose && l.includes(UNVETTED_MARKER),
-  );
+  const unvettedStart = lines.findIndex((l, i) => i > mainClose && l.includes(UNVETTED_MARKER));
   if (unvettedStart === -1) throw new Error(`Could not find "${UNVETTED_MARKER}" in ${TARGET_FILE}`);
-  const betweenLists = lines.slice(rankedClose + 1, unvettedStart + 1).join("\n");
+  const betweenLists = lines.slice(mainClose + 1, unvettedStart + 1).join("\n");
 
   const { entries: unvettedRaw } = parseArrayEntries(lines, unvettedStart);
 
-  return { header, betweenLists, rankedRaw, unvettedRaw };
+  return { header, betweenLists, mainRaw, unvettedRaw };
 }
 
 // --- flatten SPELLS into file -> id lookup (FNP_SPELLS entries have no id field,
@@ -152,21 +156,68 @@ function extractBafRanks(idToFile: Map<string, string>): Map<string, number> {
   return ranks;
 }
 
+// Within the main list only: evidence-backed entries sort by real baf line. A
+// no-evidence entry already in this list is anchored - it gets the synthetic rank
+// (S[p-1] + S[p]) / 2, where S is the ascending array of evidence-backed baf lines
+// *within this list* and p is how many of them precede this entry in the list as found -
+// i.e. "this entry was placed after p of the evidence-backed ones, so keep it after
+// exactly p of them." Closed form: an anchored entry never changes its relative position
+// among the entries it was placed among. See the design doc for why this beats
+// interpolating a borrowed baf line number from a neighbour.
+function placeMainList(mainRaw: RawEntry[], resolved: string[], bafRanks: Map<string, number>): ResolvedEntry[] {
+  if (mainRaw.length !== resolved.length) {
+    throw new Error(
+      `Main list entry count (${mainRaw.length}) does not match resolved SPELL_PRIORITY_ORDER length (${resolved.length}) - parseSource() missed or double-counted a line.`,
+    );
+  }
+
+  const partial = mainRaw.map((raw, originalIndex) => ({
+    ...raw,
+    file: resolved[originalIndex],
+    originalIndex,
+    bafRank: bafRanks.get(resolved[originalIndex]),
+  }));
+
+  const rankedSortedLines = partial
+    .filter((e) => e.bafRank !== undefined)
+    .map((e) => e.bafRank as number)
+    .sort((a, b) => a - b);
+
+  let precedingRankedCount = 0;
+  const precedingCounts: number[] = [];
+  for (const e of partial) {
+    precedingCounts.push(precedingRankedCount);
+    if (e.bafRank !== undefined) precedingRankedCount++;
+  }
+
+  const m = rankedSortedLines.length;
+  const withRank = partial.map((e, i) => {
+    if (e.bafRank !== undefined) return { ...e, rankValue: e.bafRank };
+    const p = precedingCounts[i];
+    const rankValue =
+      m === 0
+        ? i
+        : p === 0
+          ? rankedSortedLines[0] - 1
+          : p === m
+            ? rankedSortedLines[m - 1] + 1
+            : (rankedSortedLines[p - 1] + rankedSortedLines[p]) / 2;
+    return { ...e, rankValue };
+  });
+
+  return withRank
+    .sort((a, b) => a.rankValue - b.rankValue || a.originalIndex - b.originalIndex)
+    .map(({ rankValue: _rankValue, ...e }) => e);
+}
+
 // --- run ---
 const source = fs.readFileSync(TARGET_FILE, "utf-8");
-const { header, betweenLists, rankedRaw, unvettedRaw } = parseSource(source);
+const { header, betweenLists, mainRaw, unvettedRaw } = parseSource(source);
 
-// Every entry is reclassified from scratch by evidence, regardless of which list it was
-// found in - so both lists are combined into one sequence up front. originalIndex over
-// this combined sequence is what preserves UNVETTED's hand-ordering across runs (see
-// below): ranked-block entries all sort before unvetted-block ones by construction, so
-// filtering down to "no evidence" and sorting by originalIndex reproduces exactly
-// whatever relative order the unvetted block had, with nothing invented.
-const combinedRaw = [...rankedRaw, ...unvettedRaw];
-const resolvedFiles = [...SPELL_PRIORITY_ORDER_RANKED, ...SPELL_PRIORITY_ORDER_UNVETTED];
-if (combinedRaw.length !== resolvedFiles.length) {
+if (mainRaw.length !== SPELL_PRIORITY_ORDER.length || unvettedRaw.length !== SPELL_PRIORITY_ORDER_UNVETTED.length) {
   throw new Error(
-    `Source entry count (${combinedRaw.length}) does not match resolved list length (${resolvedFiles.length}) - parseSource() missed or double-counted a line.`,
+    `Parsed entry counts (main ${mainRaw.length}, unvetted ${unvettedRaw.length}) don't match the resolved lists ` +
+      `(main ${SPELL_PRIORITY_ORDER.length}, unvetted ${SPELL_PRIORITY_ORDER_UNVETTED.length}) - parseSource() missed or double-counted a line.`,
   );
 }
 
@@ -175,47 +226,60 @@ flattenSpellsToIdMap(SPELLS, fileToId);
 const idToFile = new Map<string, string>([...fileToId].map(([file, id]) => [id, file]));
 const bafRanks = extractBafRanks(idToFile);
 
-const combined: ResolvedEntry[] = combinedRaw.map((raw, originalIndex) => ({
+const unvettedResolved: ResolvedEntry[] = unvettedRaw.map((raw, originalIndex) => ({
   ...raw,
-  file: resolvedFiles[originalIndex],
+  file: SPELL_PRIORITY_ORDER_UNVETTED[originalIndex],
   originalIndex,
-  bafRank: bafRanks.get(resolvedFiles[originalIndex]),
+  bafRank: bafRanks.get(SPELL_PRIORITY_ORDER_UNVETTED[originalIndex]),
 }));
+
+// Entries that gained evidence get promoted straight into the main list; the rest stay
+// in the unvetted holding pen, in their existing relative order.
+const promoted = unvettedResolved.filter((e) => e.bafRank !== undefined);
+const stillUnvetted = unvettedResolved.filter((e) => e.bafRank === undefined);
+
+const mainWithPromotions = [...mainRaw, ...promoted.map(({ file: _file, originalIndex: _originalIndex, bafRank: _bafRank, ...raw }) => raw)];
+const mainResolvedFiles = [...SPELL_PRIORITY_ORDER, ...promoted.map((e) => e.file)];
+const mainFinal = placeMainList(mainWithPromotions, mainResolvedFiles, bafRanks);
 
 // Two different registry entries can resolve to the same resource file (e.g. an
 // FNP_SPELLS.* spell that reuses a vanilla resource because Faiths & Powers doesn't
-// implement a distinct one) - only one line is needed per file, since AbilityOrderService
-// looks entries up by resolved file, not by which registry path produced it. If a
-// ranked and an unvetted entry collide, the ranked one wins (it has real evidence).
+// implement a distinct one) - only one line is needed per file. If a copy exists in both
+// the main list and the unvetted list, the main-list one wins (it's the one a human, or
+// real evidence, actually placed).
 const seenFiles = new Set<string>();
 const collapsedDuplicates: { kept: string; dropped: string }[] = [];
-const deduped: ResolvedEntry[] = [];
-for (const e of [...combined].sort((a, b) => (a.bafRank !== undefined ? 0 : 1) - (b.bafRank !== undefined ? 0 : 1))) {
+const mainDeduped: ResolvedEntry[] = [];
+for (const e of mainFinal) {
   if (seenFiles.has(e.file)) {
-    const keptExpr = deduped.find((k) => k.file === e.file)!.rawExpr;
+    const keptExpr = mainDeduped.find((k) => k.file === e.file)!.rawExpr;
     collapsedDuplicates.push({ kept: keptExpr, dropped: e.rawExpr });
     continue;
   }
   seenFiles.add(e.file);
-  deduped.push(e);
+  mainDeduped.push(e);
+}
+const unvettedDeduped: ResolvedEntry[] = [];
+for (const e of stillUnvetted) {
+  if (seenFiles.has(e.file)) {
+    const keptExpr = mainDeduped.find((k) => k.file === e.file)?.rawExpr ?? "(another unvetted entry)";
+    collapsedDuplicates.push({ kept: keptExpr, dropped: e.rawExpr });
+    continue;
+  }
+  seenFiles.add(e.file);
+  unvettedDeduped.push(e);
 }
 
-const rankedFinal = deduped
-  .filter((e) => e.bafRank !== undefined)
-  .sort((a, b) => (a.bafRank as number) - (b.bafRank as number));
-const unvettedFinal = deduped
-  .filter((e) => e.bafRank === undefined)
-  .sort((a, b) => a.originalIndex - b.originalIndex);
-
-// sanity: never drop an entry
-const originalFiles = new Set(combined.map((e) => e.file));
-const finalFiles = new Set([...rankedFinal, ...unvettedFinal].map((e) => e.file));
-for (const f of originalFiles) {
-  if (!finalFiles.has(f)) throw new Error(`Entry dropped: ${f}`);
+// sanity: never drop an entry (aside from deliberate duplicate collapsing above)
+const beforeFiles = new Set([...mainRaw, ...unvettedRaw].map((_, i) => (i < mainRaw.length ? SPELL_PRIORITY_ORDER[i] : SPELL_PRIORITY_ORDER_UNVETTED[i - mainRaw.length])));
+const afterFiles = new Set([...mainDeduped, ...unvettedDeduped].map((e) => e.file));
+for (const f of beforeFiles) {
+  if (!afterFiles.has(f) && !collapsedDuplicates.some((d) => d.dropped.includes(f))) {
+    throw new Error(`Entry dropped: ${f}`);
+  }
 }
 
-// --- write the file: preserved header and the comment block between the two lists,
-// regenerated array bodies, always-regenerated concatenation export. ---
+// --- write the file ---
 function renderList(entries: ResolvedEntry[]): string {
   const lines: string[] = [];
   for (const e of entries) {
@@ -225,32 +289,20 @@ function renderList(entries: ResolvedEntry[]): string {
   return lines.join("\n");
 }
 
-const newContent =
-  `${header}\n${renderList(rankedFinal)}\n];\n${betweenLists}\n${renderList(unvettedFinal)}\n];\n\n` +
-  `export const SPELL_PRIORITY_ORDER: string[] = [\n  ...SPELL_PRIORITY_ORDER_RANKED,\n  ...SPELL_PRIORITY_ORDER_UNVETTED,\n];\n`;
+const newContent = `${header}\n${renderList(mainDeduped)}\n];\n${betweenLists}\n${renderList(unvettedDeduped)}\n];\n`;
 fs.writeFileSync(TARGET_FILE, newContent, "utf-8");
 
 // --- report ---
-const rankedMoves = rankedFinal
-  .map((e, to) => ({ file: e.file, from: e.originalIndex, to }))
-  .filter((m) => m.to !== m.from);
-const unvettedMoved = unvettedRaw.length !== unvettedFinal.length || unvettedFinal.some((e, i) => e.rawExpr !== unvettedRaw[i]?.rawExpr);
-
 console.log(`${TARGET_FILE} rewritten.`);
-console.log(`${rankedFinal.length} ranked, ${unvettedFinal.length} unvetted.`);
+console.log(`${mainDeduped.length} in SPELL_PRIORITY_ORDER (${mainDeduped.length - mainDeduped.filter((e) => e.bafRank === undefined).length} evidence-backed, ${mainDeduped.filter((e) => e.bafRank === undefined).length} anchored), ${unvettedDeduped.length} unvetted.`);
+if (promoted.length > 0) {
+  console.log(`${promoted.length} entr${promoted.length === 1 ? "y" : "ies"} promoted from unvetted (gained real evidence):`);
+  for (const p of promoted) console.log(`  ${p.rawExpr}`);
+}
 if (collapsedDuplicates.length > 0) {
   console.log(`${collapsedDuplicates.length} duplicate resource entr${collapsedDuplicates.length === 1 ? "y" : "ies"} collapsed (two registry paths resolving to the same file):`);
   for (const d of collapsedDuplicates) {
     console.log(`  kept "${d.kept}", dropped "${d.dropped}"`);
   }
 }
-console.log(`${rankedMoves.length} ranked entries changed position.`);
-if (rankedMoves.length > 0) {
-  const largest = [...rankedMoves].sort((a, b) => Math.abs(b.to - b.from) - Math.abs(a.to - a.from));
-  console.log("Largest moves:");
-  for (const m of largest.slice(0, 15)) {
-    console.log(`  ${m.file}: ${m.from} -> ${m.to} (${m.to - m.from > 0 ? "+" : ""}${m.to - m.from})`);
-  }
-}
-console.log(unvettedMoved ? "Unvetted list membership or order changed." : "Unvetted list unchanged.");
 console.log("Next: npm run build && npm test - if the array changed, npm run generate and commit any regenerated fixtures too.");
