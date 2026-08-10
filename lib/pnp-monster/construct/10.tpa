@@ -15,7 +15,6 @@ COPY_EXISTING ~ja#i0m10.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 	END
-	LPF mindSpells_immunity END
 	LPF fireResistance_resistance END
 	LPF coldResistance_resistance END
 
