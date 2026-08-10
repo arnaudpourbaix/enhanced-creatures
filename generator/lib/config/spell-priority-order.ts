@@ -126,3 +126,23 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.Command.file,
   SPELLS.Priest.DrawUponHolyMight.file,
 ];
+
+/*
+  FNP_SPELLS.Priest.SummonShadows.file,
+  FNP_SPELLS.Priest.CloudOfPestilence.file,
+  FNP_SPELLS.Priest.Shades.file,
+  FNP_SPELLS.Priest.WavesOfFatigue.file,
+  FNP_SPELLS.Priest.DemiShadowMonsters.file,
+  FNP_SPELLS.Priest.CircleOfBones.file,
+  FNP_SPELLS.Priest.ShadowMonsters.file,
+  FNP_SPELLS.Priest.CauseSeriousWounds.file,
+  FNP_SPELLS.Priest.Forbiddance.file,
+  FNP_SPELLS.Priest.Shatter.file,
+  FNP_SPELLS.Priest.CauseDisease.file,
+  SPELLS.Wizard.DimensionDoor.file,
+  PRESET_NAMES.DimensionDoorOffscreen,
+  FNP_SPELLS.Priest.CauseLightWounds.file,
+  FNP_SPELLS.Priest.FrostFingers.file,
+  SPELLS.Priest.FindTraps.file,
+  SPELLS.Priest.AnimalSummoning4.file,
+*/
