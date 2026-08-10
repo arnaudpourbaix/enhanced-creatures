@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { SPELL_PRIORITY_ORDER } from "./spell-priority-order";
+import {
+  SPELL_PRIORITY_ORDER,
+  SPELL_PRIORITY_ORDER_RANKED,
+  SPELL_PRIORITY_ORDER_UNVETTED,
+} from "./spell-priority-order";
 import { SPELLS } from "./spells/spell-names";
 
 describe("SPELL_PRIORITY_ORDER", () => {
@@ -9,9 +13,23 @@ describe("SPELL_PRIORITY_ORDER", () => {
     expect(SPELL_PRIORITY_ORDER).toContain(SPELLS.Priest.FingerOfDeath.file);
   });
 
-  it("ranks buffs (e.g. Sanctuary) before death spells (e.g. Finger of Death)", () => {
-    const buffIndex = SPELL_PRIORITY_ORDER.indexOf(SPELLS.Priest.Sanctuary.file);
-    const deathIndex = SPELL_PRIORITY_ORDER.indexOf(SPELLS.Priest.FingerOfDeath.file);
+  it("is exactly the ranked entries followed by the unvetted ones", () => {
+    expect(SPELL_PRIORITY_ORDER).toEqual([
+      ...SPELL_PRIORITY_ORDER_RANKED,
+      ...SPELL_PRIORITY_ORDER_UNVETTED,
+    ]);
+  });
+
+  it("ranks a buff with real cast evidence (Stoneskin) before an attack with real cast evidence (Finger of Death)", () => {
+    const buffIndex = SPELL_PRIORITY_ORDER_RANKED.indexOf(SPELLS.Wizard.Stoneskin.file);
+    const deathIndex = SPELL_PRIORITY_ORDER_RANKED.indexOf(SPELLS.Priest.FingerOfDeath.file);
+    expect(buffIndex).toBeGreaterThanOrEqual(0);
+    expect(deathIndex).toBeGreaterThanOrEqual(0);
     expect(buffIndex).toBeLessThan(deathIndex);
+  });
+
+  it("has no direct cast evidence for Sanctuary, so it sits in the unvetted list rather than the ranked one", () => {
+    expect(SPELL_PRIORITY_ORDER_UNVETTED).toContain(SPELLS.Priest.Sanctuary.file);
+    expect(SPELL_PRIORITY_ORDER_RANKED).not.toContain(SPELLS.Priest.Sanctuary.file);
   });
 });
