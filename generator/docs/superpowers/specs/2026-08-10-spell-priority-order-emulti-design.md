@@ -1,5 +1,8 @@
 # Deriving SPELL_PRIORITY_ORDER from emulti.baf
 
+**Status:** Applied — see `spell-priority-order.ts` history for the
+resulting order.
+
 **Amendment (applied during implementation):** the extraction regex
 originally specified below as `Spell(Myself, TOKEN)` only matches
 self-targeted casts (heals, self-buffs). Offensive/CC/debuff spells in
