@@ -39,6 +39,52 @@ rather than patching the previous output:
   placement; see *Merge algorithm*, which also records why the
   monotonic-envelope alternative was measured and rejected.
 
+*Round 3 (user feedback after the tool became permanent).* Two related
+problems with interleaving unranked entries among ranked ones at all,
+raised independently:
+
+- **The inline "not vetted" flag comment degraded to near-vacuous on a
+  second run.** Its condition (do the nearest ranked neighbours, by source
+  order, disagree?) meant something on the original, near-random hand list
+  (ρ = 0.175 with real baf order — see *Merge algorithm*'s history below),
+  but once the array is derived once, its ranked entries are already
+  globally sorted, so that local check trivially passes almost everywhere.
+  Flags silently dropped from 18 to 1 between two runs with no underlying
+  change. First fixed by replacing the scattered inline comments with one
+  reference block listing every unranked entry — better, but still didn't
+  address the root question below.
+- **Ordinal placement — "keep this spell after however many ranked spells
+  happened to precede it in the old hand list" — was never a real order.**
+  It's a carry-over of a list this whole project's premise says is
+  untrustworthy (ρ = 0.175 with real evidence), presented at a specific
+  array index that looks exactly as confident as a genuinely evidence-
+  ranked neighbour. `FNP_SPELLS.Priest.SummonShadows` sitting at index 12,
+  a few slots from `SPELLS.Wizard.Stoneskin` (real evidence, index 7), implies
+  a relationship between them that doesn't exist — nothing ordered
+  `SummonShadows` relative to `Stoneskin` at all; a Faiths & Powers spell
+  structurally can never appear in this 2006 script (see *Out of scope*
+  → no, see the reply to "how can you order it" — captured below), so no
+  script run will ever produce real evidence for it.
+
+Resolved by removing interleaving entirely: `SPELL_PRIORITY_ORDER_RANKED`
+(real evidence, sorted by first-cast line) and `SPELL_PRIORITY_ORDER_UNVETTED`
+(no evidence, order not derived from anything) are now two separate
+exported lists, concatenated — ranked first — into `SPELL_PRIORITY_ORDER`
+for `AbilityOrderService`. See *Merge algorithm* and *Output* for the
+current shape; the interpolation-in-baf-line-space discussion is kept
+below as design history, since the reasoning ("borrowed evidence from a
+weakly-correlated neighbour is worse than no evidence") is what motivated
+dropping interleaving altogether, not just fixing its formula.
+
+**Consequence:** `spell-priority-order.test.ts`'s
+Sanctuary-before-FingerOfDeath assertion no longer holds — `Sanctuary` has
+no direct evidence, so it now sits in the unvetted list, after every
+ranked entry including `FingerOfDeath`. Replaced with an assertion using
+two entries that both have real evidence (`Stoneskin` before
+`FingerOfDeath`), plus a direct assertion that `Sanctuary` is unvetted.
+This is a deliberate, accepted trade: no automatic placement, however
+plausible-looking, for spells with zero supporting evidence.
+
 ## Problem
 
 `lib/config/spell-priority-order.ts` is the canonical ordering list consumed
@@ -136,125 +182,109 @@ is literally the same spell resource — and it is not new behaviour
 introduced by the file-keying change (the previous `file → id → baf` lookup
 resolved it the same way).
 
-### Merge algorithm
+### Merge algorithm (current, post-Round-3)
 
-Every current `SPELL_PRIORITY_ORDER` entry falls into one of two buckets:
+Every entry, wherever it's declared, falls into one of two buckets purely
+by evidence — never by which list it happened to be typed into:
 
-1. **Baf-ranked** — an entry whose resource file was found in the extracted
-   map. Final position = baf line order. This is the "reorder
-   where they disagree" case: if the current list has this spell in a
-   different relative position than the baf evidence implies, the baf wins.
-2. **Unranked** — an `FNP_SPELLS.*` entry, a vanilla spell genuinely absent
-   from `emulti.baf` (e.g. an EE-only addition post-dating the 2006 script),
-   or the synthetic `PRESET_NAMES.DimensionDoorOffscreen` marker. No direct
-   evidence exists for these.
+1. **Ranked** — its resource file was found in the extracted map. Position
+   = ascending baf line order. Lives in `SPELL_PRIORITY_ORDER_RANKED`.
+2. **Unvetted** — no direct evidence: an `FNP_SPELLS.*` entry (mostly
+   structurally incapable of appearing in a 2006 script — Faiths & Powers
+   didn't exist yet), a vanilla spell genuinely absent from `emulti.baf`
+   (e.g. an EE-only addition), or the synthetic
+   `PRESET_NAMES.DimensionDoorOffscreen` marker. Lives in
+   `SPELL_PRIORITY_ORDER_UNVETTED`, in whichever relative order its entries
+   already had in that list — the script never invents an order for them,
+   it only preserves whatever a human last gave them there.
 
-Unranked entries keep their **relative position with respect to the ranked
-ones**, counted rather than interpolated. Let `S` be the ascending list of
-the `m = 91` baf line numbers belonging to ranked entries, and for each
-original index `i` let `p(i)` be how many ranked entries precede `i` in the
-hand-tuned list. An unranked entry is given the synthetic rank
-`(S[p-1] + S[p]) / 2` (or `S[0] - 1` when `p = 0`, `S[m-1] + 1` when
-`p = m`), and the whole list is then sorted by rank with ties broken by
-original index.
+`SPELL_PRIORITY_ORDER` is `[...SPELL_PRIORITY_ORDER_RANKED,
+...SPELL_PRIORITY_ORDER_UNVETTED]` — every ranked entry outranks every
+unvetted one, unconditionally.
 
-In words: *the hand list placed this spell after `p` of the baf-ranked
-spells, so keep it after exactly `p` of them.* This has a useful closed
-form — every unranked entry ends up at **exactly its original index**, and
-the ranked entries fill the remaining slots in baf order. It is total (no
-undefined or degenerate case), monotone (unranked entries never reorder
-among themselves), and carries no directional bias: nothing pushes an
-ambiguous entry earlier or later than where the hand list had it.
+**Why not interleave unvetted entries among ranked ones at all** (the
+Round 1/2 approach, "ordinal placement": keep an unvetted entry after
+however many ranked entries preceded it in the old hand list). Two
+interpolation-in-baf-line-space variants were tried and measured against
+the real data before ordinal placement replaced them, and are kept here as
+history because the reasoning is what later motivated dropping
+interleaving altogether, not just tuning its formula:
 
-**Why not interpolate in baf-line space.** Two variants were implemented
-and measured against the real data before this one was chosen:
-
-- *Nearest-neighbour bracket* (the Round 1 implementation). For 18 of the
-  38 unranked entries the two nearest ranked neighbours are inverted
-  (`prev > next`) or one-sided, so the bracket is contradictory or missing
-  and a tie-break decides the placement. `min(prev, next)` resolves every
-  one of those the same direction — as early as possible — which is why
-  `FindTraps` (a non-combat utility spell sitting at original index 126)
-  landed at position 24, ahead of every summon, and the FNP `CloakOfFear`
-  landed at position 4 while its vanilla twin sat at 95, ninety positions
-  later.
+- *Nearest-neighbour bracket* (Round 1). For 18 of the 38 unranked entries
+  the two nearest ranked neighbours (by source order) were inverted
+  (`prev > next`) or one-sided, so the bracket was contradictory or
+  missing and a tie-break decided the placement. `min(prev, next)`
+  resolved every one of those the same direction — as early as possible —
+  which is why `FindTraps` (a non-combat utility spell sitting at original
+  index 126) landed at position 24, ahead of every summon, and the FNP
+  `CloakOfFear` landed at position 4 while its vanilla twin sat at 95,
+  ninety positions later.
 - *Monotonic envelope* (`L[i]` = running max of ranked ranks to the left,
-  `R[i]` = running min to the right). This looks at all the evidence on
-  each side rather than one neighbour, which is the right instinct, but it
-  fails on this particular pair of orderings: Spearman's ρ between original
-  index and baf line is only **0.175**, so `L` saturates at 20060 by index
-  40 and `R` saturates at 972 by index 70. The envelope is inverted for 36
+  `R[i]` = running min to the right). Looks at all the evidence on each
+  side rather than one neighbour, the right instinct, but it failed on
+  this particular pair of orderings: Spearman's ρ between original index
+  and baf line is only **0.175**, so `L` saturates at 20060 by index 40
+  and `R` saturates at 972 by index 70. The envelope was inverted for 36
   of the 38 entries — worse than the nearest-neighbour bracket, since
   looking at *all* prior/later evidence just means saturating on the
-  single most extreme outlier on each side. It collapses to a tie-break
-  rule, and the whole point was to stop having the tie-break decide the
-  answer.
+  single most extreme outlier on each side.
 
-Both failures share a root cause: the hand list's order and emulti.baf's
-order are nearly uncorrelated, so a baf *line number* borrowed from a
-neighbour says almost nothing about where an unranked entry belongs.
-Counting ranked neighbours instead of reading their line numbers is robust
-to exactly that, and it is a faithful reading of the original intent
-("unranked entries keep their current relative position").
-
-**What this does and does not preserve.** It keeps the unranked half of a
-hand-built FNP/vanilla pair at its original index, so a pair whose vanilla
-anchor doesn't move far stays close (`SPELLS.Priest.CloakOfFear` 97→92 vs
-`FNP_SPELLS.Priest.CloakOfFear` 98→98). It does **not** guarantee exact
-adjacency: the vanilla half moves to wherever the baf puts it, and if that
-is far away the pair separates (`FNP_SPELLS.Priest.GreaterMalison` stays at
-4 while `SPELLS.Wizard.GreaterMalison` moves 5→87). No interpolation scheme
-can guarantee otherwise without overriding the evidence, so the pairing is
-a tendency here, not an invariant.
+Both failures share a root cause: **the hand list's order and emulti.baf's
+order are nearly uncorrelated, so a baf line number borrowed from a
+neighbour says almost nothing about where an unranked entry belongs** —
+and neither does that neighbour's mere presence nearby. Ordinal placement
+(Round 2) fixed the *formula* (no more directional bias, no borrowed line
+numbers) but kept the underlying premise: an unvetted entry still ends up
+sitting at a specific array index, indistinguishable in the source from a
+genuinely evidence-ranked neighbour, implying a relationship to that
+neighbour that was never derived from anything. Round 3's fix is to stop
+implying it — unvetted entries get their own list, entirely below the
+ranked ones, so nothing about their position looks like a claim.
 
 ### Output
 
-Same flat `string[]` shape (no structural change to
-`spell-priority-order.ts` — `AbilityOrderService` and its test are
-unaffected). The `// TODO: to sort` marker comment is removed once every
-entry has gone through this pass. A file-level doc comment on the const
-records the provenance: ranked entries are ordered by first-cast line,
-unranked entries hold their pre-derivation index.
+`spell-priority-order.ts` declares three exports:
 
-On top of that, **a subset** of the unranked entries carries a per-entry
-comment:
-
-```
-// no reliable baf evidence bracketing this position - not vetted for priority.
+```ts
+export const SPELL_PRIORITY_ORDER_RANKED: string[] = [ /* 91 entries, baf order */ ];
+export const SPELL_PRIORITY_ORDER_UNVETTED: string[] = [ /* 37 entries, hand order */ ];
+export const SPELL_PRIORITY_ORDER: string[] = [
+  ...SPELL_PRIORITY_ORDER_RANKED,
+  ...SPELL_PRIORITY_ORDER_UNVETTED,
+];
 ```
 
-The condition that triggers it is *not* "absent from emulti.baf" — that
-would be all 38 unranked entries, and would say nothing useful. It is
-specifically: **the nearest baf-ranked entries on either side of this entry
-in the source list disagree about relative order (`prev > next`), or one
-side has none at all.** Those are the entries where even the weak, local,
-indirect evidence contradicts itself, so nothing at all vouches for the
-slot they occupy. 18 of the 38 meet that bar and are marked; the other 20
-sit inside a locally consistent run of evidence and are left unmarked.
-Note the flag is a confidence annotation only — it does not influence
-placement, which is purely ordinal (see *Merge algorithm*).
+`AbilityOrderService` and its callers are unaffected — they only ever
+consumed `SPELL_PRIORITY_ORDER`, which still has the same shape
+(`string[]`) and still contains every entry. The `// TODO: to sort` marker
+and the old inline "not vetted" flag comments (Round 1/2) are both gone;
+there is nothing left to flag inline, since the unvetted list *is* the
+flag now — every entry in it has no direct evidence, unconditionally, so
+a per-entry comment repeating that fact would be noise.
 
 ### Verification
 
-- Both existing invariants in `spell-priority-order.test.ts` must still
-  hold: non-empty, and `Sanctuary` ranked before `FingerOfDeath`. **This
-  invariant is not backed by direct evidence and must be checked, not
-  assumed.** `CLERIC_SANCTUARY` is never cast anywhere in `emulti.baf` — it
-  appears only in two `//` comment lines (4657 and 11632), so
-  `SPELLS.Priest.Sanctuary` is one of the 38 unranked entries and its
-  position is entirely placement-driven. It holds because the hand list put
-  Sanctuary after only 4 of the 91 ranked spells, which keeps it at index 6,
-  while `FingerOfDeath` has a real cast at line 13586 that puts it at index
-  66. The script asserts this explicitly and throws if it ever stops
-  holding.
-- Named regression checks printed by the script and read manually, because
-  they are the cases the ordering is most easily wrong about:
-  `SPELLS.Priest.FindTraps` 126→126, `FNP_SPELLS.Priest.CloakOfFear` 98→98
-  (vanilla twin 97→92), `SPELLS.Priest.Sanctuary` 6→6,
-  `SPELLS.Priest.FingerOfDeath` 7→66.
-- Coverage check: every entry currently present in `SPELL_PRIORITY_ORDER`
-  must still be present after the pass (the merge reorders, it never drops
-  entries).
+- Both existing invariants in `spell-priority-order.test.ts`: non-empty,
+  and containing both `Sanctuary` and `FingerOfDeath` (in either list).
+- `SPELL_PRIORITY_ORDER` equals the concatenation of the two sub-lists —
+  guards against something bypassing them and editing the combined array
+  directly.
+- `SPELLS.Wizard.Stoneskin` (ranked, real evidence) precedes
+  `SPELLS.Priest.FingerOfDeath` (ranked, real evidence) — replaces the old
+  Sanctuary-before-FingerOfDeath check, which no longer holds:
+  `CLERIC_SANCTUARY` is never cast anywhere in `emulti.baf` (only two `//`
+  comment lines, 4657 and 11632), so `Sanctuary` is now in
+  `SPELL_PRIORITY_ORDER_UNVETTED`, after every ranked entry including
+  `FingerOfDeath`. This is the direct, intended consequence of Round 3, not
+  a regression.
+- `SPELL_PRIORITY_ORDER_UNVETTED` contains `Sanctuary` and
+  `SPELL_PRIORITY_ORDER_RANKED` does not — makes the Round 3 trade-off an
+  explicit, checked fact rather than an implicit one.
+- Coverage check (in the script, not the test suite): every entry present
+  before a run is still present after — the merge reorders and
+  reclassifies, it never drops entries. Duplicate resource files across
+  the two lists (two registry paths resolving to the same file) are
+  collapsed to one line, favouring whichever copy is ranked.
 - `npm run build` and `npm test` (full suite) must pass. The array feeds
   `AbilityOrderService`, so a reordering *does* change generated output:
   re-run `npm run generate` and commit the regenerated golden fixtures
