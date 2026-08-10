@@ -13,45 +13,6 @@ Status legend: 🔴 reported broken · 🟡 missing mechanic/feature gap ·
 
 ---
 
-## 🔴 Known data gaps (not from the eslint TODO/FIXME scan)
-
-### 🔴 `creatures.csv` — ~532 validated rows have `deathvar` set but `dialog` empty/mismatched
-
-Added 2026-08-09 alongside the dialog/deathVar validation feature
-(`creatureService.checkDialog`, `docs/superpowers/specs/2026-08-09-dialog-deathvar-validation-design.md`).
-The generator now requires that any creature declaring `behavior.dialog` have
-at least one validated `creatures.csv` row for its `MonsterId` whose `dialog`
-column equals its `deathvar` column. Real `creatures.csv` has roughly 532
-validated rows across many `MonsterId`s where `deathvar` is set but `dialog`
-is empty or doesn't match — mostly other origin-mod file variants of the same
-monster that were never meant to carry that monster's dialog.
-
-**Effect today:** 10 creatures across 6 families lost their `INCLUDE` in the
-generated `main.tpa` and are no longer installed by the mod, until their CSV
-rows are corrected: Doom Sayer (construct), Wild Dog (dog), Dryad, Hamadryad,
-Sirine (fey), Olive Slime Creature (ooze), Wraith Spider (spider), Greater
-Mummy, Skeleton, Ghost (undead). `npm run generate` will also exit with an
-error status on every run until this is fixed — confirmed this is an
-accepted trade-off, not a bug, but it means the build stays red until
-resolved.
-
-**Known gap, not yet done:** the affected creatures are still fully
-documented in `docs/monsters.html` and translated in
-`languages/*/generated.tra` even though they're no longer installed —
-`documentationService.addFamily()` has no `creature.valid` filter (unlike
-`mainService.generateCreature()`, which does). Needs a decision: filter docs
-too (cascades into a `.tra`/`.tpa` string-ref renumbering diff across the
-whole mod, since `translationService.availableStringRef` is a single global
-counter), or leave it and document why.
-
-**Fix path:** for each affected `MonsterId`, either correct the mismatched/
-empty `dialog` value on the sibling `creatures.csv` rows the `monster-id-mapping`
-skill already resolved, or clear `ValidatedMonsterId` on rows that shouldn't
-count. Not mechanical — needs game/mod domain knowledge per row, same as the
-rest of this file.
-
----
-
 ## ✅ Reported broken (FIXME) — investigated, both resolved as "understood, won't fix from here"
 
 ### ✅ `damage-aoe-presets.ts:129` — FrostFingers doesn't work at all
