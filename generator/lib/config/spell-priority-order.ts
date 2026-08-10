@@ -140,6 +140,53 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.Command.file,
   SPELLS.Priest.FindTraps.file,
   SPELLS.Priest.DrawUponHolyMight.file,
-  // no reliable baf evidence bracketing this position - not vetted for priority.
   SPELLS.Priest.AnimalSummoning4.file,
 ];
+
+// --- Not vetted: no direct emulti.baf evidence ---
+//
+// Every entry below has no direct cast evidence in assets/emulti.baf (not cast
+// anywhere in the script, at least not through a cast syntax this derivation
+// understands - see the design doc). Its position in the array above is carried
+// over from wherever it was before this script last ran, not vetted. Move an entry
+// to a better spot in the array above once you have a considered opinion on where
+// it belongs; this list is regenerated every run and will keep listing anything
+// still without direct evidence, so there's nothing to "clear" here by hand.
+//
+// [1] SPELLS.Wizard.ShadowDoor.file,
+// [4] FNP_SPELLS.Priest.GreaterMalison.file,
+// [6] SPELLS.Priest.Sanctuary.file,
+// [8] SPELLS.Priest.Wither.file,
+// [12] FNP_SPELLS.Priest.SummonShadows.file,
+// [13] FNP_SPELLS.Priest.Chaos.file,
+// [14] FNP_SPELLS.Priest.CloudOfPestilence.file,
+// [15] SPELLS.Priest.MassCauseLightWounds.file,
+// [16] FNP_SPELLS.Priest.Shades.file,
+// [18] SPELLS.Priest.WavesOfAgony.file,
+// [20] FNP_SPELLS.Priest.Emotion.file,
+// [22] FNP_SPELLS.Priest.WavesOfFatigue.file,
+// [23] FNP_SPELLS.Priest.DemiShadowMonsters.file,
+// [25] FNP_SPELLS.Priest.AnimateDead.file,
+// [27] FNP_SPELLS.Priest.CircleOfBones.file,
+// [28] FNP_SPELLS.Priest.ShadowMonsters.file,
+// [29] FNP_SPELLS.Priest.CauseSeriousWounds.file,
+// [30] FNP_SPELLS.Priest.Shield.file,
+// [41] SPELLS.Priest.ProtectionFromLightning.file,
+// [50] FNP_SPELLS.Priest.RigidThinking.file,
+// [51] FNP_SPELLS.Priest.Forbiddance.file,
+// [52] FNP_SPELLS.Priest.Shatter.file,
+// [53] FNP_SPELLS.Priest.CauseDisease.file,
+// [57] SPELLS.Wizard.DimensionDoor.file,
+// [58] PRESET_NAMES.DimensionDoorOffscreen,
+// [77] SPELLS.Wizard.Darkness15Radius.file,
+// [78] SPELLS.Wizard.ObscuringMist.file,
+// [86] FNP_SPELLS.Priest.MiscastMagic.file,
+// [98] FNP_SPELLS.Priest.CloakOfFear.file,
+// [101] SPELLS.Wizard.MordenkainenForceMissiles.file,
+// [104] FNP_SPELLS.Priest.CauseLightWounds.file,
+// [107] SPELLS.Wizard.Combust.file,
+// [112] FNP_SPELLS.Priest.FrostFingers.file,
+// [113] SPELLS.Priest.CloudOfPestilence.file,
+// [116] SPELLS.Wizard.VitriolicSphere.file,
+// [125] SPELLS.Priest.FindTraps.file,
+// [127] SPELLS.Priest.AnimalSummoning4.file,

@@ -30,11 +30,30 @@ const BAF_FILE = path.join(ROOT, "assets/emulti.baf");
 const HOTKEY_EXCLUDE_START_LINE = 2871;
 const HOTKEY_EXCLUDE_END_LINE = 5055;
 
-const FLAG_COMMENT = "// no reliable baf evidence bracketing this position - not vetted for priority.";
+// Older revisions of this script wrote this exact comment inline, scattered through the
+// array, on a subset of unranked entries. Dropped in favour of the single "unvetted"
+// block below: the inline version's condition degraded to near-vacuous once the array
+// stabilized (nearest-neighbour consistency trivially holds once the ranked entries
+// around it are already sorted), so it silently stopped flagging almost everything it
+// used to. Stripped on parse wherever it's still found, never written again.
+const LEGACY_FLAG_COMMENT =
+  "// no reliable baf evidence bracketing this position - not vetted for priority.";
+
+const UNVETTED_HEADER = [
+  "// --- Not vetted: no direct emulti.baf evidence ---",
+  "//",
+  "// Every entry below has no direct cast evidence in assets/emulti.baf (not cast",
+  "// anywhere in the script, at least not through a cast syntax this derivation",
+  "// understands - see the design doc). Its position in the array above is carried",
+  "// over from wherever it was before this script last ran, not vetted. Move an entry",
+  "// to a better spot in the array above once you have a considered opinion on where",
+  "// it belongs; this list is regenerated every run and will keep listing anything",
+  "// still without direct evidence, so there's nothing to \"clear\" here by hand.",
+];
 
 interface RawEntry {
   rawExpr: string; // e.g. "SPELLS.Wizard.Vocalize.file,"
-  comment?: string; // any comment other than FLAG_COMMENT that preceded this entry
+  comment?: string; // any comment other than LEGACY_FLAG_COMMENT that preceded this entry
 }
 
 interface RankedEntry extends RawEntry {
@@ -42,7 +61,6 @@ interface RankedEntry extends RawEntry {
   originalIndex: number;
   bafRank?: number;
   rankValue: number;
-  flagged: boolean;
 }
 
 // --- parse the current file: everything up to "export const ... = [" is preserved
@@ -62,7 +80,7 @@ function splitHeaderAndEntries(source: string): { header: string; rawEntries: Ra
     if (trimmed === "];") break;
     if (trimmed === "") continue;
     if (trimmed.startsWith("//")) {
-      if (trimmed === FLAG_COMMENT) continue; // machine-owned, recomputed fresh below
+      if (trimmed === LEGACY_FLAG_COMMENT) continue; // no longer written, drop if still present
       pendingComment = trimmed;
       continue;
     }
@@ -165,33 +183,15 @@ function buildRankedEntries(rawEntries: RawEntry[], resolved: string[], bafRanks
     if (e.bafRank !== undefined) precedingRankedCount++;
   }
 
-  // for the flag comment only: does the nearest ranked neighbour on each side (by
-  // original order) agree on relative order? Placement never depends on this.
-  const prevRanked: (number | undefined)[] = [];
-  let lastSeen: number | undefined;
-  for (const e of partial) {
-    prevRanked.push(lastSeen);
-    if (e.bafRank !== undefined) lastSeen = e.bafRank;
-  }
-  const nextRanked: (number | undefined)[] = new Array(partial.length);
-  lastSeen = undefined;
-  for (let i = partial.length - 1; i >= 0; i--) {
-    nextRanked[i] = lastSeen;
-    if (partial[i].bafRank !== undefined) lastSeen = partial[i].bafRank;
-  }
-
   const m = rankedSortedLines.length;
   return partial.map((e, i): RankedEntry => {
     if (e.bafRank !== undefined) {
-      return { ...e, rankValue: e.bafRank, flagged: false };
+      return { ...e, rankValue: e.bafRank };
     }
     const p = precedingCounts[i];
     const rankValue =
       p === 0 ? rankedSortedLines[0] - 1 : p === m ? rankedSortedLines[m - 1] + 1 : (rankedSortedLines[p - 1] + rankedSortedLines[p]) / 2;
-    const prev = prevRanked[i];
-    const next = nextRanked[i];
-    const flagged = prev === undefined || next === undefined || prev > next;
-    return { ...e, rankValue, flagged };
+    return { ...e, rankValue };
   });
 }
 
@@ -250,14 +250,30 @@ if (sanctuaryIdx !== -1 && fingerIdx !== -1 && sanctuaryIdx >= fingerIdx) {
   );
 }
 
-// --- write the file: preserved header, regenerated array body ---
+// --- write the file: preserved header, regenerated array body, then a separate
+// "unvetted" reference block listing every entry with no direct baf evidence and its
+// current position, so there's one place to look rather than hunting through comments
+// scattered across the array. ---
 const bodyLines: string[] = [];
 for (const e of written) {
   if (e.comment) bodyLines.push(`  ${e.comment}`);
-  if (e.flagged) bodyLines.push(`  ${FLAG_COMMENT}`);
   bodyLines.push(`  ${e.rawExpr}`);
 }
-const newContent = `${header}\n${bodyLines.join("\n")}\n];\n`;
+
+const unvetted = written
+  .map((e, index) => ({ ...e, index }))
+  .filter((e) => e.bafRank === undefined);
+const unvettedLines =
+  unvetted.length === 0
+    ? []
+    : [
+        "",
+        ...UNVETTED_HEADER,
+        "//",
+        ...unvetted.map((e) => `// [${e.index}] ${e.rawExpr}`),
+      ];
+
+const newContent = `${header}\n${bodyLines.join("\n")}\n];\n${unvettedLines.join("\n")}${unvettedLines.length > 0 ? "\n" : ""}`;
 fs.writeFileSync(TARGET_FILE, newContent, "utf-8");
 
 // --- report ---
@@ -267,7 +283,7 @@ const moves = written
   .sort((a, b) => Math.abs(b.to - b.from) - Math.abs(a.to - a.from));
 
 console.log(`${TARGET_FILE} rewritten.`);
-console.log(`${written.length} entries written: ${written.filter((e) => e.bafRank !== undefined).length} baf-ranked, ${written.filter((e) => e.bafRank === undefined).length} unranked (${written.filter((e) => e.flagged).length} flagged).`);
+console.log(`${written.length} entries written: ${written.length - unvetted.length} baf-ranked, ${unvetted.length} unvetted (see the reference block at the end of the file).`);
 if (collapsedDuplicates.length > 0) {
   console.log(`${collapsedDuplicates.length} duplicate resource entr${collapsedDuplicates.length === 1 ? "y" : "ies"} collapsed (two registry paths resolving to the same file):`);
   for (const d of collapsedDuplicates) {
