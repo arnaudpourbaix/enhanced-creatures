@@ -214,7 +214,7 @@ describe("getAllSpellNames", () => {
 
   it("includes a named spell from the Faiths & Powers spell list", () => {
     const result = spellService.getAllSpellNames();
-    expect(result).toContainEqual({ file: "d5p1301", name: "spell.AnimateDead.name" });
+    expect(result).toContainEqual({ file: "D5P1301", name: "spell.AnimateDead.name" });
   });
 });
 
