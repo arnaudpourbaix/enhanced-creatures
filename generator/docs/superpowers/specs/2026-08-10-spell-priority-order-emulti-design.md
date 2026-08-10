@@ -3,23 +3,41 @@
 **Status:** Applied — see `spell-priority-order.ts` history for the
 resulting order.
 
-**Amendment (applied during implementation):** the extraction regex
-originally specified below as `Spell(Myself, TOKEN)` only matches
-self-targeted casts (heals, self-buffs). Offensive/CC/debuff spells in
-`emulti.baf` target `LastSeenBy(Myself)`, `NearestEnemyOf(Myself)`, or
-occasionally bare `LastSeenBy()` — none of these contain a comma, so the
-implemented pattern is `Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)` (any target
-expression, still keyed on the spell token after the comma). This was
-caught during the Task 1 manual review (the initial run flagged ~80 common
-spells — including `CLERIC_SANCTUARY` and `WIZARD_MAGIC_MISSILE` — as
-"never cast in emulti.baf," which was implausible on its face and confirmed
-wrong by direct inspection). The merge algorithm also needed one addition:
-when an unranked entry's two nearest original-order neighbors have baf
-ranks that disagree in relative order (a sign the original hand list had a
-real local ordering mistake), average-interpolating between them can place
-the entry after a neighbor with strictly earlier real evidence. Fixed by
-placing the entry just before the earlier of the two (not the arithmetic
-mean) and flagging it, rather than trusting a contradictory bracket.
+**Amendment history.** The design below has been corrected twice; the
+sections that follow describe the *final* implemented behaviour, and this
+block records what changed and why.
+
+*Round 1 (during implementation).* The extraction regex originally
+specified as `Spell(Myself, TOKEN)` only matches self-targeted casts (heals,
+self-buffs). Offensive/CC/debuff spells in `emulti.baf` target
+`LastSeenBy(Myself)`, `NearestEnemyOf(Myself)`, or occasionally bare
+`LastSeenBy()` — none of these contain a comma, so the implemented pattern
+became `Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)` (any target expression, still
+keyed on the spell token after the comma). This was caught during the Task 1
+manual review: the initial run flagged ~80 common spells as "never cast in
+emulti.baf," which was implausible on its face. `WIZARD_MAGIC_MISSILE`
+(`Spell(LastSeenBy(Myself),WIZARD_MAGIC_MISSILE)`, line 19269) and
+`CLERIC_HOLD_PERSON` (`Spell(LastSeenBy(),CLERIC_HOLD_PERSON)`, line 18470,
+the bare-`LastSeenBy()` form) are two spells recovered only by that
+widening. Round 1 also added a fallback to the merge: when an unranked
+entry's two nearest original-order neighbours had baf ranks that disagreed
+in relative order, it placed the entry just before the earlier of the two
+rather than at their arithmetic mean.
+
+*Round 2 (final whole-branch review).* Two further defects, both fixed by
+re-deriving the whole array from scratch off the original hand-tuned list
+rather than patching the previous output:
+
+- **Numeric-id casts were never matched.** `emulti.baf` also casts by bare
+  4-digit `spell.ids` code (`Spell(LastSeenBy(Myself),1719)`) — the same
+  class of bug as Round 1, a whole category of real cast syntax invisible
+  to the ranking. Extraction now matches both forms; see *Extraction*.
+- **The Round 1 fallback was directionally biased.** `min(prev, next)`
+  always places an ambiguous entry as early as possible, which threw
+  `SPELLS.Priest.FindTraps` and `FNP_SPELLS.Priest.CloakOfFear` roughly a
+  hundred positions forward on no evidence whatsoever. Replaced by ordinal
+  placement; see *Merge algorithm*, which also records why the
+  monotonic-envelope alternative was measured and rejected.
 
 ## Problem
 
@@ -34,7 +52,8 @@ summon), then hand-tuned. The bottom ~75 lines are still under a
 as the hand-tuning that produced it — there's no real evidence backing the
 ordering beyond "seemed reasonable at the time."
 
-`generator/assets/emulti.baf` (newly added to the repo) is Greg
+`generator/assets/emulti.baf` (committed to the repo as part of this work,
+so the derivation stays reproducible) is Greg
 Hodgson/Eric Kerr's "eMulti" AI script — a mature, widely-used BG2 generic
 spellcaster AI (the same family SCS-era mods derive from). Its body is
 exactly the same shape `AbilityOrderService` assumes for generated output:
@@ -47,13 +66,40 @@ better source than the current hand-authored seed.
 
 ### Extraction: first-occurrence line order, minus one exclusion
 
-Scan `emulti.baf` top-to-bottom for every `Spell(Myself, TOKEN)` call
-(`TOKEN` is a `spell.ids` symbolic name, e.g. `CLERIC_SANCTUARY`, or
-occasionally a bare number for polymorph/kit powers not in the registry —
-those never match anything and are naturally ignored). Record the line
-number of each token's **first** occurrence only; later repeats (the same
-spell re-cast under a different trigger context elsewhere in the script)
-don't change its rank. This produces `Map<token, line>`.
+Scan `emulti.baf` top-to-bottom for every `Spell(...)` call. The script uses
+two patterns, because emulti.baf casts spells in two syntaxes:
+
+| form | pattern | example |
+| --- | --- | --- |
+| symbolic `spell.ids` token | `Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)` | `Spell(LastSeenBy(Myself),WIZARD_MAGIC_MISSILE)` |
+| bare numeric `spell.ids` code | `Spell\([^,]*,(\d{4})\)` | `Spell(LastSeenBy(Myself),1719)` |
+
+The target expression is deliberately unconstrained (`[^,]*`): casts target
+`Myself`, `LastSeenBy(Myself)`, `NearestEnemyOf(Myself)`, bare
+`LastSeenBy()`, or `PlayerN`, and none of those contain a comma. `Spell(`
+is the only cast action in the file — there are no `ForceSpell`,
+`ReallyForceSpell`, `ApplySpell`, or `SpellNoDec` calls to account for
+(verified by grep), and `HaveSpell(TOKEN)` has no comma so it can't match.
+
+A numeric code is 4 digits: the first selects the resource prefix and the
+remaining three are the spell number, zero-padded — `1`→`SPPR` (priest),
+`2`→`SPWI` (wizard), `3`→`SPIN` (innate), `4`→`SPCL` (special/kit). So
+`1719`→`SPPR719`, `2326`→`SPWI326`, `2302`→`SPWI302`.
+
+Both patterns are merged into a single map keyed on the **resource file**,
+not on the `spell.ids` token — symbolic hits are translated to a file via
+the registry's `id` field, numeric hits via the table above. Keying on file
+is what lets the two syntaxes merge at all, and it sidesteps needing a
+correct `id` field for spells that only ever appear numerically. Record the
+line number of each file's **first** occurrence across both patterns
+combined; later repeats (the same spell re-cast under a different trigger
+context elsewhere in the script) don't change its rank. This produces
+`Map<file, line>`.
+
+Of the 129 entries in the list, 91 get a rank this way. Three of them —
+`SPELLS.Priest.SymbolDeath` (`SPPR719`), `SPELLS.Wizard.DispelMagic`
+(`SPWI326`) and `SPELLS.Wizard.RemoveMagic` (`SPWI302`) — are reachable
+*only* through the numeric pattern.
 
 **Exclusion:** lines 2871–5055 (`gs_HotKeyS_Mage_HighLevel.baf` through
 `gs_HotKeyB_Warrior.baf`) are player-hotkey-triggered manual-cast macros,
@@ -78,16 +124,24 @@ seed.
 Every `SPELLS.*` entry (`lib/config/spells/spell-names.ts`) carries an `id`
 field in the exact `spell.ids` naming convention the baf uses (e.g.
 `WIZARD_AGANNAZAR_SCORCHER`) — a direct key match, no fuzzy/string-distance
-matching required. `FNP_SPELLS.*` entries (`fnp-spell-names.ts`) have no
-`id` field and structurally cannot appear in a 2006 script, since Faiths &
-Powers didn't exist yet.
+matching required. That map is inverted to `id → file` so extraction can
+key everything on file (see above).
+
+`FNP_SPELLS.*` entries (`fnp-spell-names.ts`) have no `id` field and mostly
+cannot appear in a 2006 script, since Faiths & Powers didn't exist yet. One
+of them in this list nonetheless points at a *vanilla* resource:
+`FNP_SPELLS.Priest.Doom` is `SPPR113`, the same file as
+`SPELLS.Priest.Doom`, so it does pick up a real rank. That is correct — it
+is literally the same spell resource — and it is not new behaviour
+introduced by the file-keying change (the previous `file → id → baf` lookup
+resolved it the same way).
 
 ### Merge algorithm
 
 Every current `SPELL_PRIORITY_ORDER` entry falls into one of two buckets:
 
-1. **Baf-ranked** — a vanilla `SPELLS.*` entry whose `id` was found in the
-   extracted map. Final position = baf line order. This is the "reorder
+1. **Baf-ranked** — an entry whose resource file was found in the extracted
+   map. Final position = baf line order. This is the "reorder
    where they disagree" case: if the current list has this spell in a
    different relative position than the baf evidence implies, the baf wins.
 2. **Unranked** — an `FNP_SPELLS.*` entry, a vanilla spell genuinely absent
@@ -95,57 +149,138 @@ Every current `SPELL_PRIORITY_ORDER` entry falls into one of two buckets:
    or the synthetic `PRESET_NAMES.DimensionDoorOffscreen` marker. No direct
    evidence exists for these.
 
-Unranked entries keep their **current relative position**, interpolated
-between the nearest baf-ranked entries that bracket them in today's list.
-Concretely: walk the current list once, assign each baf-ranked entry its
-real baf line number, assign each unranked entry a synthetic rank
-interpolated between the nearest preceding and following baf-ranked
-neighbors' line numbers (ties broken by current list index), then sort the
-whole list by that combined rank.
+Unranked entries keep their **relative position with respect to the ranked
+ones**, counted rather than interpolated. Let `S` be the ascending list of
+the `m = 91` baf line numbers belonging to ranked entries, and for each
+original index `i` let `p(i)` be how many ranked entries precede `i` in the
+hand-tuned list. An unranked entry is given the synthetic rank
+`(S[p-1] + S[p]) / 2` (or `S[0] - 1` when `p = 0`, `S[m-1] + 1` when
+`p = m`), and the whole list is then sorted by rank with ties broken by
+original index.
 
-This preserves the existing hand-built pattern of pairing an FNP spell
-directly adjacent to its vanilla counterpart (e.g. `FingerOfDeath` next to
-`FNP_SPELLS...FingerOfDeath`) — the pair moves together to wherever the
-baf-ranked anchor now lands, rather than the FNP half drifting off
-independently. Entries with no nearby baf-ranked neighbor at all (rare —
-mostly deep in the current `// TODO: to sort` tail) keep their current
-absolute position unchanged, since there's nothing to interpolate against.
+In words: *the hand list placed this spell after `p` of the baf-ranked
+spells, so keep it after exactly `p` of them.* This has a useful closed
+form — every unranked entry ends up at **exactly its original index**, and
+the ranked entries fill the remaining slots in baf order. It is total (no
+undefined or degenerate case), monotone (unranked entries never reorder
+among themselves), and carries no directional bias: nothing pushes an
+ambiguous entry earlier or later than where the hand list had it.
+
+**Why not interpolate in baf-line space.** Two variants were implemented
+and measured against the real data before this one was chosen:
+
+- *Nearest-neighbour bracket* (the Round 1 implementation). For 36 of the
+  38 unranked entries the two nearest ranked neighbours are inverted
+  (`prev > next`), so the bracket is contradictory and a tie-break decides
+  the placement. `min(prev, next)` resolves every one of those the same
+  direction — as early as possible — which is why `FindTraps` (a
+  non-combat utility spell sitting at original index 126) landed at
+  position 24, ahead of every summon, and the FNP `CloakOfFear` landed at
+  position 4 while its vanilla twin sat at 95, ninety positions later.
+- *Monotonic envelope* (`L[i]` = running max of ranked ranks to the left,
+  `R[i]` = running min to the right). This looks at all the evidence on
+  each side rather than one neighbour, which is the right instinct, but it
+  fails on this particular pair of orderings: Spearman's ρ between original
+  index and baf line is only **0.175**, so `L` saturates at 20060 by index
+  40 and `R` saturates at 972 by index 70. The envelope is inverted for the
+  same 36 of 38 entries — it collapses to a tie-break rule, and the whole
+  point was to stop having the tie-break decide the answer.
+
+Both failures share a root cause: the hand list's order and emulti.baf's
+order are nearly uncorrelated, so a baf *line number* borrowed from a
+neighbour says almost nothing about where an unranked entry belongs.
+Counting ranked neighbours instead of reading their line numbers is robust
+to exactly that, and it is a faithful reading of the original intent
+("unranked entries keep their current relative position").
+
+**What this does and does not preserve.** It keeps the unranked half of a
+hand-built FNP/vanilla pair at its original index, so a pair whose vanilla
+anchor doesn't move far stays close (`SPELLS.Priest.CloakOfFear` 97→92 vs
+`FNP_SPELLS.Priest.CloakOfFear` 98→98). It does **not** guarantee exact
+adjacency: the vanilla half moves to wherever the baf puts it, and if that
+is far away the pair separates (`FNP_SPELLS.Priest.GreaterMalison` stays at
+4 while `SPELLS.Wizard.GreaterMalison` moves 5→87). No interpolation scheme
+can guarantee otherwise without overriding the evidence, so the pairing is
+a tendency here, not an invariant.
 
 ### Output
 
 Same flat `string[]` shape (no structural change to
 `spell-priority-order.ts` — `AbilityOrderService` and its test are
 unaffected). The `// TODO: to sort` marker comment is removed once every
-entry has gone through this pass. Individual entries that remain unranked
-(no baf evidence at all) get a per-entry comment, extending the existing
-convention already on `FNP_SPELLS.Priest.CauseModerateWounds.file`
-("FNP-only, no vanilla sibling to anchor next to - position not vetted for
-priority.") rather than one blanket TODO block.
+entry has gone through this pass. A file-level doc comment on the const
+records the provenance: ranked entries are ordered by first-cast line,
+unranked entries hold their pre-derivation index.
+
+On top of that, **a subset** of the unranked entries carries a per-entry
+comment:
+
+```
+// no reliable baf evidence bracketing this position - not vetted for priority.
+```
+
+The condition that triggers it is *not* "absent from emulti.baf" — that
+would be all 38 unranked entries, and would say nothing useful. It is
+specifically: **the nearest baf-ranked entries on either side of this entry
+in the source list disagree about relative order (`prev > next`), or one
+side has none at all.** Those are the entries where even the weak, local,
+indirect evidence contradicts itself, so nothing at all vouches for the
+slot they occupy. 18 of the 38 meet that bar and are marked; the other 20
+sit inside a locally consistent run of evidence and are left unmarked.
+Note the flag is a confidence annotation only — it does not influence
+placement, which is purely ordinal (see *Merge algorithm*).
 
 ### Verification
 
 - Both existing invariants in `spell-priority-order.test.ts` must still
-  hold: non-empty, and `Sanctuary` ranked before `FingerOfDeath`. This is
-  expected to hold well within margin — buffs land in the defences/buffs
-  segment block, which the baf's own structure places entirely before the
-  attacks segment block containing `FingerOfDeath`.
-- Coverage check: every file currently present in `SPELL_PRIORITY_ORDER`
+  hold: non-empty, and `Sanctuary` ranked before `FingerOfDeath`. **This
+  invariant is not backed by direct evidence and must be checked, not
+  assumed.** `CLERIC_SANCTUARY` is never cast anywhere in `emulti.baf` — it
+  appears only in two `//` comment lines (4657 and 11632), so
+  `SPELLS.Priest.Sanctuary` is one of the 38 unranked entries and its
+  position is entirely placement-driven. It holds because the hand list put
+  Sanctuary after only 4 of the 91 ranked spells, which keeps it at index 6,
+  while `FingerOfDeath` has a real cast at line 13586 that puts it at index
+  66. The script asserts this explicitly and throws if it ever stops
+  holding.
+- Named regression checks printed by the script and read manually, because
+  they are the cases the ordering is most easily wrong about:
+  `SPELLS.Priest.FindTraps` 126→126, `FNP_SPELLS.Priest.CloakOfFear` 98→98
+  (vanilla twin 97→92), `SPELLS.Priest.Sanctuary` 6→6,
+  `SPELLS.Priest.FingerOfDeath` 7→66.
+- Coverage check: every entry currently present in `SPELL_PRIORITY_ORDER`
   must still be present after the pass (the merge reorders, it never drops
   entries).
-- `npm run build` and `npm test` (full suite) must pass — this is a
-  content-only change to one config file, so no other test should be
-  affected.
+- `npm run build` and `npm test` (full suite) must pass. The array feeds
+  `AbilityOrderService`, so a reordering *does* change generated output:
+  re-run `npm run generate` and commit the regenerated golden fixtures
+  (`docs/monsters.html` and the affected `lib/pnp-monster/**/*.baf`) as a
+  separate commit before the suite will pass.
 
 ### Tooling
 
 The extraction/merge logic is implemented as a throwaway script (not
-committed — deleted once its output is hand-copied into
-`spell-priority-order.ts`), run via `ts-node` from `generator/`, since it
-needs to import the real `SPELLS`/`FNP_SPELLS` registries rather than
-re-parsing them with regex. It prints the proposed new order plus a diff
-against the current file (which entries moved, by how much, and which are
-unranked) for manual sanity review before the file is hand-edited — this
-is a one-time data-curation pass, not a mechanism that ships or runs again.
+committed — deleted once it has run), executed via `ts-node` from
+`generator/`, since it needs to import the real `SPELLS`/`FNP_SPELLS`/
+`PRESET_NAMES` registries rather than re-parsing them with regex. This is a
+one-time data-curation pass, not a mechanism that ships or runs again.
+
+Two properties of the tooling matter for reproducibility:
+
+- **Its input is the pre-derivation hand-tuned list**, read from git
+  (`git show <commit-before-the-derivation>:generator/lib/config/spell-priority-order.ts`),
+  not the current file. Re-running against its own output would re-derive
+  from an already-derived order and is not the documented algorithm.
+- **It writes `lib/config/spell-priority-order.ts` directly** rather than
+  printing a block to hand-copy. The committed file is therefore verbatim
+  script output, with no post-hoc manual adjustment; an earlier round drifted
+  from the documented process precisely because the array was hand-copied.
+  It also writes a side report (proposed order, original→new index diff,
+  entries ranked only numerically, and named regression checks) for manual
+  sanity review.
+
+Neither `SPELL.IDS` nor any other `spell.ids` dump is read: the only inputs
+are `assets/emulti.baf`, the registries, and the pre-derivation list.
 
 ## Out of scope
 

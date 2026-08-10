@@ -2,7 +2,15 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the hand-tuned order in `lib/config/spell-priority-order.ts` with one derived from `generator/assets/emulti.baf`'s block sequence (real AI priority evidence), preserving the existing FNP/vanilla adjacency pairing for spells the baf can't rank.
+> **Amendment — the code in Task 1 below is superseded.** The extraction and
+> merge logic was corrected twice after this plan was written (numeric-id
+> casts were not matched; the interpolation fallback was directionally
+> biased). The design doc's *Extraction* and *Merge algorithm* sections are
+> authoritative for what was actually implemented; the listing here is kept
+> as the original task specification. The corrected fragments are inlined
+> below where they differ materially.
+
+**Goal:** Replace the hand-tuned order in `lib/config/spell-priority-order.ts` with one derived from `generator/assets/emulti.baf`'s block sequence (real AI priority evidence), keeping spells the baf can't rank at their existing position relative to the ones it can.
 
 **Architecture:** A throwaway `ts-node` script parses the current `spell-priority-order.ts` source (to keep each entry's exact source expression and any attached comment), cross-references each entry's resolved file against `emulti.baf`'s first-occurrence line order (via the `SPELLS.*` registry's `id` field), and prints a ready-to-paste replacement array plus a diff summary. The array is hand-copied into the real file, the script is deleted, and the two existing tests plus the full suite confirm no regressions.
 
@@ -11,7 +19,7 @@
 ## Global Constraints
 
 - Exclude `emulti.baf` lines 2871–5055 (`gs_HotKeyS_Mage_HighLevel.baf` through `gs_HotKeyB_Warrior.baf`) from extraction — these are player-hotkey macros, not autonomous AI priority.
-- Only `SPELLS.*` entries can match the baf (they carry an `id` field in `spell.ids` naming convention); `FNP_SPELLS.*` entries never match and must be positioned by interpolation.
+- Matching is keyed on the resource **file**, so both symbolic-token casts (resolved through the `SPELLS.*` `id` field) and bare 4-digit numeric-id casts land in one map. Practically only `SPELLS.*` entries match; `FNP_SPELLS.*` entries do so only when they point at a vanilla resource (`FNP_SPELLS.Priest.Doom` is `SPPR113`).
 - The merge must never drop or duplicate an entry — same set of files before and after, only reordered.
 - `spell-priority-order.test.ts`'s two invariants (non-empty, containing both spells, Sanctuary ranked before FingerOfDeath) must still pass unmodified.
 - The throwaway script is not committed to the repository.
@@ -94,23 +102,41 @@ function flattenSpellsToIdMap(node: unknown, map: Map<string, string>): void {
   }
 }
 
-// --- Step 3: extract first-occurrence line per baf token, excluding the hotkey range ---
-function extractBafRanks(): Map<string, number> {
+// --- Step 3: extract first-occurrence line per spell FILE, excluding the hotkey range ---
+// AMENDED: emulti.baf casts both by symbolic spell.ids token and by bare 4-digit
+// numeric id. Match both and merge on file, first occurrence across both wins.
+const NUMERIC_PREFIX: Record<string, string> = {
+  "1": "SPPR", // priest
+  "2": "SPWI", // wizard
+  "3": "SPIN", // innate
+  "4": "SPCL", // special / kit
+};
+
+function numericCodeToFile(code: string): string | undefined {
+  const prefix = NUMERIC_PREFIX[code[0]];
+  return prefix ? `${prefix}${code.slice(1)}` : undefined; // 1719 -> SPPR719
+}
+
+function extractBafRanks(idToFile: Map<string, string>): Map<string, number> {
   const lines = fs.readFileSync(BAF_FILE, "utf-8").split(/\r?\n/);
   const ranks = new Map<string, number>();
-  // Target expression varies (Myself for self-buffs/heals, LastSeenBy(Myself) and
-  // NearestEnemyOf(Myself) for offense/CC/debuffs, occasionally bare LastSeenBy()) -
-  // match any target, since none of these expressions contain a comma.
-  const spellCallPattern = /Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)/;
+  // Target expression varies (Myself for self-buffs/heals, LastSeenBy(Myself),
+  // NearestEnemyOf(Myself), bare LastSeenBy(), PlayerN) - match any target, since
+  // none of these expressions contain a comma.
+  const symbolicPattern = /Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)/;
+  const numericPattern = /Spell\([^,]*,(\d{4})\)/;
   for (let i = 0; i < lines.length; i++) {
     const lineNumber = i + 1;
     if (lineNumber >= HOTKEY_EXCLUDE_START_LINE && lineNumber <= HOTKEY_EXCLUDE_END_LINE) {
       continue;
     }
-    const match = spellCallPattern.exec(lines[i]);
-    if (match && !ranks.has(match[1])) {
-      ranks.set(match[1], lineNumber);
-    }
+    const sym = symbolicPattern.exec(lines[i]);
+    const symFile = sym ? idToFile.get(sym[1]) : undefined;
+    if (symFile !== undefined && !ranks.has(symFile)) ranks.set(symFile, lineNumber);
+
+    const num = numericPattern.exec(lines[i]);
+    const numFile = num ? numericCodeToFile(num[1]) : undefined;
+    if (numFile !== undefined && !ranks.has(numFile)) ranks.set(numFile, lineNumber);
   }
   return ranks;
 }
@@ -135,14 +161,36 @@ function buildRankedEntries(
     return { ...raw, file, originalIndex, bafRank };
   });
 
-  // forward pass: nearest preceding ranked entry's bafRank
+  // AMENDED: placement is ordinal, not interpolated in baf-line space. The hand
+  // list's order is nearly uncorrelated with the baf's (Spearman 0.175), so a
+  // neighbour's line number says almost nothing about where an unranked entry
+  // belongs - both a nearest-neighbour bracket and a monotonic L/R envelope end up
+  // inverted for 36 of the 38 unranked entries, leaving the tie-break to decide the
+  // answer. Instead: an entry the hand list placed after p of the m baf-ranked
+  // spells is kept after exactly p of them. Consequence: unranked entries hold
+  // their original index exactly, ranked entries fill the rest in baf order.
+  const S = partial
+    .map((e) => e.bafRank)
+    .filter((r): r is number => r !== undefined)
+    .sort((a, b) => a - b);
+  const m = S.length;
+
+  // p[i] = how many ranked entries precede original index i
+  const p: number[] = new Array(partial.length);
+  let seen = 0;
+  for (let i = 0; i < partial.length; i++) {
+    p[i] = seen;
+    if (partial[i].bafRank !== undefined) seen++;
+  }
+
+  // nearest ranked neighbours in original order - used ONLY for the confidence flag,
+  // never for placement
   const prevRanked: (number | undefined)[] = [];
   let lastSeen: number | undefined;
   for (const e of partial) {
     prevRanked.push(lastSeen);
     if (e.bafRank !== undefined) lastSeen = e.bafRank;
   }
-  // backward pass: nearest following ranked entry's bafRank
   const nextRanked: (number | undefined)[] = new Array(partial.length);
   lastSeen = undefined;
   for (let i = partial.length - 1; i >= 0; i--) {
@@ -154,41 +202,33 @@ function buildRankedEntries(
     if (e.bafRank !== undefined) {
       return { ...e, rankValue: e.bafRank, flagged: false };
     }
+    const k = p[i];
+    let rankValue: number;
+    if (m === 0) rankValue = i;
+    else if (k === 0) rankValue = S[0] - 1;
+    else if (k === m) rankValue = S[m - 1] + 1;
+    else rankValue = (S[k - 1] + S[k]) / 2;
+
+    // Flag when even the local evidence contradicts itself: the nearest ranked
+    // entries on either side disagree about relative order, or one side has none.
     const prev = prevRanked[i];
     const next = nextRanked[i];
-    let rankValue: number;
-    let flagged: boolean;
-    if (prev !== undefined && next !== undefined && prev <= next) {
-      rankValue = prev + (next - prev) / 2; // interpolate, exact position within the bracket doesn't matter, only that it sorts between prev and next
-      flagged = false;
-    } else if (prev !== undefined && next !== undefined) {
-      // inverted bracket: the immediate original-order neighbors disagree on relative baf
-      // order (this is itself evidence the original hand list had a real ordering mistake
-      // nearby). Don't average two contradictory anchors - place safely just before the
-      // earlier of the two so this entry never sorts after a neighbor with real evidence
-      // ranking it earlier, and flag it since the placement isn't confidently anchored.
-      rankValue = Math.min(prev, next) - 0.001 * (partial.length - i);
-      flagged = true;
-    } else if (prev !== undefined) {
-      rankValue = prev + 0.001 * (i + 1); // trail after prev, preserving original relative order among trailing unranked entries
-      flagged = true;
-    } else if (next !== undefined) {
-      rankValue = next - 0.001 * (partial.length - i); // lead before next
-      flagged = true;
-    } else {
-      rankValue = i; // no ranked entry anywhere in the list - unreachable in practice, fallback to original order
-      flagged = true;
-    }
+    const flagged = prev === undefined || next === undefined || prev > next;
     return { ...e, rankValue, flagged };
   });
 }
 
 // --- run ---
+// AMENDED: parse the PRE-DERIVATION hand-tuned list (checked out from git), not
+// the current file - re-deriving from an already-derived order is not this
+// algorithm. Entry expressions are resolved against the real registries rather
+// than by importing SPELL_PRIORITY_ORDER, since the imported array is the new one.
 const rawEntries = parseCurrentSource();
 const fileToId = new Map<string, string>();
 flattenSpellsToIdMap(SPELLS, fileToId);
-const bafRanks = extractBafRanks();
-const ranked = buildRankedEntries(rawEntries, SPELL_PRIORITY_ORDER, fileToId, bafRanks);
+const idToFile = new Map([...fileToId].map(([file, id]) => [id, file]));
+const bafRanks = extractBafRanks(idToFile);
+const ranked = buildRankedEntries(rawEntries, resolveExprs(rawEntries), fileToId, bafRanks);
 
 const sorted = [...ranked].sort((a, b) => a.rankValue - b.rankValue || a.originalIndex - b.originalIndex);
 
@@ -215,7 +255,7 @@ outputLines.push("// --- replacement array body ---");
 for (const e of sorted) {
   if (e.flagged && !e.comment) {
     outputLines.push(
-      "  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.",
+      "  // no reliable baf evidence bracketing this position - not vetted for priority.",
     );
   } else if (e.comment) {
     outputLines.push(`  ${e.comment}`);
@@ -279,11 +319,13 @@ checkpoint, not an automated one:
   an attack spell moving later relative to buffs, is expected; a cure
   spell moving to the very end would not be).
 - For the "ranked-but-registry-id-unmatched" section, spot check 3-5
-  entries against `generator/assets/SPELL.txt` and `emulti.baf` directly
-  (`grep -n "<id>" assets/emulti.baf`) to distinguish "genuinely absent
-  from this AI script" (fine, stays unranked) from "the `id` field in
-  `spell-names.ts` doesn't match the actual `spell.ids` token used in the
-  baf" (a real mismatch — note it for Task 3, don't silently accept).
+  entries against `emulti.baf` directly (`grep -n "<id>" assets/emulti.baf`)
+  to distinguish "genuinely absent from this AI script" (fine, stays
+  unranked) from "the `id` field in `spell-names.ts` doesn't match the
+  actual `spell.ids` token used in the baf" (a real mismatch — note it for
+  Task 3, don't silently accept). Note the script reads no `spell.ids` dump
+  of its own; `emulti.baf` plus the registry's `id`/`file` fields are the
+  only sources.
 
 No commit for this step — it's a review pass over an uncommitted scratch
 file.
@@ -301,15 +343,13 @@ file.
 
 - [ ] **Step 1: Replace the array body**
 
-Copy the lines under `// --- replacement array body ---` (up to the blank
-line before `// --- diff summary`) from
-`scratch-spell-priority-output.txt` into
-`lib/config/spell-priority-order.ts`, replacing everything between
-`export const SPELL_PRIORITY_ORDER: string[] = [` and the closing `];`
-(i.e. replacing today's lines 6-148). Remove the standalone
-`// TODO: to sort` marker line if any copy of it remains (Task 1's parser
-already drops it from the source, so it should not appear in the output —
-double check).
+**AMENDED:** don't hand-copy. Have the script write
+`lib/config/spell-priority-order.ts` directly (imports, provenance doc
+comment, array body, closing `];`, CRLF line endings to match the rest of
+the working tree) so the committed file is verbatim script output. The
+first round hand-copied the block and the committed array silently drifted
+from what the documented algorithm produced. The `// TODO: to sort` marker
+is dropped by the parser and must not reappear in the output.
 
 - [ ] **Step 2: Apply any mismatch fixes found during Task 1's review**
 
