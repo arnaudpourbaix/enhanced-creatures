@@ -169,22 +169,26 @@ ambiguous entry earlier or later than where the hand list had it.
 **Why not interpolate in baf-line space.** Two variants were implemented
 and measured against the real data before this one was chosen:
 
-- *Nearest-neighbour bracket* (the Round 1 implementation). For 36 of the
+- *Nearest-neighbour bracket* (the Round 1 implementation). For 18 of the
   38 unranked entries the two nearest ranked neighbours are inverted
-  (`prev > next`), so the bracket is contradictory and a tie-break decides
-  the placement. `min(prev, next)` resolves every one of those the same
-  direction — as early as possible — which is why `FindTraps` (a
-  non-combat utility spell sitting at original index 126) landed at
-  position 24, ahead of every summon, and the FNP `CloakOfFear` landed at
-  position 4 while its vanilla twin sat at 95, ninety positions later.
+  (`prev > next`) or one-sided, so the bracket is contradictory or missing
+  and a tie-break decides the placement. `min(prev, next)` resolves every
+  one of those the same direction — as early as possible — which is why
+  `FindTraps` (a non-combat utility spell sitting at original index 126)
+  landed at position 24, ahead of every summon, and the FNP `CloakOfFear`
+  landed at position 4 while its vanilla twin sat at 95, ninety positions
+  later.
 - *Monotonic envelope* (`L[i]` = running max of ranked ranks to the left,
   `R[i]` = running min to the right). This looks at all the evidence on
   each side rather than one neighbour, which is the right instinct, but it
   fails on this particular pair of orderings: Spearman's ρ between original
   index and baf line is only **0.175**, so `L` saturates at 20060 by index
-  40 and `R` saturates at 972 by index 70. The envelope is inverted for the
-  same 36 of 38 entries — it collapses to a tie-break rule, and the whole
-  point was to stop having the tie-break decide the answer.
+  40 and `R` saturates at 972 by index 70. The envelope is inverted for 36
+  of the 38 entries — worse than the nearest-neighbour bracket, since
+  looking at *all* prior/later evidence just means saturating on the
+  single most extreme outlier on each side. It collapses to a tie-break
+  rule, and the whole point was to stop having the tie-break decide the
+  answer.
 
 Both failures share a root cause: the hand list's order and emulti.baf's
 order are nearly uncorrelated, so a baf *line number* borrowed from a
