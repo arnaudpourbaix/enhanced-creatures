@@ -319,3 +319,16 @@
     transform: translateX(0);
   }
 }
+
+@media (max-width: 451px) {
+  /* Below this width, .stat-grid's minmax(180px, 1fr) columns can never fit two side by side
+     (2 * 180px + 20px gap = 380px of content width, and no phone viewport leaves that much after
+     .layout's and .creature's padding are subtracted) - the grid always collapses to a single
+     column. .stat-half's "grid-column: span 2" then forces a second, implicit column across the
+     whole grid (sized to the nowrap Special text) instead of respecting that, squeezing every
+     other row and visually overlapping it. Matching .stat-wide here keeps it in the single
+     column like everything else. */
+  .stat-half {
+    grid-column: 1 / -1;
+  }
+}
