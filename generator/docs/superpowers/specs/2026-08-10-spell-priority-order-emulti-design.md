@@ -111,6 +111,30 @@ one is reviewed. Two changes followed from that:
   module load, so it still holds up when a test mutates either array via
   `push`/`pop` after import).
 
+*Round 5 (drop the second list entirely).* Two lists still felt like
+bookkeeping — user feedback: "I only want `SPELL_PRIORITY_ORDER`. If a
+spell isn't found in the list, it should be last in priority, it's a
+simple rule." Implemented literally:
+
+- `SPELL_PRIORITY_ORDER_UNVETTED` is gone. Its 17 entries were deleted
+  outright, not appended anywhere — there is nothing to migrate, because
+  "not present in `SPELL_PRIORITY_ORDER`" is now itself a complete,
+  self-explanatory state (lowest priority), not a state requiring its own
+  list to represent.
+- `AbilityOrderService.resolve()` no longer errors and drops a memorized
+  spell missing from `SPELL_PRIORITY_ORDER`. A missing file now gets
+  `Infinity` as its sort index (so it sorts after every real entry) and a
+  `logService.warn` (not `.error`) — non-blocking, since "not yet given a
+  priority" is now an expected, permanent-if-you-want-it state rather than
+  something to fix. Round 4's anchoring behaviour is unchanged: an entry
+  *in* the list without evidence still never moves relative to its
+  neighbours; the only thing that changed is what happens to an entry not
+  in the list at all.
+- The derivation script correspondingly lost its promotion/demotion logic
+  between two lists — it now does one thing: read `SPELL_PRIORITY_ORDER`,
+  sort the evidence-backed entries within it, leave everything else
+  anchored, write it back.
+
 **Consequence:** `spell-priority-order.test.ts`'s
 Sanctuary-before-FingerOfDeath assertion no longer holds — `Sanctuary` has
 no direct evidence, so it now sits in the unvetted list, after every
