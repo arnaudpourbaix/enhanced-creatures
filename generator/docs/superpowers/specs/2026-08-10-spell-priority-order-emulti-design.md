@@ -263,28 +263,42 @@ placement, which is purely ordinal (see *Merge algorithm*).
 
 ### Tooling
 
-The extraction/merge logic is implemented as a throwaway script (not
-committed — deleted once it has run), executed via `ts-node` from
-`generator/`, since it needs to import the real `SPELLS`/`FNP_SPELLS`/
-`PRESET_NAMES` registries rather than re-parsing them with regex. This is a
-one-time data-curation pass, not a mechanism that ships or runs again.
+**Amendment (post-migration):** the extraction/merge logic was originally a
+throwaway script, deleted after the one-time migration this doc describes.
+It has since been reinstated as a permanent, committed tool -
+`scripts/derive-spell-priority-order.ts` - for ongoing maintenance: adding
+a new `SPELLS.*`/`FNP_SPELLS.*`/`PRESET_NAMES.*` entry later just means
+dropping the line in anywhere and re-running the script. The two
+"properties that mattered for reproducibility" below describe the
+*original one-time migration* and no longer describe the permanent tool,
+which deliberately differs on the first point (see the script's own header
+comment for why re-reading the current file, rather than a pinned git
+revision, is the correct behaviour for incremental additions). The
+duplicate-collapsing step (a later addition, prompted by the FNP resref
+case-normalization fix producing two array entries for one resource) is
+new behaviour not described below either.
 
-Two properties of the tooling matter for reproducibility:
+Executed via `ts-node` from `generator/`, since it needs to import the
+real `SPELLS`/`FNP_SPELLS`/`PRESET_NAMES` registries rather than
+re-parsing them with regex.
 
-- **Its input is the pre-derivation hand-tuned list**, read from git
+Two properties of the *original migration* mattered for reproducibility:
+
+- **Its input was the pre-derivation hand-tuned list**, read from git
   (`git show <commit-before-the-derivation>:generator/lib/config/spell-priority-order.ts`),
   not the current file. Re-running against its own output would re-derive
   from an already-derived order and is not the documented algorithm.
-- **It writes `lib/config/spell-priority-order.ts` directly** rather than
+- **It wrote `lib/config/spell-priority-order.ts` directly** rather than
   printing a block to hand-copy. The committed file is therefore verbatim
   script output, with no post-hoc manual adjustment; an earlier round drifted
   from the documented process precisely because the array was hand-copied.
-  It also writes a side report (proposed order, original→new index diff,
+  It also wrote a side report (proposed order, original→new index diff,
   entries ranked only numerically, and named regression checks) for manual
-  sanity review.
+  sanity review. The permanent tool keeps the direct-write behaviour and
+  the report, but prints the report to the console rather than a file.
 
 Neither `SPELL.IDS` nor any other `spell.ids` dump is read: the only inputs
-are `assets/emulti.baf`, the registries, and the pre-derivation list.
+are `assets/emulti.baf` and the registries.
 
 ## Out of scope
 
