@@ -98,7 +98,10 @@ function flattenSpellsToIdMap(node: unknown, map: Map<string, string>): void {
 function extractBafRanks(): Map<string, number> {
   const lines = fs.readFileSync(BAF_FILE, "utf-8").split(/\r?\n/);
   const ranks = new Map<string, number>();
-  const spellCallPattern = /Spell\(Myself,([A-Z_][A-Z0-9_]*)\)/;
+  // Target expression varies (Myself for self-buffs/heals, LastSeenBy(Myself) and
+  // NearestEnemyOf(Myself) for offense/CC/debuffs, occasionally bare LastSeenBy()) -
+  // match any target, since none of these expressions contain a comma.
+  const spellCallPattern = /Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)/;
   for (let i = 0; i < lines.length; i++) {
     const lineNumber = i + 1;
     if (lineNumber >= HOTKEY_EXCLUDE_START_LINE && lineNumber <= HOTKEY_EXCLUDE_END_LINE) {
@@ -155,9 +158,17 @@ function buildRankedEntries(
     const next = nextRanked[i];
     let rankValue: number;
     let flagged: boolean;
-    if (prev !== undefined && next !== undefined) {
+    if (prev !== undefined && next !== undefined && prev <= next) {
       rankValue = prev + (next - prev) / 2; // interpolate, exact position within the bracket doesn't matter, only that it sorts between prev and next
       flagged = false;
+    } else if (prev !== undefined && next !== undefined) {
+      // inverted bracket: the immediate original-order neighbors disagree on relative baf
+      // order (this is itself evidence the original hand list had a real ordering mistake
+      // nearby). Don't average two contradictory anchors - place safely just before the
+      // earlier of the two so this entry never sorts after a neighbor with real evidence
+      // ranking it earlier, and flag it since the placement isn't confidently anchored.
+      rankValue = Math.min(prev, next) - 0.001 * (partial.length - i);
+      flagged = true;
     } else if (prev !== undefined) {
       rankValue = prev + 0.001 * (i + 1); // trail after prev, preserving original relative order among trailing unranked entries
       flagged = true;

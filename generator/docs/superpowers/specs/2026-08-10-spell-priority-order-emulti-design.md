@@ -1,5 +1,23 @@
 # Deriving SPELL_PRIORITY_ORDER from emulti.baf
 
+**Amendment (applied during implementation):** the extraction regex
+originally specified below as `Spell(Myself, TOKEN)` only matches
+self-targeted casts (heals, self-buffs). Offensive/CC/debuff spells in
+`emulti.baf` target `LastSeenBy(Myself)`, `NearestEnemyOf(Myself)`, or
+occasionally bare `LastSeenBy()` — none of these contain a comma, so the
+implemented pattern is `Spell\([^,]*,([A-Z_][A-Z0-9_]*)\)` (any target
+expression, still keyed on the spell token after the comma). This was
+caught during the Task 1 manual review (the initial run flagged ~80 common
+spells — including `CLERIC_SANCTUARY` and `WIZARD_MAGIC_MISSILE` — as
+"never cast in emulti.baf," which was implausible on its face and confirmed
+wrong by direct inspection). The merge algorithm also needed one addition:
+when an unranked entry's two nearest original-order neighbors have baf
+ranks that disagree in relative order (a sign the original hand list had a
+real local ordering mistake), average-interpolating between them can place
+the entry after a neighbor with strictly earlier real evidence. Fixed by
+placing the entry just before the earlier of the two (not the arithmetic
+mean) and flagging it, rather than trusting a contradictory bracket.
+
 ## Problem
 
 `lib/config/spell-priority-order.ts` is the canonical ordering list consumed
