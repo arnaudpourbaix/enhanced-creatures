@@ -59,6 +59,10 @@
     <button type="button" class="trait-popover-close" aria-label="Close">&times;</button>
     <div class="trait-popover-body traits"></div>
   </div>
+  <!-- Source content for the trait popover above (docs/monsters.js's initTraitPopover) - each
+       a.trait-link looks up its matching #<name> entry here and copies it into the popover. Not
+       a visible glossary; kept out of layout entirely. -->
+  <div class="trait-entries" hidden>{{traitEntries}}</div>
   <script src="monsters.js" defer></script>
 </body>
 

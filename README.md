@@ -1,5 +1,7 @@
 # Enhanced Creatures
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/arnaudpourbaix/enhanced-creatures)
+
 Enhanced Creatures for Baldur's Gate EE and Baldur's Gate 2 EE.
 
 Its main purpose is to bring all monsters as close as possible to P&P using a mix of 2e and 3e edition rules.

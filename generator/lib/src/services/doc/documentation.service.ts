@@ -31,6 +31,7 @@ class DocumentationService {
     const template = { text: content };
     this.replace(template, "monsters", this.monsters.join(""));
     this.replace(template, "families", this.families.join(""));
+    this.replace(template, "traitEntries", this.getTraitEntries());
     try {
       utils.writeFile("docs/monsters.html", template.text);
     } catch (e) {
@@ -460,6 +461,29 @@ class DocumentationService {
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
     // ability's title together instead of splitting it across columns.
     return `<div class="ability-entry">${result}</div>${popoverEntry}`;
+  }
+
+  // Source content for the trait popover (docs/monsters.js's initTraitPopover): each trait-type
+  // immunity gets one hidden entry, keyed by name, that a creature card's `a.trait-link` looks up
+  // by its `href="#<name>"` fragment and copies into the popover on hover/click. Not rendered as
+  // a visible glossary (removed in favor of the popover) - only exists so the popover has content
+  // to read. No title inside - the trait link the user is hovering/clicking already shows the
+  // name, so repeating it in the popover body would be redundant.
+  getTraitEntries(): string {
+    let result = "";
+    // State.immunities is sorted once when loaded (see stateService.loadImmunities()) - both
+    // this trait listing and weiduFunctionService's generated function order rely on that same
+    // invariant rather than either one re-sorting (or silently depending on the other having
+    // sorted first).
+    for (const immunity of State.immunities) {
+      if (immunity.type === "trait" && immunity.doc) {
+        const entry = immunity.description
+          ? this.buildDescriptionHtml(translationService.from(immunity.description).split(/\r\n|\n/))
+          : "";
+        result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
+      }
+    }
+    return result;
   }
 
   // Renders a SCREAMING_SNAKE_CASE stat (e.g. alignment's "CHAOTIC_EVIL") as "Chaotic Evil".

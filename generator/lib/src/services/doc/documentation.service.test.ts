@@ -572,6 +572,51 @@ describe("getCreatureTraits", () => {
   });
 });
 
+describe("getTraitEntries", () => {
+  const originalImmunities = State.immunities;
+
+  afterEach(() => {
+    State.immunities = originalImmunities;
+  });
+
+  it("wraps each trait entry in a container div keyed by the trait's name, with no title", () => {
+    State.immunities = [
+      {
+        name: "construct",
+        type: "trait",
+        doc: true,
+        stringRef: "common.traits.construct.name",
+        description: "common.traits.construct.name",
+      } as unknown as ImmunityConfig,
+    ];
+    expect(documentationService.getTraitEntries()).toBe(
+      '<div class="trait-entry" id="construct"><p>Construct</p></div>',
+    );
+  });
+
+  it("leaves the entry empty when the trait has no description", () => {
+    State.immunities = [
+      {
+        name: "construct",
+        type: "trait",
+        doc: true,
+        stringRef: "common.traits.construct.name",
+      } as unknown as ImmunityConfig,
+    ];
+    expect(documentationService.getTraitEntries()).toBe(
+      '<div class="trait-entry" id="construct"></div>',
+    );
+  });
+
+  it("skips non-trait immunities and traits excluded from documentation", () => {
+    State.immunities = [
+      { name: "fire", type: "immunity", doc: true } as unknown as ImmunityConfig,
+      { name: "ghostVisual1", type: "trait", doc: false } as unknown as ImmunityConfig,
+    ];
+    expect(documentationService.getTraitEntries()).toBe("");
+  });
+});
+
 describe("formatEnumLabel", () => {
   it("renders a SCREAMING_SNAKE_CASE value as Title Case words", () => {
     expect(documentationService.formatEnumLabel("CHAOTIC_EVIL")).toBe("Chaotic Evil");
