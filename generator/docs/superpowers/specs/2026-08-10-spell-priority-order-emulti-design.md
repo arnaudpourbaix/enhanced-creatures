@@ -76,6 +76,41 @@ below as design history, since the reasoning ("borrowed evidence from a
 weakly-correlated neighbour is worse than no evidence") is what motivated
 dropping interleaving altogether, not just fixing its formula.
 
+*Round 4 (manual curation began).* Once Round 3 shipped, hand-reviewing
+the unvetted list turned out to be worth doing incrementally rather than
+all at once: entries get moved into the main list as soon as there's a
+considered opinion on where they belong, not held back until every last
+one is reviewed. Two changes followed from that:
+
+- **`SPELL_PRIORITY_ORDER_RANKED` renamed back to `SPELL_PRIORITY_ORDER`.**
+  Once a human places a no-evidence entry in the main list, "ranked" no
+  longer describes it — the list is a mix of evidence-sorted and
+  human-anchored entries. The *merge algorithm* is extended accordingly:
+  entries in `SPELL_PRIORITY_ORDER` with real evidence still sort by
+  first-cast line; entries without evidence that are *already in this
+  list* are anchored — their position relative to their neighbours never
+  changes, even as evidence-backed entries sort in and out around them.
+  This is the Round 1/2 "ordinal placement" idea again, but scoped: it
+  only ever applies to entries a human chose to place here, never invented
+  wholesale for everything lacking evidence (that's still what
+  `SPELL_PRIORITY_ORDER_UNVETTED` is for).
+- **`AbilityOrderService` was reading only `SPELL_PRIORITY_ORDER`, not the
+  union of both lists.** This was a real, previously-latent gap in the
+  Round 3 design surfaced by the rename: once `SPELL_PRIORITY_ORDER`
+  became a plain, independently-edited array instead of a concatenation of
+  both lists, any memorized-but-still-unvetted spell became invisible to
+  ordering — `ability-order.service.ts:34-40` treats "missing from
+  `SPELL_PRIORITY_ORDER`" as a hard error, and 11 of Greater Mummy's
+  Faiths & Powers spells (`SummonShadows`, `CauseSeriousWounds`,
+  `CircleOfBones`, `ShadowMonsters`, `Forbiddance`, `Shatter`,
+  `CauseDisease`, `CloudOfPestilence`, `WavesOfFatigue`,
+  `DemiShadowMonsters`, `Shades`) hit exactly that and would never be
+  cast. Fixed in `ability-order.service.ts`, not `spell-priority-order.ts`:
+  `resolve()` now concatenates `[...SPELL_PRIORITY_ORDER,
+  ...SPELL_PRIORITY_ORDER_UNVETTED]` fresh on every call (not once at
+  module load, so it still holds up when a test mutates either array via
+  `push`/`pop` after import).
+
 **Consequence:** `spell-priority-order.test.ts`'s
 Sanctuary-before-FingerOfDeath assertion no longer holds — `Sanctuary` has
 no direct evidence, so it now sits in the unvetted list, after every
