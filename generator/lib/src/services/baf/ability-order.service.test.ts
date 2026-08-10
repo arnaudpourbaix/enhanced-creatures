@@ -165,12 +165,22 @@ describe("resolve", () => {
     ]);
   });
 
-  it("errors and skips a memorized spell missing from SPELL_PRIORITY_ORDER", () => {
-    const creature = fakeCreature({ memorized: [{ file: "not-in-priority-order" }] });
-    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
-    expect(abilityOrderService.resolve(creature)).toEqual([]);
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("not-in-priority-order"));
-    errorSpy.mockRestore();
+  it("warns and casts last a memorized spell missing from SPELL_PRIORITY_ORDER, rather than dropping it", () => {
+    SPELL_PRIORITY_ORDER.push("test-priority-first");
+    try {
+      const creature = fakeCreature({
+        memorized: [{ file: "not-in-priority-order" }, { file: "test-priority-first" }],
+      });
+      const warnSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+      expect(abilityOrderService.resolve(creature)).toEqual([
+        { preset: "test-priority-first" },
+        { preset: "not-in-priority-order" },
+      ]);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("not-in-priority-order"));
+      warnSpy.mockRestore();
+    } finally {
+      SPELL_PRIORITY_ORDER.pop();
+    }
   });
 
   it("errors and appends at the end when an insertBefore anchor doesn't resolve", () => {

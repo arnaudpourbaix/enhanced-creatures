@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SPELL_PRIORITY_ORDER, SPELL_PRIORITY_ORDER_UNVETTED } from "./spell-priority-order";
+import { SPELL_PRIORITY_ORDER } from "./spell-priority-order";
 import { SPELLS } from "./spells/spell-names";
 
 describe("SPELL_PRIORITY_ORDER", () => {
@@ -15,10 +15,5 @@ describe("SPELL_PRIORITY_ORDER", () => {
     expect(buffIndex).toBeGreaterThanOrEqual(0);
     expect(deathIndex).toBeGreaterThanOrEqual(0);
     expect(buffIndex).toBeLessThan(deathIndex);
-  });
-
-  it("never lists the same entry in both SPELL_PRIORITY_ORDER and SPELL_PRIORITY_ORDER_UNVETTED", () => {
-    const overlap = SPELL_PRIORITY_ORDER_UNVETTED.filter((f) => SPELL_PRIORITY_ORDER.includes(f));
-    expect(overlap).toEqual([]);
   });
 });

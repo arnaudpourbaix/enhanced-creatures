@@ -1,13 +1,18 @@
 import { SPELLS } from "./spells/spell-names";
 import { FNP_SPELLS } from "./spells/fnp-spell-names";
-import { PRESET_NAMES } from "./common";
 
 /**
  * Spell cast-priority order (earlier entry = cast sooner) for AbilityOrderService - see
  * `docs/superpowers/specs/2026-08-10-spell-priority-order-emulti-design.md`.
+ *
+ * A memorized spell that isn't listed here isn't an error - it's simply cast last,
+ * after everything below (AbilityOrderService.resolve() treats "not found" as lowest
+ * priority). Add an entry here only once you want to give it a specific priority,
+ * either because assets/emulti.baf casts it (this script sorts those automatically by
+ * real cast-order evidence, wherever you put the line) or because you've decided by
+ * hand where it belongs (this script never moves an entry it has no evidence for once
+ * it's in this list - see scripts/derive-spell-priority-order.ts).
  */
-
-// Ordered by the line of each spell's first cast in assets/emulti.baf.
 export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.Vocalize.file,
   SPELLS.Priest.CureLightWounds.file,
@@ -120,29 +125,4 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   FNP_SPELLS.Priest.Doom.file,
   SPELLS.Priest.Command.file,
   SPELLS.Priest.DrawUponHolyMight.file,
-];
-
-// No direct cast evidence in assets/emulti.baf (not cast anywhere in the script, at
-// least not through a cast syntax this derivation understands - see the design doc).
-// Order here is not derived from anything - reorder by hand as you develop a
-// considered opinion on where an entry belongs, then move it into the array above.
-// Regenerated every run: an entry only leaves this list once it gains real evidence.
-export const SPELL_PRIORITY_ORDER_UNVETTED: string[] = [
-  FNP_SPELLS.Priest.SummonShadows.file,
-  FNP_SPELLS.Priest.CloudOfPestilence.file,
-  FNP_SPELLS.Priest.Shades.file,
-  FNP_SPELLS.Priest.WavesOfFatigue.file,
-  FNP_SPELLS.Priest.DemiShadowMonsters.file,
-  FNP_SPELLS.Priest.CircleOfBones.file,
-  FNP_SPELLS.Priest.ShadowMonsters.file,
-  FNP_SPELLS.Priest.CauseSeriousWounds.file,
-  FNP_SPELLS.Priest.Forbiddance.file,
-  FNP_SPELLS.Priest.Shatter.file,
-  FNP_SPELLS.Priest.CauseDisease.file,
-  SPELLS.Wizard.DimensionDoor.file,
-  PRESET_NAMES.DimensionDoorOffscreen,
-  FNP_SPELLS.Priest.CauseLightWounds.file,
-  FNP_SPELLS.Priest.FrostFingers.file,
-  SPELLS.Priest.FindTraps.file,
-  SPELLS.Priest.AnimalSummoning4.file,
 ];

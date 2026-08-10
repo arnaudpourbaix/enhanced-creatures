@@ -1,7 +1,4 @@
-import {
-  SPELL_PRIORITY_ORDER,
-  SPELL_PRIORITY_ORDER_UNVETTED,
-} from "../../../config/spell-priority-order";
+import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
 import { Creature } from "../../model/creature/creature";
 import creatureService from "../creature.service";
@@ -34,22 +31,18 @@ class AbilityOrderService {
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
     const autoFiles = memorizedFiles.filter((file) => !explicitFiles.has(file));
 
-    // Concatenated per call (not at module load) so that mutating either exported array -
-    // e.g. tests push()ing fake entries onto SPELL_PRIORITY_ORDER - is still picked up.
-    // SPELL_PRIORITY_ORDER holds the entries a human or real evidence has placed;
-    // SPELL_PRIORITY_ORDER_UNVETTED holds everything not yet reviewed - both still need
-    // to resolve to *some* ability order, or an unreviewed but memorized spell would
-    // silently never be cast.
-    const priorityOrder = [...SPELL_PRIORITY_ORDER, ...SPELL_PRIORITY_ORDER_UNVETTED];
+    // A memorized spell missing from SPELL_PRIORITY_ORDER isn't an error - it just casts
+    // last, after everything explicitly ordered (Infinity sorts after every real index).
+    // Still worth a warning: silently deprioritizing something is easy to miss otherwise.
     const ordered: OrderedAbility[] = autoFiles
-      .map((file) => ({ identity: file, index: priorityOrder.indexOf(file) }))
-      .filter(({ identity, index }) => {
+      .map((file) => {
+        const index = SPELL_PRIORITY_ORDER.indexOf(file);
         if (index === -1) {
-          logService.error(
-            `${translationService.from(creature.name)}: spell '${identity}' is memorized but is missing from SPELL_PRIORITY_ORDER - add it there to auto-order this ability.`,
+          logService.warn(
+            `${translationService.from(creature.name)}: spell '${file}' is memorized but is missing from SPELL_PRIORITY_ORDER - casting last by default. Add it there to give it a real priority.`,
           );
         }
-        return index !== -1;
+        return { identity: file, index: index === -1 ? Infinity : index };
       })
       .sort((a, b) => a.index - b.index)
       .map(({ identity }): OrderedAbility => ({ identity, ability: { preset: identity } }));
