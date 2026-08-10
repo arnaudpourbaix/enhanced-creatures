@@ -153,28 +153,28 @@ THEN
 		RandomWalkContinuous()
 END
 
-// Bless
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	HaveSpell(CLERIC_BLESS)
-	RandomNumGT(800,240)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		Spell(Myself,CLERIC_BLESS)
-END
-
 // Chant
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_CHANT)
-	RandomNumGT(801,240)
+	RandomNumGT(800,240)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
 		Spell(Myself,CLERIC_CHANT)
+END
+
+// Bless
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	HaveSpell(CLERIC_BLESS)
+	RandomNumGT(801,240)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_BLESS)
 END
 
 // Hold Person
