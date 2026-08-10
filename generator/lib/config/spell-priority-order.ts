@@ -2,53 +2,68 @@ import { SPELLS } from "./spells/spell-names";
 import { FNP_SPELLS } from "./spells/fnp-spell-names";
 import { PRESET_NAMES } from "./common";
 
+/**
+ * Spell cast-priority order (earlier entry = cast sooner), derived from the block
+ * order of `assets/emulti.baf` - see
+ * `docs/superpowers/specs/2026-08-10-spell-priority-order-emulti-design.md`.
+ *
+ * Spells emulti.baf actually casts are ordered by the line of their first cast.
+ * Spells it never casts keep the exact index they held in the previous hand-tuned
+ * list; the subset of those whose surrounding evidence is self-contradictory is
+ * flagged individually below.
+ */
 export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.Vocalize.file,
+  SPELLS.Wizard.ShadowDoor.file,
   SPELLS.Priest.CureLightWounds.file,
   SPELLS.Priest.ResistFear.file,
-  SPELLS.Wizard.DetectInvisibility.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  FNP_SPELLS.Priest.CloakOfFear.file,
-  SPELLS.Wizard.Glitterdust.file,
-  SPELLS.Wizard.ShadowDoor.file,
-  SPELLS.Wizard.Stoneskin.file,
-  SPELLS.Priest.TrueSeeing.file,
-  SPELLS.Priest.DispelMagic.file,
-  SPELLS.Priest.Ironskin.file,
-  SPELLS.Wizard.DimensionDoor.file,
-  PRESET_NAMES.DimensionDoorOffscreen,
-  SPELLS.Wizard.ProtectionFromMagicalWeapons.file,
-  SPELLS.Wizard.TeleportField.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.SymbolDeath.file,
-  SPELLS.Priest.AerialServant.file,
-  SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
+  FNP_SPELLS.Priest.GreaterMalison.file,
   SPELLS.Wizard.DispelMagic.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.Sanctuary.file,
   SPELLS.Wizard.RemoveMagic.file,
-  SPELLS.Wizard.FireShield.file,
-  SPELLS.Priest.MagicResistance.file,
-  SPELLS.Wizard.ProtectionFromMissiles.file,
-  SPELLS.Priest.BladeBarrier.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.FindTraps.file,
-  SPELLS.Priest.CallWoodlandBeeings.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.AnimalSummoning4.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.Wither.file,
+  SPELLS.Wizard.DetectInvisibility.file,
+  SPELLS.Wizard.Glitterdust.file,
+  SPELLS.Wizard.Stoneskin.file,
+  FNP_SPELLS.Priest.SummonShadows.file,
+  FNP_SPELLS.Priest.Chaos.file,
+  FNP_SPELLS.Priest.CloudOfPestilence.file,
+  SPELLS.Priest.MassCauseLightWounds.file,
+  FNP_SPELLS.Priest.Shades.file,
+  SPELLS.Priest.TrueSeeing.file,
+  SPELLS.Priest.WavesOfAgony.file,
+  SPELLS.Priest.DispelMagic.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  FNP_SPELLS.Priest.Emotion.file,
+  SPELLS.Priest.Ironskin.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
   FNP_SPELLS.Priest.WavesOfFatigue.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
+  // no reliable baf evidence bracketing this position - not vetted for priority.
   FNP_SPELLS.Priest.DemiShadowMonsters.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
+  // no reliable baf evidence bracketing this position - not vetted for priority.
   FNP_SPELLS.Priest.CauseCriticalWounds.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
+  // no reliable baf evidence bracketing this position - not vetted for priority.
   FNP_SPELLS.Priest.AnimateDead.file,
-  SPELLS.Priest.AnimateDead.file,
-  SPELLS.Wizard.Haste.file,
-  SPELLS.Wizard.MinorSpellDeflection.file,
+  SPELLS.Wizard.ProtectionFromMagicalWeapons.file,
   FNP_SPELLS.Priest.CircleOfBones.file,
   FNP_SPELLS.Priest.ShadowMonsters.file,
   FNP_SPELLS.Priest.CauseSeriousWounds.file,
   FNP_SPELLS.Priest.Shield.file,
+  SPELLS.Wizard.TeleportField.file,
+  SPELLS.Priest.AerialServant.file,
+  SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
+  SPELLS.Wizard.FireShield.file,
+  SPELLS.Priest.MagicResistance.file,
+  SPELLS.Wizard.ProtectionFromMissiles.file,
+  SPELLS.Priest.BladeBarrier.file,
+  SPELLS.Priest.CallWoodlandBeeings.file,
+  SPELLS.Priest.AnimateDead.file,
+  SPELLS.Wizard.Haste.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.ProtectionFromLightning.file,
+  SPELLS.Wizard.MinorSpellDeflection.file,
   SPELLS.Wizard.Blur.file,
   SPELLS.Wizard.MirrorImages.file,
   SPELLS.Wizard.ImprovedInvisibility.file,
@@ -56,61 +71,45 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.Barkskin.file,
   SPELLS.Wizard.Invisibility.file,
   SPELLS.Priest.Chant.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.ProtectionFromLightning.file,
+  FNP_SPELLS.Priest.RigidThinking.file,
+  FNP_SPELLS.Priest.Forbiddance.file,
+  FNP_SPELLS.Priest.Shatter.file,
+  FNP_SPELLS.Priest.CauseDisease.file,
   SPELLS.Priest.Bless.file,
-  FNP_SPELLS.Priest.SummonShadows.file,
-  FNP_SPELLS.Priest.Chaos.file,
-  FNP_SPELLS.Priest.CloudOfPestilence.file,
-  SPELLS.Priest.MassCauseLightWounds.file,
-  FNP_SPELLS.Priest.Shades.file,
   SPELLS.Wizard.SpellThrust.file,
   SPELLS.Wizard.Breach.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Wizard.Combust.file,
+  SPELLS.Wizard.DimensionDoor.file,
+  PRESET_NAMES.DimensionDoorOffscreen,
   SPELLS.Wizard.ConeOfCold.file,
   SPELLS.Wizard.ChainLightning.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.Wither.file,
   SPELLS.Priest.DolorousDecay.file,
   SPELLS.Wizard.WailOfTheBanshee.file,
   SPELLS.Wizard.PowerWordKill.file,
   SPELLS.Wizard.Fireburst.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.Sanctuary.file,
+  SPELLS.Priest.SymbolDeath.file,
   SPELLS.Priest.FingerOfDeath.file,
   SPELLS.Wizard.PowerWordStun.file,
   SPELLS.Wizard.PowerWordBlind.file,
-  FNP_SPELLS.Priest.GreaterMalison.file,
   SPELLS.Priest.Harm.file,
   SPELLS.Priest.SlayLiving.file,
   SPELLS.Priest.RighteousMagic.file,
   SPELLS.Priest.HolyPower.file,
   SPELLS.Priest.Silence.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Wizard.Darkness15Radius.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Wizard.ObscuringMist.file,
   SPELLS.Priest.MiscastMagic.file,
   SPELLS.Wizard.Domination.file,
   SPELLS.Priest.MentalDomination.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  FNP_SPELLS.Priest.FrostFingers.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Priest.CloudOfPestilence.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Wizard.Darkness15Radius.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Wizard.ObscuringMist.file,
   SPELLS.Wizard.LightningBolt.file,
-  SPELLS.Priest.WavesOfAgony.file,
   SPELLS.Wizard.IceStorm.file,
   SPELLS.Priest.FlameStrike.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  FNP_SPELLS.Priest.Emotion.file,
   SPELLS.Priest.Poison.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Wizard.VitriolicSphere.file,
   SPELLS.Wizard.Cloudkill.file,
-  FNP_SPELLS.Priest.MiscastMagic.file,
   SPELLS.Priest.UnholyBlight.file,
   SPELLS.Priest.GlyphOfWarding.file,
+  FNP_SPELLS.Priest.MiscastMagic.file,
   SPELLS.Wizard.GreaterMalison.file,
   SPELLS.Wizard.Emotion.file,
   SPELLS.Priest.GreaterCommand.file,
@@ -122,33 +121,43 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.FlameArrow.file,
   SPELLS.Wizard.AgannazarScorcher.file,
   SPELLS.Priest.CallLightning.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  FNP_SPELLS.Priest.CloakOfFear.file,
   SPELLS.Wizard.PowerWordSleep.file,
   SPELLS.Wizard.Slow.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Wizard.MordenkainenForceMissiles.file,
   SPELLS.Wizard.Confusion.file,
   SPELLS.Wizard.Web.file,
+  FNP_SPELLS.Priest.CauseLightWounds.file,
   SPELLS.Wizard.StinkingCloud.file,
-  // not found in emulti.baf and no nearby vanilla sibling either - position not vetted for priority.
-  SPELLS.Wizard.MordenkainenForceMissiles.file,
   SPELLS.Wizard.ChromaticOrb.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Wizard.Combust.file,
   SPELLS.Wizard.HoldPerson.file,
   SPELLS.Wizard.Spook.file,
   SPELLS.Wizard.Horror.file,
   SPELLS.Priest.Entangle.file,
-  FNP_SPELLS.Priest.CauseLightWounds.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  FNP_SPELLS.Priest.FrostFingers.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.CloudOfPestilence.file,
   SPELLS.Priest.HoldPersonOrAnimal.file,
   SPELLS.Priest.HoldPerson.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Wizard.VitriolicSphere.file,
   SPELLS.Priest.CauseSeriousWounds.file,
   SPELLS.Wizard.CharmPerson.file,
   SPELLS.Priest.CharmPersonOrAnimal.file,
-  FNP_SPELLS.Priest.RigidThinking.file,
-  FNP_SPELLS.Priest.Forbiddance.file,
-  FNP_SPELLS.Priest.Shatter.file,
-  FNP_SPELLS.Priest.CauseDisease.file,
   SPELLS.Wizard.MelfAcidArrow.file,
   SPELLS.Wizard.BurningHands.file,
   SPELLS.Wizard.MagicMissiles.file,
   SPELLS.Wizard.Sleep.file,
   FNP_SPELLS.Priest.Doom.file,
   SPELLS.Priest.Command.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.FindTraps.file,
   SPELLS.Priest.DrawUponHolyMight.file,
+  // no reliable baf evidence bracketing this position - not vetted for priority.
+  SPELLS.Priest.AnimalSummoning4.file,
 ];
