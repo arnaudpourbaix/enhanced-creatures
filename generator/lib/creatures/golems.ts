@@ -410,7 +410,6 @@ class GolemFamily extends CreatureFamily<Golem> {
     flesh.setBehavior({
       restHeal: true,
     });
-    flesh.setAdjustments([{ files: ["TOMEGOL1"], summon: true }]);
     return flesh;
   }
 
@@ -466,7 +465,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
       abilities: [this.ability(Ids.Haste)],
     });
-    clay.setAdjustments([{ files: ["TOMEGOL2"], summon: true }]);
     return clay;
   }
 
@@ -530,7 +528,6 @@ class GolemFamily extends CreatureFamily<Golem> {
         },
       ],
     });
-    stone.setAdjustments([{ files: ["TOMEGOL3"], summon: true }]);
     return stone;
   }
 
@@ -688,7 +685,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
       abilities: [this.ability(Ids.Charge)],
     });
-    juggernaut.setAdjustments([{ files: ["TOMEGOL4"], summon: true }]);
     return juggernaut;
   }
 

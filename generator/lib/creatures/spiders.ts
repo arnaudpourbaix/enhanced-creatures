@@ -585,7 +585,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
       poisonType: "F",
     });
     giant.setAdjustments([
-      { files: ["SPIDGISU", "BDHELP01", "SPIDFGSU"], summon: true },
       { files: ["PLYSPID2"], data: { script: { location: "None" } } },
     ]);
     return giant;
@@ -749,7 +748,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
       saveBonus: 2,
     });
     hunting.setBehavior({ abilities: [this.ability(Ids.LeapAttack)] });
-    hunting.setAdjustments([{ files: ["D5SMSPID"], summon: true }]);
     return hunting;
   }
 
@@ -814,7 +812,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
       abilities: [this.ability(Ids.PhaseOut)],
     });
     phase.setAdjustments([
-      { files: ["SPIDPHSU"], summon: true },
       {
         files: ["SPIDPHAS"],
         data: {
@@ -885,7 +882,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
       ],
     });
     sword.setAdjustments([
-      { files: ["BDHELP03", "SPIDSWSU"], summon: true },
       { files: ["PLYSPID"], data: { script: { location: "None" } } },
       {
         files: ["WISPID03"],

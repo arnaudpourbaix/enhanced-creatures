@@ -345,7 +345,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       diceThrown: 1,
       diceSize: 4,
     });
-    wolf.setAdjustments([{ files: ["WOLFSU"], summon: true }]);
     return wolf;
   }
 
@@ -390,7 +389,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       diceSize: 4,
     });
     dire.setAdjustments([
-      { files: ["WOLFDISU"], summon: true },
       {
         files: ["SHAWOL01"],
         data: { strength: 18, xpv: 450, immunities: ["incorporeal"] },
@@ -650,7 +648,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       diceThrown: 2,
       diceSize: 4,
     });
-    worg.setAdjustments([{ files: ["WORGSU"], summon: true }]);
     return worg;
   }
 }

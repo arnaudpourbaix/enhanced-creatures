@@ -438,7 +438,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
     nymph.setAdjustments([
       {
-        files: ["NYMPHSU", "NYMPHSUM", "DW#NYMSU"],
+        files: ["NYMPHSUM", "DW#NYMSU"],
         summon: true,
       },
       {

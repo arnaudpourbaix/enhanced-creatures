@@ -91,7 +91,6 @@ class EttercapFamily extends CreatureFamily<Ettercap> {
     ettercap.setAttack({
       targetPriorities: [{ status: ["HeldAndNotPoisoned"] }],
     });
-    ettercap.setAdjustments([{ files: ["ETTERCSU"], summon: true }]);
     return ettercap;
   }
 }

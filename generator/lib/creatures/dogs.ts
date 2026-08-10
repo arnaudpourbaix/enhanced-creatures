@@ -144,7 +144,6 @@ class DogFamily extends CreatureFamily<Dog> {
     wild.createJaws(1, 4);
     wild.setBehavior({ dialog: ["BDDOGW01"] });
     wild.setAdjustments([
-      { files: ["DOGWISU"], summon: true },
       { files: ["BDDOG"], data: { class: "INNOCENT" } },
       { files: ["BDDEADOG"], data: { script: { location: "None" } } },
     ]);
@@ -185,7 +184,6 @@ class DogFamily extends CreatureFamily<Dog> {
     });
     war.createJaws(2, 4);
     war.setAdjustments([
-      { files: ["DOGWASU"], summon: true },
       { files: ["UBNIMDOG"], data: { script: { location: "None" } } },
     ]);
     return war;
@@ -313,7 +311,6 @@ class DogFamily extends CreatureFamily<Dog> {
       },
     };
     spectralHound.createJaws(2, 6, astralPlaneShift);
-    spectralHound.setAdjustments([{ files: ["BDSHA01C"], summon: true }]);
     return spectralHound;
   }
 }

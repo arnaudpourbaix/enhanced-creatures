@@ -107,7 +107,6 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
     wyvern.addTrait({ immunities: ["hover"] });
     wyvern.createStinger("F", 0);
     wyvern.createJaws();
-    wyvern.setAdjustments([{ files: ["WYVERNSU"], summon: true }]);
     return wyvern;
   }
 
@@ -138,7 +137,6 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
     baby.createJaws();
     baby.setAdjustments([
       { files: ["PLYWYVRN"], data: { script: { location: "None" } } },
-      { files: ["WYVBABSU"], summon: true },
     ]);
     return baby;
   }

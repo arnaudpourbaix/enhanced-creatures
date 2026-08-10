@@ -7,6 +7,7 @@ const MONSTER_ID_COLUMN = "MonsterId";
 const VALIDATED_COLUMN = "ValidatedMonsterId";
 const DEATHVAR_COLUMN = "deathvar";
 const DIALOG_COLUMN = "dialog";
+const SUMMON_COLUMN = "summon";
 
 export function parseMonsterFilesCsv(raw: string): Map<string, string[]> {
   const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
@@ -79,14 +80,43 @@ export function parseMonsterDialogCsv(
   return result;
 }
 
+export function parseMonsterSummonFilesCsv(raw: string): Map<string, string[]> {
+  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const header = lines[0].split(";");
+  const fileIdx = header.indexOf(FILE_COLUMN);
+  const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
+  const validatedIdx = header.indexOf(VALIDATED_COLUMN);
+  const summonIdx = header.indexOf(SUMMON_COLUMN);
+
+  const result = new Map<string, string[]>();
+  for (const line of lines.slice(1)) {
+    const fields = line.split(";");
+    const validated = fields[validatedIdx] ?? "";
+    const monsterId = fields[monsterIdIdx] ?? "";
+    const summon = fields[summonIdx] ?? "";
+    if (validated !== "true" || !monsterId || summon !== "true") continue;
+    const file = fields[fileIdx] ?? "";
+    const existing = result.get(monsterId);
+    if (existing) existing.push(file);
+    else result.set(monsterId, [file]);
+  }
+  return result;
+}
+
 class MonsterFilesService {
   private filesByMonster?: Map<string, string[]>;
   private unvalidatedFilesByMonster?: Map<string, string[]>;
   private dialogRowsByMonster?: Map<string, { file: string; deathvar: string; dialog: string }[]>;
+  private summonFilesByMonster?: Map<string, string[]>;
 
   getFiles(monster: MonsterEnum): string[] {
     this.filesByMonster ??= parseMonsterFilesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
     return this.filesByMonster.get(MonsterEnum[monster]) ?? [];
+  }
+
+  getSummonFiles(monster: MonsterEnum): string[] {
+    this.summonFilesByMonster ??= parseMonsterSummonFilesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+    return this.summonFilesByMonster.get(MonsterEnum[monster]) ?? [];
   }
 
   getUnvalidatedFiles(monster: MonsterEnum): string[] {

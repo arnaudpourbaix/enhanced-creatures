@@ -106,6 +106,28 @@ export abstract class CreatureFamily<T extends Creature>
     ];
   }
 
+  // creatures.csv's "summon" column is the source of truth for which files are summon variants.
+  // Files already covered by a hand-written setAdjustments() entry (e.g. ones that also carry
+  // data overrides, or ones the CSV can't confirm - see check-summon-adjustments.ts) are left
+  // alone; everything else the CSV confirms gets a minimal synthetic adjustment so it still gets
+  // the summon behavior script and xpv=0 patch.
+  private applyCsvSummonFiles(creature: T): void {
+    const knownFiles = new Set(
+      creature.adjustments.flatMap((a) => a.files.map((f) => f.toUpperCase())),
+    );
+    const csvSummonFiles = [
+      ...new Set(
+        monsterFilesService
+          .getSummonFiles(creature.id)
+          .map((f) => f.toUpperCase())
+          .filter((f) => !knownFiles.has(f)),
+      ),
+    ];
+    if (csvSummonFiles.length) {
+      creature.setAdjustments(csvSummonFiles.map((f) => ({ files: [f], summon: true })));
+    }
+  }
+
   private warnUnvalidatedFiles(monster: MonsterEnum): void {
     const files = monsterFilesService.getUnvalidatedFiles(monster);
     if (files.length) {
@@ -120,6 +142,7 @@ export abstract class CreatureFamily<T extends Creature>
     let creature: T | undefined;
     try {
       creature = build();
+      this.applyCsvSummonFiles(creature);
       creature.validate(this.id);
     } catch (e: unknown) {
       // If the builder throws after calling create()/createFrom() (which already pushed the

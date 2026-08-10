@@ -4,6 +4,7 @@ generator/coverage
 generator/dist
 generator/node_modules
 generator/monster-defs.json
+generator/summon-naming-mismatches.txt
 generator/paths.local.json
 generator/copy.log
 .superpowers

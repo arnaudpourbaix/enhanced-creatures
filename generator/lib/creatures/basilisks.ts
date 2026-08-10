@@ -123,7 +123,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     lesser.setBehavior({
       abilities: [this.ability(Ids.Petrification)],
     });
-    lesser.setAdjustments([{ files: ["BASILLSU"], summon: true }]);
     return lesser;
   }
 
@@ -241,7 +240,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       abilities: [this.ability(Ids.Petrification)],
     });
     greater.setAdjustments([
-      { files: ["BASILGSU"], summon: true },
       {
         files: ["L#NSSULJ"],
         data: {

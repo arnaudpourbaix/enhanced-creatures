@@ -442,7 +442,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
       ],
     });
     ogre.setAdjustments([
-      { files: ["OGRESU"], summon: true },
       {
         files: ["X3HOGRE", "X3HOGRE2", "X3HOGRED"],
         data: { script: { location: "None" } },
@@ -838,10 +837,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
     });
     ogreMage.setAdjustments([
       {
-        files: ["OGREMASU"],
-        summon: true,
-      },
-      {
         files: ["BDWAVE16", "WIOGMA01", "WIGENTLE", "DROTH"],
         data: {
           level1: 7,
@@ -969,7 +964,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
       ],
     });
     berserker.setAdjustments([
-      { files: ["OGREGRSU"], summon: true },
       {
         // chieftain
         files: [

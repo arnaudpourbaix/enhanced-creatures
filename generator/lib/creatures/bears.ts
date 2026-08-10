@@ -158,7 +158,6 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, this.fearFire],
     });
     black.setAdjustments([
-      { files: ["BEARBLSU"], summon: true },
       { files: ["PLYBEAR2"], data: { script: { location: "None" } } },
     ]);
     return black;
@@ -210,7 +209,6 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, hunterCustomCode],
     });
     brown.setAdjustments([
-      { files: ["BEARBRSU"], summon: true },
       { files: ["PLYBEAR1"], data: { script: { location: "None" } } },
     ]);
     return brown;
@@ -260,7 +258,6 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
     });
     cave.setAdjustments([
-      { files: ["BEARCASU", "B_BEAR1"], summon: true },
       { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
       { files: ["B_BEAR1"], data: { level1: 9 } },
     ]);
@@ -319,7 +316,7 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, this.kaldranInit],
     });
     polar.setAdjustments([
-      { files: ["BEARPOSU", "BDGHBRSU", "BDGHOSTF", "B_PBEAR1"], summon: true },
+      { files: ["BDGHOSTF", "B_PBEAR1"], summon: true },
       { files: ["BDGHOSTF"], data: { immunities: ["undead", "incorporeal"] } },
       { files: ["BDGHBRSU"], data: { level1: 9 } },
       { files: ["B_PBEAR1"], data: { level1: 13 } },
@@ -388,7 +385,6 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, hunterCustomCode],
     });
     grizzly.setAdjustments([
-      { files: ["BEARGRSU"], summon: true },
       { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
     ]);
     return grizzly;

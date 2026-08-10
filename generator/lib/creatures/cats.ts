@@ -142,7 +142,6 @@ class CatFamily extends CreatureFamily<Cat> {
     jaguar.createPaws(1, 3, { diceThrown: 1, diceSize: 4 });
     jaguar.createJaws(1, 8);
     jaguar.setBehavior({ customCodes: [hunterCustomCode] });
-    jaguar.setAdjustments([{ files: ["BDHELP04"], summon: true }]);
     return jaguar;
   }
 
@@ -182,7 +181,6 @@ class CatFamily extends CreatureFamily<Cat> {
     });
     leopard.createPaws(1, 3, { diceThrown: 1, diceSize: 4 });
     leopard.createJaws(1, 6);
-    leopard.setAdjustments([{ files: ["CATJAGSU"], summon: true }]);
     return leopard;
   }
 
@@ -229,7 +227,6 @@ class CatFamily extends CreatureFamily<Cat> {
     });
     lion.createPaws(1, 4, { diceThrown: 1, diceSize: 6 });
     lion.createJaws(1, 10);
-    lion.setAdjustments([{ files: ["CATLIOSU"], summon: true }]);
     return lion;
   }
 

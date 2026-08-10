@@ -36,7 +36,21 @@ if (!fs.existsSync(csvPath)) {
   process.exit(1);
 }
 
-const COLUMNS = ["file", "general", "race", "class", "anim", "deathvar", "dialog", "origin", "name"];
+const COLUMNS = [
+  "file",
+  "general",
+  "race",
+  "class",
+  "anim",
+  "deathvar",
+  "dialog",
+  "origin",
+  "level",
+  "sex",
+  "allegiance",
+  "name",
+  "summon",
+];
 
 const GENERIC_CLASS_RE =
   /^(FIGHTER|CLERIC|MAGE|THIEF|DRUID|RANGER|PALADIN|BARD|MONK|SORCERER|NO_CLASS)(_(FIGHTER|CLERIC|MAGE|THIEF|DRUID|RANGER|PALADIN|BARD|MONK|SORCERER))*$/;

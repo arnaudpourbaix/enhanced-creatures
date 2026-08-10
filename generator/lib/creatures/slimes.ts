@@ -419,7 +419,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
       abilities: [this.ability(Ids.MustardJellySplit), this.ability(Ids.ToxicVapors)],
     });
     mustard.setAdjustments([
-      { files: ["JELLMUSU"], summon: true },
       { files: ["PLYJELL1"], data: { script: { location: "None" } } },
       {
         files: [ATWEAKS_CREATURES.SplitMustardJelly],

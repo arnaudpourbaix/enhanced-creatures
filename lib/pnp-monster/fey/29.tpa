@@ -102,8 +102,6 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=ja#m29su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JA#DRYAD~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
-				WRITE_BYTE 0x237 IDS_OF_SYMBOL (~gender~ ~SUMMONED~) // gender
-				WRITE_BYTE 0x275 IDS_OF_SYMBOL (~gender~ ~SUMMONED~) // gender
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DRYAD~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#APEST~) BEGIN 
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~INNOCENT~) // class

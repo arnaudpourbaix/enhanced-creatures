@@ -82,7 +82,6 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
       targetPriorities: [{ status: ["Able"] }],
     });
     carrionCrawler.setAdjustments([
-      { files: ["CARRIOSU"], summon: true },
       { files: ["CRYPTCRA"], data: { level1: 6, thac0: 9, xpv: 650 } },
     ]);
     return carrionCrawler;

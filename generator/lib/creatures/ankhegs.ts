@@ -187,7 +187,6 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
       { files: ["L#NDC2"], data: { level1: 15, xpv: 1500 } },
       { files: ["L#XZEANS"], data: { level1: 15, xpv: 2000, immunities: ["undead"] } },
       { files: ["L#XZEANK"], data: { level1: 15, xpv: 2000, immunities: ["undead"] } },
-      { files: ["BDANKHSU"], summon: true },
     ]);
     return ankheg;
   }

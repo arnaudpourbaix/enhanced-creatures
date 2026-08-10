@@ -1342,7 +1342,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       abilities: [this.ability(Ids.CarrionStench)],
     });
     ghast.setAdjustments([
-      { files: ["GHASTS", "ghastgsu"], summon: true },
       {
         files: ["CDI4GHST", "GHASTS", "ghastgsu"], // "rr#ghast" ?
         data: { script: { location: "None" } },
@@ -1424,7 +1423,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       restHeal: true,
     });
     ghoul.setAdjustments([
-      { files: ["GHOULSU"], summon: true },
       { files: ["KORAX"], data: { level1: 4 } },
     ]);
     return ghoul;
@@ -2160,10 +2158,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
     });
     skeleton.setAdjustments([
       {
-        files: ["AD3SKLM", "GHASTSU", "SKELLESU", "SKELGRSU"],
-        summon: true,
-      },
-      {
         files: ["KRYSKEL"],
         data: { level1: 2 },
       },
@@ -2345,10 +2339,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       ranged: true,
     });
     warrior.setAdjustments([
-      {
-        files: ["SKELWASU"],
-        summon: true,
-      },
       {
         files: ["C0DESUM1", "SKELSU01"],
         summon: true,
