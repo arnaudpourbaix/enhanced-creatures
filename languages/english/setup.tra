@@ -1,25 +1,28 @@
-@6 = ~PnP monster tweaks~
+@1 = ~PnP monster tweaks~
 
-@1908 = ~* * * This component requires 'PnP Fey creatures' * * *~
-@2000 = ~* * * This component requires 'PnP Elementals' * * *~
+@100 = ~*** This component cannot be installed on this game ***~
 
-@5000 = ~Core monsters (required)~
-@5001 = ~Core monsters component is not installed.~
-@5002 = ~Fey component is not installed.~
-@5003 = ~Plant component is not installed.~
-@5010 = ~Ankhegs~
-@5020 = ~Basilisks~
-@5030 = ~Bears~
-@5040 = ~Carrion Crawlers~
-@5050 = ~Greater Cats~
-@5060 = ~Dogs~
-@5070 = ~Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)~
-@5090 = ~Wolves~
-@5100 = ~Golems~
-@5110 = ~Ogres~
-@5120 = ~Fey (Dryad, Hamadryad, Sirene)~
-@5130 = ~Oozes/slimes~
-@5140 = ~Spiders~
-@5150 = ~Minotaurs~
-@5160 = ~Wyverns~
-@5170 = ~Undead~
+@1000 = ~Core monsters (required)~
+@1001 = ~Core monsters component is not installed.~
+@1002 = ~Fey component is not installed.~
+@1003 = ~Plant component is not installed.~
+
+@1110 = ~Ankhegs~
+@1120 = ~Basilisks~
+@1130 = ~Bears~
+@1140 = ~Carrion Crawlers~
+@1150 = ~Greater Cats~
+@1160 = ~Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)~
+@1170 = ~Dogs~
+@1180 = ~Fey (Dryad, Hamadryad, Sirene)~
+@1190 = ~Golems~
+@1200 = ~Minotaurs~
+@1210 = ~Ogres~
+@1220 = ~Oozes/slimes~
+@1230 = ~Plants~
+@1240 = ~Spiders~
+@1250 = ~Undead~
+@1260 = ~Wolves~
+@1270 = ~Wyverns~
+@1280 = ~Ettercaps~
+

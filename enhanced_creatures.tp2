@@ -13,12 +13,16 @@ END
 // README ~%MOD_FOLDER%/docs/index.html~
 // ASK_EVERY_COMPONENT
 
-LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FOLDER%/languages/english/generated.tra~
+LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FOLDER%/languages/english/game.tra~ ~%MOD_FOLDER%/languages/english/generated.tra~
 
-BEGIN ~Monsters test~
-DESIGNATED 9999
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// PnP monster tweaks
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// BEGIN ~Monsters test~
+// DESIGNATED 9999
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion/main.tpa"
@@ -38,238 +42,153 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// PnP monster tweaks
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // Core monsters (required)
-// BEGIN @5000 DESIGNATED 5000
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
+BEGIN @1000
+DESIGNATED 1000
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
 
-// // Ankheg
-// BEGIN @5010 DESIGNATED 5010
-// GROUP @6
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
+// Ankheg
+BEGIN @1110
+DESIGNATED 1110
+GROUP @1
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 
-// // Basilisk
-// BEGIN @5020 DESIGNATED 5020
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
+// Basilisk
+BEGIN @1120
+DESIGNATED 1120
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 
-// // Bear
-// BEGIN @5030 DESIGNATED 5030
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
+// Bear
+BEGIN @1130
+DESIGNATED 1130
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
 
-// // Carrion Crawler
-// BEGIN @5040 DESIGNATED 5040
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion/main.tpa"
+// Carrion Crawler
+BEGIN @1140
+DESIGNATED 1140
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/main.tpa"
 
-// // Greater Cats
-// BEGIN @5050 DESIGNATED 5050
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
+// Greater Cats
+BEGIN @1150
+DESIGNATED 1150
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
 
-// // Dogs
-// BEGIN @5060 DESIGNATED 5060
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
+// Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)
+BEGIN @1160
+DESIGNATED 1160
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
 
-// // Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)
-// BEGIN @5070 DESIGNATED 5070
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
+// Dogs
+BEGIN @1170
+DESIGNATED 1170
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
 
-// // Wolves
-// BEGIN @5090 DESIGNATED 5090
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
+// Ettercaps
+BEGIN @1280
+DESIGNATED 1280
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
 
-// // Golems
-// BEGIN @5100 DESIGNATED 5100
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
+// Fey (Dryad, Hamadryad, Sirene, Nymph)
+BEGIN @1180
+DESIGNATED 1180
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
 
-// // Ogres
-// BEGIN @5110 DESIGNATED 5110
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
-
-// // Fey (Dryad, Hamadryad, Sirene, Nymph)
-// BEGIN @5120 DESIGNATED 5120
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
-
-// // Oozes/slimes
-// BEGIN @5130 DESIGNATED 5130
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/slime/main.tpa"
-
-// Spiders
-// BEGIN @5140 DESIGNATED 5140
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
+// Golems
+BEGIN @1190
+DESIGNATED 1190
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
 
 // Minotaurs
-// BEGIN @5150 DESIGNATED 5150
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
+BEGIN @1200
+DESIGNATED 1200
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
 
-// Wyverns
-// BEGIN @5160 DESIGNATED 5160
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
+// Ogres
+BEGIN @1210
+DESIGNATED 1210
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
+
+// Oozes/slimes
+BEGIN @1220
+DESIGNATED 1220
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
+
+// Plants
+BEGIN @1230
+DESIGNATED 1230
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
+
+// Spiders
+BEGIN @1240
+DESIGNATED 1240
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
 
 // Undead
-// BEGIN @5170 DESIGNATED 5170
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-// REQUIRE_COMPONENT ~%MOD_FOLDER%/atweaks.tp2~ 5000 @5001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
+BEGIN @1250
+DESIGNATED 1250
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 
-/* 
-// PnP Fiends
-BEGIN @152 SUBCOMPONENT @150 DESIGNATED 4010 // PnP Fiends, mod-added fiends are also affected
-// GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @90
-COPY_EXISTING sw1h01.itm "override/fl#atfiends1.mrk"                               //Installation marker
-COPY_EXISTING sw1h01.itm "override/fl#atfiends2.mrk"                               //Installation marker 
-OUTER_SET FiendsOriginal = 0
-OUTER_SET FiendsScripts = 0
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/main.tpa"
+// Wolves
+BEGIN @1260
+DESIGNATED 1260
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
 
-BEGIN @151 SUBCOMPONENT @150 DESIGNATED 4011 // PnP Fiends, Mod-added fiends are not affected
-// GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @90
-COPY_EXISTING sw1h01.itm "override/fl#atfiends1.mrk"                               // Installation marker 
-OUTER_SET FiendsOriginal = 1
-OUTER_SET FiendsScripts = 0
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/main.tpa"
-
-BEGIN @153 SUBCOMPONENT @150 DESIGNATED 4002 // PnP Fiends, only scripts
-// GROUP @6
-COPY_EXISTING sw1h01.itm "override/fl#atfiends1.mrk"                               //Installation marker
-COPY_EXISTING sw1h01.itm "override/fl#atfiends2.mrk"                               //Installation marker
-OUTER_SET FiendsOriginal = 0
-OUTER_SET FiendsScripts = 1
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/main.tpa"
-
-// Revised Fiend summoning 
-BEGIN @157 DESIGNATED 4010
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE FILE_EXISTS_IN_GAME fl#atfiends1.mrk @94
-COPY_EXISTING sw1h01.itm "override/fl#fiendsum.mrk"                               //Installation marker
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/summoning/4010-fiend_summoning_revised.tpa"
-
-
-// Further Revised Fiend summoning 
-BEGIN @155 DESIGNATED 4020
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE FILE_EXISTS_IN_GAME fl#fiendsum.mrk @89
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/summoning//4020-fiend_summoning_further.tpa"
-
-
-// Fiendish Gating
-BEGIN @156 DESIGNATED 4030
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE FILE_EXISTS_IN_GAME fl#atfiends1.mrk @94
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fiend/gate/main.tpa"
-
-
-// PnP Undead
-BEGIN @160 DESIGNATED 4040
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE !GAME_IS ~bgee~ @95
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/unead/main.tpa"
-
-
-// Prevent skeletal undead from being affected by Illithids' Devour Brain attack
-BEGIN @101 DESIGNATED 4050
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @92
-REQUIRE_PREDICATE !GAME_IS ~iwd-in-bg2~ @92
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4050-devour_brain.tpa"
-
-
-// PnP Mephits
-BEGIN @180 DESIGNATED 4060
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE !GAME_IS ~iwd-in-bg2 iwdee~ @92
-REQUIRE_PREDICATE !GAME_IS ~bgee~ @95
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/mephit/main.tpa"
-
-
-// PnP Elementals
-BEGIN @190 DESIGNATED 4090
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE !GAME_IS ~bgee~ @95
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/elemental/main.tpa"
-
-
-// Increase the Hit Dice of Elemental Princes
-BEGIN @191 DESIGNATED 4100
-GROUP @6
-REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~rr#easer.bcs~ @2000                         // PnP Elementals component required
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/elemental/princes.tpa"
-
-
-// PnP Spiders, Snakes and Ettercaps
-// BEGIN @187 DESIGNATED 4110
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/187-spider.tpa"
-
-
-// PnP Ooze creatures
-// BEGIN @188 DESIGNATED 4120
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/188-ooze.tpa"
-
-
-// PnP Plant creatures
-// BEGIN @189 DESIGNATED 4130
-// GROUP @6
-// REQUIRE_PREDICATE ENGINE_IS ~bg2ee~ @90
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
-*/
+// Wyverns
+BEGIN @1270
+DESIGNATED 1270
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"

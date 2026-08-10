@@ -2,9 +2,9 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/core.tpa"
 
 // Initialize secondary types
 // it will allow to properly handle spells that cure or protect from disease, poison, or fear
-ADD_SECTYPE fl#Disease @3000
-ADD_SECTYPE fl#Fear @3001
-ADD_SECTYPE fl#Poison @3002
+ADD_SECTYPE fl#Disease @100
+ADD_SECTYPE fl#Fear @101
+ADD_SECTYPE fl#Poison @102
 
 // Grab files
 COPY ~%MOD_FOLDER%/lib/pnp-monster/common/grab/rr#cnstr.vvc~ ~override~
@@ -14,8 +14,8 @@ COPY ~%MOD_FOLDER%/lib/pnp-monster/common/grab/rr#cnstr.bam~ ~override~
 // - used to Dimension Door away from screen
 // - destroys itself after a round
 ACTION_IF !FILE_EXISTS_IN_GAME rr#trat.cre BEGIN
-  COPY ~%MOD_FOLDER%/lib/pnp-monster/common/rat/rr#trat.cre~ ~override~
-  COMPILE ~%MOD_FOLDER%/lib/pnp-monster/common/rat/rr#trat.baf~
+    COPY ~%MOD_FOLDER%/lib/pnp-monster/common/rat/rr#trat.cre~ ~override~
+    COMPILE ~%MOD_FOLDER%/lib/pnp-monster/common/rat/rr#trat.baf~
 END
 
 // Wall of Fog
