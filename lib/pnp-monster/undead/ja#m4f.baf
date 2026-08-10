@@ -538,6 +538,35 @@ THEN
 		SetGlobalTimer("Summoning","LOCALS",12)
 END
 
+// Summon Shadows
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	HaveSpellRES("D5PP422")
+	!HaveSpellRES("D5P2632")
+	RandomNumGT(807,242)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5PP422",Myself)
+		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
+// Shades
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	HaveSpellRES("D5P2632")
+	RandomNumGT(808,242)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2632",Myself)
+		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
 // Animate Dead
 IF
 	!StateCheck(Myself,STATE_SILENCED)
@@ -546,12 +575,59 @@ IF
 	HaveSpellRES("D5P1301")
 	!HaveSpellRES("D5PP422")
 	!HaveSpellRES("D5P2632")
-	RandomNumGT(807,242)
+	RandomNumGT(809,243)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
 		SpellRES("D5P1301",Myself)
 		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
+// Demi-Shadow Monsters
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	HaveSpellRES("D5P2527")
+	!HaveSpellRES("D5PP422")
+	!HaveSpellRES("D5P2632")
+	RandomNumGT(810,243)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2527",Myself)
+		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
+// Shadow Monsters
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	HaveSpellRES("D5P2433")
+	!HaveSpellRES("D5P2527")
+	!HaveSpellRES("D5P1301")
+	!HaveSpellRES("D5PP422")
+	!HaveSpellRES("D5P2632")
+	RandomNumGT(811,243)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2433",Myself)
+		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
+// Circle of Bones
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	HaveSpellRES("SPPR332")
+	!CheckSpellState(Myself,CIRCLE_OF_BONES)
+	RandomNumGT(812,244)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("SPPR332",Myself)
 END
 
 // Sanctuary
@@ -561,7 +637,7 @@ IF
 	HaveSpell(CLERIC_SANCTUARY)
 	Detect(NearestEnemyOf(Myself))
 	!StateCheck(Myself,STATE_INVISIBLE)
-	RandomNumGT(808,242)
+	RandomNumGT(813,244)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -574,7 +650,7 @@ IF
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpellRES("D5P2114")
 	CheckStat(Myself,2,SCRIPTINGSTATE5)
-	RandomNumGT(809,243)
+	RandomNumGT(814,244)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -587,7 +663,7 @@ IF
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_PROTECTION_FROM_LIGHTNING)
 	CheckStatLT(Myself,100,RESISTELECTRICITY)
-	RandomNumGT(810,243)
+	RandomNumGT(815,245)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -599,7 +675,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_CHANT)
-	RandomNumGT(811,243)
+	RandomNumGT(816,245)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -611,7 +687,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_BLESS)
-	RandomNumGT(812,244)
+	RandomNumGT(817,245)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -622,7 +698,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -639,7 +715,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -656,7 +732,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -673,7 +749,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -690,7 +766,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -707,7 +783,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -725,7 +801,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -741,7 +817,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -757,7 +833,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -773,7 +849,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -789,7 +865,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -805,7 +881,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
-	RandomNumGT(813,244)
+	RandomNumGT(818,245)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -822,7 +898,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -839,7 +915,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -856,7 +932,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -873,7 +949,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -890,7 +966,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -907,7 +983,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SYMBOL_DEATH)
-	RandomNumGT(814,244)
+	RandomNumGT(819,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -925,7 +1001,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -948,7 +1024,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -971,7 +1047,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -994,7 +1070,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1017,7 +1093,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1040,7 +1116,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1064,7 +1140,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1080,7 +1156,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1096,7 +1172,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1112,7 +1188,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1128,7 +1204,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1144,7 +1220,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FINGER_OF_DEATH)
-	RandomNumGT(815,245)
+	RandomNumGT(820,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1161,7 +1237,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1185,7 +1261,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1209,7 +1285,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1233,7 +1309,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1257,7 +1333,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1281,7 +1357,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1306,7 +1382,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1323,7 +1399,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1340,7 +1416,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1357,7 +1433,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1374,7 +1450,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1391,7 +1467,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_WITHER)
-	RandomNumGT(816,245)
+	RandomNumGT(821,246)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1416,7 +1492,7 @@ IF
 	!HasItem("HARM",Myself)
 	!HasItem("SLAYLIVE",Myself)
 	!HaveSpellRES("SPPR511")
-	RandomNumGT(817,245)
+	RandomNumGT(822,247)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -1433,7 +1509,7 @@ IF
 	!HasItem("CRITICAL",Myself)
 	!HasItem("HARM",Myself)
 	!HasItem("SLAYLIVE",Myself)
-	RandomNumGT(818,245)
+	RandomNumGT(823,247)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -1445,7 +1521,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1463,7 +1539,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1481,7 +1557,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1499,7 +1575,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1517,7 +1593,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1535,7 +1611,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WavesOfAgony","LOCALS")
 	HaveSpell(CLERIC_WAVES_OF_AGONY)
-	RandomNumGT(819,246)
+	RandomNumGT(824,247)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1554,7 +1630,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_RIGHTEOUS_MAGIC)
-	RandomNumGT(820,246)
+	RandomNumGT(825,248)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -1567,7 +1643,7 @@ IF
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_HOLY_POWER)
 	CheckStatLT(Myself,100,STR)
-	RandomNumGT(821,246)
+	RandomNumGT(826,248)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
@@ -1578,7 +1654,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
-	RandomNumGT(822,247)
+	RandomNumGT(827,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See([PC.0.0.MAGE_ALL])
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1603,7 +1679,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
-	RandomNumGT(822,247)
+	RandomNumGT(827,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See([PC.0.0.CLERIC_ALL])
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1628,7 +1704,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
-	RandomNumGT(822,247)
+	RandomNumGT(827,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See([PC.0.0.DRUID_ALL])
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1653,7 +1729,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
-	RandomNumGT(822,247)
+	RandomNumGT(827,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See([PC.0.0.BARD])
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1679,7 +1755,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1704,7 +1780,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1729,7 +1805,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1754,7 +1830,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1779,7 +1855,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1804,7 +1880,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1829,7 +1905,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1854,7 +1930,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1879,7 +1955,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1905,7 +1981,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1930,7 +2006,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1955,7 +2031,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1980,7 +2056,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2005,7 +2081,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2030,7 +2106,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2056,7 +2132,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2080,7 +2156,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2104,7 +2180,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2128,7 +2204,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2152,7 +2228,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2176,7 +2252,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2200,7 +2276,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2224,7 +2300,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2248,7 +2324,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2273,7 +2349,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2296,7 +2372,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2319,7 +2395,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2342,7 +2418,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2365,7 +2441,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2388,7 +2464,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
-	RandomNumGT(823,247)
+	RandomNumGT(828,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2412,7 +2488,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2428,7 +2504,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2444,7 +2520,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2460,7 +2536,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2476,7 +2552,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2492,7 +2568,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
-	RandomNumGT(824,247)
+	RandomNumGT(829,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2509,7 +2585,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2526,7 +2602,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2543,7 +2619,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2560,7 +2636,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2577,7 +2653,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2594,7 +2670,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
-	RandomNumGT(825,248)
+	RandomNumGT(830,249)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2606,13 +2682,110 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_POISON)
+END
+
+// Waves of Fatigue
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player1)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player2)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player3)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player4)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player5)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P2508")
+	RandomNumGT(831,249)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(Player6)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P2508",LastSeenBy(Myself))
 END
 
 // Unholy Blight
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2630,7 +2803,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2648,7 +2821,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2666,7 +2839,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2684,7 +2857,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2702,7 +2875,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_BLIGHT)
-	RandomNumGT(826,248)
+	RandomNumGT(832,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2717,11 +2890,172 @@ THEN
 		Spell(LastSeenBy(Myself),CLERIC_UNHOLY_BLIGHT)
 END
 
+// Cloud of Pestilence
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1424")
+	RandomNumGT(833,250)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1424",LastSeenBy(Myself))
+END
+
 // Glyph of Warding
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(827,248)
+	RandomNumGT(834,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2738,7 +3072,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(827,248)
+	RandomNumGT(834,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2755,7 +3089,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(827,248)
+	RandomNumGT(834,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2772,7 +3106,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(827,248)
+	RandomNumGT(834,250)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2790,7 +3124,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2806,7 +3140,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2822,7 +3156,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2838,7 +3172,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2854,7 +3188,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2870,7 +3204,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2412")
-	RandomNumGT(828,248)
+	RandomNumGT(835,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2887,7 +3221,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2912,7 +3246,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2937,7 +3271,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2962,7 +3296,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -2987,7 +3321,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3012,7 +3346,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
-	RandomNumGT(829,249)
+	RandomNumGT(836,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3038,7 +3372,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3061,7 +3395,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3084,7 +3418,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3107,7 +3441,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3130,7 +3464,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3153,7 +3487,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3176,7 +3510,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3199,7 +3533,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3222,7 +3556,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3245,7 +3579,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2411")
-	RandomNumGT(830,249)
+	RandomNumGT(837,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3269,7 +3603,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3292,7 +3626,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3315,7 +3649,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3338,7 +3672,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3361,7 +3695,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3384,7 +3718,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3407,7 +3741,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3430,7 +3764,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3453,7 +3787,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3476,7 +3810,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1709")
-	RandomNumGT(831,249)
+	RandomNumGT(838,251)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3500,7 +3834,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3524,7 +3858,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3548,7 +3882,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3572,7 +3906,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3596,7 +3930,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3620,7 +3954,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3644,7 +3978,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3668,7 +4002,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3692,7 +4026,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3716,7 +4050,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P1311")
-	RandomNumGT(832,250)
+	RandomNumGT(839,252)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3737,6 +4071,26 @@ THEN
 		SpellRES("D5P1311",LastSeenBy(Myself))
 END
 
+// Cause Serious Wounds
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	HaveSpell(CLERIC_CAUSE_SERIOUS_WOUNDS)
+	!HasItem("LIGHT",Myself)
+	!HasItem("SERIOUS",Myself)
+	!HasItem("CRITICAL",Myself)
+	!HasItem("HARM",Myself)
+	!HasItem("SLAYLIVE",Myself)
+	!HaveSpellRES("SPPR414")
+	!HaveSpellRES("D5F1608")
+	!HaveSpellRES("SPPR511")
+	RandomNumGT(840,252)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_CAUSE_SERIOUS_WOUNDS)
+END
+
 // Mass Cause Light Wounds
 IF
 	!StateCheck(Myself,STATE_SILENCED)
@@ -3747,18 +4101,583 @@ IF
 	!HasItem("CRITICAL",Myself)
 	!HasItem("HARM",Myself)
 	!HasItem("SLAYLIVE",Myself)
-	RandomNumGT(833,250)
+	RandomNumGT(841,252)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
 		Spell(Myself,CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 END
 
+// Cause Serious Wounds
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	HaveSpellRES("SPPR322")
+	!HasItem("LIGHT",Myself)
+	!HasItem("SERIOUS",Myself)
+	!HasItem("CRITICAL",Myself)
+	!HasItem("HARM",Myself)
+	!HasItem("SLAYLIVE",Myself)
+	!HaveSpellRES("SPPR414")
+	!HaveSpellRES("D5F1608")
+	!HaveSpellRES("SPPR511")
+	RandomNumGT(842,253)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("SPPR322",Myself)
+END
+
+// Cause Disease
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("D5P1329")
+	RandomNumGT(843,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SpellRES("D5P1329",LastSeenBy(Myself))
+END
+
+// Forbiddance
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Forbiddance","LOCALS")
+	HaveSpellRES("B_C201")
+	RandomNumGT(844,253)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Forbiddance","LOCALS",12)
+		SpellRES("B_C201",LastSeenBy(Myself))
+END
+
+// Shatter
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("Shatter","LOCALS")
+	HaveSpellRES("B_PR201")
+	RandomNumGT(845,254)
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		SetGlobalTimer("Shatter","LOCALS",24)
+		SpellRES("B_PR201",LastSeenBy(Myself))
+END
+
 // Hold Person
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3782,7 +4701,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3806,7 +4725,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3830,7 +4749,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3854,7 +4773,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3878,7 +4797,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
-	RandomNumGT(834,250)
+	RandomNumGT(846,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3899,31 +4818,11 @@ THEN
 		Spell(LastSeenBy(Myself),CLERIC_HOLD_PERSON)
 END
 
-// Cause Serious Wounds
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	HaveSpell(CLERIC_CAUSE_SERIOUS_WOUNDS)
-	!HasItem("LIGHT",Myself)
-	!HasItem("SERIOUS",Myself)
-	!HasItem("CRITICAL",Myself)
-	!HasItem("HARM",Myself)
-	!HasItem("SLAYLIVE",Myself)
-	!HaveSpellRES("SPPR414")
-	!HaveSpellRES("D5F1608")
-	!HaveSpellRES("SPPR511")
-	RandomNumGT(835,251)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		Spell(Myself,CLERIC_CAUSE_SERIOUS_WOUNDS)
-END
-
 // Doom
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3941,7 +4840,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3959,7 +4858,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3977,7 +4876,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3995,7 +4894,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4013,7 +4912,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
-	RandomNumGT(836,251)
+	RandomNumGT(847,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4032,7 +4931,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4058,7 +4957,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4084,7 +4983,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4110,7 +5009,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4136,7 +5035,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4162,7 +5061,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
-	RandomNumGT(837,251)
+	RandomNumGT(848,254)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4191,910 +5090,11 @@ IF
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	HaveSpell(CLERIC_DRAW_UPON_HOLY_MIGHT)
 	!CheckStat(Myself,4,SCRIPTINGSTATE6)
-	RandomNumGT(838,251)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		Spell(Myself,CLERIC_DRAW_UPON_HOLY_MIGHT)
-END
-
-// Cause Disease
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1329")
-	RandomNumGT(839,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),12,STRENGTH_MODIFIER)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1329",LastSeenBy(Myself))
-END
-
-// Forbiddance
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Forbiddance","LOCALS")
-	HaveSpellRES("B_C201")
-	RandomNumGT(840,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Forbiddance","LOCALS",12)
-		SpellRES("B_C201",LastSeenBy(Myself))
-END
-
-// Shatter
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("Shatter","LOCALS")
-	HaveSpellRES("B_PR201")
-	RandomNumGT(841,252)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SetGlobalTimer("Shatter","LOCALS",24)
-		SpellRES("B_PR201",LastSeenBy(Myself))
-END
-
-// Circle of Bones
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	HaveSpellRES("SPPR332")
-	!CheckSpellState(Myself,CIRCLE_OF_BONES)
-	RandomNumGT(842,253)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPPR332",Myself)
-END
-
-// Shadow Monsters
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	!GlobalTimerNotExpired("Summoning","LOCALS")
-	HaveSpellRES("D5P2433")
-	!HaveSpellRES("D5P2527")
-	!HaveSpellRES("D5P1301")
-	!HaveSpellRES("D5PP422")
-	!HaveSpellRES("D5P2632")
-	RandomNumGT(843,253)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2433",Myself)
-		SetGlobalTimer("Summoning","LOCALS",12)
-END
-
-// Cause Serious Wounds
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	HaveSpellRES("SPPR322")
-	!HasItem("LIGHT",Myself)
-	!HasItem("SERIOUS",Myself)
-	!HasItem("CRITICAL",Myself)
-	!HasItem("HARM",Myself)
-	!HasItem("SLAYLIVE",Myself)
-	!HaveSpellRES("SPPR414")
-	!HaveSpellRES("D5F1608")
-	!HaveSpellRES("SPPR511")
-	RandomNumGT(844,253)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPPR322",Myself)
-END
-
-// Demi-Shadow Monsters
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	!GlobalTimerNotExpired("Summoning","LOCALS")
-	HaveSpellRES("D5P2527")
-	!HaveSpellRES("D5PP422")
-	!HaveSpellRES("D5P2632")
-	RandomNumGT(845,254)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2527",Myself)
-		SetGlobalTimer("Summoning","LOCALS",12)
-END
-
-// Waves of Fatigue
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player1)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player2)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player3)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player4)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player5)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P2508")
-	RandomNumGT(846,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(Player6)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2508",LastSeenBy(Myself))
-END
-
-// Cloud of Pestilence
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("D5P1424")
-	RandomNumGT(847,254)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P1424",LastSeenBy(Myself))
-END
-
-// Shades
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	!GlobalTimerNotExpired("Summoning","LOCALS")
-	HaveSpellRES("D5P2632")
-	RandomNumGT(848,254)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5P2632",Myself)
-		SetGlobalTimer("Summoning","LOCALS",12)
-END
-
-// Summon Shadows
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
-	!GlobalTimerNotExpired("Summoning","LOCALS")
-	HaveSpellRES("D5PP422")
-	!HaveSpellRES("D5P2632")
 	RandomNumGT(849,255)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("D5PP422",Myself)
-		SetGlobalTimer("Summoning","LOCALS",12)
+		Spell(Myself,CLERIC_DRAW_UPON_HOLY_MIGHT)
 END
 
 // Attack Slowed enemy
