@@ -16,7 +16,11 @@ It covers all creature files in both games as well as many mods.
 
 The generator doesn't need to be installed and executed, unless you want to change stuff in the generator folder.
 
-## Install Order
+## Install 
+
+[Download](https://github.com/arnaudpourbaix/enhanced-creatures/releases/tag/latest)
+
+Currently, WEIDU is not shipped with the release, so you have to use your own at the moment.
 
 It should be installed very late and especially after SCS.
 
@@ -28,7 +32,7 @@ Don't use [Use BG Walking Speeds] from The Tweaks Anthology, as it will break mo
 
 Code generator (WEIDU, BAF) for Infinity Engine
 
-## Install
+### Install
 
 - Install nodejs: https://nodejs.org/en/download. It is quick and easy.
 - Install dependencies with `npm i` shell command in root folder.
@@ -52,6 +56,7 @@ If you want to make easy edits, you can edit files inside config folder. Strong 
 
 aVENGER, creator of aTweaks.
 Wisp, current maintainer.
+Salk, initial supporter.
 Many modders for all the common WEIDU functions and help in the forums.
 
 ## License
