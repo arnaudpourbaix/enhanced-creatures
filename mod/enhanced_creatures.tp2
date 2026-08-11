@@ -3,7 +3,7 @@
  ************************************************************************ */
 BACKUP ~weidu_external/backup/enhanced_creatures~
 AUTHOR "Aigleborgne"
-VERSION ~v0.2.0~
+VERSION ~v0.2.1~
 
 ALWAYS
     INCLUDE "%MOD_FOLDER%/lib/common/index.tpa"
