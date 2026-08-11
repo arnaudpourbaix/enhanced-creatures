@@ -41,8 +41,14 @@ Code generator (WEIDU, BAF) for Infinity Engine
 
 Generate mod's files with `npm run generate`.
 
+#### Random ordering for targets
+
 Since random ordering is generating target lists by using Fisher–Yates shuffle, it will alter all scripts on each generation.
 Purpose of this is to reduce target prediction. By comparaison, SCS is using a stable random order for everything, so once you know the order, you can predict quite easily. Here, each list will be randomize, so if you have 5 spells with the same list, you will get 5 different orders.
+
+Note: random targetting is currently disabled because it changes too many files.
+
+To activate it in a local build, edit `lib\config\generate.ts` and set enableRandomTargetOrder to true. Then, just run the previous generate command.
 
 ### Copy (local testing)
 
