@@ -48,6 +48,8 @@ class ReleaseService {
         throw new Error(`${version} must be greater than the current version ${currentVersion}`);
       }
 
+      this.checkTestsPass();
+
       await mainService.generateAll();
 
       releaseVersionFilesService.writePackageVersion(this.packageJsonPath, version);
@@ -145,6 +147,26 @@ class ReleaseService {
         `"${BRANCH}" is now ${status} relative to "origin/${BRANCH}" - reconcile the two ` +
         `histories by hand (keeping the release commit at HEAD) before re-running the release`,
     );
+  }
+
+  private checkTestsPass(): void {
+    logService.log("Running tests");
+    try {
+      // "npm" is resolved from PATH deliberately - same rationale as syncPackageLock() below
+      // (npm.cmd on Windows needs shell:true). stdio: "inherit" streams the run live rather than
+      // buffering it, since a full suite can take a while and a silent hang would look identical
+      // to a bug.
+      // eslint-disable-next-line sonarjs/no-os-command-from-path
+      childProcess.execFileSync("npm", ["test"], {
+        cwd: this.repoRoot,
+        stdio: "inherit",
+        shell: true,
+      });
+    } catch (e: unknown) {
+      throw new Error("Tests are failing - fix them before releasing (see output above)", {
+        cause: e,
+      });
+    }
   }
 
   private syncPackageLock(): void {

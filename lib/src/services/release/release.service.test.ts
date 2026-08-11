@@ -85,12 +85,19 @@ describe("ReleaseService", () => {
     expect(isTreeClean).toHaveBeenCalled();
     expect(isUpToDateWithRemote).toHaveBeenCalledWith(MASTER);
     expect(checkAuth).toHaveBeenCalled();
+    expect(execFileSync).toHaveBeenCalledWith("npm", ["test"], expect.objectContaining({}));
     expect(generateAll).toHaveBeenCalled();
     expect(writePackageVersion).toHaveBeenCalledWith(expect.any(String), VERSION);
     expect(execFileSync).toHaveBeenCalledWith(
       "npm",
       ["install", "--package-lock-only"],
       expect.objectContaining({}),
+    );
+    // tests must run before generate, not just at some point during the release
+    const testCallOrder = execFileSync.mock.calls.findIndex((call) => call[1]?.[0] === "test");
+    expect(testCallOrder).toBeGreaterThanOrEqual(0);
+    expect(generateAll.mock.invocationCallOrder[0]).toBeGreaterThan(
+      execFileSync.mock.invocationCallOrder[testCallOrder],
     );
     expect(writeTp2Version).toHaveBeenCalledWith(expect.any(String), VERSION);
     expect(rollover).toHaveBeenCalledWith(
@@ -225,8 +232,9 @@ describe("ReleaseService", () => {
     const npmError = Object.assign(new Error("Command failed: npm install"), {
       stderr: Buffer.from("npm ERR! code EACCES\n"),
     });
-    execFileSync.mockImplementation(() => {
-      throw npmError;
+    execFileSync.mockImplementation((_command, args) => {
+      if (Array.isArray(args) && args[0] === "install") throw npmError;
+      return "";
     });
 
     const failure: unknown = await releaseService.release(VERSION).catch((e: unknown) => e);
@@ -237,6 +245,25 @@ describe("ReleaseService", () => {
     expect(error.message).toContain("npm ERR! code EACCES");
     expect(error.cause).toBe(npmError);
     // the lockfile sync happens before any git side effect - nothing must have been committed
+    expect(commit).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+  });
+
+  it("aborts before generating when tests are failing", async () => {
+    const testError = new Error("Command failed: npm test");
+    execFileSync.mockImplementation((_command, args) => {
+      if (Array.isArray(args) && args[0] === "test") throw testError;
+      return "";
+    });
+
+    const failure: unknown = await releaseService.release(VERSION).catch((e: unknown) => e);
+
+    expect(failure).toBeInstanceOf(Error);
+    const error = failure as Error;
+    expect(error.message).toMatch(/Tests are failing/);
+    expect(error.cause).toBe(testError);
+    // generate/commit/push must not run when tests are red
+    expect(generateAll).not.toHaveBeenCalled();
     expect(commit).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
   });
