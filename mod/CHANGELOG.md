@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+
 ### Added
 
-- Initial public documentation website.
+- Initial release, 1645 creatures out of 5404
+
