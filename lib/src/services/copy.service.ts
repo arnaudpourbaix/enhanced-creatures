@@ -12,19 +12,16 @@ interface PathsConfig {
   bg2?: string;
 }
 
-const MOD_ITEMS = ["enhanced_creatures.tp2", "lib", "languages", "docs"];
 // The tp2's %MOD_FOLDER% macro resolves to wherever enhanced_creatures.tp2 itself sits, so
 // everything must land inside this subfolder (with the tp2) rather than at the destination's
 // root - otherwise %MOD_FOLDER%/lib/... resolves to the game root instead of the mod's own files.
 const MOD_SUBFOLDER = "enhanced_creatures";
-// docs/superpowers holds this repo's own dev-process specs/plans, not player-facing mod
-// documentation - it must never end up inside a copied install.
-const EXCLUDED_PATH = path.sep + path.join("docs", "superpowers");
 
 class CopyService {
-  repoRoot = path.resolve(__dirname, "..", "..", "..", "..");
-  configPath = path.join(this.repoRoot, "generator", "paths.local.json");
-  exampleConfigPath = path.join(this.repoRoot, "generator", "paths.example.json");
+  repoRoot = path.resolve(__dirname, "..", "..", "..");
+  modDir = path.join(this.repoRoot, "mod");
+  configPath = path.join(this.repoRoot, "paths.local.json");
+  exampleConfigPath = path.join(this.repoRoot, "paths.example.json");
 
   async copy(targets: CopyTargets): Promise<number> {
     const config = this.loadConfig();
@@ -59,16 +56,9 @@ class CopyService {
       return false;
     }
     logService.header(`Copying mod to ${label} (${destRoot})`);
-    for (const item of MOD_ITEMS) {
-      const src = path.join(this.repoRoot, item);
-      const dest = path.join(destRoot, MOD_SUBFOLDER, item);
-      await fs.promises.cp(src, dest, {
-        recursive: true,
-        force: true,
-        filter: (source) => !source.includes(EXCLUDED_PATH),
-      });
-      logService.log(`Copied ${item}`);
-    }
+    const dest = path.join(destRoot, MOD_SUBFOLDER);
+    await fs.promises.cp(this.modDir, dest, { recursive: true, force: true });
+    logService.log(`Copied ${this.modDir} contents`);
     return true;
   }
 }

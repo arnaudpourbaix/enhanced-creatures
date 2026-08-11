@@ -34,7 +34,6 @@ const FIXED_GENERATED_FILES = [
   "lib/common/spell-functions.tpa",
   "lib/common/immunities.tpa",
   "docs/monsters.html",
-  "docs/changelog.html",
   ...LANGUAGES.map((lang) => `languages/${lang}/generated.tra`),
 ];
 

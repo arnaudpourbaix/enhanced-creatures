@@ -1,6 +1,6 @@
 {
   "name": "ie-code-generator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Code generator (WEIDU, BAF) for Infinity Engine",
   "main": "lib/index.js",
   "bin": {
@@ -10,6 +10,7 @@
     "start": "nodemon --watch lib/src/**/*.ts --exec ts-node src/index.ts",
     "generate": "ts-node lib/src/index.ts",
     "copy": "ts-node lib/src/index.ts copy",
+    "release": "ts-node lib/src/index.ts release",
     "build": "tsc -p .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
@@ -32,6 +33,7 @@
   },
   "homepage": "https://github.com/arnaudpourbaix/ie-code-generator#readme",
   "dependencies": {
+    "adm-zip": "^0.6.0",
     "chalk": "^4.1.2",
     "clear": "^0.1.0",
     "commander": "^10.0.0",
@@ -45,6 +47,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/adm-zip": "^0.5.8",
     "@types/ejs": "^3.1.5",
     "@types/node": "^22.20.1",
     "@vitest/coverage-istanbul": "^4.1.10",

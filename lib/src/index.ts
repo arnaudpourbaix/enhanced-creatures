@@ -4,7 +4,7 @@ import * as path from "path";
 import copyService, { CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
-import stateService from "./services/state.service";
+import releaseService from "./services/release/release.service";
 
 program.version("0.0.1").description("Generate WEIDU code and BAF files for IE games");
 
@@ -32,21 +32,22 @@ program
     }
   });
 
+program
+  .command("release")
+  .description("Validate, bump, regenerate, and publish a GitHub release")
+  .argument("<version>", "release version, e.g. 1.2.0")
+  .action(async (version: string) => {
+    try {
+      await runRelease(version);
+    } catch (e: unknown) {
+      handleError(e);
+    }
+  });
+
 program.parseAsync(process.argv).catch((e: unknown) => handleError(e));
 
 async function runGenerate(): Promise<void> {
-  logService.init();
-  await stateService.init();
-  mainService.checkPresets();
-  mainService.checkSpells();
-  mainService.generateCreatures();
-  mainService.generateCommonCode();
-  mainService.generateTranslations();
-  logService.summary();
-  if (logService.hasErrors()) {
-    console.error(chalk.red(`\nGenerator finished with errors, see generator.log`));
-    process.exit(1);
-  }
+  await mainService.generateAll();
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
@@ -68,6 +69,13 @@ async function runCopy(opts: { bg1?: boolean; bg2?: boolean }): Promise<void> {
     console.error(chalk.yellow(`\nNo targets were copied, see copy.log`));
     process.exit(1);
   }
+  logService.log("Finished!");
+  console.log(chalk.green(`\nFinished!`));
+}
+
+async function runRelease(version: string): Promise<void> {
+  logService.filePath = path.join(process.cwd(), "release.log");
+  await releaseService.release(version);
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
