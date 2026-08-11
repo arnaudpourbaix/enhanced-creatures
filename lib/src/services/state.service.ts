@@ -13,7 +13,7 @@ class StateService {
   // error, not a wrapped one).
   // eslint-disable-next-line @typescript-eslint/require-await
   async init(): Promise<void> {
-    State.modFolder = "..";
+    State.modFolder = "mod";
     this.loadActions();
     this.loadTriggers();
     this.loadImmunities();
