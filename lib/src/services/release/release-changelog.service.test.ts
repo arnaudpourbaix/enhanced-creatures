@@ -8,6 +8,7 @@ const VERSION = "0.2.0";
 const ADDED_HEADING = "### Added";
 const UNRELEASED_HEADING = "## [Unreleased]";
 const FIRST_RELEASE_LINE = "- First release.";
+const PRIOR_VERSION_HEADING = "## [0.1.0] - 2026-01-01";
 
 describe("ReleaseChangelogService", () => {
   let dir: string;
@@ -49,7 +50,7 @@ describe("ReleaseChangelogService", () => {
     });
 
     it("throws when there is no [Unreleased] section", () => {
-      writeChangelog("# Changelog\n\n## [0.1.0] - 2026-01-01\n");
+      writeChangelog(`# Changelog\n\n${PRIOR_VERSION_HEADING}\n`);
 
       expect(() => {
         releaseChangelogService.rollover(changelogPath, VERSION, "2026-08-11");
@@ -71,7 +72,7 @@ describe("ReleaseChangelogService", () => {
           "",
           "- Something new.",
           "",
-          "## [0.1.0] - 2026-01-01",
+          PRIOR_VERSION_HEADING,
           "",
           ADDED_HEADING,
           "",
@@ -87,7 +88,7 @@ describe("ReleaseChangelogService", () => {
 
     it("returns the body through EOF when the version section is last", () => {
       writeChangelog(
-        [UNRELEASED_HEADING, "", "## [0.1.0] - 2026-01-01", "", FIRST_RELEASE_LINE].join("\n"),
+        [UNRELEASED_HEADING, "", PRIOR_VERSION_HEADING, "", FIRST_RELEASE_LINE].join("\n"),
       );
 
       expect(releaseChangelogService.extractNotes(changelogPath, "0.1.0")).toBe(FIRST_RELEASE_LINE);
@@ -99,6 +100,48 @@ describe("ReleaseChangelogService", () => {
       expect(() => {
         releaseChangelogService.extractNotes(changelogPath, VERSION);
       }).toThrow(/no "## \[0\.2\.0\]" section/);
+    });
+  });
+
+  describe("hasUnreleasedNotes", () => {
+    it("returns false when the [Unreleased] section is empty", () => {
+      writeChangelog(
+        [UNRELEASED_HEADING, "", PRIOR_VERSION_HEADING, "", FIRST_RELEASE_LINE].join("\n"),
+      );
+
+      expect(releaseChangelogService.hasUnreleasedNotes(changelogPath)).toBe(false);
+    });
+
+    it("returns true when the [Unreleased] section has content", () => {
+      writeChangelog(
+        [
+          UNRELEASED_HEADING,
+          "",
+          ADDED_HEADING,
+          "",
+          "- Something new.",
+          "",
+          PRIOR_VERSION_HEADING,
+          "",
+          FIRST_RELEASE_LINE,
+        ].join("\n"),
+      );
+
+      expect(releaseChangelogService.hasUnreleasedNotes(changelogPath)).toBe(true);
+    });
+
+    it("returns true when the [Unreleased] section is last and has content", () => {
+      writeChangelog([UNRELEASED_HEADING, "", FIRST_RELEASE_LINE].join("\n"));
+
+      expect(releaseChangelogService.hasUnreleasedNotes(changelogPath)).toBe(true);
+    });
+
+    it("throws when there is no [Unreleased] section", () => {
+      writeChangelog(`# Changelog\n\n${PRIOR_VERSION_HEADING}\n`);
+
+      expect(() => {
+        releaseChangelogService.hasUnreleasedNotes(changelogPath);
+      }).toThrow(/no "## \[Unreleased\]" section/);
     });
   });
 });

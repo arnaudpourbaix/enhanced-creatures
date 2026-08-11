@@ -43,6 +43,7 @@ class ReleaseService {
     if (resume === "none") {
       this.checkUpToDate();
       this.checkVersionsMatch();
+      this.checkChangelogHasNotes();
       const currentVersion = releaseVersionFilesService.readPackageVersion(this.packageJsonPath);
       if (!isGreater(target, parseVersion(currentVersion))) {
         throw new Error(`${version} must be greater than the current version ${currentVersion}`);
@@ -191,6 +192,15 @@ class ReleaseService {
       const stderr = extractStderr(e);
       const detail = stderr ? `${message}: ${stderr}` : message;
       throw new Error(`Failed to update package-lock.json: ${detail}`, { cause: e });
+    }
+  }
+
+  private checkChangelogHasNotes(): void {
+    if (!releaseChangelogService.hasUnreleasedNotes(this.changelogPath)) {
+      throw new Error(
+        `${this.changelogPath} "## [Unreleased]" section is empty - add release notes before ` +
+          `releasing`,
+      );
     }
   }
 

@@ -31,6 +31,7 @@ describe("ReleaseService", () => {
   let writePackageVersion: MockInstance<typeof releaseVersionFilesService.writePackageVersion>;
   let writeTp2Version: MockInstance<typeof releaseVersionFilesService.writeTp2Version>;
   let rollover: MockInstance<typeof releaseChangelogService.rollover>;
+  let hasUnreleasedNotes: MockInstance<typeof releaseChangelogService.hasUnreleasedNotes>;
   let generateChangelog: MockInstance<typeof changelogService.generate>;
   let generateAll: MockInstance<typeof mainService.generateAll>;
   let createZip: MockInstance<typeof releasePackageService.createZip>;
@@ -66,6 +67,9 @@ describe("ReleaseService", () => {
       .spyOn(releaseVersionFilesService, "writeTp2Version")
       .mockImplementation(() => {});
     rollover = vi.spyOn(releaseChangelogService, "rollover").mockImplementation(() => {});
+    hasUnreleasedNotes = vi
+      .spyOn(releaseChangelogService, "hasUnreleasedNotes")
+      .mockReturnValue(true);
     vi.spyOn(releaseChangelogService, "extractNotes").mockReturnValue(RELEASE_NOTES);
     generateChangelog = vi.spyOn(changelogService, "generate").mockImplementation(() => {});
     generateAll = vi.spyOn(mainService, "generateAll").mockResolvedValue(undefined);
@@ -160,6 +164,13 @@ describe("ReleaseService", () => {
     readTp2Version.mockReturnValue("0.0.9");
 
     await expect(releaseService.release(VERSION)).rejects.toThrow(/do not match/);
+  });
+
+  it("rejects when the changelog's Unreleased section is empty", async () => {
+    hasUnreleasedNotes.mockReturnValue(false);
+
+    await expect(releaseService.release(VERSION)).rejects.toThrow(/Unreleased.*section is empty/);
+    expect(generateAll).not.toHaveBeenCalled();
   });
 
   it("resumes from packaging when the tag exists at HEAD and on origin, skipping generate/commit/push", async () => {

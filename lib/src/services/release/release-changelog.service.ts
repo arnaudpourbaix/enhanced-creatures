@@ -18,9 +18,23 @@ class ReleaseChangelogService {
   extractNotes(changelogPath: string, version: string): string {
     const heading = `## [${version}]`;
     const lines = fs.readFileSync(changelogPath, "utf-8").split("\n");
+    return this.extractSection(lines, heading, `${changelogPath} has no "${heading}" section`);
+  }
+
+  hasUnreleasedNotes(changelogPath: string): boolean {
+    const lines = fs.readFileSync(changelogPath, "utf-8").split("\n");
+    const section = this.extractSection(
+      lines,
+      UNRELEASED_HEADING,
+      `${changelogPath} has no "${UNRELEASED_HEADING}" section`,
+    );
+    return section.length > 0;
+  }
+
+  private extractSection(lines: string[], heading: string, notFoundMessage: string): string {
     const startIndex = lines.findIndex((line) => line.startsWith(heading));
     if (startIndex === -1) {
-      throw new Error(`${changelogPath} has no "${heading}" section`);
+      throw new Error(notFoundMessage);
     }
     let endIndex = lines.findIndex((line, i) => i > startIndex && line.startsWith("## "));
     if (endIndex === -1) endIndex = lines.length;
