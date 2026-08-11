@@ -1,6 +1,6 @@
 # Enhanced Creatures
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/arnaudpourbaix/enhanced-creatures)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/arnaudpourbaix/enhanced-creatures)
 
 Enhanced Creatures for Baldur's Gate EE and Baldur's Gate 2 EE.
 
