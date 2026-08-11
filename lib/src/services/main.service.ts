@@ -4,10 +4,10 @@ import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import bafGeneratorService from "./baf/baf-generator.service";
-import changelogService from "./doc/changelog.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
 import logService from "./log.service";
+import stateService from "./state.service";
 import translationService from "./translation.service";
 import utils from "./utils/utils.service";
 import weiduCoreService from "./weidu/weidu-core.service";
@@ -35,7 +35,6 @@ class MainService {
       documentationService.addFamily(family);
     }
     documentationService.generate();
-    changelogService.generate();
   }
 
   generateCreature(creature: Creature) {
@@ -107,6 +106,25 @@ class MainService {
         throw new Error(`Spell identifier ${spell.id} is declared multiple times.`);
       }
       identifiers.push(spell.id);
+    }
+  }
+
+  async generateAll(): Promise<void> {
+    logService.init();
+    await stateService.init();
+    logService.section("Checking presets");
+    this.checkPresets();
+    logService.section("Checking spells");
+    this.checkSpells();
+    logService.section("Generating creatures");
+    this.generateCreatures();
+    logService.section("Generating common code");
+    this.generateCommonCode();
+    logService.section("Generating translations");
+    this.generateTranslations();
+    logService.summary();
+    if (logService.hasErrors()) {
+      throw new Error("Generator finished with errors, see generator.log");
     }
   }
 }

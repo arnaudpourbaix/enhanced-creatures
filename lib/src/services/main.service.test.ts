@@ -3,6 +3,7 @@ import { Creature } from "../model/creature/creature";
 import bafGeneratorService from "./baf/baf-generator.service";
 import logService from "./log.service";
 import mainService from "./main.service";
+import stateService from "./state.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
 
 // Several tests below spy on logService.log without restoring it themselves, relying on getting a
@@ -86,5 +87,33 @@ describe("generateCreature", () => {
 
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("weidu boom"));
     expect(creature.valid).toBe(false);
+  });
+});
+
+describe("generateAll", () => {
+  function stubPipeline() {
+    vi.spyOn(stateService, "init").mockResolvedValue(undefined);
+    vi.spyOn(mainService, "checkPresets").mockImplementation(() => {});
+    vi.spyOn(mainService, "checkSpells").mockImplementation(() => {});
+    vi.spyOn(mainService, "generateCreatures").mockImplementation(() => {});
+    vi.spyOn(mainService, "generateCommonCode").mockImplementation(() => {});
+    vi.spyOn(mainService, "generateTranslations").mockImplementation(() => {});
+    vi.spyOn(logService, "init").mockImplementation(() => {});
+    vi.spyOn(logService, "section").mockImplementation(() => {});
+    vi.spyOn(logService, "summary").mockImplementation(() => {});
+  }
+
+  it("resolves without throwing when generation has no errors", async () => {
+    stubPipeline();
+    vi.spyOn(logService, "hasErrors").mockReturnValue(false);
+
+    await expect(mainService.generateAll()).resolves.toBeUndefined();
+  });
+
+  it("throws when generation finishes with errors", async () => {
+    stubPipeline();
+    vi.spyOn(logService, "hasErrors").mockReturnValue(true);
+
+    await expect(mainService.generateAll()).rejects.toThrow(/finished with errors/);
   });
 });

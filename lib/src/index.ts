@@ -4,7 +4,6 @@ import * as path from "path";
 import copyService, { CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
-import stateService from "./services/state.service";
 
 program.version("0.0.1").description("Generate WEIDU code and BAF files for IE games");
 
@@ -35,23 +34,7 @@ program
 program.parseAsync(process.argv).catch((e: unknown) => handleError(e));
 
 async function runGenerate(): Promise<void> {
-  logService.init();
-  await stateService.init();
-  logService.section("Checking presets");
-  mainService.checkPresets();
-  logService.section("Checking spells");
-  mainService.checkSpells();
-  logService.section("Generating creatures");
-  mainService.generateCreatures();
-  logService.section("Generating common code");
-  mainService.generateCommonCode();
-  logService.section("Generating translations");
-  mainService.generateTranslations();
-  logService.summary();
-  if (logService.hasErrors()) {
-    console.error(chalk.red(`\nGenerator finished with errors, see generator.log`));
-    process.exit(1);
-  }
+  await mainService.generateAll();
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
