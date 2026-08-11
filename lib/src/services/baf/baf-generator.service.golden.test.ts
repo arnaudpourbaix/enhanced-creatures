@@ -15,7 +15,7 @@ import bafGeneratorService from "./baf-generator.service";
 // nothing is written to disk.
 function readModFile(relativePath: string): string {
   return fs.readFileSync(
-    path.resolve(process.cwd(), "..", relativePath),
+    path.resolve(process.cwd(), "mod", relativePath),
     "utf-8",
   );
 }

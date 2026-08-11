@@ -26,7 +26,7 @@ import { State } from "../state";
 // of unrelated hand-authored content (docs/_site, docs/images, tra/*/*.tra
 // companions, lib/common/*.tp(a|h) helpers) that would be noise to copy.
 
-const MOD_ROOT = path.resolve(process.cwd(), "..");
+const MOD_ROOT = path.resolve(process.cwd(), "mod");
 const PNP_MONSTER_DIR = "lib/pnp-monster";
 
 const FIXED_GENERATED_FILES = [
