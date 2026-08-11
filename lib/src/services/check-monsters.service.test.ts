@@ -37,7 +37,7 @@ describe("diffMonsters", () => {
   it("returns name lists sorted alphabetically", () => {
     const result = diffMonsters([]);
 
-    expect(result.missing).toEqual([...result.missing].sort());
+    expect(result.missing).toEqual([...result.missing].sort((a, b) => a.localeCompare(b)));
   });
 
   it("returns the total count of MonsterEnum members", () => {
@@ -52,6 +52,10 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+// No default value: every call site deliberately passes undefined/false/true to distinguish
+// the real Creature.valid field's 3 meaningful states ("never validated" vs "invalid" vs
+// "valid") - a default would obscure that this is a tri-state field, not an optional flag.
+// eslint-disable-next-line sonarjs/bool-param-default
 function fakeCreature(id: MonsterEnum, valid: boolean | undefined): Creature {
   return { id, valid } as unknown as Creature;
 }
@@ -88,8 +92,9 @@ describe("CheckMonstersService.check", () => {
     vi.spyOn(logService, "init").mockImplementation(() => {
       calls.push("logService.init");
     });
-    vi.spyOn(stateService, "init").mockImplementation(async () => {
+    vi.spyOn(stateService, "init").mockImplementation(() => {
       calls.push("stateService.init");
+      return Promise.resolve();
     });
     vi.spyOn(mainService, "checkPresets").mockImplementation(() => {
       calls.push("checkPresets");

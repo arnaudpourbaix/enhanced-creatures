@@ -32,8 +32,8 @@ export function diffMonsters(
     }
   }
 
-  missing.sort();
-  unvalidated.sort();
+  missing.sort((a, b) => a.localeCompare(b));
+  unvalidated.sort((a, b) => a.localeCompare(b));
   return { missing, unvalidated, total };
 }
 
