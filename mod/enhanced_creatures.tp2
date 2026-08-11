@@ -1,0 +1,194 @@
+/*************************************************************************
+ *                        Enhanced Creatures
+ ************************************************************************ */
+BACKUP ~weidu_external/backup/enhanced_creatures~
+AUTHOR "Aigleborgne"
+VERSION ~v0.1.0~
+
+ALWAYS
+    INCLUDE "%MOD_FOLDER%/lib/common/index.tpa"
+    RANDOM_SEED go
+END
+
+// README ~%MOD_FOLDER%/docs/index.html~
+// ASK_EVERY_COMPONENT
+
+LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FOLDER%/languages/english/game.tra~ ~%MOD_FOLDER%/languages/english/generated.tra~
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// PnP monster tweaks
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// BEGIN ~Monsters test~
+// DESIGNATED 9999
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
+
+// Core monsters (required)
+BEGIN @1000
+DESIGNATED 1000
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
+
+// Ankhegs
+BEGIN @1110
+DESIGNATED 1110
+GROUP @1
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
+
+// Basilisks
+BEGIN @1120
+DESIGNATED 1120
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
+
+// Bears
+BEGIN @1130
+DESIGNATED 1130
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
+
+// Carrion Crawlers
+BEGIN @1140
+DESIGNATED 1140
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/main.tpa"
+
+// Greater Cats
+BEGIN @1150
+DESIGNATED 1150
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
+
+// Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)
+BEGIN @1160
+DESIGNATED 1160
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
+
+// Dogs
+BEGIN @1170
+DESIGNATED 1170
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
+
+// Ettercaps
+BEGIN @1280
+DESIGNATED 1280
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
+
+// Feys (Dryad, Hamadryad, Sirene, Nymph)
+BEGIN @1180
+DESIGNATED 1180
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
+
+// Golems
+BEGIN @1190
+DESIGNATED 1190
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
+
+// Minotaurs
+BEGIN @1200
+DESIGNATED 1200
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
+
+// Ogres
+BEGIN @1210
+DESIGNATED 1210
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
+
+// Oozes/slimes
+BEGIN @1220
+DESIGNATED 1220
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
+
+// Plants
+BEGIN @1230
+DESIGNATED 1230
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
+
+// Spiders
+BEGIN @1240
+DESIGNATED 1240
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
+
+// Undead
+BEGIN @1250
+DESIGNATED 1250
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
+
+// Wolves
+BEGIN @1260
+DESIGNATED 1260
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
+
+// Wyverns
+BEGIN @1270
+DESIGNATED 1270
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
