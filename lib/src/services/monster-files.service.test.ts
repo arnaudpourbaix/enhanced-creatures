@@ -8,6 +8,7 @@ import monsterFilesService, {
 
 const HEADER =
   "file;general;race;class;anim;deathvar;dialog;origin;name;MonsterId;ValidatedMonsterId";
+const EMPTY_MAP_FOR_HEADER_ONLY_CSV = "returns an empty map for a header-only CSV";
 
 describe("parseMonsterFilesCsv", () => {
   it("groups validated files under their MonsterId, in row order", () => {
@@ -34,7 +35,7 @@ describe("parseMonsterFilesCsv", () => {
     expect(result.has("Wolf")).toBe(false);
   });
 
-  it("returns an empty map for a header-only CSV", () => {
+  it(EMPTY_MAP_FOR_HEADER_ONLY_CSV, () => {
     const result = parseMonsterFilesCsv(HEADER);
 
     expect(result.size).toBe(0);
@@ -75,7 +76,7 @@ describe("parseUnvalidatedMonsterFilesCsv", () => {
     expect(result.has("Wolf")).toBe(false);
   });
 
-  it("returns an empty map for a header-only CSV", () => {
+  it(EMPTY_MAP_FOR_HEADER_ONLY_CSV, () => {
     const result = parseUnvalidatedMonsterFilesCsv(HEADER);
 
     expect(result.size).toBe(0);
@@ -118,7 +119,7 @@ describe("parseMonsterDialogCsv", () => {
     expect(result.has("Wolf")).toBe(false);
   });
 
-  it("returns an empty map for a header-only CSV", () => {
+  it(EMPTY_MAP_FOR_HEADER_ONLY_CSV, () => {
     const result = parseMonsterDialogCsv(HEADER);
 
     expect(result.size).toBe(0);

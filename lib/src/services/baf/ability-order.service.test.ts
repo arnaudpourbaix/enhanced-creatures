@@ -6,6 +6,17 @@ import abilityOrderService from "./ability-order.service";
 import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
 import logService from "../log.service";
 
+const TEST_PRIORITY_A = "test-priority-a";
+const TEST_PRIORITY_B = "test-priority-b";
+const TEST_PRIORITY_C = "test-priority-c";
+const TEST_PRIORITY_D = "test-priority-d";
+const TEST_PRIORITY_E = "test-priority-e";
+const TEST_PRIORITY_H = "test-priority-h";
+const TEST_PRIORITY_FIRST = "test-priority-first";
+const NOT_IN_PRIORITY_ORDER = "not-in-priority-order";
+const TEST_PRIORITY_LEFTOVER = "test-priority-leftover";
+const CUSTOM_ABILITY_PRESET = "custom-ability-preset";
+
 function fakeCreature(
   p: {
     memorized?: { file: string }[];
@@ -38,14 +49,14 @@ function fakeAbility(resource: string): CreatureAbility {
 
 describe("resolve", () => {
   it("orders memorized spells by their SPELL_PRIORITY_ORDER index", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-a", "test-priority-b");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_A, TEST_PRIORITY_B);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "test-priority-b" }, { file: "test-priority-a" }],
+        memorized: [{ file: TEST_PRIORITY_B }, { file: TEST_PRIORITY_A }],
       });
       expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: "test-priority-a" },
-        { preset: "test-priority-b" },
+        { preset: TEST_PRIORITY_A },
+        { preset: TEST_PRIORITY_B },
       ]);
     } finally {
       SPELL_PRIORITY_ORDER.pop();
@@ -59,15 +70,15 @@ describe("resolve", () => {
   });
 
   it("excludes a spell-exception's file from the auto block and inserts it via its own directive", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-c", "test-priority-d");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_C, TEST_PRIORITY_D);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "test-priority-c" }, { file: "test-priority-d" }],
-        entries: [{ spell: { file: "test-priority-d" }, insertFirst: true }],
+        memorized: [{ file: TEST_PRIORITY_C }, { file: TEST_PRIORITY_D }],
+        entries: [{ spell: { file: TEST_PRIORITY_D }, insertFirst: true }],
       });
       expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: "test-priority-d" },
-        { preset: "test-priority-c" },
+        { preset: TEST_PRIORITY_D },
+        { preset: TEST_PRIORITY_C },
       ]);
     } finally {
       SPELL_PRIORITY_ORDER.pop();
@@ -78,10 +89,10 @@ describe("resolve", () => {
   it("appends a custom abilityId entry at the end with insertLast", () => {
     const creature = fakeCreature({
       memorized: [],
-      customSpells: [{ id: 7, file: "custom-spell-file", ability: { preset: "custom-ability-preset" } }],
+      customSpells: [{ id: 7, file: "custom-spell-file", ability: { preset: CUSTOM_ABILITY_PRESET } }],
       entries: [{ abilityId: 7, insertLast: true }],
     });
-    expect(abilityOrderService.resolve(creature)).toEqual([{ preset: "custom-ability-preset" }]);
+    expect(abilityOrderService.resolve(creature)).toEqual([{ preset: CUSTOM_ABILITY_PRESET }]);
   });
 
   it("excludes a custom abilityId entry's own memorized file from the auto block (memorizedCount auto-push case)", () => {
@@ -93,29 +104,29 @@ describe("resolve", () => {
     const creature = fakeCreature({
       memorized: [{ file: "custom-spell-file-x" }],
       customSpells: [
-        { id: 5, file: "custom-spell-file-x", ability: { preset: "custom-ability-preset" } },
+        { id: 5, file: "custom-spell-file-x", ability: { preset: CUSTOM_ABILITY_PRESET } },
       ],
       entries: [{ abilityId: 5, insertFirst: true }],
     });
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
-    expect(abilityOrderService.resolve(creature)).toEqual([{ preset: "custom-ability-preset" }]);
+    expect(abilityOrderService.resolve(creature)).toEqual([{ preset: CUSTOM_ABILITY_PRESET }]);
     expect(errorSpy).not.toHaveBeenCalled();
     errorSpy.mockRestore();
   });
 
   it("inserts a custom abilityId entry before a memorized spell via insertBefore", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-e");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_E);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "test-priority-e" }],
+        memorized: [{ file: TEST_PRIORITY_E }],
         customSpells: [
-          { id: 9, file: "custom-spell-file-2", ability: { preset: "custom-ability-preset" } },
+          { id: 9, file: "custom-spell-file-2", ability: { preset: CUSTOM_ABILITY_PRESET } },
         ],
-        entries: [{ abilityId: 9, insertBefore: "test-priority-e" }],
+        entries: [{ abilityId: 9, insertBefore: TEST_PRIORITY_E }],
       });
       expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: "custom-ability-preset" },
-        { preset: "test-priority-e" },
+        { preset: CUSTOM_ABILITY_PRESET },
+        { preset: TEST_PRIORITY_E },
       ]);
     } finally {
       SPELL_PRIORITY_ORDER.pop();
@@ -123,10 +134,10 @@ describe("resolve", () => {
   });
 
   it("resolves an insertAfter anchor pointing at a custom abilityId entry by its own spell file, not its ability's preset field", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-h");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_H);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "test-priority-h" }],
+        memorized: [{ file: TEST_PRIORITY_H }],
         customSpells: [
           // this custom ability's own generated file differs from what it actually casts
           // (preset borrows another spell's config) - the GreaterMummyFearAura pattern.
@@ -141,7 +152,7 @@ describe("resolve", () => {
       expect(abilityOrderService.resolve(creature)).toEqual([
         { preset: "unrelated-borrowed-preset" },
         { preset: "second-custom-preset" },
-        { preset: "test-priority-h" },
+        { preset: TEST_PRIORITY_H },
       ]);
     } finally {
       SPELL_PRIORITY_ORDER.pop();
@@ -166,17 +177,17 @@ describe("resolve", () => {
   });
 
   it("warns and casts last a memorized spell missing from SPELL_PRIORITY_ORDER, rather than dropping it", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-first");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_FIRST);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "not-in-priority-order" }, { file: "test-priority-first" }],
+        memorized: [{ file: NOT_IN_PRIORITY_ORDER }, { file: TEST_PRIORITY_FIRST }],
       });
       const warnSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
       expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: "test-priority-first" },
-        { preset: "not-in-priority-order" },
+        { preset: TEST_PRIORITY_FIRST },
+        { preset: NOT_IN_PRIORITY_ORDER },
       ]);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("not-in-priority-order"));
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining(NOT_IN_PRIORITY_ORDER));
       warnSpy.mockRestore();
     } finally {
       SPELL_PRIORITY_ORDER.pop();
@@ -240,13 +251,13 @@ describe("resolve", () => {
   });
 
   it("auto-derives only the leftover memorized spell when another is already covered by a plain-array ability", () => {
-    SPELL_PRIORITY_ORDER.push("test-priority-leftover");
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_LEFTOVER);
     try {
       const creature = fakeCreature({
-        memorized: [{ file: "test-priority-leftover" }, { file: "test-priority-covered-2" }],
+        memorized: [{ file: TEST_PRIORITY_LEFTOVER }, { file: "test-priority-covered-2" }],
         behaviorAbilities: [fakeAbility("test-priority-covered-2")],
       });
-      expect(abilityOrderService.resolve(creature)).toEqual([{ preset: "test-priority-leftover" }]);
+      expect(abilityOrderService.resolve(creature)).toEqual([{ preset: TEST_PRIORITY_LEFTOVER }]);
     } finally {
       SPELL_PRIORITY_ORDER.pop();
     }

@@ -1,5 +1,5 @@
 import figureSet from "figures";
-import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
+import { getAllSpells } from "../../config/spells/spell-names";
 import { CreatureAbility } from "../model/creature/ability";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
@@ -18,14 +18,11 @@ import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
-import { State } from "../state";
 import spellService from "./spell.service";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
-type IdCastAction = Extract<
-  Actions.Action,
-  { name: "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell" }
->;
+type IdCastActionName = "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell";
+type IdCastAction = Extract<Actions.Action, { name: IdCastActionName }>;
 
 class CreatureService {
   check(creature: Creature) {
@@ -145,10 +142,10 @@ class CreatureService {
   }
 
   private stableStringify(value: unknown): string {
-    return JSON.stringify(value, (_key, val) =>
+    return JSON.stringify(value, (_key: string, val: unknown) =>
       val && typeof val === "object" && !Array.isArray(val)
         ? Object.keys(val)
-            .sort()
+            .sort((a, b) => a.localeCompare(b))
             .reduce((sorted: Record<string, unknown>, k) => {
               sorted[k] = (val as Record<string, unknown>)[k];
               return sorted;

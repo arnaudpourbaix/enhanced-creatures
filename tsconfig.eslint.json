@@ -6,6 +6,6 @@
     "module": "preserve",
     "moduleResolution": "bundler"
   },
-  "include": ["lib/**/*.ts", "vitest.config.ts", "scripts/trim-monster-files.ts"],
+  "include": ["lib/**/*.ts", "vitest.config.ts", "scripts/derive-spell-priority-order.ts"],
   "exclude": ["node_modules", "dist"]
 }

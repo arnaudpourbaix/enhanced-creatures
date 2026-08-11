@@ -9,7 +9,10 @@ export default tseslint.config(
     // eslint.config.mjs itself: type-aware parsing needs it in tsconfig.eslint.json's `include`,
     // but tsc's project service doesn't recognize .mjs without `allowJs`, which this project
     // doesn't otherwise need - simplest to just exclude the one file from type-aware linting.
-    ignores: ["node_modules", "dist", "coverage", "eslint.config.mjs"],
+    // mod/docs/monsters.js is hand-authored plain browser JS for the mod's doc site (var/IIFE
+    // style, DOM globals) - it's not part of the TS project and was never meant to be type-aware
+    // linted alongside it.
+    ignores: ["node_modules", "dist", "coverage", "eslint.config.mjs", "mod/docs/monsters.js"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,

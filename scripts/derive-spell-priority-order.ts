@@ -57,12 +57,9 @@ function parseSource(source: string): { header: string; rawEntries: RawEntry[] }
   for (let i = arrayStart + 1; i < lines.length; i++) {
     const trimmed = lines[i].trim();
     if (trimmed === "];") return { header, rawEntries };
-    if (trimmed === "") continue;
     if (trimmed.startsWith("//")) {
       pendingComment = trimmed;
-      continue;
-    }
-    if (
+    } else if (
       trimmed.startsWith("SPELLS.") ||
       trimmed.startsWith("FNP_SPELLS.") ||
       trimmed.startsWith("PRESET_NAMES.")
@@ -148,8 +145,8 @@ function placeEntries(rawEntries: RawEntry[], resolved: string[], bafRanks: Map<
   }));
 
   const rankedSortedLines = partial
-    .filter((e) => e.bafRank !== undefined)
-    .map((e) => e.bafRank as number)
+    .filter((e): e is typeof e & { bafRank: number } => e.bafRank !== undefined)
+    .map((e) => e.bafRank)
     .sort((a, b) => a - b);
 
   let precedingRankedCount = 0;
@@ -163,20 +160,29 @@ function placeEntries(rawEntries: RawEntry[], resolved: string[], bafRanks: Map<
   const withRank = partial.map((e, i) => {
     if (e.bafRank !== undefined) return { ...e, rankValue: e.bafRank };
     const p = precedingCounts[i];
-    const rankValue =
-      m === 0
-        ? i
-        : p === 0
-          ? rankedSortedLines[0] - 1
-          : p === m
-            ? rankedSortedLines[m - 1] + 1
-            : (rankedSortedLines[p - 1] + rankedSortedLines[p]) / 2;
+    const rankValue = interpolateRankValue(p, m, rankedSortedLines, i);
     return { ...e, rankValue };
   });
 
   return withRank
-    .sort((a, b) => a.rankValue - b.rankValue || a.originalIndex - b.originalIndex)
+    .toSorted((a, b) => a.rankValue - b.rankValue || a.originalIndex - b.originalIndex)
     .map(({ rankValue: _rankValue, ...e }) => e);
+}
+
+// Ranks an unranked entry between its two BAF-ranked neighbors (or off one end, or - when
+// there's no BAF ranking data at all - preserves its original position).
+function interpolateRankValue(
+  precedingRankedCount: number,
+  totalRanked: number,
+  rankedSortedLines: number[],
+  originalIndex: number,
+): number {
+  if (totalRanked === 0) return originalIndex;
+  if (precedingRankedCount === 0) return rankedSortedLines[0] - 1;
+  if (precedingRankedCount === totalRanked) return rankedSortedLines[totalRanked - 1] + 1;
+  return (
+    (rankedSortedLines[precedingRankedCount - 1] + rankedSortedLines[precedingRankedCount]) / 2
+  );
 }
 
 // --- run ---
@@ -199,8 +205,11 @@ const collapsedDuplicates: { kept: string; dropped: string }[] = [];
 const deduped: ResolvedEntry[] = [];
 for (const e of placed) {
   if (seenFiles.has(e.file)) {
-    const keptExpr = deduped.find((k) => k.file === e.file)!.rawExpr;
-    collapsedDuplicates.push({ kept: keptExpr, dropped: e.rawExpr });
+    const kept = deduped.find((k) => k.file === e.file);
+    if (!kept) {
+      throw new Error(`Internal error: expected a previously-deduped entry for ${e.file}`);
+    }
+    collapsedDuplicates.push({ kept: kept.rawExpr, dropped: e.rawExpr });
     continue;
   }
   seenFiles.add(e.file);

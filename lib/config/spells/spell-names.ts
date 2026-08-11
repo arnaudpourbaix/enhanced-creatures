@@ -12,6 +12,10 @@ export interface SpellReference {
     | "short"; // several rounds to one turn
 }
 
+// Shared by RemoveMagic (wizard), DispelMagic (wizard), and DispelMagic (cleric) below - all
+// three display the same in-game name.
+const DISPEL_MAGIC_NAME = "spell.DispelMagic.name";
+
 const WIZARD_SPELLS = {
   AgannazarScorcher: {
     file: "SPWI217",
@@ -52,7 +56,7 @@ const WIZARD_SPELLS = {
   DispelMagic: {
     file: "SPWI326",
     id: "WIZARD_TRUE_DISPEL_MAGIC",
-    name: "spell.DispelMagic.name",
+    name: DISPEL_MAGIC_NAME,
   },
   Domination: { file: "SPWI506", id: "WIZARD_DOMINATION", name: "spell.Domination.name" },
   Emotion: {
@@ -174,7 +178,7 @@ const WIZARD_SPELLS = {
   RemoveMagic: {
     file: "SPWI302",
     id: "WIZARD_REMOVE_MAGIC",
-    name: "spell.DispelMagic.name",
+    name: DISPEL_MAGIC_NAME,
   },
   ShapeshiftMustardJelly: {
     file: "SPWI496",
@@ -299,7 +303,7 @@ const PRIEST_SPELLS = {
   DispelMagic: {
     file: "SPPR303",
     id: "CLERIC_DISPEL_MAGIC",
-    name: "spell.DispelMagic.name",
+    name: DISPEL_MAGIC_NAME,
   },
   DolorousDecay: {
     file: "SPPR610",

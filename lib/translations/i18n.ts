@@ -25,7 +25,7 @@ export const getTranslationKeys = (language: Language) => {
   switch (language) {
     // eslint-disable-next-line sonarjs/prefer-default-last
     default:
-    case "english":
+    case "english": // eslint-disable-line @typescript-eslint/no-unnecessary-condition -- LANGUAGES has only "english" active today, so TS narrows this comparison trivially true; kept explicit as a placeholder for the next real language (see comment above)
       return {
         common: commonEn,
         monster: monsterEn,

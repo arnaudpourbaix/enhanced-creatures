@@ -1,7 +1,7 @@
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
 import { SPELL_GROUPS } from "../../config/spells/spell-group";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
+import { getAllSpells } from "../../config/spells/spell-names";
 import { StringReference } from "../model/final/stringref";
 import { Effect } from "../model/spell-item/effect";
 import {
@@ -14,7 +14,6 @@ import {
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { PartialProjectile } from "../model/spell-item/projectile";
 import {
-  BaseSpell,
   PartialSpell,
   PartialSpellHeader,
   Spell,
@@ -191,7 +190,7 @@ class SpellService {
 
   getSpellName(file: string): string | null {
     const spell = State.spells.find((s) => s.file === file);
-    if (!spell || !spell.name) return this.getExistingSpellName(file);
+    if (!spell?.name) return this.getExistingSpellName(file);
     return translationService.from(spell.name);
   }
 

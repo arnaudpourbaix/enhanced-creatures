@@ -20,13 +20,13 @@ class AbilityOrderService {
     ].flatMap((a) => creatureService.getAbilityCastFiles(a));
     const explicitFiles = new Set([
       ...alreadyCastFiles,
-      ...(entries
+      ...entries
         .map((e) => {
           if (e.spell) return e.spell.file;
           if (e.abilityId !== undefined) return creature.spell(e.abilityId).file;
           return undefined;
         })
-        .filter((f) => f !== undefined) as string[]),
+        .filter((f) => f !== undefined),
     ]);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
     const autoFiles = memorizedFiles.filter((file) => !explicitFiles.has(file));
@@ -48,10 +48,18 @@ class AbilityOrderService {
       .map(({ identity }): OrderedAbility => ({ identity, ability: { preset: identity } }));
 
     for (const entry of entries) {
-      const identity = entry.spell ? entry.spell.file : creature.spell(entry.abilityId!).file;
-      const ability: RawCreatureAbility = entry.spell
-        ? { preset: entry.spell.file }
-        : creature.ability(entry.abilityId!);
+      let identity: string;
+      let ability: RawCreatureAbility;
+      if (entry.spell) {
+        identity = entry.spell.file;
+        ability = { preset: entry.spell.file };
+      } else {
+        if (entry.abilityId === undefined) {
+          throw new Error("AbilityEntry must set exactly one of spell/abilityId");
+        }
+        identity = creature.spell(entry.abilityId).file;
+        ability = creature.ability(entry.abilityId);
+      }
       this.splice(ordered, { identity, ability }, entry, creature);
     }
 

@@ -1,7 +1,4 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
-
-import description from "./description";
-
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 

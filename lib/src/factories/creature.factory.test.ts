@@ -10,7 +10,6 @@ import logService from "../services/log.service";
 import abilityOrderService from "../services/baf/ability-order.service";
 import creatureService from "../services/creature.service";
 import immunityService from "../services/effects/immunity.service";
-import descriptionService from "../services/doc/description.service";
 import { State } from "../state";
 
 // Several tests below spy on logService.log without restoring it themselves, relying on getting a

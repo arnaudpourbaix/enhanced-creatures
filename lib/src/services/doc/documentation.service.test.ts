@@ -742,7 +742,7 @@ describe("getCreatureSpell", () => {
     const name = translationService.addCustomTranslation(["Test Spell"]);
     const description = translationService.addCustomTranslation(["A test description."]);
     State.spells = [
-      { file: "SPPR101", name, doc: true, description },
+      { file: "SPPR101", doc: true, name, description },
     ] as unknown as typeof State.spells;
     const html = documentationService.getCreatureSpell(
       fakeAbility("SPPR101"),
@@ -758,7 +758,7 @@ describe("getCreatureSpell", () => {
 
   it("renders a bare name with no popover when the spell has doc: 'name' (no description to show)", () => {
     const name = translationService.addCustomTranslation(["Test Spell"]);
-    State.spells = [{ file: "SPPR101", name, doc: "name" }] as unknown as typeof State.spells;
+    State.spells = [{ file: "SPPR101", doc: "name", name }] as unknown as typeof State.spells;
     const html = documentationService.getCreatureSpell(
       fakeAbility("SPPR101"),
       [{ file: "SPPR101", memorizedCount: 3 }],

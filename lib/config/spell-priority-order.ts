@@ -1,6 +1,5 @@
 import { SPELLS } from "./spells/spell-names";
 import { FNP_SPELLS } from "./spells/fnp-spell-names";
-import { PRESET_NAMES } from "./common";
 
 /**
  * Spell cast-priority order (earlier entry = cast sooner) for AbilityOrderService - see

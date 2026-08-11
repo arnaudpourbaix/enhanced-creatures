@@ -210,7 +210,7 @@ class DocumentationService {
     // generateWeaponDescription always emits the weapon's own damage lines before any Cast Spell
     // effect, so a same-shaped "X damage: NDN" line appearing only inside a cast-spell's own
     // description (like the fixture above) is never mistaken for it.
-    const firstCastSpellIndex = filtered.findIndex((l) => /^Cast spell /.test(l));
+    const firstCastSpellIndex = filtered.findIndex((l) => l.startsWith("Cast spell "));
     const damageSearchEnd = firstCastSpellIndex === -1 ? filtered.length : firstCastSpellIndex;
     const damageIndex = filtered
       .slice(0, damageSearchEnd)
@@ -245,10 +245,12 @@ class DocumentationService {
   ): string[] {
     const result: string[] = [];
     let spellIndex = 0;
-    for (let i = 0; i < lines.length; i++) {
+    let i = 0;
+    while (i < lines.length) {
       const match = /^Cast spell (.+?)( \([^)]*\))?:$/.exec(lines[i]);
       if (!match) {
         result.push(lines[i]);
+        i++;
         continue;
       }
       const [, name, condition] = match;
@@ -258,10 +260,15 @@ class DocumentationService {
         descLines.push(lines[j]);
         j++;
       }
-      const id = `${idPrefix}-spell-${spellIndex++}`;
+      const id = `${idPrefix}-spell-${spellIndex}`;
+      spellIndex++;
       entries.push({ id, html: this.buildDescriptionHtml(descLines) });
-      result.push(`<a href="#${id}" class="trait-link">${name}</a>${condition ?? ""}`);
-      i = j - 1;
+      // Group 2 (the optional " (...)" condition suffix) is genuinely absent from `match` at
+      // runtime when it doesn't match - cast past RegExpExecArray's plain `string` element
+      // typing so the `?? ""` fallback stays real, not dead code.
+      const conditionText = (condition as string | undefined) ?? "";
+      result.push(`<a href="#${id}" class="trait-link">${name}</a>${conditionText}`);
+      i = j;
     }
     return result;
   }
@@ -278,7 +285,8 @@ class DocumentationService {
     let bullets: string[] = [];
     const flushBullets = () => {
       if (bullets.length) {
-        html.push(`<ul>${bullets.map((b) => `<li>${b}</li>`).join("")}</ul>`);
+        const items = bullets.map((b) => `<li>${b}</li>`).join("");
+        html.push(`<ul>${items}</ul>`);
         bullets = [];
       }
     };
@@ -298,6 +306,11 @@ class DocumentationService {
   getCreatureTraits(template: { text: string }, creature: Creature) {
     let result = "";
     const immunities = creature.data.immunities
+      // Creature.autoImmunities defaults to [] via the class field initializer, but test
+      // fixtures and other partial-object call sites construct Creature via `as unknown as
+      // Creature` casts that skip it, so it's genuinely undefined at some real call sites
+      // despite the type - keep the optional chain.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       .filter((name) => !creature.autoImmunities?.includes(name))
       .map((name) => State.immunities.find((i) => i.name === name))
       .filter((i): i is ImmunityConfig => i !== undefined);
@@ -452,8 +465,9 @@ class DocumentationService {
       // limiter - the ability's own recast timer is (converted from seconds to rounds, as
       // action.factory.ts's setGlobalRoundTimer uses 6 seconds/round), or "at will" if untimed.
       // Only when the cast does decrement the slot is the memorized daily count authoritative.
+      const infiniteUseRounds = ability.timer ? ability.timer.value / 6 : 1;
       const quantity = ability.infiniteUse
-        ? this.getSpellQuantity(1, ability.timer ? ability.timer.value / 6 : 1)
+        ? this.getSpellQuantity(1, infiniteUseRounds)
         : this.getSpellQuantity(memorized.memorizedCount);
       result = `<h5>${translationService.from(ability.name)} (${quantity})</h5>`;
     }

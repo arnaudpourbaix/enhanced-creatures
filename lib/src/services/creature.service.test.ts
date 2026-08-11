@@ -577,7 +577,7 @@ function fakeFullAbility(
   triggers: unknown[] = [],
   targets: unknown[] = [],
 ): CreatureAbility {
-  return { resource, actions: [], triggers, targets } as unknown as CreatureAbility;
+  return { resource, triggers, targets, actions: [] } as unknown as CreatureAbility;
 }
 
 function fakeSpellCreature(p: {

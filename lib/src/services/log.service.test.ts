@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import logService from "./log.service";
 
 const CREATING_OGRE = "Creating Ogre...";
+const NO_ERRORS_NO_WARNINGS_SUMMARY = "\nSummary\n-------\nNo errors\nNo warnings\n";
 
 describe("LogService", () => {
   let tempDir: string;
@@ -101,7 +102,7 @@ describe("LogService", () => {
   it("summary reports no warnings when none were logged", () => {
     logService.init();
     logService.summary();
-    expect(readLog()).toBe("\nSummary\n-------\nNo errors\nNo warnings\n");
+    expect(readLog()).toBe(NO_ERRORS_NO_WARNINGS_SUMMARY);
   });
 
   it("summary reports a plural warning count", () => {
@@ -119,7 +120,7 @@ describe("LogService", () => {
     logService.warn("first run warning");
     logService.init();
     logService.summary();
-    expect(readLog()).toBe("\nSummary\n-------\nNo errors\nNo warnings\n");
+    expect(readLog()).toBe(NO_ERRORS_NO_WARNINGS_SUMMARY);
   });
 
   it("error writes the message prefixed with 'error: ' (indent-prefixed by the current context)", () => {
@@ -154,7 +155,7 @@ describe("LogService", () => {
     logService.error("first run error");
     logService.init();
     logService.summary();
-    expect(readLog()).toBe("\nSummary\n-------\nNo errors\nNo warnings\n");
+    expect(readLog()).toBe(NO_ERRORS_NO_WARNINGS_SUMMARY);
   });
 
   it("hasErrors is false when no errors were logged", () => {
