@@ -9,9 +9,7 @@ describe("CopyService", () => {
   const TP2_FILE = "enhanced_creatures.tp2";
   const TP2_CONTENTS = "tp2 contents";
   const MOD_SUBFOLDER = "enhanced_creatures";
-  const DOCS_FOLDER = "docs";
-  const DEV_SPECS_FOLDER = "superpowers";
-  const DOCS_INDEX_FILE = "index.html";
+  const CHANGELOG_FILE = "CHANGELOG.md";
 
   let repoDir: string;
   let bg1Dir: string;
@@ -22,20 +20,19 @@ describe("CopyService", () => {
     bg1Dir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-copy-bg1-"));
     bg2Dir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-copy-bg2-"));
 
-    fs.writeFileSync(path.join(repoDir, TP2_FILE), TP2_CONTENTS);
-    fs.mkdirSync(path.join(repoDir, "lib", "common"), { recursive: true });
-    fs.writeFileSync(path.join(repoDir, "lib", "common", "index.tpa"), "lib contents");
-    fs.mkdirSync(path.join(repoDir, "languages", "english"), { recursive: true });
-    fs.writeFileSync(path.join(repoDir, "languages", "english", "setup.tra"), "tra contents");
-    fs.mkdirSync(path.join(repoDir, DOCS_FOLDER), { recursive: true });
-    fs.writeFileSync(path.join(repoDir, DOCS_FOLDER, DOCS_INDEX_FILE), "docs contents");
-    fs.mkdirSync(path.join(repoDir, DOCS_FOLDER, DEV_SPECS_FOLDER, "specs"), { recursive: true });
-    fs.writeFileSync(
-      path.join(repoDir, DOCS_FOLDER, DEV_SPECS_FOLDER, "specs", "some-design.md"),
-      "internal dev spec",
-    );
+    const modDir = path.join(repoDir, "mod");
+    fs.mkdirSync(modDir, { recursive: true });
+    fs.writeFileSync(path.join(modDir, TP2_FILE), TP2_CONTENTS);
+    fs.mkdirSync(path.join(modDir, "lib", "common"), { recursive: true });
+    fs.writeFileSync(path.join(modDir, "lib", "common", "index.tpa"), "lib contents");
+    fs.mkdirSync(path.join(modDir, "languages", "english"), { recursive: true });
+    fs.writeFileSync(path.join(modDir, "languages", "english", "setup.tra"), "tra contents");
+    fs.mkdirSync(path.join(modDir, "docs"), { recursive: true });
+    fs.writeFileSync(path.join(modDir, "docs", "index.html"), "docs contents");
+    fs.writeFileSync(path.join(modDir, CHANGELOG_FILE), "changelog contents");
 
     copyService.repoRoot = repoDir;
+    copyService.modDir = modDir;
     copyService.configPath = path.join(repoDir, "paths.local.json");
     copyService.exampleConfigPath = path.join(repoDir, "paths.example.json");
 
@@ -82,7 +79,7 @@ describe("CopyService", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining(missing));
   });
 
-  it("copies the tp2, lib, languages, and docs folders, nested under enhanced_creatures/, into each configured, existing target", async () => {
+  it("copies everything under mod/, nested under enhanced_creatures/, into each configured, existing target", async () => {
     writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
 
     await copyService.copy({ bg1: true, bg2: true });
@@ -95,19 +92,18 @@ describe("CopyService", () => {
       expect(fs.readFileSync(modPath(dest, "languages", "english", "setup.tra"), "utf-8")).toBe(
         "tra contents",
       );
-      expect(fs.readFileSync(modPath(dest, DOCS_FOLDER, DOCS_INDEX_FILE), "utf-8")).toBe(
-        "docs contents",
-      );
+      expect(fs.readFileSync(modPath(dest, "docs", "index.html"), "utf-8")).toBe("docs contents");
+      expect(fs.readFileSync(modPath(dest, CHANGELOG_FILE), "utf-8")).toBe("changelog contents");
     }
   });
 
-  it("excludes docs/superpowers (this repo's own dev specs/plans) from the copy", async () => {
+  it("picks up a file added under mod/ without any code change", async () => {
     writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
+    fs.writeFileSync(path.join(repoDir, "mod", "new-file.txt"), "brand new");
 
     await copyService.copy({ bg1: true, bg2: false });
 
-    expect(fs.existsSync(modPath(bg1Dir, DOCS_FOLDER, DEV_SPECS_FOLDER))).toBe(false);
-    expect(fs.existsSync(modPath(bg1Dir, DOCS_FOLDER, DOCS_INDEX_FILE))).toBe(true);
+    expect(fs.readFileSync(modPath(bg1Dir, "new-file.txt"), "utf-8")).toBe("brand new");
   });
 
   it("only copies to the selected target", async () => {
