@@ -157,8 +157,8 @@ describe("checkData - attacks per round across adjustments", () => {
     const movement = new Movement(12);
     const creature = {
       data: {
-        apr: 8,
         movement,
+        apr: 8,
         saveBreath: 10,
         immunities: [],
         items: { equipped: [] },
