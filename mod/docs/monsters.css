@@ -178,6 +178,13 @@
   margin-bottom: 10px;
 }
 
+.weapon-slot {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 2px;
+}
+
 .traits h5 {
   margin: 10px 0 2px;
   font-size: 0.9rem;

@@ -91,6 +91,62 @@ describe("getEffectiveApr", () => {
   });
 });
 
+function fakeCreatureForAttacks(equipped: { file: string; slot: string }[]): Creature {
+  const creature = fakeCreatureForAddCreature(false, true);
+  creature.data.apr = 2;
+  creature.data.items.equipped = equipped as unknown as typeof creature.data.items.equipped;
+  return creature;
+}
+
+describe("getCreatureAttacks", () => {
+  const originalItems = State.items;
+
+  afterEach(() => {
+    State.items = originalItems;
+  });
+
+  // Regression test: a creature with 3+ total attacks plus an off-hand weapon used to render as
+  // just a combined APR number and a list of weapon blocks in equipped-item order, leaving no way
+  // to tell which weapon was the main hand or how many of the attacks it actually got.
+  it("labels the off-hand weapon and gives the main hand's attack count, regardless of equipped order", () => {
+    const mainDesc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    const offDesc = translationService.addCustomTranslation(["Melee damage: 3"]);
+    State.items = [
+      { file: "DAGGER01", doc: true, description: offDesc },
+      { file: "SWORD01", doc: true, description: mainDesc },
+    ] as unknown as typeof State.items;
+    // Off-hand (SHIELD) listed first in equipped order, main hand second - the label must still
+    // key off the slot, not position.
+    const creature = fakeCreatureForAttacks([
+      { file: "DAGGER01", slot: "SHIELD" },
+      { file: "SWORD01", slot: "WEAPON1" },
+    ]);
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    // Off-hand attack count is always 1 (see checkDualWielding in creature.service.ts), so it's
+    // not worth restating - only the slot name is shown.
+    expect(template.text).toContain(">Offhand<");
+    expect(template.text).not.toContain("Offhand ·");
+    expect(template.text).toContain("Main hand · 2 attacks<");
+  });
+
+  it("shows no slot label when the creature isn't dual wielding", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    State.items = [{ file: "SWORD01", doc: true, description: desc }] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "SWORD01", slot: "WEAPON1" }]);
+    creature.attack.dualWielding = false;
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    expect(template.text).not.toContain("weapon-slot");
+    expect(template.text).not.toContain("Main hand");
+    expect(template.text).not.toContain("Offhand");
+  });
+});
+
 function runAttackDisplay(description: string, idPrefix = "m1-w0") {
   const entries: { id: string; html: string }[] = [];
   const text = documentationService.getAttackDisplayText(description, entries, idPrefix);

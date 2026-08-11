@@ -65,6 +65,7 @@ BEGIN
 					ac=3
 					thac0=17
 					apr=4
+					doubleApr=1
 					saveDeath=13
 					saveWand=15
 					savePolymorph=14
@@ -83,7 +84,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~CARRIONCRAWLER~)
 					class=IDS_OF_SYMBOL (~class~ ~CARRIONCRAWLER~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
-					movement=10
+					movement=5
 					enforce=1
 			END
 			// Assigning ja#m9

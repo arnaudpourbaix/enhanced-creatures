@@ -6,6 +6,7 @@ import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { MemorizedSpell } from "../../model/creature/data";
 import { Family } from "../../model/creature/family";
+import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
@@ -134,29 +135,50 @@ class DocumentationService {
   getCreatureAttacks(template: { text: string }, creature: Creature) {
     let attacks = "";
     let weaponIndex = 0;
+    // When dual wielding, the SHIELD slot is always the off-hand weapon (see
+    // creature.service.ts's hasOffhandWeapon) and gets exactly 1 attack; every other equipped
+    // weapon is the main hand and gets the rest of getEffectiveApr(). Without this, a creature
+    // with 3+ total attacks plus an off-hand weapon only showed one combined APR number and a
+    // list of weapon blocks in equipped-item order, leaving readers to guess which block was the
+    // main hand and how many of the attacks it actually got.
+    const dualWielding = creature.attack.dualWielding;
+    const mainHandAttacks = this.getEffectiveApr(creature) - (dualWielding ? 1 : 0);
     for (const equippedItem of creature.data.items.equipped) {
-      if (itemService.isEquippedWeapon(equippedItem)) {
-        const weapon = State.items.find((i) => i.file === equippedItem.file);
-        if (weapon?.doc) {
-          const entries: { id: string; html: string }[] = [];
-          const text = this.getAttackDisplayText(
-            translationService.fromOptional(weapon.description),
-            entries,
-            `m${creature.id}-w${weaponIndex}`,
-          );
-          attacks += attacks ? "<hr/>" : "";
-          attacks += `<div class="weapon">${text}</div>`;
-          attacks += entries
-            .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
-            .join("");
-          weaponIndex++;
-        }
-      }
+      const weapon = itemService.isEquippedWeapon(equippedItem)
+        ? State.items.find((i) => i.file === equippedItem.file)
+        : undefined;
+      if (!weapon?.doc) continue;
+      const entries: { id: string; html: string }[] = [];
+      const text = this.getAttackDisplayText(
+        translationService.fromOptional(weapon.description),
+        entries,
+        `m${creature.id}-w${weaponIndex}`,
+      );
+      const label = dualWielding
+        ? this.getWeaponSlotLabel(equippedItem, mainHandAttacks)
+        : "";
+      attacks += attacks ? "<hr/>" : "";
+      attacks += `<div class="weapon">${label}${text}</div>`;
+      attacks += entries
+        .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+        .join("");
+      weaponIndex++;
     }
     if (!attacks) {
       attacks = `<div class="weapon">By weapon</div>`;
     }
     this.replace(template, "attacks", attacks);
+  }
+
+  // The off-hand always gets exactly 1 attack (checkDualWielding in creature.service.ts grants
+  // no more than that), so restating "1 attack" would be redundant - only the main hand's count
+  // is variable and worth spelling out.
+  private getWeaponSlotLabel(equippedItem: EquippedItem, mainHandAttacks: number): string {
+    if (itemService.isSlotIncluded([equippedItem], "SHIELD")) {
+      return `<div class="weapon-slot">Offhand</div>`;
+    }
+    const s = mainHandAttacks === 1 ? "" : "s";
+    return `<div class="weapon-slot">Main hand · ${mainHandAttacks} attack${s}</div>`;
   }
 
   // Docs-only trim of the in-game weapon description (which also feeds the .tra item text, see

@@ -130,6 +130,51 @@ describe("transformAttackPerRound (private)", () => {
     service.transformAttackPerRound(data);
     expect(movement.hasImprovedHaste).toBe(false);
   });
+
+  it("sets data.doubleApr when the resolved apr is a double-apr entry, so the CRE gets the attack-doubling effect", () => {
+    const data: Partial<CreatureData> = { apr: 8 };
+    service.transformAttackPerRound(data);
+    expect(data.apr).toBe(4);
+    expect(data.doubleApr).toBe(true);
+  });
+
+  it("leaves data.doubleApr unset when the resolved apr is a single-apr entry, so the CRE patch omits the field entirely", () => {
+    const data: Partial<CreatureData> = { apr: 3 };
+    service.transformAttackPerRound(data);
+    expect(data.doubleApr).toBeUndefined();
+  });
+});
+
+describe("checkData - attacks per round across adjustments", () => {
+  // Regression test: checkData ran transformAttackPerRound(p.creature.data) unconditionally,
+  // instead of transformAttackPerRound(data) (= p.base.data) like every other field it checks.
+  // For a creature with no adjustments this is harmless, but for one with adjustments (e.g. the
+  // Carrion Crawler's CRYPTCRA variant), checkData runs once more with isAdjustment: true and
+  // re-fed the already-converted apr (8 -> 4) back through the table, which resolved to a
+  // *different*, non-double entry and silently flipped doubleApr/hasImprovedHaste back to false -
+  // dropping the creature from 8 attacks per round to 4 in the generated CRE.
+  it("keeps the double-apr flag when checkData runs again for an adjustment", () => {
+    const movement = new Movement(12);
+    const creature = {
+      data: {
+        apr: 8,
+        movement,
+        saveBreath: 10,
+        immunities: [],
+        items: { equipped: [] },
+      },
+      items: [],
+      attack: { dualWielding: false },
+      autoGenerate: { thac0: false, hitPoints: false, enchantment: false, meleeRange: false },
+    } as unknown as Creature;
+
+    creatureService.checkData({ creature, base: creature, isAdjustment: false });
+    creatureService.checkData({ creature, base: fakeBase({}), isAdjustment: true });
+
+    expect(creature.data.apr).toBe(4);
+    expect(creature.data.doubleApr).toBe(true);
+    expect(movement.hasImprovedHaste).toBe(true);
+  });
 });
 
 describe("autogenerateThac0 (private)", () => {
