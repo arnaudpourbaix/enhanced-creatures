@@ -89,6 +89,13 @@ async function runCheckMonsters(): Promise<void> {
   logService.filePath = path.join(process.cwd(), "check-monsters.log");
   const { missing, unvalidated, total } = await checkMonstersService.check();
   logService.summary();
+  if (logService.hasErrors()) {
+    console.log(
+      chalk.red(
+        "\nSome creatures failed to build - see check-monsters.log (they may appear under Missing).",
+      ),
+    );
+  }
   console.log(chalk.bold("\nChecking monsters..."));
   if (!missing.length && !unvalidated.length) {
     console.log(chalk.green("All monsters OK."));
