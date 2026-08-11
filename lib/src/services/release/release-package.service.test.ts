@@ -40,7 +40,7 @@ describe("ReleasePackageService", () => {
 
     const zip = new AdmZip(zipPath);
     const tp2Entry = zip.getEntry("enhanced_creatures/enhanced_creatures.tp2");
-    expect(tp2Entry).not.toBeNull();
-    expect(zip.readAsText(tp2Entry!)).toBe("tp2 contents");
+    if (tp2Entry === null) throw new Error("tp2Entry not found in zip");
+    expect(zip.readAsText(tp2Entry)).toBe("tp2 contents");
   });
 });
