@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import { program } from "commander";
 import * as path from "path";
+import checkMonstersService from "./services/check-monsters.service";
 import copyService, { CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
@@ -27,6 +28,17 @@ program
   .action(async (opts: { bg1?: boolean; bg2?: boolean }) => {
     try {
       await runCopy(opts);
+    } catch (e: unknown) {
+      handleError(e);
+    }
+  });
+
+program
+  .command("check-monsters")
+  .description("List MonsterEnum members that are missing or unvalidated")
+  .action(async () => {
+    try {
+      await runCheckMonsters();
     } catch (e: unknown) {
       handleError(e);
     }
@@ -71,6 +83,36 @@ async function runCopy(opts: { bg1?: boolean; bg2?: boolean }): Promise<void> {
   }
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
+}
+
+async function runCheckMonsters(): Promise<void> {
+  logService.filePath = path.join(process.cwd(), "check-monsters.log");
+  const { missing, unvalidated, total } = await checkMonstersService.check();
+  logService.summary();
+  console.log(chalk.bold("\nChecking monsters..."));
+  if (!missing.length && !unvalidated.length) {
+    console.log(chalk.green("All monsters OK."));
+    return;
+  }
+  if (missing.length) {
+    console.log(
+      chalk.yellow(
+        `\nMissing (${missing.length}) - declared in MonsterEnum, not implemented anywhere:`,
+      ),
+    );
+    console.log(`  ${missing.join(", ")}`);
+  }
+  if (unvalidated.length) {
+    console.log(
+      chalk.yellow(
+        `\nUnvalidated (${unvalidated.length}) - implemented but failed validation, see check-monsters.log for details:`,
+      ),
+    );
+    console.log(`  ${unvalidated.join(", ")}`);
+  }
+  console.log(
+    chalk.bold(`\n${total - missing.length - unvalidated.length} of ${total} monsters OK.`),
+  );
 }
 
 async function runRelease(version: string): Promise<void> {
