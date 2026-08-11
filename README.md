@@ -61,8 +61,11 @@ If you want to make easy edits, you can edit files inside config folder. Strong 
 ## Credits
 
 aVENGER, creator of aTweaks.
+
 Wisp, current maintainer.
+
 Salk, initial supporter.
+
 Many modders for all the common WEIDU functions and help in the forums.
 
 ## License
