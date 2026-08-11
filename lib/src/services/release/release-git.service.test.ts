@@ -2,6 +2,8 @@ import childProcess from "child_process";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import releaseGitService from "./release-git.service";
 
+const ORIGIN_MASTER = "origin/master";
+
 describe("ReleaseGitService", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -25,26 +27,55 @@ describe("ReleaseGitService", () => {
     expect(releaseGitService.isTreeClean()).toBe(false);
   });
 
-  it("reports up to date when local and origin match", () => {
+  it("reports up-to-date when local and origin match", () => {
     vi.spyOn(childProcess, "execFileSync").mockImplementation((_cmd, args) => {
       const argv = args as string[];
       if (argv[0] === "fetch") return "";
-      if (argv.includes("origin/master")) return "abc123\n";
+      if (argv.includes(ORIGIN_MASTER)) return "abc123\n";
       return "abc123\n";
     });
 
-    expect(releaseGitService.isUpToDateWithRemote("master")).toBe(true);
+    expect(releaseGitService.isUpToDateWithRemote("master")).toBe("up-to-date");
   });
 
-  it("reports not up to date when local and origin diverge", () => {
+  it("reports ahead when local has commits origin does not", () => {
     vi.spyOn(childProcess, "execFileSync").mockImplementation((_cmd, args) => {
       const argv = args as string[];
       if (argv[0] === "fetch") return "";
-      if (argv.includes("origin/master")) return "remote123\n";
-      return "local456\n";
+      if (argv[0] === "rev-parse" && argv.includes(ORIGIN_MASTER)) return "remote123\n";
+      if (argv[0] === "rev-parse") return "local456\n";
+      // rev-list --count origin/master..master (ahead) vs master..origin/master (behind)
+      if (argv[0] === "rev-list" && argv[2] === "origin/master..master") return "2\n";
+      return "0\n";
     });
 
-    expect(releaseGitService.isUpToDateWithRemote("master")).toBe(false);
+    expect(releaseGitService.isUpToDateWithRemote("master")).toBe("ahead");
+  });
+
+  it("reports behind when origin has commits local does not", () => {
+    vi.spyOn(childProcess, "execFileSync").mockImplementation((_cmd, args) => {
+      const argv = args as string[];
+      if (argv[0] === "fetch") return "";
+      if (argv[0] === "rev-parse" && argv.includes(ORIGIN_MASTER)) return "remote123\n";
+      if (argv[0] === "rev-parse") return "local456\n";
+      if (argv[0] === "rev-list" && argv[2] === "master..origin/master") return "3\n";
+      return "0\n";
+    });
+
+    expect(releaseGitService.isUpToDateWithRemote("master")).toBe("behind");
+  });
+
+  it("reports diverged when both local and origin have commits the other lacks", () => {
+    vi.spyOn(childProcess, "execFileSync").mockImplementation((_cmd, args) => {
+      const argv = args as string[];
+      if (argv[0] === "fetch") return "";
+      if (argv[0] === "rev-parse" && argv.includes(ORIGIN_MASTER)) return "remote123\n";
+      if (argv[0] === "rev-parse") return "local456\n";
+      if (argv[0] === "rev-list") return "1\n";
+      return "0\n";
+    });
+
+    expect(releaseGitService.isUpToDateWithRemote("master")).toBe("diverged");
   });
 
   it("returns false when the tag does not exist", () => {
@@ -78,14 +109,14 @@ describe("ReleaseGitService", () => {
     expect(releaseGitService.tagExistsAtHead("v0.2.0")).toBe(false);
   });
 
-  it("stages package.json and mod/", () => {
+  it("stages package.json, package-lock.json, and mod/", () => {
     const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
 
     releaseGitService.stageReleaseFiles();
 
     expect(exec).toHaveBeenCalledWith(
       "git",
-      ["add", "package.json", "mod"],
+      ["add", "package.json", "package-lock.json", "mod"],
       expect.objectContaining({}),
     );
   });

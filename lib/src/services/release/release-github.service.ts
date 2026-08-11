@@ -29,9 +29,24 @@ class ReleaseGithubService {
         ["release", "create", tag, zipPath, "--title", tag, "--notes-file", notesFile],
         { stdio: "pipe" },
       );
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      const stderr = this.extractStderr(e);
+      throw new Error(stderr ? `${message}: ${stderr}` : message, { cause: e });
     } finally {
       fs.rmSync(notesFile, { force: true });
     }
+  }
+
+  // execFileSync with stdio: "pipe" captures gh's stderr onto the thrown error as `.stderr`
+  // (a Buffer, since no `encoding` option is set), but Node doesn't fold it into `.message` -
+  // without this it's silently dropped and all gh failures look like a generic "Command failed".
+  private extractStderr(e: unknown): string | undefined {
+    if (typeof e !== "object" || e === null || !("stderr" in e)) return undefined;
+    const stderr = (e as { stderr?: unknown }).stderr;
+    if (Buffer.isBuffer(stderr)) return stderr.toString("utf-8").trim() || undefined;
+    if (typeof stderr === "string") return stderr.trim() || undefined;
+    return undefined;
   }
 }
 

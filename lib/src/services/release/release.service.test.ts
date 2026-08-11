@@ -1,3 +1,4 @@
+import childProcess from "child_process";
 import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 import changelogService from "../doc/changelog.service";
 import logService from "../log.service";
@@ -32,15 +33,17 @@ describe("ReleaseService", () => {
   let generateChangelog: MockInstance<typeof changelogService.generate>;
   let generateAll: MockInstance<typeof mainService.generateAll>;
   let createZip: MockInstance<typeof releasePackageService.createZip>;
+  let execFileSync: MockInstance<typeof childProcess.execFileSync>;
 
   beforeEach(() => {
     vi.spyOn(logService, "init").mockImplementation(() => {});
     vi.spyOn(logService, "log").mockImplementation(() => {});
+    execFileSync = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
     currentBranch = vi.spyOn(releaseGitService, "currentBranch").mockReturnValue(MASTER);
     isTreeClean = vi.spyOn(releaseGitService, "isTreeClean").mockReturnValue(true);
     isUpToDateWithRemote = vi
       .spyOn(releaseGitService, "isUpToDateWithRemote")
-      .mockReturnValue(true);
+      .mockReturnValue("up-to-date");
     tagExistsAtHead = vi.spyOn(releaseGitService, "tagExistsAtHead").mockReturnValue(false);
     stageReleaseFiles = vi
       .spyOn(releaseGitService, "stageReleaseFiles")
@@ -82,6 +85,11 @@ describe("ReleaseService", () => {
     expect(checkAuth).toHaveBeenCalled();
     expect(generateAll).toHaveBeenCalled();
     expect(writePackageVersion).toHaveBeenCalledWith(expect.any(String), VERSION);
+    expect(execFileSync).toHaveBeenCalledWith(
+      "npm",
+      ["install", "--package-lock-only"],
+      expect.objectContaining({}),
+    );
     expect(writeTp2Version).toHaveBeenCalledWith(expect.any(String), VERSION);
     expect(rollover).toHaveBeenCalledWith(
       expect.any(String),
@@ -124,9 +132,17 @@ describe("ReleaseService", () => {
   });
 
   it("rejects when local master is behind origin", async () => {
-    isUpToDateWithRemote.mockReturnValue(false);
+    isUpToDateWithRemote.mockReturnValue("behind");
 
     await expect(releaseService.release(VERSION)).rejects.toThrow(/not up to date/);
+  });
+
+  it("tells the operator to re-run instead of pull when local master is ahead of origin", async () => {
+    isUpToDateWithRemote.mockReturnValue("ahead");
+
+    await expect(releaseService.release(VERSION)).rejects.toThrow(/ahead of "origin\/master"/);
+    expect(currentBranch).toHaveBeenCalled();
+    expect(checkAuth).not.toHaveBeenCalled();
   });
 
   it("rejects when package.json and tp2 versions disagree", async () => {
@@ -143,11 +159,32 @@ describe("ReleaseService", () => {
     expect(generateAll).not.toHaveBeenCalled();
     expect(commit).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
+    expect(execFileSync).not.toHaveBeenCalled();
     expect(createZip).toHaveBeenCalledWith(VERSION);
     expect(publishRelease).toHaveBeenCalledWith(
       TAG,
       `dist/enhanced_creatures-${TAG}.zip`,
       RELEASE_NOTES,
     );
+  });
+
+  it("wraps a packaging/publishing failure with a resume-guidance message, chaining the original error", async () => {
+    const publishError = new Error("gh release create failed: release already exists");
+    publishRelease.mockImplementation(() => {
+      throw publishError;
+    });
+
+    const failure: unknown = await releaseService.release(VERSION).catch((e: unknown) => e);
+
+    expect(failure).toBeInstanceOf(Error);
+    const error = failure as Error;
+    expect(error.message).toMatch(/commit, tag, and push/i);
+    expect(error.message).toMatch(/already succeeded/i);
+    expect(error.message).toMatch(new RegExp(`npm run release -- ${VERSION}`));
+    expect(error.cause).toBe(publishError);
+    // the commit/tag/push already happened before packaging runs - a packaging failure must not
+    // be reported as if nothing happened yet
+    expect(commit).toHaveBeenCalled();
+    expect(push).toHaveBeenCalled();
   });
 });

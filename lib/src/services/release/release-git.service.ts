@@ -1,6 +1,8 @@
 import childProcess from "child_process";
 import * as path from "path";
 
+export type RemoteSyncStatus = "up-to-date" | "ahead" | "behind" | "diverged";
+
 class ReleaseGitService {
   repoRoot = path.resolve(__dirname, "..", "..", "..", "..");
 
@@ -12,11 +14,17 @@ class ReleaseGitService {
     return this.git(["status", "--porcelain"]).trim() === "";
   }
 
-  isUpToDateWithRemote(branch: string): boolean {
+  isUpToDateWithRemote(branch: string): RemoteSyncStatus {
     this.git(["fetch", "origin", branch]);
     const local = this.git(["rev-parse", branch]).trim();
     const remote = this.git(["rev-parse", `origin/${branch}`]).trim();
-    return local === remote;
+    if (local === remote) return "up-to-date";
+
+    const ahead = Number(this.git(["rev-list", "--count", `origin/${branch}..${branch}`]).trim());
+    const behind = Number(this.git(["rev-list", "--count", `${branch}..origin/${branch}`]).trim());
+    if (ahead > 0 && behind === 0) return "ahead";
+    if (behind > 0 && ahead === 0) return "behind";
+    return "diverged";
   }
 
   tagExistsAtHead(tag: string): boolean {
@@ -27,7 +35,7 @@ class ReleaseGitService {
   }
 
   stageReleaseFiles(): void {
-    this.git(["add", "package.json", "mod"]);
+    this.git(["add", "package.json", "package-lock.json", "mod"]);
   }
 
   commit(message: string): void {

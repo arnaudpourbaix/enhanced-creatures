@@ -3,6 +3,10 @@ import fs from "fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import releaseGithubService from "./release-github.service";
 
+const ZIP_PATH = "dist/x.zip";
+const NOTES = "notes";
+const GH_FAILURE_MESSAGE = "Command failed: gh release create v0.2.0";
+
 describe("ReleaseGithubService", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -61,9 +65,45 @@ describe("ReleaseGithubService", () => {
       const rmSpy = vi.spyOn(fs, "rmSync").mockImplementation(() => {});
 
       expect(() => {
-        releaseGithubService.publishRelease("v0.2.0", "dist/x.zip", "notes");
+        releaseGithubService.publishRelease("v0.2.0", ZIP_PATH, NOTES);
       }).toThrow("gh failed");
       expect(rmSpy).toHaveBeenCalled();
+    });
+
+    it("surfaces gh's captured stderr in the thrown error message", () => {
+      const originalError = Object.assign(new Error(GH_FAILURE_MESSAGE), {
+        stderr: Buffer.from("HTTP 422: Release already exists\n"),
+      });
+      vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        throw originalError;
+      });
+      vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+      vi.spyOn(fs, "rmSync").mockImplementation(() => {});
+
+      let caught: unknown;
+      try {
+        releaseGithubService.publishRelease("v0.2.0", ZIP_PATH, NOTES);
+      } catch (e: unknown) {
+        caught = e;
+      }
+
+      expect(caught).toBeInstanceOf(Error);
+      const error = caught as Error;
+      expect(error.message).toContain("Release already exists");
+      expect(error.cause).toBe(originalError);
+    });
+
+    it("falls back to the plain error message when stderr was not captured", () => {
+      const originalError = new Error(GH_FAILURE_MESSAGE);
+      vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        throw originalError;
+      });
+      vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+      vi.spyOn(fs, "rmSync").mockImplementation(() => {});
+
+      expect(() => {
+        releaseGithubService.publishRelease("v0.2.0", ZIP_PATH, NOTES);
+      }).toThrow(GH_FAILURE_MESSAGE);
     });
   });
 });
