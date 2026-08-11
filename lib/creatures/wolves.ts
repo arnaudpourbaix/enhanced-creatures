@@ -315,7 +315,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const wolf = this.create({
       monster: MonsterEnum.Wolf,
       name: "monster.wolf.name.wolf",
-      files: ["DW#RNWLF"],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 0,
@@ -549,14 +549,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const winter = this.create({
       monster: MonsterEnum.WinterWolf,
       name: "monster.wolf.name.winter",
-      files: [
-        // "SPIRWOLF", //TODO: Spirit Wolf
-        // "SPWOLF1", //TODO: Spirit Wolf
-        // "SPWOLF2", //TODO: Spirit Wolf
-        // "SPWOLF3", //TODO: Spirit Wolf
-        // "SPWOLF4", //TODO: Spirit Wolf
-        // "SPWOLF5", //TODO: Spirit Wolf
-      ],
+      files: [],
       data: {
         level1: 6,
         bonusHp: 0,

@@ -1138,10 +1138,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const banshee = this.create({
       monster: MonsterEnum.Banshee,
       name: "monster.undead.name.banshee",
-      files: [
-        "dsbanshe", //DSotSC
-        "f_wailin", //Drizzt Saga
-      ],
+      files: [],
       data: {
         level1: { pnpValue: 7, value: 17, type: "turn" }, // to approximate their "turned as special undead" from PnP
         strength: 9,
@@ -1184,39 +1181,16 @@ class UndeadFamily extends CreatureFamily<Undead> {
       restHeal: true,
       abilities: [this.ability(Ids.DeathWail), this.ability(Ids.BansheeFearAura)],
     });
-    banshee.setAdjustments([{ files: ["dsbanshe"], data: { script: { location: "None" } } }]);
     return banshee;
   }
   /**
    * Death Knight
    */
   private deathKnight() {
-    //TODO:
     const knight = this.create({
       monster: MonsterEnum.DeathKnight,
       name: "monster.undead.name.deathKnight",
-      files: [
-        "C02DEMKN", // Demon Knight
-        "DEATHK", // Demon Knight
-        "gooddeat", // Durlag's Tower DK mirror fiend
-        "DEATHK1", // Demon Knight
-        "DECK615", // Demon Knight
-        "DVDEATHK", // Death Knight
-        "NTDEATHK", // Demonknight
-        "deathkni", // Plain Death Knight used in ToB
-        "deck615", // DoMT hitman
-        "uddeath", // Undeadark Death Knights
-        "uddeath2", // Underdark Death Knight leader
-        "cmskel03", // Dark Horizons
-        "cmskel04", // Dark Horizons
-        "YSDWFGR2", // Fishing For Trouble
-        "YSDWFGRD", // Fishing For Trouble
-        "YSDWFKNT", // Fishing For Trouble
-        "F_DEATHK", // Drizzt Saga
-        "F_DEATHL", // Drizzt Saga
-        "NTDEATH1", // NTotSC
-        "NTGGOTHA", // NTotSC
-      ],
+      files: [],
       data: {
         level1: 9,
         strength: 18,
@@ -1284,14 +1258,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const ghast = this.create({
       monster: MonsterEnum.Ghast,
       name: "monster.undead.name.ghast",
-      files: [
-        "bpghast", // BP
-        "CDI4GHST", // IWDification
-        "MH#GLGHA", // Made in heaven Q&E
-        "sghastgr", // Bonehill
-        "sk#algol", // Neh'taniel
-        "sk#ssp3", // Neh'taniel
-      ],
+      files: [],
       data: {
         level1: 4,
         strength: 16,
@@ -1343,7 +1310,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     });
     ghast.setAdjustments([
       {
-        files: ["CDI4GHST", "GHASTS", "ghastgsu"], // "rr#ghast" ?
+        files: ["GHASTS", "ghastgsu"],
         data: { script: { location: "None" } },
       },
       {
@@ -1368,13 +1335,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const ghoul = this.create({
       monster: MonsterEnum.Ghoul,
       name: "monster.undead.name.ghoul",
-      files: [
-        "bodakmd", // BP
-        "ghuldmod", // PofQuestPack
-        "MH#GLGHO", // Made in heaven Q&E
-        "JA#SUTY1", // Mod added Lacedon
-        "JA#SUTY3", // Mod added Lacedon
-      ],
+      files: [],
       data: {
         level1: 2,
         strength: 13,
@@ -1422,9 +1383,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     ghoul.setBehavior({
       restHeal: true,
     });
-    ghoul.setAdjustments([
-      { files: ["KORAX"], data: { level1: 4 } },
-    ]);
+    ghoul.setAdjustments([{ files: ["KORAX"], data: { level1: 4 } }]);
     return ghoul;
   }
 
@@ -1435,9 +1394,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const lord = this.create({
       monster: MonsterEnum.GhoulLord,
       name: "monster.undead.name.ghoulLord",
-      files: [
-        "cmghau01", //Dark Horizons
-      ],
+      files: [],
       data: {
         level1: { pnpValue: 6, value: 7, type: "turn" },
         strength: 18,
@@ -1512,10 +1469,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const mummy = this.create({
       monster: MonsterEnum.Mummy,
       name: "monster.undead.name.mummy",
-      files: [
-        "F_MUMMY", // Drizzt Saga
-        "mumx1", // TDD
-      ],
+      files: [],
       data: {
         level1: 6,
         bonusHp: 3,
@@ -1588,9 +1542,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const greater = this.create({
       monster: MonsterEnum.GreaterMummy,
       name: "monster.undead.name.greaterMummy",
-      files: [
-        "MUMMYX1", // TDD
-      ],
+      files: [],
       data: {
         level1: { pnpValue: 12, value: 20, type: "caster" },
         bonusHp: 3,
@@ -1803,17 +1755,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const shadow = this.create({
       monster: MonsterEnum.Shadow,
       name: "monster.undead.name.shadow",
-      files: [
-        "sumshad", // summons ?
-        "lshadfi", //From BP, apparently
-        "lshadow", //likewise
-        "a#sdsha1", // Song and Silence Shadowdancer summoning
-        "a#sdsha2", // Song and Silence Shadowdancer summoning
-        "a#sdsha3", // Song and Silence Shadowdancer summoning
-        "a#sdsha4", // Song and Silence Shadowdancer summoning
-        //"acq10119", // AC_Quest (this doesn't seem to be a shadow!)
-        "specx1", // TDD
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 3,
@@ -1869,15 +1811,10 @@ class UndeadFamily extends CreatureFamily<Undead> {
     });
     shadow.setAdjustments([
       {
-        files: ["va#shdgl", "sumshad", "a#sdsha1", "a#sdsha2", "a#sdsha3", "a#sdsha4"],
+        files: ["va#shdgl"],
         data: {
           script: { location: "None" },
         },
-      },
-      {
-        files: ["a#sdsha1", "a#sdsha2", "a#sdsha3", "a#sdsha4"],
-        summon: true,
-        data: { class: "THIEF" },
       },
       {
         files: ["AC#FPMDS"],
@@ -2085,13 +2022,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const skeleton = this.create({
       monster: MonsterEnum.Skeleton,
       name: "monster.undead.name.skeleton",
-      files: [
-        //"APPAR", // Skeleton (he is just here to talk)
-        //"MS7BGRD", // Boneguard (unknown monster)
-        "bpskelar", //BP
-        "CMSKE01", // Dark Horizons
-        "CMSKE02", // Dark Horizons
-      ],
+      files: [],
       data: {
         level1: 1,
         strength: 10,
@@ -2265,24 +2196,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const warrior = this.create({
       monster: MonsterEnum.SkeletonWarrior,
       name: "monster.undead.name.skeletonWarrior",
-      files: [
-        // following are from atweaks, not tested:
-        "bgskel02", //BG1
-        "bgskelwa", //BG1
-        //"bpduehi",  // BP - Not Tested
-        //"c#ajske2", // Ajantis for BG2 - Not Tested
-        "cmskel01", // Dark Horizons
-        "cmskel02", // Dark Horizons
-        "fhlskl1", // The Luxley Family
-        "fhlskl2", // The Luxley Family
-        "jc_ske01", // The Vault
-        "tg#dud1", // Refinements
-        "ranske7", // RoT
-        "ranske9", // RoT
-        "skelwa04", // RoT
-        "skelwax2", // TDD
-        "skelwmod", // PofQuestPack
-      ],
+      files: [],
       data: {
         level1: 9,
         bonusHp: 8, // +2 to +12
@@ -2572,10 +2486,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const wight = this.create({
       monster: MonsterEnum.Wight,
       name: "monster.undead.name.wight",
-      files: [
-        "BDYMORI", // Wight
-        "BDJUNIA2", // Junia
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -2620,15 +2531,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const wraith = this.create({
       monster: MonsterEnum.Wraith,
       name: "monster.undead.name.wraith",
-      files: [
-        "AC#FPWRA", // Wraith
-        "BDWRAI01", // Wraith
-        "BDWRAI02", // Wraith
-        "BDWRAIT1", // Wraith
-        "BPWRAI01", // Wraith
-        "DVWRAITH", // Why did you not speak before now?
-        "NTBPWATC", // Catacomb Warder
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -2673,9 +2576,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const zombie = this.create({
       monster: MonsterEnum.Zombie,
       name: "monster.undead.name.zombie",
-      files: [
-        "C#Q06002", // Zombie
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -2720,17 +2621,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const wraith = this.create({
       monster: MonsterEnum.ZombieJuju,
       name: "monster.undead.name.zombieJuju",
-      files: [
-        "C#Q04009", // Wraith Spider
-        "SPIDWR", // Wraith Spider
-        "SPIDWR01", // Wraith Spider
-        "TTSPID", // Wraith Spider
-        // "D5DRSSP1", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP2", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP3", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP4", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP5", //TODO: Spirit Spider (Faiths and Powers)
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -2775,17 +2666,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const wraith = this.create({
       monster: MonsterEnum.ZombieSea,
       name: "monster.undead.name.zombieSea",
-      files: [
-        "C#Q04009", // Wraith Spider
-        "SPIDWR", // Wraith Spider
-        "SPIDWR01", // Wraith Spider
-        "TTSPID", // Wraith Spider
-        // "D5DRSSP1", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP2", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP3", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP4", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP5", //TODO: Spirit Spider (Faiths and Powers)
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,
@@ -2831,9 +2712,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     const shade = this.create({
       monster: MonsterEnum.DeathShade,
       name: "monster.undead.name.deathShade",
-      files: [
-        "DECK622", // Death Shade
-      ],
+      files: [],
       data: {
         level1: 4,
         strength: 12,

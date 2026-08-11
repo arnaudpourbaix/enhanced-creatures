@@ -156,9 +156,7 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, this.fearFire],
     });
-    black.setAdjustments([
-      { files: ["PLYBEAR2"], data: { script: { location: "None" } } },
-    ]);
+    black.setAdjustments([{ files: ["PLYBEAR2"], data: { script: { location: "None" } } }]);
     return black;
   }
 
@@ -169,9 +167,7 @@ class BearFamily extends CreatureFamily<Bear> {
     const brown = this.create({
       monster: MonsterEnum.BrownBear,
       name: "monster.bear.name.brown",
-      files: [
-        // "BDSHA06A", //TODO: Summon bear spirit
-      ],
+      files: [],
       data: {
         level1: 5,
         bonusHp: 5,
@@ -207,9 +203,7 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    brown.setAdjustments([
-      { files: ["PLYBEAR1"], data: { script: { location: "None" } } },
-    ]);
+    brown.setAdjustments([{ files: ["PLYBEAR1"], data: { script: { location: "None" } } }]);
     return brown;
   }
 
@@ -270,13 +264,7 @@ class BearFamily extends CreatureFamily<Bear> {
     const polar = this.create({
       monster: MonsterEnum.PolarBear,
       name: "monster.bear.name.polar",
-      files: [
-        // "SPBEAR1", //TODO: Spirit Bear
-        // "SPBEAR2", //TODO: Spirit Bear
-        // "SPBEAR3", //TODO: Spirit Bear
-        // "SPBEAR4", //TODO: Spirit Bear
-        // "SPBEAR5", //TODO: Spirit Bear
-      ],
+      files: [],
       data: {
         level1: 8,
         bonusHp: 8,
@@ -383,9 +371,7 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    grizzly.setAdjustments([
-      { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
-    ]);
+    grizzly.setAdjustments([{ files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } }]);
     return grizzly;
   }
 

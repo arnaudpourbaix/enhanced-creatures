@@ -584,9 +584,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
       diceSize: 8,
       poisonType: "F",
     });
-    giant.setAdjustments([
-      { files: ["PLYSPID2"], data: { script: { location: "None" } } },
-    ]);
+    giant.setAdjustments([{ files: ["PLYSPID2"], data: { script: { location: "None" } } }]);
     return giant;
   }
 
@@ -981,13 +979,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
     const wraith = this.create({
       monster: MonsterEnum.WraithSpider,
       name: "monster.spider.name.wraith",
-      files: [
-        // "D5DRSSP1", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP2", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP3", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP4", //TODO: Spirit Spider (Faiths and Powers)
-        // "D5DRSSP5", //TODO: Spirit Spider (Faiths and Powers)
-      ],
+      files: [],
       data: {
         level1: 3,
         bonusHp: 2,

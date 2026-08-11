@@ -110,9 +110,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const jaguar = this.create({
       monster: MonsterEnum.Jaguar,
       name: "monster.cat.name.jaguar",
-      files: [
-        // "BDSHA06B", //TODO: Panther Spirit
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 1,
@@ -191,14 +189,7 @@ class CatFamily extends CreatureFamily<Cat> {
     const lion = this.create({
       monster: MonsterEnum.Lion,
       name: "monster.cat.name.lion",
-      files: [
-        // "SPIRLION", //TODO: Spirit Lion
-        // "SPLION1", //TODO: Spirit Lion
-        // "SPLION2", //TODO: Spirit Lion
-        // "SPLION3", //TODO: Spirit Lion
-        // "SPLION4", //TODO: Spirit Lion
-        // "SPLION5", //TODO: Spirit Lion
-      ],
+      files: [],
       data: {
         level1: 5,
         bonusHp: 2,

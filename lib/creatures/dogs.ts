@@ -111,7 +111,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const wild = this.create({
       monster: MonsterEnum.WildDog,
       name: "monster.dog.name.wild",
-      files: ["DW#RNDWI"],
+      files: [],
       data: {
         level1: 1,
         bonusHp: 1,
@@ -157,7 +157,7 @@ class DogFamily extends CreatureFamily<Dog> {
     const war = this.create({
       monster: MonsterEnum.WarDog,
       name: "monster.dog.name.war",
-      files: ["DW#RNDWA"],
+      files: [],
       data: {
         level1: 2,
         bonusHp: 2,
@@ -183,9 +183,7 @@ class DogFamily extends CreatureFamily<Dog> {
       },
     });
     war.createJaws(2, 4);
-    war.setAdjustments([
-      { files: ["UBNIMDOG"], data: { script: { location: "None" } } },
-    ]);
+    war.setAdjustments([{ files: ["UBNIMDOG"], data: { script: { location: "None" } } }]);
     return war;
   }
 

@@ -395,9 +395,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     const ogre = this.create({
       monster: MonsterEnum.Ogre,
       name: "monster.ogre.name.ogre",
-      files: [
-        //"BDCCOGR1", // Ogre Crusader (doesn't seem to be used because no script)
-      ],
+      files: [],
       data: {
         level1: 4,
         bonusHp: 1,

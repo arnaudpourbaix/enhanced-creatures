@@ -104,11 +104,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     const dryad = this.create({
       monster: MonsterEnum.Dryad,
       name: "monster.fey.name.dryad",
-      files: [
-        ATWEAKS_CREATURES.DryadSummon,
-        "dr01mod", // Dryad (PofQuestPack)
-        "drmod", // Dryad (PofQuestPack)
-      ],
+      files: [ATWEAKS_CREATURES.DryadSummon],
       newFiles: [
         {
           files: [ATWEAKS_CREATURES.DryadSummon],
@@ -321,10 +317,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     const nymph = this.create({
       monster: MonsterEnum.Nymph,
       name: "monster.fey.name.nymph",
-      files: [
-        "NYMPHSUM", // summoned Nymph
-        "DW#NYMSU", // SCSII summoned Nymph
-      ],
+      files: [],
       data: {
         level1: { pnpValue: 3, value: 7, type: "caster" }, // can employ druidical priest spells at 7th ability level
         strength: 10,
@@ -438,10 +431,6 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
     nymph.setAdjustments([
       {
-        files: ["NYMPHSUM", "DW#NYMSU"],
-        summon: true,
-      },
-      {
         files: ["BDNYMP02"],
         data: { alignment: "NEUTRAL_EVIL" },
       },
@@ -456,9 +445,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     const sirine = this.create({
       monster: MonsterEnum.Sirine,
       name: "monster.fey.name.sirine",
-      files: [
-        "QSEROMOD", // Sirine (PofQuestPack)
-      ],
+      files: [],
       data: {
         level1: { pnpValue: 5, value: 11, type: "caster" }, // level 11 caster
         strength: 10,
