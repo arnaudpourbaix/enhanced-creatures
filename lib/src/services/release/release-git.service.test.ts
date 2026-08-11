@@ -109,6 +109,33 @@ describe("ReleaseGitService", () => {
     expect(releaseGitService.tagExistsAtHead("v0.2.0")).toBe(false);
   });
 
+  it("reports a tag as present on origin when ls-remote finds it", () => {
+    const exec = vi
+      .spyOn(childProcess, "execFileSync")
+      .mockReturnValue("abc123\trefs/tags/v0.2.0\n");
+
+    expect(releaseGitService.tagExistsOnRemote("v0.2.0")).toBe(true);
+    expect(exec).toHaveBeenCalledWith(
+      "git",
+      ["ls-remote", "--tags", "origin", "refs/tags/v0.2.0"],
+      expect.objectContaining({}),
+    );
+  });
+
+  it("reports a tag as absent from origin when ls-remote matches nothing", () => {
+    vi.spyOn(childProcess, "execFileSync").mockReturnValue("\n");
+
+    expect(releaseGitService.tagExistsOnRemote("v0.2.0")).toBe(false);
+  });
+
+  it("propagates an ls-remote failure instead of reporting the tag as absent", () => {
+    vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+      throw new Error("could not read from remote repository");
+    });
+
+    expect(() => releaseGitService.tagExistsOnRemote("v0.2.0")).toThrow(/remote repository/);
+  });
+
   it("stages package.json, package-lock.json, and mod/", () => {
     const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
 

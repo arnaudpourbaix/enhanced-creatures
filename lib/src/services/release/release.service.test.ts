@@ -20,6 +20,7 @@ describe("ReleaseService", () => {
   let isTreeClean: MockInstance<typeof releaseGitService.isTreeClean>;
   let isUpToDateWithRemote: MockInstance<typeof releaseGitService.isUpToDateWithRemote>;
   let tagExistsAtHead: MockInstance<typeof releaseGitService.tagExistsAtHead>;
+  let tagExistsOnRemote: MockInstance<typeof releaseGitService.tagExistsOnRemote>;
   let stageReleaseFiles: MockInstance<typeof releaseGitService.stageReleaseFiles>;
   let commit: MockInstance<typeof releaseGitService.commit>;
   let tagRelease: MockInstance<typeof releaseGitService.tagRelease>;
@@ -45,6 +46,7 @@ describe("ReleaseService", () => {
       .spyOn(releaseGitService, "isUpToDateWithRemote")
       .mockReturnValue("up-to-date");
     tagExistsAtHead = vi.spyOn(releaseGitService, "tagExistsAtHead").mockReturnValue(false);
+    tagExistsOnRemote = vi.spyOn(releaseGitService, "tagExistsOnRemote").mockReturnValue(false);
     stageReleaseFiles = vi
       .spyOn(releaseGitService, "stageReleaseFiles")
       .mockImplementation(() => {});
@@ -137,12 +139,14 @@ describe("ReleaseService", () => {
     await expect(releaseService.release(VERSION)).rejects.toThrow(/not up to date/);
   });
 
-  it("tells the operator to re-run instead of pull when local master is ahead of origin", async () => {
+  it("rejects when local master is ahead of origin without a release tag at HEAD to resume", async () => {
     isUpToDateWithRemote.mockReturnValue("ahead");
 
     await expect(releaseService.release(VERSION)).rejects.toThrow(/ahead of "origin\/master"/);
+    await expect(releaseService.release(VERSION)).rejects.toThrow(/push or discard them/);
     expect(currentBranch).toHaveBeenCalled();
-    expect(checkAuth).not.toHaveBeenCalled();
+    expect(generateAll).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 
   it("rejects when package.json and tp2 versions disagree", async () => {
@@ -151,13 +155,15 @@ describe("ReleaseService", () => {
     await expect(releaseService.release(VERSION)).rejects.toThrow(/do not match/);
   });
 
-  it("resumes from packaging when the tag already exists at HEAD, skipping generate/commit/push", async () => {
+  it("resumes from packaging when the tag exists at HEAD and on origin, skipping generate/commit/push", async () => {
     tagExistsAtHead.mockReturnValue(true);
+    tagExistsOnRemote.mockReturnValue(true);
 
     await releaseService.release(VERSION);
 
     expect(generateAll).not.toHaveBeenCalled();
     expect(commit).not.toHaveBeenCalled();
+    expect(tagRelease).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
     expect(execFileSync).not.toHaveBeenCalled();
     expect(createZip).toHaveBeenCalledWith(VERSION);
@@ -166,6 +172,73 @@ describe("ReleaseService", () => {
       `dist/enhanced_creatures-${TAG}.zip`,
       RELEASE_NOTES,
     );
+  });
+
+  it("retries the push when the tag exists at HEAD but not on origin, skipping generate/commit/tag", async () => {
+    tagExistsAtHead.mockReturnValue(true);
+    tagExistsOnRemote.mockReturnValue(false);
+    // a failed push leaves local master legitimately ahead - that must not block the re-run
+    isUpToDateWithRemote.mockReturnValue("ahead");
+
+    await releaseService.release(VERSION);
+
+    expect(generateAll).not.toHaveBeenCalled();
+    expect(writePackageVersion).not.toHaveBeenCalled();
+    expect(rollover).not.toHaveBeenCalled();
+    expect(commit).not.toHaveBeenCalled();
+    expect(tagRelease).not.toHaveBeenCalled();
+    expect(execFileSync).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledWith(MASTER);
+    expect(createZip).toHaveBeenCalledWith(VERSION);
+    expect(publishRelease).toHaveBeenCalledWith(
+      TAG,
+      `dist/enhanced_creatures-${TAG}.zip`,
+      RELEASE_NOTES,
+    );
+  });
+
+  it("retries the push when the commit reached origin but the tag did not", async () => {
+    tagExistsAtHead.mockReturnValue(true);
+    tagExistsOnRemote.mockReturnValue(false);
+    isUpToDateWithRemote.mockReturnValue("up-to-date");
+
+    await releaseService.release(VERSION);
+
+    expect(push).toHaveBeenCalledWith(MASTER);
+    expect(publishRelease).toHaveBeenCalled();
+  });
+
+  it.each(["behind", "diverged"] as const)(
+    "refuses to re-push an unpushed release when origin is %s",
+    async (status) => {
+      tagExistsAtHead.mockReturnValue(true);
+      tagExistsOnRemote.mockReturnValue(false);
+      isUpToDateWithRemote.mockReturnValue(status);
+
+      await expect(releaseService.release(VERSION)).rejects.toThrow(/reconcile the two/);
+      expect(push).not.toHaveBeenCalled();
+      expect(createZip).not.toHaveBeenCalled();
+    },
+  );
+
+  it("surfaces npm's stderr when the package-lock sync fails", async () => {
+    const npmError = Object.assign(new Error("Command failed: npm install"), {
+      stderr: Buffer.from("npm ERR! code EACCES\n"),
+    });
+    execFileSync.mockImplementation(() => {
+      throw npmError;
+    });
+
+    const failure: unknown = await releaseService.release(VERSION).catch((e: unknown) => e);
+
+    expect(failure).toBeInstanceOf(Error);
+    const error = failure as Error;
+    expect(error.message).toMatch(/Failed to update package-lock\.json/);
+    expect(error.message).toContain("npm ERR! code EACCES");
+    expect(error.cause).toBe(npmError);
+    // the lockfile sync happens before any git side effect - nothing must have been committed
+    expect(commit).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 
   it("wraps a packaging/publishing failure with a resume-guidance message, chaining the original error", async () => {

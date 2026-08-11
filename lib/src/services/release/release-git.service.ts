@@ -34,6 +34,15 @@ class ReleaseGitService {
     return tagCommit.trim() === head;
   }
 
+  // Whether the tag has actually reached origin. `tagExistsAtHead` only proves a local
+  // `git tag` ran - if the push after it failed, the tag exists locally but origin never got it,
+  // and the release still needs pushing. `ls-remote` exits 0 with empty output when nothing
+  // matches, so an empty result means "not pushed"; a real failure (network/auth) throws rather
+  // than being silently mistaken for "not pushed".
+  tagExistsOnRemote(tag: string): boolean {
+    return this.git(["ls-remote", "--tags", "origin", `refs/tags/${tag}`]).trim() !== "";
+  }
+
   stageReleaseFiles(): void {
     this.git(["add", "package.json", "package-lock.json", "mod"]);
   }

@@ -6,6 +6,9 @@ describe("parseVersion", () => {
     expect(parseVersion("1.2.3")).toEqual({ major: 1, minor: 2, patch: 3 });
   });
 
+  // "1.2.3.4" is a four-component version string, not an IP address - it's here precisely
+  // because parseVersion must reject it.
+  // eslint-disable-next-line sonarjs/no-hardcoded-ip
   it.each(["1.2", "1.2.3.4", "v1.2.3", "1.2.3-beta", "", "a.b.c"])(
     "throws for invalid version %s",
     (value) => {
