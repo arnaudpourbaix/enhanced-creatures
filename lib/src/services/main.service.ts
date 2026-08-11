@@ -1,4 +1,5 @@
 import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
 import { getAllSpells } from "../../config/spells/spell-names";
 import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
@@ -9,7 +10,6 @@ import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
 import logService from "./log.service";
 import translationService from "./translation.service";
-import utils from "./utils/utils.service";
 import weiduCoreService from "./weidu/weidu-core.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
 import weiduFamilyService from "./weidu/weidu-family.service";
@@ -17,6 +17,7 @@ import weiduFunctionService from "./weidu/weidu-function.service";
 
 class MainService {
   generateCreatures() {
+    logService.section("Generating creatures");
     const families: MonsterFamilyEnum[] = [];
     for (const factory of familyFactories) {
       const family = factory();
@@ -65,10 +66,12 @@ class MainService {
   }
 
   generateTranslations() {
+    logService.section("Generating translations");
     translationService.generateWeiduFiles();
   }
 
   generateCommonCode() {
+    logService.section("Generating common code");
     weiduCoreService.generateSpellStates();
     weiduCoreService.generateProjectiles();
     weiduFunctionService.generateSpellResources();
@@ -78,12 +81,18 @@ class MainService {
   }
 
   checkPresets() {
+    logService.section("Checking presets");
+    const spells = [...getAllSpells(), ...getAllFnpSpells()];
     for (const preset of ABILITY_PRESETS) {
       if (!preset.ability.spell || preset.ability.spell.resource || preset.ability.spell.id) {
         continue;
       }
-      const spell = Object.values(getAllSpells()).find((s) => s.file === preset.preset);
-      logService.log(`Checking ${preset.preset}, spell found: ${JSON.stringify(spell)}`);
+      const spell = spells.find((s) => s.file === preset.preset);
+      if (!spell) {
+        logService.warn(`Checking ${preset.preset}, spell not found!`);
+      } else {
+        logService.log(`Checking ${preset.preset}, spell found: ${JSON.stringify(spell)}`);
+      }
       if (!spell || !("id" in spell)) {
         preset.ability.spell.resource = preset.preset;
       } else {
@@ -93,16 +102,15 @@ class MainService {
   }
 
   checkSpells() {
+    logService.section("Checking spells");
     const files: string[] = [];
     const identifiers: string[] = [];
-    const allSpells = getAllSpells();
-    for (const key of utils.objectKeys(allSpells)) {
-      const spell = allSpells[key];
+    for (const spell of getAllSpells()) {
       if (files.includes(spell.file)) {
         throw new Error(`Spell file ${spell.file} is declared multiple times.`);
       }
       files.push(spell.file);
-      if (!("id" in spell)) continue;
+      if (spell.id === undefined) continue;
       if (identifiers.includes(spell.id)) {
         throw new Error(`Spell identifier ${spell.id} is declared multiple times.`);
       }

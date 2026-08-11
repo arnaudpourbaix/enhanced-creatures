@@ -166,7 +166,7 @@ class CreatureService {
   }
 
   private resolveSpellIdToFile(id: string): string | undefined {
-    const spells = Object.values(getAllSpells()) as SpellReference[];
+    const spells = getAllSpells();
     return spells.find((s) => s.id === id)?.file;
   }
 

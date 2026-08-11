@@ -252,7 +252,7 @@ class UtilsService {
   }
 
   getExternalSpell(filename: string) {
-    const spells = [...Object.values(getAllFnpSpells())];
+    const spells = getAllFnpSpells();
     return spells.find((s) => s.file === filename);
   }
 

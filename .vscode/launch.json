@@ -5,11 +5,19 @@
       "type": "node",
       "request": "launch",
       "name": "Generator: generate",
-      "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceFolder}/generator/lib/src/index.ts", "generate"],
-      "cwd": "${workspaceFolder}/generator",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/lib/src/index.ts",
+        "generate"
+      ],
+      "cwd": "${workspaceFolder}",
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }

@@ -37,15 +37,10 @@ program.parseAsync(process.argv).catch((e: unknown) => handleError(e));
 async function runGenerate(): Promise<void> {
   logService.init();
   await stateService.init();
-  logService.section("Checking presets");
   mainService.checkPresets();
-  logService.section("Checking spells");
   mainService.checkSpells();
-  logService.section("Generating creatures");
   mainService.generateCreatures();
-  logService.section("Generating common code");
   mainService.generateCommonCode();
-  logService.section("Generating translations");
   mainService.generateTranslations();
   logService.summary();
   if (logService.hasErrors()) {

@@ -49,7 +49,7 @@ GROUP @1
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
 
-// Ankheg
+// Ankhegs
 BEGIN @1110
 DESIGNATED 1110
 GROUP @1
@@ -57,7 +57,7 @@ REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 
-// Basilisk
+// Basilisks
 BEGIN @1120
 DESIGNATED 1120
 GROUP @1
@@ -65,7 +65,7 @@ REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 
-// Bear
+// Bears
 BEGIN @1130
 DESIGNATED 1130
 GROUP @1
@@ -73,7 +73,7 @@ REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
 
-// Carrion Crawler
+// Carrion Crawlers
 BEGIN @1140
 DESIGNATED 1140
 GROUP @1
@@ -113,7 +113,7 @@ REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
 
-// Fey (Dryad, Hamadryad, Sirene, Nymph)
+// Feys (Dryad, Hamadryad, Sirene, Nymph)
 BEGIN @1180
 DESIGNATED 1180
 GROUP @1

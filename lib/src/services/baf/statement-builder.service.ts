@@ -833,12 +833,10 @@ class StatementBuilderService {
     variable: string,
     _options: BuilderOptions,
   ): void {
-    const allSpells = getAllSpells();
-    for (const key of utils.objectKeys(allSpells)) {
-      const spell = allSpells[key];
+    for (const spell of getAllSpells()) {
       if (!("duration" in spell) || spell.duration !== duration) continue;
       statements.push({
-        comment: `Precast ${key}`,
+        comment: `Precast ${spell.key}`,
         triggers: [
           triggerFactory.global(variable, 0),
           { name: "HaveSpellRES", params: [spell.file] },

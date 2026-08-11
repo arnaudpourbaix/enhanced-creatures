@@ -203,10 +203,7 @@ class SpellService {
   }
 
   getAllSpellNames(): { file: string; name: StringReference }[] {
-    const spells = [
-      ...(Object.values(getAllSpells()) as SpellReference[]),
-      ...(Object.values(getAllFnpSpells()) as BaseSpell[]),
-    ];
+    const spells = [...getAllSpells(), ...getAllFnpSpells()];
     return spells.flatMap((spell) => (spell.name ? [{ file: spell.file, name: spell.name }] : []));
   }
 }

@@ -580,7 +580,7 @@ END
 // Dispel Magic
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player1,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -604,12 +604,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player2,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -633,12 +633,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player3,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -662,12 +662,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player4,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -691,12 +691,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player5,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -720,12 +720,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI326")
+	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player6,STATE_DISABLED)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
@@ -749,7 +749,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI326",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_TRUE_DISPEL_MAGIC)
 END
 
 // Dispel Magic
@@ -2897,7 +2897,7 @@ END
 // Hold Person
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
@@ -2916,12 +2916,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
@@ -2940,12 +2940,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
@@ -2964,12 +2964,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
@@ -2988,12 +2988,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
@@ -3012,12 +3012,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("SPWI306")
+	HaveSpell(WIZARD_HOLD_PERSON)
 	RandomNumGT(825,248)
 	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
@@ -3036,7 +3036,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA#ROUND","LOCALS",6)
-		SpellRES("SPWI306",LastSeenBy(Myself))
+		Spell(LastSeenBy(Myself),WIZARD_HOLD_PERSON)
 END
 
 // Minor Sequencer

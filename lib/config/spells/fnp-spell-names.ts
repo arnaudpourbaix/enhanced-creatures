@@ -186,6 +186,10 @@ export const FNP_SPELLS = {
   Priest: FNP_PRIEST_SPELLS,
 };
 
+function flattenSpells(spells: Record<string, BaseSpell>): (BaseSpell & { key: string })[] {
+  return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
+}
+
 export function getAllFnpSpells() {
-  return { ...FNP_PRIEST_SPELLS };
+  return [...flattenSpells(FNP_PRIEST_SPELLS)];
 }

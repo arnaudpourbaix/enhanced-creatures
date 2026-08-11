@@ -436,6 +436,15 @@ export const SPELLS = {
   Innate: INNATE_SPELLS,
 };
 
-export function getAllSpells() {
-  return { ...WIZARD_SPELLS, ...PRIEST_SPELLS, ...CLASS_SPELLS, ...INNATE_SPELLS };
+function flattenSpells(spells: Record<string, SpellReference>): (SpellReference & { key: string })[] {
+  return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
+}
+
+export function getAllSpells(): (SpellReference & { key: string })[] {
+  return [
+    ...flattenSpells(WIZARD_SPELLS),
+    ...flattenSpells(PRIEST_SPELLS),
+    ...flattenSpells(CLASS_SPELLS),
+    ...flattenSpells(INNATE_SPELLS),
+  ];
 }
