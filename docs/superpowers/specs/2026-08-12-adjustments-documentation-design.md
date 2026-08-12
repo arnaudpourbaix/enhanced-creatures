@@ -132,7 +132,7 @@ creature.name)`), show it next to the file id list; otherwise omit it as redunda
     <summary>Adjustments ({{count}})</summary>
     <ul class="adjustment-list">
       <li><strong>BDSOGR1, BDSOGR2</strong> — Level 7, AC 2, XP 975,
-        uses his own weapon, Class: Fighter</li>
+        uses his own weapon</li>
       ...
     </ul>
   </details>
