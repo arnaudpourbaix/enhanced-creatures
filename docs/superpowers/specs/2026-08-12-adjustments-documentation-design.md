@@ -15,29 +15,59 @@ bury the primary stat block for creatures that have many. This design adds one c
 disclosure pattern already used for the sidebar family menu (`getFamilyMenu`,
 `documentation.service.ts:45-56`) - no new JS.
 
+## Governing rule
+
+**A field only appears in the adjustments block if it already has a rendering path in the main
+per-creature block today.** Concretely, that's: ability scores, Hit Dice (level + hp), Armor
+Class, THAC0, Attacks per Round, Movement, Morale, Alignment, Size, XP Value, Attacks
+(`items.equipped`), Traits (`immunities`), and Abilities/Spellbooks (`spells.memorized`). Any field
+without an existing doc rendering - `class`/`kit`/`race`/`general`, `bonusHp`/`specialBonusHp`,
+`proficiencies`, colors, `script`, `gender`, `ea`, sub-type ACs/saves/resistances,
+`hideShadow`/`moveSilent`, `doubleApr` - is never shown directly, full stop, no generic fallback.
+If such a field affects a *shown* field (e.g. `bonusHp` feeding into `hp`/`thac0`, confirmed below)
+that effect surfaces through the shown field itself.
+
+A shown field is only included in a given line if its value **actually differs from the base
+creature's own value** for that field - not merely "is it set." This distinction matters because
+`creatureService.check()` runs the same auto-generation pass on every adjustment that it runs on
+the base creature (`creature.service.ts:34-56`): for each entry in `creature.adjustments`, it
+calls `checkData({ creature, base: a, isAdjustment: true })`, which fills in `hp`/`thac0`
+(`autogenerateHitPoints`/`autogenerateThac0`) and applies dexterity-AC-bonus/movement/APR
+transforms, falling back to the base creature's own fields when the adjustment doesn't set them
+(confirmed by `hit-point.service.test.ts:145`, "falls back to the parent's
+constitution/bonusHp/class"). So `hp`/`thac0`/`ac` are basically always set on every adjustment
+once autogeneration runs - checking "is it set" would show noise on files that never actually
+changed. Diffing against the base creature's own final value is what correctly captures "this file
+is different," and is also exactly how `bonusHp` ends up represented: it's never shown as its own
+line, but its effect on `hp`/`thac0` is, whenever that effect makes them differ from the base.
+
 ## Non-goals
 
-- Not a generic formatter for all 60+ `CreatureData` fields (`CREATURE_DATA_FIELDS`,
-  `lib/src/model/creature/data.ts:210+`). Explicit, labeled handling is scoped to the fields that
-  actually appear in today's adjustments (`level1`/`level2`/`level3`, `hp`, `bonusHp`, `ac`,
-  `thac0`, `apr`, `xpv`, `class`, `kit`, `race`, `general`, `alignment`, `morale`,
-  `items.equipped`, `immunities`, `spells.memorized`). Any other
-  field that's ever set falls back to a generic `camelCase → Title Case: value` line rather than
-  being silently dropped.
+- Not a generic formatter for arbitrary `CreatureData` fields (`CREATURE_DATA_FIELDS`,
+  `lib/src/model/creature/data.ts:210+`) - see the Governing rule above; anything without a doc
+  presence is simply omitted, never dumped as a raw key/value fallback.
 - Does not change WeiDU generation (`weidu-creature.service.ts`) at all - this is a pure read of
   already-computed `creature.adjustments`, docs-only.
-- Does not render `scriptName` or `summon` in any form (confirmed in review) - `scriptName` is an
-  internal engine detail (writes the CRE's own resref into its Script Name field for area/dialogue
-  scripting) with no player/modder-facing meaning here; `summon` is likewise omitted.
+- Does not render `scriptName` or `summon` in any form - `scriptName` is an internal engine detail
+  (writes the CRE's own resref into its Script Name field for area/dialogue scripting) with no
+  player/modder-facing meaning here; `summon` is likewise omitted.
 - Does not add a name field to `CreatureAdjustment`/`CreatureData` - names come from a lookup
   described below, authoring in `lib/creatures/*.ts` is untouched.
+- Attacks per Round's diff uses the raw `apr`/`doubleApr` fields, not the dual-wielding `+1`
+  adjustment `getEffectiveApr` applies for the base creature (`documentation.service.ts:117-120`) -
+  no adjustment in the codebase today changes weapon loadout in a way that flips dual-wielding
+  status, so this approximation is accepted rather than re-deriving `creature.attack.dualWielding`
+  per adjustment.
 
 ## Effective-adjustment computation
 
-`creature.adjustments` is a flat, ordered list of raw entries as authored - `setAdjustments`
-(`creature.factory.ts:73-88`) pushes each one as-is, with no merging. Multiple entries can target
-the same file cumulatively (confirmed real example: Ogre's `BDSOGR1`/`BDSOGR2` are touched by
-three separate entries - a "chieftain" stat block, a weapon swap with `noWeapon: true`, and a
+`creature.adjustments` is a flat, ordered list of entries as authored - `setAdjustments`
+(`creature.factory.ts:73-88`) pushes each one as-is, with no merging - but by the time
+documentation generation runs, each entry's `.data` has already been through the same
+`creatureService.check()` pass as the base creature's own data (see Governing rule above), so
+`hp`/`thac0`/movement/APR are already fully computed, not raw partial input. Multiple entries can
+target the same file cumulatively (confirmed real example: Ogre's `BDSOGR1`/`BDSOGR2` are touched
+by three separate entries - a "chieftain" stat block, a weapon swap with `noWeapon: true`, and a
 class/proficiency change - see `lib/creatures/ogres.ts:463-493`).
 
 New pure function, e.g. `getEffectiveAdjustments(creature: Creature): EffectiveAdjustment[]` in a
@@ -45,31 +75,35 @@ new `lib/src/services/doc/adjustment.service.ts`:
 
 1. Collect the union of every file id across all of `creature.adjustments[].files`.
 2. For each file, fold every adjustment entry whose `files` includes it, **in authored order**:
-   later entries' explicitly-set fields overwrite earlier ones for that file (this matches how
-   `CreatureData` fields are only ever set when explicitly provided - see `getData`,
-   `creature.factory.ts:39-59` - so "changed" simply means "set on the folded result", no diffing
-   against the base creature's own data is needed). `noWeapon` becomes `true` for the file if
-   *any* folded entry set it.
+   later entries' explicitly-set fields overwrite earlier ones for that file. `noWeapon` becomes
+   `true` for the file if *any* folded entry set it.
 3. Group files whose folded result is deep-equal into one `EffectiveAdjustment` (`{ files:
    string[], noWeapon: boolean, data: CreatureData }`). This is what naturally produces
    `BDSOGR1, BDSOGR2` as one line (identical folded result) while `AC#FP2OT` (only in the
    weapon-swap entry) becomes its own line.
 
-## Field formatting
+## Which fields are shown
 
-For each `EffectiveAdjustment`, produce a list of human-readable change strings:
+For each `EffectiveAdjustment`, compare its folded data against `creature.data` (the base) field
+by field, per the Governing rule's list, and render only the ones that differ:
 
-- Scalar fields in the explicit list above render as `"<Label> <value>"` (e.g. `"Level 7"`,
-  `"XP 975"`), reusing existing formatting where it already exists (e.g. `formatEnumLabel` for
-  `alignment`).
-- `items.equipped` (non-empty array) → resolve each entry's `file` against `State.items` the same
-  way `getCreatureAttacks` does (`documentation.service.ts:146-150`) and show the item's name if
-  found, else the raw file id.
+- Ability scores, THAC0, Movement, Morale, Alignment, Size, XP Value, and Hit Dice
+  (level + hp) → direct value compare, reusing existing labels/formatting already used for the
+  base stat block (e.g. `formatEnumLabel` for alignment).
+- Armor Class → `creatureService.getFinalArmorClass(base)` (`creature.service.ts:240-244`) already
+  takes a plain `{ data }` shape (`BaseCreature`, which `CreatureAdjustment` satisfies), so it's
+  called directly on both the folded adjustment data and the base creature's data and compared.
+- Attacks per Round → raw `apr`/`doubleApr` compare (see Non-goals).
+- `items.equipped` (non-empty on the folded result) → resolve each entry's `file` against
+  `State.items` the same way `getCreatureAttacks` does (`documentation.service.ts:146-150`) and
+  show the item's name if found, else the raw file id.
+- `immunities` (non-empty on the folded result) → resolve each name against `State.immunities`
+  the same way `getCreatureTraits` does (`documentation.service.ts:340-347`) and show its
+  translated trait label.
+- `spells.memorized` (non-empty on the folded result) → shown the same way `getCreatureSpell`
+  already renders a memorized entry (`documentation.service.ts:461-500`), reusing that method.
 - `noWeapon: true` → literal string `"uses his own weapon"`, appended after the data-derived
   changes.
-- Any other non-default field → generic fallback (`camelCase → Title Case: value` for scalars; for
-  a non-empty array like `proficiencies`, a count - e.g. `"Proficiencies: 2 changes"` - rather than
-  dumping raw objects).
 
 ## Name lookup
 
@@ -97,7 +131,7 @@ creature.name)`), show it next to the file id list; otherwise omit it as redunda
   <details>
     <summary>Adjustments ({{count}})</summary>
     <ul class="adjustment-list">
-      <li><strong>BDSOGR1, BDSOGR2</strong> — Level 7, Bonus HP 4, AC 2, XP 975,
+      <li><strong>BDSOGR1, BDSOGR2</strong> — Level 7, AC 2, XP 975,
         uses his own weapon, Class: Fighter</li>
       ...
     </ul>
@@ -119,9 +153,11 @@ New CSS in `mod/docs/monsters.css` styles `.adjustments summary` as a small butt
 Unit tests for the new pure logic, following this project's existing `*.test.ts` pattern:
 
 - `adjustment.service.test.ts`: folding order (later entry wins per file), grouping by deep-equal
-  result (the Ogre `BDSOGR1`/`BDSOGR2`/`AC#FP2OT` case), `noWeapon` becoming `"uses his own
-  weapon"`, `scriptName`/`summon` never appearing in output, generic fallback for an unhandled
-  field.
+  result (the Ogre `BDSOGR1`/`BDSOGR2`/`AC#FP2OT` case), an adjustment that only sets `bonusHp`
+  shows a change only when the computed `hp`/`thac0` actually differ from the base creature's own
+  (not merely because they were set), `noWeapon` becoming `"uses his own weapon"`,
+  `scriptName`/`summon` never appearing in output, an unlisted field (e.g. `class`) never
+  appearing even when it differs from the base.
 - `monster-files.service.test.ts`: extend with `parseFileNamesCsv` / `getName` cases (found name
   differs from creature name → returned; not found → `undefined`).
 - `documentation.service.test.ts` (already exists): a creature with no adjustments produces an
