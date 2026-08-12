@@ -7,9 +7,9 @@ import { Weapon } from "../model/spell-item/spell-item";
 import logService from "./log.service";
 
 class WeaponService {
-  checkWeapon(creature: Creature, weapon: Weapon) {
+  checkWeapon(creature: Creature, weapon: Weapon, level?: number) {
     this.checkWeaponSpeed(weapon);
-    this.checkEnchantment(creature, weapon);
+    this.checkEnchantment(creature, weapon, level);
     this.checkRange(creature, weapon);
   }
 
@@ -20,8 +20,7 @@ class WeaponService {
     }
   }
 
-  checkEnchantment(creature: Creature, weapon: Weapon) {
-    const level = creature.data.level1.pnpValue;
+  checkEnchantment(creature: Creature, weapon: Weapon, level: number = creature.data.level1.pnpValue) {
     if (weapon.enchantment !== undefined || !creature.autoGenerate.enchantment) {
       return;
     }

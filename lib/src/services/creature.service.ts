@@ -59,9 +59,34 @@ class CreatureService {
   checkWeapons(creature: Creature) {
     for (const item of creature.items) {
       if (item.header?.location === ItemAbilityLocationEnum.Weapon) {
-        weaponService.checkWeapon(creature, item as Weapon);
+        const weapon = item as Weapon;
+        weaponService.checkWeapon(creature, weapon, this.getWeaponLevel(creature, weapon));
       }
     }
+  }
+
+  /**
+   * A weapon's enchantment must fit the level of whichever creature(s) explicitly equip it: the
+   * base creature (if it's in its default loadout), and any adjustment that re-equips it via its
+   * own `items.equipped` (e.g. Treant's per-level branches). An adjustment that never mentions
+   * the weapon at all still ends up wielding it in-game (an unoverridden slot keeps the base's
+   * item) but must NOT influence the enchantment - the item is only authored/leveled for the
+   * creature(s) that explicitly claim it, and boosting it for an adjustment that merely inherits
+   * it would over-enchant every other (often weaker) owner of that same shared item.
+   */
+  private getWeaponLevel(creature: Creature, weapon: Weapon): number {
+    const baseLevel = creature.data.level1.pnpValue;
+    const isBaseOwner = creature.data.items.equipped.some((e) => e.file === weapon.file);
+    const levels: number[] = isBaseOwner ? [baseLevel] : [];
+
+    for (const adjustment of creature.adjustments) {
+      if (adjustment.noWeapon) continue;
+      if (adjustment.data.items.equipped.some((e) => e.file === weapon.file)) {
+        levels.push(adjustment.data.level1?.pnpValue ?? baseLevel);
+      }
+    }
+
+    return levels.length ? Math.max(...levels) : baseLevel;
   }
 
   memorizedSpellFiles(creature: Creature): string[] {

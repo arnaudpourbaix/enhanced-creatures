@@ -103,6 +103,15 @@ describe("checkEnchantment", () => {
     weaponService.checkEnchantment(creature, weapon);
     expect(weapon.flags).toEqual([ItemFlagEnum.Magical]);
   });
+
+  it("uses the given level override instead of the creature's own level1 when provided", () => {
+    const weapon = { file: "w1", header: { speed: 3 } } as Weapon;
+    const creature = fakeCreature({
+      data: { level1: { pnpValue: 10, value: 10, type: "none" } },
+    });
+    weaponService.checkEnchantment(creature, weapon, 5);
+    expect(weapon.enchantment).toBe(1); // level 5 -> level:4/enchant:1, not the creature's own level:8/enchant:3
+  });
 });
 
 describe("checkRange", () => {

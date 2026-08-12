@@ -1298,7 +1298,7 @@ Range: 2 feet~
 
 Melee damage: 2D6 (Crushing)
 Speed Factor: 3
-Enchantment: 1
+Enchantment: 2
 Range: 2 feet~
 @10719 = ~Fists
 
@@ -1324,19 +1324,19 @@ Range: 5 feet~
 
 Melee damage: 3D6 (Crushing)
 Speed Factor: 8
-Enchantment: 4
+Enchantment: 3
 Range: 5 feet~
 @10726 = ~Branch
 
 Melee damage: 2D8 (Crushing)
 Speed Factor: 8
-Enchantment: 4
+Enchantment: 2
 Range: 5 feet~
 @10727 = ~Branch
 
 Melee damage: 2D6 (Crushing)
 Speed Factor: 8
-Enchantment: 4
+Enchantment: 1
 Range: 5 feet~
 @10728 = ~Fire Resistance: -25%
 Magical Fire Resistance: -25%~
@@ -1840,6 +1840,7 @@ Wisdom: -2 for an hour~
 
 Melee damage: 1D12+1 (Slashing)
 Speed Factor: 5
+Enchantment: 2
 Range: 1 feet
 Strength: -2 for an hour~
 @10847 = ~Greater Shadow traits~

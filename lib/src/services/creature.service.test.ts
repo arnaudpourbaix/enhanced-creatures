@@ -50,10 +50,20 @@ function fakeCreature(p: {
   data: Partial<Omit<CreatureData, "items">> & { items?: Partial<CreatureDataItems> };
   items?: Weapon[];
   autoGenerate?: Partial<Creature["autoGenerate"]>;
+  adjustments?: {
+    files: string[];
+    noWeapon?: boolean;
+    data: Partial<Omit<CreatureData, "items">> & { items?: Partial<CreatureDataItems> };
+  }[];
 }): Creature {
   return {
-    data: { immunities: [], ...p.data },
+    data: { immunities: [], items: { equipped: [] }, ...p.data },
     items: p.items ?? [],
+    adjustments: (p.adjustments ?? []).map((a) => ({
+      files: a.files,
+      noWeapon: a.noWeapon ?? false,
+      data: { immunities: [], items: { equipped: [] }, ...a.data },
+    })),
     autoGenerate: {
       thac0: true,
       hitPoints: true,
@@ -528,6 +538,76 @@ describe("checkWeapons", () => {
     });
     creatureService.checkWeapons(creature);
     expect(item.header.speed).toBeUndefined();
+  });
+
+  it("computes enchantment from the adjustment's own level when only that adjustment equips the weapon", () => {
+    // Reproduces the Treant bug: base wields wA (level 11), and each adjustment re-equips its
+    // own dedicated, weaker branch weapon (wB) in the same slot instead of sharing wA. wB should
+    // be enchanted for level 9, not inherit the base creature's level 11.
+    const wA = { file: "wA", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const wB = { file: "wB", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const creature = fakeCreature({
+      data: {
+        level1: { pnpValue: 11, value: 11, type: "none" },
+        items: { equipped: [{ file: "wA", slot: "WEAPON1" }] },
+      },
+      items: [wA, wB],
+      adjustments: [
+        {
+          files: ["ADJ1"],
+          data: {
+            level1: { pnpValue: 9, value: 9, type: "none" },
+            items: { equipped: [{ file: "wB", slot: "WEAPON1" }] },
+          },
+        },
+      ],
+    });
+    creatureService.checkWeapons(creature);
+    expect(wA.enchantment).toBe(4); // level 11 -> level:10/enchant:4
+    expect(wB.enchantment).toBe(3); // level 9 -> level:8/enchant:3, not the base's level:10/enchant:4
+  });
+
+  it("does not let an adjustment that doesn't equip its own weapon inflate a genuinely shared weapon's enchantment", () => {
+    // The weapon is genuinely shared: no adjustment re-equips the slot with its own item, so the
+    // higher-level adjustment still ends up wielding the same physical item in-game - but that
+    // item is only authored/leveled for the base creature, so its level must not count here.
+    // Boosting it would over-enchant the (often weaker) base creature that actually owns it.
+    const weapon = { file: "wShared", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const creature = fakeCreature({
+      data: {
+        level1: { pnpValue: 6, value: 6, type: "none" },
+        items: { equipped: [{ file: "wShared", slot: "WEAPON1" }] },
+      },
+      items: [weapon],
+      adjustments: [
+        { files: ["ADJ1"], data: { level1: { pnpValue: 9, value: 9, type: "none" } } },
+      ],
+    });
+    creatureService.checkWeapons(creature);
+    expect(weapon.enchantment).toBe(1); // base level 6 only -> level:4/enchant:1
+  });
+
+  it("does not let a noWeapon adjustment count as an owner even if it explicitly lists the weapon", () => {
+    const weapon = { file: "wShared", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const creature = fakeCreature({
+      data: {
+        level1: { pnpValue: 6, value: 6, type: "none" },
+        items: { equipped: [{ file: "wShared", slot: "WEAPON1" }] },
+      },
+      items: [weapon],
+      adjustments: [
+        {
+          files: ["ADJ1"],
+          noWeapon: true,
+          data: {
+            level1: { pnpValue: 15, value: 15, type: "none" },
+            items: { equipped: [{ file: "wShared", slot: "WEAPON1" }] },
+          },
+        },
+      ],
+    });
+    creatureService.checkWeapons(creature);
+    expect(weapon.enchantment).toBe(1); // base level 6 only -> level:4/enchant:1
   });
 });
 
