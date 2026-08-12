@@ -58,6 +58,11 @@ line, but its effect on `hp`/`thac0` is, whenever that effect makes them differ 
   no adjustment in the codebase today changes weapon loadout in a way that flips dual-wielding
   status, so this approximation is accepted rather than re-deriving `creature.attack.dualWielding`
   per adjustment.
+- If an adjustment ever sets its own `dexterity` (none does today, as far as a `dexterity:` grep
+  across `lib/creatures/*.ts` suggests - most hits are base creatures' own `setData` calls), its
+  folded `ac` already reflects the bonus `checkDexterityArmorClassBonus` computed from that
+  adjustment's own `dexterity` (per the Armor Class rule above) - no extra handling is needed, this
+  is called out only because it wasn't exhaustively verified adjustment-by-adjustment.
 
 ## Effective-adjustment computation
 
@@ -90,9 +95,13 @@ by field, per the Governing rule's list, and render only the ones that differ:
 - Ability scores, THAC0, Movement, Morale, Alignment, Size, XP Value, and Hit Dice
   (level + hp) → direct value compare, reusing existing labels/formatting already used for the
   base stat block (e.g. `formatEnumLabel` for alignment).
-- Armor Class → `creatureService.getFinalArmorClass(base)` (`creature.service.ts:240-244`) already
-  takes a plain `{ data }` shape (`BaseCreature`, which `CreatureAdjustment` satisfies), so it's
-  called directly on both the folded adjustment data and the base creature's data and compared.
+- Armor Class → the folded `ac` compared directly against `creatureService.getFinalArmorClass(
+  creature)` (the base's own displayed value). No dexterity-bonus reconstruction is applied to the
+  adjustment's side: `creatureService.checkData` (`creature.service.ts:43-57`) already runs
+  `checkDexterityArmorClassBonus` on every adjustment's own `data` using *only that adjustment's
+  own* `dexterity` (never falling back to the base creature's) - so an adjustment's folded `ac` is
+  already whatever final value that process left it at, and no further math is needed (see
+  Non-goals for the one case this doesn't cover).
 - Attacks per Round → raw `apr`/`doubleApr` compare (see Non-goals).
 - `items.equipped` (non-empty on the folded result) → resolve each entry's `file` against
   `State.items` the same way `getCreatureAttacks` does (`documentation.service.ts:146-150`) and
