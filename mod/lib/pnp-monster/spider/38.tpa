@@ -8,11 +8,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/spider/ja#m38su.baf~
 CREATE SPL "ja#s0m38"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0m38.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10758)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10754)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Poison
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10759)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10755)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=2 parameter2=2 duration=17 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 special=6 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=5 parameter2=2 duration=14 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 special=6 END
@@ -34,7 +34,7 @@ CREATE ITM "ja#i0m38"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10261)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10760)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10756)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~ja#i0m38.itm~ ~override~
 	READ_SHORT 0x68 abicount

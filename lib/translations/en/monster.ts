@@ -74,7 +74,6 @@ It must repeat the saving throw on the next round. On a success, the effect ends
   },
   cat: {
     name: {
-      wildCat: "Wild Cat",
       cheetah: "Cheetah",
       jaguar: "Jaguar",
       leopard: "Leopard",
@@ -91,9 +90,12 @@ It must repeat the saving throw on the next round. On a success, the effect ends
         name: "Burst Of Speed",
         description: `Run at triple speed (45 feet per round) for three rounds. The cat must rest 3 turns before sprinting again.`,
       },
+      leap: {
+        name: "Leap",
+        description: `Leap on its target and strike with both forepaws and both rear claws.`,
+      },
     },
     weapon: { claws: "Paws", jaws: "Jaws", tentacles: "Tentacles" },
-    rearClawsAttack: { name: "Rear claws attack" },
   },
   construct: {
     name: {

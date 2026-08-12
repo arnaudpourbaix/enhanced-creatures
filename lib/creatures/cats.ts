@@ -1,9 +1,11 @@
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-names";
 import effectFactory from "../src/factories/effect.factory";
+import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
+import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   CastSpellOnConditionTargetEnum,
@@ -11,14 +13,15 @@ import {
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
   EffectStatisticModifierEnum,
+  EffectTargetEnum,
   EffectTimingEnum,
   InvisibilityTypeEnum,
   ItemAbilityFlagEnum,
   ItemAbilityLocationEnum,
-  ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   PortraitIconEnum,
+  WingBuffetDirectionEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import creatureService from "../src/services/creature.service";
@@ -26,57 +29,52 @@ import { hunterCustomCode } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
+  CheetahLeap,
+  LeopardLeap,
+  JaguarLeap,
+  LionLeap,
+  MountainLionLeap,
+  SpottedLionLeap,
+  TigerLeap,
+  LynxLeap,
   BurstOfSpeed,
 }
 
 class Cat extends Creature {
-  createPaws(
-    diceThrown: number,
-    diceSize: number,
-    rear: {
+  createPaws(p: {
+    id?: number;
+    diceThrown: number;
+    diceSize: number;
+    rear?: {
       diceThrown: number;
       diceSize: number;
-    },
-  ) {
+    };
+  }) {
     const amount = creatureService.getStrengthBonus(this.data).damage;
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.cat.weapon.claws",
-        icon: MonsterItemIconEnum.Wolf,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          diceThrown,
-          diceSize,
-          type: ItemAbilityTypeEnum.Melee,
-          damageType: AbilityDamageTypeEnum.Slashing,
-          speed: 5,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
+    const effects: Effect[] = [];
+    if (p.rear) {
+      effects.push({
+        opcode: EffectTypeEnum.Damage,
+        type: EffectDamageTypeEnum.Slashing,
+        diceThrown: p.rear.diceThrown * 2,
+        diceSize: p.rear.diceSize,
+        amount: amount * 2,
+      });
+    }
+    return this.addItem({
+      id: p.id,
+      stringRef: "monster.cat.weapon.claws",
+      icon: MonsterItemIconEnum.Wolf,
+      equippedSlot: p.id === undefined ? ["WEAPON1"] : undefined,
+      header: {
+        diceThrown: p.diceThrown * 2,
+        diceSize: p.diceSize,
+        type: ItemAbilityTypeEnum.Melee,
+        damageType: AbilityDamageTypeEnum.Slashing,
+        speed: 5,
+        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+        effects,
       },
-      castSpells: [
-        {
-          probability1: 20,
-          spell: {
-            name: "monster.cat.rearClawsAttack.name",
-            secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
-            headers: [
-              {
-                type: ItemAbilityTypeEnum.Melee,
-                range: 5,
-                effects: [
-                  {
-                    opcode: EffectTypeEnum.Damage,
-                    type: EffectDamageTypeEnum.Slashing,
-                    diceThrown: rear.diceThrown * 2,
-                    diceSize: rear.diceSize,
-                    amount: amount * 2,
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
     });
   }
 
@@ -95,6 +93,87 @@ class Cat extends Creature {
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
         },
       },
+    });
+  }
+
+  /**
+   * Leap
+   */
+  createLeap(p: {
+    id: number;
+    range: number;
+    diceThrown: number;
+    diceSize: number;
+    rear: {
+      diceThrown: number;
+      diceSize: number;
+    };
+    effects: Effect[];
+  }) {
+    const effects: Effect[] = [
+      {
+        opcode: EffectTypeEnum.WingBuffet,
+        target: EffectTargetEnum.Self,
+        speed: 150,
+        direction: WingBuffetDirectionEnum.TowardsTargetPoint,
+        duration: 2,
+      },
+      ...p.effects,
+    ];
+    return this.addSpell({
+      id: p.id,
+      name: "monster.cat.ability.leap.name",
+      description: "monster.cat.ability.leap.description",
+      icon: SPELLS.Wizard.Haste.file,
+      memorizedCount: 1,
+      options: { renew: 2 },
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          range: p.range,
+          effects,
+        },
+      ],
+      ability: {
+        targets: [{ name: "FarthestEnemies", randomOrder: true }],
+        minRange: 5,
+        range: p.range,
+        spell: {
+          type: "force",
+          isAttack: true,
+        },
+        disableInterrupt: true,
+        actionsAfter: [{ name: "AttackOneRound", params: [ScriptTarget.lastSeen] }],
+      },
+    });
+  }
+
+  /**
+   * Leap attack
+   */
+  createLeapAttack(p: {
+    id: number;
+    range: number;
+    diceThrown: number;
+    diceSize: number;
+    rear: {
+      diceThrown: number;
+      diceSize: number;
+    };
+  }) {
+    this.createPaws(p);
+    return this.createLeap({
+      ...p,
+      effects: [
+        {
+          opcode: EffectTypeEnum.CreateWeapon,
+          amount: 1,
+          resource: this.item(p.id).file,
+          target: EffectTargetEnum.Self,
+          timing: EffectTimingEnum.InstantLimited,
+          duration: Durations.round,
+        },
+      ],
     });
   }
 
@@ -164,7 +243,6 @@ class Cat extends Creature {
 class CatFamily extends CreatureFamily<Cat> {
   constructor() {
     super(MonsterFamilyEnum.Cat);
-    this.addCreature(() => this.wildCat());
     this.addCreature(() => this.cheetah());
     this.addCreature(() => this.giantLynx());
     this.addCreature(() => this.jaguar());
@@ -179,48 +257,6 @@ class CatFamily extends CreatureFamily<Cat> {
 
   createCreature(id: MonsterEnum): Cat {
     return new Cat(id);
-  }
-
-  /**
-   * Wild Cat
-   */
-  private wildCat() {
-    const cat = this.create({
-      monster: MonsterEnum.WildCat,
-      name: "monster.cat.name.wildCat",
-      files: [],
-      data: {
-        level1: 1,
-        strength: 3,
-        dexterity: 15,
-        constitution: 10,
-        intelligence: 1,
-        wisdom: 12,
-        charisma: 7,
-        ac: 5,
-        apr: 3,
-        xpv: 35,
-        alignment: "NEUTRAL",
-        morale: 9,
-        general: "ANIMAL",
-        race: "CAT",
-        class: "CAT",
-        gender: "NIETHER",
-        size: "Tiny",
-        movement: 18,
-        items: {
-          remove: ["P1-2", "B1-2"],
-        },
-        immunities: ["cat"],
-      },
-    });
-    cat.createPaws(1, 2, { diceThrown: 1, diceSize: 2 });
-    cat.createJaws(1, 2);
-    cat.setAttack({ melee: false });
-    cat.setBehavior({
-      customCodes: [hunterCustomCode],
-    });
-    return cat;
   }
 
   /**
@@ -257,10 +293,23 @@ class CatFamily extends CreatureFamily<Cat> {
       },
     });
     cheetah.createBurstOfSpeed();
-    cheetah.createPaws(1, 2, { diceThrown: 1, diceSize: 2 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 2,
+    };
+    cheetah.createPaws(dices);
     cheetah.createJaws(1, 8);
+    cheetah.createLeapAttack({
+      id: Ids.CheetahLeap,
+      ...dices,
+      range: 20,
+      rear: {
+        diceThrown: 1,
+        diceSize: 2,
+      },
+    });
     cheetah.setBehavior({
-      abilities: [this.ability(Ids.BurstOfSpeed)],
+      abilities: [this.ability(Ids.CheetahLeap), this.ability(Ids.BurstOfSpeed)],
       customCodes: [hunterCustomCode],
     });
     return cheetah;
@@ -300,9 +349,25 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    jaguar.createPaws(1, 3, { diceThrown: 1, diceSize: 4 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 3,
+    };
+    jaguar.createPaws(dices);
     jaguar.createJaws(1, 8);
-    jaguar.setBehavior({ customCodes: [hunterCustomCode] });
+    jaguar.createLeapAttack({
+      id: Ids.JaguarLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 1,
+        diceSize: 4,
+      },
+    });
+    jaguar.setBehavior({
+      abilities: [this.ability(Ids.JaguarLeap)],
+      customCodes: [hunterCustomCode],
+    });
     jaguar.setAdjustments([
       { files: ["JAGUARSU"], data: { level1: 5 } },
       { files: ["C6GUEN", "C6GUEN2"], data: { level1: 6 } },
@@ -344,8 +409,24 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    leopard.createPaws(1, 3, { diceThrown: 1, diceSize: 4 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 3,
+    };
+    leopard.createPaws(dices);
     leopard.createJaws(1, 6);
+    leopard.createLeapAttack({
+      id: Ids.LeopardLeap,
+      ...dices,
+      range: 25,
+      rear: {
+        diceThrown: 1,
+        diceSize: 4,
+      },
+    });
+    leopard.setBehavior({
+      abilities: [this.ability(Ids.LeopardLeap)],
+    });
     return leopard;
   }
 
@@ -383,8 +464,24 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    lion.createPaws(1, 4, { diceThrown: 1, diceSize: 6 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 4,
+    };
+    lion.createPaws(dices);
     lion.createJaws(1, 10);
+    lion.createLeapAttack({
+      id: Ids.LionLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 1,
+        diceSize: 6,
+      },
+    });
+    lion.setBehavior({
+      abilities: [this.ability(Ids.LionLeap)],
+    });
     return lion;
   }
 
@@ -422,9 +519,25 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    mountainLion.createPaws(1, 3, { diceThrown: 1, diceSize: 4 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 3,
+    };
+    mountainLion.createPaws(dices);
     mountainLion.createJaws(1, 6);
-    mountainLion.setBehavior({ customCodes: [hunterCustomCode] });
+    mountainLion.createLeapAttack({
+      id: Ids.MountainLionLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 1,
+        diceSize: 4,
+      },
+    });
+    mountainLion.setBehavior({
+      abilities: [this.ability(Ids.MountainLionLeap)],
+      customCodes: [hunterCustomCode],
+    });
     mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 12 } }]);
     return mountainLion;
   }
@@ -463,9 +576,24 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    spottedLion.createPaws(1, 4, { diceThrown: 2, diceSize: 4 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 4,
+    };
+    spottedLion.createPaws(dices);
     spottedLion.createJaws(1, 12);
-    spottedLion.setBehavior({ customCodes: [hunterCustomCode] });
+    spottedLion.createLeapAttack({
+      id: Ids.SpottedLionLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 2,
+        diceSize: 4,
+      },
+    });
+    spottedLion.setBehavior({
+      abilities: [this.ability(Ids.SpottedLionLeap)],
+    });
     return spottedLion;
   }
 
@@ -503,10 +631,24 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    wildTiger.createPaws(1, 4, { diceThrown: 2, diceSize: 4 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 4,
+    };
+    wildTiger.createPaws(dices);
     wildTiger.createJaws(1, 10);
-    wildTiger.setBehavior({ customCodes: [hunterCustomCode] });
-    //TODO: can leap 10 feet upward, and spring forward 30 feet to 50 feet to attack.
+    wildTiger.createLeapAttack({
+      id: Ids.TigerLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 2,
+        diceSize: 4,
+      },
+    });
+    wildTiger.setBehavior({
+      abilities: [this.ability(Ids.TigerLeap)],
+    });
     return wildTiger;
   }
 
@@ -545,11 +687,25 @@ class CatFamily extends CreatureFamily<Cat> {
         immunities: ["cat"],
       },
     });
-    giantLynx.createPaws(1, 2, { diceThrown: 1, diceSize: 3 });
+    const dices = {
+      diceThrown: 1,
+      diceSize: 2,
+    };
+    giantLynx.createPaws(dices);
     giantLynx.createJaws(1, 2);
-    giantLynx.setBehavior({ customCodes: [hunterCustomCode] });
+    giantLynx.createLeapAttack({
+      id: Ids.LynxLeap,
+      ...dices,
+      range: 30,
+      rear: {
+        diceThrown: 1,
+        diceSize: 3,
+      },
+    });
+    giantLynx.setBehavior({
+      abilities: [this.ability(Ids.LynxLeap)],
+    });
     giantLynx.setAdjustments([{ files: ["CATLYN01", "CB585AN1"], data: { level1: 4 } }]);
-    //TODO: can leap up to 15 feet and imposes a -6 on the surprise rolls of its prey
     return giantLynx;
   }
 
@@ -608,7 +764,7 @@ class CatFamily extends CreatureFamily<Cat> {
         },
       ],
     });
-    hellcat.createPaws(1, 4, { diceThrown: 2, diceSize: 4 });
+    hellcat.createPaws({ diceThrown: 1, diceSize: 4 });
     hellcat.createJaws(2, 6);
     return hellcat;
   }

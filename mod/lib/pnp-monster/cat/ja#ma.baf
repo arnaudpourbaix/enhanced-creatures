@@ -152,6 +152,79 @@ THEN
 		RandomWalkContinuous()
 END
 
+// Leap
+IF
+	HaveSpellRES("ja#s0ma")
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!General(FarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		ForceSpellRES("ja#s0ma",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("ja#s0ma")
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!General(SecondFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		ForceSpellRES("ja#s0ma",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("ja#s0ma")
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		ForceSpellRES("ja#s0ma",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("ja#s0ma")
+	!GlobalTimerNotExpired("JA#ROUND","LOCALS")
+	!General(FourthFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA#ROUND","LOCALS",6)
+		ForceSpellRES("ja#s0ma",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
 // Attack NoCheck enemy
 IF
 	OR(4)

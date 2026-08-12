@@ -120,8 +120,7 @@ export enum MonsterEnum {
   Chimera = 95,
   GrizzlyBear = 96,
   Cheetah = 97,
-  WildCat = 98,
+  GiantLynx = 98,
   Feyr = 99,
   SpottedLion = 100,
-  GiantLynx = 101,
 }

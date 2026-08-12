@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Most greater cats gain a leap attack
+- Cheetah gains Burst of Speed
+
 ## [0.2.1] - 2026-08-11
 
 ### Added
