@@ -388,10 +388,17 @@ class DocumentationService {
   }
 
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
-    const name = monsterFilesService.getName(files[0]);
-    const creatureName = translationService.from(creature.name);
+    const names = files.map((file) => monsterFilesService.getName(file));
     const fileList = files.join(", ");
-    if (!name || name.trim().toLowerCase() === creatureName.trim().toLowerCase()) return fileList;
+    const defined = names.filter((name): name is string => name !== undefined);
+    if (defined.length === 0) return fileList;
+    const allSame = defined.every(
+      (name) => name.trim().toLowerCase() === defined[0].trim().toLowerCase(),
+    );
+    if (!allSame) return fileList;
+    const name = defined[0];
+    const creatureName = translationService.from(creature.name);
+    if (name.trim().toLowerCase() === creatureName.trim().toLowerCase()) return fileList;
     return `${fileList} — ${name}`;
   }
 
@@ -430,8 +437,11 @@ class DocumentationService {
     if (diff.wisdom !== undefined) changes.push(`WIS ${diff.wisdom}`);
     if (diff.charisma !== undefined) changes.push(`CHA ${diff.charisma}`);
     for (const item of diff.equipped ?? []) {
-      const found = State.items.find((i) => i.file === item.file);
-      const name = found ? translationService.fromOptional(found.stringRef) : "";
+      const weapon = itemService.isEquippedWeapon(item)
+        ? State.items.find((i) => i.file === item.file)
+        : undefined;
+      if (!weapon?.doc) continue;
+      const name = translationService.fromOptional(weapon.stringRef);
       changes.push(`Equips ${name || item.file}`);
     }
     for (const name of diff.immunities ?? []) {

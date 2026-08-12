@@ -1019,4 +1019,56 @@ describe("getCreatureAdjustments", () => {
     expect(template.text).not.toContain("summon");
     expect(template.text).not.toContain("script");
   });
+
+  // Regression test: getAdjustmentLabel used to look up monsterFilesService.getName(files[0])
+  // only, so a group like KRYSKEL1..KRYSKEL6 (real names Rick/Shane/Daryl/Glenn/Lori/Hagar) was
+  // labeled with just the first file's name for every file in the group.
+  it("shows the bare file list, with no name suffix, when files in the group resolve to different creatures.csv names", () => {
+    vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
+      if (file === "KRYSKEL1") return "Rick";
+      if (file === "KRYSKEL2") return "Shane";
+      return undefined;
+    });
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KRYSKEL1", "KRYSKEL2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).toContain("<strong>KRYSKEL1, KRYSKEL2</strong>");
+    expect(template.text).not.toContain("Rick");
+    expect(template.text).not.toContain("Shane");
+  });
+
+  // Regression test: getAdjustmentChanges used to show every diff.equipped entry via a bare
+  // State.items lookup, with no isEquippedWeapon/doc filter - leaking internal trait-carrier
+  // resrefs (e.g. ja#i3/ja#i17, see lib/config/item.ts) that also duplicate the immunity label
+  // already shown from diff.immunities. It must apply the same filter getCreatureAttacks does.
+  it("omits an 'Equips' change for a non-weapon equipped item (e.g. an internal trait-carrier)", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KAHRK"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { items: { equipped: [{ file: "ja#i3", slot: "AMULET" }] } },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).not.toContain("Equips");
+    expect(template.text).not.toContain("ja#i3");
+  });
 });
