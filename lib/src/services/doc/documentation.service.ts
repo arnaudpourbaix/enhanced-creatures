@@ -13,8 +13,10 @@ import { State } from "../../state";
 import creatureService from "../creature.service";
 import itemService from "../item.service";
 import logService from "../log.service";
+import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
+import adjustmentService, { AdjustmentDiff } from "./adjustment.service";
 
 class DocumentationService {
   private families: string[] = [];
@@ -104,6 +106,7 @@ class DocumentationService {
     this.replace(template, "xp", creature.data.xpv);
     this.getCreatureAttacks(template, creature);
     this.getCreatureTraits(template, creature);
+    this.getCreatureAdjustments(template, creature);
     this.getCreatureSpells(template, creature);
     this.getCreatureSpellbooks(template, creature);
     this.monsters.push(template.text);
@@ -363,6 +366,85 @@ class DocumentationService {
       result = `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
     }
     this.replace(template, "traits", result);
+  }
+
+  getCreatureAdjustments(template: { text: string }, creature: Creature) {
+    const diffs = adjustmentService.getAdjustmentDiffs(creature);
+    const items = diffs.map((diff) => this.getAdjustmentLine(creature, diff)).join("");
+    let result = "";
+    if (items) {
+      result =
+        `<div class="detail-section adjustments"><details>` +
+        `<summary>Adjustments (${diffs.length})</summary>` +
+        `<ul class="adjustment-list">${items}</ul></details></div>`;
+    }
+    this.replace(template, "adjustments", result);
+  }
+
+  private getAdjustmentLine(creature: Creature, diff: AdjustmentDiff): string {
+    const label = this.getAdjustmentLabel(creature, diff.files);
+    const changes = this.getAdjustmentChanges(creature, diff).join(", ");
+    return `<li><strong>${label}</strong> — ${changes}</li>`;
+  }
+
+  private getAdjustmentLabel(creature: Creature, files: string[]): string {
+    const name = monsterFilesService.getName(files[0]);
+    const creatureName = translationService.from(creature.name);
+    const fileList = files.join(", ");
+    if (!name || name.trim().toLowerCase() === creatureName.trim().toLowerCase()) return fileList;
+    return `${fileList} — ${name}`;
+  }
+
+  // A flat one-field-per-line dispatch over AdjustmentDiff's stat fields - each `if` is
+  // independent and self-contained (no shared state, no nesting), so splitting it into several
+  // smaller methods would only relocate the same field checks without reducing the real
+  // complexity of "render every changed stat", same reasoning as getSpellAction's
+  // (ability.service.ts) and generateWeaponDescription's opcode dispatch.
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  private getAdjustmentChanges(creature: Creature, diff: AdjustmentDiff): string[] {
+    const changes: string[] = [];
+    if (diff.level !== undefined) changes.push(`Level ${diff.level}`);
+    if (diff.hp !== undefined) changes.push(`${diff.hp} hp`);
+    if (diff.thac0 !== undefined) changes.push(`THAC0 ${diff.thac0}`);
+    if (diff.ac !== undefined) changes.push(`AC ${diff.ac}`);
+    if (diff.apr !== undefined) {
+      const apr = diff.apr * (diff.doubleApr ? 2 : 1);
+      changes.push(`APR ${apr}`);
+    }
+    if (diff.movement !== undefined) changes.push(`Movement ${diff.movement}`);
+    if (diff.morale !== undefined) changes.push(`Morale ${diff.morale}`);
+    if (diff.alignment !== undefined) {
+      changes.push(`Alignment: ${this.formatEnumLabel(diff.alignment)}`);
+    }
+    if (diff.size !== undefined) changes.push(`Size: ${diff.size}`);
+    if (diff.xpv !== undefined) changes.push(`XP ${diff.xpv}`);
+    if (diff.strength !== undefined || diff.exceptionalStrength !== undefined) {
+      let text = `STR ${diff.strength ?? creature.data.strength}`;
+      const exStr = diff.exceptionalStrength ?? creature.data.exceptionalStrength;
+      if (exStr) text += `/${exStr}`;
+      changes.push(text);
+    }
+    if (diff.dexterity !== undefined) changes.push(`DEX ${diff.dexterity}`);
+    if (diff.constitution !== undefined) changes.push(`CON ${diff.constitution}`);
+    if (diff.intelligence !== undefined) changes.push(`INT ${diff.intelligence}`);
+    if (diff.wisdom !== undefined) changes.push(`WIS ${diff.wisdom}`);
+    if (diff.charisma !== undefined) changes.push(`CHA ${diff.charisma}`);
+    for (const item of diff.equipped ?? []) {
+      const found = State.items.find((i) => i.file === item.file);
+      const name = found ? translationService.fromOptional(found.stringRef) : "";
+      changes.push(`Equips ${name || item.file}`);
+    }
+    for (const name of diff.immunities ?? []) {
+      const immunity = State.immunities.find((i) => i.name === name);
+      changes.push(immunity ? translationService.fromOptional(immunity.stringRef) : name);
+    }
+    for (const spell of diff.memorized ?? []) {
+      const found = State.spells.find((s) => s.file === spell.file);
+      const name = found ? translationService.from(found.name) : spell.file;
+      changes.push(`${name} (${this.getSpellQuantity(spell.memorizedCount)})`);
+    }
+    if (diff.noWeapon) changes.push("uses his own weapon");
+    return changes;
   }
 
   // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain

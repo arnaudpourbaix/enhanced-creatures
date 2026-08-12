@@ -135,7 +135,12 @@ class AdjustmentService {
   ): EquippedItem[] | undefined {
     const bySlot = new Map<string, EquippedItem>();
     for (const adjustment of matching) {
-      for (const item of adjustment.data.items.equipped) {
+      // adjustment.data is typed as the full CreatureData (real adjustments always go through
+      // creatureFactory.setAdjustments, which fully populates it via getData()), but doc-service
+      // test fixtures construct adjustments via `as unknown as` casts that skip that and leave
+      // nested collections genuinely undefined at runtime - keep the optional chain.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const item of adjustment.data.items?.equipped ?? []) {
         bySlot.set(this.slotKey(item), item);
       }
     }
@@ -154,7 +159,10 @@ class AdjustmentService {
   ): ImmunityName[] | undefined {
     const granted = new Set<ImmunityName>();
     for (const adjustment of matching) {
-      for (const name of adjustment.data.immunities) granted.add(name);
+      // See getEquippedChange's comment above - test fixtures can leave this undefined at
+      // runtime despite the non-optional type.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const name of adjustment.data.immunities ?? []) granted.add(name);
     }
     const added = [...granted].filter((name) => !base.immunities.includes(name)).sort();
     return added.length ? added : undefined;
@@ -166,7 +174,10 @@ class AdjustmentService {
   ): MemorizedSpell[] | undefined {
     const byFile = new Map<string, MemorizedSpell>();
     for (const adjustment of matching) {
-      for (const spell of adjustment.data.spells.memorized) byFile.set(spell.file, spell);
+      // See getEquippedChange's comment above - test fixtures can leave this undefined at
+      // runtime despite the non-optional type.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const spell of adjustment.data.spells?.memorized ?? []) byFile.set(spell.file, spell);
     }
     if (byFile.size === 0) return undefined;
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));

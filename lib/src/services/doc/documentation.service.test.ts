@@ -11,6 +11,7 @@ import { ImmunityConfig } from "../../model/final/immunity";
 import { State } from "../../state";
 import documentationService from "./documentation.service";
 import translationService from "../translation.service";
+import monsterFilesService from "../monster-files.service";
 
 interface DocumentationServicePrivate {
   monsters: string[];
@@ -48,6 +49,7 @@ function fakeCreatureForAddCreature(doubleApr: boolean, dualWielding = false): C
     },
     behavior: { abilities: [], customCodes: [] },
     attack: { dualWielding },
+    adjustments: [],
   } as unknown as Creature;
 }
 
@@ -944,5 +946,77 @@ describe("replace (private)", () => {
     const template = { text: "{{key}} and {{key}} again" };
     service.replace(template, "key", undefined);
     expect(template.text).toBe(" and  again");
+  });
+});
+
+describe("getCreatureAdjustments", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("renders nothing when the creature has no adjustments", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).toBe("");
+  });
+
+  it("renders a collapsed block with one line per effective adjustment group", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSOGR1", "BDSOGR2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { level1: { pnpValue: 7, type: "none", value: 7 }, xpv: 975 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).toContain("<summary>Adjustments (1)</summary>");
+    expect(template.text).toContain("<strong>BDSOGR1, BDSOGR2</strong>");
+    expect(template.text).toContain("Level 7");
+    expect(template.text).toContain("XP 975");
+  });
+
+  it("shows the creatures.csv name next to the files when it differs from the creature's own name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Undead Knight");
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      { files: ["KNIGHTSK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).toContain("<strong>KNIGHTSK — Undead Knight</strong>");
+  });
+
+  it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KAHRK"],
+        noWeapon: true,
+        summon: true,
+        scriptName: true,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{adjustments}}" };
+
+    documentationService.getCreatureAdjustments(template, creature);
+
+    expect(template.text).toContain("uses his own weapon");
+    expect(template.text).not.toContain("summon");
+    expect(template.text).not.toContain("script");
   });
 });
