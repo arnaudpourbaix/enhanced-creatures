@@ -162,6 +162,7 @@ Hit Dice: d10`,
 Darkvision out to 60 feet.`,
     },
     spider: "Spider",
+    cat: "Cat",
     magicalBeast: {
       name: "Magical Beast",
       desc: "Darkvision out to 60 feet.",

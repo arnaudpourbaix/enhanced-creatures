@@ -16,6 +16,7 @@ export type ImmunityName =
   | "bleeding"
   | "blindness"
   | "blindsight"
+  | "cat"
   | "charm"
   | "cloudSpells"
   | "cold"

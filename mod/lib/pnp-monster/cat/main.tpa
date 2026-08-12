@@ -1,7 +1,12 @@
 LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/62.tpa" // Wild Cat
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/61.tpa" // Cheetah
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/65.tpa" // Giant Lynx
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/22.tpa" // Jaguar
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/24.tpa" // Leopard
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/a.tpa" // Lion
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/b.tpa" // Mountain Lion
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/64.tpa" // Spotted Lion
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/23.tpa" // Wild Tiger
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/25.tpa" // Hellcat
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/26.tpa" // Displacer Beast

@@ -1103,6 +1103,13 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     immunities: ["web", "poison", "vermin"],
   },
   {
+    name: "cat",
+    type: "trait",
+    stringRef: "common.traits.cat",
+    itemSlot: { file: ITEMS.Cat, slot: JEWEL_SLOTS },
+    immunities: ["infravision", "backstab"],
+  },
+  {
     name: "magicalBeast",
     type: "trait",
     stringRef: "common.traits.magicalBeast.name",

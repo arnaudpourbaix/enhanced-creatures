@@ -129,6 +129,15 @@ BEGIN
 	LPF seeInvisible_trait INT_VAR resist_dispel duration END
 END
 
+DEFINE_PATCH_FUNCTION cat_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF infravision_trait INT_VAR resist_dispel duration END
+	LPF backstab_immunity INT_VAR resist_dispel duration END
+END
+
 DEFINE_PATCH_FUNCTION causeWoundSpells_immunity
 INT_VAR
 	resist_dispel=0

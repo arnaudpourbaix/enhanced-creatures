@@ -17,6 +17,7 @@ export const ITEMS = {
   Spider: "ja#i16",
   Undead: "ja#i17",
   Vermin: "ja#i18",
+  Cat: "ja#i19",
 };
 
 export enum MonsterItemIconEnum {

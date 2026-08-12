@@ -13,12 +13,12 @@ ADD_PROJECTILE ~override/ja#s0f3.pro~ ~Improved stream of frost~
 CREATE SPL "ja#s0f3"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0f3.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10140)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10141)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 10
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI523C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10141)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10142)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=10 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#s0f3~)) + 1 STR_VAR icon="SPWI523B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=131072 timing=1 probability1=100 dicesize=4 dicenumber=6 savingthrow=2 special=256 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=60 probability1=100 savingthrow=4 savebonus="-2" END

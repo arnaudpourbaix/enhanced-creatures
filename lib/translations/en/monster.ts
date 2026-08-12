@@ -1,4 +1,7 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
+
+import ability from "./ability";
+
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
@@ -71,13 +74,23 @@ It must repeat the saving throw on the next round. On a success, the effect ends
   },
   cat: {
     name: {
+      wildCat: "Wild Cat",
+      cheetah: "Cheetah",
       jaguar: "Jaguar",
       leopard: "Leopard",
       lion: "Lion",
+      giantLynx: "Giant Lynx",
       mountainLion: "Mountain Lion",
+      spottedLion: "Spotted Lion",
       wildTiger: "Wild Tiger",
       hellcat: "Hellcat",
       displacerBeast: "Displacer Beast",
+    },
+    ability: {
+      burstOfSpeed: {
+        name: "Burst Of Speed",
+        description: `Run at triple speed (45 feet per round) for three rounds. The cat must rest 3 turns before sprinting again.`,
+      },
     },
     weapon: { claws: "Paws", jaws: "Jaws", tentacles: "Tentacles" },
     rearClawsAttack: { name: "Rear claws attack" },

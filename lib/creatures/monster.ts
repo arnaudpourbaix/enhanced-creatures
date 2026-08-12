@@ -57,7 +57,7 @@ export enum MonsterEnum {
   OgreMage = 32,
   JuggernautGolem = 33,
   Jaguar = 34,
-  Tiger = 35,
+  WildTiger = 35,
   Leopard = 36,
   Hellcat = 37,
   DisplacerBeast = 38,
@@ -119,4 +119,9 @@ export enum MonsterEnum {
   Ettin = 94,
   Chimera = 95,
   GrizzlyBear = 96,
+  Cheetah = 97,
+  WildCat = 98,
+  Feyr = 99,
+  SpottedLion = 100,
+  GiantLynx = 101,
 }
