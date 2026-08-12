@@ -21,7 +21,7 @@ disclosure pattern already used for the sidebar family menu (`getFamilyMenu`,
   `lib/src/model/creature/data.ts:210+`). Explicit, labeled handling is scoped to the fields that
   actually appear in today's adjustments (`level1`/`level2`/`level3`, `hp`, `bonusHp`, `ac`,
   `thac0`, `apr`, `xpv`, `class`, `kit`, `race`, `general`, `alignment`, `morale`,
-  `proficiencies`, `items.equipped`, `script.remove`, `immunities`, `spells.memorized`). Any other
+  `items.equipped`, `immunities`, `spells.memorized`). Any other
   field that's ever set falls back to a generic `camelCase → Title Case: value` line rather than
   being silently dropped.
 - Does not change WeiDU generation (`weidu-creature.service.ts`) at all - this is a pure read of
@@ -62,13 +62,14 @@ For each `EffectiveAdjustment`, produce a list of human-readable change strings:
 - Scalar fields in the explicit list above render as `"<Label> <value>"` (e.g. `"Level 7"`,
   `"XP 975"`), reusing existing formatting where it already exists (e.g. `formatEnumLabel` for
   `alignment`).
-- `proficiencies` (non-empty array) → one entry per proficiency, `"<Label>: <value>"`.
 - `items.equipped` (non-empty array) → resolve each entry's `file` against `State.items` the same
   way `getCreatureAttacks` does (`documentation.service.ts:146-150`) and show the item's name if
   found, else the raw file id.
 - `noWeapon: true` → literal string `"uses his own weapon"`, appended after the data-derived
   changes.
-- Any other non-default field → generic fallback (`camelCase → Title Case: value`).
+- Any other non-default field → generic fallback (`camelCase → Title Case: value` for scalars; for
+  a non-empty array like `proficiencies`, a count - e.g. `"Proficiencies: 2 changes"` - rather than
+  dumping raw objects).
 
 ## Name lookup
 
