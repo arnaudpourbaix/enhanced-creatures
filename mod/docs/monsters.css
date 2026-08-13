@@ -185,6 +185,16 @@
   margin-bottom: 2px;
 }
 
+.weapon-proficiency {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 2px;
+}
+
+.proficiency-stars {
+  letter-spacing: 1px;
+}
+
 .traits h5 {
   margin: 10px 0 2px;
   font-size: 0.9rem;

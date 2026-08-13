@@ -3,6 +3,7 @@ import { Creature } from "../../model/creature/creature";
 import { CreatureData, MemorizedSpell } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
+import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import creatureService from "../creature.service";
 
 export interface AdjustmentField<T> {
@@ -33,6 +34,7 @@ export interface EffectiveAdjustment {
   equipped: { item: EquippedItem; changed: boolean }[];
   immunities: { name: ImmunityName; changed: boolean }[];
   memorized: { spell: MemorizedSpell; changed: boolean }[];
+  proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
 }
 
 class AdjustmentService {
@@ -136,6 +138,7 @@ class AdjustmentService {
       equipped: this.getEquipped(matching, base),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      proficiencies: this.getProficiencies(matching, base),
     };
   }
 
@@ -245,6 +248,34 @@ class AdjustmentService {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  // Unlike memorizedCount, an adjustment's authored proficiency value for a type the base already
+  // has is an absolute replacement, not a delta on top of it - each proficiency type can only ever
+  // carry one rank at a time in the CRE file (see weidu-creature.service.ts's addProficiencies), so
+  // stacking wouldn't correspond to anything the engine can represent. Later adjustments win over
+  // earlier ones, same fold order as every other field here.
+  private getProficiencies(
+    matching: CreatureAdjustment[],
+    base: CreatureData,
+  ): { type: ProficiencyTypeEnum; value: number; changed: boolean }[] {
+    const baseByType = new Map(base.proficiencies.map((p) => [p.type, p.value]));
+    const effectiveByType = new Map(baseByType);
+    for (const adjustment of matching) {
+      // See getEquipped's comment above - test fixtures can leave this undefined at runtime
+      // despite the non-optional type.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const prof of adjustment.data.proficiencies ?? []) {
+        effectiveByType.set(prof.type, prof.value);
+      }
+    }
+    return [...effectiveByType.entries()]
+      .map(([type, value]) => ({
+        type,
+        value,
+        changed: value !== (baseByType.get(type) ?? 0),
+      }))
+      .sort((a, b) => a.type - b.type);
+  }
+
   // An adjustment's authored memorizedCount for a spell the base already has is a delta on top of
   // the base's own count (not an absolute replacement) - e.g. base has 1, an adjustment authored
   // with memorizedCount: 1 means "+1", i.e. an effective count of 2. Later adjustments win over
@@ -303,7 +334,8 @@ class AdjustmentService {
       effective.charisma.changed ||
       effective.equipped.some((e) => e.changed) ||
       effective.immunities.some((i) => i.changed) ||
-      effective.memorized.some((m) => m.changed)
+      effective.memorized.some((m) => m.changed) ||
+      effective.proficiencies.some((p) => p.changed)
     );
   }
 

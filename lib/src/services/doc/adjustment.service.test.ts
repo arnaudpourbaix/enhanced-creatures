@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { ItemSlot } from "../../model/creature/item";
+import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import adjustmentService from "./adjustment.service";
 
 function fakeCreature(p: {
@@ -411,5 +412,60 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     // Later entry wins: base 1 + latest delta 2 = 3 (not 1 + 1 + 2 = 4 - deltas don't stack
     // across chained adjustments, only the winning one applies on top of base).
     expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 3 }, changed: true }]);
+  });
+
+  it("overrides a same-type proficiency's value rather than adding a second entry, and keeps untouched types", () => {
+    // Reproduces the ogre chieftain case (lib/creatures/ogres.ts): base has
+    // PROFICIENCYTWOHANDEDSWORD rank 2, a variant bumps that same type to rank 5.
+    const creature = fakeCreature({
+      data: {
+        proficiencies: [
+          { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 },
+          { type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 1 },
+        ],
+      },
+      adjustments: [
+        {
+          files: ["CHIEFTAIN"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("CHIEFTAIN"));
+
+    expect(effective?.proficiencies).toEqual(
+      expect.arrayContaining([
+        { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5, changed: true },
+        { type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 1, changed: false },
+      ]),
+    );
+    expect(effective?.proficiencies).toHaveLength(2);
+  });
+
+  it("adds a brand new proficiency type the base creature never had", () => {
+    const creature = fakeCreature({
+      data: { proficiencies: [] },
+      adjustments: [
+        {
+          files: ["ARMED"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("ARMED"));
+
+    expect(effective?.proficiencies).toEqual([
+      { type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2, changed: true },
+    ]);
   });
 });

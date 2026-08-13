@@ -9,6 +9,7 @@ import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
 import { ImmunityConfig } from "../../model/final/immunity";
+import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { State } from "../../state";
 import documentationService from "./documentation.service";
 import translationService from "../translation.service";
@@ -47,6 +48,7 @@ function fakeCreatureForAddCreature(doubleApr: boolean, dualWielding = false): C
       items: { equipped: [] },
       immunities: [],
       spells: { memorized: [] },
+      proficiencies: [],
     },
     behavior: { abilities: [], customCodes: [] },
     attack: { dualWielding },
@@ -147,6 +149,105 @@ describe("getCreatureAttacks", () => {
     expect(template.text).not.toContain("weapon-slot");
     expect(template.text).not.toContain("Main hand");
     expect(template.text).not.toContain("Offhand");
+  });
+
+  it("shows the weapon's proficiency type and the creature's rank as a star scale", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    State.items = [
+      {
+        file: "HALB01",
+        doc: true,
+        description: desc,
+        proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+      },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "HALB01", slot: "WEAPON1" }]);
+    creature.attack.dualWielding = false;
+    creature.data.proficiencies = [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }];
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    expect(template.text).toContain('<div class="weapon-proficiency">Halberd');
+    expect(template.text).toContain("★★☆☆☆");
+  });
+
+  it("puts the proficiency line below the main-hand/off-hand slot label and the attack text", () => {
+    // A description line that survives getAttackDisplayText's filtering unchanged (unlike
+    // "Melee damage: N", which gets rewritten down to just "N") - a reliable anchor for "the
+    // attack text" position.
+    const desc = translationService.addCustomTranslation(["Grants a firm grip."]);
+    State.items = [
+      {
+        file: "HALB01",
+        doc: true,
+        description: desc,
+        proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+      },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "HALB01", slot: "WEAPON1" }]);
+    creature.data.proficiencies = [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }];
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    const slotIndex = template.text.indexOf("weapon-slot");
+    const textIndex = template.text.indexOf("Grants a firm grip");
+    const proficiencyIndex = template.text.indexOf("weapon-proficiency");
+    expect(slotIndex).toBeGreaterThanOrEqual(0);
+    expect(textIndex).toBeGreaterThanOrEqual(0);
+    expect(slotIndex).toBeLessThan(textIndex);
+    expect(textIndex).toBeLessThan(proficiencyIndex);
+  });
+
+  it("lists every proficiency under 'By weapon' when no equipped item is known to the doc pipeline", () => {
+    // Reproduces the half-ogre (lib/creatures/ogres.ts): it never calls addWeapon/equipItem, so
+    // its own weapon comes straight from the base CRE file and isn't tracked here at all - but
+    // its authored proficiencies are still real information worth showing.
+    const creature = fakeCreatureForAttacks([]);
+    creature.data.proficiencies = [
+      { type: ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD, value: 2 },
+      { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 },
+    ];
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    expect(template.text).toContain("By weapon");
+    expect(template.text).toContain('<div class="weapon-proficiency">Bastard Sword');
+    expect(template.text).toContain('<div class="weapon-proficiency">Two-Handed Sword');
+  });
+
+  it("shows an unfilled star scale when the creature has no matching proficiency entry", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    State.items = [
+      {
+        file: "HALB01",
+        doc: true,
+        description: desc,
+        proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+      },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "HALB01", slot: "WEAPON1" }]);
+    creature.attack.dualWielding = false;
+    creature.data.proficiencies = [];
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    expect(template.text).toContain("☆☆☆☆☆");
+  });
+
+  it("shows no proficiency line for a weapon with no proficiency requirement (e.g. fists)", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    State.items = [{ file: "FIST01", doc: true, description: desc }] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "FIST01", slot: "WEAPON1" }]);
+    creature.attack.dualWielding = false;
+    const template = { text: "{{attacks}}" };
+
+    documentationService.getCreatureAttacks(template, creature);
+
+    expect(template.text).not.toContain("weapon-proficiency");
   });
 });
 
@@ -1137,6 +1238,99 @@ describe("getCreatureHeader", () => {
     State.items = originalItems;
 
     expect(template.text).toContain('<div class="weapon adjustment-changed">');
+  });
+
+  it("shows a weapon's proficiency line on an adjustment card only when that adjustment changed the rank", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalItems = State.items;
+    const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    State.items = [
+      {
+        file: "HALB01",
+        doc: true,
+        description: desc,
+        proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+      },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.items.equipped = [
+      { file: "HALB01", slot: "WEAPON1" },
+    ] as unknown as Creature["data"]["items"]["equipped"];
+    creature.data.proficiencies = [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }];
+    creature.adjustments = [
+      {
+        files: ["SAME"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { ac: 3 } as unknown as CreatureAdjustment["data"],
+      },
+      {
+        files: ["BOOSTED"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          ac: 3,
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.items = originalItems;
+
+    const cards = template.text.split('<div class="adjustment-card">');
+    const sameCard = cards.find((c) => c.startsWith('<h4 class="adjustment-card-title">SAME'));
+    const boostedCard = cards.find((c) =>
+      c.startsWith('<h4 class="adjustment-card-title">BOOSTED'),
+    );
+    // SAME never touches proficiencies, so its rank is unchanged from the base creature's own
+    // (already shown on the base card) - the line shouldn't be repeated here.
+    expect(sameCard).not.toContain("weapon-proficiency");
+    // BOOSTED actually raises the rank, so it's worth calling out, highlighted like every other
+    // adjustment-changed value.
+    expect(boostedCard).toContain(
+      '<div class="weapon-proficiency adjustment-changed">Halberd <span class="proficiency-stars" title="4 of 5">',
+    );
+  });
+
+  // Reproduces the half-ogre/Tazok case (lib/creatures/ogres.ts): the base creature never calls
+  // addWeapon/equipItem (its weapon comes from the base CRE file), so effective.equipped is empty
+  // and the card falls back to "By weapon" - the adjustment's own proficiency override must still
+  // show up there, highlighted, even though there's no weapon block to attach it to. Tazok has two
+  // proficiency types (Bastard Sword 2, Two-Handed Sword boosted to 5) - only the higher-ranked
+  // one is worth calling out on an adjustment card, unlike the base creature's own fallback (see
+  // "lists every proficiency under 'By weapon'" above), which lists all of them.
+  it("shows only the adjustment's highest-ranked proficiency under 'By weapon' when the card has no equipped item", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.proficiencies = [
+      { type: ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD, value: 2 },
+      { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 },
+    ];
+    creature.adjustments = [
+      {
+        files: ["TAZOK"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain("By weapon");
+    expect(template.text).toContain(
+      '<div class="weapon-proficiency adjustment-changed">Two-Handed Sword',
+    );
+    expect(template.text).toContain("★★★★★");
+    expect(template.text).not.toContain("Bastard Sword");
   });
 
   // Regression: adjustment cards used to omit the main-hand/off-hand labels entirely (they never

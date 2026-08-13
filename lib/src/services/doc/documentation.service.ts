@@ -8,6 +8,7 @@ import { MemorizedSpell } from "../../model/creature/data";
 import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
+import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
@@ -17,6 +18,42 @@ import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
+
+// Standard AD&D 2e proficiency names, since the enum's own SCREAMING_CASE keys (e.g.
+// PROFICIENCYFLAILMORNINGSTAR) aren't separable into words the way formatEnumLabel's
+// underscore-splitting handles alignment/size.
+const PROFICIENCY_LABELS: Record<ProficiencyTypeEnum, string> = {
+  [ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD]: "Bastard Sword",
+  [ProficiencyTypeEnum.PROFICIENCYLONGSWORD]: "Long Sword",
+  [ProficiencyTypeEnum.PROFICIENCYSHORTSWORD]: "Short Sword",
+  [ProficiencyTypeEnum.PROFICIENCYAXE]: "Axe",
+  [ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD]: "Two-Handed Sword",
+  [ProficiencyTypeEnum.PROFICIENCYKATANA]: "Katana",
+  [ProficiencyTypeEnum.PROFICIENCYSCIMITARWAKISASHININJATO]: "Scimitar/Wakizashi/Ninjato",
+  [ProficiencyTypeEnum.PROFICIENCYDAGGER]: "Dagger",
+  [ProficiencyTypeEnum.PROFICIENCYWARHAMMER]: "War Hammer",
+  [ProficiencyTypeEnum.PROFICIENCYSPEAR]: "Spear",
+  [ProficiencyTypeEnum.PROFICIENCYHALBERD]: "Halberd",
+  [ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR]: "Flail/Morning Star",
+  [ProficiencyTypeEnum.PROFICIENCYMACE]: "Mace",
+  [ProficiencyTypeEnum.PROFICIENCYQUARTERSTAFF]: "Quarterstaff",
+  [ProficiencyTypeEnum.PROFICIENCYCROSSBOW]: "Crossbow",
+  [ProficiencyTypeEnum.PROFICIENCYLONGBOW]: "Long Bow",
+  [ProficiencyTypeEnum.PROFICIENCYSHORTBOW]: "Short Bow",
+  [ProficiencyTypeEnum.PROFICIENCYDART]: "Dart",
+  [ProficiencyTypeEnum.PROFICIENCYSLING]: "Sling",
+  [ProficiencyTypeEnum.PROFICIENCYBLACKJACK]: "Blackjack",
+  [ProficiencyTypeEnum.PROFICIENCY2HANDED]: "Two-Handed Weapon Style",
+  [ProficiencyTypeEnum.PROFICIENCYSWORDANDSHIELD]: "Sword and Shield Style",
+  [ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON]: "Single Weapon Style",
+  [ProficiencyTypeEnum.PROFICIENCY2WEAPON]: "Two-Weapon Style",
+  [ProficiencyTypeEnum.PROFICIENCYCLUB]: "Club",
+};
+
+// The engine's proficiency slots cap out at 5 stars in practice across this mod (see e.g. the
+// ogre chieftain's PROFICIENCYTWOHANDEDSWORD rank 5 in lib/creatures/ogres.ts), so that's the
+// star scale used here rather than trying to represent an unbounded value.
+const MAX_PROFICIENCY_STARS = 5;
 
 class DocumentationService {
   private families: string[] = [];
@@ -159,15 +196,23 @@ class DocumentationService {
       const label = dualWielding
         ? this.getWeaponSlotLabel(equippedItem, mainHandAttacks)
         : "";
+      const proficiency = this.getWeaponProficiencyLabel(
+        weapon.proficiency,
+        creature.data.proficiencies,
+      );
       attacks += attacks ? "<hr/>" : "";
-      attacks += `<div class="weapon">${label}${text}</div>`;
+      attacks += `<div class="weapon">${label}${text}${proficiency}</div>`;
       attacks += entries
         .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
         .join("");
       weaponIndex++;
     }
     if (!attacks) {
-      attacks = `<div class="weapon">By weapon</div>`;
+      // No equipped item is known to the doc pipeline (e.g. the half-ogre's own weapon comes
+      // straight from its base CRE file rather than an addWeapon() call - see lib/creatures/
+      // ogres.ts), so there's no per-weapon block to attach a proficiency line to. The creature's
+      // proficiencies are still real information, so list them here instead of dropping them.
+      attacks = `<div class="weapon">By weapon${this.getProficienciesFallback(creature.data.proficiencies)}</div>`;
     }
     this.replace(template, "attacks", attacks);
   }
@@ -181,6 +226,73 @@ class DocumentationService {
     }
     const s = mainHandAttacks === 1 ? "" : "s";
     return `<div class="weapon-slot">Main hand · ${mainHandAttacks} attack${s}</div>`;
+  }
+
+  // Weapons with no proficiency requirement (fists, innate attacks) render nothing. Otherwise
+  // looks up the creature's rank in that type (0 - i.e. non-proficient - when there's no matching
+  // entry) and renders it as a filled/empty star scale rather than a bare number, per the design's
+  // preference for a visual rank at a glance.
+  private getWeaponProficiencyLabel(
+    proficiency: ProficiencyTypeEnum | undefined,
+    proficiencies: { type: ProficiencyTypeEnum; value: number }[],
+  ): string {
+    if (proficiency === undefined) return "";
+    const value = proficiencies.find((p) => p.type === proficiency)?.value ?? 0;
+    const label = PROFICIENCY_LABELS[proficiency];
+    return `<div class="weapon-proficiency">${label} ${this.getProficiencyStars(value)}</div>`;
+  }
+
+  // Adjustment-card counterpart of getWeaponProficiencyLabel: renders nothing at all unless this
+  // adjustment actually changed the weapon's proficiency rank from the base creature's own - an
+  // unchanged rank is already shown on the base card, so repeating it here would be redundant.
+  private getAdjustmentWeaponProficiencyLabel(
+    proficiency: ProficiencyTypeEnum | undefined,
+    proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[],
+  ): string {
+    if (proficiency === undefined) return "";
+    const entry = proficiencies.find((p) => p.type === proficiency && p.changed);
+    if (!entry) return "";
+    const label = PROFICIENCY_LABELS[proficiency];
+    return `<div class="weapon-proficiency adjustment-changed">${label} ${this.getProficiencyStars(entry.value)}</div>`;
+  }
+
+  private getProficiencyStars(value: number): string {
+    const filled = Math.max(0, Math.min(MAX_PROFICIENCY_STARS, value));
+    return (
+      `<span class="proficiency-stars" title="${value} of ${MAX_PROFICIENCY_STARS}">` +
+      "★".repeat(filled) +
+      "☆".repeat(MAX_PROFICIENCY_STARS - filled) +
+      "</span>"
+    );
+  }
+
+  // Used only for the base creature's "By weapon" fallback (no equipped item known to the doc
+  // pipeline - see getCreatureAttacks), where there's no specific weapon to key a single
+  // proficiency line off of. Lists every proficiency the creature has instead.
+  private getProficienciesFallback(
+    proficiencies: { type: ProficiencyTypeEnum; value: number }[],
+  ): string {
+    return proficiencies
+      .map(
+        ({ type, value }) =>
+          `<div class="weapon-proficiency">${PROFICIENCY_LABELS[type]} ${this.getProficiencyStars(value)}</div>`,
+      )
+      .join("");
+  }
+
+  // Adjustment cards' own "By weapon" fallback (see getAdjustmentAttacks): only ever considers
+  // proficiencies this adjustment actually changed from the base (an unchanged rank is already on
+  // the base card - see getAdjustmentWeaponProficiencyLabel for the same rule on a known weapon),
+  // and among those, collapses to just the single highest-ranked one rather than listing every one
+  // - e.g. Tazok (lib/creatures/ogres.ts) only boosts Two-Handed Sword, so that's the only one
+  // worth calling out on his card even though he's also proficient with Bastard Sword.
+  private getHighestProficiencyFallback(
+    proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[],
+  ): string {
+    const changed = proficiencies.filter((p) => p.changed);
+    if (!changed.length) return "";
+    const highest = changed.reduce((best, p) => (p.value > best.value ? p : best), changed[0]);
+    return `<div class="weapon-proficiency adjustment-changed">${PROFICIENCY_LABELS[highest.type]} ${this.getProficiencyStars(highest.value)}</div>`;
   }
 
   // Docs-only trim of the in-game weapon description (which also feeds the .tra item text, see
@@ -470,14 +582,20 @@ class DocumentationService {
       );
       const cls = changed ? "weapon adjustment-changed" : "weapon";
       const label = dualWielding ? this.getWeaponSlotLabel(item, mainHandAttacks) : "";
+      const proficiency = this.getAdjustmentWeaponProficiencyLabel(
+        weapon.proficiency,
+        effective.proficiencies,
+      );
       attacks += attacks ? "<hr/>" : "";
-      attacks += `<div class="${cls}">${label}${text}</div>`;
+      attacks += `<div class="${cls}">${label}${text}${proficiency}</div>`;
       attacks += entries
         .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
         .join("");
       weaponIndex++;
     }
-    if (!attacks) attacks = `<div class="weapon">By weapon</div>`;
+    if (!attacks) {
+      attacks = `<div class="weapon">By weapon${this.getHighestProficiencyFallback(effective.proficiencies)}</div>`;
+    }
     return `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>`;
   }
 
