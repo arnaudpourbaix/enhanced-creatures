@@ -259,6 +259,7 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       white: "White Pudding",
       fission: "Fission Slime",
       mustard: "Mustard Jelly",
+      SmallerMustard: "Smaller Mustard Jelly",
       gray: "Gray Ooze",
       green: "Green Slime",
       ochre: "Ochre Jelly",

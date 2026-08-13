@@ -356,6 +356,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         {
           files: [ATWEAKS_CREATURES.SplitMustardJelly],
           copyFromExisting: "JELLMU",
+          stringRef: "monster.slime.name.SmallerMustard",
         },
       ],
       data: {
@@ -429,6 +430,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
           spells: {
             removeMemorized: [this.spell(Ids.MustardJellySplit).file],
           },
+          size: "Medium",
         },
       },
     ]);
