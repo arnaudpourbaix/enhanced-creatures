@@ -303,8 +303,6 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile, this.kaldranInit],
     });
     polar.setAdjustments([
-      { files: ["BDGHOSTF", "B_PBEAR1"], summon: true },
-      { files: ["BDGHOSTF"], data: { immunities: ["undead", "incorporeal"] } },
       { files: ["BDGHBRSU"], data: { level1: 9 } },
       { files: ["B_PBEAR1"], data: { level1: 13 } },
       {
