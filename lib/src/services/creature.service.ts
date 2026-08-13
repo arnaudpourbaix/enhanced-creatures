@@ -3,13 +3,18 @@ import { getAllSpells } from "../../config/spells/spell-names";
 import { CreatureAbility } from "../model/creature/ability";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
-import { AttackPerRoundTable } from "../model/game-data/attack-per-round";
+import {
+  AttackPerRoundFigtherTable,
+  AttackPerRoundProficiencyTable,
+  AttackPerRoundTable,
+} from "../model/game-data/attack-per-round";
 import { DexterityTable } from "../model/game-data/dexterity";
 import { SAVING_THROWS } from "../model/game-data/saving-throws";
 import { StrengthTable } from "../model/game-data/strength";
 import { Thac0Table } from "../model/game-data/thac0";
+import { ClassIdentifier } from "../model/ids/class";
 import { Actions } from "../model/script/actions";
-import { ItemAbilityLocationEnum } from "../model/spell-item/effect.enums";
+import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import hitPointService from "./hit-point.service";
 import itemService from "./item.service";
@@ -217,6 +222,51 @@ class CreatureService {
       throw new Error(`attack per round not found in table: ${value}`);
     }
     return item;
+  }
+
+  /**
+   * PnP fighters gain extra attacks per round beyond the raw `apr` stat: a specialization bonus
+   * from weapon proficiency rank (AttackPerRoundProficiencyTable, "FIGHTER" class only - only the
+   * highest threshold the rank meets contributes, e.g. rank 5/grand mastery gets just its own +1.5,
+   * not also the rank-2 tier's +0.5), and a level bonus (AttackPerRoundFigtherTable, any class
+   * whose identifier contains "FIGHTER" - e.g. FIGHTER_MAGE - but not PALADIN/RANGER, which are
+   * separate class identifiers). The level table IS cumulative - every threshold met contributes
+   * (level 13 gets both the level-7 and level-13 bonuses), matching the real PnP fighter attack
+   * progression (3/2 at 7th, 2/1 at 13th).
+   *
+   * `proficiencyType` is undefined when no equipped weapon is known to the doc pipeline (e.g.
+   * Tazok/half-ogre in lib/creatures/ogres.ts, whose weapon comes straight from its own .cre file
+   * rather than an addWeapon() call) - in that case the creature's own highest proficiency rank is
+   * used as the best available approximation of the weapon it's actually specialized in, rather
+   * than silently dropping the specialization bonus to 0.
+   */
+  getFighterAttackBonus(p: {
+    class: ClassIdentifier | undefined;
+    level: number;
+    proficiencyType: ProficiencyTypeEnum | undefined;
+    proficiencies: { type: ProficiencyTypeEnum; value: number }[];
+  }): number {
+    let bonus = 0;
+    if (p.class === "FIGHTER") {
+      const rank =
+        p.proficiencyType !== undefined
+          ? (p.proficiencies.find((x) => x.type === p.proficiencyType)?.value ?? 0)
+          : Math.max(0, ...p.proficiencies.map((x) => x.value));
+      const highestMet = AttackPerRoundProficiencyTable.filter(
+        (t) => rank >= t.proficiency,
+      ).reduce<(typeof AttackPerRoundProficiencyTable)[number] | undefined>(
+        (best, t) => (!best || t.proficiency > best.proficiency ? t : best),
+        undefined,
+      );
+      bonus += highestMet?.value ?? 0;
+    }
+    if (p.class?.includes("FIGHTER")) {
+      bonus += AttackPerRoundFigtherTable.filter((t) => p.level >= t.level).reduce(
+        (sum, t) => sum + t.value,
+        0,
+      );
+    }
+    return bonus;
   }
 
   getStrengthBonus(data: Partial<CreatureData>): {

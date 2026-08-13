@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { ItemSlot } from "../../model/creature/item";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
+import { State } from "../../state";
 import adjustmentService from "./adjustment.service";
 
 function fakeCreature(p: {
@@ -217,6 +218,63 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(effectives.find((e) => e.files.includes("DOUBLED"))?.apr).toEqual({
       value: 5,
       changed: true,
+    });
+  });
+
+  describe("fighter attack bonus", () => {
+    const originalItems = State.items;
+
+    afterEach(() => {
+      State.items = originalItems;
+    });
+
+    it("flags apr as changed when an adjustment turns the file into a specialized fighter, even though it never sets apr itself", () => {
+      State.items = [
+        { file: "SWORD01", proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+      ] as unknown as typeof State.items;
+      const creature = fakeCreature({
+        data: { apr: 1, doubleApr: false },
+        adjustments: [
+          {
+            files: ["FIGHTERFILE"],
+            data: {
+              class: "FIGHTER",
+              items: { equipped: [{ file: "SWORD01", slot: "WEAPON1" }], remove: [] },
+              proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+            },
+          },
+        ],
+      });
+
+      const effective = adjustmentService
+        .getEffectiveAdjustments(creature)
+        .find((e) => e.files.includes("FIGHTERFILE"));
+
+      // base apr 1 + specialization bonus 1.0 (rank 5's own tier, not stacked with rank-2's)
+      expect(effective?.apr).toEqual({ value: 2, changed: true });
+    });
+
+    it("does not flag apr as changed when the base creature is already a specialized fighter and the adjustment leaves that untouched", () => {
+      State.items = [
+        { file: "SWORD01", proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+      ] as unknown as typeof State.items;
+      const creature = fakeCreature({
+        data: {
+          apr: 1,
+          doubleApr: false,
+          class: "FIGHTER",
+          items: { equipped: [{ file: "SWORD01", slot: "WEAPON1" }], remove: [] },
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+        } as unknown as Partial<CreatureData>,
+        // xpv forces this file to be visible without touching apr/class/proficiency itself.
+        adjustments: [{ files: ["NOAC"], data: { xpv: 999 } }],
+      });
+
+      const effective = adjustmentService
+        .getEffectiveAdjustments(creature)
+        .find((e) => e.files.includes("NOAC"));
+
+      expect(effective?.apr).toEqual({ value: 2, changed: false });
     });
   });
 

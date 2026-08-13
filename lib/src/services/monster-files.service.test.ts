@@ -10,6 +10,7 @@ import monsterFilesService, {
 const HEADER =
   "file;general;race;class;anim;deathvar;dialog;origin;name;MonsterId;ValidatedMonsterId";
 const EMPTY_MAP_FOR_HEADER_ONLY_CSV = "returns an empty map for a header-only CSV";
+const KALDRAN_THE_BEAR = "Kaldran the Bear";
 
 describe("parseMonsterFilesCsv", () => {
   it("groups validated files under their MonsterId, in row order", () => {
@@ -146,7 +147,7 @@ describe("parseFileNamesCsv", () => {
 
     const result = parseFileNamesCsv(csv);
 
-    expect(result.get("KALDRAN")).toBe("Kaldran the Bear");
+    expect(result.get("KALDRAN")).toBe(KALDRAN_THE_BEAR);
   });
 
   it("skips rows with an empty file or an empty name", () => {
@@ -170,8 +171,8 @@ describe("parseFileNamesCsv", () => {
 
 describe("monsterFilesService.getName", () => {
   it("returns the creatures.csv name for a known file, case-insensitively", () => {
-    expect(monsterFilesService.getName("kaldran")).toBe("Kaldran the Bear");
-    expect(monsterFilesService.getName("KALDRAN")).toBe("Kaldran the Bear");
+    expect(monsterFilesService.getName("kaldran")).toBe(KALDRAN_THE_BEAR);
+    expect(monsterFilesService.getName("KALDRAN")).toBe(KALDRAN_THE_BEAR);
   });
 
   it("returns undefined for an unknown file", () => {

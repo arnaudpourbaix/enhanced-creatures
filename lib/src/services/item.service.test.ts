@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, afterEach } from "vitest";
 import { EquippedItem, ItemSlot } from "../model/creature/item";
-import { ItemAbilityTypeEnum } from "../model/spell-item/effect.enums";
+import { ItemAbilityTypeEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Item, ItemHeader } from "../model/spell-item/spell-item";
+import { State } from "../state";
 import itemService from "./item.service";
 
 function fakeEquippedItem(slot: EquippedItem["slot"]): EquippedItem {
@@ -35,6 +36,66 @@ describe("isEquippedWeapon", () => {
 
   it("returns false for an empty slot array", () => {
     expect(itemService.isEquippedWeapon(fakeEquippedItem([]))).toBe(false);
+  });
+});
+
+describe("getMainHandWeaponProficiency", () => {
+  const originalItems = State.items;
+
+  afterEach(() => {
+    State.items = originalItems;
+  });
+
+  it("returns the proficiency of the single equipped weapon", () => {
+    State.items = [
+      { file: "SWORD01", proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+    ] as unknown as typeof State.items;
+    const equipped: EquippedItem[] = [{ file: "SWORD01", slot: "WEAPON1" }];
+
+    expect(itemService.getMainHandWeaponProficiency(equipped)).toBe(
+      ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+    );
+  });
+
+  it("skips the SHIELD (offhand) slot and returns the main hand weapon's proficiency", () => {
+    State.items = [
+      { file: "SWORD01", proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+      { file: "DAGGER01", proficiency: ProficiencyTypeEnum.PROFICIENCYDAGGER },
+    ] as unknown as typeof State.items;
+    const equipped: EquippedItem[] = [
+      { file: "DAGGER01", slot: "SHIELD" },
+      { file: "SWORD01", slot: "WEAPON1" },
+    ];
+
+    expect(itemService.getMainHandWeaponProficiency(equipped)).toBe(
+      ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+    );
+  });
+
+  it("returns undefined when the only equipped weapon is in the SHIELD slot", () => {
+    State.items = [
+      { file: "DAGGER01", proficiency: ProficiencyTypeEnum.PROFICIENCYDAGGER },
+    ] as unknown as typeof State.items;
+    const equipped: EquippedItem[] = [{ file: "DAGGER01", slot: "SHIELD" }];
+
+    expect(itemService.getMainHandWeaponProficiency(equipped)).toBeUndefined();
+  });
+
+  it("returns undefined when there is no equipped weapon at all", () => {
+    const equipped: EquippedItem[] = [{ file: "HELM01", slot: "HELMET" }];
+
+    expect(itemService.getMainHandWeaponProficiency(equipped)).toBeUndefined();
+  });
+
+  it("returns undefined when the equipped weapon has no proficiency requirement", () => {
+    State.items = [{ file: "FIST01" }] as unknown as typeof State.items;
+    const equipped: EquippedItem[] = [{ file: "FIST01", slot: "WEAPON1" }];
+
+    expect(itemService.getMainHandWeaponProficiency(equipped)).toBeUndefined();
+  });
+
+  it("returns undefined for an empty equipped list", () => {
+    expect(itemService.getMainHandWeaponProficiency([])).toBeUndefined();
   });
 });
 

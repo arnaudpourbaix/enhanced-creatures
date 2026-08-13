@@ -2,9 +2,11 @@ import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData, MemorizedSpell } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
+import { ClassIdentifier } from "../../model/ids/class";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import creatureService from "../creature.service";
+import itemService from "../item.service";
 
 export interface AdjustmentField<T> {
   value: T;
@@ -62,47 +64,48 @@ class AdjustmentService {
   private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment {
     const matching = creature.adjustments.filter((a) => a.files.includes(file));
     const base = creature.data;
+    const equipped = this.getEquipped(matching, base);
+    const proficiencies = this.getProficiencies(matching, base);
+    const classValue = this.lastDefined(matching, (d) => d.class) ?? base.class;
+    const levelValue = this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
 
     return {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
-      level: this.field(
-        this.lastDefined(matching, (d) => d.level1?.pnpValue),
-        base.level1.pnpValue,
-      ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      level: this.field(levelValue, base.level1.pnpValue),
       hp: this.field(
         this.lastDefined(matching, (d) => d.hp),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.hp!,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       thac0: this.field(
         this.lastDefined(matching, (d) => d.thac0),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.thac0!,
       ),
       ac: this.getAc(matching, creature),
-      apr: this.getApr(matching, creature),
+      apr: this.getApr(matching, creature, classValue, levelValue, equipped, proficiencies),
       movement: this.field(
         this.lastDefined(matching, (d) => d.movement?.pnpValue),
         base.movement.pnpValue,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       morale: this.field(
         this.lastDefined(matching, (d) => d.morale),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.morale!,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       alignment: this.field(
         this.lastDefined(matching, (d) => d.alignment),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.alignment!,
       ),
       size: this.field(
         this.lastDefined(matching, (d) => d.size),
         base.size,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       xpv: this.field(
         this.lastDefined(matching, (d) => d.xpv),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.xpv!,
       ),
       strength: this.field(
@@ -125,20 +128,20 @@ class AdjustmentService {
         this.lastDefined(matching, (d) => d.intelligence),
         base.intelligence,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       wisdom: this.field(
         this.lastDefined(matching, (d) => d.wisdom),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.wisdom!,
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       charisma: this.field(
         this.lastDefined(matching, (d) => d.charisma),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.charisma!,
       ),
-      equipped: this.getEquipped(matching, base),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
-      proficiencies: this.getProficiencies(matching, base),
+      equipped,
+      proficiencies,
     };
   }
 
@@ -173,16 +176,41 @@ class AdjustmentService {
     );
   }
 
-  // Mirrors documentationService.getEffectiveApr (raw apr * doubleApr multiplier, plus the +1 the
-  // engine grants automatically for an off-hand weapon) - duplicated rather than imported because
-  // documentation.service.ts already imports this file. The base creature's own dual-wielding
-  // status is reused as-is (never re-derived per adjustment - see the spec's Non-goals).
-  private getApr(matching: CreatureAdjustment[], creature: Creature): AdjustmentField<number> {
+  // Mirrors documentationService.getEffectiveApr (raw apr * doubleApr multiplier, the +1 the engine
+  // grants automatically for an off-hand weapon, and the fighter attack bonus from proficiency
+  // rank/level - see creatureService.getFighterAttackBonus) - duplicated rather than imported
+  // because documentation.service.ts already imports this file. The base creature's own
+  // dual-wielding status is reused as-is (never re-derived per adjustment - see the spec's
+  // Non-goals). The base side needs its own fighter bonus recomputed too (not just the raw
+  // apr*doubleApr product) so a file that only changes class/proficiency/level, never apr itself,
+  // still gets flagged as changed.
+  private getApr(
+    matching: CreatureAdjustment[],
+    creature: Creature,
+    classValue: ClassIdentifier | undefined,
+    levelValue: number,
+    equipped: { item: EquippedItem; changed: boolean }[],
+    proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[],
+  ): AdjustmentField<number> {
     const dualWieldingBonus = creature.attack.dualWielding ? 1 : 0;
     const rawApr = this.lastDefined(matching, (d) => d.apr) ?? creature.data.apr;
     const doubleApr = this.lastDefined(matching, (d) => d.doubleApr) ?? creature.data.doubleApr;
-    const value = rawApr * (doubleApr ? 2 : 1) + dualWieldingBonus;
-    const base = creature.data.apr * (creature.data.doubleApr ? 2 : 1) + dualWieldingBonus;
+    const fighterBonus = creatureService.getFighterAttackBonus({
+      class: classValue,
+      level: levelValue,
+      proficiencyType: itemService.getMainHandWeaponProficiency(equipped.map((e) => e.item)),
+      proficiencies,
+    });
+    const value = rawApr * (doubleApr ? 2 : 1) + dualWieldingBonus + fighterBonus;
+
+    const baseFighterBonus = creatureService.getFighterAttackBonus({
+      class: creature.data.class,
+      level: creature.data.level1.pnpValue,
+      proficiencyType: itemService.getMainHandWeaponProficiency(creature.data.items.equipped),
+      proficiencies: creature.data.proficiencies,
+    });
+    const base =
+      creature.data.apr * (creature.data.doubleApr ? 2 : 1) + dualWieldingBonus + baseFighterBonus;
     return { value, changed: value !== base };
   }
 
@@ -325,6 +353,7 @@ class AdjustmentService {
       effective.morale.changed ||
       effective.alignment.changed ||
       effective.size.changed ||
+      effective.xpv.changed ||
       effective.strength.changed ||
       effective.exceptionalStrength.changed ||
       effective.dexterity.changed ||

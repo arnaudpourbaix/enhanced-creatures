@@ -236,8 +236,8 @@ class Cat extends Creature {
             {
               opcode: EffectTypeEnum.PlaySound,
               timing: EffectTimingEnum.DelayPermanent,
-              duration,
               resource: "EFF_M29",
+              duration,
             },
           ],
         },

@@ -94,6 +94,74 @@ describe("getEffectiveApr", () => {
     const creature = fakeCreatureForAddCreature(true, true);
     expect(documentationService.getEffectiveApr(creature)).toBe(5);
   });
+
+  describe("fighter attack bonus", () => {
+    const originalItems = State.items;
+
+    afterEach(() => {
+      State.items = originalItems;
+    });
+
+    it("adds the specialization bonus for a FIGHTER's main-hand weapon proficiency", () => {
+      State.items = [
+        { file: "SWORD01", doc: true, proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+      ] as unknown as typeof State.items;
+      const creature = fakeCreatureForAddCreature(false, false);
+      creature.data.class = "FIGHTER";
+      creature.data.items.equipped = [
+        { file: "SWORD01", slot: "WEAPON1" },
+      ] as unknown as typeof creature.data.items.equipped;
+      creature.data.proficiencies = [
+        { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
+      ];
+
+      // base apr 2 + specialization bonus 1.0 (rank 5's own tier, not stacked with rank-2's)
+      expect(documentationService.getEffectiveApr(creature)).toBe(3);
+    });
+
+    // Regression test: Tazok (lib/creatures/ogres.ts, half-ogre family) never gets an
+    // equipItem()/addWeapon() call, so his weapon comes straight from the base .cre file and
+    // items.equipped stays empty - there's no weapon known to the doc pipeline to key a
+    // proficiency-type lookup off of. He should still get his specialization bonus, using his
+    // highest proficiency rank as the best available stand-in for "the weapon he's using".
+    it("falls back to the creature's highest proficiency rank when no weapon is equipped in the doc data", () => {
+      const creature = fakeCreatureForAddCreature(false, false);
+      creature.data.class = "FIGHTER";
+      creature.data.level1 = { pnpValue: 9, type: "none", value: 9 };
+      creature.data.items.equipped = [];
+      creature.data.proficiencies = [
+        { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+      ];
+
+      // base apr 2 + specialization bonus 1.0 (rank 5's own tier) + level bonus 0.5 (level 7+, not yet 13)
+      expect(documentationService.getEffectiveApr(creature)).toBe(3.5);
+    });
+
+    it("adds the level bonus for a multiclass fighter, without a specialization bonus", () => {
+      const creature = fakeCreatureForAddCreature(false, false);
+      creature.data.class = "FIGHTER_MAGE";
+      creature.data.level1 = { pnpValue: 13, type: "none", value: 13 };
+
+      // base apr 2 + level bonus 1.0 (level 13: +0.5 and +0.5 thresholds), no proficiency bonus
+      expect(documentationService.getEffectiveApr(creature)).toBe(3);
+    });
+
+    it("grants no bonus for a non-fighter class even with a high proficiency rank", () => {
+      State.items = [
+        { file: "SWORD01", doc: true, proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD },
+      ] as unknown as typeof State.items;
+      const creature = fakeCreatureForAddCreature(false, false);
+      creature.data.class = "MAGE";
+      creature.data.items.equipped = [
+        { file: "SWORD01", slot: "WEAPON1" },
+      ] as unknown as typeof creature.data.items.equipped;
+      creature.data.proficiencies = [
+        { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
+      ];
+
+      expect(documentationService.getEffectiveApr(creature)).toBe(2);
+    });
+  });
 });
 
 function fakeCreatureForAttacks(equipped: { file: string; slot: string }[]): Creature {

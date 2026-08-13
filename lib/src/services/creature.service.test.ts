@@ -7,7 +7,7 @@ import {
   SpellbookVariant,
 } from "../model/creature/data";
 import { Movement } from "../model/creature/movement";
-import { ItemAbilityLocationEnum } from "../model/spell-item/effect.enums";
+import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import { CreatureAbility } from "../model/creature/ability";
 import creatureService from "./creature.service";
@@ -107,6 +107,126 @@ describe("getAttacksPerRound", () => {
     expect(() => creatureService.getAttacksPerRound(11)).toThrow(
       /attack per round not found in table: 11/,
     );
+  });
+});
+
+describe("getFighterAttackBonus", () => {
+  it("grants no bonus for a non-fighter class regardless of level or proficiency", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "MAGE",
+        level: 13,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+      }),
+    ).toBe(0);
+  });
+
+  it("grants the specialization bonus for a FIGHTER proficient at rank 4 (only the rank-2 threshold met)", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 1,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 4 }],
+      }),
+    ).toBe(0.5);
+  });
+
+  it("grants only the highest proficiency tier's own bonus for a FIGHTER at grand mastery (rank 5), not both thresholds stacked", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 1,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+      }),
+    ).toBe(1);
+  });
+
+  it("stacks both level thresholds for a FIGHTER at level 13", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 13,
+        proficiencyType: undefined,
+        proficiencies: [],
+      }),
+    ).toBe(1);
+  });
+
+  it("combines the highest proficiency tier and the cumulative level bonus for a FIGHTER at rank 5, level 13", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 13,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+      }),
+    ).toBe(2);
+  });
+
+  it("grants only the level bonus for a multiclass fighter, never the specialization bonus", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER_MAGE",
+        level: 7,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+      }),
+    ).toBe(0.5);
+  });
+
+  it("grants no level bonus for a warrior-type class that doesn't contain FIGHTER (PALADIN)", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "PALADIN",
+        level: 13,
+        proficiencyType: undefined,
+        proficiencies: [],
+      }),
+    ).toBe(0);
+  });
+
+  it("grants no proficiency bonus below the rank-2 threshold", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 1,
+        proficiencyType: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 1 }],
+      }),
+    ).toBe(0);
+  });
+
+  // A creature whose weapon comes straight from its own .cre file (never an addWeapon() call, see
+  // e.g. Tazok/half-ogre in lib/creatures/ogres.ts) has no equipped weapon known to the doc
+  // pipeline, so there's no proficiency type to key a rank lookup off of. The best available
+  // approximation is the creature's own highest proficiency rank - the weapon it's presumably
+  // actually specialized in - rather than silently dropping the specialization bonus to 0.
+  it("falls back to the creature's highest proficiency rank when no weapon is known", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 1,
+        proficiencyType: undefined,
+        proficiencies: [
+          { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 2 },
+          { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+        ],
+      }),
+    ).toBe(1);
+  });
+
+  it("grants no proficiency bonus when no weapon is known and the creature has no proficiencies at all", () => {
+    expect(
+      creatureService.getFighterAttackBonus({
+        class: "FIGHTER",
+        level: 1,
+        proficiencyType: undefined,
+        proficiencies: [],
+      }),
+    ).toBe(0);
   });
 });
 

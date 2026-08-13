@@ -16,3 +16,13 @@ export const AttackPerRoundTable = [
   { apr: 9, value: 10, doubleApr: true },
   { apr: 10, value: 5, doubleApr: true },
 ];
+
+export const AttackPerRoundProficiencyTable = [
+  { proficiency: 2, value: 0.5 },
+  { proficiency: 5, value: 1 },
+];
+
+export const AttackPerRoundFigtherTable = [
+  { level: 7, value: 0.5 },
+  { level: 13, value: 0.5 },
+];

@@ -5,6 +5,7 @@ import {
   EffectTimingEnum,
   ItemAbilityLocationEnum,
   ItemAbilityTargetEnum,
+  ProficiencyTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { PartialProjectile } from "../model/spell-item/projectile";
 import { Item, ItemHeader, PartialItem, PartialItemHeader } from "../model/spell-item/spell-item";
@@ -99,6 +100,20 @@ class ItemService {
   isEquippedWeapon(item: EquippedItem): boolean {
     const slots = Array.isArray(item.slot) ? item.slot : [item.slot];
     return slots.length > 0 && slots.every((s) => WEAPON_SLOTS.map((w) => w.slot).includes(s));
+  }
+
+  /**
+   * The "main hand" weapon for attack-count purposes: the first equipped weapon not in the
+   * SHIELD (offhand) slot - the offhand always gets a fixed +1 attack regardless of proficiency
+   * (see creatureService.checkDualWielding), so only the main hand's proficiency rank feeds any
+   * proficiency-based attack bonus.
+   */
+  getMainHandWeaponProficiency(equipped: EquippedItem[]): ProficiencyTypeEnum | undefined {
+    const mainHand = equipped.find(
+      (item) => this.isEquippedWeapon(item) && !this.isSlotIncluded([item], "SHIELD"),
+    );
+    if (!mainHand) return undefined;
+    return State.items.find((i) => i.file === mainHand.file)?.proficiency;
   }
 }
 

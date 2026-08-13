@@ -31,7 +31,7 @@ afterEach(() => {
 describe("creature", () => {
   it("throws when no creature in the family has the given id", () => {
     const family = fakeFamily();
-    expect(() => family.creature(99 as MonsterEnum)).toThrow(/No creature found with id 99/);
+    expect(() => family.creature(99)).toThrow(/No creature found with id 99/);
   });
 
   it("returns the creature with the matching id", () => {

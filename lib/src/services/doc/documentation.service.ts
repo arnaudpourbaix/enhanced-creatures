@@ -155,7 +155,13 @@ class DocumentationService {
   // 3` (see lib/creatures/bears.ts) shows up here as 2.
   getEffectiveApr(creature: Creature): number {
     const stored = creature.data.apr * (creature.data.doubleApr ? 2 : 1);
-    return stored + (creature.attack.dualWielding ? 1 : 0);
+    const fighterBonus = creatureService.getFighterAttackBonus({
+      class: creature.data.class,
+      level: creature.data.level1.pnpValue,
+      proficiencyType: itemService.getMainHandWeaponProficiency(creature.data.items.equipped),
+      proficiencies: creature.data.proficiencies,
+    });
+    return stored + (creature.attack.dualWielding ? 1 : 0) + fighterBonus;
   }
 
   addSpecial(template: { text: string }, creature: Creature) {
@@ -844,8 +850,7 @@ class DocumentationService {
     // invariant rather than either one re-sorting (or silently depending on the other having
     // sorted first).
     for (const immunity of State.immunities) {
-      if (!immunity.doc) continue;
-      if (immunity.type !== "trait" && !immunity.description) continue;
+      if (!immunity.doc || (immunity.type !== "trait" && !immunity.description)) continue;
       const entry = immunity.description
         ? this.buildDescriptionHtml(translationService.from(immunity.description).split(/\r\n|\n/))
         : "";
