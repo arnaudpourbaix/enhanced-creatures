@@ -446,27 +446,97 @@ class DocumentationService {
     );
   }
 
-  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
   private getAdjustmentAttacks(
-    _creature: Creature,
-    _effective: EffectiveAdjustment,
-    _cardIndex: number,
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
   ): string {
-    return "";
+    let attacks = "";
+    let weaponIndex = 0;
+    for (const { item, changed } of effective.equipped) {
+      const weapon = itemService.isEquippedWeapon(item)
+        ? State.items.find((i) => i.file === item.file)
+        : undefined;
+      if (!weapon?.doc) continue;
+      const entries: { id: string; html: string }[] = [];
+      const text = this.getAttackDisplayText(
+        translationService.fromOptional(weapon.description),
+        entries,
+        `m${creature.id}-adj${cardIndex}-w${weaponIndex}`,
+      );
+      const cls = changed ? "weapon adjustment-changed" : "weapon";
+      attacks += attacks ? "<hr/>" : "";
+      attacks += `<div class="${cls}">${text}</div>`;
+      attacks += entries
+        .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+        .join("");
+      weaponIndex++;
+    }
+    if (!attacks) attacks = `<div class="weapon">By weapon</div>`;
+    return `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>`;
   }
 
-  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
-  private getAdjustmentTraits(_creature: Creature, _effective: EffectiveAdjustment): string {
-    return "";
+  // A flat one-branch-per-section builder mirroring getCreatureTraits' own shape (trait links,
+  // then equipped trait-carrier items, then non-trait immunity descriptions) - same reasoning as
+  // that method for not splitting further.
+  private getAdjustmentTraits(creature: Creature, effective: EffectiveAdjustment): string {
+    let result = "";
+    const resolved = effective.immunities
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      .filter(({ name }) => !creature.autoImmunities?.includes(name))
+      .map(({ name, changed }) => ({
+        config: State.immunities.find((i) => i.name === name),
+        changed,
+      }))
+      .filter(
+        (entry): entry is { config: ImmunityConfig; changed: boolean } =>
+          entry.config !== undefined,
+      );
+
+    const traitLinks = resolved
+      .filter((entry) => entry.config.type === "trait")
+      .map((entry) => {
+        const cls = entry.changed ? "trait-link adjustment-changed" : "trait-link";
+        return `<a href="#${entry.config.name}" class="${cls}">${translationService.fromOptional(entry.config.stringRef)}</a>`;
+      });
+    if (traitLinks.length) result += `<h5>${traitLinks.join(", ")}</h5>`;
+
+    for (const { item, changed } of effective.equipped) {
+      const found = State.items.find((i) => i.file === item.file);
+      if (found?.trait) result += this.getTraitItemHtml(found, changed);
+    }
+
+    for (const entry of resolved.filter((e) => e.config.type !== "trait")) {
+      let text = translationService.fromOptional(entry.config.stringRef);
+      if (entry.config.description) {
+        const desc = translationService.from(entry.config.description);
+        text = `<h5>${text}</h5>${this.buildDescriptionHtml(desc.split(/\r\n|\n/))}`;
+      }
+      result += entry.changed ? `<div class="adjustment-changed">${text}</div>` : text;
+    }
+    if (!result) return "";
+    return `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
   }
 
-  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
   private getAdjustmentSpells(
-    _creature: Creature,
-    _effective: EffectiveAdjustment,
-    _cardIndex: number,
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
   ): string {
-    return "";
+    let spells = "";
+    const memorizedList = effective.memorized.map((entry) => entry.spell);
+    this.getResourceAbilities(creature).forEach((ability, index) => {
+      const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
+      const extraClass = entry?.changed ? "adjustment-changed" : "";
+      spells += this.getCreatureSpell(
+        ability,
+        memorizedList,
+        `m${creature.id}-adj${cardIndex}-ability-${index}`,
+        extraClass,
+      );
+    });
+    if (!spells) return "";
+    return `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
   }
 
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
@@ -492,7 +562,7 @@ class DocumentationService {
   // it still deserves the same clickable popover link either way. This reattaches that link
   // docs-only, by matching each plain-text description line back to the sub-immunity name it
   // came from.
-  private getTraitItemHtml(item: Item): string {
+  private getTraitItemHtml(item: Item, changed = false): string {
     const traitLines = new Map<string, string>();
     for (const subName of item.immunities) {
       const sub = State.immunities.find((i) => i.name === subName);
@@ -501,7 +571,7 @@ class DocumentationService {
       }
     }
     const lines = translationService.fromOptional(item.description).split(/\r\n|\n/);
-    return lines
+    const html = lines
       .filter((line) => line !== "")
       .map((line) => {
         const traitName = traitLines.get(line);
@@ -510,6 +580,7 @@ class DocumentationService {
           : `<p>${line}</p>`;
       })
       .join("");
+    return changed ? `<div class="adjustment-changed">${html}</div>` : html;
   }
 
   getCreatureSpells(template: { text: string }, creature: Creature) {
@@ -577,7 +648,12 @@ class DocumentationService {
     ].filter((a) => a.resource);
   }
 
-  getCreatureSpell(ability: CreatureAbility, memorizedList: MemorizedSpell[], idPrefix: string) {
+  getCreatureSpell(
+    ability: CreatureAbility,
+    memorizedList: MemorizedSpell[],
+    idPrefix: string,
+    extraClass = "",
+  ) {
     const memorized = memorizedList.find((m) => m.file === ability.resource);
     const spell = State.spells.find((s) => s.file === ability.resource);
     let result = "";
@@ -615,7 +691,8 @@ class DocumentationService {
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
     // ability's title together instead of splitting it across columns.
-    return `<div class="ability-entry">${result}</div>${popoverEntry}`;
+    const cls = extraClass ? `ability-entry ${extraClass}` : "ability-entry";
+    return `<div class="${cls}">${result}</div>${popoverEntry}`;
   }
 
   // Source content for the trait popover (docs/monsters.js's initTraitPopover): each trait-type

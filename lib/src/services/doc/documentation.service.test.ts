@@ -5,6 +5,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CreatureAbility } from "../../model/creature/ability";
+import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
 import { ImmunityConfig } from "../../model/final/immunity";
@@ -1050,5 +1051,111 @@ describe("getCreatureHeader", () => {
     );
     expect(template.text).not.toContain("summon");
     expect(template.text).not.toContain("script");
+  });
+
+  it("shows the effective Attacks list, highlighting only the weapon the adjustment changed", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalItems = State.items;
+    State.items = [{ file: "NEWWEAP", doc: true, description: "" }] as unknown as typeof State.items;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.items.equipped = [
+      { file: "OLDWEAP", slot: "WEAPON1" },
+    ] as unknown as Creature["data"]["items"]["equipped"];
+    creature.adjustments = [
+      {
+        files: ["SWAP"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          items: { equipped: [{ file: "NEWWEAP", slot: "WEAPON1" }], remove: [] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.items = originalItems;
+
+    expect(template.text).toContain('<div class="weapon adjustment-changed">');
+  });
+
+  it("omits a non-weapon equipped item (e.g. an internal trait-carrier) from the Attacks section", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KAHRK"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          items: { equipped: [{ file: "ja#i3", slot: "AMULET" }], remove: [] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<div class="weapon">By weapon</div>');
+    expect(template.text).not.toContain("ja#i3");
+  });
+
+  it("shows the full effective immunities list, highlighting only the newly granted ones", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalImmunities = State.immunities;
+    State.immunities = [
+      { name: "giant", type: "trait", stringRef: "common.traits.construct.name" },
+      { name: "undead", type: "trait", stringRef: "common.traits.undead.name" },
+    ] as unknown as typeof State.immunities;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.immunities = ["giant"] as unknown as Creature["data"]["immunities"];
+    creature.adjustments = [
+      {
+        files: ["KALDRAN"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { immunities: ["giant", "undead"] } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.immunities = originalImmunities;
+
+    expect(template.text).toContain('<a href="#giant" class="trait-link">');
+    expect(template.text).toContain('<a href="#undead" class="trait-link adjustment-changed">');
+  });
+
+  it("shows the full effective Abilities list, highlighting only the spell whose count changed", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalSpells = State.spells;
+    State.spells = [];
+    const creature = fakeCreatureForAddCreature(false);
+    creature.behavior = {
+      abilities: [{ name: "ability.test", resource: "SPPR101" } as unknown as CreatureAbility],
+      customCodes: [],
+    };
+    creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
+    creature.adjustments = [
+      {
+        files: ["CASTER"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          spells: { memorized: [{ file: "SPPR101", memorizedCount: 3 }] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.spells = originalSpells;
+
+    expect(template.text).toContain('<div class="ability-entry adjustment-changed">');
+    expect(template.text).toContain("3/day");
   });
 });
