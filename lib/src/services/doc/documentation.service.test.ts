@@ -949,22 +949,22 @@ describe("replace (private)", () => {
   });
 });
 
-describe("getCreatureAdjustments", () => {
+describe("getCreatureHeader", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("renders nothing when the creature has no adjustments", () => {
+  it("renders a plain h3 with no details/badge when the creature has no adjustments", () => {
     const creature = fakeCreatureForAddCreature(false);
     creature.adjustments = [];
-    const template = { text: "{{adjustments}}" };
+    const template = { text: "{{header}}" };
 
-    documentationService.getCreatureAdjustments(template, creature);
+    documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toBe("");
+    expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
   });
 
-  it("renders a collapsed block with one line per effective adjustment group", () => {
+  it("renders a details/summary badge and one adjustment-card per effective group", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
     creature.adjustments = [
@@ -973,17 +973,24 @@ describe("getCreatureAdjustments", () => {
         noWeapon: false,
         summon: false,
         scriptName: false,
-        data: { level1: { pnpValue: 7, type: "none", value: 7 }, xpv: 975 },
+        data: { level1: { pnpValue: 7, type: "none", value: 7 }, hp: 70, xpv: 975 },
       },
     ] as unknown as Creature["adjustments"];
-    const template = { text: "{{adjustments}}" };
+    const template = { text: "{{header}}" };
 
-    documentationService.getCreatureAdjustments(template, creature);
+    documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain("<summary>Adjustments (1)</summary>");
-    expect(template.text).toContain("<strong>BDSOGR1, BDSOGR2</strong>");
-    expect(template.text).toContain("Level 7");
-    expect(template.text).toContain("XP 975");
+    expect(template.text).toContain('<details class="creature-adjustments">');
+    expect(template.text).toContain('<span class="adjustments-badge">1 adjustment ▾</span>');
+    expect(template.text).toContain('<div class="adjustment-card">');
+    expect(template.text).toContain("<h4>BDSOGR1, BDSOGR2</h4>");
+    // Changed field: highlighted.
+    expect(template.text).toMatch(
+      /<dt>Hit Dice<\/dt><dd class="adjustment-changed">7 \(70 hp\)<\/dd>/,
+    );
+    expect(template.text).toMatch(/<dt>XP Value<\/dt><dd class="adjustment-changed">975<\/dd>/);
+    // Untouched field: still shown, but plain (base's own final AC is 5 - ac:5, dexterity:12).
+    expect(template.text).toMatch(/<dt>Armor Class<\/dt><dd>5<\/dd>/);
   });
 
   it("shows the creatures.csv name next to the files when it differs from the creature's own name", () => {
@@ -992,38 +999,18 @@ describe("getCreatureAdjustments", () => {
     creature.adjustments = [
       { files: ["KNIGHTSK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
     ] as unknown as Creature["adjustments"];
-    const template = { text: "{{adjustments}}" };
+    const template = { text: "{{header}}" };
 
-    documentationService.getCreatureAdjustments(template, creature);
+    documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain("<strong>KNIGHTSK — Undead Knight</strong>");
+    expect(template.text).toContain("<h4>KNIGHTSK — Undead Knight</h4>");
   });
 
-  it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {
-    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
-    const creature = fakeCreatureForAddCreature(false);
-    creature.adjustments = [
-      {
-        files: ["KAHRK"],
-        noWeapon: true,
-        summon: true,
-        scriptName: true,
-        data: { xpv: 100 },
-      },
-    ] as unknown as Creature["adjustments"];
-    const template = { text: "{{adjustments}}" };
-
-    documentationService.getCreatureAdjustments(template, creature);
-
-    expect(template.text).toContain("uses his own weapon");
-    expect(template.text).not.toContain("summon");
-    expect(template.text).not.toContain("script");
-  });
-
-  // Regression test: getAdjustmentLabel used to look up monsterFilesService.getName(files[0])
-  // only, so a group like KRYSKEL1..KRYSKEL6 (real names Rick/Shane/Daryl/Glenn/Lori/Hagar) was
-  // labeled with just the first file's name for every file in the group.
-  it("shows the bare file list, with no name suffix, when files in the group resolve to different creatures.csv names", () => {
+  // Regression coverage carried over from the prior diff-line implementation: a multi-file group
+  // whose files resolve to genuinely different creatures.csv names (e.g. KRYSKEL1..6 ->
+  // Rick/Shane/Daryl/Glenn/Lori/Hagar) must fall back to the bare file list, not just the first
+  // file's name.
+  it("shows the bare file list, with no name suffix, when files in the group resolve to different names", () => {
     vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
       if (file === "KRYSKEL1") return "Rick";
       if (file === "KRYSKEL2") return "Shane";
@@ -1039,36 +1026,29 @@ describe("getCreatureAdjustments", () => {
         data: { xpv: 100 },
       },
     ] as unknown as Creature["adjustments"];
-    const template = { text: "{{adjustments}}" };
+    const template = { text: "{{header}}" };
 
-    documentationService.getCreatureAdjustments(template, creature);
+    documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain("<strong>KRYSKEL1, KRYSKEL2</strong>");
+    expect(template.text).toContain("<h4>KRYSKEL1, KRYSKEL2</h4>");
     expect(template.text).not.toContain("Rick");
     expect(template.text).not.toContain("Shane");
   });
 
-  // Regression test: getAdjustmentChanges used to show every diff.equipped entry via a bare
-  // State.items lookup, with no isEquippedWeapon/doc filter - leaking internal trait-carrier
-  // resrefs (e.g. ja#i3/ja#i17, see lib/config/item.ts) that also duplicate the immunity label
-  // already shown from diff.immunities. It must apply the same filter getCreatureAttacks does.
-  it("omits an 'Equips' change for a non-weapon equipped item (e.g. an internal trait-carrier)", () => {
+  it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
     creature.adjustments = [
-      {
-        files: ["KAHRK"],
-        noWeapon: false,
-        summon: false,
-        scriptName: false,
-        data: { items: { equipped: [{ file: "ja#i3", slot: "AMULET" }] } },
-      },
+      { files: ["KAHRK"], noWeapon: true, summon: true, scriptName: true, data: { xpv: 100 } },
     ] as unknown as Creature["adjustments"];
-    const template = { text: "{{adjustments}}" };
+    const template = { text: "{{header}}" };
 
-    documentationService.getCreatureAdjustments(template, creature);
+    documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).not.toContain("Equips");
-    expect(template.text).not.toContain("ja#i3");
+    expect(template.text).toContain(
+      '<p class="adjustment-note adjustment-changed">uses his own weapon</p>',
+    );
+    expect(template.text).not.toContain("summon");
+    expect(template.text).not.toContain("script");
   });
 });

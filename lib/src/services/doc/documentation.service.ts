@@ -16,7 +16,7 @@ import logService from "../log.service";
 import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
-import adjustmentService, { AdjustmentDiff } from "./adjustment.service";
+import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
 
 class DocumentationService {
   private families: string[] = [];
@@ -83,7 +83,7 @@ class DocumentationService {
     let str = `${creature.data.strength}`;
     this.replace(template, "id", `m${creature.id}`);
     if (creature.data.exceptionalStrength) str += `/${creature.data.exceptionalStrength}`;
-    this.replace(template, "name", translationService.from(creature.name));
+    this.getCreatureHeader(template, creature);
     this.replace(template, "str", str);
     this.replace(template, "dex", creature.data.dexterity);
     this.replace(template, "con", creature.data.constitution);
@@ -106,7 +106,6 @@ class DocumentationService {
     this.replace(template, "xp", creature.data.xpv);
     this.getCreatureAttacks(template, creature);
     this.getCreatureTraits(template, creature);
-    this.getCreatureAdjustments(template, creature);
     this.getCreatureSpells(template, creature);
     this.getCreatureSpellbooks(template, creature);
     this.monsters.push(template.text);
@@ -368,23 +367,106 @@ class DocumentationService {
     this.replace(template, "traits", result);
   }
 
-  getCreatureAdjustments(template: { text: string }, creature: Creature) {
-    const diffs = adjustmentService.getAdjustmentDiffs(creature);
-    const items = diffs.map((diff) => this.getAdjustmentLine(creature, diff)).join("");
-    let result = "";
-    if (items) {
-      result =
-        `<div class="detail-section adjustments"><details>` +
-        `<summary>Adjustments (${diffs.length})</summary>` +
-        `<ul class="adjustment-list">${items}</ul></details></div>`;
+  getCreatureHeader(template: { text: string }, creature: Creature) {
+    const name = translationService.from(creature.name);
+    const effectiveAdjustments = adjustmentService.getEffectiveAdjustments(creature);
+    let header = `<h3>${name}</h3>`;
+    if (effectiveAdjustments.length) {
+      const cards = effectiveAdjustments
+        .map((effective, index) => this.getAdjustmentCard(creature, effective, index))
+        .join("");
+      const count = effectiveAdjustments.length;
+      const label = count === 1 ? "adjustment" : "adjustments";
+      header =
+        `<details class="creature-adjustments">` +
+        `<summary><span>${name}</span><span class="adjustments-badge">${count} ${label} ▾</span></summary>` +
+        `<div class="adjustment-cards">${cards}</div></details>`;
     }
-    this.replace(template, "adjustments", result);
+    this.replace(template, "header", header);
   }
 
-  private getAdjustmentLine(creature: Creature, diff: AdjustmentDiff): string {
-    const label = this.getAdjustmentLabel(creature, diff.files);
-    const changes = this.getAdjustmentChanges(creature, diff).join(", ");
-    return `<li><strong>${label}</strong> — ${changes}</li>`;
+  // Task 3 appends the Attacks/Traits/Abilities sections to this same card, between the stat-grid
+  // and the closing </div> - `noWeaponNote` (if any) already sits right after the stat-grid.
+  private getAdjustmentCard(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
+    const label = this.getAdjustmentLabel(creature, effective.files);
+    const noWeaponNote = effective.noWeapon
+      ? `<p class="adjustment-note adjustment-changed">uses his own weapon</p>`
+      : "";
+    return (
+      `<div class="adjustment-card">` +
+      `<h4>${label}</h4>` +
+      `<dl class="stat-grid">${this.getAdjustmentStatGrid(effective)}</dl>` +
+      noWeaponNote +
+      this.getAdjustmentAttacks(creature, effective, cardIndex) +
+      this.getAdjustmentTraits(creature, effective) +
+      this.getAdjustmentSpells(creature, effective, cardIndex) +
+      `</div>`
+    );
+  }
+
+  private getAdjustmentStatGrid(effective: EffectiveAdjustment): string {
+    const abilityChanged =
+      effective.strength.changed || // eslint-disable-line sonarjs/expression-complexity
+      effective.exceptionalStrength.changed ||
+      effective.dexterity.changed ||
+      effective.constitution.changed ||
+      effective.intelligence.changed ||
+      effective.wisdom.changed ||
+      effective.charisma.changed;
+    let str = `${effective.strength.value}`;
+    if (effective.exceptionalStrength.value) str += `/${effective.exceptionalStrength.value}`;
+    const abilityScores =
+      `STR ${str}, DEX ${effective.dexterity.value}, CON ${effective.constitution.value}, ` +
+      `INT ${effective.intelligence.value}, WIS ${effective.wisdom.value}, CHA ${effective.charisma.value}`;
+    const hitDiceChanged = effective.level.changed || effective.hp.changed;
+
+    const row = (label: string, value: string | number, changed: boolean, wide = false): string =>
+      `<div class="stat${wide ? " stat-wide" : ""}"><dt>${label}</dt>` +
+      `<dd${changed ? ' class="adjustment-changed"' : ""}>${value}</dd></div>`;
+
+    return (
+      row("Ability Scores", abilityScores, abilityChanged, true) +
+      row("Hit Dice", `${effective.level.value} (${effective.hp.value} hp)`, hitDiceChanged) +
+      row("Armor Class", effective.ac.value, effective.ac.changed) +
+      row("THAC0", effective.thac0.value, effective.thac0.changed) +
+      row("Attacks per Round", effective.apr.value, effective.apr.changed) +
+      row("Movement", effective.movement.value, effective.movement.changed) +
+      row("Morale", effective.morale.value, effective.morale.changed) +
+      row(
+        "Alignment",
+        this.formatEnumLabel(effective.alignment.value),
+        effective.alignment.changed,
+      ) +
+      row("Size", effective.size.value, effective.size.changed) +
+      row("XP Value", effective.xpv.value, effective.xpv.changed)
+    );
+  }
+
+  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
+  private getAdjustmentAttacks(
+    _creature: Creature,
+    _effective: EffectiveAdjustment,
+    _cardIndex: number,
+  ): string {
+    return "";
+  }
+
+  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
+  private getAdjustmentTraits(_creature: Creature, _effective: EffectiveAdjustment): string {
+    return "";
+  }
+
+  // Stub - Task 3 replaces this with the real implementation, matching this exact signature.
+  private getAdjustmentSpells(
+    _creature: Creature,
+    _effective: EffectiveAdjustment,
+    _cardIndex: number,
+  ): string {
+    return "";
   }
 
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
@@ -400,61 +482,6 @@ class DocumentationService {
     const creatureName = translationService.from(creature.name);
     if (name.trim().toLowerCase() === creatureName.trim().toLowerCase()) return fileList;
     return `${fileList} — ${name}`;
-  }
-
-  // A flat one-field-per-line dispatch over AdjustmentDiff's stat fields - each `if` is
-  // independent and self-contained (no shared state, no nesting), so splitting it into several
-  // smaller methods would only relocate the same field checks without reducing the real
-  // complexity of "render every changed stat", same reasoning as getSpellAction's
-  // (ability.service.ts) and generateWeaponDescription's opcode dispatch.
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  private getAdjustmentChanges(creature: Creature, diff: AdjustmentDiff): string[] {
-    const changes: string[] = [];
-    if (diff.level !== undefined) changes.push(`Level ${diff.level}`);
-    if (diff.hp !== undefined) changes.push(`${diff.hp} hp`);
-    if (diff.thac0 !== undefined) changes.push(`THAC0 ${diff.thac0}`);
-    if (diff.ac !== undefined) changes.push(`AC ${diff.ac}`);
-    if (diff.apr !== undefined) {
-      const apr = diff.apr * (diff.doubleApr ? 2 : 1);
-      changes.push(`APR ${apr}`);
-    }
-    if (diff.movement !== undefined) changes.push(`Movement ${diff.movement}`);
-    if (diff.morale !== undefined) changes.push(`Morale ${diff.morale}`);
-    if (diff.alignment !== undefined) {
-      changes.push(`Alignment: ${this.formatEnumLabel(diff.alignment)}`);
-    }
-    if (diff.size !== undefined) changes.push(`Size: ${diff.size}`);
-    if (diff.xpv !== undefined) changes.push(`XP ${diff.xpv}`);
-    if (diff.strength !== undefined || diff.exceptionalStrength !== undefined) {
-      let text = `STR ${diff.strength ?? creature.data.strength}`;
-      const exStr = diff.exceptionalStrength ?? creature.data.exceptionalStrength;
-      if (exStr) text += `/${exStr}`;
-      changes.push(text);
-    }
-    if (diff.dexterity !== undefined) changes.push(`DEX ${diff.dexterity}`);
-    if (diff.constitution !== undefined) changes.push(`CON ${diff.constitution}`);
-    if (diff.intelligence !== undefined) changes.push(`INT ${diff.intelligence}`);
-    if (diff.wisdom !== undefined) changes.push(`WIS ${diff.wisdom}`);
-    if (diff.charisma !== undefined) changes.push(`CHA ${diff.charisma}`);
-    for (const item of diff.equipped ?? []) {
-      const weapon = itemService.isEquippedWeapon(item)
-        ? State.items.find((i) => i.file === item.file)
-        : undefined;
-      if (!weapon?.doc) continue;
-      const name = translationService.fromOptional(weapon.stringRef);
-      changes.push(`Equips ${name || item.file}`);
-    }
-    for (const name of diff.immunities ?? []) {
-      const immunity = State.immunities.find((i) => i.name === name);
-      changes.push(immunity ? translationService.fromOptional(immunity.stringRef) : name);
-    }
-    for (const spell of diff.memorized ?? []) {
-      const found = State.spells.find((s) => s.file === spell.file);
-      const name = found ? translationService.from(found.name) : spell.file;
-      changes.push(`${name} (${this.getSpellQuantity(spell.memorizedCount)})`);
-    }
-    if (diff.noWeapon) changes.push("uses his own weapon");
-    return changes;
   }
 
   // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain
