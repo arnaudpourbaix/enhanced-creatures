@@ -568,7 +568,7 @@ describe("getCreatureTraits", () => {
     );
   });
 
-  it("renders a non-trait immunity's description as a paragraph under its own heading when present", () => {
+  it("renders a non-trait immunity with a description as a trait-link popover, like trait-type immunities", () => {
     State.immunities = [
       {
         name: "poison",
@@ -584,8 +584,11 @@ describe("getCreatureTraits", () => {
 
     documentationService.getCreatureTraits(template, creature);
 
-    expect(template.text).toContain("<h5>");
-    expect(template.text).toContain("<p>");
+    expect(template.text).toBe(
+      '<div class="detail-section"><h4>Traits</h4><div class="traits">' +
+        '<h5><a href="#poison" class="trait-link">Construct</a></h5>' +
+        "</div></div>",
+    );
   });
 
   it("renders a non-trait immunity without a description as bare text", () => {
@@ -667,7 +670,22 @@ describe("getTraitEntries", () => {
     );
   });
 
-  it("skips non-trait immunities and traits excluded from documentation", () => {
+  it("includes a non-trait immunity that has a description, so its trait-link popover has content", () => {
+    State.immunities = [
+      {
+        name: "poison",
+        type: "immunity",
+        doc: true,
+        stringRef: "common.traits.construct.name",
+        description: "common.traits.construct.name",
+      } as unknown as ImmunityConfig,
+    ];
+    expect(documentationService.getTraitEntries()).toBe(
+      '<div class="trait-entry" id="poison"><p>Construct</p></div>',
+    );
+  });
+
+  it("skips non-trait immunities without a description, and traits excluded from documentation", () => {
     State.immunities = [
       { name: "fire", type: "immunity", doc: true } as unknown as ImmunityConfig,
       { name: "ghostVisual1", type: "trait", doc: false } as unknown as ImmunityConfig,

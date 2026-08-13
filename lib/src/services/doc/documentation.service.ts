@@ -356,8 +356,7 @@ class DocumentationService {
     for (const immunity of immunities.filter((i) => i.type !== "trait")) {
       let text = translationService.fromOptional(immunity.stringRef);
       if (immunity.description) {
-        const desc = translationService.from(immunity.description);
-        text = `<h5>${text}</h5>${this.buildDescriptionHtml(desc.split(/\r\n|\n/))}`;
+        text = `<h5><a href="#${immunity.name}" class="trait-link">${text}</a></h5>`;
       }
       result += text;
     }
@@ -515,8 +514,7 @@ class DocumentationService {
     for (const entry of resolved.filter((e) => e.config.type !== "trait")) {
       let text = translationService.fromOptional(entry.config.stringRef);
       if (entry.config.description) {
-        const desc = translationService.from(entry.config.description);
-        text = `<h5>${text}</h5>${this.buildDescriptionHtml(desc.split(/\r\n|\n/))}`;
+        text = `<h5><a href="#${entry.config.name}" class="trait-link">${text}</a></h5>`;
       }
       result += entry.changed ? `<div class="adjustment-changed">${text}</div>` : text;
     }
@@ -712,11 +710,15 @@ class DocumentationService {
   }
 
   // Source content for the trait popover (docs/monsters.js's initTraitPopover): each trait-type
-  // immunity gets one hidden entry, keyed by name, that a creature card's `a.trait-link` looks up
-  // by its `href="#<name>"` fragment and copies into the popover on hover/click. Not rendered as
-  // a visible glossary (removed in favor of the popover) - only exists so the popover has content
-  // to read. No title inside - the trait link the user is hovering/clicking already shows the
-  // name, so repeating it in the popover body would be redundant.
+  // immunity, plus every non-trait immunity/resistance that has a description, gets one hidden
+  // entry keyed by name, that a creature card's `a.trait-link` looks up by its `href="#<name>"`
+  // fragment and copies into the popover on hover/click. Trait-type immunities always get an
+  // entry (getCreatureTraits links to them unconditionally); non-trait ones only get one when
+  // they have a description, since a description-less non-trait immunity is rendered as bare
+  // text with no link to resolve. Not rendered as a visible glossary (removed in favor of the
+  // popover) - only exists so the popover has content to read. No title inside - the trait link
+  // the user is hovering/clicking already shows the name, so repeating it in the popover body
+  // would be redundant.
   getTraitEntries(): string {
     let result = "";
     // State.immunities is sorted once when loaded (see stateService.loadImmunities()) - both
@@ -724,12 +726,12 @@ class DocumentationService {
     // invariant rather than either one re-sorting (or silently depending on the other having
     // sorted first).
     for (const immunity of State.immunities) {
-      if (immunity.type === "trait" && immunity.doc) {
-        const entry = immunity.description
-          ? this.buildDescriptionHtml(translationService.from(immunity.description).split(/\r\n|\n/))
-          : "";
-        result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
-      }
+      if (!immunity.doc) continue;
+      if (immunity.type !== "trait" && !immunity.description) continue;
+      const entry = immunity.description
+        ? this.buildDescriptionHtml(translationService.from(immunity.description).split(/\r\n|\n/))
+        : "";
+      result += `<div class="trait-entry" id="${immunity.name}">${entry}</div>`;
     }
     return result;
   }
