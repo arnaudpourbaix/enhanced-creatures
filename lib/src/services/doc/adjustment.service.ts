@@ -1,7 +1,7 @@
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData, MemorizedSpell } from "../../model/creature/data";
-import { EquippedItem } from "../../model/creature/item";
+import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
 import creatureService from "../creature.service";
 
@@ -145,16 +145,27 @@ class AdjustmentService {
     return { value, changed: value !== base };
   }
 
-  private slotKey(item: EquippedItem): string {
-    return Array.isArray(item.slot) ? item.slot.join(",") : item.slot;
-  }
-
+  // Mirrors Creature.addItem's replacement rule (creature.ts): an incoming item only replaces an
+  // existing one when *both* target a genuine single slot and that slot matches; anything
+  // involving a multi-slot array is simply added alongside. Keying by a joined slot string
+  // instead would collapse every JEWEL_SLOTS trait carrier (addTrait's default) into one entry
+  // and silently drop all but the last of the base creature's own traits. Base-authored order is
+  // preserved (no sort) so getAdjustmentAttacks sees main hand before off-hand, exactly like the
+  // main creature block does.
   private getEquipped(
     matching: CreatureAdjustment[],
     base: CreatureData,
   ): { item: EquippedItem; changed: boolean }[] {
-    const baseBySlot = new Map(base.items.equipped.map((item) => [this.slotKey(item), item]));
-    const bySlot = new Map(baseBySlot);
+    const isSingleSlot = (item: EquippedItem): boolean =>
+      Array.isArray(item.slot) ? item.slot.length === 1 : true;
+    const singleSlotValue = (item: EquippedItem): ItemSlot =>
+      Array.isArray(item.slot) ? item.slot[0] : item.slot;
+
+    const result: { item: EquippedItem; changed: boolean }[] = base.items.equipped.map((item) => ({
+      item,
+      changed: false,
+    }));
+
     for (const adjustment of matching) {
       // adjustment.data is typed as the full CreatureData (real adjustments always go through
       // creatureFactory.setAdjustments, which fully populates it via getData()), but
@@ -163,12 +174,21 @@ class AdjustmentService {
       // optional chain.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       for (const item of adjustment.data.items?.equipped ?? []) {
-        bySlot.set(this.slotKey(item), item);
+        const existingIndex = isSingleSlot(item)
+          ? result.findIndex(
+              (r) => isSingleSlot(r.item) && singleSlotValue(r.item) === singleSlotValue(item),
+            )
+          : -1;
+        if (existingIndex !== -1) {
+          const changed = result[existingIndex].item.file !== item.file;
+          result[existingIndex] = { item, changed };
+        } else {
+          result.push({ item, changed: true });
+        }
       }
     }
-    return [...bySlot.entries()]
-      .map(([slot, item]) => ({ item, changed: baseBySlot.get(slot)?.file !== item.file }))
-      .sort((a, b) => this.slotKey(a.item).localeCompare(this.slotKey(b.item)));
+
+    return result;
   }
 
   private getImmunities(

@@ -386,7 +386,11 @@
   background: var(--color-bg);
 }
 
-.adjustment-card h4 {
+/* Scoped to the card's own title class rather than `.adjustment-card h4`, which also captured the
+   card's Attacks/Traits/Abilities section headings - those must keep looking like `.creature h4`.
+   The `.adjustment-card` prefix is load-bearing: cards sit inside `.creature`, so the bare class
+   (0,1,0) would lose to `.creature h4` (0,1,1). */
+.adjustment-card .adjustment-card-title {
   margin: 0 0 8px;
   font-size: 0.95rem;
   color: var(--color-red);

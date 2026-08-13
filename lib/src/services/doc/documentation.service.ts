@@ -398,7 +398,7 @@ class DocumentationService {
       : "";
     return (
       `<div class="adjustment-card">` +
-      `<h4>${label}</h4>` +
+      `<h4 class="adjustment-card-title">${label}</h4>` +
       `<dl class="stat-grid">${this.getAdjustmentStatGrid(effective)}</dl>` +
       noWeaponNote +
       this.getAdjustmentAttacks(creature, effective, cardIndex) +
@@ -453,6 +453,11 @@ class DocumentationService {
   ): string {
     let attacks = "";
     let weaponIndex = 0;
+    // Same main-hand/off-hand labeling as getCreatureAttacks, but driven by the card's own
+    // effective APR rather than the base creature's. Dual-wielding itself is never re-derived per
+    // adjustment (see the spec's Non-goals), so the base creature's flag is reused as-is.
+    const dualWielding = creature.attack.dualWielding;
+    const mainHandAttacks = effective.apr.value - (dualWielding ? 1 : 0);
     for (const { item, changed } of effective.equipped) {
       const weapon = itemService.isEquippedWeapon(item)
         ? State.items.find((i) => i.file === item.file)
@@ -465,8 +470,9 @@ class DocumentationService {
         `m${creature.id}-adj${cardIndex}-w${weaponIndex}`,
       );
       const cls = changed ? "weapon adjustment-changed" : "weapon";
+      const label = dualWielding ? this.getWeaponSlotLabel(item, mainHandAttacks) : "";
       attacks += attacks ? "<hr/>" : "";
-      attacks += `<div class="${cls}">${text}</div>`;
+      attacks += `<div class="${cls}">${label}${text}</div>`;
       attacks += entries
         .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
         .join("");

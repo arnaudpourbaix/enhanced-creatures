@@ -984,7 +984,9 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain('<details class="creature-adjustments">');
     expect(template.text).toContain('<span class="adjustments-badge">1 adjustment ▾</span>');
     expect(template.text).toContain('<div class="adjustment-card">');
-    expect(template.text).toContain("<h4>BDSOGR1, BDSOGR2</h4>");
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>',
+    );
     // Changed field: highlighted.
     expect(template.text).toMatch(
       /<dt>Hit Dice<\/dt><dd class="adjustment-changed">7 \(70 hp\)<\/dd>/,
@@ -1004,7 +1006,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain("<h4>KNIGHTSK — Undead Knight</h4>");
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">KNIGHTSK — Undead Knight</h4>',
+    );
   });
 
   // Regression coverage carried over from the prior diff-line implementation: a multi-file group
@@ -1031,7 +1035,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain("<h4>KRYSKEL1, KRYSKEL2</h4>");
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">KRYSKEL1, KRYSKEL2</h4>',
+    );
     expect(template.text).not.toContain("Rick");
     expect(template.text).not.toContain("Shane");
   });
@@ -1078,6 +1084,39 @@ describe("getCreatureHeader", () => {
     State.items = originalItems;
 
     expect(template.text).toContain('<div class="weapon adjustment-changed">');
+  });
+
+  // Regression: adjustment cards used to omit the main-hand/off-hand labels entirely (they never
+  // called getWeaponSlotLabel), and - because getEquipped sorted alphabetically by slot key -
+  // listed SHIELD before WEAPON1, so the off-hand weapon came first and unlabelled.
+  it("labels main hand and off-hand weapons on the card, in the base creature's equipped order", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalItems = State.items;
+    const mainDesc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    const offDesc = translationService.addCustomTranslation(["Melee damage: 3"]);
+    State.items = [
+      { file: "SWORD01", doc: true, description: mainDesc },
+      { file: "DAGGER01", doc: true, description: offDesc },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAddCreature(false, true);
+    creature.data.items.equipped = [
+      { file: "SWORD01", slot: "WEAPON1" },
+      { file: "DAGGER01", slot: "SHIELD" },
+    ] as unknown as Creature["data"]["items"]["equipped"];
+    creature.adjustments = [
+      { files: ["KAHRK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.items = originalItems;
+
+    // apr 2 + the engine's automatic off-hand attack = 3 effective, 2 of them on the main hand.
+    expect(template.text).toContain("Main hand · 2 attacks<");
+    expect(template.text).toContain(">Offhand<");
+    expect(template.text.indexOf("Main hand")).toBeLessThan(template.text.indexOf("Offhand"));
+    // The card's section headings stay plain h4s - only the card's own title carries the class.
+    expect(template.text).toContain("<h4>Attacks</h4>");
   });
 
   it("omits a non-weapon equipped item (e.g. an internal trait-carrier) from the Attacks section", () => {

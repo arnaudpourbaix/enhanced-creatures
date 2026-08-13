@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
+import { ItemSlot } from "../../model/creature/item";
 import adjustmentService from "./adjustment.service";
 
 function fakeCreature(p: {
@@ -238,6 +239,71 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       ]),
     );
     expect(swap?.equipped).toHaveLength(2);
+  });
+
+  // Regression: Creature.addTrait equips every trait carrier with the same multi-slot JEWEL_SLOTS
+  // array, so keying equipped items by a joined slot string collapsed them all into one entry and
+  // silently dropped all but the last (e.g. the Skeleton lost its "Skeletal" trait from every
+  // adjustment card). Multi-slot items must never replace one another.
+  it("keeps every base item that shares a multi-slot slot array", () => {
+    const jewelSlots: ItemSlot[] = ["LRING", "RRING", "AMULET", "BELT", "GLOVES", "CLOAK"];
+    const creature = fakeCreature({
+      data: {
+        items: {
+          equipped: [
+            { file: "BASEWEAP", slot: "WEAPON1" },
+            { file: "TRAIT1", slot: jewelSlots },
+            { file: "TRAIT2", slot: jewelSlots },
+          ],
+          remove: [],
+        },
+      },
+      adjustments: [
+        {
+          files: ["SWAP", "OTHER"],
+          data: {
+            items: { equipped: [{ file: "NEWWEAP", slot: "WEAPON1" }], remove: [] },
+          },
+        },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(1);
+    for (const effective of effectives) {
+      expect(effective.equipped).toEqual([
+        { item: { file: "NEWWEAP", slot: "WEAPON1" }, changed: true },
+        { item: { file: "TRAIT1", slot: jewelSlots }, changed: false },
+        { item: { file: "TRAIT2", slot: jewelSlots }, changed: false },
+      ]);
+    }
+  });
+
+  it("adds a multi-slot adjustment item alongside existing multi-slot items instead of replacing them", () => {
+    const jewelSlots: ItemSlot[] = ["LRING", "RRING", "AMULET", "BELT", "GLOVES", "CLOAK"];
+    const creature = fakeCreature({
+      data: {
+        items: { equipped: [{ file: "TRAIT1", slot: jewelSlots }], remove: [] },
+      },
+      adjustments: [
+        {
+          files: ["EXTRA"],
+          data: {
+            items: { equipped: [{ file: "TRAIT2", slot: jewelSlots }], remove: [] },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("EXTRA"));
+
+    expect(effective?.equipped).toEqual([
+      { item: { file: "TRAIT1", slot: jewelSlots }, changed: false },
+      { item: { file: "TRAIT2", slot: jewelSlots }, changed: true },
+    ]);
   });
 
   it("shows the full effective immunities set, flagging only newly granted ones", () => {
