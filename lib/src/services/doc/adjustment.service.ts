@@ -209,23 +209,36 @@ class AdjustmentService {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  // An adjustment's authored memorizedCount for a spell the base already has is a delta on top of
+  // the base's own count (not an absolute replacement) - e.g. base has 1, an adjustment authored
+  // with memorizedCount: 1 means "+1", i.e. an effective count of 2. Later adjustments win over
+  // earlier ones (same fold order as every other field here), but their deltas don't stack: only
+  // the latest adjustment's own delta is added to the base count. A spell the base doesn't have at
+  // all has no base count to add to, so the adjustment's authored value is the effective count
+  // directly (base 0 + delta).
   private getMemorized(
     matching: CreatureAdjustment[],
     base: CreatureData,
   ): { spell: MemorizedSpell; changed: boolean }[] {
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));
-    const byFile = new Map(baseByFile);
+    const deltaByFile = new Map<string, MemorizedSpell>();
     for (const adjustment of matching) {
       // See getEquipped's comment above - test fixtures can leave this undefined at runtime
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      for (const spell of adjustment.data.spells?.memorized ?? []) byFile.set(spell.file, spell);
+      for (const spell of adjustment.data.spells?.memorized ?? []) deltaByFile.set(spell.file, spell);
     }
-    return [...byFile.entries()]
-      .map(([file, spell]) => ({
-        spell,
-        changed: baseByFile.get(file)?.memorizedCount !== spell.memorizedCount,
-      }))
+    const files = new Set([...baseByFile.keys(), ...deltaByFile.keys()]);
+    return [...files]
+      .map((file) => {
+        const baseSpell = baseByFile.get(file);
+        const delta = deltaByFile.get(file);
+        const baseCount = baseSpell?.memorizedCount ?? 0;
+        const effectiveCount = baseCount + (delta?.memorizedCount ?? 0);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const spell = delta ? { ...delta, memorizedCount: effectiveCount } : baseSpell!;
+        return { spell, changed: effectiveCount !== baseCount };
+      })
       .sort((a, b) => a.spell.file.localeCompare(b.spell.file));
   }
 

@@ -1229,7 +1229,8 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature);
     State.spells = originalSpells;
 
+    // base memorizedCount 1 + adjustment delta 3 = 4 (delta, not absolute replacement)
     expect(template.text).toContain('<div class="ability-entry adjustment-changed">');
-    expect(template.text).toContain("3/day");
+    expect(template.text).toContain("4/day");
   });
 });

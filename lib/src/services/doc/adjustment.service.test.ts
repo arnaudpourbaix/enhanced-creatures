@@ -366,12 +366,50 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       .getEffectiveAdjustments(creature)
       .find((e) => e.files.includes("CASTER"));
 
+    // SPPR101: base 1 + adjustment delta 3 = 4 (delta, not absolute replacement)
+    // SPPR201: untouched by any adjustment, stays at base 2
     expect(effective?.memorized).toEqual(
       expect.arrayContaining([
-        { spell: { file: "SPPR101", memorizedCount: 3 }, changed: true },
+        { spell: { file: "SPPR101", memorizedCount: 4 }, changed: true },
         { spell: { file: "SPPR201", memorizedCount: 2 }, changed: false },
       ]),
     );
     expect(effective?.memorized).toHaveLength(2);
+  });
+
+  it("adds only the latest chained adjustment's delta to the base count, not every entry's", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [{ file: "SPPR101", memorizedCount: 1 }],
+        },
+      },
+      adjustments: [
+        {
+          files: ["BDSOGR1"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 1 }],
+            },
+          },
+        },
+        {
+          files: ["BDSOGR1", "BDSOGR2"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 2 }],
+            },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("BDSOGR1"));
+
+    // Later entry wins: base 1 + latest delta 2 = 3 (not 1 + 1 + 2 = 4 - deltas don't stack
+    // across chained adjustments, only the winning one applies on top of base).
+    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 3 }, changed: true }]);
   });
 });
