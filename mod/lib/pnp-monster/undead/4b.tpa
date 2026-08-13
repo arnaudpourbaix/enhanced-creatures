@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4b.baf~
 CREATE SPL "ja#s0m4b"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0m4b.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10338)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10339)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10339)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10340)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="ja#s0m4b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=42 probability1=100 savingthrow=4 END
@@ -25,15 +25,15 @@ COPY_EXISTING ~ja#s0m4b.SPL~  ~override~
 CREATE SPL "ja#s1m4b"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s1m4b.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10348)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10349)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10349)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10350)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~IDPRO282~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="ja#s1m4b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" duration=12 probability1=100 savingthrow=4 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=126 duration=12 probability1=100 savingthrow=4 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10350) duration=12 probability1=100 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10351) duration=12 probability1=100 savingthrow=4 savebonus="-2" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Claws
@@ -43,10 +43,10 @@ CREATE ITM "ja#i0m4b"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10325)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10325)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10326)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10326)
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10822)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10823)
 COPY_EXISTING ~ja#i0m4b.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
@@ -72,10 +72,10 @@ CREATE ITM "ja#i1m4b"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10326)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10326)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10327)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10327)
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10823)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10824)
 COPY_EXISTING ~ja#i1m4b.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN

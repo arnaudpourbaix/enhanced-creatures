@@ -23,12 +23,12 @@ ADD_PROJECTILE ~override/ja#s0fc.pro~ ~Mustard jelly Toxic Vapors~
 CREATE SPL "ja#s0fc"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0fc.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10246)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10247)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI213C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10247)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10248)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=10 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#s0fc~)) + 1 STR_VAR icon="SPWI213B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELEMENTAL~) parameter2=4 timing=1 probability1=100 STR_VAR resource="ja#s0fc" END

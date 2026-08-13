@@ -8,6 +8,7 @@ import { Durations } from "../src/model/game-data/durations";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
+  AttackModifierTypeEnum,
   CastSpellOnConditionTargetEnum,
   EffectBonusToEnum,
   EffectDamageTypeEnum,
@@ -124,7 +125,7 @@ class Cat extends Creature {
       id: p.id,
       name: "monster.cat.ability.leap.name",
       description: "monster.cat.ability.leap.description",
-      icon: SPELLS.Wizard.Haste.file,
+      icon: SPELLS.Wizard.DimensionDoor.file,
       memorizedCount: 1,
       options: { renew: 2 },
       headers: [
@@ -166,12 +167,24 @@ class Cat extends Creature {
       ...p,
       effects: [
         {
+          opcode: EffectTypeEnum.ModifyAttacksPerRound,
+          type: AttackModifierTypeEnum.Set,
+          value: 1,
+          target: EffectTargetEnum.Self,
+          timing: EffectTimingEnum.InstantLimited,
+          duration: Durations.round,
+        },
+        {
           opcode: EffectTypeEnum.CreateWeapon,
           amount: 1,
           resource: this.item(p.id).file,
           target: EffectTargetEnum.Self,
           timing: EffectTimingEnum.InstantLimited,
           duration: Durations.round,
+        },
+        {
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: "monster.cat.ability.leap.attack",
         },
       ],
     });

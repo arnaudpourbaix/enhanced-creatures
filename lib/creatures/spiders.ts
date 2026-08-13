@@ -10,6 +10,7 @@ import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect, DamageEffect, Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
+  AttackModifierTypeEnum,
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
   EffectModifierTypeEnum,
@@ -90,19 +91,13 @@ class Spider extends Creature {
   createLegWeapon(p: { id: number; impale?: boolean; lightning?: boolean; equipped?: boolean }) {
     const effects: Effect[] = [];
     if (p.impale) {
-      effects.push(
-        {
-          opcode: EffectTypeEnum.DisplayString,
-          stringRef: "monster.spider.ability.impale.name",
-        },
-        {
-          opcode: EffectTypeEnum.Thac0Bonus,
-          type: EffectModifierTypeEnum.Increment,
-          value: -4,
-          timing: EffectTimingEnum.InstantLimited,
-          duration: 2 * Durations.round,
-        },
-      );
+      effects.push({
+        opcode: EffectTypeEnum.Thac0Bonus,
+        type: EffectModifierTypeEnum.Increment,
+        value: -4,
+        timing: EffectTimingEnum.InstantLimited,
+        duration: 2 * Durations.round,
+      });
     }
     if (p.lightning) {
       effects.push({
@@ -115,11 +110,11 @@ class Spider extends Creature {
       id: p.id,
       stringRef: p.impale ? "monster.spider.ability.impale.name" : "monster.spider.weapon.leg",
       icon: MonsterItemIconEnum.Wolf,
-      equippedSlot: p.equipped ? ["SHIELD"] : undefined,
+      equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
       header: {
         type: ItemAbilityTypeEnum.Melee,
-        diceThrown: p.impale ? 4 : 1,
-        diceSize: 12,
+        diceThrown: p.impale ? 8 : 2,
+        diceSize: 6,
         damageType: AbilityDamageTypeEnum.Piercing,
         speed: 1,
         abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
@@ -284,7 +279,7 @@ class Spider extends Creature {
         ? "monster.spider.ability.leapAttack.description"
         : "monster.spider.ability.leap.description",
       memorizedCount: p.memorizedCount,
-      icon: SPELLS.Wizard.Haste.file,
+      icon: SPELLS.Wizard.DimensionDoor.file,
       options: { renew: 1 },
       headers: [
         {
@@ -321,12 +316,24 @@ class Spider extends Creature {
       memorizedCount: p.memorizedCount,
       effects: [
         {
+          opcode: EffectTypeEnum.ModifyAttacksPerRound,
+          type: AttackModifierTypeEnum.Set,
+          value: 1,
+          target: EffectTargetEnum.Self,
+          timing: EffectTimingEnum.InstantLimited,
+          duration: Durations.round,
+        },
+        {
           opcode: EffectTypeEnum.CreateWeapon,
           amount: 1,
           resource: this.item(p.id).file,
           target: EffectTargetEnum.Self,
           timing: EffectTimingEnum.InstantLimited,
           duration: Durations.round,
+        },
+        {
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: "monster.spider.ability.impale.name",
         },
       ],
     });
@@ -499,7 +506,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
     ghostwalk.createJaws({
       diceThrown: 3,
       diceSize: 10,
-      slot: "WEAPON1",
       immunities: ["incorporeal", "ghostVisual1"],
       doc: false,
     });
@@ -859,10 +865,6 @@ class SpiderFamily extends CreatureFamily<Spider> {
         },
       },
     });
-    sword.createJaws({
-      diceThrown: 2,
-      diceSize: 4,
-    });
     sword.createLegWeapon({ id: Ids.Leg, equipped: true });
     sword.createLeapImpalingSpell({
       id: Ids.LeapImpalingAttack,
@@ -872,6 +874,11 @@ class SpiderFamily extends CreatureFamily<Spider> {
     sword.createLeapImpalingSpell({
       id: Ids.LightningLeapImpalingAttack,
       lightning: true,
+    });
+    sword.createJaws({
+      diceThrown: 2,
+      diceSize: 4,
+      slot: "SHIELD",
     });
     sword.setBehavior({
       abilities: [

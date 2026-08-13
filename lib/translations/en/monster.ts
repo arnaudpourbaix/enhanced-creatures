@@ -93,6 +93,7 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       leap: {
         name: "Leap",
         description: `Leap on its target and strike with both forepaws and both rear claws.`,
+        attack: "Leap Attack",
       },
     },
     weapon: { claws: "Paws", jaws: "Jaws", tentacles: "Tentacles" },
