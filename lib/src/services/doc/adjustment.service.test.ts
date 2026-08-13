@@ -40,8 +40,8 @@ function fakeCreature(p: {
   } as unknown as CreatureData;
 
   return {
-    id: 1,
     data,
+    id: 1,
     attack: { dualWielding: p.dualWielding ?? false },
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
@@ -111,7 +111,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
 
   it("excludes a file whose only authored change is to a field with no doc presence (e.g. class)", () => {
     const creature = fakeCreature({
-      adjustments: [{ files: ["WELT"], data: { class: "INNOCENT" } as Partial<CreatureData> }],
+      adjustments: [{ files: ["WELT"], data: { class: "INNOCENT" } }],
     });
 
     expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
@@ -212,7 +212,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
             { file: "BASERING", slot: "LRING" },
           ],
           remove: [],
-        } as unknown as CreatureData["items"],
+        },
       },
       adjustments: [
         {
@@ -221,7 +221,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
             items: {
               equipped: [{ file: "NEWWEAP", slot: "WEAPON1" }],
               remove: [],
-            } as unknown as CreatureData["items"],
+            },
           },
         },
       ],
@@ -267,7 +267,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
             { file: "SPPR101", memorizedCount: 1 },
             { file: "SPPR201", memorizedCount: 2 },
           ],
-        } as unknown as CreatureData["spells"],
+        },
       },
       adjustments: [
         {
@@ -275,7 +275,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
           data: {
             spells: {
               memorized: [{ file: "SPPR101", memorizedCount: 3 }],
-            } as unknown as CreatureData["spells"],
+            },
           },
         },
       ],

@@ -63,18 +63,23 @@ class AdjustmentService {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
       level: this.field(this.lastDefined(matching, (d) => d.level1?.pnpValue), base.level1.pnpValue),
-      hp: this.field(this.lastDefined(matching, (d) => d.hp), base.hp),
-      thac0: this.field(this.lastDefined(matching, (d) => d.thac0), base.thac0),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      hp: this.field(this.lastDefined(matching, (d) => d.hp), base.hp!),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      thac0: this.field(this.lastDefined(matching, (d) => d.thac0), base.thac0!),
       ac: this.getAc(matching, creature),
       apr: this.getApr(matching, creature),
       movement: this.field(
         this.lastDefined(matching, (d) => d.movement?.pnpValue),
         base.movement.pnpValue,
       ),
-      morale: this.field(this.lastDefined(matching, (d) => d.morale), base.morale),
-      alignment: this.field(this.lastDefined(matching, (d) => d.alignment), base.alignment),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      morale: this.field(this.lastDefined(matching, (d) => d.morale), base.morale!),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      alignment: this.field(this.lastDefined(matching, (d) => d.alignment), base.alignment!),
       size: this.field(this.lastDefined(matching, (d) => d.size), base.size),
-      xpv: this.field(this.lastDefined(matching, (d) => d.xpv), base.xpv),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      xpv: this.field(this.lastDefined(matching, (d) => d.xpv), base.xpv!),
       strength: this.field(this.lastDefined(matching, (d) => d.strength), base.strength),
       exceptionalStrength: this.field(
         this.lastDefined(matching, (d) => d.exceptionalStrength),
@@ -89,8 +94,10 @@ class AdjustmentService {
         this.lastDefined(matching, (d) => d.intelligence),
         base.intelligence,
       ),
-      wisdom: this.field(this.lastDefined(matching, (d) => d.wisdom), base.wisdom),
-      charisma: this.field(this.lastDefined(matching, (d) => d.charisma), base.charisma),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      wisdom: this.field(this.lastDefined(matching, (d) => d.wisdom), base.wisdom!),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      charisma: this.field(this.lastDefined(matching, (d) => d.charisma), base.charisma!),
       equipped: this.getEquipped(matching, base),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
@@ -110,7 +117,7 @@ class AdjustmentService {
   }
 
   private field<T>(overridden: T | undefined, base: T): AdjustmentField<T> {
-    const value = overridden === undefined ? base : overridden;
+    const value = overridden ?? base;
     return { value, changed: value !== base };
   }
 
@@ -203,10 +210,9 @@ class AdjustmentService {
   // A flat one-field-per-line OR chain over every trackable field - each check is independent and
   // self-contained (no shared state, no nesting), same reasoning as adjustment rendering's own
   // field dispatch previously here.
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   private hasVisibleChanges(effective: EffectiveAdjustment): boolean {
     return (
-      effective.noWeapon ||
+      effective.noWeapon || // eslint-disable-line sonarjs/expression-complexity
       effective.level.changed ||
       effective.hp.changed ||
       effective.thac0.changed ||
@@ -244,7 +250,8 @@ class AdjustmentService {
         order.push(signature);
       }
     }
-    return order.map((signature) => bySignature.get(signature) as EffectiveAdjustment);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return order.map((signature) => bySignature.get(signature)!);
   }
 }
 
