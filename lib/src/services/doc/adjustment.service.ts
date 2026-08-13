@@ -39,7 +39,9 @@ class AdjustmentService {
   getEffectiveAdjustments(creature: Creature): EffectiveAdjustment[] {
     const files = this.getAllFiles(creature.adjustments);
     const perFile = files.map((file) => this.getEffectiveDataForFile(creature, file));
-    return this.group(perFile.filter((effective) => this.hasVisibleChanges(effective)));
+    return this.group(perFile.filter((effective) => this.hasVisibleChanges(effective))).sort(
+      (a, b) => a.level.value - b.level.value,
+    );
   }
 
   private getAllFiles(adjustments: CreatureAdjustment[]): string[] {

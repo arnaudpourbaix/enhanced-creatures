@@ -110,6 +110,21 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(acFp2ot?.xpv).toEqual({ value: 500, changed: false });
   });
 
+  it("sorts effective adjustments ascending by level, regardless of authored file order", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["HIGH"], data: { level1: { pnpValue: 10, type: "none", value: 10 } } },
+        { files: ["LOW"], data: { level1: { pnpValue: 3, type: "none", value: 3 } } },
+        { files: ["MID"], data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives.map((e) => e.files)).toEqual([["LOW"], ["MID"], ["HIGH"]]);
+    expect(effectives.map((e) => e.level.value)).toEqual([3, 7, 10]);
+  });
+
   it("excludes a file whose only authored change is to a field with no doc presence (e.g. class)", () => {
     const creature = fakeCreature({
       adjustments: [{ files: ["WELT"], data: { class: "INNOCENT" } }],

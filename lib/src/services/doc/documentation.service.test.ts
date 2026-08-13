@@ -1006,16 +1006,14 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain(
-      '<h4 class="adjustment-card-title">KNIGHTSK — Undead Knight</h4>',
-    );
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Undead Knight</h4>');
   });
 
-  // Regression coverage carried over from the prior diff-line implementation: a multi-file group
-  // whose files resolve to genuinely different creatures.csv names (e.g. KRYSKEL1..6 ->
-  // Rick/Shane/Daryl/Glenn/Lori/Hagar) must fall back to the bare file list, not just the first
-  // file's name.
-  it("shows the bare file list, with no name suffix, when files in the group resolve to different names", () => {
+  // Regression test: getAdjustmentLabel used to look up monsterFilesService.getName(files[0])
+  // only, so a group like KRYSKEL1..KRYSKEL6 (real names Rick/Shane/Daryl/Glenn/Lori/Hagar) was
+  // labeled with just the first file's name for every file in the group. It now resolves each
+  // file's own name individually instead of requiring group-wide agreement.
+  it("lists each file's own resolved name when files in the group resolve to different creatures.csv names", () => {
     vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
       if (file === "KRYSKEL1") return "Rick";
       if (file === "KRYSKEL2") return "Shane";
@@ -1035,11 +1033,48 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain(
-      '<h4 class="adjustment-card-title">KRYSKEL1, KRYSKEL2</h4>',
-    );
-    expect(template.text).not.toContain("Rick");
-    expect(template.text).not.toContain("Shane");
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Rick, Shane</h4>');
+  });
+
+  it("shows a shared resolved name once, not repeated, when every file in the group resolves to the same name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
+      if (file === "KRYSKEL1") return "Skeleton Warrior";
+      if (file === "KRYSKEL2") return "Skeleton Warrior";
+      return undefined;
+    });
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KRYSKEL1", "KRYSKEL2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Skeleton Warrior</h4>');
+  });
+
+  it("prefers the creature's own newFiles stringRef name over the global creatures.csv lookup", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const stringRef = translationService.addCustomTranslation(["Young Treant"]);
+    const creature = fakeCreatureForAddCreature(false);
+    // Real-world newFiles entries are authored lowercase (e.g. ATWEAKS_CREATURES.Treant7hd ===
+    // "ja#trea2" in lib/creatures/plants.ts) while creatureFactory uppercases adjustment.files, so
+    // the match must be case-insensitive - mirror that mismatch here rather than using matching case.
+    creature.newFiles = [{ files: ["somefile"], stringRef }];
+    creature.adjustments = [
+      { files: ["SOMEFILE"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Young Treant</h4>');
   });
 
   it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {

@@ -545,19 +545,29 @@ class DocumentationService {
     return `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
   }
 
-  private getAdjustmentLabel(creature: Creature, files: string[]): string {
-    const names = files.map((file) => monsterFilesService.getName(file));
-    const fileList = files.join(", ");
-    const defined = names.filter((name): name is string => name !== undefined);
-    if (defined.length === 0) return fileList;
-    const allSame = defined.every(
-      (name) => name.trim().toLowerCase() === defined[0].trim().toLowerCase(),
+  private getFileName(creature: Creature, file: string): string | undefined {
+    // creature.newFiles has a class field-initializer default of [] on the real Creature class, but
+    // documentation.service.test.ts fixtures built via `as unknown as Creature` casts can leave it
+    // genuinely undefined at runtime - same defensive pattern already used in adjustment.service.ts.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const newFile = creature.newFiles?.find((nf) =>
+      // creatureFactory uppercases adjustment.files (creature.factory.ts) and monsterFilesService
+      // normalizes lookups to uppercase, but newFiles entries keep whatever case they were authored
+      // with (e.g. "ja#trea1") - compare case-insensitively to match.
+      nf.files.some((f) => f.toUpperCase() === file.toUpperCase()),
     );
-    if (!allSame) return fileList;
-    const name = defined[0];
+    if (newFile?.stringRef) return translationService.from(newFile.stringRef);
+    return monsterFilesService.getName(file);
+  }
+
+  private getAdjustmentLabel(creature: Creature, files: string[]): string {
     const creatureName = translationService.from(creature.name);
-    if (name.trim().toLowerCase() === creatureName.trim().toLowerCase()) return fileList;
-    return `${fileList} — ${name}`;
+    const labels = files.map((file) => {
+      const name = this.getFileName(creature, file);
+      if (!name) return file;
+      return name.trim().toLowerCase() === creatureName.trim().toLowerCase() ? file : name;
+    });
+    return [...new Set(labels)].join(", ");
   }
 
   // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain
