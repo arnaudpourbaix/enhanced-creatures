@@ -107,13 +107,18 @@ export abstract class CreatureFamily<T extends Creature>
   }
 
   // creatures.csv's "summon" column is the source of truth for which files are summon variants.
-  // Files already covered by a hand-written setAdjustments() entry (e.g. ones that also carry
-  // data overrides, or ones the CSV can't confirm - see check-summon-adjustments.ts) are left
-  // alone; everything else the CSV confirms gets a minimal synthetic adjustment so it still gets
-  // the summon behavior script and xpv=0 patch.
+  // Files already flagged summon:true by a hand-written setAdjustments() entry are left alone;
+  // every other CSV-confirmed file gets a minimal synthetic adjustment appended so it still gets
+  // the summon behavior script and xpv=0 patch - even if it's also covered by an earlier,
+  // data-only hand-written entry (e.g. one that sets level1 alongside it). Adjustments apply as
+  // separate, sequential PATCH_IF blocks, and this one is appended after the hand-written entries
+  // build() already pushed, so its xpv=0 always wins for that file without disturbing the other
+  // fields the hand-written entry set.
   private applyCsvSummonFiles(creature: T): void {
     const knownFiles = new Set(
-      creature.adjustments.flatMap((a) => a.files.map((f) => f.toUpperCase())),
+      creature.adjustments
+        .filter((a) => a.summon)
+        .flatMap((a) => a.files.map((f) => f.toUpperCase())),
     );
     const csvSummonFiles = [
       ...new Set(

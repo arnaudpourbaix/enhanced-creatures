@@ -104,7 +104,6 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN OGRELESU END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=ja#m1csu END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OGRELESU~) BEGIN 
-				WRITE_LONG 0x14 0 // xpv
 				WRITE_SHORT 0x24 28 // hp
 				WRITE_SHORT 0x26 28 // hp
 				WRITE_BYTE 0x52 17 // thac0
@@ -129,6 +128,9 @@ BEGIN
 				WRITE_BYTE 0x238 18 // strength
 				WRITE_BYTE 0x239 95 // exceptionalStrength
 				WRITE_BYTE 0x23d 15 // constitution
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OGRELESU~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END ELSE BEGIN

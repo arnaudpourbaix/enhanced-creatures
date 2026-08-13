@@ -596,8 +596,6 @@ class WeiduCreatureService extends AbstractWeiduService {
     summon: boolean;
     creature: Creature;
   }) {
-    // Deliberately not forcing gender=SUMMONED here: some spells exclude SUMMONED-gender targets,
-    // and these are real game files whose existing gender should keep working with those spells.
     if (p.summon) {
       p.data.xpv = 0;
     }
