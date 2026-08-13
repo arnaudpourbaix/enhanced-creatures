@@ -13,8 +13,10 @@ import { State } from "../../state";
 import creatureService from "../creature.service";
 import itemService from "../item.service";
 import logService from "../log.service";
+import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
+import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
 
 class DocumentationService {
   private families: string[] = [];
@@ -81,7 +83,7 @@ class DocumentationService {
     let str = `${creature.data.strength}`;
     this.replace(template, "id", `m${creature.id}`);
     if (creature.data.exceptionalStrength) str += `/${creature.data.exceptionalStrength}`;
-    this.replace(template, "name", translationService.from(creature.name));
+    this.getCreatureHeader(template, creature);
     this.replace(template, "str", str);
     this.replace(template, "dex", creature.data.dexterity);
     this.replace(template, "con", creature.data.constitution);
@@ -365,6 +367,209 @@ class DocumentationService {
     this.replace(template, "traits", result);
   }
 
+  getCreatureHeader(template: { text: string }, creature: Creature) {
+    const name = translationService.from(creature.name);
+    const effectiveAdjustments = adjustmentService.getEffectiveAdjustments(creature);
+    let header = `<h3>${name}</h3>`;
+    if (effectiveAdjustments.length) {
+      const cards = effectiveAdjustments
+        .map((effective, index) => this.getAdjustmentCard(creature, effective, index))
+        .join("");
+      const count = effectiveAdjustments.length;
+      const label = count === 1 ? "adjustment" : "adjustments";
+      header =
+        `<details class="creature-adjustments">` +
+        `<summary><span>${name}</span><span class="adjustments-badge">${count} ${label} ▾</span></summary>` +
+        `<div class="adjustment-cards">${cards}</div></details>`;
+    }
+    this.replace(template, "header", header);
+  }
+
+  // Task 3 appends the Attacks/Traits/Abilities sections to this same card, between the stat-grid
+  // and the closing </div> - `noWeaponNote` (if any) already sits right after the stat-grid.
+  private getAdjustmentCard(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
+    const label = this.getAdjustmentLabel(creature, effective.files);
+    const noWeaponNote = effective.noWeapon
+      ? `<p class="adjustment-note adjustment-changed">uses his own weapon</p>`
+      : "";
+    return (
+      `<div class="adjustment-card">` +
+      `<h4 class="adjustment-card-title">${label}</h4>` +
+      `<dl class="stat-grid">${this.getAdjustmentStatGrid(effective)}</dl>` +
+      noWeaponNote +
+      this.getAdjustmentAttacks(creature, effective, cardIndex) +
+      this.getAdjustmentTraits(creature, effective) +
+      this.getAdjustmentSpells(creature, effective, cardIndex) +
+      `</div>`
+    );
+  }
+
+  private getAdjustmentStatGrid(effective: EffectiveAdjustment): string {
+    const abilityChanged =
+      effective.strength.changed || // eslint-disable-line sonarjs/expression-complexity
+      effective.exceptionalStrength.changed ||
+      effective.dexterity.changed ||
+      effective.constitution.changed ||
+      effective.intelligence.changed ||
+      effective.wisdom.changed ||
+      effective.charisma.changed;
+    let str = `${effective.strength.value}`;
+    if (effective.exceptionalStrength.value) str += `/${effective.exceptionalStrength.value}`;
+    const abilityScores =
+      `STR ${str}, DEX ${effective.dexterity.value}, CON ${effective.constitution.value}, ` +
+      `INT ${effective.intelligence.value}, WIS ${effective.wisdom.value}, CHA ${effective.charisma.value}`;
+    const hitDiceChanged = effective.level.changed || effective.hp.changed;
+
+    const row = (label: string, value: string | number, changed: boolean, wide = false): string =>
+      `<div class="stat${wide ? " stat-wide" : ""}"><dt>${label}</dt>` +
+      `<dd${changed ? ' class="adjustment-changed"' : ""}>${value}</dd></div>`;
+
+    return (
+      row("Ability Scores", abilityScores, abilityChanged, true) +
+      row("Hit Dice", `${effective.level.value} (${effective.hp.value} hp)`, hitDiceChanged) +
+      row("Armor Class", effective.ac.value, effective.ac.changed) +
+      row("THAC0", effective.thac0.value, effective.thac0.changed) +
+      row("Attacks per Round", effective.apr.value, effective.apr.changed) +
+      row("Movement", effective.movement.value, effective.movement.changed) +
+      row("Morale", effective.morale.value, effective.morale.changed) +
+      row(
+        "Alignment",
+        this.formatEnumLabel(effective.alignment.value),
+        effective.alignment.changed,
+      ) +
+      row("Size", effective.size.value, effective.size.changed) +
+      row("XP Value", effective.xpv.value, effective.xpv.changed)
+    );
+  }
+
+  private getAdjustmentAttacks(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
+    let attacks = "";
+    let weaponIndex = 0;
+    // Same main-hand/off-hand labeling as getCreatureAttacks, but driven by the card's own
+    // effective APR rather than the base creature's. Dual-wielding itself is never re-derived per
+    // adjustment (see the spec's Non-goals), so the base creature's flag is reused as-is.
+    const dualWielding = creature.attack.dualWielding;
+    const mainHandAttacks = effective.apr.value - (dualWielding ? 1 : 0);
+    for (const { item, changed } of effective.equipped) {
+      const weapon = itemService.isEquippedWeapon(item)
+        ? State.items.find((i) => i.file === item.file)
+        : undefined;
+      if (!weapon?.doc) continue;
+      const entries: { id: string; html: string }[] = [];
+      const text = this.getAttackDisplayText(
+        translationService.fromOptional(weapon.description),
+        entries,
+        `m${creature.id}-adj${cardIndex}-w${weaponIndex}`,
+      );
+      const cls = changed ? "weapon adjustment-changed" : "weapon";
+      const label = dualWielding ? this.getWeaponSlotLabel(item, mainHandAttacks) : "";
+      attacks += attacks ? "<hr/>" : "";
+      attacks += `<div class="${cls}">${label}${text}</div>`;
+      attacks += entries
+        .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+        .join("");
+      weaponIndex++;
+    }
+    if (!attacks) attacks = `<div class="weapon">By weapon</div>`;
+    return `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>`;
+  }
+
+  // A flat one-branch-per-section builder mirroring getCreatureTraits' own shape (trait links,
+  // then equipped trait-carrier items, then non-trait immunity descriptions) - same reasoning as
+  // that method for not splitting further.
+  private getAdjustmentTraits(creature: Creature, effective: EffectiveAdjustment): string {
+    let result = "";
+    const resolved = effective.immunities
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      .filter(({ name }) => !creature.autoImmunities?.includes(name))
+      .map(({ name, changed }) => ({
+        config: State.immunities.find((i) => i.name === name),
+        changed,
+      }))
+      .filter(
+        (entry): entry is { config: ImmunityConfig; changed: boolean } =>
+          entry.config !== undefined,
+      );
+
+    const traitLinks = resolved
+      .filter((entry) => entry.config.type === "trait")
+      .map((entry) => {
+        const cls = entry.changed ? "trait-link adjustment-changed" : "trait-link";
+        return `<a href="#${entry.config.name}" class="${cls}">${translationService.fromOptional(entry.config.stringRef)}</a>`;
+      });
+    if (traitLinks.length) result += `<h5>${traitLinks.join(", ")}</h5>`;
+
+    for (const { item, changed } of effective.equipped) {
+      const found = State.items.find((i) => i.file === item.file);
+      if (found?.trait) result += this.getTraitItemHtml(found, changed);
+    }
+
+    for (const entry of resolved.filter((e) => e.config.type !== "trait")) {
+      let text = translationService.fromOptional(entry.config.stringRef);
+      if (entry.config.description) {
+        const desc = translationService.from(entry.config.description);
+        text = `<h5>${text}</h5>${this.buildDescriptionHtml(desc.split(/\r\n|\n/))}`;
+      }
+      result += entry.changed ? `<div class="adjustment-changed">${text}</div>` : text;
+    }
+    if (!result) return "";
+    return `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
+  }
+
+  private getAdjustmentSpells(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
+    let spells = "";
+    const memorizedList = effective.memorized.map((entry) => entry.spell);
+    this.getResourceAbilities(creature).forEach((ability, index) => {
+      const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
+      const extraClass = entry?.changed ? "adjustment-changed" : "";
+      spells += this.getCreatureSpell(
+        ability,
+        memorizedList,
+        `m${creature.id}-adj${cardIndex}-ability-${index}`,
+        extraClass,
+      );
+    });
+    if (!spells) return "";
+    return `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
+  }
+
+  private getFileName(creature: Creature, file: string): string | undefined {
+    // creature.newFiles has a class field-initializer default of [] on the real Creature class, but
+    // documentation.service.test.ts fixtures built via `as unknown as Creature` casts can leave it
+    // genuinely undefined at runtime - same defensive pattern already used in adjustment.service.ts.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const newFile = creature.newFiles?.find((nf) =>
+      // creatureFactory uppercases adjustment.files (creature.factory.ts) and monsterFilesService
+      // normalizes lookups to uppercase, but newFiles entries keep whatever case they were authored
+      // with (e.g. "ja#trea1") - compare case-insensitively to match.
+      nf.files.some((f) => f.toUpperCase() === file.toUpperCase()),
+    );
+    if (newFile?.stringRef) return translationService.from(newFile.stringRef);
+    return monsterFilesService.getName(file);
+  }
+
+  private getAdjustmentLabel(creature: Creature, files: string[]): string {
+    const creatureName = translationService.from(creature.name);
+    const labels = files.map((file) => {
+      const name = this.getFileName(creature, file);
+      if (!name) return file;
+      return name.trim().toLowerCase() === creatureName.trim().toLowerCase() ? file : name;
+    });
+    return [...new Set(labels)].join(", ");
+  }
+
   // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain
   // text description (see description.service.ts's generateItemTraitDescription, onlyName=true)
   // is reused as the real in-game item tooltip and so can't contain markup. When a bundled
@@ -373,7 +578,7 @@ class DocumentationService {
   // it still deserves the same clickable popover link either way. This reattaches that link
   // docs-only, by matching each plain-text description line back to the sub-immunity name it
   // came from.
-  private getTraitItemHtml(item: Item): string {
+  private getTraitItemHtml(item: Item, changed = false): string {
     const traitLines = new Map<string, string>();
     for (const subName of item.immunities) {
       const sub = State.immunities.find((i) => i.name === subName);
@@ -382,7 +587,7 @@ class DocumentationService {
       }
     }
     const lines = translationService.fromOptional(item.description).split(/\r\n|\n/);
-    return lines
+    const html = lines
       .filter((line) => line !== "")
       .map((line) => {
         const traitName = traitLines.get(line);
@@ -391,6 +596,7 @@ class DocumentationService {
           : `<p>${line}</p>`;
       })
       .join("");
+    return changed ? `<div class="adjustment-changed">${html}</div>` : html;
   }
 
   getCreatureSpells(template: { text: string }, creature: Creature) {
@@ -458,7 +664,12 @@ class DocumentationService {
     ].filter((a) => a.resource);
   }
 
-  getCreatureSpell(ability: CreatureAbility, memorizedList: MemorizedSpell[], idPrefix: string) {
+  getCreatureSpell(
+    ability: CreatureAbility,
+    memorizedList: MemorizedSpell[],
+    idPrefix: string,
+    extraClass = "",
+  ) {
     const memorized = memorizedList.find((m) => m.file === ability.resource);
     const spell = State.spells.find((s) => s.file === ability.resource);
     let result = "";
@@ -496,7 +707,8 @@ class DocumentationService {
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
     // ability's title together instead of splitting it across columns.
-    return `<div class="ability-entry">${result}</div>${popoverEntry}`;
+    const cls = extraClass ? `ability-entry ${extraClass}` : "ability-entry";
+    return `<div class="${cls}">${result}</div>${popoverEntry}`;
   }
 
   // Source content for the trait popover (docs/monsters.js's initTraitPopover): each trait-type

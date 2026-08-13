@@ -8,6 +8,7 @@ const VALIDATED_COLUMN = "ValidatedMonsterId";
 const DEATHVAR_COLUMN = "deathvar";
 const DIALOG_COLUMN = "dialog";
 const SUMMON_COLUMN = "summon";
+const NAME_COLUMN = "name";
 
 export function parseMonsterFilesCsv(raw: string): Map<string, string[]> {
   const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
@@ -103,11 +104,29 @@ export function parseMonsterSummonFilesCsv(raw: string): Map<string, string[]> {
   return result;
 }
 
+export function parseFileNamesCsv(raw: string): Map<string, string> {
+  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const header = lines[0].split(";");
+  const fileIdx = header.indexOf(FILE_COLUMN);
+  const nameIdx = header.indexOf(NAME_COLUMN);
+
+  const result = new Map<string, string>();
+  for (const line of lines.slice(1)) {
+    const fields = line.split(";");
+    const file = fields[fileIdx] ?? "";
+    const name = fields[nameIdx] ?? "";
+    if (!file || !name) continue;
+    result.set(file.toUpperCase(), name);
+  }
+  return result;
+}
+
 class MonsterFilesService {
   private filesByMonster?: Map<string, string[]>;
   private unvalidatedFilesByMonster?: Map<string, string[]>;
   private dialogRowsByMonster?: Map<string, { file: string; deathvar: string; dialog: string }[]>;
   private summonFilesByMonster?: Map<string, string[]>;
+  private namesByFile?: Map<string, string>;
 
   getFiles(monster: MonsterEnum): string[] {
     this.filesByMonster ??= parseMonsterFilesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
@@ -129,6 +148,11 @@ class MonsterFilesService {
   getDialogRows(monster: MonsterEnum): { file: string; deathvar: string; dialog: string }[] {
     this.dialogRowsByMonster ??= parseMonsterDialogCsv(fs.readFileSync(CSV_PATH, "utf-8"));
     return this.dialogRowsByMonster.get(MonsterEnum[monster]) ?? [];
+  }
+
+  getName(file: string): string | undefined {
+    this.namesByFile ??= parseFileNamesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+    return this.namesByFile.get(file.toUpperCase());
   }
 }
 

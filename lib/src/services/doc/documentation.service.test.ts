@@ -5,12 +5,14 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CreatureAbility } from "../../model/creature/ability";
+import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { State } from "../../state";
 import documentationService from "./documentation.service";
 import translationService from "../translation.service";
+import monsterFilesService from "../monster-files.service";
 
 interface DocumentationServicePrivate {
   monsters: string[];
@@ -48,6 +50,7 @@ function fakeCreatureForAddCreature(doubleApr: boolean, dualWielding = false): C
     },
     behavior: { abilities: [], customCodes: [] },
     attack: { dualWielding },
+    adjustments: [],
   } as unknown as Creature;
 }
 
@@ -944,5 +947,290 @@ describe("replace (private)", () => {
     const template = { text: "{{key}} and {{key}} again" };
     service.replace(template, "key", undefined);
     expect(template.text).toBe(" and  again");
+  });
+});
+
+describe("getCreatureHeader", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("renders a plain h3 with no details/badge when the creature has no adjustments", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
+  });
+
+  it("renders a details/summary badge and one adjustment-card per effective group", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSOGR1", "BDSOGR2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { level1: { pnpValue: 7, type: "none", value: 7 }, hp: 70, xpv: 975 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<details class="creature-adjustments">');
+    expect(template.text).toContain('<span class="adjustments-badge">1 adjustment ▾</span>');
+    expect(template.text).toContain('<div class="adjustment-card">');
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>',
+    );
+    // Changed field: highlighted.
+    expect(template.text).toMatch(
+      /<dt>Hit Dice<\/dt><dd class="adjustment-changed">7 \(70 hp\)<\/dd>/,
+    );
+    expect(template.text).toMatch(/<dt>XP Value<\/dt><dd class="adjustment-changed">975<\/dd>/);
+    // Untouched field: still shown, but plain (base's own final AC is 5 - ac:5, dexterity:12).
+    expect(template.text).toMatch(/<dt>Armor Class<\/dt><dd>5<\/dd>/);
+  });
+
+  it("shows the creatures.csv name next to the files when it differs from the creature's own name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Undead Knight");
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      { files: ["KNIGHTSK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Undead Knight</h4>');
+  });
+
+  // Regression test: getAdjustmentLabel used to look up monsterFilesService.getName(files[0])
+  // only, so a group like KRYSKEL1..KRYSKEL6 (real names Rick/Shane/Daryl/Glenn/Lori/Hagar) was
+  // labeled with just the first file's name for every file in the group. It now resolves each
+  // file's own name individually instead of requiring group-wide agreement.
+  it("lists each file's own resolved name when files in the group resolve to different creatures.csv names", () => {
+    vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
+      if (file === "KRYSKEL1") return "Rick";
+      if (file === "KRYSKEL2") return "Shane";
+      return undefined;
+    });
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KRYSKEL1", "KRYSKEL2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Rick, Shane</h4>');
+  });
+
+  it("shows a shared resolved name once, not repeated, when every file in the group resolves to the same name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
+      if (file === "KRYSKEL1") return "Skeleton Warrior";
+      if (file === "KRYSKEL2") return "Skeleton Warrior";
+      return undefined;
+    });
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KRYSKEL1", "KRYSKEL2"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Skeleton Warrior</h4>');
+  });
+
+  it("prefers the creature's own newFiles stringRef name over the global creatures.csv lookup", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const stringRef = translationService.addCustomTranslation(["Young Treant"]);
+    const creature = fakeCreatureForAddCreature(false);
+    // Real-world newFiles entries are authored lowercase (e.g. ATWEAKS_CREATURES.Treant7hd ===
+    // "ja#trea2" in lib/creatures/plants.ts) while creatureFactory uppercases adjustment.files, so
+    // the match must be case-insensitive - mirror that mismatch here rather than using matching case.
+    creature.newFiles = [{ files: ["somefile"], stringRef }];
+    creature.adjustments = [
+      { files: ["SOMEFILE"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<h4 class="adjustment-card-title">Young Treant</h4>');
+  });
+
+  it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      { files: ["KAHRK"], noWeapon: true, summon: true, scriptName: true, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<p class="adjustment-note adjustment-changed">uses his own weapon</p>',
+    );
+    expect(template.text).not.toContain("summon");
+    expect(template.text).not.toContain("script");
+  });
+
+  it("shows the effective Attacks list, highlighting only the weapon the adjustment changed", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalItems = State.items;
+    State.items = [{ file: "NEWWEAP", doc: true, description: "" }] as unknown as typeof State.items;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.items.equipped = [
+      { file: "OLDWEAP", slot: "WEAPON1" },
+    ] as unknown as Creature["data"]["items"]["equipped"];
+    creature.adjustments = [
+      {
+        files: ["SWAP"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          items: { equipped: [{ file: "NEWWEAP", slot: "WEAPON1" }], remove: [] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.items = originalItems;
+
+    expect(template.text).toContain('<div class="weapon adjustment-changed">');
+  });
+
+  // Regression: adjustment cards used to omit the main-hand/off-hand labels entirely (they never
+  // called getWeaponSlotLabel), and - because getEquipped sorted alphabetically by slot key -
+  // listed SHIELD before WEAPON1, so the off-hand weapon came first and unlabelled.
+  it("labels main hand and off-hand weapons on the card, in the base creature's equipped order", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalItems = State.items;
+    const mainDesc = translationService.addCustomTranslation(["Melee damage: 5"]);
+    const offDesc = translationService.addCustomTranslation(["Melee damage: 3"]);
+    State.items = [
+      { file: "SWORD01", doc: true, description: mainDesc },
+      { file: "DAGGER01", doc: true, description: offDesc },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAddCreature(false, true);
+    creature.data.items.equipped = [
+      { file: "SWORD01", slot: "WEAPON1" },
+      { file: "DAGGER01", slot: "SHIELD" },
+    ] as unknown as Creature["data"]["items"]["equipped"];
+    creature.adjustments = [
+      { files: ["KAHRK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.items = originalItems;
+
+    // apr 2 + the engine's automatic off-hand attack = 3 effective, 2 of them on the main hand.
+    expect(template.text).toContain("Main hand · 2 attacks<");
+    expect(template.text).toContain(">Offhand<");
+    expect(template.text.indexOf("Main hand")).toBeLessThan(template.text.indexOf("Offhand"));
+    // The card's section headings stay plain h4s - only the card's own title carries the class.
+    expect(template.text).toContain("<h4>Attacks</h4>");
+  });
+
+  it("omits a non-weapon equipped item (e.g. an internal trait-carrier) from the Attacks section", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["KAHRK"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          items: { equipped: [{ file: "ja#i3", slot: "AMULET" }], remove: [] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain('<div class="weapon">By weapon</div>');
+    expect(template.text).not.toContain("ja#i3");
+  });
+
+  it("shows the full effective immunities list, highlighting only the newly granted ones", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalImmunities = State.immunities;
+    State.immunities = [
+      { name: "giant", type: "trait", stringRef: "common.traits.construct.name" },
+      { name: "undead", type: "trait", stringRef: "common.traits.undead.name" },
+    ] as unknown as typeof State.immunities;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.immunities = ["giant"] as unknown as Creature["data"]["immunities"];
+    creature.adjustments = [
+      {
+        files: ["KALDRAN"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { immunities: ["giant", "undead"] } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.immunities = originalImmunities;
+
+    expect(template.text).toContain('<a href="#giant" class="trait-link">');
+    expect(template.text).toContain('<a href="#undead" class="trait-link adjustment-changed">');
+  });
+
+  it("shows the full effective Abilities list, highlighting only the spell whose count changed", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalSpells = State.spells;
+    State.spells = [];
+    const creature = fakeCreatureForAddCreature(false);
+    creature.behavior = {
+      abilities: [{ name: "ability.test", resource: "SPPR101" } as unknown as CreatureAbility],
+      customCodes: [],
+    };
+    creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
+    creature.adjustments = [
+      {
+        files: ["CASTER"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          spells: { memorized: [{ file: "SPPR101", memorizedCount: 3 }] },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.spells = originalSpells;
+
+    // base memorizedCount 1 + adjustment delta 3 = 4 (delta, not absolute replacement)
+    expect(template.text).toContain('<div class="ability-entry adjustment-changed">');
+    expect(template.text).toContain("4/day");
   });
 });

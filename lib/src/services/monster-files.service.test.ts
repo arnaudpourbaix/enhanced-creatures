@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { MonsterEnum } from "../../creatures/monster";
 import monsterFilesService, {
+  parseFileNamesCsv,
   parseMonsterDialogCsv,
   parseMonsterFilesCsv,
   parseUnvalidatedMonsterFilesCsv,
@@ -133,5 +134,47 @@ describe("monsterFilesService.getDialogRows", () => {
     expect(rows).toEqual(
       expect.arrayContaining([{ file: "L#MIMMI", deathvar: "L#MIMMI", dialog: "L#MIMMI" }]),
     );
+  });
+});
+
+describe("parseFileNamesCsv", () => {
+  it("maps each file to its name column value, uppercased", () => {
+    const csv = [
+      HEADER,
+      "kaldran;ANIMAL;BEAR;BEAR_POLAR;BEAR_POLAR;kaldran;;BG1;Kaldran the Bear;PolarBear;true",
+    ].join("\n");
+
+    const result = parseFileNamesCsv(csv);
+
+    expect(result.get("KALDRAN")).toBe("Kaldran the Bear");
+  });
+
+  it("skips rows with an empty file or an empty name", () => {
+    const csv = [
+      HEADER,
+      ";ANIMAL;BEAR;BEAR_POLAR;BEAR_POLAR;;;BG1;No File;PolarBear;true",
+      "NONAME;ANIMAL;BEAR;BEAR_POLAR;BEAR_POLAR;noname;;BG1;;PolarBear;true",
+    ].join("\n");
+
+    const result = parseFileNamesCsv(csv);
+
+    expect(result.size).toBe(0);
+  });
+
+  it(EMPTY_MAP_FOR_HEADER_ONLY_CSV, () => {
+    const result = parseFileNamesCsv(HEADER);
+
+    expect(result.size).toBe(0);
+  });
+});
+
+describe("monsterFilesService.getName", () => {
+  it("returns the creatures.csv name for a known file, case-insensitively", () => {
+    expect(monsterFilesService.getName("kaldran")).toBe("Kaldran the Bear");
+    expect(monsterFilesService.getName("KALDRAN")).toBe("Kaldran the Bear");
+  });
+
+  it("returns undefined for an unknown file", () => {
+    expect(monsterFilesService.getName("NOT_A_REAL_FILE_ID")).toBeUndefined();
   });
 });

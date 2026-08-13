@@ -339,3 +339,76 @@
     grid-column: 1 / -1;
   }
 }
+
+.creature-adjustments summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.creature-adjustments summary::-webkit-details-marker {
+  display: none;
+}
+
+.creature-adjustments > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-gold);
+}
+
+.creature-adjustments > summary > span:first-child {
+  font-family: var(--font-heading);
+  color: var(--color-red);
+  font-size: 1.17em;
+}
+
+.adjustments-badge {
+  font-size: 0.75rem;
+  font-family: var(--font-heading);
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+}
+
+.adjustment-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.adjustment-card {
+  border: 1px solid var(--color-gold);
+  border-radius: 5px;
+  padding: 10px 14px;
+  background: var(--color-bg);
+}
+
+/* Scoped to the card's own title class rather than `.adjustment-card h4`, which also captured the
+   card's Attacks/Traits/Abilities section headings - those must keep looking like `.creature h4`.
+   The `.adjustment-card` prefix is load-bearing: cards sit inside `.creature`, so the bare class
+   (0,1,0) would lose to `.creature h4` (0,1,1). */
+.adjustment-card .adjustment-card-title {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--color-red);
+  border-bottom: 1px dashed var(--color-gold);
+  padding-bottom: 4px;
+}
+
+.adjustment-card .stat-grid {
+  font-size: 0.9em;
+}
+
+.adjustment-note {
+  margin: 6px 0;
+}
+
+.adjustment-changed {
+  font-weight: 700;
+  background: rgba(139, 26, 26, 0.14);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
