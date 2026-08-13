@@ -9,37 +9,43 @@ per-`.cre`-file overrides authored throughout `lib/creatures/*.ts` (e.g. a named
 `KNIGHTSK`, a summoned variant, a "chieftain" stat block for specific Ogre files). A reader of the
 docs currently has no way to know these variants exist or what's different about them.
 
-Adding every adjustment inline would clutter the page for the common case (no adjustments) and
-bury the primary stat block for creatures that have many. This design adds one collapsed
-`<details>` block per creature, shown only when it has adjustments, using the same native
-disclosure pattern already used for the sidebar family menu (`getFamilyMenu`,
-`documentation.service.ts:45-56`) - no new JS.
+This design adds, to each creature's name header, a small badge/disclosure control that expands
+into a full-width panel below the header. That panel shows one **complete mini stat block per
+effective adjustment** - the same stat-grid/Attacks/Traits/Abilities-Spellbooks layout used for
+the creature's own base block - rather than a terse diff line. Fields that differ from the base
+creature's own value are visually called out (a highlight chip); fields the adjustment inherits
+unchanged from the base render exactly like the main block. This supersedes an earlier revision of
+this design that rendered only a comma-separated line of the fields that changed - that approach
+read as a changelog, not as "what does this file actually look like," which is what's wanted here.
 
 ## Governing rule
 
-**A field only appears in the adjustments block if it already has a rendering path in the main
+**A field only appears on an adjustment's card if it already has a rendering path in the main
 per-creature block today.** Concretely, that's: ability scores, Hit Dice (level + hp), Armor
 Class, THAC0, Attacks per Round, Movement, Morale, Alignment, Size, XP Value, Attacks
 (`items.equipped`), Traits (`immunities`), and Abilities/Spellbooks (`spells.memorized`). Any field
 without an existing doc rendering - `class`/`kit`/`race`/`general`, `bonusHp`/`specialBonusHp`,
 `proficiencies`, colors, `script`, `gender`, `ea`, sub-type ACs/saves/resistances,
-`hideShadow`/`moveSilent`, `doubleApr` - is never shown directly, full stop, no generic fallback.
-If such a field affects a *shown* field (e.g. `bonusHp` feeding into `hp`/`thac0`, confirmed below)
-that effect surfaces through the shown field itself.
+`hideShadow`/`moveSilent`, `doubleApr` (as its own line - it still folds into the APR value) - is
+never shown directly, full stop, no generic fallback. If such a field affects a *shown* field (e.g.
+`bonusHp` feeding into `hp`/`thac0`, confirmed below) that effect surfaces through the shown field
+itself.
 
-A shown field is only included in a given line if its value **actually differs from the base
-creature's own value** for that field - not merely "is it set." This distinction matters because
-`creatureService.check()` runs the same auto-generation pass on every adjustment that it runs on
-the base creature (`creature.service.ts:34-56`): for each entry in `creature.adjustments`, it
-calls `checkData({ creature, base: a, isAdjustment: true })`, which fills in `hp`/`thac0`
-(`autogenerateHitPoints`/`autogenerateThac0`) and applies dexterity-AC-bonus/movement/APR
-transforms, falling back to the base creature's own fields when the adjustment doesn't set them
-(confirmed by `hit-point.service.test.ts:145`, "falls back to the parent's
-constitution/bonusHp/class"). So `hp`/`thac0`/`ac` are basically always set on every adjustment
-once autogeneration runs - checking "is it set" would show noise on files that never actually
-changed. Diffing against the base creature's own final value is what correctly captures "this file
-is different," and is also exactly how `bonusHp` ends up represented: it's never shown as its own
-line, but its effect on `hp`/`thac0` is, whenever that effect makes them differ from the base.
+Each shown field displays the file's **effective value**: whatever the folded adjustment sets, or
+the base creature's own value when the adjustment doesn't touch that field. A field is flagged as
+*changed* (gets the highlight treatment, see Highlighting below) only when that effective value
+actually differs from the base creature's own displayed value - not merely "did some adjustment set
+it." This distinction matters because `creatureService.check()` runs the same auto-generation pass
+on every adjustment that it runs on the base creature (`creature.service.ts:28-57`): for each entry
+in `creature.adjustments`, it calls `checkData({ creature, base: a, isAdjustment: true })`, which
+fills in `hp`/`thac0` (`hitPointService`'s autogeneration, e.g. `hit-point.service.ts:38-44`, using
+`p.data.X ?? p.parent?.X` fallbacks) and applies dexterity-AC-bonus/movement/APR transforms - but
+only for those *derived* fields. Plain data fields (ability scores, `alignment`, `size`, `morale`,
+`xpv`, etc.) are **not** back-filled onto the adjustment's own `.data` by `checkData` - they stay
+`undefined` there unless the file's authoring code sets them explicitly. So the effective-value
+merge (adjustment's folded value, falling back to the base creature's `.data`) has to happen at
+render time for every field, not just the auto-generated ones; the auto-generated fields simply
+arrive at that merge already resolved.
 
 ## Non-goals
 
@@ -61,7 +67,7 @@ line, but its effect on `hp`/`thac0` is, whenever that effect makes them differ 
 - If an adjustment ever sets its own `dexterity` (none does today, as far as a `dexterity:` grep
   across `lib/creatures/*.ts` suggests - most hits are base creatures' own `setData` calls), its
   folded `ac` already reflects the bonus `checkDexterityArmorClassBonus` computed from that
-  adjustment's own `dexterity` (per the Armor Class rule above) - no extra handling is needed, this
+  adjustment's own `dexterity` (per the Armor Class rule below) - no extra handling is needed, this
   is called out only because it wasn't exhaustively verified adjustment-by-adjustment.
 
 ## Effective-adjustment computation
@@ -75,50 +81,124 @@ target the same file cumulatively (confirmed real example: Ogre's `BDSOGR1`/`BDS
 by three separate entries - a "chieftain" stat block, a weapon swap with `noWeapon: true`, and a
 class/proficiency change - see `lib/creatures/ogres.ts:463-493`).
 
-New pure function, e.g. `getEffectiveAdjustments(creature: Creature): EffectiveAdjustment[]` in a
-new `lib/src/services/doc/adjustment.service.ts`:
+Unchanged from the prior revision, in `lib/src/services/doc/adjustment.service.ts`:
 
 1. Collect the union of every file id across all of `creature.adjustments[].files`.
 2. For each file, fold every adjustment entry whose `files` includes it, **in authored order**:
    later entries' explicitly-set fields overwrite earlier ones for that file. `noWeapon` becomes
    `true` for the file if *any* folded entry set it.
-3. Group files whose folded result is deep-equal into one `EffectiveAdjustment` (`{ files:
-   string[], noWeapon: boolean, data: CreatureData }`). This is what naturally produces
-   `BDSOGR1, BDSOGR2` as one line (identical folded result) while `AC#FP2OT` (only in the
-   weapon-swap entry) becomes its own line.
+3. Group files whose folded result is deep-equal into one entry (`{ files: string[], noWeapon:
+   boolean, data: CreatureData }`). This is what naturally produces `BDSOGR1, BDSOGR2` as one card
+   (identical folded result) while `AC#FP2OT` (only in the weapon-swap entry) becomes its own card.
 
-## Which fields are shown
+## Effective data & change tracking
 
-For each `EffectiveAdjustment`, compare its folded data against `creature.data` (the base) field
-by field, per the Governing rule's list, and render only the ones that differ:
+This is the part that changes from the prior revision. For each folded-and-grouped adjustment
+entry, build an `EffectiveAdjustment` carrying, for every field in the Governing rule's list:
 
-- Ability scores, THAC0, Movement, Morale, Alignment, Size, XP Value, and Hit Dice
-  (level + hp) → direct value compare, reusing existing labels/formatting already used for the
-  base stat block (e.g. `formatEnumLabel` for alignment).
-- Armor Class → the folded `ac` compared directly against `creatureService.getFinalArmorClass(
-  creature)` (the base's own displayed value). No dexterity-bonus reconstruction is applied to the
-  adjustment's side: `creatureService.checkData` (`creature.service.ts:43-57`) already runs
-  `checkDexterityArmorClassBonus` on every adjustment's own `data` using *only that adjustment's
-  own* `dexterity` (never falling back to the base creature's) - so an adjustment's folded `ac` is
-  already whatever final value that process left it at, and no further math is needed (see
-  Non-goals for the one case this doesn't cover).
-- Attacks per Round → raw `apr`/`doubleApr` compare (see Non-goals).
-- `items.equipped` (non-empty on the folded result) → resolve each entry's `file` against
-  `State.items` the same way `getCreatureAttacks` does (`documentation.service.ts:146-150`) and
-  show the item's name if found, else the raw file id.
-- `immunities` (non-empty on the folded result) → resolve each name against `State.immunities`
-  the same way `getCreatureTraits` does (`documentation.service.ts:340-347`) and show its
-  translated trait label.
-- `spells.memorized` (non-empty on the folded result) → shown the same way `getCreatureSpell`
-  already renders a memorized entry (`documentation.service.ts:461-500`), reusing that method.
-- `noWeapon: true` → literal string `"uses his own weapon"`, appended after the data-derived
-  changes.
+- **`value`**: the folded adjustment's own value if set, else the base creature's own value for
+  that field (`foldedData[field] ?? creature.data[field]`).
+- **`changed`**: `true` when that effective value actually differs from the base creature's own
+  *displayed* value, using the same per-field comparison rules as before:
+  - Ability scores, THAC0, Movement, Morale, Alignment, Size, XP Value, Hit Dice (level + hp) →
+    direct value compare.
+  - Armor Class → compare against `creatureService.getFinalArmorClass(creature)` (the base's own
+    displayed value), not a raw field compare - `checkData` already ran
+    `checkDexterityArmorClassBonus` on the adjustment's own data using only that adjustment's own
+    `dexterity`, so the folded `ac` is already a finished value (see Non-goals for the one
+    unverified edge case).
+  - Attacks per Round → compare the raw `apr * (doubleApr ? 2 : 1)` product against the base's own
+    (see Non-goals on why this doesn't reuse `getEffectiveApr`'s dual-wielding bonus).
+- List fields (`items.equipped`, `immunities`, `spells.memorized`) don't reduce to a single
+  `value`/`changed` pair - see below.
+
+**`items.equipped`**: the effective set is the base creature's `items.equipped`, with each slot
+overridden by whatever the folded adjustment sets for that slot (same slot-keyed overlay the prior
+revision used for its diff, just no longer filtered down to only the changed slots). Every slot
+renders, the same way `getCreatureAttacks` resolves each entry's `file` against `State.items`
+today; a slot whose resolved item differs from the base's own item in that slot is flagged changed.
+
+**`immunities`**: the effective set is the union of the base creature's `immunities` and whatever
+the folded adjustment grants. Every entry renders, resolved against `State.immunities` the same way
+`getCreatureTraits` does; entries not present on the base creature are flagged changed.
+
+**`spells.memorized`**: the effective set is the base creature's `spells.memorized`, overlaid
+per-`file` by whatever the folded adjustment sets. Every entry renders the same way
+`getCreatureSpell` already renders a memorized entry; an entry whose `memorizedCount` differs from
+the base's own is flagged changed.
+
+**`noWeapon`**: not a field with a base-creature counterpart, so it has no "unchanged" state - if
+the folded entry sets it, the card shows it, always in the changed/highlighted treatment.
+
+## Highlighting
+
+A changed field's rendered value gets wrapped in a highlight-chip style: bold weight plus a light
+translucent background tint in the site's existing red accent (`--color-red`, `main.css`), applied
+via a new class (e.g. `.adjustment-changed`) on the `<dd>`/list-entry that carries it. An unchanged
+field renders with no extra class - visually identical to how the same field renders in the main
+stat block. This was chosen (over an italic treatment, and over a colored-text-only treatment)
+specifically because plain italics were too subtle against the parchment background to scan
+quickly; the chip's background fill is what makes changed fields jump out at a glance even in a
+card where most fields are inherited.
+
+## Rendering
+
+**Header.** `addCreature` (`documentation.service.ts:70-108`) currently emits `<h3>{{name}}</h3>`
+unconditionally. When `creature.adjustments` is non-empty, that's replaced with a `<details>`
+element styled to look identical to the plain `<h3>` (same font, color, border-bottom) whose
+`<summary>` is a flex row: the creature name on the left, a small badge on the right reading `"{{
+count}} adjustments ▾"`. This reuses the native disclosure pattern already used for the sidebar
+family menu (`getFamilyMenu`, `documentation.service.ts:45-56`) - no new JS. When there are no
+adjustments, the header renders exactly as it does today - nothing added, nothing to expand.
+
+**Panel.** Opening the `<details>` reveals, directly below the header, a full-width region (the
+same width as the `.creature` card, not a narrow sidebar) containing one card per
+`EffectiveAdjustment`, in the order the union-of-files walk in the Effective-adjustment computation
+step produced them. Each card:
+
+```html
+<details class="creature-adjustments">
+  <summary>
+    <span>Ankheg</span>
+    <span class="adjustments-badge">5 adjustments ▾</span>
+  </summary>
+  <div class="adjustment-cards">
+    <div class="adjustment-card">
+      <h4>BDANKH01</h4>
+      <dl class="stat-grid">
+        <div class="stat"><dt>Hit Dice</dt><dd class="adjustment-changed">10 (100 hp)</dd></div>
+        <div class="stat"><dt>Armor Class</dt><dd>4</dd></div>
+        <div class="stat"><dt>THAC0</dt><dd class="adjustment-changed">11</dd></div>
+        <!-- ...remaining stat-grid fields, same order as the main block... -->
+      </dl>
+      <div class="detail-section"><h4>Attacks</h4>...</div>
+      <div class="detail-section">...traits...</div>
+      <!-- ...abilities/spellbooks if any... -->
+    </div>
+    <!-- ...one .adjustment-card per EffectiveAdjustment... -->
+  </div>
+</details>
+```
+
+Each card's own `<h4>` header is the file-list-plus-optional-name label described below (e.g.
+`BDANKH01`, or `KNIGHTSK — Undead Knight` when a name resolves and differs from the creature's own
+name). The card body reuses the main block's existing per-field rendering helpers
+(`formatEnumLabel`, the stat-grid markup, `getCreatureAttacks`/`getCreatureTraits`/
+`getCreatureSpell`'s formatting) applied to the effective data instead of the base creature's,
+with the `changed` flag from the previous section controlling whether `adjustment-changed` is added
+to that field's element.
+
+New CSS in `mod/docs/monsters.css` styles `.creature-adjustments summary` to look like the plain
+`<h3>` it replaces (matching the existing `.sidebar .family > details > summary` disclosure
+affordance at `monsters.css:75`, which doesn't apply outside the sidebar), `.adjustments-badge` as
+a small pill, `.adjustment-card` as a bordered sub-panel echoing `.creature` itself but
+smaller/nested, and `.adjustment-changed` per the Highlighting section above.
 
 ## Name lookup
 
-`assets/creatures.csv` has a `name` column keyed by file resref, independent of the owning
-creature's own name (confirmed: `KNIGHTSK` → "Undead Knight" even though its owning creature's own
-name is generic "Skeleton"; `KALDRAN` → "Kaldran the Bear"). Extend
+Unchanged from the prior revision. `assets/creatures.csv` has a `name` column keyed by file resref,
+independent of the owning creature's own name (confirmed: `KNIGHTSK` → "Undead Knight" even though
+its owning creature's own name is generic "Skeleton"; `KALDRAN` → "Kaldran the Bear"). Extend
 `lib/src/services/monster-files.service.ts` (same lazy CSV-parse-once pattern as `getFiles` /
 `getSummonFiles`) with:
 
@@ -126,52 +206,36 @@ name is generic "Skeleton"; `KALDRAN` → "Kaldran the Bear"). Extend
   (uppercased, matching how `setAdjustments` uppercases `files`), value is the `name` column.
 - `MonsterFilesService.getName(file: string): string | undefined`.
 
-For each `EffectiveAdjustment`, look up a name for its first file. If found and it differs
-(case-insensitive, trimmed) from the creature's own displayed name (`translationService.from(
-creature.name)`), show it next to the file id list; otherwise omit it as redundant.
-
-## Rendering
-
-`getCreatureAdjustments(template, creature)` in `documentation.service.ts`, called from
-`addCreature` right after `getCreatureTraits` (`documentation.service.ts:106`), building:
-
-```html
-<div class="detail-section adjustments">
-  <details>
-    <summary>Adjustments ({{count}})</summary>
-    <ul class="adjustment-list">
-      <li><strong>BDSOGR1, BDSOGR2</strong> — Level 7, AC 2, XP 975,
-        uses his own weapon</li>
-      ...
-    </ul>
-  </details>
-</div>
-```
-
-Add the `{{adjustments}}` token to `lib/templates/monster.html` between `{{traits}}` and
-`{{abilities}}`. When `creature.adjustments` is empty, `replace` is still called (matching the
-existing pattern for `special`/`traits`/`attacks`, which always call `replace` even with `""`) but
-with an empty string, so no block - not even a collapsed empty one - is rendered.
-
-New CSS in `mod/docs/monsters.css` styles `.adjustments summary` as a small button-like disclosure
-(distinct from the sidebar-scoped `.sidebar .family > details > summary` rule at
-`monsters.css:75`, which doesn't apply outside the sidebar).
+For each `EffectiveAdjustment`, look up a name for every one of its files. If every file resolves
+to the same name (case-insensitive, trimmed) and that name differs from the creature's own
+displayed name (`translationService.from(creature.name)`), show it next to the file id list (e.g.
+`KRYSKEL1, ... , KRYSKEL6 — Rick`); if the files' names disagree (a real case: Kryskel's six files
+resolve to six different individual names - Rick/Shane/Daryl/Glenn/Lori/Hagar) or no name resolves,
+show the bare file list with no name suffix.
 
 ## Testing
 
 Unit tests for the new pure logic, following this project's existing `*.test.ts` pattern:
 
-- `adjustment.service.test.ts`: folding order (later entry wins per file), grouping by deep-equal
-  result (the Ogre `BDSOGR1`/`BDSOGR2`/`AC#FP2OT` case), an adjustment that only sets `bonusHp`
-  shows a change only when the computed `hp`/`thac0` actually differ from the base creature's own
-  (not merely because they were set), `noWeapon` becoming `"uses his own weapon"`,
-  `scriptName`/`summon` never appearing in output, an unlisted field (e.g. `class`) never
-  appearing even when it differs from the base.
-- `monster-files.service.test.ts`: extend with `parseFileNamesCsv` / `getName` cases (found name
-  differs from creature name → returned; not found → `undefined`).
-- `documentation.service.test.ts` (already exists): a creature with no adjustments produces an
-  empty `{{adjustments}}` replacement; one with adjustments produces the expected `<details>`
-  block.
+- `adjustment.service.test.ts`: folding order (later entry wins per file) and grouping by
+  deep-equal result are unchanged from the prior revision and keep their existing coverage. New
+  coverage needed for the effective-data merge: a field untouched by any adjustment shows the
+  base creature's own value with `changed: false`; a field the adjustment sets to the *same* value
+  as the base still shows `changed: false`; a field the adjustment actually changes shows the new
+  value with `changed: true`; `hp`/`thac0` driven purely by `bonusHp` autogeneration show `changed`
+  only when the computed value actually differs from the base's own; `items.equipped`/
+  `immunities`/`spells.memorized` each return the *full* effective set (base entries included) with
+  per-entry `changed` flags, not just the changed subset; `noWeapon` always reports changed when
+  set; `scriptName`/`summon` never appear in output; an unlisted field (e.g. `class`) never appears
+  even when it differs from the base.
+- `monster-files.service.test.ts`: `parseFileNamesCsv`/`getName` cases are unchanged from the prior
+  revision.
+- `documentation.service.test.ts`: a creature with no adjustments renders a plain `<h3>{{name}}</h3>`
+  with no badge and no `<details>`; a creature with adjustments renders the badge and, per card,
+  the full stat-grid/Attacks/Traits markup with `adjustment-changed` on exactly the fields that
+  differ from the base; the multi-file name-agreement case (all names agree → suffix shown; names
+  disagree → bare file list) keeps its existing coverage.
 
 Manual: regenerate `mod/docs/monsters.html` and visually check the Ogre and Skeleton (`KNIGHTSK`)
-entries render the expected grouped lines and names.
+entries render the expected per-file cards with the right fields highlighted, and that the Kryskel
+family (six differently-named files) falls back to the bare file list.
