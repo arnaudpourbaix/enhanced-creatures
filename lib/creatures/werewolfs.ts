@@ -54,5 +54,4 @@
 //     "WOLFW2", // Kryla
 //     "WOLFW3", // Palin
 //   ],
-//   adjustments: [{ files: ["WOLFSU"], summon: true }],
 // };

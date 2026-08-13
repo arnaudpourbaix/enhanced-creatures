@@ -2255,7 +2255,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
     warrior.setAdjustments([
       {
         files: ["C0DESUM1", "SKELSU01"],
-        summon: true,
         data: {
           level1: 3,
           strength: 16,
@@ -2265,7 +2264,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       },
       {
         files: ["C0DESUM2", "SKELSU07"],
-        summon: true,
         data: {
           level1: 5,
           strength: 17,
@@ -2275,7 +2273,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       },
       {
         files: ["C0DESUM3", "SKELSU11"],
-        summon: true,
         data: {
           level1: 7,
           strength: 18,
@@ -2299,7 +2296,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       },
       {
         files: ["C0DESUM4"],
-        summon: true,
         data: {
           level1: 9,
           ea: "CONTROLLED",
@@ -2313,7 +2309,6 @@ class UndeadFamily extends CreatureFamily<Undead> {
       },
       {
         files: ["C0DESUM5"],
-        summon: true,
         data: {
           level1: 15,
           strength: 19,

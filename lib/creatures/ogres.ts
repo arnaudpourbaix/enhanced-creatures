@@ -578,7 +578,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       ],
     });
     ogrillon.setAdjustments([
-      { files: ["OGRELESU"], summon: true, data: { level1: 3 } },
+      { files: ["OGRELESU"], data: { level1: 3 } },
       {
         // veteran with 5+3 Hit Dice
         files: ["GNARL", "HAIRTO"],

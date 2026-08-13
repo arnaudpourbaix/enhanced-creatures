@@ -621,7 +621,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
     green.setAdjustments([
       {
         files: ["JELLGRSU"],
-        summon: true,
         data: { script: { location: "None" } },
       },
       {
