@@ -64,11 +64,20 @@ class AdjustmentService {
     return {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
-      level: this.field(this.lastDefined(matching, (d) => d.level1?.pnpValue), base.level1.pnpValue),
+      level: this.field(
+        this.lastDefined(matching, (d) => d.level1?.pnpValue),
+        base.level1.pnpValue,
+      ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      hp: this.field(this.lastDefined(matching, (d) => d.hp), base.hp!),
+      hp: this.field(
+        this.lastDefined(matching, (d) => d.hp),
+        base.hp!,
+      ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      thac0: this.field(this.lastDefined(matching, (d) => d.thac0), base.thac0!),
+      thac0: this.field(
+        this.lastDefined(matching, (d) => d.thac0),
+        base.thac0!,
+      ),
       ac: this.getAc(matching, creature),
       apr: this.getApr(matching, creature),
       movement: this.field(
@@ -76,18 +85,36 @@ class AdjustmentService {
         base.movement.pnpValue,
       ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      morale: this.field(this.lastDefined(matching, (d) => d.morale), base.morale!),
+      morale: this.field(
+        this.lastDefined(matching, (d) => d.morale),
+        base.morale!,
+      ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      alignment: this.field(this.lastDefined(matching, (d) => d.alignment), base.alignment!),
-      size: this.field(this.lastDefined(matching, (d) => d.size), base.size),
+      alignment: this.field(
+        this.lastDefined(matching, (d) => d.alignment),
+        base.alignment!,
+      ),
+      size: this.field(
+        this.lastDefined(matching, (d) => d.size),
+        base.size,
+      ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      xpv: this.field(this.lastDefined(matching, (d) => d.xpv), base.xpv!),
-      strength: this.field(this.lastDefined(matching, (d) => d.strength), base.strength),
+      xpv: this.field(
+        this.lastDefined(matching, (d) => d.xpv),
+        base.xpv!,
+      ),
+      strength: this.field(
+        this.lastDefined(matching, (d) => d.strength),
+        base.strength,
+      ),
       exceptionalStrength: this.field(
         this.lastDefined(matching, (d) => d.exceptionalStrength),
         base.exceptionalStrength,
       ),
-      dexterity: this.field(this.lastDefined(matching, (d) => d.dexterity), base.dexterity),
+      dexterity: this.field(
+        this.lastDefined(matching, (d) => d.dexterity),
+        base.dexterity,
+      ),
       constitution: this.field(
         this.lastDefined(matching, (d) => d.constitution),
         base.constitution,
@@ -97,9 +124,15 @@ class AdjustmentService {
         base.intelligence,
       ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      wisdom: this.field(this.lastDefined(matching, (d) => d.wisdom), base.wisdom!),
+      wisdom: this.field(
+        this.lastDefined(matching, (d) => d.wisdom),
+        base.wisdom!,
+      ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      charisma: this.field(this.lastDefined(matching, (d) => d.charisma), base.charisma!),
+      charisma: this.field(
+        this.lastDefined(matching, (d) => d.charisma),
+        base.charisma!,
+      ),
       equipped: this.getEquipped(matching, base),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
@@ -131,7 +164,10 @@ class AdjustmentService {
   // data.ac has had its dexterity bonus stripped out for WeiDU generation by that same pass.
   private getAc(matching: CreatureAdjustment[], creature: Creature): AdjustmentField<number> {
     const base = creatureService.getFinalArmorClass(creature);
-    return this.field(this.lastDefined(matching, (d) => d.ac), base);
+    return this.field(
+      this.lastDefined(matching, (d) => d.ac),
+      base,
+    );
   }
 
   // Mirrors documentationService.getEffectiveApr (raw apr * doubleApr multiplier, plus the +1 the
@@ -226,7 +262,8 @@ class AdjustmentService {
       // See getEquipped's comment above - test fixtures can leave this undefined at runtime
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      for (const spell of adjustment.data.spells?.memorized ?? []) deltaByFile.set(spell.file, spell);
+      for (const spell of adjustment.data.spells?.memorized ?? [])
+        deltaByFile.set(spell.file, spell);
     }
     const files = new Set([...baseByFile.keys(), ...deltaByFile.keys()]);
     return [...files]
@@ -257,7 +294,6 @@ class AdjustmentService {
       effective.morale.changed ||
       effective.alignment.changed ||
       effective.size.changed ||
-      effective.xpv.changed ||
       effective.strength.changed ||
       effective.exceptionalStrength.changed ||
       effective.dexterity.changed ||
