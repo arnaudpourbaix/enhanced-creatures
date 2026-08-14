@@ -158,7 +158,11 @@
 }
 
 .stat-wide dd {
-  white-space: nowrap;
+  /* No `white-space: nowrap` here (unlike .stat-half dd, which never needs to wrap): Ability
+     Scores' full "STR X, DEX Y, ..." string is long enough that on a phone-width viewport - and
+     worse, nested inside an .adjustment-card, which loses another ~30px of width to its own
+     padding/border, plus the bold+padded .adjustment-changed treatment when any score changed -
+     nowrap forced it past the card's right edge instead of wrapping to a second line. */
   text-align: left;
 }
 

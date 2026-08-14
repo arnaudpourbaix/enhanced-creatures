@@ -4,7 +4,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/common.tpa"
 CREATE SPL "ja#s0f8"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s0f8.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10382)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
 	WRITE_SHORT 0x1c 4
@@ -14,7 +14,7 @@ COPY_EXISTING ~ja#s0f8.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10382)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10383)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
@@ -27,7 +27,7 @@ COPY_EXISTING ~ja#s0f8.SPL~  ~override~
 CREATE SPL "ja#s1f8"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~ja#s1f8.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10382)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
 	WRITE_SHORT 0x1c 2
@@ -37,7 +37,7 @@ COPY_EXISTING ~ja#s1f8.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10382)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10383)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
@@ -66,7 +66,7 @@ COPY_EXISTING ~ja#s2f8.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10686)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10687)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~SPARKLGO~)) + 1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s2f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s2f8" END
@@ -202,7 +202,7 @@ COPY_EXISTING ~ja#s7f8.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR704C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10687)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10688)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPPR704B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource="SPWI105" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource="SPIN937" END
@@ -257,7 +257,7 @@ COPY_EXISTING ~ja#s9f8.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10688)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10689)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s9f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s9f8" END

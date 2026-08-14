@@ -241,10 +241,11 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
   },
   plant: {
     name: {
-      veryYoungTreant: "Very Young Treant",
-      youngTreant: "Young Treant",
       treant: "Treant",
-      elderTreant: "Elder Treant",
+      treant11HD: "Treant (11 HD)",
+      treant9HD: "Treant (9 HD)",
+      treant7HD: "Treant (7 HD)",
+      treant5HD: "Treant (5 HD)",
     },
     weapon: {
       branch: "Branch",

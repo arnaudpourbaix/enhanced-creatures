@@ -57,22 +57,22 @@ class PlantFamily extends CreatureFamily<Plant> {
         {
           files: [ATWEAKS_CREATURES.Treant11hd],
           copyFrom: "ja#trean",
-          stringRef: "monster.plant.name.elderTreant",
+          stringRef: "monster.plant.name.treant11HD",
         },
         {
           files: [ATWEAKS_CREATURES.Treant9hd],
           copyFrom: "ja#trean",
-          stringRef: "monster.plant.name.treant",
+          stringRef: "monster.plant.name.treant9HD",
         },
         {
           files: [ATWEAKS_CREATURES.Treant7hd],
           copyFrom: "ja#trean",
-          stringRef: "monster.plant.name.youngTreant",
+          stringRef: "monster.plant.name.treant7HD",
         },
         {
           files: [ATWEAKS_CREATURES.Treant5hd],
           copyFrom: "ja#trean",
-          stringRef: "monster.plant.name.veryYoungTreant",
+          stringRef: "monster.plant.name.treant5HD",
         },
       ],
       data: {
