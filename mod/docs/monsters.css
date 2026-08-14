@@ -377,6 +377,7 @@
   font-family: var(--font-heading);
   color: var(--color-red);
   font-size: 1.17em;
+  font-weight: bold;
 }
 
 .adjustments-badge {

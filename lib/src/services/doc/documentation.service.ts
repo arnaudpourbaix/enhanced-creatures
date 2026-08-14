@@ -199,9 +199,7 @@ class DocumentationService {
         entries,
         `m${creature.id}-w${weaponIndex}`,
       );
-      const label = dualWielding
-        ? this.getWeaponSlotLabel(equippedItem, mainHandAttacks)
-        : "";
+      const label = dualWielding ? this.getWeaponSlotLabel(equippedItem, mainHandAttacks) : "";
       const proficiency = this.getWeaponProficiencyLabel(
         weapon.proficiency,
         creature.data.proficiencies,
@@ -535,7 +533,9 @@ class DocumentationService {
       effective.wisdom.changed ||
       effective.charisma.changed;
     let str = `${effective.strength.value}`;
-    if (effective.exceptionalStrength.value) str += `/${effective.exceptionalStrength.value}`;
+    if (effective.strength.value === 18 && effective.exceptionalStrength.value) {
+      str += `/${effective.exceptionalStrength.value}`;
+    }
     const abilityScores =
       `STR ${str}, DEX ${effective.dexterity.value}, CON ${effective.constitution.value}, ` +
       `INT ${effective.intelligence.value}, WIS ${effective.wisdom.value}, CHA ${effective.charisma.value}`;
