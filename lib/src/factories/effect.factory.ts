@@ -1,6 +1,12 @@
 import { StringReference } from "../model/final/stringref";
 import { RaceIdentifier } from "../model/ids/race";
-import { BaseEffect, Effect, ModifierTypeEffect } from "../model/spell-item/effect";
+import {
+  BaseEffect,
+  Effect,
+  ModifierTypeEffect,
+  StatisticModifierEffect,
+  StatisticModifierOpcode,
+} from "../model/spell-item/effect";
 import {
   CharmTypeEnum,
   EffectBonusToEnum,
@@ -454,6 +460,44 @@ class EffectFactory {
       type: EffectModifierTypeEnum.Set,
     };
     return effect;
+  }
+
+  fireResistance(value: number): Effect[] {
+    const opcodes: StatisticModifierOpcode[] = [
+      EffectTypeEnum.FireResistanceModifier,
+      EffectTypeEnum.MagicalFireResistanceModifier,
+    ];
+    return opcodes.map((opcode): StatisticModifierEffect => ({
+      opcode,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    }));
+  }
+
+  coldResistance(value: number): Effect[] {
+    const opcodes: StatisticModifierOpcode[] = [
+      EffectTypeEnum.ColdResistanceModifier,
+      EffectTypeEnum.MagicalColdResistanceModifier,
+    ];
+    return opcodes.map((opcode): StatisticModifierEffect => ({
+      opcode,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    }));
+  }
+
+  physicalResistance(value: number): Effect[] {
+    const opcodes: StatisticModifierOpcode[] = [
+      EffectTypeEnum.SlashingResistanceModifier,
+      EffectTypeEnum.PiercingResistanceModifier,
+      EffectTypeEnum.MissilesResistanceModifier,
+      EffectTypeEnum.CrushingResistanceModifier,
+    ];
+    return opcodes.map((opcode): StatisticModifierEffect => ({
+      opcode,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    }));
   }
 }
 

@@ -1505,18 +1505,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
     });
     mummy.addTrait({
       immunities: ["physicalDamageResistance", "cold", "nonMagicalWeapons"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.FireResistanceModifier,
-          type: EffectStatisticModifierEnum.Set,
-          value: -33,
-        },
-        {
-          opcode: EffectTypeEnum.MagicalFireResistanceModifier,
-          type: EffectStatisticModifierEnum.Set,
-          value: -33,
-        },
-      ],
+      effects: effectFactory.fireResistance(-33),
     });
     mummy.createMummyFearAura(false);
     mummy.createMummyRottingDisease(false);

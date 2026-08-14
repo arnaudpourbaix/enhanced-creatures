@@ -123,4 +123,12 @@ export enum MonsterEnum {
   GiantLynx = 98,
   Feyr = 99,
   SpottedLion = 100,
+  ShamblingMound = 101,
+  BurningMan = 102,
+  AdamantiteGolem = 103,
+  BrainGolem = 104,
+  WaxGolem = 105,
+  MagicGolem = 106,
+  Xvart = 107,
+  SandGolem = 108,
 }

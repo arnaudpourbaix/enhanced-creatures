@@ -1,5 +1,6 @@
 import { ATWEAKS_CREATURES } from "../config/creatures";
 import { MonsterItemIconEnum } from "../config/item";
+import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import {
@@ -105,18 +106,7 @@ class PlantFamily extends CreatureFamily<Plant> {
     const wp7 = treant.createBranch(2, 8).file;
     const wp5 = treant.createBranch(2, 6).file;
     treant.addTrait({
-      effects: [
-        {
-          opcode: EffectTypeEnum.FireResistanceModifier,
-          value: -25,
-          type: EffectStatisticModifierEnum.Set,
-        },
-        {
-          opcode: EffectTypeEnum.MagicalFireResistanceModifier,
-          value: -25,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: effectFactory.fireResistance(-25),
     });
     treant.setAdjustments([
       {

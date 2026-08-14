@@ -581,18 +581,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     });
     winter.addTrait({
       immunities: ["cold"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.FireResistanceModifier,
-          value: -10,
-          type: EffectStatisticModifierEnum.Set,
-        },
-        {
-          opcode: EffectTypeEnum.MagicalFireResistanceModifier,
-          value: -10,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: effectFactory.fireResistance(-10),
     });
     winter.createStreamOfFrost();
     winter.createJaws({

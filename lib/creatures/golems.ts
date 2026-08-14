@@ -7,6 +7,11 @@ import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
 import {
+  Effect,
+  StatisticModifierEffect,
+  StatisticModifierOpcode,
+} from "../src/model/spell-item/effect";
+import {
   AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
   EffectHasteTypeEnum,
@@ -355,6 +360,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     this.addCreature(() => this.bone());
     this.addCreature(() => this.juggernaut());
     this.addCreature(() => this.snow());
+    this.addCreature(() => this.adamantite());
   }
 
   createCreature(id: MonsterEnum): Golem {
@@ -443,10 +449,10 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 7,
         immunities: ["construct"],
         items: {
-          remove: ["GOLCLA", "RING95", "IMMUNE1"],
+          remove: ["GOLCLA", "B3-30", "RING95", "IMMUNE1", "D5CLGOL", "HELMNOAN"],
         },
         script: {
-          remove: ["GOLCLY01", "BPFHT"],
+          remove: ["GOLCLY01", "BPFHT", "OHB_T302"],
         },
       },
     });
@@ -465,6 +471,13 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
       abilities: [this.ability(Ids.Haste)],
     });
+    clay.setAdjustments([
+      { files: ["MOBHA59", "OBSGOL01"], data: { script: { location: "None" } } },
+      {
+        files: ["IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4"],
+        //TODO:
+      },
+    ]);
     return clay;
   }
 
@@ -566,18 +579,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     });
     iron.addTrait({
       immunities: ["magic", "plusTwoWeapons", "lightning"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.FireResistanceModifier,
-          value: 125,
-          type: EffectStatisticModifierEnum.Set,
-        },
-        {
-          opcode: EffectTypeEnum.MagicalFireResistanceModifier,
-          value: 125,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: effectFactory.fireResistance(125),
     });
     iron.createCloudOfPoisonousGas();
     iron.createFists(4, 10, AbilityDamageTypeEnum.Crushing);
@@ -586,6 +588,53 @@ class GolemFamily extends CreatureFamily<Golem> {
       abilities: [this.ability(Ids.CloudOfPoisonousGas)],
     });
     return iron;
+  }
+
+  /**
+   * Adamantite Golem
+   */
+  private adamantite() {
+    const adamantite = this.create({
+      monster: MonsterEnum.AdamantiteGolem,
+      name: "monster.golem.name.adamantite",
+      files: [],
+      data: {
+        level1: 18,
+        strength: 24,
+        dexterity: 10,
+        constitution: 25,
+        intelligence: 3,
+        wisdom: 16,
+        charisma: 1,
+        ac: 3,
+        apr: 1,
+        xpv: 13000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_IRON",
+        gender: "NIETHER",
+        size: "Large",
+        movement: 6,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLIRO", "IRONGOL", "IMMUNE3"],
+        },
+      },
+    });
+
+    adamantite.addTrait({
+      immunities: ["plusTwoWeapons", "magic", "lightning", "cold", "acid"],
+      effects: [...effectFactory.fireResistance(125), ...effectFactory.physicalResistance(90)],
+    });
+    // TODO: create Trample, 2 uses per day (see golem's mod)
+    adamantite.createFists(4, 10, AbilityDamageTypeEnum.Crushing);
+    adamantite.setBehavior({
+      restHeal: true,
+      // abilities: [this.ability(Ids.CloudOfPoisonousGas)],
+    });
+    return adamantite;
   }
 
   /**
@@ -618,7 +667,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 12,
         immunities: ["construct", "skeletal"],
         items: {
-          remove: ["S3-8M3", "GOLCLA", "IMMUNE2", "HELMNOAN"],
+          remove: ["S3-8M3", "GOLCLA", "IMMUNE1", "IMMUNE2", "HELMNOAN"],
         },
       },
     });
@@ -638,6 +687,15 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
       abilities: [this.ability(Ids.HideousLaugh)],
     });
+    bone.setAdjustments([
+      {
+        files: ["OHBGOLB1"],
+        data: {
+          level1: 25,
+          xpv: 0,
+        },
+      },
+    ]);
     return bone;
   }
 
