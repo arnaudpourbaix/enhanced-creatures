@@ -1,9 +1,9 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/common.tpa"
 // Dimension Door
-CREATE SPL "ja#s0f8"
+CREATE SPL "jas0f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0f8.SPL~  ~override~
+COPY_EXISTING ~jas0f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10383)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
@@ -24,9 +24,9 @@ COPY_EXISTING ~ja#s0f8.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Dimension Door
-CREATE SPL "ja#s1f8"
+CREATE SPL "jas1f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s1f8.SPL~  ~override~
+COPY_EXISTING ~jas1f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10383)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
@@ -47,16 +47,16 @@ COPY_EXISTING ~ja#s1f8.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR     END
 	
 	// Dryad Charm
-CREATE EFF "ja#s2f8"
+CREATE EFF "jas2f8"
 	WRITE_LONG 0x10 206
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x24 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s2f8~ #8
+	WRITE_ASCII 0x30 ~jas2f8~ #8
 
-CREATE SPL "ja#s2f8"
+CREATE SPL "jas2f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s2f8.SPL~  ~override~
+COPY_EXISTING ~jas2f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10181)
 	WRITE_ASCII 0x10 ~CAS_M05~ #8
 	WRITE_LONG 0x18 512
@@ -68,8 +68,8 @@ COPY_EXISTING ~ja#s2f8.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10688)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~SPARKLGO~)) + 1 STR_VAR icon="SPWI316B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s2f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s2f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas2f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas2f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-3" END
@@ -77,9 +77,9 @@ COPY_EXISTING ~ja#s2f8.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E07" END
 	
 	// Speak With Plants
-CREATE SPL "ja#s3f8"
+CREATE SPL "jas3f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s3f8.SPL~  ~override~
+COPY_EXISTING ~jas3f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10184)
 	WRITE_ASCII 0x10 ~CAS_P02~ #8
 	WRITE_SHORT 0x1c 4
@@ -87,33 +87,33 @@ COPY_EXISTING ~ja#s3f8.SPL~  ~override~
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
-	WRITE_ASCII 0x3a ~RR#FSPKP~ #8
+	WRITE_ASCII 0x3a ~JAFSPKP~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10185)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=30 speed=1 STR_VAR icon="RR#FSPKP" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=2 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_AMULET~) resist_dispel=3 duration=60 probability1=100 STR_VAR resource="ja#i4" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=30 speed=1 STR_VAR icon="JAFSPKP" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=2 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_AMULET~) resist_dispel=3 duration=60 probability1=100 STR_VAR resource="jai4" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=1727219712 parameter2=1966080 resist_dispel=3 duration=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=3 duration=2 probability1=100 STR_VAR resource="SPRMCURS" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Entangle
-CREATE EFF "ja#s4f8"
+CREATE EFF "jas4f8"
 	WRITE_LONG 0x10 206
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x24 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s4f8~ #8
+	WRITE_ASCII 0x30 ~jas4f8~ #8
 
-COPY_EXISTING "ENTANG2.pro" ~override/ja#s4f8.pro~
+COPY_EXISTING "ENTANG2.pro" ~override/jas4f8.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
 	END
 	WRITE_LONG 0x200 64
-ADD_PROJECTILE ~override/ja#s4f8.pro~ ~Hamadryad Entangle~
+ADD_PROJECTILE ~override/jas4f8.pro~ ~Hamadryad Entangle~
 
-CREATE SPL "ja#s4f8"
+CREATE SPL "jas4f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s4f8.SPL~  ~override~
+COPY_EXISTING ~jas4f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10182)
 	WRITE_ASCII 0x10 ~CAS_P08~ #8
 	WRITE_SHORT 0x1c 4
@@ -123,17 +123,17 @@ COPY_EXISTING ~ja#s4f8.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR105C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10183)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#s4f8~)) + 1 STR_VAR icon="SPPR105B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=6 probability1=100 STR_VAR resource="ja#s4f8" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas4f8~)) + 1 STR_VAR icon="SPPR105B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jas4f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jas4f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 resist_dispel=1 duration=6 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter2=1 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
@@ -145,16 +145,16 @@ COPY_EXISTING ~ja#s4f8.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR    renew=3 END
 	
 	// Animal Friendship
-CREATE EFF "ja#s5f8"
+CREATE EFF "jas5f8"
 	WRITE_LONG 0x10 206
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x24 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s5f8~ #8
+	WRITE_ASCII 0x30 ~jas5f8~ #8
 
-CREATE SPL "ja#s5f8"
+CREATE SPL "jas5f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s5f8.SPL~  ~override~
+COPY_EXISTING ~jas5f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10186)
 	WRITE_ASCII 0x10 ~CORAN03~ #8
 	WRITE_LONG 0x18 33554432
@@ -165,18 +165,18 @@ COPY_EXISTING ~ja#s5f8.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPPR204C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10187)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPPR204B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s5f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s5f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~ANIMAL~) parameter2=113 resist_dispel=1 duration=120 probability1=100 savingthrow=1 STR_VAR resource="ja#s5f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas5f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas5f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~ANIMAL~) parameter2=113 resist_dispel=1 duration=120 probability1=100 savingthrow=1 STR_VAR resource="jas5f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~ANIMAL~) resist_dispel=1 duration=120 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=509245440 parameter2=1638400 resist_dispel=1 duration=1 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPNWCHRM" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Detect snares and pits
-CREATE SPL "ja#s6f8"
+CREATE SPL "jas6f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s6f8.SPL~  ~override~
+COPY_EXISTING ~jas6f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10188)
 	WRITE_ASCII 0x10 ~CAS_P04~ #8
 	WRITE_LONG 0x18 8192
@@ -195,9 +195,9 @@ COPY_EXISTING ~ja#s6f8.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR    renew=16 END
 	
 	// Blinding Beauty
-CREATE SPL "ja#s7f8"
+CREATE SPL "jas7f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s7f8.SPL~  ~override~
+COPY_EXISTING ~jas7f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10190)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
@@ -211,43 +211,43 @@ COPY_EXISTING ~ja#s7f8.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 resist_dispel=3 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="EFF_P71B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=3 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPH1HI01" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="ja#s7f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="jas7f8" END
 	
 	// Blinding Beauty
-CREATE EFF "ja#s8f8"
+CREATE EFF "jas8f8"
 	WRITE_LONG 0x10 146
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x1c 0
 	WRITE_LONG 0x24 1
 	WRITE_LONG 0x20 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s7f8~ #8
+	WRITE_ASCII 0x30 ~jas7f8~ #8
 
-CREATE SPL "ja#s8f8"
+CREATE SPL "jas8f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s8f8.SPL~  ~override~
+COPY_EXISTING ~jas8f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10190)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR704C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10191)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#sight~)) + 1 STR_VAR icon="SPPR704B" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR704B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=1 duration=2 probability1=100 STR_VAR resource="ICCLKFR2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 timing=1 probability1=100 STR_VAR resource="ja#s8f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 timing=1 probability1=100 STR_VAR resource="jas8f8" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Charm Song
-CREATE EFF "ja#s9f8"
+CREATE EFF "jas9f8"
 	WRITE_LONG 0x10 206
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x24 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s9f8~ #8
+	WRITE_ASCII 0x30 ~jas9f8~ #8
 
-CREATE SPL "ja#s9f8"
+CREATE SPL "jas9f8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s9f8.SPL~  ~override~
+COPY_EXISTING ~jas9f8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
 	WRITE_ASCII 0x10 ~SIRIN05~ #8
 	WRITE_LONG 0x18 512
@@ -259,8 +259,8 @@ COPY_EXISTING ~ja#s9f8.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10690)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI316B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s9f8" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s9f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas9f8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas9f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 END
@@ -268,18 +268,18 @@ COPY_EXISTING ~ja#s9f8.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 STR_VAR resource="EFF_E07" END
 	
 	// Charm Song
-CREATE EFF "ja#saf8"
+CREATE EFF "jasaf8"
 	WRITE_LONG 0x10 146
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x1c 0
 	WRITE_LONG 0x24 1
 	WRITE_LONG 0x20 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s9f8~ #8
+	WRITE_ASCII 0x30 ~jas9f8~ #8
 
-CREATE SPL "ja#saf8"
+CREATE SPL "jasaf8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#saf8.SPL~  ~override~
+COPY_EXISTING ~jasaf8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
 	WRITE_ASCII 0x10 ~SIRIN05~ #8
 	WRITE_LONG 0x18 16896
@@ -290,14 +290,14 @@ COPY_EXISTING ~ja#saf8.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10193)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#sight~)) + 1 STR_VAR icon="SPWI316B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 probability1=100 STR_VAR resource="ja#saf8" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPWI316B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 probability1=100 STR_VAR resource="jasaf8" END
 	LPF CHANGE_SPELL INT_VAR   rinvs=1  END
 	
 	// Fog Cloud
-CREATE SPL "ja#sbf8"
+CREATE SPL "jasbf8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#sbf8.SPL~  ~override~
+COPY_EXISTING ~jasbf8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10194)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_SHORT 0x1c 4
@@ -316,9 +316,9 @@ COPY_EXISTING ~ja#sbf8.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR   rinvs=1  END
 	
 	// Touch of Tranquility
-CREATE SPL "ja#scf8"
+CREATE SPL "jascf8"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#scf8.SPL~  ~override~
+COPY_EXISTING ~jascf8.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10196)
 	WRITE_ASCII 0x10 ~EFF_P11~ #8
 	WRITE_LONG 0x18 17408
@@ -330,13 +330,13 @@ COPY_EXISTING ~ja#scf8.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPWI509C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10197)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 STR_VAR icon="SPWI509B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~CHAOTIC_COMMANDS~) parameter2=76 duration=1 probability1=100 STR_VAR resource="ja#scf8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~CHAOTIC_COMMANDS~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jascf8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=76 target=2 power=1 duration=300 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=48 duration=300 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=2 probability1=100 savingthrow=4 STR_VAR resource="SPMINDAT" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=4812032 parameter2=1310720 duration=1 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=23744 timing=1 duration=300 probability1=100 savingthrow=4 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 savingthrow=4 STR_VAR resource="ja#scf8" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 savingthrow=4 STR_VAR resource="jascf8" END
 	
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/29.tpa" // Dryad
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/2a.tpa" // Hamadryad

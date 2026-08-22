@@ -632,7 +632,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const path = options.withPath ? `${utils.getFamilyFolder(creature.family)}/` : "";
     const ext = options.ext === true ? ".baf" : "";
-    const name = `ja#m${creature.id.toString(16)}${options.summon ? "su" : ""}${ext}`;
+    const name = `jam${creature.id.toString(16)}${options.summon ? "su" : ""}${ext}`;
     return `${path}${name}`;
   }
 }

@@ -675,7 +675,7 @@ class DocumentationService {
     const newFile = creature.newFiles?.find((nf) =>
       // creatureFactory uppercases adjustment.files (creature.factory.ts) and monsterFilesService
       // normalizes lookups to uppercase, but newFiles entries keep whatever case they were authored
-      // with (e.g. "ja#trea1") - compare case-insensitively to match.
+      // with (e.g. "jatrea1") - compare case-insensitively to match.
       nf.files.some((f) => f.toUpperCase() === file.toUpperCase()),
     );
     if (newFile?.stringRef) return translationService.from(newFile.stringRef);

@@ -1,21 +1,21 @@
 // Generated file (don't edit)
 
 // Ghoul
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4c.baf~
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4csu.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4c.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4csu.baf~
 
 // Ghoul's Touch
-CREATE SPL "ja#s0m4c"
+CREATE SPL "jas0m4c"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0m4c.SPL~  ~override~
+COPY_EXISTING ~jas0m4c.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10340)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10341)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="ja#s0m4c" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELF~) parameter2=104 probability1=100 STR_VAR resource="ja#s0m4c" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="jas0m4c" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELF~) parameter2=104 probability1=100 STR_VAR resource="jas0m4c" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=30 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=30 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=3757824 parameter2=1638400 timing=1 probability1=100 savingthrow=4 END
@@ -24,7 +24,7 @@ COPY_EXISTING ~ja#s0m4c.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=30 probability1=100 savingthrow=4 STR_VAR resource="EFF_E05" END
 	
 	// Claws
-CREATE ITM "ja#i0m4c"
+CREATE ITM "jai0m4c"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -34,7 +34,7 @@ CREATE ITM "ja#i0m4c"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10329)
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10827)
-COPY_EXISTING ~ja#i0m4c.itm~ ~override~
+COPY_EXISTING ~jai0m4c.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -49,11 +49,11 @@ COPY_EXISTING ~ja#i0m4c.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s0m4c" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m4c" END
 	END
 
 // Jaws
-CREATE ITM "ja#i1m4c"
+CREATE ITM "jai1m4c"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -63,7 +63,7 @@ CREATE ITM "ja#i1m4c"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10330)
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10828)
-COPY_EXISTING ~ja#i1m4c.itm~ ~override~
+COPY_EXISTING ~jai1m4c.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -78,7 +78,7 @@ COPY_EXISTING ~ja#i1m4c.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s0m4c" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m4c" END
 	END
 
 ACTION_FOR_EACH ~file~ IN
@@ -105,10 +105,10 @@ BEGIN
 			REMOVE_CRE_ITEM ~ring95~
 			REMOVE_CRE_ITEM ~ghoul1~
 			REMOVE_CRE_ITEM ~ringkora~
-			REPLACE_CRE_ITEM ~ja#i0m4c~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			REPLACE_CRE_ITEM ~ja#i1m4c~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
-			ADD_CRE_ITEM ~ja#i17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~ja#i3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			REPLACE_CRE_ITEM ~jai0m4c~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jai1m4c~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -139,20 +139,20 @@ BEGIN
 					enforce=1
 					perfect2weapon=1
 			END
-			// Assigning ja#m4c
+			// Assigning jam4c
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ghoul BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY skipFiles BEGIN GHOULSU SAHLACE END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles script=ja#m4c END
-			// Assigning ja#m4csu
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles script=jam4c END
+			// Assigning jam4csu
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ghoul BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN GHOULSU SAHLACE END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=ja#m4csu END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=jam4csu END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~KORAX~) BEGIN 
 				WRITE_SHORT 0x24 48 // hp
 				WRITE_SHORT 0x26 48 // hp

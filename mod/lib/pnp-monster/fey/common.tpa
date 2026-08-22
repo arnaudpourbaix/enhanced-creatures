@@ -1,1 +1,1 @@
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/rr#fspkp.bam~ ~override~   // Speak With Plants icon
+COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/jafspkp.bam~ ~override~  // Speak With Plants icon

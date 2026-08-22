@@ -1,19 +1,19 @@
 // Generated file (don't edit)
 
 // Ghoul Lord
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/ja#m4d.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4d.baf~
 
 // Ghoul Lord's Touch
-CREATE SPL "ja#s0m4d"
+CREATE SPL "jas0m4d"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0m4d.SPL~  ~override~
+COPY_EXISTING ~jas0m4d.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10350)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10351)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="ja#s0m4d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~HUMANOID~) parameter2=113 probability1=100 STR_VAR resource="jas0m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=60 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=60 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=3757824 parameter2=1638400 timing=1 probability1=100 savingthrow=4 END
@@ -22,23 +22,23 @@ COPY_EXISTING ~ja#s0m4d.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=60 probability1=100 savingthrow=4 STR_VAR resource="EFF_E05" END
 	
 	// Rotting Disease
-CREATE SPL "ja#s1m4d"
+CREATE SPL "jas1m4d"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s1m4d.SPL~  ~override~
+COPY_EXISTING ~jas1m4d.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10355)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10356)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="ja#s1m4d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jas1m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=100 parameter2=3 duration=720000 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=4 parameter2=6 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=4 parameter2=9 timing=1 probability1=100 END
-OUTER_SET $f_AddSecType(ja#s1m4d.spl) = DiseaseSecType
+OUTER_SET $f_AddSecType(jas1m4d.spl) = DiseaseSecType
 
 // Aura of Evil
-CREATE EFF "ja#s2m4d"
+CREATE EFF "jas2m4d"
 	WRITE_LONG 0x10 278
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x1c "-4"
@@ -46,36 +46,36 @@ CREATE EFF "ja#s2m4d"
 	WRITE_LONG 0x28 6
 	WRITE_SHORT 0x2c 100
 
-CREATE SPL "ja#s2m4d"
+CREATE SPL "jas2m4d"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s2m4d.SPL~  ~override~
+COPY_EXISTING ~jas2m4d.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10370)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10371)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#sight~)) + 1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~ALIGN~ ~MASK_GOOD~) parameter2=8 duration=6 probability1=100 STR_VAR resource="ja#s2m4d" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~ALIGN~ ~MASK_GOOD~) parameter2=8 duration=6 probability1=100 STR_VAR resource="jas2m4d" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=126 duration=6 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10372) duration=6 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="ja#s2m4d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="jas2m4d" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 	// Ghoul Lord traits
-CREATE ITM "ja#i0m4d"
+CREATE ITM "jai0m4d"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10831)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10831)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10832)
-COPY_EXISTING ~ja#i0m4d.itm~ ~override~
+COPY_EXISTING ~jai0m4d.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 	END
 	LPF nonSilverNonMagicalWeapons_immunity END
 
 // Claws
-CREATE ITM "ja#i1m4d"
+CREATE ITM "jai1m4d"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -87,7 +87,7 @@ CREATE ITM "ja#i1m4d"
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10833)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~ja#i1m4d.itm~ ~override~
+COPY_EXISTING ~jai1m4d.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -102,11 +102,11 @@ COPY_EXISTING ~ja#i1m4d.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s0m4d" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m4d" END
 	END
 
 // Jaws
-CREATE ITM "ja#i2m4d"
+CREATE ITM "jai2m4d"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -118,7 +118,7 @@ CREATE ITM "ja#i2m4d"
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10834)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~ja#i2m4d.itm~ ~override~
+COPY_EXISTING ~jai2m4d.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -133,8 +133,8 @@ COPY_EXISTING ~ja#i2m4d.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s0m4d" END
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 STR_VAR resource="ja#s1m4d" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m4d" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 STR_VAR resource="jas1m4d" END
 	END
 
 ACTION_FOR_EACH ~file~ IN
@@ -159,12 +159,12 @@ BEGIN
 			REMOVE_CRE_ITEM ~ghast1~
 			REMOVE_CRE_ITEM ~BDGHASTG~
 			REMOVE_CRE_ITEM ~ghoul1~
-			ADD_CRE_ITEM ~ja#i0m4d~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~ja#i1m4d~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			REPLACE_CRE_ITEM ~ja#i2m4d~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
-			ADD_CRE_ITEM ~ja#i17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~ja#i3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
-			ADD_MEMORIZED_SPELL ~ja#s2m4d~ #0 ~innate~ (1) // Aura of Evil
+			ADD_CRE_ITEM ~jai0m4d~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai1m4d~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jai2m4d~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			ADD_MEMORIZED_SPELL ~jas2m4d~ #0 ~innate~ (1) // Aura of Evil
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -196,12 +196,12 @@ BEGIN
 					enforce=1
 					perfect2weapon=1
 			END
-			// Assigning ja#m4d
+			// Assigning jam4d
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ghoul ghast BDGHASTG gholor01 riftcr01 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=ja#m4d END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=jam4d END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~MALKAL~) BEGIN 
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~GHOUL_REVEANT~) // class
 			END

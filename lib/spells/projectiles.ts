@@ -1,7 +1,7 @@
 import { Projectile } from "../src/model/spell-item/projectile";
 
 export enum CommonProjectileFiles {
-  AreaOfSightNonParty = "ja#sight",
+  AreaOfSightNonParty = "jasight",
 }
 
 export const COMMON_PROJECTILES: Projectile[] = [

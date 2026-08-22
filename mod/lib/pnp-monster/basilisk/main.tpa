@@ -1,5 +1,5 @@
 LAM load_secondary_types
-COPY_EXISTING "gaze.pro" ~override/ja#p0f2.pro~
+COPY_EXISTING "gaze.pro" ~override/jap0f2.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
@@ -14,19 +14,19 @@ COPY_EXISTING "gaze.pro" ~override/ja#p0f2.pro~
 	WRITE_SHORT 0x212 0x4001
 	WRITE_BYTE 0x217 255
 	WRITE_SHORT 0x224 60
-ADD_PROJECTILE ~override/ja#p0f2.pro~ ~Basilisk petrifying gaze~
+ADD_PROJECTILE ~override/jap0f2.pro~ ~Basilisk petrifying gaze~
 
 // Petrifying Gaze
-CREATE SPL "ja#s0f2"
+CREATE SPL "jas0f2"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0f2.SPL~  ~override~
+COPY_EXISTING ~jas0f2.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10124)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI604C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10125)
-	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=30 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#p0f2~)) + 1 STR_VAR icon="SPWI604B" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=30 projectile=(IDS_OF_SYMBOL (~projectl~ ~jap0f2~)) + 1 STR_VAR icon="SPWI604B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=134 target=2 power=1 probability1=100 savingthrow=16 savebonus="-4" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10127) probability1=100 savingthrow=16 savebonus="-4" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 savingthrow=16 savebonus="-4" STR_VAR resource="MISC_06B" END

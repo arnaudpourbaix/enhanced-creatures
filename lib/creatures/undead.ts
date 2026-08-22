@@ -323,7 +323,7 @@ class Undead extends Creature {
       description: "monster.undead.ability.iceWall.description",
       id: Ids.WallOfIce,
       memorizedCount: 1,
-      icon: "RR#ICEW",
+      icon: "jaICEW",
       primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
       secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
       castingSound: "CAS_M06",

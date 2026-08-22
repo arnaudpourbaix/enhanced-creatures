@@ -12,17 +12,17 @@ DEFINE_ACTION_FUNCTION create_spell_callWoodlandBeeings BEGIN
 		WRITE_LONG 0x50 RESOLVE_STR_REF(@10380)
 		LPF ADD_EFFECT INT_VAR opcode=324 target=1 global=1 power=1 parameter2=NOT_OUTDOOR_CHECK duration=1 probability1=100 STR_VAR resource="SPPR410" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=7 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="ja#dryad" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="ja#hama" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="ja#trea1" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jadryad" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jahama" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea1" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=10 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="ja#hama" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="ja#trea1" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="ja#trea2" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jahama" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jatrea1" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea2" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=13 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="ja#trea2" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="ja#trea3" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="ja#trea4" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jatrea2" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jatrea3" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea4" END
 END
 
 DEFINE_ACTION_FUNCTION create_spell_colorSpray BEGIN

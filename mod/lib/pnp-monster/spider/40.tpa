@@ -1,12 +1,12 @@
 // Generated file (don't edit)
 
 // Gargantuan Spider
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/spider/ja#m40.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/spider/jam40.baf~
 
 // Web Tangle
-CREATE SPL "ja#s0m40"
+CREATE SPL "jas0m40"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0m40.SPL~  ~override~
+COPY_EXISTING ~jas0m40.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10275)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
@@ -14,15 +14,15 @@ COPY_EXISTING ~ja#s0m40.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPWI215C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10276)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~WEB1P~)) + 1 STR_VAR icon="SPWI215B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELEMENTAL~) parameter2=104 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SHADOW~) parameter2=104 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIST~) parameter2=104 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WRAITH~) parameter2=104 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~FREE_ACTION~) parameter2=76 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~RED_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~BLUE_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=13 duration=1 probability1=100 STR_VAR resource="ja#s0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELEMENTAL~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SHADOW~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIST~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WRAITH~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~FREE_ACTION~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~RED_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~BLUE_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jas0m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=13 duration=1 probability1=100 STR_VAR resource="jas0m40" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=157 target=2 power=1 duration=18 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=109 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=129 duration=18 probability1=100 savingthrow=4 END
@@ -30,31 +30,31 @@ COPY_EXISTING ~ja#s0m40.SPL~  ~override~
 	LPF CHANGE_SPELL INT_VAR    renew=2 END
 	
 	// Type Q poison
-CREATE EFF "ja#s1m40"
+CREATE EFF "jas1m40"
 	WRITE_LONG 0x10 206
 	WRITE_LONG 0x14 2
 	WRITE_LONG 0x24 1
 	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~ja#s1m40~ #8
+	WRITE_ASCII 0x30 ~jas1m40~ #8
 
-CREATE SPL "ja#s1m40"
+CREATE SPL "jas1m40"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s1m40.SPL~  ~override~
+COPY_EXISTING ~jas1m40.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10753)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Poison
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10754)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="ja#s1m40" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="ja#s1m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas1m40" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas1m40" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=39 target=2 power=1 parameter2=1 duration=300 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=25 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=30464 parameter2=1310720 probability1=100 END
-OUTER_SET $f_AddSecType(ja#s1m40.spl) = PoisonSecType
+OUTER_SET $f_AddSecType(jas1m40.spl) = PoisonSecType
 
 // Jaws
-CREATE ITM "ja#i0m40"
+CREATE ITM "jai0m40"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -66,7 +66,7 @@ CREATE ITM "ja#i0m40"
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10755)
 	WRITE_LONG 0x60 3
-COPY_EXISTING ~ja#i0m40.itm~ ~override~
+COPY_EXISTING ~jai0m40.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -81,7 +81,7 @@ COPY_EXISTING ~ja#i0m40.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 savebonus="-2" STR_VAR resource="ja#s1m40" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 savebonus="-2" STR_VAR resource="jas1m40" END
 	END
 
 ACTION_FOR_EACH ~file~ IN
@@ -97,9 +97,9 @@ BEGIN
 			REMOVE_MEMORIZED_SPELLS
 			REMOVE_CRE_ITEM ~BDSPIDGA~
 			REMOVE_CRE_ITEM ~ANTIWEB~
-			REPLACE_CRE_ITEM ~ja#i0m40~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			ADD_CRE_ITEM ~ja#i16~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			ADD_MEMORIZED_SPELL ~ja#s0m40~ #0 ~innate~ (1) // Web Tangle
+			REPLACE_CRE_ITEM ~jai0m40~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jai16~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_MEMORIZED_SPELL ~jas0m40~ #0 ~innate~ (1) // Web Tangle
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -129,12 +129,12 @@ BEGIN
 					movement=7
 					enforce=1
 			END
-			// Assigning ja#m40
+			// Assigning jam40
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN BDSPIDGA BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=ja#m40 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=jam40 END
 		BUT_ONLY_IF_IT_CHANGES
 	END ELSE BEGIN
 		PRINT ~====> CRE %file% not found!~

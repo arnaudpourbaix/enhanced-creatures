@@ -1,6 +1,6 @@
 LAM load_secondary_types
 // Flaming Greatsword
-CREATE ITM "ja#i0f6"
+CREATE ITM "jai0f6"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -14,7 +14,7 @@ CREATE ITM "ja#i0f6"
 	WRITE_BYTE 0x31 93
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10663)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~ja#i0f6.itm~ ~override~
+COPY_EXISTING ~jai0f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -38,7 +38,7 @@ COPY_EXISTING ~ja#i0f6.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=8 target=1 global=1 parameter2=20 timing=2 duration=3 probability1=100 END
 
 // Long Sword
-CREATE ITM "ja#i1f6"
+CREATE ITM "jai1f6"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -53,7 +53,7 @@ CREATE ITM "ja#i1f6"
 	WRITE_ASCII 0x3a ~ISW1H04~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10664)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~ja#i1f6.itm~ ~override~
+COPY_EXISTING ~jai1f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -73,14 +73,14 @@ COPY_EXISTING ~ja#i1f6.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=6 parameter2=16 timing=2 probability1=100 END
 
 // Plate Mail
-CREATE ITM "ja#i2f6"
+CREATE ITM "jai2f6"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10167)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10167)
 	WRITE_SHORT 0x1c 2
 	WRITE_ASCII 0x22 ~4A~ #2
 	WRITE_ASCII 0x3a ~IPLAT01~ #8
-COPY_EXISTING ~ja#i2f6.itm~ ~override~
+COPY_EXISTING ~jai2f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 	END
@@ -89,14 +89,14 @@ COPY_EXISTING ~ja#i2f6.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=87 timing=2 probability1=100 END
 
 // Helmet
-CREATE ITM "ja#i3f6"
+CREATE ITM "jai3f6"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10168)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10168)
 	WRITE_SHORT 0x1c 7
 	WRITE_ASCII 0x22 ~H5~ #2
 	WRITE_ASCII 0x3a ~ihelm10~ #8
-COPY_EXISTING ~ja#i3f6.itm~ ~override~
+COPY_EXISTING ~jai3f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 	END

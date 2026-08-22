@@ -1,13 +1,13 @@
 // Generated file (don't edit)
 
 // Greater Basilisk
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/basilisk/ja#m3.baf~
-COMPILE ~%MOD_FOLDER%/lib/pnp-monster/basilisk/ja#m3su.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/basilisk/jam3.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/basilisk/jam3su.baf~
 
 // Type K poison
-CREATE SPL "ja#s0m3"
+CREATE SPL "jas0m3"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s0m3.SPL~  ~override~
+COPY_EXISTING ~jas0m3.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10608)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Poison
@@ -15,10 +15,10 @@ COPY_EXISTING ~ja#s0m3.SPL~  ~override~
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10609)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=2 parameter2=3 duration=10 probability1=100 savingthrow=4 savebonus="4" special=6 END
-OUTER_SET $f_AddSecType(ja#s0m3.spl) = PoisonSecType
+OUTER_SET $f_AddSecType(jas0m3.spl) = PoisonSecType
 
 // Foul Breath
-COPY_EXISTING "dvstink.pro" ~override/ja#s1m3.pro~
+COPY_EXISTING "dvstink.pro" ~override/jas1m3.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
@@ -29,23 +29,23 @@ COPY_EXISTING "dvstink.pro" ~override/ja#s1m3.pro~
 	WRITE_SHORT 0x206 64
 	WRITE_SHORT 0x210 12
 	WRITE_BYTE 0x216 6
-ADD_PROJECTILE ~override/ja#s1m3.pro~ ~Basilisk foul breath~
+ADD_PROJECTILE ~override/jas1m3.pro~ ~Basilisk foul breath~
 
-CREATE SPL "ja#s1m3"
+CREATE SPL "jas1m3"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~ja#s1m3.SPL~  ~override~
+COPY_EXISTING ~jas1m3.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10129)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 10
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10130)
-	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~ja#s1m3~)) + 1 END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas1m3~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=55 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 timing=1 probability1=100 savingthrow=4 savebonus="2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 savingthrow=4 savebonus="2" STR_VAR resource="EFF_P88" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 timing=1 probability1=100 savingthrow=4 savebonus="2" STR_VAR resource="SPFINGER" END
 	
 	// Claws
-CREATE ITM "ja#i0m3"
+CREATE ITM "jai0m3"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -57,7 +57,7 @@ CREATE ITM "ja#i0m3"
 	WRITE_ASCII 0x3a ~IWOLF~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10610)
 	WRITE_LONG 0x60 3
-COPY_EXISTING ~ja#i0m3.itm~ ~override~
+COPY_EXISTING ~jai0m3.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -72,11 +72,11 @@ COPY_EXISTING ~ja#i0m3.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s0m3" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m3" END
 	END
 
 // Jaws
-CREATE ITM "ja#i1m3"
+CREATE ITM "jai1m3"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -88,7 +88,7 @@ CREATE ITM "ja#i1m3"
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10611)
 	WRITE_LONG 0x60 3
-COPY_EXISTING ~ja#i1m3.itm~ ~override~
+COPY_EXISTING ~jai1m3.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -103,7 +103,7 @@ COPY_EXISTING ~ja#i1m3.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="ja#s1m3" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas1m3" END
 	END
 
 ACTION_FOR_EACH ~file~ IN
@@ -130,10 +130,10 @@ BEGIN
 			REMOVE_CRE_ITEM ~BASILG1~
 			REMOVE_CRE_ITEM ~BASILG2~
 			REMOVE_CRE_ITEM ~BASILG3~
-			REPLACE_CRE_ITEM ~ja#i0m3~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			REPLACE_CRE_ITEM ~ja#i1m3~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
-			ADD_CRE_ITEM ~ja#i12~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			ADD_MEMORIZED_SPELL ~ja#s0f2~ #0 ~innate~ (1) // Petrifying Gaze
+			REPLACE_CRE_ITEM ~jai0m3~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jai1m3~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
+			ADD_CRE_ITEM ~jai12~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_MEMORIZED_SPELL ~jas0f2~ #0 ~innate~ (1) // Petrifying Gaze
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -164,20 +164,20 @@ BEGIN
 					enforce=1
 					perfect2weapon=1
 			END
-			// Assigning ja#m3 to slot Race
+			// Assigning jam3 to slot Race
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN GBASILSK BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY skipFiles BEGIN BASILGSU END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR slot=Race removeScripts skipFiles script=ja#m3 END
-			// Assigning ja#m3su to slot Race
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR slot=Race removeScripts skipFiles script=jam3 END
+			// Assigning jam3su to slot Race
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN GBASILSK BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN BASILGSU END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR slot=Race files removeScripts script=ja#m3su END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR slot=Race files removeScripts script=jam3su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#NSSULJ~) BEGIN 
 				WRITE_LONG 0x14 10000 // xpv
 				WRITE_SHORT 0x24 225 // hp

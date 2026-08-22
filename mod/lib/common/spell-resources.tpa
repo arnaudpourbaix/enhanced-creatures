@@ -51,7 +51,7 @@ DEFINE_ACTION_FUNCTION get_blindness_resources RET_ARRAY resources BEGIN
 		"spwi224c.spl"
 		"halb06.spl"
 		"sw1h51.spl"
-		"ja#sbf8"
+		"jasbf8"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_CLOUD_OF_PESTILENCE CLERIC_SUNSCORCH END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -89,7 +89,7 @@ DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 		"SPIN940"
 		"SPIN979"
 		"SPIN642"
-		"ja#sbf8"
+		"jasbf8"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_CLOUD_OF_PESTILENCE END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -478,7 +478,7 @@ DEFINE_ACTION_FUNCTION get_petrification_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI604"
 		"SPWI604D"
-		"ja#s0f2"
+		"jas0f2"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -491,21 +491,21 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 		"dvckill"
 		"SPIN979"
 		"SPIN642"
-		"ja#s0m3"
-		"ja#s0m45"
-		"ja#s0fc"
-		"ja#s1m40"
-		"ja#s1m3a"
-		"ja#s0m38"
-		"ja#s0m3e"
-		"ja#s0m37"
-		"ja#s1m41"
-		"ja#s1m39"
-		"ja#s0m3f"
-		"ja#s0m3c"
-		"ja#s0m46"
-		"ja#s0m47"
-		"ja#s0m48"
+		"jas0m3"
+		"jas0m45"
+		"jas0fc"
+		"jas1m40"
+		"jas1m3a"
+		"jas0m38"
+		"jas0m3e"
+		"jas0m37"
+		"jas1m41"
+		"jas1m39"
+		"jas0m3f"
+		"jas0m3c"
+		"jas0m46"
+		"jas0m47"
+		"jas0m48"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

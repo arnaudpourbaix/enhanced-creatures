@@ -713,7 +713,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       name: "monster.fey.ability.speakWithPlants.name",
       id: Ids.SpeakWithPlants,
       description: "monster.fey.ability.speakWithPlants.description",
-      icon: "RR#FSPKP",
+      icon: "JAFSPKP",
       castingSound: "CAS_P02",
       type: SpellTypeEnum.Innate,
       castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
@@ -726,7 +726,7 @@ class FeyFamily extends CreatureFamily<Fey> {
           type: ItemAbilityTypeEnum.Melee,
           location: ItemAbilityLocationEnum.Ability,
           target: ItemAbilityTargetEnum.Caster,
-          icon: "RR#FSPKP",
+          icon: "JAFSPKP",
           range: 30,
           speed: 1,
           effects: [
@@ -1433,7 +1433,7 @@ class FeyFamily extends CreatureFamily<Fey> {
 
   private dryadWildernessAbilities(): ConditionalStatement[] {
     const globals = {
-      Wilderness: "ja#wilderness",
+      Wilderness: "ja_wilderness",
     };
     return [
       {
