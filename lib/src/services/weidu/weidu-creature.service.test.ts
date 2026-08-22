@@ -327,26 +327,6 @@ describe("patchCreature (private)", () => {
 });
 
 describe("handleAdjustments (private)", () => {
-  it("throws when an adjustment references a file not in creature.files", () => {
-    const creature = fakeCreature({
-      files: ["KNOWN1"],
-      adjustments: [fakeAdjustment({ files: ["UNKNOWN1"] })],
-    });
-    expect(() => {
-      service.handleAdjustments([], 0, creature);
-    }).toThrow(/Unknown adjustment file UNKNOWN1/);
-  });
-
-  it("matches an adjustment file against creature.files case-insensitively", () => {
-    const creature = fakeCreature({
-      files: ["KNOWN1"],
-      adjustments: [fakeAdjustment({ files: ["known1"], data: undefined, summon: false })],
-    });
-    expect(() => {
-      service.handleAdjustments([], 0, creature);
-    }).not.toThrow();
-  });
-
   it("skips adjustments with neither data nor summon", () => {
     const creature = fakeCreature({
       files: ["KNOWN1"],

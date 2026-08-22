@@ -171,6 +171,26 @@ class CreatureService {
     return ok;
   }
 
+  // Case-insensitive: WeiDU/Infinity Engine resrefs are case-insensitive on disk, but
+  // creature.files can mix casing (CSV-sourced entries are always uppercase, while
+  // hand-authored adjustment references keep whatever case the author originally used) - see
+  // e.g. undead.ts's Ghast/Shadow adjustments referencing lowercase "ghastgsu"/"va#shdgl"
+  // against a CSV-supplied uppercase "GHASTGSU"/"VA#SHDGL" base file.
+  checkAdjustmentFiles(creature: Creature): boolean {
+    let ok = true;
+    for (const adjustment of creature.adjustments) {
+      for (const file of adjustment.files) {
+        if (!creature.files.some((known) => known.toUpperCase() === file.toUpperCase())) {
+          logService.error(
+            `${translationService.from(creature.name)}: adjustment references unknown file '${file}' (not in creature.files).`,
+          );
+          ok = false;
+        }
+      }
+    }
+    return ok;
+  }
+
   private stableStringify(value: unknown): string {
     return JSON.stringify(value, (_key: string, val: unknown) =>
       val && typeof val === "object" && !Array.isArray(val)

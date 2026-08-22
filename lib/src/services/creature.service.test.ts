@@ -1192,3 +1192,43 @@ describe("checkDialog", () => {
     vi.restoreAllMocks();
   });
 });
+
+function fakeAdjustmentFilesCreature(files: string[], adjustmentFiles: string[]): Creature {
+  return {
+    files,
+    name: "test",
+    adjustments: [{ files: adjustmentFiles }],
+  } as unknown as Creature;
+}
+
+describe("checkAdjustmentFiles", () => {
+  it("passes when every adjustment file is known", () => {
+    const creature = fakeAdjustmentFilesCreature(["KNOWN1"], ["KNOWN1"]);
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
+  });
+
+  it("matches case-insensitively, since creature.files can mix casing", () => {
+    const creature = fakeAdjustmentFilesCreature(["KNOWN1"], ["known1"]);
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
+  });
+
+  it("errors and fails when an adjustment references a file not in creature.files", () => {
+    const creature = fakeAdjustmentFilesCreature(["KNOWN1"], ["UNKNOWN1"]);
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("unknown file 'UNKNOWN1'"));
+    vi.restoreAllMocks();
+  });
+
+  it("reports every unknown file across every adjustment", () => {
+    const creature = {
+      name: "test",
+      files: ["KNOWN1"],
+      adjustments: [{ files: ["UNKNOWN1"] }, { files: ["UNKNOWN2"] }],
+    } as unknown as Creature;
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledTimes(2);
+    vi.restoreAllMocks();
+  });
+});

@@ -203,4 +203,23 @@ describe("validate", () => {
 
     expect(creature.valid).toBe(true);
   });
+
+  it("marks the creature invalid when checkAdjustmentFiles fails, even though every other check passes", () => {
+    const creature = fakeCreature();
+    creature.family = MonsterFamilyEnum.Ankheg;
+    creature.files = ["TESTCRE3"];
+    creature.name = PLACEHOLDER_NAME_KEY;
+
+    vi.spyOn(creatureService, "check").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
+    vi.spyOn(creatureService, "checkAdjustmentFiles").mockReturnValue(false);
+    vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+
+    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+
+    expect(creature.valid).toBe(false);
+  });
 });
