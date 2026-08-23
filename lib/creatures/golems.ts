@@ -7,11 +7,6 @@ import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
 import {
-  Effect,
-  StatisticModifierEffect,
-  StatisticModifierOpcode,
-} from "../src/model/spell-item/effect";
-import {
   AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
   EffectHasteTypeEnum,
@@ -40,6 +35,7 @@ enum Ids {
   ConeOfCold,
   Haste,
   HideousLaugh,
+  WildMagicFlare,
 }
 
 class Golem extends Creature {
@@ -64,6 +60,93 @@ class Golem extends Creature {
         },
       },
       castSpells: castSpell ? [castSpell] : undefined,
+    });
+  }
+
+  createMagicalBlast() {
+    return this.addWeapon({
+      weapon: {
+        stringRef: "monster.golem.weapon.magicalBlast",
+        icon: MonsterItemIconEnum.FireElemental,
+        equippedSlot: ["WEAPON1"],
+        header: {
+          range: 50,
+          diceThrown: 0,
+          diceSize: 0,
+          damageType: AbilityDamageTypeEnum.Missile,
+          type: ItemAbilityTypeEnum.Ranged,
+          speed: 4,
+          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+          projectile: "SPBEHBLA",
+          effects: [
+            {
+              opcode: EffectTypeEnum.Damage,
+              type: EffectDamageTypeEnum.Magic,
+              diceThrown: 3,
+              diceSize: 10,
+            },
+            {
+              opcode: EffectTypeEnum.LightingEffects,
+              effect: LightingEffectEnum.AlterationAir,
+              lightingTarget: LightingEffectTargetEnum.SpellTarget,
+            },
+            // { opcode: EffectTypeEnum.DrainItemCharges, amount: 1 }
+          ],
+        },
+      },
+    });
+  }
+
+  /**
+   * Wild Magic Flare
+   */
+  createWildMagicFlare() {
+    // TODO:
+    // cast as a 16th level
+    // 20%	Magical blast
+    // 10%	Chain lightning
+    // 10%	Dispel magic
+    // 10%	Fire shield
+    // 10%	Color spray in a 360' radius
+    // 20%	Fireball centered on golem
+    // 10%	Time stop
+    // 10%	Earthquake
+    return this.addSpell({
+      name: "monster.golem.ability.wildMagicFlare.name",
+      description: "monster.golem.ability.wildMagicFlare.description",
+      id: Ids.WildMagicFlare,
+      memorizedCount: 1,
+      icon: SPELLS.Wizard.NahalRecklessDweomer.file,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.Caster,
+          projectile: {
+            copyFromFile: "GOLCLOUD",
+            name: "Golem poison cloud",
+            particleColor: ParticleColorEnum.Green,
+            areaEffectInfo: {
+              areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
+              explosionDelay: 12,
+              triggerCount: 10, // 6 or 10
+              triggerRadius: 128,
+              areaOfEffect: 128, //  10-foot cube
+            },
+          },
+          speed: 1,
+          effects: [],
+        },
+      ],
+      ability: {
+        targets: [{ name: "NearestEnemies", limit: 3 }],
+        range: 10,
+        spell: {
+          type: "reallyForce",
+          selfTarget: true,
+          remove: true,
+        },
+      },
     });
   }
 
@@ -354,12 +437,16 @@ class GolemFamily extends CreatureFamily<Golem> {
   constructor() {
     super(MonsterFamilyEnum.Golem);
     this.addCreature(() => this.flesh());
+    this.addCreature(() => this.sand());
+    this.addCreature(() => this.lesserClay());
+    this.addCreature(() => this.greaterClay());
     this.addCreature(() => this.clay());
     this.addCreature(() => this.stone());
     this.addCreature(() => this.iron());
     this.addCreature(() => this.bone());
     this.addCreature(() => this.juggernaut());
     this.addCreature(() => this.snow());
+    this.addCreature(() => this.magic());
     this.addCreature(() => this.adamantite());
   }
 
@@ -398,7 +485,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 8,
         immunities: ["construct"],
         items: {
-          remove: ["GOLFLE"],
+          remove: ["GOLFLE", "GOLCLA"],
         },
       },
     });
@@ -416,7 +503,65 @@ class GolemFamily extends CreatureFamily<Golem> {
     flesh.setBehavior({
       restHeal: true,
     });
+    flesh.setAdjustments([
+      // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
+    ]);
     return flesh;
+  }
+
+  /**
+   * Sand Golem
+   */
+  private sand() {
+    const sand = this.create({
+      monster: MonsterEnum.SandGolem,
+      name: "monster.golem.name.sand",
+      files: [],
+      data: {
+        level1: 8,
+        bonusHp: 0,
+        strength: 16,
+        dexterity: 12,
+        constitution: 16,
+        intelligence: 3,
+        wisdom: 8,
+        charisma: 1,
+        ac: 3,
+        apr: 1,
+        xpv: 2000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_FLESH",
+        gender: "NIETHER",
+        size: "Large",
+        modAnimation: "A7!GOLEM_FLESH_PST",
+        movement: 6,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLFLE", "GOLCLA"],
+        },
+      },
+    });
+    sand.addTrait({
+      // immune to all transmutation spells
+      // immune to any spells cast by creatures of less than 3rd level
+      immunities: [],
+      effects: [],
+    });
+    // Suffocate a victim within themselves.
+    // On any attack roll that hits a foe, a save versus paralysis must be made.
+    // Failure indicates that the target has been drawn into the body of the golem.
+    // If this happens, the target takes 2d10 points of damage
+    // and then an additional 1d10 points each subsequent round until it dies.
+    // Breaking free of a sand golem's suffocation requires a Strength check at a -5 penalty.
+    sand.createFists(2, 6, AbilityDamageTypeEnum.Crushing);
+    sand.setBehavior({
+      restHeal: true,
+    });
+    sand.setAdjustments([]);
+    return sand;
   }
 
   /**
@@ -452,7 +597,7 @@ class GolemFamily extends CreatureFamily<Golem> {
           remove: ["GOLCLA", "B3-30", "RING95", "IMMUNE1", "D5CLGOL", "HELMNOAN"],
         },
         script: {
-          remove: ["GOLCLY01", "BPFHT", "OHB_T302"],
+          remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
         },
       },
     });
@@ -472,13 +617,123 @@ class GolemFamily extends CreatureFamily<Golem> {
       abilities: [this.ability(Ids.Haste)],
     });
     clay.setAdjustments([
-      { files: ["MOBHA59", "OBSGOL01"], data: { script: { location: "None" } } },
-      {
-        files: ["IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4"],
-        //TODO:
-      },
+      { files: ["MOBHA59", "OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },
     ]);
     return clay;
+  }
+
+  /**
+   * Lesser Clay Golem
+   */
+  private lesserClay() {
+    const lesserClay = this.create({
+      monster: MonsterEnum.LesserClayGolem,
+      name: "monster.golem.name.lesserClay",
+      files: [],
+      data: {
+        level1: 9,
+        bonusHp: 0,
+        strength: 19,
+        dexterity: 9,
+        constitution: 18,
+        intelligence: 3,
+        wisdom: 8,
+        charisma: 1,
+        ac: 7,
+        apr: 1,
+        xpv: 3000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_CLAY",
+        gender: "NIETHER",
+        size: "Large",
+        movement: 7,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLFLE"],
+        },
+        script: {
+          remove: ["OHBNONIN"],
+        },
+      },
+    });
+    lesserClay.addTrait({
+      immunities: [
+        "magic",
+        "nonMagicalWeapons",
+        "slashingDamageResistance",
+        "piercingDamageResistance",
+        "missileDamageResistance",
+      ],
+    });
+    lesserClay.createHaste();
+    lesserClay.createFists(3, 10, AbilityDamageTypeEnum.Crushing);
+    lesserClay.setBehavior({
+      restHeal: true,
+      abilities: [this.ability(Ids.Haste)],
+    });
+    return lesserClay;
+  }
+
+  /**
+   * Greater Clay Golem
+   */
+  private greaterClay() {
+    const greaterClay = this.create({
+      monster: MonsterEnum.GreaterClayGolem,
+      name: "monster.golem.name.greaterClay",
+      files: [],
+      data: {
+        level1: 14,
+        bonusHp: 0,
+        strength: 22,
+        dexterity: 9,
+        constitution: 18,
+        intelligence: 3,
+        wisdom: 8,
+        charisma: 1,
+        ac: 7,
+        apr: 1,
+        xpv: 8000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_CLAY",
+        gender: "NIETHER",
+        size: "Large",
+        movement: 7,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLCLA", "GOLIRO", "B3-30", "RING95", "IMMUNE1", "D5CLGOL", "HELMNOAN"],
+        },
+        script: {
+          remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
+        },
+      },
+    });
+    greaterClay.addTrait({
+      immunities: [
+        "magic",
+        "nonMagicalWeapons",
+        "slashingDamage",
+        "piercingDamage",
+        "missileDamage",
+        "crushingDamageResistance",
+      ],
+    });
+    greaterClay.createHaste();
+    greaterClay.createFists(3, 10, AbilityDamageTypeEnum.Crushing);
+    greaterClay.setBehavior({
+      restHeal: true,
+      abilities: [this.ability(Ids.Haste)],
+    });
+    greaterClay.setAdjustments([
+      { files: ["OHBGOL01"], data: { level1: 26, xpv: 0, ac: -1 }, noWeapon: true },
+    ]);
+    return greaterClay;
   }
 
   /**
@@ -573,7 +828,10 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 6,
         immunities: ["construct"],
         items: {
-          remove: ["GOLIRO", "IRONGOL", "IMMUNE3"],
+          remove: ["GOLIRO", "IRONGOL", "IMMUNE3", "HELMNOAN"],
+        },
+        script: {
+          remove: ["GOLIRO01"],
         },
       },
     });
@@ -587,6 +845,17 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
       abilities: [this.ability(Ids.CloudOfPoisonousGas)],
     });
+    iron.setAdjustments([
+      {
+        files: ["OHBBANNO"],
+        data: {
+          level1: 30,
+          script: { location: "None" },
+          //TODO: need to keep effects 293, 101, 267
+          // resistances: physical 90%, cold 100%, fire: 127%, acid: 100%
+        },
+      },
+    ]);
     return iron;
   }
 
@@ -775,7 +1044,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 9,
         immunities: ["construct"],
         items: {
-          remove: ["UBSNORNG", "UBSNOFST"],
+          remove: ["UBSNORNG", "UBSNOFST", "B2-24M3", "IMMUNE1", "GOLSTONE", "IMMCHS"],
         },
       },
     });
@@ -801,6 +1070,55 @@ class GolemFamily extends CreatureFamily<Golem> {
       abilities: [this.ability(Ids.ConeOfCold)],
     });
     return snow;
+  }
+
+  /**
+   * Magic Golem
+   */
+  private magic() {
+    const magic = this.create({
+      monster: MonsterEnum.MagicGolem,
+      name: "monster.golem.name.magic",
+      files: [],
+      data: {
+        level1: 8,
+        strength: 22,
+        dexterity: 9,
+        constitution: 20,
+        intelligence: 3,
+        wisdom: 11,
+        charisma: 1,
+        ac: -2,
+        apr: 1,
+        xpv: 8000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_CLAY",
+        gender: "NIETHER",
+        size: "Large",
+        movement: 18,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLMAG01"],
+        },
+        script: {
+          remove: ["GOLMAG01", "O#LLENEM"],
+        },
+      },
+    });
+    magic.addTrait({
+      immunities: ["magic", "fire", "cold", "lightning", "acid", "magicalWeapons"],
+    });
+    magic.createWildMagicFlare();
+    magic.createMagicalBlast();
+    magic.setBehavior({
+      restHeal: true,
+      //abilities: [this.ability(Ids.WildMagicFlare)],
+    });
+    magic.setAdjustments([]);
+    return magic;
   }
 }
 

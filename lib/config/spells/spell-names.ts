@@ -137,6 +137,11 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
     name: "spell.MordenkainenForceMissiles.name",
   },
+  NahalRecklessDweomer: {
+    file: "SPWI124",
+    id: "WIZARD_NAHALS_RECKLESS_DWEOMER",
+    name: "spell.NahalRecklessDweomer.name",
+  },
   ObscuringMist: {
     file: "SPWI106",
     id: "WIZARD_OBSCURING_MIST",
@@ -440,7 +445,9 @@ export const SPELLS = {
   Innate: INNATE_SPELLS,
 };
 
-function flattenSpells(spells: Record<string, SpellReference>): (SpellReference & { key: string })[] {
+function flattenSpells(
+  spells: Record<string, SpellReference>,
+): (SpellReference & { key: string })[] {
   return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
 }
 

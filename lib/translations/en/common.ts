@@ -48,6 +48,7 @@ export default {
     mindSpells:
       "Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)",
     nonMagicalWeapons: "Immune to non-magical weapons",
+    magicalWeapons: "Immune to magical weapons",
     nonSilverNonMagicalWeapons: "Immune to non-magical and non-silver weapons",
     plusOneWeapons: "Immune to all weapons of +1 or less enchantment",
     plusTwoWeapons: "Immune to all weapons of +2 or less enchantment",

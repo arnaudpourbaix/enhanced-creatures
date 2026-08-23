@@ -42,6 +42,8 @@ export enum EffectTypeEnum {
   DispelEffects = 58,
   DisplayPortraitIcon = 142,
   DisplayString = 139,
+  DrainItemCharges = 243,
+  DrainWizardSpells = 244,
   ElectricityResistanceModifier = 29,
   EntangleOverlay = 154,
   FatigueBonus = 93,

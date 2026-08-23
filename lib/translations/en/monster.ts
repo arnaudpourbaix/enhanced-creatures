@@ -1,4 +1,7 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
+
+import description from "./description";
+
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
@@ -170,14 +173,18 @@ Victims are blinded for one round, no save.`,
     name: {
       flesh: "Flesh Golem",
       clay: "Clay Golem",
+      lesserClay: "Lesser Clay Golem",
+      greaterClay: "Greater Clay Golem",
       stone: "Stone Golem",
       iron: "Iron Golem",
       adamantite: "Adamantite Golem",
       bone: "Bone Golem",
       juggernaut: "Juggernaut Golem",
       snow: "Snow Golem",
+      magic: "Magic Golem",
+      sand: "Sand Golem",
     },
-    weapon: { fists: "Fists" },
+    weapon: { fists: "Fists", magicalBlast: "Magical Blast" },
     ability: {
       haste: "Haste",
       hideousLaugh: "Hideous Laugh",
@@ -189,6 +196,10 @@ Victims are blinded for one round, no save.`,
       cloudOfPoisonousGas: {
         name: "Cloud Of Poisonous Gas",
         description: `The gas cloud fills a 10-foot cube directly in front of it, which dissipates by the following round, assuming there is somewhere for the gas to go.`,
+      },
+      wildMagicFlare: {
+        name: "Wild Magic Flare",
+        description: ``,
       },
       coneOfCold: `Cone of Cold
 Casting Time: 1

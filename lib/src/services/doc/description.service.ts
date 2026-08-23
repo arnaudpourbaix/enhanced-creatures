@@ -9,10 +9,10 @@ import {
   CurrentHPbonusEffect,
   DamageEffect,
   DiseaseEffect,
+  DrainEffect,
   Effect,
   IdsEffect,
   InvisibilityEffect,
-  LevelDrainEffect,
   ModifierTypeEffect,
   PoisonEffect,
   RegenerationEffect,
@@ -381,7 +381,7 @@ class DescriptionService {
     return results;
   }
 
-  private getLevelDrain(effect: LevelDrainEffect): string[] {
+  private getLevelDrain(effect: DrainEffect): string[] {
     const results: string[] = [];
     results.push(`Drain ${effect.amount} level from target${this.getSaveText(effect)}.`);
     return results;

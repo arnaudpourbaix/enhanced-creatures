@@ -553,6 +553,16 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     ],
   },
   {
+    name: "magicalWeapons",
+    type: "immunity",
+    stringRef: "common.immunity.magicalWeapons",
+    effects: [...Array(5).keys()].map((i) => ({
+      opcode: EffectTypeEnum.ProtectionFromWeapons,
+      type: ProtectionFromWeaponsTypeEnum.Enchanted,
+      enchantment: i + 1,
+    })),
+  },
+  {
     name: "nonSilverNonMagicalWeapons",
     type: "immunity",
     stringRef: "common.immunity.nonSilverNonMagicalWeapons",

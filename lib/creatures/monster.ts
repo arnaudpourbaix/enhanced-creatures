@@ -131,4 +131,6 @@ export enum MonsterEnum {
   MagicGolem = 106,
   Xvart = 107,
   SandGolem = 108,
+  LesserClayGolem = 109,
+  GreaterClayGolem = 110,
 }

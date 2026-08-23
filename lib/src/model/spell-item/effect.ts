@@ -105,6 +105,12 @@ export type SetColorEffect = BaseEffect & {
   location: EffectColorLocationEnum;
 };
 
+export type DrainEffect = BaseEffect & {
+  opcode:
+    EffectTypeEnum.DrainItemCharges | EffectTypeEnum.DrainWizardSpells | EffectTypeEnum.LevelDrain;
+  amount: number;
+};
+
 export type ColorPulseEffect = BaseEffect & {
   opcode: EffectTypeEnum.CharacterColorPulse | EffectTypeEnum.SetColorGlowPulse;
   color: {
@@ -314,11 +320,6 @@ export type KillTargetEffect = BaseEffect & {
   opcode: EffectTypeEnum.KillTarget;
   displayText: boolean;
   type: KillTargetDeathTypeEnum;
-};
-
-export type LevelDrainEffect = BaseEffect & {
-  opcode: EffectTypeEnum.LevelDrain;
-  amount: number;
 };
 
 export type BerserkEffect = BaseEffect & {
@@ -544,12 +545,12 @@ export type Effect =
   | DisableSpellcastingEffect
   | DiseaseEffect
   | DispelEffectsEffect
+  | DrainEffect
   | HasteEffect
   | IconEffect
   | IdsEffect
   | InvisibilityEffect
   | KillTargetEffect
-  | LevelDrainEffect
   | LightingEffectsEffect
   | MakeUnselectableEffect
   | MinimumHPEffect

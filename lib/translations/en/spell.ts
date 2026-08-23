@@ -234,4 +234,5 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   FindTraps: { name: "Find Traps" },
   Sanctuary: { name: "Sanctuary" },
   CauseModerateWounds: { name: "Cause Moderate Wounds" },
+  NahalRecklessDweomer: { name: "Nahal's Reckless Dweomer" },
 };

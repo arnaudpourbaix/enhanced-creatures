@@ -238,6 +238,8 @@ class EffectService {
         effect.parameter2 = `${effect.type}`;
         break;
       case EffectTypeEnum.LevelDrain:
+      case EffectTypeEnum.DrainItemCharges:
+      case EffectTypeEnum.DrainWizardSpells:
         effect.parameter1 = `${effect.amount}`;
         break;
       case EffectTypeEnum.Berserk:
