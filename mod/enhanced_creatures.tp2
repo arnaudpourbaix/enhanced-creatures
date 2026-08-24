@@ -25,7 +25,7 @@ LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FO
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"

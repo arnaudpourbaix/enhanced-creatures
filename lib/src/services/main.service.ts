@@ -54,12 +54,13 @@ class MainService {
   }
 
   isCreatureValid(creature: Creature) {
+    // Invalidity itself is warned about at validate() time (see creatureFactory.validate()),
+    // right next to the diagnostic output that explains why - not here, a generation pass later
+    // where it would land under an unrelated creature's log section.
     if (creature.valid === undefined) {
       logService.warn(
         `${translationService.from(creature.name)} has not been validated, you must call validate`,
       );
-    } else if (!creature.valid) {
-      logService.warn(`${translationService.from(creature.name)} is not valid, please fix it !`);
     }
     return !!creature.valid;
   }

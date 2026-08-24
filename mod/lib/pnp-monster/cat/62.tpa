@@ -170,7 +170,5 @@ BEGIN
 				WRITE_BYTE 0x234 4 // level1
 			END
 		BUT_ONLY_IF_IT_CHANGES
-	END ELSE BEGIN
-		PRINT ~====> CRE %file% not found!~
 	END
 END

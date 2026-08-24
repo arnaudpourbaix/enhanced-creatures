@@ -185,7 +185,5 @@ BEGIN
 				WRITE_LONG 0x14 0 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
-	END ELSE BEGIN
-		PRINT ~====> CRE %file% not found!~
 	END
 END

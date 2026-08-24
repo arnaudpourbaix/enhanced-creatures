@@ -158,10 +158,10 @@ class WeiduCreatureService extends AbstractWeiduService {
     tab--;
     this.add(lines, "BUT_ONLY_IF_IT_CHANGES", tab);
     tab--;
-    this.add(lines, "END ELSE BEGIN", tab);
-    tab++;
-    this.add(lines, "PRINT ~====> CRE %file% not found!~", tab);
-    tab--;
+    // this.add(lines, "END ELSE BEGIN", tab);
+    // tab++;
+    // this.add(lines, "PRINT ~====> CRE %file% not found!~", tab);
+    // tab--;
     this.add(lines, "END", tab);
     this.add(lines, "END", tab - 1);
   }

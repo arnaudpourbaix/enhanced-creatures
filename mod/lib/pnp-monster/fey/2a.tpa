@@ -111,7 +111,5 @@ BEGIN
 				WRITE_BYTE 0x27b IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~) // alignment
 			END
 		BUT_ONLY_IF_IT_CHANGES
-	END ELSE BEGIN
-		PRINT ~====> CRE %file% not found!~
 	END
 END

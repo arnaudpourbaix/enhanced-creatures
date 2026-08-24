@@ -206,7 +206,5 @@ BEGIN
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~GHOUL_REVEANT~) // class
 			END
 		BUT_ONLY_IF_IT_CHANGES
-	END ELSE BEGIN
-		PRINT ~====> CRE %file% not found!~
 	END
 END

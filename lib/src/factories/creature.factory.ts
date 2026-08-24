@@ -196,6 +196,9 @@ class CreatureFactory {
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
     creature.valid = valid && dialogValid && adjustmentFilesValid;
+    if (!creature.valid) {
+      logService.warn(`${translationService.from(creature.name)} is not valid, please fix it !`);
+    }
   }
 }
 

@@ -27,10 +27,10 @@ describe("isCreatureValid", () => {
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("has not been validated"));
   });
 
-  it("returns false and warns when valid is explicitly false", () => {
+  it("returns false without warning when valid is explicitly false (already warned at validate() time)", () => {
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
     expect(mainService.isCreatureValid(fakeCreature(false))).toBe(false);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("is not valid"));
+    expect(logSpy).not.toHaveBeenCalled();
   });
 
   it("returns true without warning when valid is true", () => {

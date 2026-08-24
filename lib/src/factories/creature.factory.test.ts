@@ -181,9 +181,12 @@ describe("validate", () => {
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
 
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
     creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
 
     expect(creature.valid).toBe(false);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("is not valid, please fix it"));
   });
 
   it("keeps the creature valid when checkDialog passes and every other check passes", () => {
@@ -198,10 +201,12 @@ describe("validate", () => {
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
     creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
 
     expect(creature.valid).toBe(true);
+    expect(logSpy).not.toHaveBeenCalled();
   });
 
   it("marks the creature invalid when checkAdjustmentFiles fails, even though every other check passes", () => {
