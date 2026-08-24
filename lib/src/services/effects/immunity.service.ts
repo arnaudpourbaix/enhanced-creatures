@@ -73,6 +73,16 @@ class ImmunityService {
       [...data.items.equipped, ...creature.data.items.equipped],
       itemSlot.slot,
     );
+    // createFrom() clones an already-validated creature's data.items.equipped (which can
+    // already include this exact itemSlot.file, added by a prior handleImmunities() run on the
+    // source creature) while resetting creature.items to []. That leaves overwrittingItem/
+    // overwrittingSlot blind to the clone already having it - overwrittingSlot in particular
+    // never catches it here since JEWEL_SLOTS is an array and isSlotIncluded() always returns
+    // false for array slots. Check the exact file directly so re-running handleImmunities on a
+    // clone doesn't push a second ADD_CRE_ITEM for the same item.
+    const alreadyEquipped = [...data.items.equipped, ...creature.data.items.equipped].some(
+      (e) => e.file === itemSlot.file,
+    );
     if (overwrittingItem)
       logService.log(
         `${figureSet.arrowRight} skipping ${itemSlot.file} because ${overwrittingItem.file} overwrites it`,
@@ -82,6 +92,10 @@ class ImmunityService {
         `${figureSet.arrowRight} skipping ${immunity.name} (${itemSlot.file}) because slot ${
           Array.isArray(itemSlot.slot) ? itemSlot.slot.join(",") : itemSlot.slot
         } is already assigned`,
+      );
+    else if (alreadyEquipped)
+      logService.log(
+        `${figureSet.arrowRight} skipping ${immunity.name} (${itemSlot.file}) because it is already equipped`,
       );
     else
       data.items.equipped.push({
