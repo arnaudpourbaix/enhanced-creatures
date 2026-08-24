@@ -28,17 +28,17 @@ beforeAll(async () => {
 });
 
 describe("Ankheg creature generation", () => {
-  it("matches the committed ja#m1.baf script", () => {
+  it("matches the committed jam1.baf script", () => {
     const content = bafGeneratorService.buildContent(ankheg, {
       summon: false,
     });
-    expect(content).toBe(readModFile("lib/pnp-monster/ankheg/ja#m1.baf"));
+    expect(content).toBe(readModFile("lib/pnp-monster/ankheg/jam1.baf"));
   });
 
-  it("matches the committed ja#m1su.baf summon script", () => {
+  it("matches the committed jam1su.baf summon script", () => {
     const content = bafGeneratorService.buildContent(ankheg, {
       summon: true,
     });
-    expect(content).toBe(readModFile("lib/pnp-monster/ankheg/ja#m1su.baf"));
+    expect(content).toBe(readModFile("lib/pnp-monster/ankheg/jam1su.baf"));
   });
 });

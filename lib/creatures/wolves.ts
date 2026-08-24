@@ -16,7 +16,6 @@ import {
   EffectDispelResistanceEnum,
   EffectFlagsEnum,
   EffectModifierTypeEnum,
-  EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
   ItemAbilityFlagEnum,
@@ -39,7 +38,6 @@ import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 enum Ids {
   DreadWolfDisease,
   DreadWolfDownState,
-  DreadWolfTrait,
   StreamOfFrost,
 }
 
@@ -142,7 +140,7 @@ class Wolf extends Creature {
           effects: [
             {
               opcode: EffectTypeEnum.RemoveItem,
-              resource: this.item(Ids.DreadWolfTrait).file,
+              resource: this.traitItem().file,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
               target: EffectTargetEnum.Self,
             },
@@ -171,7 +169,7 @@ class Wolf extends Creature {
             },
             {
               opcode: EffectTypeEnum.CreateItemInSlot,
-              resource: this.item(Ids.DreadWolfTrait).file,
+              resource: this.traitItem().file,
               slot: "SLOT_RING_LEFT",
               duration: 2 * Durations.round,
               timing: EffectTimingEnum.DelayPermanent,
@@ -318,7 +316,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       files: [],
       data: {
         level1: 3,
-        bonusHp: 0,
         strength: 12,
         dexterity: 15,
         constitution: 12,
@@ -432,7 +429,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       },
     });
     const trait = dread.addTrait({
-      id: Ids.DreadWolfTrait,
       description: "monster.wolf.trait.dread",
       equippedSlot: "LRING",
       immunities: ["coldSpells", "cold", "lightningResistance", "charm", "hold"],
@@ -552,7 +548,6 @@ class WolfFamily extends CreatureFamily<Wolf> {
       files: [],
       data: {
         level1: 6,
-        bonusHp: 0,
         strength: 18,
         dexterity: 13,
         constitution: 14,

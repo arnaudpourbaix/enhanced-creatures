@@ -235,7 +235,6 @@ class DogFamily extends CreatureFamily<Dog> {
       files: [],
       data: {
         level1: 5,
-        bonusHp: 0,
         strength: 17,
         dexterity: 15,
         constitution: 14,

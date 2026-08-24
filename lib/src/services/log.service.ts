@@ -35,6 +35,10 @@ class LogService {
     }
   }
 
+  info(message: string): void {
+    this.log(`info: ${message}`);
+  }
+
   warn(message: string): void {
     this.warningCount++;
     this.log(`warning: ${message}`);

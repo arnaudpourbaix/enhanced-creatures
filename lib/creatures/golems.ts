@@ -590,7 +590,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       files: [],
       data: {
         level1: 8,
-        bonusHp: 0,
         strength: 16,
         dexterity: 12,
         constitution: 16,
@@ -644,7 +643,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       files: [],
       data: {
         level1: 11,
-        bonusHp: 0,
         strength: 20,
         dexterity: 9,
         constitution: 18,
@@ -664,7 +662,16 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 7,
         immunities: ["construct"],
         items: {
-          remove: ["GOLCLA", "B3-30", "RING95", "IMMUNE1", "D5CLGOL", "HELMNOAN"],
+          remove: [
+            "GOLCLA",
+            "GOLFLE",
+            "GOLIRO",
+            "B3-30",
+            "RING95",
+            "IMMUNE1",
+            "D5CLGOL",
+            "HELMNOAN",
+          ],
         },
         script: {
           remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
@@ -696,41 +703,15 @@ class GolemFamily extends CreatureFamily<Golem> {
    * Lesser Clay Golem
    */
   private lesserClay() {
-    const lesserClay = this.create({
+    const lesserClay = this.createFrom({
+      from: this.creature(MonsterEnum.ClayGolem),
       monster: MonsterEnum.LesserClayGolem,
       name: "monster.golem.name.lesserClay",
-      files: [],
-      data: {
-        level1: 9,
-        bonusHp: 0,
-        strength: 19,
-        dexterity: 9,
-        constitution: 18,
-        intelligence: 3,
-        wisdom: 8,
-        charisma: 1,
-        ac: 7,
-        apr: 1,
-        xpv: 3000,
-        alignment: "NEUTRAL",
-        morale: 20,
-        general: "GIANTHUMANOID",
-        race: "GOLEM",
-        class: "GOLEM_CLAY",
-        gender: "NIETHER",
-        size: "Large",
-        movement: 7,
-        immunities: ["construct"],
-        items: {
-          remove: ["GOLFLE"],
-        },
-        script: {
-          remove: ["OHBNONIN"],
-        },
-        spells: {
-          memorized: [{ file: this.spell(Ids.Haste).file, memorizedCount: 1 }],
-        },
-      },
+    });
+    lesserClay.setData({
+      level1: 9,
+      strength: 19,
+      xpv: 3000,
     });
     lesserClay.addTrait({
       immunities: [
@@ -741,11 +722,6 @@ class GolemFamily extends CreatureFamily<Golem> {
         "missileDamageResistance",
       ],
     });
-    lesserClay.createFists({ diceThrown: 3, diceSize: 10 });
-    lesserClay.setBehavior({
-      restHeal: true,
-      abilities: [this.ability(Ids.Haste)],
-    });
     return lesserClay;
   }
 
@@ -753,41 +729,15 @@ class GolemFamily extends CreatureFamily<Golem> {
    * Greater Clay Golem
    */
   private greaterClay() {
-    const greaterClay = this.create({
+    const greaterClay = this.createFrom({
+      from: this.creature(MonsterEnum.ClayGolem),
       monster: MonsterEnum.GreaterClayGolem,
       name: "monster.golem.name.greaterClay",
-      files: [],
-      data: {
-        level1: 14,
-        bonusHp: 0,
-        strength: 22,
-        dexterity: 9,
-        constitution: 18,
-        intelligence: 3,
-        wisdom: 8,
-        charisma: 1,
-        ac: 7,
-        apr: 1,
-        xpv: 8000,
-        alignment: "NEUTRAL",
-        morale: 20,
-        general: "GIANTHUMANOID",
-        race: "GOLEM",
-        class: "GOLEM_CLAY",
-        gender: "NIETHER",
-        size: "Large",
-        movement: 7,
-        immunities: ["construct"],
-        items: {
-          remove: ["GOLCLA", "GOLIRO", "B3-30", "RING95", "IMMUNE1", "D5CLGOL", "HELMNOAN"],
-        },
-        script: {
-          remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
-        },
-        spells: {
-          memorized: [{ file: this.spell(Ids.Haste).file, memorizedCount: 1 }],
-        },
-      },
+    });
+    greaterClay.setData({
+      level1: 14,
+      strength: 22,
+      xpv: 8000,
     });
     greaterClay.addTrait({
       immunities: [
@@ -798,11 +748,6 @@ class GolemFamily extends CreatureFamily<Golem> {
         "missileDamage",
         "crushingDamageResistance",
       ],
-    });
-    greaterClay.createFists({ diceThrown: 3, diceSize: 10 });
-    greaterClay.setBehavior({
-      restHeal: true,
-      abilities: [this.ability(Ids.Haste)],
     });
     greaterClay.setAdjustments([
       { files: ["OHBGOL01"], data: { level1: 26, xpv: 0, ac: -1 }, noWeapon: true },
@@ -820,7 +765,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       files: [],
       data: {
         level1: 14,
-        bonusHp: 0,
         strength: 22,
         dexterity: 9,
         constitution: 20,
@@ -840,10 +784,10 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 6,
         immunities: ["construct"],
         items: {
-          remove: ["GOLSTO", "GOLSTONE", "IMMUNE2", "B3-24"],
+          remove: ["GOLFLE", "GOLSTO", "GOLSTONE", "IMMUNE2", "IMMUNE1", "HELMNOAN", "B3-24"],
         },
         script: {
-          remove: ["GOLSTO01"],
+          remove: ["GOLSTO01", "OHBNONIN"],
         },
         spells: {
           memorized: [{ file: SPELLS.Wizard.Slow.file, memorizedCount: 1 }],
@@ -877,61 +821,15 @@ class GolemFamily extends CreatureFamily<Golem> {
    * Lesser Stone Golem
    */
   private lesserStone() {
-    const lesserStone = this.create({
+    const lesserStone = this.createFrom({
+      from: this.creature(MonsterEnum.StoneGolem),
       monster: MonsterEnum.LesserStoneGolem,
       name: "monster.golem.name.lesserStone",
-      files: [],
-      data: {
-        level1: 10,
-        bonusHp: 0,
-        strength: 20,
-        dexterity: 9,
-        constitution: 20,
-        intelligence: 3,
-        wisdom: 11,
-        charisma: 1,
-        ac: 5,
-        apr: 1,
-        xpv: 4000,
-        alignment: "NEUTRAL",
-        morale: 20,
-        general: "GIANTHUMANOID",
-        race: "GOLEM",
-        class: "GOLEM_STONE",
-        gender: "NIETHER",
-        size: "Large",
-        movement: 6,
-        immunities: ["construct"],
-        items: {
-          remove: ["GOLSTO", "GOLSTONE", "IMMUNE1", "HELMNOAN"],
-        },
-        script: {
-          remove: ["GOLSTO01"],
-        },
-        spells: {
-          memorized: [{ file: SPELLS.Wizard.Slow.file, memorizedCount: 1 }],
-        },
-      },
     });
-    lesserStone.addTrait({
-      immunities: ["magic", "plusOneWeapons"],
-    });
-    lesserStone.createFists({ diceThrown: 3, diceSize: 8 });
-    lesserStone.setBehavior({
-      restHeal: true,
-      abilities: [
-        {
-          preset: SPELLS.Wizard.Slow.file,
-          spell: {
-            type: "reallyForce",
-            selfTarget: true,
-            remove: true,
-          },
-          requireVocal: false,
-          range: 10,
-          timer: { name: "Slow", value: 12 },
-        },
-      ],
+    lesserStone.setData({
+      level1: 10,
+      strength: 20,
+      xpv: 4000,
     });
     lesserStone.setAdjustments([
       { files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22, xpv: 6000 } },
@@ -1056,7 +954,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       files: [],
       data: {
         level1: 14,
-        bonusHp: 0,
         strength: 17,
         dexterity: 13,
         constitution: 16,

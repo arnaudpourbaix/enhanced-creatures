@@ -176,12 +176,12 @@ class CreatureFactory {
     // creature that never explicitly called setAttack()/setBehavior() - genuinely unset here.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!creature.attack) {
-      logService.warn(`No attack defined, using defaults`);
+      logService.info(`No attack defined, using defaults`);
       creature.setAttack({});
     }
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!creature.behavior) {
-      logService.warn(`No behavior defined, using defaults`);
+      logService.info(`No behavior defined, using defaults`);
       this.setBehavior(creature, {});
     }
     if (valid) State.creatures.push(creature);

@@ -16,11 +16,15 @@ class WeaponService {
   checkWeaponSpeed(weapon: Weapon) {
     if (!weapon.header.speed) {
       weapon.header.speed = 3;
-      logService.warn(`default speed of ${weapon.header.speed} from weapon ${weapon.file}.`);
+      logService.info(`default speed of ${weapon.header.speed} from weapon ${weapon.file}.`);
     }
   }
 
-  checkEnchantment(creature: Creature, weapon: Weapon, level: number = creature.data.level1.pnpValue) {
+  checkEnchantment(
+    creature: Creature,
+    weapon: Weapon,
+    level: number = creature.data.level1.pnpValue,
+  ) {
     if (weapon.enchantment !== undefined || !creature.autoGenerate.enchantment) {
       return;
     }

@@ -29,6 +29,7 @@ import { InputCreatureData } from "./data-input";
 import { CreatureGrabConfig } from "./grab";
 import { ItemSlot, JEWEL_SLOTS } from "./item";
 import { AbilityEntry } from "./ability";
+import { State } from "../../state";
 
 export interface BaseCreature {
   files: string[];
@@ -173,7 +174,6 @@ export class Creature extends AbstractCreature implements BaseCreature {
   }
 
   addTrait(payload: {
-    id?: number;
     description?: StringReference;
     immunities?: ImmunityName[];
     effects?: Effect[];
@@ -182,9 +182,18 @@ export class Creature extends AbstractCreature implements BaseCreature {
     const stringRef = translationService.addCustomTranslation([
       `${translationService.from(this.name)} ${translationService.from("common.creatureTraits")}`,
     ]);
+    const traitItem = this.items.find((s) => s.trait);
+    if (traitItem) throw new Error("Already has a trait defined");
+    const traitIndex = this.data.items.equipped.findIndex((e) => {
+      const i = State.items.find((i) => i.file === e.file);
+      return !!i && i.trait;
+    });
+    if (traitIndex !== -1) {
+      logService.warn(`Override existing trait: ${this.data.items.equipped[traitIndex].file}`);
+      this.data.items.equipped.splice(traitIndex, 1);
+    }
     const item = this.addItem({
       stringRef,
-      id: payload.id,
       description: payload.description,
       effects: (payload.effects ?? []).map((e) => ({
         ...e,

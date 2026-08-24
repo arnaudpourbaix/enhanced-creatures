@@ -46,6 +46,12 @@ export abstract class AbstractCreature {
     return item;
   }
 
+  traitItem(): Item {
+    const item = this.items.find((s) => s.trait);
+    if (!item) throw new Error(`No trait item found`);
+    return item;
+  }
+
   spell(id: number | string): Spell {
     const spell = this.spells.find((s) => (typeof id === "string" ? s.file === id : s.id === id));
     if (!spell) throw new Error(`No spell found with id ${id}`);
