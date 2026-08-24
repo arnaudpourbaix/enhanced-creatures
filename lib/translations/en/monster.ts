@@ -172,10 +172,12 @@ Victims are blinded for one round, no save.`,
   golem: {
     name: {
       flesh: "Flesh Golem",
+      wax: "Wax Golem",
       clay: "Clay Golem",
       lesserClay: "Lesser Clay Golem",
       greaterClay: "Greater Clay Golem",
       stone: "Stone Golem",
+      lesserStone: "Lesser Stone Golem",
       iron: "Iron Golem",
       adamantite: "Adamantite Golem",
       bone: "Bone Golem",
@@ -206,7 +208,8 @@ Casting Time: 1
 Saving Throw: Breath half
 When this spell is cast, it causes a cone-shaped spray of extreme cold to spring forth.
 The cone is 30 feet long and spread out in a horizontal arc of 60 degrees in front of the caster.
-It drains heat and causes 10d4+10 cold damage, with a save vs. breath at -4 allowed for half damage.`,
+It drains heat and causes 10d4+10 cold damage, with a save vs. breath at -4 allowed for half damage.
+Stronger Snow Golems will do 15d4+15 cold damage`,
     },
   },
   ogre: {

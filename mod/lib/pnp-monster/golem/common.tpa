@@ -4,3 +4,24 @@ COPY_EXISTING ~ohbt302.bcs~ ~override~
         REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_HASTE)~ ~  // ReallyForceSpell(Myself,GOLEM_HASTE)~
     END
 BUT_ONLY
+
+COPY_EXISTING ~gorgoli.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+        // Cone of cold is now handled in golem script
+        REPLACE_TEXTUALLY ~ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)~ ~  // ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)~
+    END
+BUT_ONLY
+
+COPY_EXISTING ~bdpetsg.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+        // Slow is now handled in golem script
+        REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_SLOW)~ ~  // ReallyForceSpell(Myself,GOLEM_SLOW)~
+    END
+BUT_ONLY
+
+COPY_EXISTING ~bdpetsgs.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+        // Slow is now handled in golem script
+        REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_SLOW)~ ~  // ReallyForceSpell(Myself,GOLEM_SLOW)~
+    END
+BUT_ONLY

@@ -688,6 +688,18 @@ BEGIN
 	LPF infravision_trait INT_VAR resist_dispel duration END
 END
 
+DEFINE_PATCH_FUNCTION magicalWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=1 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=2 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=3 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=4 parameter2=0 END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=5 parameter2=0 END
+END
+
 DEFINE_PATCH_FUNCTION maze_immunity
 INT_VAR
 	resist_dispel=0

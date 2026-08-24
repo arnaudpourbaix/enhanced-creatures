@@ -4117,7 +4117,7 @@ IF
 	HPPercentLT(Myself,30)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN55",Myself)
 END
@@ -4131,7 +4131,7 @@ IF
 	HPPercentLT(Myself,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN52",Myself)
 END
@@ -4147,7 +4147,7 @@ IF
 		StateCheck(Myself,STATE_POISONED)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN17",Myself)
 END
@@ -4161,7 +4161,7 @@ IF
 	HPPercentLT(Myself,75)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN08",Myself)
 END
@@ -4174,7 +4174,7 @@ IF
 	RandomNumLT(888,100)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN14",Myself)
 END
@@ -4187,7 +4187,7 @@ IF
 	RandomNumLT(888,100)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN02",Myself)
 END

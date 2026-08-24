@@ -23,7 +23,7 @@ class HitPointService {
     const specialBonus = this.getSpecialBonus({ ...p, level });
     const hitDice = this.getHitDiceSize(p.creature);
     const baseHP = level * hitDice;
-    const log = `${figureSet.arrowRight} Level: ${level}, hit points: ${baseHP} (base) ${constitutionBonus.log}${hitPointBonus.log}${specialBonus.log}`;
+    const log = `${figureSet.arrowRight} Level: ${level}, HD: ${hitDice}, hit points: ${baseHP} (base) ${constitutionBonus.log}${hitPointBonus.log}${specialBonus.log}`;
     const value = baseHP + constitutionBonus.value + hitPointBonus.value + specialBonus.value;
     logService.log(`${log} = ${value}`);
     return value;

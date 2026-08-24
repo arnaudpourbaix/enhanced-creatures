@@ -6,6 +6,7 @@ import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
+import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
@@ -39,12 +40,19 @@ enum Ids {
 }
 
 class Golem extends Creature {
-  createFists(
-    diceThrown: number,
-    diceSize: number,
-    damageType: AbilityDamageTypeEnum,
-    castSpell?: WeaponCastSpell,
-  ) {
+  createFists({
+    diceThrown,
+    diceSize,
+    damageType,
+    castSpell,
+    effects,
+  }: {
+    diceThrown: number;
+    diceSize: number;
+    damageType?: AbilityDamageTypeEnum;
+    castSpell?: WeaponCastSpell;
+    effects?: Effect[];
+  }) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.golem.weapon.fists",
@@ -53,10 +61,11 @@ class Golem extends Creature {
         header: {
           diceThrown,
           diceSize,
-          damageType,
+          damageType: damageType ?? AbilityDamageTypeEnum.Crushing,
           type: ItemAbilityTypeEnum.Melee,
           speed: 4,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+          effects,
         },
       },
       castSpells: castSpell ? [castSpell] : undefined,
@@ -90,7 +99,6 @@ class Golem extends Creature {
               effect: LightingEffectEnum.AlterationAir,
               lightingTarget: LightingEffectTargetEnum.SpellTarget,
             },
-            // { opcode: EffectTypeEnum.DrainItemCharges, amount: 1 }
           ],
         },
       },
@@ -423,11 +431,24 @@ class Golem extends Creature {
         description: "monster.golem.ability.coneOfCold",
         memorizedCount: 1,
         options: { renew: 5 },
-        damage: {
-          diceThrown: 10,
-          diceSize: 4,
-          amount: 10,
-        },
+        headers: [
+          {
+            minLevel: 1,
+            damage: {
+              diceThrown: 10,
+              diceSize: 4,
+              amount: 10,
+            },
+          },
+          {
+            minLevel: 18,
+            damage: {
+              diceThrown: 15,
+              diceSize: 4,
+              amount: 15,
+            },
+          },
+        ],
       }),
     );
   }
@@ -438,16 +459,18 @@ class GolemFamily extends CreatureFamily<Golem> {
     super(MonsterFamilyEnum.Golem);
     this.addCreature(() => this.flesh());
     this.addCreature(() => this.sand());
+    this.addCreature(() => this.clay());
     this.addCreature(() => this.lesserClay());
     this.addCreature(() => this.greaterClay());
-    this.addCreature(() => this.clay());
     this.addCreature(() => this.stone());
+    this.addCreature(() => this.lesserStone());
     this.addCreature(() => this.iron());
     this.addCreature(() => this.bone());
     this.addCreature(() => this.juggernaut());
     this.addCreature(() => this.snow());
     this.addCreature(() => this.magic());
     this.addCreature(() => this.adamantite());
+    this.addCreature(() => this.wax());
   }
 
   createCreature(id: MonsterEnum): Golem {
@@ -464,7 +487,6 @@ class GolemFamily extends CreatureFamily<Golem> {
       files: [],
       data: {
         level1: 9,
-        bonusHp: 0,
         strength: 19,
         dexterity: 9,
         constitution: 18,
@@ -499,7 +521,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         },
       ],
     });
-    flesh.createFists(2, 8, AbilityDamageTypeEnum.Crushing);
+    flesh.createFists({ diceThrown: 2, diceSize: 8 });
     flesh.setBehavior({
       restHeal: true,
     });
@@ -507,6 +529,55 @@ class GolemFamily extends CreatureFamily<Golem> {
       // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
     ]);
     return flesh;
+  }
+
+  /**
+   * Wax Golem
+   */
+  private wax() {
+    const wax = this.create({
+      monster: MonsterEnum.WaxGolem,
+      name: "monster.golem.name.wax",
+      files: [],
+      data: {
+        level1: 8,
+        strength: 18,
+        exceptionalStrength: 90,
+        dexterity: 9,
+        constitution: 18,
+        intelligence: 9,
+        wisdom: 11,
+        charisma: 1,
+        ac: 4,
+        apr: 1,
+        xpv: 5000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_FLESH",
+        gender: "NIETHER",
+        size: "Medium",
+        movement: 12,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLFLE", "IMMUNE1"],
+        },
+      },
+    });
+    wax.addTrait({
+      immunities: ["magic", "lightning", "cold"],
+      effects: effectFactory.fireResistance(-30),
+    });
+    wax.createFists({
+      diceThrown: 2,
+      diceSize: 6,
+      effects: effectFactory.levelDrain({ levels: 1, saveType: SaveTypeEnum.ParalyzePoisonDeath }),
+    });
+    wax.setBehavior({
+      restHeal: true,
+    });
+    return wax;
   }
 
   /**
@@ -536,7 +607,6 @@ class GolemFamily extends CreatureFamily<Golem> {
         class: "GOLEM_FLESH",
         gender: "NIETHER",
         size: "Large",
-        modAnimation: "A7!GOLEM_FLESH_PST",
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -556,7 +626,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     // If this happens, the target takes 2d10 points of damage
     // and then an additional 1d10 points each subsequent round until it dies.
     // Breaking free of a sand golem's suffocation requires a Strength check at a -5 penalty.
-    sand.createFists(2, 6, AbilityDamageTypeEnum.Crushing);
+    sand.createFists({ diceThrown: 2, diceSize: 6 });
     sand.setBehavior({
       restHeal: true,
     });
@@ -611,7 +681,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       ],
     });
     clay.createHaste();
-    clay.createFists(3, 10, AbilityDamageTypeEnum.Crushing);
+    clay.createFists({ diceThrown: 3, diceSize: 10 });
     clay.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.Haste)],
@@ -657,6 +727,9 @@ class GolemFamily extends CreatureFamily<Golem> {
         script: {
           remove: ["OHBNONIN"],
         },
+        spells: {
+          memorized: [{ file: this.spell(Ids.Haste).file, memorizedCount: 1 }],
+        },
       },
     });
     lesserClay.addTrait({
@@ -668,8 +741,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         "missileDamageResistance",
       ],
     });
-    lesserClay.createHaste();
-    lesserClay.createFists(3, 10, AbilityDamageTypeEnum.Crushing);
+    lesserClay.createFists({ diceThrown: 3, diceSize: 10 });
     lesserClay.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.Haste)],
@@ -712,6 +784,9 @@ class GolemFamily extends CreatureFamily<Golem> {
         script: {
           remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
         },
+        spells: {
+          memorized: [{ file: this.spell(Ids.Haste).file, memorizedCount: 1 }],
+        },
       },
     });
     greaterClay.addTrait({
@@ -724,8 +799,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         "crushingDamageResistance",
       ],
     });
-    greaterClay.createHaste();
-    greaterClay.createFists(3, 10, AbilityDamageTypeEnum.Crushing);
+    greaterClay.createFists({ diceThrown: 3, diceSize: 10 });
     greaterClay.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.Haste)],
@@ -766,7 +840,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 6,
         immunities: ["construct"],
         items: {
-          remove: ["GOLSTO", "GOLSTONE", "IMMUNE2"],
+          remove: ["GOLSTO", "GOLSTONE", "IMMUNE2", "B3-24"],
         },
         script: {
           remove: ["GOLSTO01"],
@@ -779,7 +853,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     stone.addTrait({
       immunities: ["magic", "plusOneWeapons"],
     });
-    stone.createFists(3, 8, AbilityDamageTypeEnum.Crushing);
+    stone.createFists({ diceThrown: 3, diceSize: 8 });
     stone.setBehavior({
       restHeal: true,
       abilities: [
@@ -797,6 +871,72 @@ class GolemFamily extends CreatureFamily<Golem> {
       ],
     });
     return stone;
+  }
+
+  /**
+   * Lesser Stone Golem
+   */
+  private lesserStone() {
+    const lesserStone = this.create({
+      monster: MonsterEnum.LesserStoneGolem,
+      name: "monster.golem.name.lesserStone",
+      files: [],
+      data: {
+        level1: 10,
+        bonusHp: 0,
+        strength: 20,
+        dexterity: 9,
+        constitution: 20,
+        intelligence: 3,
+        wisdom: 11,
+        charisma: 1,
+        ac: 5,
+        apr: 1,
+        xpv: 4000,
+        alignment: "NEUTRAL",
+        morale: 20,
+        general: "GIANTHUMANOID",
+        race: "GOLEM",
+        class: "GOLEM_STONE",
+        gender: "NIETHER",
+        size: "Large",
+        movement: 6,
+        immunities: ["construct"],
+        items: {
+          remove: ["GOLSTO", "GOLSTONE", "IMMUNE1", "HELMNOAN"],
+        },
+        script: {
+          remove: ["GOLSTO01"],
+        },
+        spells: {
+          memorized: [{ file: SPELLS.Wizard.Slow.file, memorizedCount: 1 }],
+        },
+      },
+    });
+    lesserStone.addTrait({
+      immunities: ["magic", "plusOneWeapons"],
+    });
+    lesserStone.createFists({ diceThrown: 3, diceSize: 8 });
+    lesserStone.setBehavior({
+      restHeal: true,
+      abilities: [
+        {
+          preset: SPELLS.Wizard.Slow.file,
+          spell: {
+            type: "reallyForce",
+            selfTarget: true,
+            remove: true,
+          },
+          requireVocal: false,
+          range: 10,
+          timer: { name: "Slow", value: 12 },
+        },
+      ],
+    });
+    lesserStone.setAdjustments([
+      { files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22, xpv: 6000 } },
+    ]);
+    return lesserStone;
   }
 
   /**
@@ -840,7 +980,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       effects: effectFactory.fireResistance(125),
     });
     iron.createCloudOfPoisonousGas();
-    iron.createFists(4, 10, AbilityDamageTypeEnum.Crushing);
+    iron.createFists({ diceThrown: 4, diceSize: 10 });
     iron.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.CloudOfPoisonousGas)],
@@ -898,7 +1038,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       effects: [...effectFactory.fireResistance(125), ...effectFactory.physicalResistance(90)],
     });
     // TODO: create Trample, 2 uses per day (see golem's mod)
-    adamantite.createFists(4, 10, AbilityDamageTypeEnum.Crushing);
+    adamantite.createFists({ diceThrown: 4, diceSize: 10 });
     adamantite.setBehavior({
       restHeal: true,
       // abilities: [this.ability(Ids.CloudOfPoisonousGas)],
@@ -951,7 +1091,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       ],
     });
     bone.createHideousLaugh();
-    bone.createFists(3, 8, AbilityDamageTypeEnum.Slashing);
+    bone.createFists({ diceThrown: 3, diceSize: 8, damageType: AbilityDamageTypeEnum.Slashing });
     bone.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.HideousLaugh)],
@@ -1007,7 +1147,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     });
     juggernaut.addTrait({ immunities: ["magic", "fire"] });
     juggernaut.createCharge();
-    juggernaut.createFists(2, 6, AbilityDamageTypeEnum.Crushing);
+    juggernaut.createFists({ diceThrown: 2, diceSize: 6 });
     juggernaut.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.Charge)],
@@ -1044,7 +1184,20 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 9,
         immunities: ["construct"],
         items: {
-          remove: ["UBSNORNG", "UBSNOFST", "B2-24M3", "IMMUNE1", "GOLSTONE", "IMMCHS"],
+          remove: [
+            "UBSNORNG",
+            "UBSNOFST",
+            "B2-24M3",
+            "IMMUNE1",
+            "IMMUNE3",
+            "GOLSTONE",
+            "IMMCHS",
+            "IRONGOL",
+            "GOLIRO",
+          ],
+        },
+        script: {
+          remove: ["GOLICE01"],
         },
       },
     });
@@ -1064,11 +1217,15 @@ class GolemFamily extends CreatureFamily<Golem> {
       ],
     });
     snow.createConeOfCold();
-    snow.createFists(2, 12, AbilityDamageTypeEnum.Crushing);
+    snow.createFists({ diceThrown: 2, diceSize: 12 });
     snow.setBehavior({
       restHeal: true,
       abilities: [this.ability(Ids.ConeOfCold)],
     });
+    snow.setAdjustments([
+      { files: ["D9LICE01", "GOLICE01", "WQXGOL"], data: { level1: 20, xpv: 12000 } },
+      { files: ["GORGOLI"], data: { level1: 18 } },
+    ]);
     return snow;
   }
 
@@ -1111,7 +1268,13 @@ class GolemFamily extends CreatureFamily<Golem> {
     magic.addTrait({
       immunities: ["magic", "fire", "cold", "lightning", "acid", "magicalWeapons"],
     });
-    magic.createWildMagicFlare();
+    // TODO:
+    // Magic golems absorb all magical energy within a 20-foot radius.
+    // Spells are instantly absorbed as they are cast.
+    // Running spells are terminated and absorbed at the end of one round,
+    // with the two exceptions noted below.
+    // Charged magical items lose 1d6 charges per round.
+    // magic.createWildMagicFlare();
     magic.createMagicalBlast();
     magic.setBehavior({
       restHeal: true,

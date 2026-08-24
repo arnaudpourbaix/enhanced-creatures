@@ -132,11 +132,16 @@ class Ogre extends Creature {
         id: Ids.ConeOfCold,
         description: "monster.ogre.ability.coneOfCold",
         memorizedCount: 1,
-        damage: {
-          diceThrown: 8,
-          diceSize: 8,
-          amount: 0,
-        },
+        headers: [
+          {
+            minLevel: 1,
+            damage: {
+              diceThrown: 8,
+              diceSize: 8,
+              amount: 0,
+            },
+          },
+        ],
         projectile: {
           copyFromFile: "CONECOLD",
           name: "Ogre-Mage Cone of Cold",

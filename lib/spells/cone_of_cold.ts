@@ -22,7 +22,7 @@ export const createConeOfCold = ({
   description,
   projectile,
   options,
-  damage,
+  headers,
   memorizedCount,
 }: {
   id: number;
@@ -30,11 +30,14 @@ export const createConeOfCold = ({
   projectile?: PartialProjectile;
   options?: SpellOptions;
   memorizedCount?: number;
-  damage: {
-    diceThrown: number;
-    diceSize: number;
-    amount: number;
-  };
+  headers: {
+    minLevel: number;
+    damage: {
+      diceThrown: number;
+      diceSize: number;
+      amount: number;
+    };
+  }[];
 }): PartialSpell => ({
   id,
   description,
@@ -49,32 +52,31 @@ export const createConeOfCold = ({
   primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
   secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
   level: 5,
-  headers: [
-    {
-      type: ItemAbilityTypeEnum.Melee,
-      projectile: projectile ?? "CONECOLD",
-      location: ItemAbilityLocationEnum.Spell,
-      target: ItemAbilityTargetEnum.LivingActor,
-      range: 10,
-      speed: 1,
-      effects: [
-        {
-          opcode: EffectTypeEnum.Damage,
-          type: EffectDamageTypeEnum.Cold,
-          amount: damage.amount,
-          diceSize: damage.diceSize,
-          diceThrown: damage.diceThrown,
-          saveTypes: [SaveTypeEnum.Spell, SaveTypeEnum.BypassMirrorImage],
-          saveBonus: -4,
-          flags: [EffectFlagsEnum.SaveForHalf],
-        },
-        {
-          opcode: EffectTypeEnum.PauseTarget,
-          duration: 1,
-        },
-      ],
-    },
-  ],
+  headers: headers.map((h) => ({
+    type: ItemAbilityTypeEnum.Melee,
+    minLevel: h.minLevel,
+    projectile: projectile ?? "CONECOLD",
+    location: ItemAbilityLocationEnum.Spell,
+    target: ItemAbilityTargetEnum.LivingActor,
+    range: 10,
+    speed: 1,
+    effects: [
+      {
+        opcode: EffectTypeEnum.Damage,
+        type: EffectDamageTypeEnum.Cold,
+        amount: h.damage.amount,
+        diceSize: h.damage.diceSize,
+        diceThrown: h.damage.diceThrown,
+        saveTypes: [SaveTypeEnum.Spell, SaveTypeEnum.BypassMirrorImage],
+        saveBonus: -4,
+        flags: [EffectFlagsEnum.SaveForHalf],
+      },
+      {
+        opcode: EffectTypeEnum.PauseTarget,
+        duration: 1,
+      },
+    ],
+  })),
   ability: {
     preset: SPELLS.Wizard.ConeOfCold.file,
     spell: {
