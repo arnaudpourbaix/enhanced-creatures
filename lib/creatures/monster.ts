@@ -134,4 +134,7 @@ export enum MonsterEnum {
   LesserClayGolem = 109,
   GreaterClayGolem = 110,
   LesserStoneGolem = 111,
+  AluFiend = 112,
+  Nightwing = 113,
+  Nereid = 114,
 }

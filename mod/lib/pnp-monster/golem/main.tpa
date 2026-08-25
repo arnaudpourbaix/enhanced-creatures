@@ -1,5 +1,4 @@
 LAM load_secondary_types
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/common.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/17.tpa" // Flesh Golem
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/18.tpa" // Clay Golem
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/6d.tpa" // Lesser Clay Golem

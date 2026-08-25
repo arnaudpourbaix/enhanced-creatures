@@ -5,6 +5,19 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/golem/jam6f.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/golem/jam6fsu.baf~
 
 ACTION_FOR_EACH ~file~ IN
+	"bdpetsg"
+	"bdpetsgs"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
+		COPY_EXISTING ~%file%.bcs~ ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_SLOW)~ ~~
+			END
+		BUT_ONLY
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
 	"ARGHH"
 	"BDPETSG"
 	"BDPETSG2"

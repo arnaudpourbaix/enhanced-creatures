@@ -73,6 +73,18 @@ COPY_EXISTING ~jai1m43.itm~ ~override~
 	END
 
 ACTION_FOR_EACH ~file~ IN
+	"gorgoli"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
+		COPY_EXISTING ~%file%.bcs~ ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)~ ~~
+			END
+		BUT_ONLY
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
 	"D9LICE01"
 	"GOLICE01"
 	"GORGOLI"

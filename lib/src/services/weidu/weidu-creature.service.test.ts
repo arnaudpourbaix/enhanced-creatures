@@ -3,7 +3,7 @@ import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
-import { CreatureData } from "../../model/creature/data";
+import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
 import weiduCreatureService from "./weidu-creature.service";
 
 interface WeiduCreatureServicePrivate {
@@ -11,6 +11,8 @@ interface WeiduCreatureServicePrivate {
   removeKnownSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   removeMemorizedSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   addMemorizedSpells(lines: CodeLine[], tab: number, data: Partial<CreatureData>): void;
+  handleScriptEdits(lines: CodeLine[], creature: Creature): void;
+  handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit): void;
   patchScript(p: {
     lines: CodeLine[];
     tab: number;
@@ -265,6 +267,69 @@ describe("addMemorizedSpells (private)", () => {
     const result = codes(lines);
     expect(result.some((c) => c.includes("PATCH_IF"))).toBe(false);
     expect(result).toHaveLength(1);
+  });
+});
+
+describe("handleScriptEdits (private)", () => {
+  it("does nothing when creature.data.script.edits is unset", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({ data: { script: {} } });
+    service.handleScriptEdits(lines, creature);
+    expect(lines).toHaveLength(0);
+  });
+
+  it("processes each edit in creature.data.script.edits", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      data: {
+        script: {
+          edits: [
+            { files: ["FILE1"], replaces: [["FOO", "BAR"]] },
+            { files: ["FILE2"], replaces: [["BAZ", "QUX"]] },
+          ],
+        },
+      },
+    });
+    service.handleScriptEdits(lines, creature);
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("FILE1"))).toBe(true);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY ~FOO~ ~BAR~"))).toBe(true);
+    expect(result.some((c) => c.includes("FILE2"))).toBe(true);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY ~BAZ~ ~QUX~"))).toBe(true);
+  });
+});
+
+describe("handleScriptEdit (private)", () => {
+  it("wraps the file list and REPLACE_TEXTUALLY calls in the expected WeiDU patch structure", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, {
+      files: ["JAM01", "JAM02"],
+      replaces: [
+        ["OLD1", "NEW1"],
+        ["OLD2", "NEW2"],
+      ],
+    });
+    const result = codes(lines);
+    expect(result[0]).toBe("ACTION_FOR_EACH ~file~ IN");
+    expect(result).toContain('"JAM01"');
+    expect(result).toContain('"JAM02"');
+    expect(result).toContain("BEGIN");
+    expect(result).toContain("ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN");
+    expect(result).toContain("COPY_EXISTING ~%file%.bcs~ ~override~");
+    expect(result).toContain("DECOMPILE_AND_PATCH BEGIN");
+    expect(result).toContain("REPLACE_TEXTUALLY ~OLD1~ ~NEW1~");
+    expect(result).toContain("REPLACE_TEXTUALLY ~OLD2~ ~NEW2~");
+    expect(result).toContain("BUT_ONLY");
+    // ACTION_FOR_EACH ... BEGIN, the nested ACTION_IF ... BEGIN, and DECOMPILE_AND_PATCH BEGIN
+    // each need a closing END - three opens, three closes.
+    expect(result.filter((c) => c === "END")).toHaveLength(3);
+  });
+
+  it("emits no REPLACE_TEXTUALLY line when replaces is empty", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["JAM01"], replaces: [] });
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
   });
 });
 

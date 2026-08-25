@@ -493,7 +493,16 @@ class FeyFamily extends CreatureFamily<Fey> {
             },
           ],
         },
-        script: { remove: ["SIRSPELL", "SIL"], location: "Race" },
+        script: {
+          remove: ["SIRSPELL", "SIL"],
+          location: "Race",
+          edits: [
+            {
+              files: ["AC#DTSIR"],
+              replaces: [['ReallyForceSpellRES("AC#DTSS",NearestEnemyOf(Myself))', ""]],
+            },
+          ],
+        },
         spells: {
           memorized: [
             { file: this.spell(Ids.CharmSong).file, memorizedCount: 1 },

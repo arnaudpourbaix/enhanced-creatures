@@ -50,6 +50,18 @@ COPY_EXISTING ~jai1m2b.itm~ ~override~
 	END
 
 ACTION_FOR_EACH ~file~ IN
+	"AC#DTSIR"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
+		COPY_EXISTING ~%file%.bcs~ ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~ReallyForceSpellRES("AC#DTSS",NearestEnemyOf(Myself))~ ~~
+			END
+		BUT_ONLY
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
 	"ISLSIR"
 	"J#SIRIN1"
 	"J#SIRIN2"

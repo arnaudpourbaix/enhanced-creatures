@@ -3,7 +3,12 @@ import { SPELLBOOK_MODS } from "../../../config/mods";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";
-import { CREATURE_DATA_FIELDS, CreatureData, MemorizedSpell } from "../../model/creature/data";
+import {
+  CREATURE_DATA_FIELDS,
+  CreatureData,
+  CreatureScriptEdit,
+  MemorizedSpell,
+} from "../../model/creature/data";
 import { EquippedItem, WEAPON_SLOTS } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
 import { CodeLine } from "../../model/misc";
@@ -31,6 +36,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     weiduEffectService.createEffectFiles(lines, creature.effectFiles);
     weiduSpellService.createSpells(lines, creature.spells);
     weiduItemService.createItems(lines, creature.items);
+    this.handleScriptEdits(lines, creature);
     this.createNewFiles(lines, 0, creature);
     if (creature.data.movement.hasItem()) {
       this.addMovementSpeedToItem(lines, 0, creature);
@@ -42,6 +48,30 @@ class WeiduCreatureService extends AbstractWeiduService {
       content,
     );
     weiduFamilyService.createOrUpdateMainFile(creature.family, creature);
+  }
+
+  private handleScriptEdits(lines: CodeLine[], creature: Creature) {
+    if (!creature.data.script.edits) return;
+    for (const edit of creature.data.script.edits) {
+      this.handleScriptEdit(lines, edit);
+    }
+  }
+
+  private handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit) {
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN");
+    for (const file of edit.files) this.add(lines, `"${file}"`, 1);
+    this.add(lines, "BEGIN", 0);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, 1);
+    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, 2);
+    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, 3);
+    for (const replace of edit.replaces) {
+      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, 4);
+    }
+    this.add(lines, `END`, 3);
+    this.add(lines, `BUT_ONLY`, 2);
+    this.add(lines, `END`, 1);
+    this.add(lines, `END`, 0);
+    this.add(lines, ``, 0);
   }
 
   private compileScripts(lines: CodeLine[], creature: Creature) {

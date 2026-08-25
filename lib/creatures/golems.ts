@@ -738,6 +738,14 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 14,
       strength: 22,
       xpv: 8000,
+      script: {
+        edits: [
+          {
+            files: ["OHB_T302"],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_HASTE)", ""]],
+          },
+        ],
+      },
     });
     greaterClay.addTrait({
       immunities: [
@@ -830,6 +838,14 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 10,
       strength: 20,
       xpv: 4000,
+      script: {
+        edits: [
+          {
+            files: ["bdpetsg", "bdpetsgs"],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_SLOW)", ""]],
+          },
+        ],
+      },
     });
     lesserStone.setAdjustments([
       { files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22, xpv: 6000 } },
@@ -1095,6 +1111,12 @@ class GolemFamily extends CreatureFamily<Golem> {
         },
         script: {
           remove: ["GOLICE01"],
+          edits: [
+            {
+              files: ["gorgoli"],
+              replaces: [["ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)", ""]],
+            },
+          ],
         },
       },
     });

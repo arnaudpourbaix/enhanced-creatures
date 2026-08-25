@@ -116,6 +116,16 @@ export class CreatureDataScript {
    * Use None to prevent from assigning a script
    */
   location?: ScriptLocation;
+
+  edits?: CreatureScriptEdit[];
+}
+
+export interface CreatureScriptEdit {
+  files: string[];
+  /**
+   * Will call REPLACE_TEXTUALLY
+   */
+  replaces: [string, string][];
 }
 
 export class CreatureDataItems {
@@ -553,6 +563,9 @@ export const CREATURE_DATA_FIELDS: {
       }
       if (value.location !== undefined) {
         data.script.location = value.location;
+      }
+      if (value.edits! !== undefined) {
+        data.script.edits = value.edits;
       }
     },
   },
