@@ -98,6 +98,7 @@ export interface CreatureAbilitySpell {
   id?: SpellIdentifier;
   resource?: string;
   type?: SpellCastType;
+  includeStateChecks?: StateIdentifier[];
   excludeStateChecks?: StateIdentifier[];
   excludeSpellStates?: string[];
   excludeStatsChecks?: StatsIdentifier[];

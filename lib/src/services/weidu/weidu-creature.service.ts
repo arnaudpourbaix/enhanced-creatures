@@ -11,6 +11,7 @@ import {
 } from "../../model/creature/data";
 import { EquippedItem, WEAPON_SLOTS } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
+import { StringReference } from "../../model/final/stringref";
 import { CodeLine } from "../../model/misc";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
@@ -113,15 +114,16 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const copy = entry.copyFromExisting
       ? `COPY_EXISTING ~${entry.copyFromExisting}.cre~`
-      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/${entry.copyFrom ?? ""}.cre~`;
+      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/assets/${entry.copyFrom ?? ""}.cre~`;
     this.add(lines, `${copy} ~override/${file}.cre~`, tab);
     if (entry.stringRef) {
-      for (const offset of ["0x8", "0xc"])
-        this.add(
-          lines,
-          `WRITE_LONG ${offset} ${utils.resolveStringRef(entry.stringRef) ?? ""}`,
-          tab + 1,
-        );
+      this.writeName(lines, tab, entry.stringRef);
+    }
+  }
+
+  private writeName(lines: CodeLine[], tab: number, stringRef: StringReference) {
+    for (const offset of ["0x8", "0xc"]) {
+      this.add(lines, `WRITE_LONG ${offset} ${utils.resolveStringRef(stringRef) ?? ""}`, tab + 1);
     }
   }
 
@@ -589,6 +591,9 @@ class WeiduCreatureService extends AbstractWeiduService {
       );
     if (adjustment.scriptName) {
       this.writeAscii(lines, 0x280, 32, adjustment.files[0]);
+    }
+    if (adjustment.stringRef) {
+      this.writeName(lines, tab, adjustment.stringRef);
     }
     this.add(lines, "END", tab - 1);
   }

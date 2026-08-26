@@ -127,6 +127,11 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       hamadryad: "Hamadryad",
       sirine: "Sirine",
       nymph: "Nymph",
+      nereid: "Nereid",
+    },
+    trait: {
+      nereid: `Resistance to magic (50%)
++4 to AC when attacked (Nereid gets a saving throw vs. poison to avoid damage from a weapon)`,
     },
     weapon: { sirineTouch: "Sirine Touch" },
     ability: {
@@ -166,6 +171,35 @@ Victims are blinded for one round, no save.`,
       touchOfTranquility: {
         name: "Touch of Tranquility",
         description: `If the sirine touches an opponent, the victim must make a saving throw vs. poison; those failing to save are reduced to an Intelligence of 2.`,
+      },
+      venomSpit: {
+        name: "Venom Spit",
+        description: `Nereids can spit a venom up to 20 feet that blinds a target for 7 rounds if it hits. 
+A blinded victim suffer a -4 penalty to his attack roll, and both saving throws and Armor Class are worsened by 4 until the effects wear off.`,
+      },
+      drowningKiss: {
+        name: "Drowning Kiss",
+        description: `Any male humanoid kissed by a Nereid drowns instantly unless he makes a successful saving throw vs. breath weapon with a -2 penalty. 
+If the saving throw is successful, he finds total ecstasy : +2 bonus to THAC0, damage, morale, as well as a +20% hp, and Additionally, any spells cast will be as if the caster were two levels higher.
+The Nereid can only use this ability on fascinated or helpless victims.`,
+      },
+      beguilingAura: {
+        name: "Beguiling Aura",
+        description: `All males that look at a nereid find themselves incapable of harming the creature (no saving throw) for one turn.
+This ability has no effect on blinded characters.`,
+      },
+      attackEvasion: {
+        name: "Attack's Evasion",
+        description: `All males that look at a nereid find themselves incapable of harming the creature (no saving throw) for one turn.
+This ability has no effect on blinded characters.`,
+      },
+      summonGiantPoisonousSnake: {
+        name: "Summon Giant Poisonous Snake",
+        description: `Nereids are 85% likely to have a pet that tries to protect its master.`,
+      },
+      wateryFist: {
+        name: "Watery Fist",
+        description: `Form the water into the shape of a fist, and cause it to strike and inflict 1d4 points of damage.`,
       },
     },
   },
@@ -566,5 +600,17 @@ Priests above 6th level are immune to this effect, and all other humanoids above
       ettin: "Ettin",
     },
     weapon: { largeSpikedClub: "Large Spiked Club" },
+  },
+  elemental: {
+    name: {},
+    weapon: {},
+    ability: {},
+  },
+  snake: {
+    name: {
+      giantPoisonous: "Giant Poisonous Snake",
+    },
+    weapon: { jaws: "Jaws" },
+    ability: {},
   },
 };

@@ -234,7 +234,7 @@ export const CREATURE_DATA_FIELDS: {
   // its own real type); `unknown` allows calling but rejects assigning any narrower setter into
   // the table in the first place (see the individual entries below, e.g. `value: Level | number`).
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setter?: (data: CreatureData, value: any) => void;
+  setter?: (data: CreatureData, value: any, isAdjustment: boolean) => void;
 }[] = [
   {
     key: "xpv",
@@ -620,11 +620,14 @@ export const CREATURE_DATA_FIELDS: {
   },
   {
     key: "effects",
-    setter: (data, value: Partial<CreatureDataEffects>) => {
+    setter: (data, value: Partial<CreatureDataEffects>, isAdjustment: boolean) => {
       if (value.list) {
         data.effects.list.push(...value.list);
       }
-      if (value.remove === undefined) return;
+      if (value.remove === undefined) {
+        if (!isAdjustment) value.remove = true;
+        return;
+      }
       if (typeof value.remove === "boolean") {
         data.effects.remove = value.remove;
       } else if (Array.isArray(data.effects.remove) && Array.isArray(value.remove)) {

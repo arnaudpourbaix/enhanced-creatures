@@ -12,14 +12,14 @@ COPY_EXISTING ~jas0m27.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10680)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10699)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=40 target=2 power=1 resist_dispel=1 duration=36 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=66 target=2 power=1 parameter1=99 resist_dispel=1 duration=36 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=9 target=2 power=1 parameter1=2105376000 parameter2=1966335 resist_dispel=1 duration=36 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=61 target=2 power=1 parameter1=1511938560 parameter2=1638400 resist_dispel=1 duration=36 probability1=100 END
 	
-	// Jaws
+// Jaws
 CREATE ITM "jai0m27"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
@@ -30,7 +30,7 @@ CREATE ITM "jai0m27"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10174)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10681)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10700)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai0m27.itm~ ~override~
 	READ_SHORT 0x68 abicount

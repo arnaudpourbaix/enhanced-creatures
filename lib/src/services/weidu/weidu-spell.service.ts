@@ -16,7 +16,7 @@ class WeiduSpellService extends AbstractWeiduService {
   }
 
   createSpell(lines: CodeLine[], spell: Spell, tab: number) {
-    this.add(lines, `// ${translationService.from(spell.name)}`);
+    this.add(lines, `// ${translationService.from(spell.name)}`, tab);
     weiduEffectService.createEffectFiles(lines, spell.effectFiles, tab);
     for (const projectile of spell.projectiles) {
       weiduProjectileService.createProjectile(lines, projectile);
@@ -26,7 +26,7 @@ class WeiduSpellService extends AbstractWeiduService {
     this.createSpellCommon(lines, spell, tab + 1);
     this.addChangeSpellOptions(lines, spell, tab + 1);
     if (typeof spell.secondaryType === "string") {
-      this.writeOpcodeType(lines, spell, 0);
+      this.writeOpcodeType(lines, spell, tab);
     }
   }
 

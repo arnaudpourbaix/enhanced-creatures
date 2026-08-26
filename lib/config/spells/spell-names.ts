@@ -22,6 +22,11 @@ const WIZARD_SPELLS = {
     id: "WIZARD_AGANNAZAR_SCORCHER",
     name: "spell.AgannazarScorcher.name",
   },
+  BigbyIcyGrasp: {
+    file: "SPWI818",
+    id: "WIZARD_BIGBYS_ICY_GRASP",
+    name: "spell.BigbyIcyGrasp.name",
+  },
   Blur: { file: "SPWI201", id: "WIZARD_BLUR", duration: "mid", name: "spell.Blur.name" },
   Breach: { file: "SPWI513", id: "WIZARD_BREACH", name: "spell.Breach.name" },
   BurningHands: { file: "SPWI103", id: "WIZARD_BURNING_HANDS", name: "spell.BurningHands.name" },
@@ -184,6 +189,11 @@ const WIZARD_SPELLS = {
     file: "SPWI302",
     id: "WIZARD_REMOVE_MAGIC",
     name: DISPEL_MAGIC_NAME,
+  },
+  ReflectedImage: {
+    file: "SPWI120",
+    id: "WIZARD_REFLECTED_IMAGE",
+    name: "spell.ReflectedImage.name",
   },
   ShapeshiftMustardJelly: {
     file: "SPWI496",
@@ -436,6 +446,7 @@ const CLASS_SPELLS = {
   BerserkerRage: { file: "SPCL321", id: "BERSERKER_RAGE", name: "spell.BerserkerRage.name" },
   BarbarianRage: { file: "SPCL152", id: "BARBARIAN_RAGE", name: "spell.BarbarianRage.name" },
   OffensiveSpin: { file: "SPCL521", id: "BLADE_OFFENSIVE_SPIN", name: "spell.OffensiveSpin.name" },
+  SummonSpiritAnimal: { file: "SPCL621", name: "spell.SummonSpiritAnimal.name" },
 } satisfies Record<string, SpellReference>;
 
 export const SPELLS = {

@@ -23,20 +23,30 @@ export type SpellProtection =
   | SpellProtectionAlign
   | SpellProtectionState
   | SpellProtectionSplstate
-  | SpellProtectionNumber;
-// | SpellProtectionRow1OrRow2
-// | SpellProtectionNotRow1AndNotRow2;
+  | SpellProtectionNumber
+  | SpellProtectionRow1AndRow2
+  | SpellProtectionNotRow1AndNotRow2;
 
-export interface SpellProtectionRow1OrRow2 {
+export interface SpellProtectionRow1AndRow2 {
+  name?: SpellProtectionName;
   stat: SpellProtectionStat.Row1OrRow2;
-  row1: number;
-  row2: number;
+  row1:
+    | SpellProtectionName
+    | Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>;
+  row2:
+    | SpellProtectionName
+    | Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>;
 }
 
 export interface SpellProtectionNotRow1AndNotRow2 {
+  name?: SpellProtectionName;
   stat: SpellProtectionStat.NotRow1AndNotRow2;
-  row1: number;
-  row2: number;
+  row1:
+    | SpellProtectionName
+    | Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>;
+  row2:
+    | SpellProtectionName
+    | Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>;
 }
 
 export interface SpellProtectionStats extends BaseSpellProtection {

@@ -211,12 +211,14 @@ class DocumentationService {
         .join("");
       weaponIndex++;
     }
-    if (!attacks) {
+    if (!attacks && creature.data.apr > 0) {
       // No equipped item is known to the doc pipeline (e.g. the half-ogre's own weapon comes
       // straight from its base CRE file rather than an addWeapon() call - see lib/creatures/
       // ogres.ts), so there's no per-weapon block to attach a proficiency line to. The creature's
       // proficiencies are still real information, so list them here instead of dropping them.
       attacks = `<div class="weapon">By weapon${this.getProficienciesFallback(creature.data.proficiencies)}</div>`;
+    } else if (!attacks) {
+      attacks = `<div class="weapon">None</div>`;
     }
     this.replace(template, "attacks", attacks);
   }

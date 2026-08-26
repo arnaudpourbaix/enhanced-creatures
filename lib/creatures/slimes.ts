@@ -1,4 +1,4 @@
-import { ATWEAKS_CREATURES, VAPOR_IMMUNE_CREATURES } from "../config/creatures";
+import { NEW_CREATURES, VAPOR_IMMUNE_CREATURES } from "../config/creatures";
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-names";
 import effectFactory from "../src/factories/effect.factory";
@@ -168,10 +168,10 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const black = this.create({
       monster: MonsterEnum.BlackPudding,
       name: "monster.slime.name.black",
-      files: [ATWEAKS_CREATURES.SplitBlackPudding],
+      files: [NEW_CREATURES.SplitBlackPudding],
       newFiles: [
         {
-          files: [ATWEAKS_CREATURES.SplitBlackPudding],
+          files: [NEW_CREATURES.SplitBlackPudding],
           copyFromExisting: "BDPUDDBL",
         },
       ],
@@ -212,7 +212,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     black.createSplit({
       id: Ids.BlackPuddingSplit,
       description: "monster.slime.ability.split.puddingDesc",
-      resource: ATWEAKS_CREATURES.SplitBlackPudding,
+      resource: NEW_CREATURES.SplitBlackPudding,
       visualEffect: "BDGOOYAA",
       withTriggers: true,
     });
@@ -247,7 +247,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     });
     black.setAdjustments([
       {
-        files: [ATWEAKS_CREATURES.SplitBlackPudding],
+        files: [NEW_CREATURES.SplitBlackPudding],
         data: {
           hp: 50, // a little less than half hp since it splits after taking some damage
           xpv: 1000,
@@ -265,10 +265,10 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const white = this.create({
       monster: MonsterEnum.WhitePudding,
       name: "monster.slime.name.white",
-      files: [ATWEAKS_CREATURES.SplitWhitePudding],
+      files: [NEW_CREATURES.SplitWhitePudding],
       newFiles: [
         {
-          files: [ATWEAKS_CREATURES.SplitWhitePudding],
+          files: [NEW_CREATURES.SplitWhitePudding],
           copyFromExisting: "AC#FPWPU",
         },
       ],
@@ -315,7 +315,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     white.createSplit({
       id: Ids.WhitePuddingSplit,
       description: "monster.slime.ability.split.puddingDesc",
-      resource: ATWEAKS_CREATURES.SplitWhitePudding,
+      resource: NEW_CREATURES.SplitWhitePudding,
       visualEffect: "BDGOOYAA",
       withTriggers: true,
     });
@@ -333,7 +333,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     });
     white.setAdjustments([
       {
-        files: [ATWEAKS_CREATURES.SplitWhitePudding],
+        files: [NEW_CREATURES.SplitWhitePudding],
         data: {
           hp: 45, // a little less than half hp since it splits after taking some damage
           xpv: 700,
@@ -351,10 +351,10 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const mustard = this.create({
       monster: MonsterEnum.MustardJelly,
       name: "monster.slime.name.mustard",
-      files: [ATWEAKS_CREATURES.SplitMustardJelly],
+      files: [NEW_CREATURES.SplitMustardJelly],
       newFiles: [
         {
-          files: [ATWEAKS_CREATURES.SplitMustardJelly],
+          files: [NEW_CREATURES.SplitMustardJelly],
           copyFromExisting: "JELLMU",
           stringRef: "monster.slime.name.SmallerMustard",
         },
@@ -403,7 +403,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     mustard.createSplit({
       id: Ids.MustardJellySplit,
       description: "monster.slime.ability.split.mustardDesc",
-      resource: ATWEAKS_CREATURES.SplitMustardJelly,
+      resource: NEW_CREATURES.SplitMustardJelly,
       visualEffect: "TRGOOYAA",
       withTriggers: false,
     });
@@ -422,7 +422,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     mustard.setAdjustments([
       { files: ["PLYJELL1"], data: { script: { location: "None" } } },
       {
-        files: [ATWEAKS_CREATURES.SplitMustardJelly],
+        files: [NEW_CREATURES.SplitMustardJelly],
         data: {
           hp: 56,
           xpv: 2000,

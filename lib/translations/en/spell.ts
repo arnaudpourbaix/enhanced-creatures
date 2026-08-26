@@ -235,4 +235,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   Sanctuary: { name: "Sanctuary" },
   CauseModerateWounds: { name: "Cause Moderate Wounds" },
   NahalRecklessDweomer: { name: "Nahal's Reckless Dweomer" },
+  ReflectedImage: { name: "Reflected Image" },
+  SummonSpiritAnimal: { name: "Summon Spirit Animal" },
+  BigbyIcyGrasp: { name: "Bigby's Icy Grasp" },
 };

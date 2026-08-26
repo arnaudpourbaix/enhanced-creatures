@@ -1,16 +1,17 @@
 export type TargetListName =
-  | "Players"
+  | "Animals"
+  | "CloseEnemies"
+  | "FarthestEnemies"
   | "NearestEnemies"
   | "NearestAllies"
+  | "EvilcutoffMaleHumanoids"
   | "PCs"
   | "PCsFighters"
   | "PCsPreferringStrong"
   | "PCsPreferringWeak"
   | "PCSpellcasters"
   | "PCMages"
-  | "FarthestEnemies"
-  | "CloseEnemies"
-  | "Animals";
+  | "Players";
 
 export type TargetStatusName =
   | "Grabbed"

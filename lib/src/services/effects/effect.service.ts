@@ -20,7 +20,12 @@ import {
   getCastSpellOnConditionValue,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
-import { SpellProtection, SpellProtectionStat } from "../../model/spell-item/spell-protection";
+import {
+  SpellProtection,
+  SpellProtectionNotRow1AndNotRow2,
+  SpellProtectionRow1AndRow2,
+  SpellProtectionStat,
+} from "../../model/spell-item/spell-protection";
 import creatureService from "../creature.service";
 import utils from "../utils/utils.service";
 
@@ -362,7 +367,9 @@ class EffectService {
     if (effect.value !== undefined && !isValueString) effect.parameter1 = `${effect.value}`;
     if (typeof effect.type === "string")
       this.protectionFromResourceFromName(effect, effect.type, isValueString);
-    else this.protectionFromResourceFromObject(effect, effect.type, isValueString);
+    else if ("relation" in effect.type)
+      this.protectionFromResourceFromObject(effect, effect.type, isValueString);
+    else throw new Error("Union spell protections are not handled in effects");
   }
 
   private protectionFromResourceFromName(
@@ -376,7 +383,7 @@ class EffectService {
 
   private protectionFromResourceFromObject(
     effect: ProtectionFromResourceEffect,
-    type: SpellProtection,
+    type: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
     isValueString: boolean,
   ) {
     type.value = type.value ?? -1;

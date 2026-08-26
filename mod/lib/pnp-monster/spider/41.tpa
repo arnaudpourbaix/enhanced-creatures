@@ -8,26 +8,26 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/spider/jam41su.baf~
 CREATE SPL "jas0m41"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m41.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10280)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10294)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10281)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10295)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=235 target=1 power=1 parameter1=150 parameter2=3 duration=2 probability1=100 END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
-	// Type A poison
+// Type A poison
 CREATE SPL "jas1m41"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas1m41.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10796)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10819)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Poison
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10797)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10820)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=3 parameter2=3 duration=50 probability1=100 savingthrow=4 savebonus="2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=6 parameter2=3 duration=100 probability1=100 savingthrow=4 savebonus="2" special=6 END
 OUTER_SET $f_AddSecType(jas1m41.spl) = PoisonSecType
 
 // Jaws
@@ -37,10 +37,10 @@ CREATE ITM "jai0m41"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10275)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10275)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10289)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10289)
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10798)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10821)
 COPY_EXISTING ~jai0m41.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN

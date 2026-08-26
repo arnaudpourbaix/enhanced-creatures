@@ -6,15 +6,12 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/construct/jamf.baf~
 // Helmed Horror traits
 CREATE ITM "jai0mf"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10670)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10670)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10689)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10689)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10671)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10690)
 COPY_EXISTING ~jai0mf.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF seeInvisible_trait END
 	LPF fireballSpell_immunity END
 	LPF lightningBoltSpell_immunity END

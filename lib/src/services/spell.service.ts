@@ -171,6 +171,7 @@ class SpellService {
     for (const effect of results) {
       if (
         [
+          EffectTypeEnum.ProtectionFromResource,
           EffectTypeEnum.ProtectionFromResourceAndMessage,
           EffectTypeEnum.ProtectionFromSpell,
           EffectTypeEnum.RemoveEffectsByResource,

@@ -494,6 +494,7 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 		"jas0m3"
 		"jas0m45"
 		"jas0fc"
+		"jas0m73"
 		"jas1m40"
 		"jas1m3a"
 		"jas0m38"

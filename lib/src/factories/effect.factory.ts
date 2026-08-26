@@ -250,6 +250,33 @@ class EffectFactory {
     return effectService.getEffects(effects);
   }
 
+  savingThrows(payload: {
+    value: number;
+    duration: number;
+    saveType?: SaveTypeEnum;
+    saveBonus?: number;
+    dispelResistance?: EffectDispelResistanceEnum;
+  }) {
+    const opcodes: StatisticModifierOpcode[] = [
+      EffectTypeEnum.SaveVsBreathModifier,
+      EffectTypeEnum.SaveVsDeathModifier,
+      EffectTypeEnum.SaveVsPetrificationModifier,
+      EffectTypeEnum.SaveVsSpellModifier,
+      EffectTypeEnum.SaveVsWandModifier,
+    ];
+    const effects = opcodes.map((opcode): Effect => ({
+      opcode,
+      type: EffectStatisticModifierEnum.Increment,
+      value: payload.value,
+      timing: EffectTimingEnum.InstantLimited,
+      duration: payload.duration,
+      dispelResistance: payload.dispelResistance,
+      saveTypes: payload.saveType !== undefined ? [payload.saveType] : undefined,
+      saveBonus: payload.saveBonus,
+    }));
+    return effectService.getEffects(effects);
+  }
+
   charm(payload: {
     charmType: CharmTypeEnum;
     duration: number;

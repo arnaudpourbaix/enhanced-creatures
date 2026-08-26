@@ -30,6 +30,7 @@ LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~ ~%MOD_FO
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/snake/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
@@ -104,14 +105,6 @@ GROUP @1
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
-
-// Ettercaps
-BEGIN @1280
-DESIGNATED 1280
-GROUP @1
-REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
-REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
 
 // Feys (Dryad, Hamadryad, Sirene, Nymph)
 BEGIN @1180
@@ -192,3 +185,19 @@ GROUP @1
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
+
+// Ettercaps
+BEGIN @1280
+DESIGNATED 1280
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
+
+// Snakes
+BEGIN @1290
+DESIGNATED 1290
+GROUP @1
+REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
+REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/snake/main.tpa"

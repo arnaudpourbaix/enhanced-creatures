@@ -60,6 +60,8 @@ If you want to make easy edits, you can edit files inside config folder. Strong 
 
 ## Credits
 
+All the asset files (icons, effects, animations) are from aTweaks. I have only changed prefix for consistency.
+
 aVENGER, creator of aTweaks.
 
 Wisp, current maintainer.

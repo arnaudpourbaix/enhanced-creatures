@@ -101,12 +101,7 @@ export const TARGET_LISTS: {
   },
   {
     name: "PCSpellcasters",
-    value: [
-      `[PC.0.0.MAGE_ALL]`,
-      `[PC.0.0.CLERIC_ALL]`,
-      `[PC.0.0.DRUID_ALL]`,
-      `[PC.0.0.BARD]`,
-    ],
+    value: [`[PC.0.0.MAGE_ALL]`, `[PC.0.0.CLERIC_ALL]`, `[PC.0.0.DRUID_ALL]`, `[PC.0.0.BARD]`],
     allegianceCheck: false,
   },
   {
@@ -133,6 +128,18 @@ export const TARGET_LISTS: {
       `[NEUTRAL.ANIMAL]`,
       `SecondNearest([NEUTRAL.ANIMAL])`,
       `ThirdNearest([NEUTRAL.ANIMAL])`,
+    ],
+    allegianceCheck: false,
+  },
+  {
+    name: "EvilcutoffMaleHumanoids",
+    value: [
+      `[EVILCUTOFF.HUMANOID.0.0.0.MALE]`,
+      `SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
     ],
     allegianceCheck: false,
   },

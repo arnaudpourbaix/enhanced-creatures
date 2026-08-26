@@ -49,7 +49,7 @@ class CreatureFactory {
     }
     for (const field of CREATURE_DATA_FIELDS) {
       if (field.setter && input[field.key] !== undefined) {
-        field.setter(data, input[field.key]);
+        field.setter(data, input[field.key], isAdjustment);
       }
       if (!field.setter && field.key in input && input[field.key] !== undefined) {
         (data as unknown as Record<string, unknown>)[field.key] = input[field.key];

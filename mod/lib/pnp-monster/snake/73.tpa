@@ -1,0 +1,121 @@
+// Generated file (don't edit)
+
+// Giant Poisonous Snake
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/snake/jam73.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/snake/jam73su.baf~
+
+// Type F poison
+CREATE SPL "jas0m73"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m73.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10797)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Poison
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10798)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=2 parameter2=2 duration=17 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=5 parameter2=2 duration=14 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=8 parameter2=2 duration=13 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=11 parameter2=2 duration=13 probability1=100 dicesize=7 dicenumber=8 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=13 parameter2=2 duration=12 probability1=100 dicesize=9 dicenumber=10 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=14 parameter2=2 duration=13 probability1=100 dicesize=11 dicenumber=15 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=20 parameter2=2 duration=13 probability1=100 dicesize=16 dicenumber=40 savingthrow=4 special=6 END
+OUTER_SET $f_AddSecType(jas0m73.spl) = PoisonSecType
+
+// Jaws
+CREATE ITM "jai0m73"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10400)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10400)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10799)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~jai0m73.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 3
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m73" END
+	END
+
+COPY ~%MOD_FOLDER%/lib/pnp-monster/snake/assets/jasnake.cre~ ~override/jagpsnak.cre~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10399)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10399)
+ACTION_FOR_EACH ~file~ IN
+	"JAGPSNAK"
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~JAGPSNAK~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~P1-3P~
+			REPLACE_CRE_ITEM ~jai0m73~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=420
+					hp=34
+					ac=9
+					thac0=17
+					apr=1
+					saveDeath=13
+					saveWand=15
+					savePolymorph=14
+					saveBreath=16
+					saveSpell=16
+					level1=4
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=10
+					intelligence=1
+					wisdom=10
+					dexterity=18
+					constitution=13
+					charisma=3
+					morale=9
+					general=IDS_OF_SYMBOL (~general~ ~ANIMAL~)
+					race=IDS_OF_SYMBOL (~race~ ~REPTILE~)
+					class=IDS_OF_SYMBOL (~class~ ~NO_CLASS~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					movement=12
+					enforce=1
+			END
+			// Assigning jam73
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY skipFiles BEGIN JAGPSNAK END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles script=jam73 END
+			// Assigning jam73su
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN JAGPSNAK END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=jam73su END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JAGPSNAK~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END

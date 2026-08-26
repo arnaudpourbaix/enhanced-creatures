@@ -19,6 +19,8 @@ export enum MonsterFamilyEnum {
   Undead = 18,
   Ettin = 19,
   Dragon = 20,
+  Elemental = 21,
+  Snake = 22,
 }
 
 export enum MonsterEnum {
@@ -137,4 +139,5 @@ export enum MonsterEnum {
   AluFiend = 112,
   Nightwing = 113,
   Nereid = 114,
+  GiantPoisonousSnake = 115,
 }

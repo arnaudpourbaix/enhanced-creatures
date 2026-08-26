@@ -12,7 +12,7 @@ CREATE ITM "jai0f6"
 	WRITE_SHORT 0x1c 57
 	WRITE_ASCII 0x22 ~S2~ #2
 	WRITE_BYTE 0x31 93
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10674)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10693)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai0f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -51,7 +51,7 @@ CREATE ITM "jai1f6"
 	WRITE_ASCII 0x22 ~S1~ #2
 	WRITE_BYTE 0x31 90
 	WRITE_ASCII 0x3a ~ISW1H04~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10675)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10694)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai1f6.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -81,9 +81,6 @@ CREATE ITM "jai2f6"
 	WRITE_ASCII 0x22 ~4A~ #2
 	WRITE_ASCII 0x3a ~IPLAT01~ #8
 COPY_EXISTING ~jai2f6.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=98 parameter2=5 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=29 parameter2=4 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=87 timing=2 probability1=100 END
@@ -97,9 +94,6 @@ CREATE ITM "jai3f6"
 	WRITE_ASCII 0x22 ~H5~ #2
 	WRITE_ASCII 0x3a ~ihelm10~ #8
 COPY_EXISTING ~jai3f6.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=53 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=52 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=48 timing=2 probability1=100 END

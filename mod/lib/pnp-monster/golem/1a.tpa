@@ -27,11 +27,11 @@ ADD_PROJECTILE ~override/jas0m1a.pro~ ~Golem poison cloud~
 CREATE SPL "jas0m1a"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m1a.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10220)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10234)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI502C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10221)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10235)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas0m1a~)) + 1 STR_VAR icon="SPWI502B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=3 timing=1 probability1=100 STR_VAR resource="jas0m1a" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=POISON_IMMUNITY duration=1 probability1=100 STR_VAR resource="jas0m1a" END
@@ -40,18 +40,15 @@ COPY_EXISTING ~jas0m1a.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=55 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 timing=1 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 savebonus="-4" END
 	LPF CHANGE_SPELL INT_VAR    renew=7 END
 	
-	// Iron Golem traits
+// Iron Golem traits
 CREATE ITM "jai0m1a"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10719)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10719)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10739)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10739)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10720)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10740)
 COPY_EXISTING ~jai0m1a.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=30 target=1 global=1 parameter1=125 parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=84 target=1 global=1 parameter1=125 parameter2=1 timing=2 probability1=100 END
 	LPF magic_immunity END
@@ -65,11 +62,11 @@ CREATE ITM "jai1m1a"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10213)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10213)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10227)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10227)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IFIST~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10721)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10741)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai1m1a.itm~ ~override~
 	READ_SHORT 0x68 abicount

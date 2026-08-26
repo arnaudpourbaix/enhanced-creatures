@@ -272,12 +272,9 @@ class CreatureService {
         p.proficiencyType !== undefined
           ? (p.proficiencies.find((x) => x.type === p.proficiencyType)?.value ?? 0)
           : Math.max(0, ...p.proficiencies.map((x) => x.value));
-      const highestMet = AttackPerRoundProficiencyTable.filter(
-        (t) => rank >= t.proficiency,
-      ).reduce<(typeof AttackPerRoundProficiencyTable)[number] | undefined>(
-        (best, t) => (!best || t.proficiency > best.proficiency ? t : best),
-        undefined,
-      );
+      const highestMet = AttackPerRoundProficiencyTable.filter((t) => rank >= t.proficiency).reduce<
+        (typeof AttackPerRoundProficiencyTable)[number] | undefined
+      >((best, t) => (!best || t.proficiency > best.proficiency ? t : best), undefined);
       bonus += highestMet?.value ?? 0;
     }
     if (p.class?.includes("FIGHTER")) {
@@ -476,7 +473,7 @@ class CreatureService {
   private checkDexterityArmorClassBonus(data: Partial<CreatureData>) {
     if (data.dexterity === undefined || data.ac === undefined) return;
     const bonus = this.getDexterityArmorClassBonus(data);
-    if (bonus) {
+    if (bonus && data.ac !== 10) {
       logService.log(
         `${figureSet.arrowRight} AC reduced to ${data.ac - bonus} (was ${
           data.ac

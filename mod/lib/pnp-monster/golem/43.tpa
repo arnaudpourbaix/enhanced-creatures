@@ -7,7 +7,7 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/golem/jam43.baf~
 CREATE SPL "jas0m43"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m43.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10395)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10411)
 	WRITE_ASCII 0x10 ~CAS_M06~ #8
 	WRITE_LONG 0x18 1536
 	WRITE_SHORT 0x1c 1
@@ -16,7 +16,7 @@ COPY_EXISTING ~jas0m43.SPL~  ~override~
 	WRITE_BYTE 0x27 10
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPWI503C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10224)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10238)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=10 required_level=1 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~CONECOLD~)) + 1 STR_VAR icon="SPWI503B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=5 parameter1=10 parameter2=131072 probability1=100 dicesize=4 dicenumber=10 savingthrow=16777217 savebonus="-4" special=256 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=165 target=2 power=5 duration=1 probability1=100 END
@@ -25,18 +25,15 @@ COPY_EXISTING ~jas0m43.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=2 opcode=165 target=2 power=5 duration=1 probability1=100 END
 	LPF CHANGE_SPELL INT_VAR    renew=5 END
 	
-	// Snow Golem traits
+// Snow Golem traits
 CREATE ITM "jai0m43"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10729)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10729)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10749)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10749)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10730)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10750)
 COPY_EXISTING ~jai0m43.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=28 target=1 global=1 parameter1=125 parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=85 target=1 global=1 parameter1=125 parameter2=1 timing=2 probability1=100 END
 	LPF plusOneWeapons_immunity END
@@ -49,11 +46,11 @@ CREATE ITM "jai1m43"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10213)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10213)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10227)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10227)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IFIST~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10731)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10751)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai1m43.itm~ ~override~
 	READ_SHORT 0x68 abicount

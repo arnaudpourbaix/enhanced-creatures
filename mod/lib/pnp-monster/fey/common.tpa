@@ -1,1 +1,3 @@
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/jafspkp.bam~ ~override~  // Speak With Plants icon
+COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaenkis.bam~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jafspkp.bam~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaskiss.vvc~ ~override~

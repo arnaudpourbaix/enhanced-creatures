@@ -15,10 +15,10 @@ CREATE EFF "jas0m16"
 CREATE SPL "jas0m16"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m16.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10297)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10311)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10822)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10845)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas0m16" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas0m16" END
@@ -40,15 +40,15 @@ COPY_EXISTING ~jas0m16.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=1 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_RING_LEFT~) timing=4 duration=12 probability1=100 STR_VAR resource="jai0m16" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=17 target=1 power=1 parameter1=6 parameter2=1 timing=4 duration=12 probability1=100 END
 	
-	// Rotting Disease
+// Rotting Disease
 CREATE SPL "jas1m16"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas1m16.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10301)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10315)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10302)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10316)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jas1m16" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=300 parameter2=3 duration=216000 probability1=100 special=7 END
@@ -57,15 +57,12 @@ OUTER_SET $f_AddSecType(jas1m16.spl) = DiseaseSecType
 // Dread Wolf traits
 CREATE ITM "jai0m16"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10821)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10821)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10844)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10844)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10296)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10310)
 COPY_EXISTING ~jai0m16.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=87 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=208 target=1 global=1 parameter1=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=19 timing=2 probability1=100 special=6 STR_VAR resource="jas0m16" END
@@ -78,15 +75,12 @@ COPY_EXISTING ~jai0m16.itm~ ~override~
 // Dread Wolf down state
 CREATE ITM "jai1m16"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10297)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10297)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10311)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10311)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING01~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10298)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10312)
 COPY_EXISTING ~jai1m16.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF poison_immunity END
 	LPF disease_immunity END
 	LPF cold_immunity END
@@ -101,11 +95,11 @@ CREATE ITM "jai2m16"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10295)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10295)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10309)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10309)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10823)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10846)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai2m16.itm~ ~override~
 	READ_SHORT 0x68 abicount

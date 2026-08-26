@@ -1,3 +1,4 @@
+import { StringReference } from "../final/stringref";
 import { PartialBy } from "../utility-types";
 import { BaseCreature } from "./creature";
 import { InputCreatureData } from "./data-input";
@@ -15,6 +16,10 @@ export interface CreatureAdjustment extends BaseCreature {
    * Script name
    */
   scriptName: boolean;
+  /**
+   * Name of the creature
+   */
+  stringRef?: StringReference;
 }
 
 export type PartialCreatureAdjustment = PartialBy<

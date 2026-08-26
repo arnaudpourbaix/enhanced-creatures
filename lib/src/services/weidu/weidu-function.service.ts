@@ -14,7 +14,13 @@ import weiduCoreService from "./weidu-core.service";
 import weiduSpellService from "./weidu-spell.service";
 import weiduUtils from "../utils/weidu.utils";
 import { SPELL_PROTECTIONS } from "../../../config/spells/spell-protection";
-import { SpellProtectionStat } from "../../model/spell-item/spell-protection";
+import {
+  SpellProtection,
+  SpellProtectionNotRow1AndNotRow2,
+  SpellProtectionRow1AndRow2,
+  SpellProtectionStat,
+} from "../../model/spell-item/spell-protection";
+import logService from "../log.service";
 
 class WeiduFunctionService extends AbstractWeiduService {
   generateSpellResources(): void {
@@ -50,31 +56,73 @@ class WeiduFunctionService extends AbstractWeiduService {
     this.add(lines, `DEFINE_ACTION_MACRO load_splprot BEGIN`, 0);
     for (const sp of SPELL_PROTECTIONS) {
       const file = utils.getIdsFileFromSpellProtectionStat(sp.stat as SpellProtectionStat);
-      let value = `value=${sp.value ?? -1}`;
-      if (typeof sp.value === "string" && !/\d+/.test(sp.value) && file) {
-        this.add(lines, `OUTER_SET value=IDS_OF_SYMBOL (~${file}~ ~${sp.value}~)`, 1);
-        value = "value";
-      }
-      let stat = `stat=${sp.stat}`;
-      if (typeof sp.stat === "string" && !sp.stat.startsWith("0x")) {
-        this.add(lines, `OUTER_SET stat=IDS_OF_SYMBOL (~stats~ ~${sp.stat}~)`, 1);
-        stat = "stat";
-      }
-      this.add(
-        lines,
-        `LAF ADD_SPLPROT_ENTRY INT_VAR ${stat} STR_VAR ${value} relation="${sp.relation}" RET index END`,
-        1,
-      );
-      // name is optional on BaseSpellProtection generally, but every SPELL_PROTECTIONS entry sets
-      // it (it's the whole point of the entry - the macro variable index gets assigned to).
-      if (!sp.name) throw new Error(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
-      this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
-      this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
-      this.add(lines, `END`, 1);
+      if ("relation" in sp) this.generateValueProtectionSpells(lines, sp, file);
+      else if ("row1" in sp) this.generateUnionProtectionSpells(lines, sp, file);
     }
     this.add(lines, `END`, 0);
     this.add(lines, `LAM load_splprot`, 0);
     this.add(lines, ``, 0);
+  }
+
+  generateValueProtectionSpells(
+    lines: CodeLine[],
+    sp: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
+    file: string,
+  ) {
+    let value = `value=${sp.value ?? -1}`;
+    if (typeof sp.value === "string" && !/\d+/.test(sp.value) && file) {
+      this.add(lines, `OUTER_SET value=IDS_OF_SYMBOL (~${file}~ ~${sp.value}~)`, 1);
+      value = "value";
+    }
+    let stat = `stat=${sp.stat}`;
+    if (typeof sp.stat === "string" && !sp.stat.startsWith("0x")) {
+      this.add(lines, `OUTER_SET stat=IDS_OF_SYMBOL (~stats~ ~${sp.stat}~)`, 1);
+      stat = "stat";
+    }
+    this.add(
+      lines,
+      `LAF ADD_SPLPROT_ENTRY INT_VAR ${stat} STR_VAR ${value} relation="${sp.relation}" RET index END`,
+      1,
+    );
+    // name is optional on BaseSpellProtection generally, but every SPELL_PROTECTIONS entry sets it
+    // (it's the whole point of the entry - the macro variable index gets assigned to).
+    if (!sp.name) logService.warn(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
+    else {
+      this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
+      this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
+      this.add(lines, `END`, 1);
+    }
+  }
+
+  generateUnionProtectionSpells(
+    lines: CodeLine[],
+    sp: SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2,
+    file: string,
+  ) {
+    let row1 = "row1",
+      row2 = "row2";
+    if (typeof sp.row1 === "string") {
+      row1 = sp.row1;
+    } else {
+      const file1 = utils.getIdsFileFromSpellProtectionStat(sp.row1.stat as SpellProtectionStat);
+      this.generateValueProtectionSpells(lines, sp.row1, file1);
+      this.add(lines, `OUTER_SET row1=index`, 1);
+    }
+    if (typeof sp.row2 === "string") {
+      row2 = sp.row2;
+    } else {
+      const file2 = utils.getIdsFileFromSpellProtectionStat(sp.row2.stat as SpellProtectionStat);
+      this.generateValueProtectionSpells(lines, sp.row2, file2);
+      this.add(lines, `OUTER_SET row2=index`, 1);
+    }
+    this.add(
+      lines,
+      `LAF ADD_SPLPROT_ENTRY INT_VAR stat=${sp.stat} STR_VAR value=EVALUATE_BUFFER "%${row1}%" relation=EVALUATE_BUFFER "%${row2}%" RET index END`,
+      1,
+    );
+    this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
+    this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
+    this.add(lines, `END`, 1);
   }
 
   private generateSpellFunction(lines: CodeLine[], spell: Spell, tab: number): void {
