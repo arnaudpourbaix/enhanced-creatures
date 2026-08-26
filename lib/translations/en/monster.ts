@@ -180,8 +180,7 @@ A blinded victim suffer a -4 penalty to his attack roll, and both saving throws 
       drowningKiss: {
         name: "Drowning Kiss",
         description: `Any male humanoid kissed by a Nereid drowns instantly unless he makes a successful saving throw vs. breath weapon with a -2 penalty. 
-If the saving throw is successful, he finds total ecstasy : +2 bonus to THAC0, damage, morale, as well as a +20% hp, and Additionally, any spells cast will be as if the caster were two levels higher.
-The Nereid can only use this ability on fascinated or helpless victims.`,
+If the saving throw is successful, he finds total ecstasy.`,
       },
       beguilingAura: {
         name: "Beguiling Aura",
