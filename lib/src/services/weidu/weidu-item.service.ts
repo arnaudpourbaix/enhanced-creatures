@@ -27,7 +27,6 @@ class WeiduItemService extends AbstractWeiduService {
     this.writeAscii(lines, 0x3a, 8, item.icon, 1);
     this.writeStringRef(lines, 0x50, item.description, 1);
     this.write(lines, 0x60, 4, item.enchantment, 1);
-    //this.add(lines, `LPF set_enchantment INT_VAR enchantment = ${item.enchantment} END`, 1);
 
     if (!item.copyFrom) this.add(lines, `COPY_EXISTING ~${item.file}.itm~ ~override~`, 0);
     if (item.header) {
