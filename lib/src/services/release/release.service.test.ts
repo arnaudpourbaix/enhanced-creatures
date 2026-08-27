@@ -1,5 +1,6 @@
 import childProcess from "child_process";
 import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
+import { GLOBAL_CONFIG } from "../../../config/generate";
 import changelogService from "../doc/changelog.service";
 import logService from "../log.service";
 import mainService from "../main.service";
@@ -22,6 +23,7 @@ describe("ReleaseService", () => {
   let tagExistsAtHead: MockInstance<typeof releaseGitService.tagExistsAtHead>;
   let tagExistsOnRemote: MockInstance<typeof releaseGitService.tagExistsOnRemote>;
   let stageReleaseFiles: MockInstance<typeof releaseGitService.stageReleaseFiles>;
+  let restoreModTree: MockInstance<typeof releaseGitService.restoreModTree>;
   let commit: MockInstance<typeof releaseGitService.commit>;
   let tagRelease: MockInstance<typeof releaseGitService.tagRelease>;
   let push: MockInstance<typeof releaseGitService.push>;
@@ -51,6 +53,7 @@ describe("ReleaseService", () => {
     stageReleaseFiles = vi
       .spyOn(releaseGitService, "stageReleaseFiles")
       .mockImplementation(() => {});
+    restoreModTree = vi.spyOn(releaseGitService, "restoreModTree").mockImplementation(() => {});
     commit = vi.spyOn(releaseGitService, "commit").mockImplementation(() => {});
     tagRelease = vi.spyOn(releaseGitService, "tagRelease").mockImplementation(() => {});
     push = vi.spyOn(releaseGitService, "push").mockImplementation(() => {});
@@ -80,6 +83,8 @@ describe("ReleaseService", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    GLOBAL_CONFIG.enableRandomTargetOrder = false;
+    GLOBAL_CONFIG.enableSecondaryTypes = false;
   });
 
   it("runs the full flow for a fresh release", async () => {
@@ -120,6 +125,46 @@ describe("ReleaseService", () => {
       `dist/enhanced_creatures-${TAG}.zip`,
       RELEASE_NOTES,
     );
+  });
+
+  it("builds the release zip from a regeneration with random target order and secondary types on", async () => {
+    let flagsWhenZipped: [boolean, boolean] | undefined;
+    createZip.mockImplementation(() => {
+      flagsWhenZipped = [
+        GLOBAL_CONFIG.enableRandomTargetOrder,
+        GLOBAL_CONFIG.enableSecondaryTypes,
+      ];
+      return `dist/enhanced_creatures-${TAG}.zip`;
+    });
+
+    await releaseService.release(VERSION);
+
+    expect(flagsWhenZipped).toEqual([true, true]);
+    // a regeneration feeds the zip - the last generateAll runs right before createZip
+    const lastGenerate = Math.max(...generateAll.mock.invocationCallOrder);
+    expect(lastGenerate).toBeLessThan(createZip.mock.invocationCallOrder[0]);
+  });
+
+  it("restores the flags and the mod working tree after the zip is built", async () => {
+    await releaseService.release(VERSION);
+
+    expect(GLOBAL_CONFIG.enableRandomTargetOrder).toBe(false);
+    expect(GLOBAL_CONFIG.enableSecondaryTypes).toBe(false);
+    expect(restoreModTree.mock.invocationCallOrder[0]).toBeGreaterThan(
+      createZip.mock.invocationCallOrder[0],
+    );
+  });
+
+  it("restores the flags and the mod working tree even when the zip build throws", async () => {
+    createZip.mockImplementation(() => {
+      throw new Error("zip failed");
+    });
+
+    await releaseService.release(VERSION).catch(() => undefined);
+
+    expect(GLOBAL_CONFIG.enableRandomTargetOrder).toBe(false);
+    expect(GLOBAL_CONFIG.enableSecondaryTypes).toBe(false);
+    expect(restoreModTree).toHaveBeenCalled();
   });
 
   it("rejects an invalid version format before any side effects", async () => {
@@ -173,17 +218,20 @@ describe("ReleaseService", () => {
     expect(generateAll).not.toHaveBeenCalled();
   });
 
-  it("resumes from packaging when the tag exists at HEAD and on origin, skipping generate/commit/push", async () => {
+  it("resumes from packaging when the tag exists at HEAD and on origin, skipping commit/tag/push", async () => {
     tagExistsAtHead.mockReturnValue(true);
     tagExistsOnRemote.mockReturnValue(true);
 
     await releaseService.release(VERSION);
 
-    expect(generateAll).not.toHaveBeenCalled();
+    expect(writePackageVersion).not.toHaveBeenCalled();
+    expect(rollover).not.toHaveBeenCalled();
     expect(commit).not.toHaveBeenCalled();
     expect(tagRelease).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
-    expect(execFileSync).not.toHaveBeenCalled();
+    // the artifact is still rebuilt fresh from a flag-on regeneration
+    expect(generateAll).toHaveBeenCalled();
+    expect(restoreModTree).toHaveBeenCalled();
     expect(createZip).toHaveBeenCalledWith(VERSION);
     expect(publishRelease).toHaveBeenCalledWith(
       TAG,
@@ -192,7 +240,7 @@ describe("ReleaseService", () => {
     );
   });
 
-  it("retries the push when the tag exists at HEAD but not on origin, skipping generate/commit/tag", async () => {
+  it("retries the push when the tag exists at HEAD but not on origin, skipping commit/tag", async () => {
     tagExistsAtHead.mockReturnValue(true);
     tagExistsOnRemote.mockReturnValue(false);
     // a failed push leaves local master legitimately ahead - that must not block the re-run
@@ -200,12 +248,14 @@ describe("ReleaseService", () => {
 
     await releaseService.release(VERSION);
 
-    expect(generateAll).not.toHaveBeenCalled();
     expect(writePackageVersion).not.toHaveBeenCalled();
     expect(rollover).not.toHaveBeenCalled();
     expect(commit).not.toHaveBeenCalled();
     expect(tagRelease).not.toHaveBeenCalled();
+    // the commit-flow's npm steps (test run, package-lock sync) are skipped; the only generate is
+    // the flag-on one that feeds the zip
     expect(execFileSync).not.toHaveBeenCalled();
+    expect(generateAll).toHaveBeenCalled();
     expect(push).toHaveBeenCalledWith(MASTER);
     expect(createZip).toHaveBeenCalledWith(VERSION);
     expect(publishRelease).toHaveBeenCalledWith(
