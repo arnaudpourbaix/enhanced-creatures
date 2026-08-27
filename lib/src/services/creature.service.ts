@@ -473,13 +473,17 @@ class CreatureService {
   private checkDexterityArmorClassBonus(data: Partial<CreatureData>) {
     if (data.dexterity === undefined || data.ac === undefined) return;
     const bonus = this.getDexterityArmorClassBonus(data);
-    if (bonus && data.ac !== 10) {
+    if (bonus) {
+      // Natural AC (before the dexterity bonus is re-applied by the engine) can never be worse
+      // than 10, the unarmored baseline - so cap it there even if subtracting the bonus would
+      // otherwise push it past that ceiling (e.g. a creature whose listed AC already equals 10).
+      const newAc = Math.min(data.ac - bonus, 10);
       logService.log(
-        `${figureSet.arrowRight} AC reduced to ${data.ac - bonus} (was ${
+        `${figureSet.arrowRight} AC reduced to ${newAc} (was ${
           data.ac
         }) because of dexterity bonus (${bonus})`,
       );
-      data.ac -= bonus;
+      data.ac = newAc;
     }
   }
 

@@ -501,15 +501,21 @@ describe("checkDexterityArmorClassBonus (private)", () => {
   });
 
   it("subtracts the dexterity bonus from ac", () => {
-    const data: Partial<CreatureData> = { ac: 10, dexterity: 18 };
+    const data: Partial<CreatureData> = { ac: 5, dexterity: 18 };
     service.checkDexterityArmorClassBonus(data);
-    expect(data.ac).toBe(14); // 10 - (-4)
+    expect(data.ac).toBe(9); // 5 - (-4)
   });
 
   it("leaves ac untouched when the dexterity bonus is zero", () => {
     const data: Partial<CreatureData> = { ac: 10, dexterity: 9 };
     service.checkDexterityArmorClassBonus(data);
     expect(data.ac).toBe(10);
+  });
+
+  it("caps the computed ac at 10 when subtracting the bonus would exceed it", () => {
+    const data: Partial<CreatureData> = { ac: 10, dexterity: 18 };
+    service.checkDexterityArmorClassBonus(data);
+    expect(data.ac).toBe(10); // 10 - (-4) = 14, capped to 10
   });
 });
 
