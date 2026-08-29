@@ -47,29 +47,20 @@
         reach the intended quality at the time. In 2025, development restarted from scratch with new ideas. It
         began as a strong fork of aTweaks, though most of the code has since been rewritten.
       </p>
-      <p>
-        Every monster is described in strongly-typed TypeScript source files. A generator then produces the WeiDU
-        code, BAF scripts, and this documentation directly from that data, so the mod and its docs never drift
-        apart. It covers all creature files in both games, as well as many popular mods.
-      </p>
     </section>
 
     <section id="pnpMonsters">
       <h2>PnP Monsters</h2>
       <p>
-        This is a work in progress and I haven't covered all monsters within BG1-2 along with many popular mods.
+        This is a work in progress, many monsters haven't covered yet.
       </p>
-      <p>The file creatures.csv references all creatures and there are 2 columns MonsterID and ValidatedMonsterId.
-        The former associates the creature to a monster while the later validates the match.
-        When both values are set, this creature will be processed as long as the generator is able to generate this
-        creature.
+      <p>
+        Monsters are heavily patched and since many popular mods are covered, it might break a few things.
+        New scripts are inserted last (going up from default script), which should reduce risks.
+        Generic scripts are removed and some specifics are edited when needed.
       </p>
-      <p>Each creature is validated by a manual check to make sure it has been correctly identified and if there are
-        some
-        adjustments to do. An adjustment is a derived version of a monster, usually a stronger one.</p>
-      <p>I have tried to stick as much as possible to PnP when dealing with adjustments. However, I have tried to keep
-        the same challenge in edge cases. Putting more HD is not always the solution, so I needed to be more creative.
-      </p>
+      <p>Also, it will probably tone down some monsters with illegal stats. To mitigate this, monsters are getting
+        adjustments which can greatly increase their challenge while sticking as much as possible to the rules.</p>
     </section>
 
     <section id="install">
@@ -88,8 +79,9 @@
     <section id="credits">
       <h2>Credits</h2>
       <ul>
-        <li><strong>aVENGER</strong>, creator of aTweaks.</li>
-        <li><strong>Wisp</strong>, current maintainer of aTweaks.</li>
+        <li><strong>aVENGER and Wisp</strong>, for of aTweaks. Many files have been taken from aTweaks as said in the
+          introduction. I have only changed prefixes for consistency.</li>
+        <li><strong>Salk</strong>, initial supporter.</li>
         <li>Many modders for all the common WeiDU functions and help in the forums.</li>
       </ul>
     </section>

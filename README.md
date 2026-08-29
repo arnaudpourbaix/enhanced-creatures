@@ -11,10 +11,15 @@ In 2025, I have started from scratch using new ideas. First, I took aTweaks as s
 
 All the monsters are described in Typescript files to get something strongly-typed, clear, and readable. Then, a generator will create all the WEIDU's code, BAF scripts, and documentation.
 
-Each monster has a list of creature files with the same data. Then, adjustments will take care of specific cases like more hit dices, special powers, and so on.
-It covers all creature files in both games as well as many mods.
+`creatures.csv` contains all monsters for BG1, BG2, and many popular mods. It means that any unreferenced monster will not be modified. In this csv file, there is `MonsterId` column which references `MonsterEnum`. However, to prevent mistakes, each cre file need to be manually validated, hence with the `ValidatedMonsterId` column.
+
+Each monster will gather its validated cre files inside `creatures.csv`. Most monsters have more powerful versions like named or variants. It is handled with adjustments, they will take care of changes like more hit dices, special powers, and so on.
 
 The generator doesn't need to be installed and executed, unless you want to change stuff in the generator folder.
+
+I have spent a lot of times to categorize monsters using general, race, class, animation, weapons, and even dialog. However, if you think I made some mistakes, feel free to tell me and I'll make a review.
+
+[Documentation](https://arnaudpourbaix.github.io/enhanced-creatures)
 
 ## Install 
 
@@ -46,9 +51,18 @@ Generate mod's files with `npm run generate`.
 Since random ordering is generating target lists by using Fisher–Yates shuffle, it will alter all scripts on each generation.
 Purpose of this is to reduce target prediction. By comparaison, SCS is using a stable random order for everything, so once you know the order, you can predict quite easily. Here, each list will be randomize, so if you have 5 spells with the same list, you will get 5 different orders.
 
-Note: random targetting is currently disabled because it changes too many files.
+Note: random targetting is disabled because it changes too many files. However, it is activated when doing a release, but only for the files in the zip.
 
 To activate it in a local build, edit `lib\config\generate.ts` and set enableRandomTargetOrder to true. Then, just run the previous generate command.
+
+#### Secondary types
+
+Some new spells are classified with secondary types like fear, poison, and disease.
+They need to be added in spells that provide cure or immunity, this is really important.
+
+Note: it is disabled because it slows down installation's time by a huge margin. However, it is activated when doing a release, but only for the files in the zip.
+
+To activate it in a local build, edit `lib\config\generate.ts` and set enableSecondaryTypes to true. Then, just run the previous generate command.
 
 ### Copy (local testing)
 
@@ -60,11 +74,7 @@ If you want to make easy edits, you can edit files inside config folder. Strong 
 
 ## Credits
 
-All the asset files (icons, effects, animations) are from aTweaks. I have only changed prefix for consistency.
-
-aVENGER, creator of aTweaks.
-
-Wisp, current maintainer.
+aVENGER and Wisp for of aTweaks. Many files have been taken from aTweaks as said in the introduction. I have only changed prefixes for consistency.
 
 Salk, initial supporter.
 
