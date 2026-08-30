@@ -1,0 +1,104 @@
+HERTHIMONEY: 90 new, 4 changed
+
+NEW (90):
+  ANAERIE   Aerie
+  ANAGNESS  Agnes
+  ANALTAR1  Altar
+  ANALTAR2  Mercenary
+  ANALTAR3  Mercenary
+  ANALTAR4  Mercenary
+  ANALTAR5  Mercenary
+  ANARCH1   Tethyrian Mercenary
+  ANAZORA1  Azora 
+  ANAZORA2  Azora 
+  ANBAND1   Ruffian
+  ANBAND2   Ruffian
+  ANBANKG   Bank Guardian
+  ANBANKG1  Bank Guardian
+  ANBANKG2  Bank Guardian
+  ANBANKG3  Bank Guardian
+  ANBANKG4  Bank Guardian
+  ANBARD1   Storyteller
+  ANBASIL   Giant Basilisk 
+  ANBCAT    Bank Cat
+  ANBEGGAR  Vagabond
+  ANBESHA1  Strange Man
+  ANBOY1    Boy
+  ANBUTCH   Batch
+  ANCAYTIG  Caityga
+  ANCLERK1  Clerk
+  ANCLERK2  Senior Clerk
+  ANCOLL1   Collector
+  ANCOLL2   Blik
+  ANCOLL3   Collector Soldier
+  ANCOLL4   Collector Fighter
+  ANDIRT    Branch Director
+  ANDRAGON  Odrik
+  ANDRUID1  Leader
+  ANDRUID2  Shadow Druid
+  ANESRA    Esra
+  ANFATESP  Fate Spirit
+  ANGIE1    Gail
+  ANGIRL1   Mod
+  ANGORI    Gorion
+  ANHALF1   Client
+  ANHURP    Hurp
+  ANJALUT   Jalut
+  ANJOCK    Jock Big Cobblestone
+  ANJOVI1   Jovi Gerk 
+  ANKILLER  Assassin
+  ANLANIA   Lania
+  ANLEENA1  Leena
+  ANLEENA2  Leena
+  ANLION1   Mountain Lion
+  ANLORENS  Lawrence
+  ANLORIO   Lorio
+  ANLORNA   Lorna
+  ANMESS    Messenger
+  ANMESS1   Bank Courier
+  ANMESS2   Thief
+  ANMIRAN   Miranda
+  ANMONSTR  Monster
+  ANORC1    Galtarro
+  ANORC2    Three-Fingered
+  ANOWNI    Owney
+  ANPALAD1  Paladin
+  ANPARIS   Paris
+  ANPORIN   Porin 
+  ANPROM    Advertising Manager
+  ANSAHUA1  Rarrrshituoah
+  ANSAHUA2  Furlusialeo
+  ANSAILOR  Drunken Pirate
+  ANSARTOR  Sartorius
+  ANSCELET  Skeleton Guardian
+  ANSHAHBA  Shahbaz
+  ANSHAKAL  Jackal
+  ANSHARLT  Charlize
+  ANSHEILA  Sheila
+  ANSHTLEG  Simon Shortleg
+  ANSIRENE  Eirin
+  ANSPYM1   Spy
+  ANSTAT01  Magical Sword
+  ANSTAT02  Magical Sword
+  ANSTAT03  Magical Sword
+  ANSTAT04  Magical Sword
+  ANSTAT05  Magical Sword
+  ANSTAT06  Magical Sword
+  ANTONY1   Tony
+  ANTROLL   Kid
+  ANURGRL   Girl
+  ANWOLF1   Dire Wolf
+  ANWOMAN1  Woman
+  ANWOMN1   Listener
+  ANYANT    Yantina
+
+CHANGED (4):
+  GEMCH01   Chicken
+    dialog: None -> GEMCH01
+  GEMCH02   Chicken
+    dialog: None -> GEMCH02
+  WAUKSQU   Squirrel
+    deathvar: None -> ANbelka
+  WILSON13  Wilson
+    dialog: WILSON -> WILSON25
+    overrideScript: WILSON -> WILSON25

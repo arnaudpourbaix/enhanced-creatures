@@ -1,0 +1,28 @@
+BARDICWONDERS: 6 new, 6 changed
+
+NEW (6):
+  C0DESUM1  Skeleton Warrior
+  C0DESUM2  Skeleton Warrior
+  C0DESUM3  Skeleton Warrior
+  C0DESUM4  Skeleton Warrior
+  C0DESUM5  Skeleton Warrior
+  C0LEANNE  Leanne
+
+CHANGED (6):
+  HAER10    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER11    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER13    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER19    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  PBHUNT01  Aawill
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw2h02 -> SW2H02
+  SALVANAS  Salvanas
+    weapon2: sw1h07 -> SW1H07

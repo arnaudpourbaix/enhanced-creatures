@@ -6,6 +6,6 @@
     "module": "preserve",
     "moduleResolution": "bundler"
   },
-  "include": ["lib/**/*.ts", "vitest.config.ts", "scripts/derive-spell-priority-order.ts"],
+  "include": ["lib/**/*.ts", "vitest.config.ts", "scripts/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

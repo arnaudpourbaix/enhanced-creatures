@@ -1,0 +1,60 @@
+TANGLEDISLE: 52 new, 1 changed
+
+NEW (52):
+  L#NI6CQ   Nikt
+  L#NIBAA   Boy
+  L#NIBC1   Hron
+  L#NIBC2   Miga
+  L#NIBC3   Hron
+  L#NIBC4   Miga
+  L#NICBB   Nuna
+  L#NICLE   Priestress of Umberlee
+  L#NICMF1  Commoner
+  L#NICMF2  Commoner
+  L#NICMF3  Commoner
+  L#NICMF4  Commoner
+  L#NICMF5  Commoner
+  L#NICMF6  Commoner
+  L#NICMM1  Commoner
+  L#NICMM2  Commoner
+  L#NICMM3  Commoner
+  L#NICMM4  Commoner
+  L#NICMM5  Commoner
+  L#NICMM6  Commoner
+  L#NICUT   Jacc Fork
+  L#NIDICC  Dicca
+  L#NIDOG   Mr. Dog
+  L#NIDRUI  Oola
+  L#NIFINN  Finn
+  L#NIFIS   Fish Merchant
+  L#NIGOL   Faithful Golem
+  L#NIH01   Golden-Haired Man
+  L#NIH02   Pale Man
+  L#NIH03   Kamma
+  L#NIJAA   Jaalv
+  L#NIJAA2  Jaalv
+  L#NIJAA3  Tyalavah
+  L#NIMER1  Merchant
+  L#NIMER2  Merchant
+  L#NIMF0   Ila'thashagh
+  L#NIMF5   Uklj the Serpent of Infinity
+  L#NIMF6   Ukk'an the Bone of Wrath
+  L#NINOB   Antisocial Noble
+  L#NIOOD   Angry Man
+  L#NIPOP   Pop
+  L#NISCR   Illusion
+  L#NISGR   Sad Girl
+  L#NISMC   Fishing Lure Merchant
+  L#NISNA   Tromblo
+  L#NISST   Sakara
+  L#NISTA   Crow Trommoc
+  L#NITAV   Bartender
+  L#NITPA1  Pub patron
+  L#NITPA2  Pub patron
+  L#NIVOI   Voice
+  L#NIXVA   Moomik
+
+CHANGED (1):
+  SAMIA     Samia
+    shield: shld04 -> SHLD04
+    weapon1: sw1h20 -> SW1H20

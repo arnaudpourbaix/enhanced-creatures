@@ -1,0 +1,243 @@
+ub: 34 new, 59 changed
+
+NEW (34):
+  A#FERA01  Wild Dog
+  A#FERA02  Wolf
+  A#FERA03  Dire Wolf
+  A#FERA04  Pack Leader
+  GREYHAND  Greyhand
+  JELOLI01  Olive Slime
+  O#HABOD1  Amnian Bodyguard
+  O#HABOD2  Amnian Bodyguard
+  O#HAJAN   Janos
+  O#HALIE1  Amnian Soldier
+  O#HALIE2  Amnian Soldier
+  O#HALIEU  Amnian Centurion
+  O#HAPRI   Prison Guard
+  U!KDEAD   Kalah's Spirit
+  U!KGEN    Genie
+  U!KGIRL   Myara
+  U!KIMOEN  Imoen Cartesen
+  U!KJAF    Jafir
+  U!KRAIS   Kalah
+  WWARRO1   De'Lyl Guardsman
+  WWARRO2   De'Lyl Guardsman
+  WWBILLY   Billy
+  WWCOWL1   Cowled Enforcer
+  WWCOWL2   Cowled Enforcer
+  WWDELAG   Delag
+  WWEFF     Eforf
+  WWELLE    Eleanya
+  WWFGHT1   De'Lyl Guardsman
+  WWFGHT2   De'Lyl Guardsman
+  WWRATI    Boolet
+  WWSTEN    Sten
+  WWSWOO    Smethy
+  WWVIVI    Vivick
+  XGOLEM1   Flesh Golem
+
+CHANGED (59):
+  AMMERC07  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h09 -> SW1H29
+  AMMERC08  Mercenary
+    helmet: helm33 -> HELM33
+    weapon1: bow04 -> BOW04
+    weapon2: sw1h09 -> SW1H29
+  AMMERC09  Mercenary
+    weapon1: bow03 -> BOW03
+    weapon2: sw1h09 -> SW1H29
+  ARKANISG  Arkanis Gath
+    weapon1: SW1H09 -> SW1H29
+  BAZLIZ03  Lizard Man
+    weapon1: halb02 -> HALB02
+  BAZLIZ04  Lizard Man Captain
+    weapon1: halb07 -> HALB07
+  BEAST     Beastmaster
+    weapon1: bow14 -> BOW14
+  C6ELHAN   Elhan
+    shield: sw1h50 -> SW1H22
+    lring: minhp1 -> MINHP1
+    amulet:  -> AMUL21
+    weapon1: sw1h50 -> SW1H22
+  C6KACH    Kachiko
+    weapon1: sw1h09 -> SW1H29
+    weapon2: dagg16 -> DAGG16
+  CALAHA    Calahan
+    weapon1: SW1H09 -> SW1H29
+  DECKASS1  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  DECKWAR1  Fighter
+    shield: sw1h09 -> SW1H29
+    weapon1: sw1h09 -> SW1H29
+  GORDECK6  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK7  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK8  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK9  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECKA  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  HELLSLAY  Slayer
+    classScript: None -> helljon
+  HGSKL02   Skeleton Assassin
+    shield: dagg15 -> DAGG15
+    lring: ring95 -> RING95
+    weapon1: sw1h09 -> SW1H29
+  HLKETTA   Ketta
+    weapon1: sw1h09 -> SW1H29
+  HLKETTA2  Ketta
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h09 -> SW1H29
+  JONDEM01  Glabrezu
+    overrideScript: None -> jondem01
+    classScript: None -> demgaj
+  JONDEM02  Balor
+    overrideScript: None -> jondem02
+    classScript: None -> demptj
+  JONDEM03  Glabrezu
+    overrideScript: None -> jondem03
+    classScript: None -> demgaj
+  JONDEM04  Balor
+    overrideScript: None -> jondem04
+    classScript: None -> demptj
+  OBSHAL04  Halfling Warrior
+    classScript: obshal01 -> 
+  PPBODHI4  Bodhi
+    defaultScript: WTASIGHT -> 
+  PPSUNA    Suna Seni
+    deathvar: ppsuna -> PPSUNA
+    dialog: ppsuna -> PPSUNA
+    overrideScript: None -> PPSUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    weapon2: SW1H04 -> 
+  REELDAR   Eldarin
+    weapon2:  -> SW1H27
+  RESUNA    Suna Seni
+    class: FIGHTER -> RANGER
+    deathvar: resuna -> RESUNA
+    dialog: resuna -> SUNA
+    level: 13 -> 16
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: gpshout -> RESUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    amulet:  -> MINHP1
+    weapon1: sw1h27 -> sw1h08
+    xpv: 4480 -> 9000
+  SARCPT01  Captain Samand
+    shield: shld04 -> SHLD04
+    weapon1: sw1h09 -> SW1H29
+  SAREVOK   Sarevok
+    generalScript: INP1IVSG -> 
+  SARGRD05  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARGRD09  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARKIS02  Fighter
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARKIS03  Fighter
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARMIST   Cold Mistress
+    overrideScript: None -> SHOUTDLG
+  SENGUA04  Slavemaster
+    shield: ax1h03 -> AX1H03
+    lring: sengua04 -> SENGUA04
+    weapon1: ax1h03 -> AX1H11
+  SENORC02  Derro
+    weapon1: xbow02 -> XBOW02
+    weapon2: sw1h09 -> SW1H29
+  SENORC04  Derro
+    weapon1: xbow05 -> XBOW05
+    weapon2: sw1h09 -> SW1H29
+  SEVDRU01  Alatelo De Bonito
+    class: INNOCENT -> MAGE
+  SPPAIN    Pai'Na
+    overrideScript: SHOUTDLG -> ubsppain
+  SPSPID05  Giant Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: None -> ubspspid
+    raceScript: WTASIGHT -> wdasight
+  SPSPID06  Phase Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: PSPIDER -> ubspspid
+    raceScript: None -> wdasight
+  SPSPID07  Sword Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: None -> ubspspid
+    raceScript: None -> wdasight
+  SUELHAN   Elhan
+    shield: sw1h50 -> SW1H22
+    lring: minhp1 -> MINHP1
+    amulet:  -> AMUL21
+    weapon1: sw1h50 -> SW1H22
+  SUNA      Suna Seni
+    deathvar: None -> SUNA
+    dialog: suna -> SUNA
+    level: 8 -> 16
+    overrideScript: None -> CCSUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: None -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    amulet:  -> MINHP1
+    weapon1:  -> sw1h08
+    weapon2: SW1H04 -> 
+    xpv: 2450 -> 9000
+  TELTIEF2  Tiefling
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  TRTHF01   Itona
+    weapon1: sw1h08 -> SW1H08
+  VVARKAN   Arkanis Gath
+    amulet: minhp1 -> MINHP1
+    weapon1: SW1H09 -> SW1H29
+  VVBODHI   Bodhi
+    lring: vampreg2 -> VAMPREG2
+    rring: immune2 -> MINHP20
+    weapon1: vamp3 -> VAMP3
+  VVCAT     Shadow Thief
+    weapon1: sw1h09 -> SW1H29
+  VVFEMAL1  Vampire
+    dialog: vvfemal1 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVFEMAL2  Vampire
+    dialog: vvfemal2 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVFEMAL3  Vampire
+    dialog: vvfemal3 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVMALE5   Vampire
+    defaultScript: WDASIGHT -> 
+  VVMALE6   Vampire
+    dialog: vvmale6 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVMALE7   Vampire
+    dialog: vvmale7 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  YSFIRE02  Fire Giant
+    weapon1: GIAFIR2 -> AX1H11

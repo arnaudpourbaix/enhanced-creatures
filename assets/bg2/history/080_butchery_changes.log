@@ -1,0 +1,123 @@
+butchery: 99 new, 3 changed
+
+NEW (99):
+  D9AASS    Aasim
+  D9ANGELO  Angelo
+  D9BOURT   Bourrinos
+  D9CYTHI   Cythandria
+  D9DAVA    Davaeorn
+  D9DC5     Dwarf Priest novice
+  D9DC7     Experienced Dwarf Priest
+  D9DDD     Dwarf Priest novice
+  D9DF3M    Dwarf Berseker novice
+  D9DF3M1   Dwarf Berseker novice
+  D9DF3M2   Dwarf Berseker novice
+  D9DF3R    Dwarf Warrior novice
+  D9DF5M    Experienced Dwarf Berseker
+  D9DF7M    Elite Dwarf Warrior
+  D9DFAA    Dwarf Berseker novice
+  D9DFBB    Dwarf Warrior novice
+  D9DFCC    Experienced Dwarf Berseker
+  D9DFHH    Elite Dwarf Warrior
+  D9DGG     Experienced Dwarf Priest
+  D9DIARMI  Diarmid
+  D9EMAGAA  Mage
+  D9GARDU   Gardush
+  D9GROUMT  Groumf
+  D9KRYST   Krystin
+  D9MULA    Mulahey
+  D9OGMAGE  Ogre Mage
+  D9OGRGA   Ogre Berserker
+  D9OGRGA2  Ogre Barbarian
+  D9ORC01   Orc
+  D9ORC05   Orog
+  D9ORC05B  Orog
+  D9ORGAHJ  Orc
+  D9ORGAME  Orc
+  D9SALF00  Salamander
+  D9SC12    Experienced Skeleton Cleric
+  D9SC12A   Experienced Skeleton Cleric
+  D9SC12B   Experienced Skeleton Cleric
+  D9SC13    Experienced Skeleton Cleric
+  D9SC13A   Experienced Skeleton Cleric
+  D9SC13B   Experienced Skeleton Cleric
+  D9SC14    Experienced Skeleton Cleric
+  D9SC14A   Experienced Skeleton Cleric
+  D9SC14B   Experienced Skeleton Cleric
+  D9SC16    Elite Skeleton Cleric
+  D9SC16B   Elite Skeleton Cleric
+  D9SC17    Elite Skeleton Cleric
+  D9SC17B   Elite Skeleton Cleric
+  D9SC18    Elite Skeleton Cleric
+  D9SC18B   Elite Skeleton Cleric
+  D9SC7     Skeleton Cleric novice
+  D9SC7A    Skeleton Cleric novice
+  D9SC7B    Skeleton Cleric novice
+  D9SC8     Skeleton Cleric novice
+  D9SC8A    Skeleton Cleric novice
+  D9SC8B    Skeleton Cleric novice
+  D9SC9     Skeleton Cleric novice
+  D9SC9A    Skeleton Cleric novice
+  D9SC9B    Skeleton Cleric novice
+  D9SEMAJ   Semaj
+  D9SKL01   Skeleton Cleric
+  D9SKL02   Skeleton Assassin
+  D9SKL03   Skeleton Mage
+  D9SKL04   Skeleton Warrior
+  D9SKL06   Skeleton Cleric
+  D9SKL07   Skeleton Mage
+  D9SKL08   Skeleton Assassin
+  D9SKL09   Skeleton Warrior
+  D9SLYTHE  Slythe
+  D9SM12    Experienced Skeleton Mage
+  D9SM12A   Experienced Skeleton Mage
+  D9SM12B   Experienced Skeleton Mage
+  D9SM13    Experienced Skeleton Mage
+  D9SM13A   Experienced Skeleton Mage
+  D9SM13B   Experienced Skeleton Mage
+  D9SM14    Experienced Skeleton Mage
+  D9SM14A   Experienced Skeleton Mage
+  D9SM14B   Experienced Skeleton Mage
+  D9SM16    Elite Skeleton Mage
+  D9SM16B   Elite Skeleton Mage
+  D9SM17    Elite Skeleton Mage
+  D9SM17B   Elite Skeleton Mage
+  D9SM18    Elite Skeleton Mage
+  D9SM18B   Elite Skeleton Mage
+  D9SM7     Skeleton Mage novice
+  D9SM7A    Skeleton Mage novice
+  D9SM7B    Skeleton Mage novice
+  D9SM8     Skeleton Mage novice
+  D9SM8A    Skeleton Mage novice
+  D9SM8B    Skeleton Mage novice
+  D9SM9     Skeleton Mage novice
+  D9SM9A    Skeleton Mage novice
+  D9SM9B    Skeleton Mage novice
+  D9TAMOKO  Tamoko
+  D9TAZOK   Tazok
+  D9TAZOKX  Tazok
+  D9XXARD3  Elite Guard
+  D9YUAN02  Greater Yuan-ti
+  D9ZALI    Zhalimar Cloudwulfe
+  D9ZZARD4  Elite Guard
+
+CHANGED (3):
+  FIRORC01  Chieftain DigDag
+    class: ORC -> FIGHTER
+    anim: OROG -> OROG_CHIEFTAIN
+    level: 12 -> 13
+    helmet: HELM01 -> HELM12
+    shield: SHLD05 -> SHLD30
+    lring:  -> RING06
+    weapon1: SW1H04 -> SW1H02
+    xpv: 2000 -> 7000
+  HELLSARE  Wraith Sarevok
+    overrideScript: RR#PICKP -> D9SAREVO
+    lring:  -> INVULNER
+    rring:  -> SUREHP1
+  TAZOK     Tazok
+    level: 18 -> 19
+    overrideScript: SHOUTDLG -> D9TAZOKK
+    classScript: gpuse -> GENSHT01
+    helmet:  -> HELM01
+    xpv: 6000 -> 12000

@@ -5,7 +5,7 @@ export default defineConfig({
     target: "es2022",
   },
   test: {
-    include: ["lib/**/*.test.ts"],
+    include: ["lib/**/*.test.ts", "scripts/**/*.test.ts"],
     // Explicitly false rather than "passed-only" (which suppresses console output for passing
     // tests) - this codebase's production code paths log real diagnostics during generation
     // (e.g. documentationService's "Generating documentation for X"), and hiding those for

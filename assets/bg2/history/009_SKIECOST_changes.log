@@ -1,0 +1,45 @@
+SKIECOST: 36 new, 2 changed
+
+NEW (36):
+  L#2ED25   Eddard
+  L#2EDDOG  Puppy
+  L#2EDDRD  Eddard
+  L#2EDJCK  Jackly
+  L#2EDVAM  Eddard
+  L#2SD25   Skie
+  L#2SDBON  Bontt
+  L#2SDEDB  Buyer
+  L#2SDEDG  Shady Character
+  L#2SDEDQ  Vully
+  L#2SDEDS  Seller
+  L#2SDELD  Eldoth
+  L#2SDLIC  Xamh the Retired
+  L#2SDMES  Missini
+  L#2SDMO4  Soultaker's Manifestation
+  L#2SDNEM  Nem
+  L#2SDNM1  Soul Miasma
+  L#2SDNM2  Soultaker Golem
+  L#2SDPIR  Pirate
+  L#2SDPYL  Pyll
+  L#2SDROI  Roi "Biggie"
+  L#2SDSH   Merchant
+  L#2SDSKI  Skie
+  L#2SDSOU  Skie's Soul
+  L#2SDVDE  Skie
+  L#2SDVO1  Her Naïvety
+  L#2SDVO2  Her Father's Expectation
+  L#2SDVO3  Her Reckless Bravado
+  L#2SDVO4  Her Hooded Oppressor
+  L#2SDVO5  Her Leader
+  L#2SDVO6  Her Grief and Stings of Remorse
+  L#2SDVO7  Her Indiscipline
+  L#2SDVOA  Hurtful Mockery
+  L#2SDVOC  Reckless Decision
+  L#2SDVOE  Murderous Command
+  L#2SDVOG  Flaming Fist Enforcer
+
+CHANGED (2):
+  BRELM     Brelm
+    deathvar: None -> BRELM
+  PIRMUR01  Galvena
+    weapon1: blun13 -> BLUN13

@@ -1,0 +1,31 @@
+ArtisansKitpack: 16 new, 5 changed
+
+NEW (16):
+  C0D2_S1   Spirit Bear
+  C0D2_S2   Spirit Wolf
+  C0D2_S3   Spirit Lion
+  C0D2_S4   Spirit Snake
+  C0HVARAN  Aranea Elder
+  C0MBEAR   Great Red Bear
+  C0MN#FI
+  C0PMVM1F  Vampire Fledgling
+  C0PMVM1M  Vampire Fledgling
+  C0PMVM2F  Vampire
+  C0PMVM2M  Vampire
+  C0PMVM3F  Vampire Elder
+  C0PMVM3M  Vampire Elder
+  C0PMVM4F  Ancient Vampire
+  C0PMVM4M  Ancient Vampire
+  C0SD-A1C  Shadow
+
+CHANGED (5):
+  RASAAD    Rasaad
+    class: MONK -> CLERIC
+  RASAAD7   Rasaad
+    class: MONK -> CLERIC
+  X32MILY   Emily
+    class: RANGER -> FIGHTER
+  X3MILY    Emily
+    class: RANGER -> FIGHTER
+  XAN       Xan
+    class: MAGE -> FIGHTER_MAGE

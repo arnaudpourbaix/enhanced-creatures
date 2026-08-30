@@ -1,0 +1,60 @@
+ACBRE: 51 new, 2 changed
+
+NEW (51):
+  ACADAM    Adam
+  ACANSTI   Anstinus
+  ACARNI    Arnie
+  ACASC     Ascalon
+  ACAUD001  Hooded dwarf
+  ACAUD002  Audhild
+  ACAZZIK   Azzik
+  ACBOR001  Bork
+  ACBRE     Breagar
+  ACBRE07   Breagar
+  ACBRE25   Breagar
+  ACBRERED  Injured Breagar
+  ACBRESMI  Breagar
+  ACCLERIC  Tobin
+  ACDROWD1  Dead Drow
+  ACDROWD2  Dead Drow
+  ACDROWE1  Cleric
+  ACDROWE2  Maid of Lolth
+  ACDROWE3  Priestess
+  ACDUECL1  Duergar Cleric
+  ACDUECL2  Duergar Cleric
+  ACDUEFI1  Duergar Fighter
+  ACDUEFI2  Duergar Fighter
+  ACDUEFI3  Duergar Fighter
+  ACDUEFI4  Duergar Fighter
+  ACDUEFO1  Hargek
+  ACDUERE1  Graschek
+  ACELASIA  Elasia
+  ACFORRES  Forres
+  ACGAL     Galthur
+  ACGIANT   Yrrymyr
+  ACGROTHI  Grothir
+  ACHOLD01  Beholder
+  ACLICH01  Lich
+  ACNDRO01  Drow
+  ACNDRO02  Drow
+  ACNDRO03  Drow
+  ACNDRO04  Drow
+  ACNECRO1  Borsk
+  ACNECRO2  Theber
+  ACNECRO3  Karela
+  ACOGHMA1  Scribe of Oghma
+  ACRALPH   Ralph
+  ACREG     Reggik
+  ACREVI    Revianel
+  ACREVI2   Revianel
+  ACSHAD01  Shadow
+  ACSILVER  Silver Dwarf
+  ACTAEROM  Taerom
+  ACTHIEF1  Messenger of the Shadow Thieves
+  ACVIRGI
+
+CHANGED (2):
+  BMTHIEF   Black Market Thief
+    deathvar: None -> BMTHIEF
+  UDMASTER  The Master Brain
+    lring: immune1 -> IMMUNE1

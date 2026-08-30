@@ -1,0 +1,49 @@
+INNERSHADE: 41 new, 1 changed
+
+NEW (41):
+  9XBARD    Annoyed bard
+  9XCC      Child
+  9XCOMM1   Commoner
+  9XCOMM2   Commoner
+  9XCOMM3   Commoner
+  9XCOMM4   Commoner
+  9XCOMM5   Commoner
+  9XCOMM6   Commoner
+  9XDAD     Man
+  9XDOG     Dog
+  9XE1      Shapeshifting Creature
+  9XE2      Shapeshifting Creature
+  9XE3      Shapeshifting Creature
+  9XE4      Shapeshifting Creature
+  9XE5      Shapeshifting Creature
+  9XE6      Shapeshifting Creature
+  9XE7      The Dream
+  9XEA      Piece of Nightmare
+  9XEB      Piece of Nightmare
+  9XEC      Piece of Nightmare
+  9XED      Piece of Nightmare
+  9XEE      Piece of Nightmare
+  9XEF      Piece of Nightmare
+  9XELF     Elf
+  9XEVA     Eva
+  9XFOOD    Food merchant
+  9XGBOY    Boy
+  9XGENIE   Genie
+  9XHEAL    Witchdoctor
+  9XKAT     Kat
+  9XMINER   Miner
+  9XNMP     Mugger
+  9XOBOY    Boy
+  9XOLADY   Barbara
+  9XOLADY2  Barbara
+  9XP1      Dawnmaster Patrick
+  9XP2      Dawnmaster Patrick
+  9XSTORYT  Dirty boy
+  9XWC      Woodchopper
+  9XWITCH   Witch
+  9XWITCH2  Witch
+
+CHANGED (1):
+  BMUGG1    Mugger
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01

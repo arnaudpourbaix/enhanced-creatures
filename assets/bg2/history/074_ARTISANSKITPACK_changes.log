@@ -1,0 +1,34 @@
+ARTISANSKITPACK: 15 new, 3 changed
+
+NEW (15):
+  C0D2_S1   Spirit Bear
+  C0D2_S2   Spirit Wolf
+  C0D2_S3   Spirit Lion
+  C0D2_S4   Spirit Snake
+  C0MN#FI
+  C0PMVM1F  Vampire Fledgling
+  C0PMVM1M  Vampire Fledgling
+  C0PMVM2F  Vampire
+  C0PMVM2M  Vampire
+  C0PMVM3F  Vampire Elder
+  C0PMVM3M  Vampire Elder
+  C0PMVM4F  Ancient Vampire
+  C0PMVM4M  Ancient Vampire
+  C0PR#EF
+  C0SD-A1C  Shadow
+
+CHANGED (3):
+  KORGAN8   Korgan
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: korax01 -> KORAX01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  MAZZY8    Mazzy
+    weapon1: npbow -> NPBOW
+    weapon2: npsw01 -> NPSW01
+  SAREVOK   Sarevok
+    helmet: helm09 -> HELM09
+    amulet: chwraith -> CHWRAITH
+    weapon1: sw2h20 -> SW2H20
+    weapon2: xbow09 -> XBOW09

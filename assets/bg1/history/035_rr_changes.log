@@ -1,0 +1,1856 @@
+rr: 3 new, 924 changed
+
+NEW (3):
+  RR#SHM01  Lesser Shambler
+  RR#SHM02  None whatsoever.
+  RR#SHM03  Greater Shambler
+
+CHANGED (924):
+  A!RAOUL   Raoul
+    overrideScript:  -> RR#PICKP
+  ABELA     Abela the Nymph
+    overrideScript: None -> RR#PICKP
+  AC#CUST2  Commoner
+    overrideScript:  -> RR#PICKP
+  AC#FP1W2  Wererat
+    overrideScript: NONE -> RR#PICKP
+  AC#FPCO9  Captured Creature
+    overrideScript:  -> RR#PICKP
+  AC#FPGND  Master Durnan
+    overrideScript:  -> RR#PICKP
+  AC#FPSEW  Sewer Cleaner
+    overrideScript:  -> RR#PICKP
+  AC#FPST2  Seeker Tuck
+    overrideScript:  -> RR#PICKP
+  AC#FPSUN  Petian
+    overrideScript:  -> RR#PICKP
+  AC#PEAS3  Commoner
+    overrideScript:  -> RR#PICKP
+  ACQ10107  Cultist
+    overrideScript:  -> RR#PICKP
+  ACQ10108  Cultist
+    overrideScript:  -> RR#PICKP
+  ACQ10111  Lugosch
+    overrideScript:  -> RR#PICKP
+  ACQ11001  Agnus
+    overrideScript:  -> RR#PICKP
+  ACQ11003  Udolf
+    overrideScript:  -> RR#PICKP
+  ACQ13004  Rabbit Breeder
+    overrideScript:  -> RR#PICKP
+  ACQ16003  Tonder
+    overrideScript:  -> RR#PICKP
+  ACQ19001  Mandy
+    overrideScript:  -> RR#PICKP
+  ACQ19002  Ashley
+    overrideScript:  -> RR#PICKP
+  ACQ19003  Cindy
+    overrideScript:  -> RR#PICKP
+  ALANBL    Alan Blackblade
+    overrideScript: None -> RR#PICKP
+  ALATOS    Alatos "Ravenscar" Thuibuld
+    overrideScript: None -> RR#PICKP
+  AMNISE    Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  AMNISE2   Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  AMNISE3   Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  AMNISE4   Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  AMNISE5   Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  ANGELO    Angelo
+    overrideScript: None -> RR#PICKP
+  ARDENO    Ardenor Crush
+    overrideScript: None -> RR#PICKP
+  ARKION    Arkion
+    overrideScript:  -> RR#PICKP
+  BANDITC   Bandit
+    overrideScript: None -> RR#PICKP
+  BANDITCY  Ruffian
+    overrideScript:  -> RR#PICKP
+  BARESH    Baresh
+    overrideScript: None -> RR#PICKP
+  BAYARD    Bayard
+    overrideScript: None -> RR#PICKP
+  BDAMMON   Ammon
+    overrideScript:  -> RR#PICKP
+  BDARAYA   Lady Araya
+    overrideScript:  -> RR#PICKP
+  BDASSN01  Assassin
+    overrideScript:  -> RR#PICKP
+  BDBARGHE  The Barghest
+    overrideScript:  -> RR#PICKP
+  BDBELT    Belt
+    overrideScript:  -> RR#PICKP
+  BDBERTA   Berta
+    overrideScript:  -> RR#PICKP
+  BDBF3     Lexa
+    overrideScript: NONE -> RR#PICKP
+  BDBF4     Herdrin
+    overrideScript: NONE -> RR#PICKP
+  BDBF5     Kendra
+    overrideScript: NONE -> RR#PICKP
+  BDBFOR12  Traveler
+    overrideScript:  -> RR#PICKP
+  BDBFOR13  Adventurer
+    overrideScript:  -> RR#PICKP
+  BDBFOR14  Bridgefort Defender
+    overrideScript:  -> RR#PICKP
+  BDBFOR15  Traveler
+    overrideScript:  -> RR#PICKP
+  BDBFOR16  Bridgefort Defender
+    overrideScript:  -> RR#PICKP
+  BDBFORT   Adirran
+    overrideScript:  -> RR#PICKP
+  BDBFORT2  Bridgefort Soldier
+    overrideScript:  -> RR#PICKP
+  BDBFORT3  Bridgefort Guard
+    overrideScript:  -> RR#PICKP
+  BDBFORT9  Bridgefort Defender
+    overrideScript:  -> RR#PICKP
+  BDBFSENT  Crusader Sentry
+    overrideScript:  -> RR#PICKP
+  BDCABAL1  Priest
+    overrideScript:  -> RR#PICKP
+  BDCAMPBE  Bridgefort Defender
+    overrideScript:  -> RR#PICKP
+  BDCAMPF1  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCAMPF2  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCAMPF3  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCAMPF4  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCAMPF5  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCAMPF6  Camp Follower
+    overrideScript:  -> RR#PICKP
+  BDCHARRA  Charra
+    overrideScript:  -> RR#PICKP
+  BDCRALRT  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRSIT1  Crusader
+    overrideScript: NONE -> RR#PICKP
+  BDCRU110  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU111  Mercenary Captain
+    overrideScript:  -> RR#PICKP
+  BDCRU112  Kara-Turan Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU114  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU115  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU116  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU117  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU118  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRU120  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRU121  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRU122  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUAF5  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUAM5  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUC41  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUC42  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC43  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC44  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC45  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC46  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC47  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC48  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUC49  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUCM7  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUE30  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE31  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE32  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE33  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE34  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE40  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE41  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE42  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE43  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE44  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE46  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE50  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE51  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE52  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE53  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE54  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUE55  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUM40  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM41  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM42  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM43  Mercenary Captain
+    overrideScript:  -> RR#PICKP
+  BDCRUM44  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM45  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM46  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM47  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUM48  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUMF7  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUML1  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUML2  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUML3  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUML4  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUML5  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUML6  Crusader Cleric
+    overrideScript:  -> RR#PICKP
+  BDCRUML7  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUML8  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUML9  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUMLA  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUMLB  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR30  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR31  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR32  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR34  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR40  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR41  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR42  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUR43  Crusader Recruit
+    overrideScript:  -> RR#PICKP
+  BDCRUS10  Barachus
+    overrideScript:  -> RR#PICKP
+  BDCRUS11  Kerra Tinbasher
+    overrideScript:  -> RR#PICKP
+  BDCRUS12  Seed
+    overrideScript:  -> RR#PICKP
+  BDCRUS13  Elwood Dowser
+    overrideScript:  -> RR#PICKP
+  BDCRUS14  Twelve-Fingers
+    overrideScript:  -> RR#PICKP
+  BDCRUS15  Crusader Guard
+    overrideScript:  -> RR#PICKP
+  BDCRUS20  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS21  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS22  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS23  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS24  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS25  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUS28  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUS29  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS32  Crusader Scout
+    overrideScript:  -> RR#PICKP
+  BDCRUS33  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS34  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS37  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS38  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS39  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS40  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUS46  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  BDCRUS47  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS48  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS49  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS51  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS52  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS53  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS54  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUS9D  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUSBF  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUSF5  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUSM5  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUSX2  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUW41  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUW42  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCRUW43  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW44  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW45  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW46  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW47  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW48  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUW49  Crusader Mage
+    overrideScript:  -> RR#PICKP
+  BDCRUX30  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUX31  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUX32  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUX34  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUX40  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUX41  Crusader Sergeant
+    overrideScript:  -> RR#PICKP
+  BDCRUZ02  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUZ03  Crusader
+    overrideScript:  -> RR#PICKP
+  BDCRUZ30  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUZ31  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRUZ32  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDCRZAKE  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDCULT01  Cultist
+    overrideScript:  -> RR#PICKP
+  BDCULT02  Cultist
+    overrideScript: NONE -> RR#PICKP
+  BDCULT03  Cultist
+    overrideScript:  -> RR#PICKP
+  BDCULT04  Cultist
+    overrideScript:  -> RR#PICKP
+  BDCULT21  Cultist Guard
+    overrideScript:  -> RR#PICKP
+  BDCULT22  Cultist Guard
+    overrideScript:  -> RR#PICKP
+  BDCULT23  Cultist Guard
+    overrideScript:  -> RR#PICKP
+  BDCULT24  Cultist Guard
+    overrideScript:  -> RR#PICKP
+  BDCULT25  Cultist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDCULT26  Cultist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDCULT27  Cultist Mage
+    overrideScript:  -> RR#PICKP
+  BDCULT28  Cultist Mage
+    overrideScript:  -> RR#PICKP
+  BDDAGF40  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF41  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF42  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF43  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF44  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF45  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF46  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF50  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF51  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF52  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF53  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF54  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF55  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF56  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF70  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF71  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGF72  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  BDDAGFX1  Daggerford Sergeant
+    overrideScript:  -> RR#PICKP
+  BDDAGOFF  Daggerford Officer
+    overrideScript:  -> RR#PICKP
+  BDDCLER1  Dwarven Cleric
+    overrideScript:  -> RR#PICKP
+  BDDCLER2  Dwarven Cleric
+    overrideScript:  -> RR#PICKP
+  BDDCLER3  Dwarven Cleric
+    overrideScript:  -> RR#PICKP
+  BDDOSIA1  Dosia
+    overrideScript:  -> RR#PICKP
+  BDDREON2  Commander Dreon
+    overrideScript:  -> RR#PICKP
+  BDDROWAS  Drow Assassin
+    overrideScript:  -> RR#PICKP
+  BDDROWF2  Drow Marauder
+    overrideScript:  -> RR#PICKP
+  BDDROWFI  Drow Blademaster
+    overrideScript:  -> RR#PICKP
+  BDDROWFM  Drow War Mage
+    overrideScript:  -> RR#PICKP
+  BDDROWFT  Drow War Scout
+    overrideScript:  -> RR#PICKP
+  BDDSSEN7  Crusader Guard
+    overrideScript:  -> RR#PICKP
+  BDELTAN   Duke Eltan
+    overrideScript:  -> RR#PICKP
+  BDENTAR   Entar Silvershield
+    overrideScript:  -> RR#PICKP
+  BDFF1271  Flaming Fist Officer
+    overrideScript:  -> RR#PICKP
+  BDFF1697  Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDFFMAGE  Flaming Fist Mage
+    overrideScript:  -> RR#PICKP
+  BDFFMERC  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFFSOL1  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFFSOL2  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFIST20  Flaming Fist Corporal
+    overrideScript:  -> RR#PICKP
+  BDFIST21  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFIST22  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFIST23  Flaming Fist Scout
+    overrideScript:  -> RR#PICKP
+  BDFIST24  Flaming Fist Healer
+    overrideScript:  -> RR#PICKP
+  BDFIST25  Flaming Fist Scout
+    overrideScript:  -> RR#PICKP
+  BDFIST26  Flaming Fist Veteran
+    overrideScript:  -> RR#PICKP
+  BDFIST27  Flaming Fist Watcher
+    overrideScript:  -> RR#PICKP
+  BDFIST80  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFIST81  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFIST82  Flaming Fist Mercenary
+    overrideScript:  -> RR#PICKP
+  BDFISTCD  Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDFISTCE  Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDFISTCF  Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  BDFISTM1  Flaming Fist Mage
+    overrideScript:  -> RR#PICKP
+  BDFISTM2  Flaming Fist Battlemage
+    overrideScript:  -> RR#PICKP
+  BDFISTX2  Flaming Fist Sergeant
+    overrideScript:  -> RR#PICKP
+  BDGARACH  Garachen
+    overrideScript:  -> RR#PICKP
+  BDGFGUAX  Wounded Crusader
+    overrideScript:  -> RR#PICKP
+  BDGIDDIA  Giddial
+    overrideScript:  -> RR#PICKP
+  BDGNALER  Gnåler
+    overrideScript:  -> RR#PICKP
+  BDGU1697  Silvershield Guard
+    overrideScript:  -> RR#PICKP
+  BDHASTUS  Hastus
+    overrideScript:  -> RR#PICKP
+  BDHELDMO  Held Moran
+    overrideScript:  -> RR#PICKP
+  BDHELVDA  Helvdar
+    overrideScript:  -> RR#PICKP
+  BDHORST   Horst
+    overrideScript:  -> RR#PICKP
+  BDINFEC1  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC2  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC3  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC4  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC5  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC6  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDINFEC7  Infected Soldier
+    overrideScript:  -> RR#PICKP
+  BDIVANN   Ivann
+    overrideScript:  -> RR#PICKP
+  BDJENKS   Officer Jenks
+    overrideScript:  -> RR#PICKP
+  BDJORURI  Joruri
+    overrideScript:  -> RR#PICKP
+  BDJOSPIL  Jospil
+    overrideScript:  -> RR#PICKP
+  BDJULANN  Julann
+    overrideScript:  -> RR#PICKP
+  BDKAMBAL  Kåmbolder
+    overrideScript:  -> RR#PICKP
+  BDKATHEE  Katheera
+    overrideScript:  -> RR#PICKP
+  BDKIERAN  Kieran
+    overrideScript:  -> RR#PICKP
+  BDKORDE1  Iron Throne Soldier
+    overrideScript:  -> RR#PICKP
+  BDKORDE2  Follower of Sarevok
+    overrideScript:  -> RR#PICKP
+  BDKORDE3  Iron Throne Commander
+    overrideScript:  -> RR#PICKP
+  BDKORDE4  Follower of Sarevok
+    overrideScript:  -> RR#PICKP
+  BDKORDE5  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORDE6  Follower of Sarevok
+    overrideScript:  -> RR#PICKP
+  BDKORDE7  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORDE8  Elite Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORDE9  Elite Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORDEF  Iron Throne Soldier
+    overrideScript:  -> RR#PICKP
+  BDKORDEM  Bandit Mage
+    overrideScript:  -> RR#PICKP
+  BDKORME1  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORME2  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORME3  Elite Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORME5  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORME6  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDKORME7  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDLEOSIS  Crusader
+    overrideScript:  -> RR#PICKP
+  BDLIEUTA  Caelar's Lieutenant
+    overrideScript:  -> RR#PICKP
+  BDLIEUTB  Caelar's Lieutenant
+    overrideScript:  -> RR#PICKP
+  BDLIEUTC  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDLIEUTD  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDLIEUTE  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDLIEUTF  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDLIEUTG  Crusader Elite
+    overrideScript:  -> RR#PICKP
+  BDLUCILL  Lucilla
+    overrideScript:  -> RR#PICKP
+  BDMALDE2  Malden Col
+    overrideScript:  -> RR#PICKP
+  BDMALDEN  Malden Col
+    overrideScript:  -> RR#PICKP
+  BDMAPGUA  Crusader
+    overrideScript:  -> RR#PICKP
+  BDMEL     Waterdhavian Sergeant
+    overrideScript:  -> RR#PICKP
+  BDMERC02  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDMERC03  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDMERCCR  Mercenary
+    overrideScript:  -> RR#PICKP
+  BDNAN     Crusader Nan
+    overrideScript:  -> RR#PICKP
+  BDNATHBA  Nathbaera
+    overrideScript:  -> RR#PICKP
+  BDNEREID  Nereid
+    overrideScript:  -> RR#PICKP
+  BDNHILVA  Nhilvann
+    overrideScript:  -> RR#PICKP
+  BDOLONEI  Oloneiros
+    overrideScript:  -> RR#PICKP
+  BDONORO   Onoroth
+    overrideScript:  -> RR#PICKP
+  BDORC01   Half-Orc
+    overrideScript:  -> RR#PICKP
+  BDORC02   Half-Orc
+    overrideScript:  -> RR#PICKP
+  BDORDULI  Ordulinian
+    overrideScript: None -> RR#PICKP
+  BDOZIL    Ozil
+    overrideScript:  -> RR#PICKP
+  BDPEDRO   Crusader Pedro
+    overrideScript:  -> RR#PICKP
+  BDPERREN  Perren
+    overrideScript:  -> RR#PICKP
+  BDPHILO   Philo
+    overrideScript:  -> RR#PICKP
+  BDPORIOS  Porios
+    overrideScript:  -> RR#PICKP
+  BDPREMAT  Prematarai
+    overrideScript:  -> RR#PICKP
+  BDPRIES1  Priest
+    overrideScript:  -> RR#PICKP
+  BDPRIEST  Priest
+    overrideScript:  -> RR#PICKP
+  BDPROST1  Courtesan
+    overrideScript:  -> RR#PICKP
+  BDQUILA   Quila
+    overrideScript:  -> RR#PICKP
+  BDRAYPHU  Rayphus
+    overrideScript:  -> RR#PICKP
+  BDREFFC1  Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFMC1  Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX1   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX10  Refugee
+    overrideScript: NONE -> RR#PICKP
+  BDREFX2   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX3   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX4   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX5   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX6   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX7   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX8   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFX9   Refugee
+    overrideScript: NONE -> RR#PICKP
+  BDREFY1   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY10  Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY2   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY3   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY4   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY5   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY6   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY7   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY8   Refugee
+    overrideScript:  -> RR#PICKP
+  BDREFY9   Refugee
+    overrideScript:  -> RR#PICKP
+  BDRHYNWI  Rhynwis
+    overrideScript:  -> RR#PICKP
+  BDSALLO   Sallo
+    overrideScript:  -> RR#PICKP
+  BDSALLO2  Sallo
+    overrideScript:  -> RR#PICKP
+  BDSERV    Servant
+    overrideScript:  -> RR#PICKP
+  BDSERV1   Servant
+    overrideScript:  -> RR#PICKP
+  BDSIMONE  Simonetta Twoedged
+    overrideScript:  -> RR#PICKP
+  BDSINADR  Rhayla
+    overrideScript:  -> RR#PICKP
+  BDSKIED   Skie
+    overrideScript:  -> RR#PICKP
+  BDSORALI  Soralis
+    overrideScript:  -> RR#PICKP
+  BDSTALIA  Stalia
+    overrideScript:  -> RR#PICKP
+  BDTANORM  Tanorm
+    overrideScript:  -> RR#PICKP
+  BDTEERA   Teera
+    overrideScript:  -> RR#PICKP
+  BDTHAIRD  Thaird
+    overrideScript:  -> RR#PICKP
+  BDTHERTO  Lord Therton
+    overrideScript:  -> RR#PICKP
+  BDTHUG03  Refugee
+    overrideScript:  -> RR#PICKP
+  BDTHUG04  Refugee
+    overrideScript:  -> RR#PICKP
+  BDTHUG05  Refugee
+    overrideScript:  -> RR#PICKP
+  BDTHUG06  Thug
+    overrideScript:  -> RR#PICKP
+  BDTHUG07  Thug
+    overrideScript:  -> RR#PICKP
+  BDTRIST2  Tristian
+    overrideScript:  -> RR#PICKP
+  BDTRISTI  Tristian
+    overrideScript:  -> RR#PICKP
+  BDTRUST2  Waterdhavian Guard
+    overrideScript:  -> RR#PICKP
+  BDWAIZAH  Waizahb
+    overrideScript:  -> RR#PICKP
+  BDWILHM   Crusader Guard
+    overrideScript: NONE -> RR#PICKP
+  BDWTR40   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR41   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR42   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR43   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR44   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR45   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR46   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR50   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR51   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR52   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR53   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR54   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR55   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR56   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR80   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR81   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR82   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR83   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR90   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR91   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR92   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR93   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR94   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDWTR95   Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  BDXERRA   Xerra
+    overrideScript:  -> RR#PICKP
+  BDYESTIM  Yestimell
+    overrideScript:  -> RR#PICKP
+  BDYSSETH  Ysseth Dareeli
+    overrideScript:  -> RR#PICKP
+  BDZARE    Zare
+    overrideScript:  -> RR#PICKP
+  BDZIDRAN  Zidrand
+    overrideScript:  -> RR#PICKP
+  BENTHA    Bentha
+    overrideScript: None -> RR#PICKP
+  BEYN      Beyn
+    overrideScript: None -> RR#PICKP
+  BLACKL    Black Lily
+    overrideScript:  -> RR#PICKP
+  BOTSMITH  Cespenar
+    overrideScript:  -> RR#PICKP
+  BPAPPLE   Apple
+    overrideScript:  -> RR#PICKP
+  BREVLI    Brevlik
+    overrideScript: None -> RR#PICKP
+  BSBANDT2  Bandit
+    overrideScript:  -> RR#PICKP
+  BSBOYBCN  Boy
+    overrideScript:  -> RR#PICKP
+  BSCOMMW1  Commoner
+    overrideScript:  -> RR#PICKP
+  BSDPCIV   Guest
+    overrideScript:  -> RR#PICKP
+  BSDPGRD1  Tower Guard
+    overrideScript:  -> RR#PICKP
+  BSFMONK   Monk of Ilmater
+    overrideScript: NONE -> RR#PICKP
+  BSGHAST2  Ulf
+    overrideScript:  -> RR#PICKP
+  BSGNOLD2  Gnoll
+    overrideScript: NONE -> RR#PICKP
+  BSGNOLD5  Gnoll
+    overrideScript: NONE -> RR#PICKP
+  BSGNOLLD  Gnoll
+    overrideScript: NONE -> RR#PICKP
+  BSGORIOD  Gorion
+    overrideScript: NONE -> RR#PICKP
+  BSMANBCN  Commoner
+    overrideScript:  -> RR#PICKP
+  BSMESSED  Messenger
+    overrideScript: None -> RR#PICKP
+  BSMM001   Lime
+    overrideScript:  -> RR#PICKP
+  BSMM002   Blurt
+    overrideScript:  -> RR#PICKP
+  BSMONK    Monk of Ilmater
+    overrideScript:  -> RR#PICKP
+  BSOGRED   Ogre
+    overrideScript:  -> RR#PICKP
+  BSORCED2  Sorceror
+    overrideScript: NONE -> RR#PICKP
+  BSPIRATE  Pirate
+    overrideScript: NONE -> RR#PICKP
+  BSPIRCPT  Pirate Captain
+    overrideScript: NONE -> RR#PICKP
+  BSPOISOD  Poisoned Man
+    overrideScript: NONE -> RR#PICKP
+  BSPRGRD1  Tower Prison Guard
+    overrideScript:  -> RR#PICKP
+  BSRORYN   Inn Master Roryn
+    overrideScript:  -> RR#PICKP
+  BSSAHU04  Sahuagin Scout
+    overrideScript:  -> RR#PICKP
+  BSSHCKBR  Nathoriel
+    overrideScript:  -> RR#PICKP
+  BSSHUCK   Tower Guard Shuck
+    overrideScript:  -> RR#PICKP
+  BSTQ001   Lady Springfall
+    overrideScript:  -> RR#PICKP
+  BSTQ002   Legal Attendant
+    overrideScript:  -> RR#PICKP
+  BSTQ003   Lars
+    overrideScript:  -> RR#PICKP
+  BSTQ005   Guest
+    overrideScript:  -> RR#PICKP
+  BSTQ006   Guest
+    overrideScript:  -> RR#PICKP
+  BSTQ007   Priestess of Selune
+    overrideScript:  -> RR#PICKP
+  BSTQ008   Monk of Ilmater
+    overrideScript:  -> RR#PICKP
+  BSTQ009   Alaza
+    overrideScript:  -> RR#PICKP
+  BSWARRID  Warrior
+    overrideScript: None -> RR#PICKP
+  BSWELLBO  Boy
+    overrideScript:  -> RR#PICKP
+  BSWELLMA  Commoner
+    overrideScript:  -> RR#PICKP
+  BSWNCHWM  Commoner
+    overrideScript:  -> RR#PICKP
+  BSWOMAND  Woman
+    overrideScript: None -> RR#PICKP
+  C#AJSQ01  Rickon
+    overrideScript:  -> RR#PICKP
+  C#AJSQ02  Haiva
+    overrideScript:  -> RR#PICKP
+  C#BESMES  Messenger
+    overrideScript:  -> RR#PICKP
+  C#LCIN1M  Man
+    overrideScript:  -> RR#PICKP
+  C#LCIN1W  Woman
+    overrideScript:  -> RR#PICKP
+  C#LCIN2M  Man
+    overrideScript:  -> RR#PICKP
+  C#LCIN2W  Woman
+    overrideScript:  -> RR#PICKP
+  C#LCIN3M  Man
+    overrideScript:  -> RR#PICKP
+  C#LCIN3W  Woman
+    overrideScript:  -> RR#PICKP
+  C#LCIN4M  Man
+    overrideScript:  -> RR#PICKP
+  C#LCIN4W  Woman
+    overrideScript:  -> RR#PICKP
+  C#LCIN5M  Man
+    overrideScript:  -> RR#PICKP
+  C#LCIN5W  Woman
+    overrideScript:  -> RR#PICKP
+  C#LCKIM   Kim
+    overrideScript:  -> RR#PICKP
+  C#LCKIMW  Kim
+    overrideScript:  -> RR#PICKP
+  C#LCLAUR  Laurel
+    overrideScript:  -> RR#PICKP
+  C#LCLINA  Lina
+    overrideScript:  -> RR#PICKP
+  C#LCNOOB  Noober
+    overrideScript:  -> RR#PICKP
+  C#LCTH01  Master Mehmel
+    overrideScript:  -> RR#PICKP
+  C#LCTHAL  Thalantyr the Conjurer
+    overrideScript: None -> RR#PICKP
+  C#Q03016  Fighter
+    overrideScript: None -> RR#PICKP
+  C#Q03017  Fighter
+    overrideScript: None -> RR#PICKP
+  C#Q03018  Fighter
+    overrideScript: None -> RR#PICKP
+  C#Q04008  Teodor
+    overrideScript:  -> RR#PICKP
+  C#Q11BE1  Beth
+    overrideScript:  -> RR#PICKP
+  C#Q11MOM  Mourning Mother
+    overrideScript:  -> RR#PICKP
+  C#Q11MRS  Mrs. Thirsty
+    overrideScript:  -> RR#PICKP
+  C#Q13BOR  Borda
+    overrideScript:  -> RR#PICKP
+  C#RE1ELT  Duke Eltan
+    overrideScript:  -> RR#PICKP
+  C#RE1SR2  Kelder
+    overrideScript:  -> RR#PICKP
+  C#RE1SR3  Hung
+    overrideScript:  -> RR#PICKP
+  C#RE1SR4  Chester
+    overrideScript:  -> RR#PICKP
+  C#RE1SR5  Duntrin
+    overrideScript:  -> RR#PICKP
+  C#RTDBLC  Karlen
+    overrideScript:  -> RR#PICKP
+  C#RTDDEG  Sir Deggernaut
+    overrideScript:  -> RR#PICKP
+  C#RTDDEL  Torsin de Lancie
+    overrideScript:  -> RR#PICKP
+  C#RTDNED  Marshal Nederlok
+    overrideScript:  -> RR#PICKP
+  C#RTDSTO  General Stonehand
+    overrideScript:  -> RR#PICKP
+  C02ANDR2  Androsz
+    overrideScript: None -> RR#PICKP
+  C02ANDRO  Androsz
+    overrideScript: None -> RR#PICKP
+  C02KVC02  Crusader
+    overrideScript:  -> RR#PICKP
+  C02KVS02  Helvdar
+    overrideScript:  -> RR#PICKP
+  C02KVS03  Daggerford Militia
+    overrideScript:  -> RR#PICKP
+  C02KVS04  Waterdhavian Soldier
+    overrideScript:  -> RR#PICKP
+  C02SGLEN  Glen
+    overrideScript:  -> RR#PICKP
+  C02SIRB   Mysterious Figure
+    overrideScript:  -> RR#PICKP
+  C0AUAYAK  Ayakashi
+    overrideScript:  -> RR#PICKP
+  C0AUKAGU  Kagutsuchi
+    overrideScript:  -> RR#PICKP
+  C0AUKUON  Ku'on Myodo
+    overrideScript:  -> RR#PICKP
+  C0AUMIZU  Mizuchi
+    overrideScript:  -> RR#PICKP
+  C0DTHF01  Aiden Vail
+    overrideScript: None -> RR#PICKP
+  C0DTHF03  Klaus
+    overrideScript: None -> RR#PICKP
+  C0KVDR02  Jhan Zaer'iyon
+    overrideScript: None -> RR#PICKP
+  C0KVDR03  Androsz Zaer'iyon
+    overrideScript: None -> RR#PICKP
+  C0KVDR04  Champion of Selvetarm
+    overrideScript: None -> RR#PICKP
+  C0KVNP06  Thug
+    overrideScript:  -> RR#PICKP
+  C0KVNP07  Thug
+    overrideScript:  -> RR#PICKP
+  C0SAITO   Tadahashi Saito
+    overrideScript:  -> RR#PICKP
+  CALDO     Caldo
+    overrideScript: None -> RR#PICKP
+  CANTIC    Canticle
+    overrideScript: None -> RR#PICKP
+  CARSTO    Carston
+    overrideScript: None -> RR#PICKP
+  CASSON    Casson Belde'ar
+    overrideScript: None -> RR#PICKP
+  CATTAC    Cattack
+    overrideScript: None -> RR#PICKP
+  CD09FRI   Mallandrea
+    overrideScript:  -> RR#PICKP
+  CD09MAN   Xamm
+    overrideScript:  -> RR#PICKP
+  CD23BAN   Scavenger Tymothy
+    overrideScript:  -> RR#PICKP
+  CD51DED1  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51DED2  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51DED3  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51DED4  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51DED5  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51DED6  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51SHOP  Quartermaster
+    overrideScript:  -> RR#PICKP
+  CD51SOL1  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51SOL2  Amnian Soldier
+    overrideScript:  -> RR#PICKP
+  CD51SOL3  Amnian Scout Manlytoe
+    overrideScript:  -> RR#PICKP
+  CDGRACE   Grace
+    overrideScript:  -> RR#PICKP
+  CDMELI    Melicamp
+    overrideScript: None -> RR#PICKP
+  CHANTE    Chanter
+    overrideScript: None -> RR#PICKP
+  CLAIRD    Clair De'Lain
+    overrideScript: None -> RR#PICKP
+  CORDYR    Cordyr
+    overrideScript:  -> RR#PICKP
+  D5CRUAF5  Crusader Archer
+    overrideScript:  -> RR#PICKP
+  D5CUVIER  Cuvieronius
+    overrideScript:  -> RR#PICKP
+  D5GREGS   Captain Gregson
+    overrideScript:  -> RR#PICKP
+  DABRON    Dabron Sashenstar
+    overrideScript: None -> RR#PICKP
+  DAESE     Daese
+    overrideScript: None -> RR#PICKP
+  DALTON    Dalton
+    overrideScript: None -> RR#PICKP
+  DARYL     Daryl
+    overrideScript:  -> RR#PICKP
+  DAVAEO    Davaeorn
+    overrideScript: None -> RR#PICKP
+  DECKWAR1  Fighter
+    overrideScript: None -> RR#PICKP
+  DELAIN    Delainy
+    overrideScript:  -> RR#PICKP
+  DELSVIR   Delsvirftanyon
+    overrideScript:  -> RR#PICKP
+  DELTAN2   Duke Eltan
+    overrideScript: None -> RR#PICKP
+  DESRET    Desreta
+    overrideScript: None -> RR#PICKP
+  DIVINE    Diviner
+    overrideScript: None -> RR#PICKP
+  DOPDUR1   Durlag Trollkiller
+    overrideScript: None -> RR#PICKP
+  DOPDUR2   Durlag Trollkiller
+    overrideScript: None -> RR#PICKP
+  DOPDUR3   Durlag Trollkiller
+    overrideScript: None -> RR#PICKP
+  DOPMER    Merchant
+    overrideScript: None -> RR#PICKP
+  DRIENN    Drienne
+    overrideScript:  -> RR#PICKP
+  DROTH     Droth
+    overrideScript: None -> RR#PICKP
+  DRUID2    Druid
+    overrideScript: None -> RR#PICKP
+  DRUID3    Druid
+    overrideScript: None -> RR#PICKP
+  DRUIDC    Druid
+    overrideScript: None -> RR#PICKP
+  DSWELF1   Wood Elf Warrior
+    overrideScript:  -> RR#PICKP
+  DSWELF1E  Wood Elf Elite
+    overrideScript:  -> RR#PICKP
+  DSWELF2   Wood Elf Warrior
+    overrideScript:  -> RR#PICKP
+  DSWELF2E  Wood Elf Elite
+    overrideScript:  -> RR#PICKP
+  DUNKIN    Dunkin
+    overrideScript: None -> RR#PICKP
+  DUSHAI    Dushai
+    overrideScript:  -> RR#PICKP
+  ENDER     Ender Sai
+    overrideScript: None -> RR#PICKP
+  ENNAHE    Enna Hendrik
+    overrideScript: None -> RR#PICKP
+  EVALT     Evalt
+    overrideScript:  -> RR#PICKP
+  FAHRIN    Fahrington
+    overrideScript:  -> RR#PICKP
+  FARMBR    Farmer Brun
+    overrideScript:  -> RR#PICKP
+  FARMWE    Farmer
+    overrideScript: None -> RR#PICKP
+  FARTHI    Farthing
+    overrideScript:  -> RR#PICKP
+  FCOOK2    Cook
+    overrideScript: None -> RR#PICKP
+  FENTEN    Fenten
+    overrideScript:  -> RR#PICKP
+  FIREB1    Firebead Elvenhair
+    overrideScript:  -> RR#PICKP
+  FLAMEN    Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  FLAMEN2   Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  FLAMPUN   Flaming Fist Enforcer
+    overrideScript:  -> RR#PICKP
+  FTOWWI    Commoner
+    overrideScript: None -> RR#PICKP
+  FTOWWI_A  Commoner
+    overrideScript: None -> RR#PICKP
+  FTOWWI_B  Commoner
+    overrideScript: None -> RR#PICKP
+  FTOWWI_C  Commoner
+    overrideScript: None -> RR#PICKP
+  FTOWWI_D  Commoner
+    overrideScript: None -> RR#PICKP
+  FTOWWI_E  Commoner
+    overrideScript: None -> RR#PICKP
+  FUERNE    Fuernebol
+    overrideScript: None -> RR#PICKP
+  GALKEN    Galken
+    overrideScript: None -> RR#PICKP
+  GALLOR    Gallor
+    overrideScript: None -> RR#PICKP
+  GATEWERE  Gatekeeper
+    overrideScript: None -> RR#PICKP
+  GAXIR     G'axir the Seer
+    overrideScript:  -> RR#PICKP
+  GELTIK    Geltik
+    overrideScript: None -> RR#PICKP
+  GERDE     Gerde
+    overrideScript:  -> RR#PICKP
+  GLANMA    Glanmarie
+    overrideScript: None -> RR#PICKP
+  GLENN     Glenn
+    overrideScript:  -> RR#PICKP
+  GNOLL5A   Gnoll
+    overrideScript: None -> RR#PICKP
+  GORION    Gorion
+    overrideScript: None -> RR#PICKP
+  GOVERN    Administrative Worker
+    overrideScript: None -> RR#PICKP
+  GREYWO    Greywolf
+    overrideScript: None -> RR#PICKP
+  GV#BRIA   Brian
+    overrideScript:  -> RR#PICKP
+  GV#COMM1  Commoner
+    overrideScript:  -> RR#PICKP
+  GV#COMM2  Commoner
+    overrideScript:  -> RR#PICKP
+  GV#COMM3  Commoner
+    overrideScript:  -> RR#PICKP
+  GV#KELL   Kelly
+    overrideScript:  -> RR#PICKP
+  GV#KELLA  Kelly
+    overrideScript:  -> RR#PICKP
+  GV#MERI   Officer Meriwether
+    overrideScript:  -> RR#PICKP
+  GV#PAM    Pam
+    overrideScript:  -> RR#PICKP
+  HAGAR     Hagar
+    overrideScript:  -> RR#PICKP
+  HARBOR    Harbor Master
+    overrideScript: None -> RR#PICKP
+  HASTEN    Hastenback
+    overrideScript: None -> RR#PICKP
+  HUSAM     Husam
+    overrideScript: None -> RR#PICKP
+  H_ALARIC  Alaric
+    overrideScript:  -> RR#PICKP
+  H_AMRIUC  Amrius
+    overrideScript: None -> RR#PICKP
+  H_BALD2C  Baldwin "The Butcher" Glendale
+    overrideScript: None -> RR#PICKP
+  H_BARTHC  Thief
+    overrideScript:  -> RR#PICKP
+  H_BLACKC  Blackthorn
+    overrideScript: None -> RR#PICKP
+  H_BLACTC  Thief
+    overrideScript:  -> RR#PICKP
+  H_BMAR2C  Black Market Vendor
+    overrideScript:  -> RR#PICKP
+  H_BMAR3C  Black Market Vendor
+    overrideScript:  -> RR#PICKP
+  H_BMAR4C  Black Market Vendor
+    overrideScript:  -> RR#PICKP
+  H_BMAR5C  Black Market Vendor
+    overrideScript:  -> RR#PICKP
+  H_BMARKC  Black Market Vendor
+    overrideScript:  -> RR#PICKP
+  H_CITY3C  City Watch
+    overrideScript:  -> RR#PICKP
+  H_EUROPC  Europea
+    overrideScript: None -> RR#PICKP
+  H_FLAM2C  Flaming Fist
+    overrideScript:  -> RR#PICKP
+  H_FLAMEC  Flaming Fist
+    overrideScript:  -> RR#PICKP
+  H_INJURC  Gorgon's Eye Rogue
+    overrideScript:  -> RR#PICKP
+  H_MAGNUC  Magnus
+    overrideScript:  -> RR#PICKP
+  H_NAGACC  Naga
+    overrideScript:  -> RR#PICKP
+  H_NAGATC  Nagate
+    overrideScript: None -> RR#PICKP
+  H_RICH2C  Richard Glendale
+    overrideScript: None -> RR#PICKP
+  H_RICHAC  Richard Glendale
+    overrideScript: None -> RR#PICKP
+  H_ROGU2C  Gorgon's Eye Rogue
+    overrideScript:  -> RR#PICKP
+  H_SILASC  Silas
+    overrideScript:  -> RR#PICKP
+  H_SORENC  Soren
+    overrideScript: None -> RR#PICKP
+  H_STHI2C  Shadow Thief
+    overrideScript:  -> RR#PICKP
+  H_STHIEC  Shadow Thief
+    overrideScript:  -> RR#PICKP
+  H_THAMUC  Thamuz
+    overrideScript: None -> RR#PICKP
+  H_THIEFC  Shadow Thief
+    overrideScript:  -> RR#PICKP
+  H_VAPULC  Vapula Simberg
+    overrideScript:  -> RR#PICKP
+  H_XEVECC  Xevec
+    overrideScript:  -> RR#PICKP
+  H_ZHONTC  Zhontac
+    overrideScript:  -> RR#PICKP
+  H_ZIEKEC  Zieke
+    overrideScript:  -> RR#PICKP
+  H_ZYLARC  Zylark
+    overrideScript:  -> RR#PICKP
+  IKE       Ike
+    overrideScript:  -> RR#PICKP
+  IKE2      Ike
+    overrideScript:  -> RR#PICKP
+  IRLENT    Irlentree
+    overrideScript: None -> RR#PICKP
+  ISLANN    Islanne
+    overrideScript: None -> RR#PICKP
+  ITHMEE    Ithmeera
+    overrideScript: None -> RR#PICKP
+  ITHTYL    Ithtyl Calantryn
+    overrideScript: None -> RR#PICKP
+  JARED     Jared
+    overrideScript: None -> RR#PICKP
+  JEB       Jeb
+    overrideScript: None -> RR#PICKP
+  JHASSO    Jhasso
+    overrideScript: None -> RR#PICKP
+  JONDAL    Jondalar
+    overrideScript: None -> RR#PICKP
+  JORIN     Jorin
+    overrideScript: None -> RR#PICKP
+  KEELOR    Keelor
+    overrideScript: None -> RR#PICKP
+  KEEPER    Keeper of the Portal
+    overrideScript: None -> RR#PICKP
+  KELDDA    Kelddath Ormlyr
+    overrideScript:  -> RR#PICKP
+  KOLVAR    Kolvar
+    overrideScript: None -> RR#PICKP
+  KROTAN    Krotan
+    overrideScript: None -> RR#PICKP
+  KRYSTI    Krystin
+    overrideScript: None -> RR#PICKP
+  L#2KOBKO  Zee
+    overrideScript:  -> RR#PICKP
+  L#AMBST   Otter O'Forest
+    overrideScript:  -> RR#PICKP
+  L#BHAFR   Dwarf
+    overrideScript:  -> RR#PICKP
+  L#BUGDA   Miji
+    overrideScript:  -> RR#PICKP
+  L#CHICH1  Luna
+    overrideScript:  -> RR#PICKP
+  L#CHIEN   Eglarh
+    overrideScript:  -> RR#PICKP
+  L#CIREN   Energy of Planar Shades
+    overrideScript:  -> RR#PICKP
+  L#DUNST   Dunstin
+    overrideScript:  -> RR#PICKP
+  L#DUNSY   Syja
+    overrideScript:  -> RR#PICKP
+  L#HALST   Michalina
+    overrideScript:  -> RR#PICKP
+  L#HARGM   Confused Gamesman
+    overrideScript:  -> RR#PICKP
+  L#HAUST   Haustro
+    overrideScript:  -> RR#PICKP
+  L#ICEST   Kulul Huggerglitter
+    overrideScript:  -> RR#PICKP
+  L#KOBKO   Zee
+    overrideScript:  -> RR#PICKP
+  L#MANQI1  Mean Boy
+    overrideScript:  -> RR#PICKP
+  L#MELBO   Brat
+    overrideScript:  -> RR#PICKP
+  L#MELMD   Madame Potpourri
+    overrideScript:  -> RR#PICKP
+  L#MIMST   Tayn
+    overrideScript:  -> RR#PICKP
+  L#ORMBAN  Psychopath
+    overrideScript:  -> RR#PICKP
+  L#PLAST   Gardener
+    overrideScript:  -> RR#PICKP
+  L#SHOST   Manko Rubbleslide
+    overrideScript:  -> RR#PICKP
+  L#ULGPE   Perfume Merchant
+    overrideScript:  -> RR#PICKP
+  L#WBATL   Shandraha
+    overrideScript:  -> RR#PICKP
+  L#WOMQI1  Mean Girl
+    overrideScript:  -> RR#PICKP
+  L#WOOST   Man
+    overrideScript:  -> RR#PICKP
+  L#XVAST   Roomokum
+    overrideScript:  -> RR#PICKP
+  LAHL      Lahl
+    overrideScript: None -> RR#PICKP
+  LENA      Lena
+    overrideScript: None -> RR#PICKP
+  LENORE    Lenore
+    overrideScript: None -> RR#PICKP
+  LLINDE    Llindellyn
+    overrideScript: None -> RR#PICKP
+  LORI      Lori
+    overrideScript:  -> RR#PICKP
+  LOTHAN    Lothander
+    overrideScript: None -> RR#PICKP
+  LUSSEL    Lusselyn
+    overrideScript: None -> RR#PICKP
+  M3MIKALA  Mikala
+    overrideScript:  -> RR#PICKP
+  MADARC    Mad Arcand
+    overrideScript:  -> RR#PICKP
+  MALKAX    Malkax
+    overrideScript: None -> RR#PICKP
+  MARCEL    Marcellus
+    overrideScript: None -> RR#PICKP
+  MAREK     Marek
+    overrideScript: None -> RR#PICKP
+  MAREK1    Marek
+    overrideScript: None -> RR#PICKP
+  MARL      Marl
+    overrideScript: None -> RR#PICKP
+  MELICA    Melicamp
+    overrideScript: None -> RR#PICKP
+  MENDAS    Mendas
+    overrideScript: None -> RR#PICKP
+  MENDAS3   Mendas
+    overrideScript: None -> RR#PICKP
+  MESSED    Messenger
+    overrideScript: None -> RR#PICKP
+  MINEC2    Miner
+    overrideScript: None -> RR#PICKP
+  MINEC3    Miner
+    overrideScript: None -> RR#PICKP
+  MINEC4    Miner
+    overrideScript: None -> RR#PICKP
+  MINEC5    Miner
+    overrideScript: None -> RR#PICKP
+  MINERC    Miner
+    overrideScript: None -> RR#PICKP
+  MONKTU1   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU10  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU11  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU12  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU13  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU14  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU15  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU16  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU17  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU18  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU19  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU2   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU20  Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU3   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU4   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU5   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU6   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU7   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU8   Tutor
+    overrideScript: None -> RR#PICKP
+  MONKTU9   Tutor
+    overrideScript: None -> RR#PICKP
+  MTOWUB_A  Commoner
+    overrideScript:  -> RR#PICKP
+  MTOWWI    Commoner
+    overrideScript: None -> RR#PICKP
+  MTOWWI_A  Commoner
+    overrideScript: None -> RR#PICKP
+  MTOWWI_B  Commoner
+    overrideScript: None -> RR#PICKP
+  MTOWWI_C  Commoner
+    overrideScript: None -> RR#PICKP
+  MTOWWI_D  Commoner
+    overrideScript: None -> RR#PICKP
+  MTOWWI_E  Commoner
+    overrideScript: None -> RR#PICKP
+  MULAHE    Mulahey
+    overrideScript: None -> RR#PICKP
+  MYSMER    Merchant
+    overrideScript: None -> RR#PICKP
+  NADARI    Nadarin
+    overrideScript:  -> RR#PICKP
+  NADINE    Nadine
+    overrideScript: None -> RR#PICKP
+  NANTRI    Nantrin Bellowglyn
+    overrideScript: None -> RR#PICKP
+  NARLEN    Narlen Darkwalk
+    overrideScript: None -> RR#PICKP
+  NASHA     Nasha
+    overrideScript: None -> RR#PICKP
+  NEEKANDO  Ekandor
+    overrideScript: None -> RR#PICKP
+  NEMPHR    Nemphre
+    overrideScript:  -> RR#PICKP
+  NETHAY01  Thayan Wizard
+    overrideScript: NONE -> RR#PICKP
+  NHUNTC    Palin
+    overrideScript: None -> RR#PICKP
+  NIKLOS    Niklos
+    overrideScript: None -> RR#PICKP
+  NILA      Nila
+    overrideScript: None -> RR#PICKP
+  NIMFUR    Nim Furlwing
+    overrideScript: None -> RR#PICKP
+  NOBW8     Lady Areana
+    overrideScript:  -> RR#PICKP
+  NORALE    Noralee
+    overrideScript: None -> RR#PICKP
+  NTARCHAN  Archandra
+    overrideScript:  -> RR#PICKP
+  NTASSAIA  Assaia
+    overrideScript:  -> RR#PICKP
+  NTBOYBE1  Boy
+    overrideScript:  -> RR#PICKP
+  NTESSILA  Essila
+    overrideScript:  -> RR#PICKP
+  NTKEELOR  Keelor
+    overrideScript: None -> RR#PICKP
+  NTLLINDE  Llindellyn
+    overrideScript: None -> RR#PICKP
+  NTLUCRET  Lucretia
+    overrideScript:  -> RR#PICKP
+  NTMILEA   Milea
+    overrideScript:  -> RR#PICKP
+  NTNASHA   Nasha
+    overrideScript:  -> RR#PICKP
+  NTOLIVIA  Olivia
+    overrideScript: None -> RR#PICKP
+  NTPANDRI  Pandris
+    overrideScript: NONE -> RR#PICKP
+  NTPAULIA  Paulia
+    overrideScript:  -> RR#PICKP
+  NTREDEDG  Rededge
+    overrideScript:  -> RR#PICKP
+  NTREEDRI  Reedrig
+    overrideScript:  -> RR#PICKP
+  NTSARQ    Sar'garin Ve'xelt
+    overrideScript:  -> RR#PICKP
+  NTSELANI  Sellanio
+    overrideScript: NONE -> RR#PICKP
+  NTSLAVEX  Fisherman
+    overrideScript: None -> RR#PICKP
+  NTSZYPER  Skipper
+    overrideScript: NONE -> RR#PICKP
+  NTTAMAEL  Tamael
+    overrideScript:  -> RR#PICKP
+  OBERAN    Oberan
+    overrideScript: None -> RR#PICKP
+  OGRED     Ogre
+    overrideScript: None -> RR#PICKP
+  OGREMBA   Ogre Mage
+    overrideScript: None -> RR#PICKP
+  OGRMBA    Ogre Mage
+    overrideScript: None -> RR#PICKP
+  OLIVIA    Olivia
+    overrideScript: None -> RR#PICKP
+  OOGIEW    Oogie Wisham
+    overrideScript: None -> RR#PICKP
+  ORDULI    Ordulinian
+    overrideScript:  -> RR#PICKP
+  PERDUE    Perdue
+    overrideScript: None -> RR#PICKP
+  PETRIN    Petrine
+    overrideScript: None -> RR#PICKP
+  PHEIRK    Pheirkas
+    overrideScript:  -> RR#PICKP
+  PHLYDI    Phlydia
+    overrideScript: none -> RR#PICKP
+  PIQUE     Pique
+    overrideScript: None -> RR#PICKP
+  POE       Poe
+    overrideScript:  -> RR#PICKP
+  PRIILMU   Priest of Ilmater
+    overrideScript: None -> RR#PICKP
+  PRISON    Prisoner
+    overrideScript: None -> RR#PICKP
+  RASHAD    Rashad
+    overrideScript: None -> RR#PICKP
+  RE#GHON1  Hanaly
+    overrideScript:  -> RR#PICKP
+  RE#GHON2  Yvonne
+    overrideScript:  -> RR#PICKP
+  RE1ARLEN  Arlene
+    overrideScript:  -> RR#PICKP
+  RE1DELLA  Della May
+    overrideScript:  -> RR#PICKP
+  RE1LAVWB  Left
+    overrideScript:  -> RR#PICKP
+  RE1LVCOL  Dark phantasm
+    overrideScript:  -> RR#PICKP
+  RE1LVDR1  Ool-Garias
+    overrideScript:  -> RR#PICKP
+  RE1LVDR2  Is'samya
+    overrideScript:  -> RR#PICKP
+  RE1LVHAR  Shady character
+    overrideScript:  -> RR#PICKP
+  REDEDG    Rededge
+    overrideScript: None -> RR#PICKP
+  RESAR     Resar
+    overrideScript: None -> RR#PICKP
+  RINNIE    Rinnie
+    overrideScript:  -> RR#PICKP
+  RSDINITF  Dark Moon Initiate
+    overrideScript: None -> RR#PICKP
+  RSDINITM  Dark Moon Initiate
+    overrideScript: None -> RR#PICKP
+  RSDINITT  Dark Moon Initiate
+    overrideScript: None -> RR#PICKP
+  RSDMNK01  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK02  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK03  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK04  Dark Moon Lieutenant
+    overrideScript: None -> RR#PICKP
+  RSDMNK05  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK06  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK07  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  RSDMNK08  Dark Moon Monk
+    overrideScript: None -> RR#PICKP
+  SAMUEL    Samuel
+    overrideScript: None -> RR#PICKP
+  SARHED    Sarhedra
+    overrideScript: None -> RR#PICKP
+  SATOS     Satos
+    overrideScript: None -> RR#PICKP
+  SENIYA    Seniyad
+    overrideScript:  -> RR#PICKP
+  SENJACK   Senjak
+    overrideScript: None -> RR#PICKP
+  SEVSUN    Merchant
+    overrideScript: None -> RR#PICKP
+  SHADOW    Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHADOW02  Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHADOW03  Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHADOW04  Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHADOW05  Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHADOW06  Shadow Thief
+    overrideScript: None -> RR#PICKP
+  SHAELL    Shaella
+    overrideScript:  -> RR#PICKP
+  SHALDR    Shaldrissa
+    overrideScript: None -> RR#PICKP
+  SHANE     Shane
+    overrideScript:  -> RR#PICKP
+  SHELTO    Shelton
+    overrideScript: None -> RR#PICKP
+  SHILOC    Shilo Chen
+    overrideScript: None -> RR#PICKP
+  SHISTA    Shistal
+    overrideScript: None -> RR#PICKP
+  SILKE     Silke
+    overrideScript:  -> RR#PICKP
+  SIMAGE1   Sheila
+    overrideScript: None -> RR#PICKP
+  SIMMEON   Simmeon
+    overrideScript: None -> RR#PICKP
+  SIPRST    Priest
+    overrideScript:  -> RR#PICKP
+  SLAVFREE  Slave
+    overrideScript: None -> RR#PICKP
+  SLAVLEAD  Rill
+    overrideScript: None -> RR#PICKP
+  SLYTHE    Slythe
+    overrideScript: None -> RR#PICKP
+  SOLIA1    Solianna
+    overrideScript: None -> RR#PICKP
+  SOLIA2    Solianna
+    overrideScript: None -> RR#PICKP
+  SORCED    Sonner
+    overrideScript: None -> RR#PICKP
+  STEPHA    Stephan
+    overrideScript: None -> RR#PICKP
+  SURGEO    The Surgeon
+    overrideScript: None -> RR#PICKP
+  T1DAI     Dai
+    overrideScript:  -> RR#PICKP
+  T1M2GHOS  Barkis
+    overrideScript:  -> RR#PICKP
+  T1M2HAL2  Bartleby's Ghost
+    overrideScript:  -> RR#PICKP
+  TAILAS    Tailas
+    overrideScript: None -> RR#PICKP
+  TAMOKO    Tamoko
+    overrideScript: None -> RR#PICKP
+  TAZOK     Tazok
+    overrideScript: None -> RR#PICKP
+  TENYA     Tenya
+    overrideScript: None -> RR#PICKP
+  TESTER    Ajantis
+    overrideScript: None -> RR#PICKP
+  TETHTO    Tethtoril
+    overrideScript: None -> RR#PICKP
+  TETHTO2   Tethtoril
+    overrideScript: None -> RR#PICKP
+  THALAN    Thalantyr the Conjurer
+    overrideScript: None -> RR#PICKP
+  THALDO    Thaldorn
+    overrideScript: None -> RR#PICKP
+  THEREL    Therella
+    overrideScript: None -> RR#PICKP
+  THIEF     Rogue
+    overrideScript:  -> RR#PICKP
+  THIEFF    Rogue
+    overrideScript: None -> RR#PICKP
+  THIEFG    Rogue
+    overrideScript:  -> RR#PICKP
+  THIEFM    Rogue
+    overrideScript: None -> RR#PICKP
+  UBCORIAN  Corianna
+    overrideScript: None -> RR#PICKP
+  ULCAST    Ulcaster
+    overrideScript: None -> RR#PICKP
+  UNSHEY    Unshey
+    overrideScript:  -> RR#PICKP
+  UTOR      Utor
+    overrideScript: None -> RR#PICKP
+  VARCI     Varci Roaringhorn
+    overrideScript: None -> RR#PICKP
+  VAYYA     Vay-ya
+    overrideScript: None -> RR#PICKP
+  VELVET    Velvet
+    overrideScript: None -> RR#PICKP
+  VITIARE   Vitiare
+    overrideScript: None -> RR#PICKP
+  VOICE     Voice
+    overrideScript: None -> RR#PICKP
+  VOIEAS    Voice of the East
+    overrideScript: None -> RR#PICKP
+  VOINOR    Voice of the North
+    overrideScript: None -> RR#PICKP
+  VOISOU    Voice of the South
+    overrideScript: None -> RR#PICKP
+  VOIWES    Voice of the West
+    overrideScript: None -> RR#PICKP
+  VOLTIN    Voltine
+    overrideScript: None -> RR#PICKP
+  WAREHX    Warehouse Worker
+    overrideScript: None -> RR#PICKP
+  WARRID    Warrior
+    overrideScript: None -> RR#PICKP
+  WENRIC    Wenric
+    overrideScript: None -> RR#PICKP
+  WHITKD    White Knight
+    overrideScript: None -> RR#PICKP
+  WICONSC1  Conscript
+    overrideScript:  -> RR#PICKP
+  WICONSC2  Conscript
+    overrideScript:  -> RR#PICKP
+  WIELENAI  Elenair
+    overrideScript: None -> RR#PICKP
+  WILTON    Wilton
+    overrideScript: None -> RR#PICKP
+  WINERSOD  Nerys
+    overrideScript:  -> RR#PICKP
+  WINERYS   Nerys
+    overrideScript:  -> RR#PICKP
+  WIPRESF2  Presfiel
+    overrideScript:  -> RR#PICKP
+  WIREDWIZ  Artin
+    overrideScript: None -> RR#PICKP
+  WITHIEF1  Rogue
+    overrideScript:  -> RR#PICKP
+  WITHIEF2  Rogue
+    overrideScript:  -> RR#PICKP
+  WOMAND    Woman
+    overrideScript: None -> RR#PICKP
+  X#BHET    Bhetel
+    overrideScript:  -> RR#PICKP
+  X#DFAKE1  Dynaheir
+    overrideScript:  -> RR#PICKP
+  X#DIALA   Diala
+    overrideScript:  -> RR#PICKP
+  X#DRIZZT  Drizzt
+    overrideScript:  -> RR#PICKP
+  X#GAEL    Gael
+    overrideScript:  -> RR#PICKP
+  X#JONI    Stranger
+    overrideScript:  -> RR#PICKP
+  X#MADR    Madrina
+    overrideScript:  -> RR#PICKP
+  X#MAZURI  Mazuri
+    overrideScript:  -> RR#PICKP
+  X#MINUW   Minuwiel
+    overrideScript:  -> RR#PICKP
+  X#NELL    Madam Nell
+    overrideScript:  -> RR#PICKP
+  X#SIENE   Siene
+    overrideScript:  -> RR#PICKP
+  X#SVEET   Sveetla
+    overrideScript:  -> RR#PICKP
+  X#XQMER1  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XQMER2  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XQMER3  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XQMER4  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XQMER5  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XQMER6  Mercenary
+    overrideScript:  -> RR#PICKP
+  X#XZFSP2  Forest Spirit
+    overrideScript:  -> RR#PICKP
+  X#XZFSP3  Forest Spirit
+    overrideScript:  -> RR#PICKP
+  X#XZGU01  Flaming Fist Officer
+    overrideScript:  -> RR#PICKP
+  X32KBRO   Samuel
+    overrideScript:  -> RR#PICKP
+  X32KQST2  Dead Halfling
+    overrideScript:  -> RR#PICKP
+  X3ADV1    Adventurer
+    overrideScript:  -> RR#PICKP
+  X3ADV2    Adventurer
+    overrideScript:  -> RR#PICKP
+  X3H1      Planar Hunter
+    overrideScript:  -> RR#PICKP
+  X3H2      Planar Hunter
+    overrideScript:  -> RR#PICKP
+  X3HL      Planar Hunter Leader
+    overrideScript:  -> RR#PICKP
+  X3KBRO    Samuel Longfoot
+    overrideScript:  -> RR#PICKP
+  X3KTHUG2  Thug
+    overrideScript:  -> RR#PICKP
+  X3KTHUG3  Thug
+    overrideScript:  -> RR#PICKP
+  X3RARN    Arnold Harmon
+    overrideScript:  -> RR#PICKP
+  X3RHAWK   Hawk
+    overrideScript:  -> RR#PICKP
+  X3RLEAD   Expedition Leader
+    overrideScript:  -> RR#PICKP
+  X3RODWYN  Rodwyn
+    overrideScript:  -> RR#PICKP
+  X3VELDER  Elder Mage
+    overrideScript:  -> RR#PICKP
+  YAGO      Yago
+    overrideScript: None -> RR#PICKP
+  YSBSNBM3  Nobleman
+    overrideScript:  -> RR#PICKP
+  YSBSNBW3  Noblewoman
+    overrideScript:  -> RR#PICKP
+  YSSELWOR  Worshipper of Selune
+    overrideScript:  -> RR#PICKP
+  ZEKAR     Zekar
+    overrideScript: None -> RR#PICKP
+  ZORDRA    Zordral
+    overrideScript: None -> RR#PICKP

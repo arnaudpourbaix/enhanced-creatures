@@ -1,0 +1,410 @@
+GODCALL: 355 new, 25 changed
+
+NEW (355):
+  AC#BGUR1  Bar-Lgura
+  AC#BGUR2  Bar-Lgura
+  AC#DRET1  Dretch
+  AC#DRET2  Dretch
+  AC#DRET3  Dretch
+  AC#DRET4  Dretch
+  AC#DRET6  Dretch
+  AC#DRETP  Dretch
+  AC#DRETV  Dretch
+  AC#DRETW  Dretch
+  AC#ELBL1  Blood Elemental
+  AC#LARV2  Larva
+  AC#LUCKY  Lucky Aello
+  AC#MANE1  Mane
+  AC#VARG1  Vargouille
+  AC#VARG3  Vargouille
+  AC#VROC2  Urkag, the Wing Seller
+  AC#W#42A  Qyriesh
+  AC#W#AG1  Annia Greystockings
+  AC#W#AG2  Annia Greystockings
+  AC#W#BE2  Zzrakh, the Bebilith
+  AC#W#BE3  Zzrakh, the Bebilith
+  AC#W#BEB  Zzrakh, the Bebilith
+  AC#W#CLY  Clyddis
+  AC#W#FAY  Faylah
+  AC#W#KY2  Kyriani
+  AC#W#MEF  Mefisto
+  AC#W#MI1  Minotaur
+  AC#W#NH1  Zhelamiss
+  AC#W#VE1  Verin
+  AC#W#VE2  Verin
+  AC#W#VE3  Verin
+  AC#W01C1  Commoner
+  AC#W01C2  Commoner
+  AC#W01C3  Noblewoman
+  AC#W01C4  Nobleman
+  AC#W01C5  Nobleman
+  AC#W01C6  Noblewoman
+  AC#W01C7  Noblewoman
+  AC#W01C8  Noblewoman
+  AC#W01CA  Nobleman
+  AC#W01CB  Nobleman
+  AC#W01CC  Nobleman
+  AC#W01CD  Commoner
+  AC#W01CF  Commoner
+  AC#W01G1  Guardian
+  AC#W01G2  Guardian
+  AC#W01GX  Amnian Soldier
+  AC#W01HA  Halanna
+  AC#W01M1  Amnian merchant
+  AC#W01M2  Amnian merchant
+  AC#W01M3  Amnian merchant
+  AC#W01MX  Amnian merchant
+  AC#W01N1  Nobleman
+  AC#W01NM  Nobleman
+  AC#W01NW  Noblewoman
+  AC#W01P1  Barasta Cleeith
+  AC#W01S1  Masun
+  AC#W01TH  Tharundar Olehm
+  AC#W01TW  Priest of Waukeen
+  AC#W04G1  Guardian
+  AC#W04G2  Guardian
+  AC#W04P1  Barasta Cleeith
+  AC#W04S2  Sariila Tebrentan
+  AC#W04ST  Sariila Tebrentan
+  AC#W04T2  Tharundar Olehm
+  AC#W06M1  Amnian Merchant
+  AC#W07MR  Storekeep
+  AC#W08BG  Bodyguard
+  AC#W08MC  Zakhum, the Spice Merchant
+  AC#W08NB  Lord Jessel
+  AC#W19E1  Eldrin
+  AC#W19E2  Lyra
+  AC#W19E3  Theron
+  AC#W19LI  Adonia
+  AC#W19SE  Elandra Moonsong
+  AC#W20M1  Kayur
+  AC#W20M2  Kayur's Apprentice
+  AC#W20M3  Kayur's Apprentice
+  AC#W20WE  Wizard Eye
+  AC#W30A1  Aphul
+  AC#W30A2  Abishai
+  AC#W30BD  Bard
+  AC#W30BR  Startail
+  AC#W30F1  Alu-Fiend
+  AC#W30F2  Alu-Fiend
+  AC#W30FM  Fire Mephit
+  AC#W30GA  Gauth
+  AC#W30GN  Wilbur Iparos
+  AC#W30GT  Warrior
+  AC#W30MF  Mind Flayer
+  AC#W30QU  Quasit
+  AC#W30RA  Rakshasa
+  AC#W30SA  Salamander
+  AC#W30SP  Phase Spider
+  AC#W30SQ  Nimblebeard Rippletail
+  AC#W30SW  Machine
+  AC#W30V1  Demidicus
+  AC#W30V2  Zabrina
+  AC#W40A1  Aphul
+  AC#W40A2  Abishai
+  AC#W40BB  Garnuth, the Babau
+  AC#W40BR  Gorzengral
+  AC#W40DV  Deva
+  AC#W40G1  Damned Soul
+  AC#W40GB  Belthazaar
+  AC#W40LV  Larva
+  AC#W40M1  Dretch
+  AC#W40M2  Mefisto
+  AC#W40M3  Mefisto
+  AC#W40MD  Dretch
+  AC#W40MG  Zaldranis Quixtor
+  AC#W40MN  Mane
+  AC#W40S6  Kaelthar Darkware
+  AC#W40SW  Tiefling
+  AC#W40TR  Alistair Vonhardt
+  AC#W40UM  Vulgrim Darkmane
+  AC#W40V1  Vrock
+  AC#W40V2  Vrock
+  AC#W40WC  Cambion
+  AC#W40WM  Mane
+  AC#W40WS  Succubus
+  AC#W40ZM  Zombie Announcer
+  AC#W41BH  Beholder
+  AC#W41BK  Illkeeper Mutz
+  AC#W41T1  Tanarukk
+  AC#W41T2  Tanarukk
+  AC#W41VR  Shamurz
+  AC#W44A1  Alu-Fiend
+  AC#W44AL  Alu-Fiend
+  AC#W44BL  Balor
+  AC#W44ML  Marilith
+  AC#W44S1  Succubus
+  AC#W45LV  Larva
+  AC#W47LV  Larva
+  AC#W48G1  Amlech
+  AC#W48G2  Dammir
+  AC#W49AL  Alu-Fiend
+  AC#W49G1  Game Master
+  AC#W49G2  Token seller
+  AC#W49P1  Gamesman
+  AC#W49P2  Gamesman
+  AC#W49P3  Gamesman
+  AC#W49P4  Tiefling
+  AC#W49P5  Gamesman
+  AC#W49P6  Gamesman
+  AC#W49PP  Ludovic, the Game Master
+  AC#W49S2  Slave
+  AC#W49S3  Orc
+  AC#W49S4  Orc
+  AC#W49SD  Slave
+  AC#W49SS  Game Master
+  AC#W4ASU  Zaehvielle
+  AC#W4BB1  Baphitaur Blacksmith
+  AC#W4BB2  Baphitaur Blacksmith
+  AC#W4BSM  Zhornack Gruulhoof
+  AC#W4CB1  Bar-Lgura
+  AC#W4CB2  Bar-Lgura
+  AC#W4CB3  Bar-Lgura
+  AC#W4CB4  Bar-Lgura
+  AC#W4CBB  Referee
+  AC#W4CCB  Cambion-Baron
+  AC#W4CD1  Dretch
+  AC#W4CD2  Dretch
+  AC#W4CD3  Dretch
+  AC#W4CD4  Dretch
+  AC#W4CDT  Death Tyrant
+  AC#W4CFS  Bezmodan
+  AC#W4CM1  Minotaur
+  AC#W4CM2  Minotaur
+  AC#W4CM3  Minotaur
+  AC#W4CM4  Minotaur
+  AC#W4CP1  Tiefling
+  AC#W4CP2  Tiefling
+  AC#W4CPS  Piscoloth
+  AC#W4CT1  Tanarukk
+  AC#W4CT2  Tanarukk
+  AC#W4CT3  Tanarukk
+  AC#W4CT4  Tanarukk
+  AC#W4DDR  Grimsnag
+  AC#W4GGB  Belthazaar
+  AC#W4ORM  Ormad Sulpar
+  AC#W4QU1  Zeep
+  AC#W4QU2  Quasit
+  AC#W4SSU  Daemevera
+  AC#W4WBK  Innkeeper
+  AC#W4WFY  Val'kreen
+  AC#W4WG2  Vexthor Bloodtusk
+  AC#W4WG3  Zardrak Dreadshield
+  AC#W4WG4  Diirmdliin Sharpshaver
+  AC#W4WGF  Grimward Gorefist
+  AC#W50BE  Zzrakh, the Bebilith
+  AC#W50C1  Tree of Cowards
+  AC#W50G1  Ghoul
+  AC#W50LV  Larva
+  AC#W50M1  Jenkin
+  AC#W50M2  Maurezhi
+  AC#W50MN  Mane
+  AC#W51CM  Cambion
+  AC#W52GF  Gaseous Form
+  AC#W52SK  Caustic horror
+  AC#W54AL  Alkilith
+  AC#W56SK  Skeleton Warrior
+  AC#W57NY  Nysara, the Withered One
+  AC#W60A1  Aphul
+  AC#W60A2  Abishai
+  AC#W60AM  Armanite
+  AC#W60CG  Gazgothan
+  AC#W60D1  Disciple of Baalzebul
+  AC#W60E1  Erinyes
+  AC#W60E2  Erinyes Baroness
+  AC#W60HT  Hamatula
+  AC#W60LM  Lemure
+  AC#W60M1  Bloodwar Mercenary
+  AC#W60M2  Bloodwar Mercenary
+  AC#W60M3  Bloodwar Mercenary
+  AC#W60M4  Bloodwar Mercenary
+  AC#W60M5  Bloodwar Mercenary
+  AC#W60M6  Bloodwar Mercenary
+  AC#W60M7  Bloodwar Mercenary
+  AC#W60MN  Mane
+  AC#W60T1  Tanarukk
+  AC#W60V1  Vrock
+  AC#W61CA  Cambion
+  AC#W70BB  Babau
+  AC#W70P1  Palrethee
+  AC#W70QU  Quasit
+  AC#W70S1  Stoneface
+  AC#W70S2  Stoneface
+  AC#W70SC  Succubus
+  AC#W71I1  Vohraris, the Incubus
+  AC#W71S1  Wyliniesh, the Succubus
+  AC#W71S2  Succubus
+  AC#W72FW  Gulga the Boundless
+  AC#W72OT  Gulgathrix
+  AC#W73DM  Demon
+  AC#W73SL  Old Man
+  AC#W73SN  Envy Eater
+  AC#W74K2  Demon Knight
+  AC#W74KN  Demon Knight
+  AC#W75DV  Kaiphas the Deluded
+  AC#W76B1  Poor Farmer
+  AC#W76B2  Sick Widow
+  AC#W76B3  Desperate Father
+  AC#W76B4  Outcast Orphan
+  AC#W76B5  War Veteran
+  AC#W76DM  Demon
+  AC#W77S1  Dreamcreeper
+  AC#W77S2  Dreamcreeper
+  AC#W77S3  Dreamcreeper
+  AC#W77S4  Dreamcreeper
+  AC#W77T1  Dreamer
+  AC#W77T2  Dreamer
+  AC#W80BG  Emer, the Madman
+  AC#W80BR  Shadowsound
+  AC#W80C1  Cambion
+  AC#W80DV  Maryel
+  AC#W80GB  Glabrezu
+  AC#W80KG  Kastighur
+  AC#W80LI  Morgrath the Corrupter
+  AC#W80MA  Maretta
+  AC#W80Q1  Quasit
+  AC#W80S1  Helena
+  AC#WABBK  Abishai
+  AC#WABSR  Red Abishai
+  AC#WAEND  Guardian
+  AC#WAL4A  Lady's Lancers
+  AC#WALMG  Lady's Lancers
+  AC#WALU4  Lady's Lancers
+  AC#WALU5  Lady's Lancers
+  AC#WALU6  Lady's Lancers
+  AC#WALU7  Lady's Lancers
+  AC#WALU8  Alu-Fiend
+  AC#WALU9  Alu-Fiend
+  AC#WALUR  Lady's Lancers
+  AC#WARC1  Sannak, the Arcanaloth
+  AC#WARMA  Armanite
+  AC#WARNO  Aranoth
+  AC#WASSO  Assol
+  AC#WAZEL  Az'zelbath
+  AC#WBAPH  Baphitaur
+  AC#WBBAU  Babau
+  AC#WBDK1  Bodak
+  AC#WBELD  Belthazaar
+  AC#WBLBO  Blazing bones
+  AC#WBLK2  Morloth Darkblade
+  AC#WBLKG  Morloth Darkblade
+  AC#WBOY1  Boy
+  AC#WCOOK  Cook
+  AC#WDAER  Daerea Ethgil
+  AC#WDRBL  Daugralluvidan
+  AC#WFAER  Faerthae Garblueth
+  AC#WGHOU  Ghoul
+  AC#WGHSU  Ghast
+  AC#WGIFR  Frost Giant
+  AC#WGIFZ  Frost Giant Zombie
+  AC#WGIL1  Strange Man
+  AC#WGIL2  Gildaar
+  AC#WGIL3  Gildaar
+  AC#WGIL4  Gildaar
+  AC#WGLA9  Belthazaar
+  AC#WGLAB  Glabrezu
+  AC#WGLAQ  Quasit
+  AC#WHARP  Soul Siren
+  AC#WHEZ1  Hezrou
+  AC#WHEZ8  Hezrou
+  AC#WHOGB  Glabrezu
+  AC#WLIL1  Lillend
+  AC#WLIL2  Lillend
+  AC#WLIL3  Lillend
+  AC#WLIL4  Lillend
+  AC#WMAR1  Maretta
+  AC#WMAR2  Nasmaerae
+  AC#WMAUR  Maurezhi
+  AC#WMEND  Nuksheid Rheshan
+  AC#WMESS  Priest of Waukeen
+  AC#WMEZ1  Mezzoloth
+  AC#WMEZ4  Mezzoloth
+  AC#WMEZ6  Mezzoloth
+  AC#WMEZ8  Mezzoloth
+  AC#WMONO  Monodrone
+  AC#WMRL1  Waukeen
+  AC#WNAB1  Trar'gezal
+  AC#WNAL1  Margrog
+  AC#WNAL2  Margrog
+  AC#WPGCH  Igraflyn
+  AC#WPGHL  Rhyssa
+  AC#WPGIN  Arsid
+  AC#WPGSP  Bharava
+  AC#WRUT1  Rutterkin
+  AC#WRUT2  Rutterkin
+  AC#WSHA2  Saarixal
+  AC#WSHAF  Saarixal
+  AC#WSHAS  Shadow
+  AC#WSPLK  Malashrihi
+  AC#WSTWS  Crotchweaver Spider
+  AC#WTHF1  Maendir
+  AC#WTHFS  Maendir
+  AC#WVROK  Vrock
+  AC#WWARW  Warwick
+  AC#WWAU3  Waukeen
+  AC#WXAY1  Xag-Ya
+  AC#W_MO1  Monodrone
+  AC#W_TRT  Clyddis
+  ACHALAN   Halanna
+  ACKYRIAN  Kyriani
+  ACLESTIU  Lestiulus
+  ACMOONK1  Moon Knight
+  ACMOONK2  Moon Knight
+  ACTENT01  Tentacle
+  ACTENT02  Tentacle
+  ACTENT03  Tentacle
+  ACTHARUN  Tharundar Olehm
+  ACWAUKE1  Waukeen
+  ACWAUKE2  Waukeen
+
+CHANGED (25):
+  BASILGSU  Greater Basilisk
+    overrideScript: None -> basilgsu
+  BASILLSU  Lesser Basilisk
+    overrideScript: None -> basillsu
+  CARRIOSU  Mutated Crawler
+    overrideScript: None -> CARRIOSU
+  DJINNISU  Djinni
+    overrideScript: None -> DJINNISU
+  DOGWASU   War Dog
+    overrideScript: None -> dogwasu
+  DOGWISU   Rabid Dog
+    overrideScript: None -> dogwisu
+  ELEARPR   Earth Elemental
+    overrideScript: None -> ELEARPR
+  ELEARPR2  Earth Elemental
+    overrideScript: None -> ELEARPR2
+  ELEARPR3  Earth Elemental
+    overrideScript: None -> ELEARPR3
+  ELFIRPR   Fire Elemental
+    overrideScript: None -> ELFIRPR
+  ELFIRPR2  Fire Elemental
+    overrideScript: None -> ELFIRPR2
+  ELFIRPR3  Fire Elemental
+    overrideScript: None -> ELFIRPR3
+  ETTERCSU  Ettercap
+    overrideScript: None -> ettercsu
+  HOBGOBSU  Hobgoblin Elite
+    overrideScript: None -> hobgobsu
+  JELLMUSU  Mustard Jelly
+    overrideScript: None -> jellmusu
+  OGREGRSU  Ogre Berserker
+    overrideScript: None -> ogregrsu
+  OGRELESU  Ogrillon
+    overrideScript: None -> ogrelesu
+  OGRESU    Ogre
+    overrideScript: None -> ogresu
+  STALKE    Invisible Stalker
+    overrideScript: None -> STALKE
+  TASLOISU  Tasloi Elite Trooper
+    overrideScript: None -> tasloisu
+  WOLFDISU  Dire Wolf
+    overrideScript: None -> wolfdisu
+  WOLFWISU  Winter Wolf
+    overrideScript: None -> wolfwisu
+  WOLFWWSU  Winter Wolf
+    overrideScript: None -> wolfwwsu
+  WORGSU    Worg
+    overrideScript: None -> worgsu
+  WYVERNSU  Wyvern
+    overrideScript: None -> WYVERNSU

@@ -1,0 +1,108 @@
+sotsc: 101 new, 1 changed
+
+NEW (101):
+  L#2KOBKO  Zee
+  L#AMBAM   Amber Flower
+  L#AMBST   Otter O'Forest
+  L#APEAP   Starfang Tiger
+  L#APEST   Y'Uula
+  L#BASGA   Fierce Gauth
+  L#BASTRE  Tree of Shades
+  L#BHACO   Ixjan, The Collector
+  L#BHAFR   Dwarf
+  L#BUGBU   Beetle
+  L#BUGDA   Miji
+  L#BUGST   Pontag
+  L#CHICH1  Luna
+  L#CHICH2  Elder Chimera
+  L#CHIEN   Eglarh
+  L#CHIEN2  Bandit
+  L#CHIST   Ubal Al-Khartan
+  L#CIREN   Energy of Planar Shades
+  L#CIRMA   Mal'meto
+  L#CULCU   Cult of the Dragon Acolyte
+  L#CULGI   Tamed Gibberling
+  L#CULGU   Tanar'ri Bones
+  L#CULIN   Cult of the Dragon Acolyte
+  L#CULMA   Cult of the Dragon – Base Leader
+  L#CULMON  Cult of the Dragon Monstrosity
+  L#CULST   Jaryo Iklaja
+  L#DEERZO  Zombie Deer
+  L#DUNST   Dunstin
+  L#DUNSY   Syja
+  L#FAIEN1  Leilo
+  L#FAIEN2  Klarinn
+  L#FAIEN3  Apsu
+  L#FAIRAT  Dire Rat
+  L#FRGB1   Boopgloomrak
+  L#FWMMER  Long Gone Merchant
+  L#GNOAL   Shadow Prophet
+  L#GNOEN   Shadow Master
+  L#GNOSH   Shadow
+  L#GNOST   Sistriya
+  L#GNOWY   Shade Wyvern
+  L#GOLIR   Damaged Golem
+  L#HALST   Michalina
+  L#HALWO   Cu-sith
+  L#HARGM   Confused Gamesman
+  L#HAUSK   Skeletal Captain
+  L#HAUST   Haustro
+  L#HIGBO   Bookshelf
+  L#HNDDU   Sparring Dummy
+  L#HNDRST  My Very Own Hideout
+  L#ICEST   Kulul Huggerglitter
+  L#KEGST   Barrel
+  L#KOBKO   Zee
+  L#KOBSW   Rovo, The Unlikely Hero
+  L#KOBWMN  Crying Woman
+  L#LIGWI   Infesting Light
+  L#MANHO   Embarrassed Boy
+  L#MANQI1  Mean Boy
+  L#MCBEH   Beholder
+  L#MCBUGB  Bugbear
+  L#MCGOB1  Goblin – Archer
+  L#MCGOB2  Goblin
+  L#MCMIN   Minotaur
+  L#MCNWB1  Wild Boar
+  L#MCNWB2  Wild Boar
+  L#MCOTY   Otyugh
+  L#MCPIR   Charmed Pirate
+  L#MCSNA   Giant Snake
+  L#MCWBA   Werebadger
+  L#MCWRA   Wererat
+  L#MELBO   Brat
+  L#MELMA   Boohady Cream
+  L#MELMD   Madame Potpourri
+  L#MIMMI   Fierce Young Mimic
+  L#MIMST   Tayn
+  L#MYCMY   Myconid
+  L#MYCSO   Soldier
+  L#ORM1    Ormyrr Corpse
+  L#ORM2    Ormyrr Corpse
+  L#ORMBAN  Psychopath
+  L#ORMETT  Ettin – Revenant
+  L#ORMWIL  Mountain Light
+  L#PLAST   Gardener
+  L#SHADM   Kimrayor, The Shard-Shatterer
+  L#SHOST   Manko Rubbleslide
+  L#SKEST   Skeletal Mother
+  L#ULCC1   Tomasz
+  L#ULCC2   Monarah
+  L#ULCC3   Ynak
+  L#ULCC4   Peepuu
+  L#ULCCH   Czaya
+  L#ULCSP   Ssimkh, the Ghost-Feeding Spider
+  L#ULGCH   Girl
+  L#ULGEN1  Captain Gloghaff Mintshow
+  L#ULGGH   Moontia
+  L#ULGPE   Perfume Merchant
+  L#WBATL   Shandraha
+  L#WOLST   Pregnant Wolf
+  L#WOMANH  Embarrassed Girl
+  L#WOMQI1  Mean Girl
+  L#WOOST   Man
+  L#XVAST   Roomokum
+
+CHANGED (1):
+  CHELAN    Chelan
+    deathvar: None -> chelan

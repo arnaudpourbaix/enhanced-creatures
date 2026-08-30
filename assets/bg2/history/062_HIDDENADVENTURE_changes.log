@@ -1,0 +1,30 @@
+HIDDENADVENTURE: 21 new, 2 changed
+
+NEW (21):
+  WAALW     Alwesk
+  WAGUARD1  Guard
+  WAGUARD2  Guard
+  WAGUARD3  Guard
+  WAGUARD4  Guard
+  WAJAIK    Lieutenant Jaiken
+  WAMNG1    Amnian Soldier
+  WAMNG2    Amnian Soldier
+  WAMNG3    Amnian Soldier
+  WAMNG4    Amnian Soldier
+  WAMNG5    Amnian Soldier
+  WAMNG6    Amnian Soldier
+  WAOLLIK   Ollik
+  WASGUAR1  Hired thug
+  WASGUAR2  Hired thug
+  WASGUAR3  Hired thug
+  WASGUAR4  Hired thug
+  WASGUAR5  Hired thug
+  WASGUAR6  Hired thug
+  WASTAN    Stanial
+  WAWISP    Whispering voice
+
+CHANGED (2):
+  BYLANNA   Bylanna
+    deathvar: None -> Bylanna
+  SGUARD4   Guard
+    classScript: None -> SGUARD4

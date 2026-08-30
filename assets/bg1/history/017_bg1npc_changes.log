@@ -1,0 +1,318 @@
+bg1npc: 133 new, 71 changed
+
+NEW (133):
+  P#IMANEL  Imanel Silversword
+  P#WOLF01  Winter Wolf
+  P#WOLF02  Dire Wolf
+  P#WOLF03  Dread Wolf
+  P#WOLF04  Vampiric Wolf
+  P#WOLF05  Wolf
+  X#AJANFI  Ajantis, The Knight
+  X#AJDOUG  Douglas
+  X#AJDRRE  Red Dragon
+  X#AJDRSI  Silver Dragon
+  X#AMELIA  Amelia
+  X#ANDART  Andarthe
+  X#ASSI01  David's Assistant
+  X#ASSI02  David's Assistant
+  X#ASSI03  David's Assistant
+  X#ASSI04  David's Assistant
+  X#ASSI05  David's Assistant
+  X#ASSI06  David's Assistant
+  X#ASSI07  David's Assistant
+  X#ASSI08  David's Assistant
+  X#ASSI09  David's Assistant
+  X#ASSI10  David's Assistant
+  X#ASSI11  David's Assistant
+  X#BANDK   Caravan Bandit
+  X#BEADOR  Beador
+  X#BELGIN  Belgin
+  X#BHET    Bhetel
+  X#BLACK   Blackberry
+  X#BODHI   Arel
+  X#CAUTZ   Cautz'qu'ati'kan
+  X#CHOP    Chop The Lady Ogre
+  X#CORAFI  Coran, The Peerless Archer
+  X#CRU11   Cru The Lady Ogre
+  X#CUTSPY
+  X#CUTVA1  Rogue
+  X#CUTVA2  Rogue
+  X#CUTVA3  Rogue
+  X#CUTVA4  Rogue
+  X#DAVID   David Jansen
+  X#DFAKE1  Dynaheir
+  X#DGNLE1  Gnoll
+  X#DGNLE2  Gnoll
+  X#DGNLE3  Gnoll
+  X#DGNLE4  Gnoll
+  X#DGNLG1  Gnoll
+  X#DGNLG2  Gnoll
+  X#DGNLG3  Gnoll
+  X#DGNLG4  Gnoll
+  X#DIALA   Diala
+  X#DORA    Dora
+  X#DRAG2   Cautz'qu'ati'kan's hubby
+  X#DRIZZT  Drizzt
+  X#DYQIMP  Ichthraa
+  X#ELHAN   Elhan
+  X#ELLES   Queen Ellesime
+  X#GAEL    Gael
+  X#GARAR   Archibald
+  X#GARWYL  Myr'Cutio
+  X#GARZ01  Zombie
+  X#GARZ02  Zombie
+  X#GARZ03  Zombie
+  X#GARZ04  Zombie
+  X#GORLET  Gorion's Letter
+  X#JELLY   Green Slime
+  X#JONI    Stranger
+  X#JOPHA   Jopha
+  X#KABAND  Caravan Bandit Leader
+  X#KARRIS  Karris
+  X#KETH    Keth'sim Dwin'anea
+  X#LAKEP1  Lake Poet Sam
+  X#LAKEP2  Lake Poet Rob
+  X#LAKEP3  Lake Poet Willy
+  X#LASSA   Lassal
+  X#LP1REP  Lake Poet Sam
+  X#LP2REP  Lake Poet Rob
+  X#LP3REP  Lake Poet Willy
+  X#MADR    Madrina
+  X#MARETH  Maretha
+  X#MASTE   Master O'Challenges
+  X#MAZURI  Mazuri
+  X#MEPHT1  Smoke Mephit
+  X#MEPHT2  Smoke Mephit
+  X#MEPHT3  Smoke Mephit
+  X#MEPHT4  Smoke Mephit
+  X#MEPHT5  Smoke Mephit
+  X#MINUW   Minuwiel
+  X#NAMARA  Namara
+  X#NATAN   Natan
+  X#NELL    Madam Nell
+  X#RASHEL  Rashel
+  X#SAHA01  Sahuagin Chieftain
+  X#SAHA02  Sahuagin
+  X#SEASN   Jozzi Seasnake
+  X#SETTA   Setta
+  X#SHDR6   Druid
+  X#SHDR6A  Druid
+  X#SHDR6B  Druid
+  X#SHDR8A  Druid
+  X#SHDR8B  Druid
+  X#SIENE   Siene
+  X#SKODD   Skodd
+  X#SLIME   Green Slime
+  X#STORM   Storm
+  X#SVEET   Sveetla
+  X#TANARI  Aravaata
+  X#TANOV   Tanova
+  X#TQBH1   Alvo
+  X#TQBH2   Leti
+  X#TQBH3   Zed
+  X#TQBH4   Mati
+  X#ULVAR   Ulvar
+  X#VALEN   Valen
+  X#WDOE    White Doe
+  X#WINSKI  Winski Perorate
+  X#XQMER1  Mercenary
+  X#XQMER2  Mercenary
+  X#XQMER3  Mercenary
+  X#XQMER4  Mercenary
+  X#XQMER5  Mercenary
+  X#XQMER6  Mercenary
+  X#XVART1  Xvart
+  X#XVART2  Xvart
+  X#XZFSP1  Forest Spirit
+  X#XZFSP2  Forest Spirit
+  X#XZFSP3  Forest Spirit
+  X#XZGU01  Flaming Fist Officer
+  X#XZGU02  Flaming Fist Enforcer
+  X#XZGU03  Flaming Fist Battle Wizard
+  X#ZIZI1   Zizi the Lovebundle
+  X#ZIZI2   Zizi the Lovebundle
+  X#ZIZI3   Zizi the Lovebundle
+  X#ZIZI4   Zizi the Lovebundle
+  X#ZOSYA   Zosya
+
+CHANGED (71):
+  AJANTI    Ajantis
+    shield: SHLD03 -> X#AJSHLD
+  AJANTI4   Ajantis
+    shield: SHLD03 -> X#AJSHLD
+  AJANTI6   Ajantis
+    shield: SHLD03 -> X#AJSHLD
+  ALORA     Alora
+    dialog: alora -> ALORA
+    overrideScript: alora -> ALORA
+  ALORA6    Alora
+    dialog: alora -> ALORA
+    overrideScript: alora -> ALORA
+  ALVANH    Alvanhendar
+    deathvar: None -> alvahe
+  ANKHEG    Ankheg
+    deathvar: None -> ankheg
+  ANKHEGG   Ankheg
+    deathvar: None -> ankheg
+  ANKHEGQ   Ankheg
+    deathvar: None -> ankheg
+  AVARICEM  Avarice
+    deathvar: avarice -> avaricem
+  BEARBL    Black Bear
+    deathvar: None -> bearbl
+  BEARBR    Brown Bear
+    deathvar: None -> bearbr
+  BEARCA    Cave Bear
+    deathvar: None -> bearca
+  BEARPO    Polar Bear
+    deathvar: None -> bearpo
+  BENTLY    Bentley Mirrorshade
+    classScript: None -> x#mag10b
+  BHEREN    Bheren
+    deathvar: None -> bheren
+  BRANWE    Statue
+    overrideScript: branwen -> BRANWEN
+  BRANWE5   Statue
+    overrideScript: branwen -> BRANWEN
+  BRIELB    Brielbara
+    overrideScript:  -> X#GOBRI
+  COKSMTH   Peter of the North
+    deathvar: None -> peter
+  DELSVIR   Delsvirftanyon
+    sex: 158 -> MALE
+    raceScript: None -> mage6
+    xpv: 800 -> 976
+  DUSHAI    Dushai
+    level: 10 -> 9
+    raceScript: None -> x#mag10c
+    generalScript: None -> x#prs10b
+    weapon1:  -> BLUN04
+    xpv: 10 -> 2001
+  ELMIN5    Elminster
+    deathvar: None -> elminster5
+  ENDER     Ender Sai
+    deathvar: None -> ender
+  FALDOR    Faldorn
+    overrideScript: faldorn -> FALDORN
+  FALDOR5   Faldorn
+    overrideScript: faldorn -> FALDORN
+  FEARM     Fear
+    deathvar: fear -> fearm
+  FTWBAX_A  Commoner
+    dialog: FTOWBA -> X#RUMOR
+  FTWBAX_B  Commoner
+    dialog: FTOWBA -> X#RUMOR
+  FTWBAX_C  Commoner
+    dialog: FTOWBA -> X#RUMOR
+  FTWBAX_D  Commoner
+    dialog: FTOWBA -> X#RUMOR
+  FTWBAX_E  Commoner
+    dialog: FTOWBA -> X#RUMOR
+  GALTOK    Galtok
+    class: FIGHTER_MAGE -> INNOCENT
+    level: 4 -> 6
+    raceScript: None -> mage3
+    generalScript: WTASIGHT -> mage2
+    defaultScript: None -> wtasight
+    helmet:  -> HELM01
+    shield:  -> SHLD13
+    weapon2:  -> DAGG05
+    xpv: 150 -> 176
+  GARRIC    Garrick
+    overrideScript: garrick -> GARRICK
+  GARRIC2   Garrick
+    overrideScript: garrick -> GARRICK
+  GARRIC4   Garrick
+    overrideScript: garrick -> GARRICK
+  GARRIC6   Garrick
+    overrideScript: garrick -> GARRICK
+  HAFIZ     Hafiz
+    level: 4 -> 6
+    raceScript: MAGE3 -> mage3
+    generalScript: WTASIGHT -> mage2
+    defaultScript: None -> wtasight
+    xpv: 650 -> 176
+  HALACA    Halacan
+    level: 4 -> 6
+    classScript: MAGE2 -> mage3
+    xpv: 650 -> 176
+  IMOEN1    Imoen
+    overrideScript: imoen -> IMOEN
+  IMOEN2    Imoen
+    overrideScript: imoen -> IMOEN
+  IMOEN4    Imoen
+    overrideScript: imoen -> IMOEN
+  IMOEN6    Imoen
+    overrideScript: imoen -> IMOEN
+  IZEFIA    Izefia
+    deathvar: None -> izefia
+  KIVAN     Kivan
+    weapon1: HALB01 -> SPER01
+  KIVAN4    Kivan
+    weapon1: HALB01 -> SPER01
+  KIVAN6    Kivan
+    weapon1: HALB01 -> SPER01
+  KORAX     Korax the Ghoul
+    deathvar: None -> korax
+  KRUMM     Krumm
+    overrideScript: shout -> x#krumm
+  LANDRI    Landrin
+    anim: MAGE_FEMALE_GNOME -> THIEF_FEMALE_GNOME
+    raceScript: None -> mage3
+  LOVEM     Love
+    deathvar: love -> lovem
+  MADARC    Mad Arcand
+    classScript: PRIEST5 -> mage7
+    raceScript: None -> priest4
+    lring:  -> MAGE05
+  MUTAMI    Mutamin
+    raceScript: MAGE5 -> mage7
+    lring:  -> MAGE06
+    weapon2:  -> DART01
+    xpv: 1200 -> 976
+  NEB       Neb
+    race: GNOME -> DWARF
+    level: 3 -> 15
+    defaultScript: None -> wtrunsgt
+  OGREMA03  Ogre Mage
+    deathvar: None -> cmogremage
+  PHEIRK    Pheirkas
+    anim: FIGHTER_FEMALE_DWARF -> FIGHTER_FEMALE_GNOME
+  PRIDEM    Pride
+    deathvar: pride -> pridem
+  PROST2    Courtesan
+    deathvar: None -> harlot
+  PROST3    Courtesan
+    deathvar: None -> harlot
+  PROST4    Courtesan
+    deathvar: None -> harlot
+  PROST5    Courtesan
+    deathvar: None -> harlot
+  PROST6    Courtesan
+    deathvar: None -> harlot
+  PROST7    Courtesan
+    deathvar: None -> harlot
+  PROST8    Courtesan
+    deathvar: None -> harlot
+  SARHED    Sarhedra
+    anim: FIGHTER_FEMALE_DWARF -> FIGHTER_FEMALE_GNOME
+  SLAVE     Slave
+    deathvar: None -> cmslave
+  TAKIYAH   Takiyah
+    deathvar: TAKIYAH -> takiyah
+  TAZOK2    Tazok
+    dialog: None -> tazok2
+  TELLAN    Tellan
+    class: MAGE -> MAGE_THIEF
+    classScript: tellan -> follow
+    raceScript: MAGE7 -> x#mag14d
+    generalScript: FOLLOW -> 
+    lring:  -> MAGE02
+    amulet:  -> MAGEAMUL
+    weapon2: DART02 -> DAGG02
+    xpv: 3000 -> 2001
+  UNSHEY    Unshey
+    anim: CLERIC_FEMALE_DWARF -> CLERIC_FEMALE_GNOME
+    classScript: shout -> priest4
+  ZOMBIEW   Zombie
+    deathvar: None -> zombiew

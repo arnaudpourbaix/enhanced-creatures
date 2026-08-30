@@ -1,0 +1,75 @@
+bg1re: 62 new, 4 changed
+
+NEW (62):
+  C#LCCENS  Ghostly Spirit
+  C#LCIN1M  Man
+  C#LCIN1W  Woman
+  C#LCIN2M  Man
+  C#LCIN2W  Woman
+  C#LCIN3M  Man
+  C#LCIN3W  Woman
+  C#LCIN4M  Man
+  C#LCIN4W  Woman
+  C#LCIN5M  Man
+  C#LCIN5W  Woman
+  C#LCKIM   Kim
+  C#LCKIMW  Kim
+  C#LCLAUR  Laurel
+  C#LCLINA  Lina
+  C#LCTH01  Master Mehmel
+  C#LCTHAL  Thalantyr the Conjurer
+  C#NOCAT   Cat
+  C#NOJANA  Jana
+  C#NOMEIL  Meilla
+  C#NOTAX   Cragmor
+  C#Q11BE1  Beth
+  C#Q11BUT  Butcher
+  C#Q11CAT  Kitty
+  C#Q11COW  Berta
+  C#Q11GIR  Susan
+  C#Q11MO2  Mrs. Sutherland
+  C#Q11MOM  Mourning Mother
+  C#Q11MRS  Mrs. Thirsty
+  C#Q11NE2  Necromancer
+  C#Q11NEC  Necromancer
+  C#Q11WAT  Trevor
+  C#RE1ELT  Duke Eltan
+  C#RE1SR1  Donnerjan
+  C#RE1SR2  Kelder
+  C#RE1SR3  Hung
+  C#RE1SR4  Chester
+  C#RE1SR5  Duntrin
+  C#RE1SR6  Scar
+  M3MIKALA  Mikala
+  O#MOLLY   Molly
+  RE#GHON1  Hanaly
+  RE#GHON2  Yvonne
+  RE1ARLEN  Arlene
+  RE1DELLA  Della May
+  RE1LAVWB  Left
+  RE1LVCOL  Dark phantasm
+  RE1LVDR1  Ool-Garias
+  RE1LVDR2  Is'samya
+  RE1LVHAR  Shady character
+  T1BLAI    Dawn Priest Blaise
+  T1DAI     Dai
+  T1KITTY   Kitty
+  T1M2GHOS  Barkis
+  T1M2HAL2  Bartleby's Ghost
+  T1M2HALF  Halfling Messenger
+  T1SAPI    Sister Sapientia
+  TICAM     Camryn
+  TICORDEL  Cordelia
+  TIDISPER  Dispero
+  TIDOPPLE  Doppelganger
+  TITAMAH   Tamah
+
+CHANGED (4):
+  FARMBR    Farmer Brun
+    deathvar: farmbr -> Brun
+  IRON11    Guard
+    deathvar: None -> iron11
+  POE       Poe
+    deathvar: None -> poe
+  SILENC    Silence
+    overrideScript: shout -> SILENC

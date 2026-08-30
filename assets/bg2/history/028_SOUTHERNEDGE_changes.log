@@ -1,0 +1,50 @@
+SOUTHERNEDGE: 43 new, 1 changed
+
+NEW (43):
+  L#NDAMA   Amaretto
+  L#NDANT   Togl, the Cow Healer
+  L#NDBAR1  Commoner
+  L#NDBAR2  Commoner
+  L#NDBAR3  Commoner
+  L#NDBAR4  Commoner
+  L#NDBER   Tonnam
+  L#NDC1    Sirine
+  L#NDC2    Greater Ankheg
+  L#NDC6M   Dwarven Merchant
+  L#NDCAR   Carpenter
+  L#NDCAT   Mr. Cat
+  L#NDCOM1  Commoner
+  L#NDCOM2  Commoner
+  L#NDCOM3  Commoner
+  L#NDCOM4  Commoner
+  L#NDCOM5  Commoner
+  L#NDCOM6  Commoner
+  L#NDCOM7  Commoner
+  L#NDCOM8  Commoner
+  L#NDCOM9  Commoner
+  L#NDCOW   Nessie
+  L#NDDOO   Dirty Kolad
+  L#NDDRE   Dreppin
+  L#NDGAU   Ooglyph, the Tasloi Master
+  L#NDGIR   Girl
+  L#NDGNO   Ghurklu
+  L#NDINN   Gorrdy
+  L#NDLYD   Lydia
+  L#NDMAI   Mairo Mudclapper
+  L#NDNEI   Neil
+  L#NDNIB   Charleston Nib
+  L#NDNIG   Niglir
+  L#NDPAR   Parasite
+  L#NDPLA   Nervous Bard
+  L#NDPRI   Watcher Tanta
+  L#NDRAT   More Than Just a Rat
+  L#NDSHO   Merchant
+  L#NDSMU   Rory the Merchant
+  L#NDTAK   Smuggler
+  L#NDTRA   Traveller
+  L#NDVAM   Crynn
+  L#NDWAN   Merchant
+
+CHANGED (1):
+  DOGHMA    Priest of Oghma
+    deathvar: None -> DOGHMA

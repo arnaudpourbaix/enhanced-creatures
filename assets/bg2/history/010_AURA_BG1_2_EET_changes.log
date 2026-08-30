@@ -1,0 +1,121 @@
+AURA_BG1_2_EET: 100 new, 4 changed
+
+NEW (100):
+  C0AASCL   Asclepios
+  C0AASCS   Gilbert
+  C0ACERI   Ceri
+  C0ACERI2  Ceri
+  C0AEELE   Colossal Earth Elemental
+  C0AEINT1  Interitus Agent
+  C0AEINT2  Interitus Enforcer
+  C0AEINT3  Interitus Elite
+  C0AEINT4  Interitus Enforcer
+  C0AEINT5  Interitus Agent
+  C0AEX1    ???
+  C0AFIR01  S'aalvlani
+  C0AFIR02  Azer Warrior
+  C0AFIR03  Fire Giant
+  C0AFIR04  Fire Giant
+  C0AFIR05  Duke V'thilix
+  C0AFIR06  Izzeel al-Zakeer
+  C0AFIR07  Lakai G'alavai
+  C0AFIR08  V'thilix's Ember
+  C0AFIR09  V'thilix, Undying Cinder
+  C0AFIR10  Inextinguishable Flame
+  C0AFIR11
+  C0AFRITZ  Fritz
+  C0AGNO01  11th Workshop Builder
+  C0AGNO02  11th Workshop Builder
+  C0AGNO03  Oculus Agent
+  C0AGNO04  Oculus Agent
+  C0AGNO05  Master Builder Tagos
+  C0AGNO06  Oculus Agent
+  C0AGNO07  Oculus Agent
+  C0AGNO08  Oculus Agent
+  C0AGOL01  Adamantite Automaton
+  C0AGOL02  Adamantite Automaton
+  C0AGOL03  Mithral Automaton
+  C0AGOL04  Lantanese Battle Automaton
+  C0AGOL05  Adamantite Automaton
+  C0AGOL06  Mithral Automaton
+  C0AGOL07  Lantanese Battle Automaton
+  C0AICE01  Ishallir
+  C0AJUNO   Juno
+  C0AKEG1   Smokepowder Barrel
+  C0AKID1   Boy
+  C0AKID2   Boy
+  C0AKID3   Girl
+  C0AKID4   Girl
+  C0AKOKO   Koko
+  C0AKOKO2  Koko
+  C0ALUNA   Luna
+  C0AMAGN   Caridius C. Magnussen
+  C0APICO   Pico Jansen
+  C0AQDAD   Sean's Father
+  C0AQINS2  Inspector
+  C0AQINSP  Lieutenant Aegisfield
+  C0AQINT1  Interitus Agent
+  C0AQINT2  Lt. Otho Aventinus
+  C0AQINT3  Interitus Agent
+  C0AQINT4  Interitus Agent
+  C0AQINT5  Interitus Agent
+  C0AQINT6  Interitus Agent
+  C0AQINT7  Interitus Agent
+  C0AQMAN   Sean
+  C0AQMON1  Abomination
+  C0AQMON2  Abomination
+  C0AQTHF   Roy
+  C0AREES1  Reese
+  C0AREES2  Reese
+  C0ATHF1   Thug
+  C0ATHF2   Thug Leader
+  C0ATHF3   Thug
+  C0ATHF4   Thug
+  C0AU#AT1  Lantan Autocannon
+  C0AU25WR  Reika
+  C0AUALCH  Alchemy
+  C0AUDAD   Kairos
+  C0AUICE1  Orglash
+  C0AUICEB
+  C0AUIN3A  Bronze Automaton
+  C0AUIN3B  Jade Automaton
+  C0AUIN3C  Adamantine Automaton
+  C0AUIN3D
+  C0AUIN4   Wandcrafting
+  C0AUKARI  Karihi
+  C0AUMOM   Gillian
+  C0AURA2   Aura
+  C0AURA25  Aura
+  C0AUSPE1  Spectator Messenger
+  C0AUSUMM
+  C0AUWLF1  Amatsugami-no-ken
+  C0AWHIRL  Whirlwind
+  C0AYUKI   Shirayuri
+  C0CARNIF  Carnifex
+  C0DEDAL   Dedalus
+  C0ERIDAN  Eridanus
+  C0KORSH   Korsh "Chip" Thurgarr
+  C0KORSHB  Torpuk "Trip" Thurgarr
+  C0LIRO    Liro
+  C0LIRO2   Liro
+  C0MARIUS  Marius
+  C0MUFFY2  Muffy
+  C0TAMIA   Tamia Spindleweaver
+
+CHANGED (4):
+  GORLUM    Machine of Lum the Mad
+    anim: BIRD -> DOOM_GUARD
+  HAEGAN    Captain Haegan
+    helmet: helm13 -> HELM13
+    weapon1: sw2h01 -> SW2H01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  MAEVAR    Mae'Var
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow01 -> BOW01
+  UDPRINCE  Kuo-toan Prince
+    lring: miscA1 -> MISCA1
+    rring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04

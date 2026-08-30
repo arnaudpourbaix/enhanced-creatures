@@ -1,0 +1,66 @@
+bg1ub: 21 new, 17 changed
+
+NEW (21):
+  UBBRUN    Brunos
+  UBCORIAN  Corianna
+  UBDBEAR   Black Bear
+  UBFARM5   Farmer
+  UBKEST    Kestor
+  UBMALKA2  Mal-Kalen
+  UBMALKAL  Mal-Kalen
+  UBMERCH   Merchant
+  UBNIMDOG  Hunting Dog
+  UBNIMFUR  Nim Furlwing
+  UBNIMWLF  Dire Wolf
+  UBOGMA01  Ogre Mage
+  UBOGMA02  Ogre Mage
+  UBQUON    Quoningar
+  UBRIEL    Rieltar
+  UBSHILO   Shilo Chen
+  UBSHOPGE  Merchant
+  UBSNOGOL  Snow Golem
+  UBSVLAST  Svlast
+  UBSVLREV  Revenant
+  UBTUTH    Tuth
+
+CHANGED (17):
+  BART4     Bartender
+    generalScript: None -> UBIN3304
+  DEZKIE    Dezkiel
+    overrideScript: SHOUTDLG -> UBDEZOVR
+    weapon1:  -> STAF01
+    weapon2:  -> DAGG05
+  EDIE      Edie
+    deathvar: None -> Edie
+    dialog: edie -> UBEDIE
+  FELDAN    Feldane
+    deathvar: None -> Feldane
+    dialog: feldan -> UBFELDAN
+  FRIWEN    Serving Wench
+    deathvar: None -> FRIWEN
+    dialog: serwen -> FRIWEN
+  FTOBE5    Commoner
+    rring:  -> RING01
+  GATEWA2   Gatewarden
+    deathvar: None -> GATEWA2
+  HAFFG2    Mabledale
+    deathvar: None -> HAFFG2
+  HALFG2    Bunsen
+    deathvar: None -> HALFG2
+  HALFG6    Halfling Man
+    weapon2:  -> SLNG02
+  HOBGO5    Hobgoblin
+    overrideScript: SHOUTDLG -> UBHOBGO5
+  MTOB4     Commoner
+    deathvar: None -> MTOB4
+  MTOB5     Commoner
+    deathvar: None -> MTOB5
+  NOBL10    Gerard Travenhurst
+    amulet:  -> AMUL07
+  TRAVEL    Wade
+    deathvar: None -> WADE
+  WATCH6    Watcher
+    deathvar: None -> WATCH6
+  WILTON    Wilton
+    deathvar: None -> Wilton
+    dialog: wilton -> UBWILTON

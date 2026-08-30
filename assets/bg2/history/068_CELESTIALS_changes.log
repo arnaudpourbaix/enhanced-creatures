@@ -1,0 +1,63 @@
+CELESTIALS: 12 new, 15 changed
+
+NEW (12):
+  CA#DASTR  Astral Deva
+  CA#DMOND  Monadic Deva
+  CA#DMOVA  Movanic Deva
+  CA#FDEVA  Fallen Deva
+  CA#FPLAN  Fallen Planetar
+  CA#INV1   <NO TEXT>
+  CA#INV2   <NO TEXT>
+  CA#INV3   <NO TEXT>
+  CA#INV4   <NO TEXT>
+  CA#LWISH  Djinni
+  CA#PLAN   Planetar
+  NOATTACK  And if we refuse?
+
+CHANGED (15):
+  DEVAST01  Astral Deva
+    anim: SOLAR -> CLERIC_MALE_ELF
+    helmet:  -> DVWINGS
+  DEVMON01  Monadic Deva
+    anim: SOLAR -> CLERIC_MALE_ELF
+    helmet:  -> DVWINGS
+    weapon1: devmon01 -> DEVMON01
+  OHBCEL01  Ariziel
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBCEL02  Fallen Astral Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBCEL03  Fallen Monadic Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBDVA01  Fallen Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBWING   The Winged
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBWING2  The Winged
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHDPLANB  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPLANJ  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPLANL  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPPLAN  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDSOLAR  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDSPLAN  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  PLANWISH  Fallen Planetar
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS

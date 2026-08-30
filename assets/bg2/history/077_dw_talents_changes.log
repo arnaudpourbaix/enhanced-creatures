@@ -1,0 +1,3711 @@
+dw_talents: 8 new, 1206 changed
+
+NEW (8):
+  DW-ICE12  Ice Paraelemental
+  DW-ICE16  Greater Ice Paraelemental
+  DW-ICE24  Elder Ice Paraelemental
+  DW-PFHQ   High Watcher Oisig
+  DW-PFLAR  Acolyte Lara
+  DW-PFLQ   High Mornmaster Arval
+  DW-PFMS   Messenger
+  DW-PFTQ   Stormherald Nallabir
+
+CHANGED (1206):
+  ABAZIGAL  Abazigal
+    allegiance: NEUTRAL -> ENEMY
+    helmet: helmnoan -> HELMNOAN
+    lring: bhaalhp1 -> BHAALHP1
+    weapon1: sw2h17 -> ABAZ03
+  AERBOD01  Aerie
+    weapon1: staf01 -> STAF01
+    weapon2: slng01 -> SLNG01
+  AKAE      Akae
+    shield: sw1h46 -> SW1H46
+    weapon1: sw1h43 -> SW1H45
+  ALUFIE01  Alu-Fiend
+    helmet: helmnoan -> HELMNOAN
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H76
+  AMCAPT01  Mercenary Captain
+    overrideScript: None -> RR#PICKP
+  AMCOW     Cow
+    race: NO_RACE -> MAMMAL
+  AMLICH01  Vongoethe
+    lring: RING46 -> 
+  AMMERC01  Mercenary
+    overrideScript: None -> RR#PICKP
+  AMMERC07  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h09 -> SW1H29
+  AMMERC08  Mercenary
+    helmet: helm33 -> HELM33
+    weapon1: bow04 -> BOW04
+    weapon2: sw1h09 -> SW1H29
+  AMMERC09  Mercenary
+    weapon1: bow03 -> BOW03
+    weapon2: sw1h09 -> SW1H29
+  AMMINOT   Minotaur
+    race: UMBERHULK -> MINOTAUR
+  AMMLEGS   Monk
+    overrideScript: None -> RR#PICKP
+  AMMONK02  Monk
+    overrideScript: None -> RR#PICKP
+  AMMONK03  Monk
+    overrideScript: None -> RR#PICKP
+  AMMONK04  Monk
+    overrideScript: None -> RR#PICKP
+  AMMONK05  Monk
+    overrideScript: None -> RR#PICKP
+  AMMONK06  Monk
+    overrideScript: None -> RR#PICKP
+  AMNCEN1   Amnian Centurion
+    allegiance: ENEMY -> NEUTRAL
+  AMNLEG1   Amnian Legionary
+    allegiance: ENEMY -> NEUTRAL
+  AMSAEMON  Saemon Havarian
+    overrideScript: None -> RR#PICKP
+    shield: sw1h52 -> SW1H76
+    weapon1: sw1h52 -> 
+  AMTARC01  Tethyrian Archer
+    dialog: amtarc01 -> AMTARC01
+    level: 8 -> 12
+    overrideScript: None -> RR#PICKP
+    generalScript: tethbat -> TETHBAT
+    defaultScript: gpmerc -> D0AMTMER
+    helmet:  -> HELM01
+    weapon1: bow24 -> BOW24
+    weapon2:  -> SW1H09
+    xpv: 3500 -> 4500
+  AMTCAP01  Tethyrian Captain
+    dialog: amtcap01 -> AMTCAP01
+    level: 10 -> 14
+    overrideScript: None -> RR#PICKP
+    generalScript: tethbat -> TETHBAT
+    defaultScript: gpmerc -> D0AMTMER
+    helmet: helm13 -> HELM13
+    weapon1: sw1h72 -> SW1H72
+    xpv: 7300 -> 9000
+  AMTCLE01  Cleric Of Lathander
+    class: CLERIC -> CLERIC_RANGER
+    level: 10 -> 13
+    overrideScript: None -> RR#PICKP
+    defaultScript: gphealer -> D0AMTHEA
+    helmet:  -> HELM04
+    weapon1: blun01 -> BLUN03
+    xpv: 5400 -> 7000
+  AMTGEN01  Jamis Tombelthen
+    dialog: amtgen01 -> AMTGEN01
+    level: 16 -> 18
+    overrideScript: None -> RR#PICKP
+    defaultScript: gpmerc -> D0AMTMER
+    shield: sw1h77 -> SHLD32
+    weapon1: sw1h73 -> SW1H77
+    xpv: 10000 -> 15000
+  AMTMAG01  Tethyrian Battlemage
+    dialog: amtmag01 -> AMTMAG01
+    level: 10 -> 14
+    overrideScript: None -> RR#PICKP
+    raceScript: tethbat -> TETHBAT
+    generalScript: spseq14a -> 
+    defaultScript: gpmage2 -> D0AMTMAG
+    weapon1:  -> SW1H08
+    xpv: 4000 -> 10000
+  AMTPIK01  Tethyrian Pikeman
+    dialog: amtpik01 -> AMTPIK01
+    level: 8 -> 11
+    overrideScript: None -> RR#PICKP
+    generalScript: tethbat -> TETHBAT
+    defaultScript: gpmerc -> D0AMTMER
+    helmet:  -> HELM01
+    weapon1: sper05 -> SPER05
+    xpv: 5000 -> 6500
+  ANAST     Valen
+    general: HUMANOID -> UNDEAD
+    race: HUMAN -> VAMPIRE
+    class: THIEF -> VAMPIRE
+  ANKHEG01  Ankheg
+    level: 3 -> 8
+  ANNO1     Announcer
+    overrideScript: None -> RR#PICKP
+  AR18MAGE  Mage
+    weapon1: staf01 -> STAF01
+  AR18SKEL  Skeleton Warrior
+    helmet: helmskwa -> HELMSKWA
+    weapon1: skelwasu -> SKELWASU
+  ARAN      Aran Linvail
+    level: 14 -> 16
+    classScript: stdeath -> D0ARAN
+    raceScript: None -> STDEATH
+    generalScript: None -> 
+    helmet: helmnoan -> HELMNOAN
+    lring:  -> AIFAST
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow09 -> XBOW09
+  ARAN02    Aran Linvail
+    level: 14 -> 16
+    overrideScript: magthf14 -> SHOUTDLG
+    classScript: SHOUTDLG -> D0ARAN
+    raceScript: gpuse -> 
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    rring:  -> AIFAST
+    amulet: amul21 -> AMUL21
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow09 -> XBOW09
+  ARGRIM    Lord Ketlaar Argrim
+    generalScript: None -> CBXTGBDS
+  ARKANISG  Arkanis Gath
+    level: 7 -> 9
+    overrideScript: GENSHT01 -> RR#STF01
+    defaultScript: WTASIGHT -> 
+    shield:  -> SW1H09
+    weapon1: SW1H09 -> SW1H29
+    xpv: 1400 -> 9000
+  ARLED     Arledrian
+    class: THIEF -> FIGHTER_THIEF
+    anim: THIEF_MALE_ELF -> FIGHTER_MALE_ELF
+    level: 8 -> 7
+    overrideScript: SHOUT -> RR#ARLED
+    classScript: StealAmn -> 
+    raceScript: gpuse -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> 
+    shield:  -> DAGG15
+    weapon1:  -> DAGG02
+    weapon2: sw1h08 -> 
+    weapon3: bow05 -> 
+    xpv: 800 -> 3000
+  ARNBOY01  Apprentice Torturer Douglas
+    generalScript: None -> WTRUNSGT
+  ARNFGT03  Shadow Thief Archer
+    defaultScript: wtarsgt -> D0QPARGU
+  ARNFGT04  Shadow Thief Thug
+    level: 10 -> 12
+    generalScript: wtasight -> D0QPARGU
+    weapon1: HAMM01 -> HAMM02
+    weapon2:  -> AX1H04
+    xpv: 1400 -> 2400
+  ARNGOL01  Golem
+    class: GOLEM_CLAY -> GOLEM_FLESH
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  ARNGRL01  Missy
+    overrideScript: None -> RR#PICKP
+  ARNMAN01  Prisoner
+    defaultScript: None -> D0PRISON
+  ARNMAN02  Prisoner
+    defaultScript: None -> D0PRISON
+  ARNMAN03  Cuchul
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN04  Mitsu
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN05  Achon
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN06  Prisoner
+    overrideScript: None -> RR#PICKP
+    defaultScript: None -> D0PRISON
+  ARNMAN07  Prisoner
+    overrideScript: None -> RR#PICKP
+    defaultScript: None -> D0PRISON
+  ARNMAN08  Shadow Thief
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN09  Shadow Thief
+    overrideScript:  -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN10  Trainee
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNMAN11  Trainee
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNTRA01  Trainee
+    overrideScript: None -> RR#PICKP
+  ARNTRA02  Trainee
+    overrideScript: None -> RR#PICKP
+  ARNTRA03  Trainee
+    generalScript: None -> WTASIGHT
+  ARNTRA04  Trainee
+    generalScript: None -> WTASIGHT
+  ARNTRA05  Shadow Thief
+    generalScript: None -> WTASIGHT
+  ARNTRA06  Shadow Thief
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> WTASIGHT
+  ARNWAR01  Shadow Thief Archer
+    classScript: None -> D0AWBUFF
+  ARNWAR02  Shadow Thief Thug
+    classScript: None -> D0AWBUFF
+  ARNWAR03  Shadow Thief
+    classScript: None -> D0AWBUFF
+  ARNWAR04  Shadow Thief Footpad
+    classScript: None -> D0AWBUFF
+  ARNWAR05  Shadow Thief
+    classScript: None -> D0AWBUFF
+  ARNWAR07  Dedral
+    overrideScript:  -> D0AWBUFF
+  ARNWAR08  Tizzak
+    overrideScript:  -> RR#PICKP
+  ARNWAR09  Shadow Thief
+    deathvar: mage14c -> arnwar09
+  BALELITE  Adherent
+    overrideScript: None -> RR#PICKP
+    weapon2:  -> STAF08
+  BALTH     Balthazar
+    overrideScript: BALTH -> RR#PICKP
+    classScript: None -> balth
+    defaultScript: balthft -> BALTHFT2
+    helmet: HELMNOAN -> 
+    weapon1:  -> MFIST8
+    weapon2:  -> STAF20
+  BARONP    Baron Ployer
+    weapon1: SW2H01 -> SPER03
+  BASILGSU  Greater Basilisk
+    overrideScript: None -> basilgsu
+  BASILLSU  Lesser Basilisk
+    overrideScript: None -> basillsu
+  BATIN01   Bat
+    race: NO_RACE -> MAMMAL
+  BATOUT01  Bat
+    race: NO_RACE -> MAMMAL
+  BAZDRA02  Draconis
+    helmet: helmnoan -> HELMNOAN
+    lring: dragring -> DRAGRING
+  BAZEYE02  Iycanth the Mad
+    overrideScript: None -> RR#PICKP
+  BAZLIZ01  Lizard Man Shaman
+    race: HUMAN -> LIZARDMAN
+  BAZLIZ02  Lizard Man Shaman
+    race: HUMAN -> LIZARDMAN
+  BAZLIZ03  Lizard Man
+    race: YUANTI -> LIZARDMAN
+    weapon1: halb02 -> HALB02
+  BAZLIZ04  Lizard Man Captain
+    race: YUANTI -> LIZARDMAN
+    weapon1: halb07 -> HALB07
+  BAZMONK   Monk
+    overrideScript: None -> RR#PICKP
+  BEARBR    Brown Bear
+    deathvar: None -> BEARBR
+  BEARCASU  Cave Bear
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT02 -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: b1-10m2 -> BEARCASU
+  BEARPOSU  Polar Bear
+    level: 9 -> 8
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT02 -> 
+    raceScript: CBEAR -> 
+    defaultScript:  -> DVMELEE
+    weapon1: b1-12m3 -> BEARPOSU
+  BEAST     Beastmaster
+    overrideScript:  -> RR#PICKP
+    weapon1: bow14 -> BOW14
+  BEHUND01  Death Tyrant
+    anim: BEHOLDER -> DEATH_TYRANT
+  BERINVAR  Berinvar
+    generalScript: None -> CBXTHSDS
+  BERNARD   Bernard
+    deathvar: None -> BERNARD
+    overrideScript: None -> RR#PICKP
+  BERSER02  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> AX1H11
+    lring: berserk -> 
+    weapon1: dax1h01 -> AX1H11
+  BERSER03  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> 
+    lring: berserk -> 
+    weapon1: dax1h01 -> SW2H20
+  BERSERSU  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> SHLD01
+    lring: berserk -> 
+    weapon1: dax1h01 -> BSW1H01
+  BFTOWN3   Commoner
+    overrideScript:  -> RR#PICKP
+  BHCRYPT   Crypt King
+    weapon1: SW1H36 -> SW1H34
+  BHGHOUL5  Zombie
+    weapon1: b3-12 -> B3-12
+  BIRD      Bird
+    race: NO_RACE -> BIRD
+  BIRD_IN   Bird
+    race: NO_RACE -> BIRD
+  BIRD_INE  Bird
+    race: NO_RACE -> BIRD
+  BIRD_INN  Bird
+    race: NO_RACE -> BIRD
+  BIRD_INS  Bird
+    race: NO_RACE -> BIRD
+  BIRD_INW  Bird
+    race: NO_RACE -> BIRD
+  BMTHIEF   Marina
+    race: ELF -> HALF_ELF
+    class: THIEF -> FIGHTER_THIEF
+    anim: THIEF_FEMALE_ELF -> THIEF_FEMALE_HUMAN
+    deathvar: None -> BMTHIEF
+    level: 3 -> 7
+    overrideScript: shout -> RR#MARIN
+    defaultScript: wtasight -> 
+    weapon2: BOW01 -> BOW04
+  BMUGG1    Mugger
+    overrideScript: None -> RR#PICKP
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01
+  BODTAN    Tanova
+    overrideScript: vampir01 -> D0QPTAN1
+    classScript: mage16c -> D0QPTAN2
+    raceScript: None -> D0QPTAN3
+  BODYG2    Amnian Bodyguard
+    generalScript: None -> CBXTGBDS
+  BOO       Boo
+    race: NO_RACE -> MAMMAL
+  BOOTER    Booter
+    anim: FIGHTER_MALE_DWARF -> THIEF_MALE_GNOME
+    helmet: helmnoan -> HELMNOAN
+    weapon1: blun03 -> BLUN03
+  BOOTER02  Booter
+    anim: FIGHTER_MALE_DWARF -> FIGHTER_MALE_GNOME
+    overrideScript:  -> RR#PICKP
+  BRANWE    Branwen
+    overrideScript: None -> RR#PICKP
+  BREG01    Visaj
+    overrideScript:  -> RR#PICKP
+  BREG03    D'aerthe Guard
+    allegiance: ENEMY -> NEUTRAL
+  BREGG     Bregg
+    weapon1: sw1h07 -> SW1H07
+  BRELM     Brelm
+    deathvar: None -> BRELM
+  BRUENOR   Bruenor
+    overrideScript: None -> RR#PICKP
+  BSHOP02   Maliat
+    dialog: bshop02 -> dshop01
+  BUBBLES   Bubbles
+    overrideScript: None -> RR#PICKP
+  BYLANNA   Bylanna
+    deathvar: None -> Bylanna
+    generalScript: None -> CBXTGBDS
+  C6ALYRA   Alyra
+    dialog: c6alyra -> C6GEN
+    overrideScript: None -> C6THIEF
+    weapon1:  -> SW1H09
+  C6ARKAN   Arkanis
+    level: 17 -> 13
+    defaultScript: wtasight -> 
+    shield: dagg03 -> SW1H74
+    weapon1: sw1h10 -> SW1H74
+  C6ARKAN3  Arkanis
+    level: 17 -> 13
+    defaultScript: wtasight -> 
+    shield: dagg03 -> SW1H74
+    weapon1: sw1h10 -> SW1H74
+  C6CLER1   Cleric Of Lathander
+    overrideScript: None -> RR#PICKP
+  C6CLER2   Cleric Of Helm
+    overrideScript: None -> RR#PICKP
+  C6CLER3   Cleric Of Talos
+    overrideScript: None -> RR#PICKP
+  C6DRIZZ   Drizzt
+    helmet: SW1H15 -> HELMNOAN
+    shield:  -> SW1H15
+    weapon1: DRIZZTS -> SW1H16
+  C6DRIZZ2  Drizzt
+    helmet: SW1H15 -> HELMNOAN
+    shield:  -> SW1H15
+    weapon1: DRIZZTS -> SW1H16
+  C6DRIZZ3  Drizzt
+    helmet: SW1H15 -> HELMNOAN
+    shield:  -> SW1H15
+    weapon1: DRIZZTS -> SW1H16
+  C6ELF1    Elven Warrior
+    overrideScript: None -> RR#PICKP
+  C6ELHAN   Elhan
+    shield: sw1h50 -> SW1H22
+    lring: minhp1 -> MINHP1
+    amulet:  -> AMUL21
+    weapon1: sw1h50 -> SW1H22
+  C6FAKE    Elhan
+    overrideScript:  -> RR#PICKP
+  C6GOD     Elven God
+    overrideScript: None -> RR#PICKP
+  C6GOFUS   Gofus
+    defaultScript: wtasight -> 
+    shield: sw1h08 -> SW1H73
+    rring:  -> RING06
+    amulet:  -> RR#HIDN
+    weapon1: sw1h29 -> SW1H73
+  C6KACH    Kachiko
+    class: THIEF -> FIGHTER_THIEF
+    anim: THIEF_MALE_HUMAN -> THIEF_FEMALE_HUMAN
+    level: 16 -> 7
+    gender: MALE -> FEMALE
+    sex: MALE -> FEMALE
+    defaultScript: wtasight -> 
+    shield:  -> DAGG24
+    amulet:  -> AMUL14
+    weapon1: sw1h09 -> DAGG24
+    weapon2: dagg16 -> 
+  C6KACH2   Kachiko
+    anim: THIEF_MALE_HUMAN -> THIEF_FEMALE_HUMAN
+    gender: MALE -> FEMALE
+    sex: MALE -> FEMALE
+  C6KALDEN  Kalden
+    dialog: c6kalden -> C6GEN
+    overrideScript: None -> C6PALADN
+  C6KNGT1   Morning Knight
+    overrideScript: None -> RR#PICKP
+  C6KNGT2   Shield Knight
+    overrideScript: None -> RR#PICKP
+  C6KNGT3   Storm Knight
+    overrideScript: None -> RR#PICKP
+  C6LEVIN   Levin Rayn
+    dialog: c6levin -> C6GEN
+    overrideScript: None -> C6PALADN
+  C6NATAS   Natas
+    dialog: c6natas -> C6GEN
+    overrideScript: None -> C6THIEF
+    weapon1:  -> SW1H09
+  C6SAFA    Safana
+    overrideScript:  -> RR#PICKP
+  C6SQUIRE  Squire Cathras
+    generalScript: None -> CBXTRSDS
+  C6VAMP01  Fledgling Vampire
+    generalScript: VAMPIR01 -> D0QPVAFL
+    xpv: 8500 -> 8000
+  C6VFLM01  Fledgling Vampire
+    generalScript: VAMPIR01 -> D0QPVAFL
+    xpv: 8500 -> 8000
+  C6YEAN    Yeanasha
+    level: 16 -> 9
+    overrideScript: kensai -> C6THIEF
+    classScript: c6thief -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> 
+    amulet:  -> RR#HIDN
+    weapon1: sw1h29 -> SW1H75
+  CAEHAN    Caehan
+    overrideScript: None -> RR#PICKP
+  CALAHA    Calahan
+    weapon1: SW1H09 -> SW1H29
+  CARRIOSU  Mutated Crawler
+    overrideScript: None -> CARRIOSU
+  CATJAGSU  Leopard
+    anim: GREATCAT_PANTHER -> GREATCAT_LEOPARD
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT01 -> CATJAGSU
+    defaultScript: BDSUM00 -> 
+    weapon1: CATJAG -> CATJAGSU
+    xpv: 420 -> 0
+  CATLIOWP  Joolon
+    level: 5 -> 8
+    sex: OTHER -> MALE
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> WTASIGHT
+    lring: figring1 -> IMMUNE1
+    rring: immune1 -> 
+    weapon1: CATLIO -> FIGLION
+  CATPAN01  Panther
+    deathvar: None -> CATPAN01
+  CATTI     Catti-Brie
+    overrideScript: None -> RR#PICKP
+  CEBEAR01  Cernd
+    lring: minhp1 -> MINHP1
+    weapon1: p3-12m4 -> P3-12M4
+  CECHALLE  Master Verthan
+    overrideScript: None -> RR#PICKP
+  CEDELICH  Deril Lich
+    dialog: delich -> cedelich
+    level: 29 -> 19
+    gender: NIETHER -> MALE
+    overrideScript: SHOUT -> cedelich
+    classScript: INITDLG -> initdlg
+    raceScript: None -> zilmag01
+    defaultScript: WTASIGHT -> wtasight
+    lring:  -> RING95
+    rring:  -> LICH
+    amulet:  -> MINHP20
+    weapon1: STAF01 -> LICH02
+    weapon2:  -> STAF01
+  CEDRUID2  Dalok
+    weapon1: blun24 -> 
+  CEFGT01   Adherent
+    overrideScript: None -> RR#PICKP
+    weapon1: sw1h20 -> SPER07
+  CEFGT02   Shadow Druid
+    overrideScript: None -> RR#PICKP
+  CEGLUT    Glut
+    overrideScript:  -> RR#PICKP
+  CENTEO01  Centeol
+    overrideScript:  -> RR#PICKP
+  CERND10   Cernd
+    overrideScript: Cernd -> cernd
+  CERND12   Cernd
+    overrideScript: Cernd -> cernd
+  CERND13   Cernd
+    overrideScript: CERND -> cernd
+  CERND13B  Cernd
+    overrideScript: CERND -> cernd
+  CERND14   Cernd
+    overrideScript: CERN25 -> cern25
+    classScript: cern25 -> 
+  CGUARD1   Cultist Guard
+    overrideScript: None -> RR#PICKP
+  CGUARD2   Cultist Guard
+    overrideScript: None -> RR#PICKP
+  CHALCY01  Cyric
+    overrideScript:  -> RR#PICKP
+  CHANTE    Chanter
+    overrideScript: None -> RR#PICKP
+  CHICKDEF  Rabid Chicken
+    race: NO_RACE -> BIRD
+  CHICKE    Chicken
+    race: NO_RACE -> BIRD
+  CHICKER   Rabid Chicken
+    race: NO_RACE -> BIRD
+  CHWRAITH  Child Spirit
+    lring: immune2 -> IMMUNE2
+    rring: chwraith -> CHWRAITH
+    weapon1: wraith1 -> WRAITH1
+  CIVAMNG1  Amnian Soldier
+    generalScript: None -> CBXTGBDS
+  CIVFRUS1  Jeremiah Jamtoes
+    generalScript: None -> CBXTGBDS
+  CIVIL01   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CIVIL02   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CIVIL03   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CLERK01   Clerk
+    generalScript: None -> CBXTGBDS
+  COHRVALE  Cohrvale
+    helmet: helm01 -> HELM01
+    shield: Shld13 -> SHLD13
+    weapon1: ax1h01 -> AX1H01
+  COPAMB03  Gladiator
+    overrideScript: None -> RR#PICKP
+  COPAMB04  Gladiator
+    overrideScript: None -> RR#PICKP
+  CORGEIG   Corgeig Axehand
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBXTGBDS
+  CORNEIL   Corneil
+    raceScript: None -> CBXTGBDS
+  COUNSEC   Council Secretary Ewenn
+    generalScript: None -> CBXTGBDS
+  COW       Cow
+    race: NO_RACE -> MAMMAL
+  COWENF02  Cowled Enforcer
+    xpv: 120 -> 6000
+  COWENF1   Cowled Enforcer
+    allegiance: ENEMY -> NEUTRAL
+    weapon1:  -> STAF02
+  COWENF2   Cowled Enforcer
+    amulet: stonskin -> STONSKIN
+    weapon1: STAF01 -> STAF18
+    xpv: 120 -> 20000
+  COWENF3   Cowled Enforcer
+    amulet:  -> RNDGRP02
+    weapon1:  -> STAF02
+  COWENF4   Cowled Enforcer
+    weapon1:  -> STAF02
+  COWH      Cow
+    race: NO_RACE -> MAMMAL
+  COWLD     Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  COWLED01  Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL1   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL2   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL3   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL4   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL5   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL6   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL7   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL8   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CSCOWL9   Cowled Wizard
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> CBSCCWNM
+  CUCOW1    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUCOW2    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUCOW3    Cowled Enforcer
+    xpv: 120 -> 6000
+  CULTIST1  Cultist
+    overrideScript: None -> RR#PICKP
+  CULTIST2  Cultist
+    overrideScript: None -> RR#PICKP
+  CUWIZ1    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ2    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ3    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ4    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ5    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ6    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZC    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZSU   Cowled Enforcer
+    xpv: 120 -> 6000
+  DADROW19  Drow
+    overrideScript: None -> RR#PICKP
+  DADROW25  Drow
+    overrideScript: None -> RR#PICKP
+  DADROW5   Drow
+    overrideScript:  -> RR#PICKP
+  DADROW6   Drow Leader
+    overrideScript:  -> RR#PICKP
+  DADROW7   Drow
+    overrideScript: None -> RR#PICKP
+  DADUER2   Duergar
+    overrideScript: None -> RR#PICKP
+  DADUER3   Duergar
+    overrideScript: None -> RR#PICKP
+  DADWARF   Dwarf
+    overrideScript: None -> RR#PICKP
+  DAGNOLL   Gnoll
+    overrideScript:  -> RR#PICKP
+  DAKOBOLD  Kobold
+    overrideScript: None -> RR#PICKP
+  DAMIND1   Mind Flayer
+    overrideScript: None -> RR#PICKP
+  DAMIND2   Mind Flayer
+    overrideScript: None -> RR#PICKP
+  DARIO     Dario Thet
+    overrideScript: None -> RR#PICKP
+  DASPITRO  Spirit Troll
+    anim: TROLL -> TROLL_SPECTRAL
+  DAWNMAS   Dawnmaster Kreel
+    generalScript: None -> 
+  DCLERIC   Mad Cleric
+    rring: ring12 -> RING12
+    weapon1: staf01 -> STAF01
+  DCOWL1    Rayic Gethras
+    rring:  -> D0QPRAYI
+    weapon1: staf18 -> STAF18
+  DDGUARD7  Guardian
+    rring: firering -> FIRERING
+  DEADCOW1  Cow
+    race: NO_RACE -> MAMMAL
+  DEADCOW2  Cow
+    race: NO_RACE -> MAMMAL
+  DEADHOR1  Horse
+    race: NO_RACE -> MAMMAL
+  DEADHOR2  Horse
+    race: NO_RACE -> MAMMAL
+  DECKASS1  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  DECKWAR1  Fighter
+    overrideScript: None -> RR#PICKP
+    shield: sw1h09 -> SW1H29
+    weapon1: sw1h09 -> SW1H29
+  DEER01    Deer
+    race: NO_RACE -> MAMMAL
+    deathvar: None -> DEER01
+  DEMGLASU  Glabrezu
+    class: TANARI -> FIGHTER_MAGE_CLERIC
+    deathvar: demglab -> DEMGLAB
+    dialog: None -> 
+    level: 10 -> 15
+    allegiance: GOODBUTRED -> ALLY
+    overrideScript: demglasu -> DVGLABRE
+    classScript: none -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> 
+    lring: immune2 -> IMMUNE2
+    rring: RINGDEMN -> 
+    weapon1: bl3-12M4 -> DEMGLASU
+  DEMOGOR2  Demogorgon
+    overrideScript: None -> A7!DEMO2
+    helmet: helmnoan -> HELMNOAN
+    lring: immune3 -> IMMUNE3
+    rring: minhp1 -> MINHP1
+  DEMPITSU  Pit Fiend
+    class: TANARI -> FIGHTER_MAGE_CLERIC
+    anim: RAVER -> TANARRI
+    level: 13 -> 20
+    allegiance: GOODBUTRED -> ALLY
+    overrideScript: dempitsu -> DVPITSU
+    classScript: none -> 
+    defaultScript: wtasight -> 
+    lring: immune3 -> 
+    rring: RINGDEMN -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> DEMPITSU
+  DEVAEVIL  Fallen Deva
+    general: MONSTER -> HUMANOID
+    race: ANTISOLAR -> DARKPLANATAR
+    class: CLERIC -> FIGHTER_CLERIC
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    dialog: devaevil -> DEVAEVIL
+    level: 25 -> 14
+    gender: BOTH -> NIETHER
+    sex: FEMALE -> MALE
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: devaevil -> DVDEVAE
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVDEVAER
+    weapon1: DEVA -> DVDEVAEW
+    xpv: 20000 -> 0
+  DEVAGOOD  Deva
+    general: MONSTER -> HUMANOID
+    race: SOLAR -> PLANATAR
+    class: CLERIC -> FIGHTER_CLERIC
+    anim: SOLAR -> CLERIC_MALE_ELF
+    dialog: devagood -> DEVAGOOD
+    level: 25 -> 14
+    gender: BOTH -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: devagood -> DVDEVAG
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVDEVAGR
+    weapon1: DEVA -> DVDEVAGW
+    xpv: 20000 -> 0
+  DEVAST01  Astral Deva
+    anim: SOLAR -> CLERIC_MALE_ELF
+    helmet:  -> DVWINGS
+  DEVMON01  Monadic Deva
+    anim: SOLAR -> CLERIC_MALE_ELF
+    helmet:  -> DVWINGS
+    weapon1: devmon01 -> DEVMON01
+  DJINNISU  Djinni
+    overrideScript: None -> DJINNISU
+  DLOST     Lost Child
+    classScript: None -> DLOST
+  DMANNO    Announcer
+    overrideScript:  -> RR#PICKP
+  DOCSOL01  Amnian Soldier
+    overrideScript: None -> RR#PICKP
+  DOCSOL02  Barracks Guard
+    overrideScript: None -> RR#PICKP
+  DOCSOL03  Guard Captain
+    overrideScript: None -> RR#PICKP
+  DOGHMA    Priest of Oghma
+    deathvar: None -> DOGHMA
+  DOGWASU   War Dog
+    allegiance: CONTROLLED -> ALLY
+    raceScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: P1-8 -> DOGWASU
+  DOGWISU   Rabid Dog
+    overrideScript: None -> dogwisu
+  DRAGBLAC  Nizidramanii'yt
+    shield: dr1-6s -> DR1-6S
+  DRAGBLUE  Abazigal
+    xpv: 68000 -> 78000
+  DREAMPC   Dream Vision
+    overrideScript: None -> RR#PICKP
+  DRIZZT    Drizzt
+    overrideScript: None -> RR#PICKP
+    helmet: SW1H15 -> HELMNOAN
+    shield:  -> SW1H15
+    weapon1: DRIZZTS -> SW1H16
+  DRSHSP01  Spirit of the Grove
+    overrideScript:  -> RR#PICKP
+  DRUFF1    Ruffian
+    overrideScript: None -> RR#PICKP
+  DRUFF2    Ruffian
+    overrideScript: None -> RR#PICKP
+  DSHOP01   Ikert
+    dialog: dshop01 -> bshop02
+  DUECLA01  Ilyich
+    helmet:  -> HELM07
+  DUERGAR   Duergar
+    overrideScript: None -> RR#PICKP
+  EAGLE     Eagle
+    race: NO_RACE -> BIRD
+  EDWIN11   Edwin
+    weapon1: dagg01 -> DAGG01
+  EDWIN15   Edwin
+    lring: ring06 -> RING06
+    weapon1: staf19 -> STAF19
+    weapon2: slng04 -> SLNG04
+  EDWIN7    Edwin
+    weapon1: dagg01 -> DAGG01
+  EDWIN9    Edwin
+    weapon1: dagg01 -> DAGG01
+  ELAIRSU1  Lesser Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m3 -> ELAIRSU1
+  ELAIRSU2  Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    anim: ELEMENTAL_AIR_SMALL -> ELEMENTAL_AIR
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m4 -> ELAIRSU2
+  ELAIRSU3  Greater Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m4 -> ELAIRSU3
+  ELDERS    Elder Sorn
+    overrideScript: None -> RR#PICKP
+  ELEARPR   Earth Elemental
+    overrideScript: None -> ELEARPR
+  ELEARPR2  Earth Elemental
+    overrideScript: None -> ELEARPR2
+  ELEARPR3  Earth Elemental
+    overrideScript: None -> ELEARPR3
+  ELEARSU1  Lesser Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: B4-32m3 -> ELEARSU1
+  ELEARSU2  Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b4-32m4 -> ELEARSU2
+  ELEARSU3  Greater Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b4-32m4 -> ELEARSU3
+  ELEHOB01  Goblin Commando
+    race: HOBGOBLIN -> GOBLIN
+  ELEMCHAN  Chan
+    gender: NIETHER -> MALE
+    overrideScript: elemchan -> ELEMCHAN
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemchan -> ELEMCHAN
+  ELEMHYDR  Olhydra
+    class: NO_CLASS -> ELEMENTAL_WATER
+  ELEMSUNN  Sunnis
+    gender: NIETHER -> FEMALE
+    overrideScript: elemsunn -> ELEMSUNN
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemsunn -> ELEMSUNN
+  ELEMZAAM  Zaaman Rul
+    gender: NIETHER -> MALE
+    overrideScript: elemzaam -> ELEMZAAM
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemzaam -> ELEMZAAM
+  ELESAH01  Sahuagin Baron
+    level: 2 -> 6
+  ELESAH02  Sahuagin Baronial Guard
+    level: 2 -> 4
+  ELFIRPR   Fire Elemental
+    overrideScript: None -> ELFIRPR
+  ELFIRPR2  Fire Elemental
+    overrideScript: None -> ELFIRPR2
+  ELFIRPR3  Fire Elemental
+    overrideScript: None -> ELFIRPR3
+  ELFIRSU1  Lesser Fire Elemental
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU1
+  ELFIRSU2  Fire Elemental
+    anim: ELEMENTAL_FIRE_SMALL -> ELEMENTAL_FIRE
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU2
+  ELFIRSU3  Greater Fire Elemental
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU3
+  ELWATG01  Greater Water Elemental
+    class: NO_CLASS -> ELEMENTAL_WATER
+  ETTERCSU  Ettercap
+    overrideScript: None -> ettercsu
+  EXCULT1   Garuk
+    overrideScript: None -> RR#PICKP
+  EXCULT2   Zaelas
+    overrideScript: None -> RR#PICKP
+  FAMCAT    Cat
+    deathvar: famcat -> FAMCAT
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMCAT25  Cat
+    deathvar: famcat -> FAMCAT
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMDUS25  Dust Mephit
+    deathvar: famdust -> FAMDUST
+    dialog: famil225 -> FAMIL225
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> 
+    rring: MOVRAT10 -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-3 -> MEPFIR
+    weapon2:  -> MEPFIR
+  FAMDUST   Dust Mephit
+    deathvar: famdust -> FAMDUST
+    dialog: famil2 -> FAMIL2
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    rring: MOVRAT10 -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPFIR
+    weapon2:  -> MEPFIR
+  FAMFAI25  Fairy Dragon
+    class: WYVERN -> MAGE
+    deathvar: famfair -> FAMFAIR
+    dialog: famil125 -> FAMIL125
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPLIG
+    weapon2:  -> MEPLIG
+  FAMFAIR   Fairy Dragon
+    class: WYVERN -> MAGE
+    deathvar: famfair -> FAMFAIR
+    dialog: famil1 -> FAMIL1
+    level: 5 -> 3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPLIG
+    weapon2:  -> MEPLIG
+  FAMFER    Ferret
+    class: MAGE_THIEF -> THIEF
+    deathvar: famfer -> FAMFER
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: MOVRAT10 -> 
+    amulet: IMMCLOUD -> Immcloud
+  FAMFER25  Ferret
+    class: MAGE_THIEF -> THIEF
+    deathvar: famfer -> FAMFER
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: MOVRAT10 -> 
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-6 -> S1-3
+    weapon2: S1-6 -> S1-3
+  FAMIMP    Imp
+    deathvar: famimp -> FAMIMP
+    dialog: famil2 -> FAMIL2
+    level: 7 -> 3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet:  -> ImmCloud
+    weapon1: IMP -> IMPCLAW
+    weapon2:  -> IMPCLAW
+  FAMIMP25  Imp
+    deathvar: famimp -> FAMIMP
+    dialog: famil225 -> FAMIL225
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> ImmCloud
+    weapon1: IMPCLAW -> impclaw
+    weapon2:  -> IMPCLAW
+  FAMPSD    Pseudo-dragon
+    class: WYVERN -> MAGE
+    deathvar: fampsd -> FAMPSD
+    dialog: famil1 -> FAMIL1
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> reghp1
+    rring:  -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: CDFAMPSD -> PSDCLAW
+    weapon2:  -> PSDCLAW
+  FAMPSD25  Pseudo-dragon
+    class: WYVERN -> MAGE
+    deathvar: fampsd -> FAMPSD
+    dialog: famil125 -> FAMIL125
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> reghp1
+    rring:  -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: PSDCLAW -> psdclaw
+    weapon2:  -> PSDCLAW
+  FAMQUA25  Quasit
+    class: IMP -> MAGE
+    deathvar: famquas -> FAMQUAS
+    dialog: famil225 -> FAMIL225
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> immcloud
+    weapon1: QUASCLAW -> quasclaw
+    weapon2:  -> QUASCLAW
+  FAMQUAS   Quasit
+    class: IMP -> MAGE
+    deathvar: famquas -> FAMQUAS
+    dialog: famil2 -> FAMIL2
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    weapon1: S1-6 -> QUASCLAW
+    weapon2:  -> QUASCLAW
+  FAMRAB    Rabbit
+    deathvar: famrab -> FAMRAB
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMRAB25  Rabbit
+    class: MAGE_THIEF -> THIEF
+    deathvar: famrab -> FAMRAB
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+  FFCOOK    Uda the Cook
+    overrideScript: None -> RR#PICKP
+  FFCUST01  Ercias
+    overrideScript: SHOUT -> rh#ercia
+  FFCUST02  Tavern Patron
+    overrideScript: None -> RR#PICKP
+  FFRECEP   Receptionist
+    overrideScript: FFACTLV -> RR#PICKP
+    classScript: SHOUTDLG -> CBFFRECP
+  FFUSHER1  Usher
+    classScript: FFACTLV -> CBFFUSHA
+  FFUSHER2  Usher
+    classScript: FFACTLV -> CBFFUSHA
+  FINIMOEN  Imoen
+    weapon1: dagg24 -> DAGG24
+    weapon2: bow18 -> BOW18
+  FINMEL01  Melissan
+    defaultScript: meliss01 -> finmel
+    helmet: helmnoan -> FINBALTH
+    lring: immune3 -> ALLFIVE
+    rring:  -> FINABAZ
+    amulet: finmel01 -> FINMEL01
+  FIRAMB03  Troll
+    anim: TROLL_SMALL -> TROLL
+  FIRAMB05  Troll
+    anim: TROLL_SMALL -> TROLL
+  FIRKRA01  Lord Jierdan
+    general: ANIMAL -> HUMANOID
+  FIRKRA03  Voice
+    general: MONSTER -> GENERAL_ITEM
+    race: NO_RACE -> SWORD
+    class: NO_CLASS -> FIGHTER
+    anim: DOOM_GUARD -> STATIC_HUMANCLERIC_MAN_CHAIR
+    deathvar: Firkra03 -> firkra03
+    dialog: Firkra03 -> firkra03
+    level: 8 -> 1
+    overrideScript:  -> firkra03
+    classScript: gensht01 -> 
+    lring: RING95 -> MAGE01
+    rring: MAGE01 -> 
+    weapon1: S2-16 -> 
+  FIRMAG01  Conster
+    helmet: helmnoan -> HELMNOAN
+    weapon2:  -> STAF02
+  FIRMON03  Director
+    lring: beholder -> BEHOLDER
+  FIRMON04  Revenant
+    anim: FIGHTER_MALE_HUMAN -> REVENANT
+  FIRORC02  Derg the Orc
+    overrideScript: None -> RR#PICKP
+  FIRORC03  Flaylan the Orc
+    overrideScript: None -> RR#PICKP
+  FIRRAK01  Ruhk Transmuter
+    lring: ring02 -> RING02
+    rring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  FIRWLF01  Grancor
+    defaultScript: None -> CBMALDES
+  FIRWLF02  Falik
+    overrideScript:  -> RR#PICKP
+    defaultScript: None -> CBMALDES
+  FIRWRA01  Greater Wraith
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+  FLYFGT02  Shadow Thief Guard
+    classScript: None -> D0ARANBK
+  FLYFGT03  Shadow Thief Archer
+    classScript: None -> D0ARANBK
+  FLYFGT04  Shadow Thief Inquisitor
+    classScript: MAGE12D -> D0ARANBK
+    raceScript: None -> MAGE12D
+  FSGOBL    Goblin
+    race: KOBOLD -> GOBLIN
+    overrideScript:  -> RR#PICKP
+  FSHORDE1  Goblin
+    race: HOBGOBLIN -> GOBLIN
+  FSHORDE2  Goblin
+    race: KOBOLD -> GOBLIN
+  FSHORDE3  Goblin
+    race: HOBGOBLIN -> GOBLIN
+  FSMUMM    Mummy
+    raceScript: None -> D0MUMMY
+  FSMUMM2   Mummy
+    raceScript: None -> D0MUMMY
+  FSMUMM3   Mummy
+    raceScript: None -> D0MUMMY
+  FSSPIR1   Spirit Warrior
+    overrideScript: None -> RR#PICKP
+  FSSPIR3   Spirit Panel
+    overrideScript: None -> RR#PICKP
+  FSSPIRA   Helmite Ghost
+    overrideScript: None -> RR#PICKP
+  FSSPIRB   Helmite Ghost
+    overrideScript: None -> RR#PICKP
+  FSSPIRC   Helmite Ghost
+    overrideScript: None -> RR#PICKP
+  GAAL01    Gaal
+    weapon1: staf01 -> STAF01
+  GAELAN    Gaelan Bayle
+    overrideScript: None -> RR#PICKP
+  GAELAN2   Gaelan Bayle
+    overrideScript: None -> RR#GAELN
+    classScript: SHOUTDLG -> 
+    raceScript: gpuse -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> 
+    shield:  -> SW1H29
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow09 -> 
+    xpv: 1300 -> 6000
+  GAROCK    Garock
+    race: OGRE -> MINOTAUR
+  GEMCH01   Chicken
+    race: NO_RACE -> BIRD
+    dialog: None -> GEMCH01
+  GEMCH02   Chicken
+    race: NO_RACE -> BIRD
+    dialog: None -> GEMCH02
+  GEMFAR01  Enna Hendrick
+    overrideScript: None -> RR#PICKP
+  GEMFAR02  Erlin Hendrick
+    overrideScript: None -> RR#PICKP
+  GERHARDT  Uncle Gerhardt
+    overrideScript: None -> RR#PICKP
+  GIAFIR01  Fire Giant
+    helmet: helmnoan -> HELMNOAN
+    weapon1: giafir2 -> GIAFIR2
+  GIBBERSU  Gibberling
+    allegiance: ENEMY -> ALLY
+    overrideScript: GIBBER -> None
+    defaultScript: WTASIGHT -> DVMELEE
+    weapon1: S1-8 -> GIBBERSU
+    xpv: 35 -> 0
+  GIRL1     Girl
+    overrideScript:  -> RR#PICKP
+  GLBEAR    Black Bear
+    anim: TROLL -> BEAR_BLACK
+  GLOBSHAM  Shambling Mound
+    general: MONSTER -> GIANTHUMANOID
+    race: ELEMENTAL -> SHAMBLING_MOUND
+    class: ELEMENTAL_EARTH -> NO_CLASS
+  GNOLLSU   Gnoll Elite
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: GENSHT01 -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet: helm01 -> HELM01
+    weapon1: halb01 -> GNOLLSU
+    xpv: 0 -> 35
+  GOLADA01  Adamantite Golem
+    generalScript: GOLIRO01 -> A7!GXAD2
+  GOLBON01  Skeleton Warrior
+    weapon1: s3-8m3 -> S3-8M3
+  GOLBRA01  Brain Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_BRAIN
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  GOLFLE01  Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  GOLICE01  Ice Golem
+    class: GOLEM_IRON -> GOLEM_ICE
+  GOLIRO01  Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GOLKILL2  Adamantite Golem
+    generalScript: GOLIRO01 -> A7!GXAD2
+  GORAPR    Apprentice
+    overrideScript: None -> RR#PICKP
+  GORCAMB   Aesgareth
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: gorcamb -> GORCAMB
+  GORDECK6  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK7  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK8  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECK9  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORDECKA  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  GORGOLI   Ice Golem
+    class: GOLEM_IRON -> GOLEM_ICE
+    lring: gormisti -> GORMISTI
+  GORGRD01  Guardian Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GORGRD02  Guardian Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GORJE     Gorje Hilldark
+    overrideScript: None -> RR#PICKP
+  GORLIC01  Azamantes
+    lring: ring95 -> RING95
+    rring: lich -> LICH
+    weapon1: lich02 -> LICH02
+  GORLUM    Machine of Lum the Mad
+    anim: BIRD -> DOOM_GUARD
+  GORMISTI  Ice Mist
+    amulet: gormisti -> GORMISTI
+    weapon1: mistice -> MISTICE
+  GORMISTP  Poison Mist
+    lring: gormistp -> GORMISTP
+    weapon1: mistpo -> MISTPO
+  GORSAL    Saladrex
+    helmet: helmnoan -> HELMNOAN
+  GORSNAKE  Giant Snake
+    race: NO_RACE -> REPTILE
+  GORSTA08  Statue
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GORSTA11  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: dagg24 -> STAF20
+  GOVWAU01  Priest of Waukeen
+    overrideScript: None -> RR#PICKP
+  GPMAGE1   N'ashtar
+    weapon1: staf01 -> STAF01
+  GPSIMB    Simbja
+    race: HOBGOBLIN -> GOBLIN
+  GRHOG01   Groundhog
+    race: NO_RACE -> MAMMAL
+  GROMG01   Il-Khan Soldier
+    overrideScript: None -> RR#PICKP
+  GROMG03   Il-Khan Soldier
+    overrideScript: None -> RR#PICKP
+    defaultScript: carch20b -> gparcher
+    helmet:  -> HELM01
+    weapon1: bow02 -> BOW02
+    weapon2:  -> SW1H01
+  GROMG04   Il-Khan Soldier
+    overrideScript: None -> RR#PICKP
+  GROMG05   Il-Khan Battle Mage
+    anim: MAGE_MALE_HUMAN -> MAGE_FEMALE_HUMAN
+    gender: MALE -> FEMALE
+    sex: MALE -> FEMALE
+    overrideScript: None -> RR#PICKP
+    classScript: GRPSHT01 -> 
+    generalScript: None -> spseq16a
+    defaultScript: CMAGE20A -> gpmage1
+    weapon1: staf18 -> 
+  GROMG06   Il-Khan Soldier
+    overrideScript: None -> RR#PICKP
+  GROMG07   Il-Khan Soldier
+    overrideScript: None -> RR#PICKP
+  GROMG08   Karun the Black
+    level: 18 -> 20
+    overrideScript: None -> RR#PICKP
+    classScript: GRPSHT01 -> 
+    generalScript: None -> spseq16b
+    defaultScript: CMAGE20A -> gpmage1
+    rring:  -> RING07
+    amulet:  -> AMUL21
+    weapon1: staf18 -> STAF18
+  GROMG09   Eler Had
+    race: HUMAN -> HALF_ELF
+    anim: THIEF_MALE_HUMAN -> THIEF_MALE_ELF_LOW
+    allegiance: NEUTRAL -> ENEMY
+    classScript: GRPSHT01 -> 
+    defaultScript: CTHIE20B -> gpthief
+    shield:  -> SHLD17
+    weapon1: dagg02 -> DAGG20
+    weapon2:  -> DAGG16
+    weapon3:  -> DAGG16
+  GROMG10   Berena Elkan
+    level: 15 -> 18
+    allegiance: NEUTRAL -> ENEMY
+    classScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> gpwslay
+    weapon1: sper06 -> BERENA
+  GROMNIR   Gromnir Il-Khan
+    level: 20 -> 22
+    overrideScript: None -> RR#PICKP
+    classScript: GRPSHT01 -> 
+    defaultScript: CBARB20B -> gromnir
+    helmet: helmnoan -> WA2HELM
+    shield: blun34 -> 
+    amulet:  -> BHAALIMM
+    weapon1: blun35 -> GROMNIR
+  GRREVEN   Revenant
+    anim: ZOMBIE -> REVENANT
+  GRSKEL1   Skeleton Warrior
+    lring: ring99 -> RING99
+    weapon1: sw2h01 -> SW2H01
+  GRSKEL2   Skeleton Warrior
+    lring: ring99 -> RING99
+    weapon1: sw2h01 -> SW2H01
+  GRTOMB01  Skeleton Warrior
+    weapon1: sper09 -> SPER05
+  HABREGA   Chief Inspector Brega
+    generalScript: None -> CBXTGBDS
+  HAEGAN    Captain Haegan
+    helmet: helm13 -> HELM13
+    shield:  -> SHLD04
+    weapon1: sw2h01 -> DVFLAIL
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  HAER10    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER11    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER13    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAER19    Haer'Dalis
+    shield: npsw06 -> NPSW06
+    weapon1: npsw05 -> NPSW05
+  HAKSU     Hakeashar
+    class: OGRE_MAGE -> MIST
+    allegiance: CONTROLLED -> ENEMY
+    overrideScript: Nishru01 -> NISHRU01
+    rring: immune1 -> IMMUNE1
+    weapon1: nishruu -> HAKSU
+  HAMASU    Hamadryad
+    class: FIGHTER -> DRUID
+    level: 8 -> 4
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: HAMA -> HAMASU
+    defaultScript: wtasight -> 
+    amulet: ANTIWEB -> 
+    weapon1: dagg01 -> HAMASU
+  HDRAGSIL  Dragon
+    class: SHADOW_DRAGON -> SILVER_DRAGON
+    anim: DRAGON_BLACK -> DRAGON_SILVER
+    gender: MALE -> FEMALE
+    sex: MALE -> FEMALE
+    overrideScript: DRAGHELL -> shoutdlg
+    classScript: None -> draghell
+  HEARTG1   Knight of the Order
+    generalScript: None -> CBXTRSDS
+  HEARTG2   Knight of the Order
+    generalScript: None -> CBXTRSDS
+  HEARTG3   Sir Zarath
+    generalScript: None -> CBXTRSDS
+  HEARTG4   Sir Mardus
+    generalScript: None -> CBXTRSDS
+  HELLFEAR  Fear
+    overrideScript: wtasight -> l-fear
+  HELLSARE  Wraith Sarevok
+    overrideScript:  -> RR#PICKP
+  HELLSELF  Selfishness
+    dialog: hellself -> HELLSELF
+    gender: NIETHER -> MALE
+    sex: MALE -> FEMALE
+    lring: immune2 -> IMMUNE4
+    weapon1: bl3-12M4 -> BL3-12M4
+  HELLSLAY  Slayer
+    classScript: None -> helljon
+  HENDAK    Hendak
+    shield: sw1h07 -> SW1H07
+    weapon1: sw1h07 -> SW1H07
+  HGBER01   Berenn
+    helmet: helmnoan -> HELMNOAN
+    amulet: amul12 -> AMUL12
+    weapon1: hgber01 -> HGBER01
+  HGKAR01   Karthis al-Hezzar
+    overrideScript: None -> RR#PICKP
+  HGMAG01   Fire Giant Mage
+    defaultScript: None -> WTASIGHT
+  HGMAG02   Fire Giant Mage
+    defaultScript: None -> WTASIGHT
+  HGMIS01   Vampiric Wraith
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: mistva2 -> MISTVA2
+  HGMIS02   Swamp Horror
+    weapon1: mistho -> MISTHO
+  HGMND2    Shambling Mound
+    race: ELEMENTAL -> SHAMBLING_MOUND
+    class: ELEMENTAL_EARTH -> NO_CLASS
+    gender: FEMALE -> 0
+  HGMOUND   Shambling Mound
+    race: ELEMENTAL -> SHAMBLING_MOUND
+    class: ELEMENTAL_EARTH -> NO_CLASS
+    gender: FEMALE -> 0
+  HGNYA01   Nyalee
+    overrideScript: None -> RR#PICKP
+    helmet: helmnoan -> HELMNOAN
+    lring: ring03 -> RING03
+    amulet: minhp1 -> MINHP1
+    weapon1: hgnya01 -> HGNYA01
+  HGSAL01   Salamander
+    class: ELEMENTAL_FIRE -> SALAMANDER_FIRE
+  HGSKL01   Skeleton Cleric
+    lring: ring95 -> RING95
+    weapon1: blun21 -> BLUN21
+  HGSKL02   Skeleton Assassin
+    shield: dagg15 -> DAGG15
+    lring: ring95 -> RING95
+    weapon1: sw1h09 -> SW1H29
+  HGWAR02   Elite Fire Giant
+    defaultScript: CFIGH20B -> D0FGIANT
+  HGWRA01   Gorion
+    rring: ring95 -> RING95
+    weapon1: hgwra01 -> HGWRA01
+  HGWRA02   Devil Shade
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  HGWRA03   Devil Shade
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  HLKETTA   Ketta
+    generalScript: None -> 
+    weapon1: sw1h09 -> SW1H29
+  HLKETTA2  Ketta
+    generalScript: None -> 
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h09 -> SW1H29
+  HLKOSHI   Koshi
+    helmet: helm01 -> HELM01
+    shield: sw1h44 -> SW1H44
+    weapon1: sw1h51 -> SW1H51
+  HLLAYEN   Layene
+    overrideScript: None -> dx#layen
+    lring:  -> RING07
+    weapon1: staf11 -> STAF11
+    xpv: 4000 -> 20000
+  HLMAFER   Maferan
+    race: GNOLL -> MINOTAUR
+    generalScript: None -> 
+  HLREVAN   Revanek
+    generalScript: None -> USEITEM
+    defaultScript: WTASIGHT -> WTARSGT
+    helmet:  -> HELM01
+    weapon1:  -> SW2H11
+    xpv: 6000 -> 12000
+  HLSHANG   Shangalar
+    helmet:  -> HELM25
+  HLSHYR    Shyressa
+    overrideScript: None -> dx#layen
+  HLSION    Sion
+    generalScript: None -> 
+    weapon1:  -> STAF02
+  HLSTAL    Stalman
+    generalScript: None -> 
+  HLVAXAL   Vaxall
+    generalScript: BEHOLD01 -> BEHELD01
+  HMELVIN   Squire Melvin
+    generalScript: None -> CBXTRSDS
+  HOBGOBSU  Hobgoblin Elite
+    overrideScript: None -> hobgobsu
+  HORSE     Horse
+    race: NO_RACE -> MAMMAL
+  HPRELATE  Prelate Wessalen
+    generalScript: None -> CBXTRSDS
+    weapon2: sw2h02 -> SW2H02
+  HSPECTR1  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  HSPECTR2  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  HSPECTR3  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  ICBONE01  Bone Golem
+    class: GOLEM_STONE -> SKELETON_BANEGUARD
+  ICFUNG02  Spore Colony
+    race: NO_RACE -> SHRIEKER
+  ICFUNGUS  Spore Colony
+    race: NO_RACE -> SHRIEKER
+  ICGOB01   Goblin
+    race: KOBOLD -> GOBLIN
+  ICGOB02   Goblin
+    race: KOBOLD -> GOBLIN
+  ICGOB03   Goblin
+    race: KOBOLD -> GOBLIN
+  ICGOB04   Goblin Captain
+    race: KOBOLD -> GOBLIN
+  ICLIZ01   Lizard Man
+    race: YUANTI -> LIZARDMAN
+  ICLIZ02   Gorkale
+    race: YUANTI -> LIZARDMAN
+  ICMARILI  Marilith
+    lring: immune2 -> IMMUNE2
+    weapon1: sw1h52 -> SW1H76
+  ICMIN01   Minotaur
+    race: OGRE -> MINOTAUR
+  ICSALCOL  Frost Salamander
+    class: ELEMENTAL_WATER -> SALAMANDER_FROST
+  ICSALFIR  Salamander
+    class: ELEMENTAL_FIRE -> SALAMANDER_FIRE
+  ICYUAN01  Yuan-ti
+    deathvar: None -> YUANTI
+  ICYUAN02  Greater Yuan-ti
+    deathvar: None -> YUANTI
+  ICYUAN03  Yuan-Ti Mage
+    deathvar: mage12d -> YUANTI
+  ICYUAN04  Yuan-ti Elite
+    deathvar: icyuan04 -> YUANTI
+  ICYUAN05  Yuan-ti Prince
+    deathvar: mage14d -> YUANTI
+  IGOLFLE1  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE2  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE3  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE4  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  ILLASERA  Illasera
+    class: FIGHTER_MAGE -> RANGER
+    anim: MAGE_FEMALE_HUMAN -> FIGHTER_FEMALE_HUMAN_LOW
+    level: 20 -> 18
+    overrideScript: GRPSHT01 -> RR#PICKP
+    helmet: helmnoan -> 
+    lring: ring06 -> RING06
+    amulet:  -> BHAALIMM
+    weapon1: dagg15 -> ILLAS01
+    weapon2:  -> ILLAS02
+    weapon3:  -> ILLAS03
+    weapon4:  -> DAGG15
+  IMOEN     Imoen
+    overrideScript: None -> RR#PICKP
+  IMOEN15   Imoen
+    weapon1: dagg24 -> DAGG24
+    weapon2: bow18 -> BOW18
+  JAEL03    Ist'tar Jae'llat
+    weapon1: dwsw1h02 -> DWSW1H02
+    weapon2: dwsw1h02 -> DWSW1H02
+  JAERTO1   Jarden
+    overrideScript: None -> RR#PICKP
+  JAERTO2   Turg
+    overrideScript: None -> RR#PICKP
+  JAERTO3   Tamile
+    overrideScript: None -> RR#PICKP
+  JAERTO4   Wurn
+    overrideScript: None -> RR#PICKP
+  JAGA3     Nadinal
+    xpv: 0 -> 2500
+  JAHEI3    Harper
+    xpv: 0 -> 3000
+  JAHEIRD   Jaheira
+    overrideScript:  -> RR#PICKP
+  JAREVIA   Reviane
+    overrideScript: None -> RR#PICKP
+  JARLICH   Deirex
+    overrideScript: shoutdlg -> L-JARLI
+  JATERMIN  Terminsel
+    overrideScript: None -> RR#PICKP
+  JELLMUSU  Mustard Jelly
+    overrideScript: None -> jellmusu
+  JONDAL    Jondalar
+    overrideScript: None -> RR#PICKP
+  JONDEM01  Glabrezu
+    overrideScript: None -> jondem01
+    classScript: None -> demgaj
+  JONDEM02  Balor
+    overrideScript: None -> jondem02
+    classScript: None -> demptj
+  JONDEM03  Glabrezu
+    overrideScript: None -> jondem03
+    classScript: None -> demgaj
+  JONDEM04  Balor
+    overrideScript: None -> jondem04
+    classScript: None -> demptj
+  JUGJER01  Jermien
+    helmet: helmnoan -> HELMNOAN
+  KAYL1     Sir Ryan Trawl
+    defaultScript: None -> CBXTRSDS
+  KAYL2     Sir Ryan Trawl
+    generalScript: None -> D0KAYL
+  KELDOR10  Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR12  Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR14  Keldorn
+    weapon1: npsw03 -> NPSW03
+    weapon2: xbow07 -> XBOW07
+  KELDOR8   Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR9   Keldorn
+    weapon1: npsw03 -> NPSW03
+  KFTOWN01  Hannah
+    overrideScript: None -> RR#PICKP
+  KHALIDD   Khalid
+    overrideScript:  -> RR#PICKP
+  KINDAI    Kindail
+    overrideScript: None -> RR#PICKP
+  KOBSHA01  Kobold Shaman
+    weapon1: blun04 -> BLUN04
+  KORGAN11  Korgan
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: Korax01 -> KORAX01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  KORGAN12  Korgan
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: korax01 -> KORAX01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  KORGAN15  Korgan
+    helmet: helm01 -> HELM01
+    shield: shld29 -> SHLD29
+    weapon1: ax1h11 -> AX1H11
+    weapon2: ax1h17 -> AX1H17
+    weapon3: ax1h04 -> AX1H04
+  KORGAN8   Korgan
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: korax01 -> KORAX01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  KORGAN9   Korgan
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: korax01 -> KORAX01
+    weapon2: ax1h04 -> AX1H04
+    weapon3: ax1h04 -> AX1H04
+  KPGLAI01  Glaicus
+    overrideScript: None -> RR#PICKP
+    weapon1: sw2h01 -> SW2H01
+  KPGOL01   Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  KPGOL04   Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  KPGOL06   Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  KPROEN01  Lord Roenall
+    overrideScript: None -> RR#PICKP
+  KPROEN02  Roenall Guard
+    overrideScript: None -> RR#PICKP
+  KPROEN03  Roenall Guard
+    overrideScript: None -> RR#PICKP
+  KPROEN04  Roenall Soldier
+    overrideScript: None -> RR#PICKP
+  KPROEN05  Roenall Soldier
+    overrideScript: None -> RR#PICKP
+  KPSHAM01  Yuan-Ti Mage
+    deathvar: kpsham01 -> YUANTI
+  KPSOLD02  de'Arnise Guard
+    overrideScript: None -> RR#PICKP
+  KPTROL06  Ice Troll
+    anim: TROLL_SMALL -> TROLL_ICE
+  KPYUAN01  Greater Yuan-ti
+    deathvar: kpyuan01 -> YUANTI
+  KSHADOW   Shadow
+    overrideScript: None -> D0QPSHAD
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  LACEDO02  Greater Lacedon
+    weapon1: lacedo02 -> LACEDO02
+  LATLARA   Acolyte Lara
+    generalScript: None -> 
+  LEHTIN    Lehtinan
+    weapon1: dagg01 -> DAGG01
+  LICH01    Lich
+    level: 11 -> 20
+  LLARSH    Llarsh
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> CBXTGBDS
+  LLYLLA    Llylla
+    race: NO_RACE -> MAMMAL
+  LLYNIS    Llynis
+    overrideScript:  -> RR#PICKP
+  MAEGUY02  Thief
+    overrideScript: None -> RR#PICKP
+  MAEVAR    Mae'Var
+    overrideScript: gpshout -> RR#PICKP
+    classScript: useitem -> 
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow01 -> BOW02
+  MAGE16C   Cowled Wizard
+    lring:  -> RING02
+    weapon1:  -> STAF02
+  MAGE18A   Cowled Wizard
+    weapon1:  -> STAF18
+  MAGE18Z   Zallanora
+    amulet:  -> AMUL22
+  MALLA01   Malla
+    overrideScript: None -> RR#PICKP
+  MALLA02   Malla
+    overrideScript: None -> RR#PICKP
+  MARCUS    Marcus
+    overrideScript: None -> RR#PICKP
+  MARLOWE   Marlowe
+    overrideScript: None -> RR#PICKP
+  MAZZY11   Mazzy
+    class: FIGHTER -> PALADIN
+  MAZZY12   Mazzy
+    class: FIGHTER -> PALADIN
+  MAZZY15   Mazzy
+    class: FIGHTER -> PALADIN
+    helmet: helm10 -> HELM10
+  MAZZY8    Mazzy
+    class: FIGHTER -> PALADIN
+    weapon1: npbow -> NPBOW
+    weapon2: npsw01 -> NPSW01
+  MAZZY9    Mazzy
+    class: FIGHTER -> PALADIN
+    weapon1: npbow -> NPBOW
+    weapon2: npsw01 -> NPSW01
+  MEKRAT    Mekrath
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf02 -> STAF02
+  MELSUM03  Death Tyrant
+    anim: BEHOLDER -> DEATH_TYRANT
+  MEPFIR01  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPICE01  Ice Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MERCHANT  Bel Dalemark
+    overrideScript: None -> RR#PICKP
+  MERINIA   Meronia
+    overrideScript: None -> RR#PICKP
+  MERONIA   Meronia
+    generalScript: None -> CBXTHSDS
+  MGBILL01  William "Bill" Williamson
+    overrideScript:  -> RR#PICKP
+  MGKET01   Lord Ketlaar Argrim
+    weapon1: dart02 -> DART02
+    weapon2: sw2h01 -> SW2H01
+  MINDAL01  Alhoon
+    deathvar: None -> mindal01
+  MINSC14   Minsc
+    helmet: helm12 -> HELM12
+    weapon1: sw2h20 -> SW2H20
+    weapon2: bow16 -> BOW16
+  MISTCD01  Crimson Death
+    weapon1: mistcd -> MISTCD
+  MISTHO01  Mist Horror
+    weapon1: mistho -> MISTHO
+  MISTPO01  Poison Mist
+    gender: SUMMONED -> NIETHER
+    weapon1: mistpo -> MISTPO
+  MISTVA01  Vampiric Mist
+    rring: ring95 -> RING95
+    weapon1: mistva -> MISTVA
+  MISTWA01  Wandering Horror
+    weapon1: mistwa -> MISTWA
+  MOOK02    Mook
+    class: THIEF -> FIGHTER_THIEF
+    level: 6 -> 7
+    overrideScript: GENSHT01 -> RR#MOOK
+    classScript: SHOUTDLG -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> 
+    weapon1: SW1H07 -> SW1H04
+    weapon2:  -> BOW04
+    xpv: 500 -> 2500
+  MOOKFT01  Shadow Thief Thug
+    class: THIEF -> FIGHTER_THIEF
+    deathvar: None -> MOOKFT01
+    level: 10 -> 7
+    overrideScript: GENSHT01 -> RR#STF01
+    defaultScript: WTASIGHT -> 
+    helmet: HELM01 -> 
+    amulet:  -> RR#HIDN
+    weapon1: HAMM01 -> SW1H20
+    xpv: 1400 -> 2500
+  MOOKFT02  Shadow Thief
+    class: THIEF -> FIGHTER_THIEF
+    deathvar: None -> MOOKFT02
+    level: 10 -> 7
+    overrideScript: GENSHT01 -> RR#STF01
+    defaultScript: WTASIGHT -> 
+    shield:  -> SHLD08
+    amulet:  -> RR#HIDN
+    weapon2:  -> DAGG01
+    xpv: 1400 -> 2500
+  MOOSE     Moose
+    race: NO_RACE -> MAMMAL
+  MOOSE01   Moose
+    race: NO_RACE -> MAMMAL
+  MUGGER3   Shady Character
+    overrideScript: None -> RR#PICKP
+  MUMGRE01  Greater Mummy
+    raceScript: None -> D0MUMMY
+  MUMMY     Mummy
+    classScript: None -> MUMMY01
+    raceScript: None -> D0MUMMY
+  MUMMY01   Mummy
+    raceScript: None -> D0MUMMY
+  MVGUARD1  Assassin
+    overrideScript: gpshout -> RR#PICKP
+    classScript: gparcher -> 
+    generalScript: None -> D0MVGUAR
+    weapon2: bow05 -> BOW05
+  MVPRIES   Priest of Cyric
+    overrideScript: gpshout -> RR#PICKP
+    classScript: pries8b -> 
+    raceScript: None -> PTDEATH
+    generalScript: None -> D0MVCLER
+    helmet:  -> HELM01
+    weapon1: staf01 -> STAF01
+  NALDEAD   Nalia
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg05 -> DAGG05
+  NALDIRT   Officer Dirth
+    overrideScript:  -> RR#PICKP
+  NALIA10   Nalia
+    lring: npring01 -> NPRING01
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow05 -> BOW05
+  NALIA11   Nalia
+    lring: npring01 -> NPRING01
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow05 -> BOW05
+  NALIA15   Nalia
+    lring: npring01 -> NPRING01
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow05 -> BOW05
+  NALIA18   Nalia
+    lring: npring01 -> NPRING01
+    rring: ring06 -> RING06
+    weapon1: sw1h74 -> SW1H74
+    weapon2: bow18 -> BOW18
+  NALIA8    Nalia
+    lring: npring01 -> NPRING01
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow05 -> BOW05
+  NCHICK    Chicken
+    race: NO_RACE -> BIRD
+  NCOW      Cow
+    race: NO_RACE -> MAMMAL
+  NEB       Neb
+    weapon1: nebdag -> NEBDAG
+  NEVM2     Skeleton Warrior
+    lring: ring95 -> RING95
+    weapon1: sw2h01 -> SW2H01
+  NEVM4     Vampyre
+    deathvar: None -> nevm4
+  NHORSE    Horse
+    race: NO_RACE -> MAMMAL
+  NISHRUSU  Nishruu
+    class: OGRE_MAGE -> MIST
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ENEMY
+    overrideScript: Nishru01 -> NISHRU01
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: None -> 
+    weapon1: nishruu -> NISHRUU
+  OBSDEM02  Mane
+    deathvar: None -> OBSDEM02
+  OBSFIR03  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  OBSHAL03  Necre
+    weapon1: dagg17 -> DAGG17
+    weapon2:  -> SLNG04
+  OBSHAL04  Halfling Warrior
+    classScript: obshal01 -> 
+  OBSHAL05  Kayardi
+    helmet:  -> HELM23
+  OBSHAL07  Mogadish
+    weapon2:  -> BLUN31
+  OBSICE01  Snow Troll
+    anim: TROLL -> TROLL_SNOW
+  OBSICE02  Ice Mephit
+    amulet: Immcloud -> IMMCLOUD
+    weapon1: mepice -> MEPICE
+  OBSICE11  Snow Troll
+    anim: TROLL -> TROLL_SNOW
+  OBSSAH01  Sahuagin Baron
+    deathvar: None -> obssah01
+    level: 2 -> 6
+  OBSSAH02  Sahuagin Priestess
+    deathvar: pries8a -> obssah02
+    level: 8 -> 9
+  OBSSAH03  Sahuagin Baronial Guard
+    deathvar: None -> obssah03
+    level: 2 -> 4
+  OBSSAH04  Sahuagin
+    deathvar: None -> obssah04
+    level: 2 -> 3
+  OBSSAH05  Sahuagin
+    deathvar: None -> obssah05
+    level: 2 -> 3
+  OBSSOL02  Onvo
+    overrideScript: None -> RR#PICKP
+  OBSSOL03  Ancan
+    overrideScript: None -> RR#PICKP
+  OGREGRSU  Ogre Berserker
+    class: OGRE -> FIGHTER
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> DVBRSKER
+    weapon1: ogre1 -> OGREGRSU
+  OGRELESU  Ogrillon
+    overrideScript: None -> ogrelesu
+  OGREMASU  Ogre Mage
+    class: OGRE_MAGE -> FIGHTER_MAGE
+    defaultScript: wtasight -> 
+    rring: MAGE01 -> 
+    weapon1: COMPS02 -> OGREMASU
+    xpv: 975 -> 0
+  OGRESU    Ogre
+    overrideScript: None -> ogresu
+  OHB1AERI  Aerie
+    overrideScript: None -> RR#PICKP
+  OHB1IMOE  Imoen
+    overrideScript: None -> RR#PICKP
+  OHB1KELD  Keldorn
+    overrideScript: None -> RR#PICKP
+  OHB1MNSC  Minsc
+    overrideScript: None -> RR#PICKP
+  OHB1NEER  Neera
+    overrideScript:  -> RR#PICKP
+  OHB1RASD  Rasaad
+    overrideScript:  -> RR#PICKP
+  OHB2BLTH  Baeloth
+    overrideScript: None -> RR#PICKP
+  OHB2DORN  Dorn
+    overrideScript:  -> RR#PICKP
+  OHB2KORG  Korgan
+    overrideScript: None -> RR#PICKP
+  OHB2PHAR  Phaere
+    overrideScript: None -> RR#PICKP
+  OHB2SARV  Sarevok
+    overrideScript: None -> RR#PICKP
+  OHB2SMON  Saemon Havarian
+    overrideScript: None -> RR#PICKP
+  OHBCEL01  Ariziel
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBCEL02  Fallen Astral Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBCEL03  Fallen Monadic Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBDRGD   Guard
+    overrideScript:  -> RR#PICKP
+  OHBDVA01  Fallen Deva
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBGOL01  Greater Clay Golem
+    class: GOLEM_IRON -> GOLEM_CLAY
+  OHBGOLB1  Greater Bone Golem
+    class: NO_CLASS -> SKELETON_BANEGUARD
+  OHBLIZ01  Lizard Man Chieftain
+    race: YUANTI -> LIZARDMAN
+  OHBLIZ02  Lizard Man Elite
+    race: YUANTI -> LIZARDMAN
+  OHBLIZ03  Lizard Man Shaman
+    race: HUMAN -> LIZARDMAN
+  OHBMENA2  Dangerous Moose
+    race: NO_RACE -> MAMMAL
+  OHBMENA5  Boalisk
+    race: NO_RACE -> REPTILE
+  OHBMIN01  Minotaur
+    race: OGRE -> MINOTAUR
+  OHBMINSU  Minotaur
+    race: OGRE -> MINOTAUR
+  OHBNOSHU  Noser
+    overrideScript:  -> RR#PICKP
+  OHBPOL    Pol Pyrrus
+    overrideScript:  -> RR#PICKP
+  OHBSAH02  Sahuagin Priestess
+    level: 8 -> 9
+  OHBSAH03  Sahuagin Baron
+    level: 2 -> 6
+  OHBSHORT  Short-Order
+    overrideScript:  -> RR#PICKP
+  OHBTHASS  Thassk Kun
+    race: NO_RACE -> SALAMANDER
+  OHBVMP01  Gaul
+    class: MAGE -> VAMPIRE
+  OHBVMP02  Vampire
+    general: HUMANOID -> UNDEAD
+    class: FIGHTER -> VAMPIRE
+  OHBVMP03  Vampire
+    race: HUMAN -> VAMPIRE
+    class: THIEF -> VAMPIRE
+  OHBWAT01  Greater Water Elemental
+    class: NO_CLASS -> ELEMENTAL_WATER
+  OHBWING   The Winged
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHBWING2  The Winged
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS
+  OHDCDAWG  Celestial Hound
+    raceScript: MOONDOG -> 
+  OHDFAER   Faerie Dragon
+    lring: 212 -> 
+    amulet:  -> IMMCLOUD
+    weapon1: IMMCLOUD -> S1-2
+    weapon2: IMMCLOUD -> 
+  OHDHSEN2  Helmite Sentry
+    overrideScript:  -> RR#PICKP
+  OHDLUFCL  Crusader
+    overrideScript:  -> RR#PICKP
+  OHDLUFPL  Crusader
+    overrideScript:  -> RR#PICKP
+  OHDLUMCL  Crusader
+    overrideScript:  -> RR#PICKP
+  OHDLUMPL  Crusader
+    overrideScript:  -> RR#PICKP
+  OHDNEO01  Paladin of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDNEO02  Paladin of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDNEO03  Priest of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDNEO04  Priest of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDPLANB  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPLANJ  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPLANL  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDPPAL   Paladin of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDPPE01  Priest of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDPPET   Fighter of Tyr
+    overrideScript:  -> RR#PICKP
+  OHDPPLAN  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDRIKKO  Rikkon
+    overrideScript:  -> RR#PICKP
+  OHDSOLAR  Planetar
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDSPLAN  Planetar of Justice
+    anim: SOLAR -> MAGE_MALE_ELF
+    helmet:  -> DVWINGS
+  OHDTERP   Guardian Terpfen
+    helmet: NONE -> 
+  OHDTMFIL  The Magnificent Fil
+    lring: 212 -> 
+    amulet:  -> IMMCLOUD
+    weapon1: IMMCLOUD -> S1-2
+    weapon2: IMMCLOUD -> 
+  OHDUGOTH  Ur-Gothoz
+    anim: CORNUGON -> GLABREZU
+  OHHFAK10  Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHFAK11  Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHFAK13  Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHFAK15  Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHFAK8   Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHFAK9   Hexxat
+    amulet: ohhexam0 -> OHHEXAM0
+  OHHGHUF   Sukayna
+    overrideScript:  -> RR#PICKP
+  OHHGM02   Ghostly Monk
+    overrideScript:  -> RR#PICKP
+  OHHGM03   Ghostly Monk
+    overrideScript:  -> RR#PICKP
+  OHHGMONK  Ghostly Monk
+    overrideScript:  -> RR#PICKP
+  OHHHAFSA  Bilqis
+    overrideScript: None -> RR#PICKP
+  OHHKWON   Yi Kwon
+    overrideScript:  -> RR#PICKP
+  OHHMIRRI  Aminah
+    overrideScript: NONE -> RR#PICKP
+  OHHRAT    Rat
+    race: NO_RACE -> MAMMAL
+  OHHSARC
+    overrideScript:  -> RR#PICKP
+  OHHSARC2
+    overrideScript:  -> RR#PICKP
+  OHHSHAD   Shadow
+    rring: ring95 -> RING95
+  OHHYINIU  Yi Niu
+    overrideScript:  -> RR#PICKP
+  OHNBARKE  Bartender
+    overrideScript:  -> RR#PICKP
+  OHNDAXUS  Daxus Taralom
+    overrideScript:  -> RR#PICKP
+  OHNELLIS  Ellis
+    overrideScript:  -> RR#PICKP
+  OHNGHALL  Ghallus
+    race: OGRE -> MINOTAUR
+  OHNGLAD   Thayan Mercenary
+    overrideScript:  -> RR#PICKP
+  OHNJEROM  Jerome the Bird
+    race: NO_RACE -> BIRD
+  OHNMHSM   Book Merchant
+    overrideScript:  -> RR#PICKP
+  OHNMOLZA  Molzahn of Tymora
+    overrideScript:  -> RR#PICKP
+  OHNRWBOU  Bouncer
+    overrideScript:  -> RR#PICKP
+  OHNSNAKE  Speaking Snake
+    race: NO_RACE -> REPTILE
+  OHNSQU01  Squirrel
+    race: NO_RACE -> MAMMAL
+  OHNSQU02  Squirrel
+    race: NO_RACE -> MAMMAL
+  OHNWARWI  Warwick
+    overrideScript:  -> RR#PICKP
+  OHNWMC13  Wild Mage
+    overrideScript:  -> RR#PICKP
+  OHRAKUDA  Overseer Akuda
+    overrideScript:  -> RR#PICKP
+  OHRALOR2  Alorgoth
+    overrideScript:  -> RR#PICKP
+  OHRBMM    Bright Moon Monk
+    overrideScript:  -> RR#PICKP
+  OHRBSM    Blinding Sun Monk
+    overrideScript:  -> RR#PICKP
+  OHRCOLLU  Collus Darathon
+    overrideScript:  -> RR#PICKP
+  OHRCONF   Confessor
+    overrideScript:  -> RR#PICKP
+  OHRDMH1   Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRDMH2   Dark Moon Heretic
+    overrideScript:  -> RR#PICKP
+  OHRDWS01  Bentaxe Foekiller
+    overrideScript:  -> RR#PICKP
+  OHRDWS02  Deepstone Dwarf
+    overrideScript:  -> RR#PICKP
+  OHRDWS03  Deepstone Dwarf
+    overrideScript:  -> RR#PICKP
+  OHRDWS04  Halnur Farcutter
+    overrideScript:  -> RR#PICKP
+  OHRFDW1   Deepstone Dwarf
+    overrideScript:  -> RR#PICKP
+  OHRFDW2   Deepstone Dwarf
+    overrideScript:  -> RR#PICKP
+  OHRFDW3   Deepstone Dwarf
+    overrideScript:  -> RR#PICKP
+  OHRGHELL  Ghell Rando
+    overrideScript:  -> RR#PICKP
+  OHRHERET  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRHERM   Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRHMFEN  Fenuku
+    overrideScript:  -> RR#PICKP
+  OHRHMKEL  Kelner
+    overrideScript:  -> RR#PICKP
+  OHRHMON1  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRJOLST  Jolstead
+    overrideScript: NONE -> RR#PICKP
+  OHRKILLI  Killis
+    overrideScript:  -> RR#PICKP
+  OHRMEMB1  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRMEMB2  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRMEMB3  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRMOOSE  Dangerous Moose
+    race: NO_RACE -> MAMMAL
+  OHROVSM   Sharran Overseer
+    overrideScript:  -> RR#PICKP
+  OHROVSW   Sharran Overseer
+    overrideScript:  -> RR#PICKP
+  OHRPHM    Penance Host Monk
+    overrideScript:  -> RR#PICKP
+  OHRRANHM  Heretic Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPM1  Room of Pain Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPM2  Room of Pain Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPM3  Room of Pain Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPM4  Room of Pain Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPM5  Room of Pain Monk
+    overrideScript:  -> RR#PICKP
+  OHRROPML  Room of Pain Monk Leader
+    overrideScript:  -> RR#PICKP
+  OHRSAHAN  Sahana
+    overrideScript:  -> RR#PICKP
+  OHRSHCRU  Sharran Crusader
+    overrideScript:  -> RR#PICKP
+  OHRSHG01  Shadow Guard
+    overrideScript:  -> RR#PICKP
+  OHRSHG02  Shadow Guard
+    overrideScript:  -> RR#PICKP
+  OHRSHSOR  Sharran Sorcerer
+    overrideScript:  -> RR#PICKP
+  OHRTREYA  Treya
+    overrideScript:  -> RR#PICKP
+  OHRTWOFO  Twofold Sentry
+    overrideScript:  -> RR#PICKP
+  ORPHAN2   Peasant
+    overrideScript: none -> RR#PICKP
+  PACE      Pace
+    generalScript: None -> CBXTHSDS
+  PALERN    Palern Flynn
+    overrideScript: None -> RR#PALR
+  PBHUNT01  Aawill
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw2h02 -> SW2H02
+  PHEAS01   Pheasant
+    race: NO_RACE -> BIRD
+  PHLYDI    Phlydia
+    overrideScript: none -> RR#PICKP
+  PIRBOB01  Capt'n Bob Holmes
+    overrideScript: None -> RR#PICKP
+  PIREXE01  Executioner
+    overrideScript: None -> RR#PICKP
+  PIRMUR01  Galvena
+    weapon1: blun13 -> BLUN13
+  PIRMUR02  Assassin
+    overrideScript: None -> D0PIRMUR
+  PIRMUR07  Vadek
+    overrideScript:  -> RR#PICKP
+  PIRMUR12  Guard
+    overrideScript: None -> RR#PICKP
+  PIRMUR13  Guard Captain
+    overrideScript: None -> RR#PICKP
+  PIRPIR01  Pirate
+    overrideScript: None -> RR#PICKP
+  PIRPIR02  Andar the Pirate
+    overrideScript: None -> RR#PICKP
+  PIRPIR03  Olben the Pirate
+    overrideScript: None -> RR#PICKP
+  PIRPIR05  Chremy
+    overrideScript:  -> RR#PICKP
+  PIRPIR07  Pirate Bill
+    overrideScript: None -> RR#PICKP
+  PIRPIR08  Pirate Dan
+    overrideScript: None -> RR#PICKP
+  PIRPIR09  Pirate Jimmy
+    overrideScript: None -> RR#PICKP
+  PIRPIR10  Pirate Scotty
+    overrideScript: None -> RR#PICKP
+  PIRPIR11  Pirate Paul
+    overrideScript: None -> RR#PICKP
+  PIRPIR12  Pirate Newf
+    overrideScript: None -> RR#PICKP
+  PIRPRV01  Privateer
+    overrideScript: None -> RR#PICKP
+  PIRSEA01  Pirate Captain
+    weapon1: sw1h05 -> SW1H05
+  PLANEVIL  Fallen Planetar
+    general: MONSTER -> HUMANOID
+    class: MAGE -> FIGHTER_CLERIC
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    dialog: planevil -> PLANEVIL
+    level: 25 -> 18
+    gender: BOTH -> FEMALE
+    sex: FEMALE -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: plangood -> DVPLANE
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVPLANER
+    weapon1: PLANETAR -> DVPLANEW
+    xpv: 20000 -> 0
+  PLANGOOD  Planetar
+    general: GIANTHUMANOID -> HUMANOID
+    class: MAGE -> FIGHTER_CLERIC
+    anim: SOLAR -> MAGE_MALE_ELF
+    dialog: plangood -> PLANGOOD
+    level: 25 -> 18
+    gender: BOTH -> MALE
+    sex: FEMALE -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: plangood -> DVPLANG
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVPLANGR
+    weapon1: PLANETAR -> DVPLANGW
+    xpv: 20000 -> 0
+  PLANWISH  Fallen Planetar
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    helmet:  -> DVWINGS
+  PLFARM03  Petr
+    overrideScript: gensht01 -> GENSHT01
+    defaultScript: None -> WTASIGHT
+  PLGIRL01  Tyrianna
+    overrideScript:  -> RR#PICKP
+  PLSHKN01  Knight of the Order
+    classScript: SEEENEMY -> 
+  PLSHKN02  Knight of the Order
+    classScript: SEEENEMY -> 
+  PLYSALA   Salamander
+    class: ELEMENTAL_FIRE -> SALAMANDER_FIRE
+  PMASTER   Master of Thralls
+    lring: ringdemn -> RINGDEMN
+  POLYRAT   Rat
+    race: NO_RACE -> MAMMAL
+  PPBODHI4  Bodhi
+    defaultScript: WTASIGHT -> 
+  PPCOWLED  Perth the Adept
+    weapon1:  -> STAF02
+  PPDESH    Desharik
+    overrideScript:  -> RR#PICKP
+  PPDESH2   Desharik
+    overrideScript:  -> RR#PICKP
+  PPDRIMOV  Imoen
+    overrideScript:  -> RR#PICKP
+  PPDUEL1   Andante
+    overrideScript:  -> RR#PICKP
+  PPDUEL2   Dirbish the Black
+    overrideScript:  -> RR#PICKP
+  PPDUELC   Duel Coordinator
+    overrideScript:  -> RR#PICKP
+  PPIMOEN   Imoen
+    overrideScript:  -> RR#PICKP
+  PPSAHA    Sahuagin
+    level: 2 -> 3
+  PPSAHALE  Sahuagin Baron
+    level: 2 -> 6
+  PPSANIK   Sanik
+    overrideScript:  -> D0SANIK
+  PPSUNA    Suna Seni
+    deathvar: ppsuna -> PPSUNA
+    dialog: ppsuna -> PPSUNA
+    overrideScript: None -> PPSUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    weapon2: SW1H04 -> 
+  PPTROLL1  Spirit Troll
+    anim: TROLL -> TROLL_SPECTRAL
+  PPTROLL2  Spirit Troll
+    anim: TROLL -> TROLL_SPECTRAL
+  PROPHELM  Shield Knight
+    overrideScript: none -> RR#PICKP
+  PROPTAL   Storm Knight
+    overrideScript: None -> RR#PICKP
+  PTHRAL02  Thrall
+    overrideScript: None -> RR#PICKP
+  PTHRAL03  Thrall Fighter
+    overrideScript: None -> RR#PICKP
+  PTHRAL05  Female Thrall
+    overrideScript: None -> RR#PICKP
+  PTHRAL07  Warden's Thrall
+    overrideScript: None -> RR#PICKP
+  PTHRAL08  Thrall
+    overrideScript:  -> RR#PICKP
+  PTHRAL09  Thrall
+    overrideScript:  -> RR#PICKP
+  RASAAD12  Rasaad
+    class: MONK -> CLERIC
+  RASAAD8   Rasaad
+    class: MONK -> CLERIC
+  RAT       Rat
+    race: NO_RACE -> MAMMAL
+  RAT2      Rat
+    race: NO_RACE -> MAMMAL
+  REELDAR   Eldarin
+    weapon2:  -> SW1H27
+  REFIGH01  Slaver
+    defaultScript: WTASIGHT -> WTARSGT
+  REGIS     Regis
+    overrideScript: None -> RR#PICKP
+  RENAL     Renal Bloodscalp
+    classScript: useitem -> D0RENAL
+    raceScript: None -> USEITEM
+    generalScript: None -> STDEATH
+  RENFELD   Renfeld
+    overrideScript: None -> RR#PICKP
+  RESUNA    Suna Seni
+    class: FIGHTER -> RANGER
+    deathvar: resuna -> RESUNA
+    dialog: resuna -> SUNA
+    level: 13 -> 16
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: gpshout -> RESUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    amulet:  -> MINHP1
+    weapon1: sw1h27 -> sw1h08
+    xpv: 4480 -> 9000
+  REVEN01   Revenant
+    anim: ZOMBIE -> REVENANT
+  RIBALD    Ribald
+    weapon1: SW1H06 -> 
+  RIFTC01   Diseased Child
+    overrideScript: None -> RR#PICKP
+  RIFTC02   Diseased Child
+    overrideScript: None -> RR#PICKP
+  RIFTCR03  Greater Mummy
+    overrideScript:  -> MUMMY01
+    raceScript: None -> D0MUMMY
+  RIFTM01   Diseased One
+    overrideScript: None -> RR#PICKP
+  RIFTM02   Diseased One
+    overrideScript: None -> RR#PICKP
+  RIFTW01   Diseased One
+    overrideScript: None -> RR#PICKP
+  RNGBEH01  Death Tyrant
+    anim: BEHOLDER -> DEATH_TYRANT
+  RNGSHA    Shadow
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  RNGSHA01  Shadow
+    overrideScript: SHOUTDLG -> D0QPSHAD
+    classScript: None -> SHOUTDLG
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  RNGSHA02  Shadow Patrick
+    rring: ring95 -> RING95
+    weapon1: halb08 -> HALB08
+    weapon2: bow01 -> BOW01
+  RNGSHA03  Shadow
+    overrideScript: SHOUTDLG -> D0QPSHAD
+    classScript: None -> SHOUTDLG
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  RNGSHA04  Shadow Jailor
+    overrideScript: SHOUTDLG -> D0QPSHAD
+    classScript: None -> SHOUTDLG
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  RNGSHA2D  Shadow Patrick
+    overrideScript: None -> D0QPSHAD
+    rring: ring95 -> RING95
+    weapon1: halb08 -> HALB08
+  RNGWLF03  Anath
+    overrideScript: None -> RR#PICKP
+    lring: ringwolf -> RINGWOLF
+  RNGWLF04  Anath
+    lring: ringwolf -> RINGWOLF
+  RNGWLF05  Anath
+    overrideScript: None -> RR#PICKP
+    lring: ringwolf -> RINGWOLF
+  ROCK      Rock
+    race: OGRE -> MINOTAUR
+  ROGTRO01  Sea Troll
+    anim: TROLL_BLUE -> TROLL_SCRAG
+  ROGTRO02  Sea Troll
+    anim: TROLL_BLUE -> TROLL_SCRAG
+  RSKEL01   Skeleton
+    raceScript: None -> CBMALDES
+  RUMAR01   Umar
+    weapon2: staf02 -> STAF02
+  SAHAMB01  Rebel
+    level: 2 -> 11
+  SAHAMB02  Rebel
+    level: 2 -> 11
+  SAHAMB04  Sahuagin
+    level: 2 -> 11
+  SAHAMB05  Sahuagin
+    level: 2 -> 11
+  SAHBAR01  Sahuagin Baronial Guard
+    level: 2 -> 4
+  SAHBAR02  Sahuagin Baron
+    level: 2 -> 6
+  SAHBAR03  Baron Thelokassyil
+    level: 2 -> 6
+  SAHCAPT0  Captain Alyittyl
+    level: 2 -> 11
+  SAHCAPT1  Captain Alyittyl
+    level: 2 -> 11
+  SAHCHF02  Sahuagin Chieftain
+    overrideScript:  -> RR#PICKP
+  SAHEXTRA  Sahuagin Royal Guard
+    level: 5 -> 11
+  SAHGRD01  Sahuagin Royal Guard
+    level: 2 -> 11
+  SAHGRD02  Sahuagin Royal Guard
+    level: 2 -> 11
+  SAHGRD03  Sahuagin Royal Guard
+    level: 2 -> 11
+  SAHIMP05  Alustriel
+    overrideScript:  -> RR#PICKP
+  SAHIMP06  Piergeiron
+    overrideScript:  -> RR#PICKP
+  SAHIMP07  Drizzt
+    overrideScript:  -> RR#PICKP
+  SAHKNG02  King Ixilthetocal
+    level: 2 -> 12
+    weapon1: SPER08 -> SPER05
+  SAHPR2    Prince Villynaty
+    overrideScript:  -> RR#PICKP
+    weapon1: SPER08 -> SPER05
+  SAHPRI01  Sahuagin Prince
+    level: 2 -> 10
+  SAHPRI02  Royal High Priestess
+    level: 2 -> 11
+  SAHRAMB4  Rebel
+    level: 2 -> 11
+  SAHRAMB5  Rebel
+    level: 2 -> 11
+  SAHRAR01  Rebel
+    level: 2 -> 11
+  SAHRGR01  Rebel
+    level: 2 -> 11
+    overrideScript: None -> RR#PICKP
+  SAHRGR02  Rebel
+    level: 2 -> 11
+    overrideScript: None -> RR#PICKP
+  SAHRGR03  Rebel
+    level: 2 -> 11
+  SAHRNT01  Rebel
+    level: 2 -> 11
+  SAHRYL01  Sahuagin Royal Guard
+    level: 2 -> 11
+  SAHSSS01  Rebel
+    level: 2 -> 3
+  SAHSSS02  Rebel
+    level: 2 -> 3
+  SAHSSS03  Rebel
+    level: 2 -> 3
+  SAHUAG01  Sahuagin
+    level: 2 -> 3
+  SALGRFIR  Salamander Noble
+    class: ELEMENTAL_FIRE -> SALAMANDER_FIRE
+  SALGRICE  Ice Salamander
+    class: ELEMENTAL_WATER -> SALAMANDER_FROST
+    level: 15 -> 17
+    xpv: 9000 -> 7500
+  SALVANAS  Salvanas
+    weapon2: sw1h07 -> SW1H07
+  SAMIA     Samia
+    shield: shld04 -> SHLD04
+    weapon1: sw1h20 -> SW1H20
+  SARALEGS  Saradush Militia
+    overrideScript: None -> RR#PICKP
+  SARBHA01  Alexander Ralisar
+    overrideScript: None -> RR#PICKP
+  SARBHA02  Oris Nimblefinger
+    overrideScript: None -> RR#PICKP
+  SARBHA03  Asmay Jahag
+    overrideScript: None -> RR#PICKP
+  SARBUL01  Human
+    overrideScript: None -> RR#PICKP
+  SARBUL02  Human
+    overrideScript: None -> RR#PICKP
+  SARBUL03  Human
+    overrideScript: None -> RR#PICKP
+  SARCPT01  Captain Samand
+    shield: shld04 -> SHLD04
+    weapon1: sw1h09 -> SW1H29
+  SARCULT   Human Cultist
+    overrideScript: None -> RR#PICKP
+  SARCULT2  Human Cultist
+    overrideScript: None -> RR#PICKP
+  SARCULTO  Orc Cultist
+    overrideScript: None -> RR#PICKP
+  SARDW01   Dwarf
+    overrideScript: None -> RR#PICKP
+  SARDW02   Dwarf
+    overrideScript: None -> RR#PICKP
+  SARDW03   Dwarf
+    overrideScript: None -> RR#PICKP
+  SAREVOK   Sarevok
+    generalScript: INP1IVSG -> 
+    helmet: helm09 -> HELM09
+    amulet: chwraith -> CHWRAITH
+    weapon1: sw2h20 -> SW2H20
+    weapon2: xbow09 -> XBOW09
+  SARGRD05  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARGRD09  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARHAL    Halfling Cultist
+    overrideScript: None -> RR#PICKP
+  SARJAI01  Saradush Jailer
+    overrideScript: None -> RR#PICKP
+  SARKIS02  Fighter
+    overrideScript: None -> RR#PICKP
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARKIS03  Fighter
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  SARMAT01  Mateo
+    overrideScript: None -> RR#PICKP
+  SARMIL01  Militia Soldier
+    allegiance: ENEMY -> NEUTRAL
+  SARMIL02  Militia Captain
+    allegiance: ENEMY -> NEUTRAL
+  SARMIST   Cold Mistress
+    overrideScript: None -> SHOUTDLG
+  SARPRIS1  Prisoner
+    overrideScript:  -> RR#PICKP
+  SARPRIS2  Vinke
+    overrideScript:  -> RR#PICKP
+  SARPROVF  Courtesan
+    general: HUMANOID -> UNDEAD
+    race: HUMAN -> VAMPIRE
+    class: NO_CLASS -> VAMPIRE
+  SARPROVM  Courtesan
+    general: HUMANOID -> UNDEAD
+    race: HUMAN -> VAMPIRE
+    class: NO_CLASS -> VAMPIRE
+  SARSON01  Ardic Santele
+    overrideScript: None -> RR#PICKP
+  SARSPIR   Prison Spirit
+    weapon1: spectr -> SPECTR
+  SARTRO01  Orc
+    overrideScript: None -> RR#PICKP
+  SARTRO02  Human
+    overrideScript: None -> RR#PICKP
+  SARTRO03  Orog
+    overrideScript: None -> RR#PICKP
+  SARVIE01  Viekang
+    lring: ring20 -> RING20
+    rring: ring21 -> RING21
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h74 -> SW1H74
+    weapon2: bow09 -> BOW09
+  SBUTLER   Butler
+    deathvar: None -> SBUTLER
+    classScript: SHOUT -> SGUARD
+  SCBUTLER  Butler
+    generalScript: wtrunsgt -> CBXTJEDS
+  SCJERLIA  Jerlia the Ore Merchant
+    overrideScript: None -> RR#PICKP
+    generalScript: None -> a7!jerl
+  SCLJYSS   Lady Jysstev
+    generalScript: None -> CBXTJEDS
+  SCOOK     Cook
+    deathvar: None -> SCOOK
+    classScript: SHOUTDLG -> SGUARD
+  SCQAR     Qar Jysstev
+    generalScript: None -> CBXTJEDS
+  SCSAIN    Dawnbringer Sain
+    generalScript: None -> 
+  SCSARLES  Sir Sarles
+    generalScript: None -> CBXTJEDS
+  SDSHADFI  Shadow Fiend
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    rring: ring95 -> RING95
+  SDSHADOW  Shadow
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  SEAGUL
+    race: NO_RACE -> BIRD
+  SENANI01  Moose
+    overrideScript:  -> RR#PICKP
+  SENANI02  Deer
+    overrideScript:  -> RR#PICKP
+  SENANI03  Squirrel
+    overrideScript:  -> RR#PICKP
+  SENANI04  Rabbit
+    overrideScript:  -> RR#PICKP
+  SENANI05  Pheasant
+    overrideScript:  -> RR#PICKP
+  SENDAI    Sendai
+    helmet: helm34 -> HELM34
+    shield: dwshld01 -> DWSHLD01
+    lring: ring12 -> RING12
+    rring: bhaalhp1 -> BHAALHP1
+    weapon1: sendai -> SENDAI
+  SENDAI4   Sendai
+    overrideScript: None -> RR#PICKP
+  SENDAI5   Sendai
+    overrideScript: None -> RR#PICKP
+  SENDAI6   Sendai
+    overrideScript: None -> RR#PICKP
+  SENDAI7   Sendai
+    overrideScript: None -> RR#PICKP
+  SENDAI8   Sendai
+    overrideScript: None -> RR#PICKP
+  SENDARK   Dark Master
+    rring: immune2 -> IMMUNE2
+    weapon1: p3-12m4 -> P3-12M4
+  SENGUA01  Woodcutter
+    overrideScript:  -> RR#PICKP
+  SENGUA03  Captain Egeissag
+    overrideScript: None -> RR#PICKP
+  SENGUA04  Slavemaster
+    overrideScript: None -> RR#PICKP
+    shield: ax1h03 -> AX1H03
+    lring: sengua04 -> SENGUA04
+    weapon1: ax1h03 -> AX1H11
+  SENKEN01  Thelynn'ss
+    shield: sw1h55 -> SW1H55
+    amulet: amul26 -> AMUL26
+    weapon1: sw1h55 -> SW1H55
+  SENORC01  Derro Berserker
+    xpv: 12000 -> 1200
+  SENORC02  Derro
+    weapon1: xbow02 -> XBOW02
+    weapon2: sw1h09 -> SW1H29
+    xpv: 12000 -> 1200
+  SENORC03  Derro Berserker
+    xpv: 12000 -> 1200
+  SENORC04  Derro
+    weapon1: xbow05 -> XBOW05
+    weapon2: sw1h09 -> SW1H29
+    xpv: 12000 -> 1200
+  SENPRI01  Diaytha
+    overrideScript: None -> RR#PICKP
+  SERVSU    Aerial Servant
+    deathvar: None -> NONE
+    level: 16 -> 13
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: servsu -> SERVSU
+    classScript: None -> 
+    raceScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    rring: MAGE01 -> ELEMTYPE
+    weapon1: B4-32M4 -> SERVSU
+  SEVDRU01  Alatelo De Bonito
+    class: INNOCENT -> MAGE
+  SEVPAT01  Mencar Pebblecrusher
+    helmet: helm08 -> HELM08
+    weapon1: hamm02 -> AX1H07
+  SEWERM1   Quallo
+    overrideScript: None -> RR#PICKP
+  SEWSHA01  Shadow Fiend
+    overrideScript: sewsha01 -> D0QPSHAD
+    classScript: None -> SEWSHA01
+    rring: ring95 -> RING95
+  SEWSHA02  Shadow Fiend
+    overrideScript:  -> D0QPSHAD
+    classScript: None -> 
+    rring: ring95 -> RING95
+  SEWSHA03  Shadow
+    overrideScript: sewsha03 -> D0QPSHAD
+    classScript: None -> SEWSHA03
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  SGUARD1   Guard
+    classScript: SHOUTDLG -> 
+  SGUARD2   Guard
+    classScript: SHOUTDLG -> 
+  SGUARD4   Guard
+    classScript: None -> SGUARD4
+  SHADFI01  Shadow Fiend
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    rring: ring95 -> RING95
+  SHADFI02  Devil Shade
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  SHADOW01  Shadow
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  SHADOWSU  Shadow
+    dialog: None -> 
+    level: 4 -> 3
+    allegiance: ENEMY -> ALLY
+    overrideScript: shdwkill -> 
+    classScript: GENSHT01 -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> DVMELEE
+    rring: ring95 -> UNDTYPE
+    weapon1: S1-8 -> SHADOWSU
+    xpv: 420 -> 0
+  SHADRA01  Thaxll'ssillyia
+    general: ANIMAL -> MONSTER
+    class: CLERIC -> SHADOW_DRAGON
+    weapon1: dragblaw -> DRAGBLAW
+  SHAGHO01  Badon's Ghost
+    rring: ring95 -> RING95
+  SHAGHO02  Dettseh's Ghost
+    rring: ring95 -> RING95
+  SHAGRL01  Amuana
+    overrideScript:  -> RR#PICKP
+  SHAWOL01  Shade Wolf
+    generalScript: None -> CBMALDES
+  SHAWOL02  Greater Shade Wolf
+    generalScript: None -> CBMALDES
+  SHIRON    Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  SHTHSTOR  Rattell
+    overrideScript: None -> RR#PICKP
+  SHUGHO01  Ghostly Apparition
+    overrideScript: None -> RR#PICKP
+  SICKRAT   Diseased Rat
+    race: NO_RACE -> MAMMAL
+  SIRINE01  Sirine
+    race: BASILISK -> FAIRY
+    class: FAIRY_SIRINE -> MAGE
+  SKELSU01  Skeleton Warrior
+    class: SKELETON_WARRIOR -> ETTERCAP
+  SKELSU07  Skeleton Warrior
+    class: SKELETON_WARRIOR -> ETTERCAP
+  SKELSU11  Skeleton Warrior
+    class: SKELETON_WARRIOR -> ETTERCAP
+  SKELWA02  Skeleton Warrior
+    overrideScript: None -> CBMALDES
+  SKELWASU  Skeleton Warrior
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet: helmskwa -> HELMSKWA
+    lring: RING95 -> UNDTYPE
+    weapon1: skelwasu -> SKELWASU
+  SLAMNG01  Amnian Soldier
+    overrideScript: None -> RR#PICKP
+  SLANDOR   Andorian
+    race: OGRE -> MINOTAUR
+    dialog:  -> slandor
+    gender: NIETHER -> MALE
+    overrideScript: SLANDOR -> 
+    defaultScript: WTASIGHT -> slandor
+  SLAVER4   Slaver Guard
+    overrideScript: None -> RR#PICKP
+  SLAYSH01  Slayer Shadow
+    overrideScript: None -> D0QPSHAD
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: ringdemn -> RINGDEMN
+    weapon1: slaysh01 -> SLAYSH01
+  SLGIRL    Slave Girl
+    overrideScript:  -> RR#PICKP
+  SMOUND01  Shambling Mound
+    race: ELEMENTAL -> SHAMBLING_MOUND
+    class: ELEMENTAL_EARTH -> NO_CLASS
+    gender: FEMALE -> 0
+  SMOUNDSU  Shambling Mound
+    level: 8 -> 16
+    sex: FEMALE -> 0
+    allegiance: CONTROLLED -> ALLY
+    overrideScript:  -> DVSMOUND
+    defaultScript: BDSUM00 -> 
+    lring: IMMUNE2 -> 
+    rring:  -> ELEMTYPE
+    weapon1: B4-32m3 -> SMOUNDSU
+  SNAKE01   Snake
+    race: NO_RACE -> REPTILE
+  SNAKEB01  Boalisk
+    race: NO_RACE -> REPTILE
+  SNAKEG01  Giant Snake
+    race: NO_RACE -> REPTILE
+  SPECTR01  Specter
+    weapon1: spectr -> SPECTR
+  SPELLH01  Spellhaunt
+    weapon1: spellh01 -> SPELLH01
+  SPIDFGSU  Kitthix
+    class: SPIDER_HUGE -> SPIDER_SWORD
+    anim: SPIDER_HUGE -> SPIDER_SWORD
+    level: 2 -> 8
+    overrideScript: spidfgsu -> SPIDFGSU
+    defaultScript: BDSUM00 -> WTASIGHT
+    rring: figring2 -> FIGRING2
+  SPIDGISU  Giant Spider
+    allegiance: CONTROLLED -> ALLY
+    raceScript: BDSUM00 -> 
+    defaultScript: None -> DVMELEE
+    amulet: ANTIWEB -> VERMTYPE
+    weapon1: SPIDGI1 -> SPIDGISU
+    xpv: 0 -> 300
+  SPIDPHSU  Phase Spider
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: PSPIDER -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    amulet: ANTIWEB -> VERMTYPE
+    weapon1: SPIDPH1 -> SPIDPHSU
+  SPIDSWSU  Sword Spider
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> DVMELEE
+    rring: MAGE06 -> VERMTYPE
+    amulet: ANTIWEB -> 
+    weapon1: SPIDSW1 -> SPIDSWSU
+  SPPAIN    Pai'Na
+    deathvar: sppain -> C0Paina
+    dialog: sppain -> C0Paina
+    overrideScript: SHOUTDLG -> C0Paina
+    classScript: PAINA -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> C0PAINA
+    lring:  -> C0PRING
+    weapon1: STAF01 -> STAF02
+    weapon2:  -> DART01
+    xpv: 4000 -> 0
+  SPSPID05  Giant Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: None -> ubspspid
+    raceScript: WTASIGHT -> wdasight
+  SPSPID06  Phase Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: PSPIDER -> ubspspid
+    raceScript: None -> wdasight
+  SPSPID07  Sword Spider
+    allegiance: ENEMY -> NEUTRAL
+    overrideScript: None -> ubspspid
+    raceScript: None -> wdasight
+  SQUIRL    Squirrel
+    race: NO_RACE -> MAMMAL
+    deathvar: None -> SQUIRL
+  SQUIRR    Squirrel
+    race: NO_RACE -> MAMMAL
+  STALKE    Invisible Stalker
+    race: SPECTRE -> ELEMENTAL
+    class: NO_CLASS -> RANGER
+    defaultScript: wtasight -> DVMELEE
+    rring: MAGE01 -> 
+    weapon1: stalkesu -> STALKESU
+    weapon2: stalkesu -> 
+    xpv: 0 -> 3000
+  STARCHER  Shadow Thief Archer
+    overrideScript: None -> RR#PICKP
+  STASS1    Shadow Thief Assassin
+    overrideScript: None -> STDEATH
+  STEIN     Stein
+    overrideScript: None -> RR#PICKP
+  STGUARD1  Shadow Thief Sentry
+    class: FIGHTER -> FIGHTER_THIEF
+    anim: FIGHTER_MALE_HUMAN -> THIEF_MALE_HUMAN
+    level: 5 -> 9
+    classScript: useitem -> 
+    defaultScript: WTARSGT -> 
+    shield:  -> SW1H20
+    weapon2: BOW01 -> SW1H20
+    xpv: 250 -> 4000
+  STGUARD2  Shadow Thief
+    xpv: 15 -> 600
+  STGUARD3  Shadow Thief
+    xpv: 15 -> 600
+  SUELF13   Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUELFW1   Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUELFW13  Elven Archer
+    overrideScript: None -> RR#PICKP
+  SUELFW2   Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUELFW3   Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUELHAN   Elhan
+    shield: sw1h50 -> SW1H22
+    lring: minhp1 -> MINHP1
+    amulet:  -> AMUL21
+    weapon1: sw1h50 -> SW1H22
+  SUELLE    Ellesime
+    overrideScript:  -> RR#PICKP
+  SUELLEG1  Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUENDEL1  Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUENDEL2  Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUENDEL3  Elf Male
+    overrideScript: None -> RR#PICKP
+  SUENDEL4  Elf Female
+    overrideScript: None -> RR#PICKP
+  SUENDEL5  Elf
+    overrideScript: None -> RR#PICKP
+  SUENDEL6  Elf
+    overrideScript: None -> RR#PICKP
+  SUENDEL7  Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUENDEL8  Elven Warrior
+    overrideScript: None -> RR#PICKP
+  SUMOON    Elven Warrior
+    overrideScript:  -> RR#PICKP
+  SUNA      Suna Seni
+    deathvar: None -> SUNA
+    dialog: suna -> SUNA
+    level: 8 -> 16
+    overrideScript: None -> CCSUNA
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: None -> GPSHOUT
+    lring:  -> RING95
+    rring:  -> RING05
+    amulet:  -> MINHP1
+    weapon1:  -> sw1h08
+    weapon2: SW1H04 -> 
+    xpv: 2450 -> 9000
+  SURAAM    Raamilat
+    weapon1: staf02 -> STAF02
+  SUSUNEER  Suneer
+    weapon1: staf02 -> STAF02
+  SUUNDEAD  Skeleton Warrior
+    rring: ring95 -> RING95
+  SUZIYAAD  Ziyaad
+    allegiance: NEUTRAL -> ENEMY
+    lring: IMMUNE2 -> RAKRING
+    weapon1:  -> SW1H04
+  SWORD01   Magical Sword
+    class: GNOLL -> LONG_SWORD
+    deathvar: None -> NONE
+    sex: OTHER -> MALE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: None -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMSWORD
+    amulet: IPSION -> 
+    weapon1: morsword -> MORSWORD
+  SWORD68   Spectral Blade
+    sex: MALE -> OTHER
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: None -> WTASIGHT
+    rring: minhp1 -> 
+    weapon1: sw1h68a -> SW1H68A
+  TALKNI01  Storm Knight
+    overrideScript: SHT0904 -> talkni01
+  TANWIZ1   Vellin Dahn
+    overrideScript: SHOUTDL2 -> dx#tanw
+    classScript: tanwiz -> mage16b
+    weapon1:  -> STAF02
+  TASLOISU  Tasloi Elite Trooper
+    overrideScript: None -> tasloisu
+  TASSA     Tassa
+    overrideScript: SHOUT -> RR#PICKP
+  TAZOK     Tazok
+    weapon1: SW2H11 -> SW2H12
+  TELALU1   Alu-Fiend
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H76
+    weapon2: dart04 -> DART04
+  TELICESA  Frost Salamander
+    class: ELEMENTAL_WATER -> SALAMANDER_FROST
+  TELSLAV   Slave Wraith
+    lring: immune3 -> IMMUNE3
+    rring: telslav2 -> TELSLAV2
+    weapon1: telslav -> TELSLAV
+  TELTIEF1  Tiefling
+    overrideScript: None -> RR#PICKP
+  TELTIEF2  Tiefling
+    overrideScript: None -> RR#PICKP
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H29
+  TELWRAI   Demon Wraith
+    overrideScript: GRPSHT01 -> D0QPSHAD
+    classScript: None -> GRPSHT01
+    lring: immune3 -> IMMUNE3
+    rring: ring95 -> RING95
+    weapon1: telwrai -> TELWRAI
+  TERMER01  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER02  Mercenary
+    raceScript: gpuse -> CBXTHSDS
+  TERMER03  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER04  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER05  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERRECE   Terrece
+    overrideScript: None -> RR#PICKP
+  TETHTO    Tethtoril
+    overrideScript: None -> RR#PICKP
+  TETHTO2   Tethtoril
+    overrideScript: None -> RR#PICKP
+  THESHAL   Theshal
+    lring: ring95 -> RING95
+  THIEF1    Sidge
+    xpv: 325 -> 600
+  THIEF2    Shadow Thief
+    overrideScript: None -> RR#PICKP
+  THIEF3    Shadow Thief
+    overrideScript: None -> RR#PICKP
+  THIEF4    Shadow Thief
+    overrideScript: None -> RR#PICKP
+  THUMB     The Thumb
+    deathvar: None -> thumb
+  TOBPAR01  Eler Had
+    overrideScript:  -> initdlg
+  TOBPAR02  Berena Elkan
+    overrideScript:  -> RR#PICKP
+  TOBPAR03  Long Po
+    overrideScript:  -> RR#PICKP
+  TOBPAR04  Karun the Black
+    overrideScript:  -> RR#PICKP
+  TOBPAR05  Delga Deepdelver
+    overrideScript:  -> RR#PICKP
+  TOBPAR06  Helena Fairhand
+    overrideScript:  -> RR#PICKP
+    defaultScript:  -> CFIGH20A
+  TOLGER    Tolgerias
+    raceScript: None -> CBXTGBDS
+  TOLGER2   Tolgerias
+    weapon1: STAF01 -> STAF18
+  TOLMAG02  Mage
+    amulet:  -> RNDGRP02
+    weapon1: STAF01 -> STAF02
+  TOMEGOL1  Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  TOMEGOL4  Juggernaut Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  TOWNC01   Town Crier
+    overrideScript: None -> RR#PICKP
+  TRCUT05   Lady Lilith Lurraxol
+    overrideScript:  -> RR#PICKP
+  TRCUT06   Lord Skarmaen Alibakkar
+    overrideScript:  -> RR#PICKP
+  TRFUED09  Lurraxol Guard
+    overrideScript:  -> RR#PICKP
+  TRFUED10  Alibakkar Guard
+    overrideScript:  -> RR#PICKP
+  TROLFR01  Freshwater Troll
+    anim: TROLL -> TROLL_SCRAG
+  TROLFR02  Freshwater Troll
+    anim: TROLL -> TROLL_SCRAG
+  TROLIC01  Ice Troll
+    anim: TROLL_SMALL -> TROLL_ICE
+  TROLIC02  Ice Troll
+    anim: TROLL_SMALL -> TROLL_ICE
+  TROLIC03  Blizzard Troll
+    anim: TROLL_BLUE -> TROLL_ICE
+  TROLIC04  Blizzard Troll
+    anim: TROLL_BLUE -> TROLL_ICE
+  TROLSI01  Spirit Troll
+    anim: TROLL_BLUE -> TROLL_SPECTRAL
+  TROLSI02  Spirit Troll
+    anim: TROLL_BLUE -> TROLL_SPECTRAL
+  TROLSN01  Snow Troll
+    anim: TROLL -> TROLL_SNOW
+  TROLSN02  Snow Troll
+    anim: TROLL -> TROLL_SNOW
+  TRRAK01   Adratha
+    lring: rakring -> RAKRING
+    amulet: amul22 -> AMUL22
+    weapon1: sw1h04 -> SW1H30
+  TRRAK02   Saadat
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  TRRAK03   Jalaal
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  TRTHF01   Itona
+    weapon1: sw1h08 -> SW1H08
+  TRTHF02   Kich
+    overrideScript: None -> RR#PICKP
+  UDDEATH2  Demon Knight
+    helmet:  -> HELM02
+    weapon1: sw2hdeat -> SW2H08
+  UDDOOR03  Drow
+    overrideScript:  -> RR#PICKP
+  UDDROW07  Merinid
+    overrideScript:  -> RR#PICKP
+  UDDROW09  Tathlyn
+    overrideScript:  -> RR#PICKP
+  UDDROW34  Drow Wizard
+    overrideScript:  -> RR#PICKP
+  UDDWARF   Insane Dwarf Warrior
+    rring: RING27 -> 
+  UDGOLEM   Brain Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_BRAIN
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  UDIMRAE   Imrae
+    overrideScript:  -> RR#PICKP
+  UDMASTER  The Master Brain
+    lring: immune1 -> IMMUNE1
+  UDMIND02  Mind Flayer
+    overrideScript:  -> RR#PICKP
+  UDPRINCE  Kuo-toan Prince
+    lring: miscA1 -> MISCA1
+    rring: kuoring -> KUORING
+    weapon1: kuosper -> SPER08
+    weapon2: xbow04 -> XBOW04
+  UDSAHA    Sahuagin Prince
+    level: 2 -> 10
+  UDSVDEAD  Svirfneblin
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR01  Odendal Breachgnome
+    race: GNOME -> SVIRFNEBLIN
+    overrideScript:  -> RR#PICKP
+  UDSVIR02  Svirfneblin
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR03  Goldander Blackenrock
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR04  Innkeeper
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR05  Therndle Daglefodd
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR06  Svirfneblin
+    race: GNOME -> SVIRFNEBLIN
+  UDSVIR07  Svirfneblin
+    race: GNOME -> SVIRFNEBLIN
+    overrideScript:  -> RR#PICKP
+  UDSVIR08  Svirfneblin Leader
+    race: GNOME -> SVIRFNEBLIN
+  UDTRAP03  Riti
+    overrideScript:  -> RR#PICKP
+    weapon1: sw2h01 -> SW2H01
+  UHCREAT   Shadow
+    overrideScript: GENSHT01 -> D0QPSHAD
+    classScript: None -> SHDWKILL
+    raceScript: None -> GPSHOUT
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  UHOGRE01  Madulf
+    classScript: GENSHT01 -> 
+    generalScript: gpshout -> 
+  UHOGRE02  Ogre
+    overrideScript: uhogre -> UHOGRE
+    classScript: GENSHT01 -> 
+    generalScript: gpshout -> 
+  UHOGRE03  Minotaur
+    race: GNOLL -> MINOTAUR
+    overrideScript: uhogre -> UHOGRE
+    classScript: GENSHT01 -> 
+    raceScript: gpshout -> 
+    generalScript: None -> 
+  UHOGRE04  Gnoll
+    overrideScript: uhogre -> UHOGRE
+    classScript: GENSHT01 -> 
+    raceScript: None -> 
+    generalScript: gpshout -> 
+  UHOGRE05  Orc
+    overrideScript: uhogre -> UHOGRE
+    classScript: GENSHT01 -> 
+    raceScript: None -> 
+    generalScript: gpshout -> 
+  UMBHUL02  Umber Hulk Elder
+    generalScript: UMBHUL01 -> D0UMBER
+  VAKFGT01  Thug
+    overrideScript: None -> RR#PICKP
+  VAKMAG01  Mage
+    overrideScript: None -> RR#PICKP
+  VAKTHF01  Thug
+    overrideScript: None -> RR#PICKP
+  VALRAN01  Derrick
+    weapon1: BOW03 -> BOW99
+  VAMANC01  Ancient Vampire
+    deathvar: None -> vamanc01
+    generalScript: VAMPIR01 -> vamemi01
+    xpv: 14500 -> 12500
+  VAMEMI01  Ancient Vampire
+    deathvar: None -> vamemi01
+    xpv: 10500 -> 12500
+  VAMFLF01  Fledgling Vampire
+    generalScript: VAMPIR01 -> D0QPVAFL
+    xpv: 8500 -> 8000
+  VAMFLM01  Fledgling Vampire
+    generalScript: VAMPIR01 -> D0QPVAFL
+    xpv: 8500 -> 8000
+  VAMMAT01  Vampire
+    deathvar: vammat01 -> VAMMAT01
+  VAMPAT01  Ancient Vampire
+    generalScript: ppvampir -> VAMPAT01
+    xpv: 12000 -> 12500
+  VAMPYF01  Vampyre
+    deathvar: None -> vampyf01
+  VAMPYM01  Vampyre
+    deathvar: None -> vampym01
+  VAMVER01  Elder Vampire
+    deathvar: None -> vamver01
+    xpv: 12500 -> 10500
+  VICG1     Fanatic
+    shield: shld13 -> SHLD13
+    weapon1: blun02 -> BLUN02
+    weapon2: slng01 -> SLNG01
+  VICG2     Fanatic
+    overrideScript: None -> RR#PICKP
+  VICG3     Fanatic
+    overrideScript: None -> RR#PICKP
+    helmet: helm01 -> HELM01
+  VICPRI01  Handmaiden of Lolth
+    overrideScript: None -> RR#PICKP
+  VICTOWN1  Commoner
+    overrideScript: None -> RR#PICKP
+  VICTOWN2  Commoner
+    overrideScript: none -> RR#PICKP
+  VICTOWN3  Nobleman
+    overrideScript: None -> RR#PICKP
+  VICTOWN4  Noblewoman
+    overrideScript: None -> RR#PICKP
+  VIEKANG   Viekang
+    lring: ring20 -> RING20
+    rring: ring21 -> RING21
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h10 -> SW1H10
+    weapon2: bow09 -> BOW09
+  VOIEAS    Voice of the East
+    overrideScript: None -> RR#PICKP
+  VOINOR    Voice of the North
+    overrideScript: None -> RR#PICKP
+  VOISOU    Voice of the South
+    overrideScript: None -> RR#PICKP
+  VOIWES    Voice of the West
+    overrideScript: None -> RR#PICKP
+  VORSQUIR  Vorpal Squirrel
+    race: NO_RACE -> MAMMAL
+  VULTURE
+    race: NO_RACE -> BIRD
+  VVAMN2    Amnian Soldier
+    overrideScript: None -> RR#PICKP
+  VVAMN3    Amnian Soldier
+    overrideScript: None -> RR#PICKP
+  VVARKAN   Arkanis Gath
+    amulet: minhp1 -> MINHP1
+    weapon1: SW1H09 -> SW1H29
+  VVBODHI   Bodhi
+    lring: vampreg2 -> VAMPREG2
+    rring: immune2 -> MINHP20
+    weapon1: vamp3 -> VAMP3
+  VVCAT     Shadow Thief
+    weapon1: sw1h09 -> SW1H29
+  VVFEMAL1  Vampire
+    dialog: vvfemal1 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVFEMAL2  Vampire
+    dialog: vvfemal2 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVFEMAL3  Vampire
+    dialog: vvfemal3 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVHELP    Helpful Man
+    overrideScript:  -> RR#PICKP
+  VVMALE5   Vampire
+    defaultScript: WDASIGHT -> 
+  VVMALE6   Vampire
+    dialog: vvmale6 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVMALE7   Vampire
+    dialog: vvmale7 -> vvmale5
+    defaultScript: WDASIGHT -> 
+  VVPRIEST  Priest of Talos
+    overrideScript:  -> RR#PICKP
+  VVSHAD1   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg01 -> DAGG01
+  VVSHAD2   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD4   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg01 -> DAGG01
+  VVSHAD5   Shadow Thief
+    weapon1: sw1h01 -> SW1H01
+  VVSTAND1  Peasant
+    overrideScript: None -> RR#PICKP
+  VVSTAND2  Peasant
+    overrideScript: None -> RR#PICKP
+  VVSTAND3  Peasant
+    overrideScript: None -> RR#PICKP
+  WAUKMOO   Moose
+    race: NO_RACE -> MAMMAL
+  WAUKSNA   Snake
+    race: NO_RACE -> REPTILE
+  WAUKSQU   Squirrel
+    race: NO_RACE -> MAMMAL
+    deathvar: None -> ANbelka
+  WILMAT    Priestess of Ilmater
+    deathvar: None -> wilmat
+  WILSON13  Wilson
+    dialog: WILSON -> WILSON25
+    overrideScript: WILSON -> WILSON25
+  WISH01    Djinni
+    deathvar: wish01 -> WISH01
+  WOLFDISU  Dire Wolf
+    overrideScript: None -> wolfdisu
+  WOLFDR01  Dread Wolf
+    general: MONSTER -> UNDEAD
+  WOLFSU    Wolf
+    level: 4 -> 3
+    allegiance: CONTROLLED -> ALLY
+    raceScript: WOLF -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: P1-4 -> WOLFSU
+    xpv: 65 -> 0
+  WOLFWISU  Winter Wolf
+    overrideScript: None -> wolfwisu
+  WOLFWWSU  Winter Wolf
+    overrideScript: None -> wolfwwsu
+  WORGSU    Worg
+    overrideScript: None -> worgsu
+  WPWENCH1  Tavern Wench
+    overrideScript: None -> RR#PICKP
+  WRAITH01  Wraith
+    overrideScript: GENSHT01 -> D0QPSHAD
+    raceScript: None -> GENSHT01
+    weapon1: wraith1 -> WRAITH1
+  WRAITHSU  Wraith
+    overrideScript: None -> D0QPSHAD
+  WRMONS01  Salamander
+    class: ELEMENTAL_FIRE -> SALAMANDER_FIRE
+  WSMITH01  Cromwell
+    overrideScript: None -> RR#PICKP
+    raceScript: None -> WSMITH01
+  WULFGAR   Wulfgar
+    overrideScript: None -> RR#PICKP
+  WYVERNSU  Wyvern
+    allegiance: CONTROLLED -> ALLY
+    raceScript: WYVERN -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: RING97 -> 
+    weapon1: WYVERN1 -> WYVERNSU
+    weapon2: WYVERN2 -> 
+  XAPPREN1  Prebek
+    weapon1: dagg01 -> DAGG01
+  XGOLEM    Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+    overrideScript: GENSHT01 -> D0XGOLEM
+    defaultScript: WDASIGHT -> WTASIGHT
+  YAGA01    Yaga-Shura
+    race: DWARF -> GIANT
+    classScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> yagaft
+    helmet: helmnoan -> HELM26
+    shield: shld32 -> HAMM10
+    lring: invulner -> INVULNER
+    rring: sureHP1 -> SUREHP1
+    amulet:  -> BHAALIMM
+    weapon1: giafir -> YAGAWH
+    weapon2: hamm10 -> 
+    xpv: 30000 -> 45000
+  YAGA02    Lieutenant Mage
+    overrideScript: GRPSHT01 -> 
+    raceScript: None -> spseq16a
+    defaultScript: CMAGE20A -> gpmage1
+    helmet: helmnoan -> 
+    lring:  -> RING07
+    weapon1: staf18 -> STAF18
+  YAGA03    Lieutenant Fighter
+    overrideScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> gpkensai
+    helmet: helm15 -> HELM15
+    shield: sw1h52 -> SW1H76
+    weapon1: sw1h52 -> SW1H55
+  YAGA04    Lieutenant Cleric
+    overrideScript: GRPSHT01 -> 
+    defaultScript: ccler20b -> gphealer
+    helmet: helmnoan -> 
+    shield:  -> SHLD06
+    weapon1: blun21 -> BLUN21
+  YAGA05    Lieutenant Thief
+    race: HUMAN -> ELF
+    anim: THIEF_FEMALE_HUMAN -> THIEF_FEMALE_ELF
+    sex: MALE -> FEMALE
+    overrideScript: GRPSHT01 -> 
+    defaultScript: cthie20b -> gpthief
+    helmet: helmnoan -> 
+    shield: dagg15 -> 
+    weapon1: dagg15 -> SW1H09
+    weapon2:  -> DART03
+    weapon3:  -> DART03
+  YOSHI10   Yoshimo
+    weapon1: npsw02 -> NPSW02
+    weapon2: bow05 -> BOW05
+  YOSHI12   Yoshimo
+    weapon1: npsw02 -> NPSW02
+    weapon2: bow05 -> BOW05
+  YOSHI7    Yoshimo
+    weapon1: npsw02 -> NPSW02
+    weapon2: bow05 -> BOW05
+  YOSHI8    Yoshimo
+    weapon1: npsw02 -> NPSW02
+    weapon2: bow05 -> BOW05
+  YSFIRE01  Fire Giant
+    dialog: ysfire01 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+    weapon1: giafir2 -> GIAFIR
+  YSFIRE02  Fire Giant
+    dialog: ysfire02 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+    weapon1: ax1h03 -> AX1H11
+  YSGP03    Tibbit
+    race: KOBOLD -> GOBLIN
+  YSMAGE01  Yaga-Shura Mage
+    overrideScript:  -> finyagar
+    classScript: mage12a -> 
+    generalScript: None -> spseq12a
+    defaultScript: None -> gpmage2
+    lring:  -> RING12
+    weapon1:  -> STAF07
+    weapon2:  -> DART02
+  YSSOLD01  Yaga-Shura Soldier
+    dialog: yssold01 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    helmet:  -> HELM01
+    shield:  -> SHLD05
+    weapon1: sw1h04 -> SW1H04
+    xpv: 2000 -> 650
+  YSSOLD02  Yaga-Shura Soldier
+    race: HUMAN -> ORC
+    class: FIGHTER -> ORC
+    anim: FIGHTER_MALE_HUMAN -> ORC_ELITE_RANGE
+    dialog: yssold02 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    weapon1: bow03 -> BOW01
+    weapon2:  -> SW1H04
+    xpv: 2000 -> 650
+  YSSOLD03  Yaga-Shura Officer
+    dialog: yssold03 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    helmet:  -> HELM01
+    weapon1: sw1h01 -> SW2H02
+    xpv: 3000 -> 1400
+  YSSOLD04  Yaga-Shura Elite
+    dialog: yssold04 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+  ZILARC01  Black Reaver
+    class: FIGHTER -> CLERIC
+    anim: FIGHTER_FEMALE_ELF -> CLERIC_MALE_ELF_LOW
+    dialog: zilarc01 -> 
+    gender: FEMALE -> MALE
+    sex: FEMALE -> MALE
+    overrideScript: illagrp -> ILLAGRP
+    classScript: grpsht01 -> None
+    defaultScript: carch20b -> gphealer
+    helmet: helm13 -> 
+    shield:  -> shld06
+    amulet:  -> amul07
+    weapon1: bow02 -> blun03
+    xpv: 5000 -> 8000
+  ZILFGT01  Black Reaver
+    general: HUMANOID -> MONSTER
+    race: HUMAN -> OGRE
+    anim: FIGHTER_MALE_HUMAN -> OROG_CHIEFTAIN
+    deathvar: zilfgt01 -> zilfgt02
+    dialog: zilfgt01 -> zilfgt02
+    level: 16 -> 15
+    classScript: GRPSHT01 -> None
+    defaultScript: CKENS20B -> gpmerc
+    helmet:  -> helm15
+    shield: dagg02 -> 
+    weapon1: sw1h22 -> sper02
+  ZILFGT02  Black Reaver
+    race: HALF_ELF -> HUMAN
+    anim: FIGHTER_MALE_ELF -> FIGHTER_MALE_HUMAN
+    level: 15 -> 17
+    classScript: GRPSHT01 -> None
+    defaultScript: CFIGH20B -> gpmerc
+    helmet: helm15 -> 
+    shield:  -> dagg24
+    weapon1: sper02 -> sw1h76
+  ZILMAG01  Black Reaver
+    level: 20 -> 18
+    classScript: GRPSHT01 -> None
+    generalScript: None -> spseq16b
+    defaultScript: zilmag01 -> gpmage1
+    rring:  -> ring07
+    amulet:  -> amul21

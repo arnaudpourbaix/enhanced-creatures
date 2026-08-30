@@ -1,0 +1,50 @@
+WILLOWISP: 42 new, 1 changed
+
+NEW (42):
+  L#USHA01  Butcher
+  L#USHA02  Blacksmith
+  L#USHA03  Rowdy
+  L#USHA04  Bandit
+  L#USHA05  Smuggler
+  L#USHA06  Thug
+  L#USHA07  Bard
+  L#USHA08  Mercenary
+  L#USHA09  Archer
+  L#USHA10  Local Hero
+  L#USHA11  Werewolf
+  L#USHA12  Guard Captain
+  L0DRIDER  Drider
+  L0EMIS    Emissary Shy'glegh
+  L0EMISX   Eidolon Mist
+  L0FATESP  Fate Spirit
+  L0GHAS    Ghastlycleaver
+  L0MERCH   Merchant
+  L0MOW     Mother-o'-wisps
+  L0MOW2    Mother-o'-wisps
+  L0SMWII   Cold Light
+  L0SPID    Dencrawler Spider
+  L0SPIDX   Spider
+  L0SQ      Squirrel
+  L0SUMM1   Necrotic Fireflies
+  L0SUMM2   Lesser Will-o'-Wisp
+  L0SUMM3   Greater Necrotic Fireflies
+  L0SUMM4   Will-o'-Wisp
+  L0SUMM5   Spectre
+  L0SUMM6   Greater Will-o'-Wisp
+  L0SUMM7   Fiery Spirit
+  L0THIEF1  Donny Pick
+  L0TREE    Dark Treant
+  L0UDBEA   Beast of Gloom
+  L0UDWI    Dense Energy
+  L0WIBOY   Merchant
+  L0WILL    Will
+  L0WILL25  Will
+  L0WISP1   Will-o'-wisp
+  L0WISP2   Storyteller Wisp
+  L0WSPDM   Dreadful Light
+  L0WSPWS   Will-o'-wisp
+
+CHANGED (1):
+  DCLERIC   Mad Cleric
+    rring: ring12 -> RING12
+    weapon1: staf01 -> STAF01

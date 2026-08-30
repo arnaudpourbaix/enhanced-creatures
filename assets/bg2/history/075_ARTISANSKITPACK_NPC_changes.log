@@ -1,0 +1,20 @@
+ARTISANSKITPACK_NPC: 0 new, 7 changed
+
+CHANGED (7):
+  MAZZY11   Mazzy
+    class: FIGHTER -> PALADIN
+  MAZZY12   Mazzy
+    class: FIGHTER -> PALADIN
+  MAZZY15   Mazzy
+    class: FIGHTER -> PALADIN
+    helmet: helm10 -> HELM10
+  MAZZY8    Mazzy
+    class: FIGHTER -> PALADIN
+  MAZZY9    Mazzy
+    class: FIGHTER -> PALADIN
+    weapon1: npbow -> NPBOW
+    weapon2: npsw01 -> NPSW01
+  RASAAD12  Rasaad
+    class: MONK -> CLERIC
+  RASAAD8   Rasaad
+    class: MONK -> CLERIC

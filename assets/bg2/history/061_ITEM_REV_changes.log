@@ -1,0 +1,62 @@
+ITEM_REV: 1 new, 10 changed
+
+NEW (1):
+  SWORD69   Spectral Blade
+
+CHANGED (10):
+  AMLICH01  Vongoethe
+    lring: RING46 -> 
+  BERSER02  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> AX1H11
+    lring: berserk -> 
+    weapon1: dax1h01 -> AX1H11
+  BERSER03  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> 
+    lring: berserk -> 
+    weapon1: dax1h01 -> SW2H20
+  BERSERSU  Berserk Warrior
+    defaultScript: BDSUM00 -> DVBRSKER
+    helmet: dhelm01 -> HELM08
+    shield: dshld01 -> SHLD01
+    lring: berserk -> 
+    weapon1: dax1h01 -> BSW1H01
+  CATLIOWP  Joolon
+    level: 5 -> 8
+    sex: OTHER -> MALE
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> WTASIGHT
+    lring: figring1 -> IMMUNE1
+    rring: immune1 -> 
+    weapon1: CATLIO -> FIGLION
+  GORLIC01  Azamantes
+    lring: ring95 -> RING95
+    rring: lich -> LICH
+    weapon1: lich02 -> LICH02
+  GROMNIR   Gromnir Il-Khan
+    helmet: HELMNOAN -> WA2HELM
+  SMOUNDSU  Shambling Mound
+    race: SHAMBLING_MOUND -> ELEMENTAL
+    class: NO_CLASS -> ELEMENTAL_EARTH
+    sex: FEMALE -> 0
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> WTASIGHT
+    lring: IMMUNE2 -> 
+    weapon1: B4-32m3 -> SMOUNDSU
+  SPIDFGSU  Kitthix
+    class: SPIDER_HUGE -> SPIDER_SWORD
+    anim: SPIDER_HUGE -> SPIDER_SWORD
+    dialog: spidfgsu -> 
+    level: 2 -> 8
+    overrideScript: spidfgsu -> SPIDFGSU
+    defaultScript: BDSUM00 -> WTASIGHT
+    rring: figring2 -> FIGRING2
+  SWORD68   Spectral Blade
+    sex: MALE -> OTHER
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: None -> WTASIGHT
+    rring: minhp1 -> 
+    weapon1: sw1h68a -> SW1H68A

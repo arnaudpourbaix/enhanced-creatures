@@ -1,0 +1,159 @@
+NTOTSC: 136 new, 9 changed
+
+NEW (136):
+  BTELITE   Black Talon Elite
+  DEADB01   Adventurer
+  DEADB02   Adventurer
+  DEADB03   Adventurer
+  DSFEYDO   Fey'doch
+  DSWELF1   Wood Elf Warrior
+  DSWELF1E  Wood Elf Elite
+  DSWELF2   Wood Elf Warrior
+  DSWELF2E  Wood Elf Elite
+  GHASTF01  Fell Ghast
+  HGSAL01   Fire Salamander
+  NTABIGAI  Maid
+  NTAMELKA  Amelka
+  NTARCHAN  Archandra
+  NTASCHMA  Brother Aschmaan
+  NTASHIRU  Ashirukuru
+  NTASSAIA  Assaia
+  NTAURELI  Aurelinus
+  NTAVERY   Avery
+  NTBALEN   Balen
+  NTBEARPO  Mountain Bear
+  NTBKNIGH  Knight from the Grave
+  NTBLHCU1  Black Hand Cultist
+  NTBLHCUL  Black Hand Cultist
+  NTBOYBE1  Boy
+  NTBPWATC  Catacomb Warder
+  NTBRENT1  Brentaw
+  NTBRENTA  Brentaw
+  NTBRIGAN  Brigand
+  NTCHOLGA  Cholga
+  NTDEATH1  Demonknight
+  NTDEATHK  Demonknight
+  NTDEMON   Doomsayer
+  NTDOOMBE  Teddy the Doomsayer
+  NTDRAAGI  Brother Draagis
+  NTDXTER   Sister A Little
+  NTELDOD   Eldod
+  NTELDOD1  Eldod
+  NTELKA    Elka
+  NTESSILA  Essila
+  NTFALTON  Falton
+  NTFOREOG  Ogre Mage
+  NTGGHOT1  General Ghotal
+  NTGGHOTA  General Ghotal
+  NTGHELDE  Gheldehar
+  NTGOLBON  Bone Golem
+  NTGOLSTO  Stone Golem
+  NTGUARP1  Guard
+  NTGUARP2  Guard
+  NTGUARP3  Guard
+  NTGUARP4  Guard
+  NTGUARPB  Guard
+  NTHAEBAL  Haeball
+  NTHALFGU  Halfling Cleric
+  NTHASDAR  Brother Hasdar
+  NTHASTEN  Hasten
+  NTHELLS1  Fire Salamander
+  NTHELLS2  Humbaba
+  NTHELLS3  Fire Salamander
+  NTHELLSA  Oogoor
+  NTHOBGOD  Hobgod
+  NTINDFI1  Maurezhi
+  NTINDFI2  Maurezhi
+  NTINDFIG  Succubus
+  NTKAMIRA  Kamira
+  NTKEELOR  Keelor
+  NTKOLDAR  Koldar
+  NTKRESTI  Krestian
+  NTKROTAN  Krotan
+  NTLEGIAN  Legion
+  NTLENORE  Lenore
+  NTLLINDE  Llindellyn
+  NTLUCRET  Lucretia
+  NTMAGNAD  Magnad
+  NTMARIEL  Mariel
+  NTMILEA   Milea
+  NTMONKD2  Monk
+  NTMONKDE  Monk
+  NTMORDOR  Mardoroan
+  NTNADALI  Nadalin
+  NTNASHA   Nasha
+  NTNATALK  Natalka
+  NTOGREDA  Daddy
+  NTOGREMU  Mommy
+  NTOLIVIA  Olivia
+  NTORC03   Orc Priest
+  NTORCS3   Orc Priest
+  NTORDOL   Ordolath
+  NTORPEHO  Orpeho
+  NTOUPAST  Oupaste
+  NTPANDRI  Pandris
+  NTPAULIA  Paulia
+  NTPILAR   Pilar
+  NTPIQUE   Pique
+  NTPOOCH   Pooch
+  NTPRIHEL  Priest of Helm
+  NTREDEDG  Rededge
+  NTREEDRI  Reedrig
+  NTROACH   Lesser Tanar'ri
+  NTRUDIER  Rudier
+  NTSALMI1  Meandar
+  NTSALMI2  Kolchear
+  NTSALMI3  Ice Salamander
+  NTSALMIC  Ice Salamander
+  NTSARQ    Sar'garin Ve'xelt
+  NTSATOS   Satos
+  NTSATOS1  Satos
+  NTSELANI  Sellanio
+  NTSHELTO  Shelton
+  NTSHORCA  Shadowed Orc Archer
+  NTSHORCG  Shadowed Orc Grunt
+  NTSILUA   Sirine
+  NTSIRIN2  Sirine
+  NTSIRIN4  Sirine
+  NTSIRINE  Krestian's friend
+  NTSLAVEX  Fisherman
+  NTSZYPER  Skipper
+  NTTAMAEL  Tamael
+  NTTORDI1  Torqion
+  NTTORDI2  Torqion
+  NTTORDIO  Torqion
+  NTTYTUS   Tytus
+  NTUTOR    Utor
+  NTUTOR1   Utor
+  NTVANESS  Vanessa
+  NTWELT    Welt
+  NTWINORM  Winorma
+  NTWYVERN  Fire Wyvern
+  NTYNESS   Yness
+  NTZOMBIE  Zombie
+  SHADOW01  Shadow Warrior
+  SKELAR01  Skeleton Archer
+  SKELWA01  Skeleton Warrior
+  SPIDWR01  Wraith Spider
+  VAMFLF01  Fledgling Vampire
+  ZOMBJU01  Zombie
+
+CHANGED (9):
+  BOYBE1    Boy
+    deathvar: None -> BOYBE1
+  FTOWB5    Commoner
+    deathvar: None -> FTOWB5
+  IRON6     Guard
+    deathvar: None -> IRON6
+  LAMALH    Lamalha
+    deathvar: None -> LAMALH
+  MTOWBE_C  Commoner
+    deathvar: None -> MTOWBE_C
+  SLEEPFH   Sleeping Woman
+    deathvar: None -> SLEEPFH
+  SLEEPMH   Sleeping Man
+    deathvar: None -> SLEEPMH
+  TELKA     Telka
+    weapon1: BOW03 -> NTBOW03
+  WENRIC    Wenric
+    deathvar: None -> WENRIC

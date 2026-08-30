@@ -1,0 +1,221 @@
+cdtweaks: 122 new, 47 changed
+
+NEW (122):
+  A#AMNG    Amnish Soldier
+  A#AMNGH   Amnish Soldier
+  A#AMNM    Sanctioned Wizard
+  A#AMNMH   Sanctioned Wizard
+  A#AMNP    Militia Cleric
+  A#AMNPH   Militia Cleric
+  AMCONM03  Commoner
+  AMFEM05   Commoner
+  AMFEM06   Commoner
+  AMMGRD06  Monk
+  AMMGRD07  Monk
+  AMNG10    Amnian Soldier
+  AMNG11    Amnian Soldier
+  AMNG12    Amnian Soldier
+  AMNG13    Amnian Soldier
+  AMNG14    Amnian Soldier
+  AMNG15    Amnian Soldier
+  AMNG16    Amnian Soldier
+  AMNG17    Amnian Soldier
+  AMNG18    Amnian Soldier
+  AMNG19    Amnian Soldier
+  AMNG20    Amnian Soldier
+  AMNG21    Amnian Soldier
+  AMNG22    Amnian Soldier
+  AMNG23    Amnian Soldier
+  AMNG24    Amnian Soldier
+  AMNG3     Amnian Soldier
+  AMNG4     Amnian Soldier
+  AMNG5     Amnian Soldier
+  AMNG6     Amnian Soldier
+  AMNG7     Amnian Soldier
+  AMNG8     Amnian Soldier
+  AMNG9     Amnian Soldier
+  BFTOWN4   Commoner
+  BFTOWN5   Commoner
+  BFTOWN6   Commoner
+  BGUARD2   Guard
+  BMTOWN5   Peasant
+  BMTOWN6   Peasant
+  BMTOWN7   Peasant
+  BODYG3    Amnian Bodyguard
+  BPROST3   Courtesan
+  BPROST4   Courtesan
+  DFISHER1  Fisherman
+  DFTOWN10  Commoner
+  DFTOWN11  Commoner
+  DFTOWN3   Commoner
+  DFTOWN4   Commoner
+  DFTOWN5   Commoner
+  DFTOWN6   Commoner
+  DFTOWN7   Commoner
+  DFTOWN8   Commoner
+  DFTOWN9   Commoner
+  DHARLOT3  Harlot
+  DHARLOT4  Harlot
+  DMTOWN3   Peasant
+  DMTOWN4   Peasant
+  DMTOWN5   Peasant
+  DMTOWN6   Peasant
+  DMTOWN7   Peasant
+  DSAILOR3  Sailor
+  DSAILOR4  Sailor
+  DSAILOR5  Sailor
+  GFTOWN03  Commoner
+  GFTOWN04  Commoner
+  GMTOWN03  Commoner
+  GNOBLEF3  Noblewoman
+  GNOBLEM3  Nobleman
+  GROMG16   Il-Khan Soldier
+  LATKNI03  Morning Knight
+  LATKNI04  Morning Knight
+  PIRCOM03  Commoner
+  PIRCOM04  Commoner
+  PIRDOC02  Dockhand
+  PIRFSH03  Fishwife
+  PIRFSH04  Fisherman
+  PIRFSH05  Fisherman
+  PIRFSH06  Fisherman
+  PIRFSH07  Fishwife
+  PIRSAL03  Sailor
+  PIRSAL04  Sailor
+  PIRSAL05  Sailor
+  PIRSAL06  Sailor
+  SARFEM05  Peasant
+  SARFEM06  Peasant
+  SARGRD17  Militia Guard
+  SARGRD18  Militia Guard
+  SARGRD21  Militia Guard
+  SARMAN05  Peasant
+  SLHALF03  Halfling Man
+  SLHALF04  Halfling Woman
+  SLHALF05  Halfling Woman
+  SLUMF3    Commoner
+  SLUMF4    Commoner
+  SLUMF5    Commoner
+  SLUMM10   Peasant
+  SLUMM11   Peasant
+  SLUMM12   Peasant
+  SLUMM13   Peasant
+  SLUMM14   Peasant
+  SLUMM15   Peasant
+  SLUMM16   Peasant
+  SLUMM5    Peasant
+  SLUMM6    Peasant
+  SLUMM7    Peasant
+  SLUMM8    Peasant
+  SLUMM9    Peasant
+  TRFTOW06  Peasant
+  TRFTOW07  Peasant
+  TRFTOW08  Peasant
+  TRFTOW09  Peasant
+  TRFTOW10  Peasant
+  TRFTOW11  Peasant
+  TRMTOW06  Peasant
+  TRMTOW07  Peasant
+  TRMTOW08  Peasant
+  TRMTOW09  Peasant
+  TRMTOW10  Peasant
+  TRNOBF03  Noblewoman
+  TRNOBF04  Noblewoman
+  TRNOBM03  Nobleman
+  TRNOBM04  Nobleman
+
+CHANGED (47):
+  AMNCEN1   Amnian Centurion
+    generalScript: None -> a#amng
+  AMNG1     Amnian Soldier
+    classScript: None -> a#amng
+  AMNG2     Amnian Soldier
+    classScript: None -> a#amng
+  AMNLEG01  Amnian Legionary
+    classScript: None -> a#amng
+  AMNLEG1   Amnian Legionary
+    raceScript: None -> a#amng
+  AMNLEGS   Amnian Legionary
+    generalScript: None -> a#amng
+  BAMNG01   Amnian Guard
+    raceScript: None -> a#amng
+  BAMNG02   Amnian Guard
+    raceScript: None -> a#amng
+  BODYG1    Amnian Bodyguard
+    raceScript: None -> a#amng
+  BODYG2    Amnian Bodyguard
+    raceScript: None -> a#amng
+  CIRCG1    Amnian Soldier
+    raceScript: None -> a#amng
+  CIVAMNG1  Amnian Soldier
+    classScript: None -> a#amng
+  CSIMOEN   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  CUIMOEN   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  CUIMOEN2  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  CUIMOEN3  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  DOCSOL01  Amnian Soldier
+    raceScript: None -> a#amng
+  DPIMO01   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  DREAM1    Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  DRIM01    Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  DRIM02    Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  FINIMOEN  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  GGUARD01  Amnian Soldier
+    generalScript: None -> a#amng
+  GUAMUR    Amnian Soldier
+    generalScript: AMNISE -> a#amng
+  HACTONG   Amnian Bodyguard
+    generalScript: None -> a#amng
+  IMOEN10   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  IMOEN15   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  IMOEN211  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  IMOEN213  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  IMOEN6    Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  IMOENDRM  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  ISAMNG1   Amnian Soldier
+    classScript: None -> a#amng
+  ISAMNG2   Amnian Soldier
+    classScript: None -> a#amng
+  ISAMNG3   Amnian Soldier
+    classScript: None -> a#amng
+  ISAMNG4   Amnian Soldier
+    classScript: None -> a#amng
+  OHB1IMOE  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  PPDRIMO   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  PPDRIMOV  Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  PPIMOEN   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  SLAMNG01  Amnian Soldier
+    classScript: None -> a#amng
+  SLCENT    Amnian Centurion
+    raceScript: None -> a#amng
+  STEALGRD  Amnian Soldier
+    generalScript: None -> a#amng
+  STOLEGRD  Amnian Soldier
+    classScript:  -> a#amng
+  TEMAMN01  Amnian Guard
+    raceScript: None -> a#amng
+  TTIMOEN   Imoen
+    anim: THIEF_FEMALE_HUMAN -> MAGE_FEMALE_HUMAN
+  VVAMN1    Amnian Soldier
+    classScript: None -> a#amng
+  VVAMN2    Amnian Soldier
+    generalScript: None -> a#amng

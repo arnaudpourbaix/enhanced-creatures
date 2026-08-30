@@ -1,0 +1,32 @@
+WHITEQUEEN: 25 new, 1 changed
+
+NEW (25):
+  WQXDEM    Bound Demon
+  WQXENT    White Archer
+  WQXGOL    White Golem
+  WQXHAG    Shaneelah
+  WQXHAMA   Hamadryad
+  WQXIENT   White Guard
+  WQXKEE    White Keeper
+  WQXKEE2   White Keeper
+  WQXM1     White Servant
+  WQXM2     White Servant
+  WQXM3     White Servant
+  WQXM4     White Servant
+  WQXMOU    Shambling Mound
+  WQXN      Necromancer
+  WQXNYM    Nymph
+  WQXPRI    Prisoner
+  WQXST     White Servant
+  WQXT1     White Enchanter
+  WQXT2     White Beastmaster
+  WQXTRE    Old Druid
+  WQXTRE0   Old Druid
+  WQXWIN    Wine Collector
+  WQXWOL    White Wolf
+  WQXWQ     The White Queen
+  WQXWYV    Tamed Wyvern
+
+CHANGED (1):
+  JUGJER01  Jermien
+    helmet: helmnoan -> HELMNOAN

@@ -1,0 +1,574 @@
+SPELL_REV: 17 new, 67 changed
+
+NEW (17):
+  BATSU     Bat
+  DVDEATHK  Death Knight
+  DVDJINNI  Djinni
+  DVEFREET  Efreeti
+  DVNYMPH   Nymph
+  DVSTALK   Invisible Stalker
+  DVWRAITH  Wraith
+  GNLCAPSU  Gnoll Elite
+  HOBARCSU  Hobgoblin Archer
+  HOBSHASU  Hobgoblin Shaman
+  JELLGRSU  Green Slime
+  OTYUGHSU  Otyugh
+  SKELGRSU  Greater Skeleton
+  SKELLESU  Skeleton
+  SNAKEGSU  Giant Snake
+  UMBHULSU  Umber Hulk
+  WYVBABSU  Baby Wyvern
+
+CHANGED (67):
+  AERBOD01  Aerie
+    weapon1: staf01 -> STAF01
+    weapon2: slng01 -> SLNG01
+  BEARCASU  Cave Bear
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT02 -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: b1-10m2 -> BEARCASU
+  BEARPOSU  Polar Bear
+    level: 9 -> 8
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT02 -> 
+    defaultScript: bdsum00 -> DVMELEE
+    weapon1: b1-12m3 -> BEARPOSU
+  CATJAGSU  Leopard
+    anim: GREATCAT_PANTHER -> GREATCAT_LEOPARD
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: SUMSHT01 -> CATJAGSU
+    defaultScript: BDSUM00 -> 
+    weapon1: CATJAG -> CATJAGSU
+    xpv: 420 -> 0
+  DEMGLASU  Glabrezu
+    class: TANARI -> FIGHTER_MAGE_CLERIC
+    deathvar: demglab -> DEMGLAB
+    dialog: None -> 
+    level: 10 -> 15
+    allegiance: GOODBUTRED -> ALLY
+    overrideScript: demglasu -> DVGLABRE
+    classScript: none -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: wtasight -> 
+    lring: immune2 -> IMMUNE2
+    rring: RINGDEMN -> 
+    weapon1: bl3-12M4 -> DEMGLASU
+  DEMPITSU  Pit Fiend
+    class: TANARI -> FIGHTER_MAGE_CLERIC
+    anim: RAVER -> TANARRI
+    level: 13 -> 20
+    allegiance: GOODBUTRED -> ALLY
+    overrideScript: dempitsu -> DVPITSU
+    classScript: none -> 
+    defaultScript: wtasight -> 
+    lring: immune3 -> 
+    rring: RINGDEMN -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> DEMPITSU
+  DEVAEVIL  Fallen Deva
+    general: MONSTER -> HUMANOID
+    race: ANTISOLAR -> DARKPLANATAR
+    class: CLERIC -> FIGHTER_CLERIC
+    anim: DEVA_MONADIC -> CLERIC_FEMALE_ELF
+    dialog: devaevil -> DEVAEVIL
+    level: 25 -> 14
+    gender: BOTH -> NIETHER
+    sex: FEMALE -> MALE
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: devaevil -> DVDEVAE
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVDEVAER
+    weapon1: DEVA -> DVDEVAEW
+    xpv: 20000 -> 0
+  DEVAGOOD  Deva
+    general: MONSTER -> HUMANOID
+    race: SOLAR -> PLANATAR
+    class: CLERIC -> FIGHTER_CLERIC
+    anim: SOLAR -> CLERIC_MALE_ELF
+    dialog: devagood -> DEVAGOOD
+    level: 25 -> 14
+    gender: BOTH -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: devagood -> DVDEVAG
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVDEVAGR
+    weapon1: DEVA -> DVDEVAGW
+    xpv: 20000 -> 0
+  DOGWASU   War Dog
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: dogwasu -> None
+    raceScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: P1-8 -> DOGWASU
+  EDWIN11   Edwin
+    weapon1: dagg01 -> DAGG01
+  EDWIN15   Edwin
+    lring: ring06 -> RING06
+    weapon1: staf19 -> STAF19
+    weapon2: slng04 -> SLNG04
+  EDWIN7    Edwin
+    weapon1: dagg01 -> DAGG01
+  EDWIN9    Edwin
+    weapon1: dagg01 -> DAGG01
+  ELAIRSU1  Lesser Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m3 -> ELAIRSU1
+  ELAIRSU2  Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    anim: ELEMENTAL_AIR_SMALL -> ELEMENTAL_AIR
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m4 -> ELAIRSU2
+  ELAIRSU3  Greater Air Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b1-20m4 -> ELAIRSU3
+  ELEARSU1  Lesser Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: B4-32m3 -> ELEARSU1
+  ELEARSU2  Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b4-32m4 -> ELEARSU2
+  ELEARSU3  Greater Earth Elemental
+    general: GIANTHUMANOID -> MONSTER
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: b4-32m4 -> ELEARSU3
+  ELEMCHAN  Chan
+    gender: NIETHER -> MALE
+    overrideScript: elemchan -> ELEMCHAN
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemchan -> ELEMCHAN
+    xpv: 0 -> 56000
+  ELEMSUNN  Sunnis
+    gender: NIETHER -> FEMALE
+    overrideScript: elemsunn -> ELEMSUNN
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemsunn -> ELEMSUNN
+    xpv: 0 -> 58000
+  ELEMZAAM  Zaaman Rul
+    gender: NIETHER -> MALE
+    overrideScript: elemzaam -> ELEMZAAM
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: elemprin -> ELEMTYPE
+    weapon1: elemzaam -> ELEMZAAM
+    xpv: 0 -> 46000
+  ELFIRSU1  Lesser Fire Elemental
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSUM -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU1
+  ELFIRSU2  Fire Elemental
+    anim: ELEMENTAL_FIRE_SMALL -> ELEMENTAL_FIRE
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU2
+  ELFIRSU3  Greater Fire Elemental
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WIZELSU2 -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: IMMUNE2 -> IMMUNE1
+    rring:  -> ELEMTYPE
+    weapon1: FIREELEM -> ELFIRSU3
+  FAMCAT    Cat
+    deathvar: famcat -> FAMCAT
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMCAT25  Cat
+    deathvar: famcat -> FAMCAT
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMDUS25  Dust Mephit
+    deathvar: famdust -> FAMDUST
+    dialog: famil225 -> FAMIL225
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> 
+    rring: MOVRAT10 -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-3 -> MEPFIR
+    weapon2:  -> MEPFIR
+  FAMDUST   Dust Mephit
+    deathvar: famdust -> FAMDUST
+    dialog: famil2 -> FAMIL2
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    rring: MOVRAT10 -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPFIR
+    weapon2:  -> MEPFIR
+  FAMFAI25  Fairy Dragon
+    class: WYVERN -> MAGE
+    deathvar: famfair -> FAMFAIR
+    dialog: famil125 -> FAMIL125
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPLIG
+    weapon2:  -> MEPLIG
+  FAMFAIR   Fairy Dragon
+    class: WYVERN -> MAGE
+    deathvar: famfair -> FAMFAIR
+    dialog: famil1 -> FAMIL1
+    level: 5 -> 3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-2 -> MEPLIG
+    weapon2:  -> MEPLIG
+  FAMFER    Ferret
+    race: MAMMAL -> NO_RACE
+    class: MAGE_THIEF -> THIEF
+    deathvar: famfer -> FAMFER
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: MOVRAT10 -> 
+    amulet: IMMCLOUD -> Immcloud
+  FAMFER25  Ferret
+    race: MAMMAL -> NO_RACE
+    class: MAGE_THIEF -> THIEF
+    deathvar: famfer -> FAMFER
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: MOVRAT10 -> 
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: S1-6 -> S1-3
+    weapon2: S1-6 -> S1-3
+  FAMIMP    Imp
+    deathvar: famimp -> FAMIMP
+    dialog: famil2 -> FAMIL2
+    level: 7 -> 3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet:  -> ImmCloud
+    weapon1: IMP -> IMPCLAW
+    weapon2:  -> IMPCLAW
+  FAMIMP25  Imp
+    deathvar: famimp -> FAMIMP
+    dialog: famil225 -> FAMIL225
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> ImmCloud
+    weapon1: IMPCLAW -> impclaw
+    weapon2:  -> IMPCLAW
+  FAMPSD    Pseudo-dragon
+    class: WYVERN -> MAGE
+    deathvar: fampsd -> FAMPSD
+    dialog: famil1 -> FAMIL1
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> reghp1
+    rring:  -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: CDFAMPSD -> PSDCLAW
+    weapon2:  -> PSDCLAW
+  FAMPSD25  Pseudo-dragon
+    class: WYVERN -> MAGE
+    deathvar: fampsd -> FAMPSD
+    dialog: famil125 -> FAMIL125
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    lring: REGHP1 -> reghp1
+    rring:  -> movrat10
+    amulet: IMMCLOUD -> Immcloud
+    weapon1: PSDCLAW -> psdclaw
+    weapon2:  -> PSDCLAW
+  FAMQUA25  Quasit
+    class: IMP -> MAGE
+    deathvar: famquas -> FAMQUAS
+    dialog: famil225 -> FAMIL225
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> immcloud
+    weapon1: QUASCLAW -> quasclaw
+    weapon2:  -> QUASCLAW
+  FAMQUAS   Quasit
+    class: IMP -> MAGE
+    deathvar: famquas -> FAMQUAS
+    dialog: famil2 -> FAMIL2
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    weapon1: S1-6 -> QUASCLAW
+    weapon2:  -> QUASCLAW
+  FAMRAB    Rabbit
+    deathvar: famrab -> FAMRAB
+    dialog: famil3 -> FAMIL3
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+  FAMRAB25  Rabbit
+    class: MAGE_THIEF -> THIEF
+    deathvar: famrab -> FAMRAB
+    dialog: famil325 -> FAMIL325
+    classScript: None -> NONE
+    raceScript: None -> NONE
+    generalScript: None -> NONE
+    amulet: IMMCLOUD -> Immcloud
+  GIBBERSU  Gibberling
+    allegiance: ENEMY -> ALLY
+    overrideScript: GIBBER -> None
+    defaultScript: WTASIGHT -> DVMELEE
+    weapon1: S1-8 -> GIBBERSU
+    xpv: 35 -> 0
+  GNOLLSU   Gnoll Elite
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: GENSHT01 -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet: helm01 -> HELM01
+    weapon1: halb01 -> GNOLLSU
+    xpv: 0 -> 35
+  HAKSU     Hakeashar
+    anim: NISHRUU -> MIST_CREATURE
+    allegiance: CONTROLLED -> ENEMY
+    overrideScript: Nishru01 -> NISHRU01
+    weapon1: NISHRUU -> HAKSU
+  HAMASU    Hamadryad
+    class: FIGHTER -> DRUID
+    level: 8 -> 4
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: HAMA -> HAMASU
+    defaultScript: wtasight -> 
+    amulet: ANTIWEB -> 
+    weapon1: dagg01 -> HAMASU
+  KELDOR10  Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR12  Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR14  Keldorn
+    weapon1: npsw03 -> NPSW03
+    weapon2: xbow07 -> XBOW07
+  KELDOR8   Keldorn
+    weapon1: npsw03 -> NPSW03
+  KELDOR9   Keldorn
+    weapon1: npsw03 -> NPSW03
+  MINSC14   Minsc
+    helmet: helm12 -> HELM12
+    weapon1: sw2h20 -> SW2H20
+    weapon2: bow16 -> BOW16
+  NISHRUSU  Nishruu
+    anim: NISHRUU -> MIST_CREATURE
+    deathvar: None -> NONE
+    allegiance: CONTROLLED -> ENEMY
+    overrideScript: Nishru01 -> NISHRU01
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: None -> 
+  OGREGRSU  Ogre Berserker
+    class: OGRE -> FIGHTER
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: ogregrsu -> None
+    defaultScript: BDSUM00 -> DVBRSKER
+    weapon1: ogre1 -> OGREGRSU
+  OGREMASU  Ogre Mage
+    class: OGRE_MAGE -> FIGHTER_MAGE
+    defaultScript: wtasight -> 
+    rring: MAGE01 -> 
+    weapon1: COMPS02 -> OGREMASU
+    xpv: 975 -> 0
+  PLANEVIL  Fallen Planetar
+    general: MONSTER -> HUMANOID
+    class: MAGE -> FIGHTER_CLERIC
+    anim: DEVA_MONADIC -> MAGE_FEMALE_ELF
+    dialog: planevil -> PLANEVIL
+    level: 25 -> 18
+    gender: BOTH -> FEMALE
+    sex: FEMALE -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: plangood -> DVPLANE
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVPLANER
+    weapon1: PLANETAR -> DVPLANEW
+    xpv: 20000 -> 0
+  PLANGOOD  Planetar
+    general: GIANTHUMANOID -> HUMANOID
+    class: MAGE -> FIGHTER_CLERIC
+    anim: SOLAR -> MAGE_MALE_ELF
+    dialog: plangood -> PLANGOOD
+    level: 25 -> 18
+    gender: BOTH -> MALE
+    sex: FEMALE -> NIETHER
+    allegiance: NEUTRAL -> ALLY
+    overrideScript: plangood -> DVPLANG
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet:  -> DVWINGS
+    rring:  -> DVPLANGR
+    weapon1: PLANETAR -> DVPLANGW
+    xpv: 20000 -> 0
+  SERVSU    Aerial Servant
+    deathvar: None -> NONE
+    level: 16 -> 13
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: servsu -> SERVSU
+    classScript: None -> 
+    raceScript: None -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    rring: MAGE01 -> ELEMTYPE
+    weapon1: B4-32M4 -> SERVSU
+  SHADOWSU  Shadow
+    dialog: None -> 
+    level: 4 -> 3
+    allegiance: ENEMY -> ALLY
+    overrideScript: shdwkill -> 
+    classScript: GENSHT01 -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> DVMELEE
+    rring: RING95 -> UNDTYPE
+    weapon1: S1-8 -> SHADOWSU
+    xpv: 420 -> 0
+  SKELWASU  Skeleton Warrior
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> DVMELEE
+    helmet: helmskwa -> HELMSKWA
+    lring: RING95 -> UNDTYPE
+    weapon1: skelwasu -> SKELWASU
+  SMOUNDSU  Shambling Mound
+    level: 8 -> 16
+    overrideScript:  -> DVSMOUND
+    defaultScript: WTASIGHT -> 
+    rring:  -> ELEMTYPE
+  SPIDGISU  Giant Spider
+    allegiance: CONTROLLED -> ALLY
+    raceScript: BDSUM00 -> 
+    defaultScript: None -> DVMELEE
+    amulet: ANTIWEB -> VERMTYPE
+    weapon1: SPIDGI1 -> SPIDGISU
+    xpv: 0 -> 300
+  SPIDPHSU  Phase Spider
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: PSPIDER -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    amulet: ANTIWEB -> VERMTYPE
+    weapon1: SPIDPH1 -> SPIDPHSU
+  SPIDSWSU  Sword Spider
+    allegiance: CONTROLLED -> ALLY
+    defaultScript: BDSUM00 -> DVMELEE
+    rring: MAGE06 -> VERMTYPE
+    amulet: ANTIWEB -> 
+    weapon1: SPIDSW1 -> SPIDSWSU
+  STALKE    Invisible Stalker
+    race: SPECTRE -> ELEMENTAL
+    class: NO_CLASS -> RANGER
+    overrideScript: STALKE -> None
+    defaultScript: wtasight -> DVMELEE
+    rring: MAGE01 -> 
+    weapon1: stalkesu -> STALKESU
+    weapon2: stalkesu -> 
+    xpv: 0 -> 3000
+  SWORD01   Magical Sword
+    class: GNOLL -> LONG_SWORD
+    deathvar: None -> NONE
+    sex: OTHER -> MALE
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: None -> 
+    classScript: None -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: BDSUM00 -> DVMSWORD
+    amulet: IPSION -> 
+    weapon1: morsword -> MORSWORD
+  WOLFSU    Wolf
+    level: 4 -> 3
+    allegiance: CONTROLLED -> ALLY
+    raceScript: WOLF -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    weapon1: P1-4 -> WOLFSU
+    xpv: 65 -> 0
+  WYVERNSU  Wyvern
+    allegiance: CONTROLLED -> ALLY
+    overrideScript: WYVERNSU -> None
+    raceScript: WYVERN -> 
+    defaultScript: BDSUM00 -> DVMELEE
+    lring: RING97 -> 
+    weapon1: WYVERN1 -> WYVERNSU
+    weapon2: WYVERN2 -> 

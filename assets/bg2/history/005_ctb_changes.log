@@ -1,0 +1,563 @@
+ctb: 391 new, 82 changed
+
+NEW (391):
+  CB0709D1  Tavern Drunk
+  CB0709D2  Tavern Drunk
+  CB0709D3  Tavern Drunk
+  CB0709D4  Tavern Drunk
+  CB3545XB  Animated Crossbow
+  CB3547BL  Animated Sword
+  CB3548DP
+  CB3559WB
+  CB3560WB
+  CB3566P1  Beggar
+  CB3575EX
+  CB3579DK  Demon Knight
+  CB3579P1  Magical Sword
+  CB3579P2  Magical Sword
+  CB3579P3  Magical Sword
+  CB3579P4  Magical Sword
+  CB3579P5  Magical Sword
+  CB3579P6  Magical Sword
+  CB3597PA  Parisa
+  CB35ASSN  Assassin
+  CB363501  Charlie
+  CB3647HB  Herbalist
+  CB3650DW  Thron Sturman
+  CB3651IN  Innkeeper
+  CB368DRG  Dracolich
+  CB510BRD  Butler Eites
+  CB513REL  Lerrit
+  CB521SLD  Blue Dragon
+  CB566SPY
+  CB576WIZ  Mage
+  CB585AN1  Giant Lynx
+  CB585AN2  Grizzly Bear
+  CB585AN3  Wolf
+  CB585AN4  Wild Dog
+  CB585AN5  Panther
+  CB585AN6  Wild Dog
+  CB585AN7  Grizzly Bear
+  CB585AN8  Wolf
+  CB585RNG  Crowley
+  CB587DR1  Druid
+  CB587DR2  Druid
+  CB587DR3  Druid
+  CB595BLB  Rabid Wolf
+  CB595BRB  Rabid Bear
+  CB595DER  Deer
+  CB595DRB  Rabid Deer
+  CB595GRB  Rabid Bear
+  CB596SE1  Bylanna
+  CB596SE2  Lord Ketlaar Argrim
+  CB596SE3  Amnian Soldier
+  CB596SE4  Amnian Soldier
+  CB596SE5  Civil Servant
+  CB596SE6  Civil Servant
+  CB596SE7  Commoner
+  CB596SE8  Peasant
+  CB596SE9  Peasant
+  CB596TOL  Tolgerias
+  CB597RIR  Ranch Hand
+  CB597RIS  Ranch Hand
+  CB640FT2  Fighter
+  CB640FT3  Fighter
+  CB640FT4  Fighter
+  CB640FT5  Fighter
+  CB642BAR  Ezekeial
+  CB901SCK  Holly the Elf
+  CBAMGIRL  Girl
+  CBAMLADY  Old Woman
+  CBAPPAR1  Skeleton
+  CBARKSLV  Arkaneus Silvermane
+  CBASHIRU  Ashirukuru
+  CBAVRCWA  Cowled Wizard
+  CBAVRCWB  Cowled Wizard
+  CBAVRCWC  Cowled Wizard
+  CBAVRSLA  Amnian Soldier
+  CBAVRSLB  Amnian Soldier
+  CBAVRSLC  Amnian Soldier
+  CBAVRSLD  Amnian Soldier
+  CBAVRSLE  Amnian Legionary
+  CBAVRSLF  Amnian Legionary
+  CBAVRSLG  Amnian Centurion
+  CBAVRVLA  Angry Villager
+  CBAVRVLB  Angry Villager
+  CBAVRVLC  Angry Villager
+  CBAVRVLD  Angry Villager
+  CBAVRVLE  Angry Villager
+  CBAVRVLF  Angry Villager
+  CBAVRVLG  Angry Villager
+  CBAVRVLH  Angry Villager
+  CBAVRVLI  Angry Villager
+  CBAVRVLJ  Angry Villager
+  CBAVRVLK  Angry Villager
+  CBAVRVLM  Angry Villager
+  CBBDAW01  Darammareth S'ooloun Crommadar Ammanth Kuleera
+  CBBDAW02
+  CBBDFHJD
+  CBBDFHJE
+  CBBDHELP  Darammareth S'ooloun Crommadar Ammanth Kuleera
+  CBBDSL01  Blue Dragon
+  CBBDSL02  Blue Dragon
+  CBBDSLDS  Blue Dragon
+  CBBDSTRT  Pirate
+  CBBGBER1  Bugbear
+  CBBGBER2  Bugbear
+  CBBGBERA  Bugbear
+  CBBGBERB  Bugbear
+  CBBGBERC  Bugbear
+  CBBGBERD  Bugbear
+  CBBGBERW  Bugbear
+  CBBGBERX  Bugbear
+  CBBGBERY  Bugbear
+  CBBGBERZ  Bugbear
+  CBBLKDRG  Black Dragon
+  CBBODH66  Bodhi
+  CBBYRN03  Byron
+  CBBYRN66  Byron
+  CBC8CTC2  Cult Superior
+  CBC8CTC3  Cult Superior
+  CBC8CTD3  Dracolich
+  CBC8CTF1  Cult Fighter
+  CBC8CTF2  Cult Fighter
+  CBC8CTF3  Cult Fighter
+  CBC8CTL2  Cult Lich
+  CBC8CTL3  Cult Lich
+  CBC8CTL4  Cult Lich
+  CBC8CTM1  Cult Mage
+  CBC8CTM2  Cult Mage
+  CBC8CTM3  Cult Mage
+  CBC8CTU3  Undead Cultist
+  CBC8CTZA  Zannaster the Mage
+  CBC8CTZL  Zannaster the Lich
+  CBCEEB01  Ceeb Isson
+  CBCHIMRA  Chimera
+  CBCWLTCH  Cowled Wizard
+  CBCWLWR2  Cowled Wizard
+  CBCWLWRY  Cowled Wizard
+  CBCWTHEX
+  CBDEANOH  Deano the Hatchetman
+  CBDNCSWD  Dancing Broadsword
+  CBDRIFAL  Drider
+  CBDRIFML  Drider Priestess
+  CBDRIFSL  Drider Priestess
+  CBDRIMML  Drider
+  CBDRIMSL  Drider
+  CBDRW75A  Drow Priestess
+  CBDRW75B  Drow Priestess
+  CBDRW75C  Drow Warrior
+  CBELEDI1  Eleanor Ybgir
+  CBELEDI2  Khaddyr
+  CBELEDI3  Bodyguard
+  CBELEDI4  Bodyguard
+  CBELEDI5  Bodyguard
+  CBELHOE   Elhoe
+  CBEM25T1  Elven Mage
+  CBEM25T2  Elven Mage
+  CBEM25T3  Elven Mage
+  CBEMDM01  Lesser Demon Lord
+  CBEMDM02  Demogorgon
+  CBEMKOBL  Kobold Commando
+  CBFFCRW1  Nobleman
+  CBFFCRW2  Noblewoman
+  CBFFCRW3  Peasant
+  CBFFCRW4  Commoner
+  CBFFCRW5  Commoner
+  CBGONAST  Gonthril Astinar
+  CBGORGRD  Guardian Golem
+  CBGORGRE  Iron Golem
+  CBGRDYUN  Yuan-Ti of House Extaminos
+  CBGRNDRG  Green Dragon
+  CBGRVAMP  Vampire
+  CBHAKSH1  Hakeashar
+  CBHAKSHR  Hakeashar
+  CBHARPY1  Harpy
+  CBHARPY2  Harpy
+  CBHARPYA  Harpy
+  CBHARPYB  Harpy
+  CBHARPYC  Harpy
+  CBHARPYD  Harpy
+  CBHARPYW  Harpy
+  CBHARPYX  Harpy
+  CBHARPYY  Harpy
+  CBHARPYZ  Harpy
+  CBHL3627  Shopkeeper
+  CBHL3631  Priest
+  CBHL3634  Shopkeeper
+  CBHLD001  Peasant
+  CBHLD002  Peasant
+  CBHLD003  Peasant
+  CBHLD004  Peasant
+  CBHLD005  Peasant
+  CBHLD006  Peasant
+  CBHLD007  Peasant
+  CBHLD008  Peasant
+  CBHLD009  Peasant
+  CBHLD010  Peasant
+  CBHLD0M1  Peasant
+  CBHLD0M2  Peasant
+  CBHLD0M3  Peasant
+  CBHLD0M4  Peasant
+  CBHLD0M5  Peasant
+  CBHLD0M6  Peasant
+  CBHLD0M7  Peasant
+  CBHLD0M8  Peasant
+  CBHLD0M9  Peasant
+  CBHLD0MA  Beggar
+  CBHLD0W1  Peasant
+  CBHLD0W2  Peasant
+  CBHLD0W3  Peasant
+  CBHLD0W4  Peasant
+  CBHLD0W5  Peasant
+  CBHLD0W6  Peasant
+  CBHLD0W7  Peasant
+  CBHLDYT1  Yuan-Ti of House Extaminos
+  CBHLDYT2  Yuan-Ti Elite
+  CBHLDYT3  Yuan-Ti
+  CBHLDYT4  Yuan-Ti Mage
+  CBHLVLNT  Valiant
+  CBHREDWN  Marilyn Haresdown
+  CBJELLMU  Mustard Jelly
+  CBKHADED  Khalid
+  CBLNIGHT  Lady Nightshade
+  CBLSLNDA  Lawantha Silendia
+  CBMALMGE  Eleanor Ybgir
+  CBMALR1   Khaddyr
+  CBMALR1X
+  CBMALR2   Bodyguard
+  CBMALR3   Bodyguard
+  CBMALR4   Bodyguard
+  CBMALR5   Bodyguard
+  CBMALR5A  Phantom Arm
+  CBMALR6   Druid Bodyguard
+  CBMALR6A  Wraith
+  CBMALR6B  Specter
+  CBMALR7   Apprentice Bodyguard
+  CBMALR8   Apprentice Bodyguard
+  CBMALRDM  Permatrated Mage
+  CBMALSPY
+  CBMANARB  Manfred Arbustle
+  CBMANVER  Manveru
+  CBMASTVP  Master Vampire
+  CBMEKRTH  Mekrath
+  CBMINTO   Minto
+  CBMKEBOK
+  CBMONDRP  Sylvanus Moondrop
+  CBMYSTP1  Priest of Mystra
+  CBMYSTP2  Priestess of Mystra
+  CBMYSTP3  Priest of Mystra
+  CBMYSTP4  Priest of Mystra
+  CBNOBL1W  Nobleman
+  CBNOBL2W  Noblewoman
+  CBNOBL3W  Lord Ophal
+  CBNOBL4W  Nobleman
+  CBNOBL5W  Noblewoman
+  CBNRT001  Northman
+  CBNRT002  Northman
+  CBNRT003  Northman
+  CBNRT004  Northman
+  CBNRT005  Northman
+  CBNRT010  Northman
+  CBNRT020  Northman Elder
+  CBNRT025  Northman Elder
+  CBNRTLU1  Luskanite War Captain
+  CBNRTLUS  Luskanite
+  CBOWEN03  Owen
+  CBOWEN66  Owen
+  CBP1ACT1  Shandril
+  CBP1ACT2  Narm
+  CBP1ACT3  Jhessail
+  CBP1ACT4  Elminster
+  CBP1ACT5  Merith
+  CBP1ACT6  The Simbul
+  CBP2ACT1  Annabella
+  CBP2ACT2  Giovanni
+  CBP2ACT3  Putana
+  CBP2ACT4  Soranzo
+  CBP2ACT5  Cardinal
+  CBP2ACT6  Donado
+  CBP2ACT7  Annabella
+  CBP3ACT1  King Duncan
+  CBP3ACT2  Malcom
+  CBP3ACT3  Sergeant
+  CBP3ACT4  Ross
+  CBP3ACT5  Lady MacBeth
+  CBP3ACT6  MacBeth
+  CBP3ACT7  King Duncan
+  CBP4ACT1  Mabel
+  CBP4ACT2  Samuel
+  CBP4ACT3  Girl
+  CBP4ACT4  Girl
+  CBP4ACT5  Girl
+  CBP4ACT6  Girl
+  CBP4ACT7  Major-General
+  CBP4ACT8  Pirate King
+  CBP4ACT9  Pirate
+  CBP4ACTA  Pirate
+  CBP4ACTB  Pirate
+  CBP4ACTC  Pirate
+  CBP4ACTD  Pirate
+  CBP4ACTE  Frederic
+  CBPASTRW  Priest of Talos
+  CBPHEOAH  Phoenix Guard
+  CBPHEOIX  Phoenix Guard
+  CBPISSMN  Barlot
+  CBREDDRG  Red Dragon
+  CBRNCBOY  Theo
+  CBRNCBVP  Theo
+  CBRNCGRL  Winny
+  CBRNCGVP  Winny
+  CBRNCHER  Ranch Hand
+  CBRNCMAN  Vernon
+  CBRNCMVP  Vernon
+  CBRNCWFE  Tanya
+  CBRNCWVP  Tanya
+  CBRYBERG  Ryberg
+  CBRYBREL  Uncle Donny
+  CBSAERKW  Saerk Farrahd
+  CBSCCW01  Cowled Wizard
+  CBSCCW02  Cowled Wizard
+  CBSCCWEN  Cowled Wizard
+  CBSCHOOK  Melynda
+  CBSEACPT  Captain Deudermont
+  CBSELIMS  Selim Sivad
+  CBSFMESS  Messenger
+  CBSHDRUN  Shadow Thief
+  CBSHDWKY  Parisa
+  CBSMHRSE  Sir John Johns
+  CBSMTRGT  Target
+  CBSPKDED  Spirit
+  CBST0103  Shadow Thief
+  CBST0166  Shadow Thief
+  CBST0203  Shadow Thief
+  CBST0266  Shadow Thief
+  CBST0303  Shadow Thief
+  CBST0366  Shadow Thief
+  CBST0403  Shadow Thief
+  CBST0466  Shadow Thief
+  CBST0503  Shadow Thief
+  CBST0566  Shadow Thief
+  CBSTKS66  Shadow Thief
+  CBSTTFLW  Paddy Stoutfellow
+  CBSURAYW  Surayah
+  CBTARDTH  Tardeth Llanistaph
+  CBTAXAS1  Assassin
+  CBTAXAS2  Assassin
+  CBTAXAS3  Assassin
+  CBTAXAS4  Assassin
+  CBTAXCOL  Tax Collector
+  CBTAXCVA  Civil Servant
+  CBTAXGRD  Amnian Legionary
+  CBTAXTWC  Town Crier
+  CBTREANT  Treant
+  CBUNDEAD  Random Undead
+  CBUSHERW  Butler
+  CBVAMGRY  Hareishan
+  CBWAUKCH  Moose
+  CBXTTHEF  Wyrbrin Horton
+  CBYBGIR1  Eleanor Ybgir
+  CBYELDRG  Yellow Dragon
+  CBYT4446  Yuan-Ti of House Extaminos
+  CBYT4447  Yuan-Ti of House Extaminos
+  CBYUSEFR  Yusef
+  CBYUSEFW  Yassir
+  CBZOMB01  Myrkul's Legionnaire
+  CBZOMB02  Dread Warrior
+  CBZOMB03  Hlondeth Archer
+  CBZOMB04  Hlondeth Fighter
+  CBZOMB05  Hlondeth Archer
+  CBZOMB06  Hlondeth Fighter
+  CBZOMB07  Hlondeth Archer
+  CBZOMB08  Hlondeth Fighter
+  CBZOMB09  Hlondeth Fighter
+  CBZOMB0A  Hlondeth Officer
+  CBZOMB0B  Hlondeth Officer
+  CBZOMB0C  Hlondeth Officer
+  CBZOMB10  Hlondeth Fighter
+  CBZOMB11  Hlondeth Fighter
+  CBZOMB12  Hlondeth Fighter
+  CBZOMB13  Hlondeth Fighter
+  CBZOMBD1  Myrkul's Legionnaire
+  CBZOMBD2  Dread Warrior
+  CB_BIRD1  Bird
+  CB_COW    Cow
+  CB_HORSE  Horse
+  DEADB04   Adventurer
+  DEADB05   Adventurer
+  DEADB06   Adventurer
+  PHEOGURD  Phoenix Guard
+  RYNNPC06  Rynn
+  RYNNPC11  Rynn
+  RYNNPC15  Rynn
+  RYNNPC19  Rynn
+  T#MDOMO   Majordomo
+
+CHANGED (82):
+  ARGRIM    Lord Ketlaar Argrim
+    generalScript: None -> CBXTGBDS
+  BEARBR    Brown Bear
+    deathvar: None -> BEARBR
+  BERINVAR  Berinvar
+    generalScript: None -> CBXTHSDS
+  BODYG2    Amnian Bodyguard
+    generalScript: None -> CBXTGBDS
+  BYLANNA   Bylanna
+    generalScript: None -> CBXTGBDS
+  C6SQUIRE  Squire Cathras
+    generalScript: None -> CBXTRSDS
+  CATPAN01  Panther
+    deathvar: None -> CATPAN01
+  CIVAMNG1  Amnian Soldier
+    generalScript: None -> CBXTGBDS
+  CIVFRUS1  Jeremiah Jamtoes
+    generalScript: None -> CBXTGBDS
+  CIVIL01   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CIVIL02   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CIVIL03   Civil Servant
+    generalScript: None -> CBXTGBDS
+  CLERK01   Clerk
+    generalScript: None -> CBXTGBDS
+  CORGEIG   Corgeig Axehand
+    raceScript: None -> CBXTGBDS
+  CORNEIL   Corneil
+    raceScript: None -> CBXTGBDS
+  COUNSEC   Council Secretary Ewenn
+    generalScript: None -> CBXTGBDS
+  COWLD     Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  COWLED01  Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL1   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL2   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL3   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL4   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL5   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL6   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL7   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL8   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  CSCOWL9   Cowled Wizard
+    raceScript: None -> CBSCCWNM
+  DAWNMAS   Dawnmaster Kreel
+    generalScript: None -> 
+  DEER01    Deer
+    deathvar: None -> DEER01
+  FFRECEP   Receptionist
+    overrideScript: FFACTLV -> 
+    classScript: SHOUTDLG -> CBFFRECP
+  FFUSHER1  Usher
+    classScript: FFACTLV -> CBFFUSHA
+  FFUSHER2  Usher
+    classScript: FFACTLV -> CBFFUSHA
+  FIRWLF01  Grancor
+    defaultScript: None -> CBMALDES
+  FIRWLF02  Falik
+    defaultScript: None -> CBMALDES
+  HABREGA   Chief Inspector Brega
+    generalScript: None -> CBXTGBDS
+  HEARTG1   Knight of the Order
+    generalScript: None -> CBXTRSDS
+  HEARTG2   Knight of the Order
+    generalScript: None -> CBXTRSDS
+  HEARTG3   Sir Zarath
+    generalScript: None -> CBXTRSDS
+  HEARTG4   Sir Mardus
+    generalScript: None -> CBXTRSDS
+  HLKETTA   Ketta
+    generalScript: None -> 
+  HLKETTA2  Ketta
+    generalScript: None -> 
+  HLMAFER   Maferan
+    generalScript: None -> 
+  HLSION    Sion
+    generalScript: None -> 
+  HLSTAL    Stalman
+    generalScript: None -> 
+  HMELVIN   Squire Melvin
+    generalScript: None -> CBXTRSDS
+  HPRELATE  Prelate Wessalen
+    generalScript: None -> CBXTRSDS
+  HSPECTR1  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  HSPECTR2  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  HSPECTR3  Spectral Harpist
+    generalScript: None -> CBXTHSDS
+  ICYUAN01  Yuan-ti
+    deathvar: None -> YUANTI
+  ICYUAN02  Greater Yuan-ti
+    deathvar: None -> YUANTI
+  ICYUAN03  Yuan-ti Mage
+    deathvar: mage12d -> YUANTI
+  ICYUAN04  Yuan-ti Elite
+    deathvar: icyuan04 -> YUANTI
+  ICYUAN05  Yuan-ti Prince
+    deathvar: mage14d -> YUANTI
+  KAYL1     Sir Ryan Trawl
+    defaultScript: None -> CBXTRSDS
+  KPSHAM01  Yuan-ti Mage
+    deathvar: kpsham01 -> YUANTI
+  KPYUAN01  Greater Yuan-ti
+    deathvar: kpyuan01 -> YUANTI
+  LATLARA   Acolyte Lara
+    generalScript: None -> 
+  LLARSH    Llarsh
+    generalScript: None -> CBXTGBDS
+  MERONIA   Meronia
+    generalScript: None -> CBXTHSDS
+  PACE      Pace
+    generalScript: None -> CBXTHSDS
+  RSKEL01   Skeleton
+    raceScript: None -> CBMALDES
+  SBUTLER   Commoner
+    deathvar: None -> SBUTLER
+    classScript: SHOUT -> SGUARD
+  SCBUTLER  Butler
+    generalScript: wtrunsgt -> CBXTJEDS
+  SCLJYSS   Lady Jysstev
+    generalScript: None -> CBXTJEDS
+  SCOOK     Cook
+    deathvar: None -> SCOOK
+    classScript: SHOUTDLG -> SGUARD
+  SCQAR     Qar Jysstev
+    generalScript: None -> CBXTJEDS
+  SCSAIN    Dawnbringer Sain
+    generalScript: None -> 
+  SCSARLES  Sir Sarles
+    generalScript: None -> CBXTJEDS
+  SGUARD1   Guard
+    classScript: SHOUTDLG -> 
+  SGUARD2   Guard
+    classScript: SHOUTDLG -> 
+  SHAWOL01  Shade Wolf
+    generalScript: None -> CBMALDES
+  SHAWOL02  Greater Shade Wolf
+    generalScript: None -> CBMALDES
+  SKELWA02  Skeleton Warrior
+    overrideScript: None -> CBMALDES
+  SQUIRL    Squirrel
+    deathvar: None -> SQUIRL
+  TERMER01  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER02  Mercenary
+    raceScript: gpuse -> CBXTHSDS
+  TERMER03  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER04  Mercenary
+    generalScript: None -> CBXTHSDS
+  TERMER05  Mercenary
+    generalScript: None -> CBXTHSDS
+  TOLGER    Tolgerias
+    raceScript: None -> CBXTGBDS
+  WSMITH01  Cromwell
+    raceScript: None -> WSMITH01
