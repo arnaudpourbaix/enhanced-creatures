@@ -17,8 +17,15 @@ function gameValue(raw: string | undefined): Game | undefined {
   return v === "bg1" || v === "bg2" ? v : undefined;
 }
 
+// assets/creatures.csv is regularly round-tripped through Excel, which writes a UTF-8 BOM
+// (U+FEFF). Strip it so header.indexOf("file") (and every other column lookup) still resolves.
+function csvLines(raw: string): string[] {
+  const body = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
+  return body.split(/\r?\n/).filter((line) => line.length > 0);
+}
+
 export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const lines = csvLines(raw);
   const header = lines[0].split(";");
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
@@ -40,7 +47,7 @@ export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
 }
 
 export function parseUnvalidatedMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const lines = csvLines(raw);
   const header = lines[0].split(";");
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
@@ -64,7 +71,7 @@ export function parseUnvalidatedMonsterFilesCsv(raw: string): Map<string, Creatu
 export function parseMonsterDialogCsv(
   raw: string,
 ): Map<string, { file: string; deathvar: string; dialog: string }[]> {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const lines = csvLines(raw);
   const header = lines[0].split(";");
   const fileIdx = header.indexOf(FILE_COLUMN);
   const deathvarIdx = header.indexOf(DEATHVAR_COLUMN);
@@ -91,7 +98,7 @@ export function parseMonsterDialogCsv(
 }
 
 export function parseMonsterSummonFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const lines = csvLines(raw);
   const header = lines[0].split(";");
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
@@ -115,7 +122,7 @@ export function parseMonsterSummonFilesCsv(raw: string): Map<string, CreatureFil
 }
 
 export function parseFileNamesCsv(raw: string): Map<string, string> {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  const lines = csvLines(raw);
   const header = lines[0].split(";");
   const fileIdx = header.indexOf(FILE_COLUMN);
   const nameIdx = header.indexOf(NAME_COLUMN);

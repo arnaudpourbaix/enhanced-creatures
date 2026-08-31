@@ -16,7 +16,11 @@ const byFileKey = (a: Record<string, string>, b: Record<string, string>): number
  * contain `;`, so everything past the first (header.length - 1) fields folds back into it.
  */
 export function parseCsv(raw: string): Csv {
-  const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+  // Strip a leading UTF-8 BOM (U+FEFF) - the assets CSVs are round-tripped through Excel, which
+  // writes one, and it would otherwise glue itself to the first header name so that
+  // header.indexOf("file") no longer matches.
+  const body = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
+  const lines = body.split(/\r?\n/).filter((line) => line.length > 0);
   const header = lines[0].split(";");
   const rows = lines.slice(1).map((line) => {
     const parts = line.split(";");
