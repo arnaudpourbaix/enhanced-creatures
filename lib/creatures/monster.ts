@@ -140,4 +140,11 @@ export enum MonsterEnum {
   Nightwing = 113,
   Nereid = 114,
   GiantPoisonousSnake = 115,
+  Lich = 116,
+  DemiLich = 117,
+  Djinni = 118,
+  NobleDjinni = 119,
+  Dao = 120,
+  Efreeti = 121,
+  Marid = 122,
 }

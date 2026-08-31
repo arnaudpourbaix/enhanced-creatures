@@ -790,6 +790,10 @@ class FeyFamily extends CreatureFamily<Fey> {
         files: ["BDNYMP02"],
         data: { alignment: "NEUTRAL_EVIL" },
       },
+      {
+        files: ["ABELA"],
+        data: { spells: { removeMemorized: true } },
+      },
     ]);
     return nymph;
   }

@@ -454,7 +454,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         // leader is a 7 Hit Dice monster with Armor Class 3, Strenth 18/50, XP 650
         // He inflicts 2d6+3 points of damage per attack.
-        files: ["SEWERF4", "BDOGREM", "NTOGREDA"],
+        files: ["SEWERF4", "BDOGREM", "NTOGREDA", "WELT"],
         data: {
           level1: 7,
           ac: 3,
@@ -504,36 +504,21 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        // BG1 Gorf — the half-ogre lieutenant guarding the Cloakwood entrance, a level-9 fighter.
+        // BG1 Gorf — undercity
         files: ["GORF"],
         game: "bg1",
         data: {
           level1: 9,
+          bonusHp: 4,
           strength: 19,
           exceptionalStrength: 0,
           morale: 18,
           ac: 2,
           class: "FIGHTER",
           xpv: 2000,
-          proficiencies: [
-            { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
-            { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
-          ],
-        },
-      },
-      {
-        // BG2 "Gorf the Squisher" — a level-5 half-ogre fighter, weaker than the BG1 lieutenant.
-        files: ["GORF"],
-        game: "bg2",
-        data: {
-          level1: 5,
-          class: "FIGHTER",
-          strength: 18,
-          exceptionalStrength: 50,
-          ac: 4,
-          bonusHp: 3,
-          morale: 15,
-          xpv: 2500,
+          items: {
+            equipped: [{ file: this.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
+          },
         },
       },
       {
@@ -694,6 +679,24 @@ class OgreFamily extends CreatureFamily<Ogre> {
           strength: 18,
           ac: 3,
           xpv: 520,
+        },
+      },
+      {
+        files: ["GORF", "GORF03"],
+        game: "bg2",
+        data: {
+          level1: 5,
+          bonusHp: 3,
+          strength: 18,
+          exceptionalStrength: 50,
+          ac: 3,
+          xpv: 520,
+        },
+      },
+      {
+        files: ["GORF03"],
+        data: {
+          level1: 8,
         },
       },
       {
