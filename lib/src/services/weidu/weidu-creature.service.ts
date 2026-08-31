@@ -142,12 +142,19 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchCreatures(lines: CodeLine[], tab: number, creature: Creature) {
-    // The per-file patch body is emitted once into a DEFINE_PATCH_FUNCTION and LPF'd from each
-    // (per-game) loop below, rather than duplicated inline once per game group.
+    // The whole per-file block (FILE_EXISTS_IN_GAME -> COPY_EXISTING -> body ->
+    // BUT_ONLY_IF_IT_CHANGES) is emitted once as an action function; each per-game loop below just
+    // calls it per file, rather than duplicating the ~200-line body once per game group.
     const fn = `jam${creature.id.toString(16)}_patch`;
-    this.add(lines, `DEFINE_PATCH_FUNCTION ${fn} BEGIN`, tab);
-    this.patchCreatureBody(lines, tab + 1, creature);
-    this.add(lines, "END", tab);
+    this.add(lines, `DEFINE_ACTION_FUNCTION ${fn}`, tab);
+    this.add(lines, `STR_VAR file = ~~`, tab);
+    this.add(lines, `BEGIN`, tab);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab + 1);
+    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab + 2);
+    this.patchCreatureBody(lines, tab + 3, creature);
+    this.add(lines, `BUT_ONLY_IF_IT_CHANGES`, tab + 2);
+    this.add(lines, `END`, tab + 1);
+    this.add(lines, `END`, tab);
     this.add(lines, "", tab);
 
     const groups: { game?: Game; names: string[] }[] = [
@@ -220,21 +227,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
     for (const file of names) this.add(lines, `"${file}"`, tab + 1);
     this.add(lines, "BEGIN", tab);
-    tab++;
-    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab);
-    tab++;
-    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab);
-    tab++;
-    this.add(lines, `LPF ${fn} END`, tab);
-    tab--;
-    this.add(lines, "BUT_ONLY_IF_IT_CHANGES", tab);
-    tab--;
-    // this.add(lines, "END ELSE BEGIN", tab);
-    // tab++;
-    // this.add(lines, "PRINT ~====> CRE %file% not found!~", tab);
-    // tab--;
+    this.add(lines, `LAF ${fn} STR_VAR file = ~%file%~ END`, tab + 1);
     this.add(lines, "END", tab);
-    this.add(lines, "END", tab - 1);
   }
 
   private removeItems(lines: CodeLine[], tab: number, data: CreatureData) {
