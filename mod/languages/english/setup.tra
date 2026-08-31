@@ -2,6 +2,7 @@
 
 @100 = ~*** This component cannot be installed on this game ***~
 
+@999 = ~All monsters~
 @1000 = ~Core monsters (required)~
 @1001 = ~Core monsters component is not installed.~
 @1002 = ~Fey component is not installed.~
