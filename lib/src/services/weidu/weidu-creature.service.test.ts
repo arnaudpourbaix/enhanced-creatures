@@ -31,6 +31,7 @@ interface WeiduCreatureServicePrivate {
     enforce: boolean;
     creature: Creature;
   }): void;
+  patchCreatures(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustments(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustment(
     lines: CodeLine[],
@@ -47,6 +48,7 @@ function codes(lines: CodeLine[]): string[] {
 }
 
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
+const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -64,7 +66,7 @@ function fakeAdjustment(
 function fakeCreature(
   p: Partial<Omit<Creature, "data">> & { data?: Partial<CreatureData> } = {},
 ): Creature {
-  return {
+  const creature = {
     id: 1,
     files: [],
     adjustments: [],
@@ -76,7 +78,61 @@ function fakeCreature(
     },
     ...p,
   } as unknown as Creature;
+  // Mirror the real Creature.fileNames getter; tolerate string entries used by older fixtures.
+  Object.defineProperty(creature, "fileNames", {
+    get(this: Creature) {
+      const files = this.files as unknown as (string | { name: string })[];
+      return files.map((f) => (typeof f === "string" ? f : f.name));
+    },
+    configurable: true,
+  });
+  return creature;
 }
+
+function fullBaseData(): Partial<CreatureData> {
+  return {
+    immunities: [],
+    proficiencies: [],
+    script: { location: "None", remove: [] },
+    items: { equipped: [], remove: [] },
+    spells: { removeKnown: true, removeMemorized: undefined, memorized: [] },
+    effects: { remove: [], list: [] },
+  } as unknown as Partial<CreatureData>;
+}
+
+describe("patchCreatures (private)", () => {
+  it("emits one unconditional ACTION_FOR_EACH when all files are both-game", () => {
+    const creature = fakeCreature({
+      files: [{ name: "A" }, { name: "B" }],
+      data: fullBaseData(),
+    });
+    const lines: CodeLine[] = [];
+    service.patchCreatures(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.filter((c) => c === ACTION_FOR_EACH_FILE)).toHaveLength(1);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+    expect(out).toContain('"A"');
+    expect(out).toContain('"B"');
+  });
+
+  it("splits bg1-only and bg2-only files into GAME_IS-guarded loops", () => {
+    const creature = fakeCreature({
+      files: [{ name: "BOTH" }, { name: "ONE", game: "bg1" }, { name: "TWO", game: "bg2" }],
+      data: fullBaseData(),
+    });
+    const lines: CodeLine[] = [];
+    service.patchCreatures(lines, 0, creature);
+    const out = codes(lines);
+    expect(out).toContain("ACTION_IF GAME_IS ~bgee eet~ BEGIN");
+    expect(out).toContain("ACTION_IF GAME_IS ~bg2ee~ BEGIN");
+    expect(out.filter((c) => c === ACTION_FOR_EACH_FILE)).toHaveLength(3);
+    const j = out.join("\n");
+    expect(j).toMatch(/GAME_IS ~bgee eet~ BEGIN[\s\S]*"ONE"/);
+    expect(j).toMatch(/GAME_IS ~bg2ee~ BEGIN[\s\S]*"TWO"/);
+    // BOTH belongs to the unconditional group, before any GAME_IS guard
+    expect(j).toMatch(/^[\s\S]*"BOTH"[\s\S]*GAME_IS/);
+  });
+});
 
 describe("removeEffects (private)", () => {
   it("removes all effects when creature.data.effects.remove is a boolean", () => {
@@ -310,7 +366,7 @@ describe("handleScriptEdit (private)", () => {
       ],
     });
     const result = codes(lines);
-    expect(result[0]).toBe("ACTION_FOR_EACH ~file~ IN");
+    expect(result[0]).toBe(ACTION_FOR_EACH_FILE);
     expect(result).toContain('"JAM01"');
     expect(result).toContain('"JAM02"');
     expect(result).toContain("BEGIN");
@@ -431,6 +487,9 @@ describe("handleAdjustment (private)", () => {
     const fileIdx = out.findIndex((c) => c.includes('"%SOURCE_RES%" STRING_EQUAL_CASE ~GORF~'));
     expect(gameIdx).toBeGreaterThanOrEqual(0);
     expect(fileIdx).toBeGreaterThan(gameIdx);
+    // the guard's PATCH_IF and its matching (last) END sit at the same indent
+    expect(lines[lines.length - 1].code).toBe("END");
+    expect(lines[lines.length - 1].tab).toBe(lines[gameIdx].tab);
   });
 
   it("emits no game guard for an untagged adjustment", () => {

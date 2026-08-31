@@ -3,7 +3,7 @@ import { SPELLBOOK_MODS } from "../../../config/mods";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";
-import { GAME_IS_CONDITION } from "../../model/creature/game";
+import { Game, GAME_IS_CONDITION } from "../../model/creature/game";
 import {
   CREATURE_DATA_FIELDS,
   CreatureData,
@@ -142,8 +142,35 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchCreatures(lines: CodeLine[], tab: number, creature: Creature) {
+    const groups: { game?: Game; names: string[] }[] = [
+      { game: undefined, names: [] },
+      { game: "bg1", names: [] },
+      { game: "bg2", names: [] },
+    ];
+    for (const f of creature.files) {
+      const group = groups.find((g) => g.game === f.game);
+      if (group) group.names.push(f.name);
+    }
+    for (const group of groups) {
+      if (!group.names.length) continue;
+      if (group.game) {
+        this.add(lines, `ACTION_IF ${GAME_IS_CONDITION[group.game]} BEGIN`, tab);
+        this.patchCreatureFileLoop(lines, tab + 1, creature, group.names);
+        this.add(lines, "END", tab);
+      } else {
+        this.patchCreatureFileLoop(lines, tab, creature, group.names);
+      }
+    }
+  }
+
+  private patchCreatureFileLoop(
+    lines: CodeLine[],
+    tab: number,
+    creature: Creature,
+    names: string[],
+  ) {
     this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
-    for (const file of creature.files) this.add(lines, `"${file}"`, tab + 1);
+    for (const file of names) this.add(lines, `"${file}"`, tab + 1);
     this.add(lines, "BEGIN", tab);
     tab++;
     this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab);
@@ -206,7 +233,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private removeAllEffects(lines: CodeLine[], tab: number, creature: Creature) {
-    const files = creature.files.reduce<string[]>((acc, file) => {
+    const files = creature.fileNames.reduce<string[]>((acc, file) => {
       const defaultValue = !!creature.data.effects.remove;
       const adj = creature.adjustments.find(
         (a) =>
@@ -225,7 +252,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     if (typeof creature.data.effects.remove === "boolean") {
       this.removeAllEffects(lines, tab, creature);
     } else if (Array.isArray(creature.data.effects.remove)) {
-      this.removeEffectOpcodes(lines, tab, creature.data.effects.remove, creature.files);
+      this.removeEffectOpcodes(lines, tab, creature.data.effects.remove, creature.fileNames);
     }
     for (const adjustment of creature.adjustments) {
       if (Array.isArray(adjustment.data.effects.remove)) {
@@ -603,8 +630,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     }
     this.add(lines, "END", tab - 1);
     if (gameGuard) {
-      tab--;
-      this.add(lines, "END", tab);
+      // Guard's closing END must align with its PATCH_IF, emitted at the entry tab (tab - 2 here).
+      this.add(lines, "END", tab - 2);
     }
   }
 
