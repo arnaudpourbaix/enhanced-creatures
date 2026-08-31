@@ -46,54 +46,58 @@ COPY_EXISTING ~jai1m59.itm~ ~override~
 	LPF ADD_EFFECT INT_VAR opcode=142 target=2 parameter2=91 duration=300 probability1=100 END
 	END
 
+DEFINE_PATCH_FUNCTION jam59_patch BEGIN
+	LPF FJ_CRE_VALIDITY END
+	PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADGR~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADOW~ BEGIN
+		LPF REMOVE_MOST_CRE_EFFECTS END
+	END
+	REMOVE_KNOWN_SPELLS
+	REMOVE_MEMORIZED_SPELLS
+	REMOVE_CRE_ITEM ~BDSHADGR~
+	REMOVE_CRE_ITEM ~immune1~
+	REMOVE_CRE_ITEM ~ring95~
+	ADD_CRE_ITEM ~jai0m59~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+	REPLACE_CRE_ITEM ~jai1m59~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+	ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+	REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+	LPF clear_proficiencies END
+	LPF patchCreature
+		INT_VAR
+			xpv=3000
+			hp=104
+			ac=7
+			thac0=11
+			apr=1
+			saveDeath=10
+			saveWand=12
+			savePolymorph=11
+			saveBreath=12
+			saveSpell=13
+			level1=8
+			gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+			strength=10
+			intelligence=11
+			wisdom=14
+			dexterity=16
+			constitution=9
+			charisma=12
+			morale=20
+			general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+			race=IDS_OF_SYMBOL (~race~ ~SHADOW~)
+			class=IDS_OF_SYMBOL (~class~ ~SHADOW~)
+			alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+			movement=10
+			enforce=1
+	END
+END
+
 ACTION_FOR_EACH ~file~ IN
 	"BDSHADGR"
 	"BDSHADOW"
 BEGIN
 	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
 		COPY_EXISTING ~%file%.cre~ ~override~
-			LPF FJ_CRE_VALIDITY END
-			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADGR~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSHADOW~ BEGIN
-				LPF REMOVE_MOST_CRE_EFFECTS END
-			END
-			REMOVE_KNOWN_SPELLS
-			REMOVE_MEMORIZED_SPELLS
-			REMOVE_CRE_ITEM ~BDSHADGR~
-			REMOVE_CRE_ITEM ~immune1~
-			REMOVE_CRE_ITEM ~ring95~
-			ADD_CRE_ITEM ~jai0m59~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~jai1m59~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
-			LPF clear_proficiencies END
-			LPF patchCreature
-				INT_VAR
-					xpv=3000
-					hp=104
-					ac=7
-					thac0=11
-					apr=1
-					saveDeath=10
-					saveWand=12
-					savePolymorph=11
-					saveBreath=12
-					saveSpell=13
-					level1=8
-					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
-					strength=10
-					intelligence=11
-					wisdom=14
-					dexterity=16
-					constitution=9
-					charisma=12
-					morale=20
-					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
-					race=IDS_OF_SYMBOL (~race~ ~SHADOW~)
-					class=IDS_OF_SYMBOL (~class~ ~SHADOW~)
-					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
-					movement=10
-					enforce=1
-			END
+			LPF jam59_patch END
 		BUT_ONLY_IF_IT_CHANGES
 	END
 END

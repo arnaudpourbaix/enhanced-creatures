@@ -142,6 +142,14 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchCreatures(lines: CodeLine[], tab: number, creature: Creature) {
+    // The per-file patch body is emitted once into a DEFINE_PATCH_FUNCTION and LPF'd from each
+    // (per-game) loop below, rather than duplicated inline once per game group.
+    const fn = `jam${creature.id.toString(16)}_patch`;
+    this.add(lines, `DEFINE_PATCH_FUNCTION ${fn} BEGIN`, tab);
+    this.patchCreatureBody(lines, tab + 1, creature);
+    this.add(lines, "END", tab);
+    this.add(lines, "", tab);
+
     const groups: { game?: Game; names: string[] }[] = [
       { game: undefined, names: [] },
       { game: "bg1", names: [] },
@@ -158,28 +166,16 @@ class WeiduCreatureService extends AbstractWeiduService {
       if (!group.names.length) continue;
       if (group.game) {
         this.add(lines, `ACTION_IF ${GAME_IS_CONDITION[group.game]} BEGIN`, tab);
-        this.patchCreatureFileLoop(lines, tab + 1, creature, group.names);
+        this.patchCreatureFileLoop(lines, tab + 1, group.names, fn);
         this.add(lines, "END", tab);
       } else {
-        this.patchCreatureFileLoop(lines, tab, creature, group.names);
+        this.patchCreatureFileLoop(lines, tab, group.names, fn);
       }
     }
   }
 
-  private patchCreatureFileLoop(
-    lines: CodeLine[],
-    tab: number,
-    creature: Creature,
-    names: string[],
-  ) {
-    this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
-    for (const file of names) this.add(lines, `"${file}"`, tab + 1);
-    this.add(lines, "BEGIN", tab);
-    tab++;
-    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab);
-    tab++;
-    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab);
-    tab++;
+  /** The per-file patch body: everything between COPY_EXISTING and BUT_ONLY_IF_IT_CHANGES. */
+  private patchCreatureBody(lines: CodeLine[], tab: number, creature: Creature) {
     this.add(lines, `LPF FJ_CRE_VALIDITY END`, tab);
     this.removeEffects(lines, tab, creature);
     this.removeKnownSpells(lines, tab, creature);
@@ -218,6 +214,18 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.patchScripts(lines, tab, creature);
     }
     this.handleAdjustments(lines, tab, creature);
+  }
+
+  private patchCreatureFileLoop(lines: CodeLine[], tab: number, names: string[], fn: string) {
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
+    for (const file of names) this.add(lines, `"${file}"`, tab + 1);
+    this.add(lines, "BEGIN", tab);
+    tab++;
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab);
+    tab++;
+    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab);
+    tab++;
+    this.add(lines, `LPF ${fn} END`, tab);
     tab--;
     this.add(lines, "BUT_ONLY_IF_IT_CHANGES", tab);
     tab--;
