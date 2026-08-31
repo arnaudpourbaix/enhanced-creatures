@@ -171,5 +171,5 @@ ACTION_FOR_EACH ~file~ IN
 	"D9CAT"
 	"D9CAX"
 BEGIN
-	LAF jam64_patch STR_VAR file = ~%file%~ END
+	LAF jam64_patch STR_VAR file END
 END

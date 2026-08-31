@@ -319,5 +319,5 @@ ACTION_FOR_EACH ~file~ IN
 	"MUMGRE01"
 	"RIFTCR03"
 BEGIN
-	LAF jam4f_patch STR_VAR file = ~%file%~ END
+	LAF jam4f_patch STR_VAR file END
 END

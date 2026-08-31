@@ -292,12 +292,12 @@ ACTION_FOR_EACH ~file~ IN
 	"NTWELT"
 	"AC#WRIM1"
 BEGIN
-	LAF jam1e_patch STR_VAR file = ~%file%~ END
+	LAF jam1e_patch STR_VAR file END
 END
 ACTION_IF GAME_IS ~bgee eet~ BEGIN
 	ACTION_FOR_EACH ~file~ IN
 		"GORF"
 	BEGIN
-		LAF jam1e_patch STR_VAR file = ~%file%~ END
+		LAF jam1e_patch STR_VAR file END
 	END
 END

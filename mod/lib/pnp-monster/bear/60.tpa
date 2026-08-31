@@ -156,5 +156,5 @@ ACTION_FOR_EACH ~file~ IN
 	"TREVIL04"
 	"CB595GRB"
 BEGIN
-	LAF jam60_patch STR_VAR file = ~%file%~ END
+	LAF jam60_patch STR_VAR file END
 END

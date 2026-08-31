@@ -277,5 +277,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BPANKHE1"
 	"L#XZEANS"
 BEGIN
-	LAF jam1_patch STR_VAR file = ~%file%~ END
+	LAF jam1_patch STR_VAR file END
 END

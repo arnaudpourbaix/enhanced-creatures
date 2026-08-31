@@ -120,5 +120,5 @@ ACTION_FOR_EACH ~file~ IN
 	"VAELASA"
 	"JAHAMA"
 BEGIN
-	LAF jam2a_patch STR_VAR file = ~%file%~ END
+	LAF jam2a_patch STR_VAR file END
 END

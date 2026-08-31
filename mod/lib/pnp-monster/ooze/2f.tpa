@@ -60,7 +60,7 @@ COPY_EXISTING ~jai1m2f.itm~ ~override~
 	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter2=65536 probability1=100 dicesize=8 dicenumber=3 END
 	END
 
-COPY_EXISTING ~BDPUDDBL.cre~ ~override/jablpud.cre~
+COPY ~%MOD_FOLDER%/lib/pnp-monster/ooze/assets/japuddbl.cre~ ~override/jablpud.cre~
 DEFINE_ACTION_FUNCTION jam2f_patch
 STR_VAR file = ~~
 BEGIN
@@ -129,5 +129,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDPUDDBL"
 	"JABLPUD"
 BEGIN
-	LAF jam2f_patch STR_VAR file = ~%file%~ END
+	LAF jam2f_patch STR_VAR file END
 END

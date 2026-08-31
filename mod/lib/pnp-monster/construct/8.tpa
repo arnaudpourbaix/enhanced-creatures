@@ -81,5 +81,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BATTHO"
 	"DW#DAVHO"
 BEGIN
-	LAF jam8_patch STR_VAR file = ~%file%~ END
+	LAF jam8_patch STR_VAR file END
 END

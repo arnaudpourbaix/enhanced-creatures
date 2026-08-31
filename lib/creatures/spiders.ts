@@ -581,7 +581,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
           remove: ["BDSPIDGI", "SPIDG1", "ANTIWEB", "PLYSPID"],
         },
         script: {
-          remove: ["DW#SPIDG", "SPIDFGSU"],
+          remove: ["DW#SPIDG"],
         },
       },
     });
@@ -858,10 +858,13 @@ class SpiderFamily extends CreatureFamily<Spider> {
         movement: 6, // Web 8
         immunities: ["spider"],
         items: {
-          remove: ["SPIDSW1", "ANTIWEB", "SPIDSWSU", "WISPIDSW"],
+          remove: ["SPIDSW1", "ANTIWEB", "SPIDSWSU", "WISPIDSW", "FIGSPID"],
         },
         script: {
-          remove: ["DW#SPIDS"],
+          remove: ["DW#SPIDS", "SPIDFGSU"],
+        },
+        spells: {
+          removeMemorized: true,
         },
       },
     });

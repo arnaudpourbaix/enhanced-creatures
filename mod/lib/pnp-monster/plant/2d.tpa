@@ -267,5 +267,5 @@ ACTION_FOR_EACH ~file~ IN
 	"JATREA2"
 	"JATREA1"
 BEGIN
-	LAF jam2d_patch STR_VAR file = ~%file%~ END
+	LAF jam2d_patch STR_VAR file END
 END

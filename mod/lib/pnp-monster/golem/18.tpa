@@ -175,5 +175,5 @@ ACTION_FOR_EACH ~file~ IN
 	"GOLSAN01"
 	"IGOLEM01"
 BEGIN
-	LAF jam18_patch STR_VAR file = ~%file%~ END
+	LAF jam18_patch STR_VAR file END
 END

@@ -172,7 +172,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       newFiles: [
         {
           files: [NEW_CREATURES.SplitBlackPudding],
-          copyFromExisting: "BDPUDDBL",
+          copyFrom: NEW_CREATURES.BlackPudding,
         },
       ],
       data: {
@@ -269,7 +269,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       newFiles: [
         {
           files: [NEW_CREATURES.SplitWhitePudding],
-          copyFromExisting: "AC#FPWPU",
+          copyFrom: NEW_CREATURES.WhitePudding,
         },
       ],
       data: {
@@ -355,7 +355,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       newFiles: [
         {
           files: [NEW_CREATURES.SplitMustardJelly],
-          copyFromExisting: "JELLMU",
+          copyFrom: NEW_CREATURES.MustardJelly,
           stringRef: "monster.slime.name.SmallerMustard",
         },
       ],

@@ -127,5 +127,5 @@ ACTION_FOR_EACH ~file~ IN
 	"SPIDWR01"
 	"TTSPID"
 BEGIN
-	LAF jam3c_patch STR_VAR file = ~%file%~ END
+	LAF jam3c_patch STR_VAR file END
 END

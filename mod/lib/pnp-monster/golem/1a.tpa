@@ -171,5 +171,5 @@ ACTION_FOR_EACH ~file~ IN
 	"KPGOL04"
 	"SHIRON"
 BEGIN
-	LAF jam1a_patch STR_VAR file = ~%file%~ END
+	LAF jam1a_patch STR_VAR file END
 END

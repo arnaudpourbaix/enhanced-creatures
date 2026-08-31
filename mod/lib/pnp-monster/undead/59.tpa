@@ -101,5 +101,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDSHADGR"
 	"BDSHADOW"
 BEGIN
-	LAF jam59_patch STR_VAR file = ~%file%~ END
+	LAF jam59_patch STR_VAR file END
 END

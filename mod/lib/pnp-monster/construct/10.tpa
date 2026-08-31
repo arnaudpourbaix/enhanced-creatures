@@ -91,5 +91,5 @@ ACTION_FOR_EACH ~file~ IN
 	"DOOMGU"
 	"DOOMDUR"
 BEGIN
-	LAF jam10_patch STR_VAR file = ~%file%~ END
+	LAF jam10_patch STR_VAR file END
 END

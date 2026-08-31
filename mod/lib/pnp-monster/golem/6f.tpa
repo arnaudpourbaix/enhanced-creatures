@@ -110,5 +110,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDPETSGS"
 	"UGHH"
 BEGIN
-	LAF jam6f_patch STR_VAR file = ~%file%~ END
+	LAF jam6f_patch STR_VAR file END
 END

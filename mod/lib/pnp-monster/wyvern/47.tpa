@@ -164,5 +164,5 @@ ACTION_FOR_EACH ~file~ IN
 	"WYVBABSU"
 	"WYVERBA"
 BEGIN
-	LAF jam47_patch STR_VAR file = ~%file%~ END
+	LAF jam47_patch STR_VAR file END
 END

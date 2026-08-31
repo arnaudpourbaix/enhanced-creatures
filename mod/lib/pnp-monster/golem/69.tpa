@@ -111,5 +111,5 @@ END
 ACTION_FOR_EACH ~file~ IN
 	"L#RVGOLE"
 BEGIN
-	LAF jam69_patch STR_VAR file = ~%file%~ END
+	LAF jam69_patch STR_VAR file END
 END

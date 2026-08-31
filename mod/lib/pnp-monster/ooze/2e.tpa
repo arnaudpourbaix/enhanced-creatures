@@ -64,7 +64,7 @@ COPY_EXISTING ~jai1m2e.itm~ ~override~
 	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter2=65536 probability1=100 dicesize=4 dicenumber=3 END
 	END
 
-COPY_EXISTING ~JELLMU.cre~ ~override/jajelmu.cre~
+COPY ~%MOD_FOLDER%/lib/pnp-monster/ooze/assets/jajellmu.cre~ ~override/jajelmu.cre~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10264)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10264)
 DEFINE_ACTION_FUNCTION jam2e_patch
@@ -156,5 +156,5 @@ ACTION_FOR_EACH ~file~ IN
 	"PLYJELL1"
 	"JAJELMU"
 BEGIN
-	LAF jam2e_patch STR_VAR file = ~%file%~ END
+	LAF jam2e_patch STR_VAR file END
 END

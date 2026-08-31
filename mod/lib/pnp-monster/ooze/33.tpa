@@ -121,5 +121,5 @@ ACTION_FOR_EACH ~file~ IN
 	"X#JELLY"
 	"X#SLIME"
 BEGIN
-	LAF jam33_patch STR_VAR file = ~%file%~ END
+	LAF jam33_patch STR_VAR file END
 END

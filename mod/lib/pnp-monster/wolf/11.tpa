@@ -103,5 +103,5 @@ ACTION_FOR_EACH ~file~ IN
 	"WOLF"
 	"WOLFSU"
 BEGIN
-	LAF jam11_patch STR_VAR file = ~%file%~ END
+	LAF jam11_patch STR_VAR file END
 END

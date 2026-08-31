@@ -360,5 +360,5 @@ ACTION_FOR_EACH ~file~ IN
 	"WIGENTLE"
 	"WIOGMA01"
 BEGIN
-	LAF jam20_patch STR_VAR file = ~%file%~ END
+	LAF jam20_patch STR_VAR file END
 END

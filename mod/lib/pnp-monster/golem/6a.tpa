@@ -110,5 +110,5 @@ ACTION_FOR_EACH ~file~ IN
 	"O#LLARG2"
 	"O#LLARG3"
 BEGIN
-	LAF jam6a_patch STR_VAR file = ~%file%~ END
+	LAF jam6a_patch STR_VAR file END
 END

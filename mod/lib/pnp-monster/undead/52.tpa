@@ -287,5 +287,5 @@ ACTION_FOR_EACH ~file~ IN
 	"TANSKW1"
 	"BDUNSEN"
 BEGIN
-	LAF jam52_patch STR_VAR file = ~%file%~ END
+	LAF jam52_patch STR_VAR file END
 END

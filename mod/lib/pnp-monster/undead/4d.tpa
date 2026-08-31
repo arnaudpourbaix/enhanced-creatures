@@ -209,5 +209,5 @@ ACTION_FOR_EACH ~file~ IN
 	"LACEDO02"
 	"MALKAL"
 BEGIN
-	LAF jam4d_patch STR_VAR file = ~%file%~ END
+	LAF jam4d_patch STR_VAR file END
 END

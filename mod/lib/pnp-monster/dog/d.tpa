@@ -105,5 +105,5 @@ ACTION_FOR_EACH ~file~ IN
 	"DOGWA"
 	"DOGWASU"
 BEGIN
-	LAF jamd_patch STR_VAR file = ~%file%~ END
+	LAF jamd_patch STR_VAR file END
 END

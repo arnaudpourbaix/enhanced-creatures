@@ -106,5 +106,5 @@ ACTION_FOR_EACH ~file~ IN
 	"JELLOC"
 	"JELLYCO"
 BEGIN
-	LAF jam31_patch STR_VAR file = ~%file%~ END
+	LAF jam31_patch STR_VAR file END
 END

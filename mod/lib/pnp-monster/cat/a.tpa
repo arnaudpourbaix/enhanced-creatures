@@ -209,12 +209,12 @@ ACTION_FOR_EACH ~file~ IN
 	"CATLIOSU"
 	"COPLION"
 BEGIN
-	LAF jama_patch STR_VAR file = ~%file%~ END
+	LAF jama_patch STR_VAR file END
 END
 ACTION_IF GAME_IS ~bg2ee~ BEGIN
 	ACTION_FOR_EACH ~file~ IN
 		"CATLIOWP"
 	BEGIN
-		LAF jama_patch STR_VAR file = ~%file%~ END
+		LAF jama_patch STR_VAR file END
 	END
 END

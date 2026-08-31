@@ -124,5 +124,5 @@ ACTION_FOR_EACH ~file~ IN
 	"L#APEST"
 	"JADRYAD"
 BEGIN
-	LAF jam29_patch STR_VAR file = ~%file%~ END
+	LAF jam29_patch STR_VAR file END
 END

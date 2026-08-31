@@ -177,5 +177,5 @@ ACTION_FOR_EACH ~file~ IN
 	"SIRINE02"
 	"ISLSIR"
 BEGIN
-	LAF jam2b_patch STR_VAR file = ~%file%~ END
+	LAF jam2b_patch STR_VAR file END
 END

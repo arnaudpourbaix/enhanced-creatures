@@ -224,5 +224,5 @@ ACTION_FOR_EACH ~file~ IN
 	"WOLFVA"
 	"DW#ULCWO"
 BEGIN
-	LAF jam15_patch STR_VAR file = ~%file%~ END
+	LAF jam15_patch STR_VAR file END
 END

@@ -137,5 +137,5 @@ ACTION_FOR_EACH ~file~ IN
 	"IGOLFLE4"
 	"BDGOLEMF"
 BEGIN
-	LAF jam17_patch STR_VAR file = ~%file%~ END
+	LAF jam17_patch STR_VAR file END
 END

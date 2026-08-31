@@ -141,5 +141,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDMCARRI"
 	"CARRIOSU"
 BEGIN
-	LAF jam9_patch STR_VAR file = ~%file%~ END
+	LAF jam9_patch STR_VAR file END
 END

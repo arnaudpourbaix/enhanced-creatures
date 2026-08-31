@@ -141,5 +141,5 @@ END
 ACTION_FOR_EACH ~file~ IN
 	"BDETTIN"
 BEGIN
-	LAF jam5e_patch STR_VAR file = ~%file%~ END
+	LAF jam5e_patch STR_VAR file END
 END

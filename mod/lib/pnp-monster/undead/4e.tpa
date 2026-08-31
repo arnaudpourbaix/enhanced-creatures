@@ -223,5 +223,5 @@ ACTION_FOR_EACH ~file~ IN
 	"O#LLARU5"
 	"O#LLARU6"
 BEGIN
-	LAF jam4e_patch STR_VAR file = ~%file%~ END
+	LAF jam4e_patch STR_VAR file END
 END

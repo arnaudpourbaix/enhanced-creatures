@@ -171,12 +171,12 @@ ACTION_FOR_EACH ~file~ IN
 	"TAZOK"
 	"TAZOK2"
 BEGIN
-	LAF jam1d_patch STR_VAR file = ~%file%~ END
+	LAF jam1d_patch STR_VAR file END
 END
 ACTION_IF GAME_IS ~bg2ee~ BEGIN
 	ACTION_FOR_EACH ~file~ IN
 		"GORF"
 	BEGIN
-		LAF jam1d_patch STR_VAR file = ~%file%~ END
+		LAF jam1d_patch STR_VAR file END
 	END
 END

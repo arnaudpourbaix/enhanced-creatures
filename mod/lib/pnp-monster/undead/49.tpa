@@ -143,5 +143,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BD302BAN"
 	"FIRMON01"
 BEGIN
-	LAF jam49_patch STR_VAR file = ~%file%~ END
+	LAF jam49_patch STR_VAR file END
 END

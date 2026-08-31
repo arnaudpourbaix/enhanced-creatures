@@ -227,7 +227,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
     for (const file of names) this.add(lines, `"${file}"`, tab + 1);
     this.add(lines, "BEGIN", tab);
-    this.add(lines, `LAF ${fn} STR_VAR file = ~%file%~ END`, tab + 1);
+    this.add(lines, `LAF ${fn} STR_VAR file END`, tab + 1);
     this.add(lines, "END", tab);
   }
 

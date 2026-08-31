@@ -111,5 +111,5 @@ ACTION_FOR_EACH ~file~ IN
 	"OHDNYMPH"
 	"WQXNYM"
 BEGIN
-	LAF jam2c_patch STR_VAR file = ~%file%~ END
+	LAF jam2c_patch STR_VAR file END
 END

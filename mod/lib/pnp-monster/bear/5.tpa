@@ -159,5 +159,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDBEARBR"
 	"CB595BRB"
 BEGIN
-	LAF jam5_patch STR_VAR file = ~%file%~ END
+	LAF jam5_patch STR_VAR file END
 END

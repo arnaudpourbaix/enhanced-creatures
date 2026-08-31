@@ -142,5 +142,5 @@ ACTION_FOR_EACH ~file~ IN
 	"NTGOLBON"
 	"OHBGOLB1"
 BEGIN
-	LAF jam1b_patch STR_VAR file = ~%file%~ END
+	LAF jam1b_patch STR_VAR file END
 END

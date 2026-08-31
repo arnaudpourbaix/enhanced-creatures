@@ -14,6 +14,9 @@ export const NEW_CREATURES = {
   SplitMustardJelly: "jajelmu",
   SplitBlackPudding: "jablpud",
   SplitWhitePudding: "jawhpud",
+  WhitePudding: "japuddwh",
+  BlackPudding: "japuddbl",
+  MustardJelly: "jajellmu",
 };
 
 export const VAPOR_IMMUNE_CREATURES: [

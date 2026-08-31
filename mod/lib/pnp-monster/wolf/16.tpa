@@ -197,5 +197,5 @@ ACTION_FOR_EACH ~file~ IN
 	"P#WOLF05"
 	"PLYWOLF"
 BEGIN
-	LAF jam16_patch STR_VAR file = ~%file%~ END
+	LAF jam16_patch STR_VAR file END
 END

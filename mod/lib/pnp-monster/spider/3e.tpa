@@ -121,5 +121,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDSPIDER"
 	"SPIDSM01"
 BEGIN
-	LAF jam3e_patch STR_VAR file = ~%file%~ END
+	LAF jam3e_patch STR_VAR file END
 END

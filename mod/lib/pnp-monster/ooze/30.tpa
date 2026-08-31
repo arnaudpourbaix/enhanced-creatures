@@ -112,5 +112,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BPSLFS02"
 	"JELLSPA"
 BEGIN
-	LAF jam30_patch STR_VAR file = ~%file%~ END
+	LAF jam30_patch STR_VAR file END
 END

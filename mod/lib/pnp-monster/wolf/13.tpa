@@ -116,5 +116,5 @@ ACTION_FOR_EACH ~file~ IN
 	"RUFIE"
 	"SHAWOL01"
 BEGIN
-	LAF jam13_patch STR_VAR file = ~%file%~ END
+	LAF jam13_patch STR_VAR file END
 END

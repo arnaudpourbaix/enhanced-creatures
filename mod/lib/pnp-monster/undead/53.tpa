@@ -138,5 +138,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDWORIS"
 	"L#ULCC3"
 BEGIN
-	LAF jam53_patch STR_VAR file = ~%file%~ END
+	LAF jam53_patch STR_VAR file END
 END

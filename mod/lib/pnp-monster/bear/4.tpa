@@ -154,5 +154,5 @@ ACTION_FOR_EACH ~file~ IN
 	"UBDBEAR"
 	"VBEARBL"
 BEGIN
-	LAF jam4_patch STR_VAR file = ~%file%~ END
+	LAF jam4_patch STR_VAR file END
 END

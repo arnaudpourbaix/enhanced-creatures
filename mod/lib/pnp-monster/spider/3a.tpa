@@ -186,5 +186,5 @@ ACTION_FOR_EACH ~file~ IN
 	"C#LCCENS"
 	"L#ULCSP"
 BEGIN
-	LAF jam3a_patch STR_VAR file = ~%file%~ END
+	LAF jam3a_patch STR_VAR file END
 END

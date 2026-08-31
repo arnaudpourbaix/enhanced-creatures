@@ -176,5 +176,5 @@ ACTION_FOR_EACH ~file~ IN
 	"CATLIM01"
 	"OHBMENA4"
 BEGIN
-	LAF jamb_patch STR_VAR file = ~%file%~ END
+	LAF jamb_patch STR_VAR file END
 END

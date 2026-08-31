@@ -176,5 +176,5 @@ ACTION_FOR_EACH ~file~ IN
 	"CATLYN01"
 	"CB585AN1"
 BEGIN
-	LAF jam62_patch STR_VAR file = ~%file%~ END
+	LAF jam62_patch STR_VAR file END
 END

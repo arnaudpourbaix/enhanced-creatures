@@ -157,5 +157,5 @@ ACTION_FOR_EACH ~file~ IN
 	"BDDISPBP"
 	"JY_00DB"
 BEGIN
-	LAF jam26_patch STR_VAR file = ~%file%~ END
+	LAF jam26_patch STR_VAR file END
 END
