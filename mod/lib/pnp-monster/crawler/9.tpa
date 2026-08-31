@@ -107,6 +107,17 @@ BEGIN
 				WRITE_BYTE 0x58 14 // saveSpell
 				WRITE_BYTE 0x234 6 // level1
 			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CARRIOSU~) BEGIN 
+				WRITE_SHORT 0x24 51 // hp
+				WRITE_SHORT 0x26 51 // hp
+				WRITE_BYTE 0x52 15 // thac0
+				WRITE_BYTE 0x54 11 // saveDeath
+				WRITE_BYTE 0x55 13 // saveWand
+				WRITE_BYTE 0x56 12 // savePolymorph
+				WRITE_BYTE 0x57 13 // saveBreath
+				WRITE_BYTE 0x58 14 // saveSpell
+				WRITE_BYTE 0x234 5 // level1
+			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDCRAWMU~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
 			END

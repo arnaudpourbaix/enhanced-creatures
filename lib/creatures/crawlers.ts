@@ -83,6 +83,7 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
     });
     carrionCrawler.setAdjustments([
       { files: ["CRYPTCRA"], data: { level1: 6, thac0: 9, xpv: 650 } },
+      { files: ["CARRIOSU"], data: { level1: 5 } },
     ]);
     return carrionCrawler;
   }

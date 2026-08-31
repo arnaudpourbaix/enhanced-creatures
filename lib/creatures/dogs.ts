@@ -146,6 +146,7 @@ class DogFamily extends CreatureFamily<Dog> {
     wild.setAdjustments([
       { files: ["BDDOG"], data: { class: "INNOCENT" } },
       { files: ["BDDEADOG"], data: { script: { location: "None" } } },
+      { files: ["DOGWISU"], data: { level1: 3 } },
     ]);
     return wild;
   }
