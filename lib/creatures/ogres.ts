@@ -468,7 +468,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         // chieftain is a 7+4 Hit Dice monster with Armor Class 2, Strenth 18/100, XP 975
         // He inflicts 2d6+6 points of damage per attack.
-        files: ["AC#WRIM1", "AC#FP2O2", "BDSOGR1", "BDSOGR2", "ACQ13002", "GORF", "HACK", "LARZE"],
+        files: ["AC#WRIM1", "AC#FP2O2", "BDSOGR1", "BDSOGR2", "ACQ13002", "HACK", "LARZE"],
         data: {
           level1: 7,
           bonusHp: 4,
@@ -504,7 +504,41 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        files: ["GORF", "AC#WRIM1", "HACK", "LARZE"],
+        // BG1 Gorf — the half-ogre lieutenant guarding the Cloakwood entrance, a level-9 fighter.
+        files: ["GORF"],
+        game: "bg1",
+        data: {
+          level1: 9,
+          strength: 19,
+          exceptionalStrength: 0,
+          morale: 18,
+          ac: 2,
+          class: "FIGHTER",
+          xpv: 2000,
+          proficiencies: [
+            { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+            { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
+          ],
+        },
+      },
+      {
+        // BG2 "Gorf the Squisher" — a level-5 half-ogre fighter, weaker than the BG1 lieutenant.
+        files: ["GORF"],
+        game: "bg2",
+        data: {
+          level1: 5,
+          class: "FIGHTER",
+          strength: 18,
+          exceptionalStrength: 50,
+          ac: 4,
+          bonusHp: 3,
+          morale: 15,
+          xpv: 2500,
+        },
+      },
+      {
+        // Same level-9 fighter profile for the BG2-mod ogre lieutenants that share Gorf's stat block.
+        files: ["AC#WRIM1", "HACK", "LARZE"],
         data: {
           level1: 9,
           strength: 19,

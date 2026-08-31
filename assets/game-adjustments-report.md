@@ -26,8 +26,8 @@
 | ETTERCSU | bg2  | 5         | Ettercap        | 5           | -                 |
 | GHOULSU  | bg1  | 2         | Ghoul           | 2           | -                 |
 | GHOULSU  | bg2  | 2         | Ghoul           | 2           | -                 |
-| GORF     | bg1  | 9         | Ogre            | 4           | 9                 |
-| GORF     | bg2  | 5         | Ogre            | 4           | 9                 |
+| GORF     | bg1  | 9         | Ogre            | 4           | 5                 |
+| GORF     | bg2  | 5         | Ogre            | 4           | 5                 |
 | JELLMUSU | bg1  | 7         | MustardJelly    | 7           | -                 |
 | JELLMUSU | bg2  | 7         | MustardJelly    | 7           | -                 |
 | OGRELESU | bg1  | 3         | Ogrillon        | 2           | 3                 |
@@ -86,10 +86,10 @@ An adjustment covers the file and sets `level1`, but the csv `level` is somethin
 
 | file  | game | csv level | creature | adjustment level1 |
 | ----- | ---- | --------- | -------- | ----------------- |
-| GORF  | bg2  | 5         | Ogre     | 9                 |
+| GORF  | bg1  | 9         | Ogre     | 5                 |
 | TAZOK | bg2  | 19        | HalfOgre | 9                 |
 
-## Divergent csv rows whose covering adjustment is not game-specific (54)
+## Divergent csv rows whose covering adjustment is not game-specific (52)
 
 The csv `game` rows for this file differ, but no adjustment covering it is tagged for that game - it will get the same (possibly wrong) values in both games.
 
@@ -115,8 +115,6 @@ The csv `game` rows for this file differ, but no adjustment covering it is tagge
 | ETTERCSU | bg2  | Ettercap        |
 | GHOULSU  | bg1  | Ghoul           |
 | GHOULSU  | bg2  | Ghoul           |
-| GORF     | bg1  | Ogre            |
-| GORF     | bg2  | Ogre            |
 | JELLMUSU | bg1  | MustardJelly    |
 | JELLMUSU | bg2  | MustardJelly    |
 | OGRELESU | bg1  | Ogrillon        |
