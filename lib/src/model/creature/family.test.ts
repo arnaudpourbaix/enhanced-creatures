@@ -286,8 +286,8 @@ describe("create (game collapse)", () => {
   });
 });
 
-describe("applyCsvSummonFiles (game tagging)", () => {
-  it("tags synthetic summon adjustments with the collapsed game scope", () => {
+describe("applyCsvSummonFiles", () => {
+  it("appends game-agnostic synthetic summon adjustments for CSV-confirmed files", () => {
     const family = fakeFamily();
     vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
@@ -309,10 +309,36 @@ describe("applyCsvSummonFiles (game tagging)", () => {
     );
 
     const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
+    // Dedup by name (BOTH appears once), correct files, and NO game tag on any synthetic summon -
+    // single-game scoping comes from patchCreatures' per-game loop, not from the adjustment.
     expect(summonAdjustments).toEqual([
-      expect.objectContaining({ files: ["BOTH"], summon: true, game: undefined }),
-      expect.objectContaining({ files: ["BG1SUM"], summon: true, game: "bg1" }),
+      expect.objectContaining({ files: ["BOTH"], summon: true }),
+      expect.objectContaining({ files: ["BG1SUM"], summon: true }),
     ]);
+    for (const a of summonAdjustments) expect(a.game).toBeUndefined();
+  });
+
+  it("leaves hand-authored summon:true files alone (no duplicate synthetic entry)", () => {
+    const family = fakeFamily();
+    vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([{ name: "HANDSUM", game: undefined }]);
+    vi.spyOn(monsterFilesService, "getSummonFiles").mockReturnValue([
+      { name: "HANDSUM", game: undefined },
+    ]);
+
+    family.addCreature(() => {
+      const cre = family.create({
+        name: CREATURE_NAME_KEY,
+        monster: MonsterEnum.Ankheg,
+        data: {} as unknown as InputMainCreatureData,
+      });
+      cre.setAdjustments([{ files: ["HANDSUM"], summon: true }]);
+      return cre;
+    });
+
+    const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
+    expect(summonAdjustments).toHaveLength(1);
+    expect(summonAdjustments[0].files).toEqual(["HANDSUM"]);
   });
 });
 

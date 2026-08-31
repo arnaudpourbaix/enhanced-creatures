@@ -154,9 +154,11 @@ export abstract class CreatureFamily<T extends Creature>
         .map((f) => ({ name: f.name.toUpperCase(), game: f.game })),
     ).filter((f) => !knownFiles.has(f.name));
     if (csvSummonFiles.length) {
-      creature.setAdjustments(
-        csvSummonFiles.map((f) => ({ files: [f.name], summon: true, game: f.game })),
-      );
+      // No `game` tag: single-game summon files are already game-scoped by patchCreatures'
+      // per-game loop partitioning, and `game` on an adjustment is reserved for hand-authored
+      // value differences on both-games files (it also collides with the guard in
+      // creatureService.checkAdjustmentFiles for summon adjustments).
+      creature.setAdjustments(csvSummonFiles.map((f) => ({ files: [f.name], summon: true })));
     }
   }
 
