@@ -204,7 +204,7 @@ class CreatureService {
       }
       if (adjustment.game && this.adjustmentHasUngatedEffects(adjustment)) {
         logService.error(
-          `${translationService.from(creature.name)}: game-tagged adjustment for '${adjustment.files.join(", ")}' also sets a field that is not game-gated (summon / noWeapon / scriptName / script.location / effects.remove array / spells.removeKnown:false / spells.removeMemorized:false). Split it into a non-game entry.`,
+          `${translationService.from(creature.name)}: game-tagged adjustment for '${adjustment.files.join(", ")}' also sets a field that is not game-gated (noWeapon / scriptName / script.location / effects.remove array / spells.removeKnown:false / spells.removeMemorized:false). Split it into a non-game entry.`,
         );
         ok = false;
       }
@@ -214,11 +214,13 @@ class CreatureService {
 
   private adjustmentHasUngatedEffects(a: CreatureAdjustment): boolean {
     const d = a.data;
+    // `summon` is NOT in this list: weiduCreatureService.patchScripts gates a game-tagged summon
+    // adjustment's script assignment per game (summon script in that game, normal script
+    // otherwise), and its xpv=0 write already rides inside handleAdjustment's PATCH_IF GAME_IS.
     // Real CreatureAdjustment.data always has script/effects/spells (class instances with
     // defaults), but the optional chains harden against hand-built fixtures that omit them.
     /* eslint-disable @typescript-eslint/no-unnecessary-condition */
     return [
-      a.summon,
       a.noWeapon,
       a.scriptName,
       d.script?.location !== undefined,

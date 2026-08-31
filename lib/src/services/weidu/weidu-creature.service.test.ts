@@ -32,6 +32,7 @@ interface WeiduCreatureServicePrivate {
     creature: Creature;
   }): void;
   patchCreatures(lines: CodeLine[], tab: number, creature: Creature): void;
+  patchScripts(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustments(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustment(
     lines: CodeLine[],
@@ -49,6 +50,7 @@ function codes(lines: CodeLine[]): string[] {
 
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
 const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
+const END_ELSE_BEGIN = "END ELSE BEGIN";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -239,7 +241,7 @@ describe("addMemorizedSpells (private)", () => {
     const result = codes(lines);
     expect(result[0]).toBe(SPELL_REVISIONS_PATCH_IF);
     expect(result.some((c) => c.includes("SPWI002"))).toBe(true);
-    expect(result).not.toContain("END ELSE BEGIN");
+    expect(result).not.toContain(END_ELSE_BEGIN);
     expect(result[result.length - 2]).toBe("END");
     expect(result[result.length - 1]).toContain("SPWI001");
   });
@@ -308,7 +310,7 @@ describe("addMemorizedSpells (private)", () => {
     });
     const result = codes(lines);
     expect(result[0]).toBe(SPELL_REVISIONS_PATCH_IF);
-    expect(result).toContain("END ELSE BEGIN");
+    expect(result).toContain(END_ELSE_BEGIN);
     expect(result.some((c) => c.includes("SPWI002"))).toBe(true);
     // The Vanilla variant only fires inside the ELSE branch - it must never appear alongside
     // the conditional branch's spells, since only one branch of the chain ever executes.
@@ -419,6 +421,53 @@ describe("patchScript (private)", () => {
       logging: false,
     });
     expect(codes(lines).some((c) => c.includes("logging=0"))).toBe(true);
+  });
+});
+
+describe("patchScripts (private)", () => {
+  const scriptCreature = (adjustments: CreatureAdjustment[]) =>
+    fakeCreature({
+      adjustments,
+      id: 1,
+      logging: false,
+      data: {
+        script: { location: undefined, remove: [] },
+        effects: { list: [] },
+        spells: { memorized: [], removeMemorized: undefined },
+      } as unknown as CreatureData,
+    });
+  const summonAdj = (p: Partial<Omit<CreatureAdjustment, "data">>) =>
+    fakeAdjustment({
+      summon: true,
+      ...p,
+      data: { script: {}, effects: { list: [] }, spells: { memorized: [] } } as Partial<CreatureData>,
+    });
+
+  it("assigns an untagged summon file the summon script with no GAME_IS guard", () => {
+    const lines: CodeLine[] = [];
+    service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
+    const out = codes(lines);
+    expect(out.some((c) => c.includes("script=jam1su"))).toBe(true);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+
+  it("gates a game-tagged summon file: summon script in its game, normal script otherwise", () => {
+    const lines: CodeLine[] = [];
+    service.patchScripts(
+      lines,
+      0,
+      scriptCreature([summonAdj({ files: ["CATLIOWP"], game: "bg1" })]),
+    );
+    const out = codes(lines);
+    const guardIdx = out.findIndex((c) => c === "PATCH_IF GAME_IS ~bgee eet~ BEGIN");
+    const elseIdx = out.findIndex((c) => c === END_ELSE_BEGIN);
+    expect(guardIdx).toBeGreaterThanOrEqual(0);
+    expect(elseIdx).toBeGreaterThan(guardIdx);
+    // summon script under the guard, normal script under ELSE
+    const summonIdx = out.findIndex((c, i) => i > guardIdx && i < elseIdx && c.includes("script=jam1su"));
+    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
+    expect(summonIdx).toBeGreaterThan(guardIdx);
+    expect(normalIdx).toBeGreaterThan(elseIdx);
   });
 });
 

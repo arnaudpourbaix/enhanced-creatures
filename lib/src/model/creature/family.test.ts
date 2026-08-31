@@ -287,7 +287,7 @@ describe("create (game collapse)", () => {
 });
 
 describe("applyCsvSummonFiles", () => {
-  it("appends game-agnostic synthetic summon adjustments for CSV-confirmed files", () => {
+  it("appends synthetic summon adjustments carrying the collapsed game scope", () => {
     const family = fakeFamily();
     vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
@@ -309,13 +309,12 @@ describe("applyCsvSummonFiles", () => {
     );
 
     const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
-    // Dedup by name (BOTH appears once), correct files, and NO game tag on any synthetic summon -
-    // single-game scoping comes from patchCreatures' per-game loop, not from the adjustment.
+    // BOTH is a summon in both games -> collapses to no game tag. BG1SUM is a summon only in bg1
+    // -> tagged bg1 so patchScripts assigns it the summon script only there.
     expect(summonAdjustments).toEqual([
-      expect.objectContaining({ files: ["BOTH"], summon: true }),
-      expect.objectContaining({ files: ["BG1SUM"], summon: true }),
+      expect.objectContaining({ files: ["BOTH"], summon: true, game: undefined }),
+      expect.objectContaining({ files: ["BG1SUM"], summon: true, game: "bg1" }),
     ]);
-    for (const a of summonAdjustments) expect(a.game).toBeUndefined();
   });
 
   it("leaves hand-authored summon:true files alone (no duplicate synthetic entry)", () => {

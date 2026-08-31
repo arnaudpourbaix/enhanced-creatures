@@ -1274,7 +1274,7 @@ describe("checkAdjustmentFiles", () => {
     vi.restoreAllMocks();
   });
 
-  it("errors when a game-tagged adjustment also toggles summon", () => {
+  it("errors when a game-tagged adjustment also toggles a non-gated field (noWeapon)", () => {
     const creature = {
       name: "test",
       files: [{ name: "GORF" }],
@@ -1282,8 +1282,8 @@ describe("checkAdjustmentFiles", () => {
         {
           files: ["GORF"],
           game: "bg1",
-          summon: true,
-          noWeapon: false,
+          summon: false,
+          noWeapon: true,
           scriptName: false,
           data: emptyAdjustmentData(),
         },
@@ -1293,6 +1293,24 @@ describe("checkAdjustmentFiles", () => {
     expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("game-tagged adjustment"));
     vi.restoreAllMocks();
+  });
+
+  it("accepts a game-tagged summon adjustment (patchScripts gates it per game)", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "CATLIOWP" }],
+      adjustments: [
+        {
+          files: ["CATLIOWP"],
+          game: "bg1",
+          summon: true,
+          noWeapon: false,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
   });
 
   it("accepts a game-tagged data-only adjustment on a both-games file", () => {

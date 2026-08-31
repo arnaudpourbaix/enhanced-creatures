@@ -154,11 +154,12 @@ export abstract class CreatureFamily<T extends Creature>
         .map((f) => ({ name: f.name.toUpperCase(), game: f.game })),
     ).filter((f) => !knownFiles.has(f.name));
     if (csvSummonFiles.length) {
-      // No `game` tag: single-game summon files are already game-scoped by patchCreatures'
-      // per-game loop partitioning, and `game` on an adjustment is reserved for hand-authored
-      // value differences on both-games files (it also collides with the guard in
-      // creatureService.checkAdjustmentFiles for summon adjustments).
-      creature.setAdjustments(csvSummonFiles.map((f) => ({ files: [f.name], summon: true })));
+      // Carry the collapsed `game`: a resref that's a summon in only one game (e.g. CATLIOWP -
+      // a summoned lion in bg1, Joolon's ally lion in bg2) must get the summon script + xpv=0
+      // only in that game. weiduCreatureService.patchScripts + handleAdjustment gate it per game.
+      creature.setAdjustments(
+        csvSummonFiles.map((f) => ({ files: [f.name], summon: true, game: f.game })),
+      );
     }
   }
 

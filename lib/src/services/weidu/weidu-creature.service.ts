@@ -466,14 +466,20 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchScripts(lines: CodeLine[], tab: number, creature: Creature) {
-    const summonFiles = [
-      ...new Set(
-        creature.adjustments
-          .filter((a) => a.summon)
-          .map((a) => a.files)
-          .flat(),
-      ),
+    const summonAdjustments = creature.adjustments.filter((a) => a.summon);
+    const dedupeFiles = (adjustments: CreatureAdjustment[]) => [
+      ...new Set(adjustments.flatMap((a) => a.files)),
     ];
+    // Untagged summon files get the summon script in both games; game-tagged ones get it only
+    // in their game and the normal script otherwise (see the ELSE branch below).
+    const summonFiles = dedupeFiles(summonAdjustments.filter((a) => !a.game));
+    const gameSummonFiles = (["bg1", "bg2"] as const).map((game) => ({
+      game,
+      files: dedupeFiles(summonAdjustments.filter((a) => a.game === game)),
+    }));
+    // Every summon file (tagged or not) is excluded from the base-script assignment below; the
+    // tagged ones are re-assigned per game right after.
+    const allSummonFiles = [...summonFiles, ...gameSummonFiles.flatMap((g) => g.files)];
     const locationFiles = [
       ...new Set(
         creature.adjustments
@@ -499,7 +505,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       slot: creature.data.script.location,
       removeScripts: creature.data.script.remove,
       files: [],
-      skipFiles: [...summonFiles, ...locationFiles, ...noScriptFiles],
+      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles],
       logging: creature.logging,
     });
     if (summonFiles.length) {
@@ -513,6 +519,26 @@ class WeiduCreatureService extends AbstractWeiduService {
         skipFiles: [],
         logging: creature.logging,
       });
+    }
+    for (const { game, files } of gameSummonFiles) {
+      if (!files.length) continue;
+      const assign = (script: string) => {
+        this.patchScript({
+          lines,
+          files,
+          script,
+          tab: tab + 1,
+          slot: creature.data.script.location,
+          removeScripts: creature.data.script.remove,
+          skipFiles: [],
+          logging: creature.logging,
+        });
+      };
+      this.add(lines, `PATCH_IF ${GAME_IS_CONDITION[game]} BEGIN`, tab);
+      assign(summonScriptName);
+      this.add(lines, `END ELSE BEGIN`, tab);
+      assign(scriptName);
+      this.add(lines, `END`, tab);
     }
     for (const adjustment of creature.adjustments) {
       if (adjustment.data.script.location && adjustment.data.script.location !== "None") {
