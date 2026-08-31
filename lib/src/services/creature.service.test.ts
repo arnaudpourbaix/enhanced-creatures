@@ -1199,11 +1199,23 @@ describe("checkDialog", () => {
   });
 });
 
+function emptyAdjustmentData(): CreatureData {
+  return { script: {}, effects: {}, spells: {} } as unknown as CreatureData;
+}
+
 function fakeAdjustmentFilesCreature(files: string[], adjustmentFiles: string[]): Creature {
   return {
-    files,
+    files: files.map((name) => ({ name })),
     name: "test",
-    adjustments: [{ files: adjustmentFiles }],
+    adjustments: [
+      {
+        files: adjustmentFiles,
+        data: emptyAdjustmentData(),
+        summon: false,
+        noWeapon: false,
+        scriptName: false,
+      },
+    ],
   } as unknown as Creature;
 }
 
@@ -1229,12 +1241,75 @@ describe("checkAdjustmentFiles", () => {
   it("reports every unknown file across every adjustment", () => {
     const creature = {
       name: "test",
-      files: ["KNOWN1"],
-      adjustments: [{ files: ["UNKNOWN1"] }, { files: ["UNKNOWN2"] }],
+      files: [{ name: "KNOWN1" }],
+      adjustments: [
+        { files: ["UNKNOWN1"], data: emptyAdjustmentData() },
+        { files: ["UNKNOWN2"], data: emptyAdjustmentData() },
+      ],
     } as unknown as Creature;
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
     expect(errorSpy).toHaveBeenCalledTimes(2);
     vi.restoreAllMocks();
+  });
+
+  it("errors when a game-tagged adjustment names a wrong-game file", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "BG1ONLY", game: "bg1" }],
+      adjustments: [
+        {
+          files: ["BG1ONLY"],
+          game: "bg2",
+          data: emptyAdjustmentData(),
+          summon: false,
+          noWeapon: false,
+          scriptName: false,
+        },
+      ],
+    } as unknown as Creature;
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("not available in bg2"));
+    vi.restoreAllMocks();
+  });
+
+  it("errors when a game-tagged adjustment also toggles summon", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "GORF" }],
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg1",
+          summon: true,
+          noWeapon: false,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("game-tagged adjustment"));
+    vi.restoreAllMocks();
+  });
+
+  it("accepts a game-tagged data-only adjustment on a both-games file", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "GORF" }],
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg2",
+          summon: false,
+          noWeapon: false,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
   });
 });

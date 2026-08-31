@@ -1,6 +1,7 @@
 import figureSet from "figures";
 import { getAllSpells } from "../../config/spells/spell-names";
 import { CreatureAbility } from "../model/creature/ability";
+import { CreatureAdjustment } from "../model/creature/adjustment";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import {
@@ -186,15 +187,42 @@ class CreatureService {
     let ok = true;
     for (const adjustment of creature.adjustments) {
       for (const file of adjustment.files) {
-        if (!creature.files.some((known) => known.toUpperCase() === file.toUpperCase())) {
+        const entry = creature.files.find((k) => k.name.toUpperCase() === file.toUpperCase());
+        if (!entry) {
           logService.error(
             `${translationService.from(creature.name)}: adjustment references unknown file '${file}' (not in creature.files).`,
           );
           ok = false;
+          continue;
         }
+        if (adjustment.game && entry.game && entry.game !== adjustment.game) {
+          logService.error(
+            `${translationService.from(creature.name)}: adjustment file '${file}' is not available in ${adjustment.game}.`,
+          );
+          ok = false;
+        }
+      }
+      if (adjustment.game && this.adjustmentHasUngatedEffects(adjustment)) {
+        logService.error(
+          `${translationService.from(creature.name)}: game-tagged adjustment for '${adjustment.files.join(", ")}' also sets a field that is not game-gated (summon / noWeapon / scriptName / script.location / effects.remove array / spells.removeKnown:false / spells.removeMemorized:false). Split it into a non-game entry.`,
+        );
+        ok = false;
       }
     }
     return ok;
+  }
+
+  private adjustmentHasUngatedEffects(a: CreatureAdjustment): boolean {
+    const d = a.data;
+    return [
+      a.summon,
+      a.noWeapon,
+      a.scriptName,
+      d.script.location !== undefined,
+      Array.isArray(d.effects.remove),
+      d.spells.removeKnown === false,
+      d.spells.removeMemorized === false,
+    ].some(Boolean);
   }
 
   private stableStringify(value: unknown): string {
