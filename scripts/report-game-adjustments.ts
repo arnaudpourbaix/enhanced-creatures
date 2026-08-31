@@ -158,15 +158,12 @@ const mismatches = rows.filter(
 const noAdjustmentLevel = mismatches.filter((r) => r.adjustmentLevel === undefined);
 const adjustmentLevelDiffers = mismatches.filter((r) => r.adjustmentLevel !== undefined);
 
-// csv rows that genuinely differ per game (file has both a bg1 and a bg2 row) but which no
-// adjustment covering the file handles: neither a `game` tag matching this row's game nor an
-// untagged catch-all. Catches half-done tagging - e.g. a bg1-tagged adjustment added while the
-// bg2 row still diverges with nothing covering it.
+// csv rows that genuinely differ per game (file has both a bg1 and a bg2 row) but where no
+// adjustment covering the file is tagged for this row's game. An untagged catch-all is NOT an
+// exemption - it applies one set of values to both games, so a divergent file it covers will get
+// the same (possibly wrong) values in both. This is the GORF case.
 const divergentUncovered = rows.filter(
-  (r) =>
-    (perGameFiles.get(r.file.toUpperCase())?.size ?? 0) > 1 &&
-    !r.adjustmentGames.has(r.game) &&
-    !r.adjustmentGames.has(""),
+  (r) => (perGameFiles.get(r.file.toUpperCase())?.size ?? 0) > 1 && !r.adjustmentGames.has(r.game),
 );
 
 // `game`-tagged adjustments whose file does NOT have a bg1/bg2 split in the csv - probable mis-tag.
@@ -211,11 +208,10 @@ const lines = [
     (r) => `| ${r.file} | ${r.game} | ${r.csvLevel} | ${r.monster} | ${num(r.adjustmentLevel)} |`,
   ),
   "",
-  `## Divergent csv rows not covered by a game-tagged adjustment (${divergentUncovered.length})`,
+  `## Divergent csv rows whose covering adjustment is not game-specific (${divergentUncovered.length})`,
   "",
-  "The file has both a bg1 and a bg2 row in creatures.csv (values genuinely differ per game), but " +
-    "no adjustment covering it is `game`-tagged for that game and none is an untagged catch-all. " +
-    "Catches half-done tagging - one game tagged while the other still diverges uncovered.",
+  "The csv `game` rows for this file differ, but no adjustment covering it is tagged for that " +
+    "game - it will get the same (possibly wrong) values in both games.",
   "",
   "| file | game | creature |",
   "| --- | --- | --- |",
@@ -240,6 +236,6 @@ console.log(`Matches: ${rows.length} row(s), ${new Set(rows.map((r) => r.file)).
 console.log(`Level differs, no adjustment level: ${noAdjustmentLevel.length}`);
 console.log(`Level differs from adjustment level: ${adjustmentLevelDiffers.length}`);
 console.log(
-  `Divergent csv rows not covered by a game-tagged adjustment: ${divergentUncovered.length}`,
+  `Divergent csv rows whose covering adjustment is not game-specific: ${divergentUncovered.length}`,
 );
 console.log(`Game-tagged adjustments whose csv rows don't differ: ${misTagged.length}`);

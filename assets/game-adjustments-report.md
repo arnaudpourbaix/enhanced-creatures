@@ -89,12 +89,66 @@ An adjustment covers the file and sets `level1`, but the csv `level` is somethin
 | GORF  | bg2  | 5         | Ogre     | 9                 |
 | TAZOK | bg2  | 19        | HalfOgre | 9                 |
 
-## Divergent csv rows not covered by a game-tagged adjustment (0)
+## Divergent csv rows whose covering adjustment is not game-specific (54)
 
-The file has both a bg1 and a bg2 row in creatures.csv (values genuinely differ per game), but no adjustment covering it is `game`-tagged for that game and none is an untagged catch-all. Catches half-done tagging - one game tagged while the other still diverges uncovered.
+The csv `game` rows for this file differ, but no adjustment covering it is tagged for that game - it will get the same (possibly wrong) values in both games.
 
-| file | game | creature |
-| ---- | ---- | -------- |
+| file     | game | creature        |
+| -------- | ---- | --------------- |
+| BASILGSU | bg1  | GreaterBasilisk |
+| BASILGSU | bg2  | GreaterBasilisk |
+| BASILLSU | bg1  | LesserBasilisk  |
+| BASILLSU | bg2  | LesserBasilisk  |
+| BEARBLSU | bg1  | BlackBear       |
+| BEARBLSU | bg2  | BlackBear       |
+| BEARBRSU | bg1  | BrownBear       |
+| BEARBRSU | bg2  | BrownBear       |
+| CARRIOSU | bg1  | CarrionCrawler  |
+| CARRIOSU | bg2  | CarrionCrawler  |
+| CATLIOSU | bg1  | Lion            |
+| CATLIOSU | bg2  | Lion            |
+| CATLIOWP | bg1  | Lion            |
+| CATLIOWP | bg2  | Lion            |
+| DOGWISU  | bg1  | WildDog         |
+| DOGWISU  | bg2  | WildDog         |
+| ETTERCSU | bg1  | Ettercap        |
+| ETTERCSU | bg2  | Ettercap        |
+| GHOULSU  | bg1  | Ghoul           |
+| GHOULSU  | bg2  | Ghoul           |
+| GORF     | bg1  | Ogre            |
+| GORF     | bg2  | Ogre            |
+| JELLMUSU | bg1  | MustardJelly    |
+| JELLMUSU | bg2  | MustardJelly    |
+| OGRELESU | bg1  | Ogrillon        |
+| OGRELESU | bg2  | Ogrillon        |
+| OGRESU   | bg1  | Ogre            |
+| OGRESU   | bg2  | Ogre            |
+| PLYBEAR2 | bg1  | BlackBear       |
+| PLYBEAR2 | bg2  | BlackBear       |
+| PLYSPID2 | bg1  | GiantSpider     |
+| PLYSPID2 | bg2  | GiantSpider     |
+| SHAWOL01 | bg1  | DireWolf        |
+| SHAWOL01 | bg2  | DireWolf        |
+| SKELWA03 | bg1  | SkeletonWarrior |
+| SKELWA03 | bg2  | SkeletonWarrior |
+| SPIDFGSU | bg1  | GiantSpider     |
+| SPIDFGSU | bg2  | GiantSpider     |
+| TAZOK    | bg1  | HalfOgre        |
+| TAZOK    | bg2  | HalfOgre        |
+| TOMEGOL1 | bg1  | FleshGolem      |
+| TOMEGOL1 | bg2  | FleshGolem      |
+| TOMEGOL2 | bg1  | ClayGolem       |
+| TOMEGOL2 | bg2  | ClayGolem       |
+| TOMEGOL4 | bg1  | JuggernautGolem |
+| TOMEGOL4 | bg2  | JuggernautGolem |
+| WOLFDISU | bg1  | DireWolf        |
+| WOLFDISU | bg2  | DireWolf        |
+| WOLFWISU | bg1  | WinterWolf      |
+| WOLFWISU | bg2  | WinterWolf      |
+| WOLFWWSU | bg1  | WinterWolf      |
+| WOLFWWSU | bg2  | WinterWolf      |
+| WORGSU   | bg1  | Worg            |
+| WORGSU   | bg2  | Worg            |
 
 ## Game-tagged adjustments whose csv rows don't differ (0)
 
