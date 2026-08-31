@@ -103,6 +103,14 @@ describe("setAdjustments", () => {
     creatureFactory.setAdjustments(creature, [adjustment]);
     expect(creature.adjustments[0].files).toEqual(["GHASTGSU"]);
   });
+
+  it("passes through the game property from a direct adjustment entry", () => {
+    const creature = fakeCreature();
+    const adjustment = { files: ["test_adj"], game: "bg2" } as unknown as PartialCreatureAdjustment;
+    creatureFactory.setAdjustments(creature, [adjustment]);
+    expect(creature.adjustments[0].game).toBe("bg2");
+    expect(creature.adjustments[0].files).toEqual(["TEST_ADJ"]);
+  });
 });
 
 describe("setBehavior", () => {
