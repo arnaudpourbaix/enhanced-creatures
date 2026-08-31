@@ -1,5 +1,6 @@
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
+import { Game } from "../../model/creature/game";
 import { CreatureData, MemorizedSpell } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ClassIdentifier } from "../../model/ids/class";
@@ -15,6 +16,8 @@ export interface AdjustmentField<T> {
 
 export interface EffectiveAdjustment {
   files: string[];
+  /** Set only when every adjustment touching this file shares one game; else undefined. */
+  game?: Game;
   noWeapon: boolean;
   level: AdjustmentField<number>;
   hp: AdjustmentField<number>;
@@ -42,7 +45,7 @@ export interface EffectiveAdjustment {
 class AdjustmentService {
   getEffectiveAdjustments(creature: Creature): EffectiveAdjustment[] {
     const files = this.getAllFiles(creature.adjustments);
-    const perFile = files.map((file) => this.getEffectiveDataForFile(creature, file));
+    const perFile = files.flatMap((file) => this.getEffectiveDataForFile(creature, file));
     return this.group(perFile.filter((effective) => this.hasVisibleChanges(effective))).sort(
       (a, b) => a.level.value - b.level.value,
     );
@@ -61,8 +64,33 @@ class AdjustmentService {
     return result;
   }
 
-  private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment {
-    const matching = creature.adjustments.filter((a) => a.files.includes(file));
+  // A file whose adjustments target more than one game (e.g. GORF: a bg1 lieutenant and a weaker
+  // bg2 "Squisher") can never be folded into a single coherent creature - the two games never run
+  // together. Split such a file into one effective per game scope, folding the game-agnostic
+  // (untagged) adjustments into each. A file touched only by untagged adjustments yields a single
+  // scope-less effective, exactly as before.
+  private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment[] {
+    const all = creature.adjustments.filter((a) => a.files.includes(file));
+    const taggedGames = [...new Set(all.map((a) => a.game))].filter(
+      (g): g is Game => g !== undefined,
+    );
+    const scopes: (Game | undefined)[] = taggedGames.length ? taggedGames : [undefined];
+    return scopes.map((game) =>
+      this.buildEffectiveForScope(
+        creature,
+        file,
+        game,
+        game === undefined ? all : all.filter((a) => a.game === undefined || a.game === game),
+      ),
+    );
+  }
+
+  private buildEffectiveForScope(
+    creature: Creature,
+    file: string,
+    game: Game | undefined,
+    matching: CreatureAdjustment[],
+  ): EffectiveAdjustment {
     const base = creature.data;
     const equipped = this.getEquipped(matching, base);
     const proficiencies = this.getProficiencies(matching, base);
@@ -140,6 +168,7 @@ class AdjustmentService {
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      game,
       equipped,
       proficiencies,
     };

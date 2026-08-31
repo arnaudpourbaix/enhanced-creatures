@@ -1183,6 +1183,39 @@ describe("getCreatureHeader", () => {
     expect(template.text).toMatch(/<dt>Armor Class<\/dt><dd>5<\/dd>/);
   });
 
+  it("prepends a bg1/bg2 chip to a card whose adjustments are all scoped to one game", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["GORF"],
+        game: "bg1",
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { level1: { pnpValue: 9, type: "none", value: 9 }, xpv: 2000 },
+      },
+      {
+        files: ["GORF"],
+        game: "bg2",
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { level1: { pnpValue: 5, type: "none", value: 5 }, xpv: 2500 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title"><span class="adjustment-game-chip">bg1</span> GORF</h4>',
+    );
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title"><span class="adjustment-game-chip">bg2</span> GORF</h4>',
+    );
+  });
+
   it("shows the creatures.csv name next to the files when it differs from the creature's own name", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue("Undead Knight");
     const creature = fakeCreatureForAddCreature(false);

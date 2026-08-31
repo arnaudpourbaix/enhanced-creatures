@@ -12,6 +12,7 @@ function fakeCreature(p: {
   adjustments?: {
     files: string[];
     noWeapon?: boolean;
+    game?: "bg1" | "bg2";
     data: Partial<CreatureData>;
   }[];
 }): Creature {
@@ -49,6 +50,7 @@ function fakeCreature(p: {
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
       noWeapon: a.noWeapon ?? false,
+      game: a.game,
       summon: false,
       scriptName: false,
       data: {
@@ -503,6 +505,50 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       ]),
     );
     expect(effective?.proficiencies).toHaveLength(2);
+  });
+
+  it("carries game onto the effective adjustment when all matching entries agree", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["GORF"], game: "bg2", data: { level1: { pnpValue: 8, type: "none", value: 8 } } },
+      ],
+    });
+
+    const [eff] = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(eff.game).toBe("bg2");
+  });
+
+  it("splits one file into a per-game card when its adjustments target different games", () => {
+    // The real GORF case (lib/creatures/ogres.ts): a bg1 level-9 lieutenant and a weaker bg2
+    // level-5 "Squisher" both patch the file GORF - they must never fold together.
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg1",
+          data: { level1: { pnpValue: 9, type: "none", value: 9 }, xpv: 2000 },
+        },
+        {
+          files: ["GORF"],
+          game: "bg2",
+          data: { level1: { pnpValue: 5, type: "none", value: 5 }, xpv: 2500 },
+        },
+        // an untagged entry folds into both game scopes
+        { files: ["GORF"], data: { morale: 15 } },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(2);
+    const bg1 = effectives.find((e) => e.game === "bg1");
+    const bg2 = effectives.find((e) => e.game === "bg2");
+    expect(bg1?.files).toEqual(["GORF"]);
+    expect(bg1?.level).toEqual({ value: 9, changed: true });
+    expect(bg1?.morale).toEqual({ value: 15, changed: true });
+    expect(bg2?.level).toEqual({ value: 5, changed: false });
+    expect(bg2?.xpv).toEqual({ value: 2500, changed: true });
   });
 
   it("adds a brand new proficiency type the base creature never had", () => {

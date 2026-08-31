@@ -509,7 +509,10 @@ class DocumentationService {
     effective: EffectiveAdjustment,
     cardIndex: number,
   ): string {
-    const label = this.getAdjustmentLabel(creature, effective.files);
+    const gameChip = effective.game
+      ? `<span class="adjustment-game-chip">${effective.game}</span> `
+      : "";
+    const label = gameChip + this.getAdjustmentLabel(creature, effective.files);
     const noWeaponNote = effective.noWeapon
       ? `<p class="adjustment-note adjustment-changed">uses his own weapon</p>`
       : "";

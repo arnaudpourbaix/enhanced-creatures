@@ -417,6 +417,22 @@
   font-size: 0.9em;
 }
 
+/* Small game-scope pill (bg1 / bg2) prepended to an adjustment card's title, styled to match
+   the muted look of `.adjustments-badge`. */
+.adjustment-game-chip {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.65rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-soft);
+  background: var(--color-nav-bg);
+  border: 1px solid var(--color-gold);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
 .adjustment-note {
   margin: 6px 0;
 }
