@@ -153,6 +153,19 @@ THEN
 		RandomWalkContinuous()
 END
 
+// Berserker Rage
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(BERSERKER_RAGE)
+	See(NearestEnemyOf(Myself))
+	!CheckSpellState(Myself,BERSERKER_RAGE)
+	RandomNumGT(800,80)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,BERSERKER_RAGE)
+END
+
 // Potion of extra healing (40hp)
 IF
 	HasItem("POTN55",Myself)

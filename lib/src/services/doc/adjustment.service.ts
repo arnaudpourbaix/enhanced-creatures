@@ -339,35 +339,45 @@ class AdjustmentService {
       .sort((a, b) => a.type - b.type);
   }
 
-  // An adjustment's authored memorizedCount for a spell the base already has is a delta on top of
-  // the base's own count (not an absolute replacement) - e.g. base has 1, an adjustment authored
-  // with memorizedCount: 1 means "+1", i.e. an effective count of 2. Later adjustments win over
-  // earlier ones (same fold order as every other field here), but their deltas don't stack: only
-  // the latest adjustment's own delta is added to the base count. A spell the base doesn't have at
-  // all has no base count to add to, so the adjustment's authored value is the effective count
-  // directly (base 0 + delta).
+  // An adjustment's authored memorizedCount for a spell is a delta on top of the base's own count
+  // (not an absolute replacement) - e.g. base has 1, an adjustment authored with memorizedCount: 1
+  // means "+1", i.e. an effective count of 2. `ADD_MEMORIZED_SPELL` is cumulative in WeiDU and
+  // weidu-creature.service emits one per matching adjustment, so deltas DO stack: a spell touched
+  // by several chained adjustments ends at base + every matching adjustment's delta, in list
+  // order. A `memorizedCount: 0` entry is a REMOVE - it resets the running count to zero (later
+  // deltas then add back on top). A spell the base doesn't have has no base count to add to, so
+  // the deltas are the effective count directly (base 0 + deltas).
   private getMemorized(
     matching: CreatureAdjustment[],
     base: CreatureData,
   ): { spell: MemorizedSpell; changed: boolean }[] {
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));
-    const deltaByFile = new Map<string, MemorizedSpell>();
+    const deltasByFile = new Map<string, MemorizedSpell[]>();
     for (const adjustment of matching) {
       // See getEquipped's comment above - test fixtures can leave this undefined at runtime
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      for (const spell of adjustment.data.spells?.memorized ?? [])
-        deltaByFile.set(spell.file, spell);
+      for (const spell of adjustment.data.spells?.memorized ?? []) {
+        const list = deltasByFile.get(spell.file) ?? [];
+        list.push(spell);
+        deltasByFile.set(spell.file, list);
+      }
     }
-    const files = new Set([...baseByFile.keys(), ...deltaByFile.keys()]);
+    const files = new Set([...baseByFile.keys(), ...deltasByFile.keys()]);
     return [...files]
       .map((file) => {
         const baseSpell = baseByFile.get(file);
-        const delta = deltaByFile.get(file);
+        const deltas = deltasByFile.get(file) ?? [];
         const baseCount = baseSpell?.memorizedCount ?? 0;
-        const effectiveCount = baseCount + (delta?.memorizedCount ?? 0);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const spell = delta ? { ...delta, memorizedCount: effectiveCount } : baseSpell!;
+        let effectiveCount = baseCount;
+        for (const delta of deltas) {
+          effectiveCount =
+            delta.memorizedCount === 0 ? 0 : effectiveCount + (delta.memorizedCount ?? 1);
+        }
+        const spell = deltas.length
+          ? { ...deltas[deltas.length - 1], memorizedCount: effectiveCount }
+          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            baseSpell!;
         return { spell, changed: effectiveCount !== baseCount };
       })
       .sort((a, b) => a.spell.file.localeCompare(b.spell.file));

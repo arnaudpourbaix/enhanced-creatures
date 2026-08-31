@@ -1,7 +1,7 @@
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
 import { SPELL_GROUPS } from "../../config/spells/spell-group";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { getAllSpells } from "../../config/spells/spell-names";
+import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
 import { StringReference } from "../model/final/stringref";
 import { Effect } from "../model/spell-item/effect";
 import {
@@ -200,6 +200,13 @@ class SpellService {
     const spell = spells.find((s) => s.file === file);
     if (!spell) return null;
     return translationService.from(spell.name);
+  }
+
+  getSpellInfo(resource: string): SpellReference {
+    const spells = getAllSpells();
+    const spell = spells.find((s) => s.file === resource);
+    if (!spell) throw new Error(`spell ${resource} not found!`);
+    return spell;
   }
 
   getAllSpellNames(): { file: string; name: StringReference }[] {

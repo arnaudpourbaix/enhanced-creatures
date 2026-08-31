@@ -371,9 +371,9 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       },
       triggers: [
         { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BERSERKER_RAGE", false),
+        triggerFactory.checkSpellState("BERSERKER_RAGE", true),
       ],
-      probability: DEFAULT_SPELL_PROBABILITY,
+      probability: 90,
     },
   },
   {
@@ -385,9 +385,9 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       },
       triggers: [
         { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BARBARIAN_RAGE", false),
+        triggerFactory.checkSpellState("BARBARIAN_RAGE", true),
       ],
-      probability: DEFAULT_SPELL_PROBABILITY,
+      probability: 90,
     },
   },
 ];

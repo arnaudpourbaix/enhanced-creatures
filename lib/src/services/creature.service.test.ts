@@ -294,6 +294,7 @@ describe("checkData - attacks per round across adjustments", () => {
         items: { equipped: [] },
       },
       items: [],
+      adjustments: [],
       attack: { dualWielding: false },
       autoGenerate: { thac0: false, hitPoints: false, enchantment: false, meleeRange: false },
     } as unknown as Creature;

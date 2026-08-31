@@ -705,14 +705,21 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        // Tazok, level 9
+        // Tazok gets the Berserker kit; the per-game level blocks below then each add their own
+        // rage-count increment on top of this (kit.service resolves the inherited kit).
         files: ["TAZOK", "TAZOK2"],
-        // data: {
-        //   kit: "BERSERKER",
-        // },
         data: {
+          kit: "BERSERKER",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
-          // memorizedSpells: [{ file: SPELLS.Class.BerserkerRage, memorizedCount: 1 }],
+        },
+      },
+      {
+        // Tazok, level 19
+        files: ["TAZOK"],
+        game: "bg2",
+        data: {
+          level1: 19,
+          xpv: 8000,
         },
       },
       {

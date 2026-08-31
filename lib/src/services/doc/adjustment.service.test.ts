@@ -438,7 +438,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(effective?.memorized).toHaveLength(2);
   });
 
-  it("adds only the latest chained adjustment's delta to the base count, not every entry's", () => {
+  it("stacks every matching chained adjustment's delta on top of the base count", () => {
     const creature = fakeCreature({
       data: {
         spells: {
@@ -469,9 +469,44 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       .getEffectiveAdjustments(creature)
       .find((e) => e.files.includes("BDSOGR1"));
 
-    // Later entry wins: base 1 + latest delta 2 = 3 (not 1 + 1 + 2 = 4 - deltas don't stack
-    // across chained adjustments, only the winning one applies on top of base).
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 3 }, changed: true }]);
+    // ADD_MEMORIZED_SPELL is cumulative and the generator emits one per matching adjustment:
+    // base 1 + delta 1 + delta 2 = 4.
+    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 4 }, changed: true }]);
+  });
+
+  it("treats a memorizedCount:0 delta as a reset, with later deltas adding back on top", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [{ file: "SPPR101", memorizedCount: 3 }],
+        },
+      },
+      adjustments: [
+        {
+          files: ["BDSOGR1"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 0 }],
+            },
+          },
+        },
+        {
+          files: ["BDSOGR1"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 2 }],
+            },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("BDSOGR1"));
+
+    // base 3 -> reset to 0 -> +2 = 2
+    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 2 }, changed: true }]);
   });
 
   it("overrides a same-type proficiency's value rather than adding a second entry, and keeps untouched types", () => {

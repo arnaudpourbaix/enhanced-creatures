@@ -142,12 +142,14 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("SPCL321")
-	!CheckSpellState(Myself,STATE_ENRAGED)
+	HaveSpell(BERSERKER_RAGE)
+	See(NearestEnemyOf(Myself))
+	!CheckSpellState(Myself,BERSERKER_RAGE)
+	RandomNumGT(800,80)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPCL321",Myself)
+		Spell(Myself,BERSERKER_RAGE)
 END
 
 // Potion of extra healing (40hp)
