@@ -468,7 +468,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         // chieftain is a 7+4 Hit Dice monster with Armor Class 2, Strenth 18/100, XP 975
         // He inflicts 2d6+6 points of damage per attack.
-        files: ["AC#WRIM1", "AC#FP2O2", "BDSOGR1", "BDSOGR2", "ACQ13002", "HACK", "LARZE"],
+        files: ["AC#WRIM1", "AC#FP2O2", "BDSOGR1", "BDSOGR2", "ACQ13002", "HACK", "LARZE", "GORF"],
         data: {
           level1: 7,
           bonusHp: 4,
@@ -504,26 +504,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        // BG1 Gorf — undercity
-        files: ["GORF"],
-        game: "bg1",
-        data: {
-          level1: 9,
-          bonusHp: 4,
-          strength: 19,
-          exceptionalStrength: 0,
-          morale: 18,
-          ac: 2,
-          class: "FIGHTER",
-          xpv: 2000,
-          items: {
-            equipped: [{ file: this.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
-          },
-        },
-      },
-      {
-        // Same level-9 fighter profile for the BG2-mod ogre lieutenants that share Gorf's stat block.
-        files: ["AC#WRIM1", "HACK", "LARZE"],
+        files: ["AC#WRIM1", "HACK", "LARZE", "GORF"],
         data: {
           level1: 9,
           strength: 19,
@@ -672,7 +653,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     halfOgre.setAdjustments([
       {
         // Veteran with 5+3 Hit Dice.
-        files: ["BDOGRE04", "ARGHAI", "X#CHOP", "X#CRU11"],
+        files: ["BDOGRE04", "ARGHAI", "X#CHOP", "X#CRU11", "GORF", "GORF03"],
         data: {
           level1: 5,
           bonusHp: 3,
@@ -683,14 +664,8 @@ class OgreFamily extends CreatureFamily<Ogre> {
       },
       {
         files: ["GORF", "GORF03"],
-        game: "bg2",
         data: {
-          level1: 5,
-          bonusHp: 3,
-          strength: 18,
           exceptionalStrength: 50,
-          ac: 3,
-          xpv: 520,
         },
       },
       {
