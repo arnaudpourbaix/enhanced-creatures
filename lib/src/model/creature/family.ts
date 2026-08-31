@@ -6,9 +6,32 @@ import { Item, Spell } from "../spell-item/spell-item";
 import { AbstractCreature } from "./abstract-creature";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "./creature";
 import { InputMainCreatureData } from "./data-input";
+import { CreatureFile, Game } from "./game";
 import abilityService from "../../services/baf/ability.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
+
+/**
+ * Collapse raw per-row creature file entries into one entry per (uppercased) name,
+ * preserving first-seen order. The effective `game` for a name is `undefined` (both
+ * games) when any entry for that name is `undefined`, or when the entries together
+ * cover both `bg1` and `bg2`; otherwise it is the single `Game` value present.
+ */
+export function collapseFilesByGame(files: CreatureFile[]): CreatureFile[] {
+  // Map iteration preserves insertion order, so first-seen name order is kept.
+  const byName = new Map<string, Set<Game | undefined>>();
+  for (const f of files) {
+    const games = byName.get(f.name) ?? new Set<Game | undefined>();
+    games.add(f.game);
+    byName.set(f.name, games);
+  }
+  return [...byName].map(([name, games]) => {
+    const coversBothGames = games.has("bg1") && games.has("bg2");
+    const game =
+      games.has(undefined) || coversBothGames ? undefined : [...games][0];
+    return { name, game };
+  });
+}
 
 export interface Family {
   id: number;
@@ -36,7 +59,7 @@ export abstract class CreatureFamily<T extends Creature>
   create(p: {
     name: TranslationKey;
     monster: MonsterEnum;
-    files?: string[];
+    files?: (string | CreatureFile)[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
     data: InputMainCreatureData;
@@ -64,7 +87,7 @@ export abstract class CreatureFamily<T extends Creature>
     name: TranslationKey;
     from: T;
     monster: MonsterEnum;
-    files?: string[];
+    files?: (string | CreatureFile)[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
   }): T {
@@ -100,10 +123,15 @@ export abstract class CreatureFamily<T extends Creature>
     return cre;
   }
 
-  private resolveFiles(monster: MonsterEnum, backupFiles: string[] = []): string[] {
-    return [
-      ...new Set([...monsterFilesService.getFiles(monster), ...backupFiles].map((f) => f.toUpperCase())),
-    ];
+  private resolveFiles(
+    monster: MonsterEnum,
+    backupFiles: (string | CreatureFile)[] = [],
+  ): CreatureFile[] {
+    const raw: CreatureFile[] = [
+      ...monsterFilesService.getFiles(monster),
+      ...backupFiles.map((f) => (typeof f === "string" ? { name: f } : f)),
+    ].map((f) => ({ name: f.name.toUpperCase(), game: f.game }));
+    return collapseFilesByGame(raw);
   }
 
   // creatures.csv's "summon" column is the source of truth for which files are summon variants.
@@ -120,24 +148,24 @@ export abstract class CreatureFamily<T extends Creature>
         .filter((a) => a.summon)
         .flatMap((a) => a.files.map((f) => f.toUpperCase())),
     );
-    const csvSummonFiles = [
-      ...new Set(
-        monsterFilesService
-          .getSummonFiles(creature.id)
-          .map((f) => f.toUpperCase())
-          .filter((f) => !knownFiles.has(f)),
-      ),
-    ];
+    const csvSummonFiles = collapseFilesByGame(
+      monsterFilesService
+        .getSummonFiles(creature.id)
+        .map((f) => ({ name: f.name.toUpperCase(), game: f.game })),
+    ).filter((f) => !knownFiles.has(f.name));
     if (csvSummonFiles.length) {
-      creature.setAdjustments(csvSummonFiles.map((f) => ({ files: [f], summon: true })));
+      creature.setAdjustments(
+        csvSummonFiles.map((f) => ({ files: [f.name], summon: true, game: f.game })),
+      );
     }
   }
 
   private warnUnvalidatedFiles(monster: MonsterEnum): void {
     const files = monsterFilesService.getUnvalidatedFiles(monster);
     if (files.length) {
+      const labels = files.map((f) => (f.game ? `${f.name} (${f.game})` : f.name));
       logService.warn(
-        `${MonsterEnum[monster]} has unvalidated creatures.csv guesses, needs review: ${files.join(", ")}`,
+        `${MonsterEnum[monster]} has unvalidated creatures.csv guesses, needs review: ${labels.join(", ")}`,
       );
     }
   }

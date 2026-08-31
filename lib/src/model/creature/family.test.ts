@@ -2,11 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
 import { Item, Spell } from "../spell-item/spell-item";
 import { Projectile } from "../spell-item/projectile";
-import { CreatureFamily } from "./family";
+import { CreatureFamily, collapseFilesByGame } from "./family";
 import { Creature } from "./creature";
 import { TranslationKey } from "../../../translations/i18n";
 import { InputMainCreatureData } from "./data-input";
 import logService from "../../services/log.service";
+import monsterFilesService from "../../services/monster-files.service";
 import creatureFactory from "../../factories/creature.factory";
 import translationService from "../../services/translation.service";
 
@@ -123,10 +124,10 @@ describe("create (files resolution)", () => {
       data: {} as unknown as InputMainCreatureData,
     });
 
-    expect(cre.files).toEqual(
+    expect(cre.fileNames).toEqual(
       expect.arrayContaining(["ANKHEG", "BDNEO", "BDANKH01", "SOME_BACKUP_FILE"]),
     );
-    expect(cre.files.filter((f) => f === "ANKHEG")).toHaveLength(1);
+    expect(cre.fileNames.filter((f) => f === "ANKHEG")).toHaveLength(1);
   });
 
   it("works with no backup files at all", () => {
@@ -138,7 +139,7 @@ describe("create (files resolution)", () => {
       data: {} as unknown as InputMainCreatureData,
     });
 
-    expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO"]));
+    expect(cre.fileNames).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO"]));
   });
 
   it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
@@ -151,8 +152,8 @@ describe("create (files resolution)", () => {
       data: {} as unknown as InputMainCreatureData,
     });
 
-    expect(cre.files).toContain("SOME_BACKUP_FILE");
-    expect(cre.files).not.toContain("some_backup_file");
+    expect(cre.fileNames).toContain("SOME_BACKUP_FILE");
+    expect(cre.fileNames).not.toContain("some_backup_file");
   });
 
   it("uppercases notEnforceFiles entries", () => {
@@ -185,7 +186,10 @@ describe("createFrom (files resolution)", () => {
       from,
     });
 
-    expect(cre.files).toEqual(expect.arrayContaining(["ANKHEG", "BDNEO", "SOME_BACKUP_FILE"]));
+    // `from` is a bare stub without Creature.prototype, so read names off `files` directly.
+    expect(cre.files.map((f) => f.name)).toEqual(
+      expect.arrayContaining(["ANKHEG", "BDNEO", "SOME_BACKUP_FILE"]),
+    );
   });
 
   it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
@@ -203,8 +207,130 @@ describe("createFrom (files resolution)", () => {
       from,
     });
 
-    expect(cre.files).toContain("SOME_BACKUP_FILE");
-    expect(cre.files).not.toContain("some_backup_file");
+    const names = cre.files.map((f) => f.name);
+    expect(names).toContain("SOME_BACKUP_FILE");
+    expect(names).not.toContain("some_backup_file");
+  });
+});
+
+describe("create (game collapse)", () => {
+  it("collapses a resref present in both games to an unconditional entry", () => {
+    const family = fakeFamily();
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
+      { name: "GORF", game: "bg1" },
+      { name: "GORF", game: "bg2" },
+    ]);
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+    expect(cre.files).toEqual([{ name: "GORF", game: undefined }]);
+  });
+
+  it("keeps a single-game resref scoped to that game", () => {
+    const family = fakeFamily();
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([{ name: "BG1ONLY", game: "bg1" }]);
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+    expect(cre.files).toEqual([{ name: "BG1ONLY", game: "bg1" }]);
+  });
+
+  it("treats a game='' row as both games even when a single-game row for the same name exists", () => {
+    const family = fakeFamily();
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
+      { name: "MIX", game: "bg1" },
+      { name: "MIX", game: undefined },
+    ]);
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+    expect(cre.files).toEqual([{ name: "MIX", game: undefined }]);
+  });
+
+  it("accepts and uppercases object backup entries with a game", () => {
+    const family = fakeFamily();
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([]);
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      files: [{ name: "bar", game: "bg2" }, "foo"],
+      data: {} as unknown as InputMainCreatureData,
+    });
+    expect(cre.files).toEqual(
+      expect.arrayContaining([
+        { name: "BAR", game: "bg2" },
+        { name: "FOO", game: undefined },
+      ]),
+    );
+  });
+
+  it("preserves first-seen order of names", () => {
+    const family = fakeFamily();
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
+      { name: "SECOND", game: "bg1" },
+      { name: "FIRST", game: "bg2" },
+      { name: "SECOND", game: "bg2" },
+    ]);
+    const cre = family.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.Ankheg,
+      data: {} as unknown as InputMainCreatureData,
+    });
+    expect(cre.fileNames).toEqual(["SECOND", "FIRST"]);
+  });
+});
+
+describe("applyCsvSummonFiles (game tagging)", () => {
+  it("tags synthetic summon adjustments with the collapsed game scope", () => {
+    const family = fakeFamily();
+    vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
+      { name: "BOTH", game: undefined },
+      { name: "BG1SUM", game: "bg1" },
+    ]);
+    vi.spyOn(monsterFilesService, "getSummonFiles").mockReturnValue([
+      { name: "BOTH", game: "bg1" },
+      { name: "BOTH", game: "bg2" },
+      { name: "BG1SUM", game: "bg1" },
+    ]);
+
+    family.addCreature(() =>
+      family.create({
+        name: CREATURE_NAME_KEY,
+        monster: MonsterEnum.Ankheg,
+        data: {} as unknown as InputMainCreatureData,
+      }),
+    );
+
+    const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
+    expect(summonAdjustments).toEqual([
+      expect.objectContaining({ files: ["BOTH"], summon: true, game: undefined }),
+      expect.objectContaining({ files: ["BG1SUM"], summon: true, game: "bg1" }),
+    ]);
+  });
+});
+
+describe("collapseFilesByGame", () => {
+  it("collapses both-game coverage to undefined and keeps lone games scoped", () => {
+    expect(
+      collapseFilesByGame([
+        { name: "A", game: "bg1" },
+        { name: "A", game: "bg2" },
+        { name: "B", game: "bg1" },
+        { name: "C", game: undefined },
+        { name: "C", game: "bg2" },
+      ]),
+    ).toEqual([
+      { name: "A", game: undefined },
+      { name: "B", game: "bg1" },
+      { name: "C", game: undefined },
+    ]);
   });
 });
 
