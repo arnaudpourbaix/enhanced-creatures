@@ -25,6 +25,7 @@ import { CreatureAdjustment, PartialCreatureAdjustment } from "./adjustment";
 import { CreatureAttack, CreatureAttackAction, PartialCreatureAttack } from "./attack";
 import { CreatureBehavior, PartialCreatureBehavior } from "./behavior";
 import { CreatureData, MainCreatureData } from "./data";
+import { CreatureFile } from "./game";
 import { InputCreatureData } from "./data-input";
 import { CreatureGrabConfig } from "./grab";
 import { ItemSlot, JEWEL_SLOTS } from "./item";
@@ -32,7 +33,6 @@ import { AbilityEntry } from "./ability";
 import { State } from "../../state";
 
 export interface BaseCreature {
-  files: string[];
   data: CreatureData;
 }
 
@@ -47,7 +47,12 @@ export class Creature extends AbstractCreature implements BaseCreature {
   data!: MainCreatureData;
   behavior!: CreatureBehavior;
   attack!: CreatureAttack;
-  files: string[] = [];
+  files: CreatureFile[] = [];
+
+  /** Just the file names, for the many call sites that don't care about game scoping. */
+  get fileNames(): string[] {
+    return this.files.map((f) => f.name);
+  }
   newFiles: CreatureNewFile[] = [];
 
   /**

@@ -47,7 +47,13 @@ class CreatureService {
 
   checkData(p: { creature: Creature; base: BaseCreature; isAdjustment: boolean }): void {
     const data = p.base.data;
-    logService.log(`base files: ${JSON.stringify(p.base.files)}`);
+    logService.log(
+      `base files: ${JSON.stringify(
+        p.isAdjustment
+          ? (p.base as unknown as { files: string[] }).files
+          : p.creature.fileNames,
+      )}`,
+    );
     kitService.applyKit(p.creature, p.isAdjustment ? p.base : undefined);
     this.checkDualWielding({ ...p, data });
     this.checkDexterityArmorClassBonus(data);

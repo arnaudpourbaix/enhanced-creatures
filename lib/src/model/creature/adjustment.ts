@@ -5,6 +5,12 @@ import { InputCreatureData } from "./data-input";
 
 export interface CreatureAdjustment extends BaseCreature {
   /**
+   * Files this adjustment patches. Declared directly here (previously inherited from
+   * `BaseCreature`, which no longer carries `files`). Adjustment files stay `string[]`;
+   * only `Creature.files` becomes game-scoped `CreatureFile[]`.
+   */
+  files: string[];
+  /**
    * Is it a summon ?
    */
   summon: boolean;
