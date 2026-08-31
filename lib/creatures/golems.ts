@@ -694,7 +694,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       abilities: [this.ability(Ids.Haste)],
     });
     clay.setAdjustments([
-      { files: ["MOBHA59", "OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },
+      { files: ["OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },
     ]);
     return clay;
   }

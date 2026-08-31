@@ -250,10 +250,7 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile],
       walk: true,
     });
-    cave.setAdjustments([
-      { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
-      { files: ["B_BEAR1"], data: { level1: 9 } },
-    ]);
+    cave.setAdjustments([{ files: ["BD328OSO"], data: { level1: 8, xpv: 900 } }]);
     return cave;
   }
 
@@ -304,7 +301,6 @@ class BearFamily extends CreatureFamily<Bear> {
     });
     polar.setAdjustments([
       { files: ["BDGHBRSU"], data: { level1: 9 } },
-      { files: ["B_PBEAR1"], data: { level1: 13 } },
       {
         files: ["KALDRAN"],
         data: {

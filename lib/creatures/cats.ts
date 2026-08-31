@@ -890,15 +890,6 @@ class CatFamily extends CreatureFamily<Cat> {
         },
       },
       {
-        files: ["MOBHA39"],
-        data: {
-          level1: 12,
-          apr: 4,
-          xpv: 1500,
-          script: { location: "None" },
-        },
-      },
-      {
         files: ["JY_00DB"],
         data: {
           level1: 14,
