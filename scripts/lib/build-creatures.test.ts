@@ -98,19 +98,33 @@ describe("withNameLast", () => {
 
 describe("computeSummon", () => {
   it("is true when sex is SUMMONED", () => {
-    expect(computeSummon({ file: "ABC", sex: "SUMMONED", allegiance: "ENEMY" })).toBe("true");
+    expect(computeSummon({ file: "ABC", gender: "MALE", sex: "SUMMONED", allegiance: "ENEMY" })).toBe(
+      "true",
+    );
+  });
+
+  it("is true when gender is SUMMONED even if sex is M/F and allegiance is ALLY", () => {
+    expect(
+      computeSummon({ file: "CATLIOWP", gender: "SUMMONED", sex: "MALE", allegiance: "ALLY" }),
+    ).toBe("true");
   });
 
   it("is true when allegiance is CONTROLLED", () => {
-    expect(computeSummon({ file: "ABC", sex: "MALE", allegiance: "CONTROLLED" })).toBe("true");
+    expect(
+      computeSummon({ file: "ABC", gender: "MALE", sex: "MALE", allegiance: "CONTROLLED" }),
+    ).toBe("true");
   });
 
   it("is true when the file name ends in SU (case-insensitive)", () => {
-    expect(computeSummon({ file: "bearblsu", sex: "MALE", allegiance: "NEUTRAL" })).toBe("true");
+    expect(
+      computeSummon({ file: "bearblsu", gender: "MALE", sex: "MALE", allegiance: "NEUTRAL" }),
+    ).toBe("true");
   });
 
   it("is empty otherwise", () => {
-    expect(computeSummon({ file: "ABELA", sex: "FEMALE", allegiance: "NEUTRAL" })).toBe("");
+    expect(
+      computeSummon({ file: "ABELA", gender: "FEMALE", sex: "FEMALE", allegiance: "NEUTRAL" }),
+    ).toBe("");
   });
 });
 

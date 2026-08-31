@@ -49,15 +49,23 @@ export function withNameLast(header: string[]): string[] {
 }
 
 /**
- * A row is a summon if the extracted CRE data says so (sex=SUMMONED or allegiance=CONTROLLED)
- * or its resref ends in "SU". This is the rule from the removed build-summon.ts (commit 22164a6);
- * it reproduces the `summon` column of the previous creatures.csv exactly.
+ * A row is a summon if the extracted CRE data says so (gender or sex = SUMMONED, or
+ * allegiance = CONTROLLED) or its resref ends in "SU". Extends the rule from the removed
+ * build-summon.ts (commit 22164a6): the newer extraction splits the CRE "sex" field into
+ * `gender` (which carries the SUMMONED marker) and `sex` (M/F), so both must be checked -
+ * e.g. CATLIOWP in bg2 is gender=SUMMONED but sex=MALE, allegiance=ALLY.
  */
 export function computeSummon(row: Record<string, string>): "true" | "" {
+  const gender = row.gender.toUpperCase();
   const sex = row.sex.toUpperCase();
   const allegiance = row.allegiance.toUpperCase();
   const file = row.file.toUpperCase();
-  return sex === "SUMMONED" || allegiance === "CONTROLLED" || file.endsWith("SU") ? "true" : "";
+  const isSummon =
+    gender === "SUMMONED" ||
+    sex === "SUMMONED" ||
+    allegiance === "CONTROLLED" ||
+    file.endsWith("SU");
+  return isSummon ? "true" : "";
 }
 
 export function combineOrigin(bg1: string, bg2: string): string {
