@@ -16,7 +16,13 @@ export interface AdjustmentField<T> {
 
 export interface EffectiveAdjustment {
   files: string[];
-  /** Set only when every adjustment touching this file shares one game; else undefined. */
+  /**
+   * The game scope this effective was built for. `getEffectiveDataForFile` splits a file whose
+   * adjustments target more than one game into one effective per tagged game scope, folding the
+   * untagged adjustments into each - so this is `"bg1"` or `"bg2"` for such a per-game effective,
+   * and `undefined` for the untagged scope (a file touched only by untagged adjustments yields a
+   * single `undefined`-scope effective).
+   */
   game?: Game;
   noWeapon: boolean;
   level: AdjustmentField<number>;

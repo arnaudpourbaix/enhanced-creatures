@@ -214,15 +214,19 @@ class CreatureService {
 
   private adjustmentHasUngatedEffects(a: CreatureAdjustment): boolean {
     const d = a.data;
+    // Real CreatureAdjustment.data always has script/effects/spells (class instances with
+    // defaults), but the optional chains harden against hand-built fixtures that omit them.
+    /* eslint-disable @typescript-eslint/no-unnecessary-condition */
     return [
       a.summon,
       a.noWeapon,
       a.scriptName,
-      d.script.location !== undefined,
-      Array.isArray(d.effects.remove),
-      d.spells.removeKnown === false,
-      d.spells.removeMemorized === false,
+      d.script?.location !== undefined,
+      Array.isArray(d.effects?.remove),
+      d.spells?.removeKnown === false,
+      d.spells?.removeMemorized === false,
     ].some(Boolean);
+    /* eslint-enable @typescript-eslint/no-unnecessary-condition */
   }
 
   private stableStringify(value: unknown): string {

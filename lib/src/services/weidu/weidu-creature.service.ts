@@ -149,7 +149,10 @@ class WeiduCreatureService extends AbstractWeiduService {
     ];
     for (const f of creature.files) {
       const group = groups.find((g) => g.game === f.game);
-      if (group) group.names.push(f.name);
+      if (!group) {
+        throw new Error(`unexpected game value on creature file ${f.name}: ${String(f.game)}`);
+      }
+      group.names.push(f.name);
     }
     for (const group of groups) {
       if (!group.names.length) continue;

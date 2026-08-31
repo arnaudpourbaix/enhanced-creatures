@@ -12,6 +12,7 @@ describe("gamesOverlap", () => {
   });
   it("different games do not overlap", () => {
     expect(gamesOverlap("bg1", "bg2")).toBe(false);
+    expect(gamesOverlap("bg2", "bg1")).toBe(false);
   });
 });
 

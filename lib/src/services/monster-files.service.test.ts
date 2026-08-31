@@ -69,6 +69,7 @@ describe("monsterFilesService.getFiles", () => {
       expect.arrayContaining([
         { name: "ANKHEG", game: undefined },
         { name: "BDNEO", game: undefined },
+        { name: "BDANKH01", game: undefined },
       ]),
     );
   });

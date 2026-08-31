@@ -26,7 +26,7 @@
 | ETTERCSU | bg2  | 5         | Ettercap        | 5           | -                 |
 | GHOULSU  | bg1  | 2         | Ghoul           | 2           | -                 |
 | GHOULSU  | bg2  | 2         | Ghoul           | 2           | -                 |
-| GORF     | bg1  | 9         | Ogre            | 4           | 5                 |
+| GORF     | bg1  | 9         | Ogre            | 4           | 9                 |
 | GORF     | bg2  | 5         | Ogre            | 4           | 5                 |
 | JELLMUSU | bg1  | 7         | MustardJelly    | 7           | -                 |
 | JELLMUSU | bg2  | 7         | MustardJelly    | 7           | -                 |
@@ -80,13 +80,12 @@ The csv `level` does not match the creature's base `level1` and no adjustment ov
 | TOMEGOL2 | bg1  | 9         | ClayGolem       | 11          |
 | TOMEGOL2 | bg2  | 9         | ClayGolem       | 11          |
 
-## Level differs from the adjustment's level1 (2)
+## Level differs from the adjustment's level1 (1)
 
 An adjustment covers the file and sets `level1`, but the csv `level` is something else.
 
 | file  | game | csv level | creature | adjustment level1 |
 | ----- | ---- | --------- | -------- | ----------------- |
-| GORF  | bg1  | 9         | Ogre     | 5                 |
 | TAZOK | bg2  | 19        | HalfOgre | 9                 |
 
 ## Divergent csv rows whose covering adjustment is not game-specific (52)

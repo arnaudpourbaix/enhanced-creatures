@@ -32,8 +32,11 @@ function levelValue(raw: unknown): number | undefined {
 interface AdjustmentMatch {
   monster: string;
   baseLevel?: number;
-  /** level1 from the last adjustment covering this file that sets one, if any. */
-  adjustmentLevel?: number;
+  /**
+   * level1 by game scope, from the last adjustment covering this file that sets one in that scope.
+   * Key `""` = untagged (applies to both games); `"bg1"` / `"bg2"` = a game-tagged adjustment.
+   */
+  adjustmentLevelByScope: Map<string, number>;
   /** `game` value of every adjustment (of this creature) covering the file; `""` = untagged. */
   adjustmentGames: Set<string>;
 }
@@ -45,15 +48,32 @@ interface GameTaggedAdjustment {
   monster: string;
 }
 
-/** Resref (uppercase) -> the last adjustment `level1` that covers it, for one creature. */
-function adjustmentLevelsByFile(creature: Creature): Map<string, number> {
-  const byFile = new Map<string, number>();
+/**
+ * Resref (uppercase) -> per-game-scope `level1` (`""` = untagged, `"bg1"`/`"bg2"` = game-tagged),
+ * last-write-wins within each scope, for one creature.
+ */
+function adjustmentLevelsByFile(creature: Creature): Map<string, Map<string, number>> {
+  const byFile = new Map<string, Map<string, number>>();
   for (const adjustment of creature.adjustments) {
     const level = levelValue(adjustment.data.level1);
     if (level === undefined) continue;
-    for (const file of adjustment.files) byFile.set(file.toUpperCase(), level);
+    const scope = adjustment.game ?? "";
+    for (const file of adjustment.files) {
+      const key = file.toUpperCase();
+      const byScope = byFile.get(key) ?? new Map<string, number>();
+      byScope.set(scope, level);
+      byFile.set(key, byScope);
+    }
   }
   return byFile;
+}
+
+/** The adjustment `level1` that applies to a row's game: a game-specific scope wins over untagged. */
+function adjustmentLevelForGame(
+  byScope: Map<string, number> | undefined,
+  game: string,
+): number | undefined {
+  return byScope?.get(game) ?? byScope?.get("");
 }
 
 function adjustmentFileSet(creature: Creature): Set<string> {
@@ -93,7 +113,7 @@ function indexAdjustmentFiles(): {
       matches.push({
         monster,
         baseLevel,
-        adjustmentLevel: adjustmentLevels.get(file),
+        adjustmentLevelByScope: adjustmentLevels.get(file) ?? new Map<string, number>(),
         adjustmentGames: adjustmentGames.get(file) ?? new Set<string>(),
       });
       byFile.set(file, matches);
@@ -144,7 +164,7 @@ for (const r of creatures.rows) {
       csvLevel: Number(r.level),
       monster: match.monster,
       baseLevel: match.baseLevel,
-      adjustmentLevel: match.adjustmentLevel,
+      adjustmentLevel: adjustmentLevelForGame(match.adjustmentLevelByScope, r.game),
       adjustmentGames: match.adjustmentGames,
     });
   }

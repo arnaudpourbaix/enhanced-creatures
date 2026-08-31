@@ -130,7 +130,10 @@ describe("patchCreatures (private)", () => {
     expect(j).toMatch(/GAME_IS ~bgee eet~ BEGIN[\s\S]*"ONE"/);
     expect(j).toMatch(/GAME_IS ~bg2ee~ BEGIN[\s\S]*"TWO"/);
     // BOTH belongs to the unconditional group, before any GAME_IS guard
-    expect(j).toMatch(/^[\s\S]*"BOTH"[\s\S]*GAME_IS/);
+    const bothIdx = out.findIndex((c) => c === '"BOTH"');
+    const firstGameIsIdx = out.findIndex((c) => c.includes("GAME_IS"));
+    expect(bothIdx).toBeGreaterThanOrEqual(0);
+    expect(firstGameIsIdx).toBeGreaterThan(bothIdx);
   });
 });
 
