@@ -18,6 +18,7 @@ import {
   MainCreatureData,
 } from "../model/creature/data";
 import { InputCreatureData } from "../model/creature/data-input";
+import { gamesOverlap } from "../model/creature/game";
 import { ItemSlot } from "../model/creature/item";
 import { ImmunityName } from "../model/final/immunity";
 import { Item } from "../model/spell-item/spell-item";
@@ -163,13 +164,15 @@ class CreatureFactory {
       valid = false;
     }
     const existingFiles = creature.files.filter((f) =>
-      State.creatures.some((c) => c.files.includes(f)),
+      State.creatures.some((c) =>
+        c.files.some((known) => known.name === f.name && gamesOverlap(known.game, f.game)),
+      ),
     );
     if (existingFiles.length) {
       logService.warn(
-        `${
-          figureSet.warning
-        } Those files are already declared in other creatures: ${existingFiles.join(", ")}`,
+        `${figureSet.warning} Those files are already declared in other creatures: ${existingFiles
+          .map((f) => (f.game ? `${f.name} (${f.game})` : f.name))
+          .join(", ")}`,
       );
       valid = false;
     }
