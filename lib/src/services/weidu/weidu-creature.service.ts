@@ -3,6 +3,7 @@ import { SPELLBOOK_MODS } from "../../../config/mods";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";
+import { GAME_IS_CONDITION } from "../../model/creature/game";
 import {
   CREATURE_DATA_FIELDS,
   CreatureData,
@@ -563,6 +564,11 @@ class WeiduCreatureService extends AbstractWeiduService {
     creature: Creature,
     adjustment: CreatureAdjustment,
   ) {
+    const gameGuard = adjustment.game ? GAME_IS_CONDITION[adjustment.game] : undefined;
+    if (gameGuard) {
+      this.add(lines, `PATCH_IF ${gameGuard} BEGIN `, tab);
+      tab++;
+    }
     this.startConditionalSourceRes(lines, tab, adjustment.files, false);
     tab++;
     // data is required by the type, but defended anyway (same reason as handleAdjustments above)
@@ -596,6 +602,10 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.writeName(lines, tab, adjustment.stringRef);
     }
     this.add(lines, "END", tab - 1);
+    if (gameGuard) {
+      tab--;
+      this.add(lines, "END", tab);
+    }
   }
 
   private writeCreatureDataField(

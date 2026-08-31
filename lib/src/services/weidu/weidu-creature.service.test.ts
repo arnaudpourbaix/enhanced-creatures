@@ -418,4 +418,26 @@ describe("handleAdjustment (private)", () => {
       service.handleAdjustment([], 0, creature, adjustment);
     }).toThrow(/can't have a script name if it has several files/);
   });
+
+  it("wraps a game-tagged adjustment in PATCH_IF GAME_IS", () => {
+    const creature = fakeCreature({ files: [{ name: "GORF" }] });
+    const adjustment = fakeAdjustment({ files: ["GORF"], game: "bg2", data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    const out = codes(lines);
+    expect(out).toContain("PATCH_IF GAME_IS ~bg2ee~ BEGIN ");
+    // the file-match PATCH_IF is now nested one deeper than the game guard
+    const gameIdx = out.findIndex((c) => c.includes("PATCH_IF GAME_IS"));
+    const fileIdx = out.findIndex((c) => c.includes('"%SOURCE_RES%" STRING_EQUAL_CASE ~GORF~'));
+    expect(gameIdx).toBeGreaterThanOrEqual(0);
+    expect(fileIdx).toBeGreaterThan(gameIdx);
+  });
+
+  it("emits no game guard for an untagged adjustment", () => {
+    const creature = fakeCreature({ files: [{ name: "GORF" }] });
+    const adjustment = fakeAdjustment({ files: ["GORF"], data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
 });
