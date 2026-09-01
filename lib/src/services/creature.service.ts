@@ -32,11 +32,29 @@ const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "Real
 type IdCastActionName = "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell";
 type IdCastAction = Extract<Actions.Action, { name: IdCastActionName }>;
 
+export type CsvCheck = "level" | "items" | "scripts";
+
 export interface CsvFinding {
   file: string;
   game?: Game;
+  check: CsvCheck;
+  /** Check-specific content, no file prefix: `csv 6 / def 10` / `RING95 lring, P1-4 weapon1` / `defaultScript=0XUDDG`. */
   detail: string;
 }
+
+/** Per check: the creatures.csv acknowledgement column, the log keyword, and whether it warns. */
+const CSV_CHECK_META: Record<
+  CsvCheck,
+  {
+    column: "validatedLevel" | "validatedItems" | "validatedScript";
+    keyword: string;
+    warn: boolean;
+  }
+> = {
+  level: { column: "validatedLevel", keyword: "level gap", warn: true },
+  items: { column: "validatedItems", keyword: "items", warn: true },
+  scripts: { column: "validatedScript", keyword: "scripts", warn: false },
+};
 
 const GENERIC_SCRIPTS_REMOVED = new Set(
   GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove.map((s) => s.toUpperCase()),
@@ -583,11 +601,11 @@ class CreatureService {
         );
         const persisting = row.items.filter((it) => !removed.has(it.file.toUpperCase()));
         if (!persisting.length) continue;
-        const detail = persisting.map((it) => `${it.file} ${it.slot}`).join(", ");
         findings.push({
           file: f.name,
           game: row.game,
-          detail: `${this.fileLabel(f.name, row.game)} (${detail})`,
+          check: "items",
+          detail: persisting.map((it) => `${it.file} ${it.slot}`).join(", "),
         });
       }
     }
@@ -625,7 +643,8 @@ class CreatureService {
     return {
       file: f.name,
       game: row.game,
-      detail: `${this.fileLabel(f.name, row.game)} (csv ${row.level} / def ${level})`,
+      check: "level",
+      detail: `csv ${row.level} / def ${level}`,
     };
   }
 
@@ -646,57 +665,49 @@ class CreatureService {
           return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
         });
         if (!kept.length) continue;
-        const detail = kept.map((s) => `${s.slot}=${s.value}`).join(", ");
         findings.push({
           file: f.name,
           game: row.game,
-          detail: `${this.fileLabel(f.name, row.game)} (${detail})`,
+          check: "scripts",
+          detail: kept.map((s) => `${s.slot}=${s.value}`).join(", "),
         });
       }
     }
     return findings;
   }
 
+  /**
+   * Log every unacknowledged creatures.csv drift for this creature, one line per source file
+   * (per game-variant row), each line starting with the file: e.g.
+   * `AVBEAR1 : level gap (csv 3 / def 6), items (RING95 lring), scripts (defaultScript=AVBEAR1)`.
+   * The creature name is not repeated - the log already opened a `Creating <name>...` header.
+   * A row's finding is dropped when its `Validated<Check>` column is `true`. A line warns unless
+   * every part on it is a script finding (scripts are informational).
+   */
   checkAgainstCsv(creature: Creature): void {
-    this.reportCsvFinding(
-      creature,
-      this.findPersistingItems(creature),
-      "validatedItems",
-      "warn",
-      "unremoved source items",
-    );
-    this.reportCsvFinding(
-      creature,
-      this.findLevelGaps(creature),
-      "validatedLevel",
-      "warn",
-      "level gap > 2 vs creatures.csv",
-    );
-    this.reportCsvFinding(
-      creature,
-      this.findOriginalScripts(creature),
-      "validatedScript",
-      "info",
-      "original scripts retained",
-    );
-  }
-
-  private reportCsvFinding(
-    creature: Creature,
-    findings: CsvFinding[],
-    column: "validatedItems" | "validatedLevel" | "validatedScript",
-    level: "warn" | "info",
-    label: string,
-  ): void {
-    const shown = findings.filter(
-      (f) => !monsterFilesService.getCreatureRow(f.file, f.game)?.[column],
-    );
-    if (!shown.length) return;
-    const name = translationService.from(creature.name);
-    // One log line per finding (per source file / game-variant row) - easier to scan than a
-    // single line concatenating every difference for the creature.
-    for (const f of shown) {
-      logService[level](`${name}: ${label} — ${f.detail}`);
+    const findings = [
+      ...this.findLevelGaps(creature),
+      ...this.findPersistingItems(creature),
+      ...this.findOriginalScripts(creature),
+    ];
+    const rows = new Map<string, { label: string; parts: string[]; warn: boolean }>();
+    for (const f of findings) {
+      const meta = CSV_CHECK_META[f.check];
+      if (monsterFilesService.getCreatureRow(f.file, f.game)?.[meta.column]) continue;
+      const key = `${f.file.toUpperCase()}|${f.game ?? ""}`;
+      const row = rows.get(key) ?? {
+        label: this.fileLabel(f.file, f.game),
+        parts: [],
+        warn: false,
+      };
+      row.parts.push(`${meta.keyword} (${f.detail})`);
+      row.warn ||= meta.warn;
+      rows.set(key, row);
+    }
+    for (const row of rows.values()) {
+      const line = `${row.label} : ${row.parts.join(", ")}`;
+      if (row.warn) logService.warn(line);
+      else logService.info(line);
     }
   }
 }

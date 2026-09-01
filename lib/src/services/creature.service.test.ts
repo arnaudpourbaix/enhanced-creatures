@@ -15,7 +15,6 @@ import { CreatureAbility } from "../model/creature/ability";
 import creatureService from "./creature.service";
 import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
-import translationService from "./translation.service";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -1390,7 +1389,7 @@ describe("creatureService.findPersistingItems", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, detail: "AAA (P1-4 weapon1)" },
+      { file: "AAA", game: undefined, check: "items", detail: "P1-4 weapon1" },
     ]);
   });
 
@@ -1422,7 +1421,7 @@ describe("creatureService.findPersistingItems", () => {
       adjustments: [{ files: ["AAA"], itemsRemove: ["P1-4"] }],
     });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, detail: "AAA (AMUL01 amulet)" },
+      { file: "AAA", game: undefined, check: "items", detail: "AMUL01 amulet" },
     ]);
   });
 
@@ -1456,8 +1455,8 @@ describe("creatureService.findPersistingItems", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, detail: "AAA (P1-4 weapon1)" },
-      { file: "AAA", game: "bg2", detail: "AAA (bg2) (RING95 lring)" },
+      { file: "AAA", game: undefined, check: "items", detail: "P1-4 weapon1" },
+      { file: "AAA", game: "bg2", check: "items", detail: "RING95 lring" },
     ]);
   });
 });
@@ -1469,7 +1468,7 @@ describe("creatureService.findLevelGaps", () => {
     mockRows(csvRow({ file: "AAA", level: 6 }));
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 10 });
     expect(creatureService.findLevelGaps(cre)).toEqual([
-      { file: "AAA", game: undefined, detail: "AAA (csv 6 / def 10)" },
+      { file: "AAA", game: undefined, check: "level", detail: "csv 6 / def 10" },
     ]);
   });
 
@@ -1509,7 +1508,7 @@ describe("creatureService.findLevelGaps", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 9 });
     expect(creatureService.findLevelGaps(cre)).toEqual([
-      { file: "AAA", game: "bg2", detail: "AAA (bg2) (csv 19 / def 9)" },
+      { file: "AAA", game: "bg2", check: "level", detail: "csv 19 / def 9" },
     ]);
   });
 
@@ -1537,7 +1536,7 @@ describe("creatureService.findLevelGaps", () => {
       adjustments: [{ files: ["AAA"], game: "bg2", level1: 19 }],
     });
     expect(creatureService.findLevelGaps(cre)).toEqual([
-      { file: "AAA", game: "bg1", detail: "AAA (bg1) (csv 19 / def 9)" },
+      { file: "AAA", game: "bg1", check: "level", detail: "csv 19 / def 9" },
     ]);
   });
 });
@@ -1558,7 +1557,7 @@ describe("creatureService.findOriginalScripts", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findOriginalScripts(cre)).toEqual([
-      { file: "AAA", game: undefined, detail: "AAA (overrideScript=0X1DG)" },
+      { file: "AAA", game: undefined, check: "scripts", detail: "overrideScript=0X1DG" },
     ]);
   });
 
@@ -1589,27 +1588,23 @@ describe("creatureService.findOriginalScripts", () => {
       adjustments: [{ files: ["AAA"], game: "bg2", scriptRemove: ["0X1DG"] }],
     });
     expect(creatureService.findOriginalScripts(cre)).toEqual([
-      { file: "AAA", game: "bg1", detail: "AAA (bg1) (overrideScript=0X1DG)" },
+      { file: "AAA", game: "bg1", check: "scripts", detail: "overrideScript=0X1DG" },
     ]);
   });
 });
 
-const TEST_CREATURE = "Test Creature";
-
 describe("creatureService.checkAgainstCsv", () => {
   afterEach(() => vi.restoreAllMocks());
 
-  it("emits a warn line for an unacknowledged persisting item", () => {
-    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
-    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
-      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
-    );
-    vi.spyOn(translationService, "from").mockReturnValue(TEST_CREATURE);
+  it("emits a file-prefixed warn line for an unacknowledged persisting item", () => {
+    const row = csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(warn).toHaveBeenCalledWith("Test Creature: unremoved source items — AAA (P1-4 weapon1)");
+    expect(warn).toHaveBeenCalledWith("AAA : items (P1-4 weapon1)");
   });
 
   it("suppresses a file whose row has ValidatedItems=true", () => {
@@ -1635,21 +1630,19 @@ describe("creatureService.checkAgainstCsv", () => {
       file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }], validatedItems: false,
     });
     mockRows(bg1, bg2);
-    // reportCsvFinding re-resolves each finding by its own game, exactly as on disk.
+    // suppression re-resolves each finding by its own game, exactly as on disk.
     vi.spyOn(monsterFilesService, "getCreatureRow").mockImplementation((_file, game) =>
       game === "bg2" ? bg2 : bg1,
     );
-    vi.spyOn(translationService, "from").mockReturnValue(TEST_CREATURE);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(warn).toHaveBeenCalledWith(
-      "Test Creature: unremoved source items — AAA (bg2) (RING95 lring)",
-    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith("AAA (bg2) : items (RING95 lring)");
   });
 
-  it("emits a separate line per finding for the same check", () => {
+  it("emits a separate line per source file", () => {
     const rowsByFile: Record<string, CreatureCsvRow> = {
       AAA: csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
       BBB: csvRow({ file: "BBB", items: [{ slot: "lring", file: "RING95" }] }),
@@ -1660,7 +1653,6 @@ describe("creatureService.checkAgainstCsv", () => {
     vi.spyOn(monsterFilesService, "getCreatureRow").mockImplementation(
       (file) => rowsByFile[file.toUpperCase()],
     );
-    vi.spyOn(translationService, "from").mockReturnValue(TEST_CREATURE);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(
@@ -1668,37 +1660,52 @@ describe("creatureService.checkAgainstCsv", () => {
     );
 
     expect(warn).toHaveBeenCalledTimes(2);
-    expect(warn).toHaveBeenCalledWith(
-      "Test Creature: unremoved source items — AAA (P1-4 weapon1)",
-    );
-    expect(warn).toHaveBeenCalledWith(
-      "Test Creature: unremoved source items — BBB (RING95 lring)",
-    );
+    expect(warn).toHaveBeenCalledWith("AAA : items (P1-4 weapon1)");
+    expect(warn).toHaveBeenCalledWith("BBB : items (RING95 lring)");
   });
 
-  it("labels the level-gap warning with 'level gap > 2 vs creatures.csv'", () => {
+  it("combines every check for one file onto a single line, in level/items/scripts order", () => {
+    const row = csvRow({
+      file: "AAA",
+      level: 6,
+      items: [{ slot: "lring", file: "RING95" }],
+      scripts: [{ slot: "defaultScript", value: "0X1DG" }],
+    });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 10 }));
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      "AAA : level gap (csv 6 / def 10), items (RING95 lring), scripts (defaultScript=0X1DG)",
+    );
+    expect(info).not.toHaveBeenCalled();
+  });
+
+  it("labels a level-gap line with the 'level gap' keyword", () => {
     const row = csvRow({ file: "AAA", level: 6 });
     mockRows(row);
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
-    vi.spyOn(translationService, "from").mockReturnValue(TEST_CREATURE);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 10 }));
 
-    expect(warn).toHaveBeenCalledWith(
-      "Test Creature: level gap > 2 vs creatures.csv — AAA (csv 6 / def 10)",
-    );
+    expect(warn).toHaveBeenCalledWith("AAA : level gap (csv 6 / def 10)");
   });
 
-  it("routes the script finding through logService.info", () => {
+  it("routes a scripts-only line through logService.info", () => {
     const row = csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] });
     mockRows(row);
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
-    vi.spyOn(translationService, "from").mockReturnValue(TEST_CREATURE);
     const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(info).toHaveBeenCalledWith("Test Creature: original scripts retained — AAA (overrideScript=0X1DG)");
+    expect(info).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
+    expect(warn).not.toHaveBeenCalled();
   });
 });
