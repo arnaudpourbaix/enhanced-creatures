@@ -21,6 +21,7 @@ interface WeiduCreatureServicePrivate {
     removeScripts: string[];
     files: string[];
     skipFiles: string[];
+    forceFiles: string[];
     logging: boolean;
   }): void;
   patchCreature(p: {
@@ -72,6 +73,7 @@ function fakeCreature(
     id: 1,
     files: [],
     adjustments: [],
+    newFiles: [],
     notEnforceFiles: [],
     attack: { dualWielding: false },
     data: {
@@ -404,6 +406,7 @@ describe("patchScript (private)", () => {
       removeScripts: [],
       files: [],
       skipFiles: [],
+      forceFiles: [],
       logging: true,
     });
     expect(codes(lines).some((c) => c.includes("logging=1"))).toBe(true);
@@ -418,6 +421,7 @@ describe("patchScript (private)", () => {
       removeScripts: [],
       files: [],
       skipFiles: [],
+      forceFiles: [],
       logging: false,
     });
     expect(codes(lines).some((c) => c.includes("logging=0"))).toBe(true);
@@ -468,6 +472,22 @@ describe("patchScripts (private)", () => {
     const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
     expect(summonIdx).toBeGreaterThan(guardIdx);
     expect(normalIdx).toBeGreaterThan(elseIdx);
+  });
+
+  it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
+    const lines: CodeLine[] = [];
+    const creature = scriptCreature([summonAdj({ files: ["JADRYAD"] })]);
+    (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [{ files: ["JADRYAD"] }];
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JADRYAD END");
+    expect(out.some((c) => c.includes("STR_VAR") && c.includes("forceFiles"))).toBe(true);
+  });
+
+  it("emits no forceFiles array when the creature creates no new files", () => {
+    const lines: CodeLine[] = [];
+    service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
+    expect(codes(lines).some((c) => c.includes("forceFiles"))).toBe(false);
   });
 });
 

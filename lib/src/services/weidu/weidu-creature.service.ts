@@ -498,6 +498,10 @@ class WeiduCreatureService extends AbstractWeiduService {
           .flat(),
       ),
     ];
+    // Files the mod creates itself (newFiles): always assign them a script, even if the asset
+    // they were copied from is scriptless - we never ship a scriptless new creature. This
+    // overrides patchCreatureScript's "leave scriptless files alone" guard for these names.
+    const newFiles = [...new Set(creature.newFiles.flatMap((f) => f.files))];
     const scriptName = this.getScriptName(creature, {});
     const summonScriptName = this.getScriptName(creature, { summon: true });
     this.patchScript({
@@ -508,6 +512,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       removeScripts: creature.data.script.remove,
       files: [],
       skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles],
+      forceFiles: newFiles,
       logging: creature.logging,
     });
     if (summonFiles.length) {
@@ -519,6 +524,7 @@ class WeiduCreatureService extends AbstractWeiduService {
         removeScripts: creature.data.script.remove,
         files: summonFiles,
         skipFiles: [],
+        forceFiles: newFiles,
         logging: creature.logging,
       });
     }
@@ -533,6 +539,7 @@ class WeiduCreatureService extends AbstractWeiduService {
           slot: creature.data.script.location,
           removeScripts: creature.data.script.remove,
           skipFiles: [],
+          forceFiles: newFiles,
           logging: creature.logging,
         });
       };
@@ -552,6 +559,7 @@ class WeiduCreatureService extends AbstractWeiduService {
           removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
           files: adjustment.files,
           skipFiles: [],
+          forceFiles: newFiles,
           logging: creature.logging,
         });
       }
@@ -566,6 +574,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     removeScripts: string[];
     files: string[];
     skipFiles: string[];
+    forceFiles: string[];
     logging: boolean;
   }) {
     const slotLog = p.slot ? ` to slot ${p.slot}` : "";
@@ -573,6 +582,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     let removeScripts = "";
     let skipFiles = "";
     let files = "";
+    let forceFiles = "";
     // genericScriptsToRemove is a real, permanently non-empty ~90-entry array (see
     // weidu-creature.service.test.ts's audit note), so this condition is always true - kept
     // as documentation of intent rather than simplified away.
@@ -593,12 +603,21 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.add(p.lines, `PATCH_DEFINE_ARRAY files BEGIN ${p.files.join(" ")} END`, p.tab);
       files = " files";
     }
+    if (p.forceFiles.length) {
+      this.add(p.lines, `CLEAR_ARRAY forceFiles`, p.tab);
+      this.add(
+        p.lines,
+        `PATCH_DEFINE_ARRAY forceFiles BEGIN ${p.forceFiles.join(" ")} END`,
+        p.tab,
+      );
+      forceFiles = " forceFiles";
+    }
     const slot = p.slot ? ` slot=${p.slot}` : "";
     this.add(
       p.lines,
       `LPF patchCreatureScript INT_VAR logging=${
         p.logging ? 1 : 0
-      } STR_VAR${slot}${files}${removeScripts}${skipFiles} script=${p.script} END`,
+      } STR_VAR${slot}${files}${removeScripts}${skipFiles}${forceFiles} script=${p.script} END`,
       p.tab,
     );
   }
