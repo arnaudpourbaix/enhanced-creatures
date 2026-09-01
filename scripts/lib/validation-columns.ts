@@ -1,9 +1,18 @@
 export const VALIDATION_COLUMNS = ["ValidatedLevel", "ValidatedItems", "ValidatedScript"] as const;
 export type ValidationColumn = (typeof VALIDATION_COLUMNS)[number];
 
-/** `${UPPERCASE_FILE}|${game}` where game is "" | "bg1" | "bg2". */
+/**
+ * `${UPPERCASE_FILE}|${game}` where game is "" | "bg1" | "bg2".
+ *
+ * The game value is normalised here because the two callers feed different shapes:
+ * `applyValidationColumns` passes the raw `parseCsv` string (whatever Excel wrote - "BG2", a
+ * trailing space), while the seed script passes the already-normalised `CreatureCsvRow.game`.
+ * Without normalising, a stray casing/space would key an owned row differently from its finding
+ * and silently blank its flags.
+ */
 export function rowKey(file: string, game: string | undefined): string {
-  return `${file.toUpperCase()}|${game ?? ""}`;
+  const g = (game ?? "").trim().toLowerCase();
+  return `${file.toUpperCase()}|${g === "bg1" || g === "bg2" ? g : ""}`;
 }
 
 /** Insert the three columns right after ValidatedMonsterId, skipping any already present. */

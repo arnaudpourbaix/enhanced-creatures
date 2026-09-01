@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { MonsterEnum } from "../../creatures/monster";
-import { CreatureFile, Game } from "../model/creature/game";
+import { CreatureFile, Game, gamesOverlap } from "../model/creature/game";
 
 const CSV_PATH = "assets/creatures.csv";
 const FILE_COLUMN = "file";
@@ -252,6 +252,19 @@ class MonsterFilesService {
     this.creatureRowsByFile ??= parseCreatureRowsCsv(fs.readFileSync(CSV_PATH, "utf-8"));
     const rows = this.creatureRowsByFile.get(file.toUpperCase());
     return rows?.length ? pickCreatureRow(rows, game) : undefined;
+  }
+
+  /**
+   * Every source row for `file` whose game scope can coexist with `game`. A resref present in both
+   * games has one row per game, and `collapseFilesByGame` merges those into a single
+   * `creature.files` entry with `game: undefined` - so the per-game rows must all be resolved here
+   * rather than picking one (which is what `getCreatureRow` does, for the by-key lookups).
+   */
+  getCreatureRows(file: string, game: Game | undefined): CreatureCsvRow[] {
+    this.creatureRowsByFile ??= parseCreatureRowsCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+    const rows = this.creatureRowsByFile.get(file.toUpperCase());
+    if (!rows?.length) return [];
+    return rows.filter((r) => gamesOverlap(r.game, game));
   }
 }
 

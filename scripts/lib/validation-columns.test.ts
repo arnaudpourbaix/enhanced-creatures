@@ -3,7 +3,6 @@ import {
   applyValidationColumns,
   insertValidationColumns,
   rowKey,
-  VALIDATION_COLUMNS,
   type ValidationColumn,
 } from "./validation-columns";
 
@@ -25,6 +24,27 @@ describe("insertValidationColumns", () => {
   it("is a no-op when the columns are already present", () => {
     const header = ["file", "ValidatedMonsterId", "ValidatedLevel", "ValidatedItems", "ValidatedScript", "name"];
     expect(insertValidationColumns(header)).toEqual(header);
+  });
+
+  it("appends the columns at the end when there is no ValidatedMonsterId anchor", () => {
+    expect(insertValidationColumns(["file", "game", "name"])).toEqual([
+      "file", "game", "name",
+      "ValidatedLevel", "ValidatedItems", "ValidatedScript",
+    ]);
+  });
+});
+
+describe("rowKey", () => {
+  it("uppercases the file and renders an absent game as an empty scope", () => {
+    expect(rowKey("abela", undefined)).toBe("ABELA|");
+  });
+
+  it("normalises a stray casing/whitespace game value from Excel", () => {
+    expect(rowKey("x", " BG2 ")).toBe("X|bg2");
+  });
+
+  it("treats an unrecognised game value as the empty scope", () => {
+    expect(rowKey("x", "eet")).toBe("X|");
   });
 });
 

@@ -3,7 +3,7 @@ import { getAllSpells } from "../../config/spells/spell-names";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { CreatureAbility } from "../model/creature/ability";
 import { CreatureAdjustment } from "../model/creature/adjustment";
-import { Game } from "../model/creature/game";
+import { CreatureFile, Game, gamesOverlap } from "../model/creature/game";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import {
@@ -23,7 +23,7 @@ import hitPointService from "./hit-point.service";
 import itemService from "./item.service";
 import kitService from "./kit.service";
 import logService from "./log.service";
-import monsterFilesService from "./monster-files.service";
+import monsterFilesService, { type CreatureCsvRow } from "./monster-files.service";
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
@@ -548,28 +548,46 @@ class CreatureService {
     return item.ac;
   }
 
-  private adjustmentsForFile(creature: Creature, file: string): CreatureAdjustment[] {
+  /**
+   * The adjustments that cover `file` AND can apply in `rowGame`'s scope. Gating on the game
+   * matters because a `creature.files` entry for a resref present in both games is untagged
+   * (`collapseFilesByGame`) while the CSV still has one row per game: a `game: "bg2"` adjustment
+   * must not be credited against the bg1 row.
+   */
+  private adjustmentsForFile(
+    creature: Creature,
+    file: string,
+    rowGame: Game | undefined,
+  ): CreatureAdjustment[] {
     const upper = file.toUpperCase();
-    return creature.adjustments.filter((a) => a.files.some((f) => f.toUpperCase() === upper));
+    return creature.adjustments.filter(
+      (a) => a.files.some((f) => f.toUpperCase() === upper) && gamesOverlap(a.game, rowGame),
+    );
+  }
+
+  private fileLabel(name: string, game: Game | undefined): string {
+    return game ? `${name} (${game})` : name;
   }
 
   findPersistingItems(creature: Creature): CsvFinding[] {
     const findings: CsvFinding[] = [];
     for (const f of creature.files) {
-      const row = monsterFilesService.getCreatureRow(f.name, f.game);
-      if (!row) continue;
-      const removed = new Set(
-        [
-          ...creature.data.items.remove,
-          ...this.adjustmentsForFile(creature, f.name).flatMap((a) => a.data.items.remove),
-        ].map((r) => r.toUpperCase()),
-      );
-      const persisting = row.items.filter((it) => !removed.has(it.file.toUpperCase()));
-      if (persisting.length) {
+      for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
+        const removed = new Set(
+          [
+            ...creature.data.items.remove,
+            ...this.adjustmentsForFile(creature, f.name, row.game).flatMap(
+              (a) => a.data.items.remove,
+            ),
+          ].map((r) => r.toUpperCase()),
+        );
+        const persisting = row.items.filter((it) => !removed.has(it.file.toUpperCase()));
+        if (!persisting.length) continue;
+        const detail = persisting.map((it) => `${it.file} ${it.slot}`).join(", ");
         findings.push({
           file: f.name,
-          game: f.game,
-          detail: `${f.name} (${persisting.map((it) => `${it.file} ${it.slot}`).join(", ")})`,
+          game: row.game,
+          detail: `${this.fileLabel(f.name, row.game)} (${detail})`,
         });
       }
     }
@@ -579,44 +597,60 @@ class CreatureService {
   findLevelGaps(creature: Creature): CsvFinding[] {
     const findings: CsvFinding[] = [];
     for (const f of creature.files) {
-      const row = monsterFilesService.getCreatureRow(f.name, f.game);
-      if (!row || row.level === undefined) continue;
-      let level = creature.data.level1?.pnpValue;
-      for (const a of this.adjustmentsForFile(creature, f.name)) {
-        if (a.data.level1 !== undefined) level = a.data.level1.pnpValue;
-      }
-      if (level === undefined) continue; // no base and no adjustment level → nothing to compare
-      if (Math.abs(row.level - level) > 2) {
-        findings.push({
-          file: f.name,
-          game: f.game,
-          detail: `${f.name} (csv ${row.level} / def ${level})`,
-        });
+      for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
+        const finding = this.levelGapForRow(creature, f, row);
+        if (finding) findings.push(finding);
       }
     }
     return findings;
   }
 
+  private levelGapForRow(
+    creature: Creature,
+    f: CreatureFile,
+    row: CreatureCsvRow,
+  ): CsvFinding | undefined {
+    if (row.level === undefined) return undefined;
+    // Real MainCreatureData always has level1 (it is typed as required), but the guard hardens
+    // against hand-built fixtures (`as unknown as Creature`) that omit it - and against a
+    // creature whose level only ever comes from an adjustment.
+    /* eslint-disable @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison */
+    let level = creature.data.level1?.pnpValue;
+    for (const a of this.adjustmentsForFile(creature, f.name, row.game)) {
+      if (a.data.level1 !== undefined) level = a.data.level1.pnpValue;
+    }
+    if (level === undefined) return undefined; // no base and no adjustment level → nothing to compare
+    /* eslint-enable @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison */
+    if (Math.abs(row.level - level) <= 2) return undefined;
+    return {
+      file: f.name,
+      game: row.game,
+      detail: `${this.fileLabel(f.name, row.game)} (csv ${row.level} / def ${level})`,
+    };
+  }
+
   findOriginalScripts(creature: Creature): CsvFinding[] {
     const findings: CsvFinding[] = [];
     for (const f of creature.files) {
-      const row = monsterFilesService.getCreatureRow(f.name, f.game);
-      if (!row) continue;
-      const removed = new Set(
-        [
-          ...creature.data.script.remove,
-          ...this.adjustmentsForFile(creature, f.name).flatMap((a) => a.data.script.remove),
-        ].map((s) => s.toUpperCase()),
-      );
-      const kept = row.scripts.filter((s) => {
-        const v = s.value.toUpperCase();
-        return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
-      });
-      if (kept.length) {
+      for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
+        const removed = new Set(
+          [
+            ...creature.data.script.remove,
+            ...this.adjustmentsForFile(creature, f.name, row.game).flatMap(
+              (a) => a.data.script.remove,
+            ),
+          ].map((s) => s.toUpperCase()),
+        );
+        const kept = row.scripts.filter((s) => {
+          const v = s.value.toUpperCase();
+          return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
+        });
+        if (!kept.length) continue;
+        const detail = kept.map((s) => `${s.slot}=${s.value}`).join(", ");
         findings.push({
           file: f.name,
-          game: f.game,
-          detail: `${f.name} (${kept.map((s) => `${s.slot}=${s.value}`).join(", ")})`,
+          game: row.game,
+          detail: `${this.fileLabel(f.name, row.game)} (${detail})`,
         });
       }
     }

@@ -191,9 +191,14 @@ export function indexMonsterIds(oldRows: Record<string, string>[]): MonsterIdInd
     const ids: MonsterIds = {
       MonsterId: row.MonsterId,
       ValidatedMonsterId: row.ValidatedMonsterId,
+      // The `??` is load-bearing at runtime even though parseCsv types rows as
+      // Record<string, string>: an old-creatures.csv written before these columns existed has no
+      // such key, so the lookup really does yield undefined.
+      /* eslint-disable @typescript-eslint/no-unnecessary-condition */
       ValidatedLevel: row.ValidatedLevel ?? "",
       ValidatedItems: row.ValidatedItems ?? "",
       ValidatedScript: row.ValidatedScript ?? "",
+      /* eslint-enable @typescript-eslint/no-unnecessary-condition */
     };
     if (ids.MonsterId) {
       const known = distinctIds.get(row.file) ?? [];

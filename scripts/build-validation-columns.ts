@@ -30,6 +30,9 @@ const FINDERS: { col: ValidationColumn; find: (c: Creature) => CsvFinding[] }[] 
 ];
 
 const csv = parseCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+// Deliberately no stateService.init() / checkPresets() / checkSpells(): the three finders only
+// read `files`, `adjustments` and `data`, all of which are populated at family-construction time.
+// Same rationale as scripts/report-game-adjustments.ts.
 const creatures = familyFactories.flatMap((factory) => factory().creatures);
 
 const ownedKeys = new Set<string>();
@@ -39,17 +42,25 @@ const findingKeys: Record<ValidationColumn, Set<string>> = {
   ValidatedScript: new Set(),
 };
 
-for (const creature of creatures) {
-  for (const f of creature.files) {
-    const row = monsterFilesService.getCreatureRow(f.name, f.game);
-    if (row) ownedKeys.add(rowKey(row.file, row.game));
-  }
+function collectFindingKeys(creature: Creature): void {
   for (const { col, find } of FINDERS) {
     for (const finding of find(creature)) {
+      // finding.game is the resolved row's own game, so this lands on the exact per-game row.
       const row = monsterFilesService.getCreatureRow(finding.file, finding.game);
       if (row) findingKeys[col].add(rowKey(row.file, row.game));
     }
   }
+}
+
+for (const creature of creatures) {
+  for (const f of creature.files) {
+    // Every scope-compatible row, not just one: a resref present in both games is a single
+    // untagged creature.files entry but two CSV rows, and both are owned by this creature.
+    for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
+      ownedKeys.add(rowKey(row.file, row.game));
+    }
+  }
+  collectFindingKeys(creature);
 }
 
 const { header, rows } = applyValidationColumns({

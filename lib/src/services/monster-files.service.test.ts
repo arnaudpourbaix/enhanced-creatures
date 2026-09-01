@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MonsterEnum } from "../../creatures/monster";
+import { gamesOverlap } from "../model/creature/game";
 import monsterFilesService, {
   parseFileNamesCsv,
   parseMonsterDialogCsv,
@@ -283,8 +284,8 @@ describe("parseCreatureRowsCsv", () => {
       "BBB;x;None;None;None;None;None;;;;;;;;;;Nymph;true;;;;;B",
     ].join("\n");
     const m = parseCreatureRowsCsv(csv);
-    expect(m.get("AAA")![0].level).toBeUndefined();
-    expect(m.get("BBB")![0].level).toBeUndefined();
+    expect(m.get("AAA")).toEqual([expect.objectContaining({ level: undefined })]);
+    expect(m.get("BBB")).toEqual([expect.objectContaining({ level: undefined })]);
   });
 
   it("reads the three Validated* flags, treating only 'true' as set", () => {
@@ -292,14 +293,24 @@ describe("parseCreatureRowsCsv", () => {
       ROW_HEADER,
       "AAA;1;None;None;None;None;None;;;;;;;;;;N;true;true;false;;;A",
     ].join("\n");
-    const row = parseCreatureRowsCsv(csv).get("AAA")![0];
-    expect([row.validatedLevel, row.validatedItems, row.validatedScript]).toEqual([true, false, false]);
+    expect(parseCreatureRowsCsv(csv).get("AAA")).toEqual([
+      expect.objectContaining({
+        validatedLevel: true,
+        validatedItems: false,
+        validatedScript: false,
+      }),
+    ]);
   });
 
   it("defaults the flags to false when the columns are absent", () => {
     const csv = ["file;level;game;name", "AAA;1;;A"].join("\n");
-    const row = parseCreatureRowsCsv(csv).get("AAA")![0];
-    expect([row.validatedLevel, row.validatedItems, row.validatedScript]).toEqual([false, false, false]);
+    expect(parseCreatureRowsCsv(csv).get("AAA")).toEqual([
+      expect.objectContaining({
+        validatedLevel: false,
+        validatedItems: false,
+        validatedScript: false,
+      }),
+    ]);
   });
 
   it("groups game-tagged duplicate rows under the uppercased file key", () => {
@@ -308,35 +319,92 @@ describe("parseCreatureRowsCsv", () => {
       "gorf;3;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg1;Gorf",
       "gorf;5;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg2;Big Gorf",
     ].join("\n");
-    const rows = parseCreatureRowsCsv(csv).get("GORF")!;
-    expect(rows.map((r) => [r.game, r.level])).toEqual([["bg1", 3], ["bg2", 5]]);
+    expect(parseCreatureRowsCsv(csv).get("GORF")).toEqual([
+      expect.objectContaining({ game: "bg1", level: 3 }),
+      expect.objectContaining({ game: "bg2", level: 5 }),
+    ]);
   });
 });
 
 describe("pickCreatureRow", () => {
   const mk = (game: CreatureCsvRow["game"]): CreatureCsvRow => ({
-    file: "X", game, level: 0, items: [], scripts: [],
+    game,
+    file: "X", level: 0, items: [], scripts: [],
     validatedLevel: false, validatedItems: false, validatedScript: false,
   });
 
   it("prefers an exact game match", () => {
-    expect(pickCreatureRow([mk(undefined), mk("bg2")], "bg2")!.game).toBe("bg2");
+    expect(pickCreatureRow([mk(undefined), mk("bg2")], "bg2")).toEqual(
+      expect.objectContaining({ game: "bg2" }),
+    );
   });
   it("falls back to the untagged row", () => {
-    expect(pickCreatureRow([mk(undefined), mk("bg1")], "bg2")!.game).toBeUndefined();
+    expect(pickCreatureRow([mk(undefined), mk("bg1")], "bg2")).toEqual(
+      expect.objectContaining({ game: undefined }),
+    );
   });
   it("falls back to the first row when nothing else matches", () => {
-    expect(pickCreatureRow([mk("bg1"), mk("bg2")], undefined)!.game).toBe("bg1");
+    expect(pickCreatureRow([mk("bg1"), mk("bg2")], undefined)).toEqual(
+      expect.objectContaining({ game: "bg1" }),
+    );
   });
 });
 
 describe("monsterFilesService.getCreatureRow", () => {
   it("returns a parsed row for a known file, case-insensitively", () => {
-    const row = monsterFilesService.getCreatureRow("abela", undefined);
-    expect(row?.file.toUpperCase()).toBe("ABELA");
-    expect(typeof row?.level === "number" || row?.level === undefined).toBe(true);
+    expect(monsterFilesService.getCreatureRow("abela", undefined)).toEqual(
+      expect.objectContaining({ file: "ABELA" }),
+    );
   });
   it("returns undefined for an unknown file", () => {
     expect(monsterFilesService.getCreatureRow("NOT_A_REAL_FILE_ID", undefined)).toBeUndefined();
+  });
+});
+
+describe("monsterFilesService.getCreatureRows", () => {
+  const DUAL_CSV = [
+    ROW_HEADER,
+    "gorf;3;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;;Gorf both",
+    "gorf;5;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg1;Gorf bg1",
+    "gorf;9;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg2;Gorf bg2",
+  ].join("\n");
+
+  // getCreatureRows = parseCreatureRowsCsv(<disk>) + gamesOverlap filter. Exercise that
+  // composition over a fixture (the disk smoke tests below cover the fs half).
+  const rowsFor = (game: CreatureCsvRow["game"]) =>
+    (parseCreatureRowsCsv(DUAL_CSV).get("GORF") ?? []).filter((r) => gamesOverlap(r.game, game));
+
+  it("returns every row for an untagged (both-games) file entry", () => {
+    expect(rowsFor(undefined)).toEqual([
+      expect.objectContaining({ game: undefined, level: 3 }),
+      expect.objectContaining({ game: "bg1", level: 5 }),
+      expect.objectContaining({ game: "bg2", level: 9 }),
+    ]);
+  });
+
+  it("returns the untagged and matching-game rows for a bg1 file entry, never the bg2 row", () => {
+    expect(rowsFor("bg1")).toEqual([
+      expect.objectContaining({ game: undefined, level: 3 }),
+      expect.objectContaining({ game: "bg1", level: 5 }),
+    ]);
+  });
+
+  it("resolves BOTH rows on disk for a dual-game resref via an untagged file entry", () => {
+    // TAZOK has a bg1 and a bg2 row in assets/creatures.csv; collapseFilesByGame yields one
+    // untagged creature.files entry for it, so both rows must come back.
+    const rows = monsterFilesService.getCreatureRows("tazok", undefined);
+    expect(rows.length).toBeGreaterThanOrEqual(2);
+    expect(rows.map((r) => r.game)).toEqual(expect.arrayContaining(["bg1", "bg2"]));
+    expect(rows.every((r) => r.file.toUpperCase() === "TAZOK")).toBe(true);
+  });
+
+  it("returns only the bg1-compatible rows when the file entry is bg1-scoped", () => {
+    expect(monsterFilesService.getCreatureRows("tazok", "bg1").map((r) => r.game)).not.toContain(
+      "bg2",
+    );
+  });
+
+  it("returns an empty array for an unknown file", () => {
+    expect(monsterFilesService.getCreatureRows("NOT_A_REAL_FILE_ID", undefined)).toEqual([]);
   });
 });
