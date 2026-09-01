@@ -622,6 +622,45 @@ class CreatureService {
     }
     return findings;
   }
+
+  checkAgainstCsv(creature: Creature): void {
+    this.reportCsvFinding(
+      creature,
+      this.findPersistingItems(creature),
+      "validatedItems",
+      "warn",
+      "unremoved source items",
+    );
+    this.reportCsvFinding(
+      creature,
+      this.findLevelGaps(creature),
+      "validatedLevel",
+      "warn",
+      "level gap > 2 vs creatures.csv",
+    );
+    this.reportCsvFinding(
+      creature,
+      this.findOriginalScripts(creature),
+      "validatedScript",
+      "info",
+      "original scripts retained",
+    );
+  }
+
+  private reportCsvFinding(
+    creature: Creature,
+    findings: CsvFinding[],
+    column: "validatedItems" | "validatedLevel" | "validatedScript",
+    level: "warn" | "info",
+    label: string,
+  ): void {
+    const shown = findings.filter(
+      (f) => !monsterFilesService.getCreatureRow(f.file, f.game)?.[column],
+    );
+    if (!shown.length) return;
+    const name = translationService.from(creature.name);
+    logService[level](`${name}: ${label} — ${shown.map((f) => f.detail).join("; ")}`);
+  }
 }
 
 const creatureService = new CreatureService();

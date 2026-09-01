@@ -197,6 +197,7 @@ class CreatureFactory {
     const adjustmentFilesValid = creatureService.checkAdjustmentFiles(creature);
     immunityService.handleImmunities(creature);
     creatureService.checkWeapons(creature);
+    creatureService.checkAgainstCsv(creature);
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
     creature.valid = valid && dialogValid && adjustmentFilesValid;

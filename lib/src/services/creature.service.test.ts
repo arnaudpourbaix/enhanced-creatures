@@ -15,6 +15,7 @@ import { CreatureAbility } from "../model/creature/ability";
 import creatureService from "./creature.service";
 import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
+import translationService from "./translation.service";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -1493,5 +1494,44 @@ describe("creatureService.findOriginalScripts", () => {
       adjustments: [{ files: ["AAA"], scriptRemove: ["0X1DG"] }],
     });
     expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+});
+
+describe("creatureService.checkAgainstCsv", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("emits one aggregated warn line for unacknowledged persisting items", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
+    );
+    vi.spyOn(translationService, "from").mockReturnValue("Test Creature");
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).toHaveBeenCalledWith("Test Creature: unremoved source items — AAA (P1-4 weapon1)");
+  });
+
+  it("suppresses a file whose row has ValidatedItems=true", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }], validatedItems: true }),
+    );
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("routes the script finding through logService.info", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    vi.spyOn(translationService, "from").mockReturnValue("Test Creature");
+    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(info).toHaveBeenCalledWith("Test Creature: original scripts retained — AAA (overrideScript=0X1DG)");
   });
 });
