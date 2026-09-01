@@ -1599,7 +1599,7 @@ const TEST_CREATURE = "Test Creature";
 describe("creatureService.checkAgainstCsv", () => {
   afterEach(() => vi.restoreAllMocks());
 
-  it("emits one aggregated warn line for unacknowledged persisting items", () => {
+  it("emits a warn line for an unacknowledged persisting item", () => {
     mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
       csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
@@ -1649,7 +1649,7 @@ describe("creatureService.checkAgainstCsv", () => {
     );
   });
 
-  it("joins multiple findings for the same check with '; ' in one warn line", () => {
+  it("emits a separate line per finding for the same check", () => {
     const rowsByFile: Record<string, CreatureCsvRow> = {
       AAA: csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
       BBB: csvRow({ file: "BBB", items: [{ slot: "lring", file: "RING95" }] }),
@@ -1667,8 +1667,12 @@ describe("creatureService.checkAgainstCsv", () => {
       creatureWith({ files: [{ name: "AAA" }, { name: "BBB" }], level1: 3 }),
     );
 
+    expect(warn).toHaveBeenCalledTimes(2);
     expect(warn).toHaveBeenCalledWith(
-      "Test Creature: unremoved source items — AAA (P1-4 weapon1); BBB (RING95 lring)",
+      "Test Creature: unremoved source items — AAA (P1-4 weapon1)",
+    );
+    expect(warn).toHaveBeenCalledWith(
+      "Test Creature: unremoved source items — BBB (RING95 lring)",
     );
   });
 

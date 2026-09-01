@@ -693,7 +693,11 @@ class CreatureService {
     );
     if (!shown.length) return;
     const name = translationService.from(creature.name);
-    logService[level](`${name}: ${label} — ${shown.map((f) => f.detail).join("; ")}`);
+    // One log line per finding (per source file / game-variant row) - easier to scan than a
+    // single line concatenating every difference for the creature.
+    for (const f of shown) {
+      logService[level](`${name}: ${label} — ${f.detail}`);
+    }
   }
 }
 
