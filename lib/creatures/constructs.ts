@@ -79,7 +79,17 @@ class ConstructFamily extends CreatureFamily<Construct> {
         leatherColor: 63,
         movement: 12,
         items: {
-          remove: ["HELM08", "SHLD18", "RING95", "BLUN08", "FBLADE", "PLAT07", "HELM13"],
+          remove: [
+            "HELM08",
+            "HELM01",
+            "SHLD18",
+            "RING95",
+            "RING98",
+            "BLUN08",
+            "FBLADE",
+            "PLAT07",
+            "HELM13",
+          ],
         },
         immunities: ["construct"],
         proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 }],

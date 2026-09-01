@@ -50,6 +50,7 @@ BEGIN
 			REMOVE_KNOWN_SPELLS
 			REMOVE_MEMORIZED_SPELLS
 			REMOVE_CRE_ITEM ~CARRIO1~
+			REMOVE_CRE_ITEM ~BDCCRAW1~
 			REPLACE_CRE_ITEM ~jai0m9~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			LPF clear_proficiencies END
 			LPF patchCreature
@@ -97,15 +98,26 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts script=jam9su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CRYPTCRA~) BEGIN 
 				WRITE_LONG 0x14 650 // xpv
-				WRITE_SHORT 0x24 61 // hp
-				WRITE_SHORT 0x26 61 // hp
-				WRITE_BYTE 0x52 9 // thac0
-				WRITE_BYTE 0x54 11 // saveDeath
-				WRITE_BYTE 0x55 13 // saveWand
-				WRITE_BYTE 0x56 12 // savePolymorph
-				WRITE_BYTE 0x57 13 // saveBreath
-				WRITE_BYTE 0x58 14 // saveSpell
-				WRITE_BYTE 0x234 6 // level1
+				WRITE_SHORT 0x24 91 // hp
+				WRITE_SHORT 0x26 91 // hp
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 8 // saveDeath
+				WRITE_BYTE 0x55 10 // saveWand
+				WRITE_BYTE 0x56 9 // savePolymorph
+				WRITE_BYTE 0x57 9 // saveBreath
+				WRITE_BYTE 0x58 11 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDCRAWMU~) BEGIN 
+				WRITE_SHORT 0x24 71 // hp
+				WRITE_SHORT 0x26 71 // hp
+				WRITE_BYTE 0x52 13 // thac0
+				WRITE_BYTE 0x54 10 // saveDeath
+				WRITE_BYTE 0x55 12 // saveWand
+				WRITE_BYTE 0x56 11 // savePolymorph
+				WRITE_BYTE 0x57 12 // saveBreath
+				WRITE_BYTE 0x58 13 // saveSpell
+				WRITE_BYTE 0x234 7 // level1
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CARRIOSU~) BEGIN 
 				WRITE_SHORT 0x24 51 // hp

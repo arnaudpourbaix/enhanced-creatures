@@ -1226,7 +1226,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain('<h4 class="adjustment-card-title">Undead Knight</h4>');
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Undead Knight (KNIGHTSK)</h4>',
+    );
   });
 
   // Regression test: getAdjustmentLabel used to look up monsterFilesService.getName(files[0])
@@ -1253,10 +1255,12 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain('<h4 class="adjustment-card-title">Rick, Shane</h4>');
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Rick (KRYSKEL1), Shane (KRYSKEL2)</h4>',
+    );
   });
 
-  it("shows a shared resolved name once, not repeated, when every file in the group resolves to the same name", () => {
+  it("groups files sharing one resolved name under a single label with every file listed in parens", () => {
     vi.spyOn(monsterFilesService, "getName").mockImplementation((file: string) => {
       if (file === "KRYSKEL1") return "Skeleton Warrior";
       if (file === "KRYSKEL2") return "Skeleton Warrior";
@@ -1276,7 +1280,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain('<h4 class="adjustment-card-title">Skeleton Warrior</h4>');
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Skeleton Warrior (KRYSKEL1, KRYSKEL2)</h4>',
+    );
   });
 
   it("prefers the creature's own newFiles stringRef name over the global creatures.csv lookup", () => {
@@ -1294,7 +1300,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain('<h4 class="adjustment-card-title">Young Treant</h4>');
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Young Treant (SOMEFILE)</h4>',
+    );
   });
 
   it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {

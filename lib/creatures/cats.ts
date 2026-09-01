@@ -357,7 +357,7 @@ class CatFamily extends CreatureFamily<Cat> {
         size: "Large",
         movement: 15,
         items: {
-          remove: ["CATJAG", "S1-6"],
+          remove: ["CATJAG", "S1-6", "P1-8"],
         },
         immunities: ["cat"],
       },
@@ -417,6 +417,9 @@ class CatFamily extends CreatureFamily<Cat> {
         size: "Medium",
         movement: 15,
         items: {
+          remove: ["CATJAGSU", "P1-6"],
+        },
+        script: {
           remove: ["CATJAGSU"],
         },
         immunities: ["cat"],
@@ -472,7 +475,7 @@ class CatFamily extends CreatureFamily<Cat> {
         size: "Medium",
         movement: 12,
         items: {
-          remove: ["CATLIO"],
+          remove: ["CATLIO", "P1-10"],
         },
         immunities: ["cat"],
       },
@@ -551,7 +554,7 @@ class CatFamily extends CreatureFamily<Cat> {
       abilities: [this.ability(Ids.MountainLionLeap)],
       customCodes: [hunterCustomCode],
     });
-    mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 12 } }]);
+    mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 15 } }]);
     return mountainLion;
   }
 
@@ -584,7 +587,7 @@ class CatFamily extends CreatureFamily<Cat> {
         size: "Large",
         movement: 12,
         items: {
-          remove: ["CATLIS"],
+          remove: ["CATLIS", "FIGLION", "IMMUNE1"],
         },
         immunities: ["cat"],
       },
@@ -607,6 +610,7 @@ class CatFamily extends CreatureFamily<Cat> {
     spottedLion.setBehavior({
       abilities: [this.ability(Ids.SpottedLionLeap)],
     });
+    spottedLion.setAdjustments([{ files: ["CATLIOWP"], data: { level1: 9 } }]);
     return spottedLion;
   }
 

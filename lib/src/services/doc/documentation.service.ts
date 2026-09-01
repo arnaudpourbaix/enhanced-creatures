@@ -687,14 +687,38 @@ class DocumentationService {
     return monsterFilesService.getName(file);
   }
 
+  // Every card is titled by the creatures.csv / newFiles name its file(s) resolve to, but several
+  // distinct files often resolve to the very same name (e.g. a carrion crawler's CARRIOSU and
+  // BDCRAWMU are both "Mutated Crawler") - so the originating file(s) are always spelled out in
+  // parentheses after a resolved name to keep otherwise-identical cards apart. Files sharing one
+  // resolved name are grouped under it ("Skeleton Warrior (KRYSKEL1, KRYSKEL2)"); a file whose
+  // name doesn't resolve, or resolves to the creature's own name, already *is* its own label and
+  // gets no parenthetical.
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
-    const creatureName = translationService.from(creature.name);
-    const labels = files.map((file) => {
-      const name = this.getFileName(creature, file);
-      if (!name) return file;
-      return name.trim().toLowerCase() === creatureName.trim().toLowerCase() ? file : name;
-    });
-    return [...new Set(labels)].join(", ");
+    const creatureName = translationService.from(creature.name).trim().toLowerCase();
+    const filesByLabel = new Map<string, string[]>();
+    const order: string[] = [];
+    for (const file of files) {
+      const resolved = this.getFileName(creature, file);
+      const name =
+        resolved && resolved.trim().toLowerCase() !== creatureName ? resolved : undefined;
+      const label = name ?? file;
+      if (!filesByLabel.has(label)) {
+        filesByLabel.set(label, []);
+        order.push(label);
+      }
+      if (name) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        filesByLabel.get(label)!.push(file);
+      }
+    }
+    return order
+      .map((label) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const named = filesByLabel.get(label)!;
+        return named.length ? `${label} (${named.join(", ")})` : label;
+      })
+      .join(", ");
   }
 
   // Creature.addTrait() bundles several named sub-immunities into one carrier item, whose plain

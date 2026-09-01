@@ -1,0 +1,5 @@
+ACTION_IF FILE_EXISTS_IN_GAME ~misc3d.itm~ BEGIN
+    COPY_EXISTING ~misc3d.itm~ ~override~
+        WRITE_LONG 0x54 RESOLVE_STR_REF(@200)
+    BUT_ONLY
+END

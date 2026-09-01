@@ -52,7 +52,7 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
         xpv: 420,
         movement: 12,
         items: {
-          remove: ["CARRIO1"],
+          remove: ["CARRIO1", "BDCCRAW1"],
         },
         script: {
           remove: ["ccrawler", "bdccrawl"],
@@ -82,7 +82,8 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
       targetPriorities: [{ status: ["Able"] }],
     });
     carrionCrawler.setAdjustments([
-      { files: ["CRYPTCRA"], data: { level1: 6, thac0: 9, xpv: 650 } },
+      { files: ["CRYPTCRA"], data: { level1: 9, xpv: 650 } },
+      { files: ["BDCRAWMU"], data: { level1: 7 } },
       { files: ["CARRIOSU"], data: { level1: 5 } },
     ]);
     return carrionCrawler;
