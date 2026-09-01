@@ -114,6 +114,7 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       war: "War Dog",
       blink: "Blink Dog",
       spectralHound: "Spectral Hound",
+      moon: "Moon Dog",
     },
     weapon: { jaws: "Jaws" },
     ability: {

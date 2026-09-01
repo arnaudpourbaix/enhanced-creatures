@@ -238,4 +238,8 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   ReflectedImage: { name: "Reflected Image" },
   SummonSpiritAnimal: { name: "Summon Spirit Animal" },
   BigbyIcyGrasp: { name: "Bigby's Icy Grasp" },
+  HealingLick: { name: "Healing Lick" },
+  NonDetection: { name: "Non Detection" },
+  DetectEvil: { name: "Detect Evil" },
+  DancingLights: { name: "Dancing Lights" },
 };

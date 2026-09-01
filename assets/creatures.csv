@@ -1340,28 +1340,26 @@ DW#ULCWO;UNDEAD;WOLF;WOLF_VAMPIRIC;WOLF_VAMPIRIC;None;;8;MALE;MALE;ENEMY;dw#ulcw
 WOLFVA01;UNDEAD;WOLF;WOLF_VAMPIRIC;WOLF_VAMPIRIC;None;;8;MALE;MALE;ENEMY;None;None;None;None;dw2mp2ge;;;IMMUNE1;RING95;;WOLFVA1;;;;2000;bg2;;VampiricWolf;false;;;;;Vampiric Wolf
 SMSPID02;MONSTER;SPIDER;SPIDER_PHASE;SPIDER_PHASE;smspid02;;5;NIETHER;MALE;ENEMY;spidvo01;None;None;None;dw1melmo;;;;;ANTIWEB;SPIDVO01;;;;2700;bg1;;VortexSpider;true;true;;true;bg1;Vortex Spider
 SMSPID02;MONSTER;SPIDER;SPIDER_PHASE;SPIDER_PHASE;smspid02;;5;NIETHER;MALE;ENEMY;spidvo01;None;None;None;dw2mp2mo;;;;;ANTIWEB;SPIDVO01;;;;2700;bg2;;VortexSpider;true;true;;true;bg2;Vortex Spider
-BDPRISD1;ANIMAL;DOG;DOG_WAR;DOG_WAR;BDPRISD1;;1;MALE;MALE;NEUTRAL;bdprisd1;None;BDSHOUT;BDFIGH01;;;;;;;P2-8;;;;0;bg1;;WarDog;true;true;true;;;Dog
-BDPRISD2;ANIMAL;DOG;DOG_WAR;DOG_WAR;BDPRISD2;;1;MALE;MALE;NEUTRAL;bdprisd1;None;BDSHOUT;BDFIGH01;;;;;;;P2-8;;;;0;bg1;;WarDog;true;true;true;;;Dog
-CPCHICK1;ANIMAL;DOG;DOG_WAR;DOG_WAR;Cpchick1;;1;MALE;MALE;NEUTRAL;None;None;None;None;None;;;;;;;;;;1;bg2;;WarDog;false;;;;;Party's Dog
-CPCHICK2;ANIMAL;DOG;DOG_WAR;DOG_WAR;Cpchick2;;1;MALE;MALE;NEUTRAL;None;None;None;None;None;;;;;;;;;;1;bg2;;WarDog;false;;;;;Surly's Dog
-D0FUNDOG;ANIMAL;DOG;HUNTER_CREATURE;DOG_WAR;d0fundog;None;1;MALE;MALE;NEUTRAL;D0FUNDOG;None;None;;;;;;;;P1-4;;;;15;D0QUESTPACK;;WarDog;false;;;;;Dog
-DADOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;dadog;dadog;2;MALE;MALE;NEUTRAL;WARDOG;UDGO;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;false;;;;;Dog
-DOGWAR01;ANIMAL;DOG;DOG_WAR;DOG_WAR;None;;2;MALE;MALE;ENEMY;WARDOG;None;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;false;;;;;War Dog
-UBNIMDOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;ubnimdog;ubnimdog;2;MALE;MALE;NEUTRAL;ubnimdog;;;;;;;;;;P1-8;;;;65;bg1ub;;WarDog;true;true;;;;Hunting Dog
-FAMWAR;ANIMAL;DOG;DOG_WAR;DOG_WAR;famwar;;2;MALE;MALE;ALLY;;None;None;None;;;;FAMMY;;;P1-8;;;;0;bg2;;WarDog;false;;;;;War Dog
-FSDOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;FSDog;FSDog;2;MALE;MALE;NEUTRAL;WARDOG;None;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;false;;;;;War Dog
-GPDOG1;ANIMAL;DOG;DOG_WAR;DOG_WAR;famwar;;4;MALE;MALE;ENEMY;gpshout;gpdog1;None;;dw2mp2mo;;;;;;P1-8;;;;0;bg2;;WarDog;false;;;;;War Dog
 HELLHO01;ANIMAL;DOG;DOG_WAR;WOLF_DIRE;None;;7;MALE;MALE;ENEMY;GENSHT01;None;None;HELHOU01;dw2mp2mo;;;SEEINVIS;;;HELLHO;;;;1400;bg2;;WarDog;false;;;;;Hell Hound
 HELLIL01;ANIMAL;DOG;DOG_WAR;WOLF_DIRE;None;;7;MALE;MALE;ENEMY;GENSHT01;None;None;None;dw2mp2mo;;;SEEINVIS;;;HELLHOUN;;;;1400;bg2;;WarDog;false;;;;;Hell Hound
-L#2EDDOG;ANIMAL;DOG;DOG_WAR;L#_PUPPY;L#2EDDOG;L#2EDDOG;2;MALE;MALE;NEUTRAL;L#2EDDOG;NONE;NONE;NONE;;;;;;;P1-8;;;;65;SKIECOST;;WarDog;false;;;;;Puppy
-L#ASGUD;ANIMAL;DOG;DOG_WAR;DOG_WAR;L#ASGUD;;2;MALE;MALE;NEUTRAL;;NONE;NONE;NONE;dw2mp2mo;;;;;;P1-8;;;;65;ALABASTERSANDS;;WarDog;false;;;;;Barker
-L#NIDOG;ANIMAL;DOG;DOG_WAR;DOG_WILD;L#NIDOG;L#NIDOG;2;MALE;MALE;NEUTRAL;L#NIDOG;NONE;NONE;NONE;L#NIDOG;;;;;;P1-8;;;;65;TANGLEDISLE;;WarDog;false;;;;;Mr. Dog
-NTPOOCH;ANIMAL;DOG;DOG_WAR;DOG_WAR;Pooch;;2;MALE;MALE;NEUTRAL;;None;None;None;dw1melmo;;;;;;P1-8;;;;65;NTOTSC;;WarDog;true;true;;true;;Pooch
-MOONDOG;ANIMAL;DOG;DOG_WAR;DOG_MOON;moondog;moondog;12;SUMMONED;MALE;CONTROLLED;moondog;None;None;None;BDSUM00;;;MDOG1;IMMUNE2;;P3-12M4;;;;0;bg2;true;WarDog;false;;;;;Cerebus
+L#2EDDOG;ANIMAL;DOG;DOG_WAR;L#_PUPPY;L#2EDDOG;L#2EDDOG;2;MALE;MALE;NEUTRAL;L#2EDDOG;NONE;NONE;NONE;;;;;;;P1-8;;;;65;SKIECOST;;WarDog;true;;;;;Puppy
+L#ASGUD;ANIMAL;DOG;DOG_WAR;DOG_WAR;L#ASGUD;;2;MALE;MALE;NEUTRAL;;NONE;NONE;NONE;dw2mp2mo;;;;;;P1-8;;;;65;ALABASTERSANDS;;WarDog;true;;;;;Barker
+MOONDOG;ANIMAL;DOG;DOG_WAR;DOG_MOON;moondog;moondog;12;SUMMONED;MALE;CONTROLLED;moondog;None;None;None;BDSUM00;;;MDOG1;IMMUNE2;;P3-12M4;;;;0;bg2;true;MoonDog;true;;;;;Cerebus
 OBSFIR05;ANIMAL;DOG;DOG_WAR;WOLF_DIRE;None;;7;MALE;MALE;ENEMY;GENSHT01;None;None;HELHOU01;dw2mp2mo;;;SEEINVIS;;;P1-10;;;;1400;bg2;;WarDog;false;;;;;Hell Hound
 OHDCDAWG;ANIMAL;DOG;DOG_WAR;DOG_MOON;OHDCDAWG;;12;MALE;MALE;NEUTRAL;OHDCDAWG;NONE;;OHDLUGEN;dw2mp2mo;;;MDOG1;IMMUNE2;;P3-12M4;;;;1500;bg2;;WarDog;false;;;;;Celestial Hound
 TELDOG;ANIMAL;DOG;DOG_WAR;DOG_MOON;teldog;None;12;MALE;MALE;ENEMY;GRPSHT01;teldog;None;None;dw2mp2mo;;;MDOG1;;;P3-12M4;;;;9000;bg2;;WarDog;false;;;;;Aranthis
-DOGWA;ANIMAL;DOG;DOG_WAR;DOG_WAR;None;;2;MALE;MALE;ENEMY;dw#gpshm;WARDOG;None;None;dw1melmo;;;;;;P1-8;;;;65;bg1;;WarDog;true;true;;;;War Dog
+D0FUNDOG;ANIMAL;DOG;HUNTER_CREATURE;DOG_WAR;d0fundog;None;1;MALE;MALE;NEUTRAL;D0FUNDOG;None;None;;;;;;;;P1-4;;;;15;D0QUESTPACK;;WarDog;true;;;true;;Dog
+DADOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;dadog;dadog;2;MALE;MALE;NEUTRAL;WARDOG;UDGO;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;true;;;true;;Dog
+DOGWAR01;ANIMAL;DOG;DOG_WAR;DOG_WAR;None;;2;MALE;MALE;ENEMY;WARDOG;None;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;true;;;;;War Dog
+FAMWAR;ANIMAL;DOG;DOG_WAR;DOG_WAR;famwar;;2;MALE;MALE;ALLY;;None;None;None;;;;FAMMY;;;P1-8;;;;0;bg2;;WarDog;true;;;;;War Dog
+FSDOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;FSDog;FSDog;2;MALE;MALE;NEUTRAL;WARDOG;None;None;None;dw2mp2mo;;;;;;P1-8;;;;65;bg2;;WarDog;true;;;;;War Dog
+GPDOG1;ANIMAL;DOG;DOG_WAR;DOG_WAR;famwar;;4;MALE;MALE;ENEMY;gpshout;gpdog1;None;;dw2mp2mo;;;;;;P1-8;;;;0;bg2;;WarDog;true;;;;;War Dog
+L#NIDOG;ANIMAL;DOG;DOG_WAR;DOG_WILD;L#NIDOG;L#NIDOG;2;MALE;MALE;NEUTRAL;L#NIDOG;NONE;NONE;NONE;L#NIDOG;;;;;;P1-8;;;;65;TANGLEDISLE;;WarDog;true;;;;;Mr. Dog
+BDPRISD1;ANIMAL;DOG;DOG_WAR;DOG_WAR;BDPRISD1;;1;MALE;MALE;NEUTRAL;bdprisd1;None;BDSHOUT;BDFIGH01;;;;;;;P2-8;;;;0;bg1;;WarDog;true;true;true;true;;Dog
+BDPRISD2;ANIMAL;DOG;DOG_WAR;DOG_WAR;BDPRISD2;;1;MALE;MALE;NEUTRAL;bdprisd1;None;BDSHOUT;BDFIGH01;;;;;;;P2-8;;;;0;bg1;;WarDog;true;true;true;true;;Dog
+UBNIMDOG;ANIMAL;DOG;DOG_WAR;DOG_WAR;ubnimdog;ubnimdog;2;MALE;MALE;NEUTRAL;ubnimdog;;;;;;;;;;P1-8;;;;65;bg1ub;;WarDog;true;true;;;;Hunting Dog
+NTPOOCH;ANIMAL;DOG;DOG_WAR;DOG_WAR;Pooch;;2;MALE;MALE;NEUTRAL;;None;None;None;dw1melmo;;;;;;P1-8;;;;65;NTOTSC;;WarDog;true;true;;true;;Pooch
+DOGWA;ANIMAL;DOG;DOG_WAR;DOG_WAR;None;;2;MALE;MALE;ENEMY;dw#gpshm;WARDOG;None;None;dw1melmo;;;;;;P1-8;;;;65;bg1;;WarDog;true;true;;true;;War Dog
 DOGWASU;ANIMAL;DOG;DOG_WAR;DOG_WAR;None;;2;SUMMONED;MALE;ALLY;None;None;;None;DVMELEE;;;;;;DOGWASU;;;;0;bg1,bg2;true;WarDog;true;true;;true;;War Dog
 L#RVGOLE;GIANTHUMANOID;GOLEM;GOLEM_CLAY;OGRILLON;L#RVGOLE;;9;NIETHER;MALE;ENEMY;;;NONE;NONE;dw2mc2mo;;;IMMUNE1;;;GOLFLE;;;;3500;BLOODIEDSTINGSOFBAROVIA;;WaxGolem;true;true;true;true;;Wax Golem
 AC#FPOBL;MONSTER;SLIME;GREY_OOZE;GRAY_OOZE;AC#FPOBL;;3;NIETHER;MALE;ENEMY;AC#FPOBL;None;None;None;dw1ranmo;;;RING95;;;OOZEGR1;;;;900;Loretakers;;WhitePudding;false;;;;;Oblex
@@ -1377,7 +1375,7 @@ A#FERA01;ANIMAL;DOG;DOG_WILD;DOG_WILD;;;1;MALE;MALE;CONTROLLED;DIREWOLF;None;Non
 CB585AN4;ANIMAL;DOG;DOG_WILD;DOG_WILD;None;;1;MALE;MALE;ENEMY;;None;None;None;dw2mp2mo;;;;;;P1-4;;;;35;ctb;;WildDog;true;;;;;Wild Dog
 CB585AN6;ANIMAL;DOG;DOG_WILD;DOG_WILD;None;;1;MALE;MALE;ENEMY;;None;None;None;dw2mp2mo;;;;;;P1-4;;;;35;ctb;;WildDog;true;;;;;Wild Dog
 DOGWIL01;ANIMAL;DOG;DOG_WILD;DOG_WILD;None;;1;MALE;MALE;ENEMY;WILDDOG;None;None;None;dw2mp2mo;;;;;;P1-4;;;;35;bg2;;WildDog;true;;;;;Wild Dog
-FAMDOG;ANIMAL;DOG;DOG_WILD;DOG_WILD;famdog;;1;MALE;MALE;ALLY;None;None;None;None;None;;;FAMMY;;;P1-4;;;;35;bg2;;WildDog;true;;;true;;Wild Dog
+FAMDOG;ANIMAL;DOG;DOG_WILD;DOG_WILD;famdog;;1;MALE;MALE;ALLY;None;None;None;None;None;;;FAMMY;;;P1-4;;;;35;bg2;;WildDog;true;;true;true;;Wild Dog
 KPDOG01;ANIMAL;DOG;DOG_WILD;DOG_WILD;kpdog01;;1;MALE;MALE;NEUTRAL;cdkpdog;None;None;None;WDRUNSGT;;;;;;P1-4;;;;35;bg2;;WildDog;true;;;true;;Sparky
 KPDOG02;ANIMAL;DOG;DOG_WILD;DOG_WILD;kpdog02;;1;MALE;MALE;NEUTRAL;cdkpdog;None;None;None;WDRUNSGT;;;;;;P1-4;;;;35;bg2;;WildDog;true;;;true;;Rex
 KPDOG03;ANIMAL;DOG;DOG_WILD;DOG_WILD;kpdog03;;1;MALE;MALE;NEUTRAL;cdkpdog;None;None;None;WDRUNSGT;;;;;;P1-4;;;;35;bg2;;WildDog;true;;;true;;Rover

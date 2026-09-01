@@ -226,20 +226,22 @@ export interface CreatureNewFile {
   stringRef?: StringReference;
 }
 
+export interface CreatureAutoGenerateSavingThrows {
+  level?: number;
+  classe?: ClassIdentifier;
+  bonus?: {
+    saveDeath?: number;
+    saveWand?: number;
+    savePolymorph?: number;
+    saveBreath?: number;
+    saveSpell?: number;
+  };
+}
+
 export interface CreatureAutoGenerate {
   thac0?: boolean;
   hitPoints?: boolean;
-  savingThrows?: {
-    level: number;
-    classe?: ClassIdentifier;
-    bonus?: {
-      saveDeath?: number;
-      saveWand?: number;
-      savePolymorph?: number;
-      saveBreath?: number;
-      saveSpell?: number;
-    };
-  };
+  savingThrows?: CreatureAutoGenerateSavingThrows;
   enchantment?: boolean;
   meleeRange?: boolean;
 }

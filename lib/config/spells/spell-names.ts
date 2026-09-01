@@ -42,6 +42,7 @@ const WIZARD_SPELLS = {
   Combust: { file: "SPWI232", id: "WIZARD_COMBUST", name: "spell.Combust.name" },
   ConeOfCold: { file: "SPWI503", id: "WIZARD_CONE_OF_COLD", name: "spell.coneOfCold.name" },
   Confusion: { file: "SPWI401", id: "WIZARD_CONFUSION", name: "spell.Confusion.name" },
+  DancingLights: { file: "SPWI126", id: "WIZARD_DANCING_LIGHTS", name: "spell.DancingLights.name" },
   Darkness15Radius: {
     file: "SPWI228",
     id: "WIZARD_DARKNESS_15_FOOT",
@@ -147,6 +148,11 @@ const WIZARD_SPELLS = {
     id: "WIZARD_NAHALS_RECKLESS_DWEOMER",
     name: "spell.NahalRecklessDweomer.name",
   },
+  NonDetection: {
+    file: "SPWI310",
+    id: "WIZARD_NON_DETECTION",
+    name: "spell.NonDetection.name",
+  },
   ObscuringMist: {
     file: "SPWI106",
     id: "WIZARD_OBSCURING_MIST",
@@ -199,6 +205,11 @@ const WIZARD_SPELLS = {
     file: "SPWI496",
     id: "WIZARD_POLYMORPH_MUSTARD_JELLY",
     name: "spell.ShapeshiftMustardJelly.name",
+  },
+  Shades: {
+    file: "SPWI632",
+    id: "WIZARD_SHADES",
+    name: "spell.Shades.name",
   },
   Shield: {
     file: "SPWI114",
@@ -314,6 +325,11 @@ const PRIEST_SPELLS = {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",
     name: "spell.CureLightWounds.name",
+  },
+  DetectEvil: {
+    file: "SPPR104",
+    id: "CLERIC_DETECT_EVIL",
+    name: "spell.DetectEvil.name",
   },
   DispelMagic: {
     file: "SPPR303",
@@ -438,6 +454,7 @@ const INNATE_SPELLS = {
     id: "MEPHIT_COLOR_SPRAY",
     name: "spell.MephitColorSpray.name",
   },
+  HealingLick: { file: "SPIN699", name: "spell.HealingLick.name" },
   SpiderSingleTargetWeb: { file: "BDSPIDGA", name: "spell.SpiderSingleTargetWeb.name" },
   VortexWeb: { file: "SPIN575", id: "VORTEX_WEB", name: "spell.VortexWeb.name" },
 } satisfies Record<string, SpellReference>;

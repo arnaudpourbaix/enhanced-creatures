@@ -4,7 +4,12 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { CreatureAbility } from "../model/creature/ability";
 import { CreatureAdjustment } from "../model/creature/adjustment";
 import { CreatureFile, Game, gamesOverlap } from "../model/creature/game";
-import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
+import {
+  BaseCreature,
+  Creature,
+  CreatureAutoGenerate,
+  CreatureAutoGenerateSavingThrows,
+} from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import {
   AttackPerRoundFigtherTable,
@@ -27,6 +32,7 @@ import monsterFilesService, { type CreatureCsvRow } from "./monster-files.servic
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
+import { WithRequired } from "../model/utility-types";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
 type IdCastActionName = "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell";
@@ -76,9 +82,7 @@ class CreatureService {
     const data = p.base.data;
     logService.log(
       `base files: ${JSON.stringify(
-        p.isAdjustment
-          ? (p.base as unknown as { files: string[] }).files
-          : p.creature.fileNames,
+        p.isAdjustment ? (p.base as unknown as { files: string[] }).files : p.creature.fileNames,
       )}`,
     );
     kitService.applyKit(p.creature, p.isAdjustment ? p.base : undefined);
@@ -483,7 +487,7 @@ class CreatureService {
     return Math.round(movement * 0.8);
   }
 
-  private getSavingThrows(p: Exclude<CreatureAutoGenerate["savingThrows"], undefined>) {
+  private getSavingThrows(p: WithRequired<CreatureAutoGenerateSavingThrows, "level">) {
     let key: keyof typeof SAVING_THROWS = "fighter";
     if (p.classe === "DRUID" || p.classe === "CLERIC") key = "priest";
     else if (p.classe === "MAGE") key = "wizard";
@@ -517,7 +521,7 @@ class CreatureService {
   }: {
     data: Partial<CreatureData>;
     parent?: CreatureData;
-    options: CreatureAutoGenerate["savingThrows"];
+    options?: CreatureAutoGenerateSavingThrows;
   }) {
     const level = data.level1;
     if (!level && !parent)
@@ -671,10 +675,9 @@ class CreatureService {
       return undefined;
     }
     const removed = new Set(
-      [
-        ...creature.data.script.remove,
-        ...adjustments.flatMap((a) => a.data.script.remove),
-      ].map((s) => s.toUpperCase()),
+      [...creature.data.script.remove, ...adjustments.flatMap((a) => a.data.script.remove)].map(
+        (s) => s.toUpperCase(),
+      ),
     );
     const kept = row.scripts.filter((s) => {
       const v = s.value.toUpperCase();
