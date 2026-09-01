@@ -29,7 +29,8 @@ function bgRow(file: string, overrides: Record<string, string> = {}): string {
 }
 
 const OLD_HEADER =
-  "file;general;race;class;anim;deathvar;dialog;origin;level;sex;allegiance;name;summon;MonsterId;ValidatedMonsterId";
+  "file;general;race;class;anim;deathvar;dialog;origin;level;sex;allegiance;name;summon;" +
+  "MonsterId;ValidatedMonsterId;ValidatedLevel;ValidatedItems;ValidatedScript";
 
 function pick(rows: Record<string, string>[], file: string): Record<string, string> {
   const row = rows.find((r) => r.file === file);
@@ -238,13 +239,16 @@ describe("buildCreatures", () => {
 
   const result = buildCreatures(bg1, bg2, old);
 
-  it("outputs the bg schema plus summon / MonsterId / ValidatedMonsterId, with name last", () => {
+  it("outputs the bg schema plus the carried columns, with name last", () => {
     const bgWithoutName = BG_HEADER.split(";").filter((c) => c !== "name");
     expect(result.outputHeader).toEqual([
       ...bgWithoutName,
       "summon",
       "MonsterId",
       "ValidatedMonsterId",
+      "ValidatedLevel",
+      "ValidatedItems",
+      "ValidatedScript",
       "name",
     ]);
   });
@@ -339,6 +343,34 @@ describe("attachCarriedColumns", () => {
     const out = attachCarriedColumns(rows, byFile);
     expect(out[0]).toMatchObject({ summon: "", MonsterId: "Nymph", ValidatedMonsterId: "true" });
     expect(out[1]).toMatchObject({ summon: "true", MonsterId: "", ValidatedMonsterId: "" });
+  });
+
+  it("carries the three Validated* review flags from the old csv by file", () => {
+    const { byFile } = indexMonsterIds(
+      parseCsv(
+        [
+          OLD_HEADER,
+          oldRow("ABELA", "Nymph", "true", {
+            ValidatedLevel: "true",
+            ValidatedItems: "",
+            ValidatedScript: "true",
+          }),
+          "",
+        ].join("\r\n"),
+      ).rows,
+    );
+    const rows = parseCsv([BG_HEADER, bgRow("ABELA"), bgRow("MISSING"), ""].join("\r\n")).rows;
+    const out = attachCarriedColumns(rows, byFile);
+    expect(out[0]).toMatchObject({
+      ValidatedLevel: "true",
+      ValidatedItems: "",
+      ValidatedScript: "true",
+    });
+    expect(out[1]).toMatchObject({
+      ValidatedLevel: "",
+      ValidatedItems: "",
+      ValidatedScript: "",
+    });
   });
 });
 

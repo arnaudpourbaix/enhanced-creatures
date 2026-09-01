@@ -169,6 +169,9 @@ export interface IdConflict {
 export interface MonsterIds {
   MonsterId: string;
   ValidatedMonsterId: string;
+  ValidatedLevel: string;
+  ValidatedItems: string;
+  ValidatedScript: string;
 }
 
 interface MonsterIdIndex {
@@ -188,6 +191,9 @@ export function indexMonsterIds(oldRows: Record<string, string>[]): MonsterIdInd
     const ids: MonsterIds = {
       MonsterId: row.MonsterId,
       ValidatedMonsterId: row.ValidatedMonsterId,
+      ValidatedLevel: row.ValidatedLevel ?? "",
+      ValidatedItems: row.ValidatedItems ?? "",
+      ValidatedScript: row.ValidatedScript ?? "",
     };
     if (ids.MonsterId) {
       const known = distinctIds.get(row.file) ?? [];
@@ -218,12 +224,25 @@ export interface BuildResult {
 }
 
 /** The columns creatures.csv carries beyond the raw bg1/bg2 extraction schema. */
-export const CARRIED_COLUMNS = ["summon", "MonsterId", "ValidatedMonsterId"];
-const EMPTY_IDS: MonsterIds = { MonsterId: "", ValidatedMonsterId: "" };
+export const CARRIED_COLUMNS = [
+  "summon",
+  "MonsterId",
+  "ValidatedMonsterId",
+  "ValidatedLevel",
+  "ValidatedItems",
+  "ValidatedScript",
+];
+const EMPTY_IDS: MonsterIds = {
+  MonsterId: "",
+  ValidatedMonsterId: "",
+  ValidatedLevel: "",
+  ValidatedItems: "",
+  ValidatedScript: "",
+};
 
 /**
- * Append the `summon` / `MonsterId` / `ValidatedMonsterId` values to each row: `summon` computed
- * from the row itself, the two ids looked up by `file` in the given index.
+ * Append the carried columns to each row: `summon` computed from the row itself, the other
+ * carried values looked up by `file` in the given index.
  */
 export function attachCarriedColumns(
   rows: Record<string, string>[],
@@ -235,6 +254,9 @@ export function attachCarriedColumns(
       ...row,
       MonsterId: ids.MonsterId,
       ValidatedMonsterId: ids.ValidatedMonsterId,
+      ValidatedLevel: ids.ValidatedLevel,
+      ValidatedItems: ids.ValidatedItems,
+      ValidatedScript: ids.ValidatedScript,
       summon: computeSummon(row),
     };
   });
