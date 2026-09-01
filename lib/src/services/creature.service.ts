@@ -581,10 +581,11 @@ class CreatureService {
     for (const f of creature.files) {
       const row = monsterFilesService.getCreatureRow(f.name, f.game);
       if (!row || row.level === undefined) continue;
-      let level = creature.data.level1.pnpValue;
+      let level = creature.data.level1?.pnpValue;
       for (const a of this.adjustmentsForFile(creature, f.name)) {
         if (a.data.level1 !== undefined) level = a.data.level1.pnpValue;
       }
+      if (level === undefined) continue; // no base and no adjustment level → nothing to compare
       if (Math.abs(row.level - level) > 2) {
         findings.push({
           file: f.name,

@@ -1447,6 +1447,12 @@ describe("creatureService.findLevelGaps", () => {
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: undefined }));
     expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
   });
+
+  it("skips a file when creature has no base level1 and no adjustment level override", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: undefined });
+    expect(creatureService.findLevelGaps(cre)).toEqual([]);
+  });
 });
 
 describe("creatureService.findOriginalScripts", () => {
