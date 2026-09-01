@@ -134,10 +134,10 @@ class DogFamily extends CreatureFamily<Dog> {
         size: "Small",
         movement: 15,
         items: {
-          remove: ["P1-4"],
+          remove: ["P1-4", "P1-3"],
         },
         script: {
-          location: "Default",
+          remove: ["WILDDOG", "dogwisu", "direwolf"],
         },
       },
     });

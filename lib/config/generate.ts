@@ -118,6 +118,7 @@ export const GLOBAL_CONFIG = {
       //"SUMSHT02", Some mods added specifics inside
       "TUTU_SCR",
       "WDASIGHT",
+      "WDRUNSGT",
       "WTASIGHT",
       "wtrunsgt",
     ],

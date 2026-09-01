@@ -132,6 +132,9 @@ class ConstructFamily extends CreatureFamily<Construct> {
       class: "FIGHTER_MAGE",
       alignment: "LAWFUL_EVIL",
       xpv: 4000,
+      items: {
+        remove: ["SW1H11"],
+      },
       spells: {
         memorized: [
           { file: SPELLS.Wizard.MagicMissiles.file, memorizedCount: 1 },

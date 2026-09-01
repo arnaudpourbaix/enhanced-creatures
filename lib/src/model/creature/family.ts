@@ -91,6 +91,11 @@ export abstract class CreatureFamily<T extends Creature>
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
   }): T {
+    logService.header(
+      `Creating ${translationService.from(p.name)} from ${translationService.from(
+        p.from.name,
+      )}...`,
+    );
     const cre = structuredClone(p.from);
     Object.setPrototypeOf(cre, p.from);
     Object.setPrototypeOf(cre.data.movement, p.from.data.movement);
@@ -114,11 +119,6 @@ export abstract class CreatureFamily<T extends Creature>
     cre.adjustments = [];
     cre.valid = undefined;
     if (p.from.attack.dualWielding) cre.data.apr++;
-    logService.header(
-      `Creating ${translationService.from(cre.name)} from ${translationService.from(
-        p.from.name,
-      )}...`,
-    );
     this.creatures.push(cre);
     return cre;
   }
