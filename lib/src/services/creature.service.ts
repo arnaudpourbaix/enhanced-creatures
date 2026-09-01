@@ -42,18 +42,14 @@ export interface CsvFinding {
   detail: string;
 }
 
-/** Per check: the creatures.csv acknowledgement column, the log keyword, and whether it warns. */
+/** Per check: the creatures.csv acknowledgement column and the log keyword. */
 const CSV_CHECK_META: Record<
   CsvCheck,
-  {
-    column: "validatedLevel" | "validatedItems" | "validatedScript";
-    keyword: string;
-    warn: boolean;
-  }
+  { column: "validatedLevel" | "validatedItems" | "validatedScript"; keyword: string }
 > = {
-  level: { column: "validatedLevel", keyword: "level gap", warn: true },
-  items: { column: "validatedItems", keyword: "items", warn: true },
-  scripts: { column: "validatedScript", keyword: "scripts", warn: false },
+  level: { column: "validatedLevel", keyword: "level gap" },
+  items: { column: "validatedItems", keyword: "items" },
+  scripts: { column: "validatedScript", keyword: "scripts" },
 };
 
 const GENERIC_SCRIPTS_REMOVED = new Set(
@@ -677,12 +673,11 @@ class CreatureService {
   }
 
   /**
-   * Log every unacknowledged creatures.csv drift for this creature, one line per source file
-   * (per game-variant row), each line starting with the file: e.g.
+   * Log every unacknowledged creatures.csv drift for this creature as a warning, one line per
+   * source file (per game-variant row), each line starting with the file: e.g.
    * `AVBEAR1 : level gap (csv 3 / def 6), items (RING95 lring), scripts (defaultScript=AVBEAR1)`.
    * The creature name is not repeated - the log already opened a `Creating <name>...` header.
-   * A row's finding is dropped when its `Validated<Check>` column is `true`. A line warns unless
-   * every part on it is a script finding (scripts are informational).
+   * A row's finding is dropped when its `Validated<Check>` column is `true`.
    */
   checkAgainstCsv(creature: Creature): void {
     const findings = [
@@ -690,24 +685,17 @@ class CreatureService {
       ...this.findPersistingItems(creature),
       ...this.findOriginalScripts(creature),
     ];
-    const rows = new Map<string, { label: string; parts: string[]; warn: boolean }>();
+    const rows = new Map<string, { label: string; parts: string[] }>();
     for (const f of findings) {
       const meta = CSV_CHECK_META[f.check];
       if (monsterFilesService.getCreatureRow(f.file, f.game)?.[meta.column]) continue;
       const key = `${f.file.toUpperCase()}|${f.game ?? ""}`;
-      const row = rows.get(key) ?? {
-        label: this.fileLabel(f.file, f.game),
-        parts: [],
-        warn: false,
-      };
+      const row = rows.get(key) ?? { label: this.fileLabel(f.file, f.game), parts: [] };
       row.parts.push(`${meta.keyword} (${f.detail})`);
-      row.warn ||= meta.warn;
       rows.set(key, row);
     }
     for (const row of rows.values()) {
-      const line = `${row.label} : ${row.parts.join(", ")}`;
-      if (row.warn) logService.warn(line);
-      else logService.info(line);
+      logService.warn(`${row.label} : ${row.parts.join(", ")}`);
     }
   }
 }

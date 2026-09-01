@@ -1674,7 +1674,6 @@ describe("creatureService.checkAgainstCsv", () => {
     mockRows(row);
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
-    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 10 }));
 
@@ -1682,7 +1681,6 @@ describe("creatureService.checkAgainstCsv", () => {
     expect(warn).toHaveBeenCalledWith(
       "AAA : level gap (csv 6 / def 10), items (RING95 lring), scripts (defaultScript=0X1DG)",
     );
-    expect(info).not.toHaveBeenCalled();
   });
 
   it("labels a level-gap line with the 'level gap' keyword", () => {
@@ -1696,16 +1694,16 @@ describe("creatureService.checkAgainstCsv", () => {
     expect(warn).toHaveBeenCalledWith("AAA : level gap (csv 6 / def 10)");
   });
 
-  it("routes a scripts-only line through logService.info", () => {
+  it("emits a scripts-only line as a warning", () => {
     const row = csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] });
     mockRows(row);
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
-    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(info).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
-    expect(warn).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
+    expect(info).not.toHaveBeenCalled();
   });
 });
