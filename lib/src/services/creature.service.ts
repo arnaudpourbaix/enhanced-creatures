@@ -648,28 +648,45 @@ class CreatureService {
     const findings: CsvFinding[] = [];
     for (const f of creature.files) {
       for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
-        const removed = new Set(
-          [
-            ...creature.data.script.remove,
-            ...this.adjustmentsForFile(creature, f.name, row.game).flatMap(
-              (a) => a.data.script.remove,
-            ),
-          ].map((s) => s.toUpperCase()),
-        );
-        const kept = row.scripts.filter((s) => {
-          const v = s.value.toUpperCase();
-          return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
-        });
-        if (!kept.length) continue;
-        findings.push({
-          file: f.name,
-          game: row.game,
-          check: "scripts",
-          detail: kept.map((s) => `${s.slot}=${s.value}`).join(", "),
-        });
+        const finding = this.scriptFindingForRow(creature, f, row);
+        if (finding) findings.push(finding);
       }
     }
     return findings;
+  }
+
+  private scriptFindingForRow(
+    creature: Creature,
+    f: CreatureFile,
+    row: CreatureCsvRow,
+  ): CsvFinding | undefined {
+    const adjustments = this.adjustmentsForFile(creature, f.name, row.game);
+    // `script.location: "None"` (on the base, or on an adjustment covering this file) is a
+    // deliberate "don't manage this creature's scripts" - the original AI staying is the point,
+    // not drift, so don't warn about it.
+    if (
+      creature.data.script.location === "None" ||
+      adjustments.some((a) => a.data.script.location === "None")
+    ) {
+      return undefined;
+    }
+    const removed = new Set(
+      [
+        ...creature.data.script.remove,
+        ...adjustments.flatMap((a) => a.data.script.remove),
+      ].map((s) => s.toUpperCase()),
+    );
+    const kept = row.scripts.filter((s) => {
+      const v = s.value.toUpperCase();
+      return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
+    });
+    if (!kept.length) return undefined;
+    return {
+      file: f.name,
+      game: row.game,
+      check: "scripts",
+      detail: kept.map((s) => `${s.slot}=${s.value}`).join(", "),
+    };
   }
 
   /**

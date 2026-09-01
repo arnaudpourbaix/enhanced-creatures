@@ -1347,12 +1347,14 @@ function creatureWith(p: {
   level1?: number;
   itemsRemove?: string[];
   scriptRemove?: string[];
+  scriptLocation?: string;
   adjustments?: {
     files: string[];
     game?: Game;
     level1?: number;
     itemsRemove?: string[];
     scriptRemove?: string[];
+    scriptLocation?: string;
   }[];
 }): Creature {
   return {
@@ -1361,7 +1363,7 @@ function creatureWith(p: {
     data: {
       level1: p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
       items: { remove: p.itemsRemove ?? [], equipped: [] },
-      script: { remove: p.scriptRemove ?? [] },
+      script: { remove: p.scriptRemove ?? [], location: p.scriptLocation },
     },
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
@@ -1369,7 +1371,7 @@ function creatureWith(p: {
       data: {
         level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
         items: { remove: a.itemsRemove ?? [], equipped: [] },
-        script: { remove: a.scriptRemove ?? [] },
+        script: { remove: a.scriptRemove ?? [], location: a.scriptLocation },
       },
     })),
   } as unknown as Creature;
@@ -1379,6 +1381,8 @@ function creatureWith(p: {
 function mockRows(...rows: CreatureCsvRow[]) {
   return vi.spyOn(monsterFilesService, "getCreatureRows").mockReturnValue(rows);
 }
+
+const OVERRIDE_0X1DG_DETAIL = "overrideScript=0X1DG";
 
 describe("creatureService.findPersistingItems", () => {
   afterEach(() => vi.restoreAllMocks());
@@ -1557,7 +1561,7 @@ describe("creatureService.findOriginalScripts", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findOriginalScripts(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "scripts", detail: "overrideScript=0X1DG" },
+      { file: "AAA", game: undefined, check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
     ]);
   });
 
@@ -1577,6 +1581,37 @@ describe("creatureService.findOriginalScripts", () => {
     expect(creatureService.findOriginalScripts(cre)).toEqual([]);
   });
 
+  it("reports nothing when the base script.location is None (scripts deliberately unmanaged)", () => {
+    mockRows(csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, scriptLocation: "None" });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("reports nothing for a file whose adjustment sets script.location None", () => {
+    mockRows(csvRow({ file: "OHDANIM1", scripts: [{ slot: "defaultScript", value: "AVBEAR1" }] }));
+    const cre = creatureWith({
+      files: [{ name: "OHDANIM1" }],
+      level1: 3,
+      adjustments: [{ files: ["OHDANIM1"], scriptLocation: "None" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("still reports the bg1 row when only a bg2-tagged adjustment sets script.location None", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+      csvRow({ file: "AAA", game: "bg2", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], game: "bg2", scriptLocation: "None" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: "bg1", check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
+    ]);
+  });
+
   it("does not let a bg2-tagged script.remove clear the bg1 row's script", () => {
     mockRows(
       csvRow({ file: "AAA", game: "bg1", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
@@ -1588,7 +1623,7 @@ describe("creatureService.findOriginalScripts", () => {
       adjustments: [{ files: ["AAA"], game: "bg2", scriptRemove: ["0X1DG"] }],
     });
     expect(creatureService.findOriginalScripts(cre)).toEqual([
-      { file: "AAA", game: "bg1", check: "scripts", detail: "overrideScript=0X1DG" },
+      { file: "AAA", game: "bg1", check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
     ]);
   });
 });
