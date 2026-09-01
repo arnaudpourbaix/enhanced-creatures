@@ -6,6 +6,9 @@ import monsterFilesService, {
   parseMonsterFilesCsv,
   parseMonsterSummonFilesCsv,
   parseUnvalidatedMonsterFilesCsv,
+  parseCreatureRowsCsv,
+  pickCreatureRow,
+  CreatureCsvRow,
 } from "./monster-files.service";
 
 const HEADER =
@@ -231,5 +234,109 @@ describe("monsterFilesService.getName", () => {
 
   it("returns undefined for an unknown file", () => {
     expect(monsterFilesService.getName("NOT_A_REAL_FILE_ID")).toBeUndefined();
+  });
+});
+
+const ROW_HEADER =
+  "file;level;overrideScript;classScript;raceScript;generalScript;defaultScript;" +
+  "helmet;shield;lring;rring;amulet;weapon1;weapon2;weapon3;weapon4;" +
+  "MonsterId;ValidatedMonsterId;ValidatedLevel;ValidatedItems;ValidatedScript;game;name";
+
+// column order for a ROW_HEADER row:
+// file;level;override;class;race;general;default;helmet;shield;lring;rring;amulet;
+// weapon1;weapon2;weapon3;weapon4;MonsterId;ValidatedMonsterId;VLevel;VItems;VScript;game;name
+
+describe("parseCreatureRowsCsv", () => {
+  it("extracts level, slot items and scripts in canonical order, dropping blanks", () => {
+    const csv = [
+      ROW_HEADER,
+      "ABELA;6;RR#PICKP;None;None;None;wtrunsgt;;;RING95;;;SW1H01;;;;Nymph;true;;;;;Abela",
+    ].join("\n");
+
+    expect(parseCreatureRowsCsv(csv).get("ABELA")).toEqual([
+      {
+        file: "ABELA",
+        game: undefined,
+        level: 6,
+        items: [
+          { slot: "lring", file: "RING95" },
+          { slot: "weapon1", file: "SW1H01" },
+        ],
+        scripts: [
+          { slot: "overrideScript", value: "RR#PICKP" },
+          { slot: "classScript", value: "None" },
+          { slot: "raceScript", value: "None" },
+          { slot: "generalScript", value: "None" },
+          { slot: "defaultScript", value: "wtrunsgt" },
+        ],
+        validatedLevel: false,
+        validatedItems: false,
+        validatedScript: false,
+      },
+    ]);
+  });
+
+  it("parses a blank or non-numeric level as undefined", () => {
+    const csv = [
+      ROW_HEADER,
+      "AAA;;None;None;None;None;None;;;;;;;;;;Nymph;true;;;;;A",
+      "BBB;x;None;None;None;None;None;;;;;;;;;;Nymph;true;;;;;B",
+    ].join("\n");
+    const m = parseCreatureRowsCsv(csv);
+    expect(m.get("AAA")![0].level).toBeUndefined();
+    expect(m.get("BBB")![0].level).toBeUndefined();
+  });
+
+  it("reads the three Validated* flags, treating only 'true' as set", () => {
+    const csv = [
+      ROW_HEADER,
+      "AAA;1;None;None;None;None;None;;;;;;;;;;N;true;true;false;;;A",
+    ].join("\n");
+    const row = parseCreatureRowsCsv(csv).get("AAA")![0];
+    expect([row.validatedLevel, row.validatedItems, row.validatedScript]).toEqual([true, false, false]);
+  });
+
+  it("defaults the flags to false when the columns are absent", () => {
+    const csv = ["file;level;game;name", "AAA;1;;A"].join("\n");
+    const row = parseCreatureRowsCsv(csv).get("AAA")![0];
+    expect([row.validatedLevel, row.validatedItems, row.validatedScript]).toEqual([false, false, false]);
+  });
+
+  it("groups game-tagged duplicate rows under the uppercased file key", () => {
+    const csv = [
+      ROW_HEADER,
+      "gorf;3;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg1;Gorf",
+      "gorf;5;None;None;None;None;None;;;;;;;;;;Ogre;true;;;;bg2;Big Gorf",
+    ].join("\n");
+    const rows = parseCreatureRowsCsv(csv).get("GORF")!;
+    expect(rows.map((r) => [r.game, r.level])).toEqual([["bg1", 3], ["bg2", 5]]);
+  });
+});
+
+describe("pickCreatureRow", () => {
+  const mk = (game: CreatureCsvRow["game"]): CreatureCsvRow => ({
+    file: "X", game, level: 0, items: [], scripts: [],
+    validatedLevel: false, validatedItems: false, validatedScript: false,
+  });
+
+  it("prefers an exact game match", () => {
+    expect(pickCreatureRow([mk(undefined), mk("bg2")], "bg2")!.game).toBe("bg2");
+  });
+  it("falls back to the untagged row", () => {
+    expect(pickCreatureRow([mk(undefined), mk("bg1")], "bg2")!.game).toBeUndefined();
+  });
+  it("falls back to the first row when nothing else matches", () => {
+    expect(pickCreatureRow([mk("bg1"), mk("bg2")], undefined)!.game).toBe("bg1");
+  });
+});
+
+describe("monsterFilesService.getCreatureRow", () => {
+  it("returns a parsed row for a known file, case-insensitively", () => {
+    const row = monsterFilesService.getCreatureRow("abela", undefined);
+    expect(row?.file.toUpperCase()).toBe("ABELA");
+    expect(typeof row?.level === "number" || row?.level === undefined).toBe(true);
+  });
+  it("returns undefined for an unknown file", () => {
+    expect(monsterFilesService.getCreatureRow("NOT_A_REAL_FILE_ID", undefined)).toBeUndefined();
   });
 });

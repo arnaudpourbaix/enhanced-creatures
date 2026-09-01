@@ -11,6 +11,17 @@ const DIALOG_COLUMN = "dialog";
 const SUMMON_COLUMN = "summon";
 const NAME_COLUMN = "name";
 const GAME_COLUMN = "game";
+const LEVEL_COLUMN = "level";
+const SLOT_COLUMNS = [
+  "helmet", "shield", "lring", "rring", "amulet",
+  "weapon1", "weapon2", "weapon3", "weapon4",
+] as const;
+const SCRIPT_COLUMNS = [
+  "overrideScript", "classScript", "raceScript", "generalScript", "defaultScript",
+] as const;
+const VALIDATED_LEVEL_COLUMN = "ValidatedLevel";
+const VALIDATED_ITEMS_COLUMN = "ValidatedItems";
+const VALIDATED_SCRIPT_COLUMN = "ValidatedScript";
 
 function gameValue(raw: string | undefined): Game | undefined {
   const v = (raw ?? "").trim().toLowerCase();
@@ -22,6 +33,70 @@ function gameValue(raw: string | undefined): Game | undefined {
 function csvLines(raw: string): string[] {
   const body = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
   return body.split(/\r?\n/).filter((line) => line.length > 0);
+}
+
+export interface CreatureCsvRow {
+  file: string;
+  game?: Game;
+  level: number | undefined;
+  items: { slot: string; file: string }[];
+  scripts: { slot: string; value: string }[];
+  validatedLevel: boolean;
+  validatedItems: boolean;
+  validatedScript: boolean;
+}
+
+export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]> {
+  const lines = csvLines(raw);
+  const header = lines[0].split(";");
+  const at = (col: string) => header.indexOf(col);
+  const fileIdx = at(FILE_COLUMN);
+  const gameIdx = at(GAME_COLUMN);
+  const levelIdx = at(LEVEL_COLUMN);
+  const slotIdx = SLOT_COLUMNS.map((slot) => ({ slot, i: at(slot) }));
+  const scriptIdx = SCRIPT_COLUMNS.map((slot) => ({ slot, i: at(slot) }));
+  const vLevelIdx = at(VALIDATED_LEVEL_COLUMN);
+  const vItemsIdx = at(VALIDATED_ITEMS_COLUMN);
+  const vScriptIdx = at(VALIDATED_SCRIPT_COLUMN);
+
+  const result = new Map<string, CreatureCsvRow[]>();
+  for (const line of lines.slice(1)) {
+    const fields = line.split(";");
+    const file = fields[fileIdx] ?? "";
+    if (!file) continue;
+    const levelRaw = (fields[levelIdx] ?? "").trim();
+    const levelNum = Number(levelRaw);
+    const row: CreatureCsvRow = {
+      file,
+      game: gameValue(fields[gameIdx]),
+      level: levelRaw === "" || Number.isNaN(levelNum) ? undefined : levelNum,
+      items: slotIdx
+        .filter(({ i }) => i >= 0 && (fields[i] ?? "").trim() !== "")
+        .map(({ slot, i }) => ({ slot, file: fields[i].trim() })),
+      scripts: scriptIdx
+        .filter(({ i }) => i >= 0 && (fields[i] ?? "").trim() !== "")
+        .map(({ slot, i }) => ({ slot, value: fields[i].trim() })),
+      validatedLevel: (fields[vLevelIdx] ?? "") === "true",
+      validatedItems: (fields[vItemsIdx] ?? "") === "true",
+      validatedScript: (fields[vScriptIdx] ?? "") === "true",
+    };
+    const key = file.toUpperCase();
+    const existing = result.get(key);
+    if (existing) existing.push(row);
+    else result.set(key, [row]);
+  }
+  return result;
+}
+
+export function pickCreatureRow(
+  rows: CreatureCsvRow[],
+  game: Game | undefined,
+): CreatureCsvRow | undefined {
+  return (
+    rows.find((r) => r.game === game) ??
+    rows.find((r) => r.game === undefined) ??
+    rows[0]
+  );
 }
 
 export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
@@ -144,6 +219,7 @@ class MonsterFilesService {
   private dialogRowsByMonster?: Map<string, { file: string; deathvar: string; dialog: string }[]>;
   private summonFilesByMonster?: Map<string, CreatureFile[]>;
   private namesByFile?: Map<string, string>;
+  private creatureRowsByFile?: Map<string, CreatureCsvRow[]>;
 
   getFiles(monster: MonsterEnum): CreatureFile[] {
     this.filesByMonster ??= parseMonsterFilesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
@@ -170,6 +246,12 @@ class MonsterFilesService {
   getName(file: string): string | undefined {
     this.namesByFile ??= parseFileNamesCsv(fs.readFileSync(CSV_PATH, "utf-8"));
     return this.namesByFile.get(file.toUpperCase());
+  }
+
+  getCreatureRow(file: string, game: Game | undefined): CreatureCsvRow | undefined {
+    this.creatureRowsByFile ??= parseCreatureRowsCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+    const rows = this.creatureRowsByFile.get(file.toUpperCase());
+    return rows?.length ? pickCreatureRow(rows, game) : undefined;
   }
 }
 
