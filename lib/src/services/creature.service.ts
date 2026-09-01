@@ -1,7 +1,9 @@
 import figureSet from "figures";
 import { getAllSpells } from "../../config/spells/spell-names";
+import { GLOBAL_CONFIG } from "../../config/generate";
 import { CreatureAbility } from "../model/creature/ability";
 import { CreatureAdjustment } from "../model/creature/adjustment";
+import { Game } from "../model/creature/game";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import {
@@ -29,6 +31,16 @@ import spellService from "./spell.service";
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
 type IdCastActionName = "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell";
 type IdCastAction = Extract<Actions.Action, { name: IdCastActionName }>;
+
+export interface CsvFinding {
+  file: string;
+  game?: Game;
+  detail: string;
+}
+
+const GENERIC_SCRIPTS_REMOVED = new Set(
+  GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove.map((s) => s.toUpperCase()),
+);
 
 class CreatureService {
   check(creature: Creature) {
@@ -534,6 +546,80 @@ class CreatureService {
       throw new Error(`dexterity not found in table: ${data.dexterity}`);
     }
     return item.ac;
+  }
+
+  private adjustmentsForFile(creature: Creature, file: string): CreatureAdjustment[] {
+    const upper = file.toUpperCase();
+    return creature.adjustments.filter((a) => a.files.some((f) => f.toUpperCase() === upper));
+  }
+
+  findPersistingItems(creature: Creature): CsvFinding[] {
+    const findings: CsvFinding[] = [];
+    for (const f of creature.files) {
+      const row = monsterFilesService.getCreatureRow(f.name, f.game);
+      if (!row) continue;
+      const removed = new Set(
+        [
+          ...creature.data.items.remove,
+          ...this.adjustmentsForFile(creature, f.name).flatMap((a) => a.data.items.remove),
+        ].map((r) => r.toUpperCase()),
+      );
+      const persisting = row.items.filter((it) => !removed.has(it.file.toUpperCase()));
+      if (persisting.length) {
+        findings.push({
+          file: f.name,
+          game: f.game,
+          detail: `${f.name} (${persisting.map((it) => `${it.file} ${it.slot}`).join(", ")})`,
+        });
+      }
+    }
+    return findings;
+  }
+
+  findLevelGaps(creature: Creature): CsvFinding[] {
+    const findings: CsvFinding[] = [];
+    for (const f of creature.files) {
+      const row = monsterFilesService.getCreatureRow(f.name, f.game);
+      if (!row || row.level === undefined) continue;
+      let level = creature.data.level1.pnpValue;
+      for (const a of this.adjustmentsForFile(creature, f.name)) {
+        if (a.data.level1 !== undefined) level = a.data.level1.pnpValue;
+      }
+      if (Math.abs(row.level - level) > 2) {
+        findings.push({
+          file: f.name,
+          game: f.game,
+          detail: `${f.name} (csv ${row.level} / def ${level})`,
+        });
+      }
+    }
+    return findings;
+  }
+
+  findOriginalScripts(creature: Creature): CsvFinding[] {
+    const findings: CsvFinding[] = [];
+    for (const f of creature.files) {
+      const row = monsterFilesService.getCreatureRow(f.name, f.game);
+      if (!row) continue;
+      const removed = new Set(
+        [
+          ...creature.data.script.remove,
+          ...this.adjustmentsForFile(creature, f.name).flatMap((a) => a.data.script.remove),
+        ].map((s) => s.toUpperCase()),
+      );
+      const kept = row.scripts.filter((s) => {
+        const v = s.value.toUpperCase();
+        return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
+      });
+      if (kept.length) {
+        findings.push({
+          file: f.name,
+          game: f.game,
+          detail: `${f.name} (${kept.map((s) => `${s.slot}=${s.value}`).join(", ")})`,
+        });
+      }
+    }
+    return findings;
   }
 }
 

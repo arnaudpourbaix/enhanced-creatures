@@ -1,4 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
+import type { CreatureCsvRow } from "./monster-files.service";
+import type { Game } from "../model/creature/game";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import {
   CreatureData,
@@ -1330,5 +1332,160 @@ describe("checkAdjustmentFiles", () => {
       ],
     } as unknown as Creature;
     expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
+  });
+});
+
+function csvRow(over: Partial<CreatureCsvRow>): CreatureCsvRow {
+  return {
+    file: "F", game: undefined, level: undefined, items: [], scripts: [],
+    validatedLevel: false, validatedItems: false, validatedScript: false, ...over,
+  };
+}
+
+function creatureWith(p: {
+  files: { name: string; game?: Game }[];
+  level1?: number;
+  itemsRemove?: string[];
+  scriptRemove?: string[];
+  adjustments?: {
+    files: string[];
+    level1?: number;
+    itemsRemove?: string[];
+    scriptRemove?: string[];
+  }[];
+}): Creature {
+  return {
+    name: "test.name",
+    files: p.files,
+    data: {
+      level1: p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
+      items: { remove: p.itemsRemove ?? [], equipped: [] },
+      script: { remove: p.scriptRemove ?? [] },
+    },
+    adjustments: (p.adjustments ?? []).map((a) => ({
+      files: a.files,
+      data: {
+        level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
+        items: { remove: a.itemsRemove ?? [], equipped: [] },
+        script: { remove: a.scriptRemove ?? [] },
+      },
+    })),
+  } as unknown as Creature;
+}
+
+describe("creatureService.findPersistingItems", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports a slot item that no remove list clears", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }, { slot: "lring", file: "RING95" }] }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, detail: "AAA (P1-4 weapon1)" },
+    ]);
+  });
+
+  it("treats an adjustment's remove list as clearing items for that adjustment's files only", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], itemsRemove: ["P1-4"] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports an item that is only re-equipped, never removed", () => {
+    // re-equip is modelled elsewhere; the finder only inspects `remove`
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: [] });
+    expect(creatureService.findPersistingItems(cre)).toHaveLength(1);
+  });
+
+  it("skips files with no csv row", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(undefined);
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+});
+
+describe("creatureService.findLevelGaps", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports a gap greater than 2 against the base level1", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 10 });
+    expect(creatureService.findLevelGaps(cre)).toEqual([
+      { file: "AAA", game: undefined, detail: "AAA (csv 6 / def 10)" },
+    ]);
+  });
+
+  it("does not report a gap of exactly 2", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: 8 }));
+    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+  });
+
+  it("uses the last adjustment that sets level1 for the file", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 10,
+      adjustments: [
+        { files: ["AAA"] },              // no level1 - ignored
+        { files: ["AAA"], level1: 7 },   // wins
+      ],
+    });
+    expect(creatureService.findLevelGaps(cre)).toEqual([]); // |6-7| = 1
+  });
+
+  it("skips a file whose csv level is blank", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(csvRow({ file: "AAA", level: undefined }));
+    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+  });
+});
+
+describe("creatureService.findOriginalScripts", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports scripts that are neither None, in script.remove, nor generic", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({
+        file: "AAA",
+        scripts: [
+          { slot: "overrideScript", value: "0X1DG" },
+          { slot: "classScript", value: "None" },
+          { slot: "defaultScript", value: "WTASIGHT" }, // in genericScriptsToRemove
+        ],
+      }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: undefined, detail: "AAA (overrideScript=0X1DG)" },
+    ]);
+  });
+
+  it("is cleared when the script is listed in data.script.remove (case-insensitive)", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0x1dg" }] }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, scriptRemove: ["0X1DG"] });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("is cleared by an adjustment's script.remove for that adjustment's files", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(
+      csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], scriptRemove: ["0X1DG"] }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
   });
 });
