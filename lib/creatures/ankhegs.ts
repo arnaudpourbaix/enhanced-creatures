@@ -184,7 +184,7 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
       { files: ["BDANKH01"], data: { level1: 10 } },
       { files: ["L#MIMMI"], data: { level1: 12, xpv: 1200 } },
       { files: ["OHDRANKH"], data: { level1: 15, xpv: 1500 } },
-      { files: ["L#NDC2"], data: { level1: 15, xpv: 1500 } },
+      { files: ["L#NDC2"], data: { level1: 16, xpv: 1500 } },
       { files: ["L#XZEANS"], data: { level1: 15, xpv: 2000, immunities: ["undead"] } },
       { files: ["L#XZEANK"], data: { level1: 15, xpv: 2000, immunities: ["undead"] } },
     ]);

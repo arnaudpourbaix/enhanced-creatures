@@ -190,7 +190,7 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Large",
         movement: 12,
         items: {
-          remove: ["B1-8"],
+          remove: ["B1-8", "S1-8", "BEARBR", "B1-8M1"],
         },
         script: {
           remove: ["CBEAR", "BEAR"],
@@ -203,7 +203,9 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    brown.setAdjustments([{ files: ["PLYBEAR1"], data: { script: { location: "None" } } }]);
+    brown.setAdjustments([
+      { files: ["PLYBEAR1", "CB595BRB"], data: { script: { location: "None" } } },
+    ]);
     return brown;
   }
 
@@ -237,7 +239,7 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["B1-10", "BEARCASU", "BEARCA"],
+          remove: ["B1-10", "BEARCASU", "BEARCA", "S1-12", "B1-12"],
         },
         script: {
           remove: ["CBEAR", "BEAR"],
@@ -250,7 +252,11 @@ class BearFamily extends CreatureFamily<Bear> {
       customCodes: [this.turningHostile],
       walk: true,
     });
-    cave.setAdjustments([{ files: ["BD328OSO"], data: { level1: 8, xpv: 900 } }]);
+    cave.setAdjustments([
+      { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
+      { files: ["BDBEARCA"], data: { level1: 9, xpv: 975 } },
+      { files: ["OHDANIM1"], data: { script: { location: "None" } } },
+    ]);
     return cave;
   }
 
@@ -284,7 +290,16 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["B1-12", "B1-12M3", "BEARPO", "BEARPOSU", "KALDW1"],
+          remove: [
+            "B1-12",
+            "B1-12M3",
+            "BEARPO",
+            "BEARPOSU",
+            "KALDW1",
+            "IMMUNE1",
+            "RING95",
+            "BEARSPIR",
+          ],
         },
         script: {
           remove: ["CBEAR", "BEAR", "kaldran", "gnsummm"],
@@ -316,6 +331,14 @@ class BearFamily extends CreatureFamily<Bear> {
               },
             ],
           },
+        },
+      },
+      {
+        files: ["SPIRBEAR"],
+        data: {
+          level1: 10,
+          immunities: ["incorporeal"],
+          //TODO: ghost fear aura
         },
       },
     ]);
@@ -352,7 +375,7 @@ class BearFamily extends CreatureFamily<Bear> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["B1-12"],
+          remove: ["B1-12", "S1-8"],
         },
         script: {
           remove: ["BEAR"],
@@ -365,7 +388,10 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    grizzly.setAdjustments([{ files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } }]);
+    grizzly.setAdjustments([
+      { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
+      { files: ["CB595GRB"], data: { script: { location: "None" } } },
+    ]);
     return grizzly;
   }
 
