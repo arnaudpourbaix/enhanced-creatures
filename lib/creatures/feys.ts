@@ -1,5 +1,5 @@
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../config/common";
-import { NEW_CREATURES, GARGANTUAN_CREATURES, INCORPOREAL_CREATURES } from "../config/creatures";
+import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../config/creatures";
 import { ITEMS, MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-names";
 import { BafExistingStringReference } from "../config/stringRef";
@@ -43,13 +43,12 @@ import {
   PortraitIconEnum,
   ProficiencyTypeEnum,
   SaveTypeEnum,
-  SpellExclusionFlagEnum,
   SpellFlagEnum,
   SpellTypeEnum,
   SummonCreatureModeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { AreaProjectileEnum, ParticleColorEnum } from "../src/model/spell-item/projectile";
+import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
 import {
   SpellProtectionRelation,
   SpellProtectionStat,
@@ -481,10 +480,10 @@ class FeyFamily extends CreatureFamily<Fey> {
         movement: 12,
         immunities: ["fey"],
         items: {
-          remove: ["ANTIWEB"],
+          remove: ["ANTIWEB", "DAGG01", "DAGG02", "DAGG03"],
         },
         script: {
-          remove: ["DRYAD"],
+          remove: ["DRYAD", "nymph"],
         },
         spells: {
           memorized: [
@@ -532,6 +531,12 @@ class FeyFamily extends CreatureFamily<Fey> {
       {
         files: ["DRYAD", "L#APEST"],
         data: { class: "INNOCENT" },
+      },
+      {
+        files: ["SUDRYAD", "OHDYARR"],
+        data: {
+          level1: 5,
+        },
       },
       {
         files: ["VA#PANDA"],

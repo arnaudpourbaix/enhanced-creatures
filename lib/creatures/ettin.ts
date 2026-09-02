@@ -76,7 +76,7 @@ class EttinFamily extends CreatureFamily<Ettin> {
         size: "Huge",
         movement: 12,
         items: {
-          remove: ["BDRINGGE", "B2-16"],
+          remove: ["BDRINGGE", "B2-16", "ETTIN", "B1-12M3", "B3-12", "BDBLUNGH"],
         },
       },
     });
@@ -93,7 +93,10 @@ class EttinFamily extends CreatureFamily<Ettin> {
       restHeal: true,
       abilities: [],
     });
-    ettin.setAdjustments([{ files: ["BDETTIN"], data: { script: { location: "None" } } }]);
+    ettin.setAdjustments([
+      { files: ["PLSHFG01", "PLSHFG02", "SAHOTY01", "D0QPSY10"], data: { level1: 12 } },
+      { files: ["BDETTIN"], data: { immunities: ["incorporeal"], script: { location: "None" } } },
+    ]);
     return ettin;
   }
 }

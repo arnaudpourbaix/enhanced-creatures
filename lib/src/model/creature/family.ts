@@ -52,6 +52,10 @@ export abstract class CreatureFamily<T extends Creature>
   constructor(id: MonsterFamilyEnum) {
     super(id);
     this.creatures = [];
+    // Opens a log section for the whole family so the family-wide spells/items built next in the
+    // subclass constructor (the "adding effect file/projectile" lines) get a heading and a blank
+    // line separating them from the previous family's output, instead of trailing under it.
+    logService.header(`Creating ${MonsterFamilyEnum[id]} family...`);
   }
 
   abstract createCreature(id: MonsterEnum): T;
