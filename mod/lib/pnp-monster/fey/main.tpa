@@ -66,7 +66,7 @@ COPY_EXISTING ~jas2f8.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10736)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10737)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~SPARKLGO~)) + 1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas2f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas2f8" END
@@ -202,7 +202,7 @@ COPY_EXISTING ~jas7f8.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR704C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10737)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10738)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPPR704B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource="SPWI105" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource="SPIN937" END
@@ -257,7 +257,7 @@ COPY_EXISTING ~jas9f8.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10738)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10739)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas9f8" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas9f8" END

@@ -11,7 +11,7 @@ COPY_EXISTING ~jas0m4e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10900)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10901)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=18 probability1=100 savingthrow=1 savebonus="2" END
@@ -40,7 +40,7 @@ COPY_EXISTING ~jas1m4e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10901)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10902)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas1m4e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 END
@@ -107,11 +107,11 @@ OUTER_SET $f_AddSecType(jas3m4e.spl) = DiseaseSecType
 // Mummy traits
 CREATE ITM "jai0m4e"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10899)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10899)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10900)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10900)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10902)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10903)
 COPY_EXISTING ~jai0m4e.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=30 target=1 global=1 parameter1="-33" parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=84 target=1 global=1 parameter1="-33" parameter2=1 timing=2 probability1=100 END
@@ -130,7 +130,7 @@ CREATE ITM "jai1m4e"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10357)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10903)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10904)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jai1m4e.itm~ ~override~
 	READ_SHORT 0x68 abicount

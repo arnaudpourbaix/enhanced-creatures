@@ -57,6 +57,7 @@ class Dog extends Creature {
         },
       },
       castSpells: p.castSpell ? [p.castSpell] : undefined,
+      grab: p.grab,
     });
   }
 
@@ -402,7 +403,7 @@ class DogFamily extends CreatureFamily<Dog> {
         size: "Medium",
         movement: 30,
         items: { remove: ["MDOG1", "IMMUNE2", "P3-12M4"] },
-        script: { remove: ["moondog"] },
+        script: { remove: ["moondog", "teldog"] },
         spells: {
           memorized: [
             { file: SPELLS.Innate.MoonDogHowl.file, memorizedCount: 1 },
@@ -450,7 +451,6 @@ class DogFamily extends CreatureFamily<Dog> {
     // The howling will also cause 5-8 points of damage per round to evil creatures within 40 feet.
     // Moon dogs can whine to dispel illusions or bark to dispel evil, once per round
     // Moon dogs can become ethereal and have the ability to travel in the ethereal and Astral plane at will.
-    moon.setAdjustments([]);
     return moon;
   }
 
@@ -499,16 +499,12 @@ class DogFamily extends CreatureFamily<Dog> {
       castSpell: {
         probability1: 5,
         spell: this.spell(Ids.BreathFire).file,
+        doc: "both",
       },
-      // grab: {
-      //   probability: 5,
-      //   trigger: "probability",
-      //   damagePerRound: {
-      //     type: EffectDamageTypeEnum.Fire,
-      //     amount: 4,
-      //   },
-      //   rounds: 1,
-      // },
+      grab: {
+        probability: 5,
+        trigger: "probability",
+      },
     });
     hellHound.setBehavior({
       abilities: [this.ability(Ids.BreathFire)],

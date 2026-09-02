@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wyvern/jam48.baf~
 CREATE SPL "jas0m48"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m48.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10884)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10885)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Poison
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10885)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10886)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=2 parameter2=2 duration=17 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 savebonus="-2" special=6 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=5 parameter2=2 duration=14 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 savebonus="-2" special=6 END
@@ -33,7 +33,7 @@ CREATE ITM "jai0m48"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10333)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IWOLF~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10886)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10887)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai0m48.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -64,7 +64,7 @@ CREATE ITM "jai1m48"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10334)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10887)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10888)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai1m48.itm~ ~override~
 	READ_SHORT 0x68 abicount
