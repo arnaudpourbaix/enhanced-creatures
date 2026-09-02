@@ -1,0 +1,142 @@
+// Generated file (don't edit)
+
+// Hell Hound
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/dog/jam7b.baf~
+
+// Breath Fire
+CREATE SPL "jas0m7b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m7b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10179)
+	WRITE_ASCII 0x10 ~CAS_M08~ #8
+	WRITE_LONG 0x18 512
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI103C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10180)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 required_level=4 STR_VAR icon="SPWI103B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=4 parameter2=524288 probability1=100 savingthrow=16777218 special=256 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 required_level=5 STR_VAR icon="SPWI103B" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=12 target=2 power=1 parameter1=5 parameter2=524288 probability1=100 savingthrow=16777218 special=256 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 required_level=6 STR_VAR icon="SPWI103B" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=12 target=2 power=1 parameter1=6 parameter2=524288 probability1=100 savingthrow=16777218 special=256 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 required_level=7 STR_VAR icon="SPWI103B" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=12 target=2 power=1 parameter1=7 parameter2=524288 probability1=100 savingthrow=16777218 special=256 END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Hell Hound traits
+CREATE ITM "jai0m7b"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10715)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10715)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10716)
+COPY_EXISTING ~jai0m7b.itm~ ~override~
+	LPF fire_immunity END
+	LPF backstab_immunity END
+	LPF seeInvisible_trait END
+
+// Jaws
+CREATE ITM "jai1m7b"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10176)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10176)
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10717)
+COPY_EXISTING ~jai1m7b.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 10
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=5 STR_VAR resource="jas0m7b" END
+	END
+
+DEFINE_ACTION_FUNCTION jam7b_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~HELLHO01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OBSFIR05~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~P1-10~
+			REMOVE_CRE_ITEM ~HELLHO~
+			REMOVE_CRE_ITEM ~SEEINVIS~
+			ADD_CRE_ITEM ~jai0m7b~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai1m7b~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_MEMORIZED_SPELL ~jas0m7b~ #0 ~innate~ (1) // Breath Fire
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=420
+					hp=32
+					ac=4
+					thac0=17
+					apr=1
+					saveDeath=13
+					saveWand=15
+					savePolymorph=14
+					saveBreath=16
+					saveSpell=16
+					level1=4
+					gender=IDS_OF_SYMBOL (~gender~ ~MALE~)
+					strength=17
+					intelligence=7
+					wisdom=13
+					dexterity=12
+					constitution=14
+					charisma=6
+					morale=13
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~DOG~)
+					class=IDS_OF_SYMBOL (~class~ ~DOG_WAR~)
+					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)
+					movement=10
+					enforce=1
+			END
+			// Assigning jam7b
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN HELHOU01 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=jam7b END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~HELLHO01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~OBSFIR05~) BEGIN 
+				WRITE_LONG 0x14 1400 // xpv
+				WRITE_SHORT 0x24 56 // hp
+				WRITE_SHORT 0x26 56 // hp
+				WRITE_BYTE 0x52 13 // thac0
+				WRITE_BYTE 0x54 10 // saveDeath
+				WRITE_BYTE 0x55 12 // saveWand
+				WRITE_BYTE 0x56 11 // savePolymorph
+				WRITE_BYTE 0x57 12 // saveBreath
+				WRITE_BYTE 0x58 13 // saveSpell
+				WRITE_BYTE 0x234 7 // level1
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
+	"HELLHO01"
+	"OBSFIR05"
+BEGIN
+	LAF jam7b_patch STR_VAR file END
+END

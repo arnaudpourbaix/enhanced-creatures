@@ -1,4 +1,4 @@
-// Banshee
+// Moon Dog
 
 // Init
 IF
@@ -21,7 +21,6 @@ THEN
 	RESPONSE #100
 		SetGlobal("JA_INIT","LOCALS",0)
 		Rest()
-		ApplySpell(Myself,RESTORE_FULL_HEALTH)
 END
 
 // Precast Stoneskin
@@ -60,7 +59,7 @@ IF
 		AttackedBy([GOODCUTOFF],DEFAULT)
 		SpellCastOnMe([GOODCUTOFF],0)
 		TookDamage()
-		Heard([EVILCUTOFF.0.WRAITH],99)
+		Heard([EVILCUTOFF.0.DOG],99)
 THEN
 	RESPONSE #100
 		Enemy()
@@ -99,8 +98,8 @@ END
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
-	Heard([EVILCUTOFF.0.WRAITH],99)
-	InMyArea([EVILCUTOFF.0.WRAITH])
+	Heard([EVILCUTOFF.0.DOG],99)
+	InMyArea([EVILCUTOFF.0.DOG])
 THEN
 	RESPONSE #100
 		SetGlobal("JA_COMBAT","LOCALS",1)
@@ -109,8 +108,8 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	Heard([EVILCUTOFF.0.WRAITH],99)
-	InMyArea([EVILCUTOFF.0.WRAITH])
+	Heard([EVILCUTOFF.0.DOG],99)
+	InMyArea([EVILCUTOFF.0.DOG])
 	!See([GOODCUTOFF])
 THEN
 	RESPONSE #100
@@ -137,13 +136,32 @@ THEN
 		NoAction()
 END
 
-// Death Wail
+// Handle Panic state
+IF
+	StateCheck(Myself,STATE_PANIC)
+	Range(NearestEnemyOf(Myself),10)
+THEN
+	RESPONSE #100
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),15)
+END
+
+IF
+	StateCheck(Myself,STATE_PANIC)
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+END
+
+// Healing Lick
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player1)
+	See(NearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -151,16 +169,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player2)
+	See(SecondNearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -168,16 +188,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player3)
+	See(ThirdNearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -185,16 +207,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player4)
+	See(FourthNearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -202,16 +226,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player5)
+	See(FifthNearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -219,16 +245,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas1m49")
+	HaveSpellRES("SPIN699")
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player6)
+	See(SixthNearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -236,21 +264,102 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas1m49",Myself)
-		RemoveSpellRES("jas1m49")
+		SpellRES("SPIN699",LastSeenBy(Myself))
 END
 
-// Fear Aura
+// Detect Invisibility
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_DETECT_INVISIBILITY)
+	Detect([PC])
+	!CheckSpellState(Myself,DETECT_INVISIBILITY)
 	RandomNumGT(801,240)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_DETECT_INVISIBILITY)
+END
+
+// Moon Dog Sight
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(MOON_DOG_HOWL)
+	!CheckSpellState(Myself,TRUE_SIGHT)
+	RandomNumGT(802,241)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,MOON_DOG_HOWL)
+END
+
+// Non Detection
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_NON_DETECTION)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_NON_DETECTION)
+END
+
+// (unknown)
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	HaveSpell(WIZARD_SHADES)
+	!HaveSpellRES("D5PP422")
+	!HaveSpellRES("D5P2632")
+	RandomNumGT(803,241)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_SHADES)
+		SetGlobalTimer("Summoning","LOCALS",12)
+END
+
+// Mirror Images
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_MIRROR_IMAGE)
+	!StateCheck(Myself,STATE_MIRRORIMAGE)
+	RandomNumGT(804,241)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_MIRROR_IMAGE)
+END
+
+// Improved Invisibility
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	Detect(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(805,242)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_IMPROVED_INVISIBILITY)
+END
+
+// Moon Dog Howl
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -258,24 +367,25 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
-	RandomNumGT(801,240)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -283,24 +393,25 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
-	RandomNumGT(801,240)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -308,24 +419,25 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
-	RandomNumGT(801,240)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -333,24 +445,25 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
-	RandomNumGT(801,240)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -358,24 +471,25 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jas0m49")
-	RandomNumGT(801,240)
+	HaveSpell(MOON_DOG_FEAR)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	Alignment(LastSeenBy(Myself),MASK_EVIL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -383,12 +497,180 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
+	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m49",Myself)
-		RemoveSpellRES("jas0m49")
+		Spell(Myself,MOON_DOG_FEAR)
+END
+
+// Darkness 15' Radius
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DARKNESS_15_FOOT)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+// Dancing Lights
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_DANCING_LIGHTS)
+END
+
+// Detect Evil
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(CLERIC_DETECT_EVIL)
+	False()
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_DETECT_EVIL)
 END
 
 // Attack Slowed enemy

@@ -8,13 +8,30 @@ export const CURE_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.CureLightWounds.file,
     ability: {
       name: SPELLS.Priest.CureLightWounds.name,
-      // selfTarget: without it, parseAbilitySpell() defaults an untargeted spell's cast target
-      // to ScriptTarget.lastSeen - wrong for a HPPercentLT(myself, ...)-triggered self-heal,
-      // which should always be cast on the caster.
-      spell: { selfTarget: true },
+      targets: [{ name: "NearestAllies" }],
+      spell: {},
+      triggers: [{ name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] }],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
-      triggers: [{ name: "HPPercentLT", params: [ScriptTarget.myself, 75] }],
+    },
+  },
+  {
+    preset: SPELLS.Innate.HealingLick.file,
+    ability: {
+      name: SPELLS.Innate.HealingLick.name,
+      targets: [{ name: "NearestAllies" }],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+      triggers: [
+        {
+          name: "Or",
+          triggers: [
+            { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
+            { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_DISEASED"] },
+          ],
+        },
+      ],
     },
   },
 ];

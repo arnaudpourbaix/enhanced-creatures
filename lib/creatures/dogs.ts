@@ -4,12 +4,16 @@ import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureGrabConfig } from "../src/model/creature/grab";
 import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   EffectColorLocationEnum,
+  EffectDamageModeEnum,
+  EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
+  EffectFlagsEnum,
   EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
@@ -18,18 +22,26 @@ import {
   ItemAbilityFlagEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTypeEnum,
+  SaveTypeEnum,
+  SpellFlagEnum,
   TranslucencyTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
+import { PartialSpellHeader, WeaponCastSpell } from "../src/model/spell-item/spell-item";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
   Blink,
+  BreathFire,
 }
 
 class Dog extends Creature {
-  createJaws(diceThrown: number, diceSize: number, castSpell?: WeaponCastSpell) {
+  createJaws(p: {
+    diceThrown: number;
+    diceSize: number;
+    castSpell?: WeaponCastSpell;
+    grab?: CreatureGrabConfig;
+  }) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.dog.weapon.jaws",
@@ -37,14 +49,14 @@ class Dog extends Creature {
         equippedSlot: ["WEAPON1"],
         header: {
           type: ItemAbilityTypeEnum.Melee,
-          diceThrown: diceThrown,
-          diceSize: diceSize,
+          diceThrown: p.diceThrown,
+          diceSize: p.diceSize,
           damageType: AbilityDamageTypeEnum.Piercing,
           speed: 3,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
         },
       },
-      castSpells: castSpell ? [castSpell] : undefined,
+      castSpells: p.castSpell ? [p.castSpell] : undefined,
     });
   }
 
@@ -91,6 +103,48 @@ class Dog extends Creature {
       },
     });
   }
+
+  /**
+   * Hell Hound Breath Fire
+   */
+  createBreathFire() {
+    const headers: PartialSpellHeader[] = [4, 5, 6, 7].map((level) => ({
+      type: ItemAbilityTypeEnum.Melee,
+      minLevel: level,
+      range: 10,
+      // projectile: "dvburnhd",
+      effects: [
+        {
+          opcode: EffectTypeEnum.Damage,
+          type: EffectDamageTypeEnum.Fire,
+          amount: level,
+          saveTypes: [SaveTypeEnum.Breath, SaveTypeEnum.BypassMirrorImage],
+          flags: [EffectFlagsEnum.SaveForHalf],
+        },
+      ],
+    }));
+    return this.addSpell({
+      name: "monster.dog.ability.breathFire.name",
+      description: "monster.dog.ability.breathFire.description",
+      id: Ids.BreathFire,
+      memorizedCount: 1,
+      icon: SPELLS.Wizard.BurningHands.file,
+      options: {
+        renew: 1,
+      },
+      castingSound: "CAS_M08",
+      flags: [SpellFlagEnum.BreakSanctuary],
+      headers,
+      ability: {
+        targets: [{ name: "NearestEnemies", limit: 3 }],
+        spell: {
+          type: "force",
+          remove: true,
+        },
+        range: 10,
+      },
+    });
+  }
 }
 
 class DogFamily extends CreatureFamily<Dog> {
@@ -101,6 +155,7 @@ class DogFamily extends CreatureFamily<Dog> {
     this.addCreature(() => this.blinkDog());
     this.addCreature(() => this.spectralHound());
     this.addCreature(() => this.moonDog());
+    this.addCreature(() => this.hellHound());
   }
 
   createCreature(id: MonsterEnum): Dog {
@@ -144,7 +199,7 @@ class DogFamily extends CreatureFamily<Dog> {
         },
       },
     });
-    wild.createJaws(1, 4);
+    wild.createJaws({ diceThrown: 1, diceSize: 4 });
     wild.setBehavior({ dialog: ["BDDOGW01"] });
     wild.setAdjustments([
       { files: ["BDDOG"], data: { class: "INNOCENT" } },
@@ -183,10 +238,9 @@ class DogFamily extends CreatureFamily<Dog> {
         size: "Medium",
         movement: 12,
         items: { remove: ["P2-8", "P1-8", "P1-4", "DOGWASU"] },
-        script: { location: "Default" },
       },
     });
-    war.createJaws(2, 4);
+    war.createJaws({ diceThrown: 2, diceSize: 4 });
     war.setAdjustments([
       { files: ["UBNIMDOG", "L#NIDOG"], data: { script: { location: "None" } } },
       { files: ["FSDOG", "L#2EDDOG"], data: { level1: 3 } },
@@ -224,11 +278,11 @@ class DogFamily extends CreatureFamily<Dog> {
         movement: 12,
         immunities: ["magicalBeast"],
         items: { remove: ["P1-6"] },
-        script: { remove: ["PSPIDER"], location: "Default" },
+        script: { remove: ["PSPIDER"] },
       },
     });
     blinkDog.createBlink();
-    blinkDog.createJaws(1, 6);
+    blinkDog.createJaws({ diceThrown: 1, diceSize: 6 });
     blinkDog.setBehavior({ abilities: [this.ability(Ids.Blink)] });
     return blinkDog;
   }
@@ -263,7 +317,7 @@ class DogFamily extends CreatureFamily<Dog> {
         items: {
           remove: ["FIGRING3", "IPSION", "BDSPIRIM", "DOGWAWP", "BDSHA01C"],
         },
-        script: { remove: ["WARDOG"], location: "Default" },
+        script: { remove: ["WARDOG"] },
       },
     });
     const shiftEffect: BaseEffect = {
@@ -315,7 +369,7 @@ class DogFamily extends CreatureFamily<Dog> {
         ],
       },
     };
-    spectralHound.createJaws(2, 6, astralPlaneShift);
+    spectralHound.createJaws({ diceThrown: 2, diceSize: 6, castSpell: astralPlaneShift });
     return spectralHound;
   }
 
@@ -348,18 +402,20 @@ class DogFamily extends CreatureFamily<Dog> {
         size: "Medium",
         movement: 30,
         items: { remove: ["MDOG1", "IMMUNE2", "P3-12M4"] },
-        script: { location: "Default" },
+        script: { remove: ["moondog"] },
         spells: {
           memorized: [
+            { file: SPELLS.Innate.MoonDogHowl.file, memorizedCount: 1 },
+            { file: SPELLS.Innate.MoonDogSight.file, memorizedCount: 1 },
             { file: SPELLS.Innate.HealingLick.file, memorizedCount: 6 },
             { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 3 },
-            { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.ImprovedInvisibility.file, memorizedCount: 1 },
+            { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: 10 },
+            { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 10 },
+            { file: SPELLS.Wizard.ImprovedInvisibility.file, memorizedCount: 10 },
             { file: SPELLS.Wizard.NonDetection.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.Shades.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.DancingLights.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.DetectEvil.file, memorizedCount: 1 },
+            { file: SPELLS.Wizard.Shades.file, memorizedCount: 10 },
+            { file: SPELLS.Wizard.DancingLights.file, memorizedCount: 10 },
+            { file: SPELLS.Priest.DetectEvil.file, memorizedCount: 10 },
             // TODO: Wall of Fog
           ],
         },
@@ -376,7 +432,7 @@ class DogFamily extends CreatureFamily<Dog> {
         },
       },
     });
-    moon.createJaws(3, 4);
+    moon.createJaws({ diceThrown: 3, diceSize: 4 });
     moon.addTrait({
       immunities: ["backstab", "infravision", "plusOneWeapons", "fear"],
       effects: [
@@ -391,13 +447,74 @@ class DogFamily extends CreatureFamily<Dog> {
     // Moon dogs prefer to attack with their keening howl.
     // This baying is harmful to evil creatures only.
     // Any evil creature within an 80-foot radius of a baying moon dog is affected as by a fear spell cast at 12th-level of magic use.
-    // Additional moon dogs baying have a cumulative effect.
     // The howling will also cause 5-8 points of damage per round to evil creatures within 40 feet.
-    // In addition, the howling will cause intense physical pain to extra-planar creatures of evil alignment so much that they are 5% likely per moon dog howling to return to their plane.
     // Moon dogs can whine to dispel illusions or bark to dispel evil, once per round
     // Moon dogs can become ethereal and have the ability to travel in the ethereal and Astral plane at will.
     moon.setAdjustments([]);
     return moon;
+  }
+
+  /**
+   * Hell Hound
+   */
+  private hellHound() {
+    const hellHound = this.create({
+      monster: MonsterEnum.HellHound,
+      name: "monster.dog.name.hellHound",
+      files: [],
+      data: {
+        level1: 4,
+        strength: 17,
+        dexterity: 12,
+        constitution: 14,
+        intelligence: 7,
+        wisdom: 13,
+        charisma: 6,
+        ac: 4,
+        apr: 1,
+        xpv: 420,
+        alignment: "LAWFUL_EVIL",
+        morale: 13,
+        general: "MONSTER",
+        race: "DOG",
+        class: "DOG_WAR",
+        gender: "MALE",
+        size: "Medium",
+        movement: 12,
+        items: {
+          remove: ["P1-10", "HELLHO", "SEEINVIS"],
+        },
+        script: { remove: ["HELHOU01"] },
+      },
+    });
+    hellHound.addTrait({
+      immunities: ["fire", "backstab", "seeInvisible"],
+    });
+    hellHound.createBreathFire();
+    // The hell hound can continue to exhale flame while biting.
+    // If the hell hound rolls a natural 20 on its attack roll, it grabs a victim in its jaws and breathes fire on the victim.
+    hellHound.createJaws({
+      diceThrown: 1,
+      diceSize: 10,
+      castSpell: {
+        probability1: 5,
+        spell: this.spell(Ids.BreathFire).file,
+      },
+      // grab: {
+      //   probability: 5,
+      //   trigger: "probability",
+      //   damagePerRound: {
+      //     type: EffectDamageTypeEnum.Fire,
+      //     amount: 4,
+      //   },
+      //   rounds: 1,
+      // },
+    });
+    hellHound.setBehavior({
+      abilities: [this.ability(Ids.BreathFire)],
+    });
+    hellHound.setAdjustments([{ files: ["HELLHO01", "OBSFIR05"], data: { level1: 7, xpv: 1400 } }]);
+    return hellHound;
   }
 }
 

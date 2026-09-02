@@ -1333,3 +1333,15 @@ export type PnPPoisonType =
   | "Q"
   | "R"
   | "S";
+
+export enum CriticalHitEffectConditionEnum {
+  Always = 0,
+  ThisWeaponOnly = 1,
+}
+
+export enum CriticalHitEffectAttackTypeEnum {
+  Any = 0,
+  Melee = 1,
+  Ranged = 2,
+  Magical = 3,
+}

@@ -147,4 +147,5 @@ export enum MonsterEnum {
   Dao = 120,
   Efreeti = 121,
   MoonDog = 122,
+  HellHound = 123,
 }

@@ -114,12 +114,17 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       war: "War Dog",
       blink: "Blink Dog",
       spectralHound: "Spectral Hound",
+      hellHound: "Hell Hound",
       moon: "Moon Dog",
     },
     weapon: { jaws: "Jaws" },
     ability: {
       blink: "Blink",
       astralPlaneShift: "Astral Plane Shift",
+      breathFire: {
+        name: "Breath Fire",
+        description: `Hell hounds attack first by breathing fire at an opponent up to 10 yards away. The fire causes 1 point of damage for each of the hell hound·s Hit Dice. A successful saving throw vs. breath weapon cuts the damage in half`,
+      },
     },
   },
   fey: {

@@ -242,4 +242,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   NonDetection: { name: "Non Detection" },
   DetectEvil: { name: "Detect Evil" },
   DancingLights: { name: "Dancing Lights" },
+  MoonDogSight: { name: "Moon Dog Sight" },
+  MoonDogHowl: { name: "Moon Dog Howl" },
+  MoonDogFear: { name: "Moon Dog Fear" },
 };

@@ -15,6 +15,7 @@ import { FNP_SPELLS } from "./spells/fnp-spell-names";
  */
 export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.Vocalize.file,
+  SPELLS.Innate.HealingLick.file,
   SPELLS.Priest.CureLightWounds.file,
   SPELLS.Priest.ResistFear.file,
   SPELLS.Wizard.DispelMagic.file,
@@ -24,8 +25,10 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.ShadowDoor.file,
   SPELLS.Wizard.Stoneskin.file,
   SPELLS.Priest.TrueSeeing.file,
+  SPELLS.Innate.MoonDogSight.file,
   SPELLS.Priest.DispelMagic.file,
   SPELLS.Priest.Ironskin.file,
+  SPELLS.Wizard.NonDetection.file,
   SPELLS.Wizard.ProtectionFromMagicalWeapons.file,
   SPELLS.Wizard.DimensionDoor.file,
   SPELLS.Wizard.TeleportField.file,
@@ -38,6 +41,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.CallWoodlandBeeings.file,
   SPELLS.Priest.AnimateDead.file,
   FNP_SPELLS.Priest.SummonShadows.file,
+  SPELLS.Wizard.Shades.file,
   FNP_SPELLS.Priest.Shades.file,
   FNP_SPELLS.Priest.AnimateDead.file,
   FNP_SPELLS.Priest.DemiShadowMonsters.file,
@@ -101,6 +105,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.RigidThinking.file,
   FNP_SPELLS.Priest.Chaos.file,
   SPELLS.Priest.CloakOfFear.file,
+  SPELLS.Innate.MoonDogHowl.file,
   FNP_SPELLS.Priest.RigidThinking.file,
   SPELLS.Priest.SummonInsects.file,
   FNP_SPELLS.Priest.CloakOfFear.file,
@@ -140,5 +145,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.Command.file,
   SPELLS.Priest.DrawUponHolyMight.file,
   FNP_SPELLS.Priest.CauseLightWounds.file,
+  SPELLS.Wizard.DancingLights.file,
   SPELLS.Priest.FindTraps.file,
+  SPELLS.Priest.DetectEvil.file,
 ];

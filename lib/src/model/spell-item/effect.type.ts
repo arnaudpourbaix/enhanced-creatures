@@ -21,6 +21,7 @@ export enum EffectTypeEnum {
   CreateItemInSlot = 143,
   CreateWeapon = 111,
   CreatureRGBColorFade = 61,
+  CriticalHitEffect = 341,
   CrushingResistanceModifier = 87,
   CureBerserk = 4,
   CureBlindness = 75,

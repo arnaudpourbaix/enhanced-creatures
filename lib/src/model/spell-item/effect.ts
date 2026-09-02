@@ -16,6 +16,8 @@ import {
   CastSpellOnConditionType,
   CharmTypeEnum,
   ColorEnum,
+  CriticalHitEffectAttackTypeEnum,
+  CriticalHitEffectConditionEnum,
   DisableButtonEnum,
   DisableSpellcastingTypeEnum,
   DiseaseTypeEnum,
@@ -103,6 +105,12 @@ export type SetColorEffect = BaseEffect & {
   opcode: EffectTypeEnum.SetColor;
   color: ColorEnum;
   location: EffectColorLocationEnum;
+};
+
+export type CriticalHitEffect = BaseEffect & {
+  opcode: EffectTypeEnum.CriticalHitEffect;
+  condition: CriticalHitEffectConditionEnum;
+  attackType: CriticalHitEffectAttackTypeEnum;
 };
 
 export type DrainEffect = BaseEffect & {
@@ -539,6 +547,7 @@ export type Effect =
   | CreateItemInSlotEffect
   | CreateWeaponEffect
   | CreatureRGBColorFadeEffect
+  | CriticalHitEffect
   | CurrentHPbonusEffect
   | DamageEffect
   | DisableButtonEffect

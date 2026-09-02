@@ -152,6 +152,10 @@ class EffectService {
         }~ ~${effect.idsEntry}~)`;
         effect.parameter2 = `${effect.idsFile}`;
         break;
+      case EffectTypeEnum.CriticalHitEffect:
+        effect.parameter2 = `${effect.condition}`;
+        effect.special = effect.attackType;
+        break;
       case EffectTypeEnum.CharacterColorPulse:
       case EffectTypeEnum.SetColorGlowPulse:
         effect.parameter1 = `${

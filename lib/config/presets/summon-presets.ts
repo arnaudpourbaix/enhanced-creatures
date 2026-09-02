@@ -104,10 +104,22 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
+  ...presetFactory.create([SPELLS.Wizard.Shades.file, FNP_SPELLS.Priest.Shades.file], {
+    spell: {
+      selfTarget: true,
+    },
+    triggers: triggerFactory.haveSpellRES(
+      [FNP_SPELLS.Priest.SummonShadows.file, FNP_SPELLS.Priest.Shades.file],
+      true,
+    ),
+    timer: summoningTrigger(),
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
-    preset: FNP_SPELLS.Priest.Shades.file,
+    preset: SPELLS.Priest.AerialServant.file,
     ability: {
-      name: FNP_SPELLS.Priest.Shades.name,
+      name: SPELLS.Priest.AerialServant.name,
       spell: {
         selfTarget: true,
       },
@@ -117,13 +129,12 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
     },
   },
   {
-    preset: SPELLS.Priest.AerialServant.file,
+    preset: SPELLS.Wizard.DancingLights.file,
     ability: {
-      name: SPELLS.Priest.AerialServant.name,
+      name: SPELLS.Wizard.DancingLights.name,
       spell: {
         selfTarget: true,
       },
-      timer: summoningTrigger(),
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

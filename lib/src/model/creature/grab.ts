@@ -1,5 +1,6 @@
 import { SPELL_STATES } from "../../../config/common";
 import { TranslationKey } from "../../../translations/i18n";
+import { DamageEffect } from "../spell-item/effect";
 import { EffectDamageTypeEnum, SaveTypeEnum } from "../spell-item/effect.enums";
 
 interface GrabSharedConfig {
@@ -34,13 +35,17 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
   onlyGrabProneTarget?: boolean;
 
   /**
+   * Grab trigger (default to both):
+   * - probability only (no save)
+   * - save only
+   * - both
+   */
+  trigger?: "probability" | "save" | "both";
+
+  /**
    * Damage per round
    */
-  damagePerRound?: {
-    diceThrown: number;
-    diceSize: number;
-    type: EffectDamageTypeEnum;
-  };
+  damagePerRound?: Omit<DamageEffect, "opcode">;
 }
 
 /**

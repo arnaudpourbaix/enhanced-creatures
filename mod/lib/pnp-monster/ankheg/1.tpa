@@ -45,10 +45,10 @@ COPY_EXISTING ~jas1m1.SPL~  ~override~
 CREATE SPL "jas3m1"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas3m1.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10404)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10407)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10640)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10646)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIMIC~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas3m1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas3m1" END
@@ -75,7 +75,7 @@ COPY_EXISTING ~jas3m1.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_PHASE~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jas3m1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_SWORD~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jas3m1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~)) duration=18 probability1=100 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10405) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10408) timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=2 power=1 parameter2=1 duration=18 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=15 target=2 power=1 parameter1=8 parameter2=1 duration=18 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=18 probability1=100 END
@@ -97,7 +97,7 @@ CREATE ITM "jai0m1"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10115)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IWOLF~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10641)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10647)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jai0m1.itm~ ~override~
 	READ_SHORT 0x68 abicount

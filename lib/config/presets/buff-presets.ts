@@ -19,6 +19,16 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Wizard.NonDetection.file,
+    ability: {
+      name: SPELLS.Wizard.NonDetection.name,
+      spell: {
+        selfTarget: true,
+      },
+      probability: 100,
+    },
+  },
+  {
     preset: SPELLS.Wizard.Invisibility.file,
     ability: {
       name: SPELLS.Wizard.Invisibility.name,

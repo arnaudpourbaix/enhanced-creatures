@@ -333,14 +333,14 @@ class BearFamily extends CreatureFamily<Bear> {
           },
         },
       },
-      {
-        files: ["SPIRBEAR"],
-        data: {
-          level1: 10,
-          immunities: ["incorporeal"],
-          //TODO: ghost fear aura
-        },
-      },
+      // {
+      //   files: ["SPIRBEAR"],
+      //   data: {
+      //     level1: 10,
+      //     immunities: ["incorporeal"],
+      //     //TODO: ghost fear aura
+      //   },
+      // },
     ]);
     return polar;
   }

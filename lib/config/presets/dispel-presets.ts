@@ -20,6 +20,30 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
+  {
+    preset: SPELLS.Priest.TrueSeeing.file,
+    ability: {
+      name: SPELLS.Priest.TrueSeeing.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Innate.MoonDogSight.file,
+    ability: {
+      name: SPELLS.Innate.MoonDogSight.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
   ...presetFactory.create(
     [
       SPELLS.Wizard.DispelMagic.file,
@@ -102,6 +126,17 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.FindTraps.file,
     ability: {
       name: SPELLS.Priest.FindTraps.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [{ name: "False" }], // leave it as a manual cast
+      requireVocal: true,
+    },
+  },
+  {
+    preset: SPELLS.Priest.DetectEvil.file,
+    ability: {
+      name: SPELLS.Priest.DetectEvil.name,
       spell: {
         selfTarget: true,
       },

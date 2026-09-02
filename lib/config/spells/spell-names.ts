@@ -455,6 +455,8 @@ const INNATE_SPELLS = {
     name: "spell.MephitColorSpray.name",
   },
   HealingLick: { file: "SPIN699", name: "spell.HealingLick.name" },
+  MoonDogSight: { file: "SPIN696", name: "spell.MoonDogSight.name", id: "MOON_DOG_HOWL" },
+  MoonDogHowl: { file: "SPIN891", name: "spell.MoonDogHowl.name", id: "MOON_DOG_FEAR" },
   SpiderSingleTargetWeb: { file: "BDSPIDGA", name: "spell.SpiderSingleTargetWeb.name" },
   VortexWeb: { file: "SPIN575", id: "VORTEX_WEB", name: "spell.VortexWeb.name" },
 } satisfies Record<string, SpellReference>;

@@ -1,4 +1,5 @@
 import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../../config/creatures";
+import effectFactory from "../../factories/effect.factory";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig, GRAB_DEFAULT_CONFIG } from "../../model/creature/grab";
 import { CreatureSizeTable } from "../../model/game-data/sizes";
@@ -26,6 +27,7 @@ import effectService from "./effect.service";
 
 class GrabService {
   attachGrabToWeapon(creature: Creature, weapon: Weapon, grab: CreatureGrabConfig) {
+    grab.trigger ??= "both";
     const spell = this.createGrabSpell(creature, grab);
     this.updateWeapon(creature, grab, weapon, spell);
   }
@@ -74,14 +76,15 @@ class GrabService {
     const sizeModifier = sizeEntry.grabModifier;
     const calculatedSaveBonus =
       (strModifier + sizeModifier + (grab.onlyGrabProneTarget ? 4 : 0)) * -1;
+    const probability = grab.probability ?? GRAB_DEFAULT_CONFIG.probability;
+    const saveTypes = [grab.saveType ?? GRAB_DEFAULT_CONFIG.saveType];
     const saveBonus = grab.saveBonus ?? calculatedSaveBonus;
     const effect = effectService.getEffect({
-      saveBonus,
       opcode: EffectTypeEnum.CastSpell,
       type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-      probability1: grab.probability ?? GRAB_DEFAULT_CONFIG.probability,
-      // ?? (not a truthy check): SaveTypeEnum.Spell is 0, a real save type, not "unset".
-      saveTypes: [grab.saveType ?? GRAB_DEFAULT_CONFIG.saveType],
+      probability1: grab.trigger === "save" ? 100 : probability,
+      saveTypes: grab.trigger === "probability" ? [] : saveTypes,
+      saveBonus: grab.trigger === "probability" ? 0 : saveBonus,
       resource: spell.file,
     });
     weapon.header.effects.push(effect);
@@ -146,12 +149,25 @@ class GrabService {
         resource: GRAB_DEFAULT_CONFIG.visualEffect,
         duration,
       },
-      {
-        opcode: EffectTypeEnum.ProtectionFromSpell,
-        resource: file,
-        duration,
-      },
     ];
+    if (grab.damagePerRound) {
+      grabEffects.push(
+        ...effectFactory.repeatEffect(grab.rounds ?? GRAB_DEFAULT_CONFIG.rounds, [
+          {
+            opcode: EffectTypeEnum.Damage,
+            type: grab.damagePerRound.type,
+            amount: grab.damagePerRound.amount,
+            diceSize: grab.damagePerRound.diceSize,
+            diceThrown: grab.damagePerRound.diceThrown,
+          },
+        ]),
+      );
+    }
+    grabEffects.push({
+      opcode: EffectTypeEnum.ProtectionFromSpell,
+      resource: file,
+      duration,
+    });
     const immunityEffects = this.getGrabImmuneEffects(creature, file);
     return [...immunityEffects, ...grabEffects];
   }
