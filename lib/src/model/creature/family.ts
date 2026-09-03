@@ -180,11 +180,21 @@ export abstract class CreatureFamily<T extends Creature>
   addCreature(build: () => T) {
     const countBefore = this.creatures.length;
     let creature: T | undefined;
+    // Buffer this creature's whole log section rather than writing it straight away, so it can be
+    // dropped below when the creature turns out to have nothing anyone can act on (no files at
+    // all, and no unvalidated creatures.csv guesses either) - just an unimplemented monster, not
+    // a bug to flag on every run.
+    logService.beginCapture();
     try {
       creature = build();
       this.applyCsvSummonFiles(creature);
       creature.validate(this.id);
+      const hasNothingToActOn =
+        !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
+      if (hasNothingToActOn) logService.discardCapture();
+      else logService.commitCapture();
     } catch (e: unknown) {
+      logService.commitCapture();
       // If the builder throws after calling create()/createFrom() (which already pushed the
       // creature onto this.creatures) but before returning, the `creature = build()` assignment
       // above never completes - fall back to the just-pushed creature so it can still be found

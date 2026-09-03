@@ -526,6 +526,10 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
     });
     flesh.setAdjustments([
+      {
+        files: ["ARNGOL01", "L#XZEGOL", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
+        stringRef: "monster.golem.name.flesh",
+      },
       // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
     ]);
     return flesh;
@@ -666,15 +670,19 @@ class GolemFamily extends CreatureFamily<Golem> {
             "GOLCLA",
             "GOLFLE",
             "GOLIRO",
+            "OHBGOL01",
             "B3-30",
             "RING95",
             "IMMUNE1",
+            "IMMUNE2",
+            "IMMUNE3",
+            "IRONGOL",
             "D5CLGOL",
             "HELMNOAN",
           ],
         },
         script: {
-          remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
+          remove: ["GOLCLY01", "BPFHT", "OHBNONIN", "O#BrynFi"],
         },
       },
     });
