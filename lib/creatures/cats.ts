@@ -384,6 +384,21 @@ class CatFamily extends CreatureFamily<Cat> {
     jaguar.setAdjustments([
       { files: ["JAGUARSU"], data: { level1: 5 } },
       { files: ["C6GUEN", "C6GUEN2"], data: { level1: 6 } },
+      {
+        files: [
+          "BDHELP04",
+          "CATJAG01",
+          "CATJAGWP",
+          "CATPAN01",
+          "CB585AN5",
+          "D9CATJ",
+          "D9CATT",
+          "OHDANIM3",
+          "TRANIM03",
+          "TREVIL05",
+        ],
+        stringRef: "monster.cat.name.jaguar",
+      },
     ]);
     return jaguar;
   }

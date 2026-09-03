@@ -507,12 +507,12 @@ class GolemFamily extends CreatureFamily<Golem> {
         movement: 8,
         immunities: ["construct"],
         items: {
-          remove: ["GOLFLE", "GOLCLA"],
+          remove: ["GOLFLE", "GOLCLA", "IMMUNE1", "B2-16"],
         },
       },
     });
     flesh.addTrait({
-      immunities: ["magic", "fire", "cold"],
+      immunities: ["magic", "fire", "cold", "nonMagicalWeapons"],
       effects: [
         {
           opcode: EffectTypeEnum.ElectricityResistanceModifier,

@@ -1304,6 +1304,7 @@ If the sirine touches an opponent, the victim must make a saving throw vs. poiso
 @10741 = ~Immune to magic
 Immune to fire
 Immune to cold
+Immune to non-magical weapons
 Electricity Resistance: 125%~
 @10742 = ~Fists
 

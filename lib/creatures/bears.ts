@@ -205,6 +205,7 @@ class BearFamily extends CreatureFamily<Bear> {
     });
     brown.setAdjustments([
       { files: ["PLYBEAR1", "CB595BRB"], data: { script: { location: "None" } } },
+      { files: ["BDBEARBR"], stringRef: "monster.bear.name.brown" },
     ]);
     return brown;
   }
@@ -332,6 +333,10 @@ class BearFamily extends CreatureFamily<Bear> {
             ],
           },
         },
+      },
+      {
+        files: ["BEARPO01", "D9ARPO01", "NTBEARPO", "OBSICE04"],
+        stringRef: "monster.bear.name.polar",
       },
       // {
       //   files: ["SPIRBEAR"],
