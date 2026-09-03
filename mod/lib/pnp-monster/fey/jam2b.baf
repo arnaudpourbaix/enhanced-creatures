@@ -1597,6 +1597,123 @@ THEN
 		SetGlobalTimer("polymorph","LOCALS",12)
 END
 
+// Mirror Images
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(WIZARD_MIRROR_IMAGE)
+	!StateCheck(Myself,STATE_MIRRORIMAGE)
+	RandomNumGT(800,240)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_MIRROR_IMAGE)
+END
+
+// Greater Malison
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player1)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player2)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player3)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player4)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player5)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_GREATER_MALISON)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(Player6)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
 // Don't break invisibility when charm is available
 IF
 	StateCheck(Myself,STATE_INVISIBLE)

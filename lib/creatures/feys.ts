@@ -14,7 +14,11 @@ import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
-import { AdditionalCode, ConditionalStatement } from "../src/model/script/script";
+import {
+  AdditionalCode,
+  ConditionalStatement,
+  PartialCustomCode,
+} from "../src/model/script/script";
 import { BaseEffect, IdsEffect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
@@ -505,7 +509,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       },
     });
     dryad.addTrait({ immunities: ["magicResistance"] });
-    dryad.setAttack({ melee: false });
     dryad.setBehavior({
       restHeal: true,
       dialog: ["CDryad", "Ulene", "L#APEST"],
@@ -514,13 +517,14 @@ class FeyFamily extends CreatureFamily<Fey> {
         this.ability(Ids.SpeakWithPlants),
         this.ability(Ids.DryadCharm),
       ],
-      additionalCodes: [this.dryadTrackTarget()],
+      additionalCodes: [this.dryadTrackTarget(), this.dryadMeleeCondition()],
       customCodes: [
         {
           location: "init",
           type: "insertBefore",
           statements: [...this.dryadWildernessAbilities(), ...this.irenicusCode()],
         },
+        this.noMeleeUntilForced(),
       ],
     });
     dryad.setAdjustments([
@@ -536,6 +540,12 @@ class FeyFamily extends CreatureFamily<Fey> {
         files: ["SUDRYAD", "OHDYARR"],
         data: {
           level1: 5,
+        },
+      },
+      {
+        files: ["OHDWNTRB", "OHDYARR"],
+        data: {
+          level1: 8,
         },
       },
       {
@@ -584,7 +594,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         movement: 15,
         immunities: ["fey"],
         items: { remove: ["ANTIWEB", "HAMASU", "AROW02"] },
-        script: { remove: ["HAMA", "HAMASU", "BDHAMADC"] },
+        script: { remove: ["HAMA", "HAMASU", "BDHAMADC", "wqxhama"] },
         spells: {
           memorized: [
             {
@@ -629,7 +639,6 @@ class FeyFamily extends CreatureFamily<Fey> {
         },
       ],
     });
-    hamadryad.setAttack({ melee: false });
     hamadryad.setBehavior({
       restHeal: true,
       dialog: ["VAELASA"],
@@ -641,7 +650,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         this.ability(Ids.AnimalFriendship),
         this.ability(Ids.DetectTraps),
       ],
-      additionalCodes: [this.dryadTrackTarget()],
+      additionalCodes: [this.dryadTrackTarget(), this.dryadMeleeCondition()],
       customCodes: [
         {
           location: "init",
@@ -652,6 +661,7 @@ class FeyFamily extends CreatureFamily<Fey> {
             ...this.cloakwoodCode(),
           ],
         },
+        this.noMeleeUntilForced(),
       ],
     });
     hamadryad.setAdjustments([
@@ -662,6 +672,14 @@ class FeyFamily extends CreatureFamily<Fey> {
       {
         files: ["WIDRYAD1", "WIDRYAD2"],
         data: { level1: 8 },
+      },
+      {
+        files: ["WQXHAMA"],
+        data: { level1: 12, ac: -2, xpv: 3650 },
+      },
+      {
+        files: ["VAELASA"],
+        data: { level1: 10 },
       },
       {
         files: ["BDHAMADC"],
@@ -699,8 +717,8 @@ class FeyFamily extends CreatureFamily<Fey> {
         size: "Medium",
         movement: 12,
         immunities: ["fey"],
-        items: { remove: ["DAGG01", "B1-6", "DVNYMPH"] },
-        script: { remove: ["BDNYMP01", "NYMPH", "DVNYMPH"] },
+        items: { remove: ["DAGG01", "B1-6", "DVNYMPH", "ANTIWEB", "DAGG02", "HGNYMPH"] },
+        script: { remove: ["BDNYMP01", "NYMPH", "DVNYMPH", "HGNYMPH"] },
         spells: {
           memorized: [
             {
@@ -799,6 +817,10 @@ class FeyFamily extends CreatureFamily<Fey> {
         files: ["ABELA"],
         data: { spells: { removeMemorized: true } },
       },
+      {
+        files: ["OHDNYMPH"],
+        data: { level1: { pnpValue: 4, value: 7, type: "caster" } },
+      },
     ]);
     return nymph;
   }
@@ -859,7 +881,7 @@ class FeyFamily extends CreatureFamily<Fey> {
           ],
         },
         script: {
-          remove: ["SIRSPELL", "SIL"],
+          remove: ["SIRSPELL", "SIL", "AC#DT30S"],
           location: "Race",
           edits: [
             {
@@ -991,8 +1013,58 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
     sirine.setAdjustments([
       { files: ["SIL"], data: { level1: 7 } },
-      { files: ["ISLSIR"], data: { level1: 11 } },
-      { files: ["MEIALA"], data: { level1: 11 } },
+      {
+        files: ["AC#DT20S"],
+        data: {
+          level1: 11,
+          xpv: 5000,
+          spells: {
+            memorized: [{ file: this.spell(Ids.CharmSong).file, memorizedCount: 2 }],
+          },
+        },
+      },
+      {
+        files: ["ISLSIR", "MEIALA", "CBLNIGHT"],
+        data: {
+          level1: 11,
+          ac: -4,
+          apr: 3,
+          xpv: 6000,
+          spells: {
+            memorized: [{ file: this.spell(Ids.CharmSong).file, memorizedCount: 2 }],
+          },
+        },
+      },
+      {
+        files: ["AC#DT30S"],
+        data: {
+          items: {
+            remove: ["COMPB05", "BOW01", "BOW05", "SIRINE1", "AROW01", "AROW05"],
+            equipped: [
+              {
+                file: "AC#DTAR2",
+                quantity: 10,
+                slot: "QUIVER1",
+                undroppable: false,
+                unstealable: true,
+              },
+              {
+                file: "AC#DTAR1",
+                quantity: 10,
+                slot: "QUIVER2",
+                undroppable: false,
+                unstealable: true,
+              },
+            ],
+          },
+          spells: {
+            memorized: [
+              { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 1 },
+              { file: SPELLS.Wizard.GreaterMalison.file, memorizedCount: 1 },
+            ],
+          },
+        },
+      },
     ]);
     return sirine;
   }
@@ -2052,6 +2124,95 @@ class FeyFamily extends CreatureFamily<Fey> {
         ]),
       },
     ];
+  }
+
+  private dryadMeleeCondition(): AdditionalCode {
+    return {
+      location: "attack",
+      triggers: triggerFactory.haveSpellRES([this.spell(Ids.DryadCharm).file], true),
+      actions: [],
+    };
+  }
+
+  private noMeleeUntilForced(): PartialCustomCode {
+    return {
+      location: "trackTargets",
+      type: "insertAfter",
+      statements: [
+        {
+          comment: "Flee from melee unless you have no spells",
+          triggers: [
+            { name: "ActionListEmpty" },
+            ...triggerFactory.haveSpellRES([this.spell(Ids.DryadCharm).file]),
+          ],
+          responses: responseFactory.response([
+            { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 45] },
+          ]),
+        },
+      ],
+    };
+  }
+
+  private whiteQueenHamadryad(): ConditionalStatement[] {
+    // IF
+    //     Global("HamaBehavior","GLOBAL",0)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         ApplySpell(Myself,WIZARD_IMPROVED_ALUCRITY)  // SPWI921.SPL (Improved Alacrity)
+    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
+    //         ApplySpell(Myself,WIZARD_TRUE_SIGHT)  // SPWI609.SPL (True Seeing)
+    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
+    //         ForceSpellPoint([1840.1625],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",1)
+    // END
+    // IF
+    //     Global("HamaBehavior","GLOBAL",1)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
+    //         ForceSpellPoint([1700.1800],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",2)
+    // END
+    // IF
+    //     Global("HamaBehavior","GLOBAL",2)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
+    //         ForceSpellPoint([2000.1500],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",3)
+    // END
+    // IF
+    //     Global("HamaBehavior","GLOBAL",3)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
+    //         ForceSpellPoint([1950.1750],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",4)
+    // END
+    // IF
+    //     Global("HamaBehavior","GLOBAL",4)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
+    //         ForceSpellPoint([2000.1935],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",5)
+    // END
+    // IF
+    //     Global("HamaBehavior","GLOBAL",5)
+    //     See(NearestEnemyOf(Myself))
+    // THEN
+    //     RESPONSE #100
+    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
+    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
+    //         ForceSpellPoint([2140.1665],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+    //         SetGlobal("HamaBehavior","GLOBAL",6)
+    // END
+    return [];
   }
 }
 

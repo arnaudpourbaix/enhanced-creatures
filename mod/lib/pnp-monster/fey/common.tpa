@@ -1,3 +1,11 @@
 COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaenkis.bam~ ~override~
 COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jafspkp.bam~ ~override~
 COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaskiss.vvc~ ~override~
+
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSIR.BCS~ BEGIN
+    COMPILE ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/AC#DTSIR.baf~
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSI2.BCS~ BEGIN
+    COMPILE ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/AC#DTSI2.baf~
+END

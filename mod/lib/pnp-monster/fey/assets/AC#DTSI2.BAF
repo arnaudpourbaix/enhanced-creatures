@@ -1,0 +1,6 @@
+IF
+    Global("ACDT_Towerlight", "GLOBAL", 1)
+THEN
+    RESPONSE #100
+        DestroySelf()
+END

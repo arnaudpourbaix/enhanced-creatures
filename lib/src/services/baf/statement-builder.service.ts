@@ -666,6 +666,7 @@ class StatementBuilderService {
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
   ): void {
+    const additionals = this.getAdditionals(creature, "attack");
     for (const status of statusNameList) {
       const statusDetails = TARGET_STATUS.find((t) => t.status === status);
       const weaponAttackSlot =
@@ -684,7 +685,7 @@ class StatementBuilderService {
           maxRange: creature.attack.maxRange,
         }),
       ];
-      const triggers: Triggers.Trigger[] = [];
+      const triggers: Triggers.Trigger[] = [...additionals.triggers];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {

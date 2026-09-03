@@ -605,7 +605,7 @@ class CreatureService {
           file: f.name,
           game: row.game,
           check: "items",
-          detail: persisting.map((it) => `${it.file} ${it.slot}`).join(", "),
+          detail: persisting.map((it) => `${it.slot}=${it.file}`).join(", "),
         });
       }
     }
