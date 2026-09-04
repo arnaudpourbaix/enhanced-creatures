@@ -35,10 +35,10 @@ COPY_EXISTING ~jas0m7b.SPL~  ~override~
 CREATE SPL "jas2m7b"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas2m7b.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10407)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10408)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10716)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10717)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIMIC~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas2m7b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas2m7b" END
@@ -55,7 +55,7 @@ COPY_EXISTING ~jas2m7b.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas2m7b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jas2m7b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~)) duration=12 probability1=100 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10408) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10409) timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=2 power=1 parameter2=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=15 target=2 power=1 parameter1=8 parameter2=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=12 probability1=100 END
@@ -69,11 +69,11 @@ COPY_EXISTING ~jas2m7b.SPL~  ~override~
 // Hell Hound traits
 CREATE ITM "jai0m7b"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10715)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10715)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10716)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10716)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10717)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10718)
 COPY_EXISTING ~jai0m7b.itm~ ~override~
 	LPF fire_immunity END
 	LPF backstab_immunity END
@@ -89,7 +89,7 @@ CREATE ITM "jai1m7b"
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10176)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10176)
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10718)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10719)
 COPY_EXISTING ~jai1m7b.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN

@@ -11,7 +11,7 @@ BEGIN
 	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
 		COPY_EXISTING ~%file%.bcs~ ~override~
 			DECOMPILE_AND_PATCH BEGIN
-				REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_SLOW)~ ~~
+				REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,GOLEM_SLOW)~ ~Continue()~
 			END
 		BUT_ONLY
 	END

@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4f.baf~
 CREATE SPL "jas0m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10391)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10392)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10906)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10909)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
@@ -21,7 +21,7 @@ COPY_EXISTING ~jas0m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-1" STR_VAR resource="EFF_E05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10394) timing=1 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10395) timing=1 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="jas0m4f" END
 OUTER_SET $f_AddSecType(jas0m4f.spl) = FearSecType
 
@@ -36,11 +36,11 @@ CREATE EFF "jas1m4f"
 CREATE SPL "jas1m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas1m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10391)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10392)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10907)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10910)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas1m4f" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
@@ -51,7 +51,7 @@ COPY_EXISTING ~jas1m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10394) timing=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10395) timing=1 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="jas1m4f" END
 OUTER_SET $f_AddSecType(jas1m4f.spl) = FearSecType
 
@@ -68,11 +68,11 @@ CREATE EFF "jas2m4f"
 CREATE SPL "jas2m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas2m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10391)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10392)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR416C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10393)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10394)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR416B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jas1m4f" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 timing=1 probability1=100 STR_VAR resource="jas2m4f" END
@@ -82,15 +82,15 @@ COPY_EXISTING ~jas2m4f.SPL~  ~override~
 CREATE SPL "jas3m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas3m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10385)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10386)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10387)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10388)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF cureWoundSpells_immunity INT_VAR duration=14400 dispelResistance=0 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=5188352 duration=2 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10388) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10389) timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 duration=14400 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=2400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=7 END
@@ -110,8 +110,8 @@ COPY_EXISTING ~jas3m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=14400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=14400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=14400 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10389) timing=4 duration=12000 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10390) timing=4 duration=14399 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10390) timing=4 duration=12000 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10391) timing=4 duration=14399 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=4 duration=14400 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=14400 probability1=100 STR_VAR resource="jas3m4f" END
 OUTER_SET $f_AddSecType(jas3m4f.spl) = DiseaseSecType
@@ -119,11 +119,11 @@ OUTER_SET $f_AddSecType(jas3m4f.spl) = DiseaseSecType
 // Greater Mummy traits
 CREATE ITM "jai0m4f"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10905)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10905)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10908)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10908)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10908)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10911)
 COPY_EXISTING ~jai0m4f.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=20 parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=30 target=1 global=1 parameter1=100 parameter2=1 timing=2 probability1=100 END
@@ -139,11 +139,11 @@ CREATE ITM "jai1m4f"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10357)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10357)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10358)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10358)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10909)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10912)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai1m4f.itm~ ~override~
 	READ_SHORT 0x68 abicount

@@ -886,7 +886,7 @@ class FeyFamily extends CreatureFamily<Fey> {
           edits: [
             {
               files: ["AC#DTSIR"],
-              replaces: [['ReallyForceSpellRES("AC#DTSS",NearestEnemyOf(Myself))', ""]],
+              replaces: [['ReallyForceSpellRES("AC#DTSS",NearestEnemyOf(Myself))', "Continue()"]],
             },
           ],
         },

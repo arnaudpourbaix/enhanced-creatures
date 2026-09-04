@@ -231,7 +231,9 @@ This ability has no effect on blinded characters.`,
       hideousLaugh: "Hideous Laugh",
       charge: {
         name: "Charge",
-        description: `Gradually increases movement for 4 rounds. Peak speed is reached after 2 rounds.`,
+        peakSpeed: "Peak speed",
+        description: `Gradually increases movement for 5 rounds. Peak speed is reached after 2 rounds and lasts 3 rounds. 
+Attacks during peak speed inflict 10d10 crushing damage.`,
         end: "End charge",
       },
       cloudOfPoisonousGas: {

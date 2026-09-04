@@ -140,13 +140,13 @@ END
 // Charge
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jas0m21")
+	HaveSpellRES("jas1m21")
 	!Range(NearestEnemyOf(Myself),5)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ReallyForceSpellRES("jas0m21",Myself)
-		RemoveSpellRES("jas0m21")
+		ForceSpellRES("jas1m21",Myself)
+		RemoveSpellRES("jas1m21")
 END
 
 // Attack NoCheck enemy
