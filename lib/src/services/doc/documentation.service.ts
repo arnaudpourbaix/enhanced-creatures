@@ -52,8 +52,14 @@ const PROFICIENCY_LABELS: Record<ProficiencyTypeEnum, string> = {
 
 // The engine's proficiency slots cap out at 5 stars in practice across this mod (see e.g. the
 // ogre chieftain's PROFICIENCYTWOHANDEDSWORD rank 5 in lib/creatures/ogres.ts), so that's the
-// star scale used here rather than trying to represent an unbounded value.
+// star scale used here rather than trying to represent an unbounded value. Some fighting-style
+// proficiencies have a lower engine-enforced cap, so their star scale is shorter too.
 const MAX_PROFICIENCY_STARS = 5;
+const MAX_PROFICIENCY_STARS_OVERRIDES: Partial<Record<ProficiencyTypeEnum, number>> = {
+  [ProficiencyTypeEnum.PROFICIENCY2WEAPON]: 3,
+  [ProficiencyTypeEnum.PROFICIENCYSWORDANDSHIELD]: 2,
+  [ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON]: 2,
+};
 
 class DocumentationService {
   private families: string[] = [];
@@ -246,7 +252,7 @@ class DocumentationService {
     const value = proficiencies.find((p) => p.type === proficiency)?.value ?? 0;
     const label = PROFICIENCY_LABELS[proficiency];
     return value > 0
-      ? `<div class="weapon-proficiency">${label} ${this.getProficiencyStars(value)}</div>`
+      ? `<div class="weapon-proficiency">${label} ${this.getProficiencyStars(proficiency, value)}</div>`
       : "";
   }
 
@@ -261,15 +267,16 @@ class DocumentationService {
     const entry = proficiencies.find((p) => p.type === proficiency && p.changed);
     if (!entry) return "";
     const label = PROFICIENCY_LABELS[proficiency];
-    return `<div class="weapon-proficiency adjustment-changed">${label} ${this.getProficiencyStars(entry.value)}</div>`;
+    return `<div class="weapon-proficiency adjustment-changed">${label} ${this.getProficiencyStars(proficiency, entry.value)}</div>`;
   }
 
-  private getProficiencyStars(value: number): string {
-    const filled = Math.max(0, Math.min(MAX_PROFICIENCY_STARS, value));
+  private getProficiencyStars(type: ProficiencyTypeEnum, value: number): string {
+    const max = MAX_PROFICIENCY_STARS_OVERRIDES[type] ?? MAX_PROFICIENCY_STARS;
+    const filled = Math.max(0, Math.min(max, value));
     return (
-      `<span class="proficiency-stars" title="${value} of ${MAX_PROFICIENCY_STARS}">` +
+      `<span class="proficiency-stars" title="${value} of ${max}">` +
       "★".repeat(filled) +
-      "☆".repeat(MAX_PROFICIENCY_STARS - filled) +
+      "☆".repeat(max - filled) +
       "</span>"
     );
   }
@@ -283,7 +290,7 @@ class DocumentationService {
     return proficiencies
       .map(
         ({ type, value }) =>
-          `<div class="weapon-proficiency">${PROFICIENCY_LABELS[type]} ${this.getProficiencyStars(value)}</div>`,
+          `<div class="weapon-proficiency">${PROFICIENCY_LABELS[type]} ${this.getProficiencyStars(type, value)}</div>`,
       )
       .join("");
   }
@@ -301,7 +308,7 @@ class DocumentationService {
       .filter((p) => p.changed)
       .map(
         (p) =>
-          `<div class="weapon-proficiency adjustment-changed">${PROFICIENCY_LABELS[p.type]} ${this.getProficiencyStars(p.value)}</div>`,
+          `<div class="weapon-proficiency adjustment-changed">${PROFICIENCY_LABELS[p.type]} ${this.getProficiencyStars(p.type, p.value)}</div>`,
       )
       .join("");
   }

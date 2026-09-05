@@ -155,10 +155,20 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
         size: "Large",
         movement: 12,
         items: {
-          remove: ["AX1H01", "HELMNOAN", "HALB01", "OHBFIG01", "LEAT10", "OHLEAT50", "HALB02"],
+          remove: [
+            "AX1H01",
+            "HELMNOAN",
+            "HALB01",
+            "OHBFIG01",
+            "LEAT10",
+            "OHLEAT50",
+            "HALB02",
+            "UMBER01",
+            "CHAN04",
+          ],
         },
         script: {
-          remove: ["OHBFIG01"],
+          remove: ["OHBFIG01", "VA#CRE01"],
         },
         proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }],
       },
@@ -175,7 +185,7 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
     minotaur.setAdjustments([
       {
         // elder
-        files: ["GAROCK", "HLMAFER", "OHBMIN01", "OHBMINSU", "OHNGHALL"],
+        files: ["GAROCK", "HLMAFER", "OHBMIN01", "OHBMINSU", "OHNGHALL", "SLANDOR"],
         data: {
           level1: 8,
           bonusHp: 4,
@@ -244,6 +254,20 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
             { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 },
             { type: ProficiencyTypeEnum.PROFICIENCY2WEAPON, value: 3 },
           ],
+        },
+      },
+      {
+        files: ["SLANDOR"],
+        data: {
+          level1: 20,
+          exceptionalStrength: 100,
+          xpv: 10000,
+        },
+      },
+      {
+        files: ["OHBMINSU", "AMMINOT", "SLANDOR"],
+        data: {
+          script: { location: "None" },
         },
       },
     ]);
