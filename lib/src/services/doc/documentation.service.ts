@@ -245,7 +245,9 @@ class DocumentationService {
     if (proficiency === undefined) return "";
     const value = proficiencies.find((p) => p.type === proficiency)?.value ?? 0;
     const label = PROFICIENCY_LABELS[proficiency];
-    return `<div class="weapon-proficiency">${label} ${this.getProficiencyStars(value)}</div>`;
+    return value > 0
+      ? `<div class="weapon-proficiency">${label} ${this.getProficiencyStars(value)}</div>`
+      : "";
   }
 
   // Adjustment-card counterpart of getWeaponProficiencyLabel: renders nothing at all unless this
@@ -289,16 +291,19 @@ class DocumentationService {
   // Adjustment cards' own "By weapon" fallback (see getAdjustmentAttacks): only ever considers
   // proficiencies this adjustment actually changed from the base (an unchanged rank is already on
   // the base card - see getAdjustmentWeaponProficiencyLabel for the same rule on a known weapon),
-  // and among those, collapses to just the single highest-ranked one rather than listing every one
-  // - e.g. Tazok (lib/creatures/ogres.ts) only boosts Two-Handed Sword, so that's the only one
-  // worth calling out on his card even though he's also proficient with Bastard Sword.
-  private getHighestProficiencyFallback(
+  // but lists every one of them - e.g. the minotaur's Garock/Rock (lib/creatures/minotaurs.ts) boost
+  // both Axe and Two-Weapon Style, and both need to be visible since there's no per-weapon block to
+  // attach either one to.
+  private getChangedProficienciesFallback(
     proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[],
   ): string {
-    const changed = proficiencies.filter((p) => p.changed);
-    if (!changed.length) return "";
-    const highest = changed.reduce((best, p) => (p.value > best.value ? p : best), changed[0]);
-    return `<div class="weapon-proficiency adjustment-changed">${PROFICIENCY_LABELS[highest.type]} ${this.getProficiencyStars(highest.value)}</div>`;
+    return proficiencies
+      .filter((p) => p.changed)
+      .map(
+        (p) =>
+          `<div class="weapon-proficiency adjustment-changed">${PROFICIENCY_LABELS[p.type]} ${this.getProficiencyStars(p.value)}</div>`,
+      )
+      .join("");
   }
 
   // Docs-only trim of the in-game weapon description (which also feeds the .tra item text, see
@@ -605,7 +610,7 @@ class DocumentationService {
       weaponIndex++;
     }
     if (!attacks) {
-      attacks = `<div class="weapon">By weapon${this.getHighestProficiencyFallback(effective.proficiencies)}</div>`;
+      attacks = `<div class="weapon">By weapon${this.getChangedProficienciesFallback(effective.proficiencies)}</div>`;
     }
     return `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>`;
   }

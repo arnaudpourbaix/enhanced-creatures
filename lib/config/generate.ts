@@ -108,11 +108,13 @@ export const GLOBAL_CONFIG = {
       "DW2MS0GE",
       "DW2MS0MO",
       "DW2MS1GE",
+      "DW2MS2BA",
       "DW2MS2GE",
       "DW2RC0MO",
       "DW2RC2MO",
       "DW2RM2MO",
       "DW2RS0MO",
+      "dw3ms2ge",
       "GENSHT01",
       // "HUNTER", Some mods added specifics inside
       // "initdlg", Needed for creatures that has no death var so dialog is not possible

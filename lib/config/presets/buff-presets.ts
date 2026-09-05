@@ -372,32 +372,4 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       triggers: [triggerFactory.detect("NearestEnemyOf")],
     },
   },
-  {
-    preset: SPELLS.Class.BerserkerRage.file,
-    ability: {
-      name: SPELLS.Class.BerserkerRage.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BERSERKER_RAGE", true),
-      ],
-      probability: 90,
-    },
-  },
-  {
-    preset: SPELLS.Class.BarbarianRage.file,
-    ability: {
-      name: SPELLS.Class.BarbarianRage.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BARBARIAN_RAGE", true),
-      ],
-      probability: 90,
-    },
-  },
 ];

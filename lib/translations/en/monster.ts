@@ -453,7 +453,7 @@ He loses 1 hp per hour until death.`,
         name: "Huge Axe",
         description: `Huge Axe
 STATISTICS:
-Damage: 1D12
+Damage: 1D10+2
 Damage type: slashing
 Weight: 15
 Speed Factor: 8

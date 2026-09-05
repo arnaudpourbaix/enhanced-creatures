@@ -1,27 +1,9 @@
-// Ogrillon
-
-// Init
+// Summons are destroyed on death
 IF
-	Global("JA_INIT","LOCALS",0)
+	Die()
 THEN
 	RESPONSE #100
-		SetGlobal("JA_COMBAT","LOCALS",0)
-		SetGlobal("JA_PRECAST_LONG","LOCALS",0)
-		SetGlobal("JA_PRECAST_MID","LOCALS",0)
-		SetGlobalTimer("JA_REST","LOCALS",2400)
-		SetGlobal("JA_INIT","LOCALS",1)
-END
-
-// Rest (reset everything and heal if applicable)
-IF
-	Global("JA_INIT","LOCALS",1)
-	GlobalTimerExpired("JA_REST","LOCALS")
-	!See([GOODCUTOFF])
-THEN
-	RESPONSE #100
-		SetGlobal("JA_INIT","LOCALS",0)
-		Rest()
-		ApplySpell(Myself,RESTORE_FULL_HEALTH)
+		DestroySelf()
 END
 
 // Precast Stoneskin
@@ -53,19 +35,6 @@ THEN
 		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
 END
 
-// Turn hostile if attacked
-IF
-	Allegiance(Myself,NEUTRAL)
-	OR(4)
-		AttackedBy([GOODCUTOFF],DEFAULT)
-		SpellCastOnMe([GOODCUTOFF],0)
-		TookDamage()
-		Heard([EVILCUTOFF.0.OGRE],99)
-THEN
-	RESPONSE #100
-		Enemy()
-END
-
 // Detect combat
 IF
 	Global("JA_COMBAT","LOCALS",0)
@@ -92,15 +61,15 @@ IF
 	!GlobalTimerNotExpired("JA_HELP","LOCALS")
 THEN
 	RESPONSE #100
-		Shout(99)
+		Shout(98)
 		SetGlobalTimer("JA_HELP","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
-	Heard([EVILCUTOFF.0.OGRE],99)
-	InMyArea([EVILCUTOFF.0.OGRE])
+	Heard(LastSummonerOf(Myself),98)
+	InMyArea(LastSummonerOf(Myself))
 THEN
 	RESPONSE #100
 		SetGlobal("JA_COMBAT","LOCALS",1)
@@ -109,16 +78,31 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	Heard([EVILCUTOFF.0.OGRE],99)
-	InMyArea([EVILCUTOFF.0.OGRE])
+	Heard(LastSummonerOf(Myself),98)
+	InMyArea(LastSummonerOf(Myself))
 	!See([GOODCUTOFF])
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
 END
 
+// Summon follow summoner
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	!StateCheck(Myself,STATE_BLIND)
+	ActionListEmpty()
+	!See(NearestEnemyOf(Myself))
+	!See(LastSummonerOf(Myself))
+	HPGT(LastSummonerOf(Myself),0)
+	Range(LastSummonerOf(Myself),150)
+THEN
+	RESPONSE #100
+		MoveToObject(LastSummonerOf(Myself))
+END
+
 // Do nothing if...
 IF
+	ActionListEmpty()
 	OR(4)
 		Global("JA_COMBAT","LOCALS",0)
 		!Allegiance(Myself,EVILCUTOFF)
@@ -130,6 +114,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	!InActiveArea(Myself)
 	!Range(NearestEnemyOf(Myself),30)
 THEN
@@ -153,8 +138,100 @@ THEN
 		RandomWalkContinuous()
 END
 
+// Charge
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m44")
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!General(FarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),50)
+	!Range(LastSeenBy(Myself),20)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m44",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m44")
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!General(SecondFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),50)
+	!Range(LastSeenBy(Myself),20)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m44",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m44")
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),50)
+	!Range(LastSeenBy(Myself),20)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m44",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m44")
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!General(FourthFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthFarthestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),50)
+	!Range(LastSeenBy(Myself),20)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m44",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+// Barbarian Rage
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	ActionListEmpty()
+	HaveSpell(BARBARIAN_RAGE)
+	See(NearestEnemyOf(Myself))
+	!CheckSpellState(Myself,BARBARIAN_RAGE)
+	RandomNumGT(800,80)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,BARBARIAN_RAGE)
+END
+
 // Potion of superior healing (40hp)
 IF
+	ActionListEmpty()
 	HasItem("POTN55",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!General(Myself,UNDEAD)
@@ -168,6 +245,7 @@ END
 
 // Potion of extra healing (30hp)
 IF
+	ActionListEmpty()
 	HasItem("POTN52",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!General(Myself,UNDEAD)
@@ -181,6 +259,7 @@ END
 
 // Potion of regeneration
 IF
+	ActionListEmpty()
 	HasItem("POTN42",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HPPercentLT(Myself,90)
@@ -193,6 +272,7 @@ END
 
 // Exilir of health (10hp)
 IF
+	ActionListEmpty()
 	HasItem("POTN17",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!General(Myself,UNDEAD)
@@ -208,6 +288,7 @@ END
 
 // Antidote
 IF
+	ActionListEmpty()
 	HasItem("POTN20",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	StateCheck(Myself,STATE_POISONED)
@@ -220,6 +301,7 @@ END
 
 // Potion of healing (10hp)
 IF
+	ActionListEmpty()
 	HasItem("POTN08",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!General(Myself,UNDEAD)
@@ -233,6 +315,7 @@ END
 
 // Potion of speed
 IF
+	ActionListEmpty()
 	HasItem("POTN14",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(Myself,STATE_HASTED)
@@ -246,6 +329,7 @@ END
 
 // Potion of invisibility
 IF
+	ActionListEmpty()
 	HasItem("POTN10",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(Myself,STATE_INVISIBLE)
@@ -259,6 +343,7 @@ END
 
 // Potion of invulnerability
 IF
+	ActionListEmpty()
 	HasItem("POTN11",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	RandomNumGT(202,40)
@@ -271,6 +356,7 @@ END
 
 // Potion of defense
 IF
+	ActionListEmpty()
 	HasItem("POTN24",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	RandomNumGT(203,41)
@@ -283,6 +369,7 @@ END
 
 // Potion of fire resistance
 IF
+	ActionListEmpty()
 	HasItem("POTN02",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,100,RESISTFIRE)
@@ -296,6 +383,7 @@ END
 
 // Potion of magic resistance
 IF
+	ActionListEmpty()
 	HasItem("POTN34",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,20,RESISTMAGIC)
@@ -309,6 +397,7 @@ END
 
 // Potion of magic shielding
 IF
+	ActionListEmpty()
 	HasItem("POTN35",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,50,MAGICDAMAGERESISTANCE)
@@ -322,6 +411,7 @@ END
 
 // Potion of freedom
 IF
+	ActionListEmpty()
 	HasItem("POTN45",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(Myself,0,CLERIC_FREE_ACTION)
@@ -335,6 +425,7 @@ END
 
 // Potion of storm giant strength
 IF
+	ActionListEmpty()
 	HasItem("POTN07",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,24,STR)
@@ -348,6 +439,7 @@ END
 
 // Potion of cloud giant strength
 IF
+	ActionListEmpty()
 	HasItem("POTN06",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,23,STR)
@@ -361,6 +453,7 @@ END
 
 // Potion of fire giant strength
 IF
+	ActionListEmpty()
 	HasItem("POTN05",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,22,STR)
@@ -374,6 +467,7 @@ END
 
 // Potion of frost giant strength
 IF
+	ActionListEmpty()
 	HasItem("POTN04",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,21,STR)
@@ -387,6 +481,7 @@ END
 
 // Potion of hill giant strength
 IF
+	ActionListEmpty()
 	HasItem("POTN03",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	CheckStatLT(Myself,19,STR)
@@ -400,130 +495,7 @@ END
 
 // Attack NoCheck enemy
 IF
-	OR(4)
-		General(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]),WEAPON)
-		CheckStatGT(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]),0,SANCTUARY)
-		StateCheck(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]),STATE_REALLY_DEAD)
-		!See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	OR(4)
-		General(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),WEAPON)
-		CheckStatGT(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),0,SANCTUARY)
-		StateCheck(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),STATE_REALLY_DEAD)
-		!See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	OR(4)
-		General(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),WEAPON)
-		CheckStatGT(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),0,SANCTUARY)
-		StateCheck(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]),STATE_REALLY_DEAD)
-		!See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
-	OR(4)
-		General(NearestEnemyOfType([PC.0.0.RANGER_ALL]),WEAPON)
-		CheckStatGT(NearestEnemyOfType([PC.0.0.RANGER_ALL]),0,SANCTUARY)
-		StateCheck(NearestEnemyOfType([PC.0.0.RANGER_ALL]),STATE_REALLY_DEAD)
-		!See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	OR(4)
-		General(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]),WEAPON)
-		CheckStatGT(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]),0,SANCTUARY)
-		StateCheck(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]),STATE_REALLY_DEAD)
-		!See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	OR(4)
-		General(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]),WEAPON)
-		CheckStatGT(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]),0,SANCTUARY)
-		StateCheck(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]),STATE_REALLY_DEAD)
-		!See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
-	OR(4)
-		General(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),WEAPON)
-		CheckStatGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),0,SANCTUARY)
-		StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_REALLY_DEAD)
-		!See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-	OR(4)
-		General(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),WEAPON)
-		CheckStatGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),0,SANCTUARY)
-		StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_REALLY_DEAD)
-		!See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-	OR(4)
-		General(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]),WEAPON)
-		CheckStatGT(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]),0,SANCTUARY)
-		StateCheck(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_REALLY_DEAD)
-		!See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
-THEN
-	RESPONSE #100
-		Continue()
-END
-
-IF
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	See(LastSeenBy(Myself))
-THEN
-	RESPONSE #100
-		AttackOneRound(LastSeenBy(Myself))
-END
-
-// Attack NoCheck enemy
-IF
-	OR(4)
-		General([PC.0.0.FIGHTER],WEAPON)
-		CheckStatGT([PC.0.0.FIGHTER],0,SANCTUARY)
-		StateCheck([PC.0.0.FIGHTER],STATE_REALLY_DEAD)
-		!See([PC.0.0.FIGHTER])
-	OR(4)
-		General([PC.0.0.RANGER],WEAPON)
-		CheckStatGT([PC.0.0.RANGER],0,SANCTUARY)
-		StateCheck([PC.0.0.RANGER],STATE_REALLY_DEAD)
-		!See([PC.0.0.RANGER])
-	OR(4)
-		General([PC.0.0.PALADIN],WEAPON)
-		CheckStatGT([PC.0.0.PALADIN],0,SANCTUARY)
-		StateCheck([PC.0.0.PALADIN],STATE_REALLY_DEAD)
-		!See([PC.0.0.PALADIN])
-	OR(4)
-		General([PC.0.0.FIGHTER_THIEF],WEAPON)
-		CheckStatGT([PC.0.0.FIGHTER_THIEF],0,SANCTUARY)
-		StateCheck([PC.0.0.FIGHTER_THIEF],STATE_REALLY_DEAD)
-		!See([PC.0.0.FIGHTER_THIEF])
-	OR(4)
-		General([PC.0.0.BARD],WEAPON)
-		CheckStatGT([PC.0.0.BARD],0,SANCTUARY)
-		StateCheck([PC.0.0.BARD],STATE_REALLY_DEAD)
-		!See([PC.0.0.BARD])
-	OR(4)
-		General([PC.0.0.THIEF],WEAPON)
-		CheckStatGT([PC.0.0.THIEF],0,SANCTUARY)
-		StateCheck([PC.0.0.THIEF],STATE_REALLY_DEAD)
-		!See([PC.0.0.THIEF])
-	OR(4)
-		General(NearestEnemyOfType([PC]),WEAPON)
-		CheckStatGT(NearestEnemyOfType([PC]),0,SANCTUARY)
-		StateCheck(NearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-		!See(NearestEnemyOfType([PC]))
-	OR(4)
-		General(SecondNearestEnemyOfType([PC]),WEAPON)
-		CheckStatGT(SecondNearestEnemyOfType([PC]),0,SANCTUARY)
-		StateCheck(SecondNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-		!See(SecondNearestEnemyOfType([PC]))
-	OR(4)
-		General(ThirdNearestEnemyOfType([PC]),WEAPON)
-		CheckStatGT(ThirdNearestEnemyOfType([PC]),0,SANCTUARY)
-		StateCheck(ThirdNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-		!See(ThirdNearestEnemyOfType([PC]))
-THEN
-	RESPONSE #100
-		Continue()
-END
-
-IF
-	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	See(LastSeenBy(Myself))
-THEN
-	RESPONSE #100
-		AttackOneRound(LastSeenBy(Myself))
-END
-
-// Attack NoCheck enemy
-IF
+	ActionListEmpty()
 	OR(4)
 		General(NearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
@@ -580,6 +552,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -591,6 +564,7 @@ END
 
 // Attack Sleep enemy
 IF
+	ActionListEmpty()
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -627,6 +601,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -639,6 +614,7 @@ END
 // Track players if allegiance is not GOODCUTOFF
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player1)
 	Range(Player1,150)
@@ -654,6 +630,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player2)
 	Range(Player2,150)
@@ -669,6 +646,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player3)
 	Range(Player3,150)
@@ -684,6 +662,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player4)
 	Range(Player4,150)
@@ -699,6 +678,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player5)
 	Range(Player5,150)
@@ -714,6 +694,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player6)
 	Range(Player6,150)
@@ -730,6 +711,7 @@ END
 // Track last seen enemy if allegiance is GOODCUTOFF
 IF
 	Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(LastSeenBy(Myself))
 	Range(LastSeenBy(Myself),150)
@@ -742,16 +724,5 @@ IF
 THEN
 	RESPONSE #100
 		MoveToObject(LastSeenBy(Myself))
-END
-
-// Random walking (in combat) 
-IF
-	Global("JA_COMBAT","LOCALS",1)
-	ActionListEmpty()
-	!See([GOODCUTOFF])
-THEN
-	RESPONSE #100
-		RandomWalk()
-		Wait(2)
 END
 

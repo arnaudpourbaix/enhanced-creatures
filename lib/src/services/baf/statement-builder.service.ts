@@ -777,6 +777,7 @@ class StatementBuilderService {
 
   private potions({ statements, creature, options }: HandlerParams): void {
     if (!creature.behavior.usePotions) return;
+    const randomGenerator = this.getPotionNumberGenerator();
     for (const potion of POTIONS) {
       for (const file of potion.files) {
         const triggers: Triggers.Trigger[] = [
@@ -785,6 +786,13 @@ class StatementBuilderService {
           ...(potion.triggers ?? []),
         ];
         if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
+        if (!!potion.probability && potion.probability < 100) {
+          const num = randomGenerator.next().value ?? 0;
+          triggers.push({
+            name: "RandomNumGT",
+            params: [num, Math.round(num * (1 - potion.probability / 100))],
+          });
+        }
         const actions: Actions.Action[] = [
           ...(potion.actions ?? []),
           {
@@ -1020,6 +1028,14 @@ class StatementBuilderService {
   ): { triggers: Triggers.Trigger[]; actions: Actions.Action[] } {
     const additionals = creature.behavior.additionalCodes.find((a) => a.location === location);
     return additionals ?? { triggers: [], actions: [] };
+  }
+
+  private *getPotionNumberGenerator(): Generator<number, void> {
+    let num = 200;
+    while (num < 300) {
+      yield num;
+      num++;
+    }
   }
 }
 

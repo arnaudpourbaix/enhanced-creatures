@@ -256,6 +256,14 @@ class AdjustmentService {
   // and silently drop all but the last of the base creature's own traits. Base-authored order is
   // preserved (no sort) so getAdjustmentAttacks sees main hand before off-hand, exactly like the
   // main creature block does.
+  //
+  // `noWeapon` files never receive the base creature's own equipped items at all - see
+  // weidu-creature.service.ts's addItemSlots, which wraps every REPLACE_CRE_ITEM/ADD_CRE_ITEM for
+  // the base loadout in a `noWeaponFiles` exclusion (confirmed against the generated .tpa for
+  // minotaurs' GAROCK/ROCK, whose Huge Axe and trait-carrier item are both skipped). An adjustment
+  // matching such a file can still equip its own item explicitly (e.g. ogres.ts's BLUN07 morning
+  // star) - that goes through a separate per-file patch block untouched by the exclusion, so it's
+  // still folded in below.
   private getEquipped(
     matching: CreatureAdjustment[],
     base: CreatureData,
@@ -265,10 +273,10 @@ class AdjustmentService {
     const singleSlotValue = (item: EquippedItem): ItemSlot =>
       Array.isArray(item.slot) ? item.slot[0] : item.slot;
 
-    const result: { item: EquippedItem; changed: boolean }[] = base.items.equipped.map((item) => ({
-      item,
-      changed: false,
-    }));
+    const noWeapon = matching.some((a) => a.noWeapon);
+    const result: { item: EquippedItem; changed: boolean }[] = noWeapon
+      ? []
+      : base.items.equipped.map((item) => ({ item, changed: false }));
 
     for (const adjustment of matching) {
       // adjustment.data is typed as the full CreatureData (real adjustments always go through

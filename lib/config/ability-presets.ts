@@ -11,11 +11,13 @@ import { DISABLING_PRESETS } from "./presets/disabling-presets";
 import { DISPEL_PRESETS } from "./presets/dispel-presets";
 import { FEAR_PRESETS } from "./presets/fear-presets";
 import { HOLD_PRESETS } from "./presets/hold-presets";
+import { KIT_PRESETS } from "./presets/kit-presets";
 import { SLEEP_PRESETS } from "./presets/sleep-presets";
 import { SUMMON_PRESETS } from "./presets/summon-presets";
 
 export const ABILITY_PRESETS: AbilityPreset[] = [
   ...BUFF_PRESETS,
+  ...KIT_PRESETS,
   ...CHARM_PRESETS,
   ...CONFUSION_PRESETS,
   ...CURE_PRESETS,

@@ -382,6 +382,66 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     ]);
   });
 
+  // Regression: Garock/Rock (lib/creatures/minotaurs.ts) are noWeapon adjustments that never
+  // re-equip anything - the base creature's Huge Axe was still showing up as their effective
+  // weapon, contradicting the "uses his own weapon" note. Confirmed against the generated .tpa
+  // (weidu-creature.service.ts's addItemSlots excludes every base item, not just weapons, from a
+  // noWeapon file's own patch block), so the base's items shouldn't be seeded here at all.
+  it("excludes the base creature's own equipped items entirely for a noWeapon adjustment", () => {
+    const creature = fakeCreature({
+      data: {
+        items: {
+          equipped: [{ file: "BASEWEAP", slot: "WEAPON1" }],
+          remove: [],
+        },
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }],
+      },
+      adjustments: [
+        {
+          files: ["OWNWEAPON"],
+          noWeapon: true,
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("OWNWEAPON"));
+
+    expect(effective?.equipped).toEqual([]);
+  });
+
+  // The ogre's real morning-star swap (lib/creatures/ogres.ts): a noWeapon adjustment can still
+  // equip its own weapon explicitly - that goes through the adjustment's own patch block, never
+  // the excluded base loadout, so it must still show up.
+  it("still shows a weapon a noWeapon adjustment explicitly equips itself", () => {
+    const creature = fakeCreature({
+      data: {
+        items: { equipped: [{ file: "BASEWEAP", slot: "WEAPON1" }], remove: [] },
+      },
+      adjustments: [
+        {
+          files: ["OWNWEAPON"],
+          noWeapon: true,
+          data: {
+            items: { equipped: [{ file: "MORNINGSTAR", slot: "WEAPON1" }], remove: [] },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("OWNWEAPON"));
+
+    expect(effective?.equipped).toEqual([
+      { item: { file: "MORNINGSTAR", slot: "WEAPON1" }, changed: true },
+    ]);
+  });
+
   it("shows the full effective immunities set, flagging only newly granted ones", () => {
     const creature = fakeCreature({
       data: { immunities: ["giant"] },

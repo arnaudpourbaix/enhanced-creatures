@@ -1408,11 +1408,10 @@ describe("getCreatureHeader", () => {
   // Reproduces the half-ogre/Tazok case (lib/creatures/ogres.ts): the base creature never calls
   // addWeapon/equipItem (its weapon comes from the base CRE file), so effective.equipped is empty
   // and the card falls back to "By weapon" - the adjustment's own proficiency override must still
-  // show up there, highlighted, even though there's no weapon block to attach it to. Tazok has two
-  // proficiency types (Bastard Sword 2, Two-Handed Sword boosted to 5) - only the higher-ranked
-  // one is worth calling out on an adjustment card, unlike the base creature's own fallback (see
-  // "lists every proficiency under 'By weapon'" above), which lists all of them.
-  it("shows only the adjustment's highest-ranked proficiency under 'By weapon' when the card has no equipped item", () => {
+  // show up there, highlighted, even though there's no weapon block to attach it to. Only Bastard
+  // Sword is untouched by TAZOK's own adjustment, so it stays off the card (already shown,
+  // unhighlighted, on the base creature) while the boosted Two-Handed Sword rank shows.
+  it("shows the adjustment's changed proficiency under 'By weapon' when the card has no equipped item", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
     creature.data.proficiencies = [
@@ -1440,6 +1439,40 @@ describe("getCreatureHeader", () => {
     );
     expect(template.text).toContain("★★★★★");
     expect(template.text).not.toContain("Bastard Sword");
+  });
+
+  // Regression: Garock/Rock (lib/creatures/minotaurs.ts) boost two proficiency types at once
+  // (Axe and Two-Weapon Style) on a noWeapon adjustment - both must show up under "By weapon",
+  // not just the higher-ranked one.
+  it("shows every changed proficiency under 'By weapon', not just the highest-ranked one", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.proficiencies = [];
+    creature.adjustments = [
+      {
+        files: ["GAROCK"],
+        noWeapon: true,
+        summon: false,
+        scriptName: false,
+        data: {
+          proficiencies: [
+            { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 },
+            { type: ProficiencyTypeEnum.PROFICIENCY2WEAPON, value: 3 },
+          ],
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain("By weapon");
+    expect(template.text).toContain(
+      '<div class="weapon-proficiency adjustment-changed">Axe',
+    );
+    expect(template.text).toContain(
+      '<div class="weapon-proficiency adjustment-changed">Two-Weapon Style',
+    );
   });
 
   // Regression: adjustment cards used to omit the main-hand/off-hand labels entirely (they never
