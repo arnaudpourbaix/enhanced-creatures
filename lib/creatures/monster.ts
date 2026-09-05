@@ -152,4 +152,5 @@ export enum MonsterEnum {
   Baphitaur = 125,
   Orc = 126,
   Orog = 127,
+  Hakeashar = 128,
 }

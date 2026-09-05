@@ -828,11 +828,14 @@ class OgreFamily extends CreatureFamily<Ogre> {
             "COMPS01",
             "COMPS02",
             "OGREMASU",
+            "BLUN06",
             "BLUN15",
+            "PLAT01",
+            "SHLD03",
           ],
         },
         script: {
-          remove: ["BDOGRE03", "OGREMASU"],
+          remove: ["BDOGRE03", "OGREMASU", "BDFMAG01", "BDFMAG23"],
         },
         spells: {
           memorized: [
@@ -905,7 +908,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
           level2: 7,
           xpv: 1400,
           class: "FIGHTER_MAGE",
-          script: { location: "General" },
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
           spells: {
             memorized: [
@@ -918,7 +920,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        files: ["BDMURS", "BDMURS2"],
+        files: ["BDMURS", "BDMURS2", "UHOGRE01"],
         data: {
           level1: 9,
           level2: 9,
@@ -1080,9 +1082,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
         files: ["X3HOGREL"],
         data: {
           level1: 8,
-          script: {
-            location: "Race",
-          },
         },
       },
     ]);

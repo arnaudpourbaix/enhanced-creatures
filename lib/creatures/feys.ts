@@ -882,7 +882,6 @@ class FeyFamily extends CreatureFamily<Fey> {
         },
         script: {
           remove: ["SIRSPELL", "SIL", "AC#DT30S"],
-          location: "Race",
           edits: [
             {
               files: ["AC#DTSIR"],

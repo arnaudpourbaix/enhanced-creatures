@@ -64,6 +64,7 @@ const GENERIC_SCRIPTS_REMOVED = new Set(
     ...GLOBAL_CONFIG.tpaConstants.genericScriptsToKeep,
   ].map((s) => s.toUpperCase()),
 );
+const GENERIC_SCRIPTS_REMOVED_RX = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx;
 
 class CreatureService {
   check(creature: Creature) {
@@ -594,15 +595,22 @@ class CreatureService {
     const findings: CsvFinding[] = [];
     for (const f of creature.files) {
       for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
+        const adjustments = this.adjustmentsForFile(creature, f.name, row.game);
         const removed = new Set(
           [
             ...creature.data.items.remove,
-            ...this.adjustmentsForFile(creature, f.name, row.game).flatMap(
-              (a) => a.data.items.remove,
-            ),
+            ...adjustments.flatMap((a) => a.data.items.remove),
           ].map((r) => r.toUpperCase()),
         );
-        const persisting = row.items.filter((it) => !removed.has(it.file.toUpperCase()));
+        // A `noWeapon` adjustment deliberately leaves the creature wielding its own original
+        // weapon (and off-hand shield), so a persisting weapon1-weapon4 / shield entry is
+        // expected, not drift - don't warn.
+        const noWeapon = adjustments.some((a) => a.noWeapon);
+        const persisting = row.items.filter(
+          (it) =>
+            !removed.has(it.file.toUpperCase()) &&
+            !(noWeapon && /^(weapon[1-4]|shield)$/i.test(it.slot)),
+        );
         if (!persisting.length) continue;
         findings.push({
           file: f.name,
@@ -684,7 +692,12 @@ class CreatureService {
     );
     const kept = row.scripts.filter((s) => {
       const v = s.value.toUpperCase();
-      return v !== "NONE" && !removed.has(v) && !GENERIC_SCRIPTS_REMOVED.has(v);
+      return (
+        v !== "NONE" &&
+        !removed.has(v) &&
+        !GENERIC_SCRIPTS_REMOVED.has(v) &&
+        !GENERIC_SCRIPTS_REMOVED_RX.some((rx) => rx.test(v))
+      );
     });
     if (!kept.length) return undefined;
     return {

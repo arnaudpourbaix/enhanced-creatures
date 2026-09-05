@@ -202,7 +202,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
         },
         script: {
           remove: ["BDPUDDBL"],
-          location: "General",
         },
         effects: {
           remove: true,
@@ -468,9 +467,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
         immunities: ["ooze"],
         items: {
           remove: ["IMMUNE1", "RING95", "JELLMU2", "DW#JELM2"],
-        },
-        script: {
-          location: "Race",
         },
         spells: {
           memorized: [{ file: this.spell(Ids.ToxicVapors).file, memorizedCount: 1 }],

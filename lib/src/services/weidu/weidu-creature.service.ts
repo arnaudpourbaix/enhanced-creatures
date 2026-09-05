@@ -595,6 +595,13 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.add(p.lines, `PATCH_DEFINE_ARRAY removeScripts BEGIN ${scripts.join(" ")} END`, p.tab);
       removeScripts = " removeScripts";
     }
+    let removeScriptsRegexp = "";
+    if (GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx.length) {
+      const pattern = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx
+        .map((rx) => rx.source)
+        .join("|");
+      removeScriptsRegexp = ` removeScriptsRegexp=~${pattern}~`;
+    }
     if (p.skipFiles.length && !p.files.length) {
       this.add(p.lines, `PATCH_DEFINE_ARRAY skipFiles BEGIN ${p.skipFiles.join(" ")} END`, p.tab);
       skipFiles = " skipFiles";
@@ -617,7 +624,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       p.lines,
       `LPF patchCreatureScript INT_VAR logging=${
         p.logging ? 1 : 0
-      } STR_VAR${slot}${files}${removeScripts}${skipFiles}${forceFiles} script=${p.script} END`,
+      } STR_VAR${slot}${files}${removeScripts}${skipFiles}${forceFiles}${removeScriptsRegexp} script=${p.script} END`,
       p.tab,
     );
   }

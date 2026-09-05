@@ -111,7 +111,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         },
         script: {
           remove: ["LBASILSK"],
-          location: "Race",
         },
       },
     });
@@ -159,7 +158,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         },
         script: {
           remove: ["GBASILSK"],
-          location: "Race",
         },
       },
     });

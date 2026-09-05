@@ -1355,6 +1355,7 @@ function creatureWith(p: {
     itemsRemove?: string[];
     scriptRemove?: string[];
     scriptLocation?: string;
+    noWeapon?: boolean;
   }[];
 }): Creature {
   return {
@@ -1368,6 +1369,7 @@ function creatureWith(p: {
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
       game: a.game,
+      noWeapon: a.noWeapon ?? false,
       data: {
         level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
         items: { remove: a.itemsRemove ?? [], equipped: [] },
@@ -1450,6 +1452,45 @@ describe("creatureService.findPersistingItems", () => {
     mockRows();
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("does not report a persisting weapon1-weapon4 / shield item for a noWeapon adjustment's file", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "weapon2", file: "BOW01" },
+          { slot: "shield", file: "SHLD01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], noWeapon: true }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports a persisting non-weapon item for a noWeapon adjustment's file", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "lring", file: "RING95" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], noWeapon: true }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "lring=RING95" },
+    ]);
   });
 
   it("reports each game's row separately for a dual-game resref, tagging the detail", () => {

@@ -13,12 +13,13 @@ INT_VAR
   defaultEmpty = 0
   logging = 0
 STR_VAR
-  script        = "" // Script to assign to first available slot in this order: override, class, race, general, default
-  slot          = "" // Slot, will fail if not empty
-  removeScripts = "" // Array of scripts to remove
-  files         = "" // Array of files (usefull what there are more files to skip than to patch)
-  skipFiles     = "" // Array of files to skip
-  forceFiles    = "" // Array of files the script must be assigned to even if they have no script (mod-created files)
+  script              = "" // Script to assign to first available slot in this order: override, class, race, general, default
+  slot                = "" // Slot, will fail if not empty
+  removeScripts       = "" // Array of scripts to remove
+  removeScriptsRegexp = "" // Regexp matching scripts to remove (skipped when empty)
+  files               = "" // Array of files (usefull what there are more files to skip than to patch)
+  skipFiles           = "" // Array of files to skip
+  forceFiles          = "" // Array of files the script must be assigned to even if they have no script (mod-created files)
 BEGIN
   PATCH_IF "%script%" STRING_EQUAL_CASE "" BEGIN             
     PATCH_FAIL ~Missing new script for %SOURCE_RES%~
@@ -79,7 +80,25 @@ BEGIN
       END
     END
 
-    PATCH_IF "%overrideScript%" STRING_EQUAL "" OR "%overrideScript%" STRING_EQUAL_CASE none BEGIN             
+    PATCH_IF NOT "%removeScriptsRegexp%" STRING_EQUAL "" BEGIN
+      PATCH_IF "%overrideScript%" STRING_MATCHES_REGEXP "%removeScriptsRegexp%" = 0 BEGIN
+        SPRINT overrideScript ""
+      END
+      PATCH_IF "%classScript%" STRING_MATCHES_REGEXP "%removeScriptsRegexp%" = 0 BEGIN
+        SPRINT classScript ""
+      END
+      PATCH_IF "%raceScript%" STRING_MATCHES_REGEXP "%removeScriptsRegexp%" = 0 BEGIN
+        SPRINT raceScript ""
+      END
+      PATCH_IF "%generalScript%" STRING_MATCHES_REGEXP "%removeScriptsRegexp%" = 0 BEGIN
+        SPRINT generalScript ""
+      END
+      PATCH_IF "%defaultScript%" STRING_MATCHES_REGEXP "%removeScriptsRegexp%" = 0 BEGIN
+        SPRINT defaultScript ""
+      END
+    END
+
+    PATCH_IF "%overrideScript%" STRING_EQUAL "" OR "%overrideScript%" STRING_EQUAL_CASE none BEGIN
       SET overrideEmpty=1
     END
     PATCH_IF "%classScript%" STRING_EQUAL "" OR "%classScript%" STRING_EQUAL_CASE none BEGIN

@@ -111,7 +111,6 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
         immunities: ["magicalBeast"],
         script: {
           remove: ["ANKHEG", "ANKHEGB", "L#XZEANK"],
-          location: "Race",
         },
         items: {
           remove: ["ANKHEG1", "ANKHEG2"],
