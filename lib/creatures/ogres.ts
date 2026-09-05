@@ -423,20 +423,35 @@ class OgreFamily extends CreatureFamily<Ogre> {
         immunities: ["giant"],
         proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 }],
         items: {
-          remove: ["OGRE1", "B1-2", "B3-12", "B2-16", "BLUN07", "SHLD03"],
+          remove: [
+            "OGRE1",
+            "B1-2",
+            "B3-12",
+            "B2-16",
+            "BLUN02",
+            "BLUN06",
+            "BLUN07",
+            "SHLD03",
+            "SW2H01",
+            "B1-12M3",
+            "HELMNOAN",
+            "HELM01",
+            "LEAT04",
+          ],
         },
         script: {
           remove: ["OGRE"],
         },
       },
     });
-    ogre.createFists(1, 10, Ids.Ogre);
     ogre.createFists(2, 6, Ids.OgreLeader);
+    ogre.createFists(1, 10, Ids.Ogre); // order matters!
     ogre.setBehavior({
       restHeal: true,
       usePotions: true,
     });
     ogre.setAttack({
+      ranged: true,
       targetPriorities: [
         {
           // The ogres fight more wisely when led by a half-ogre that concentrates assaults on characters it recognizes as spellcasters and teaming up against skilled fighters.
@@ -453,8 +468,8 @@ class OgreFamily extends CreatureFamily<Ogre> {
       { files: ["OOPAH", "OOPAH2"], data: { level1: 5 } },
       {
         // leader is a 7 Hit Dice monster with Armor Class 3, Strenth 18/50, XP 650
-        // He inflicts 2d6+3 points of damage per attack.
-        files: ["SEWERF4", "BDOGREM", "NTOGREDA", "WELT"],
+        // He inflicts 2d6 points of damage per attack.
+        files: ["SEWERF4", "BDOGREM", "NTOGREDA", "BOGRE1", "OHNOGREB"],
         data: {
           level1: 7,
           ac: 3,
@@ -468,7 +483,21 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         // chieftain is a 7+4 Hit Dice monster with Armor Class 2, Strenth 18/100, XP 975
         // He inflicts 2d6+6 points of damage per attack.
-        files: ["AC#WRIM1", "AC#FP2O2", "BDSOGR1", "BDSOGR2", "ACQ13002", "HACK", "LARZE", "GORF"],
+        files: [
+          "AC#WRIM1",
+          "AC#FP2O1",
+          "BDSOGR1",
+          "BDSOGR2",
+          "ACQ13002",
+          "HACK",
+          "LARZE",
+          "GORF",
+          "UDOGRE",
+          "CBELHOE",
+          "WIOGRE02",
+          "SHTHASS3",
+          "BDCCOGR1",
+        ],
         data: {
           level1: 7,
           bonusHp: 4,
@@ -482,6 +511,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       },
       {
         files: ["NTOGREDA"],
+        noWeapon: true,
         data: {
           class: "FIGHTER",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 4 }],
@@ -504,7 +534,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        files: ["AC#WRIM1", "HACK", "LARZE", "GORF"],
+        files: ["AC#WRIM1", "HACK", "LARZE", "GORF", "CBELHOE", "WIOGRE02"],
         data: {
           level1: 9,
           strength: 19,
@@ -519,16 +549,32 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
+        files: ["SHTHASS3"],
+        data: { level1: 8 },
+      },
+      {
         files: ["AC#WRIM1"],
         data: { level1: 10 },
       },
       {
-        files: ["HACK"],
+        files: ["HACK", "CBELHOE", "WIOGRE02"],
         data: { level1: 11 },
+      },
+      {
+        files: ["CBELHOE"],
+        data: { apr: 2 },
       },
       {
         files: ["LARZE"],
         data: { level1: 13 },
+      },
+      {
+        files: ["UDOGRE"],
+        data: { level1: 15, ac: -3, xpv: 3000 },
+      },
+      {
+        files: ["UHOGRE02"],
+        noWeapon: true,
       },
     ]);
     return ogre;

@@ -59,7 +59,10 @@ const CSV_CHECK_META: Record<
 };
 
 const GENERIC_SCRIPTS_REMOVED = new Set(
-  GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove.map((s) => s.toUpperCase()),
+  [
+    ...GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove,
+    ...GLOBAL_CONFIG.tpaConstants.genericScriptsToKeep,
+  ].map((s) => s.toUpperCase()),
 );
 
 class CreatureService {

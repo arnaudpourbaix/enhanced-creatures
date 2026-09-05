@@ -1463,15 +1463,15 @@ Enchantment: 2
 Range: 2 feet~
 @10785 = ~Fists
 
-Melee damage: 1D10 (Crushing)
-Speed Factor: 3
-Enchantment: 1
-Range: 2 feet~
-@10786 = ~Fists
-
 Melee damage: 2D6 (Crushing)
 Speed Factor: 3
 Enchantment: 2
+Range: 2 feet~
+@10786 = ~Fists
+
+Melee damage: 1D10 (Crushing)
+Speed Factor: 3
+Enchantment: 1
 Range: 2 feet~
 @10787 = ~Fists
 

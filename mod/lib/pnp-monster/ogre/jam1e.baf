@@ -398,6 +398,19 @@ THEN
 		UseItem("POTN03",Myself)
 END
 
+// Try to reposition to use ranged attack
+IF
+	CanEquipRanged()
+	Range(NearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #50
+		SetInterrupt(FALSE)
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),45)
+		SetInterrupt(TRUE)
+	RESPONSE #50
+		Continue()
+END
+
 // Attack Slowed enemy
 IF
 	OR(12)
@@ -454,6 +467,23 @@ IF
 		!See([PC.0.0.BARD])
 THEN
 	RESPONSE #100
+		Continue()
+END
+
+IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
 		Continue()
 END
 
@@ -531,6 +561,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -579,6 +626,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -621,6 +685,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -655,6 +736,23 @@ IF
 		!See([PC.0.0.BARD])
 THEN
 	RESPONSE #100
+		Continue()
+END
+
+IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
 		Continue()
 END
 
@@ -793,6 +891,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	StateCheck(LastSeenBy(Myself),STATE_SLOWED)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -926,6 +1041,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1004,6 +1136,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1076,6 +1225,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1135,6 +1301,23 @@ IF
 		!See(ThirdNearestEnemyOfType([PC]))
 THEN
 	RESPONSE #100
+		Continue()
+END
+
+IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
 		Continue()
 END
 
@@ -1286,6 +1469,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	StateCheck(LastSeenBy(Myself),STATE_SLOWED)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1431,6 +1631,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1515,6 +1732,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1593,6 +1827,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1661,6 +1912,23 @@ THEN
 END
 
 IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -1704,6 +1972,23 @@ IF
 		!See(Player6)
 THEN
 	RESPONSE #100
+		Continue()
+END
+
+IF
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
 		Continue()
 END
 

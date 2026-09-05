@@ -52,7 +52,6 @@ export const GLOBAL_CONFIG = {
       "BDGRSHTV",
       "BDNONIN",
       "BDSHM00",
-      // "BDSHOUT",
       "BDSUM00",
       "BPASIGHT",
       "BPSIGHT",
@@ -98,6 +97,7 @@ export const GLOBAL_CONFIG = {
       "DW2MC2GE",
       "DW2MC3MO",
       "DW2MM0GE",
+      "DW2MM2GE",
       "DW2MP2MO",
       "DW2MP0GE",
       "DW2MP0GW",
@@ -112,12 +112,11 @@ export const GLOBAL_CONFIG = {
       "DW2MS2GE",
       "DW2RC0MO",
       "DW2RC2MO",
+      "DW2RM2GE",
       "DW2RM2MO",
       "DW2RS0MO",
       "dw3ms2ge",
       "GENSHT01",
-      // "HUNTER", Some mods added specifics inside
-      // "initdlg", Needed for creatures that has no death var so dialog is not possible
       "SHOUT",
       //"SUMSHT02", Some mods added specifics inside
       "TUTU_SCR",
@@ -126,5 +125,6 @@ export const GLOBAL_CONFIG = {
       "WTASIGHT",
       "wtrunsgt",
     ],
+    genericScriptsToKeep: ["BDSHOUT", "INITDLG", "RR#PICKP", "SHOUTDLG"],
   },
 };

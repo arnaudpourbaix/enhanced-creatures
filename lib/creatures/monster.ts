@@ -149,4 +149,7 @@ export enum MonsterEnum {
   MoonDog = 122,
   HellHound = 123,
   Harpy = 124,
+  Baphitaur = 125,
+  Orc = 126,
+  Orog = 127,
 }
