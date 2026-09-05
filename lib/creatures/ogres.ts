@@ -41,6 +41,7 @@ enum Ids {
   Fly,
   GaseousForm,
   Naginata,
+  HalfOgre,
   Ogre,
   OgreLeader,
 }
@@ -49,21 +50,20 @@ class Ogre extends Creature {
   /**
    * Ogre Fists
    */
-  createFists(diceThrown: number, diceSize: number, id?: number) {
-    return this.addWeapon({
-      weapon: {
-        id,
-        stringRef: "monster.ogre.weapon.fists",
-        icon: MonsterItemIconEnum.Fist,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          diceThrown,
-          diceSize,
-          type: ItemAbilityTypeEnum.Melee,
-          damageType: AbilityDamageTypeEnum.Crushing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
+  createFists(p: { diceThrown: number; diceSize: number; id?: number; equipped?: boolean }) {
+    p.equipped ??= true;
+    return this.addItem({
+      id: p.id,
+      stringRef: "monster.ogre.weapon.fists",
+      icon: MonsterItemIconEnum.Fist,
+      equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
+      header: {
+        diceThrown: p.diceThrown,
+        diceSize: p.diceSize,
+        type: ItemAbilityTypeEnum.Melee,
+        damageType: AbilityDamageTypeEnum.Crushing,
+        speed: 3,
+        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
       },
     });
   }
@@ -404,7 +404,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       data: {
         level1: 4,
         bonusHp: 1,
-        strength: 18,
+        strength: 19,
         dexterity: 8,
         constitution: 16,
         intelligence: 8,
@@ -444,8 +444,8 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
     });
-    ogre.createFists(2, 6, Ids.OgreLeader);
-    ogre.createFists(1, 10, Ids.Ogre); // order matters!
+    ogre.createFists({ diceSize: 1, diceThrown: 10, id: Ids.Ogre });
+    ogre.createFists({ diceThrown: 2, diceSize: 6, id: Ids.OgreLeader, equipped: false });
     ogre.setBehavior({
       restHeal: true,
       usePotions: true,
@@ -473,7 +473,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
         data: {
           level1: 7,
           ac: 3,
-          exceptionalStrength: 50,
           xpv: 650,
           items: {
             equipped: [{ file: this.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
@@ -502,7 +501,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
           level1: 7,
           bonusHp: 4,
           ac: 2,
-          exceptionalStrength: 100,
           xpv: 975,
           items: {
             equipped: [{ file: this.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
@@ -537,8 +535,6 @@ class OgreFamily extends CreatureFamily<Ogre> {
         files: ["AC#WRIM1", "HACK", "LARZE", "GORF", "CBELHOE", "WIOGRE02"],
         data: {
           level1: 9,
-          strength: 19,
-          exceptionalStrength: 0,
           morale: 18,
           class: "FIGHTER",
           xpv: 2000,
@@ -616,7 +612,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
     });
-    ogrillon.createFists(1, 6);
+    ogrillon.createFists({ diceThrown: 1, diceSize: 6 });
     ogrillon.setBehavior({
       restHeal: true,
       usePotions: true,
@@ -679,11 +675,15 @@ class OgreFamily extends CreatureFamily<Ogre> {
           { type: ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD, value: 2 },
           { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 },
         ],
+        items: {
+          remove: ["B1-2", "HELMNOAN"],
+        },
         script: {
           remove: ["HALFOGRE"],
         },
       },
     });
+    halfOgre.createFists({ diceThrown: 2, diceSize: 4, id: Ids.HalfOgre, equipped: false });
     halfOgre.setBehavior({
       restHeal: true,
       usePotions: true,
@@ -699,7 +699,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
     halfOgre.setAdjustments([
       {
         // Veteran with 5+3 Hit Dice.
-        files: ["BDOGRE04", "ARGHAI", "X#CHOP", "X#CRU11", "GORF", "GORF03"],
+        files: ["BDOGRE04", "ARGHAI", "GORF", "GORF03"],
         data: {
           level1: 5,
           bonusHp: 3,
@@ -733,14 +733,8 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
-        files: ["X#CHOP", "X#CRU11"],
-        data: {
-          strength: 19,
-        },
-      },
-      {
         // Level 9 fighter
-        files: ["TAZOK", "TAZOK2", "L#CHIEN"],
+        files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX", "L#CHIEN"],
         data: {
           level1: 9,
           strength: 18,
@@ -753,7 +747,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         // Tazok gets the Berserker kit; the per-game level blocks below then each add their own
         // rage-count increment on top of this (kit.service resolves the inherited kit).
-        files: ["TAZOK", "TAZOK2"],
+        files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX"],
         data: {
           kit: "BERSERKER",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
@@ -761,7 +755,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
       },
       {
         // Tazok, level 19
-        files: ["TAZOK"],
+        files: ["TAZOK", "D9TAZOK", "D9TAZOKX"],
         game: "bg2",
         data: {
           level1: 19,

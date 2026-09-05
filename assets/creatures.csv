@@ -513,29 +513,29 @@ SPIDSM01;MONSTER;SPIDER;SPIDER_HUGE;SPIDER_SMALL;None;;5;NIETHER;MALE;ENEMY;dw#s
 SENSMSP;MONSTER;SPIDER;SPIDER_HUGE;SPIDER_SMALL;None;;10;NIETHER;MALE;ENEMY;senhorde;None;None;None;dw2mp2mo;;;;;ANTIWEB;SPSPID3;;;;9000;bg2;;;HairySpider;false;;;;;Mutated Spider
 SPIDSM02;MONSTER;SPIDER;SPIDER_HUGE;SPIDER_SMALL;None;;10;NIETHER;MALE;ENEMY;dw#sphlp;None;None;None;dw2mp2mo;;;;;ANTIWEB;SPSPID3;;;;9000;bg2;;;HairySpider;false;;;;;Mutated Spider
 SPSPIDER;MONSTER;SPIDER;SPIDER_HUGE;SPIDER_SMALL;None;;2;NIETHER;MALE;ENEMY;dw#sphlp;None;None;None;dw2mp2mo;;;;;ANTIWEB;SPSPID;;;;10;bg2;;;HairySpider;false;;;;;Spider
-ARGHAI;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;ARGHAIN;arghai;5;NIETHER;MALE;NEUTRAL;dw#gpsht;ARGHA;;None;dw1melge;HELM01;;;;;SW2H02;;;;520;bg1;;;HalfOgre;true;true;;;;Arghain
-X#CHOP;GIANTHUMANOID;OGRE;OGRE;HALF_OGRE;x#chop;x#chop;4;FEMALE;MALE;NEUTRAL;;;;None;dw1melge;HELMNOAN;;;;;B1-2;;;;400;bg1npc;;;HalfOgre;true;true;;true;;Chop The Lady Ogre
-X#CRU11;GIANTHUMANOID;OGRE;OGRE;HALF_OGRE;x#cru11;x#cru11;4;FEMALE;MALE;NEUTRAL;;;;None;dw1melge;HELMNOAN;;;;;B1-2;;;;400;bg1npc;;;HalfOgre;true;true;;true;;Cru The Lady Ogre
-L#CHIEN;HUMANOID;OGRE;FIGHTER;HALF_OGRE;L#CHIEN;L#CHIEN;8;MALE;158;NEUTRAL;RR#PICKP;;NONE;;dw1melge;HELM13;SHLD18;;L#CHISY;;SW1H11;L#CHISW;;;4000;sotsc;;;HalfOgre;true;true;;;;Eglarh
-GORF;HUMANOID;OGRE;FIGHTER;HALF_OGRE;gorf;gorf1;5;MALE;MALE;NEUTRAL;gorf;None;;None;dw2mc2ge;;;;;;BLUN01;;;;2500;bg2;;;HalfOgre;true;true;;;bg2;Gorf the Squisher
-GORF03;HUMANOID;OGRE;FIGHTER;HALF_OGRE;gorf;gorf1;8;MALE;MALE;NEUTRAL;gorf;None;;None;dw2mc2ge;;;;;;BLUN01;;;;1500;bg2;;;HalfOgre;true;true;;;;Gorf the Squisher
-OGREBJOR;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;OGREBJOR;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;;;Half-Ogre
-OGREHA;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA_A;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA_B;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA_C;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA_D;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA_E;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA1;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA2;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA3;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA4;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-OGREHA5;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre
-BDOGRE04;GIANTHUMANOID;OGRE;FIGHTER;HALF_OGRE;BDOGRE04;;5;MALE;MALE;ENEMY;;BDENSHTV;;;BDFIG00;HELMNOAN;;;;;SW2H01;;;;270;bg1;;;HalfOgre;true;true;;true;;Half-Ogre Veteran
-OGRHAL01;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2ms2ge;HELM01;;;;;SW1H01;;;;270;bg2;;;HalfOgre;false;;;;;Half-Ogre
-TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;Tazok;TAZOK;9;MALE;MALE;NEUTRAL;RR#PICKP;TAZOK;None;None;dw1melbe;;;;;MIHP1;SW2H01;;;;4000;bg1;;;HalfOgre;true;true;;;bg1;Tazok
-TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;tazok;tazok;19;MALE;MALE;ENEMY;D9TAZOKK;GENSHT01;None;None;dw2ms2be;HELM01;;;;;SW2H12;;;;12000;bg2;;;HalfOgre;true;true;;;bg2;Tazok
-TAZOK2;HUMANOID;OGRE;FIGHTER;HALF_OGRE;Tazok;tazok2;11;MALE;MALE;NEUTRAL;dw#tazok;None;None;None;dw1melbe;;;MAGE01;;;SW1H01;;;;4000;bg1;;;HalfOgre;true;true;;;;Tazok
+ARGHAI;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;ARGHAIN;arghai;5;NIETHER;MALE;NEUTRAL;dw#gpsht;ARGHA;;None;dw1melge;HELM01;;;;;SW2H02;;;;520;bg1;;;HalfOgre;true;true;true;true;;Arghain
+X#CHOP;GIANTHUMANOID;OGRE;OGRE;HALF_OGRE;x#chop;x#chop;4;FEMALE;MALE;NEUTRAL;;;;None;dw1melge;HELMNOAN;;;;;B1-2;;;;400;bg1npc;;;Ogre;true;true;;true;;Chop The Lady Ogre
+X#CRU11;GIANTHUMANOID;OGRE;OGRE;HALF_OGRE;x#cru11;x#cru11;4;FEMALE;MALE;NEUTRAL;;;;None;dw1melge;HELMNOAN;;;;;B1-2;;;;400;bg1npc;;;Ogre;true;true;;true;;Cru The Lady Ogre
+L#CHIEN;HUMANOID;OGRE;FIGHTER;HALF_OGRE;L#CHIEN;L#CHIEN;8;MALE;158;NEUTRAL;RR#PICKP;;NONE;;dw1melge;HELM13;SHLD18;;L#CHISY;;SW1H11;L#CHISW;;;4000;sotsc;;;HalfOgre;true;true;true;;;Eglarh
+GORF;HUMANOID;OGRE;FIGHTER;HALF_OGRE;gorf;gorf1;5;MALE;MALE;NEUTRAL;gorf;None;;None;dw2mc2ge;;;;;;BLUN01;;;;2500;bg2;;;HalfOgre;true;true;true;true;bg2;Gorf the Squisher
+GORF03;HUMANOID;OGRE;FIGHTER;HALF_OGRE;gorf;gorf1;8;MALE;MALE;NEUTRAL;gorf;None;;None;dw2mc2ge;;;;;;BLUN01;;;;1500;bg2;;;HalfOgre;true;true;true;true;;Gorf the Squisher
+OGREBJOR;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;OGREBJOR;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA_A;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA_B;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA_C;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA_D;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA_E;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA1;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA2;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA3;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA4;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+OGREHA5;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;HELM01;;;;;SW1H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre
+BDOGRE04;GIANTHUMANOID;OGRE;FIGHTER;HALF_OGRE;BDOGRE04;;5;MALE;MALE;ENEMY;;BDENSHTV;;;BDFIG00;HELMNOAN;;;;;SW2H01;;;;270;bg1;;;HalfOgre;true;true;true;true;;Half-Ogre Veteran
+OGRHAL01;GIANTHUMANOID;OGRE;OGRE_HALFOGRE;HALF_OGRE;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2ms2ge;HELM01;;;;;SW1H01;;;;270;bg2;;;HalfOgre;true;;true;;;Half-Ogre
+TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;Tazok;TAZOK;9;MALE;MALE;NEUTRAL;RR#PICKP;TAZOK;None;None;dw1melbe;;;;;MIHP1;SW2H01;;;;4000;bg1;;;HalfOgre;true;true;true;true;bg1;Tazok
+TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;tazok;tazok;19;MALE;MALE;ENEMY;D9TAZOKK;GENSHT01;None;None;dw2ms2be;HELM01;;;;;SW2H12;;;;12000;bg2;;;HalfOgre;true;true;true;true;bg2;Tazok
+TAZOK2;HUMANOID;OGRE;FIGHTER;HALF_OGRE;Tazok;tazok2;11;MALE;MALE;NEUTRAL;dw#tazok;None;None;None;dw1melbe;;;MAGE01;;;SW1H01;;;;4000;bg1;;;HalfOgre;true;true;true;true;;Tazok
 BDHAMADC;HUMANOID;FAIRY;FAIRY_DRYAD;SIRINE;BDHAMADC;;4;FEMALE;FEMALE;ENEMY;;BDENSHTV;;;BDHAMADC;;;;;;DAGG01;;;;650;bg1;;;Hamadryad;true;true;true;true;;Corrupted Hamadryad
 WIDRYAD1;HUMANOID;FAIRY;FIGHTER;SIRINE;WIDRYAD1;WIDRYAD1;8;FEMALE;FEMALE;NEUTRAL;HAMA;None;None;None;dw1melge;;;;;ANTIWEB;DAGG01;;;;650;blackhearts;;;Hamadryad;true;true;true;true;;Dryad of Peldvale
 WIDRYAD2;HUMANOID;FAIRY;FIGHTER;SIRINE;WIDRYAD2;WIDRYAD2;8;FEMALE;FEMALE;NEUTRAL;HAMA;None;None;None;dw1melge;;;;;ANTIWEB;DAGG01;;;;650;blackhearts;;;Hamadryad;true;true;true;true;;Dryad of Peldvale
@@ -775,7 +775,7 @@ BOGRE1;GIANTHUMANOID;OGRE;OGRE;HALF_OGRE;bogre1;bogre1;4;MALE;MALE;NEUTRAL;None;
 BPOGRE01;GIANTHUMANOID;OGRE;OGRE;OGRE;Ogre;;4;NIETHER;MALE;ENEMY;BPSIGHT;None;;BPASIGHT;dw1melge;;;;;;B1-2;;;;0;bg1;;;Ogre;true;true;true;true;;Ogre
 BSOGRED;HUMANOID;OGRE;OGRE;OGRE;BSOGRED;BSOGRED;4;MALE;MALE;NEUTRAL;RR#PICKP;NONE;NONE;NONE;dw1melge;;;;;;OGRE1;;;;420;bst;;;Ogre;true;true;true;;;Ogre
 CBELHOE;GIANTHUMANOID;OGRE;OGRE;OGRE;HACK;HACK;11;158;158;ALLY;INITDLG;None;None;None;dw2mm2ge;;;;;;OGRE1;BLUN02;;;2000;ctb;;;Ogre;true;;true;;;Elhoe
-D0QPSY05;GIANTHUMANOID;OGRE;OGRE;OGRE;Ogre;;4;MALE;MALE;ENEMY;None;None;;None;dw2mc2ge;;;;;;B1-2;;;;270;D0QUESTPACK;;;Ogre;false;;;;;Sythillisian Soldier
+D0QPSY05;GIANTHUMANOID;OGRE;OGRE;OGRE;Ogre;;4;MALE;MALE;ENEMY;None;None;;None;dw2mc2ge;;;;;;B1-2;;;;270;D0QUESTPACK;;;Ogre;true;;;;;Sythillisian Soldier
 GORF;GIANTHUMANOID;OGRE;OGRE;OGRE;GORF;None;9;NIETHER;MALE;NEUTRAL;dw#gpsht;None;;None;dw1melge;;;;;;OGRE1;;;;2000;bg1;;;Ogre;true;true;true;true;bg1;Gorf
 HACK;GIANTHUMANOID;OGRE;OGRE;OGRE;HACK;HACK;11;NIETHER;158;ALLY;INITDLG;None;None;None;dw1melge;;;;;;OGRE1;;;;2000;bg1;;;Ogre;true;true;true;;;Hack
 LARZE;GIANTHUMANOID;OGRE;OGRE;OGRE;LARZE;larze;11;NIETHER;MALE;NEUTRAL;INITDLG;None;;None;dw1melge;;;;;;OGRE1;;;;2000;bg1;;;Ogre;true;true;true;;;Larze
@@ -813,8 +813,8 @@ WELT;GIANTHUMANOID;OGRE;INNOCENT;OGRE;Ogre02;welt;4;NIETHER;MALE;ENEMY;None;None
 WIOGRE01;GIANTHUMANOID;OGRE;OGRE;OGRE;Ogre;;4;NIETHER;MALE;ENEMY;BPSIGHT;None;;BPASIGHT;dw1melge;;;;;;B1-2;;;;0;blackhearts;;;Ogre;true;true;true;true;;Ogre Bodyguard
 WIOGRE02;GIANTHUMANOID;OGRE;OGRE;OGRE;ARGHH;;4;NIETHER;MALE;ENEMY;None;None;;None;dw1melge;;;;;GOPOOF;SW2H01;;;;1500;blackhearts;;;Ogre;true;true;true;;;Grahh
 X3HOGRE;GIANTHUMANOID;OGRE;OGRE;OGRE;X3Hogre;X3Hogre;4;NIETHER;NIETHER;NEUTRAL;;None;;;dw1melge;;;;;;OGRE1;;;;270;helga;;;Ogre;true;true;true;true;;Ogre
-D9TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;tazok;tazok;18;MALE;MALE;ENEMY;SHOUTDLG;;None;None;dw2ms2ge;;;D9NOFOG;;;SW2H12;;;;6000;butchery;;;HalfOgre;false;;;;;Tazok
-D9TAZOKX;HUMANOID;OGRE;FIGHTER;HALF_OGRE;D9TazokX;none;19;MALE;MALE;ENEMY;D9TazokX;GPSHOUT;None;None;dw2ms2be;HELM01;;;;;SW2H20;;;;12000;butchery;;;HalfOgre;false;;;;;Tazok
+D9TAZOK;HUMANOID;OGRE;FIGHTER;HALF_OGRE;tazok;tazok;18;MALE;MALE;ENEMY;SHOUTDLG;;None;None;dw2ms2ge;;;D9NOFOG;;;SW2H12;;;;6000;butchery;;;HalfOgre;true;;true;;;Tazok
+D9TAZOKX;HUMANOID;OGRE;FIGHTER;HALF_OGRE;D9TazokX;none;19;MALE;MALE;ENEMY;D9TazokX;GPSHOUT;None;None;dw2ms2be;HELM01;;;;;SW2H20;;;;12000;butchery;;;HalfOgre;true;;true;true;;Tazok
 VA#MINOT;GIANTHUMANOID;OGRE;OGRE;MINOTAUR;VA#MINOT;NONE;4;NIETHER;MALE;ENEMY;VA#CRE01;NONE;NONE;NONE;NONE;;;;;;AX1H01;;;;3000;TOD;;;Minotaur;true;;;;;Minotaur
 X3HOGRE2;GIANTHUMANOID;OGRE;OGRE;OGRE;X3Hogre2;X3Hogre2;4;NIETHER;NIETHER;NEUTRAL;X3Hogre2;None;X3HOGRE2;X3HOGRE2;dw1melge;;;;;;OGRE1;;;;270;helga;;;Ogre;true;true;true;;;Ogre
 X3HOGRED;GIANTHUMANOID;OGRE;OGRE;OGRE;X3HogreD;;4;NIETHER;NIETHER;NEUTRAL;;None;;;dw1melge;;;;;;OGRE1;;;;270;helga;;;Ogre;true;true;true;true;;Ogre
@@ -882,10 +882,10 @@ WIGENTLE;GIANTHUMANOID;OGRE;OGRE_MAGE;OGRE_MAGE;WIGENTLE;WIgent;5;NIETHER;MALE;N
 WIOGMA01;GIANTHUMANOID;OGRE;OGRE_MAGE;OGRE_MAGE;WIYONDAK;WIyondak;5;MALE;MALE;NEUTRAL;SHOUTDLG;None;None;BPASIGHT;dw#mg143;;;WIRING02;;;SW1H01;;;;800;blackhearts;;;OgreMage;true;true;;;;Yondak Master of Portals
 YSOGREMA;GIANTHUMANOID;OGRE;OGRE_MAGE;OGRE_MAGE;NONE;;5;NIETHER;MALE;ENEMY;;;;;YSOGMAGE;;;;MAGE01;;SW1H43;;;;650;FISHINGFORTROUBLE;;;OgreMage;false;;;;;Ogre Mage
 BDOGRE05;GIANTHUMANOID;OGRE;SHAMAN;OGRE_MAGE;BDOGRE05;;6;MALE;MALE;ENEMY;;BDENSHTV;;;BDSHM00;;;;;;BLUN01;;;;420;bg1;;;OgreShaman;true;true;true;true;;Ogre Shaman
-D0QPSY07;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2mc2ge;;;;;;B1-8;;;;175;D0QUESTPACK;;;Ogrillon;false;;;;;Sythillisian Soldier
-GNARL;HUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;Gnarl;gnarl;5;MALE;MALE;NEUTRAL;dw#gpsht;GNARL;None;None;dw1melge;;;;;;SW1H01;;;;175;bg1;;;Ogrillon;true;true;true;;;Gnarl
-HAIRTO;HUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;Hairtooth;hairto;5;MALE;MALE;NEUTRAL;dw#gpsht;HAIRTOTH;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;;;Hairtooth
-BDKORDEO;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;BDKORDEO;BDTOMB5;2;MALE;MALE;NEUTRAL;;BDENSHTV;BDSHTAUN;;BDFIG00;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;;;Ogrillon
+D0QPSY07;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2mc2ge;;;;;;B1-8;;;;175;D0QUESTPACK;;;Ogrillon;true;;;;;Sythillisian Soldier
+GNARL;HUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;Gnarl;gnarl;5;MALE;MALE;NEUTRAL;dw#gpsht;GNARL;None;None;dw1melge;;;;;;SW1H01;;;;175;bg1;;;Ogrillon;true;true;true;true;;Gnarl
+HAIRTO;HUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;Hairtooth;hairto;5;MALE;MALE;NEUTRAL;dw#gpsht;HAIRTOTH;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Hairtooth
+BDKORDEO;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;BDKORDEO;BDTOMB5;2;MALE;MALE;NEUTRAL;;BDENSHTV;BDSHTAUN;;BDFIG00;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 OGREGR;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 OGREGR_A;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 OGREGR_B;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
@@ -896,10 +896,10 @@ OGREGR2;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;Non
 OGREGR3;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 OGREGR4;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;None;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 OGRELESU;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;3;SUMMONED;MALE;CONTROLLED;None;None;None;None;BDSUM00;;;;;;B1-8;;;;0;bg1;true;;Ogrillon;true;true;true;true;bg1;Ogrillon
-OGRELESU;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;3;SUMMONED;MALE;CONTROLLED;ogrelesu;None;None;None;BDSUM00;;;;;;B1-8;;;;0;bg2;true;;Ogrillon;true;true;true;;bg2;Ogrillon
+OGRELESU;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;3;SUMMONED;MALE;CONTROLLED;ogrelesu;None;None;None;BDSUM00;;;;;;B1-8;;;;0;bg2;true;;Ogrillon;true;true;true;true;bg2;Ogrillon
 OGREMIRI;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;NIETHER;MALE;ENEMY;dw#gpsht;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Ogrillon
 SEWERF1;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;SEWERF1;sewerf;2;NIETHER;MALE;NEUTRAL;dw#gpsht;None;None;None;dw1melge;;;;;;B1-8;;;;175;bg1;;;Ogrillon;true;true;true;true;;Sewerfolk
-OGRILL01;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2mc2ge;;;;;;B1-8;;;;175;bg2;;;Ogrillon;false;;;;;Ogrillon
+OGRILL01;GIANTHUMANOID;OGRE;OGRE_OGRILLON;OGRILLON;None;;2;MALE;MALE;ENEMY;None;None;None;None;dw2mc2ge;;;;;;B1-8;;;;175;bg2;;;Ogrillon;true;;;;;Ogrillon
 JELOLI01;MONSTER;SLIME;OLIVE_SLIME;SLIME_OLIVE;jeloli01;;6;NIETHER;MALE;ENEMY;None;None;;None;dw2mc2mo;;;RING95;;;JELLOL1;;;;420;ub;;;OliveSlimeCreature;false;;;;;Olive Slime
 SCHLUM;MONSTER;SLIME;NO_CLASS;SLIME_OLIVE;SCHLUMPSA;SCHLUM;2;NIETHER;MALE;NEUTRAL;dw#gpsht;SCHLUM;None;None;dw1ranmo;;;IMMUNE1;RING95;;SCHLUM1;DW#SCHLU;;;2500;bg1;;;OliveSlimeCreature;true;;true;true;bg1;Schlumpsha the Sewer King
 SCHLUM;MONSTER;SLIME;MAGE;SLIME_OLIVE;SCHLUMPSA;schlum;2;NIETHER;MALE;NEUTRAL;SHOUT;SCHLUM;None;None;dw2rm2mo;;;IMMUNE1;RING95;;SCHLUM1;;;;2500;bg2;;;OliveSlimeCreature;true;;true;true;bg2;Schlumpsha the Sewer King

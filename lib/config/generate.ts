@@ -98,6 +98,7 @@ export const GLOBAL_CONFIG = {
       "DW2MC3MO",
       "DW2MM0GE",
       "DW2MM2GE",
+      "DW2MS2BE",
       "DW2MP2MO",
       "DW2MP0GE",
       "DW2MP0GW",
@@ -125,6 +126,6 @@ export const GLOBAL_CONFIG = {
       "WTASIGHT",
       "wtrunsgt",
     ],
-    genericScriptsToKeep: ["BDSHOUT", "INITDLG", "RR#PICKP", "SHOUTDLG"],
+    genericScriptsToKeep: ["BDSHOUT", "INITDLG", "RR#PICKP", "SHOUTDLG", "GPSHOUT"],
   },
 };
