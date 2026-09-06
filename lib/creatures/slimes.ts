@@ -14,6 +14,7 @@ import {
   AttackModifierTypeEnum,
   CastingFailureTypeEnum,
   ColorEnum,
+  DiseaseTypeEnum,
   EffectColorLocationEnum,
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
@@ -99,17 +100,13 @@ class Slime extends Creature {
               location: EffectColorLocationEnum.CharacterColor,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
               dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-              //saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
             },
-            // {
-            //   opcode: EffectTypeEnum.KillTarget,
-            //   displayText: true,
-            //   type: KillTargetDeathTypeEnum.Crushed,
-            //   timing: EffectTimingEnum.DelayPermanent,
-            //   duration: p.delay,
-            //   dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-            //   saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
-            // },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Diseased,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            },
             {
               opcode: EffectTypeEnum.ReplaceCreature,
               type: ReplaceCreatureTypeEnum.NormalDeath,
@@ -117,7 +114,11 @@ class Slime extends Creature {
               duration: p.delay,
               dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
               resource: p.resource,
-              //saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+            },
+            {
+              opcode: EffectTypeEnum.ProtectionFromSpell,
+              duration: p.delay,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
             },
           ],
         },
@@ -654,7 +655,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const green = this.create({
       monster: MonsterEnum.GreenSlime,
       name: "monster.slime.name.green",
-      files: [],
+      files: [NEW_CREATURES.GreenSlime],
       newFiles: [
         {
           files: [NEW_CREATURES.GreenSlime],
@@ -866,7 +867,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     const olive = this.create({
       monster: MonsterEnum.OliveSlimeCreature,
       name: "monster.slime.name.oliveCreature",
-      files: [],
+      files: [NEW_CREATURES.OliveSlimeCreature],
       newFiles: [
         {
           files: [NEW_CREATURES.OliveSlimeCreature],

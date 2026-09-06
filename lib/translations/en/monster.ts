@@ -333,9 +333,9 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       attachToLivingFlesh: {
         name: "Attach itself to living flesh",
         descriptionGreen: `Attaches itself to living flesh and in 4 melee rounds turns the creature into green slime (no resurrection possible).
-A cure disease spell will cure the target.`,
+Only a cure disease spell can prevent the death of the target.`,
         descriptionOlive: `Attaches itself to living flesh and in 1 day turns the creature into an olive slime creature (no resurrection possible).
-A cure disease spell will cure the target.`,
+Only a cure disease spell can prevent the death of the target.`,
       },
       toxicVapors: {
         name: "Toxic Vapors",

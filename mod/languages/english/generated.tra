@@ -343,9 +343,9 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
 @10279 = ~This large creature can divide itself at will into two smaller, faster halves (movement rate 18). Each is capable of attacking, but has only half the hit points the creature had before dividing.~
 @10280 = ~Attach itself to living flesh~
 @10281 = ~Attaches itself to living flesh and in 4 melee rounds turns the creature into green slime (no resurrection possible).
-A cure disease spell will cure the target.~
+Only a cure disease spell can prevent the death of the target.~
 @10282 = ~Attaches itself to living flesh and in 1 day turns the creature into an olive slime creature (no resurrection possible).
-A cure disease spell will cure the target.~
+Only a cure disease spell can prevent the death of the target.~
 @10283 = ~Toxic Vapors~
 @10284 = ~Unleash a toxic vapor over a 10-foot radius.
 Those near the jelly must roll a saving throw vs. poison each round.
@@ -1555,7 +1555,7 @@ Range: 5 feet
 
 Cast spell Attach itself to living flesh:
 Attaches itself to living flesh and in 4 melee rounds turns the creature into green slime (no resurrection possible).
-A cure disease spell will cure the target.~
+Only a cure disease spell can prevent the death of the target.~
 @10813 = ~Olive Slime traits~
 @10814 = ~Immune to magic
 Immune to physical damage~
@@ -1567,7 +1567,7 @@ Range: 5 feet
 
 Cast spell Attach itself to living flesh:
 Attaches itself to living flesh and in 1 day turns the creature into an olive slime creature (no resurrection possible).
-A cure disease spell will cure the target.~
+Only a cure disease spell can prevent the death of the target.~
 @10816 = ~Olive Slime Creature traits~
 @10817 = ~Immune to lightning
 Immune to entangle effects
