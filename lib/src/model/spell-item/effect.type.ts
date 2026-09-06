@@ -117,7 +117,7 @@ export enum EffectTypeEnum {
   RemoveSpecificAreaEffect = 273,
   RemoveSpell = 172,
   RemoveSpellTypeProtections = 221,
-  ReplaceSelf = 151,
+  ReplaceCreature = 151,
   SaveVsDeathModifier = 33,
   SaveVsWandModifier = 34,
   SaveVsPetrificationModifier = 35,

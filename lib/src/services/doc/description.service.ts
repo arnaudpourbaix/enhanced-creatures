@@ -3,6 +3,7 @@ import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { Durations } from "../../model/game-data/durations";
 import {
   ArmorClassBonusEffect,
+  BaseEffect,
   CastingTimeModifierEffect,
   CastSpellEffect,
   CharmCreatureEffect,
@@ -13,6 +14,7 @@ import {
   Effect,
   IdsEffect,
   InvisibilityEffect,
+  KillTargetEffect,
   ModifierTypeEffect,
   PoisonEffect,
   RegenerationEffect,
@@ -27,6 +29,7 @@ import {
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
   EffectModifierTypeEnum,
+  EffectTimingEnum,
   InvisibilityTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
@@ -187,6 +190,8 @@ class DescriptionService {
       case EffectTypeEnum.Paralyze:
       case EffectTypeEnum.Hold:
         return this.getParalyze(effect, target);
+      case EffectTypeEnum.KillTarget:
+        return this.getKillTarget(effect);
       case EffectTypeEnum.InvisibilityDetection:
         return ["Can see invisible creatures."];
       case EffectTypeEnum.Blur:
@@ -268,6 +273,16 @@ class DescriptionService {
     }
   }
 
+  getTiming(effect: BaseEffect, prefix?: string): string {
+    if (
+      !effect.timing ||
+      ![EffectTimingEnum.DelayLimited, EffectTimingEnum.DelayPermanent].includes(effect.timing)
+    )
+      return "";
+    const duration = this.getDuration(effect.duration);
+    return `${prefix ?? ""}${duration}`;
+  }
+
   getDuration(duration?: number, prefix?: string): string {
     if (!duration) return "";
     prefix ??= "";
@@ -342,6 +357,12 @@ class DescriptionService {
         effect.duration,
       )}${restriction}${this.getSaveText(effect)}.`,
     );
+    return results;
+  }
+
+  private getKillTarget(effect: KillTargetEffect): string[] {
+    const results: string[] = [];
+    results.push(`Kill target${this.getTiming(effect, " after ")}${this.getSaveText(effect)}.`);
     return results;
   }
 

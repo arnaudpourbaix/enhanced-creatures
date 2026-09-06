@@ -1345,3 +1345,10 @@ export enum CriticalHitEffectAttackTypeEnum {
   Ranged = 2,
   Magical = 3,
 }
+
+export enum ReplaceCreatureTypeEnum {
+  RemoveCreature = 0,
+  ChunkingDeath = 1,
+  NormalDeath = 2,
+  SpawnAtTarget = 3,
+}

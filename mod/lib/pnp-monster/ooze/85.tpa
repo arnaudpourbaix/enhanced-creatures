@@ -1,0 +1,126 @@
+// Generated file (don't edit)
+
+// Olive Slime
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ooze/jam85.baf~
+
+// Attach itself to living flesh
+CREATE SPL "jas0m85"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m85.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10280)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10282)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=7 target=2 power=1 parameter1=20 parameter2=255 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=151 target=2 power=1 parameter2=2 timing=9 probability1=100 STR_VAR resource="jaolisli" END
+OUTER_SET $f_AddSecType(jas0m85.spl) = DiseaseSecType
+
+// Olive Slime traits
+CREATE ITM "jai0m85"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10813)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10813)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10814)
+COPY_EXISTING ~jai0m85.itm~ ~override~
+	LPF magic_immunity END
+	LPF physicalDamage_immunity END
+
+// Pseudopod
+CREATE ITM "jai1m85"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10276)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10276)
+	WRITE_ASCII 0x3a ~IJELLY~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10815)
+COPY_EXISTING ~jai1m85.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IJELLY~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 4
+		WRITE_SHORT 0x8e 2
+		WRITE_SHORT 0x9c (IDS_OF_SYMBOL (~projectl~ ~ACIDBLMU~)) + 1
+	WRITE_SHORT 0xa0 100
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter2=65536 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m85" END
+	END
+
+DEFINE_ACTION_FUNCTION jam85_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~GORJELF2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~GORJELFU~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~RING95~
+			REMOVE_CRE_ITEM ~JELLGR1~
+			REMOVE_CRE_ITEM ~JELLGRSU~
+			REMOVE_CRE_ITEM ~DW#JELGR~
+			REMOVE_CRE_ITEM ~GORJELGR~
+			REMOVE_CRE_ITEM ~GORJELFU~
+			ADD_CRE_ITEM ~jai0m85~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai1m85~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jai13~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=420
+					hp=22
+					ac=9
+					thac0=19
+					apr=1
+					saveDeath=14
+					saveWand=16
+					savePolymorph=15
+					saveBreath=17
+					saveSpell=17
+					level1=2
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=4
+					intelligence=0
+					wisdom=3
+					dexterity=12
+					constitution=8
+					charisma=1
+					morale=10
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~SLIME~)
+					class=IDS_OF_SYMBOL (~class~ ~OLIVE_SLIME~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					movement=0
+					enforce=1
+			END
+			// Assigning jam85
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN GORJELFU BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam85 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"GORJELF2"
+		"GORJELFU"
+	BEGIN
+		LAF jam85_patch STR_VAR file END
+	END
+END

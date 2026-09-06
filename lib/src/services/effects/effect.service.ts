@@ -112,6 +112,9 @@ class EffectService {
         effect.parameter1 = `${effect.value}`;
         effect.parameter2 = `${effect.type}`;
         break;
+      case EffectTypeEnum.ReplaceCreature:
+        effect.parameter2 = `${effect.type}`;
+        break;
       case EffectTypeEnum.AttackDamageBonus:
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:

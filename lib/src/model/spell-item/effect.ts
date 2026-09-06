@@ -50,6 +50,7 @@ import {
   ProtectionFromWeaponsTypeEnum,
   RegenerationTypeEnum,
   RemoveEffectsByResourceTypeEnum,
+  ReplaceCreatureTypeEnum,
   SaveTypeEnum,
   SetAnimationSequenceEnum,
   SummonCreatureModeEnum,
@@ -463,6 +464,11 @@ export type CastingFailureEffect = BaseEffect & {
   type: CastingFailureTypeEnum;
 };
 
+export type ReplaceCreatureEffect = BaseEffect & {
+  opcode: EffectTypeEnum.ReplaceCreature;
+  type?: ReplaceCreatureTypeEnum;
+};
+
 export type RemoveEffectsByResource = BaseEffect & {
   opcode: EffectTypeEnum.RemoveEffectsByResource;
   type: RemoveEffectsByResourceTypeEnum;
@@ -579,6 +585,7 @@ export type Effect =
   | ProtectionFromWeaponsEffect
   | RegenerationEffect
   | RemoveEffectsByResource
+  | ReplaceCreatureEffect
   | RemoveOpcodeEffect
   | RemoveSpellTypeProtectionsEffect
   | ScriptingStateModifierEffect

@@ -154,4 +154,8 @@ export enum MonsterEnum {
   Orog = 127,
   Hakeashar = 128,
   Nishruu = 129,
+  Oblex = 130,
+  DensePudding = 131,
+  Obliviax = 132,
+  OliveSlime = 133,
 }

@@ -317,7 +317,8 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       gray: "Gray Ooze",
       green: "Green Slime",
       ochre: "Ochre Jelly",
-      olive: "Olive Slime Creature",
+      olive: "Olive Slime",
+      oliveCreature: "Olive Slime Creature",
       slitheringTracker: "Slithering Tracker",
     },
     weapon: {
@@ -328,6 +329,13 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
         name: SLIME_SPLIT_NAME,
         puddingDesc: SLIME_SPLIT_PUDDING_DESC,
         mustardDesc: SLIME_SPLIT_MUSTARD_DESC,
+      },
+      attachToLivingFlesh: {
+        name: "Attach itself to living flesh",
+        descriptionGreen: `Attaches itself to living flesh and in 4 melee rounds turns the creature into green slime (no resurrection possible).
+A cure disease spell will cure the target.`,
+        descriptionOlive: `Attaches itself to living flesh and in 1 day turns the creature into an olive slime creature (no resurrection possible).
+A cure disease spell will cure the target.`,
       },
       toxicVapors: {
         name: "Toxic Vapors",

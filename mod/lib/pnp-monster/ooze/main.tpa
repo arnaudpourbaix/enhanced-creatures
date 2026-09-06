@@ -23,12 +23,12 @@ ADD_PROJECTILE ~override/jas0fc.pro~ ~Mustard jelly Toxic Vapors~
 CREATE SPL "jas0fc"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0fc.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10279)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10283)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI213C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10280)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10284)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=10 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas0fc~)) + 1 STR_VAR icon="SPWI213B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 timing=1 probability1=100 STR_VAR resource="jas0fc" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELEMENTAL~) parameter2=4 timing=1 probability1=100 STR_VAR resource="jas0fc" END
@@ -47,7 +47,8 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/36.tpa" // White Pudding
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/2e.tpa" // Mustard Jelly
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/30.tpa" // Fission Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/32.tpa" // Gray Ooze
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/33.tpa" // Green Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/31.tpa" // Ochre Jelly
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/33.tpa" // Green Slime
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/85.tpa" // Olive Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/34.tpa" // Olive Slime Creature
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/35.tpa" // Slithering Tracker

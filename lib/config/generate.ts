@@ -68,6 +68,14 @@ export const GLOBAL_CONFIG = {
       "wtrunsgt",
     ],
     genericScriptsToRemoveRx: [/DW#GP.+/, /DW#MG.+/, /DW1.+/, /DW2.+/, /DW3.+/],
-    genericScriptsToKeep: ["BDSHOUT", "INITDLG", "RR#PICKP", "SHOUTDLG", "GPSHOUT", "DW#SHDLG"],
+    genericScriptsToKeep: [
+      "BDSHOUT",
+      "INITDLG",
+      "RR#PICKP",
+      "SHOUTDLG",
+      "SHOUT",
+      "GPSHOUT",
+      "DW#SHDLG",
+    ],
   },
 };
