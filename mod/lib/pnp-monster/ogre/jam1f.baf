@@ -166,6 +166,19 @@ THEN
 		Spell(Myself,BERSERKER_RAGE)
 END
 
+// Barbarian Rage
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(BARBARIAN_RAGE)
+	See(NearestEnemyOf(Myself))
+	!CheckSpellState(Myself,BARBARIAN_RAGE)
+	RandomNumGT(800,80)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,BARBARIAN_RAGE)
+END
+
 // Potion of superior healing (40hp)
 IF
 	HasItem("POTN55",Myself)

@@ -1017,7 +1017,19 @@ class OgreFamily extends CreatureFamily<Ogre> {
         immunities: ["giant"],
         proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 3 }],
         items: {
-          remove: ["BDOGRE02", "BDOGRE06", "BLUN06", "SW2H01", "OGREGRSU", "OGRE1", "BDSLUG"],
+          remove: [
+            "BDOGRE02",
+            "BDOGRE06",
+            "BLUN06",
+            "BLUN07",
+            "LEAT04",
+            "SW2H01",
+            "OGREGRSU",
+            "OGRE1",
+            "BDSLUG",
+            "HELMNOAN",
+            "SPER02",
+          ],
         },
         script: {
           remove: ["DVBRSKER"],
@@ -1080,6 +1092,13 @@ class OgreFamily extends CreatureFamily<Ogre> {
         },
       },
       {
+        files: ["GPFIGHT1", "ZILFGT01"],
+        data: {
+          level1: 16,
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
+        },
+      },
+      {
         files: ["BDYAROK"],
         data: {
           ac: 10,
@@ -1087,7 +1106,10 @@ class OgreFamily extends CreatureFamily<Ogre> {
       },
       {
         // barbarian chieftain
-        files: ["BDOGRE06"],
+        files: ["BDOGRE06", "D9OGRGA2"],
+        data: {
+          kit: "BARBARIAN",
+        },
       },
       {
         files: ["X3HOGREL"],
