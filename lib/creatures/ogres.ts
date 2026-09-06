@@ -824,6 +824,7 @@ class OgreFamily extends CreatureFamily<Ogre> {
             "HELMNOAN",
             "SW1H43",
             "SW1H01",
+            "SW2H01",
             "SW1H20",
             "COMPS01",
             "COMPS02",
@@ -832,10 +833,12 @@ class OgreFamily extends CreatureFamily<Ogre> {
             "BLUN15",
             "PLAT01",
             "SHLD03",
+            "HELM01",
+            "PALRING",
           ],
         },
         script: {
-          remove: ["BDOGRE03", "OGREMASU", "BDFMAG01", "BDFMAG23"],
+          remove: ["BDOGRE03", "OGREMASU", "BDFMAG01", "BDFMAG23", "MAGE3", "YSOGMAGE"],
         },
         spells: {
           memorized: [
@@ -969,6 +972,14 @@ class OgreFamily extends CreatureFamily<Ogre> {
       {
         files: ["KROTAN", "NTKROTAN"],
         data: { level1: 15, level2: 15, class: "FIGHTER_MAGE", xpv: 4000 },
+      },
+      {
+        files: ["PLSHOM01"],
+        data: { level1: 8, level2: 8, xpv: 975 },
+      },
+      {
+        files: ["PALKNI01"],
+        data: { level1: 10, level2: 10, xpv: 2000 },
       },
     ]);
     return ogreMage;
