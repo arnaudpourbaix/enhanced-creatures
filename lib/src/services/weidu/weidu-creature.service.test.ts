@@ -52,6 +52,7 @@ function codes(lines: CodeLine[]): string[] {
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
 const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
 const END_ELSE_BEGIN = "END ELSE BEGIN";
+const SCRIPT_JAM1SU = "script=jam1su";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -451,27 +452,46 @@ describe("patchScripts (private)", () => {
     const lines: CodeLine[] = [];
     service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
     const out = codes(lines);
-    expect(out.some((c) => c.includes("script=jam1su"))).toBe(true);
+    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
     expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
   });
 
-  it("gates a game-tagged summon file: summon script in its game, normal script otherwise", () => {
+  it("gates a game-tagged summon file that also exists in the other game: summon script in its game, normal script otherwise", () => {
     const lines: CodeLine[] = [];
-    service.patchScripts(
-      lines,
-      0,
-      scriptCreature([summonAdj({ files: ["CATLIOWP"], game: "bg1" })]),
-    );
+    const creature = scriptCreature([summonAdj({ files: ["CATLIOWP"], game: "bg1" })]);
+    // CATLIOWP is a summon in bg1 but a regular creature in bg2 - collapsed entry spans both games.
+    (creature as unknown as { files: { name: string; game?: string }[] }).files = [
+      { name: "CATLIOWP" },
+    ];
+    service.patchScripts(lines, 0, creature);
     const out = codes(lines);
     const guardIdx = out.findIndex((c) => c === "PATCH_IF GAME_IS ~bgee eet~ BEGIN");
     const elseIdx = out.findIndex((c) => c === END_ELSE_BEGIN);
     expect(guardIdx).toBeGreaterThanOrEqual(0);
     expect(elseIdx).toBeGreaterThan(guardIdx);
     // summon script under the guard, normal script under ELSE
-    const summonIdx = out.findIndex((c, i) => i > guardIdx && i < elseIdx && c.includes("script=jam1su"));
+    const summonIdx = out.findIndex((c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU));
     const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
     expect(summonIdx).toBeGreaterThan(guardIdx);
     expect(normalIdx).toBeGreaterThan(elseIdx);
+  });
+
+  it("assigns a game-exclusive summon file the summon script unconditionally, with no GAME_IS guard", () => {
+    const lines: CodeLine[] = [];
+    const creature = scriptCreature([summonAdj({ files: ["BDANKHSU"], game: "bg1" })]);
+    // BDANKHSU only exists in bg1 - the outer loop already scopes it, so no inner guard/ELSE.
+    (creature as unknown as { files: { name: string; game?: string }[] }).files = [
+      { name: "BDANKHSU", game: "bg1" },
+    ];
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+    expect(out.some((c) => c === END_ELSE_BEGIN)).toBe(false);
+    // BDANKHSU is only ever skipped by the base jam1 assignment, never re-assigned jam1
+    expect(out).toContain("PATCH_DEFINE_ARRAY skipFiles BEGIN BDANKHSU END");
+    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JAM1SU));
+    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jam1 "))).toBe(false);
   });
 
   it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
@@ -547,7 +567,7 @@ describe("handleAdjustment (private)", () => {
     }).toThrow(/can't have a script name if it has several files/);
   });
 
-  it("wraps a game-tagged adjustment in PATCH_IF GAME_IS", () => {
+  it("wraps a game-tagged adjustment in PATCH_IF GAME_IS when the file exists in both games", () => {
     const creature = fakeCreature({ files: [{ name: "GORF" }] });
     const adjustment = fakeAdjustment({ files: ["GORF"], game: "bg2", data: undefined });
     const lines: CodeLine[] = [];
@@ -567,6 +587,15 @@ describe("handleAdjustment (private)", () => {
   it("emits no game guard for an untagged adjustment", () => {
     const creature = fakeCreature({ files: [{ name: "GORF" }] });
     const adjustment = fakeAdjustment({ files: ["GORF"], data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+
+  it("emits no game guard when every targeted file is exclusive to the adjustment's game", () => {
+    // BDANKHSU only exists in bg1, so the outer ACTION_IF GAME_IS loop already scopes it.
+    const creature = fakeCreature({ files: [{ name: "BDANKHSU", game: "bg1" }] });
+    const adjustment = fakeAdjustment({ files: ["BDANKHSU"], game: "bg1", data: undefined });
     const lines: CodeLine[] = [];
     service.handleAdjustment(lines, 0, creature, adjustment);
     expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);

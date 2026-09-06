@@ -472,15 +472,28 @@ class WeiduCreatureService extends AbstractWeiduService {
     const dedupeFiles = (adjustments: CreatureAdjustment[]) => [
       ...new Set(adjustments.flatMap((a) => a.files)),
     ];
-    // Untagged summon files get the summon script in both games; game-tagged ones get it only
-    // in their game and the normal script otherwise (see the ELSE branch below).
-    const summonFiles = dedupeFiles(summonAdjustments.filter((a) => !a.game));
+    const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
+    // A summon file gets the summon script instead of the normal one. The PATCH_IF GAME_IS / ELSE
+    // split below is only meaningful for a resref that is a summon in one game and a regular
+    // creature in the other (its collapsed creature.files entry spans both games). A game-tagged
+    // summon whose file exists ONLY in that same game has no "other game" to fall back to - the
+    // resref is simply absent elsewhere and the outer ACTION_IF GAME_IS loop already scopes it -
+    // so it is treated exactly like an untagged summon file: unconditional summon script.
+    const taggedSummonFiles = (["bg1", "bg2"] as const).flatMap((game) =>
+      dedupeFiles(summonAdjustments.filter((a) => a.game === game)).map((name) => ({ game, name })),
+    );
+    const summonFiles = [
+      ...dedupeFiles(summonAdjustments.filter((a) => !a.game)),
+      ...taggedSummonFiles.filter((f) => fileGame.get(f.name) !== undefined).map((f) => f.name),
+    ];
     const gameSummonFiles = (["bg1", "bg2"] as const).map((game) => ({
       game,
-      files: dedupeFiles(summonAdjustments.filter((a) => a.game === game)),
+      files: taggedSummonFiles
+        .filter((f) => f.game === game && fileGame.get(f.name) === undefined)
+        .map((f) => f.name),
     }));
     // Every summon file (tagged or not) is excluded from the base-script assignment below; the
-    // tagged ones are re-assigned per game right after.
+    // both-game tagged ones are re-assigned per game right after.
     const allSummonFiles = [...summonFiles, ...gameSummonFiles.flatMap((g) => g.files)];
     const locationFiles = [
       ...new Set(
@@ -644,7 +657,14 @@ class WeiduCreatureService extends AbstractWeiduService {
     creature: Creature,
     adjustment: CreatureAdjustment,
   ) {
-    const gameGuard = adjustment.game ? GAME_IS_CONDITION[adjustment.game] : undefined;
+    // Only guard the block with PATCH_IF GAME_IS when the adjustment narrows a file that actually
+    // exists in both games. If every file it targets is exclusive to adjustment.game, the outer
+    // ACTION_IF GAME_IS loop partition already scopes it and the guard is dead weight (its ELSE-less
+    // PATCH_IF is always true - see the matching reasoning in patchScripts).
+    const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
+    const spansBothGames = adjustment.files.some((f) => fileGame.get(f) === undefined);
+    const gameGuard =
+      adjustment.game && spansBothGames ? GAME_IS_CONDITION[adjustment.game] : undefined;
     if (gameGuard) {
       this.add(lines, `PATCH_IF ${gameGuard} BEGIN `, tab);
       tab++;

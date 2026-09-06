@@ -14,6 +14,6 @@ export function gamesOverlap(a: Game | undefined, b: Game | undefined): boolean 
 
 /** Install-time WeiDU predicate for each game. EET folds into bg1. */
 export const GAME_IS_CONDITION: Record<Game, string> = {
-  bg1: "GAME_IS ~bgee eet~",
+  bg1: "GAME_IS ~bgee~",
   bg2: "GAME_IS ~bg2ee~",
 };
