@@ -203,7 +203,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN JATREA4 JATREA3 JATREA2 JATREA1 END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jatrea4 jatrea3 jatrea2 jatrea1 END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2d END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2d END
 			// Assigning jam2dsu
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
@@ -212,7 +212,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN JATREA4 JATREA3 JATREA2 JATREA1 END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jatrea4 jatrea3 jatrea2 jatrea1 END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2dsu END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2dsu END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JATREA4~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~JATREA3~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~JATREA2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~JATREA1~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
 			END

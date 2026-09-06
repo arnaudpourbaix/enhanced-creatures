@@ -107,7 +107,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN JAGPSNAK END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jagpsnak END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam73 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam73 END
 			// Assigning jam73su
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
@@ -116,7 +116,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN JAGPSNAK END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jagpsnak END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam73su END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam73su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JAGPSNAK~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
 			END

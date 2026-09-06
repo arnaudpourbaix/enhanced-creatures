@@ -79,7 +79,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN JAHAMA HAMASU END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jahama END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2a END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2a END
 			// Assigning jam2asu
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
@@ -88,7 +88,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN JAHAMA HAMASU END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jahama END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2asu END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2asu END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JAHAMA~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
 			END

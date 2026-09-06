@@ -124,7 +124,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN JELLMUSU PLYJELL1 END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jajelmu END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2e END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2e END
 			// Assigning jam2esu
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
@@ -133,7 +133,7 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN JELLMUSU END
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jajelmu END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp=~DW#GP.+|DW#MG.+|DW1.+|DW2.+|DW3.+~ script=jam2esu END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam2esu END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~PLYJELL1~) BEGIN 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JAJELMU~) BEGIN 

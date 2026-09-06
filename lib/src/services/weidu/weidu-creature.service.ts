@@ -599,8 +599,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     if (GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx.length) {
       const pattern = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx
         .map((rx) => rx.source)
-        .join("|");
-      removeScriptsRegexp = ` removeScriptsRegexp=~${pattern}~`;
+        .join("\\|");
+      removeScriptsRegexp = ` removeScriptsRegexp="^${pattern}$"`;
     }
     if (p.skipFiles.length && !p.files.length) {
       this.add(p.lines, `PATCH_DEFINE_ARRAY skipFiles BEGIN ${p.skipFiles.join(" ")} END`, p.tab);
@@ -612,11 +612,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     }
     if (p.forceFiles.length) {
       this.add(p.lines, `CLEAR_ARRAY forceFiles`, p.tab);
-      this.add(
-        p.lines,
-        `PATCH_DEFINE_ARRAY forceFiles BEGIN ${p.forceFiles.join(" ")} END`,
-        p.tab,
-      );
+      this.add(p.lines, `PATCH_DEFINE_ARRAY forceFiles BEGIN ${p.forceFiles.join(" ")} END`, p.tab);
       forceFiles = " forceFiles";
     }
     const slot = p.slot ? ` slot=${p.slot}` : "";
