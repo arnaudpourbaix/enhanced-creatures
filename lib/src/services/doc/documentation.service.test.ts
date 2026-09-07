@@ -655,6 +655,36 @@ describe("addFamily", () => {
     expect(menu).toContain('<a href="#m4">Black Bear</a>');
     expect(menu).not.toContain("#m5");
   });
+
+  it("pushes a family divider before the family's creature cards", () => {
+    vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
+    const family = {
+      id: MonsterFamilyEnum.Bear,
+      creatures: [{ id: 4, name: "monster.bear.name.black", valid: true }],
+    } as unknown as Family;
+
+    const before = service.monsters.length;
+    documentationService.addFamily(family);
+
+    expect(service.monsters[before]).toBe(
+      '<div class="family-divider" id="family-Bear">' +
+        '<span class="family-divider-rule"></span><h2>Bear</h2>' +
+        '<span class="family-divider-rule"></span></div>',
+    );
+  });
+
+  it("does not push a family divider for a family with no valid creatures", () => {
+    vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
+    const family = {
+      id: MonsterFamilyEnum.Elemental,
+      creatures: [{ id: 5, name: "monster.bear.name.brown", valid: false }],
+    } as unknown as Family;
+
+    const before = service.monsters.length;
+    documentationService.addFamily(family);
+
+    expect(service.monsters).toHaveLength(before);
+  });
 });
 
 describe("addSpecial", () => {

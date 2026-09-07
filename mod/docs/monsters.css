@@ -103,6 +103,55 @@
   min-width: 0;
 }
 
+.family-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 36px 0 18px;
+  scroll-margin-top: 16px;
+}
+
+/* The run of creature cards opens straight onto the first family, so it doesn't need the same
+   breathing room above it that separates one family from the next. */
+.family-divider:first-child {
+  margin-top: 4px;
+}
+
+.family-divider h2 {
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.family-divider-rule {
+  flex: 1 1 auto;
+  height: 0;
+  border-top: 2px solid var(--color-gold);
+  position: relative;
+}
+
+/* Small diamond finial where each rule meets the family name. */
+.family-divider-rule::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--color-gold);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.family-divider-rule:first-child::after {
+  right: -3px;
+}
+
+.family-divider-rule:last-child::after {
+  left: -3px;
+}
+
 .creature {
   background: var(--color-panel);
   border: 1px solid var(--color-gold);

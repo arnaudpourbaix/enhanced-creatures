@@ -87,6 +87,20 @@ class DocumentationService {
     }
   }
 
+  // Ornamental section header dropped into the creature column before each family's cards, so the
+  // otherwise-continuous run of `.creature` blocks reads as grouped by family. The `id` gives the
+  // family its own scroll anchor (#family-Bear).
+  getFamilyDivider(family: Family): string {
+    const name = MonsterFamilyEnum[family.id];
+    return (
+      `<div class="family-divider" id="family-${name}">` +
+      `<span class="family-divider-rule"></span>` +
+      `<h2>${name}</h2>` +
+      `<span class="family-divider-rule"></span>` +
+      `</div>`
+    );
+  }
+
   getFamilyMenu(family: Family): string {
     const links = family.creatures
       .filter((creature) => creature.valid)
@@ -102,6 +116,12 @@ class DocumentationService {
 
   addFamily(family: Family) {
     this.families.push(this.getFamilyMenu(family));
+    // Only emit the section header when the family actually contributes a card below it - an
+    // all-invalid (or empty) family like Elemental would otherwise leave a divider with nothing
+    // under it. Same valid=false skip rationale as the creature loop below.
+    if (family.creatures.some((creature) => creature.valid)) {
+      this.monsters.push(this.getFamilyDivider(family));
+    }
     for (const creature of family.creatures) {
       // A creature whose builder threw after create() (see CreatureFamily.addCreature()) is left
       // in family.creatures with valid=false and never reached Creature.validate(), so fields
