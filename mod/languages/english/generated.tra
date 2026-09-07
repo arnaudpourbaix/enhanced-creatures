@@ -1764,8 +1764,9 @@ Speed Factor: 2
 Enchantment: 1
 Range: 2 feet~
 @10863 = ~Vortex Spider traits~
-@10864 = ~Type F poison~
-@10865 = ~Immediate death (saves vs poison/death at -2)~
+@10864 = ~Type E poison~
+@10865 = ~Immediate death (saves vs poison/death at -2)
+20 damage if the saving throw is successful~
 @10866 = ~Magic Resistance: 15%~
 @10867 = ~Jaws
 
@@ -1774,8 +1775,9 @@ Speed Factor: 2
 Enchantment: 2
 Range: 2 feet
 
-Cast spell Type F poison:
-Immediate death (saves vs poison/death at -2)~
+Cast spell Type E poison:
+Immediate death (saves vs poison/death at -2)
+20 damage if the saving throw is successful~
 @10868 = ~Wraith Spider traits~
 @10869 = ~Type S poison~
 @10870 = ~This poison remains active for 5 rounds and drains 1 point of Constitution each round it is active.

@@ -136,7 +136,7 @@ THEN
 		NoAction()
 END
 
-// Slow
+// Vortex Web
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
@@ -159,7 +159,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -185,7 +185,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -211,7 +211,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -237,7 +237,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -263,7 +263,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -289,7 +289,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -315,7 +315,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -341,7 +341,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -367,11 +367,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
-// Slow
+// Vortex Web
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
@@ -394,7 +394,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -420,7 +420,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -446,7 +446,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -472,7 +472,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -498,7 +498,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -524,7 +524,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
