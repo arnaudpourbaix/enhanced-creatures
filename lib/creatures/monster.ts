@@ -159,4 +159,6 @@ export enum MonsterEnum {
   Obliviax = 132,
   OliveSlime = 133,
   ShadeDireWolf = 134,
+  ShadeWyvern = 135,
+  AlbinoWyrm = 136,
 }
