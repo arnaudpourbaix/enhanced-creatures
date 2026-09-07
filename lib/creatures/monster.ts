@@ -158,4 +158,5 @@ export enum MonsterEnum {
   DensePudding = 131,
   Obliviax = 132,
   OliveSlime = 133,
+  ShadeDireWolf = 134,
 }

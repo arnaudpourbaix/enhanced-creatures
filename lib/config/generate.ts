@@ -72,6 +72,7 @@ export const GLOBAL_CONFIG = {
       "BDHELP",
       "BDSHOUT",
       "INITDLG",
+      "HUNTER",
       "RR#PICKP",
       "SHOUTDLG",
       "SHOUT",

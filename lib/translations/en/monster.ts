@@ -423,6 +423,7 @@ Characters in contact with the webs must also make a saving throw vs. paralyzati
     name: {
       wolf: "Wolf",
       dire: "Dire Wolf",
+      shadeDire: "Shade Dire Wolf",
       dread: "Dread Wolf",
       vampiric: "Vampiric Wolf",
       winter: "Winter Wolf",
