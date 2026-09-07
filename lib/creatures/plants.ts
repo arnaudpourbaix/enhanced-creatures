@@ -5,11 +5,9 @@ import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import {
   AbilityDamageTypeEnum,
-  EffectStatisticModifierEnum,
   ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
 } from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Plant extends Creature {
@@ -119,7 +117,7 @@ class PlantFamily extends CreatureFamily<Plant> {
         summon: true,
       },
       {
-        files: [NEW_CREATURES.Treant9hd],
+        files: [NEW_CREATURES.Treant9hd, "BDTREANT", "WITREANT"],
         data: {
           level1: 9,
           strength: 21,
