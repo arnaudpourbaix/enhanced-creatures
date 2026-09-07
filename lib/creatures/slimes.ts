@@ -47,6 +47,8 @@ enum Ids {
   ToxicVapors,
   AttachToLivingFleshGreenSlime,
   AttachToLivingFleshOliveSlime,
+  GargantuanOliveSlimeCreature,
+  HugeOliveSlimeCreature,
 }
 
 class Slime extends Creature {
@@ -55,9 +57,11 @@ class Slime extends Creature {
     diceSize: number;
     effects?: Effect[];
     castSpell?: WeaponCastSpell;
+    id?: number;
   }) {
     return this.addWeapon({
       weapon: {
+        id: p.id,
         stringRef: "monster.slime.weapon.pseudopod",
         icon: MonsterItemIconEnum.Jelly,
         equippedSlot: ["WEAPON1"],
@@ -616,7 +620,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         movement: 1,
         immunities: ["ooze"],
         items: {
-          remove: ["RING95", "OOZEGR1", "DW#OOZEG"],
+          remove: ["RING95", "OOZEGR1", "DW#OOZEG", "DW#JELGR"],
         },
       },
     });
@@ -800,6 +804,9 @@ class SlimeFamily extends CreatureFamily<Slime> {
     olive.setBehavior({
       restHeal: true,
     });
+    olive.setAdjustments([
+      { files: ["GORJELF2", "GORJELFU"], stringRef: "monster.slime.name.olive" },
+    ]);
     return olive;
   }
 
@@ -876,7 +883,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         },
       ],
       data: {
-        level1: 12,
+        level1: 8,
         bonusHp: 2,
         strength: 15,
         dexterity: 10,
@@ -886,7 +893,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         charisma: 10,
         ac: 9,
         apr: 1,
-        xpv: 2500,
+        xpv: 975,
         alignment: "NEUTRAL",
         morale: 9,
         general: "MONSTER",
@@ -894,6 +901,12 @@ class SlimeFamily extends CreatureFamily<Slime> {
         class: "OLIVE_SLIME",
         gender: "NIETHER",
         animation: "SLIME_OLIVE",
+        // Tiny	      HD: 1+2	  Attack: 1d3   xpv: 65
+        // Small	    HD: 3+2	  Attack: 1d4   xpv: 420
+        // Medium     HD: 5+2	  Attack: 2d4   xpv: 650
+        // Large	    HD: 8+2	  Attack: 3d4   xpv: 975
+        // Huge	      HD: 12+2	Attack: 4d4   xpv: 2000
+        // Gargantuan	HD: 16	  Attack: 4d6   xpv: 2500
         size: "Large",
         movement: 6,
         immunities: ["ooze"],
@@ -909,24 +922,39 @@ class SlimeFamily extends CreatureFamily<Slime> {
       // Olive slime zombies are harmed by acid, freezing cold, fire and magic missile spells.
       // Spells that affect plants will also affect them, although the effects of entangle are minimal at best.
       // No other attacks, by weapons, lightning, or spells that affect the mind will kill a slime creature.
-      immunities: ["lightning", "entangle", "nonMagicalWeapons"],
+      immunities: ["lightning", "entangle"],
     });
     olive.createPseudopod({
-      diceThrown: 2,
+      diceThrown: 4,
       diceSize: 4,
-      effects: [
-        {
-          opcode: EffectTypeEnum.Damage,
-          type: EffectDamageTypeEnum.Acid,
-          diceThrown: 2,
-          diceSize: 4,
-        },
-      ],
+      id: Ids.HugeOliveSlimeCreature,
+    });
+    olive.createPseudopod({
+      diceThrown: 4,
+      diceSize: 6,
+      id: Ids.GargantuanOliveSlimeCreature,
+    });
+    olive.createPseudopod({
+      diceThrown: 3,
+      diceSize: 4,
     });
     olive.setBehavior({
       dialog: ["SCHLUMPSA"],
       restHeal: true,
     });
+    olive.setAdjustments([
+      {
+        files: ["SCHLUM"],
+        data: {
+          size: "Huge",
+          level1: 12,
+          xpv: 2000,
+          items: {
+            equipped: [{ file: this.item(Ids.HugeOliveSlimeCreature).file, slot: "WEAPON1" }],
+          },
+        },
+      },
+    ]);
     return olive;
   }
 
@@ -960,7 +988,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         movement: 12,
         immunities: ["ooze"],
         items: {
-          remove: ["RING95", "AC#FPSL2", "AC#FPSL3", "AC#FPSLT"],
+          remove: ["RING95", "AC#FPSL2", "AC#FPSL3", "AC#FPSLT", "JELLOL1"],
         },
       },
     });
@@ -984,6 +1012,9 @@ class SlimeFamily extends CreatureFamily<Slime> {
     tracker.setBehavior({
       restHeal: true,
     });
+    tracker.setAdjustments([
+      { files: ["JELOLI01"], stringRef: "monster.slime.name.slitheringTracker" },
+    ]);
     return tracker;
   }
 

@@ -14,7 +14,6 @@ CREATE ITM "jai0m34"
 COPY_EXISTING ~jai0m34.itm~ ~override~
 	LPF lightning_immunity END
 	LPF entangle_immunity END
-	LPF nonMagicalWeapons_immunity END
 
 // Pseudopod
 CREATE ITM "jai1m34"
@@ -38,12 +37,69 @@ COPY_EXISTING ~jai1m34.itm~ ~override~
 		WRITE_SHORT 0x80 5
 		WRITE_BYTE 0x84 4
 		WRITE_BYTE 0x88 4
-		WRITE_BYTE 0x8a 2
+		WRITE_BYTE 0x8a 4
 		WRITE_SHORT 0x8e 2
 		WRITE_SHORT 0x9c (IDS_OF_SYMBOL (~projectl~ ~ACIDBLMU~)) + 1
 	WRITE_SHORT 0xa0 100
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter2=65536 probability1=100 dicesize=4 dicenumber=2 END
+	END
+
+// Pseudopod
+CREATE ITM "jai2m34"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10276)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10276)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IJELLY~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10819)
+	WRITE_LONG 0x60 2
+COPY_EXISTING ~jai2m34.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IJELLY~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 4
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 4
+		WRITE_SHORT 0x8e 2
+		WRITE_SHORT 0x9c (IDS_OF_SYMBOL (~projectl~ ~ACIDBLMU~)) + 1
+	WRITE_SHORT 0xa0 100
+	WRITE_LONG 0x98 1
+	END
+
+// Pseudopod
+CREATE ITM "jai3m34"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10276)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10276)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IJELLY~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10820)
+	WRITE_LONG 0x60 2
+COPY_EXISTING ~jai3m34.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IJELLY~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 4
+		WRITE_BYTE 0x88 4
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 2
+		WRITE_SHORT 0x9c (IDS_OF_SYMBOL (~projectl~ ~ACIDBLMU~)) + 1
+	WRITE_SHORT 0xa0 100
+	WRITE_LONG 0x98 1
 	END
 
 COPY ~%MOD_FOLDER%/lib/pnp-monster/ooze/assets/jaolisli.cre~ ~override/jaolisli.cre~
@@ -65,23 +121,23 @@ BEGIN
 			REMOVE_CRE_ITEM ~RING95~
 			REMOVE_CRE_ITEM ~IMMUNE1~
 			ADD_CRE_ITEM ~jai0m34~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~jai1m34~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jai3m34~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			ADD_CRE_ITEM ~jai13~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=2500
-					hp=194
+					xpv=975
+					hp=130
 					ac=9
-					thac0=9
+					thac0=13
 					apr=1
-					saveDeath=7
-					saveWand=9
-					savePolymorph=8
-					saveBreath=8
-					saveSpell=10
-					level1=12
+					saveDeath=10
+					saveWand=12
+					savePolymorph=11
+					saveBreath=12
+					saveSpell=13
+					level1=8
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
 					strength=15
 					intelligence=10
@@ -106,6 +162,19 @@ BEGIN
 			CLEAR_ARRAY forceFiles
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jaolisli END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam34 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SCHLUM~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+				WRITE_SHORT 0x24 194 // hp
+				WRITE_SHORT 0x26 194 // hp
+				WRITE_BYTE 0x52 9 // thac0
+				WRITE_BYTE 0x54 7 // saveDeath
+				WRITE_BYTE 0x55 9 // saveWand
+				WRITE_BYTE 0x56 8 // savePolymorph
+				WRITE_BYTE 0x57 8 // saveBreath
+				WRITE_BYTE 0x58 10 // saveSpell
+				WRITE_BYTE 0x234 12 // level1
+				REPLACE_CRE_ITEM ~jai1m34~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			END
 		BUT_ONLY_IF_IT_CHANGES
 	END
 END

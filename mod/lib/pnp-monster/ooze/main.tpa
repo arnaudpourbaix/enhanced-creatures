@@ -52,4 +52,3 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/33.tpa" // Green Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/85.tpa" // Olive Slime
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/34.tpa" // Olive Slime Creature
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/35.tpa" // Slithering Tracker
-LAF integrate_sectypes END
