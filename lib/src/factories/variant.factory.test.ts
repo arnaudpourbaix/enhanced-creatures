@@ -12,11 +12,28 @@ afterEach(() => {
 
 const NAME_KEY = "common.potion.use";
 const GREATER_GHAST = "greater ghast";
+const FOREIGN_FILE = "NOPE";
+const NOT_OWNED = /'NOPE' is not one of/;
+const LACEDON = "AC#DTLAC";
+const GREATER_LACEDON_FILE = "AC#DT01L";
+const GREATER_LACEDON = "greater lacedon";
+const CREATURE_FILES = [
+  "GRON",
+  "GMAYOR",
+  "THESHAL",
+  "CD41COR",
+  "AC#BOSS",
+  "BDJUNIA2",
+  LACEDON,
+  "LACEDO01",
+  GREATER_LACEDON_FILE,
+];
 
-function fakeCreature(): Creature {
+function fakeCreature(files: string[] = CREATURE_FILES): Creature {
   const creature = new Creature(1);
   creature.data = { items: { equipped: [] } } as unknown as MainCreatureData;
   creature.name = NAME_KEY;
+  creature.files = files.map((name) => ({ name }));
   return creature;
 }
 
@@ -39,11 +56,11 @@ describe("variantFactory.add", () => {
     const get = captureAdjustments();
     variantFactory.add(fakeCreature(), GREATER_GHAST, {
       data: { level1: 6, strength: 18 },
-      files: ["GRON"],
+      files: ["GRON", "CD41COR"],
       adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
     });
     expect(get()).toEqual([
-      { files: ["GRON"], data: { level1: 6, strength: 18 } },
+      { files: ["GRON", "CD41COR"], data: { level1: 6, strength: 18 } },
       { files: ["CD41COR"], data: { level1: 10, strength: 18 } },
     ]);
   });
@@ -52,6 +69,7 @@ describe("variantFactory.add", () => {
     const get = captureAdjustments();
     variantFactory.add(fakeCreature(), GREATER_GHAST, {
       data: { strength: 18 },
+      files: ["AC#BOSS"],
       adjust: [
         {
           files: ["AC#BOSS"],
@@ -62,6 +80,7 @@ describe("variantFactory.add", () => {
       ],
     });
     expect(get()).toEqual([
+      { files: ["AC#BOSS"], data: { strength: 18 } },
       {
         files: ["AC#BOSS"],
         data: { level1: 14, strength: 18 },
@@ -74,6 +93,7 @@ describe("variantFactory.add", () => {
   it("drops an adjust entry's data key entirely when nothing resolves (noWeapon-only)", () => {
     const get = captureAdjustments();
     variantFactory.add(fakeCreature(), "unarmed", {
+      files: ["BDJUNIA2"],
       adjust: [{ files: ["BDJUNIA2"], noWeapon: true }],
     });
     expect(get()).toEqual([{ files: ["BDJUNIA2"], noWeapon: true, data: undefined }]);
@@ -91,19 +111,37 @@ describe("variantFactory.add", () => {
     captureAdjustments();
     const variant = variantFactory.add(fakeCreature(), "lacedon", {
       data: { level1: 5 },
-      files: ["AC#DTLAC", "lacedo01"],
-      adjust: [{ files: ["AC#DTLAC"], data: { ac: 3 } }],
+      files: [LACEDON, "lacedo01", LACEDON],
     });
-    expect(variant.files).toEqual(["AC#DTLAC", "LACEDO01"]);
+    expect(variant.files).toEqual([LACEDON, "LACEDO01"]);
     expect(variant.data).toEqual({ level1: 5 });
+  });
+
+  it("throws when a member file is not one of the creature's files", () => {
+    expect(() =>
+      variantFactory.add(fakeCreature(), GREATER_GHAST, {
+        data: { level1: 6 },
+        files: [FOREIGN_FILE],
+      }),
+    ).toThrow(NOT_OWNED);
+  });
+
+  it("throws when an adjust entry targets a file that is not a member", () => {
+    expect(() =>
+      variantFactory.add(fakeCreature(), GREATER_GHAST, {
+        data: { level1: 6 },
+        files: ["GRON"],
+        adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
+      }),
+    ).toThrow(/adjust entry targets 'CD41COR', which is not a member/);
   });
 
   it("throws when the creature was already validated", () => {
     const creature = fakeCreature();
     creature.valid = true;
-    expect(() => variantFactory.add(creature, "x", { data: { level1: 1 }, files: ["A"] })).toThrow(
-      /has already been validated/,
-    );
+    expect(() =>
+      variantFactory.add(creature, "x", { data: { level1: 1 }, files: ["GRON"] }),
+    ).toThrow(/has already been validated/);
   });
 });
 
@@ -113,14 +151,14 @@ describe("derived variant (Variant.variant)", () => {
     const creature = fakeCreature();
     const lacedon = variantFactory.add(creature, "lacedon", {
       data: { level1: 5, strength: 18 },
-      files: ["AC#DTLAC"],
+      files: [LACEDON],
     });
-    lacedon.variant("greater lacedon", {
+    lacedon.variant(GREATER_LACEDON, {
       data: { level1: 9, strength: 19, xpv: 1800 },
-      files: ["AC#DT01L"],
+      files: [GREATER_LACEDON_FILE],
     });
     expect(spy.mock.calls[1][1]).toEqual([
-      { files: ["AC#DT01L"], data: { level1: 9, strength: 19, xpv: 1800 } },
+      { files: [GREATER_LACEDON_FILE], data: { level1: 9, strength: 19, xpv: 1800 } },
     ]);
   });
 
@@ -129,9 +167,20 @@ describe("derived variant (Variant.variant)", () => {
     const creature = fakeCreature();
     const lacedon = variantFactory.add(creature, "lacedon", {
       data: { level1: 5, strength: 18 },
-      files: ["AC#DTLAC", "LACEDO01"],
+      files: [LACEDON, "LACEDO01"],
     });
-    lacedon.variant("greater lacedon", { data: { xpv: 1800 }, files: ["AC#DT01L"] });
-    expect(lacedon.files).toEqual(["AC#DTLAC", "LACEDO01", "AC#DT01L"]);
+    lacedon.variant(GREATER_LACEDON, { data: { xpv: 1800 }, files: [GREATER_LACEDON_FILE] });
+    expect(lacedon.files).toEqual([LACEDON, "LACEDO01", GREATER_LACEDON_FILE]);
+  });
+
+  it("validates a derived variant's files against the creature, not the parent", () => {
+    captureAdjustments();
+    const lacedon = variantFactory.add(fakeCreature(), "lacedon", {
+      data: { level1: 5 },
+      files: [LACEDON],
+    });
+    expect(() =>
+      lacedon.variant(GREATER_LACEDON, { data: { xpv: 1800 }, files: [FOREIGN_FILE] }),
+    ).toThrow(NOT_OWNED);
   });
 });

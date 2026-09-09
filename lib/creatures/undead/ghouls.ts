@@ -422,7 +422,7 @@ function greaterGhastVariant(base: Undead): Variant {
   return base.variant("Greater Ghast", {
     data: { level1: 8, strength: 18, exceptionalStrength: 100, xpv: 975 },
     files: [
-      //"CD41COR",
+      "CD41COR",
       "BDJUNIA2",
       "GRAEL",
       "GRON",
