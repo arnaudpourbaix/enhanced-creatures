@@ -164,4 +164,8 @@ export enum MonsterEnum {
   FaerieDragon = 137,
   Phoenix = 138,
   Pseudodragon = 139,
+  BlazingBones = 140,
+  Bodak = 141,
+  ZombieLord = 142,
+  WillOWisp = 143,
 }

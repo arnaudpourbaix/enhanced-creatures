@@ -1160,7 +1160,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         movement: 15,
         immunities: ["undead"],
         items: {
-          remove: ["IMMUNE1", "B1-8M2", "IMMCHS"],
+          remove: ["IMMUNE1", "B1-8M2", "IMMCHS", "S1-8", "RING95"],
         },
         script: {
           remove: ["BDBANSH", "banshe01", "f_wailin"],
@@ -1280,7 +1280,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         movement: 15,
         immunities: ["undead"],
         items: {
-          remove: ["ring95", "ghast1"],
+          remove: ["ring95", "ghast1", "LACEDO", "LACEDO02", "BDGHASTG"],
         },
         script: {
           remove: ["movep1", "ghast", "ghastd", "bpundead"],
@@ -1324,6 +1324,52 @@ class UndeadFamily extends CreatureFamily<Undead> {
           ac: -4,
         },
       },
+      {
+        files: ["BDJUNIA2"],
+        noWeapon: true,
+        data: {
+          level1: 8,
+        },
+      },
+      {
+        files: ["WICULT1"],
+        data: {
+          level1: 7,
+          strength: 18,
+          exceptionalStrength: 51,
+        },
+      },
+      {
+        files: ["GRON", "GMAYOR", "THESHAL"],
+        data: {
+          level1: 6,
+          strength: 18,
+        },
+      },
+      {
+        files: ["CD41COR"],
+        data: {
+          level1: 10,
+          strength: 18,
+        },
+      },
+      {
+        // Lacedon, which are more like greater ghast
+        files: ["AC#DTLAC", "LACEDO01", "SAHLACE"],
+        data: {
+          level1: 5,
+          strength: 18,
+        },
+      },
+      {
+        // Greater Lacedon
+        files: ["AC#DT01L"],
+        data: {
+          level1: 9,
+          strength: 19,
+          xpv: 1800,
+        },
+      },
     ]);
     return ghast;
   }
@@ -1357,7 +1403,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         movement: 9,
         immunities: ["undead"],
         items: {
-          remove: ["ring95", "ghoul1", "ringkora"],
+          remove: ["ring95", "ghoul1", "ringkora", "LACEDO"],
         },
         script: {
           remove: ["ghoul"],
