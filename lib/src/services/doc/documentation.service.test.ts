@@ -286,7 +286,7 @@ describe("getCreatureAttacks", () => {
     expect(template.text).toContain('<div class="weapon-proficiency">Two-Handed Sword');
   });
 
-  it("shows an unfilled star scale when the creature has no matching proficiency entry", () => {
+  it("shows no proficiency line when the creature has no matching proficiency entry (rank 0)", () => {
     const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
     State.items = [
       {
@@ -303,7 +303,8 @@ describe("getCreatureAttacks", () => {
 
     documentationService.getCreatureAttacks(template, creature);
 
-    expect(template.text).toContain("☆☆☆☆☆");
+    expect(template.text).not.toContain("weapon-proficiency");
+    expect(template.text).not.toContain("☆");
   });
 
   it("shows no proficiency line for a weapon with no proficiency requirement (e.g. fists)", () => {

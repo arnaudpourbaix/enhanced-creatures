@@ -25,7 +25,11 @@ function fakeCreature(
     id: MonsterEnum.WildDog,
     spells: [],
     effectFiles: [],
-    data: { immunities: [], strength: p.strength, size: p.size },
+    data: {
+      immunities: [],
+      strength: p.strength,
+      size: p.size ? { value: p.size, tall: false, long: true } : undefined,
+    },
   } as unknown as Creature;
 }
 

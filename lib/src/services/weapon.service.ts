@@ -1,7 +1,7 @@
 import figureSet from "figures";
 import { Creature } from "../model/creature/creature";
 import { EnchantmentTable } from "../model/game-data/enchantement";
-import { CreatureSizeTable, getCreatureSize } from "../model/game-data/sizes";
+import { getCreatureSize } from "../model/game-data/sizes";
 import { ItemFlagEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import logService from "./log.service";

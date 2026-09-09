@@ -2,7 +2,7 @@ import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../..
 import effectFactory from "../../factories/effect.factory";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig, GRAB_DEFAULT_CONFIG } from "../../model/creature/grab";
-import { CreatureSizeTable, getCreatureSize } from "../../model/game-data/sizes";
+import { getCreatureSize } from "../../model/game-data/sizes";
 import { Effect, IdsEffect } from "../../model/spell-item/effect";
 import {
   EffectBonusToEnum,

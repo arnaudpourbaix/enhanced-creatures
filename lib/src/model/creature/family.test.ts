@@ -366,11 +366,11 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
 
     family.create({
       name: CREATURE_NAME_KEY,
-      monster: MonsterEnum.Wolf,
+      monster: MonsterEnum.AlbinoWyrm,
       data: {} as unknown as InputMainCreatureData,
     });
 
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("9XDOG"));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("BDWYRML1"));
   });
 
   it("does not warn when the monster has no unvalidated guesses at all", () => {

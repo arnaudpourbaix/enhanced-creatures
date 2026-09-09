@@ -109,7 +109,7 @@ describe("hitPointService.getHitPoints", () => {
     const value = hitPointService.getHitPoints({
       data: {
         level1: { pnpValue: 1, value: 1, type: "none" },
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         bonusHp: 3,
       },
       creature: fakeCreature({ immunities: ["construct"] }),

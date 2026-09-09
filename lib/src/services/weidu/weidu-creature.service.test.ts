@@ -128,11 +128,11 @@ describe("patchCreatures (private)", () => {
     const lines: CodeLine[] = [];
     service.patchCreatures(lines, 0, creature);
     const out = codes(lines);
-    expect(out).toContain("ACTION_IF GAME_IS ~bgee eet~ BEGIN");
+    expect(out).toContain("ACTION_IF GAME_IS ~bgee~ BEGIN");
     expect(out).toContain("ACTION_IF GAME_IS ~bg2ee~ BEGIN");
     expect(out.filter((c) => c === ACTION_FOR_EACH_FILE)).toHaveLength(3);
     const j = out.join("\n");
-    expect(j).toMatch(/GAME_IS ~bgee eet~ BEGIN[\s\S]*"ONE"/);
+    expect(j).toMatch(/GAME_IS ~bgee~ BEGIN[\s\S]*"ONE"/);
     expect(j).toMatch(/GAME_IS ~bg2ee~ BEGIN[\s\S]*"TWO"/);
     // BOTH belongs to the unconditional group, before any GAME_IS guard
     const bothIdx = out.findIndex((c) => c === '"BOTH"');
@@ -465,7 +465,7 @@ describe("patchScripts (private)", () => {
     ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
-    const guardIdx = out.findIndex((c) => c === "PATCH_IF GAME_IS ~bgee eet~ BEGIN");
+    const guardIdx = out.findIndex((c) => c === "PATCH_IF GAME_IS ~bgee~ BEGIN");
     const elseIdx = out.findIndex((c) => c === END_ELSE_BEGIN);
     expect(guardIdx).toBeGreaterThanOrEqual(0);
     expect(elseIdx).toBeGreaterThan(guardIdx);

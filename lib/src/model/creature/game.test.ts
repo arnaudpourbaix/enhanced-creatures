@@ -17,8 +17,8 @@ describe("gamesOverlap", () => {
 });
 
 describe("GAME_IS_CONDITION", () => {
-  it("maps bg1 to bgee+eet and bg2 to bg2ee", () => {
-    expect(GAME_IS_CONDITION.bg1).toBe("GAME_IS ~bgee eet~");
+  it("maps bg1 to bgee and bg2 to bg2ee", () => {
+    expect(GAME_IS_CONDITION.bg1).toBe("GAME_IS ~bgee~");
     expect(GAME_IS_CONDITION.bg2).toBe("GAME_IS ~bg2ee~");
   });
 });

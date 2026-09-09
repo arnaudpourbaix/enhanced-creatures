@@ -71,9 +71,9 @@ describe("monsterFilesService.getFiles", () => {
 
     expect(files).toEqual(
       expect.arrayContaining([
-        { name: "ANKHEG", game: undefined },
-        { name: "BDNEO", game: undefined },
-        { name: "BDANKH01", game: undefined },
+        { name: "ANKHEG", game: "bg1" },
+        { name: "BDNEO", game: "bg1" },
+        { name: "BDANKH01", game: "bg1" },
       ]),
     );
   });
@@ -117,9 +117,9 @@ describe("parseUnvalidatedMonsterFilesCsv", () => {
 
 describe("monsterFilesService.getUnvalidatedFiles", () => {
   it("returns the unvalidated creatures.csv guesses for a known monster", () => {
-    const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.Wolf);
+    const files = monsterFilesService.getUnvalidatedFiles(MonsterEnum.AlbinoWyrm);
 
-    expect(files).toEqual(expect.arrayContaining([{ name: "9XDOG", game: undefined }]));
+    expect(files).toEqual(expect.arrayContaining([{ name: "BDWYRML1", game: "bg1" }]));
   });
 });
 

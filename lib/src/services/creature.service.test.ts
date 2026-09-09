@@ -59,7 +59,12 @@ function fakeCreature(p: {
   }[];
 }): Creature {
   return {
-    data: { immunities: [], items: { equipped: [] }, ...p.data },
+    data: {
+      immunities: [],
+      items: { equipped: [] },
+      size: { value: "Medium", tall: false, long: true },
+      ...p.data,
+    },
     items: p.items ?? [],
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
@@ -1395,7 +1400,7 @@ describe("creatureService.findPersistingItems", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "items", detail: "P1-4 weapon1" },
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
     ]);
   });
 
@@ -1427,7 +1432,7 @@ describe("creatureService.findPersistingItems", () => {
       adjustments: [{ files: ["AAA"], itemsRemove: ["P1-4"] }],
     });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "items", detail: "AMUL01 amulet" },
+      { file: "AAA", game: undefined, check: "items", detail: "amulet=AMUL01" },
     ]);
   });
 
@@ -1500,8 +1505,8 @@ describe("creatureService.findPersistingItems", () => {
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "items", detail: "P1-4 weapon1" },
-      { file: "AAA", game: "bg2", check: "items", detail: "RING95 lring" },
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+      { file: "AAA", game: "bg2", check: "items", detail: "lring=RING95" },
     ]);
   });
 });
@@ -1680,7 +1685,7 @@ describe("creatureService.checkAgainstCsv", () => {
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(warn).toHaveBeenCalledWith("AAA : items (P1-4 weapon1)");
+    expect(warn).toHaveBeenCalledWith("AAA : items (weapon1=P1-4)");
   });
 
   it("suppresses a file whose row has ValidatedItems=true", () => {
@@ -1715,7 +1720,7 @@ describe("creatureService.checkAgainstCsv", () => {
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
     expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn).toHaveBeenCalledWith("AAA (bg2) : items (RING95 lring)");
+    expect(warn).toHaveBeenCalledWith("AAA (bg2) : items (lring=RING95)");
   });
 
   it("emits a separate line per source file", () => {
@@ -1736,8 +1741,8 @@ describe("creatureService.checkAgainstCsv", () => {
     );
 
     expect(warn).toHaveBeenCalledTimes(2);
-    expect(warn).toHaveBeenCalledWith("AAA : items (P1-4 weapon1)");
-    expect(warn).toHaveBeenCalledWith("BBB : items (RING95 lring)");
+    expect(warn).toHaveBeenCalledWith("AAA : items (weapon1=P1-4)");
+    expect(warn).toHaveBeenCalledWith("BBB : items (lring=RING95)");
   });
 
   it("combines every check for one file onto a single line, in level/items/scripts order", () => {
@@ -1755,7 +1760,7 @@ describe("creatureService.checkAgainstCsv", () => {
 
     expect(warn).toHaveBeenCalledTimes(1);
     expect(warn).toHaveBeenCalledWith(
-      "AAA : level gap (csv 6 / def 10), items (RING95 lring), scripts (defaultScript=0X1DG)",
+      "AAA : level gap (csv 6 / def 10), items (lring=RING95), scripts (defaultScript=0X1DG)",
     );
   });
 
