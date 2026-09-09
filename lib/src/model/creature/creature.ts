@@ -20,8 +20,10 @@ import {
   Spell,
   WeaponCastSpell,
 } from "../spell-item/spell-item";
+import variantFactory from "../../factories/variant.factory";
 import { AbstractCreature } from "./abstract-creature";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "./adjustment";
+import type { Variant, VariantInput } from "./variant";
 import { CreatureAttack, CreatureAttackAction, PartialCreatureAttack } from "./attack";
 import { CreatureBehavior, PartialCreatureBehavior } from "./behavior";
 import { CreatureData, MainCreatureData } from "./data";
@@ -120,6 +122,18 @@ export class Creature extends AbstractCreature implements BaseCreature {
 
   setAdjustments(adjustments: PartialCreatureAdjustment[]) {
     creatureFactory.setAdjustments(this, adjustments);
+  }
+
+  /**
+   * Declare a named stat profile ("greater ghast", "lacedon", ...) shared by a set of existing
+   * creature files. Sugar over {@link setAdjustments}: expands to ordered adjustment entries, so
+   * WeiDU generation and the doc adjustment cards are unchanged. See {@link VariantInput}.
+   *
+   * `parent` is passed by {@link Variant.variant} when deriving a sub-variant; call that instead
+   * of passing it here directly.
+   */
+  variant(label: string, input: VariantInput, parent?: Variant): Variant {
+    return variantFactory.add(this, label, input, parent);
   }
 
   seeInvisible() {

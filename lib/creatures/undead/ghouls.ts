@@ -29,6 +29,7 @@ import { MonsterEnum } from "../monster";
 import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
+import { Variant } from "../../src/model/creature/variant";
 
 function ghoulTouch(cre: Undead) {
   return cre.addSpell({
@@ -412,70 +413,57 @@ export function ghast(family: UndeadFamily): Undead {
     restHeal: true,
     abilities: [family.ability(Ids.CarrionStench)],
   });
-  ghast.setAdjustments([
-    {
-      files: ["GHASTS", "ghastgsu"],
-      data: { script: { location: "None" } },
-    },
-    {
-      files: ["GRAEL"],
-      data: {
-        // he starts dialog with shoutdlg (can't configure in behavior/dialog because it has no script name)
-        level1: 11,
-        xpv: 5000,
-        strength: 18,
-        exceptionalStrength: 100,
-        ac: -4,
-      },
-    },
-    {
-      files: ["BDJUNIA2"],
-      noWeapon: true,
-      data: {
-        level1: 8,
-      },
-    },
-    {
-      files: ["WICULT1"],
-      data: {
-        level1: 7,
-        strength: 18,
-        exceptionalStrength: 51,
-      },
-    },
-    {
-      files: ["GRON", "GMAYOR", "THESHAL"],
-      data: {
-        level1: 6,
-        strength: 18,
-      },
-    },
-    {
-      files: ["CD41COR"],
-      data: {
-        level1: 10,
-        strength: 18,
-      },
-    },
-    {
-      // Lacedon, which are more like greater ghast
-      files: ["AC#DTLAC", "LACEDO01", "SAHLACE"],
-      data: {
-        level1: 5,
-        strength: 18,
-      },
-    },
-    {
-      // Greater Lacedon
-      files: ["AC#DT01L"],
-      data: {
-        level1: 9,
-        strength: 19,
-        xpv: 1800,
-      },
-    },
-  ]);
+  greaterGhastVariant(ghast);
+  lacedonVariant(ghast);
   return ghast;
+}
+
+function greaterGhastVariant(base: Undead): Variant {
+  return base.variant("Greater Ghast", {
+    data: { level1: 8, strength: 18, exceptionalStrength: 100, xpv: 975 },
+    files: [
+      //"CD41COR",
+      "BDJUNIA2",
+      "GRAEL",
+      "GRON",
+      "GMAYOR",
+      "THESHAL",
+      "GHASTGSU",
+      "WICULT1",
+      "D9OGR01",
+      "D9OGR0M",
+      "D9OGRRT",
+      "D9OGYYY",
+    ],
+    adjust: [
+      {
+        files: ["GRAEL"],
+        data: {
+          level1: 15,
+          xpv: 5000,
+          ac: -4,
+        },
+      },
+      { files: ["BDJUNIA2"], noWeapon: true },
+      { files: ["CD41COR"], data: { level1: 10 } },
+    ],
+  });
+}
+
+function lacedonVariant(base: Undead): Variant {
+  const lacedon = base.variant("Lacedon", {
+    data: { level1: 5, strength: 18 },
+    files: ["AC#DTLAC", "LACEDO01", "SAHLACE"],
+  });
+  greaterLacedonVariant(lacedon);
+  return lacedon;
+}
+
+function greaterLacedonVariant(lacedon: Variant): Variant {
+  return lacedon.variant("Greater Lacedon", {
+    data: { level1: 9, strength: 19, xpv: 1800 },
+    files: ["AC#DT01L"],
+  });
 }
 
 export function ghoulLord(family: UndeadFamily): Undead {
