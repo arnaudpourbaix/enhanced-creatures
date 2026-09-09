@@ -480,7 +480,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         race: "FAIRY",
         class: "FAIRY_DRYAD",
         gender: "FEMALE",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["fey"],
         items: {
@@ -590,7 +590,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         race: "FAIRY",
         class: "FAIRY_DRYAD",
         gender: "FEMALE",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 15,
         immunities: ["fey"],
         items: { remove: ["ANTIWEB", "HAMASU", "AROW02"] },
@@ -714,7 +714,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         race: "FAIRY",
         class: "DRUID", // FAIRY_NYMPH
         gender: "FEMALE",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["fey"],
         items: { remove: ["DAGG01", "B1-6", "DVNYMPH", "ANTIWEB", "DAGG02", "HGNYMPH"] },
@@ -850,7 +850,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         race: "FAIRY",
         class: "FAIRY_SIRINE",
         gender: "FEMALE",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["fey"],
         items: {
@@ -1092,7 +1092,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         race: "FAIRY",
         class: "FAIRY_NEREID",
         gender: "FEMALE",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["fey"],
         items: {

@@ -2,7 +2,7 @@ import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../..
 import effectFactory from "../../factories/effect.factory";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig, GRAB_DEFAULT_CONFIG } from "../../model/creature/grab";
-import { CreatureSizeTable } from "../../model/game-data/sizes";
+import { CreatureSizeTable, getCreatureSize } from "../../model/game-data/sizes";
 import { Effect, IdsEffect } from "../../model/spell-item/effect";
 import {
   EffectBonusToEnum,
@@ -71,8 +71,7 @@ class GrabService {
     spell: Spell,
   ): void {
     const strModifier = creatureService.getStrengthBonus(creature.data).hit;
-    const sizeEntry = CreatureSizeTable.find((s) => s.size === creature.data.size);
-    if (!sizeEntry) throw new Error(`Size ${creature.data.size} is not defined !`);
+    const sizeEntry = getCreatureSize(creature.data.size.value);
     const sizeModifier = sizeEntry.grabModifier;
     const calculatedSaveBonus =
       (strModifier + sizeModifier + (grab.onlyGrabProneTarget ? 4 : 0)) * -1;
@@ -180,10 +179,10 @@ class GrabService {
     if (!creature.data.size) {
       logService.warn(`Creature size is needed to add grab immunities!`);
     } else {
-      if (["Huge", "Large"].includes(creature.data.size)) {
+      if (["Huge", "Large"].includes(creature.data.size.value)) {
         list.push(...HUGE_CREATURES);
       }
-      if (creature.data.size === "Large") {
+      if (creature.data.size.value === "Large") {
         list.push(...LARGE_CREATURES);
       }
     }

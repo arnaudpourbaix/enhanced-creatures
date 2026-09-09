@@ -106,7 +106,7 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
         race: "ANKHEG",
         class: "ANKHEG",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 6,
         immunities: ["magicalBeast"],
         script: {

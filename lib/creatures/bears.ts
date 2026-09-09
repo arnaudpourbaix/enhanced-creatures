@@ -140,7 +140,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BLACK",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["B1-6"],
@@ -187,7 +187,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BROWN",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["B1-8", "S1-8", "BEARBR", "B1-8M1"],
@@ -237,7 +237,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_CAVE",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["B1-10", "BEARCASU", "BEARCA", "S1-12", "B1-12"],
@@ -288,7 +288,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_POLAR",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
           remove: [
@@ -377,7 +377,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BROWN",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["B1-12", "S1-8"],

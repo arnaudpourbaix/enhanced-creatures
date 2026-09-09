@@ -1,7 +1,7 @@
 import figureSet from "figures";
 import { Creature } from "../model/creature/creature";
 import { EnchantmentTable } from "../model/game-data/enchantement";
-import { CreatureSizeTable } from "../model/game-data/sizes";
+import { CreatureSizeTable, getCreatureSize } from "../model/game-data/sizes";
 import { ItemFlagEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import logService from "./log.service";
@@ -53,11 +53,15 @@ class WeaponService {
     ) {
       return;
     }
-    const range = CreatureSizeTable.find((c) => c.size === creature.data.size);
-    if (range) {
-      logService.log(`${figureSet.arrowRight} Melee range: ${range.attackRange}`);
-      weapon.header.range = range.attackRange;
-    }
+    const size = getCreatureSize(creature.data.size.value);
+    const longReach = creature.data.size.long ? size.reach.long : 0;
+    const tallReach = creature.data.size.tall ? size.reach.tall : 0;
+    // reach are extracted for MM and are in feet.
+    // In game range is supposed to be in feet too, but the results are weird.
+    // Dividing by 3 seems to produce a more realistic value.
+    const reach = Math.round(Math.max(longReach, tallReach) / 3);
+    if (reach) logService.log(`${figureSet.arrowRight} Melee range: ${reach}`);
+    weapon.header.range = reach;
   }
 }
 

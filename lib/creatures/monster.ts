@@ -161,4 +161,7 @@ export enum MonsterEnum {
   ShadeDireWolf = 134,
   ShadeWyvern = 135,
   AlbinoWyrm = 136,
+  FaerieDragon = 137,
+  Phoenix = 138,
+  Pseudodragon = 139,
 }

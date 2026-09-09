@@ -3,7 +3,7 @@
 // Greater Wyvern
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wyvern/jam48.baf~
 
-// Type F poison
+// Type E poison
 CREATE SPL "jas0m48"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m48.SPL~  ~override~
@@ -13,13 +13,14 @@ COPY_EXISTING ~jas0m48.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10900)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=2 parameter2=2 duration=17 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=5 parameter2=2 duration=14 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=8 parameter2=2 duration=13 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=11 parameter2=2 duration=13 probability1=100 dicesize=7 dicenumber=8 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=13 parameter2=2 duration=12 probability1=100 dicesize=9 dicenumber=10 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=14 parameter2=2 duration=13 probability1=100 dicesize=11 dicenumber=15 savingthrow=4 savebonus="-2" special=6 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=20 parameter2=2 duration=13 probability1=100 dicesize=16 dicenumber=40 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=20 probability1=100 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=14 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=4 parameter2=2 duration=12 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=6 parameter2=2 duration=14 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=9 parameter2=2 duration=13 probability1=100 dicesize=7 dicenumber=8 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=11 parameter2=2 duration=13 probability1=100 dicesize=9 dicenumber=10 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=12 parameter2=2 duration=13 probability1=100 dicesize=11 dicenumber=15 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=18 parameter2=2 duration=13 probability1=100 dicesize=16 dicenumber=40 savingthrow=4 special=6 END
 OUTER_SET $f_AddSecType(jas0m48.spl) = PoisonSecType
 
 // Stinger
@@ -29,8 +30,8 @@ CREATE ITM "jai0m48"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10339)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10339)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10340)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10340)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IWOLF~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10901)
@@ -41,7 +42,7 @@ COPY_EXISTING ~jai0m48.itm~ ~override~
 		WRITE_BYTE 0x74 1
 		WRITE_ASCII 0x76 ~IWOLF~ #8
 		WRITE_BYTE 0x7e 1
-		WRITE_SHORT 0x80 3
+		WRITE_SHORT 0x80 5
 		WRITE_BYTE 0x84 3
 		WRITE_BYTE 0x88 6
 		WRITE_BYTE 0x8a 1
@@ -51,36 +52,6 @@ COPY_EXISTING ~jai0m48.itm~ ~override~
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
 	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas0m48" END
-	END
-
-// Jaws
-CREATE ITM "jai1m48"
-	WRITE_LONG 0x64 0x72
-	INSERT_BYTES 0x72 0x38
-	WRITE_SHORT 0x68 1
-	WRITE_SHORT 0x72 1
-	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10340)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10340)
-	WRITE_LONG 0x18 64
-	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10902)
-	WRITE_LONG 0x60 4
-COPY_EXISTING ~jai1m48.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-		WRITE_BYTE 0x74 1
-		WRITE_ASCII 0x76 ~SPPR416B~ #8
-		WRITE_BYTE 0x7e 1
-		WRITE_SHORT 0x80 3
-		WRITE_BYTE 0x84 2
-		WRITE_BYTE 0x88 8
-		WRITE_BYTE 0x8a 2
-		WRITE_SHORT 0x8e 1
-	WRITE_SHORT 0x9e 34
-	WRITE_SHORT 0xa0 33
-	WRITE_SHORT 0xa2 33
-	WRITE_LONG 0x98 1
 	END
 
 DEFINE_ACTION_FUNCTION jam48_patch
@@ -101,24 +72,24 @@ BEGIN
 			REMOVE_CRE_ITEM ~WYVERNSU~
 			REMOVE_CRE_ITEM ~BDWYV03~
 			ADD_CRE_ITEM ~jai0m46~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			REPLACE_CRE_ITEM ~jai0m48~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			REPLACE_CRE_ITEM ~jai1m48~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
+			REPLACE_CRE_ITEM ~jai2m46~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ EQUIP
+			REPLACE_CRE_ITEM ~jai0m48~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ 
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=2000
-					hp=121
+					xpv=5000
+					hp=154
 					ac=1
-					thac0=9
+					thac0=5
 					apr=1
-					saveDeath=7
-					saveWand=9
-					savePolymorph=8
-					saveBreath=8
-					saveSpell=10
-					level1=11
+					saveDeath=5
+					saveWand=7
+					savePolymorph=6
+					saveBreath=5
+					saveSpell=8
+					level1=14
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
-					strength=20
+					strength=21
 					intelligence=7
 					wisdom=12
 					dexterity=10

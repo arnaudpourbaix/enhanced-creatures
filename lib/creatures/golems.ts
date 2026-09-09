@@ -535,7 +535,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         modAnimation: "A7!GOLEM_FLESH_PST",
         movement: 8,
         immunities: ["construct"],
@@ -594,7 +594,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["construct"],
         items: {
@@ -642,7 +642,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -695,7 +695,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_CLAY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 7,
         immunities: ["construct"],
         items: {
@@ -829,7 +829,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -919,7 +919,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -979,7 +979,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -1026,7 +1026,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["construct", "skeletal"],
         items: {
@@ -1090,7 +1090,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         animation: "GOLEM_CLAY",
         movement: 3,
         immunities: ["construct"],
@@ -1143,7 +1143,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 9,
         immunities: ["construct"],
         items: {
@@ -1229,7 +1229,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_CLAY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 18,
         immunities: ["construct"],
         items: {

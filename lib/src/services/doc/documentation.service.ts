@@ -163,7 +163,7 @@ class DocumentationService {
     );
     this.replace(template, "thac0", creature.data.thac0);
     this.replace(template, "apr", this.getEffectiveApr(creature));
-    this.replace(template, "size", creature.data.size);
+    this.replace(template, "size", creature.data.size.value);
     this.addSpecial(template, creature);
     this.replace(template, "morale", creature.data.morale);
     this.replace(template, "xp", creature.data.xpv);

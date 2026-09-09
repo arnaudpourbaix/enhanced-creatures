@@ -16,7 +16,12 @@ enum Ids {
 }
 
 class Wyvern extends Creature {
-  createStinger(poisonType: PnPPoisonType, saveBonus: number) {
+  createStinger(p: {
+    diceThrown: number;
+    diceSize: number;
+    poisonType: PnPPoisonType;
+    saveBonus: number;
+  }) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.wyvern.weapon.stinger",
@@ -25,18 +30,18 @@ class Wyvern extends Creature {
         equippedSlot: ["WEAPON1"],
         header: {
           type: ItemAbilityTypeEnum.Melee,
-          diceThrown: 1,
-          diceSize: 6,
+          diceThrown: p.diceThrown,
+          diceSize: p.diceSize,
           damageType: AbilityDamageTypeEnum.Piercing,
           speed: 3,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
         },
       },
-      castSpells: [poisonService.getSpell({ poisonType, saveBonus })],
+      castSpells: [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })],
     });
   }
 
-  createJaws() {
+  createJaws(p: { diceThrown: number; diceSize: number }) {
     return this.addWeapon({
       weapon: {
         stringRef: "monster.wyvern.weapon.jaws",
@@ -45,8 +50,8 @@ class Wyvern extends Creature {
         equippedSlot: ["SHIELD"],
         header: {
           type: ItemAbilityTypeEnum.Melee,
-          diceThrown: 2,
-          diceSize: 8,
+          diceThrown: p.diceThrown,
+          diceSize: p.diceSize,
           damageType: AbilityDamageTypeEnum.Piercing,
           speed: 2,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
@@ -94,7 +99,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
         race: "WYVERN",
         class: "WYVERN",
         gender: "NIETHER",
-        size: "Gargantuan",
+        size: { value: "Gargantuan", tall: false, long: true },
         movement: 24,
         items: {
           remove: ["RING97", "BDWYV01", "WYVERN1", "WYVERN2", "WYVERNSU"],
@@ -105,8 +110,13 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       },
     });
     wyvern.addTrait({ immunities: ["hover"] });
-    wyvern.createStinger("F", 0);
-    wyvern.createJaws();
+    wyvern.createStinger({
+      diceThrown: 1,
+      diceSize: 6,
+      poisonType: "F",
+      saveBonus: 0,
+    });
+    wyvern.createJaws({ diceThrown: 2, diceSize: 8 });
     wyvern.setAdjustments([{ files: ["PWYVV01"], data: { level1: 10 } }]);
     return wyvern;
   }
@@ -128,14 +138,18 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       ac: 5,
       morale: 12,
       xpv: 650,
-      size: "Huge",
+      size: { value: "Large", tall: false, long: true },
       movement: 24,
       items: {
-        remove: ["BDWYV02"],
+        remove: ["BDWYV02", "WYVBABSU"],
       },
     });
-    baby.createStinger("F", 2);
-    baby.createJaws();
+    baby.createStinger({
+      diceThrown: 1,
+      diceSize: 6,
+      poisonType: "F",
+      saveBonus: 2,
+    });
     baby.setAdjustments([{ files: ["PLYWYVRN"], data: { script: { location: "None" } } }]);
     return baby;
   }
@@ -151,22 +165,83 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       files: [],
     });
     greater.setData({
-      level1: 11,
-      bonusHp: 11,
-      strength: 20,
+      level1: 14,
+      bonusHp: 14,
+      strength: 21,
       ac: 1,
       morale: 16,
-      xpv: 2000,
-      size: "Gargantuan",
+      xpv: 5000,
+      size: { value: "Gargantuan", tall: false, long: true },
       movement: 24,
       items: {
         remove: ["BDWYV03"],
       },
     });
-    greater.createStinger("F", -2);
-    greater.createJaws();
+    greater.createStinger({
+      diceThrown: 1,
+      diceSize: 6,
+      poisonType: "E",
+      saveBonus: 0,
+    });
     greater.setAdjustments([]);
     return greater;
+  }
+
+  /**
+   * Red Wyvern Drake
+   */
+  private redDrake() {
+    const drake = this.create({
+      monster: MonsterEnum.Wyvern,
+      name: "monster.wyvern.name.redDrake",
+      files: [],
+      data: {
+        level1: 8,
+        bonusHp: 7,
+        strength: 24,
+        dexterity: 10,
+        constitution: 18,
+        intelligence: 9,
+        wisdom: 12,
+        charisma: 11,
+        ac: -3,
+        apr: 2,
+        xpv: 10000,
+        alignment: "CHAOTIC_EVIL",
+        morale: 14,
+        general: "MONSTER",
+        race: "WYVERN",
+        class: "WYVERN",
+        gender: "NIETHER",
+        size: { value: "Gargantuan", tall: false, long: true },
+        movement: 24,
+        items: {
+          remove: ["RING97", "BDWYV01", "WYVERN1", "WYVERN2", "WYVERNSU"],
+        },
+        script: {
+          remove: ["WYVERN"],
+        },
+      },
+    });
+    // Immune to breath weapon of dragon parent and like attacks (spells, etc.)
+    drake.addTrait({ immunities: ["hover"] });
+    drake.createStinger({
+      diceThrown: 1,
+      diceSize: 8,
+      poisonType: "F",
+      saveBonus: 0,
+    });
+    drake.createJaws({ diceThrown: 2, diceSize: 10 });
+    // The wyvern drake also fights with a breath weapon inherited from its dragon parent usable three times per day.
+    // Damage done by the wyvern drake's breath weapon is equal to the beast's normal hit point total.
+    // This damage does not vary as the beast is wounded or healed over time.
+    //
+    // Breath Weapon (Su): 30-ft. cone or 60-ft. line (based on dragon parent).
+    // Damage is 8d6 of the corresponding elemental type (Fire, Acid, Lightning, or Cold).
+    // Reflex save (DC 19) for half damage.
+    // Can use once every 1d4 rounds.
+    drake.setAdjustments([]);
+    return drake;
   }
 }
 export const createWyverns = () => new WyvernFamily();

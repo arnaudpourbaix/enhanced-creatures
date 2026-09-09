@@ -101,7 +101,8 @@ class AdjustmentService {
     const equipped = this.getEquipped(matching, base);
     const proficiencies = this.getProficiencies(matching, base);
     const classValue = this.lastDefined(matching, (d) => d.class) ?? base.class;
-    const levelValue = this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
+    const levelValue =
+      this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
 
     return {
       files: [file],
@@ -134,8 +135,8 @@ class AdjustmentService {
         base.alignment!,
       ),
       size: this.field(
-        this.lastDefined(matching, (d) => d.size),
-        base.size,
+        this.lastDefined(matching, (d) => d.size?.value),
+        base.size.value,
       ),
       xpv: this.field(
         this.lastDefined(matching, (d) => d.xpv),

@@ -48,7 +48,7 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
         race: "CARRIONCRAWLER",
         class: "CARRIONCRAWLER",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         xpv: 420,
         movement: 12,
         items: {

@@ -73,7 +73,7 @@ class EttinFamily extends CreatureFamily<Ettin> {
         race: "ETTIN",
         class: "GIANT",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: true, long: false },
         movement: 12,
         items: {
           remove: ["BDRINGGE", "B2-16", "ETTIN", "B1-12M3", "B3-12", "BDBLUNGH"],

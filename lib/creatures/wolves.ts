@@ -331,7 +331,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 18,
         items: {
           remove: ["P1-6", "P1-4", "WOLFSU", "B1-6"],
@@ -374,7 +374,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_DIRE",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 18,
         items: {
           remove: ["P1-8", "P2-8", "IMMUNE1", "RING95", "P1-4", "P1-8M1", "WOLFDI"],
@@ -428,7 +428,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_DREAD",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 18,
         items: {
           remove: ["P1-10", "RING95", "TROLLIMM", "BDWOLFD1", "BDWOLFDR"],
@@ -503,7 +503,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_VAMPIRIC",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 24,
         items: {
           remove: ["WOLFVA1", "BDWOLFVA", "IMMUNE1", "RING95"],
@@ -572,7 +572,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_WINTER",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 18,
         immunities: ["magicalBeast"],
         items: {
@@ -622,7 +622,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_WORG",
         gender: "MALE",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 18,
         immunities: ["magicalBeast"],
         items: {

@@ -152,7 +152,7 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
         race: "MINOTAUR",
         class: "OGRE",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 12,
         items: {
           remove: [

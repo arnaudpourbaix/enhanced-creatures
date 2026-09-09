@@ -424,7 +424,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Gargantuan",
+        size: { value: "Gargantuan", tall: false, long: true },
         movement: 9, // Web 12
         immunities: ["spider"],
         items: {
@@ -481,7 +481,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         immunities: ["spider"],
         items: {
@@ -574,7 +574,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 3, // Web 12
         immunities: ["spider"],
         items: {
@@ -630,7 +630,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_HUGE",
         gender: "NIETHER",
-        size: "Tiny",
+        size: { value: "Tiny", tall: false, long: true },
         movement: 6, // web 15
         immunities: ["spider"],
         items: {
@@ -695,7 +695,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_HUGE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 18,
         immunities: ["spider"],
         items: {
@@ -742,7 +742,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 8,
         immunities: [
           "spider",
@@ -790,7 +790,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_PHASE",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 6, // Web 15
         immunities: ["spider", "magicalBeast"],
         items: {
@@ -863,7 +863,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_SWORD",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 6, // Web 8
         immunities: ["spider"],
         items: {
@@ -949,7 +949,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_PHASE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15, // Normal: 9, Web: 15
         immunities: ["spider"],
         items: {
@@ -1020,7 +1020,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         immunities: ["spider", "undead"],
         items: {

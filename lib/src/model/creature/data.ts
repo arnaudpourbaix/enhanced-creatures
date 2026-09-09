@@ -55,7 +55,7 @@ export interface CreatureData {
   kit?: KitIdentifier;
   gender?: GenderIdentifier;
   ea?: AllegianceIdentifier;
-  size?: CreatureSize;
+  size?: { value: CreatureSize; tall: boolean; long: boolean };
   animation?: AnimationIdentifiers;
   modAnimation?: string;
   metalColor?: number;

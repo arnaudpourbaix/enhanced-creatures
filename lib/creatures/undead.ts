@@ -1156,7 +1156,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "WRAITH",
         class: "SPECTRE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 15,
         immunities: ["undead"],
         items: {
@@ -1209,7 +1209,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "DEATHKNIGHT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["undead", "skeletal", "turnUndead"],
         items: {
@@ -1276,7 +1276,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "GHOUL",
         class: "GHOUL_GHAST",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 15,
         immunities: ["undead"],
         items: {
@@ -1353,7 +1353,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "GHOUL",
         class: "GHOUL",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 9,
         immunities: ["undead"],
         items: {
@@ -1413,7 +1413,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         class: "GHOUL_GHAST",
         gender: "NIETHER",
         animation: "GHOUL_GREATER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 15,
         immunities: ["undead"],
         items: {
@@ -1489,7 +1489,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         class: "GHOUL_REVEANT",
         animation: "MUMMY",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 6,
         immunities: ["undead"],
         items: {
@@ -1551,7 +1551,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         class: "CLERIC",
         animation: "MUMMY",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 9,
         immunities: ["undead"],
         items: {
@@ -1763,7 +1763,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SHADOW",
         class: "SHADOW",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["undead"],
         items: {
@@ -1856,7 +1856,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SHADOW",
         class: "SHADOW",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["undead"],
         items: {
@@ -1908,7 +1908,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "FIGHTER_MAGE", // SKELETON_BANEGUARD
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["undead"],
         items: {
@@ -1976,7 +1976,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "SKELETON",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 18,
         immunities: ["undead"],
         items: {
@@ -2030,7 +2030,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "SKELETON",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["undead"],
         items: {
@@ -2205,7 +2205,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "SKELETON_WARRIOR",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 6,
         immunities: ["undead"],
         effects: {
@@ -2341,7 +2341,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPECTRE",
         class: "SPECTRE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 15, // flying 30
         immunities: ["undead"],
       },
@@ -2388,7 +2388,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPECTRE",
         class: "SPECTRE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 9,
         immunities: ["undead"],
         items: {
@@ -2489,7 +2489,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
       },
     });
@@ -2534,7 +2534,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
       },
     });
@@ -2579,7 +2579,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
       },
     });
@@ -2624,7 +2624,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
       },
     });
@@ -2669,7 +2669,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
       },
     });
@@ -2714,7 +2714,7 @@ class UndeadFamily extends CreatureFamily<Undead> {
         race: "SKELETON",
         class: "SKELETON",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 18,
         immunities: ["undead"],
         items: {

@@ -262,7 +262,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         class: "GREY_OOZE",
         animation: "BLACK_PUDDING",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 6,
         immunities: ["ooze"],
         items: {
@@ -362,7 +362,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         class: "GREY_OOZE",
         animation: "GRAY_OOZE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 9,
         immunities: ["ooze"],
         items: {
@@ -452,7 +452,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "MUSTARD_JELLY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 9,
         immunities: ["ooze"],
         items: {
@@ -509,7 +509,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
           spells: {
             removeMemorized: [this.spell(Ids.MustardJellySplit).file],
           },
-          size: "Medium",
+          size: { value: "Medium", tall: false, long: true },
         },
       },
     ]);
@@ -542,7 +542,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "MUSTARD_JELLY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 9,
         immunities: ["ooze"],
         items: {
@@ -616,7 +616,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "GREY_OOZE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 1,
         immunities: ["ooze"],
         items: {
@@ -685,7 +685,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "GREEN_SLIME",
         gender: "NIETHER",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 0,
         immunities: ["ooze"],
         items: {
@@ -763,7 +763,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "OLIVE_SLIME",
         gender: "NIETHER",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 0,
         immunities: ["ooze"],
         items: {
@@ -836,7 +836,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "OCRE_JELLY",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 3,
         immunities: ["ooze"],
         items: {
@@ -907,7 +907,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         // Large	    HD: 8+2	  Attack: 3d4   xpv: 975
         // Huge	      HD: 12+2	Attack: 4d4   xpv: 2000
         // Gargantuan	HD: 16	  Attack: 4d6   xpv: 2500
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 6,
         immunities: ["ooze"],
         items: {
@@ -946,7 +946,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       {
         files: ["SCHLUM"],
         data: {
-          size: "Huge",
+          size: { value: "Huge", tall: false, long: true },
           level1: 12,
           xpv: 2000,
           items: {
@@ -984,7 +984,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         race: "SLIME",
         class: "GREY_OOZE",
         gender: "NIETHER",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 12,
         immunities: ["ooze"],
         items: {

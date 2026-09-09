@@ -91,7 +91,7 @@ class PlantFamily extends CreatureFamily<Plant> {
         race: "TREANT",
         class: "NO_CLASS",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: true, long: false },
         movement: 12,
         immunities: ["plant"],
         items: {

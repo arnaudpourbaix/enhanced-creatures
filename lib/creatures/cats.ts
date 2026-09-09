@@ -297,7 +297,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 15, // sprint 45
         items: {
           remove: ["P1-8"],
@@ -354,7 +354,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         items: {
           remove: ["CATJAG", "S1-6", "P1-8"],
@@ -429,7 +429,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 15,
         items: {
           remove: ["CATJAGSU", "P1-6"],
@@ -487,7 +487,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["CATLIO", "P1-10"],
@@ -542,7 +542,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["P1-6"],
@@ -599,7 +599,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["CATLIS", "FIGLION", "IMMUNE1"],
@@ -655,7 +655,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["P1-10"],
@@ -710,7 +710,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         hideShadow: 90,
         items: {
@@ -767,7 +767,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "DEMONIC",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         hideShadow: 100,
         moveSilent: 100,
         movement: 15,
@@ -826,7 +826,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         items: {
           remove: ["BDDISPBE", "JY_01DB", "JY_02DB", "JY_03DB", "BOOT01", "MOBHA39A"],

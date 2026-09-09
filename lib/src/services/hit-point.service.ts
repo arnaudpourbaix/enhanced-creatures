@@ -87,7 +87,7 @@ class HitPointService {
     level: number;
     parent?: CreatureData;
   }): { value: number; log: string } {
-    const size: CreatureSize = p.data.size ?? p.parent?.size ?? "Tiny";
+    const size: CreatureSize = p.data.size?.value ?? p.parent?.size?.value ?? "Tiny";
     const item = SizeBonusHitPointTable.find(
       (c) => p.creature.data.immunities.includes(c.type) && c.size === size,
     );
