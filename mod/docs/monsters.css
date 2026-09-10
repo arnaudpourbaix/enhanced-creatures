@@ -210,8 +210,7 @@
   /* No `white-space: nowrap` here (unlike .stat-half dd, which never needs to wrap): Ability
      Scores' full "STR X, DEX Y, ..." string is long enough that on a phone-width viewport - and
      worse, nested inside an .adjustment-card, which loses another ~30px of width to its own
-     padding/border, plus the bold+padded .adjustment-changed treatment when any score changed -
-     nowrap forced it past the card's right edge instead of wrapping to a second line. */
+     padding/border - nowrap forced it past the card's right edge instead of wrapping. */
   text-align: left;
 }
 
@@ -480,6 +479,15 @@
 
 .adjustment-card .stat-grid {
   font-size: 0.9em;
+  /* Diff cards have only a row or two - hug the content instead of stretching one lone stat
+     across the whole (now very wide) card, which flung its label and value to opposite edges. */
+  grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+  column-gap: 28px;
+}
+
+.adjustment-card .stat:not(.stat-wide) {
+  justify-content: flex-start;
+  gap: 12px;
 }
 
 /* Small game-scope pill (bg1 / bg2) prepended to an adjustment card's title, styled to match
@@ -502,11 +510,10 @@
   margin: 6px 0;
 }
 
+/* Adjustment cards now only ever show what changed, so the value doesn't need a highlight pill -
+   just a plain bold value is enough. */
 .adjustment-changed {
   font-weight: 700;
-  background: rgba(139, 26, 26, 0.14);
-  border-radius: 3px;
-  padding: 1px 5px;
 }
 
 .adjustment-section-title {
@@ -596,7 +603,7 @@
   position: fixed;
   inset: 0 0 0 auto;
   z-index: 40;
-  width: min(1120px, 95vw);
+  width: min(2200px, 96vw);
   display: flex;
   flex-direction: column;
   background: var(--color-bg);
@@ -642,29 +649,59 @@
 
 .adjustments-panel-mount {
   flex: 1;
-  overflow-y: auto;
-  padding: 18px;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+  padding: 0;
 }
 
 body.adjustments-open {
   overflow: hidden;
 }
 
-/* In the panel the block is always open; its summary is replaced by the panel header, and the
-   layout gets its real two-column shape (side rail + scrolling content). */
-.adjustments-panel-mount .creature-adjustments > summary {
-  display: none;
-}
-
-.adjustments-panel-mount .adj-layout {
-  grid-template-columns: 250px minmax(0, 1fr);
+/* monsters.js moves the .adj-layout itself into the mount (not the <details>). Flex all the way
+   down - with min-height/min-width: 0 so children may shrink below their content - so the side
+   rail and the content column each get their own scrollbar; the nav tree stays pinned and the
+   base card stays reachable no matter how far the cards scroll. */
+.adjustments-panel-mount > .adj-layout {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 0;
   margin-top: 0;
 }
 
-.adj-side {
+.adjustments-panel-mount .adj-side {
+  flex: 0 0 clamp(320px, 32%, 620px);
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  gap: 0;
+  border-right: 1px solid var(--color-gold);
+}
+
+.adjustments-panel-mount .adj-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.adjustments-panel-mount .adj-tree {
   position: sticky;
   top: 0;
-  align-self: start;
+  z-index: 1;
+  padding: 12px 14px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-gold);
+}
+
+.adjustments-panel-mount .adj-base-card {
+  margin: 12px 14px;
+}
+
+.adj-side {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -685,8 +722,12 @@ body.adjustments-open {
 
 .adj-base-card .stat-grid {
   font-size: 0.82em;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2px 0;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 2px 10px;
+}
+
+.adj-base-card .stat-grid .stat-wide {
+  grid-column: 1 / -1;
 }
 
 .adj-tree {
@@ -744,12 +785,6 @@ body.adjustments-open {
 .adj-tree a.adj-tree-d3::before {
   left: 42px;
 }
-.adj-tree-d2::before {
-  left: 24px;
-}
-.adj-tree-d3::before {
-  left: 40px;
-}
 
 .adj-content {
   display: flex;
@@ -766,12 +801,16 @@ body.adjustments-open {
   scroll-margin-top: 10px;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  /* Stack the rail above the content; each keeps its own scroll. */
   .adjustments-panel-mount .adj-layout {
-    grid-template-columns: minmax(0, 1fr);
+    flex-direction: column;
   }
 
-  .adj-side {
-    position: static;
+  .adjustments-panel-mount .adj-side {
+    flex: 0 1 auto;
+    max-height: 45%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-gold);
   }
 }

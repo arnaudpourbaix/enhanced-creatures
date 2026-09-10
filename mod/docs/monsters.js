@@ -217,26 +217,29 @@
     var backdrop = document.querySelector(".adjustments-backdrop");
     if (!panel || !mount || !titleEl || !closeButton || !backdrop) return;
 
-    var active = null; // the <details> currently moved into the panel
+    // Move just the .adj-layout into the panel, not the whole <details> - a <details> wraps its
+    // content in an implicit box that breaks the flex/height chain the two scroll panes need.
+    var active = null; // the .adj-layout currently in the panel
     var home = null; // { parent, next } to move it back to
 
     function openPanel(details) {
       if (active) restore();
-      home = { parent: details.parentNode, next: details.nextSibling };
-      mount.appendChild(details);
-      details.open = true;
+      var layout = details.querySelector(".adj-layout");
+      if (!layout) return;
+      home = { parent: layout.parentNode, next: layout.nextSibling };
+      mount.appendChild(layout);
       titleEl.textContent = details.getAttribute("data-title") || "Adjustments";
       panel.hidden = false;
       panel.setAttribute("aria-hidden", "false");
       backdrop.classList.add("visible");
       document.body.classList.add("adjustments-open");
-      mount.scrollTop = 0;
-      active = details;
+      var content = layout.querySelector(".adj-content");
+      if (content) content.scrollTop = 0;
+      active = layout;
     }
 
     function restore() {
       if (!active) return;
-      active.open = false;
       home.parent.insertBefore(active, home.next);
       active = null;
     }

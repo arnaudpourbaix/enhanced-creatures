@@ -1188,15 +1188,51 @@ describe("getCreatureHeader", () => {
 
     expect(template.text).toContain('<details class="creature-adjustments"');
     expect(template.text).toContain('<span class="adjustments-badge">1 adjustment</span>');
-    expect(template.text).toContain('<div class="adjustment-card">');
-    expect(template.text).toContain('<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>');
-    // Changed field: highlighted.
-    expect(template.text).toMatch(
-      /<dt>Hit Dice<\/dt><dd class="adjustment-changed">7 \(70 hp\)<\/dd>/,
+    // The adjustment card is a pure diff: only the two rows it changes, both flagged.
+    expect(template.text).toContain(
+      '<div class="adjustment-card"><h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>' +
+        '<dl class="stat-grid">' +
+        '<div class="stat"><dt>Hit Dice</dt><dd class="adjustment-changed">7 (70 hp)</dd></div>' +
+        '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">975</dd></div>' +
+        "</dl></div>",
     );
-    expect(template.text).toMatch(/<dt>XP Value<\/dt><dd class="adjustment-changed">975<\/dd>/);
-    // Untouched field: still shown, but plain (base's own final AC is 5 - ac:5, dexterity:12).
-    expect(template.text).toMatch(/<dt>Armor Class<\/dt><dd>5<\/dd>/);
+    // Untouched stats live on the panel's side card instead (base's own final AC is 5).
+    expect(template.text).toMatch(/<div class="adj-base-card">.*<dt>Armor Class<\/dt><dd>5<\/dd>/s);
+  });
+
+  it("keeps Attacks/Traits/Abilities off an adjustment card that doesn't touch them, on the base card instead", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.behavior = {
+      abilities: [{ name: "ability.test", resource: "SPPR101" } as unknown as CreatureAbility],
+      customCodes: [],
+    };
+    creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
+    creature.adjustments = [
+      {
+        files: ["BDSKGR02"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 400 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    const [side, content] = template.text.split('<div class="adj-content">');
+    // Side card: full creature - Attacks + Abilities sections present.
+    expect(side).toContain("<h4>Attacks</h4>");
+    expect(side).toContain("<h4>Abilities</h4>");
+    // Adjustment card: just the one changed stat, nothing else.
+    expect(content).toContain(
+      '<div class="adjustment-card"><h4 class="adjustment-card-title">BDSKGR02</h4>' +
+        '<dl class="stat-grid"><div class="stat"><dt>XP Value</dt>' +
+        '<dd class="adjustment-changed">400</dd></div></dl></div>',
+    );
+    expect(content).not.toContain("<h4>Attacks</h4>");
+    expect(content).not.toContain("<h4>Abilities</h4>");
   });
 
   it("prepends a bg1/bg2 chip to a card whose adjustments are all scoped to one game", () => {
@@ -1468,7 +1504,8 @@ describe("getCreatureHeader", () => {
       '<div class="weapon-proficiency adjustment-changed">Two-Handed Sword',
     );
     expect(template.text).toContain("★★★★★");
-    expect(template.text).not.toContain("Bastard Sword");
+    // Bastard Sword is unchanged - it appears on the base card but is never flagged as a change.
+    expect(template.text).not.toContain('adjustment-changed">Bastard Sword');
   });
 
   // Regression: Garock/Rock (lib/creatures/minotaurs.ts) boost two proficiency types at once
@@ -1503,10 +1540,9 @@ describe("getCreatureHeader", () => {
     );
   });
 
-  // Regression: adjustment cards used to omit the main-hand/off-hand labels entirely (they never
-  // called getWeaponSlotLabel), and - because getEquipped sorted alphabetically by slot key -
-  // listed SHIELD before WEAPON1, so the off-hand weapon came first and unlabelled.
-  it("labels main hand and off-hand weapons on the card, in the base creature's equipped order", () => {
+  // The panel's side card carries the full base creature, so an adjustment that doesn't touch
+  // weapons shows nothing under Attacks - the labelled main/off-hand list lives on the side card.
+  it("shows the base creature's labelled weapons on the side card, not on a stat-only adjustment", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const originalItems = State.items;
     const mainDesc = translationService.addCustomTranslation(["Melee damage: 5"]);
@@ -1528,12 +1564,17 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature);
     State.items = originalItems;
 
-    // apr 2 + the engine's automatic off-hand attack = 3 effective, 2 of them on the main hand.
+    // Side card: apr 2 + the engine's automatic off-hand attack = 3 effective, 2 on the main hand.
+    expect(template.text).toContain('<div class="adj-base-card">');
     expect(template.text).toContain("Main hand · 2 attacks<");
     expect(template.text).toContain(">Offhand<");
     expect(template.text.indexOf("Main hand")).toBeLessThan(template.text.indexOf("Offhand"));
-    // The card's section headings stay plain h4s - only the card's own title carries the class.
-    expect(template.text).toContain("<h4>Attacks</h4>");
+    // The adjustment card itself only carries the one stat it changed.
+    expect(template.text).toContain(
+      '<div class="adjustment-card"><h4 class="adjustment-card-title">KAHRK</h4>' +
+        '<dl class="stat-grid"><div class="stat"><dt>XP Value</dt>' +
+        '<dd class="adjustment-changed">100</dd></div></dl></div>',
+    );
   });
 
   it("omits a non-weapon equipped item (e.g. an internal trait-carrier) from the Attacks section", () => {

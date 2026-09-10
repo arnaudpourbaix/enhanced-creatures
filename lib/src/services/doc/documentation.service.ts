@@ -543,11 +543,12 @@ class DocumentationService {
         .join("");
 
       // With no variants there's nothing to navigate - skip the tree, and drop the "Direct"
-      // section wrapper so the cards sit straight under .adj-content.
-      let side = `<div class="adj-side">${this.getBaseStatCard(creature)}`;
+      // section wrapper so the cards sit straight under .adj-content. The nav tree comes first in
+      // .adj-side (above the tall base card) so it's the first thing visible.
       let content: string;
+      let tree = "";
       if (variants.length) {
-        side += this.getAdjTree(variants, baseId, direct.length > 0);
+        tree = this.getAdjTree(variants, baseId, direct.length > 0);
         const directSection = directCards
           ? `<section class="adj-section" id="${baseId}-direct">` +
             `<h4 class="adjustment-section-title">Direct adjustments</h4>` +
@@ -557,7 +558,7 @@ class DocumentationService {
       } else {
         content = `<div class="adjustment-cards">${directCards}</div>`;
       }
-      side += `</div>`;
+      const side = `<div class="adj-side">${tree}${this.getBaseCard(creature)}</div>`;
 
       // The whole block is a <details>: no-JS falls back to native inline expansion;
       // monsters.js's initAdjustmentsPanel() intercepts the summary click and slides this
@@ -572,30 +573,53 @@ class DocumentationService {
     this.replace(template, "header", header);
   }
 
-  // The base creature, shown as a read-only reference in the panel's side column so its stats sit
-  // next to the adjustments that change them.
-  private getBaseStatCard(creature: Creature): string {
+  // The full base creature, shown as a read-only reference in the panel's side column: stat grid
+  // plus the Attacks / Traits / Abilities / Spellbooks sections, so the adjustment cards on the
+  // right only need to show what each one *changes*. The section builders emit popover-entry ids
+  // keyed on `m<id>-...`, which would collide with the main creature card's - rewrite them (and
+  // the matching in-card `href="#..."`) to a `base-` prefix so the panel copy is self-contained.
+  private getBaseCard(creature: Creature): string {
+    // `{{attacks}}` is wrapped by monster.html; the other three sections carry their own wrapper.
+    const sub = {
+      text:
+        `<div class="detail-section"><h4>Attacks</h4>{{attacks}}</div>` +
+        `{{traits}}{{abilities}}{{spellbooks}}`,
+    };
+    this.getCreatureAttacks(sub, creature);
+    this.getCreatureTraits(sub, creature);
+    this.getCreatureSpells(sub, creature);
+    this.getCreatureSpellbooks(sub, creature);
+    const sections = sub.text.replace(
+      new RegExp(`((?:id|href)="#?)(m${creature.id}-[\\w-]+)"`, "g"),
+      `$1base-$2"`,
+    );
+    return (
+      `<div class="adj-base-card"><h4>${translationService.from(creature.name)}</h4>` +
+      `<dl class="stat-grid">${this.getBaseStatGrid(creature)}</dl>` +
+      sections +
+      `</div>`
+    );
+  }
+
+  private getBaseStatGrid(creature: Creature): string {
     const d = creature.data;
     const str =
       d.strength === 18 && d.exceptionalStrength ? `18/${d.exceptionalStrength}` : `${d.strength}`;
     const cell = (dt: string, dd: string | number): string =>
       `<div class="stat"><dt>${dt}</dt><dd>${dd}</dd></div>`;
     return (
-      `<div class="adj-base-card"><h4>${translationService.from(creature.name)}</h4>` +
-      `<dl class="stat-grid">` +
       `<div class="stat stat-wide"><dt>Ability Scores</dt><dd>` +
       `STR ${str}, DEX ${d.dexterity}, CON ${d.constitution}, INT ${d.intelligence}, ` +
       `WIS ${d.wisdom ?? "?"}, CHA ${d.charisma ?? "?"}</dd></div>` +
       cell("Hit Dice", `${d.level1.pnpValue} (${d.hp ?? "?"} hp)`) +
       cell("Armor Class", creatureService.getFinalArmorClass(creature)) +
       cell("THAC0", d.thac0 ?? "?") +
-      cell("Attacks per Round", d.apr) +
+      cell("Attacks per Round", this.getEffectiveApr(creature)) +
       cell("Movement", d.movement.pnpValue) +
       cell("Morale", d.morale ?? "?") +
       cell("Alignment", this.formatEnumLabel(d.alignment)) +
       cell("Size", d.size.value) +
-      cell("XP Value", d.xpv ?? "?") +
-      `</dl></div>`
+      cell("XP Value", d.xpv ?? "?")
     );
   }
 
@@ -688,10 +712,11 @@ class DocumentationService {
     const noWeaponNote = effective.noWeapon
       ? `<p class="adjustment-note adjustment-changed">uses his own weapon</p>`
       : "";
+    const grid = this.getAdjustmentStatGrid(effective);
     return (
       `<div class="adjustment-card">` +
       `<h4 class="adjustment-card-title">${label}</h4>` +
-      `<dl class="stat-grid">${this.getAdjustmentStatGrid(effective)}</dl>` +
+      (grid ? `<dl class="stat-grid">${grid}</dl>` : "") +
       noWeaponNote +
       this.getAdjustmentAttacks(creature, effective, cardIndex) +
       this.getAdjustmentTraits(creature, effective) +
@@ -718,9 +743,13 @@ class DocumentationService {
       `INT ${effective.intelligence.value}, WIS ${effective.wisdom.value}, CHA ${effective.charisma.value}`;
     const hitDiceChanged = effective.level.changed || effective.hp.changed;
 
-    const row = (label: string, value: string | number, changed: boolean, wide = false): string =>
-      `<div class="stat${wide ? " stat-wide" : ""}"><dt>${label}</dt>` +
-      `<dd${changed ? ' class="adjustment-changed"' : ""}>${value}</dd></div>`;
+    // Diff view: only the rows this adjustment actually changes (the base card in the panel's
+    // side column carries every unchanged stat).
+    const row = (label: string, value: string | number, changed: boolean, wide = false): string => {
+      if (!changed) return "";
+      const cls = wide ? "stat stat-wide" : "stat";
+      return `<div class="${cls}"><dt>${label}</dt><dd class="adjustment-changed">${value}</dd></div>`;
+    };
 
     return (
       row("Ability Scores", abilityScores, abilityChanged, true) +
@@ -745,46 +774,53 @@ class DocumentationService {
     effective: EffectiveAdjustment,
     cardIndex: number,
   ): string {
-    let attacks = "";
-    let weaponIndex = 0;
-    // Same main-hand/off-hand labeling as getCreatureAttacks, but driven by the card's own
-    // effective APR rather than the base creature's. Dual-wielding itself is never re-derived per
-    // adjustment (see the spec's Non-goals), so the base creature's flag is reused as-is.
+    // Diff view: only weapons this adjustment actually changed. Same main-hand/off-hand labeling
+    // as getCreatureAttacks, but driven by the card's own effective APR rather than the base
+    // creature's. Dual-wielding is never re-derived per adjustment, so the base flag is reused.
     const dualWielding = creature.attack.dualWielding;
     const mainHandAttacks = effective.apr.value - (dualWielding ? 1 : 0);
+    const docWeapons: { item: EquippedItem; weapon: Item; changed: boolean }[] = [];
     for (const { item, changed } of effective.equipped) {
       const weapon = itemService.isEquippedWeapon(item)
         ? State.items.find((i) => i.file === item.file)
         : undefined;
-      if (!weapon?.doc) continue;
-      const entries: { id: string; html: string }[] = [];
-      const text = this.getAttackDisplayText(
-        translationService.fromOptional(weapon.description),
-        entries,
-        `m${creature.id}-adj${cardIndex}-w${weaponIndex}`,
-      );
-      const cls = changed ? "weapon adjustment-changed" : "weapon";
-      const label = dualWielding ? this.getWeaponSlotLabel(item, mainHandAttacks) : "";
-      const proficiency = this.getAdjustmentWeaponProficiencyLabel(
-        weapon.proficiency,
-        effective.proficiencies,
-      );
-      attacks += attacks ? "<hr/>" : "";
-      attacks += `<div class="${cls}">${label}${text}${proficiency}</div>`;
-      attacks += entries
-        .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
-        .join("");
-      weaponIndex++;
+      if (weapon?.doc) docWeapons.push({ item, weapon, changed });
     }
+    // Keep each changed weapon's *natural* slot index (its position among all doc weapons) so its
+    // popover ids stay stable and unique regardless of which siblings are hidden.
+    let attacks = docWeapons
+      .map((w, slotIndex) => ({ ...w, slotIndex }))
+      .filter((w) => w.changed)
+      .map(({ item, weapon, slotIndex }) => {
+        const entries: { id: string; html: string }[] = [];
+        const text = this.getAttackDisplayText(
+          translationService.fromOptional(weapon.description),
+          entries,
+          `m${creature.id}-adj${cardIndex}-w${slotIndex}`,
+        );
+        const label = dualWielding ? this.getWeaponSlotLabel(item, mainHandAttacks) : "";
+        const proficiency = this.getAdjustmentWeaponProficiencyLabel(
+          weapon.proficiency,
+          effective.proficiencies,
+        );
+        const popovers = entries
+          .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+          .join("");
+        return `<div class="weapon adjustment-changed">${label}${text}${proficiency}</div>${popovers}`;
+      })
+      .join("<hr/>");
     if (!attacks) {
-      attacks = `<div class="weapon">By weapon${this.getChangedProficienciesFallback(effective.proficiencies)}</div>`;
+      // No weapon changed - only surface the section if a proficiency rank did.
+      const profs = this.getChangedProficienciesFallback(effective.proficiencies);
+      if (!profs) return "";
+      attacks = `<div class="weapon">By weapon${profs}</div>`;
     }
     return `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>`;
   }
 
-  // A flat one-branch-per-section builder mirroring getCreatureTraits' own shape (trait links,
-  // then equipped trait-carrier items, then non-trait immunity descriptions) - same reasoning as
-  // that method for not splitting further.
+  // Diff view: only the traits/immunities this adjustment newly grants (the base card lists the
+  // rest). Same three-part shape as getCreatureTraits - trait links, equipped trait-carrier
+  // items, non-trait immunity descriptions - filtered to `changed`.
   private getAdjustmentTraits(creature: Creature, effective: EffectiveAdjustment): string {
     let result = "";
     const resolved = effective.immunities
@@ -796,20 +832,22 @@ class DocumentationService {
       }))
       .filter(
         (entry): entry is { config: ImmunityConfig; changed: boolean } =>
-          entry.config !== undefined,
+          entry.config !== undefined && entry.changed,
       );
 
     const traitLinks = resolved
       .filter((entry) => entry.config.type === "trait")
-      .map((entry) => {
-        const cls = entry.changed ? "trait-link adjustment-changed" : "trait-link";
-        return `<a href="#${entry.config.name}" class="${cls}">${translationService.fromOptional(entry.config.stringRef)}</a>`;
-      });
+      .map(
+        (entry) =>
+          `<a href="#${entry.config.name}" class="trait-link adjustment-changed">` +
+          `${translationService.fromOptional(entry.config.stringRef)}</a>`,
+      );
     if (traitLinks.length) result += `<h5>${traitLinks.join(", ")}</h5>`;
 
     for (const { item, changed } of effective.equipped) {
+      if (!changed) continue;
       const found = State.items.find((i) => i.file === item.file);
-      if (found?.trait) result += this.getTraitItemHtml(found, changed);
+      if (found?.trait) result += this.getTraitItemHtml(found, true);
     }
 
     for (const entry of resolved.filter((e) => e.config.type !== "trait")) {
@@ -817,12 +855,13 @@ class DocumentationService {
       if (entry.config.description) {
         text = `<h5><a href="#${entry.config.name}" class="trait-link">${text}</a></h5>`;
       }
-      result += entry.changed ? `<div class="adjustment-changed">${text}</div>` : text;
+      result += `<div class="adjustment-changed">${text}</div>`;
     }
     if (!result) return "";
     return `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
   }
 
+  // Diff view: only abilities whose memorized count this adjustment changed.
   private getAdjustmentSpells(
     creature: Creature,
     effective: EffectiveAdjustment,
@@ -832,12 +871,12 @@ class DocumentationService {
     const memorizedList = effective.memorized.map((entry) => entry.spell);
     this.getResourceAbilities(creature).forEach((ability, index) => {
       const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
-      const extraClass = entry?.changed ? "adjustment-changed" : "";
+      if (!entry?.changed) return;
       spells += this.getCreatureSpell(
         ability,
         memorizedList,
         `m${creature.id}-adj${cardIndex}-ability-${index}`,
-        extraClass,
+        "adjustment-changed",
       );
     });
     if (!spells) return "";
