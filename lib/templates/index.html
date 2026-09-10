@@ -46,6 +46,11 @@
   </header>
   <div class="layout">
     <nav class="sidebar">
+      <div class="file-search">
+        <input type="search" class="file-search-input" autocomplete="off" spellcheck="false"
+          placeholder="Find a creature by .cre file…" aria-label="Find a creature by its file name" />
+        <ul class="file-search-results" hidden></ul>
+      </div>
       <ul>{{families}}</ul>
     </nav>
     <main class="content">
@@ -74,6 +79,9 @@
        a.trait-link looks up its matching #<name> entry here and copies it into the popover. Not
        a visible glossary; kept out of layout entirely. -->
   <div class="trait-entries" hidden>{{traitEntries}}</div>
+  <!-- Every searchable .cre resref -> its creature card, read by docs/monsters.js's
+       initFileSearch(). Generated from documentationService.fileIndex. -->
+  <script type="application/json" id="file-search-index">{{fileSearchIndex}}</script>
   <script src="monsters.js" defer></script>
 </body>
 

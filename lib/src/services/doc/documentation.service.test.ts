@@ -15,9 +15,17 @@ import documentationService from "./documentation.service";
 import translationService from "../translation.service";
 import monsterFilesService from "../monster-files.service";
 
+interface FileIndexEntry {
+  file: string;
+  creature: string;
+  anchor: string;
+  kind: string;
+}
+
 interface DocumentationServicePrivate {
   monsters: string[];
   families: string[];
+  fileIndex: FileIndexEntry[];
   replace(template: { text: string }, key: string, value: string | number | undefined): void;
 }
 const service = documentationService as unknown as DocumentationServicePrivate;
@@ -691,6 +699,58 @@ describe("addFamily", () => {
   });
 });
 
+describe("indexCreatureFiles", () => {
+  function entriesFor(anchor: string): FileIndexEntry[] {
+    return service.fileIndex.filter((e) => e.anchor === anchor);
+  }
+
+  it("indexes base-game files a creature replaces, keyed to its card anchor", () => {
+    const creature = {
+      id: 42,
+      name: "monster.bear.name.black",
+      files: [{ name: "BLACKBEAR" }, { name: "CBEAR" }],
+    } as unknown as Creature;
+
+    documentationService.indexCreatureFiles(creature);
+
+    expect(entriesFor("m42")).toEqual([
+      { file: "BLACKBEAR", creature: "Black Bear", anchor: "m42", kind: "replaces" },
+      { file: "CBEAR", creature: "Black Bear", anchor: "m42", kind: "replaces" },
+    ]);
+  });
+
+  it("labels a file more specifically when it is also an adjustment / variant / new file target", () => {
+    const creature = {
+      id: 7,
+      name: "monster.bear.name.black",
+      files: [{ name: "PLAIN" }, { name: "KORAX" }, { name: "LACEDO01" }],
+      adjustments: [{ files: ["KORAX", "LACEDO01"] }],
+      variants: [{ files: ["LACEDO01"], children: [{ files: ["DEEP"], children: [] }] }],
+      newFiles: [{ files: ["brandnew"] }],
+    } as unknown as Creature;
+
+    documentationService.indexCreatureFiles(creature);
+
+    const byFile = Object.fromEntries(entriesFor("m7").map((e) => [e.file, e.kind]));
+    expect(byFile).toEqual({
+      PLAIN: "replaces",
+      KORAX: "adjustment",
+      LACEDO01: "variant",
+      DEEP: "variant",
+      BRANDNEW: "new",
+    });
+  });
+
+  it("tolerates a fixture creature with none of the file collections set", () => {
+    const creature = { id: 99, name: "monster.bear.name.black" } as unknown as Creature;
+
+    expect(() => {
+      documentationService.indexCreatureFiles(creature);
+    }).not.toThrow();
+    expect(entriesFor("m99")).toEqual([]);
+  });
+});
+
 describe("addSpecial", () => {
   it("renders a caster special row as a stat-grid entry", () => {
     const creature = {
@@ -1206,7 +1266,8 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain('<span class="adjustments-badge">1 adjustment</span>');
     // The adjustment card is a pure diff: only the two rows it changes, both flagged.
     expect(template.text).toContain(
-      '<div class="adjustment-card"><h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>' +
+      '<div class="adjustment-card" data-files="BDSOGR1 BDSOGR2">' +
+        '<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>' +
         '<dl class="stat-grid">' +
         '<div class="stat"><dt>Hit Dice</dt><dd class="adjustment-changed">7 (70 hp)</dd></div>' +
         '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">975</dd></div>' +
@@ -1243,7 +1304,8 @@ describe("getCreatureHeader", () => {
     expect(side).toContain("<h4>Abilities</h4>");
     // Adjustment card: just the one changed stat, nothing else.
     expect(content).toContain(
-      '<div class="adjustment-card"><h4 class="adjustment-card-title">BDSKGR02</h4>' +
+      '<div class="adjustment-card" data-files="BDSKGR02">' +
+        '<h4 class="adjustment-card-title">BDSKGR02</h4>' +
         '<dl class="stat-grid"><div class="stat"><dt>XP Value</dt>' +
         '<dd class="adjustment-changed">400</dd></div></dl></div>',
     );
@@ -1513,11 +1575,9 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature);
     State.items = originalItems;
 
-    const cards = template.text.split('<div class="adjustment-card">');
-    const sameCard = cards.find((c) => c.startsWith('<h4 class="adjustment-card-title">SAME'));
-    const boostedCard = cards.find((c) =>
-      c.startsWith('<h4 class="adjustment-card-title">BOOSTED'),
-    );
+    const cards = template.text.split('<div class="adjustment-card"');
+    const sameCard = cards.find((c) => c.startsWith(' data-files="SAME">'));
+    const boostedCard = cards.find((c) => c.startsWith(' data-files="BOOSTED">'));
     // SAME never touches proficiencies, so its rank is unchanged from the base creature's own
     // (already shown on the base card) - the line shouldn't be repeated here.
     expect(sameCard).not.toContain("weapon-proficiency");
@@ -1628,7 +1688,8 @@ describe("getCreatureHeader", () => {
     expect(template.text.indexOf("Main hand")).toBeLessThan(template.text.indexOf("Offhand"));
     // The adjustment card itself only carries the one stat it changed.
     expect(template.text).toContain(
-      '<div class="adjustment-card"><h4 class="adjustment-card-title">KAHRK</h4>' +
+      '<div class="adjustment-card" data-files="KAHRK">' +
+        '<h4 class="adjustment-card-title">KAHRK</h4>' +
         '<dl class="stat-grid"><div class="stat"><dt>XP Value</dt>' +
         '<dd class="adjustment-changed">100</dd></div></dl></div>',
     );
@@ -1800,7 +1861,7 @@ describe("getCreatureHeader", () => {
     // the variant card carries its shared profile as a full stat grid (no one-line summary band),
     // then lists the members that carry only that profile
     expect(template.text).toContain(
-      '<div class="variant-card" id="adj-m1-v0"><h4 class="variant-card-title">' +
+      '<div class="variant-card" id="adj-m1-v0" data-files="GRON"><h4 class="variant-card-title">' +
         '<span class="variant-badge">variant</span>Greater Ghast</h4>' +
         '<dl class="stat-grid">' +
         '<div class="stat stat-wide"><dt>Ability Scores</dt>' +
@@ -1812,13 +1873,14 @@ describe("getCreatureHeader", () => {
     // the deviating member's card shows ONLY what it changes on top of the shared profile - the
     // Ability Scores / XP rows it merely inherits from the profile are not repeated here
     expect(template.text).toContain(
-      '<div class="adjustment-card"><h4 class="adjustment-card-title">GRAEL</h4>' +
+      '<div class="adjustment-card" data-files="GRAEL">' +
+        '<h4 class="adjustment-card-title">GRAEL</h4>' +
         '<dl class="stat-grid"><div class="stat"><dt>THAC0</dt>' +
         '<dd class="adjustment-changed">10</dd></div></dl></div>',
     );
     // sub-variant nested as a card inside its parent's card, badge naming the parent
     expect(template.text).toMatch(
-      /<div class="variant-card" id="adj-m1-v1">.*?<div class="variant-card" id="adj-m1-v1-0">/s,
+      /<div class="variant-card" id="adj-m1-v1"[^>]*>.*?<div class="variant-card" id="adj-m1-v1-0"[^>]*>/s,
     );
     expect(template.text).toContain(
       '<span class="variant-badge">sub-variant of Lacedon</span>Greater Lacedon',

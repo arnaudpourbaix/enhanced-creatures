@@ -62,9 +62,24 @@ const MAX_PROFICIENCY_STARS_OVERRIDES: Partial<Record<ProficiencyTypeEnum, numbe
   [ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON]: 2,
 };
 
+// One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
+// JSON blob the docs/monsters.js file-search box reads. `kind` isn't shown to the reader - it only
+// tells the search box whether to scroll to the base card (`replaces`) or open the adjustments
+// panel (everything else), where the file-specific detail actually lives.
+export const FILE_INDEX_KINDS = ["replaces", "adjustment", "variant", "new"] as const;
+export type FileIndexKind = (typeof FILE_INDEX_KINDS)[number];
+
+export interface FileIndexEntry {
+  file: string;
+  creature: string;
+  anchor: string;
+  kind: FileIndexKind;
+}
+
 class DocumentationService {
   private families: string[] = [];
   private monsters: string[] = [];
+  private fileIndex: FileIndexEntry[] = [];
 
   generate() {
     let content: string;
@@ -79,6 +94,9 @@ class DocumentationService {
     this.replace(template, "monsters", this.monsters.join(""));
     this.replace(template, "families", this.families.join(""));
     this.replace(template, "traitEntries", this.getTraitEntries());
+    // Raw (split/join, not String.replace) so `$` sequences in a resolved creature name can't be
+    // read as replacement-pattern references and corrupt the JSON.
+    this.replaceRaw(template, "fileSearchIndex", JSON.stringify(this.fileIndex));
     try {
       utils.writeFile("docs/monsters.html", template.text);
     } catch (e) {
@@ -130,6 +148,45 @@ class DocumentationService {
       // documentation pass on one bad creature.
       if (!creature.valid) continue;
       this.addCreature(creature);
+      this.indexCreatureFiles(creature);
+    }
+  }
+
+  // Records every `.cre` resref this creature owns into the searchable file index (see
+  // FileIndexEntry / docs/monsters.js's initFileSearch). `kind` is assigned by precedence - the
+  // later `set` call wins - so a file that is both a base replacement and an adjustment target
+  // (KORAX, MALKAL, ...) reports the more specific "adjustment"/"variant", and a brand-new file
+  // reports "new".
+  indexCreatureFiles(creature: Creature) {
+    const kinds = new Map<string, FileIndexKind>();
+    const set = (file: string, kind: FileIndexKind) => {
+      const key = file.toUpperCase();
+      if (key) kinds.set(key, kind);
+    };
+    // creature.files / adjustments / variants / newFiles are all definite class fields, but doc
+    // test fixtures built via `as unknown as Creature` casts leave them genuinely undefined -
+    // same defensive pattern the rest of this service uses.
+    /* eslint-disable @typescript-eslint/no-unnecessary-condition */
+    for (const f of creature.files ?? []) set(f.name, "replaces");
+    for (const adjustment of creature.adjustments ?? []) {
+      for (const f of adjustment.files) set(f, "adjustment");
+    }
+    const walkVariants = (variants: Variant[]) => {
+      for (const variant of variants) {
+        for (const f of variant.files) set(f, "variant");
+        walkVariants(variant.children);
+      }
+    };
+    walkVariants(creature.variants ?? []);
+    for (const newFile of creature.newFiles ?? []) {
+      for (const f of newFile.files) set(f, "new");
+    }
+    /* eslint-enable @typescript-eslint/no-unnecessary-condition */
+
+    const name = translationService.from(creature.name);
+    const anchor = `m${creature.id}`;
+    for (const [file, kind] of kinds) {
+      this.fileIndex.push({ creature: name, file, anchor, kind });
     }
   }
 
@@ -695,8 +752,12 @@ class DocumentationService {
     const badge = depth
       ? `<span class="variant-badge">sub-variant of ${variant.parent?.label ?? ""}</span>`
       : `<span class="variant-badge">variant</span>`;
+    // data-files carries the resrefs whose detail lives on this card itself (members folded onto
+    // the "Applies to" line) - members with their own diff card carry their own data-files. Lets
+    // docs/monsters.js's file search scroll straight here once the panel is open.
+    const dataFiles = appliesToFiles.length ? ` data-files="${appliesToFiles.join(" ")}"` : "";
     return (
-      `<div class="variant-card" id="${cardId}">` +
+      `<div class="variant-card" id="${cardId}"${dataFiles}>` +
       `<h4 class="variant-card-title">${badge}${variant.label}</h4>` +
       profileBody +
       appliesTo +
@@ -725,8 +786,10 @@ class DocumentationService {
       cardIndex,
     );
     if (profile && !body) return "";
+    // data-files (space-separated resrefs) lets docs/monsters.js's file search scroll straight to
+    // this card once it has opened the panel.
     return (
-      `<div class="adjustment-card">` +
+      `<div class="adjustment-card" data-files="${effective.files.join(" ")}">` +
       `<h4 class="adjustment-card-title">${label}</h4>` +
       body +
       `</div>`
@@ -1150,6 +1213,15 @@ class DocumentationService {
     key = `{{${key}}}`;
     if (!template.text.includes(key)) throw new Error(`Token ${key} not found !`);
     template.text = template.text.replace(new RegExp(key, "g"), `${value ?? ""}`);
+  }
+
+  // Same token substitution as replace(), but splices the value in literally (split/join) instead
+  // of through String.replace - for values like a JSON blob where a `$` could otherwise be read as
+  // a replacement-pattern reference ($&, $1, $$, ...).
+  private replaceRaw(template: { text: string }, key: string, value: string) {
+    key = `{{${key}}}`;
+    if (!template.text.includes(key)) throw new Error(`Token ${key} not found !`);
+    template.text = template.text.split(key).join(value);
   }
 }
 
