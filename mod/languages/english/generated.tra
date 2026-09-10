@@ -2051,29 +2051,22 @@ Melee damage: 1D4+1 (Slashing)
 Speed Factor: 5
 Range: 2 feet
 Wisdom: -2 for an hour~
-@10927 = ~Claws
-
-Melee damage: 1D12+1 (Slashing)
-Speed Factor: 5
-Enchantment: 2
-Range: 2 feet
-Strength: -2 for an hour~
-@10928 = ~Greater Shadow traits~
-@10929 = ~Immune to cold
+@10927 = ~Greater Shadow traits~
+@10928 = ~Immune to cold
 Incorporeal~
-@10930 = ~Claws
+@10929 = ~Claws
 
 Melee damage: 2D6+2 (Slashing)
 Speed Factor: 5
 Enchantment: 3
 Range: 2 feet
 Strength: -3 for an hour~
-@10931 = ~Baneguard traits~
-@10932 = ~~
-@10933 = ~Skeletal~
-@10934 = ~Bonebat traits~
-@10935 = ~Skeletal~
-@10936 = ~Jaws
+@10930 = ~Baneguard traits~
+@10931 = ~~
+@10932 = ~Skeletal~
+@10933 = ~Bonebat traits~
+@10934 = ~Skeletal~
+@10935 = ~Jaws
 
 Melee damage: 2D4 (Piercing)
 Speed Factor: 3
@@ -2081,18 +2074,18 @@ Range: 2 feet
 
 Cast spell Bonebat's Touch:
 A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, unless a successful saving throw vs. paralyzation is made.~
-@10937 = ~Skeleton traits~
-@10938 = ~Skeletal~
-@10939 = ~Skeleton Warrior traits~
-@10940 = ~Skeletal
+@10936 = ~Skeleton traits~
+@10937 = ~Skeletal~
+@10938 = ~Skeleton Warrior traits~
+@10939 = ~Skeletal
 Immune to non-magical weapons
 Immune to turn undead
 Magic Resistance: 90%
 Thac0:+3~
-@10941 = ~Spectre traits~
-@10942 = ~Immune to cold
+@10940 = ~Spectre traits~
+@10941 = ~Immune to cold
 Incorporeal~
-@10943 = ~Claws
+@10942 = ~Claws
 
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
@@ -2101,10 +2094,10 @@ Range: 2 feet
 
 Cast spell Specter's Touch:
 Their touch drains two life energy levels from the victim.~
-@10944 = ~Ghost traits~
-@10945 = ~Immune to cold
+@10943 = ~Ghost traits~
+@10944 = ~Immune to cold
 Incorporeal~
-@10946 = ~Claws
+@10945 = ~Claws
 
 Enchantment: 3
 Range: 2 feet

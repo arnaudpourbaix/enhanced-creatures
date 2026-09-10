@@ -1,0 +1,16 @@
+{
+  // BGForge MLS ships a WeiDU formatter that mangles trailing // comments.
+  // Disable format-on-save for the WeiDU languages it registers.
+  "[weidu-tp2]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[weidu-baf]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[weidu-d]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  }
+}

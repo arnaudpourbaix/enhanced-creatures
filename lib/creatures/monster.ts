@@ -168,4 +168,6 @@ export enum MonsterEnum {
   Bodak = 141,
   ZombieLord = 142,
   WillOWisp = 143,
+  Revenant = 144,
+  InvisibleStalker = 145,
 }

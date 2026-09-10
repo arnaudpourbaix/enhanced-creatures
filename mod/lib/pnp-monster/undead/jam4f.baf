@@ -13,6 +13,16 @@ THEN
 		StartDialogueNoSet([PC])
 END
 
+IF
+	OR(2)
+		HPLT("dx#dalid",10)
+		Dead("dx#dalid")
+THEN
+	RESPONSE #100
+		Shout(ATTACK89)
+		Enemy()
+END
+
 // Init
 IF
 	Global("JA_INIT","LOCALS",0)

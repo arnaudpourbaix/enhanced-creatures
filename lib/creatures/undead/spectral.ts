@@ -309,10 +309,19 @@ export function shadow(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead"],
       items: {
-        remove: ["immune1", "undtype", "ring95", "shadowwp", "s1-8", "s1-12m2"],
+        remove: [
+          "immune1",
+          "undtype",
+          "ring95",
+          "shadowwp",
+          "s1-8",
+          "s1-12m2",
+          "ac#fpmds",
+          "shadowsu",
+        ],
       },
       script: {
-        remove: [],
+        remove: ["SEWSHA03", "attack"],
       },
     },
   });
@@ -329,14 +338,6 @@ export function shadow(family: UndeadFamily): Undead {
     diceSize: 4,
     damageBonus: 1,
     opcode: EffectTypeEnum.WisdomBonus,
-    drainValue: -2,
-    equipped: false,
-  });
-  const soulWeapon = shadow.createShadowWeapon({
-    diceThrown: 1,
-    diceSize: 12,
-    damageBonus: 1,
-    opcode: EffectTypeEnum.StrengthBonus,
     drainValue: -2,
     equipped: false,
   });
@@ -357,14 +358,6 @@ export function shadow(family: UndeadFamily): Undead {
       files: ["BDSHAD02", "L#GNOAL", "L#GNOEN"],
       data: { level1: 5, xpv: 650, strength: 18 },
     },
-    {
-      files: ["BDSHSOUL"],
-      data: {
-        level1: 7,
-        xpv: 1100,
-        items: { equipped: [{ file: soulWeapon.file, slot: "WEAPON1" }] },
-      },
-    },
   ]);
   shadow.setBehavior({
     restHeal: true,
@@ -373,7 +366,7 @@ export function shadow(family: UndeadFamily): Undead {
 }
 
 export function greaterShadow(family: UndeadFamily): Undead {
-  const shadow = family.create({
+  const greaterShadow = family.create({
     monster: MonsterEnum.GreaterShadow,
     name: "monster.undead.name.greaterShadow",
     files: [],
@@ -406,18 +399,19 @@ export function greaterShadow(family: UndeadFamily): Undead {
       },
     },
   });
-  shadow.addTrait({ immunities: ["cold", "incorporeal"] });
-  shadow.createShadowWeapon({
+  greaterShadow.addTrait({ immunities: ["cold", "incorporeal"] });
+  greaterShadow.createShadowWeapon({
     diceThrown: 2,
     diceSize: 6,
     damageBonus: 2,
     opcode: EffectTypeEnum.StrengthBonus,
     drainValue: -3,
   });
-  shadow.setBehavior({
+  greaterShadow.setBehavior({
     restHeal: true,
   });
-  return shadow;
+  greaterShadow.setAdjustments([]);
+  return greaterShadow;
 }
 
 export function spectre(family: UndeadFamily): Undead {

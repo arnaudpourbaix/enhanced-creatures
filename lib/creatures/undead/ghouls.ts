@@ -334,9 +334,6 @@ export function ghoul(family: UndeadFamily): Undead {
       script: {
         remove: ["ghoul"],
       },
-      effects: {
-        remove: [EffectTypeEnum.ProtectionFromBackstab],
-      },
     },
   });
   ghoulTouch(ghoul);
@@ -389,9 +386,6 @@ export function ghast(family: UndeadFamily): Undead {
       },
       script: {
         remove: ["movep1", "ghast", "ghastd", "bpundead"],
-      },
-      effects: {
-        remove: [EffectTypeEnum.ProtectionFromBackstab],
       },
     },
   });
@@ -484,9 +478,6 @@ export function ghoulLord(family: UndeadFamily): Undead {
       },
       script: {
         remove: ["ghoul", "ghast", "BDGHASTG", "gholor01", "riftcr01"],
-      },
-      effects: {
-        remove: [EffectTypeEnum.ProtectionFromBackstab],
       },
     },
   });

@@ -228,36 +228,38 @@ END
 DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
     // maybe ? 20
     PATCH_FOR_EACH opcode IN
-        0
-        31
-        63
-        65
-        66
-        69
-        83
-        98
-        101
-        102
-        119
-        120
-        126
-        155
-        156
-        159
-        163
-        173
-        176
-        188
-        191
-        193
-        206
-        232
-        233
-        248
-        292
-        297
-        317
-        326
+        0    // Stat: AC vs. Damage Type Modifier
+        31   // Stat: Magic Damage Resistance Modifier
+        63   // State: Infravision
+        65   // Overlay: Blur
+        66   // Graphics: Transparency Fade
+        69   // Protection: From Detection (Non-Detection)
+        83   // Protection: From Projectile
+        98   // HP: Regeneration
+        101  // Protection: from Opcode
+        102  // Spell: Immunity (by Power Level)
+        119  // Spell Effect: Mirror Image
+        120  // Protection: from Weapons
+        126  // Stat: Movement Modifier
+        155  // Overlay: Minor Globe
+        156  // Overlay: Protection from Normal Missiles Cylinder
+        159  // Spell Effect: Mirror Image (Exact Number)
+        163  // Protection: Free Action
+        173  // Stat: Poison Resistance Modifier
+        176  // Stat: Movement Modifier (II)
+        188  // Spell Effect: Aura Cleansing
+        189  // Increase casting speed
+        191  // Spell: Casting Level Modifier
+        193  // Spell Effect: Invisible Detection by Script
+        206  // Spell: Protection from Spell
+        232  // Spell Effect: Cast Spell on Condition
+        233  // Stat: Proficiency Modifier
+        248  // Item: Set Melee Effect
+        292  // Protection: Backstab
+        296  // Immunity to Specific Animation
+        297  // Spell Effect: Immunity to Turn Undead
+        317  // State: Haste 2
+        326  // Apply Effects List
     BEGIN
         LPF DELETE_EFFECT
             INT_VAR

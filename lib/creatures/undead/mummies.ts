@@ -31,6 +31,8 @@ import { MonsterEnum } from "../monster";
 import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
+import responseFactory from "../../src/factories/response.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
 
 function mummyRottingDisease(cre: Undead, greater: boolean) {
   // Mummy: PnP is 1-6 months, replaced by 6 days in the game
@@ -52,12 +54,6 @@ function mummyRottingDisease(cre: Undead, greater: boolean) {
   const diseaseEffects: Effect[] = Array.from(Array(count), (_e, i) =>
     disease.map(
       (e) =>
-        // no-unnecessary-type-assertion is wrong here (verified against tsc directly): without
-        // this cast, the object literal's `opcode` widens to `EffectTypeEnum` instead of
-        // narrowing to the `EffectTypeEnum.Disease` literal DiseaseEffect needs - the nested
-        // arrow-in-.map()-in-.flat() chain breaks the contextual typing that would otherwise
-        // narrow it from the outer `Effect[]` annotation.
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         ({
           opcode: EffectTypeEnum.Disease,
           type: e.type,
@@ -281,13 +277,10 @@ export function mummy(family: UndeadFamily): Undead {
       movement: 6,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "immune1", "bdmumm01", "mummyw"],
+        remove: ["ring95", "immune1", "bdmumm01", "mummyw", "AC#FPMMY", "B1-8"],
       },
       script: {
-        remove: ["bdmumm01"],
-      },
-      effects: {
-        remove: [EffectTypeEnum.ProtectionFromBackstab],
+        remove: ["bdmumm01", "d0mummy"],
       },
     },
   });
@@ -308,6 +301,9 @@ export function mummy(family: UndeadFamily): Undead {
     restHeal: true,
     abilities: [family.ability(Ids.MummyFearAura)],
   });
+  mummy.setAdjustments([
+    { files: ["BDMUMMY"], data: { level1: 9, strength: 18, exceptionalStrength: 100 } },
+  ]);
   return mummy;
 }
 
@@ -340,13 +336,19 @@ export function greaterMummy(family: UndeadFamily): Undead {
       movement: 9,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "immune2", "immune3", "mumgrew"],
+        remove: [
+          "ring95",
+          "immune1",
+          "immune2",
+          "immune3",
+          "mumgrew",
+          "ohhgmum1",
+          "reghp1",
+          "B1-8",
+        ],
       },
       script: {
-        remove: ["bdmumm01", "d0mummy", "mummy01"],
-      },
-      effects: {
-        remove: [EffectTypeEnum.ProtectionFromBackstab],
+        remove: ["bdmumm01", "d0mummy", "mummy01", "ohhgmum", "dx#mummc"],
       },
       spells: {
         spellbooks: [
@@ -518,6 +520,41 @@ export function greaterMummy(family: UndeadFamily): Undead {
       entries: [{ abilityId: Ids.GreaterMummyFearAura, insertFirst: true }],
     },
     dialog: ["mumgre01"],
+    customCodes: [
+      {
+        location: "init",
+        type: "insertBefore",
+        statements: [
+          {
+            triggers: [
+              {
+                name: "Or",
+                triggers: [
+                  {
+                    name: "HPLT",
+                    params: ["dx#dalid", 10],
+                  },
+                  {
+                    name: "Dead",
+                    params: ["dx#dalid"],
+                  },
+                ],
+              },
+            ],
+            responses: responseFactory.response([
+              { name: "Shout", params: ["ATTACK89"] },
+              { name: "Enemy" },
+            ]),
+          },
+        ],
+      },
+    ],
   });
+  greater.setAdjustments([
+    {
+      files: ["OHHKUNG"],
+      data: { strength: 20 },
+    },
+  ]);
   return greater;
 }
