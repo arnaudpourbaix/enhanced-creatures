@@ -1313,6 +1313,31 @@ describe("getCreatureHeader", () => {
     expect(content).not.toContain("<h4>Abilities</h4>");
   });
 
+  it("lists only the ability scores an adjustment actually changed, not the whole block", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false); // STR 18, DEX 12, CON 14, INT/WIS/CHA 10
+    creature.adjustments = [
+      {
+        files: ["BDSKGR02"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { dexterity: 16, charisma: 8 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    const [, content] = template.text.split('<div class="adj-content">');
+    expect(content).toContain(
+      '<div class="stat stat-wide"><dt>Ability Scores</dt>' +
+        '<dd class="adjustment-changed">DEX 16, CHA 8</dd></div>',
+    );
+    expect(content).not.toContain("STR 18");
+    expect(content).not.toContain("CON 14");
+  });
+
   it("renders no panel at all when the only adjustment just zeroes xpv (a detected summon)", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
@@ -1865,7 +1890,7 @@ describe("getCreatureHeader", () => {
         '<span class="variant-badge">variant</span>Greater Ghast</h4>' +
         '<dl class="stat-grid">' +
         '<div class="stat stat-wide"><dt>Ability Scores</dt>' +
-        '<dd class="adjustment-changed">STR 18/100, DEX 12, CON 14, INT 10, WIS 10, CHA 10</dd></div>' +
+        '<dd class="adjustment-changed">STR 18/100</dd></div>' +
         '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">975</dd></div></dl>' +
         '<p class="variant-applies-to">Applies to GRON</p>',
     );

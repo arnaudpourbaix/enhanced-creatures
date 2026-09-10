@@ -818,21 +818,22 @@ class DocumentationService {
   }
 
   private getAdjustmentStatGrid(effective: EffectiveAdjustment): string {
-    const abilityChanged =
-      effective.strength.changed || // eslint-disable-line sonarjs/expression-complexity
-      effective.exceptionalStrength.changed ||
-      effective.dexterity.changed ||
-      effective.constitution.changed ||
-      effective.intelligence.changed ||
-      effective.wisdom.changed ||
-      effective.charisma.changed;
     let str = `${effective.strength.value}`;
     if (effective.strength.value === 18 && effective.exceptionalStrength.value) {
       str += `/${effective.exceptionalStrength.value}`;
     }
-    const abilityScores =
-      `STR ${str}, DEX ${effective.dexterity.value}, CON ${effective.constitution.value}, ` +
-      `INT ${effective.intelligence.value}, WIS ${effective.wisdom.value}, CHA ${effective.charisma.value}`;
+    // Diff view: list only the ability scores this adjustment actually moved, not the whole block
+    // (the base card in the panel's side column carries every unchanged score).
+    const abilityParts: string[] = [];
+    if (effective.strength.changed || effective.exceptionalStrength.changed) {
+      abilityParts.push(`STR ${str}`);
+    }
+    if (effective.dexterity.changed) abilityParts.push(`DEX ${effective.dexterity.value}`);
+    if (effective.constitution.changed) abilityParts.push(`CON ${effective.constitution.value}`);
+    if (effective.intelligence.changed) abilityParts.push(`INT ${effective.intelligence.value}`);
+    if (effective.wisdom.changed) abilityParts.push(`WIS ${effective.wisdom.value}`);
+    if (effective.charisma.changed) abilityParts.push(`CHA ${effective.charisma.value}`);
+    const abilityScores = abilityParts.join(", ");
     const hitDiceChanged = effective.level.changed || effective.hp.changed;
 
     // Diff view: only the rows this adjustment actually changes (the base card in the panel's
@@ -844,7 +845,7 @@ class DocumentationService {
     };
 
     return (
-      row("Ability Scores", abilityScores, abilityChanged, true) +
+      row("Ability Scores", abilityScores, abilityParts.length > 0, true) +
       row("Hit Dice", `${effective.level.value} (${effective.hp.value} hp)`, hitDiceChanged) +
       row("Armor Class", effective.ac.value, effective.ac.changed) +
       row("THAC0", effective.thac0.value, effective.thac0.changed) +
