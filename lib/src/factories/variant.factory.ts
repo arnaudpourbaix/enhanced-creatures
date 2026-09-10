@@ -10,7 +10,6 @@ import creatureFactory from "./creature.factory";
 class VariantFactory {
   add(cre: Creature, label: string, input: VariantInput, parent?: Variant): Variant {
     creatureFactory.checkValidation(cre);
-    logService.header(`Creating ${label} variant...`);
 
     const members = [...new Set((input.files ?? []).map((f) => f.toUpperCase()))];
     const adjustFiles = (input.adjust ?? []).flatMap((a) => a.files.map((f) => f.toUpperCase()));
