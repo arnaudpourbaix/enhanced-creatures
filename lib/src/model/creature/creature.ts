@@ -62,6 +62,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
    */
   notEnforceFiles: string[] = [];
   adjustments: CreatureAdjustment[] = [];
+  /** Root variants declared on this creature (sub-variants live under `Variant.children`). */
+  variants: Variant[] = [];
   effectFiles: EffectFile[] = [];
 
   /**

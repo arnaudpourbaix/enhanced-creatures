@@ -311,7 +311,9 @@
 
 .trait-popover {
   position: fixed;
-  z-index: 30;
+  /* Above the adjustments panel (z-index 40) so trait/spell popovers opened from a card inside
+     the panel aren't hidden behind it. */
+  z-index: 50;
   /* Must match `maxWidth` in docs/monsters.js's positionPopover(). */
   max-width: 320px;
   max-height: calc(100vh - 32px);
@@ -429,11 +431,25 @@
   font-weight: bold;
 }
 
+/* Styled as a button so it's obvious the summary opens the adjustments panel now that there's no
+   disclosure arrow. */
 .adjustments-badge {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-family: var(--font-heading);
   color: var(--color-ink-soft);
   white-space: nowrap;
+  border: 1px solid var(--color-gold);
+  border-radius: 4px;
+  padding: 2px 9px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.creature-adjustments > summary:hover .adjustments-badge,
+.creature-adjustments > summary:focus-visible .adjustments-badge {
+  background: var(--color-red);
+  color: var(--color-bg);
 }
 
 .adjustment-cards {
@@ -491,4 +507,271 @@
   background: rgba(139, 26, 26, 0.14);
   border-radius: 3px;
   padding: 1px 5px;
+}
+
+.adjustment-section-title {
+  margin: 12px 0 0;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+}
+
+/* A variant is itself an adjustment-style card: a labelled band with the stat profile its member
+   files share, then those files' own cards; sub-variants nest as cards one level in. */
+.variant-card {
+  border: 1px solid var(--color-gold);
+  border-radius: 6px;
+  padding: 10px 14px;
+  background: var(--color-bg);
+}
+
+/* A sub-variant sits visibly *inside* its parent: indented from the parent's content edge and
+   marked with a left accent that lines up with the parent card's border. */
+.variant-card .variant-card {
+  margin: 14px 0 0 18px;
+  border-left: 3px solid var(--color-red);
+}
+
+.variant-card-title {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-red);
+  border-bottom: 1px dashed var(--color-gold);
+  padding-bottom: 4px;
+}
+
+.variant-badge {
+  font-size: 0.6rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+  background: var(--color-nav-bg);
+  border: 1px solid var(--color-gold);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.variant-delta {
+  font-family: var(--font-body, inherit);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-ink-soft);
+}
+
+.variant-card .adjustment-cards {
+  margin-top: 10px;
+}
+
+/* ---- Adjustments side panel ---- */
+/* Non-JS fallback: clicking the <summary> natively expands the block inline; the two-column
+   layout still reads fine in the page flow. */
+.creature-adjustments > .adj-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.adjustments-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.adjustments-backdrop.visible {
+  display: block;
+}
+
+.adjustments-panel {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 40;
+  width: min(1120px, 95vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-gold);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* An author `display` beats the UA `[hidden] { display: none }`, so the panel needs its own
+   hidden guard (same pattern as .trait-popover). */
+.adjustments-panel[hidden] {
+  display: none;
+}
+
+.adjustments-panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--color-gold);
+}
+
+.adjustments-panel-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-red);
+}
+
+.adjustments-panel-close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-ink-soft);
+  padding: 0 4px;
+}
+
+.adjustments-panel-close:hover {
+  color: var(--color-red);
+}
+
+.adjustments-panel-mount {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+}
+
+body.adjustments-open {
+  overflow: hidden;
+}
+
+/* In the panel the block is always open; its summary is replaced by the panel header, and the
+   layout gets its real two-column shape (side rail + scrolling content). */
+.adjustments-panel-mount .creature-adjustments > summary {
+  display: none;
+}
+
+.adjustments-panel-mount .adj-layout {
+  grid-template-columns: 250px minmax(0, 1fr);
+  margin-top: 0;
+}
+
+.adj-side {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.adj-base-card {
+  border: 1px solid var(--color-gold);
+  border-radius: 5px;
+  padding: 10px 12px;
+  background: var(--color-nav-bg);
+}
+
+.adj-base-card h4 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  color: var(--color-red);
+}
+
+.adj-base-card .stat-grid {
+  font-size: 0.82em;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px 0;
+}
+
+.adj-tree {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+}
+
+.adj-tree a {
+  position: relative;
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.adj-tree a:hover {
+  background: var(--color-nav-bg);
+}
+
+.adj-tree a.active {
+  font-weight: 700;
+  background: rgba(139, 26, 26, 0.14);
+}
+
+/* Sub-variants: indented, with an └ connector drawn from borders (not a glyph - the heading
+   font has no arrow characters) so their nesting under the variant above is obvious.
+   Selectors are `.adj-tree a.adj-tree-dN` so they outweigh `.adj-tree a`'s own padding. */
+.adj-tree a.adj-tree-d1 {
+  padding-left: 26px;
+}
+.adj-tree a.adj-tree-d2 {
+  padding-left: 42px;
+}
+.adj-tree a.adj-tree-d3 {
+  padding-left: 58px;
+}
+
+.adj-tree a.adj-tree-d1::before,
+.adj-tree a.adj-tree-d2::before,
+.adj-tree a.adj-tree-d3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 50%;
+  width: 7px;
+  left: 10px;
+  border-left: 1px solid var(--color-ink-soft);
+  border-bottom: 1px solid var(--color-ink-soft);
+}
+.adj-tree a.adj-tree-d2::before {
+  left: 26px;
+}
+.adj-tree a.adj-tree-d3::before {
+  left: 42px;
+}
+.adj-tree-d2::before {
+  left: 24px;
+}
+.adj-tree-d3::before {
+  left: 40px;
+}
+
+.adj-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.adj-section {
+  scroll-margin-top: 10px;
+}
+
+.variant-card {
+  scroll-margin-top: 10px;
+}
+
+@media (max-width: 720px) {
+  .adjustments-panel-mount .adj-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .adj-side {
+    position: static;
+  }
 }

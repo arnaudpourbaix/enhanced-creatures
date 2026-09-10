@@ -209,9 +209,76 @@
     });
   }
 
+  function initAdjustmentsPanel() {
+    var panel = document.querySelector(".adjustments-panel");
+    var mount = panel && panel.querySelector(".adjustments-panel-mount");
+    var titleEl = panel && panel.querySelector(".adjustments-panel-title");
+    var closeButton = panel && panel.querySelector(".adjustments-panel-close");
+    var backdrop = document.querySelector(".adjustments-backdrop");
+    if (!panel || !mount || !titleEl || !closeButton || !backdrop) return;
+
+    var active = null; // the <details> currently moved into the panel
+    var home = null; // { parent, next } to move it back to
+
+    function openPanel(details) {
+      if (active) restore();
+      home = { parent: details.parentNode, next: details.nextSibling };
+      mount.appendChild(details);
+      details.open = true;
+      titleEl.textContent = details.getAttribute("data-title") || "Adjustments";
+      panel.hidden = false;
+      panel.setAttribute("aria-hidden", "false");
+      backdrop.classList.add("visible");
+      document.body.classList.add("adjustments-open");
+      mount.scrollTop = 0;
+      active = details;
+    }
+
+    function restore() {
+      if (!active) return;
+      active.open = false;
+      home.parent.insertBefore(active, home.next);
+      active = null;
+    }
+
+    function closePanel() {
+      restore();
+      panel.hidden = true;
+      panel.setAttribute("aria-hidden", "true");
+      backdrop.classList.remove("visible");
+      document.body.classList.remove("adjustments-open");
+    }
+
+    document.addEventListener("click", function (event) {
+      var summary = event.target.closest ? event.target.closest("summary") : null;
+      if (summary && summary.parentNode.classList.contains("creature-adjustments")) {
+        event.preventDefault();
+        openPanel(summary.parentNode);
+        return;
+      }
+      var treeLink = event.target.closest ? event.target.closest(".adj-tree a") : null;
+      if (treeLink && active) {
+        event.preventDefault();
+        var target = document.getElementById(treeLink.getAttribute("href").slice(1));
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        active.querySelectorAll(".adj-tree a").forEach(function (link) {
+          link.classList.toggle("active", link === treeLink);
+        });
+      }
+    });
+
+    closeButton.addEventListener("click", closePanel);
+    backdrop.addEventListener("click", closePanel);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) closePanel();
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
     initSpellbookTabs();
     initTraitPopover();
+    initAdjustmentsPanel();
   });
 })();

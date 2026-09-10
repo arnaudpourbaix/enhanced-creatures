@@ -37,9 +37,15 @@ function fakeCreature(files: string[] = CREATURE_FILES): Creature {
   return creature;
 }
 
+// Every entry the factory forwards carries a `variant` back-ref for the docs; these tests are
+// about the data expansion, so strip it before asserting.
+function withoutVariant(adjustments: PartialCreatureAdjustment[]): PartialCreatureAdjustment[] {
+  return adjustments.map(({ variant: _variant, ...rest }) => rest);
+}
+
 function captureAdjustments(): () => PartialCreatureAdjustment[] {
   const spy = vi.spyOn(creatureFactory, "setAdjustments").mockImplementation(() => undefined);
-  return () => spy.mock.calls[0][1];
+  return () => withoutVariant(spy.mock.calls[0][1]);
 }
 
 describe("variantFactory.add", () => {
@@ -157,7 +163,7 @@ describe("derived variant (Variant.variant)", () => {
       data: { level1: 9, strength: 19, xpv: 1800 },
       files: [GREATER_LACEDON_FILE],
     });
-    expect(spy.mock.calls[1][1]).toEqual([
+    expect(withoutVariant(spy.mock.calls[1][1])).toEqual([
       { files: [GREATER_LACEDON_FILE], data: { level1: 9, strength: 19, xpv: 1800 } },
     ]);
   });

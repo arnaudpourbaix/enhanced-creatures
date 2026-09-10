@@ -59,6 +59,17 @@
     <button type="button" class="trait-popover-close" aria-label="Close">&times;</button>
     <div class="trait-popover-body traits"></div>
   </div>
+  <!-- Adjustments side panel (docs/monsters.js's initAdjustmentsPanel). A creature's
+       <details class="creature-adjustments"> block is MOVED into .adjustments-panel-mount on
+       open and moved back on close, so its popover ids stay unique. -->
+  <div class="adjustments-backdrop"></div>
+  <aside class="adjustments-panel" role="dialog" aria-label="Adjustments" aria-hidden="true" hidden>
+    <div class="adjustments-panel-head">
+      <span class="adjustments-panel-title"></span>
+      <button type="button" class="adjustments-panel-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="adjustments-panel-mount"></div>
+  </aside>
   <!-- Source content for the trait popover above (docs/monsters.js's initTraitPopover) - each
        a.trait-link looks up its matching #<name> entry here and copies it into the popover. Not
        a visible glossary; kept out of layout entirely. -->

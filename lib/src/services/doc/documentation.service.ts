@@ -5,6 +5,7 @@ import { CreatureAbility } from "../../model/creature/ability";
 import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { MemorizedSpell } from "../../model/creature/data";
+import { Variant } from "../../model/creature/variant";
 import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
@@ -518,20 +519,159 @@ class DocumentationService {
 
   getCreatureHeader(template: { text: string }, creature: Creature) {
     const name = translationService.from(creature.name);
-    const effectiveAdjustments = adjustmentService.getEffectiveAdjustments(creature);
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
     let header = `<h3>${name}</h3>`;
-    if (effectiveAdjustments.length) {
-      const cards = effectiveAdjustments
-        .map((effective, index) => this.getAdjustmentCard(creature, effective, index))
-        .join("");
-      const count = effectiveAdjustments.length;
+    if (effectives.length) {
+      // Keep each effective's index in the full sorted list so popover ids (m<id>-adj<index>-...)
+      // stay stable regardless of how the cards are grouped for display.
+      const indexed = effectives.map((effective, index) => ({ effective, index }));
+      const direct = indexed.filter((e) => !e.effective.variant);
+      // `variants` is a definite class field ([] by default), but doc test fixtures build the
+      // creature as a bare `as unknown as Creature` literal and skip it - guard like the rest of
+      // this service does for such fixtures.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const variants = creature.variants ?? [];
+      const baseId = `adj-m${creature.id}`;
+      const count = effectives.length;
       const label = count === 1 ? "adjustment" : "adjustments";
+
+      const directCards = direct
+        .map((e) => this.getAdjustmentCard(creature, e.effective, e.index))
+        .join("");
+      const variantCards = variants
+        .map((v, i) => this.getVariantCard(creature, v, indexed, `${baseId}-v${i}`))
+        .join("");
+
+      // With no variants there's nothing to navigate - skip the tree, and drop the "Direct"
+      // section wrapper so the cards sit straight under .adj-content.
+      let side = `<div class="adj-side">${this.getBaseStatCard(creature)}`;
+      let content: string;
+      if (variants.length) {
+        side += this.getAdjTree(variants, baseId, direct.length > 0);
+        const directSection = directCards
+          ? `<section class="adj-section" id="${baseId}-direct">` +
+            `<h4 class="adjustment-section-title">Direct adjustments</h4>` +
+            `<div class="adjustment-cards">${directCards}</div></section>`
+          : "";
+        content = directSection + variantCards;
+      } else {
+        content = `<div class="adjustment-cards">${directCards}</div>`;
+      }
+      side += `</div>`;
+
+      // The whole block is a <details>: no-JS falls back to native inline expansion;
+      // monsters.js's initAdjustmentsPanel() intercepts the summary click and slides this
+      // <details> into the side panel instead (moving the node, not cloning - keeps popover ids
+      // unique).
       header =
-        `<details class="creature-adjustments">` +
-        `<summary><span>${name}</span><span class="adjustments-badge">${count} ${label} ▾</span></summary>` +
-        `<div class="adjustment-cards">${cards}</div></details>`;
+        `<details class="creature-adjustments" id="${baseId}" data-title="${name}">` +
+        `<summary><span>${name}</span><span class="adjustments-badge">${count} ${label}</span></summary>` +
+        `<div class="adj-layout">${side}<div class="adj-content">${content}</div></div>` +
+        `</details>`;
     }
     this.replace(template, "header", header);
+  }
+
+  // The base creature, shown as a read-only reference in the panel's side column so its stats sit
+  // next to the adjustments that change them.
+  private getBaseStatCard(creature: Creature): string {
+    const d = creature.data;
+    const str =
+      d.strength === 18 && d.exceptionalStrength ? `18/${d.exceptionalStrength}` : `${d.strength}`;
+    const cell = (dt: string, dd: string | number): string =>
+      `<div class="stat"><dt>${dt}</dt><dd>${dd}</dd></div>`;
+    return (
+      `<div class="adj-base-card"><h4>${translationService.from(creature.name)}</h4>` +
+      `<dl class="stat-grid">` +
+      `<div class="stat stat-wide"><dt>Ability Scores</dt><dd>` +
+      `STR ${str}, DEX ${d.dexterity}, CON ${d.constitution}, INT ${d.intelligence}, ` +
+      `WIS ${d.wisdom ?? "?"}, CHA ${d.charisma ?? "?"}</dd></div>` +
+      cell("Hit Dice", `${d.level1.pnpValue} (${d.hp ?? "?"} hp)`) +
+      cell("Armor Class", creatureService.getFinalArmorClass(creature)) +
+      cell("THAC0", d.thac0 ?? "?") +
+      cell("Attacks per Round", d.apr) +
+      cell("Movement", d.movement.pnpValue) +
+      cell("Morale", d.morale ?? "?") +
+      cell("Alignment", this.formatEnumLabel(d.alignment)) +
+      cell("Size", d.size.value) +
+      cell("XP Value", d.xpv ?? "?") +
+      `</dl></div>`
+    );
+  }
+
+  private getAdjTree(variants: Variant[], baseId: string, hasDirect: boolean): string {
+    const items: string[] = [];
+    if (hasDirect) items.push(`<a href="#${baseId}-direct">Direct adjustments</a>`);
+    const walk = (nodes: Variant[], prefix: string, depth: number): void => {
+      nodes.forEach((v, i) => {
+        const id = `${prefix}${i}`;
+        items.push(`<a href="#${id}" class="adj-tree-d${Math.min(depth, 3)}">${v.label}</a>`);
+        if (v.children.length) walk(v.children, `${id}-`, depth + 1);
+      });
+    };
+    walk(variants, `${baseId}-v`, 0);
+    return `<nav class="adj-tree">${items.join("")}</nav>`;
+  }
+
+  private getVariantCard(
+    creature: Creature,
+    variant: Variant,
+    indexed: { effective: EffectiveAdjustment; index: number }[],
+    cardId: string,
+    depth = 0,
+  ): string {
+    const own = indexed.filter((e) => e.effective.variant === variant);
+    const cards = own.map((e) => this.getAdjustmentCard(creature, e.effective, e.index)).join("");
+    const children = variant.children
+      .map((child, i) => this.getVariantCard(creature, child, indexed, `${cardId}-${i}`, depth + 1))
+      .join("");
+    const delta = this.getVariantDelta(variant);
+    // A nested variant says "sub-variant" and names its parent, so the relationship is legible
+    // even on its own; the card is also indented + left-accented (see monsters.css).
+    const badge = depth
+      ? `<span class="variant-badge">sub-variant of ${variant.parent?.label ?? ""}</span>`
+      : `<span class="variant-badge">variant</span>`;
+    return (
+      `<div class="variant-card" id="${cardId}">` +
+      `<h4 class="variant-card-title">${badge}${variant.label}` +
+      (delta ? `<span class="variant-delta">${delta}</span>` : "") +
+      `</h4>` +
+      (cards ? `<div class="adjustment-cards">${cards}</div>` : "") +
+      children +
+      `</div>`
+    );
+  }
+
+  // One-line summary of the stat profile a variant shares across its member files, read straight
+  // off `variant.data` (only the fields it actually sets). The cards below still show full
+  // effective stats with per-file deltas marked - this band is the at-a-glance overview.
+  private getVariantDelta(variant: Variant): string {
+    const d = variant.data;
+    const parts: string[] = [];
+    const level = typeof d.level1 === "object" ? d.level1.pnpValue : d.level1;
+    if (level !== undefined) parts.push(`HD ${level}`);
+    if (d.strength !== undefined) {
+      const ex = d.strength === 18 && d.exceptionalStrength ? `/${d.exceptionalStrength}` : "";
+      parts.push(`STR ${d.strength}${ex}`);
+    } else if (d.exceptionalStrength !== undefined) {
+      parts.push(`exStr ${d.exceptionalStrength}`);
+    }
+    const abilities = [
+      ["dexterity", "DEX"],
+      ["constitution", "CON"],
+      ["intelligence", "INT"],
+      ["wisdom", "WIS"],
+      ["charisma", "CHA"],
+    ] as const;
+    for (const [key, abbr] of abilities) {
+      if (d[key] !== undefined) parts.push(`${abbr} ${d[key]}`);
+    }
+    if (d.ac !== undefined) parts.push(`AC ${d.ac}`);
+    if (d.apr !== undefined) parts.push(`${d.apr} APR`);
+    if (d.movement !== undefined) parts.push(`MV ${d.movement}`);
+    if (d.morale !== undefined) parts.push(`morale ${d.morale}`);
+    if (d.xpv !== undefined) parts.push(`XP ${d.xpv}`);
+    return parts.join(" · ");
   }
 
   // Task 3 appends the Attacks/Traits/Abilities sections to this same card, between the stat-grid

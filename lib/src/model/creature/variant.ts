@@ -35,6 +35,9 @@ export interface VariantInput {
  * a lacedon).
  */
 export class Variant {
+  /** Sub-variants derived from this one (documentation renders them nested). */
+  readonly children: Variant[] = [];
+
   constructor(
     private readonly creature: Creature,
     /** Free-text label, used only for the generator log section header - not a translation key. */
@@ -43,6 +46,8 @@ export class Variant {
     readonly data: InputCreatureData,
     /** Every member file this variant and its sub-variants touch, uppercased. */
     readonly files: string[],
+    /** The variant this one derives from, if any (undefined for a root variant). */
+    readonly parent?: Variant,
   ) {}
 
   /** Derive a sub-variant whose `data` stacks on top of this one's. */

@@ -27,8 +27,7 @@ export function collapseFilesByGame(files: CreatureFile[]): CreatureFile[] {
   }
   return [...byName].map(([name, games]) => {
     const coversBothGames = games.has("bg1") && games.has("bg2");
-    const game =
-      games.has(undefined) || coversBothGames ? undefined : [...games][0];
+    const game = games.has(undefined) || coversBothGames ? undefined : [...games][0];
     return { name, game };
   });
 }
@@ -96,9 +95,7 @@ export abstract class CreatureFamily<T extends Creature>
     newFiles?: CreatureNewFile[];
   }): T {
     logService.header(
-      `Creating ${translationService.from(p.name)} from ${translationService.from(
-        p.from.name,
-      )}...`,
+      `Creating ${translationService.from(p.name)} from ${translationService.from(p.from.name)}...`,
     );
     const cre = structuredClone(p.from);
     Object.setPrototypeOf(cre, p.from);
@@ -121,6 +118,7 @@ export abstract class CreatureFamily<T extends Creature>
     cre.effectFiles = [];
     cre.projectiles = [];
     cre.adjustments = [];
+    cre.variants = [];
     cre.valid = undefined;
     if (p.from.attack.dualWielding) cre.data.apr++;
     this.creatures.push(cre);

@@ -3,6 +3,7 @@ import { PartialBy } from "../utility-types";
 import { BaseCreature } from "./creature";
 import { InputCreatureData } from "./data-input";
 import { Game } from "./game";
+import type { Variant } from "./variant";
 
 export interface CreatureAdjustment extends BaseCreature {
   /**
@@ -33,6 +34,12 @@ export interface CreatureAdjustment extends BaseCreature {
    * Name of the creature
    */
   stringRef?: StringReference;
+  /**
+   * The variant that produced this adjustment, if any. Set by `variant.factory`, never by hand;
+   * carries no weight in WeiDU generation - it only lets the documentation group adjustment cards
+   * under their variant (and nest sub-variants). Undefined for a plain `setAdjustments` entry.
+   */
+  variant?: Variant;
 }
 
 // `game` is already optional on the interface, so it stays optional here without being

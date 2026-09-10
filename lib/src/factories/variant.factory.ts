@@ -19,27 +19,47 @@ class VariantFactory {
     const base: InputCreatureData = parent
       ? deepmerge<InputCreatureData>(parent.data, input.data ?? {})
       : (input.data ?? {});
-    const baseHasData = hasKeys(base);
+    const variant = new Variant(cre, label, base, members, parent);
 
-    const adjustments: PartialCreatureAdjustment[] = [];
-    if (members.length && baseHasData) {
-      adjustments.push({ files: input.files ?? [], data: base });
-    } else if (members.length) {
-      logService.warn(
-        `variant "${label}" lists files but resolves to no data - those files get no adjustment`,
-      );
-    }
-    for (const entry of input.adjust ?? []) {
-      const merged = entry.data ? deepmerge<InputCreatureData>(base, entry.data) : base;
-      adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined });
-    }
-    creatureFactory.setAdjustments(cre, adjustments);
+    // Stamp the variant onto every entry so the documentation can group the cards under it.
+    creatureFactory.setAdjustments(
+      cre,
+      buildAdjustments(input, base, label).map((a) => ({ ...a, variant })),
+    );
+    linkToParent(cre, variant, members);
+    return variant;
+  }
+}
 
-    // A sub-variant's files fold back into its parent - a greater lacedon is still a lacedon.
-    if (parent) {
-      for (const file of members) if (!parent.files.includes(file)) parent.files.push(file);
-    }
-    return new Variant(cre, label, base, members);
+function buildAdjustments(
+  input: VariantInput,
+  base: InputCreatureData,
+  label: string,
+): PartialCreatureAdjustment[] {
+  const adjustments: PartialCreatureAdjustment[] = [];
+  if (input.files?.length && hasKeys(base)) {
+    adjustments.push({ files: input.files, data: base });
+  } else if (input.files?.length) {
+    logService.warn(
+      `variant "${label}" lists files but resolves to no data - those files get no adjustment`,
+    );
+  }
+  for (const entry of input.adjust ?? []) {
+    const merged = entry.data ? deepmerge<InputCreatureData>(base, entry.data) : base;
+    adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined });
+  }
+  return adjustments;
+}
+
+function linkToParent(cre: Creature, variant: Variant, members: string[]): void {
+  if (!variant.parent) {
+    cre.variants.push(variant);
+    return;
+  }
+  variant.parent.children.push(variant);
+  // A sub-variant's files fold back into its parent - a greater lacedon is still a lacedon.
+  for (const file of members) {
+    if (!variant.parent.files.includes(file)) variant.parent.files.push(file);
   }
 }
 

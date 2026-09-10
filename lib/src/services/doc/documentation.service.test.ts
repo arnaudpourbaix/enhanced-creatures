@@ -111,9 +111,7 @@ describe("getEffectiveApr", () => {
       creature.data.items.equipped = [
         { file: "SWORD01", slot: "WEAPON1" },
       ] as unknown as typeof creature.data.items.equipped;
-      creature.data.proficiencies = [
-        { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
-      ];
+      creature.data.proficiencies = [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }];
 
       // base apr 2 + specialization bonus 1.0 (rank 5's own tier, not stacked with rank-2's)
       expect(documentationService.getEffectiveApr(creature)).toBe(3);
@@ -155,9 +153,7 @@ describe("getEffectiveApr", () => {
       creature.data.items.equipped = [
         { file: "SWORD01", slot: "WEAPON1" },
       ] as unknown as typeof creature.data.items.equipped;
-      creature.data.proficiencies = [
-        { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
-      ];
+      creature.data.proficiencies = [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }];
 
       expect(documentationService.getEffectiveApr(creature)).toBe(2);
     });
@@ -207,7 +203,9 @@ describe("getCreatureAttacks", () => {
 
   it("shows no slot label when the creature isn't dual wielding", () => {
     const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
-    State.items = [{ file: "SWORD01", doc: true, description: desc }] as unknown as typeof State.items;
+    State.items = [
+      { file: "SWORD01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
     const creature = fakeCreatureForAttacks([{ file: "SWORD01", slot: "WEAPON1" }]);
     creature.attack.dualWielding = false;
     const template = { text: "{{attacks}}" };
@@ -309,7 +307,9 @@ describe("getCreatureAttacks", () => {
 
   it("shows no proficiency line for a weapon with no proficiency requirement (e.g. fists)", () => {
     const desc = translationService.addCustomTranslation(["Melee damage: 5"]);
-    State.items = [{ file: "FIST01", doc: true, description: desc }] as unknown as typeof State.items;
+    State.items = [
+      { file: "FIST01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
     const creature = fakeCreatureForAttacks([{ file: "FIST01", slot: "WEAPON1" }]);
     creature.attack.dualWielding = false;
     const template = { text: "{{attacks}}" };
@@ -362,12 +362,9 @@ describe("getAttackDisplayText", () => {
   });
 
   it("does not mistake unrelated 'X damage: N ...' text (no dice) for the damage line", () => {
-    const description = [
-      "Ring",
-      "",
-      "Poison damage: 5 over 10 seconds.",
-      "Enchantment: 1",
-    ].join("\r\n");
+    const description = ["Ring", "", "Poison damage: 5 over 10 seconds.", "Enchantment: 1"].join(
+      "\r\n",
+    );
 
     expect(runAttackDisplay(description).text).toBe(
       "Poison damage: 5 over 10 seconds.\r\nEnchantment: +1",
@@ -465,13 +462,7 @@ describe("getAttackDisplayText", () => {
   });
 
   it("supports a bullet list not preceded by any lead-in paragraph", () => {
-    const description = [
-      "Jaws",
-      "",
-      "Cast spell Curse:",
-      "- weakened",
-      "- blinded",
-    ].join("\r\n");
+    const description = ["Jaws", "", "Cast spell Curse:", "- weakened", "- blinded"].join("\r\n");
 
     const { entries } = runAttackDisplay(description);
 
@@ -481,13 +472,9 @@ describe("getAttackDisplayText", () => {
   });
 
   it("supports a paragraph resuming after a bullet list", () => {
-    const description = [
-      "Jaws",
-      "",
-      "Cast spell Curse:",
-      "- weakened",
-      "Lasts 3 rounds.",
-    ].join("\r\n");
+    const description = ["Jaws", "", "Cast spell Curse:", "- weakened", "Lasts 3 rounds."].join(
+      "\r\n",
+    );
 
     const { entries } = runAttackDisplay(description);
 
@@ -1199,12 +1186,10 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toContain('<details class="creature-adjustments">');
-    expect(template.text).toContain('<span class="adjustments-badge">1 adjustment ▾</span>');
+    expect(template.text).toContain('<details class="creature-adjustments"');
+    expect(template.text).toContain('<span class="adjustments-badge">1 adjustment</span>');
     expect(template.text).toContain('<div class="adjustment-card">');
-    expect(template.text).toContain(
-      '<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>',
-    );
+    expect(template.text).toContain('<h4 class="adjustment-card-title">BDSOGR1, BDSOGR2</h4>');
     // Changed field: highlighted.
     expect(template.text).toMatch(
       /<dt>Hit Dice<\/dt><dd class="adjustment-changed">7 \(70 hp\)<\/dd>/,
@@ -1251,7 +1236,13 @@ describe("getCreatureHeader", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue("Undead Knight");
     const creature = fakeCreatureForAddCreature(false);
     creature.adjustments = [
-      { files: ["KNIGHTSK"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+      {
+        files: ["KNIGHTSK"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
     ] as unknown as Creature["adjustments"];
     const template = { text: "{{header}}" };
 
@@ -1325,7 +1316,13 @@ describe("getCreatureHeader", () => {
     // the match must be case-insensitive - mirror that mismatch here rather than using matching case.
     creature.newFiles = [{ files: ["somefile"], stringRef }];
     creature.adjustments = [
-      { files: ["SOMEFILE"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 100 } },
+      {
+        files: ["SOMEFILE"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+      },
     ] as unknown as Creature["adjustments"];
     const template = { text: "{{header}}" };
 
@@ -1356,7 +1353,9 @@ describe("getCreatureHeader", () => {
   it("shows the effective Attacks list, highlighting only the weapon the adjustment changed", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const originalItems = State.items;
-    State.items = [{ file: "NEWWEAP", doc: true, description: "" }] as unknown as typeof State.items;
+    State.items = [
+      { file: "NEWWEAP", doc: true, description: "" },
+    ] as unknown as typeof State.items;
     const creature = fakeCreatureForAddCreature(false);
     creature.data.items.equipped = [
       { file: "OLDWEAP", slot: "WEAPON1" },
@@ -1498,9 +1497,7 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature);
 
     expect(template.text).toContain("By weapon");
-    expect(template.text).toContain(
-      '<div class="weapon-proficiency adjustment-changed">Axe',
-    );
+    expect(template.text).toContain('<div class="weapon-proficiency adjustment-changed">Axe');
     expect(template.text).toContain(
       '<div class="weapon-proficiency adjustment-changed">Two-Weapon Style',
     );
@@ -1617,5 +1614,88 @@ describe("getCreatureHeader", () => {
     // base memorizedCount 1 + adjustment delta 3 = 4 (delta, not absolute replacement)
     expect(template.text).toContain('<div class="ability-entry adjustment-changed">');
     expect(template.text).toContain("4/day");
+  });
+
+  it("groups a variant's cards under a labelled band and nests a sub-variant", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    const greater = {
+      label: "Greater Ghast",
+      data: { level1: { pnpValue: 8 }, strength: 18, exceptionalStrength: 100, xpv: 975 },
+      children: [] as unknown[],
+    } as unknown as Creature["variants"][number];
+    const lacedon = {
+      label: "Lacedon",
+      data: { strength: 18 },
+      children: [] as unknown[],
+    } as unknown as Creature["variants"][number];
+    const greaterLacedon = {
+      label: "Greater Lacedon",
+      data: { strength: 19 },
+      children: [],
+      parent: lacedon,
+    } as unknown as Creature["variants"][number];
+    (lacedon.children as unknown[]).push(greaterLacedon);
+    creature.variants = [greater, lacedon];
+    creature.adjustments = [
+      { files: ["GHASTS"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 0 } },
+      {
+        files: ["GRON"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { strength: 18, xpv: 975 },
+        variant: greater,
+      },
+      {
+        files: ["AC#DTLAC"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { strength: 18 },
+        variant: lacedon,
+      },
+      {
+        files: ["AC#DT01L"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { strength: 19 },
+        variant: greaterLacedon,
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    // side panel scaffolding: a moveable <details>, the base-stat reference card, the nav tree
+    expect(template.text).toContain(
+      '<details class="creature-adjustments" id="adj-m1" data-title=',
+    );
+    expect(template.text).toContain('<div class="adj-base-card"><h4>');
+    expect(template.text).toContain(
+      '<nav class="adj-tree"><a href="#adj-m1-direct">Direct adjustments</a>' +
+        '<a href="#adj-m1-v0" class="adj-tree-d0">Greater Ghast</a>' +
+        '<a href="#adj-m1-v1" class="adj-tree-d0">Lacedon</a>' +
+        '<a href="#adj-m1-v1-0" class="adj-tree-d1">Greater Lacedon</a></nav>',
+    );
+    // plain adjustment gets its own labelled section, id-matched to its tree link
+    expect(template.text).toContain(
+      '<section class="adj-section" id="adj-m1-direct"><h4 class="adjustment-section-title">Direct adjustments</h4>',
+    );
+    // each variant is a card with its shared-profile summary, id-matched to its tree link
+    expect(template.text).toContain(
+      '<div class="variant-card" id="adj-m1-v0"><h4 class="variant-card-title">' +
+        '<span class="variant-badge">variant</span>Greater Ghast' +
+        '<span class="variant-delta">HD 8 · STR 18/100 · XP 975</span></h4>',
+    );
+    // sub-variant nested as a card inside its parent's card, badge naming the parent
+    expect(template.text).toMatch(
+      /<div class="variant-card" id="adj-m1-v1">.*?<div class="variant-card" id="adj-m1-v1-0">/s,
+    );
+    expect(template.text).toContain(
+      '<span class="variant-badge">sub-variant of Lacedon</span>Greater Lacedon',
+    );
+    expect(template.text).toContain("GRON</h4>");
   });
 });

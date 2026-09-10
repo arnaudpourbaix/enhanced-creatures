@@ -1,6 +1,7 @@
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { Game } from "../../model/creature/game";
+import { Variant } from "../../model/creature/variant";
 import { CreatureData, MemorizedSpell } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ClassIdentifier } from "../../model/ids/class";
@@ -46,6 +47,12 @@ export interface EffectiveAdjustment {
   immunities: { name: ImmunityName; changed: boolean }[];
   memorized: { spell: MemorizedSpell; changed: boolean }[];
   proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
+  /**
+   * The variant that owns every adjustment folded into this effective, if they all share one.
+   * `undefined` when the file is touched only by plain `setAdjustments` entries (or by a mix of
+   * variant and non-variant entries). Documentation groups the cards by this.
+   */
+  variant?: Variant;
 }
 
 class AdjustmentService {
@@ -175,10 +182,20 @@ class AdjustmentService {
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      variant: this.commonVariant(matching),
       game,
       equipped,
       proficiencies,
     };
+  }
+
+  // The one variant every variant-owned adjustment in this fold belongs to. Variant-less entries
+  // (a synthetic summon patch, an extra hand-written setAdjustments tweak on a member) are
+  // ignored - they still fold into the stats, they just don't pull the card out of its group.
+  // Undefined only when the file genuinely belongs to two different variants, or to none.
+  private commonVariant(matching: CreatureAdjustment[]): Variant | undefined {
+    const variants = new Set(matching.map((a) => a.variant).filter((v): v is Variant => !!v));
+    return variants.size === 1 ? [...variants][0] : undefined;
   }
 
   private lastDefined<T>(
@@ -426,8 +443,11 @@ class AdjustmentService {
     const bySignature = new Map<string, EffectiveAdjustment>();
     const order: string[] = [];
     for (const effective of effectives) {
-      const { files, ...rest } = effective;
-      const signature = JSON.stringify(rest);
+      // `variant` is a class instance with a circular back-reference to its Creature, so it can't
+      // go through JSON.stringify - key on its label instead, which also keeps two same-stat files
+      // in different variants as separate cards.
+      const { files, variant, ...rest } = effective;
+      const signature = JSON.stringify({ ...rest, variant: variant?.label });
       const existing = bySignature.get(signature);
       if (existing) {
         existing.files.push(...files);
