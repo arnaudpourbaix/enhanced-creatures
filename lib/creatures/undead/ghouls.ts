@@ -421,20 +421,7 @@ export function ghast(family: UndeadFamily): Undead {
 function greaterGhastVariant(base: Undead): Variant {
   return base.variant("Greater Ghast", {
     data: { level1: 8, strength: 18, exceptionalStrength: 100, xpv: 975 },
-    files: [
-      "CD41COR",
-      "BDJUNIA2",
-      "GRAEL",
-      "GRON",
-      "GMAYOR",
-      "THESHAL",
-      "GHASTGSU",
-      "WICULT1",
-      "D9OGR01",
-      "D9OGR0M",
-      "D9OGRRT",
-      "D9OGYYY",
-    ],
+    files: ["CD41COR", "BDJUNIA2", "GRAEL", "GRON", "GMAYOR", "THESHAL", "GHASTGSU", "WICULT1"],
     adjust: [
       {
         files: ["GRAEL"],
@@ -462,7 +449,7 @@ function lacedonVariant(base: Undead): Variant {
 function greaterLacedonVariant(lacedon: Variant): Variant {
   return lacedon.variant("Greater Lacedon", {
     data: { level1: 9, strength: 19, xpv: 1800 },
-    files: ["AC#DT01L"],
+    files: ["AC#DT01L", "LACEDO02"],
   });
 }
 
@@ -493,7 +480,7 @@ export function ghoulLord(family: UndeadFamily): Undead {
       movement: 15,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "ghast1", "BDGHASTG", "ghoul1"],
+        remove: ["ring95", "ghast1", "BDGHASTG", "ghoul1", "GHOULLOR", "IMMUNE1"],
       },
       script: {
         remove: ["ghoul", "ghast", "BDGHASTG", "gholor01", "riftcr01"],
@@ -527,13 +514,6 @@ export function ghoulLord(family: UndeadFamily): Undead {
     restHeal: true,
     abilities: [family.ability(Ids.AuraOfEvil)],
   });
-  lord.setAdjustments([
-    {
-      files: [
-        "MALKAL", // Mal-Kalen
-      ],
-      data: { class: "GHOUL_REVEANT" },
-    },
-  ]);
+  lord.setAdjustments([]);
   return lord;
 }
