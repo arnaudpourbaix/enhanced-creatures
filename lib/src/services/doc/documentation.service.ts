@@ -167,7 +167,15 @@ class DocumentationService {
     this.replace(template, "size", creature.data.size.value);
     this.addSpecial(template, creature);
     this.replace(template, "morale", creature.data.morale);
-    this.replace(template, "xp", creature.data.xpv);
+    // XP Value is omitted entirely when it's 0 (or unset) - a detected summon is folded in with
+    // xpv 0 and showing "XP Value 0" carries no documentation value.
+    this.replace(
+      template,
+      "xpStat",
+      creature.data.xpv
+        ? `<div class="stat"><dt>XP Value</dt><dd>${creature.data.xpv}</dd></div>`
+        : "",
+    );
     this.getCreatureAttacks(template, creature);
     this.getCreatureTraits(template, creature);
     this.getCreatureSpells(template, creature);
@@ -619,7 +627,7 @@ class DocumentationService {
       cell("Morale", d.morale ?? "?") +
       cell("Alignment", this.formatEnumLabel(d.alignment)) +
       cell("Size", d.size.value) +
-      cell("XP Value", d.xpv ?? "?")
+      (d.xpv ? cell("XP Value", d.xpv) : "")
     );
   }
 
@@ -645,11 +653,43 @@ class DocumentationService {
     depth = 0,
   ): string {
     const own = indexed.filter((e) => e.effective.variant === variant);
-    const cards = own.map((e) => this.getAdjustmentCard(creature, e.effective, e.index)).join("");
+
+    // The variant's shared profile (its own `data` folded over the base) is rendered as this
+    // card's own body - a full stat grid plus any attack/trait/ability changes it makes - so a
+    // variant with many changes stays readable. Member files that carry *only* that profile add
+    // nothing beyond it, so they're listed on an "Applies to" line rather than repeated as an
+    // identical card; only files that deviate (a boss with extra HD, a bg2-only summon scope, a
+    // noWeapon minion) keep their own diff card below.
+    const profile = adjustmentService.getVariantProfile(creature, variant);
+    const profileEntry = profile
+      ? own.find((e) => adjustmentService.isEquivalent(e.effective, profile))
+      : undefined;
+    const deviating = own.filter((e) => e !== profileEntry);
+
+    const profileBody = profileEntry
+      ? this.getAdjustmentCardBody(creature, profileEntry.effective, profileEntry.index)
+      : "";
+
+    // Deviating members diff against the shared profile (not the base), so their cards show only
+    // what each one changes *on top of* the variant. A member left with nothing to show (e.g. a
+    // bg2 summon scope that only re-zeroes xpv) collapses onto the "Applies to" line instead.
+    const appliesToFiles = profileEntry ? [...profileEntry.effective.files] : [];
+    const cards = deviating
+      .map((e) => {
+        const card = this.getAdjustmentCard(creature, e.effective, e.index, profile);
+        if (!card) appliesToFiles.push(...e.effective.files);
+        return card;
+      })
+      .join("");
+    const appliesTo = appliesToFiles.length
+      ? `<p class="variant-applies-to">Applies to ${this.getAdjustmentLabel(
+          creature,
+          appliesToFiles,
+        )}</p>`
+      : "";
     const children = variant.children
       .map((child, i) => this.getVariantCard(creature, child, indexed, `${cardId}-${i}`, depth + 1))
       .join("");
-    const delta = this.getVariantDelta(variant);
     // A nested variant says "sub-variant" and names its parent, so the relationship is legible
     // even on its own; the card is also indented + left-accented (see monsters.css).
     const badge = depth
@@ -657,71 +697,60 @@ class DocumentationService {
       : `<span class="variant-badge">variant</span>`;
     return (
       `<div class="variant-card" id="${cardId}">` +
-      `<h4 class="variant-card-title">${badge}${variant.label}` +
-      (delta ? `<span class="variant-delta">${delta}</span>` : "") +
-      `</h4>` +
+      `<h4 class="variant-card-title">${badge}${variant.label}</h4>` +
+      profileBody +
+      appliesTo +
       (cards ? `<div class="adjustment-cards">${cards}</div>` : "") +
       children +
       `</div>`
     );
   }
 
-  // One-line summary of the stat profile a variant shares across its member files, read straight
-  // off `variant.data` (only the fields it actually sets). The cards below still show full
-  // effective stats with per-file deltas marked - this band is the at-a-glance overview.
-  private getVariantDelta(variant: Variant): string {
-    const d = variant.data;
-    const parts: string[] = [];
-    const level = typeof d.level1 === "object" ? d.level1.pnpValue : d.level1;
-    if (level !== undefined) parts.push(`HD ${level}`);
-    if (d.strength !== undefined) {
-      const ex = d.strength === 18 && d.exceptionalStrength ? `/${d.exceptionalStrength}` : "";
-      parts.push(`STR ${d.strength}${ex}`);
-    } else if (d.exceptionalStrength !== undefined) {
-      parts.push(`exStr ${d.exceptionalStrength}`);
-    }
-    const abilities = [
-      ["dexterity", "DEX"],
-      ["constitution", "CON"],
-      ["intelligence", "INT"],
-      ["wisdom", "WIS"],
-      ["charisma", "CHA"],
-    ] as const;
-    for (const [key, abbr] of abilities) {
-      if (d[key] !== undefined) parts.push(`${abbr} ${d[key]}`);
-    }
-    if (d.ac !== undefined) parts.push(`AC ${d.ac}`);
-    if (d.apr !== undefined) parts.push(`${d.apr} APR`);
-    if (d.movement !== undefined) parts.push(`MV ${d.movement}`);
-    if (d.morale !== undefined) parts.push(`morale ${d.morale}`);
-    if (d.xpv !== undefined) parts.push(`XP ${d.xpv}`);
-    return parts.join(" · ");
-  }
-
-  // Task 3 appends the Attacks/Traits/Abilities sections to this same card, between the stat-grid
-  // and the closing </div> - `noWeaponNote` (if any) already sits right after the stat-grid.
+  // `profile`, when given (variant member cards), is subtracted from the effective's scalar stats
+  // so the card shows only what this member changes beyond its variant's shared profile - and the
+  // card is dropped entirely if that leaves nothing to show.
   private getAdjustmentCard(
     creature: Creature,
     effective: EffectiveAdjustment,
     cardIndex: number,
+    profile?: EffectiveAdjustment,
   ): string {
     const gameChip = effective.game
       ? `<span class="adjustment-game-chip">${effective.game}</span> `
       : "";
     const label = gameChip + this.getAdjustmentLabel(creature, effective.files);
+    const body = this.getAdjustmentCardBody(
+      creature,
+      profile ? adjustmentService.subtractProfile(effective, profile) : effective,
+      cardIndex,
+    );
+    if (profile && !body) return "";
+    return (
+      `<div class="adjustment-card">` +
+      `<h4 class="adjustment-card-title">${label}</h4>` +
+      body +
+      `</div>`
+    );
+  }
+
+  // The diff content of an adjustment - stat grid, "uses his own weapon" note, and any
+  // attack/trait/ability changes - without the card wrapper or title. Shared by the per-file
+  // adjustment cards and by the variant card, which renders its shared profile as its own body.
+  private getAdjustmentCardBody(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
     const noWeaponNote = effective.noWeapon
       ? `<p class="adjustment-note adjustment-changed">uses his own weapon</p>`
       : "";
     const grid = this.getAdjustmentStatGrid(effective);
     return (
-      `<div class="adjustment-card">` +
-      `<h4 class="adjustment-card-title">${label}</h4>` +
       (grid ? `<dl class="stat-grid">${grid}</dl>` : "") +
       noWeaponNote +
       this.getAdjustmentAttacks(creature, effective, cardIndex) +
       this.getAdjustmentTraits(creature, effective) +
-      this.getAdjustmentSpells(creature, effective, cardIndex) +
-      `</div>`
+      this.getAdjustmentSpells(creature, effective, cardIndex)
     );
   }
 
@@ -765,7 +794,9 @@ class DocumentationService {
         effective.alignment.changed,
       ) +
       row("Size", effective.size.value, effective.size.changed) +
-      row("XP Value", effective.xpv.value, effective.xpv.changed)
+      // XP Value is hidden whenever it's 0 (see adjustmentService.hasVisibleChanges) - a summon
+      // folded in as an adjustment zeroes it and that carries no documentation value.
+      row("XP Value", effective.xpv.value, effective.xpv.changed && effective.xpv.value !== 0)
     );
   }
 

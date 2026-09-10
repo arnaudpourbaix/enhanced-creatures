@@ -137,6 +137,17 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
   });
 
+  // A detected summon is folded in as an adjustment that only zeroes xpv. "XP Value 0" carries no
+  // documentation value, so such a change must not pull an otherwise-empty card into view.
+  it("excludes a file whose only change zeroes xpv (a detected summon)", () => {
+    const creature = fakeCreature({
+      data: { xpv: 500 },
+      adjustments: [{ files: ["BDSUMMON"], summon: true, data: { xpv: 0 } }],
+    });
+
+    expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
+  });
+
   it("still produces an entry for a file whose only change is noWeapon", () => {
     const creature = fakeCreature({
       adjustments: [{ files: ["KAHRK"], noWeapon: true, data: {} }],

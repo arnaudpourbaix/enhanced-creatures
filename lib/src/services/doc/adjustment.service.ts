@@ -424,7 +424,10 @@ class AdjustmentService {
       effective.morale.changed ||
       effective.alignment.changed ||
       effective.size.changed ||
-      effective.xpv.changed ||
+      // An XP Value change is never shown in documentation when the effective value is 0 (a
+      // detected summon is folded in as an adjustment that only zeroes xpv) - so it must not
+      // pull an otherwise-empty card into view either. A change to a real non-zero value still counts.
+      (effective.xpv.changed && effective.xpv.value !== 0) ||
       effective.strength.changed ||
       effective.exceptionalStrength.changed ||
       effective.dexterity.changed ||
@@ -439,15 +442,86 @@ class AdjustmentService {
     );
   }
 
+  // The stat profile a variant's own `data` defines, folded over the base creature - the shared
+  // baseline every member file starts from, before any per-file `adjust` entry refines it.
+  // Documentation renders this as the variant card's own body instead of a one-line summary.
+  // `undefined` for a variant declared purely through `adjust` entries (no shared `files`
+  // profile), or with no adjustments at all.
+  getVariantProfile(creature: Creature, variant: Variant): EffectiveAdjustment | undefined {
+    const entries = creature.adjustments.filter((a) => a.variant === variant);
+    if (!entries.length) return undefined;
+    // variantFactory emits one entry for `input.files` carrying the merged variant data, then one
+    // per `adjust` entry (each targeting a subset of those files) - so the shared-profile entry is
+    // the one whose file set covers every file the variant touches.
+    const allFiles = new Set(entries.flatMap((a) => a.files));
+    const shared = entries.find(
+      (a) => a.files.length > 0 && [...allFiles].every((f) => a.files.includes(f)),
+    );
+    if (!shared) return undefined;
+    return this.buildEffectiveForScope(creature, variant.label, undefined, [shared]);
+  }
+
+  // Two effectives are equivalent when they carry the same set of changes, regardless of which
+  // files they cover - same comparison `group()` uses to merge same-stat files into one card.
+  isEquivalent(a: EffectiveAdjustment, b: EffectiveAdjustment): boolean {
+    return this.signature(a) === this.signature(b);
+  }
+
+  // A variant member's card diffs against the base creature like any adjustment, but its variant's
+  // shared profile is already shown on the variant card right above it - so re-flagging the stats
+  // it merely inherits from that profile is noise. Returns a copy with each scalar stat's
+  // `changed` cleared when its value matches the profile's, leaving only the member's own
+  // deviations (a boss's extra HD, a minion's softer AC).
+  subtractProfile(
+    effective: EffectiveAdjustment,
+    profile: EffectiveAdjustment,
+  ): EffectiveAdjustment {
+    const keys = [
+      "level",
+      "hp",
+      "thac0",
+      "ac",
+      "apr",
+      "movement",
+      "morale",
+      "alignment",
+      "size",
+      "xpv",
+      "strength",
+      "exceptionalStrength",
+      "dexterity",
+      "constitution",
+      "intelligence",
+      "wisdom",
+      "charisma",
+    ] as const;
+    const result: EffectiveAdjustment = { ...effective };
+    for (const key of keys) {
+      const field = effective[key] as AdjustmentField<unknown>;
+      const profileField = profile[key] as AdjustmentField<unknown>;
+      (result[key] as AdjustmentField<unknown>) = {
+        value: field.value,
+        changed: field.changed && field.value !== profileField.value,
+      };
+    }
+    return result;
+  }
+
+  // `variant` is a class instance with a circular back-reference to its Creature, so it can't go
+  // through JSON.stringify - key on its label instead, which also keeps two same-stat files in
+  // different variants as separate cards.
+  private signature(effective: EffectiveAdjustment): string {
+    // `files` is dropped (JSON.stringify omits an `undefined` value) so same-change files compare
+    // equal; `variant` is reduced to its label since the instance has a circular Creature ref.
+    return JSON.stringify({ ...effective, files: undefined, variant: effective.variant?.label });
+  }
+
   private group(effectives: EffectiveAdjustment[]): EffectiveAdjustment[] {
     const bySignature = new Map<string, EffectiveAdjustment>();
     const order: string[] = [];
     for (const effective of effectives) {
-      // `variant` is a class instance with a circular back-reference to its Creature, so it can't
-      // go through JSON.stringify - key on its label instead, which also keeps two same-stat files
-      // in different variants as separate cards.
-      const { files, variant, ...rest } = effective;
-      const signature = JSON.stringify({ ...rest, variant: variant?.label });
+      const { files } = effective;
+      const signature = this.signature(effective);
       const existing = bySignature.get(signature);
       if (existing) {
         existing.files.push(...files);

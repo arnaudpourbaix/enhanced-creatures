@@ -566,10 +566,25 @@
   padding: 1px 5px;
 }
 
-.variant-delta {
-  font-family: var(--font-body, inherit);
+/* The variant's shared profile renders as the card's own body: same compact diff grid as an
+   adjustment card (hug the content, don't stretch one lone row edge to edge). */
+.variant-card > .stat-grid {
+  margin-top: 10px;
+  font-size: 0.9em;
+  grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+  column-gap: 28px;
+}
+
+.variant-card > .stat-grid .stat:not(.stat-wide) {
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+/* The member files that carry only the shared profile - listed here instead of repeated as an
+   identical card. */
+.variant-applies-to {
+  margin: 8px 0 0;
   font-size: 0.8rem;
-  font-weight: 400;
   color: var(--color-ink-soft);
 }
 

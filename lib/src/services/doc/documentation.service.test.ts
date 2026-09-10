@@ -70,6 +70,22 @@ describe("addCreature (doubleApr)", () => {
   });
 });
 
+describe("addCreature (XP Value)", () => {
+  it("renders the XP Value stat when it is non-zero", () => {
+    documentationService.addCreature(fakeCreatureForAddCreature(false));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toContain('<div class="stat"><dt>XP Value</dt><dd>500</dd></div>');
+  });
+
+  it("omits the XP Value stat entirely when it is 0 (e.g. a detected summon)", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.xpv = 0;
+    documentationService.addCreature(creature);
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).not.toContain("XP Value");
+  });
+});
+
 describe("getEffectiveApr", () => {
   it("returns the stored apr as-is when not dual wielding and not doubled", () => {
     const creature = fakeCreatureForAddCreature(false, false);
@@ -1235,6 +1251,47 @@ describe("getCreatureHeader", () => {
     expect(content).not.toContain("<h4>Abilities</h4>");
   });
 
+  it("renders no panel at all when the only adjustment just zeroes xpv (a detected summon)", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSUMMON"],
+        noWeapon: false,
+        summon: true,
+        scriptName: false,
+        data: { xpv: 0 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
+    expect(template.text).not.toContain("creature-adjustments");
+  });
+
+  it("still shows an adjustment card whose xpv changes to a real non-zero value", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSKGR03"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 650 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">650</dd></div>',
+    );
+  });
+
   it("prepends a bg1/bg2 chip to a card whose adjustments are all scoped to one game", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
@@ -1657,12 +1714,12 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain("4/day");
   });
 
-  it("groups a variant's cards under a labelled band and nests a sub-variant", () => {
+  it("renders a variant's shared profile as its own card body, folds no-deviation members into an Applies-to line, and nests a sub-variant", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);
     const greater = {
       label: "Greater Ghast",
-      data: { level1: { pnpValue: 8 }, strength: 18, exceptionalStrength: 100, xpv: 975 },
+      data: { strength: 18, exceptionalStrength: 100, xpv: 975 },
       children: [] as unknown[],
     } as unknown as Creature["variants"][number];
     const lacedon = {
@@ -1679,13 +1736,29 @@ describe("getCreatureHeader", () => {
     (lacedon.children as unknown[]).push(greaterLacedon);
     creature.variants = [greater, lacedon];
     creature.adjustments = [
-      { files: ["GHASTS"], noWeapon: false, summon: false, scriptName: false, data: { xpv: 0 } },
       {
-        files: ["GRON"],
+        files: ["GHASTS"],
         noWeapon: false,
         summon: false,
         scriptName: false,
-        data: { strength: 18, xpv: 975 },
+        data: { morale: 20, xpv: 0 },
+      },
+      // Shared-profile entry: covers every member the variant touches (mirrors variantFactory).
+      {
+        files: ["GRON", "GRAEL"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { strength: 18, exceptionalStrength: 100, xpv: 975 },
+        variant: greater,
+      },
+      // GRAEL deviates from that profile (extra THAC0), so it keeps its own diff card.
+      {
+        files: ["GRAEL"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { strength: 18, exceptionalStrength: 100, xpv: 975, thac0: 10 },
         variant: greater,
       },
       {
@@ -1724,11 +1797,24 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain(
       '<section class="adj-section" id="adj-m1-direct"><h4 class="adjustment-section-title">Direct adjustments</h4>',
     );
-    // each variant is a card with its shared-profile summary, id-matched to its tree link
+    // the variant card carries its shared profile as a full stat grid (no one-line summary band),
+    // then lists the members that carry only that profile
     expect(template.text).toContain(
       '<div class="variant-card" id="adj-m1-v0"><h4 class="variant-card-title">' +
-        '<span class="variant-badge">variant</span>Greater Ghast' +
-        '<span class="variant-delta">HD 8 · STR 18/100 · XP 975</span></h4>',
+        '<span class="variant-badge">variant</span>Greater Ghast</h4>' +
+        '<dl class="stat-grid">' +
+        '<div class="stat stat-wide"><dt>Ability Scores</dt>' +
+        '<dd class="adjustment-changed">STR 18/100, DEX 12, CON 14, INT 10, WIS 10, CHA 10</dd></div>' +
+        '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">975</dd></div></dl>' +
+        '<p class="variant-applies-to">Applies to GRON</p>',
+    );
+    expect(template.text).not.toContain('<span class="variant-delta">');
+    // the deviating member's card shows ONLY what it changes on top of the shared profile - the
+    // Ability Scores / XP rows it merely inherits from the profile are not repeated here
+    expect(template.text).toContain(
+      '<div class="adjustment-card"><h4 class="adjustment-card-title">GRAEL</h4>' +
+        '<dl class="stat-grid"><div class="stat"><dt>THAC0</dt>' +
+        '<dd class="adjustment-changed">10</dd></div></dl></div>',
     );
     // sub-variant nested as a card inside its parent's card, badge naming the parent
     expect(template.text).toMatch(
@@ -1737,6 +1823,5 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain(
       '<span class="variant-badge">sub-variant of Lacedon</span>Greater Lacedon',
     );
-    expect(template.text).toContain("GRON</h4>");
   });
 });
