@@ -37,6 +37,7 @@ import { MonsterEnum } from "../monster";
 import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
+import { Variant } from "../../src/model/creature/variant";
 
 function skeletonWarriorFearAura(cre: Undead) {
   return cre.addSpell({
@@ -243,7 +244,7 @@ export function skeleton(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "ring99"],
+        remove: ["ring95", "ring99", "undtype"],
       },
       spells: {
         removeMemorized: false,
@@ -282,10 +283,11 @@ export function skeleton(family: UndeadFamily): Undead {
       family.preset(SPELLS.Wizard.Glitterdust.file),
     ]),
   });
-  skeleton.setAttack({
-    ranged: true,
-  });
   skeleton.setAdjustments([
+    {
+      files: ["GHASTSU"],
+      data: { level1: 3 },
+    },
     {
       files: ["KRYSKEL"],
       data: { level1: 2 },
@@ -295,9 +297,8 @@ export function skeleton(family: UndeadFamily): Undead {
       data: { level1: 3 },
     },
     {
-      // greater skeleton
-      files: ["SKELGRSU"],
-      data: { level1: 5, strength: 16, ac: 4 },
+      files: ["BDSKGR05"],
+      data: { level1: 4, xpv: 175 },
     },
     {
       files: ["L#HAUSK"],
@@ -343,13 +344,73 @@ export function skeleton(family: UndeadFamily): Undead {
       files: ["YSRSDEAD"],
       data: { level1: 2, xpv: 100, script: { location: "None" } },
     },
+  ]);
+  greaterSkeleton(skeleton);
+  mageSkeleton(skeleton);
+  return skeleton;
+}
+
+export function archerSkeleton(family: UndeadFamily): Undead {
+  const archer = family.create({
+    monster: MonsterEnum.ArcherSkeleton,
+    name: "monster.undead.name.archerSkeleton",
+    files: [],
+    data: {
+      level1: 2,
+      strength: 10,
+      dexterity: 14,
+      constitution: 9,
+      intelligence: 1,
+      wisdom: 8,
+      charisma: 5,
+      ac: 7,
+      apr: 1,
+      thac0: 19,
+      xpv: 175,
+      alignment: "NEUTRAL",
+      morale: 20,
+      general: "UNDEAD",
+      race: "SKELETON",
+      class: "SKELETON",
+      gender: "NIETHER",
+      size: { value: "Medium", tall: true, long: false },
+      movement: 12,
+      immunities: ["undead"],
+      items: {
+        remove: ["ring95", "ring99"],
+      },
+      // Enforce proper skeleton colours for all processed creatures (colours courtesy of rskel01)
+      metalColor: 20,
+      minorColor: 67,
+      majorColor: 66,
+      skinColor: 105,
+      leatherColor: 14,
+      armorColor: 20,
+      hairColor: 0,
+    },
+  });
+  archer.addTrait({
+    immunities: ["skeletal"],
+  });
+  archer.setBehavior({
+    restHeal: true,
+  });
+  archer.setAttack({
+    ranged: true,
+  });
+  archer.setAdjustments([
     {
       files: ["SKELACI", "SKELICE", "SKELFIRE"],
       // original thac0: 14-15
       data: { level1: 2, xpv: 120 },
     },
     {
-      files: ["BDSKGR05", "BDSKGR06"],
+      files: ["SKELDIS"],
+      // original thac0: 12
+      data: { level1: 3, xpv: 120 },
+    },
+    {
+      files: ["BDSKGR06"],
       data: { level1: 4, xpv: 175 },
     },
     {
@@ -360,31 +421,38 @@ export function skeleton(family: UndeadFamily): Undead {
       files: ["SKELAR01", "SKELAR02"],
       data: { level1: 6, xpv: 500 },
     },
-    {
-      files: ["BDSKGR07"],
-      data: {
-        level1: { pnpValue: 2, value: 5, type: "caster" },
-        xpv: 900,
-      },
-    },
-    {
-      files: ["BDTEAM60"],
-      data: {
-        level1: { pnpValue: 4, value: 8, type: "caster" },
-        xpv: 2000,
-      },
-    },
-    {
-      files: ["SKELDIS"],
-      // original thac0: 12
-      data: { level1: 3, xpv: 120 },
-    },
-    {
-      files: ["GHASTSU"],
-      data: { level1: 4, strength: 18 },
-    },
   ]);
-  return skeleton;
+  return archer;
+}
+
+function greaterSkeleton(base: Undead): Variant {
+  return base.variant("Greater Skeleton", {
+    data: { level1: 6, strength: 12, dexterity: 16, constitution: 11, ac: 6 },
+    files: ["SKELGRSU"],
+  });
+}
+
+function mageSkeleton(base: Undead): Variant {
+  return base.variant("Mage Skeleton", {
+    data: {},
+    files: ["BDSKGR07", "BDTEAM60"],
+    adjust: [
+      {
+        files: ["BDSKGR07"],
+        data: {
+          level1: { pnpValue: 2, value: 5, type: "caster" },
+          xpv: 900,
+        },
+      },
+      {
+        files: ["BDTEAM60"],
+        data: {
+          level1: { pnpValue: 4, value: 8, type: "caster" },
+          xpv: 2000,
+        },
+      },
+    ],
+  });
 }
 
 export function skeletonWarrior(family: UndeadFamily): Undead {

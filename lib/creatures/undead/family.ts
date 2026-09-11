@@ -2,7 +2,7 @@ import { CreatureFamily } from "../../src/model/creature/family";
 import { MonsterEnum, MonsterFamilyEnum } from "../monster";
 import { ghast, ghoul, ghoulLord } from "./ghouls";
 import { greaterMummy, mummy } from "./mummies";
-import { baneguard, bonebat, skeleton, skeletonWarrior } from "./skeletons";
+import { archerSkeleton, baneguard, bonebat, skeleton, skeletonWarrior } from "./skeletons";
 import { banshee, ghost, greaterShadow, shadow, spectre } from "./spectral";
 import { Undead } from "./undead-creature";
 
@@ -22,6 +22,7 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => baneguard(this));
     this.addCreature(() => bonebat(this));
     this.addCreature(() => skeleton(this));
+    this.addCreature(() => archerSkeleton(this));
     this.addCreature(() => skeletonWarrior(this));
     this.addCreature(() => spectre(this));
     this.addCreature(() => ghost(this));
