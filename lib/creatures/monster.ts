@@ -173,4 +173,7 @@ export enum MonsterEnum {
   ShadowFiend = 146,
   Shade = 147,
   ArcherSkeleton = 148,
+  MageSkeleton = 149,
+  GiantSkeleton = 150,
+  SpikeSkeleton = 151,
 }

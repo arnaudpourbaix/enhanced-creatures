@@ -597,15 +597,20 @@ class CreatureService {
       for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
         const adjustments = this.adjustmentsForFile(creature, f.name, row.game);
         const removed = new Set(
-          [
-            ...creature.data.items.remove,
-            ...adjustments.flatMap((a) => a.data.items.remove),
-          ].map((r) => r.toUpperCase()),
+          [...creature.data.items.remove, ...adjustments.flatMap((a) => a.data.items.remove)].map(
+            (r) => r.toUpperCase(),
+          ),
         );
-        // A `noWeapon` adjustment deliberately leaves the creature wielding its own original
-        // weapon (and off-hand shield), so a persisting weapon1-weapon4 / shield entry is
-        // expected, not drift - don't warn.
-        const noWeapon = adjustments.some((a) => a.noWeapon);
+        // A `noWeapon` adjustment - or simply no adjustment/base data equipping anything in a
+        // weapon1-weapon4 / shield slot for this file - deliberately leaves the creature wielding
+        // its own original weapon (and off-hand shield), so a persisting entry there is expected,
+        // not drift - don't warn.
+        const noWeapon =
+          adjustments.some((a) => a.noWeapon) ||
+          ![
+            ...creature.data.items.equipped,
+            ...adjustments.flatMap((a) => a.data.items.equipped),
+          ].some((it) => itemService.isEquippedWeapon(it));
         const persisting = row.items.filter(
           (it) =>
             !removed.has(it.file.toUpperCase()) &&
@@ -650,7 +655,7 @@ class CreatureService {
     }
     if (level === undefined) return undefined; // no base and no adjustment level → nothing to compare
     /* eslint-enable @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison */
-    if (Math.abs(row.level - level) <= 2) return undefined;
+    if (Math.abs(row.level - level) <= 1) return undefined;
     return {
       file: f.name,
       game: row.game,

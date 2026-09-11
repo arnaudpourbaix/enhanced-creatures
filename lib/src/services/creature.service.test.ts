@@ -1351,6 +1351,7 @@ function creatureWith(p: {
   files: { name: string; game?: Game }[];
   level1?: number;
   itemsRemove?: string[];
+  itemsEquipped?: { slot: string; file: string }[];
   scriptRemove?: string[];
   scriptLocation?: string;
   adjustments?: {
@@ -1358,6 +1359,7 @@ function creatureWith(p: {
     game?: Game;
     level1?: number;
     itemsRemove?: string[];
+    itemsEquipped?: { slot: string; file: string }[];
     scriptRemove?: string[];
     scriptLocation?: string;
     noWeapon?: boolean;
@@ -1368,7 +1370,7 @@ function creatureWith(p: {
     files: p.files,
     data: {
       level1: p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
-      items: { remove: p.itemsRemove ?? [], equipped: [] },
+      items: { remove: p.itemsRemove ?? [], equipped: p.itemsEquipped ?? [] },
       script: { remove: p.scriptRemove ?? [], location: p.scriptLocation },
     },
     adjustments: (p.adjustments ?? []).map((a) => ({
@@ -1377,7 +1379,7 @@ function creatureWith(p: {
       noWeapon: a.noWeapon ?? false,
       data: {
         level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
-        items: { remove: a.itemsRemove ?? [], equipped: [] },
+        items: { remove: a.itemsRemove ?? [], equipped: a.itemsEquipped ?? [] },
         script: { remove: a.scriptRemove ?? [], location: a.scriptLocation },
       },
     })),
@@ -1396,11 +1398,11 @@ describe("creatureService.findPersistingItems", () => {
 
   it("reports a slot item that no remove list clears", () => {
     mockRows(
-      csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }, { slot: "lring", file: "RING95" }] }),
+      csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }, { slot: "lring", file: "RING95" }] }),
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+      { file: "AAA", game: undefined, check: "items", detail: "helmet=HELM01" },
     ]);
   });
 
@@ -1448,7 +1450,7 @@ describe("creatureService.findPersistingItems", () => {
 
   it("still reports an item that is only re-equipped, never removed", () => {
     // re-equip is modelled elsewhere; the finder only inspects `remove`
-    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] }));
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: [] });
     expect(creatureService.findPersistingItems(cre)).toHaveLength(1);
   });
@@ -1500,13 +1502,58 @@ describe("creatureService.findPersistingItems", () => {
 
   it("reports each game's row separately for a dual-game resref, tagging the detail", () => {
     mockRows(
-      csvRow({ file: "AAA", game: undefined, items: [{ slot: "weapon1", file: "P1-4" }] }),
+      csvRow({ file: "AAA", game: undefined, items: [{ slot: "helmet", file: "HELM01" }] }),
       csvRow({ file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }] }),
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findPersistingItems(cre)).toEqual([
-      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+      { file: "AAA", game: undefined, check: "items", detail: "helmet=HELM01" },
       { file: "AAA", game: "bg2", check: "items", detail: "lring=RING95" },
+    ]);
+  });
+
+  it("does not report a persisting weapon1-weapon4 / shield item when nothing equips a weapon at all", () => {
+    // No `noWeapon` flag anywhere, but the base and its (non-noWeapon) adjustment never assign a
+    // weapon-slot item either, so the creature keeps its own original weapon exactly as if it did.
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "shield", file: "SHLD01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsEquipped: [{ slot: "helmet", file: "HELM01" }],
+      adjustments: [{ files: ["AAA"], itemsEquipped: [{ slot: "lring", file: "RING95" }] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports a persisting weapon slot when the base creature equips a weapon elsewhere", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsEquipped: [{ slot: "WEAPON2", file: "NEWWEAP" }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+    ]);
+  });
+
+  it("still reports a persisting weapon slot when only a covering adjustment equips a weapon", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], itemsEquipped: [{ slot: "WEAPON1", file: "NEWWEAP" }] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
     ]);
   });
 });
@@ -1678,20 +1725,20 @@ describe("creatureService.checkAgainstCsv", () => {
   afterEach(() => vi.restoreAllMocks());
 
   it("emits a file-prefixed warn line for an unacknowledged persisting item", () => {
-    const row = csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] });
+    const row = csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] });
     mockRows(row);
     vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
 
     creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
 
-    expect(warn).toHaveBeenCalledWith("AAA : items (weapon1=P1-4)");
+    expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
   });
 
   it("suppresses a file whose row has ValidatedItems=true", () => {
     const row = csvRow({
       file: "AAA",
-      items: [{ slot: "weapon1", file: "P1-4" }],
+      items: [{ slot: "helmet", file: "HELM01" }],
       validatedItems: true,
     });
     mockRows(row);
@@ -1705,7 +1752,7 @@ describe("creatureService.checkAgainstCsv", () => {
 
   it("reports only the unacknowledged game's row when the other game's row is validated", () => {
     const bg1 = csvRow({
-      file: "AAA", game: "bg1", items: [{ slot: "weapon1", file: "P1-4" }], validatedItems: true,
+      file: "AAA", game: "bg1", items: [{ slot: "helmet", file: "HELM01" }], validatedItems: true,
     });
     const bg2 = csvRow({
       file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }], validatedItems: false,
@@ -1725,7 +1772,7 @@ describe("creatureService.checkAgainstCsv", () => {
 
   it("emits a separate line per source file", () => {
     const rowsByFile: Record<string, CreatureCsvRow> = {
-      AAA: csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }),
+      AAA: csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] }),
       BBB: csvRow({ file: "BBB", items: [{ slot: "lring", file: "RING95" }] }),
     };
     vi.spyOn(monsterFilesService, "getCreatureRows").mockImplementation((file) => [
@@ -1741,7 +1788,7 @@ describe("creatureService.checkAgainstCsv", () => {
     );
 
     expect(warn).toHaveBeenCalledTimes(2);
-    expect(warn).toHaveBeenCalledWith("AAA : items (weapon1=P1-4)");
+    expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
     expect(warn).toHaveBeenCalledWith("BBB : items (lring=RING95)");
   });
 

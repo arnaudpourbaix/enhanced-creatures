@@ -246,9 +246,8 @@ export function skeleton(family: UndeadFamily): Undead {
       items: {
         remove: ["ring95", "ring99", "undtype"],
       },
-      spells: {
-        removeMemorized: false,
-        removeKnown: false,
+      script: {
+        remove: ["L#HAUSK"],
       },
       // Enforce proper skeleton colours for all processed creatures (colours courtesy of rskel01)
       metalColor: 20,
@@ -282,6 +281,9 @@ export function skeleton(family: UndeadFamily): Undead {
       family.preset(SPELLS.Wizard.ChromaticOrb.file),
       family.preset(SPELLS.Wizard.Glitterdust.file),
     ]),
+  });
+  skeleton.setAttack({
+    ranged: true,
   });
   skeleton.setAdjustments([
     {
@@ -336,17 +338,12 @@ export function skeleton(family: UndeadFamily): Undead {
     },
     {
       // Restless Dead
-      files: ["YSRSTDD1", "YSRSTDD2", "YSRSTDD3"],
-      data: { script: { location: "None" } },
-    },
-    {
-      // Restless Dead
       files: ["YSRSDEAD"],
       data: { level1: 2, xpv: 100, script: { location: "None" } },
     },
   ]);
   greaterSkeleton(skeleton);
-  mageSkeleton(skeleton);
+  // mageSkeleton(skeleton);
   return skeleton;
 }
 
@@ -405,6 +402,11 @@ export function archerSkeleton(family: UndeadFamily): Undead {
       data: { level1: 2, xpv: 120 },
     },
     {
+      // Restless Dead
+      files: ["YSRSTDD1", "YSRSTDD2", "YSRSTDD3"],
+      data: { script: { location: "None" } },
+    },
+    {
       files: ["SKELDIS"],
       // original thac0: 12
       data: { level1: 3, xpv: 120 },
@@ -427,8 +429,18 @@ export function archerSkeleton(family: UndeadFamily): Undead {
 
 function greaterSkeleton(base: Undead): Variant {
   return base.variant("Greater Skeleton", {
-    data: { level1: 6, strength: 12, dexterity: 16, constitution: 11, ac: 6 },
-    files: ["SKELGRSU"],
+    data: {
+      level1: 6,
+      strength: 12,
+      dexterity: 16,
+      constitution: 11,
+      ac: 6,
+      script: {
+        remove: ["0XUDDG"],
+      },
+    },
+    files: ["SKELGRSU", "0XUDDG"],
+    adjust: [{ files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } }],
   });
 }
 
