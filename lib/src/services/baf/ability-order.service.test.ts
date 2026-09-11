@@ -263,3 +263,30 @@ describe("resolve", () => {
     }
   });
 });
+
+describe("sortByPriority", () => {
+  it("reorders a hand-written preset list by SPELL_PRIORITY_ORDER, regardless of input order", () => {
+    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_A, TEST_PRIORITY_B);
+    try {
+      expect(
+        abilityOrderService.sortByPriority([
+          { preset: TEST_PRIORITY_B },
+          { preset: TEST_PRIORITY_A },
+        ]),
+      ).toEqual([{ preset: TEST_PRIORITY_A }, { preset: TEST_PRIORITY_B }]);
+    } finally {
+      SPELL_PRIORITY_ORDER.pop();
+      SPELL_PRIORITY_ORDER.pop();
+    }
+  });
+
+  it("throws when a preset is missing from SPELL_PRIORITY_ORDER", () => {
+    expect(() => abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }])).toThrow(
+      expect.objectContaining({ message: expect.stringContaining(NOT_IN_PRIORITY_ORDER) }),
+    );
+  });
+
+  it("throws when an ability has no preset to sort by", () => {
+    expect(() => abilityOrderService.sortByPriority([{}])).toThrow(/no preset/);
+  });
+});

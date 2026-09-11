@@ -32,6 +32,7 @@ import {
   SpellProtectionRelation,
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
+import abilityOrderService from "../../src/services/baf/ability-order.service";
 import { MonsterEnum } from "../monster";
 import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
@@ -263,7 +264,7 @@ export function skeleton(family: UndeadFamily): Undead {
   });
   skeleton.setBehavior({
     restHeal: true,
-    abilities: [
+    abilities: abilityOrderService.sortByPriority([
       family.preset(SPELLS.Wizard.Vocalize.file),
       family.preset(SPELLS.Wizard.MirrorImages.file),
       family.preset(SPELLS.Wizard.GreaterMalison.file),
@@ -279,7 +280,7 @@ export function skeleton(family: UndeadFamily): Undead {
       family.preset(SPELLS.Wizard.MagicMissiles.file),
       family.preset(SPELLS.Wizard.ChromaticOrb.file),
       family.preset(SPELLS.Wizard.Glitterdust.file),
-    ],
+    ]),
   });
   skeleton.setAttack({
     ranged: true,
