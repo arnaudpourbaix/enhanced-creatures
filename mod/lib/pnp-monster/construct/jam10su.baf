@@ -1,27 +1,9 @@
-// Greater Shadow
-
-// Init
+// Summons are destroyed on death
 IF
-	Global("JA_INIT","LOCALS",0)
+	Die()
 THEN
 	RESPONSE #100
-		SetGlobal("JA_COMBAT","LOCALS",0)
-		SetGlobal("JA_PRECAST_LONG","LOCALS",0)
-		SetGlobal("JA_PRECAST_MID","LOCALS",0)
-		SetGlobalTimer("JA_REST","LOCALS",2400)
-		SetGlobal("JA_INIT","LOCALS",1)
-END
-
-// Rest (reset everything and heal if applicable)
-IF
-	Global("JA_INIT","LOCALS",1)
-	GlobalTimerExpired("JA_REST","LOCALS")
-	!See([GOODCUTOFF])
-THEN
-	RESPONSE #100
-		SetGlobal("JA_INIT","LOCALS",0)
-		Rest()
-		ApplySpell(Myself,RESTORE_FULL_HEALTH)
+		DestroySelf()
 END
 
 // Precast Stoneskin
@@ -53,19 +35,6 @@ THEN
 		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
 END
 
-// Turn hostile if attacked
-IF
-	Allegiance(Myself,NEUTRAL)
-	OR(4)
-		AttackedBy([GOODCUTOFF],DEFAULT)
-		SpellCastOnMe([GOODCUTOFF],0)
-		TookDamage()
-		Heard([EVILCUTOFF.0.SHADOW],99)
-THEN
-	RESPONSE #100
-		Enemy()
-END
-
 // Detect combat
 IF
 	Global("JA_COMBAT","LOCALS",0)
@@ -92,15 +61,15 @@ IF
 	!GlobalTimerNotExpired("JA_HELP","LOCALS")
 THEN
 	RESPONSE #100
-		Shout(99)
+		Shout(98)
 		SetGlobalTimer("JA_HELP","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
-	Heard([EVILCUTOFF.0.SHADOW],99)
-	InMyArea([EVILCUTOFF.0.SHADOW])
+	Heard(LastSummonerOf(Myself),98)
+	InMyArea(LastSummonerOf(Myself))
 THEN
 	RESPONSE #100
 		SetGlobal("JA_COMBAT","LOCALS",1)
@@ -109,16 +78,31 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	Heard([EVILCUTOFF.0.SHADOW],99)
-	InMyArea([EVILCUTOFF.0.SHADOW])
+	Heard(LastSummonerOf(Myself),98)
+	InMyArea(LastSummonerOf(Myself))
 	!See([GOODCUTOFF])
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
 END
 
+// Summon follow summoner
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	!StateCheck(Myself,STATE_BLIND)
+	ActionListEmpty()
+	!See(NearestEnemyOf(Myself))
+	!See(LastSummonerOf(Myself))
+	HPGT(LastSummonerOf(Myself),0)
+	Range(LastSummonerOf(Myself),150)
+THEN
+	RESPONSE #100
+		MoveToObject(LastSummonerOf(Myself))
+END
+
 // Do nothing if...
 IF
+	ActionListEmpty()
 	OR(4)
 		Global("JA_COMBAT","LOCALS",0)
 		!Allegiance(Myself,EVILCUTOFF)
@@ -130,6 +114,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	!InActiveArea(Myself)
 	!Range(NearestEnemyOf(Myself),30)
 THEN
@@ -139,6 +124,7 @@ END
 
 // Attack NoCheck enemy
 IF
+	ActionListEmpty()
 	OR(4)
 		General(NearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
@@ -195,6 +181,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -206,6 +193,7 @@ END
 
 // Attack Sleep enemy
 IF
+	ActionListEmpty()
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -242,6 +230,7 @@ THEN
 END
 
 IF
+	ActionListEmpty()
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -254,6 +243,7 @@ END
 // Track players if allegiance is not GOODCUTOFF
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player1)
 	Range(Player1,150)
@@ -269,6 +259,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player2)
 	Range(Player2,150)
@@ -284,6 +275,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player3)
 	Range(Player3,150)
@@ -299,6 +291,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player4)
 	Range(Player4,150)
@@ -314,6 +307,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player5)
 	Range(Player5,150)
@@ -329,6 +323,7 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player6)
 	Range(Player6,150)
@@ -345,6 +340,7 @@ END
 // Track last seen enemy if allegiance is GOODCUTOFF
 IF
 	Allegiance(Myself,GOODCUTOFF)
+	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(LastSeenBy(Myself))
 	Range(LastSeenBy(Myself),150)
@@ -357,16 +353,5 @@ IF
 THEN
 	RESPONSE #100
 		MoveToObject(LastSeenBy(Myself))
-END
-
-// Random walking (in combat) 
-IF
-	Global("JA_COMBAT","LOCALS",1)
-	ActionListEmpty()
-	!See([GOODCUTOFF])
-THEN
-	RESPONSE #100
-		RandomWalk()
-		Wait(2)
 END
 

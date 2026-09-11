@@ -526,7 +526,8 @@ export function baneguard(family: UndeadFamily): Undead {
     name: "monster.undead.name.baneguard",
     files: [],
     data: {
-      level1: 9,
+      level1: 4,
+      bonusHp: 4,
       level2: 3, // for magic missiles as a level 3 wizard
       strength: 16, // 19 in vanilla
       dexterity: 11,
@@ -536,7 +537,6 @@ export function baneguard(family: UndeadFamily): Undead {
       charisma: 5,
       ac: 7,
       apr: 1, // 3 in vanilla
-      thac0: 19,
       xpv: 975,
       alignment: "NEUTRAL_EVIL",
       morale: 12,
@@ -553,14 +553,6 @@ export function baneguard(family: UndeadFamily): Undead {
       spells: {
         memorized: [{ file: SPELLS.Wizard.MagicMissiles.file, memorizedCount: 1 }],
       },
-      // Enforce proper skeleton colours for all processed creatures (colours courtesy of rskel01)
-      metalColor: 20,
-      minorColor: 67,
-      majorColor: 66,
-      skinColor: 105,
-      leatherColor: 14,
-      armorColor: 20,
-      hairColor: 0,
     },
   });
   baneguard.addTrait({

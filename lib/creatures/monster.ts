@@ -170,4 +170,6 @@ export enum MonsterEnum {
   WillOWisp = 143,
   Revenant = 144,
   InvisibleStalker = 145,
+  ShadowFiend = 146,
+  Shade = 147,
 }

@@ -237,6 +237,15 @@ class ConstructFamily extends CreatureFamily<Construct> {
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 3 }],
         },
       },
+      {
+        files: ["WIPINATA"],
+        noWeapon: true,
+        data: {
+          level1: 8,
+          ac: -3,
+          xpv: 3000,
+        },
+      },
     ]);
     return doomGuard;
   }

@@ -229,6 +229,7 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
     // maybe ? 20
     PATCH_FOR_EACH opcode IN
         0    // Stat: AC vs. Damage Type Modifier
+        16   // Haste
         31   // Stat: Magic Damage Resistance Modifier
         63   // State: Infravision
         65   // Overlay: Blur

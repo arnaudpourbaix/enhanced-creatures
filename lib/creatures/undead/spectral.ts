@@ -3,9 +3,11 @@
  *
  * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
  */
-import effectFactory from "../../src/factories/effect.factory";
+import { EXISTING_ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-names";
 import { CommonProjectileFiles } from "../../spells/projectiles";
+import effectFactory from "../../src/factories/effect.factory";
+import { JEWEL_SLOTS } from "../../src/model/creature/item";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectDamageTypeEnum,
@@ -26,8 +28,8 @@ import {
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "../monster";
-import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
+import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
 
 function bansheeFearAura(cre: Undead) {
@@ -366,6 +368,30 @@ export function shadow(family: UndeadFamily): Undead {
 }
 
 export function greaterShadow(family: UndeadFamily): Undead {
+  // The largest greater shadow, composed of eight undead shadows,
+  // has 8+8 HD and THAC0 11.
+  // Regardless of its size, the creature has AC 7.
+  // It receives a number of attacks per round equal to; the number of incorporated shadows.
+  const greaterShadow = family.createFrom({
+    name: "monster.undead.name.greaterShadow",
+    monster: MonsterEnum.GreaterShadow,
+    from: family.creature(MonsterEnum.Shadow),
+  });
+  greaterShadow.setData({
+    level1: 8,
+    bonusHp: 8,
+    apr: 8,
+    xpv: 3000,
+    items: {
+      remove: ["BDSHADGR", "BDSPECTQ", "BDSHADGA"],
+      equipped: [{ file: EXISTING_ITEMS.InvisibilityRing, slot: JEWEL_SLOTS }],
+    },
+  });
+  greaterShadow.setAdjustments([]);
+  return greaterShadow;
+}
+
+export function greaterShadow5e(family: UndeadFamily): Undead {
   const greaterShadow = family.create({
     monster: MonsterEnum.GreaterShadow,
     name: "monster.undead.name.greaterShadow",
@@ -379,7 +405,7 @@ export function greaterShadow(family: UndeadFamily): Undead {
       intelligence: 11,
       wisdom: 14,
       charisma: 12,
-      ac: 5,
+      ac: 7,
       apr: 1,
       xpv: 3000,
       alignment: "CHAOTIC_EVIL",
@@ -392,7 +418,7 @@ export function greaterShadow(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead"],
       items: {
-        remove: ["BDSHADGR", "immune1", "ring95"],
+        remove: ["BDSHADGR", "immune1", "ring95", "BDSHADGA"],
       },
       script: {
         location: "None",
