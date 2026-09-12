@@ -56,9 +56,6 @@ export const ClericSpellTable: { level: number; spells: SpellCount[] }[] = [
   { level: 50, spells: [{ level: 1, count: 13 }, { level: 2, count: 13 }, { level: 3, count: 13 }, { level: 4, count: 12 }, { level: 5, count: 12 }, { level: 6, count: 11 }, { level: 7, count: 11 }] },
 ];
 
-// Same progression as the cleric table in the source data (1E/2E druids share the priest spell table).
-export const DruidSpellTable: { level: number; spells: SpellCount[] }[] = ClericSpellTable;
-
 export const MageSpellTable: { level: number; spells: SpellCount[] }[] = [
   { level: 1, spells: [{ level: 1, count: 1 }] },
   { level: 2, spells: [{ level: 1, count: 2 }] },

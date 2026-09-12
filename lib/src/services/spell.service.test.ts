@@ -1,5 +1,7 @@
-import { afterAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
+import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
+import { SPELLS } from "../../config/spells/spell-names";
 import {
   EffectTargetEnum,
   ItemAbilityTypeEnum,
@@ -11,6 +13,7 @@ import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { State } from "../state";
 import spellService from "./spell.service";
 import translationService from "./translation.service";
+import utils from "./utils/utils.service";
 
 // a stand-in stringRef: translationService.from() throws for a numeric ref that isn't
 // registered (addProjectile() reads spell.name for its logService.log call), but registering a real one
@@ -237,5 +240,114 @@ describe("getSpellName", () => {
 
   it("returns null when the file is unknown to both State.spells and the static config", () => {
     expect(spellService.getSpellName("no-such-spell-file")).toBeNull();
+  });
+});
+
+describe("createSpellbook", () => {
+  const s = SPELLS.Priest;
+
+  afterEach(() => {
+    GLOBAL_CONFIG.randomizeSpellbookAdditionals = false;
+  });
+
+  it("throws when the spellbook is not defined", () => {
+    expect(() =>
+      spellService.createSpellbook({
+        name: "not-a-real-book" as never,
+        casterLevel: 1,
+        type: "cleric",
+      }),
+    ).toThrow(/Spellbook not-a-real-book is not defined!/);
+  });
+
+  it("throws when the spellbook has no spells for a level the caster table requires", () => {
+    expect(() =>
+      spellService.createSpellbook({
+        name: "EvilUndeadCleric",
+        casterLevel: 16,
+        type: "mage",
+      }),
+    ).toThrow(/EvilUndeadCleric has no spells defined for level 8!/);
+  });
+
+  it("fills a level from base spells only when slots don't exceed the base list", () => {
+    const result = spellService.createSpellbook({
+      name: "EvilUndeadCleric",
+      casterLevel: 1,
+      type: "cleric",
+    });
+    expect(result).toEqual([{ file: s.Sanctuary.file, memorizedCount: 1 }]);
+  });
+
+  it("falls back to additionnals, in order, once base spells are exhausted", () => {
+    const result = spellService.createSpellbook({
+      name: "EvilUndeadCleric",
+      casterLevel: 9,
+      type: "cleric",
+    });
+    expect(result.slice(0, 4)).toEqual([
+      { file: s.Sanctuary.file, memorizedCount: 1 },
+      { file: s.Command.file, memorizedCount: 1 },
+      { file: s.CauseLightWounds.file, memorizedCount: 1 },
+      { file: s.Curse.file, memorizedCount: 1 },
+    ]);
+  });
+
+  it("adds a cleric's wisdom bonus spells on top of the caster table's base count", () => {
+    const result = spellService.createSpellbook({
+      name: "EvilUndeadCleric",
+      casterLevel: 1,
+      type: "cleric",
+      wisdom: 18,
+    });
+    expect(result).toEqual([
+      { file: s.Sanctuary.file, memorizedCount: 1 },
+      { file: s.Command.file, memorizedCount: 1 },
+      { file: s.CauseLightWounds.file, memorizedCount: 1 },
+    ]);
+  });
+
+  it("ignores wisdom for a mage spellbook", () => {
+    const result = spellService.createSpellbook({
+      name: "EvilUndeadCleric",
+      casterLevel: 1,
+      type: "mage",
+      wisdom: 25,
+    });
+    expect(result).toEqual([{ file: s.Sanctuary.file, memorizedCount: 1 }]);
+  });
+
+  it("cycles the repeat list to fill remaining slots, consolidating repeats into memorizedCount", () => {
+    const result = spellService.createSpellbook({
+      name: "EvilUndeadCleric",
+      casterLevel: 50,
+      type: "cleric",
+    });
+    const level1 = result.slice(0, 7);
+    expect(level1).toEqual([
+      { file: s.Sanctuary.file, memorizedCount: 1 },
+      { file: s.Command.file, memorizedCount: 4 },
+      { file: s.CauseLightWounds.file, memorizedCount: 4 },
+      { file: s.Curse.file, memorizedCount: 1 },
+      { file: s.Doom.file, memorizedCount: 1 },
+      { file: s.ProtectionFromGood.file, memorizedCount: 1 },
+      { file: s.ArmorOfFaith.file, memorizedCount: 1 },
+    ]);
+    expect(level1.reduce((sum, m) => sum + (m.memorizedCount ?? 0), 0)).toBe(13);
+  });
+
+  it("shuffles additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is enabled", () => {
+    GLOBAL_CONFIG.randomizeSpellbookAdditionals = true;
+    const shuffleSpy = vi.spyOn(utils, "shuffleArray");
+    spellService.createSpellbook({ name: "EvilUndeadCleric", casterLevel: 9, type: "cleric" });
+    expect(shuffleSpy).toHaveBeenCalled();
+    shuffleSpy.mockRestore();
+  });
+
+  it("does not shuffle additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is disabled", () => {
+    const shuffleSpy = vi.spyOn(utils, "shuffleArray");
+    spellService.createSpellbook({ name: "EvilUndeadCleric", casterLevel: 9, type: "cleric" });
+    expect(shuffleSpy).not.toHaveBeenCalled();
+    shuffleSpy.mockRestore();
   });
 });

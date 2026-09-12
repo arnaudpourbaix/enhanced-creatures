@@ -406,7 +406,7 @@ const PRIEST_SPELLS = {
   },
   CloakOfFear: { file: "SPPR416", id: "CLERIC_CLOAK_OF_FEAR", name: "spell.CloakOfFear.name" },
   Command: { file: "SPPR102", id: "CLERIC_COMMAND", name: "spell.Command.name" },
-  Contagion: { file: "SPPR102", id: "CLERIC_CONTAGION", name: "spell.Contagion.name" },
+  Contagion: { file: "SPPR320", id: "CLERIC_CONTAGION", name: "spell.Contagion.name" },
   CureLightWounds: {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",

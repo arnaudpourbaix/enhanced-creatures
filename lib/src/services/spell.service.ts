@@ -1,8 +1,17 @@
+import { GLOBAL_CONFIG } from "../../config/generate";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
 import { SPELL_GROUPS } from "../../config/spells/spell-group";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
 import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
+import { Spellbooks } from "../../config/spellbooks/spellbook";
+import { SpellBookName } from "../../config/spellbooks/spellbook-name";
+import { MemorizedSpell } from "../model/creature/data";
 import { StringReference } from "../model/final/stringref";
+import {
+  ClericSpellTable,
+  MageSpellTable,
+  WisdomBonusSpellTable,
+} from "../model/game-data/spell-level";
 import { Effect } from "../model/spell-item/effect";
 import {
   EffectIDSFileEnum,
@@ -19,10 +28,12 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
+import { SpellBookSpells } from "../model/spell-item/spellbook";
 import { State } from "../state";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
 import translationService from "./translation.service";
+import utils from "./utils/utils.service";
 
 class SpellService {
   getSpell(spell: PartialSpell, file: string): Spell {
@@ -212,6 +223,63 @@ class SpellService {
   getAllSpellNames(): { file: string; name: StringReference }[] {
     const spells = [...getAllSpells(), ...getAllFnpSpells()];
     return spells.flatMap((spell) => (spell.name ? [{ file: spell.file, name: spell.name }] : []));
+  }
+
+  /**
+   * Builds a memorized spell list for a caster from a named Spellbooks entry, sized by
+   * ClericSpellTable/MageSpellTable (plus WisdomBonusSpellTable for clerics). Bonus spells only
+   * apply to levels the caster table already grants at least one spell for, per 2e rules.
+   */
+  createSpellbook(params: {
+    name: SpellBookName;
+    casterLevel: number;
+    type: "mage" | "cleric";
+    wisdom?: number;
+  }): MemorizedSpell[] {
+    // SpellBookName only has one variant today, which makes this comparison look tautological to
+    // eslint - but the union is expected to grow as more spellbooks are added.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const book = Spellbooks.find((b) => b.name === params.name);
+    if (!book) throw new Error(`Spellbook ${params.name} is not defined!`);
+    const table = params.type === "cleric" ? ClericSpellTable : MageSpellTable;
+    const levelEntry = table.find((t) => t.level === params.casterLevel) ?? table.at(-1);
+    if (!levelEntry) throw new Error(`No spell table entry for caster level ${params.casterLevel}!`);
+    const wisdom = params.wisdom;
+    const wisdomBonusRow =
+      params.type === "cleric" && wisdom !== undefined
+        ? [...WisdomBonusSpellTable].reverse().find((w) => w.wisdom <= wisdom)
+        : undefined;
+
+    const memorized: MemorizedSpell[] = [];
+    for (const spellCount of levelEntry.spells) {
+      const bonus = wisdomBonusRow?.bonusSpells.find((b) => b.level === spellCount.level)?.count ?? 0;
+      const slots = spellCount.count + bonus;
+      const bookLevel = book.spells.find((s) => s.level === spellCount.level);
+      if (!bookLevel) {
+        throw new Error(`Spellbook ${params.name} has no spells defined for level ${spellCount.level}!`);
+      }
+      memorized.push(...this.pickSpellsForLevel(bookLevel, slots));
+    }
+    return memorized;
+  }
+
+  private pickSpellsForLevel(spells: SpellBookSpells, slots: number): MemorizedSpell[] {
+    if (slots <= 0) return [];
+    const additionnals = GLOBAL_CONFIG.randomizeSpellbookAdditionals
+      ? utils.shuffleArray(spells.additionnals)
+      : spells.additionnals;
+    const picks = [...spells.base, ...additionnals].slice(0, slots);
+    let repeatIndex = 0;
+    while (picks.length < slots && spells.repeat.length > 0) {
+      picks.push(spells.repeat[repeatIndex % spells.repeat.length]);
+      repeatIndex++;
+    }
+
+    const counts = new Map<string, number>();
+    for (const spell of picks) {
+      counts.set(spell.file, (counts.get(spell.file) ?? 0) + 1);
+    }
+    return [...counts.entries()].map(([file, memorizedCount]) => ({ file, memorizedCount }));
   }
 }
 

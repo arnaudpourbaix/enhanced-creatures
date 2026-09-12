@@ -17,6 +17,28 @@ THEN
 		Continue()
 END
 
+// Precast AnimateDead
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR301")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR301",Myself)
+		RemoveSpellRES("SPPR301")
+		Continue()
+END
+
+// Precast AnimateSkeletonWarrior
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR619")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR619",Myself)
+		RemoveSpellRES("SPPR619")
+		Continue()
+END
+
 // Precast Ironskin
 IF
 	Global("JA_PRECAST_LONG","LOCALS",0)
@@ -2156,6 +2178,20 @@ THEN
 		Spell(LastSeenBy(Myself),WIZARD_MAGIC_MISSILE)
 END
 
+// Try to reposition to use ranged attack
+IF
+	ActionListEmpty()
+	CanEquipRanged()
+	Range(NearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #50
+		SetInterrupt(FALSE)
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),45)
+		SetInterrupt(TRUE)
+	RESPONSE #50
+		Continue()
+END
+
 // Attack NoCheck enemy
 IF
 	ActionListEmpty()
@@ -2216,6 +2252,25 @@ END
 
 IF
 	ActionListEmpty()
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	ActionListEmpty()
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
+		Continue()
+END
+
+IF
+	ActionListEmpty()
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -2260,6 +2315,25 @@ IF
 		!See(Player6)
 THEN
 	RESPONSE #100
+		Continue()
+END
+
+IF
+	ActionListEmpty()
+	CanEquipRanged()
+	!Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipRanged()
+		Continue()
+END
+
+IF
+	ActionListEmpty()
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		EquipMostDamagingMelee()
 		Continue()
 END
 

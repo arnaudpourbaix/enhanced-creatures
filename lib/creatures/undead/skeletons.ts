@@ -38,6 +38,7 @@ import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
 import { Variant } from "../../src/model/creature/variant";
+import spellService from "../../src/services/spell.service";
 
 function skeletonWarriorFearAura(cre: Undead) {
   return cre.addSpell({
@@ -347,6 +348,79 @@ export function skeleton(family: UndeadFamily): Undead {
   return skeleton;
 }
 
+function greaterSkeletonVariant(base: Undead): Variant {
+  return base.variant("Greater Skeleton", {
+    data: {
+      level1: 6,
+      strength: 12,
+      dexterity: 16,
+      constitution: 11,
+      ac: 6,
+    },
+    files: ["SKELGRSU", "GPSKEL1"],
+  });
+}
+
+function clericSkeletonVariant(base: Undead): Variant {
+  return base.variant("Cleric Skeleton", {
+    data: {
+      class: "CLERIC",
+      spells: {
+        memorized: spellService.createSpellbook({
+          name: "EvilUndeadCleric",
+          casterLevel: base.data.level1.pnpValue,
+          type: "cleric",
+          wisdom: base.data.wisdom ?? 0,
+        }),
+      },
+    },
+    files: ["L#NIMF6"],
+    adjust: [
+      {
+        files: ["L#NIMF6"],
+        data: {
+          level1: 20,
+          ac: 1,
+          xpv: 9500,
+          apr: 2,
+          spells: {
+            removeMemorized: true,
+            memorized: spellService.createSpellbook({
+              name: "EvilUndeadCleric",
+              casterLevel: 20,
+              type: "cleric",
+              wisdom: base.data.wisdom ?? 0,
+            }),
+          },
+        },
+      },
+    ],
+  });
+}
+
+function mageSkeletonVariant(base: Undead): Variant {
+  return base.variant("Mage Skeleton", {
+    data: {},
+    files: ["BDSKGR07", "BDTEAM60"],
+    adjust: [
+      {
+        files: ["BDSKGR07"],
+        data: {
+          level1: { pnpValue: 2, value: 5, type: "caster" },
+          xpv: 900,
+        },
+      },
+      {
+        files: ["BDTEAM60"],
+        data: {
+          level1: { pnpValue: 4, value: 8, type: "caster" },
+          xpv: 2000,
+        },
+      },
+    ],
+  });
+}
+
 export function skeletonMonster(family: UndeadFamily): Undead {
   const monster = family.createFrom({
     name: "monster.undead.name.skeletonMonster",
@@ -391,6 +465,9 @@ export function archerSkeleton(family: UndeadFamily): Undead {
       immunities: ["undead"],
       items: {
         remove: ["ring95", "ring99"],
+      },
+      script: {
+        remove: ["0XUDDG"],
       },
       // Enforce proper skeleton colours for all processed creatures (colours courtesy of rskel01)
       metalColor: 20,
@@ -440,64 +517,21 @@ export function archerSkeleton(family: UndeadFamily): Undead {
       data: { level1: 6, xpv: 500 },
     },
   ]);
+  greaterArcherSkeletonVariant(archer);
   return archer;
 }
 
-function greaterSkeletonVariant(base: Undead): Variant {
-  return base.variant("Greater Skeleton", {
+function greaterArcherSkeletonVariant(base: Undead): Variant {
+  return base.variant("Greater Archer Skeleton", {
     data: {
       level1: 6,
       strength: 12,
       dexterity: 16,
       constitution: 11,
       ac: 6,
-      script: {
-        remove: ["0XUDDG"],
-      },
     },
-    files: ["SKELGRSU", "0XUDDG", "GPSKEL1"],
+    files: ["0XUDDG"],
     adjust: [{ files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } }],
-  });
-}
-
-function clericSkeletonVariant(base: Undead): Variant {
-  return base.variant("Cleric Skeleton", {
-    data: {
-      class: "CLERIC",
-      spells: {
-        memorized: [{ file: SPELLS.Priest.Sanctuary.file, memorizedCount: 1 }],
-      },
-    },
-    files: ["L#NIMF6"],
-    adjust: [
-      {
-        files: ["L#NIMF6"],
-        data: { level1: 20, ac: 1, xpv: 9500, apr: 2 },
-      },
-    ],
-  });
-}
-
-function mageSkeletonVariant(base: Undead): Variant {
-  return base.variant("Mage Skeleton", {
-    data: {},
-    files: ["BDSKGR07", "BDTEAM60"],
-    adjust: [
-      {
-        files: ["BDSKGR07"],
-        data: {
-          level1: { pnpValue: 2, value: 5, type: "caster" },
-          xpv: 900,
-        },
-      },
-      {
-        files: ["BDTEAM60"],
-        data: {
-          level1: { pnpValue: 4, value: 8, type: "caster" },
-          xpv: 2000,
-        },
-      },
-    ],
   });
 }
 

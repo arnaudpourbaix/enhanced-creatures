@@ -19,6 +19,12 @@ export const GLOBAL_CONFIG = {
    * Enable once, right before a release build.
    */
   enableSecondaryTypes: false,
+  /**
+   * Randomize the order additional spells are picked from when filling a spellbook
+   * (see spell.service.ts's createSpellbook). Keep disabled during development: shuffling
+   * would churn committed output with no real config change behind it.
+   */
+  randomizeSpellbookAdditionals: false,
   bafConstants: {
     combatStarted: "JA_COMBAT",
     disableSpellcasting: "JA_DISABLE_SPELLCASTING",

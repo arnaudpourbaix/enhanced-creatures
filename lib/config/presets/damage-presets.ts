@@ -133,9 +133,9 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     },
   },
   {
-    preset: FNP_SPELLS.Priest.CauseLightWounds.file,
+    preset: SPELLS.Priest.CauseLightWounds.file,
     ability: {
-      name: FNP_SPELLS.Priest.CauseLightWounds.name,
+      name: SPELLS.Priest.CauseLightWounds.name,
       spell: {
         selfTarget: true,
       },
@@ -143,8 +143,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
         ...triggerFactory.haveSpellRES(
           [
-            FNP_SPELLS.Priest.CauseSeriousWounds.file,
-            FNP_SPELLS.Priest.CauseCriticalWounds.file,
+            SPELLS.Priest.CauseSeriousWounds.file,
             FNP_SPELLS.Priest.Harm.file,
             SPELLS.Priest.SlayLiving.file,
           ],
@@ -155,9 +154,9 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  ...presetFactory.create(
-    [SPELLS.Priest.CauseSeriousWounds.file, FNP_SPELLS.Priest.CauseSeriousWounds.file],
-    {
+  {
+    preset: SPELLS.Priest.CauseSeriousWounds.name,
+    ability: {
       name: SPELLS.Priest.CauseSeriousWounds.name,
       spell: {
         selfTarget: true,
@@ -165,22 +164,18 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       triggers: [
         ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
         ...triggerFactory.haveSpellRES(
-          [
-            FNP_SPELLS.Priest.CauseCriticalWounds.file,
-            FNP_SPELLS.Priest.Harm.file,
-            SPELLS.Priest.SlayLiving.file,
-          ],
+          [FNP_SPELLS.Priest.Harm.file, SPELLS.Priest.SlayLiving.file],
           true,
         ),
       ],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },
-  ),
+  },
   {
-    preset: FNP_SPELLS.Priest.CauseCriticalWounds.file,
+    preset: SPELLS.Priest.CauseSeriousWounds.file,
     ability: {
-      name: FNP_SPELLS.Priest.CauseCriticalWounds.name,
+      name: SPELLS.Priest.CauseSeriousWounds.name,
       spell: {
         selfTarget: true,
       },
