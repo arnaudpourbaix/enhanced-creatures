@@ -342,9 +342,25 @@ export function skeleton(family: UndeadFamily): Undead {
       data: { level1: 2, xpv: 100, script: { location: "None" } },
     },
   ]);
-  greaterSkeleton(skeleton);
+  greaterSkeletonVariant(skeleton);
   // mageSkeleton(skeleton);
   return skeleton;
+}
+
+export function skeletonMonster(family: UndeadFamily): Undead {
+  const monster = family.createFrom({
+    name: "monster.undead.name.skeletonMonster",
+    monster: MonsterEnum.SkeletonMonster,
+    from: family.creature(MonsterEnum.Skeleton),
+  });
+  monster.setData({
+    level1: 6,
+    ac: 6,
+    size: { value: "Large", tall: true, long: false },
+    xpv: 650,
+  });
+  clericSkeletonVariant(monster);
+  return monster;
 }
 
 export function archerSkeleton(family: UndeadFamily): Undead {
@@ -427,7 +443,7 @@ export function archerSkeleton(family: UndeadFamily): Undead {
   return archer;
 }
 
-function greaterSkeleton(base: Undead): Variant {
+function greaterSkeletonVariant(base: Undead): Variant {
   return base.variant("Greater Skeleton", {
     data: {
       level1: 6,
@@ -439,12 +455,30 @@ function greaterSkeleton(base: Undead): Variant {
         remove: ["0XUDDG"],
       },
     },
-    files: ["SKELGRSU", "0XUDDG"],
+    files: ["SKELGRSU", "0XUDDG", "GPSKEL1"],
     adjust: [{ files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } }],
   });
 }
 
-function mageSkeleton(base: Undead): Variant {
+function clericSkeletonVariant(base: Undead): Variant {
+  return base.variant("Cleric Skeleton", {
+    data: {
+      class: "CLERIC",
+      spells: {
+        memorized: [{ file: SPELLS.Priest.Sanctuary.file, memorizedCount: 1 }],
+      },
+    },
+    files: ["L#NIMF6"],
+    adjust: [
+      {
+        files: ["L#NIMF6"],
+        data: { level1: 20, ac: 1, xpv: 9500, apr: 2 },
+      },
+    ],
+  });
+}
+
+function mageSkeletonVariant(base: Undead): Variant {
   return base.variant("Mage Skeleton", {
     data: {},
     files: ["BDSKGR07", "BDTEAM60"],

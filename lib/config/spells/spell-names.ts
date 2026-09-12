@@ -258,22 +258,81 @@ const WIZARD_SPELLS = {
 } satisfies Record<string, SpellReference>;
 
 const PRIEST_SPELLS = {
+  Aid: {
+    file: "SPPR201",
+    id: "CLERIC_AID",
+    name: "spell.Aid.name",
+    duration: "mid",
+  },
   AerialServant: {
     file: "SPPR601",
     id: "CLERIC_AERIAL_SERVANT",
     name: "spell.AerialServant.name",
+    duration: "mid",
+  },
+  AnimalSummoning1: {
+    file: "SPPR122",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_1",
+    name: "spell.AnimalSummoning1.name",
+  },
+  AnimalSummoning2: {
+    file: "SPPR221",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_2",
+    name: "spell.AnimalSummoning2.name",
+  },
+  AnimalSummoning3: {
+    file: "SPPR321",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_3",
+    name: "spell.AnimalSummoning3.name",
   },
   AnimalSummoning4: {
     file: "SPPR402",
-    // id: "CLERIC_ANIMAL_SUMMONING_1" // id depends on installed mods (can be 1 or 4)
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_4",
     name: "spell.AnimalSummoning4.name",
   },
-  AnimateDead: { file: "SPPR301", id: "CLERIC_ANIMATE_DEAD", name: "spell.AnimateDead.name" },
+  AnimalSummoning5: {
+    file: "SPPR501",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_5",
+    name: "spell.AnimalSummoning5.name",
+  },
+  AnimalSummoning6: {
+    file: "SPPR602",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_6",
+    name: "spell.AnimalSummoning6.name",
+  },
+  AnimalSummoning7: {
+    file: "SPPR733",
+    id: "CLERIC_ANIMAL_SUMMONING_LEVEL_7",
+    name: "spell.AnimalSummoning7.name",
+  },
+  AnimateDead: {
+    file: "SPPR301",
+    id: "CLERIC_ANIMATE_DEAD",
+    name: "spell.AnimateDead.name",
+    duration: "long",
+  },
+  AnimateSkeletonWarrior: {
+    file: "SPPR619",
+    id: "CLERIC_ANIMATE_SKELETON_WARRIOR",
+    name: "spell.AnimateSkeletonWarrior.name",
+    duration: "long",
+  },
+  ArmorOfFaith: {
+    file: "SPPR111",
+    id: "CLERIC_ARMOR_OF_FAITH",
+    name: "spell.ArmorOfFaith.name",
+    duration: "mid",
+  },
+  Banishment: {
+    file: "SPPR616",
+    id: "CLERIC_BANISHMENT",
+    name: "spell.Banishment.name",
+  },
   Barkskin: {
     file: "SPPR202",
     id: "CLERIC_BARKSKIN",
-    duration: "mid",
     name: "spell.Barkskin.name",
+    duration: "mid",
   },
   BladeBarrier: {
     file: "SPPR603",
@@ -287,10 +346,30 @@ const PRIEST_SPELLS = {
     id: "CLERIC_NATURE_BEAUTY",
     name: "spell.BlindingBeauty.name",
   },
+  BoltOfGlory: {
+    file: "SPPR612",
+    id: "CLERIC_BOLT_OF_GLORY",
+    name: "spell.BoltOfGlory.name",
+  },
   CallLightning: {
     file: "SPPR302",
     id: "CLERIC_CALL_LIGHTNING",
     name: "spell.CallLightning.name",
+  },
+  CauseDisease: {
+    file: "SPPR329",
+    id: "CLERIC_CAUSE_DISEASE",
+    name: "spell.CauseDisease.name",
+  },
+  CauseLightWounds: {
+    file: "SPPR121",
+    id: "CLERIC_CAUSE_LIGHT_WOUNDS",
+    name: "spell.CauseLightWounds.name",
+  },
+  CauseModerateWounds: {
+    file: "SPPR220",
+    id: "CLERIC_CAUSE_MODERATE_WOUNDS",
+    name: "spell.CauseModerateWounds.name",
   },
   CauseSeriousWounds: {
     file: "SPPR414",
@@ -310,8 +389,8 @@ const PRIEST_SPELLS = {
   Chant: {
     file: "SPPR203",
     id: "CLERIC_CHANT",
-    duration: "short",
     name: "spell.Chant.name",
+    duration: "short",
   },
   Chaos: { file: "SPPR709", id: "CLERIC_CONFUSION", name: "spell.Chaos.name" },
   CharmPersonOrAnimal: {
@@ -319,12 +398,29 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CHARM_PERSON",
     name: "spell.CharmPersonOrAnimal.name",
   },
+  CircleOfBones: {
+    file: "SPPR332",
+    id: "CLERIC_CIRCLE_OF_BONES",
+    name: "spell.CircleOfBones.name",
+    duration: "short",
+  },
   CloakOfFear: { file: "SPPR416", id: "CLERIC_CLOAK_OF_FEAR", name: "spell.CloakOfFear.name" },
   Command: { file: "SPPR102", id: "CLERIC_COMMAND", name: "spell.Command.name" },
+  Contagion: { file: "SPPR102", id: "CLERIC_CONTAGION", name: "spell.Contagion.name" },
   CureLightWounds: {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",
     name: "spell.CureLightWounds.name",
+  },
+  Curse: {
+    file: "SPPR124",
+    id: "CLERIC_CURSE",
+    name: "spell.Curse.name",
+  },
+  Destruction: {
+    file: "SPPR737",
+    id: "CLERIC_DESTRUCTION",
+    name: "spell.Destruction.name",
   },
   DetectEvil: {
     file: "SPPR104",
@@ -336,6 +432,16 @@ const PRIEST_SPELLS = {
     id: "CLERIC_DISPEL_MAGIC",
     name: DISPEL_MAGIC_NAME,
   },
+  DivineProtection: {
+    file: "SPPR527",
+    id: "CLERIC_SHIELD_OF_LATHANDER",
+    name: "spell.DivineProtection.name",
+  },
+  GreaterDivineProtection: {
+    file: "SPPR738",
+    id: "CLERIC_GREATER_SHIELD_OF_LATHANDER",
+    name: "spell.GreaterDivineProtection.name",
+  },
   DolorousDecay: {
     file: "SPPR610",
     id: "CLERIC_DOLOROUS_DECAY",
@@ -345,10 +451,17 @@ const PRIEST_SPELLS = {
   DrawUponHolyMight: {
     file: "SPPR214",
     id: "CLERIC_DRAW_UPON_HOLY_MIGHT",
-    duration: "short",
     name: "spell.DrawUponHolyMight.name",
+    duration: "short",
   },
+  EnergyDrain: { file: "SPPR714", id: "CLERIC_ENERGY_DRAIN", name: "spell.EnergyDrain.name" },
   Entangle: { file: "SPPR105", id: "CLERIC_ENTANGLE", name: "spell.Entangle.name" },
+  EntropyShield: {
+    file: "SPPR620",
+    id: "CLERIC_ENTROPY_SHIELD",
+    name: "spell.EntropyShield.name",
+    duration: "short",
+  },
   FindTraps: { file: "SPPR205", id: "CLERIC_FIND_TRAPS", name: "spell.FindTraps.name" },
   FingerOfDeath: {
     file: "SPPR708",
@@ -356,6 +469,12 @@ const PRIEST_SPELLS = {
     name: "spell.FingerOfDeath.name",
   },
   FlameStrike: { file: "SPPR503", id: "CLERIC_FLAME_STRIKE", name: "spell.FlameStrike.name" },
+  FreeAction: {
+    file: "SPPR403",
+    id: "CLERIC_FREE_ACTION",
+    name: "spell.FreeAction.name",
+    duration: "mid",
+  },
   GlyphOfWarding: {
     file: "SPPR304",
     id: "CLERIC_GLYPH_OF_WARDING",
@@ -383,6 +502,21 @@ const PRIEST_SPELLS = {
     duration: "short",
     name: "spell.HolyPower.name",
   },
+  HolySmite: {
+    file: "SPPR313",
+    id: "CLERIC_HOLY_SMITE",
+    name: "spell.HolySmite.name",
+  },
+  HolyWord: {
+    file: "SPPR710",
+    id: "CLERIC_HOLY_WORD",
+    name: "spell.HolyWord.name",
+  },
+  UnholyWord: {
+    file: "SPPR715",
+    id: "CLERIC_UNHOLY_WORD",
+    name: "spell.UnholyWord.name",
+  },
   Ironskin: {
     file: "SPPR506",
     id: "CLERIC_IRONSKIN",
@@ -392,8 +526,8 @@ const PRIEST_SPELLS = {
   MagicResistance: {
     file: "SPPR509",
     id: "CLERIC_MAGIC_RESISTANCE",
-    duration: "short",
     name: "spell.MagicResistance.name",
+    duration: "short",
   },
   MassCauseLightWounds: {
     file: "SPPR530",
@@ -411,37 +545,124 @@ const PRIEST_SPELLS = {
     name: "spell.MiscastMagic.name",
   },
   Poison: { file: "SPPR411", id: "CLERIC_POISON", name: "spell.Poison.name" },
+  PhysicalMirror: {
+    file: "SPPR531",
+    id: "CLERIC_PHYSICAL_MIRROR",
+    name: "spell.PhysicalMirror.name",
+  },
+  ProtectionFromEvil: {
+    file: "SPPR107",
+    id: "CLERIC_PROTECT_FROM_EVIL",
+    name: "spell.ProtectionFromEvil.name",
+    duration: "short",
+  },
+  ProtectionFromGood: {
+    file: "SPPR125",
+    id: "CLERIC_PROTECT_FROM_GOOD",
+    name: "spell.ProtectionFromGood.name",
+    duration: "short",
+  },
+  ProtectionFromGood10Radius: {
+    file: "SPPR431",
+    id: "CLERIC_PROTECTION_FROM_GOOD_10_FOOT",
+    name: "spell.ProtectionFromGood10Radius.name",
+    duration: "mid",
+  },
   ProtectionFromLightning: {
     file: "SPPR407",
     id: "CLERIC_PROTECTION_FROM_LIGHTNING",
     name: "spell.ProtectionFromLightning.name",
+    duration: "mid",
+  },
+  RegenerateLightWounds: {
+    file: "SPPR119",
+    id: "CLERIC_REGENERATE_LIGHT_WOUNDS",
+    name: "spell.RegenerateLightWounds.name",
+  },
+  RegenerateModerateWounds: {
+    file: "SPPR218",
+    id: "CLERIC_REGENERATE_MODERATE_WOUNDS",
+    name: "spell.RegenerateModerateWounds.name",
+  },
+  RegenerateSeriousWounds: {
+    file: "SPPR324",
+    id: "CLERIC_REGENERATE_SERIOUS_WOUNDS",
+    name: "spell.RegenerateSeriousWounds.name",
+  },
+  RegenerateCriticalWounds: {
+    file: "SPPR419",
+    id: "CLERIC_REGENERATE_CRITICAL_WOUNDS",
+    name: "spell.RegenerateCriticalWounds.name",
+  },
+  Regeneration: {
+    file: "SPPR711",
+    id: "CLERIC_REGENERATE",
+    name: "spell.Regeneration.name",
+  },
+  Repulsion: {
+    file: "SPPR515",
+    id: "CLERIC_REPULSION",
+    name: "spell.Repulsion.name",
   },
   ResistFear: {
     file: "SPPR108",
     id: "CLERIC_REMOVE_FEAR",
-    duration: "mid",
     name: "spell.ResistFear.name",
+    duration: "mid",
   },
   RighteousMagic: {
     file: "SPPR513",
     id: "CLERIC_RIGHTEOUS_MAGIC",
-    duration: "short",
     name: "spell.RighteousMagic.name",
+    duration: "short",
   },
   RigidThinking: {
     file: "SPPR311",
     id: "CLERIC_RIGID_THINKING",
     name: "spell.RigidThinking.name",
   },
-  Sanctuary: { file: "SPPR109", id: "CLERIC_SANCTUARY", name: "spell.Sanctuary.name" },
+  Sanctuary: {
+    file: "SPPR109",
+    id: "CLERIC_SANCTUARY",
+    name: "spell.Sanctuary.name",
+    duration: "short",
+  },
+  ShieldOfTheArchons: {
+    file: "SPPR701",
+    id: "CLERIC_SHIELD_OF_THE_ARCHONS",
+    name: "spell.ShieldOfTheArchons.name",
+  },
   Silence: { file: "SPPR211", id: "CLERIC_SILENCE_15_FOOT", name: "spell.Silence.name" },
   SlayLiving: { file: "SPPR511", id: "CLERIC_SLAY_LIVING", name: "spell.SlayLiving.name" },
+  SpiritualHammer: {
+    file: "SPPR213",
+    id: "CLERIC_SPIRITUAL_HAMMER",
+    name: "spell.SpiritualHammer.name",
+  },
+  SummonDeathKnight: {
+    file: "SPPR703",
+    id: "CLERIC_SUMMON_DEATH_KNIGHT",
+    name: "spell.SummonDeathKnight.name",
+    duration: "mid",
+  },
   SummonInsects: {
     file: "SPPR319",
     id: "CLERIC_SUMMON_INSECTS",
     name: "spell.SummonInsects.name",
   },
   SymbolDeath: { file: "SPPR719", id: "CLERIC_SYMBOL_DEATH", name: "spell.SymbolDeath.name" },
+  SymbolHopelessness: {
+    file: "SPPR735",
+    id: "CLERIC_SYMBOL_HOPELESSNESS",
+    name: "spell.SymbolHopelessness.name",
+  },
+  SymbolPain: { file: "SPPR734", id: "CLERIC_SYMBOL_PAIN", name: "spell.SymbolPain.name" },
+  SymbolStunning: { file: "SPPR718", id: "CLERIC_SYMBOL_STUN", name: "spell.SymbolStunning.name" },
+  SymbolWeakness: {
+    file: "SPPR706",
+    id: "CLERIC_SYMBOL_WEAKNESS",
+    name: "spell.SymbolWeakness.name",
+  },
   TrueSeeing: { file: "SPPR505", id: "CLERIC_TRUE_SIGHT", name: "spell.TrueSeeing.name" },
   UnholyBlight: { file: "SPPR314", id: "CLERIC_UNHOLY_BLIGHT", name: "spell.UnholyBlight.name" },
   WavesOfAgony: { file: "SPPR533", id: "CLERIC_WAVES_OF_AGONY", name: "spell.WavesOfAgony.name" },

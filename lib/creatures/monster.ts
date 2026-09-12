@@ -176,4 +176,5 @@ export enum MonsterEnum {
   MageSkeleton = 149,
   GiantSkeleton = 150,
   SpikeSkeleton = 151,
+  SkeletonMonster = 152,
 }
