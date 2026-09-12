@@ -368,10 +368,10 @@ export function greaterMummy(family: UndeadFamily): Undead {
               // level 3 (12):
               { file: FNP_SPELLS.Priest.CircleOfBones.file, memorizedCount: 3 },
               { file: FNP_SPELLS.Priest.ShadowMonsters.file, memorizedCount: 3 },
-              { file: FNP_SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 6 },
+              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 6 },
               // level 4 (11):
               { file: FNP_SPELLS.Priest.AnimateDead.file, memorizedCount: 2 },
-              { file: FNP_SPELLS.Priest.CauseCriticalWounds.file, memorizedCount: 2 },
+              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 2 },
               { file: FNP_SPELLS.Priest.DemiShadowMonsters.file, memorizedCount: 2 },
               { file: FNP_SPELLS.Priest.Emotion.file, memorizedCount: 1 },
               { file: FNP_SPELLS.Priest.GreaterMalison.file, memorizedCount: 1 },
