@@ -1,4 +1,5 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
+import { SpellReference } from "../../config/spells/spell-names";
 import { TargetListName } from "../../config/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";
@@ -15,6 +16,22 @@ import targetService from "../services/baf/target.service";
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
     return { name: "Or", triggers };
+  }
+
+  haveSpell(resources: SpellReference[], negation = false): Triggers.Trigger[] {
+    return resources.map((r) =>
+      "id" in r
+        ? {
+            name: "HaveSpell",
+            params: [r.id!],
+            negation,
+          }
+        : {
+            name: "HaveSpellRES",
+            params: [r.file],
+            negation,
+          },
+    );
   }
 
   haveSpellRES(resources: string[], negation = false): Triggers.Trigger[] {

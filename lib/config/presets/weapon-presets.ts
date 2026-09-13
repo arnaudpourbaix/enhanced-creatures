@@ -27,31 +27,32 @@ const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
 );
 
 function factory(spells: SpellReference[]): AbilityPreset[] {
-  const weakerSpells: string[] = [];
+  const weakerSpells: SpellReference[] = [];
   return spells.map((spell) => {
-    weakerSpells.push(spell.file);
-    return {
+    const preset: AbilityPreset = {
       preset: spell.file,
       ability: {
         name: spell.name,
         spell: {
           selfTarget: true,
         },
-        triggers: [...WEAPON_ITEM_TRIGGERS, ...triggerFactory.haveSpellRES(weakerSpells, true)],
+        triggers: [...WEAPON_ITEM_TRIGGERS, ...triggerFactory.haveSpell(weakerSpells, true)],
         requireVocal: true,
         probability: DEFAULT_SPELL_PROBABILITY,
       },
     };
+    weakerSpells.push(spell);
+    return preset;
   });
 }
 
 export const WEAPON_PRESETS: AbilityPreset[] = [
   ...factory([
-    SPELLS.Priest.CauseLightWounds,
-    SPELLS.Priest.CauseModerateWounds,
-    SPELLS.Priest.CauseSeriousWounds,
     SPELLS.Priest.Harm,
     SPELLS.Priest.SlayLiving,
+    SPELLS.Priest.CauseSeriousWounds,
     SPELLS.Priest.SpiritualHammer,
+    SPELLS.Priest.CauseModerateWounds,
+    SPELLS.Priest.CauseLightWounds,
   ]),
 ];

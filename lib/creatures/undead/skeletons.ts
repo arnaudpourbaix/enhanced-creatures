@@ -265,23 +265,6 @@ export function skeleton(family: UndeadFamily): Undead {
   });
   skeleton.setBehavior({
     restHeal: true,
-    abilities: abilityOrderService.sortByPriority([
-      family.preset(SPELLS.Wizard.Vocalize.file),
-      family.preset(SPELLS.Wizard.MirrorImages.file),
-      family.preset(SPELLS.Wizard.GreaterMalison.file),
-      family.preset(SPELLS.Wizard.Emotion.file),
-      family.preset(SPELLS.Wizard.MinorSpellDeflection.file),
-      family.preset(SPELLS.Wizard.Shield.file),
-      family.preset(SPELLS.Wizard.Haste.file),
-      family.preset(SPELLS.Wizard.Slow.file),
-      family.preset(SPELLS.Wizard.SpellThrust.file),
-      family.preset(SPELLS.Wizard.Spook.file),
-      family.preset(SPELLS.Wizard.StinkingCloud.file),
-      family.preset(SPELLS.Wizard.MelfAcidArrow.file),
-      family.preset(SPELLS.Wizard.MagicMissiles.file),
-      family.preset(SPELLS.Wizard.ChromaticOrb.file),
-      family.preset(SPELLS.Wizard.Glitterdust.file),
-    ]),
   });
   skeleton.setAttack({
     ranged: true,
