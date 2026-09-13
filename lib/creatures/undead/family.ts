@@ -10,6 +10,7 @@ import {
   skeleton,
   skeletonMonster,
   skeletonWarrior,
+  spikeSkeleton,
 } from "./skeletons";
 import { banshee, ghost, greaterShadow, shadow, spectre } from "./spectral";
 import { Undead } from "./undead-creature";
@@ -30,6 +31,7 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => baneguard(this));
     this.addCreature(() => bonebat(this));
     this.addCreature(() => skeleton(this));
+    this.addCreature(() => spikeSkeleton(this));
     this.addCreature(() => archerSkeleton(this));
     this.addCreature(() => giantSkeleton(this));
     this.addCreature(() => skeletonMonster(this));

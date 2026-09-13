@@ -398,6 +398,33 @@ function mageSkeletonVariant(base: Undead): Variant {
   });
 }
 
+export function spikeSkeleton(family: UndeadFamily): Undead {
+  const monster = family.createFrom({
+    name: "monster.undead.name.spikeSkeleton",
+    monster: MonsterEnum.SpikeSkeleton,
+    from: family.creature(MonsterEnum.Skeleton),
+  });
+  monster.setData({
+    level1: 3,
+    ac: 6,
+    morale: 20,
+    xpv: 650,
+  });
+  //TODO:
+  // Further, each time the skeleton hits or is hit, 1d3 spikes explode in a bonespray,
+  // inflicting 1d4 points of damage per spike in a 5-foot radius (save vs. breath weapon for half damage).
+  // The skeleton itself suffers 1 point of damage for each spike it loses this way.
+  // The purpose of the bonespray is to draw blood, so the blood burn ability can be used.
+  //
+  // Once blood is drawn, the creature nearest the skeleton within 5 feet and with open wounds must save vs. spell at a -3
+  // or suffer 3d4 points of damage as the blood from its open wounds catches fire.
+  // A saving throw is made at the end of each round for up to three rounds;
+  // any success save ends the burning effect at that point.
+  // A spike skeleton can use the blood burn only once, and must be recharged to cast it a second time.
+  //
+  return monster;
+}
+
 export function skeletonMonster(family: UndeadFamily): Undead {
   const monster = family.createFrom({
     name: "monster.undead.name.skeletonMonster",
@@ -423,22 +450,29 @@ export function giantSkeleton(family: UndeadFamily): Undead {
   giant.setData({
     level1: 4,
     bonusHp: 4,
+    level2: 8, // for its fireball which is cast a level 8 mage
     ac: 4,
     morale: 20,
     size: { value: "Large", tall: true, long: false },
-    // 1 point of damage per die from all manner of arrows or missiles.
+    class: "CLERIC_MAGE",
     xpv: 975,
+    spells: {
+      memorized: [{ file: SPELLS.Wizard.Fireball.file, memorizedCount: 1 }],
+    },
   });
   giant.addTrait({
     immunities: ["skeletal", "fire"],
     effects: [
       {
+        // 1 point of damage per die from all manner of arrows or missiles.
         opcode: EffectTypeEnum.MissilesResistanceModifier,
         type: EffectStatisticModifierEnum.Set,
         value: 90,
       },
     ],
   });
+  // This flaming sphere can be hurled as if it were a fireball that delivers 8d6 points of damage.
+  // Each blow that lands inflicts 1d12 points of damage.
   return giant;
 }
 

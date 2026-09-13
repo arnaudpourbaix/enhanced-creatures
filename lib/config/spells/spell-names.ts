@@ -73,6 +73,7 @@ const WIZARD_SPELLS = {
   },
   Feeblemind: { file: "SPWI509", id: "WIZARD_FEEBLEMIND", name: "spell.Feeblemind.name" },
   Fireburst: { file: "SPWI523", id: "WIZARD_SUN_FIRE", name: "spell.Fireburst.name" },
+  Fireball: { file: "SPWI304", id: "WIZARD_FIREBALL", name: "spell.Fireball.name" },
   FireShield: {
     file: "SPWI418",
     id: "WIZARD_FIRE_SHIELD_RED",

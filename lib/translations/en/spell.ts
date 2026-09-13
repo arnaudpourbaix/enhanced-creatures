@@ -286,4 +286,5 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   HealingLick: { name: "Healing Lick" },
   NonDetection: { name: "Non Detection" },
   DetectEvil: { name: "Detect Evil" },
+  Fireball: { name: "Fireball" },
 };

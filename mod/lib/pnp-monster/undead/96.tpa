@@ -6,11 +6,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam96.baf~
 // Giant Skeleton traits
 CREATE ITM "jai0m96"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10977)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10977)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10978)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10978)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10978)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10979)
 COPY_EXISTING ~jai0m96.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=89 target=1 global=1 parameter1=90 parameter2=1 timing=2 probability1=100 END
 	LPF skeletal_trait END
@@ -33,6 +33,7 @@ BEGIN
 			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			ADD_CRE_ITEM ~jai0m96~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_MEMORIZED_SPELL ~SPWI304~ #2 ~wizard~ (1) 
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -47,6 +48,7 @@ BEGIN
 					saveBreath=16
 					saveSpell=16
 					level1=4
+					level2=8
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
 					strength=10
 					intelligence=1
@@ -57,7 +59,7 @@ BEGIN
 					morale=20
 					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
 					race=IDS_OF_SYMBOL (~race~ ~SKELETON~)
-					class=IDS_OF_SYMBOL (~class~ ~SKELETON~)
+					class=IDS_OF_SYMBOL (~class~ ~CLERIC_MAGE~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
 					metalColor=20
 					minorColor=67

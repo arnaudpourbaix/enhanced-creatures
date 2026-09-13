@@ -159,6 +159,75 @@ THEN
 		NoAction()
 END
 
+// Fireball
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_FIREBALL)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_FIREBALL)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_FIREBALL)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_FIREBALL)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
 // Try to reposition to use ranged attack
 IF
 	CanEquipRanged()
