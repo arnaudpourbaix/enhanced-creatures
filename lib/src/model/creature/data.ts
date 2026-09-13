@@ -143,6 +143,15 @@ export class CreatureDataSpells {
   memorized: MemorizedSpell[] = [];
   removeKnown?: boolean;
   removeMemorized?: boolean | string[];
+  /**
+   * Whether this adjustment's `memorized` list stacks on top of the base/earlier adjustments'
+   * counts (default) or is a full replacement of them - e.g. a freshly recomputed spellbook (see
+   * spellService.createSpellbook). `false` implies a blanket wipe on its own - weidu-creature
+   * service emits REMOVE_MEMORIZED_SPELLS before this adjustment's own ADD_MEMORIZED_SPELL calls
+   * unless `removeMemorized` is set explicitly (which then takes precedence) - and
+   * adjustmentService.getMemorized mirrors that same reset when computing documentation counts.
+   */
+  cumulative?: boolean;
 }
 
 export interface SpellbookVariant {
@@ -604,6 +613,9 @@ export const CREATURE_DATA_FIELDS: {
       }
       if (value.removeKnown !== undefined) {
         data.spells.removeKnown = value.removeKnown;
+      }
+      if (value.cumulative !== undefined) {
+        data.spells.cumulative = value.cumulative;
       }
       if (value.removeMemorized === undefined) return;
       if (typeof value.removeMemorized === "boolean") {

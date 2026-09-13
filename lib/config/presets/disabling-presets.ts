@@ -217,6 +217,25 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Priest.SymbolStunning.file,
+    ability: {
+      name: SPELLS.Priest.SymbolStunning.name,
+      targets: [
+        {
+          name: "Players",
+          includeStatus: ["Able"],
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: FNP_SPELLS.Priest.Forbiddance.file,
     ability: {
       name: FNP_SPELLS.Priest.Forbiddance.name,
@@ -288,6 +307,22 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
     probability: DEFAULT_SPELL_PROBABILITY,
   }),
   {
+    preset: SPELLS.Priest.SymbolHopelessness.file,
+    ability: {
+      name: SPELLS.Priest.SymbolHopelessness.name,
+      targets: [
+        {
+          name: "NearestEnemies",
+          includeStatus: ["Able"],
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Wizard.TeleportField.file,
     ability: {
       name: SPELLS.Wizard.TeleportField.name,
@@ -316,6 +351,86 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       ],
       spell: {},
       triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Wizard.Feeblemind.file,
+    ability: {
+      name: SPELLS.Wizard.Feeblemind.name,
+      targets: [
+        {
+          name: "Players",
+          includeStatus: ["Able"],
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.BlindingBeauty.file,
+    ability: {
+      name: SPELLS.Priest.BlindingBeauty.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {
+        excludeStateChecks: ["STATE_BLIND", "STATE_DISABLED"],
+      },
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.HolyWord.file,
+    ability: {
+      name: SPELLS.Priest.HolyWord.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {
+        excludeStateChecks: ["STATE_BLIND", "STATE_DISABLED"],
+      },
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.UnholyWord.file,
+    ability: {
+      name: SPELLS.Priest.UnholyWord.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {
+        excludeStateChecks: ["STATE_SLOWED", "STATE_DISABLED"],
+      },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

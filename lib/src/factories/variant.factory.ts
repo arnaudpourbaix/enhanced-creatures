@@ -44,10 +44,21 @@ function buildAdjustments(
     );
   }
   for (const entry of input.adjust ?? []) {
-    const merged = entry.data ? deepmerge<InputCreatureData>(base, entry.data) : base;
+    const merged = entry.data
+      ? deepmerge<InputCreatureData>(base, entry.data, { customMerge })
+      : base;
     adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined });
   }
   return adjustments;
+}
+
+// `memorized` is a complete snapshot of what's memorized, not an accumulating list like
+// `items.remove` - an `adjust` entry that recomputes its own spellbook (e.g. via
+// spellService.createSpellbook) means to replace the shared variant data's list, not stack on top
+// of it, so it gets replace semantics while every other array keeps deepmerge's default concat.
+function customMerge(key: string): ((target: unknown[], source: unknown[]) => unknown[]) | undefined {
+  if (key !== "memorized") return undefined;
+  return (_target, source) => source;
 }
 
 function linkToParent(cre: Creature, variant: Variant, members: string[]): void {

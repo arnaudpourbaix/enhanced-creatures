@@ -747,8 +747,13 @@ class WeiduCreatureService extends AbstractWeiduService {
       tab: p.tab,
       data: p.data,
     });
-    if (p.data.spells.removeMemorized) {
-      const code = this.removeMemorizedSpell(p.data.spells.removeMemorized);
+    // `cumulative: false` (a full replacement spellbook, e.g. via spellService.createSpellbook)
+    // implies a blanket wipe on its own - an author doesn't also have to spell out
+    // `removeMemorized: true`. An explicit `removeMemorized` (including `false`, an explicit
+    // opt-out) still wins over that default.
+    const removeMemorized = p.data.spells.removeMemorized ?? p.data.spells.cumulative === false;
+    if (removeMemorized) {
+      const code = this.removeMemorizedSpell(removeMemorized);
       this.add(p.lines, code, p.tab);
     }
     this.addImmunities(p.lines, p.tab, p.data.immunities, []);

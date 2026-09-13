@@ -15,6 +15,7 @@ import { StateIdentifier } from "../ids/state";
 import { StatsIdentifier } from "../ids/stats";
 import { ParamObject } from "../parameter";
 import { Aera } from "./aera";
+import { GenderIdentifier } from "../ids/gender";
 
 // Converting to a plain module would mean updating every `Triggers.X` reference across ~24 files
 // (same reasoning as actions.ts's Actions namespace) - out of scope for this pass.
@@ -543,6 +544,11 @@ export namespace Triggers {
     params: [ParamObject, RaceIdentifier];
   }
 
+  export interface Gender extends BaseTrigger {
+    name: "Gender";
+    params: [ParamObject, GenderIdentifier];
+  }
+
   export interface Classe extends BaseTrigger {
     name: "Class";
     params: [ParamObject, ClassIdentifier];
@@ -661,6 +667,7 @@ export namespace Triggers {
     | HasItem
     | HasItemSlot
     | CurrentAmmo
+    | Gender
     | Global
     | GlobalGT
     | GlobalLT

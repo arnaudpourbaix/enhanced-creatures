@@ -373,13 +373,23 @@ class AdjustmentService {
   // order. A `memorizedCount: 0` entry is a REMOVE - it resets the running count to zero (later
   // deltas then add back on top). A spell the base doesn't have has no base count to add to, so
   // the deltas are the effective count directly (base 0 + deltas).
+  //
+  // An adjustment authored with `spells.cumulative: false` (see spellService.createSpellbook's
+  // callers) breaks that chain instead of extending it: its `memorized` list is a freshly
+  // computed, self-contained spellbook, and it always pairs with `removeMemorized: true`, which
+  // in the real WeiDU output emits REMOVE_MEMORIZED_SPELLS before this adjustment's own
+  // ADD_MEMORIZED_SPELL calls - wiping the base count and every earlier adjustment's contribution.
+  // Mirror that by only summing from the last such adjustment onward.
   private getMemorized(
     matching: CreatureAdjustment[],
     base: CreatureData,
   ): { spell: MemorizedSpell; changed: boolean }[] {
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));
+    const resetIndex = matching.findLastIndex((a) => a.data.spells?.cumulative === false);
+    const contributing = resetIndex === -1 ? matching : matching.slice(resetIndex);
+    const startByFile = resetIndex === -1 ? baseByFile : new Map<string, MemorizedSpell>();
     const deltasByFile = new Map<string, MemorizedSpell[]>();
-    for (const adjustment of matching) {
+    for (const adjustment of contributing) {
       // See getEquipped's comment above - test fixtures can leave this undefined at runtime
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -395,7 +405,7 @@ class AdjustmentService {
         const baseSpell = baseByFile.get(file);
         const deltas = deltasByFile.get(file) ?? [];
         const baseCount = baseSpell?.memorizedCount ?? 0;
-        let effectiveCount = baseCount;
+        let effectiveCount = startByFile.get(file)?.memorizedCount ?? 0;
         for (const delta of deltas) {
           effectiveCount =
             delta.memorizedCount === 0 ? 0 : effectiveCount + (delta.memorizedCount ?? 1);
@@ -403,7 +413,7 @@ class AdjustmentService {
         const spell = deltas.length
           ? { ...deltas[deltas.length - 1], memorizedCount: effectiveCount }
           : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            baseSpell!;
+            (startByFile.get(file) ?? baseSpell)!;
         return { spell, changed: effectiveCount !== baseCount };
       })
       .sort((a, b) => a.spell.file.localeCompare(b.spell.file));

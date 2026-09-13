@@ -112,111 +112,23 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: FNP_SPELLS.Priest.CauseDisease.file,
-    ability: {
-      name: FNP_SPELLS.Priest.CauseDisease.name,
-      targets: [
-        {
-          name: "PCsFighters",
-          triggers: [
-            triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.CauseLightWounds.file,
-    ability: {
-      name: SPELLS.Priest.CauseLightWounds.name,
-      spell: {
-        selfTarget: true,
+  ...presetFactory.create([SPELLS.Priest.CauseDisease.file, FNP_SPELLS.Priest.CauseDisease.file], {
+    name: SPELLS.Priest.CauseDisease.name,
+    targets: [
+      {
+        name: "PCsFighters",
+        triggers: [
+          triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
+          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
+          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+        ],
+        randomOrder: true,
       },
-      triggers: [
-        ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-        ...triggerFactory.haveSpellRES(
-          [
-            SPELLS.Priest.CauseSeriousWounds.file,
-            FNP_SPELLS.Priest.Harm.file,
-            SPELLS.Priest.SlayLiving.file,
-          ],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.CauseSeriousWounds.name,
-    ability: {
-      name: SPELLS.Priest.CauseSeriousWounds.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-        ...triggerFactory.haveSpellRES(
-          [FNP_SPELLS.Priest.Harm.file, SPELLS.Priest.SlayLiving.file],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.CauseSeriousWounds.file,
-    ability: {
-      name: SPELLS.Priest.CauseSeriousWounds.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-        ...triggerFactory.haveSpellRES(
-          [FNP_SPELLS.Priest.Harm.file, SPELLS.Priest.SlayLiving.file],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.Harm.file,
-    ability: {
-      name: SPELLS.Priest.Harm.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-        ...triggerFactory.haveSpellRES([SPELLS.Priest.SlayLiving.file], true),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.SlayLiving.file,
-    ability: {
-      name: SPELLS.Priest.SlayLiving.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+    ],
+    spell: {},
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
     preset: FNP_SPELLS.Priest.Shatter.file,
     ability: {
@@ -402,12 +314,33 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.BigbyIcyGrasp.name,
       targets: [
         {
-          name: "NearestEnemies",
+          name: "Players",
           randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
         },
       ],
       spell: {},
       triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.BoltOfGlory.file,
+    ability: {
+      name: SPELLS.Priest.BoltOfGlory.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

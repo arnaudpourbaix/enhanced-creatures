@@ -380,7 +380,7 @@ function clericSkeletonVariant(base: Undead): Variant {
           xpv: 9500,
           apr: 2,
           spells: {
-            removeMemorized: true,
+            cumulative: false,
             memorized: spellService.createSpellbook({
               name: "EvilUndeadCleric",
               casterLevel: 20,
