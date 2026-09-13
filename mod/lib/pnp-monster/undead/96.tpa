@@ -1,0 +1,89 @@
+// Generated file (don't edit)
+
+// Giant Skeleton
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam96.baf~
+
+// Giant Skeleton traits
+CREATE ITM "jai0m96"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10977)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10977)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10978)
+COPY_EXISTING ~jai0m96.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=89 target=1 global=1 parameter1=90 parameter2=1 timing=2 probability1=100 END
+	LPF skeletal_trait END
+	LPF fire_immunity END
+
+DEFINE_ACTION_FUNCTION jam96_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSKGR05~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDSKGR06~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~ring99~
+			REMOVE_CRE_ITEM ~undtype~
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			ADD_CRE_ITEM ~jai0m96~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=975
+					hp=52
+					ac=4
+					thac0=15
+					apr=1
+					saveDeath=13
+					saveWand=15
+					savePolymorph=14
+					saveBreath=16
+					saveSpell=16
+					level1=4
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=10
+					intelligence=1
+					wisdom=8
+					dexterity=14
+					constitution=9
+					charisma=5
+					morale=20
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~SKELETON~)
+					class=IDS_OF_SYMBOL (~class~ ~SKELETON~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					metalColor=20
+					minorColor=67
+					majorColor=66
+					skinColor=105
+					leatherColor=14
+					armorColor=20
+					hairColor=0
+					movement=10
+					enforce=1
+			END
+			// Assigning jam96
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN L#HAUSK BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam96 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"BDSKGR05"
+		"BDSKGR06"
+	BEGIN
+		LAF jam96_patch STR_VAR file END
+	END
+END

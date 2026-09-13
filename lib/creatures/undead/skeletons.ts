@@ -300,10 +300,6 @@ export function skeleton(family: UndeadFamily): Undead {
       data: { level1: 3 },
     },
     {
-      files: ["BDSKGR05"],
-      data: { level1: 4, xpv: 175 },
-    },
-    {
       files: ["L#HAUSK"],
       data: {
         level1: 13,
@@ -437,53 +433,47 @@ export function skeletonMonster(family: UndeadFamily): Undead {
   return monster;
 }
 
+export function giantSkeleton(family: UndeadFamily): Undead {
+  const giant = family.createFrom({
+    name: "monster.undead.name.giantSkeleton",
+    monster: MonsterEnum.GiantSkeleton,
+    from: family.creature(MonsterEnum.Skeleton),
+  });
+  giant.setData({
+    level1: 4,
+    bonusHp: 4,
+    ac: 4,
+    morale: 20,
+    size: { value: "Large", tall: true, long: false },
+    // 1 point of damage per die from all manner of arrows or missiles.
+    xpv: 975,
+  });
+  giant.addTrait({
+    immunities: ["skeletal", "fire"],
+    effects: [
+      {
+        opcode: EffectTypeEnum.MissilesResistanceModifier,
+        type: EffectStatisticModifierEnum.Set,
+        value: 90,
+      },
+    ],
+  });
+  return giant;
+}
+
 export function archerSkeleton(family: UndeadFamily): Undead {
-  const archer = family.create({
-    monster: MonsterEnum.ArcherSkeleton,
+  const archer = family.createFrom({
     name: "monster.undead.name.archerSkeleton",
-    files: [],
-    data: {
-      level1: 2,
-      strength: 10,
-      dexterity: 14,
-      constitution: 9,
-      intelligence: 1,
-      wisdom: 8,
-      charisma: 5,
-      ac: 7,
-      apr: 1,
-      thac0: 19,
-      xpv: 175,
-      alignment: "NEUTRAL",
-      morale: 20,
-      general: "UNDEAD",
-      race: "SKELETON",
-      class: "SKELETON",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 12,
-      immunities: ["undead"],
-      items: {
-        remove: ["ring95", "ring99"],
-      },
-      script: {
-        remove: ["0XUDDG"],
-      },
-      // Enforce proper skeleton colours for all processed creatures (colours courtesy of rskel01)
-      metalColor: 20,
-      minorColor: 67,
-      majorColor: 66,
-      skinColor: 105,
-      leatherColor: 14,
-      armorColor: 20,
-      hairColor: 0,
+    monster: MonsterEnum.ArcherSkeleton,
+    from: family.creature(MonsterEnum.Skeleton),
+  });
+  archer.setData({
+    level1: 2,
+    xpv: 175,
+    morale: 20,
+    script: {
+      remove: ["0XUDDG"],
     },
-  });
-  archer.addTrait({
-    immunities: ["skeletal"],
-  });
-  archer.setBehavior({
-    restHeal: true,
   });
   archer.setAttack({
     ranged: true,
@@ -503,10 +493,6 @@ export function archerSkeleton(family: UndeadFamily): Undead {
       files: ["SKELDIS"],
       // original thac0: 12
       data: { level1: 3, xpv: 120 },
-    },
-    {
-      files: ["BDSKGR06"],
-      data: { level1: 4, xpv: 175 },
     },
     {
       files: ["BDSKGR04", "BDTEAM63"],

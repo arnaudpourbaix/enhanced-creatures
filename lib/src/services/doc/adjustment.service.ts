@@ -458,6 +458,20 @@ class AdjustmentService {
       (a) => a.files.length > 0 && [...allFiles].every((f) => a.files.includes(f)),
     );
     if (!shared) return undefined;
+    // A member file the variant's own `adjust` entries never target still goes through the
+    // ordinary per-file fold in getEffectiveDataForFile, which can pick up adjustments the variant
+    // knows nothing about - e.g. family.ts's applyCsvSummonFiles appending an xpv=0 patch to a
+    // creatures.csv-flagged summon after the variant was declared. Building the profile from that
+    // same fold (for a file with no variant-owned deviation) keeps it identical to what such a
+    // "vanilla" member actually renders as; hand-rolling it from `shared` alone drifted out of
+    // sync with that fold and made isEquivalent/subtractProfile never match, silently dropping the
+    // variant's whole stat block from the card (only the "Applies to" line survived).
+    const deviatingFiles = new Set(entries.filter((a) => a !== shared).flatMap((a) => a.files));
+    const cleanFile = shared.files.find((f) => !deviatingFiles.has(f));
+    if (cleanFile) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return this.getEffectiveDataForFile(creature, cleanFile)[0]!;
+    }
     return this.buildEffectiveForScope(creature, variant.label, undefined, [shared]);
   }
 

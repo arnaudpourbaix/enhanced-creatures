@@ -6,6 +6,7 @@ import {
   archerSkeleton,
   baneguard,
   bonebat,
+  giantSkeleton,
   skeleton,
   skeletonMonster,
   skeletonWarrior,
@@ -30,6 +31,7 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => bonebat(this));
     this.addCreature(() => skeleton(this));
     this.addCreature(() => archerSkeleton(this));
+    this.addCreature(() => giantSkeleton(this));
     this.addCreature(() => skeletonMonster(this));
     this.addCreature(() => skeletonWarrior(this));
     this.addCreature(() => spectre(this));
