@@ -178,40 +178,17 @@ export const TARGET_STATUS: TargetStatus[] = [
         name: "StateCheck",
         params: [ScriptTarget.token, "STATE_SLOWED"],
       },
-      {
-        name: "CheckStatGT",
-        params: [ScriptTarget.token, 0, "HELD"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_STUNNED"],
-        negation: true,
-      },
+    ],
+  },
+  {
+    status: "Blinded",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: true,
+    triggers: [],
+    targetTriggers: [
       {
         name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_PANIC"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_CONFUSED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_FEEBLEMINDED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_SLEEPING"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_HELPLESS"],
-        negation: true,
+        params: [ScriptTarget.token, "STATE_BLIND"],
       },
     ],
   },

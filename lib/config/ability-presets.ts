@@ -23,26 +23,6 @@ import { SUMMON_PRESETS } from "./presets/summon-presets";
 const NEW_PRESETS: AbilityPreset[] = [
   // Wizard
   {
-    preset: SPELLS.Wizard.BigbyIcyGrasp.file,
-    ability: {
-      name: SPELLS.Wizard.BigbyIcyGrasp.name,
-      spell: {},
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.ColorSpray.file,
-    ability: {
-      name: SPELLS.Wizard.ColorSpray.name,
-      spell: {},
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
     preset: SPELLS.Wizard.Feeblemind.file,
     ability: {
       name: SPELLS.Wizard.Feeblemind.name,

@@ -1137,6 +1137,53 @@ describe("getCreatureSpells", () => {
 
     expect(template.text).toBe("");
   });
+
+  it("renders a flat list, not tabs, at the ability-tab threshold", () => {
+    const resources = Array.from({ length: 9 }, (_, i) => `SPWI10${i}`);
+    const creature = fakeCreatureForSpells(
+      { abilities: resources.map((r) => fakeAbility(r)) },
+      { memorized: resources.map((file) => ({ file, memorizedCount: 1 })) },
+    );
+    const template = { text: "{{abilities}}" };
+
+    documentationService.getCreatureSpells(template, creature);
+
+    expect(template.text).toContain('<div class="abilities">');
+    expect(template.text).not.toContain("spellbook-tabs");
+  });
+
+  it("groups abilities into one tab per spell level past the threshold, with mod-only spells in a catch-all Innate tab", () => {
+    const level1 = ["SPWI101", "SPWI102", "SPWI103"];
+    const level3 = ["SPWI301", "SPWI302", "SPWI303"];
+    const level2 = ["SPWI201", "SPWI202", "SPWI203"];
+    const innate = ["D5P1301"];
+    const resources = [...level3, ...level1, ...innate, ...level2];
+    const creature = fakeCreatureForSpells(
+      { abilities: resources.map((r) => fakeAbility(r)) },
+      { memorized: resources.map((file) => ({ file, memorizedCount: 1 })) },
+    );
+    const template = { text: "{{abilities}}" };
+
+    documentationService.getCreatureSpells(template, creature);
+
+    // Sorted by level ascending regardless of declaration order, Innate last.
+    const buttons = [...template.text.matchAll(/data-tab="([^"]+)">([^<]+)</g)];
+    expect(buttons.map((b) => b[2])).toEqual(["Level 1", "Level 2", "Level 3", "Innate"]);
+    expect(template.text).toContain(
+      '<button type="button" class="spellbook-tab-button active" data-tab="m79-abilitylevel-1">Level 1</button>',
+    );
+    expect(template.text).toContain(
+      '<div class="spellbook-tab-panel abilities active" id="m79-abilitylevel-1">',
+    );
+    expect(template.text).toContain(
+      '<button type="button" class="spellbook-tab-button" data-tab="m79-abilitylevel-innate">Innate</button>',
+    );
+    // Each level panel holds exactly its own three entries.
+    const level2Panel =
+      /id="m79-abilitylevel-2">((?:(?!<div class="spellbook-tab-panel).)*)/s.exec(template.text)?.[1] ??
+      "";
+    expect(level2Panel.match(/ability-entry/g)).toHaveLength(3);
+  });
 });
 
 describe("getCreatureSpellbooks", () => {
@@ -1798,6 +1845,55 @@ describe("getCreatureHeader", () => {
     // base memorizedCount 1 + adjustment delta 3 = 4 (delta, not absolute replacement)
     expect(template.text).toContain('<div class="ability-entry adjustment-changed">');
     expect(template.text).toContain("4/day");
+  });
+
+  it("groups a large adjustment Abilities diff into level tabs past the threshold, same as getCreatureSpells", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const originalSpells = State.spells;
+    State.spells = [];
+    // 9 vanilla resources across 3 levels, plus 1 mod-only resource with no SPWI/SPPR level.
+    const resources = [
+      "SPWI101",
+      "SPWI102",
+      "SPWI103",
+      "SPWI201",
+      "SPWI202",
+      "SPWI203",
+      "SPWI301",
+      "SPWI302",
+      "SPWI303",
+      "D5P1301",
+    ];
+    const creature = fakeCreatureForAddCreature(false);
+    creature.behavior = {
+      abilities: resources.map(
+        (resource) => ({ name: "ability.test", resource }) as unknown as CreatureAbility,
+      ),
+      customCodes: [],
+    };
+    creature.adjustments = [
+      {
+        files: ["CASTER"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: {
+          spells: { memorized: resources.map((file) => ({ file, memorizedCount: 1 })) },
+        } as unknown as CreatureAdjustment["data"],
+      },
+    ];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+    State.spells = originalSpells;
+
+    expect(template.text).toContain('<div class="spellbook-tabs">');
+    expect(template.text).toContain(
+      '<button type="button" class="spellbook-tab-button active" data-tab="m1-adj0-abilitylevel-1">Level 1</button>',
+    );
+    expect(template.text).toContain(
+      '<button type="button" class="spellbook-tab-button" data-tab="m1-adj0-abilitylevel-innate">Innate</button>',
+    );
   });
 
   it("renders a variant's shared profile as its own card body, folds no-deviation members into an Applies-to line, and nests a sub-variant", () => {

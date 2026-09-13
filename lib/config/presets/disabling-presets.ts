@@ -302,4 +302,22 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
+  {
+    preset: SPELLS.Wizard.ColorSpray.file,
+    ability: {
+      name: SPELLS.Wizard.ColorSpray.name,
+      targets: [
+        {
+          name: "NearestEnemies",
+          includeStatus: ["Able"],
+          excludeStatus: ["Slowed", "Blinded"],
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
 ];

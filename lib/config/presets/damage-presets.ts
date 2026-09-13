@@ -396,4 +396,20 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
+  {
+    preset: SPELLS.Wizard.BigbyIcyGrasp.file,
+    ability: {
+      name: SPELLS.Wizard.BigbyIcyGrasp.name,
+      targets: [
+        {
+          name: "NearestEnemies",
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
 ];

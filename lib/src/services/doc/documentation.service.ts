@@ -62,6 +62,19 @@ const MAX_PROFICIENCY_STARS_OVERRIDES: Partial<Record<ProficiencyTypeEnum, numbe
   [ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON]: 2,
 };
 
+// A flat abilities list stops being readable past this many entries - a caster built from
+// spellService.createSpellbook() (see lib/config/spellbooks/spellbook.ts) alone can memorize
+// several spells per level across 7+ levels. Past the threshold, getCreatureSpells groups entries
+// into one tab per spell level instead (see getAbilityLevelTabs).
+const ABILITY_TAB_THRESHOLD = 9;
+
+// BG2's own resref convention: a vanilla spell's filename is SPWI/SPPR followed by a 3-digit code
+// whose first digit is the spell's level (e.g. SPWI305 = Wizard level 3, SPPR113 = Priest level
+// 1). A mod-introduced spell (e.g. Faiths & Powers' D5P1301) doesn't follow this convention and
+// carries no filename-derived level, so getAbilityLevelTabs falls back to grouping it under a
+// catch-all "Innate" tab rather than trying to read its level from spell metadata.
+const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
+
 // One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
 // JSON blob the docs/monsters.js file-search box reads. `kind` isn't shown to the reader - it only
 // tells the search box whether to scroll to the base card (`replaces`) or open the adjustments
@@ -640,9 +653,10 @@ class DocumentationService {
 
   // The full base creature, shown as a read-only reference in the panel's side column: stat grid
   // plus the Attacks / Traits / Abilities / Spellbooks sections, so the adjustment cards on the
-  // right only need to show what each one *changes*. The section builders emit popover-entry ids
-  // keyed on `m<id>-...`, which would collide with the main creature card's - rewrite them (and
-  // the matching in-card `href="#..."`) to a `base-` prefix so the panel copy is self-contained.
+  // right only need to show what each one *changes*. The section builders emit popover-entry and
+  // ability-level-tab ids keyed on `m<id>-...`, which would collide with the main creature card's -
+  // rewrite them (and the matching in-card `href="#..."`/`data-tab="..."`) to a `base-` prefix so
+  // the panel copy is self-contained.
   private getBaseCard(creature: Creature): string {
     // `{{attacks}}` is wrapped by monster.html; the other three sections carry their own wrapper.
     const sub = {
@@ -655,7 +669,7 @@ class DocumentationService {
     this.getCreatureSpells(sub, creature);
     this.getCreatureSpellbooks(sub, creature);
     const sections = sub.text.replace(
-      new RegExp(`((?:id|href)="#?)(m${creature.id}-[\\w-]+)"`, "g"),
+      new RegExp(`((?:id|href|data-tab)="#?)(m${creature.id}-[\\w-]+)"`, "g"),
       `$1base-$2"`,
     );
     return (
@@ -962,20 +976,20 @@ class DocumentationService {
     effective: EffectiveAdjustment,
     cardIndex: number,
   ): string {
-    let spells = "";
     const memorizedList = effective.memorized.map((entry) => entry.spell);
+    const entries: { ability: CreatureAbility; html: string }[] = [];
     this.getResourceAbilities(creature).forEach((ability, index) => {
       const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
       if (!entry?.changed) return;
-      spells += this.getCreatureSpell(
+      const html = this.getCreatureSpell(
         ability,
         memorizedList,
         `m${creature.id}-adj${cardIndex}-ability-${index}`,
         "adjustment-changed",
       );
+      if (html) entries.push({ ability, html });
     });
-    if (!spells) return "";
-    return `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
+    return this.renderAbilitiesSection(`m${creature.id}-adj${cardIndex}`, entries);
   }
 
   private getFileName(creature: Creature, file: string): string | undefined {
@@ -1057,18 +1071,85 @@ class DocumentationService {
   }
 
   getCreatureSpells(template: { text: string }, creature: Creature) {
-    let spells = "";
-    this.getResourceAbilities(creature).forEach((ability, index) => {
-      spells += this.getCreatureSpell(
+    const entries = this.getResourceAbilities(creature)
+      .map((ability, index) => ({
         ability,
-        creature.data.spells.memorized,
-        `m${creature.id}-ability-${index}`,
-      );
-    });
-    if (spells) {
-      spells = `<h4>Abilities</h4><div class="abilities">${spells}</div>`;
+        html: this.getCreatureSpell(
+          ability,
+          creature.data.spells.memorized,
+          `m${creature.id}-ability-${index}`,
+        ),
+      }))
+      .filter((entry) => entry.html);
+    this.replace(template, "abilities", this.renderAbilitiesSection(`m${creature.id}`, entries));
+  }
+
+  // Shared by getCreatureSpells and getAdjustmentSpells: past ABILITY_TAB_THRESHOLD entries, a flat
+  // list stops being readable (a caster built from spellService.createSpellbook(), e.g. the Cleric
+  // Skeleton adjustment in lib/creatures/undead/skeletons.ts, can memorize several spells per level
+  // across 7+ levels) - group into one tab per spell level instead.
+  private renderAbilitiesSection(
+    idPrefix: string,
+    entries: { ability: CreatureAbility; html: string }[],
+  ): string {
+    if (!entries.length) return "";
+    const body =
+      entries.length > ABILITY_TAB_THRESHOLD
+        ? this.getAbilityLevelTabs(idPrefix, entries)
+        : `<div class="abilities">${entries.map((entry) => entry.html).join("")}</div>`;
+    return `<h4>Abilities</h4>${body}`;
+  }
+
+  // Groups a long abilities list into one tab per spell level (see SPELL_LEVEL_PATTERN), reusing
+  // the same spellbook-tabs markup/CSS/JS as getCreatureSpellbooks's mod-variant tabs so no extra
+  // styling or click-handling is needed. Tab ids are kept in the `<idPrefix>-...` shape
+  // getBaseCard's id/href/data-tab rewrite already expects (idPrefix always starts with
+  // `m<creatureId>`), so this still works unprefixed inside the adjustments panel's base card copy.
+  private getAbilityLevelTabs(
+    idPrefix: string,
+    entries: { ability: CreatureAbility; html: string }[],
+  ): string {
+    const byLevel = new Map<number | "innate", string[]>();
+    for (const { ability, html } of entries) {
+      const level = this.getSpellLevel(ability.resource) ?? "innate";
+      const group = byLevel.get(level);
+      if (group) group.push(html);
+      else byLevel.set(level, [html]);
     }
-    this.replace(template, "abilities", spells);
+    const levels = [...byLevel.keys()].sort((a, b) => {
+      if (a === "innate") return 1;
+      if (b === "innate") return -1;
+      return a - b;
+    });
+    const tabs = levels.map((level, i) => {
+      const html = byLevel.get(level);
+      return {
+        id: `${idPrefix}-abilitylevel-${level}`,
+        name: level === "innate" ? "Innate" : `Level ${level}`,
+        // levels only ever come from byLevel's own keys, so a lookup here always hits.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        spells: html!.join(""),
+        active: i === 0,
+      };
+    });
+    const buttons = tabs
+      .map(
+        (tab) =>
+          `<button type="button" class="spellbook-tab-button${tab.active ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
+      )
+      .join("");
+    const panels = tabs
+      .map(
+        (tab) =>
+          `<div class="spellbook-tab-panel abilities${tab.active ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
+      )
+      .join("");
+    return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+  }
+
+  private getSpellLevel(resource: string | undefined): number | undefined {
+    const match = SPELL_LEVEL_PATTERN.exec(resource ?? "");
+    return match ? Number(match[1]) : undefined;
   }
 
   // A tabbed section per mod-conditional spellbook variant (see CreatureDataSpells.spellbooks) -
