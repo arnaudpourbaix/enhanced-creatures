@@ -347,9 +347,15 @@
   margin: 2px 0 8px;
 }
 
+/* Two columns at best, never forced: each track's floor is max(220px, half the container minus
+   half the column gap), so a container wide enough for two comfortable columns gets exactly two,
+   but a narrow one (the adjustments panel's adj-base-card, or an adjustment/variant card's own
+   abilities list) collapses to a single column instead of squeezing spell names like "Chromatic
+   Orb (3/day)" into a track too narrow for them, which was wrapping them mid-name regardless of
+   how wide the viewport itself was. */
 .abilities {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(max(220px, calc(50% - 10px)), 1fr));
   gap: 4px 20px;
 }
 
@@ -393,7 +399,9 @@
 
 .spellbook-tab-panel.active {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* Same two-columns-at-best rule as .abilities above - a spellbook tab panel nests in the very
+     same narrow containers (adjustment/variant cards, the adj-base-card side panel). */
+  grid-template-columns: repeat(auto-fit, minmax(max(220px, calc(50% - 10px)), 1fr));
   gap: 4px 20px;
 }
 
