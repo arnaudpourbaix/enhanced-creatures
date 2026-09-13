@@ -27,20 +27,69 @@
   }
 
   function initSpellbookTabs() {
+    // A mod-variant tab panel can itself contain a nested level-tabs group (a spellbook long
+    // enough to need spell-level tabs inside a mod tab - see
+    // documentation.service.ts's renderAbilityEntries), reusing the very same
+    // spellbook-tab-*/spellbook-tabs classes one level down. `:scope`-qualifying every lookup to
+    // this container's own direct children keeps each tab group wired to only its own
+    // buttons/panels instead of a deep querySelectorAll also matching the nested group's.
     document.querySelectorAll(".spellbook-tabs").forEach(function (tabs) {
-      var buttons = tabs.querySelectorAll(".spellbook-tab-button");
+      var buttons = tabs.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button");
       buttons.forEach(function (button) {
         button.addEventListener("click", function () {
           var targetId = button.getAttribute("data-tab");
+          // Each mod panel builds its own independent nested level-tabs widget, so a level
+          // selection in one doesn't carry over to another by DOM id - but comparing a spellbook
+          // across mods is the whole point of the mod tabs, so read off the leaving panel's
+          // active level *label* ("Level 3"/"Innate") before switching, and re-select that same
+          // label in the panel being entered if it has one - keeping the reader on the same level
+          // instead of snapping back to Level 1.
+          var activePanel = tabs.querySelector(":scope > .spellbook-tab-panel.active");
+          var activeLevelLabel = getActiveNestedTabLabel(activePanel);
+
           buttons.forEach(function (b) {
             b.classList.toggle("active", b === button);
           });
-          tabs.querySelectorAll(".spellbook-tab-panel").forEach(function (panel) {
-            panel.classList.toggle("active", panel.id === targetId);
+          var targetPanel = null;
+          tabs.querySelectorAll(":scope > .spellbook-tab-panel").forEach(function (panel) {
+            var isTarget = panel.id === targetId;
+            panel.classList.toggle("active", isTarget);
+            if (isTarget) targetPanel = panel;
           });
+          if (activeLevelLabel && targetPanel) selectNestedTabByLabel(targetPanel, activeLevelLabel);
         });
       });
     });
+  }
+
+  function getNestedSpellbookTabs(panel) {
+    return panel ? panel.querySelector(":scope > .spellbook-tabs") : null;
+  }
+
+  function getActiveNestedTabLabel(panel) {
+    var nested = getNestedSpellbookTabs(panel);
+    if (!nested) return null;
+    var active = nested.querySelector(
+      ":scope > .spellbook-tab-buttons > .spellbook-tab-button.active",
+    );
+    return active ? active.textContent : null;
+  }
+
+  function selectNestedTabByLabel(panel, label) {
+    var nested = getNestedSpellbookTabs(panel);
+    if (!nested) return;
+    var match = null;
+    nested.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button").forEach(
+      function (button) {
+        if (button.textContent === label) match = button;
+      },
+    );
+    // No matching level in this mod's spellbook (e.g. it stops at level 5 while the one just left
+    // goes to 7) - leave it on its own default rather than forcing a level it doesn't have.
+    if (!match || match.classList.contains("active")) return;
+    // Reuses that button's own click listener (bound when initSpellbookTabs walked this nested
+    // group) rather than duplicating its active-toggling logic here.
+    match.click();
   }
 
   function initTraitPopover() {

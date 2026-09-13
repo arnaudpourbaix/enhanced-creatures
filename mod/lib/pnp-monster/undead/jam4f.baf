@@ -491,7 +491,7 @@ THEN
 		Spell(LastSeenBy(Myself),CLERIC_UNHOLY_WORD)
 END
 
-// SummonDeathKnight
+// Summon Death Knight
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")

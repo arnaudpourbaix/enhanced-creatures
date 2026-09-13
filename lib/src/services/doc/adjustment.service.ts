@@ -2,7 +2,7 @@ import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { Game } from "../../model/creature/game";
 import { Variant } from "../../model/creature/variant";
-import { CreatureData, MemorizedSpell } from "../../model/creature/data";
+import { CreatureData, MemorizedSpell, SpellbookVariant } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ClassIdentifier } from "../../model/ids/class";
 import { ImmunityName } from "../../model/final/immunity";
@@ -46,6 +46,13 @@ export interface EffectiveAdjustment {
   equipped: { item: EquippedItem; changed: boolean }[];
   immunities: { name: ImmunityName; changed: boolean }[];
   memorized: { spell: MemorizedSpell; changed: boolean }[];
+  /**
+   * Mod-conditional spellbook variants (spellService.createSpellbooks) this effective's own
+   * `spells.spellbooks` resolves to - the last one defined among the folded adjustments (later
+   * wins, same as every other scalar-ish field here), since each is a complete snapshot rather
+   * than something to merge across adjustments. `undefined` when nothing in the fold sets it.
+   */
+  spellbooks?: SpellbookVariant[];
   proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
   /**
    * The variant that owns every adjustment folded into this effective, if they all share one.
@@ -182,6 +189,7 @@ class AdjustmentService {
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      spellbooks: this.lastDefined(matching, (d) => d.spells?.spellbooks),
       variant: this.commonVariant(matching),
       game,
       equipped,
@@ -448,6 +456,7 @@ class AdjustmentService {
       effective.equipped.some((e) => e.changed) ||
       effective.immunities.some((i) => i.changed) ||
       effective.memorized.some((m) => m.changed) ||
+      !!effective.spellbooks?.length ||
       effective.proficiencies.some((p) => p.changed)
     );
   }

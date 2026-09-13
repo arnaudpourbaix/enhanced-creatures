@@ -236,7 +236,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   GreaterDivineProtection: { name: "Greater Divine Protection" },
   PhysicalMirror: { name: "Physical Mirror" },
   Repulsion: { name: "Repulsion" },
-  SummonDeathKnight: { name: "SummonDeathKnight" },
+  SummonDeathKnight: { name: "Summon Death Knight" },
   Regeneration: { name: "Regeneration" },
   ShieldOfTheArchons: { name: "Shield Of The Archons" },
   Banishment: { name: "Banishment" },

@@ -302,6 +302,12 @@ class CreatureService {
     creature.adjustments.forEach((adjustment, index) => {
       const files = [...new Set(adjustment.data.spells.memorized.map((s) => s.file))];
       if (files.length) groups.push({ label: `adjustment #${index}`, files });
+      for (const variant of adjustment.data.spells.spellbooks ?? []) {
+        const variantFiles = [...new Set(variant.memorized.map((s) => s.file))];
+        if (variantFiles.length) {
+          groups.push({ label: `adjustment #${index} (${variant.mod})`, files: variantFiles });
+        }
+      }
     });
     return groups;
   }

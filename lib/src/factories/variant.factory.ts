@@ -52,12 +52,16 @@ function buildAdjustments(
   return adjustments;
 }
 
-// `memorized` is a complete snapshot of what's memorized, not an accumulating list like
-// `items.remove` - an `adjust` entry that recomputes its own spellbook (e.g. via
-// spellService.createSpellbook) means to replace the shared variant data's list, not stack on top
-// of it, so it gets replace semantics while every other array keeps deepmerge's default concat.
+// `memorized`/`spellbooks` are each a complete snapshot of what's memorized, not an accumulating
+// list like `items.remove` - an `adjust` entry that recomputes its own spellbook (e.g. via
+// spellService.createSpellbook/createSpellbooks) means to replace the shared variant data's list,
+// not stack on top of it, so both get replace semantics while every other array keeps deepmerge's
+// default concat. Without this, an adjust entry's `spellbooks` would concatenate onto the shared
+// variant's own `spellbooks` - duplicating each mod's entry (one from the shared profile's caster
+// level, one from the adjust entry's) and making weidu-creature.service's `.find()` fallback pick
+// the shared profile's (wrong, weaker) one instead of the adjust entry's override.
 function customMerge(key: string): ((target: unknown[], source: unknown[]) => unknown[]) | undefined {
-  if (key !== "memorized") return undefined;
+  if (key !== "memorized" && key !== "spellbooks") return undefined;
   return (_target, source) => source;
 }
 

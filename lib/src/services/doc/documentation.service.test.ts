@@ -1152,11 +1152,13 @@ describe("getCreatureSpells", () => {
     expect(template.text).not.toContain("spellbook-tabs");
   });
 
-  it("groups abilities into one tab per spell level past the threshold, with mod-only spells in a catch-all Innate tab", () => {
+  it("groups abilities into one tab per spell level past the threshold, with spells that have no known level in a catch-all Innate tab", () => {
     const level1 = ["SPWI101", "SPWI102", "SPWI103"];
     const level3 = ["SPWI301", "SPWI302", "SPWI303"];
     const level2 = ["SPWI201", "SPWI202", "SPWI203"];
-    const innate = ["D5P1301"];
+    // A resource absent from every spell-reference config (vanilla or mod) and that also doesn't
+    // follow the SPWI/SPPR filename convention - genuinely no way to derive its level.
+    const innate = ["ZZFAKE01"];
     const resources = [...level3, ...level1, ...innate, ...level2];
     const creature = fakeCreatureForSpells(
       { abilities: resources.map((r) => fakeAbility(r)) },
@@ -1851,7 +1853,8 @@ describe("getCreatureHeader", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const originalSpells = State.spells;
     State.spells = [];
-    // 9 vanilla resources across 3 levels, plus 1 mod-only resource with no SPWI/SPPR level.
+    // 9 vanilla resources across 3 levels, plus 1 resource with no known level at all (absent
+    // from every spell-reference config and not SPWI/SPPR-named either).
     const resources = [
       "SPWI101",
       "SPWI102",
@@ -1862,7 +1865,7 @@ describe("getCreatureHeader", () => {
       "SPWI301",
       "SPWI302",
       "SPWI303",
-      "D5P1301",
+      "ZZFAKE01",
     ];
     const creature = fakeCreatureForAddCreature(false);
     creature.behavior = {

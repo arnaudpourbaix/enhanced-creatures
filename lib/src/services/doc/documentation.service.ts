@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { SPELLBOOK_MODS } from "../../../config/mods";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-names";
+import { getAllSpells } from "../../../config/spells/spell-names";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
@@ -70,9 +72,10 @@ const ABILITY_TAB_THRESHOLD = 9;
 
 // BG2's own resref convention: a vanilla spell's filename is SPWI/SPPR followed by a 3-digit code
 // whose first digit is the spell's level (e.g. SPWI305 = Wizard level 3, SPPR113 = Priest level
-// 1). A mod-introduced spell (e.g. Faiths & Powers' D5P1301) doesn't follow this convention and
-// carries no filename-derived level, so getAbilityLevelTabs falls back to grouping it under a
-// catch-all "Innate" tab rather than trying to read its level from spell metadata.
+// 1). getSpellLevel only falls back to this when the resource has no entry in State.spells at
+// all (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow the convention, but
+// does carry a real `level` in its own config entry, e.g. fnp-spell-names.ts) - in that genuinely
+// unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
 const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 
 // One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
@@ -827,7 +830,8 @@ class DocumentationService {
       noWeaponNote +
       this.getAdjustmentAttacks(creature, effective, cardIndex) +
       this.getAdjustmentTraits(creature, effective) +
-      this.getAdjustmentSpells(creature, effective, cardIndex)
+      this.getAdjustmentSpells(creature, effective, cardIndex) +
+      this.getAdjustmentSpellbooks(creature, effective, cardIndex)
     );
   }
 
@@ -992,6 +996,54 @@ class DocumentationService {
     return this.renderAbilitiesSection(`m${creature.id}-adj${cardIndex}`, entries);
   }
 
+  // Mirrors getCreatureSpellbooks's mod-tabbed layout, scoped to this one adjustment/variant -
+  // an adjustment introducing a mod-conditional spellbook (spellService.createSpellbooks) has
+  // nothing to diff against (the base creature never has one of its own), so every entry is
+  // shown as new rather than filtered down to only "changed" ones the way getAdjustmentSpells
+  // filters the plain `memorized` list.
+  private getAdjustmentSpellbooks(
+    creature: Creature,
+    effective: EffectiveAdjustment,
+    cardIndex: number,
+  ): string {
+    const abilities = this.getResourceAbilities(creature);
+    const tabs = (effective.spellbooks ?? [])
+      .map((spellbook, index) => {
+        const idPrefix = `m${creature.id}-adj${cardIndex}-sb${index}`;
+        const entries = abilities
+          .map((ability, abilityIndex) => ({
+            ability,
+            html: this.getCreatureSpell(
+              ability,
+              spellbook.memorized,
+              `${idPrefix}-ability-${abilityIndex}`,
+              "adjustment-changed",
+            ),
+          }))
+          .filter((entry) => entry.html);
+        return {
+          id: `spellbook-m${creature.id}-adj${cardIndex}-${index}`,
+          name: SPELLBOOK_MODS[spellbook.mod].name,
+          spells: this.renderAbilityEntries(idPrefix, entries),
+        };
+      })
+      .filter((tab) => tab.spells);
+    if (!tabs.length) return "";
+    const buttons = tabs
+      .map(
+        (tab, i) =>
+          `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
+      )
+      .join("");
+    const panels = tabs
+      .map(
+        (tab, i) =>
+          `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
+      )
+      .join("");
+    return `<h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+  }
+
   private getFileName(creature: Creature, file: string): string | undefined {
     // creature.newFiles has a class field-initializer default of [] on the real Creature class, but
     // documentation.service.test.ts fixtures built via `as unknown as Creature` casts can leave it
@@ -1093,11 +1145,24 @@ class DocumentationService {
     entries: { ability: CreatureAbility; html: string }[],
   ): string {
     if (!entries.length) return "";
-    const body =
-      entries.length > ABILITY_TAB_THRESHOLD
-        ? this.getAbilityLevelTabs(idPrefix, entries)
-        : `<div class="abilities">${entries.map((entry) => entry.html).join("")}</div>`;
-    return `<h4>Abilities</h4>${body}`;
+    return `<h4>Abilities</h4>${this.renderAbilityEntries(idPrefix, entries)}`;
+  }
+
+  // The body renderAbilitiesSection wraps with its own "Abilities" heading - split out so
+  // getCreatureSpellbooks/getAdjustmentSpellbooks can drop the same level-grouped body into each
+  // mod-variant's own tab panel without a second "Abilities" heading inside it. The resulting
+  // level-tabs markup reuses the very same spellbook-tab-* classes as the mod tabs it nests inside
+  // (see initSpellbookTabs's `:scope`-qualified selectors in monsters.js, which scope each tab
+  // group to its own direct-child buttons/panels precisely so this nesting doesn't cross-wire the
+  // two levels of tabs).
+  private renderAbilityEntries(
+    idPrefix: string,
+    entries: { ability: CreatureAbility; html: string }[],
+  ): string {
+    if (!entries.length) return "";
+    return entries.length > ABILITY_TAB_THRESHOLD
+      ? this.getAbilityLevelTabs(idPrefix, entries)
+      : `<div class="abilities">${entries.map((entry) => entry.html).join("")}</div>`;
   }
 
   // Groups a long abilities list into one tab per spell level (see SPELL_LEVEL_PATTERN), reusing
@@ -1147,7 +1212,18 @@ class DocumentationService {
     return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
   }
 
+  // A mod-introduced spell (e.g. Faiths & Powers') is registered with a real `level` in its own
+  // spell-reference config (spell-names.ts/fnp-spell-names.ts) even though its resref doesn't
+  // follow the vanilla SPWI/SPPR naming convention SPELL_LEVEL_PATTERN parses - so that config is
+  // authoritative here. It's not State.spells: that only holds spells we generate ourselves via
+  // spellService.getSpell (fresh innate abilities), never the vanilla/mod catalogs we merely
+  // reference by file. The filename regex is only a fallback for a resource with no config entry
+  // at all.
   private getSpellLevel(resource: string | undefined): number | undefined {
+    const configuredLevel = [...getAllSpells(), ...getAllFnpSpells()].find(
+      (s) => s.file === resource,
+    )?.level;
+    if (configuredLevel !== undefined) return configuredLevel;
     const match = SPELL_LEVEL_PATTERN.exec(resource ?? "");
     return match ? Number(match[1]) : undefined;
   }
@@ -1160,18 +1236,17 @@ class DocumentationService {
     const abilities = this.getResourceAbilities(creature);
     const tabs = (creature.data.spells.spellbooks ?? [])
       .map((spellbook, index) => {
-        let spells = "";
-        abilities.forEach((ability, abilityIndex) => {
-          spells += this.getCreatureSpell(
+        const idPrefix = `m${creature.id}-sb${index}`;
+        const entries = abilities
+          .map((ability, abilityIndex) => ({
             ability,
-            spellbook.memorized,
-            `m${creature.id}-sb${index}-ability-${abilityIndex}`,
-          );
-        });
+            html: this.getCreatureSpell(ability, spellbook.memorized, `${idPrefix}-ability-${abilityIndex}`),
+          }))
+          .filter((entry) => entry.html);
         return {
           id: `spellbook-m${creature.id}-${index}`,
           name: SPELLBOOK_MODS[spellbook.mod].name,
-          spells,
+          spells: this.renderAbilityEntries(idPrefix, entries),
         };
       })
       .filter((tab) => tab.spells);

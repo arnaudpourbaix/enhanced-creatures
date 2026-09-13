@@ -6,6 +6,7 @@ export interface SpellReference {
   id?: SpellIdentifier;
   /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
   name?: StringReference;
+  level?: number;
   duration?:
     | "long" // several hours
     | "mid" // several turns
