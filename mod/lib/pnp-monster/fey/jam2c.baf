@@ -359,12 +359,19 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
 	HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
-	AreaType(OUTDOOR)
+	!HaveSpellRES("SPPR122")
+	!HaveSpellRES("SPPR221")
+	!HaveSpellRES("SPPR321")
+	!HaveSpellRES("D5P2433")
+	!HaveSpellRES("SPPR301")
+	!HaveSpellRES("D5P1301")
+	!HaveSpellRES("SPPR402")
+	!HaveSpellRES("SPPR410")
 	RandomNumGT(800,240)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),CLERIC_CALL_WOODLAND_BEINGS)
+		ForceSpell(Myself,CLERIC_CALL_WOODLAND_BEINGS)
 		RemoveSpell(CLERIC_CALL_WOODLAND_BEINGS)
 		SetGlobalTimer("Summoning","LOCALS",12)
 END
@@ -1938,7 +1945,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestAllyOf(Myself))
@@ -1946,6 +1952,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1956,7 +1965,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestAllyOf(Myself))
@@ -1964,6 +1972,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1974,7 +1985,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestAllyOf(Myself))
@@ -1982,6 +1992,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1992,7 +2005,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestAllyOf(Myself))
@@ -2000,6 +2012,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2010,7 +2025,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestAllyOf(Myself))
@@ -2018,6 +2032,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2028,7 +2045,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(LastSeenBy(Myself),75)
 	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestAllyOf(Myself))
@@ -2036,6 +2052,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

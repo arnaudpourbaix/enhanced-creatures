@@ -351,3 +351,29 @@ describe("createSpellbook", () => {
     shuffleSpy.mockRestore();
   });
 });
+
+describe("createSpellbooks", () => {
+  const s = SPELLS.Priest;
+
+  it("throws when the spellbook is not defined", () => {
+    expect(() =>
+      spellService.createSpellbooks({
+        name: "not-a-real-book" as never,
+        casterLevel: 1,
+        type: "cleric",
+      }),
+    ).toThrow(/Spellbook not-a-real-book is not defined!/);
+  });
+
+  it("builds one SpellbookVariant per mod sharing that spellbook name", () => {
+    const result = spellService.createSpellbooks({
+      name: "EvilUndeadCleric",
+      casterLevel: 1,
+      type: "cleric",
+    });
+    expect(result).toEqual([
+      { mod: "SpellRevisions", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
+      { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
+    ]);
+  });
+});

@@ -5,7 +5,7 @@ import { SpellGroupName } from "../../config/spells/spell-group-name";
 import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
-import { MemorizedSpell } from "../model/creature/data";
+import { MemorizedSpell, SpellbookVariant } from "../model/creature/data";
 import { StringReference } from "../model/final/stringref";
 import {
   ClericSpellTable,
@@ -28,7 +28,7 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
-import { SpellBookSpells } from "../model/spell-item/spellbook";
+import { SpellBook, SpellBookSpells } from "../model/spell-item/spellbook";
 import { State } from "../state";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
@@ -228,7 +228,10 @@ class SpellService {
   /**
    * Builds a memorized spell list for a caster from a named Spellbooks entry, sized by
    * ClericSpellTable/MageSpellTable (plus WisdomBonusSpellTable for clerics). Bonus spells only
-   * apply to levels the caster table already grants at least one spell for, per 2e rules.
+   * apply to levels the caster table already grants at least one spell for, per 2e rules. A
+   * SpellBook may define several mod variants (see SpellBook.spells/SpellBookModVariant); this
+   * picks whichever is listed first, so callers that don't care about mod-specific variants get a
+   * sensible default. Use createSpellbooks to build one variant per mod instead.
    */
   createSpellbook(params: {
     name: SpellBookName;
@@ -236,11 +239,47 @@ class SpellService {
     type: "mage" | "cleric";
     wisdom?: number;
   }): MemorizedSpell[] {
+    const book = this.getSpellbook(params.name);
+    const [variant] = book.spells;
+    // Destructuring types `variant` as always-defined, but every SpellBook in config could in
+    // theory be authored with an empty `spells` array - defended anyway.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!variant) throw new Error(`Spellbook ${params.name} has no mod variants defined!`);
+    return this.buildMemorized(params.name, variant.values, params);
+  }
+
+  /**
+   * Same as createSpellbook, but builds one SpellbookVariant per mod variant defined on the named
+   * SpellBook - e.g. a distinct spell set for SpellRevisions vs. Vanilla installs of
+   * "EvilUndeadCleric".
+   */
+  createSpellbooks(params: {
+    name: SpellBookName;
+    casterLevel: number;
+    type: "mage" | "cleric";
+    wisdom?: number;
+  }): SpellbookVariant[] {
+    const book = this.getSpellbook(params.name);
+    return book.spells.map((variant) => ({
+      mod: variant.mod,
+      memorized: this.buildMemorized(params.name, variant.values, params),
+    }));
+  }
+
+  private getSpellbook(name: SpellBookName): SpellBook {
     // SpellBookName only has one variant today, which makes this comparison look tautological to
     // eslint - but the union is expected to grow as more spellbooks are added.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const book = Spellbooks.find((b) => b.name === params.name);
-    if (!book) throw new Error(`Spellbook ${params.name} is not defined!`);
+    const book = Spellbooks.find((b) => b.name === name);
+    if (!book) throw new Error(`Spellbook ${name} is not defined!`);
+    return book;
+  }
+
+  private buildMemorized(
+    name: SpellBookName,
+    values: SpellBookSpells[],
+    params: { casterLevel: number; type: "mage" | "cleric"; wisdom?: number },
+  ): MemorizedSpell[] {
     const table = params.type === "cleric" ? ClericSpellTable : MageSpellTable;
     const levelEntry = table.find((t) => t.level === params.casterLevel) ?? table.at(-1);
     if (!levelEntry) throw new Error(`No spell table entry for caster level ${params.casterLevel}!`);
@@ -254,9 +293,9 @@ class SpellService {
     for (const spellCount of levelEntry.spells) {
       const bonus = wisdomBonusRow?.bonusSpells.find((b) => b.level === spellCount.level)?.count ?? 0;
       const slots = spellCount.count + bonus;
-      const bookLevel = book.spells.find((s) => s.level === spellCount.level);
+      const bookLevel = values.find((s) => s.level === spellCount.level);
       if (!bookLevel) {
-        throw new Error(`Spellbook ${params.name} has no spells defined for level ${spellCount.level}!`);
+        throw new Error(`Spellbook ${name} has no spells defined for level ${spellCount.level}!`);
       }
       memorized.push(...this.pickSpellsForLevel(bookLevel, slots));
     }

@@ -33,6 +33,7 @@ import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
 import responseFactory from "../../src/factories/response.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
+import spellService from "../../src/services/spell.service";
 
 function mummyRottingDisease(cre: Undead, greater: boolean) {
   // Mummy: PnP is 1-6 months, replaced by 6 days in the game
@@ -351,137 +352,12 @@ export function greaterMummy(family: UndeadFamily): Undead {
         remove: ["bdmumm01", "d0mummy", "mummy01", "ohhgmum", "dx#mummc"],
       },
       spells: {
-        spellbooks: [
-          {
-            mod: "FaithsAndPowers",
-            memorized: [
-              // level 1 (12):
-              { file: FNP_SPELLS.Priest.CauseDisease.file, memorizedCount: 3 },
-              { file: FNP_SPELLS.Priest.Doom.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.Command.file, memorizedCount: 6 },
-              // { file: FNP_SPELLS.Priest.FrostFingers.file, memorizedCount: 6 },
-              // level 2 (12):
-              { file: FNP_SPELLS.Priest.Forbiddance.file, memorizedCount: 5 },
-              { file: FNP_SPELLS.Priest.RigidThinking.file, memorizedCount: 4 },
-              { file: FNP_SPELLS.Priest.Shatter.file, memorizedCount: 2 },
-              { file: FNP_SPELLS.Priest.Shield.file, memorizedCount: 1 },
-              // level 3 (12):
-              { file: FNP_SPELLS.Priest.CircleOfBones.file, memorizedCount: 3 },
-              { file: FNP_SPELLS.Priest.ShadowMonsters.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 6 },
-              // level 4 (11):
-              { file: FNP_SPELLS.Priest.AnimateDead.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 2 },
-              { file: FNP_SPELLS.Priest.DemiShadowMonsters.file, memorizedCount: 2 },
-              { file: FNP_SPELLS.Priest.Emotion.file, memorizedCount: 1 },
-              { file: FNP_SPELLS.Priest.GreaterMalison.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.Poison.file, memorizedCount: 2 },
-              { file: FNP_SPELLS.Priest.WavesOfFatigue.file, memorizedCount: 1 },
-              // level 5 (9):
-              { file: FNP_SPELLS.Priest.Chaos.file, memorizedCount: 1 },
-              { file: FNP_SPELLS.Priest.CloudOfPestilence.file, memorizedCount: 1 },
-              {
-                file: SPELLS.Priest.MassCauseLightWounds.file,
-                memorizedCount: 1,
-              },
-              { file: FNP_SPELLS.Priest.Shades.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.SlayLiving.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.WavesOfAgony.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.GreaterCommand.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.MagicResistance.file, memorizedCount: 1 },
-              // level 6 (5):
-              { file: SPELLS.Priest.DolorousDecay.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.Harm.file, memorizedCount: 1 },
-              { file: FNP_SPELLS.Priest.SummonShadows.file, memorizedCount: 1 },
-              // level 7 (2):
-              { file: SPELLS.Priest.FingerOfDeath.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.Wither.file, memorizedCount: 1 },
-            ],
-          },
-          {
-            mod: "SpellRevisions",
-            memorized: [
-              // TODO: use SR spells
-              // level 1 (12):
-              { file: SPELLS.Priest.Doom.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Command.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Bless.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.Sanctuary.file, memorizedCount: 1 },
-              // level 2 (12):
-              { file: SPELLS.Priest.Silence.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.HoldPerson.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Chant.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.DrawUponHolyMight.file, memorizedCount: 3 },
-              // level 3 (12):
-              { file: SPELLS.Priest.AnimateDead.file, memorizedCount: 4 },
-              { file: SPELLS.Priest.GlyphOfWarding.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.DispelMagic.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.UnholyBlight.file, memorizedCount: 3 },
-              // level 4 (11):
-              { file: SPELLS.Priest.MentalDomination.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.Poison.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.ProtectionFromLightning.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.HolyPower.file, memorizedCount: 2 },
-              // level 5 (9):
-              { file: SPELLS.Priest.FlameStrike.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.RighteousMagic.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.SlayLiving.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.TrueSeeing.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.GreaterCommand.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.MagicResistance.file, memorizedCount: 1 },
-              // level 6 (5):
-              { file: SPELLS.Priest.DolorousDecay.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.Harm.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.BladeBarrier.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.AerialServant.file, memorizedCount: 1 },
-              // level 7 (2):
-              { file: SPELLS.Priest.FingerOfDeath.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.SymbolDeath.file, memorizedCount: 1 },
-            ],
-          },
-          {
-            mod: "Vanilla",
-            memorized: [
-              // level 1 (12):
-              { file: SPELLS.Priest.Doom.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Command.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Bless.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.Sanctuary.file, memorizedCount: 1 },
-              // level 2 (12):
-              { file: SPELLS.Priest.Silence.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.HoldPerson.file, memorizedCount: 5 },
-              { file: SPELLS.Priest.Chant.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.DrawUponHolyMight.file, memorizedCount: 3 },
-              // level 3 (12):
-              { file: SPELLS.Priest.AnimateDead.file, memorizedCount: 4 },
-              { file: SPELLS.Priest.GlyphOfWarding.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.DispelMagic.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.UnholyBlight.file, memorizedCount: 3 },
-              // level 4 (11):
-              { file: SPELLS.Priest.MentalDomination.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.CauseSeriousWounds.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.Poison.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.ProtectionFromLightning.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.HolyPower.file, memorizedCount: 2 },
-              // level 5 (9):
-              { file: SPELLS.Priest.FlameStrike.file, memorizedCount: 3 },
-              { file: SPELLS.Priest.RighteousMagic.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.SlayLiving.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.TrueSeeing.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.GreaterCommand.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.MagicResistance.file, memorizedCount: 1 },
-              // level 6 (5):
-              { file: SPELLS.Priest.DolorousDecay.file, memorizedCount: 2 },
-              { file: SPELLS.Priest.Harm.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.BladeBarrier.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.AerialServant.file, memorizedCount: 1 },
-              // level 7 (2):
-              { file: SPELLS.Priest.FingerOfDeath.file, memorizedCount: 1 },
-              { file: SPELLS.Priest.SymbolDeath.file, memorizedCount: 1 },
-            ],
-          },
-        ],
+        spellbooks: spellService.createSpellbooks({
+          name: "EvilUndeadCleric",
+          casterLevel: 20,
+          type: "cleric",
+          wisdom: 22,
+        }),
       },
     },
   });

@@ -178,9 +178,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestAllyOf(Myself))
@@ -188,6 +185,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -197,9 +199,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestAllyOf(Myself))
@@ -207,6 +206,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -216,9 +220,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestAllyOf(Myself))
@@ -226,6 +227,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -235,9 +241,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestAllyOf(Myself))
@@ -245,6 +248,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -254,9 +262,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestAllyOf(Myself))
@@ -264,6 +269,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -273,9 +283,6 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("SPIN699")
-	OR(2)
-		HPPercentLT(LastSeenBy(Myself),75)
-		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestAllyOf(Myself))
@@ -283,6 +290,11 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	OR(2)
+		HPPercentLT(LastSeenBy(Myself),75)
+		StateCheck(LastSeenBy(Myself),STATE_DISEASED)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -326,14 +338,26 @@ THEN
 		Spell(Myself,WIZARD_NON_DETECTION)
 END
 
-// (unknown)
+// Shades
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
 	HaveSpell(WIZARD_SHADES)
+	!HaveSpellRES("SPPR122")
+	!HaveSpellRES("SPPR221")
+	!HaveSpellRES("SPPR321")
+	!HaveSpellRES("D5P2433")
+	!HaveSpellRES("SPPR301")
+	!HaveSpellRES("D5P1301")
+	!HaveSpellRES("SPPR402")
+	!HaveSpellRES("SPPR410")
+	!HaveSpellRES("D5P2527")
+	!HaveSpellRES("SPPR501")
+	!HaveSpellRES("SPPR602")
+	!HaveSpellRES("SPPR601")
 	!HaveSpellRES("D5PP422")
-	!HaveSpellRES("D5P2632")
+	!HaveSpellRES("SPWI632")
 	RandomNumGT(803,241)
 THEN
 	RESPONSE #100
@@ -674,13 +698,490 @@ END
 // Dancing Lights
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.MAGE])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(Myself,WIZARD_DANCING_LIGHTS)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.MAGE_THIEF])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.MAGE_ALL])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.THIEF])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.BARD])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.THIEF_ALL])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See([PC.0.0.CLERIC])
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([PC]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([PC]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([PC]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+// Dancing Lights
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+// Dancing Lights
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_DANCING_LIGHTS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_DANCING_LIGHTS)
 END
 
 // Detect Evil
@@ -697,132 +1198,62 @@ END
 
 // Attack Slowed enemy
 IF
-	OR(12)
+	OR(5)
 		!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
-		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(NearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(NearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(NearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(NearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(NearestEnemyOf(Myself),STATE_HELPLESS)
 		General(NearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(NearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(NearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(SecondNearestEnemyOf(Myself),0,HELD)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(SecondNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(SecondNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(SecondNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(SecondNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(SecondNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(ThirdNearestEnemyOf(Myself),0,HELD)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(ThirdNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(ThirdNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(FourthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(FourthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(FourthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(FourthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(FourthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(FourthNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(FifthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(FifthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(FifthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(FifthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(FifthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(FifthNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(SixthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(SixthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(SixthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(SixthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(SixthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(SixthNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(SeventhNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(SeventhNearestEnemyOf(Myself),0,HELD)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(SeventhNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(SeventhNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(SeventhNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(SeventhNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(SeventhNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(EighthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(EighthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(EighthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(EighthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(EighthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(EighthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(EighthNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(NinthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(NinthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(NinthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(NinthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NinthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(NinthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
 		!See(NinthNearestEnemyOf(Myself))
-	OR(12)
+	OR(5)
 		!StateCheck(TenthNearestEnemyOf(Myself),STATE_SLOWED)
-		CheckStatGT(TenthNearestEnemyOf(Myself),0,HELD)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_STUNNED)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_PANIC)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_CONFUSED)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_SLEEPING)
-		StateCheck(TenthNearestEnemyOf(Myself),STATE_HELPLESS)
 		General(TenthNearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(TenthNearestEnemyOf(Myself),0,SANCTUARY)
 		StateCheck(TenthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -834,13 +1265,6 @@ END
 
 IF
 	StateCheck(LastSeenBy(Myself),STATE_SLOWED)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)

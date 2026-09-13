@@ -362,11 +362,10 @@ function clericSkeletonVariant(base: Undead): Variant {
     data: {
       class: "CLERIC",
       spells: {
-        memorized: spellService.createSpellbook({
+        spellbooks: spellService.createSpellbooks({
           name: "EvilUndeadCleric",
           casterLevel: base.data.level1.pnpValue,
           type: "cleric",
-          wisdom: base.data.wisdom ?? 0,
         }),
       },
     },
@@ -381,11 +380,10 @@ function clericSkeletonVariant(base: Undead): Variant {
           apr: 2,
           spells: {
             cumulative: false,
-            memorized: spellService.createSpellbook({
+            spellbooks: spellService.createSpellbooks({
               name: "EvilUndeadCleric",
               casterLevel: 20,
               type: "cleric",
-              wisdom: base.data.wisdom ?? 0,
             }),
           },
         },
