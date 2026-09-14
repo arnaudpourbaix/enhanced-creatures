@@ -10,5 +10,10 @@ export const CreatureSizeTable = [
 
 export type CreatureSize = (typeof CreatureSizeTable)[number]["size"];
 
-export const getCreatureSize = (size: CreatureSize) =>
-  CreatureSizeTable.find((s) => s.size === size)!;
+const SIZE_BY_NAME = new Map(CreatureSizeTable.map((s) => [s.size, s]));
+
+export const getCreatureSize = (size: CreatureSize) => {
+  const entry = SIZE_BY_NAME.get(size);
+  if (!entry) throw new Error(`Unknown creature size: ${size}`);
+  return entry;
+};

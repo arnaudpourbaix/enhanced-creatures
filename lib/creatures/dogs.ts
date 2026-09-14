@@ -10,11 +10,9 @@ import { BaseEffect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   EffectColorLocationEnum,
-  EffectDamageModeEnum,
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
   EffectFlagsEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTeleportTypeEnum,
@@ -135,7 +133,6 @@ class Dog extends Creature {
       },
       castingSound: "CAS_M08",
       flags: [SpellFlagEnum.BreakSanctuary],
-      headers,
       ability: {
         targets: [{ name: "NearestEnemies", limit: 3 }],
         spell: {
@@ -144,6 +141,7 @@ class Dog extends Creature {
         },
         range: 10,
       },
+      headers,
     });
   }
 }

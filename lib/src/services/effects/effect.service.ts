@@ -18,6 +18,7 @@ import {
   EffectTargetEnum,
   EffectTimingEnum,
   getCastSpellOnConditionValue,
+  ReplaceCreatureTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import {
@@ -119,7 +120,7 @@ class EffectService {
         effect.parameter2 = `${effect.type}`;
         break;
       case EffectTypeEnum.ReplaceCreature:
-        effect.parameter2 = `${effect.type}`;
+        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveCreature}`;
         break;
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:

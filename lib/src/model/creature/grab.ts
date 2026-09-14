@@ -1,7 +1,7 @@
 import { SPELL_STATES } from "../../../config/common";
 import { TranslationKey } from "../../../translations/i18n";
 import { DamageEffect } from "../spell-item/effect";
-import { EffectDamageTypeEnum, SaveTypeEnum } from "../spell-item/effect.enums";
+import { SaveTypeEnum } from "../spell-item/effect.enums";
 
 interface GrabSharedConfig {
   /**

@@ -20,10 +20,10 @@ class TriggerFactory {
 
   haveSpell(resources: SpellReference[], negation = false): Triggers.Trigger[] {
     return resources.map((r) =>
-      "id" in r
+      r.id !== undefined
         ? {
             name: "HaveSpell",
-            params: [r.id!],
+            params: [r.id],
             negation,
           }
         : {

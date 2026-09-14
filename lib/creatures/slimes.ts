@@ -14,7 +14,6 @@ import {
   AttackModifierTypeEnum,
   CastingFailureTypeEnum,
   ColorEnum,
-  DiseaseTypeEnum,
   EffectColorLocationEnum,
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
@@ -27,7 +26,6 @@ import {
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
-  KillTargetDeathTypeEnum,
   LightingEffectEnum,
   PortraitIconEnum,
   ReplaceCreatureTypeEnum,
@@ -901,12 +899,12 @@ class SlimeFamily extends CreatureFamily<Slime> {
         class: "OLIVE_SLIME",
         gender: "NIETHER",
         animation: "SLIME_OLIVE",
-        // Tiny	      HD: 1+2	  Attack: 1d3   xpv: 65
-        // Small	    HD: 3+2	  Attack: 1d4   xpv: 420
-        // Medium     HD: 5+2	  Attack: 2d4   xpv: 650
-        // Large	    HD: 8+2	  Attack: 3d4   xpv: 975
-        // Huge	      HD: 12+2	Attack: 4d4   xpv: 2000
-        // Gargantuan	HD: 16	  Attack: 4d6   xpv: 2500
+        // Tiny       HD: 1+2   Attack: 1d3   xpv: 65
+        // Small     HD: 3+2   Attack: 1d4   xpv: 420
+        // Medium     HD: 5+2   Attack: 2d4   xpv: 650
+        // Large     HD: 8+2   Attack: 3d4   xpv: 975
+        // Huge       HD: 12+2 Attack: 4d4   xpv: 2000
+        // Gargantuan HD: 16   Attack: 4d6   xpv: 2500
         size: { value: "Large", tall: false, long: true },
         movement: 6,
         immunities: ["ooze"],

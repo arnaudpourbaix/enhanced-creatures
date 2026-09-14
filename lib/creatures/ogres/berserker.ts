@@ -70,7 +70,7 @@ export function berserker(family: OgreFamily): Ogre {
   return berserker;
 }
 
-function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+function chieftainVariant(_family: OgreFamily, base: Ogre): Variant {
   const variant = base.variant("Chieftain", {
     // chieftain
     files: [

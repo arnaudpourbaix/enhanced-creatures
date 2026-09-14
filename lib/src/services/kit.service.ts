@@ -26,7 +26,7 @@ class KitService {
     const level = this.resolveLevel(creature, baseCreature);
     const previousLevel = this.resolvePreviousLevel(creature, baseCreature);
     this.applyKitImmunities(creature, base, kit.immunities(level.pnpValue));
-    this.applyKitEffects(creature, base, kit.effects(level.pnpValue));
+    this.applyKitEffects(base, kit.effects(level.pnpValue));
     this.applyKitAbilities(creature, base, kit.abilities, level.pnpValue, previousLevel.pnpValue);
   }
 
@@ -87,6 +87,8 @@ class KitService {
 
   applyKitImmunities(creature: Creature, baseCreature: BaseCreature, immunities: ImmunityName[]) {
     if (!immunities.length) return;
+    // Test fixtures can leave this undefined at runtime despite the non-optional type.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     baseCreature.data.immunities ??= [];
     for (const name of immunities) {
       if (
@@ -98,7 +100,7 @@ class KitService {
     }
   }
 
-  applyKitEffects(creature: Creature, baseCreature: BaseCreature, rawEffects: Effect[]) {
+  applyKitEffects(baseCreature: BaseCreature, rawEffects: Effect[]) {
     if (!rawEffects.length) return;
     const effects = effectService.getEffects(
       rawEffects.map((e) => ({
@@ -107,6 +109,8 @@ class KitService {
         target: EffectTargetEnum.Self,
       })),
     );
+    // Test fixtures can leave this undefined at runtime despite the non-optional type.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     baseCreature.data.effects.list ??= [];
     baseCreature.data.effects.list.push(...effects);
   }

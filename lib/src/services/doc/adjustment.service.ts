@@ -207,6 +207,9 @@ class AdjustmentService {
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      // See getEquipped's comment above - test fixtures can leave this undefined at runtime
+      // despite the non-optional type.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       spellbooks: this.lastDefined(matching, (d) => d.spells?.spellbooks),
       variant: this.commonVariant(matching),
       game,
@@ -228,7 +231,10 @@ class AdjustmentService {
   private commonVariant(matching: CreatureAdjustment[]): Variant | undefined {
     const variants = [...new Set(matching.map((a) => a.variant).filter((v): v is Variant => !!v))];
     if (!variants.length) return undefined;
-    const deepest = variants.reduce((a, b) => (this.variantDepth(b) > this.variantDepth(a) ? b : a));
+    const deepest = variants.reduce(
+      (a, b) => (this.variantDepth(b) > this.variantDepth(a) ? b : a),
+      variants[0],
+    );
     return variants.every((v) => this.isVariantAncestorOrSelf(v, deepest)) ? deepest : undefined;
   }
 
@@ -451,6 +457,9 @@ class AdjustmentService {
     base: CreatureData,
   ): { spell: MemorizedSpell; changed: boolean }[] {
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));
+    // See getEquipped's comment above - test fixtures can leave this undefined at runtime
+    // despite the non-optional type.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const resetIndex = matching.findLastIndex((a) => a.data.spells?.cumulative === false);
     const contributing = resetIndex === -1 ? matching : matching.slice(resetIndex);
     const startByFile = resetIndex === -1 ? baseByFile : new Map<string, MemorizedSpell>();
@@ -548,8 +557,8 @@ class AdjustmentService {
     const deviatingFiles = new Set(entries.filter((a) => a !== shared).flatMap((a) => a.files));
     const cleanFile = shared.files.find((f) => !deviatingFiles.has(f));
     if (cleanFile) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return this.getEffectiveDataForFile(creature, cleanFile)[0]!;
+       
+      return this.getEffectiveDataForFile(creature, cleanFile)[0];
     }
     return this.buildEffectiveForScope(creature, variant.label, undefined, [shared]);
   }

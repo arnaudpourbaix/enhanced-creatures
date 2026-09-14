@@ -281,9 +281,9 @@ describe("sortByPriority", () => {
   });
 
   it("throws when a preset is missing from SPELL_PRIORITY_ORDER", () => {
-    expect(() => abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }])).toThrow(
-      expect.objectContaining({ message: expect.stringContaining(NOT_IN_PRIORITY_ORDER) }),
-    );
+    expect(() =>
+      abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }]),
+    ).toThrow(NOT_IN_PRIORITY_ORDER);
   });
 
   it("throws when an ability has no preset to sort by", () => {

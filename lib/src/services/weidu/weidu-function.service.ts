@@ -97,7 +97,7 @@ class WeiduFunctionService extends AbstractWeiduService {
   generateUnionProtectionSpells(
     lines: CodeLine[],
     sp: SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2,
-    file: string,
+    _file: string,
   ) {
     let row1 = "row1",
       row2 = "row2";
@@ -120,9 +120,14 @@ class WeiduFunctionService extends AbstractWeiduService {
       `LAF ADD_SPLPROT_ENTRY INT_VAR stat=${sp.stat} STR_VAR value=EVALUATE_BUFFER "%${row1}%" relation=EVALUATE_BUFFER "%${row2}%" RET index END`,
       1,
     );
-    this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
-    this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
-    this.add(lines, `END`, 1);
+    // name is optional on BaseSpellProtection generally, but every SPELL_PROTECTIONS entry sets it
+    // (it's the whole point of the entry - the macro variable index gets assigned to).
+    if (!sp.name) logService.warn(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
+    else {
+      this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
+      this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
+      this.add(lines, `END`, 1);
+    }
   }
 
   private generateSpellFunction(lines: CodeLine[], spell: Spell, tab: number): void {

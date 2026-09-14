@@ -372,8 +372,8 @@ describe("createSpellbooks", () => {
       type: "cleric",
     });
     expect(result).toEqual([
-      { mod: "SpellRevisions", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
+      { mod: "FaithsAndPowers", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
     ]);
   });
 });

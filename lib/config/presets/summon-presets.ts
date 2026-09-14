@@ -1,4 +1,3 @@
-import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { AbilityPreset } from "../../src/model/misc";

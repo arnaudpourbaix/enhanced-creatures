@@ -3,7 +3,6 @@ import { SPELLS } from "../config/spells/spell-names";
 import { createConeOfCold } from "../spells/cone_of_cold";
 import { CommonProjectileFiles } from "../spells/projectiles";
 import effectFactory from "../src/factories/effect.factory";
-import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureScriptEdit } from "../src/model/creature/data";
 import { CreatureFamily } from "../src/model/creature/family";
@@ -27,7 +26,6 @@ import {
   LightingEffectTargetEnum,
   PortraitIconEnum,
   SaveTypeEnum,
-  WingBuffetDirectionEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { AreaProjectileEnum, ParticleColorEnum } from "../src/model/spell-item/projectile";
@@ -43,6 +41,8 @@ enum Ids {
   HideousLaugh,
   WildMagicFlare,
 }
+
+const BAF_CONTINUE = "Continue()";
 
 class Golem extends Creature {
   createFists({
@@ -66,11 +66,11 @@ class Golem extends Creature {
         header: {
           diceThrown,
           diceSize,
+          effects,
           damageType: damageType ?? AbilityDamageTypeEnum.Crushing,
           type: ItemAbilityTypeEnum.Melee,
           speed: 4,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects,
         },
       },
       castSpells: castSpell ? [castSpell] : undefined,
@@ -116,14 +116,14 @@ class Golem extends Creature {
   createWildMagicFlare() {
     // TODO:
     // cast as a 16th level
-    // 20%	Magical blast
-    // 10%	Chain lightning
-    // 10%	Dispel magic
-    // 10%	Fire shield
-    // 10%	Color spray in a 360' radius
-    // 20%	Fireball centered on golem
-    // 10%	Time stop
-    // 10%	Earthquake
+    // 20% Magical blast
+    // 10% Chain lightning
+    // 10% Dispel magic
+    // 10% Fire shield
+    // 10% Color spray in a 360' radius
+    // 20% Fireball centered on golem
+    // 10% Time stop
+    // 10% Earthquake
     return this.addSpell({
       name: "monster.golem.ability.wildMagicFlare.name",
       description: "monster.golem.ability.wildMagicFlare.description",
@@ -783,7 +783,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         edits: [
           {
             files: ["OHB_T302"],
-            replaces: [["ReallyForceSpell(Myself,GOLEM_HASTE)", "Continue()"]],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_HASTE)", BAF_CONTINUE]],
           },
         ],
       },
@@ -883,7 +883,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         edits: [
           {
             files: ["bdpetsg", "bdpetsgs"],
-            replaces: [["ReallyForceSpell(Myself,GOLEM_SLOW)", "Continue()"]],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_SLOW)", BAF_CONTINUE]],
           },
         ],
       },
@@ -1119,7 +1119,7 @@ class GolemFamily extends CreatureFamily<Golem> {
     const edits: CreatureScriptEdit[] = [
       {
         files: ["gorgoli"],
-        replaces: [["ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)", "Continue()"]],
+        replaces: [["ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)", BAF_CONTINUE]],
       },
     ];
     const snow = this.create({

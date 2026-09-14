@@ -573,7 +573,7 @@ export const CREATURE_DATA_FIELDS: {
       if (value.location !== undefined) {
         data.script.location = value.location;
       }
-      if (value.edits! !== undefined) {
+      if (value.edits !== undefined) {
         data.script.edits = value.edits;
       }
     },

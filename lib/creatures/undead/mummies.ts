@@ -4,7 +4,6 @@
  * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
  */
 import effectFactory from "../../src/factories/effect.factory";
-import { FNP_SPELLS } from "../../config/spells/fnp-spell-names";
 import { SPELLS } from "../../config/spells/spell-names";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import { StringReference } from "../../src/model/final/stringref";
@@ -32,7 +31,6 @@ import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
 import { Undead } from "./undead-creature";
 import responseFactory from "../../src/factories/response.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
 import spellService from "../../src/services/spell.service";
 
 function mummyRottingDisease(cre: Undead, greater: boolean) {
@@ -63,7 +61,7 @@ function mummyRottingDisease(cre: Undead, greater: boolean) {
           timing: EffectTimingEnum.DelayPermanent,
           duration: (i + 1) * interval,
           dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-        }) as Effect,
+        }),
     ),
   ).flat();
   return cre.addSpell({

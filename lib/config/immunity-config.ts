@@ -6,7 +6,6 @@ import {
   CastingTimeModifierTypeEnum,
   EffectBonusToEnum,
   EffectColorLocationEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   PortraitIconEnum,
   ProtectionFromWeaponsTypeEnum,

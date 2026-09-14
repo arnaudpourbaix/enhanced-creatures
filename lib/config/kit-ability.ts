@@ -1,11 +1,5 @@
 import { KitConfig } from "../src/model/creature/kit";
-import { Effect } from "../src/model/spell-item/effect";
-import {
-  EffectModifierTypeEnum,
-  EffectStatisticModifierEnum,
-  EffectTargetEnum,
-  EffectTimingEnum,
-} from "../src/model/spell-item/effect.enums";
+import { EffectStatisticModifierEnum } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { SPELLS } from "./spells/spell-names";
 
@@ -37,7 +31,7 @@ export const KITS: KitConfig[] = [
   {
     name: "ASSASIN",
     immunities: () => [],
-    effects: (level) => {
+    effects: (_level) => {
       const opcodes = [
         [EffectTypeEnum.Thac0Bonus, 1],
         [EffectTypeEnum.AttackDamageBonus, 1],

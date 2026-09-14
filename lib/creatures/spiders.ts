@@ -13,7 +13,6 @@ import {
   AttackModifierTypeEnum,
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,

@@ -661,7 +661,7 @@ class CreatureService {
     }
     if (level === undefined) return undefined; // no base and no adjustment level → nothing to compare
     /* eslint-enable @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison */
-    if (Math.abs(row.level - level) <= 1) return undefined;
+    if (Math.abs(row.level - level) <= 2) return undefined;
     return {
       file: f.name,
       game: row.game,

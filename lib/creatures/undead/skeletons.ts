@@ -9,7 +9,6 @@ import { CommonProjectileFiles } from "../../spells/projectiles";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectDamageTypeEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
@@ -32,7 +31,6 @@ import {
   SpellProtectionRelation,
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
-import abilityOrderService from "../../src/services/baf/ability-order.service";
 import { MonsterEnum } from "../monster";
 import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
@@ -402,6 +400,7 @@ function clericSkeletonVariant(base: Undead): Variant {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- will be used later on
 function mageSkeletonVariant(base: Undead): Variant {
   return base.variant("Mage Skeleton", {
     data: {},
