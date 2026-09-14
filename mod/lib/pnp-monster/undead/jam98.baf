@@ -159,6 +159,19 @@ THEN
 		NoAction()
 END
 
+// Poison Weapon
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpell(ASSASSIN_POISON)
+	See(NearestEnemyOf(Myself))
+	!CheckStat(Myself,4,SCRIPTINGSTATE4)
+	RandomNumGT(800,80)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,ASSASSIN_POISON)
+END
+
 // True Seeing
 IF
 	!StateCheck(Myself,STATE_SILENCED)

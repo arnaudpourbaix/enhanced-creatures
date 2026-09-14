@@ -4,6 +4,7 @@ import { BaseCreature, Creature } from "../model/creature/creature";
 import { Level } from "../model/creature/data";
 import { KitAbility, KitConfig } from "../model/creature/kit";
 import { ImmunityName } from "../model/final/immunity";
+import { Effect } from "../model/spell-item/effect";
 import logService from "./log.service";
 import spellService from "./spell.service";
 import translationService from "./translation.service";
@@ -23,6 +24,7 @@ class KitService {
     const level = this.resolveLevel(creature, baseCreature);
     const previousLevel = this.resolvePreviousLevel(creature, baseCreature);
     this.applyKitImmunities(creature, base, kit.immunities(level.pnpValue));
+    this.applyKitEffects(creature, base, kit.effects(level.pnpValue));
     this.applyKitAbilities(creature, base, kit.abilities, level.pnpValue, previousLevel.pnpValue);
   }
 
@@ -94,6 +96,11 @@ class KitService {
         baseCreature.data.immunities.push(name);
       }
     }
+  }
+
+  applyKitEffects(creature: Creature, baseCreature: BaseCreature, effects: Effect[]) {
+    baseCreature.data.effects.list ??= [];
+    baseCreature.data.effects.list.push(...effects);
   }
 
   applyKitAbilities(

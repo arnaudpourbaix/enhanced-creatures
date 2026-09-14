@@ -103,6 +103,12 @@ class EffectService {
       case EffectTypeEnum.MaximumHPModifier:
       case EffectTypeEnum.MoraleBreakModifier:
       case EffectTypeEnum.FatigueBonus:
+      case EffectTypeEnum.BackstabBonus:
+      case EffectTypeEnum.MeleeWeaponDamageModifier:
+      case EffectTypeEnum.MissileWeaponDamageModifier:
+      case EffectTypeEnum.AttackDamageBonus:
+      case EffectTypeEnum.Thac0Bonus:
+      case EffectTypeEnum.OffhandThac0Bonus:
       case EffectTypeEnum.AllSavingThrowsBonus:
       case EffectTypeEnum.SaveVsBreathModifier:
       case EffectTypeEnum.SaveVsDeathModifier:
@@ -115,11 +121,8 @@ class EffectService {
       case EffectTypeEnum.ReplaceCreature:
         effect.parameter2 = `${effect.type}`;
         break;
-      case EffectTypeEnum.AttackDamageBonus:
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:
-      case EffectTypeEnum.Thac0Bonus:
-      case EffectTypeEnum.OffhandThac0Bonus:
         effect.parameter1 = `${effect.value}`;
         effect.parameter2 = `${effect.type}`;
         break;

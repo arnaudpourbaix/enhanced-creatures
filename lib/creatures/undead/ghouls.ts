@@ -3,15 +3,16 @@
  *
  * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
  */
-import effectFactory from "../../src/factories/effect.factory";
 import { CommonProjectileFiles } from "../../spells/projectiles";
+import effectFactory from "../../src/factories/effect.factory";
+import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect } from "../../src/model/spell-item/effect";
 import {
   DiseaseTypeEnum,
   EffectDispelResistanceEnum,
   EffectIDSFileEnum,
-  EffectModifierTypeEnum,
+  EffectStatisticModifierEnum,
   EffectTimingEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
@@ -26,10 +27,9 @@ import {
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "../monster";
-import { Ids } from "./ids";
 import type { UndeadFamily } from "./family";
+import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
-import { Variant } from "../../src/model/creature/variant";
 
 function ghoulTouch(cre: Undead) {
   return cre.addSpell({
@@ -154,7 +154,7 @@ function carrionStench(cre: Undead) {
           },
           {
             opcode: EffectTypeEnum.Thac0Bonus,
-            type: EffectModifierTypeEnum.Increment,
+            type: EffectStatisticModifierEnum.Increment,
             value: -2,
             ...base,
           },
@@ -283,7 +283,7 @@ function auraOfEvil(cre: Undead) {
     effectFiles: [
       {
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: -4,
         ...base,
       },

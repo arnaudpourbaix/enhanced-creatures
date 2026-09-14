@@ -144,6 +144,39 @@ THEN
 		NoAction()
 END
 
+// Hide in shadow
+IF
+	!Allegiance(Myself,NEUTRAL)
+	OR(2)
+		!Detect(NearestEnemyOf(Myself))
+		Kit(Myself,SHADOWDANCER)
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	CheckStatGT(Myself,49,HIDEINSHADOWS)
+	!GlobalTimerNotExpired("BD_HIDE","LOCALS")
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("BD_HIDE","LOCALS",6)
+		DisplayStringHead(Myself,@10112)
+		Hide()
+		SetInterrupt(TRUE)
+END
+
+// Poison Weapon
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	ActionListEmpty()
+	HaveSpell(ASSASSIN_POISON)
+	See(NearestEnemyOf(Myself))
+	!CheckStat(Myself,4,SCRIPTINGSTATE4)
+	RandomNumGT(800,80)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,ASSASSIN_POISON)
+END
+
 // Try to reposition to use ranged attack
 IF
 	ActionListEmpty()

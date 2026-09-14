@@ -688,6 +688,7 @@ const CLASS_SPELLS = {
   BerserkerRage: { file: "SPCL321", id: "BERSERKER_RAGE", name: "spell.BerserkerRage.name" },
   BarbarianRage: { file: "SPCL152", id: "BARBARIAN_RAGE", name: "spell.BarbarianRage.name" },
   OffensiveSpin: { file: "SPCL521", id: "BLADE_OFFENSIVE_SPIN", name: "spell.OffensiveSpin.name" },
+  PoisonWeapon: { file: "SPCL423", id: "ASSASSIN_POISON", name: "spell.PoisonWeapon.name" },
   SummonSpiritAnimal: { file: "SPCL621", name: "spell.SummonSpiritAnimal.name" },
 } satisfies Record<string, SpellReference>;
 

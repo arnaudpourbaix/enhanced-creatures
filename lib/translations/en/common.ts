@@ -193,6 +193,9 @@ Finally, the character cannot heal by normal or magical means until the poison i
 Constitution points can be regained at the rate of 1 per week; a heal spell restores 1-4 points per spell.`,
   },
   creatureTraits: "traits",
+  classAbilities: {
+    hideInShadow: `*attempts to hide in shadows*`,
+  },
   kitAbilities: {
     enrage: "Enrage",
   },

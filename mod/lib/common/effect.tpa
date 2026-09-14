@@ -246,6 +246,7 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         156  // Overlay: Protection from Normal Missiles Cylinder
         159  // Spell Effect: Mirror Image (Exact Number)
         163  // Protection: Free Action
+        167  // Missile Thac0 bonus
         173  // Stat: Poison Resistance Modifier
         176  // Stat: Movement Modifier (II)
         188  // Spell Effect: Aura Cleansing
@@ -256,6 +257,8 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         232  // Spell Effect: Cast Spell on Condition
         233  // Stat: Proficiency Modifier
         248  // Item: Set Melee Effect
+        263  // Backstab bonus
+        286  // Missile weapon damage bonus
         292  // Protection: Backstab
         296  // Immunity to Specific Animation
         297  // Spell Effect: Immunity to Turn Undead

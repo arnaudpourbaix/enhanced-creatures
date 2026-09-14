@@ -540,7 +540,7 @@ class StatementBuilderService {
     statements,
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
-    if (!creature.data.hideShadow) return;
+    if (!creature.data.hideShadow && creature.adjustments.every((a) => !a.data.hideShadow)) return;
     const hideTimer = "BD_HIDE";
     statements.push({
       comment: `Hide in shadow`,
@@ -576,7 +576,13 @@ class StatementBuilderService {
       responses: responseFactory.response(
         actionFactory.disableInterrupt([
           actionFactory.setGlobalTimer(hideTimer, 6),
-          { name: "DisplayStringHead", params: [ScriptTarget.myself, 66968] }, // *attempts to hide in shadows*
+          {
+            name: "DisplayStringHead",
+            params: [
+              ScriptTarget.myself,
+              `@${translationService.stringRef("common.classAbilities.hideInShadow")}`,
+            ],
+          },
           { name: "Hide" },
         ]),
       ),

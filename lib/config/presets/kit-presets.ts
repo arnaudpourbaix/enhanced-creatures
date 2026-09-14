@@ -31,4 +31,18 @@ export const KIT_PRESETS: AbilityPreset[] = [
       probability: 90,
     },
   },
+  {
+    preset: SPELLS.Class.PoisonWeapon.file,
+    ability: {
+      name: SPELLS.Class.PoisonWeapon.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        { name: "See", params: ["NearestEnemyOf"] },
+        triggerFactory.checkStat(4, "SCRIPTINGSTATE4", true),
+      ],
+      probability: 90,
+    },
+  },
 ];

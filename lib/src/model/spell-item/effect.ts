@@ -164,12 +164,21 @@ export type StatisticModifierOpcode =
   | EffectTypeEnum.MoraleModifier
   | EffectTypeEnum.MoraleBreakModifier
   | EffectTypeEnum.FatigueBonus
+  | EffectTypeEnum.AttackDamageBonus
+  | EffectTypeEnum.Thac0Bonus
+  | EffectTypeEnum.OffhandThac0Bonus
+  | EffectTypeEnum.MeleeWeaponDamageModifier
+  | EffectTypeEnum.MissileWeaponDamageModifier
+  | EffectTypeEnum.BackstabBonus
   | EffectTypeEnum.AllSavingThrowsBonus
   | EffectTypeEnum.SaveVsBreathModifier
   | EffectTypeEnum.SaveVsDeathModifier
   | EffectTypeEnum.SaveVsPetrificationModifier
   | EffectTypeEnum.SaveVsSpellModifier
   | EffectTypeEnum.SaveVsWandModifier;
+
+export type ModifierTypeOpcode =
+  EffectTypeEnum.MovementRateBonus | EffectTypeEnum.MovementRateBonus2;
 
 export type StatisticModifierEffect = BaseEffect & {
   opcode: StatisticModifierOpcode;
@@ -182,13 +191,6 @@ export type CastingTimeModifierEffect = BaseEffect & {
   value: number;
   type: CastingTimeModifierTypeEnum;
 };
-
-export type ModifierTypeOpcode =
-  | EffectTypeEnum.AttackDamageBonus
-  | EffectTypeEnum.MovementRateBonus
-  | EffectTypeEnum.MovementRateBonus2
-  | EffectTypeEnum.Thac0Bonus
-  | EffectTypeEnum.OffhandThac0Bonus;
 
 export type ModifierTypeEffect = BaseEffect & {
   opcode: ModifierTypeOpcode;

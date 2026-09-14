@@ -1356,7 +1356,7 @@ class FeyFamily extends CreatureFamily<Fey> {
             },
             {
               opcode: EffectTypeEnum.Thac0Bonus,
-              type: EffectModifierTypeEnum.Increment,
+              type: EffectStatisticModifierEnum.Increment,
               value: -2,
               ...entangleCommonEffect,
             },

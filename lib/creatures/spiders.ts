@@ -93,7 +93,7 @@ class Spider extends Creature {
     if (p.impale) {
       effects.push({
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: -4,
         timing: EffectTimingEnum.InstantLimited,
         duration: 2 * Durations.round,

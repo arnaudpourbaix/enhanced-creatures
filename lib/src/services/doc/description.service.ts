@@ -213,11 +213,8 @@ class DescriptionService {
       case EffectTypeEnum.CharmCreature:
       case EffectTypeEnum.CharmControlCreature:
         return this.getCharm(effect, target);
-      case EffectTypeEnum.AttackDamageBonus:
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:
-      case EffectTypeEnum.Thac0Bonus:
-      case EffectTypeEnum.OffhandThac0Bonus:
         return this.getModifierType(effect);
       case EffectTypeEnum.MirrorImageEffect:
         return [`Mirror image (${effect.amount})`];
@@ -667,6 +664,12 @@ class DescriptionService {
       },
       { opcode: EffectTypeEnum.SaveVsSpellModifier, label: "Save vs Spell" },
       { opcode: EffectTypeEnum.SaveVsWandModifier, label: "Save vs Wand" },
+      { opcode: EffectTypeEnum.AttackDamageBonus, label: "Damage" },
+      { opcode: EffectTypeEnum.MeleeWeaponDamageModifier, label: "Melee Damage" },
+      { opcode: EffectTypeEnum.MissileWeaponDamageModifier, label: "Missile Damage" },
+      { opcode: EffectTypeEnum.Thac0Bonus, label: "Thac0" },
+      { opcode: EffectTypeEnum.OffhandThac0Bonus, label: "Offhand Thac0" },
+      { opcode: EffectTypeEnum.BackstabBonus, label: "Backstab multiplier" },
     ];
     const opcode = opcodes.find((o) => o.opcode === effect.opcode);
     if (!opcode) return undefined;

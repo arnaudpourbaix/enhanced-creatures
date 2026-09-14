@@ -509,7 +509,7 @@ IF
 	HPPercentLT(Myself,30)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN55",Myself)
 END
@@ -522,7 +522,7 @@ IF
 	HPPercentLT(Myself,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN52",Myself)
 END
@@ -534,7 +534,7 @@ IF
 	HPPercentLT(Myself,90)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN42",Myself)
 END
@@ -549,7 +549,7 @@ IF
 		StateCheck(Myself,STATE_POISONED)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN17",Myself)
 END
@@ -561,7 +561,7 @@ IF
 	StateCheck(Myself,STATE_POISONED)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN20",Myself)
 END
@@ -574,7 +574,7 @@ IF
 	HPPercentLT(Myself,75)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN08",Myself)
 END
@@ -587,7 +587,7 @@ IF
 	RandomNumGT(200,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN14",Myself)
 END
@@ -600,7 +600,7 @@ IF
 	RandomNumGT(201,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN10",Myself)
 END
@@ -612,7 +612,7 @@ IF
 	RandomNumGT(202,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN11",Myself)
 END
@@ -624,7 +624,7 @@ IF
 	RandomNumGT(203,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN24",Myself)
 END
@@ -637,7 +637,7 @@ IF
 	RandomNumGT(204,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN02",Myself)
 END
@@ -650,7 +650,7 @@ IF
 	RandomNumGT(205,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN34",Myself)
 END
@@ -663,7 +663,7 @@ IF
 	RandomNumGT(206,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN35",Myself)
 END
@@ -676,7 +676,7 @@ IF
 	RandomNumGT(207,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN45",Myself)
 END
@@ -689,7 +689,7 @@ IF
 	RandomNumGT(208,42)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN07",Myself)
 END
@@ -702,7 +702,7 @@ IF
 	RandomNumGT(209,42)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN06",Myself)
 END
@@ -715,7 +715,7 @@ IF
 	RandomNumGT(210,42)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN05",Myself)
 END
@@ -728,7 +728,7 @@ IF
 	RandomNumGT(211,42)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN04",Myself)
 END
@@ -741,7 +741,7 @@ IF
 	RandomNumGT(212,42)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN03",Myself)
 END

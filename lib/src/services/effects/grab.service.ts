@@ -122,7 +122,7 @@ class GrabService {
       },
       {
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: -4,
         duration,
       },

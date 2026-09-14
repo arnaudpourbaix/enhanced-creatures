@@ -271,16 +271,12 @@ export function skeleton(family: UndeadFamily): Undead {
   });
   skeleton.setAdjustments([
     {
-      files: ["GHASTSU"],
+      files: ["GHASTSU", "SKELLESU", "0XYHDG"],
       data: { level1: 3 },
     },
     {
       files: ["KRYSKEL"],
       data: { level1: 2 },
-    },
-    {
-      files: ["SKELLESU"],
-      data: { level1: 3 },
     },
     {
       files: ["L#HAUSK"],
@@ -295,11 +291,6 @@ export function skeleton(family: UndeadFamily): Undead {
     {
       files: ["SKELPETR"],
       data: { script: { location: "None" } },
-    },
-    {
-      // Tattered
-      files: ["BDSKGR02"],
-      data: { level1: 6, xpv: 400, strength: 17 },
     },
     {
       files: ["KNIGHTSK"],
@@ -334,9 +325,45 @@ function greaterSkeletonVariant(base: Undead): Variant {
       strength: 12,
       dexterity: 16,
       constitution: 11,
-      ac: 6,
+      ac: 4,
+      xpv: 400,
     },
-    files: ["SKELGRSU", "GPSKEL1"],
+    files: [
+      "SKELGRSU",
+      "GPSKEL1",
+      "L#SKEST",
+      "L#XZEP1B",
+      "L#XZEP1C",
+      "L#XZEP1D",
+      "L#XZEP1E",
+      "L#XZEP1F",
+      "BDSKGR02",
+      "CBUNDEAD",
+      "RSKEL03",
+      "D9SKL02",
+      "D9SKL08",
+    ],
+    adjust: [
+      { files: ["CBUNDEAD"], data: { script: { location: "None" } } },
+      { files: ["L#SKEST"], data: { level1: 8, apr: 2 } },
+      { files: ["L#XZEP1B"], data: { apr: 2, script: { location: "None" } } },
+      { files: ["L#XZEP1C"], data: { level1: 9, ac: 0, apr: 3, script: { location: "None" } } },
+      { files: ["L#XZEP1D"], data: { level1: 13, ac: -2, apr: 3.5, script: { location: "None" } } },
+      { files: ["L#XZEP1E"], data: { level1: 17, ac: -4, apr: 4, script: { location: "None" } } },
+      { files: ["L#XZEP1F"], data: { level1: 20, ac: -6, apr: 4.5, script: { location: "None" } } },
+      {
+        files: ["D9SKL02", "D9SKL08"],
+        data: {
+          level1: 20,
+          ac: -2,
+          apr: 2,
+          hideShadow: 100,
+          moveSilent: 100,
+          class: "THIEF",
+          kit: "ASSASIN",
+        },
+      },
+    ],
   });
 }
 
@@ -582,7 +609,7 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
       {
         // Skeleton warriors make all weapon attacks with a +3 bonus to their attack roll
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: 3,
       },
     ],

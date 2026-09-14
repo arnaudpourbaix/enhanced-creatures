@@ -87,7 +87,7 @@ class Dog extends Creature {
               opcode: EffectTypeEnum.Thac0Bonus,
               timing: EffectTimingEnum.InstantLimited,
               duration: Durations.round,
-              type: EffectModifierTypeEnum.Increment,
+              type: EffectStatisticModifierEnum.Increment,
               probability1: 75,
               value: 2,
               target: EffectTargetEnum.Self,

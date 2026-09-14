@@ -188,7 +188,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("BD_HIDE","LOCALS",6)
-		DisplayStringHead(Myself,66968)
+		DisplayStringHead(Myself,@10112)
 		Hide()
 		SetInterrupt(TRUE)
 END

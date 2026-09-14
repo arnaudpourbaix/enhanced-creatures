@@ -256,6 +256,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   BerserkerRage: { name: "Berserker Rage" },
   BarbarianRage: { name: "Barbarian Rage" },
   OffensiveSpin: { name: "Offensive Spin" },
+  PoisonWeapon: { name: "Poison Weapon" },
 
   // Monster
   DancingLights: { name: "Dancing Lights" },

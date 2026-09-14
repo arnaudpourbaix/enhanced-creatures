@@ -1,10 +1,18 @@
 import { KitConfig } from "../src/model/creature/kit";
+import { Effect } from "../src/model/spell-item/effect";
+import {
+  EffectModifierTypeEnum,
+  EffectStatisticModifierEnum,
+  EffectTimingEnum,
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { SPELLS } from "./spells/spell-names";
 
 export const KITS: KitConfig[] = [
   {
     name: "BERSERKER",
     immunities: () => [],
+    effects: () => [],
     movement: () => 0,
     abilities: [
       {
@@ -16,10 +24,37 @@ export const KITS: KitConfig[] = [
   {
     name: "BARBARIAN",
     immunities: () => ["backstab"],
+    effects: () => [],
     movement: () => 2,
     abilities: [
       {
         resource: SPELLS.Class.BarbarianRage.file,
+        count: (level) => 1 + Math.floor((level - 1) / 4),
+      },
+    ],
+  },
+  {
+    name: "ASSASIN",
+    immunities: () => [],
+    effects: (level) => {
+      const opcodes = [
+        [EffectTypeEnum.Thac0Bonus, 1],
+        [EffectTypeEnum.AttackDamageBonus, 1],
+      ];
+      if (level >= 20) opcodes.push([EffectTypeEnum.BackstabBonus, 2]);
+      else if (level >= 17) opcodes.push([EffectTypeEnum.BackstabBonus, 1]);
+      const effects: Effect[] = opcodes.map((e) => ({
+        opcode: e[0],
+        type: EffectStatisticModifierEnum.Increment,
+        value: e[1],
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
+      }));
+      return effects;
+    },
+    movement: () => 0,
+    abilities: [
+      {
+        resource: SPELLS.Class.PoisonWeapon.file,
         count: (level) => 1 + Math.floor((level - 1) / 4),
       },
     ],
