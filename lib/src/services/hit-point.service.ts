@@ -5,7 +5,7 @@ import { CreatureData } from "../model/creature/data";
 import { ConstitutionTable } from "../model/game-data/constitution";
 import { HitDiceTable, SizeBonusHitPointTable } from "../model/game-data/hp";
 import { CreatureSize } from "../model/game-data/sizes";
-import { PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
+import { ClassIdentifier, PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
 import logService from "./log.service";
 
 class HitPointService {
@@ -48,6 +48,25 @@ class HitPointService {
     const value = p.level * hpPerLevel;
     const log = value > 0 ? `+${value} (con) ` : "";
     return { value, log };
+  }
+
+  /**
+   * The IE engine silently re-applies the constitution HP bonus for any creature whose class is
+   * a real PC class - getConstitutionBonus above deliberately excludes it there so the generated
+   * .cre file doesn't end up double-counting it in-game (confirmed in-game: a chieftain ogre mage
+   * variant reclassed as FIGHTER_MAGE shows up with the bonus even though it's absent from the
+   * generated hp). Documentation reads that raw generated hp, so it must add this bonus back to
+   * display the HP players actually see.
+   */
+  getDisplayHitPointBonus(p: {
+    class?: ClassIdentifier;
+    constitution?: number;
+    level: number;
+  }): number {
+    if (!GLOBAL_CONFIG.constitutionAffectHitPoint) return 0;
+    if (!PLAYER_CLASS_IDENTIFIERS.includes(p.class ?? "NO_CLASS")) return 0;
+    const constitutionHp = ConstitutionTable.find((t) => t.con === (p.constitution ?? 10));
+    return constitutionHp ? p.level * constitutionHp.warriorHp : 0;
   }
 
   private getSpecialBonus(p: {

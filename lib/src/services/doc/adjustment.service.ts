@@ -9,6 +9,7 @@ import { KitIdentifier } from "../../model/ids/kit";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import creatureService from "../creature.service";
+import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
 
 export interface AdjustmentField<T> {
@@ -120,15 +121,21 @@ class AdjustmentService {
     const classValue = this.lastDefined(matching, (d) => d.class) ?? base.class;
     const levelValue =
       this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
+    const constitutionValue = this.lastDefined(matching, (d) => d.constitution) ?? base.constitution;
 
     return {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
       level: this.field(levelValue, base.level1.pnpValue),
       hp: this.field(
-        this.lastDefined(matching, (d) => d.hp),
+        this.displayHp(this.lastDefined(matching, (d) => d.hp), classValue, constitutionValue, levelValue),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        base.hp!,
+        base.hp! +
+          hitPointService.getDisplayHitPointBonus({
+            class: base.class,
+            constitution: base.constitution,
+            level: base.level1.pnpValue,
+          }),
       ),
       thac0: this.field(
         this.lastDefined(matching, (d) => d.thac0),
@@ -259,6 +266,19 @@ class AdjustmentService {
   private field<T>(overridden: T | undefined, base: T): AdjustmentField<T> {
     const value = overridden ?? base;
     return { value, changed: value !== base };
+  }
+
+  // Generated hp deliberately excludes the constitution bonus for PC-classed creatures (the IE
+  // engine re-applies it itself; see hitPointService.getDisplayHitPointBonus) - the docs need the
+  // HP a player actually sees, so add that bonus back here for display only.
+  private displayHp(
+    rawHp: number | undefined,
+    classValue: ClassIdentifier | undefined,
+    constitution: number | undefined,
+    level: number,
+  ): number | undefined {
+    if (rawHp === undefined) return undefined;
+    return rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level });
   }
 
   // checkData already ran checkDexterityArmorClassBonus on every adjustment's own data using only

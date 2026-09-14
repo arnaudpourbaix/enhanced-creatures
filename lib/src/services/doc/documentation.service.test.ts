@@ -78,6 +78,23 @@ describe("addCreature (doubleApr)", () => {
   });
 });
 
+describe("addCreature (Hit Dice / display hp)", () => {
+  it("shows the raw generated hp for a non-player class", () => {
+    documentationService.addCreature(fakeCreatureForAddCreature(false));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toMatch(/<dd>5 \(40 hp\)<\/dd>/);
+  });
+
+  it("adds back the constitution bonus for a player class (the IE engine re-applies it in-game, but the generated hp deliberately excludes it)", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.class = "FIGHTER_MAGE";
+    creature.data.constitution = 19;
+    documentationService.addCreature(creature);
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toMatch(/<dd>5 \(65 hp\)<\/dd>/); // 40 (generated) + 5*5 (con 19 -> warriorHp 5)
+  });
+});
+
 describe("addCreature (XP Value)", () => {
   it("renders the XP Value stat when it is non-zero", () => {
     documentationService.addCreature(fakeCreatureForAddCreature(false));

@@ -207,6 +207,27 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(different?.thac0).toEqual({ value: 14, changed: true });
   });
 
+  // The generated hp on a player-classed adjustment deliberately excludes the constitution
+  // bonus (the IE engine re-applies it itself in-game - see hitPointService.getDisplayHitPointBonus).
+  // The doc's hp field must show the HP a player actually sees, so it adds that bonus back on top
+  // of the raw generated value.
+  it("adds the constitution bonus back onto hp for an adjustment reclassed to a player class", () => {
+    const creature = fakeCreature({
+      data: { hp: 40, constitution: 12, class: "OGRE_MAGE" },
+      adjustments: [
+        {
+          files: ["CHIEF"],
+          data: { hp: 74, constitution: 19, class: "FIGHTER_MAGE", level1: { pnpValue: 9, type: "none", value: 9 } },
+        },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    const chief = effectives.find((e) => e.files.includes("CHIEF"));
+    expect(chief?.hp).toEqual({ value: 119, changed: true }); // 74 + 9*5 (con 19 -> warriorHp 5)
+  });
+
   it("compares AC against the base creature's own final (dexterity-adjusted) armor class", () => {
     const creature = fakeCreature({
       data: { ac: 10, dexterity: 18 }, // final AC = 10 + (-4) = 6, see creature.service.test.ts

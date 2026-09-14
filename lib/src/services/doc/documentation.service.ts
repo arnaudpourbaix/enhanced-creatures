@@ -15,6 +15,7 @@ import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
+import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
 import logService from "../log.service";
 import monsterFilesService from "../monster-files.service";
@@ -206,6 +207,22 @@ class DocumentationService {
     }
   }
 
+  // The generated hp deliberately excludes the constitution bonus for PC-classed creatures (the
+  // IE engine re-applies it itself, and including it too would double it in-game) - documentation
+  // is meant to show the HP a player actually sees, so add that bonus back here for display only.
+  private getDisplayHp(creature: Creature): number | undefined {
+    const d = creature.data;
+    if (d.hp === undefined) return undefined;
+    return (
+      d.hp +
+      hitPointService.getDisplayHitPointBonus({
+        class: d.class,
+        constitution: d.constitution,
+        level: d.level1.pnpValue,
+      })
+    );
+  }
+
   addCreature(creature: Creature) {
     logService.log(`Generating documentation for ${translationService.from(creature.name)}`);
     let content: string;
@@ -233,7 +250,7 @@ class DocumentationService {
     this.replace(
       template,
       "hitDice",
-      `${creature.data.level1.pnpValue} (${creature.data.hp ?? 0} hp)`,
+      `${creature.data.level1.pnpValue} (${this.getDisplayHp(creature) ?? 0} hp)`,
     );
     this.replace(template, "thac0", creature.data.thac0);
     this.replace(template, "apr", this.getEffectiveApr(creature));
@@ -711,7 +728,7 @@ class DocumentationService {
       `<div class="stat stat-wide"><dt>Ability Scores</dt><dd>` +
       `STR ${str}, DEX ${d.dexterity}, CON ${d.constitution}, INT ${d.intelligence}, ` +
       `WIS ${d.wisdom ?? "?"}, CHA ${d.charisma ?? "?"}</dd></div>` +
-      cell("Hit Dice", `${d.level1.pnpValue} (${d.hp ?? "?"} hp)`) +
+      cell("Hit Dice", `${d.level1.pnpValue} (${this.getDisplayHp(creature) ?? "?"} hp)`) +
       cell("Armor Class", creatureService.getFinalArmorClass(creature)) +
       cell("THAC0", d.thac0 ?? "?") +
       cell("Attacks per Round", this.getEffectiveApr(creature)) +
