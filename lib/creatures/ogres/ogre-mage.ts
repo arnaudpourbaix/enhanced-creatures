@@ -1,8 +1,6 @@
 import { SPELLS } from "../../config/spells/spell-names";
-import {
-  ProficiencyTypeEnum,
-  RegenerationTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
+import { Variant } from "../../src/model/creature/variant";
+import { ProficiencyTypeEnum, RegenerationTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { MonsterEnum } from "../monster";
 import type { OgreFamily } from "./family";
@@ -125,84 +123,103 @@ export function ogreMage(family: OgreFamily): Ogre {
       },
     ],
   });
-  ogreMage.setAdjustments([
-    {
-      files: ["BDWAVE16", "WIOGMA01", "WIGENTLE", "DROTH"],
-      data: {
-        level1: 7,
-        level2: 7,
-        xpv: 1400,
-        class: "FIGHTER_MAGE",
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
-        spells: {
-          memorized: [
-            { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 2 },
-            { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.Sleep.file, memorizedCount: 1 },
-          ],
-        },
-      },
-    },
-    {
-      files: ["BDMURS", "BDMURS2", "UHOGRE01"],
-      data: {
-        level1: 9,
-        level2: 9,
-        xpv: 2000,
-        class: "FIGHTER_MAGE",
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
-        spells: {
-          memorized: [
-            { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 2 },
-            { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 2 },
-            { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 2 },
-            { file: SPELLS.Wizard.Sleep.file, memorizedCount: 2 },
-          ],
-        },
-      },
-    },
-    {
-      files: ["KROTAN", "NTKROTAN", "KAHRK"],
-      data: {
-        level1: 12,
-        level2: 12,
-        strength: 19,
-        class: "FIGHTER_MAGE",
-        xpv: 3500,
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
-        spells: {
-          memorized: [
-            { file: SPELLS.Wizard.Domination.file, memorizedCount: 1 },
-            { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
-            { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 4 },
-            { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 4 },
-            { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 3 },
-            { file: SPELLS.Wizard.Sleep.file, memorizedCount: 3 },
-          ],
-        },
-      },
-    },
-    {
-      files: ["KAHRK"],
-      noWeapon: true,
-      data: {
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYKATANA, value: 5 }],
-      },
-    },
-    {
-      files: ["KROTAN", "NTKROTAN"],
-      data: { level1: 15, level2: 15, class: "FIGHTER_MAGE", xpv: 4000 },
-    },
-    {
-      files: ["PLSHOM01"],
-      data: { level1: 8, level2: 8, xpv: 975 },
-    },
-    {
-      files: ["PALKNI01"],
-      data: { level1: 10, level2: 10, xpv: 2000 },
-    },
-  ]);
+  chieftainVariant(family, ogreMage);
   return ogreMage;
+}
+
+function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+  // ogre magi will be led by a chief of great strength (+2 on each Hit Die, attacking and saving as a 9 Hit Dice monster)
+  return base.variant("Chieftain", {
+    files: [
+      "BDWAVE16",
+      "WIOGMA01",
+      "WIGENTLE",
+      "DROTH",
+      "BDMURS",
+      "BDMURS2",
+      "UHOGRE01",
+      "KROTAN",
+      "NTKROTAN",
+      "KAHRK",
+      "PLSHOM01",
+      "PALKNI01",
+    ],
+    data: {
+      level1: 9,
+      level2: 9,
+      constitution: 19,
+      xpv: 975,
+    },
+    adjust: [
+      {
+        files: ["BDWAVE16", "WIOGMA01", "WIGENTLE", "DROTH"],
+        data: {
+          xpv: 1400,
+          class: "FIGHTER_MAGE",
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
+          spells: {
+            memorized: [
+              { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 1 },
+              { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 2 },
+              { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 1 },
+              { file: SPELLS.Wizard.Sleep.file, memorizedCount: 1 },
+            ],
+          },
+        },
+      },
+      {
+        files: ["BDMURS", "BDMURS2", "UHOGRE01"],
+        data: {
+          xpv: 2000,
+          class: "FIGHTER_MAGE",
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
+          spells: {
+            memorized: [
+              { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 1 },
+              { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 2 },
+              { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 2 },
+              { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 2 },
+              { file: SPELLS.Wizard.Sleep.file, memorizedCount: 2 },
+            ],
+          },
+        },
+      },
+      {
+        files: ["PALKNI01"],
+        data: { level1: 10, level2: 10 },
+      },
+      {
+        files: ["KROTAN", "NTKROTAN", "KAHRK"],
+        data: {
+          level1: 12,
+          level2: 12,
+          strength: 19,
+          class: "FIGHTER_MAGE",
+          xpv: 3500,
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
+          spells: {
+            memorized: [
+              { file: SPELLS.Wizard.Domination.file, memorizedCount: 1 },
+              { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
+              { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 4 },
+              { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 4 },
+              { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 3 },
+              { file: SPELLS.Wizard.Sleep.file, memorizedCount: 3 },
+            ],
+          },
+        },
+      },
+      {
+        files: ["KAHRK"],
+        noWeapon: true,
+        data: {
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYKATANA, value: 5 }],
+        },
+      },
+      {
+        files: ["KROTAN", "NTKROTAN"],
+        data: { level1: 15, level2: 15, class: "FIGHTER_MAGE", xpv: 4000 },
+      },
+    ],
+  });
 }

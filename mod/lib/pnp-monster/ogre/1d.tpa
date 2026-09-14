@@ -97,25 +97,68 @@ BEGIN
 				WRITE_BYTE 0x234 5 // level1
 				WRITE_BYTE 0x238 18 // strength
 			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDOGRE04~) BEGIN 
+				WRITE_LONG 0x14 520 // xpv
+				WRITE_SHORT 0x24 43 // hp
+				WRITE_SHORT 0x26 43 // hp
+				WRITE_SHORT 0x46 3 // ac
+				WRITE_SHORT 0x48 3 // ac
+				WRITE_BYTE 0x52 15 // thac0
+				WRITE_BYTE 0x54 11 // saveDeath
+				WRITE_BYTE 0x55 13 // saveWand
+				WRITE_BYTE 0x56 12 // savePolymorph
+				WRITE_BYTE 0x57 13 // saveBreath
+				WRITE_BYTE 0x58 14 // saveSpell
+				WRITE_BYTE 0x234 5 // level1
+				WRITE_BYTE 0x238 18 // strength
+				WRITE_BYTE 0x239 83 // exceptionalStrength
+			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~GORF~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~GORF03~) BEGIN 
+				WRITE_LONG 0x14 520 // xpv
+				WRITE_SHORT 0x24 43 // hp
+				WRITE_SHORT 0x26 43 // hp
+				WRITE_SHORT 0x46 3 // ac
+				WRITE_SHORT 0x48 3 // ac
+				WRITE_BYTE 0x52 15 // thac0
+				WRITE_BYTE 0x54 11 // saveDeath
+				WRITE_BYTE 0x55 13 // saveWand
+				WRITE_BYTE 0x56 12 // savePolymorph
+				WRITE_BYTE 0x57 13 // saveBreath
+				WRITE_BYTE 0x58 14 // saveSpell
+				WRITE_BYTE 0x234 5 // level1
+				WRITE_BYTE 0x238 18 // strength
 				WRITE_BYTE 0x239 50 // exceptionalStrength
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~GORF03~) BEGIN 
-				WRITE_SHORT 0x24 70 // hp
-				WRITE_SHORT 0x26 70 // hp
-				WRITE_BYTE 0x52 13 // thac0
+				WRITE_LONG 0x14 520 // xpv
+				WRITE_SHORT 0x24 67 // hp
+				WRITE_SHORT 0x26 67 // hp
+				WRITE_SHORT 0x46 3 // ac
+				WRITE_SHORT 0x48 3 // ac
+				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 12 // saveWand
 				WRITE_BYTE 0x56 11 // savePolymorph
 				WRITE_BYTE 0x57 12 // saveBreath
 				WRITE_BYTE 0x58 13 // saveSpell
 				WRITE_BYTE 0x234 8 // level1
+				WRITE_BYTE 0x238 18 // strength
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ARGHAI~) BEGIN 
+				WRITE_LONG 0x14 520 // xpv
+				WRITE_SHORT 0x24 43 // hp
+				WRITE_SHORT 0x26 43 // hp
+				WRITE_SHORT 0x46 3 // ac
+				WRITE_SHORT 0x48 3 // ac
+				WRITE_BYTE 0x52 15 // thac0
+				WRITE_BYTE 0x54 11 // saveDeath
+				WRITE_BYTE 0x55 13 // saveWand
+				WRITE_BYTE 0x56 12 // savePolymorph
+				WRITE_BYTE 0x57 13 // saveBreath
+				WRITE_BYTE 0x58 14 // saveSpell
+				WRITE_BYTE 0x234 5 // level1
+				WRITE_BYTE 0x238 18 // strength
 				WRITE_BYTE 0x239 100 // exceptionalStrength
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDOGRE04~) BEGIN 
-				WRITE_BYTE 0x239 83 // exceptionalStrength
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~TAZOK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~TAZOK2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9TAZOK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9TAZOKX~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#CHIEN~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
@@ -135,6 +178,21 @@ BEGIN
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER~) // class
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~TAZOK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~TAZOK2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9TAZOK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9TAZOKX~) BEGIN 
+				WRITE_LONG 0x14 4000 // xpv
+				WRITE_SHORT 0x24 78 // hp
+				WRITE_SHORT 0x26 78 // hp
+				WRITE_SHORT 0x46 10 // ac
+				WRITE_SHORT 0x48 10 // ac
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 8 // saveDeath
+				WRITE_BYTE 0x55 10 // saveWand
+				WRITE_BYTE 0x56 9 // savePolymorph
+				WRITE_BYTE 0x57 9 // saveBreath
+				WRITE_BYTE 0x58 11 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
+				WRITE_BYTE 0x238 18 // strength
+				WRITE_BYTE 0x23f 20 // morale
+				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER~) // class
 				WRITE_SHORT 0x246 IDS_OF_SYMBOL (~kit~ ~BERSERKER~) // kit
 				ADD_MEMORIZED_SPELL ~SPCL321~ #0 ~innate~ (3) 
 				SET_BG2_PROFICIENCY ~PROFICIENCYTWOHANDEDSWORD~ 5
@@ -144,6 +202,8 @@ BEGIN
 					WRITE_LONG 0x14 8000 // xpv
 					WRITE_SHORT 0x24 158 // hp
 					WRITE_SHORT 0x26 158 // hp
+					WRITE_SHORT 0x46 10 // ac
+					WRITE_SHORT 0x48 10 // ac
 					WRITE_BYTE 0x52 1 // thac0
 					WRITE_BYTE 0x54 3 // saveDeath
 					WRITE_BYTE 0x55 5 // saveWand
@@ -151,12 +211,18 @@ BEGIN
 					WRITE_BYTE 0x57 4 // saveBreath
 					WRITE_BYTE 0x58 6 // saveSpell
 					WRITE_BYTE 0x234 19 // level1
+					WRITE_BYTE 0x238 18 // strength
+					WRITE_BYTE 0x23f 20 // morale
+					WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER~) // class
 					ADD_MEMORIZED_SPELL ~SPCL321~ #0 ~innate~ (2) 
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~TAZOK2~) BEGIN 
+				WRITE_LONG 0x14 4000 // xpv
 				WRITE_SHORT 0x24 94 // hp
 				WRITE_SHORT 0x26 94 // hp
+				WRITE_SHORT 0x46 10 // ac
+				WRITE_SHORT 0x48 10 // ac
 				WRITE_BYTE 0x52 9 // thac0
 				WRITE_BYTE 0x54 7 // saveDeath
 				WRITE_BYTE 0x55 9 // saveWand
@@ -164,9 +230,27 @@ BEGIN
 				WRITE_BYTE 0x57 8 // saveBreath
 				WRITE_BYTE 0x58 10 // saveSpell
 				WRITE_BYTE 0x234 11 // level1
+				WRITE_BYTE 0x238 18 // strength
+				WRITE_BYTE 0x23f 20 // morale
+				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER~) // class
 				ADD_CRE_ITEM ~POTN02~ #1 #0 #0 ~UNDROPPABLE~ ~QITEM1 QITEM2 QITEM3~ 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#CHIEN~) BEGIN 
+				WRITE_LONG 0x14 4000 // xpv
+				WRITE_SHORT 0x24 78 // hp
+				WRITE_SHORT 0x26 78 // hp
+				WRITE_SHORT 0x46 10 // ac
+				WRITE_SHORT 0x48 10 // ac
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 8 // saveDeath
+				WRITE_BYTE 0x55 10 // saveWand
+				WRITE_BYTE 0x56 9 // savePolymorph
+				WRITE_BYTE 0x57 9 // saveBreath
+				WRITE_BYTE 0x58 11 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
+				WRITE_BYTE 0x238 18 // strength
+				WRITE_BYTE 0x23f 20 // morale
+				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER~) // class
 				LPF fireResistance_resistance END
 				LPF coldResistance_resistance END
 				LPF missileDamage_immunity END

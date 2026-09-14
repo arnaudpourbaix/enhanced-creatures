@@ -1,4 +1,5 @@
 import { QUICK_SLOTS } from "../../src/model/creature/item";
+import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "../monster";
 import type { OgreFamily } from "./family";
@@ -56,90 +57,100 @@ export function halfOgre(family: OgreFamily): Ogre {
       },
     ],
   });
-  halfOgre.setAdjustments([
-    {
-      // Veteran with 5+3 Hit Dice.
-      files: ["BDOGRE04", "ARGHAI", "GORF", "GORF03"],
-      data: {
-        level1: 5,
-        bonusHp: 3,
-        strength: 18,
-        ac: 3,
-        xpv: 520,
-      },
+  veteranVariant(halfOgre);
+  chieftainVariant(halfOgre);
+  return halfOgre;
+}
+
+function veteranVariant(base: Ogre): Variant {
+  return base.variant("Veteran", {
+    // Veteran with 5+3 Hit Dice.
+    files: ["BDOGRE04", "ARGHAI", "GORF", "GORF03"],
+    data: {
+      level1: 5,
+      bonusHp: 3,
+      strength: 18,
+      ac: 3,
+      xpv: 520,
     },
-    {
-      files: ["GORF", "GORF03"],
-      data: {
-        exceptionalStrength: 50,
-      },
-    },
-    {
-      files: ["GORF03"],
-      data: {
-        level1: 8,
-      },
-    },
-    {
-      files: ["ARGHAI"],
-      data: {
-        exceptionalStrength: 100,
-      },
-    },
-    {
-      files: ["BDOGRE04"],
-      data: {
-        exceptionalStrength: 83,
-      },
-    },
-    {
-      // Level 9 fighter
-      files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX", "L#CHIEN"],
-      data: {
-        level1: 9,
-        strength: 18,
-        ac: 10,
-        class: "FIGHTER",
-        morale: 20,
-        xpv: 4000,
-      },
-    },
-    {
-      // Tazok gets the Berserker kit; the per-game level blocks below then each add their own
-      // rage-count increment on top of this (kit.service resolves the inherited kit).
-      files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX"],
-      data: {
-        kit: "BERSERKER",
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
-      },
-    },
-    {
-      // Tazok, level 19
-      files: ["TAZOK", "D9TAZOK", "D9TAZOKX"],
-      game: "bg2",
-      data: {
-        level1: 19,
-        xpv: 8000,
-      },
-    },
-    {
-      // Tazok, level 11
-      files: ["TAZOK2"],
-      data: {
-        level1: 11,
-        items: {
-          equipped: [{ file: "POTN02", quantity: 1, slot: QUICK_SLOTS }],
+    adjust: [
+      {
+        files: ["BDOGRE04"],
+        data: {
+          exceptionalStrength: 83,
         },
       },
-    },
-    {
-      // Eglarh, level 9 fighter
-      files: ["L#CHIEN"],
-      data: {
-        immunities: ["fireResistance", "coldResistance", "missileDamage"],
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+      {
+        files: ["GORF", "GORF03"],
+        data: {
+          exceptionalStrength: 50,
+        },
       },
+      {
+        files: ["GORF03"],
+        data: {
+          level1: 8,
+        },
+      },
+      {
+        files: ["ARGHAI"],
+        data: {
+          exceptionalStrength: 100,
+        },
+      },
+    ],
+  });
+}
+
+function chieftainVariant(base: Ogre): Variant {
+  return base.variant("Chieftain", {
+    // Level 9 fighter
+    files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX", "L#CHIEN"],
+    data: {
+      level1: 9,
+      strength: 18,
+      ac: 10,
+      class: "FIGHTER",
+      morale: 20,
+      xpv: 4000,
     },
-  ]);
-  return halfOgre;
+    adjust: [
+      {
+        // Tazok gets the Berserker kit; the per-game level blocks below then each add their own
+        // rage-count increment on top of this (kit.service resolves the inherited kit).
+        files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX"],
+        data: {
+          kit: "BERSERKER",
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+        },
+      },
+      {
+        // Tazok, level 19
+        files: ["TAZOK", "D9TAZOK", "D9TAZOKX"],
+        game: "bg2",
+        data: {
+          level1: 19,
+          xpv: 8000,
+        },
+      },
+      {
+        // Tazok, level 11
+        files: ["TAZOK2"],
+        data: {
+          level1: 11,
+          items: {
+            equipped: [{ file: "POTN02", quantity: 1, slot: QUICK_SLOTS }],
+          },
+        },
+      },
+      {
+        // Eglarh, level 9 fighter
+        files: ["L#CHIEN"],
+        data: {
+          immunities: ["fireResistance", "coldResistance", "missileDamage"],
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 }],
+        },
+      },
+    ],
+  });
 }

@@ -211,10 +211,37 @@ class AdjustmentService {
   // The one variant every variant-owned adjustment in this fold belongs to. Variant-less entries
   // (a synthetic summon patch, an extra hand-written setAdjustments tweak on a member) are
   // ignored - they still fold into the stats, they just don't pull the card out of its group.
-  // Undefined only when the file genuinely belongs to two different variants, or to none.
+  //
+  // A file can carry adjustments from a variant *and* one of its own sub-variants at once - e.g.
+  // ogres/berserker.ts's chieftain files that are also barbarians: the chieftain variant declares
+  // them as members, and the nested barbarian variant refines the same files further. That's not
+  // ambiguity, it's specificity - the file belongs to the deepest (most specific) variant in the
+  // chain, so its card nests under the sub-variant rather than falling out to "Direct adjustments".
+  // Undefined only when the file genuinely belongs to two unrelated variants, or to none.
   private commonVariant(matching: CreatureAdjustment[]): Variant | undefined {
-    const variants = new Set(matching.map((a) => a.variant).filter((v): v is Variant => !!v));
-    return variants.size === 1 ? [...variants][0] : undefined;
+    const variants = [...new Set(matching.map((a) => a.variant).filter((v): v is Variant => !!v))];
+    if (!variants.length) return undefined;
+    const deepest = variants.reduce((a, b) => (this.variantDepth(b) > this.variantDepth(a) ? b : a));
+    return variants.every((v) => this.isVariantAncestorOrSelf(v, deepest)) ? deepest : undefined;
+  }
+
+  private isVariantAncestorOrSelf(candidate: Variant, of: Variant): boolean {
+    let v: Variant | undefined = of;
+    while (v) {
+      if (v === candidate) return true;
+      v = v.parent;
+    }
+    return false;
+  }
+
+  private variantDepth(variant: Variant): number {
+    let depth = 0;
+    let v = variant.parent;
+    while (v) {
+      depth++;
+      v = v.parent;
+    }
+    return depth;
   }
 
   private lastDefined<T>(

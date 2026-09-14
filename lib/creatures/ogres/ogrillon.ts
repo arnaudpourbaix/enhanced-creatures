@@ -1,3 +1,4 @@
+import { Variant } from "../../src/model/creature/variant";
 import { MonsterEnum } from "../monster";
 import type { OgreFamily } from "./family";
 import { Ogre } from "./ogre-creature";
@@ -47,20 +48,22 @@ export function ogrillon(family: OgreFamily): Ogre {
       },
     ],
   });
-  ogrillon.setAdjustments([
-    { files: ["OGRELESU"], data: { level1: 3 } },
-    {
-      // veteran with 5+3 Hit Dice
-      files: ["GNARL", "HAIRTO"],
-      data: {
-        level1: 5,
-        bonusHp: 3,
-        strength: 18,
-        exceptionalStrength: 95,
-        constitution: 15,
-        xpv: 420,
-      },
-    },
-  ]);
+  ogrillon.setAdjustments([{ files: ["OGRELESU"], data: { level1: 3 } }]);
+  veteranVariant(ogrillon);
   return ogrillon;
+}
+
+function veteranVariant(base: Ogre): Variant {
+  return base.variant("Veteran", {
+    data: {
+      // veteran with 5+3 Hit Dice
+      level1: 5,
+      bonusHp: 3,
+      strength: 18,
+      exceptionalStrength: 95,
+      constitution: 15,
+      xpv: 420,
+    },
+    files: ["GNARL", "HAIRTO"],
+  });
 }

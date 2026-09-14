@@ -4,6 +4,7 @@ import { CreatureData } from "../../model/creature/data";
 import { ItemSlot } from "../../model/creature/item";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { State } from "../../state";
+import { Variant } from "../../model/creature/variant";
 import adjustmentService from "./adjustment.service";
 
 function fakeCreature(p: {
@@ -14,6 +15,7 @@ function fakeCreature(p: {
     noWeapon?: boolean;
     game?: "bg1" | "bg2";
     data: Partial<CreatureData>;
+    variant?: Variant;
   }[];
 }): Creature {
   const data: CreatureData = {
@@ -51,6 +53,7 @@ function fakeCreature(p: {
       files: a.files,
       noWeapon: a.noWeapon ?? false,
       game: a.game,
+      variant: a.variant,
       summon: false,
       scriptName: false,
       data: {
@@ -679,6 +682,44 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(bg1?.morale).toEqual({ value: 15, changed: true });
     expect(bg2?.level).toEqual({ value: 5, changed: false });
     expect(bg2?.xpv).toEqual({ value: 2500, changed: true });
+  });
+
+  it("attributes a file to the deepest of two variants when it's a member of both a variant and its own sub-variant", () => {
+    // Reproduces lib/creatures/ogres/berserker.ts: the chieftain variant declares BDOGRE06 as a
+    // member, and its nested barbarian variant refines that same file further. The two variant-
+    // tagged adjustments touching BDOGRE06 aren't ambiguous - barbarian is strictly more specific
+    // - so the file's card should nest under barbarian, not fall out to "Direct adjustments".
+    const chieftain = new Variant({} as Creature, "Chieftain", {}, ["BDOGRE06"]);
+    const barbarian = new Variant({} as Creature, "Barbarian", {}, ["BDOGRE06"], chieftain);
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["BDOGRE06"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        { files: ["BDOGRE06"], variant: barbarian, data: { strength: 19 } },
+        { files: ["OTHERFIL"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    const berserker = effectives.find((e) => e.files.includes("BDOGRE06"));
+    expect(berserker?.variant).toBe(barbarian);
+    const chieftainOnly = effectives.find((e) => e.files.includes("OTHERFIL"));
+    expect(chieftainOnly?.variant).toBe(chieftain);
+  });
+
+  it("leaves a file's variant undefined when it's shared by two unrelated variants", () => {
+    const first = new Variant({} as Creature, "First", {}, ["SHARED"]);
+    const second = new Variant({} as Creature, "Second", {}, ["SHARED"]);
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["SHARED"], variant: first, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        { files: ["SHARED"], variant: second, data: { strength: 19 } },
+      ],
+    });
+
+    const [effective] = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effective.variant).toBeUndefined();
   });
 
   it("adds a brand new proficiency type the base creature never had", () => {
