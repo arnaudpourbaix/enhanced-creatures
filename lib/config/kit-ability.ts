@@ -3,6 +3,7 @@ import { Effect } from "../src/model/spell-item/effect";
 import {
   EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
+  EffectTargetEnum,
   EffectTimingEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
@@ -41,15 +42,14 @@ export const KITS: KitConfig[] = [
         [EffectTypeEnum.Thac0Bonus, 1],
         [EffectTypeEnum.AttackDamageBonus, 1],
       ];
-      if (level >= 20) opcodes.push([EffectTypeEnum.BackstabBonus, 2]);
-      else if (level >= 17) opcodes.push([EffectTypeEnum.BackstabBonus, 1]);
-      const effects: Effect[] = opcodes.map((e) => ({
+      // These ones are already active:
+      // if (level >= 20) opcodes.push([EffectTypeEnum.BackstabBonus, 2]);
+      // else if (level >= 17) opcodes.push([EffectTypeEnum.BackstabBonus, 1]);
+      return opcodes.map((e) => ({
         opcode: e[0],
         type: EffectStatisticModifierEnum.Increment,
         value: e[1],
-        timing: EffectTimingEnum.InstantPermanentUntilDeath,
       }));
-      return effects;
     },
     movement: () => 0,
     abilities: [

@@ -144,20 +144,37 @@ THEN
 		NoAction()
 END
 
+// Try to run outside of enemy sight
+IF
+	!GlobalTimerNotExpired("TRY_HIDE_SHADOW","LOCALS")
+	Detect(NearestEnemyOf(Myself))
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	CheckStatGT(Myself,49,HIDEINSHADOWS)
+	RandomNum(9,3)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("TRY_HIDE_SHADOW","LOCALS",18)
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),90)
+		Hide()
+		SetInterrupt(TRUE)
+END
+
 // Hide in shadow
 IF
+	!GlobalTimerNotExpired("HIDE_SHADOW","LOCALS")
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	CheckStatGT(Myself,49,HIDEINSHADOWS)
 	!Allegiance(Myself,NEUTRAL)
 	OR(2)
 		!Detect(NearestEnemyOf(Myself))
 		Kit(Myself,SHADOWDANCER)
-	!StateCheck(Myself,STATE_INVISIBLE)
-	!StateCheck(Myself,STATE_BLIND)
-	CheckStatGT(Myself,49,HIDEINSHADOWS)
-	!GlobalTimerNotExpired("BD_HIDE","LOCALS")
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
-		SetGlobalTimer("BD_HIDE","LOCALS",6)
+		SetGlobalTimer("HIDE_SHADOW","LOCALS",6)
 		DisplayStringHead(Myself,@10112)
 		Hide()
 		SetInterrupt(TRUE)

@@ -38,10 +38,7 @@ export const KIT_PRESETS: AbilityPreset[] = [
       spell: {
         selfTarget: true,
       },
-      triggers: [
-        { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkStat(4, "SCRIPTINGSTATE4", true),
-      ],
+      triggers: [{ name: "See", params: ["NearestEnemyOf"] }, triggerFactory.hasPoisonWeapon(true)],
       probability: 90,
     },
   },

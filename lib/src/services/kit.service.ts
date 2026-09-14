@@ -5,6 +5,8 @@ import { Level } from "../model/creature/data";
 import { KitAbility, KitConfig } from "../model/creature/kit";
 import { ImmunityName } from "../model/final/immunity";
 import { Effect } from "../model/spell-item/effect";
+import { EffectTargetEnum, EffectTimingEnum } from "../model/spell-item/effect.enums";
+import effectService from "./effects/effect.service";
 import logService from "./log.service";
 import spellService from "./spell.service";
 import translationService from "./translation.service";
@@ -84,9 +86,7 @@ class KitService {
   }
 
   applyKitImmunities(creature: Creature, baseCreature: BaseCreature, immunities: ImmunityName[]) {
-    // immunities is required by CreatureData, but defended anyway - see kit.service.test.ts's
-    // "initializes baseCreature.data.immunities when unset".
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!immunities.length) return;
     baseCreature.data.immunities ??= [];
     for (const name of immunities) {
       if (
@@ -98,7 +98,15 @@ class KitService {
     }
   }
 
-  applyKitEffects(creature: Creature, baseCreature: BaseCreature, effects: Effect[]) {
+  applyKitEffects(creature: Creature, baseCreature: BaseCreature, rawEffects: Effect[]) {
+    if (!rawEffects.length) return;
+    const effects = effectService.getEffects(
+      rawEffects.map((e) => ({
+        ...e,
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
+        target: EffectTargetEnum.Self,
+      })),
+    );
     baseCreature.data.effects.list ??= [];
     baseCreature.data.effects.list.push(...effects);
   }

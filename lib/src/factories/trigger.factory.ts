@@ -352,6 +352,10 @@ class TriggerFactory {
     }));
     return [{ name: "Or", triggers }];
   }
+
+  hasPoisonWeapon(negation = false): Triggers.Trigger {
+    return triggerFactory.checkStat(4, "SCRIPTINGSTATE4", negation);
+  }
 }
 
 const triggerFactory = new TriggerFactory();

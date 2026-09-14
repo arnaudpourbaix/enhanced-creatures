@@ -541,10 +541,33 @@ class StatementBuilderService {
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
     if (!creature.data.hideShadow && creature.adjustments.every((a) => !a.data.hideShadow)) return;
-    const hideTimer = "BD_HIDE";
+    const triggers: Triggers.Trigger[] = [
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_INVISIBLE"],
+        negation: true,
+      },
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_BLIND"],
+        negation: true,
+      },
+      {
+        name: "CheckStatGT",
+        params: [ScriptTarget.myself, 49, "HIDEINSHADOWS"],
+      },
+    ];
+    this.runBeforeHideInShadow(statements, triggers);
+    this.hideInShadow(statements, triggers);
+  }
+
+  private hideInShadow(statements: Statements, triggers: Triggers.Trigger[]): void {
+    const timer = "HIDE_SHADOW";
     statements.push({
       comment: `Hide in shadow`,
       triggers: [
+        triggerFactory.globalTimerExpired(timer),
+        ...triggers,
         {
           name: "Allegiance",
           params: [ScriptTarget.myself, "NEUTRAL"],
@@ -557,25 +580,10 @@ class StatementBuilderService {
             { name: "Kit", params: [ScriptTarget.myself, "SHADOWDANCER"] },
           ],
         },
-        {
-          name: "StateCheck",
-          params: [ScriptTarget.myself, "STATE_INVISIBLE"],
-          negation: true,
-        },
-        {
-          name: "StateCheck",
-          params: [ScriptTarget.myself, "STATE_BLIND"],
-          negation: true,
-        },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.myself, 49, "HIDEINSHADOWS"],
-        },
-        triggerFactory.globalTimerExpired(hideTimer),
       ],
       responses: responseFactory.response(
         actionFactory.disableInterrupt([
-          actionFactory.setGlobalTimer(hideTimer, 6),
+          actionFactory.setGlobalTimer(timer, 6),
           {
             name: "DisplayStringHead",
             params: [
@@ -583,6 +591,31 @@ class StatementBuilderService {
               `@${translationService.stringRef("common.classAbilities.hideInShadow")}`,
             ],
           },
+          { name: "Hide" },
+        ]),
+      ),
+    });
+  }
+
+  private runBeforeHideInShadow(statements: Statements, triggers: Triggers.Trigger[]): void {
+    const timer = "TRY_HIDE_SHADOW";
+    const finalTriggers: Triggers.Trigger[] = utils.replaceTriggerTokens(
+      [
+        triggerFactory.globalTimerExpired(timer),
+        // triggerFactory.hasPoisonWeapon(true),
+        { name: "Detect", params: ["NearestEnemyOf"] },
+        ...triggers,
+        { name: "RandomNum", params: [9, 3] },
+      ],
+      [{ key: ScriptTarget.token, value: ScriptTarget.myself }],
+    );
+    statements.push({
+      comment: `Try to run outside of enemy sight`,
+      triggers: finalTriggers,
+      responses: responseFactory.response(
+        actionFactory.disableInterrupt([
+          actionFactory.setGlobalTimer(timer, 18),
+          { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 90] },
           { name: "Hide" },
         ]),
       ),
