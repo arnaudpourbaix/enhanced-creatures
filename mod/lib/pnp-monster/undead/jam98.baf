@@ -177,7 +177,8 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_TRUE_SIGHT)
-	!CheckStatGT(Myself,0,TRUE_SIGHT)
+	Detect([PC])
+	!CheckSpellState(Myself,TRUE_SIGHT)
 	RandomNumGT(800,240)
 THEN
 	RESPONSE #100

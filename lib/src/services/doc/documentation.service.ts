@@ -249,6 +249,13 @@ class DocumentationService {
         ? `<div class="stat"><dt>XP Value</dt><dd>${creature.data.xpv}</dd></div>`
         : "",
     );
+    this.replace(
+      template,
+      "kitStat",
+      creature.data.kit
+        ? `<div class="stat"><dt>Kit</dt><dd>${this.formatEnumLabel(creature.data.kit)}</dd></div>`
+        : "",
+    );
     this.getCreatureAttacks(template, creature);
     this.getCreatureTraits(template, creature);
     this.getCreatureSpells(template, creature);
@@ -592,10 +599,21 @@ class DocumentationService {
       }
       result += text;
     }
+    result += this.getHideInShadowsTrait(creature.data.hideShadow);
     if (result) {
       result = `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
     }
     this.replace(template, "traits", result);
+  }
+
+  // Hide in Shadows isn't backed by an ImmunityConfig (it's a raw thief-skill value on
+  // CreatureData, see statement-builder.service.ts's thievesAbilities), so it can't flow through
+  // the immunity-driven trait loop above like everything else in this section - it's rendered
+  // directly from the value instead. Kit is shown separately (addSpecial/getAdjustmentStatGrid's
+  // "Special" row), not repeated here.
+  private getHideInShadowsTrait(hideShadow: number | undefined): string {
+    if (hideShadow === undefined) return "";
+    return `<h5>Hide in Shadows (${hideShadow}%)</h5>`;
   }
 
   getCreatureHeader(template: { text: string }, creature: Creature) {
@@ -701,7 +719,8 @@ class DocumentationService {
       cell("Morale", d.morale ?? "?") +
       cell("Alignment", this.formatEnumLabel(d.alignment)) +
       cell("Size", d.size.value) +
-      (d.xpv ? cell("XP Value", d.xpv) : "")
+      (d.xpv ? cell("XP Value", d.xpv) : "") +
+      (d.kit ? cell("Kit", this.formatEnumLabel(d.kit)) : "")
     );
   }
 
@@ -878,7 +897,13 @@ class DocumentationService {
       row("Size", effective.size.value, effective.size.changed) +
       // XP Value is hidden whenever it's 0 (see adjustmentService.hasVisibleChanges) - a summon
       // folded in as an adjustment zeroes it and that carries no documentation value.
-      row("XP Value", effective.xpv.value, effective.xpv.changed && effective.xpv.value !== 0)
+      row("XP Value", effective.xpv.value, effective.xpv.changed && effective.xpv.value !== 0) +
+      // Mirrors the base card's own Kit stat - same "only when there's a value" rule as XP Value.
+      row(
+        "Kit",
+        this.formatEnumLabel(effective.kit.value),
+        effective.kit.changed && !!effective.kit.value,
+      )
     );
   }
 
@@ -969,6 +994,10 @@ class DocumentationService {
         text = `<h5><a href="#${entry.config.name}" class="trait-link">${text}</a></h5>`;
       }
       result += `<div class="adjustment-changed">${text}</div>`;
+    }
+    if (effective.hideShadow.changed && effective.hideShadow.value !== undefined) {
+      const trait = this.getHideInShadowsTrait(effective.hideShadow.value);
+      result += `<div class="adjustment-changed">${trait}</div>`;
     }
     if (!result) return "";
     return `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;

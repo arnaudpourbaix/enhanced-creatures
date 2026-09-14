@@ -137,6 +137,30 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
   });
 
+  it("includes a file whose only authored change is hideShadow, and carries the base creature's own unchanged kit", () => {
+    const creature = fakeCreature({
+      data: { kit: "ASSASIN" },
+      adjustments: [{ files: ["SNEAK"], data: { hideShadow: 90 } }],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(1);
+    expect(effectives[0].hideShadow).toEqual({ value: 90, changed: true });
+    expect(effectives[0].kit).toEqual({ value: "ASSASIN", changed: false });
+  });
+
+  it("includes a file whose only authored change is kit, flagged changed", () => {
+    const creature = fakeCreature({
+      adjustments: [{ files: ["WELT"], data: { kit: "SHADOWDANCER" } }],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(1);
+    expect(effectives[0].kit).toEqual({ value: "SHADOWDANCER", changed: true });
+  });
+
   // A detected summon is folded in as an adjustment that only zeroes xpv. "XP Value 0" carries no
   // documentation value, so such a change must not pull an otherwise-empty card into view.
   it("excludes a file whose only change zeroes xpv (a detected summon)", () => {

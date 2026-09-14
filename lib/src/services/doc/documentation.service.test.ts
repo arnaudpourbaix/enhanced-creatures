@@ -94,6 +94,22 @@ describe("addCreature (XP Value)", () => {
   });
 });
 
+describe("addCreature (Kit)", () => {
+  it("renders the Kit stat when the creature has a kit", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.kit = "BERSERKER";
+    documentationService.addCreature(creature);
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toContain('<div class="stat"><dt>Kit</dt><dd>Berserker</dd></div>');
+  });
+
+  it("omits the Kit stat entirely when the creature has no kit", () => {
+    documentationService.addCreature(fakeCreatureForAddCreature(false));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).not.toContain("Kit");
+  });
+});
+
 describe("getEffectiveApr", () => {
   it("returns the stored apr as-is when not dual wielding and not doubled", () => {
     const creature = fakeCreatureForAddCreature(false, false);
@@ -895,6 +911,47 @@ describe("getCreatureTraits", () => {
 
     expect(template.text).not.toContain("critical");
   });
+
+  it("renders Hide in Shadows with its value when defined", () => {
+    State.immunities = [];
+    const creature = {
+      data: { immunities: [], items: { equipped: [] }, hideShadow: 90 },
+    } as unknown as Creature;
+    const template = { text: "{{traits}}" };
+
+    documentationService.getCreatureTraits(template, creature);
+
+    expect(template.text).toBe(
+      '<div class="detail-section"><h4>Traits</h4><div class="traits">' +
+        "<h5>Hide in Shadows (90%)</h5>" +
+        "</div></div>",
+    );
+  });
+
+  it("does not repeat the kit name on the Hide in Shadows trait (shown separately via Special)", () => {
+    State.immunities = [];
+    const creature = {
+      data: { immunities: [], items: { equipped: [] }, hideShadow: 90, kit: "SHADOWDANCER" },
+    } as unknown as Creature;
+    const template = { text: "{{traits}}" };
+
+    documentationService.getCreatureTraits(template, creature);
+
+    expect(template.text).toContain("<h5>Hide in Shadows (90%)</h5>");
+    expect(template.text).not.toContain("Shadowdancer");
+  });
+
+  it("omits Hide in Shadows when the creature has no hideShadow value", () => {
+    State.immunities = [];
+    const creature = {
+      data: { immunities: [], items: { equipped: [] } },
+    } as unknown as Creature;
+    const template = { text: "{{traits}}" };
+
+    documentationService.getCreatureTraits(template, creature);
+
+    expect(template.text).toBe("");
+  });
 });
 
 describe("getTraitEntries", () => {
@@ -1425,6 +1482,50 @@ describe("getCreatureHeader", () => {
 
     expect(template.text).toContain(
       '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">650</dd></div>',
+    );
+  });
+
+  it("shows Hide in Shadows on an adjustment card when the file sets hideShadow", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSKGR04"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { hideShadow: 90 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<div class="detail-section"><h4>Traits</h4><div class="traits">' +
+        '<div class="adjustment-changed"><h5>Hide in Shadows (90%)</h5></div>' +
+        "</div></div>",
+    );
+  });
+
+  it("shows Kit as its own stat row on an adjustment card when the file sets a different kit", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSKGR05"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { kit: "SHADOWDANCER" },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<div class="stat"><dt>Kit</dt><dd class="adjustment-changed">Shadowdancer</dd></div>',
     );
   });
 

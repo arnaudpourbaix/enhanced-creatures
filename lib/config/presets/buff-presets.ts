@@ -325,18 +325,6 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
-    preset: SPELLS.Priest.TrueSeeing.file,
-    ability: {
-      name: SPELLS.Priest.TrueSeeing.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [triggerFactory.checkStatGT(0, "TRUE_SIGHT", true)],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
     preset: SPELLS.Priest.HolyPower.file,
     ability: {
       name: SPELLS.Priest.HolyPower.name,

@@ -5,6 +5,7 @@ import { Variant } from "../../model/creature/variant";
 import { CreatureData, MemorizedSpell, SpellbookVariant } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ClassIdentifier } from "../../model/ids/class";
+import { KitIdentifier } from "../../model/ids/kit";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import creatureService from "../creature.service";
@@ -43,6 +44,8 @@ export interface EffectiveAdjustment {
   intelligence: AdjustmentField<number>;
   wisdom: AdjustmentField<number>;
   charisma: AdjustmentField<number>;
+  hideShadow: AdjustmentField<number | undefined>;
+  kit: AdjustmentField<KitIdentifier | undefined>;
   equipped: { item: EquippedItem; changed: boolean }[];
   immunities: { name: ImmunityName; changed: boolean }[];
   memorized: { spell: MemorizedSpell; changed: boolean }[];
@@ -186,6 +189,14 @@ class AdjustmentService {
         this.lastDefined(matching, (d) => d.charisma),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.charisma!,
+      ),
+      hideShadow: this.field(
+        this.lastDefined(matching, (d) => d.hideShadow),
+        base.hideShadow,
+      ),
+      kit: this.field(
+        this.lastDefined(matching, (d) => d.kit),
+        base.kit,
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
@@ -453,6 +464,8 @@ class AdjustmentService {
       effective.intelligence.changed ||
       effective.wisdom.changed ||
       effective.charisma.changed ||
+      effective.hideShadow.changed ||
+      effective.kit.changed ||
       effective.equipped.some((e) => e.changed) ||
       effective.immunities.some((i) => i.changed) ||
       effective.memorized.some((m) => m.changed) ||
@@ -527,6 +540,8 @@ class AdjustmentService {
       "intelligence",
       "wisdom",
       "charisma",
+      "hideShadow",
+      "kit",
     ] as const;
     const result: EffectiveAdjustment = { ...effective };
     for (const key of keys) {
