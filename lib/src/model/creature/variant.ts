@@ -1,5 +1,5 @@
 import { PartialCreatureAdjustment } from "./adjustment";
-import type { Creature } from "./creature";
+import type { Creature, CreatureAutoGenerate } from "./creature";
 import { InputCreatureData } from "./data-input";
 
 /**
@@ -24,8 +24,18 @@ export interface VariantInput {
    * `data`, `noWeapon`, `scriptName`, `stringRef`, `game`, ...), with its `data` layered on top
    * of the merged variant data (`deepmerge(variantData, entry.data)`). Array values (e.g.
    * `items.remove`) are concatenated, not replaced.
+   *
+   * `autoGenerate` is the one exception to that layering: it is NOT deep-merged. An entry that
+   * doesn't declare its own `autoGenerate` inherits the variant's shared one (below) as-is; an
+   * entry that declares any `autoGenerate` (even `{}`) uses exactly that instead, so a sub-entry
+   * with its own `level1` can opt out of a shared nominal-level override entirely.
    */
   adjust?: PartialCreatureAdjustment[];
+  /**
+   * Shared `autoGenerate` override for every member file (the plain `files` list and every
+   * `adjust` entry that doesn't declare its own). See {@link adjust} for the opt-out rule.
+   */
+  autoGenerate?: Partial<CreatureAutoGenerate>;
 }
 
 /**

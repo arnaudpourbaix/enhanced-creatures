@@ -250,31 +250,19 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam20su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDWAVE16~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIOGMA01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIGENTLE~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~DROTH~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDMURS~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDMURS2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~UHOGRE01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~KROTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~NTKROTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~KAHRK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~PLSHOM01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~PALKNI01~) BEGIN 
 				WRITE_LONG 0x14 975 // xpv
-				WRITE_SHORT 0x24 119 // hp
-				WRITE_SHORT 0x26 119 // hp
-				WRITE_BYTE 0x52 11 // thac0
-				WRITE_BYTE 0x54 8 // saveDeath
-				WRITE_BYTE 0x55 10 // saveWand
-				WRITE_BYTE 0x56 9 // savePolymorph
-				WRITE_BYTE 0x57 9 // saveBreath
-				WRITE_BYTE 0x58 11 // saveSpell
-				WRITE_BYTE 0x234 9 // level1
-				WRITE_BYTE 0x235 9 // level2
-				WRITE_BYTE 0x23d 19 // constitution
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDWAVE16~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIOGMA01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIGENTLE~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~DROTH~) BEGIN 
 				WRITE_LONG 0x14 1400 // xpv
-				WRITE_SHORT 0x24 74 // hp
-				WRITE_SHORT 0x26 74 // hp
+				WRITE_SHORT 0x24 72 // hp
+				WRITE_SHORT 0x26 72 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand
 				WRITE_BYTE 0x56 9 // savePolymorph
 				WRITE_BYTE 0x57 9 // saveBreath
 				WRITE_BYTE 0x58 11 // saveSpell
-				WRITE_BYTE 0x234 9 // level1
-				WRITE_BYTE 0x235 9 // level2
-				WRITE_BYTE 0x23d 19 // constitution
+				WRITE_BYTE 0x234 7 // level1
+				WRITE_BYTE 0x235 7 // level2
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER_MAGE~) // class
 				ADD_MEMORIZED_SPELL ~SPWI316~ #2 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI220~ #1 ~wizard~ (2) 
@@ -284,8 +272,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDMURS~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDMURS2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~UHOGRE01~) BEGIN 
 				WRITE_LONG 0x14 2000 // xpv
-				WRITE_SHORT 0x24 74 // hp
-				WRITE_SHORT 0x26 74 // hp
+				WRITE_SHORT 0x24 92 // hp
+				WRITE_SHORT 0x26 92 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand
@@ -294,7 +282,6 @@ BEGIN
 				WRITE_BYTE 0x58 11 // saveSpell
 				WRITE_BYTE 0x234 9 // level1
 				WRITE_BYTE 0x235 9 // level2
-				WRITE_BYTE 0x23d 19 // constitution
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER_MAGE~) // class
 				ADD_MEMORIZED_SPELL ~jas0m20~ #4 ~wizard~ (1) // Cone of Cold
 				ADD_MEMORIZED_SPELL ~SPWI316~ #2 ~wizard~ (2) 
@@ -315,12 +302,11 @@ BEGIN
 				WRITE_BYTE 0x58 11 // saveSpell
 				WRITE_BYTE 0x234 10 // level1
 				WRITE_BYTE 0x235 10 // level2
-				WRITE_BYTE 0x23d 19 // constitution
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~KROTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~NTKROTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~KAHRK~) BEGIN 
 				WRITE_LONG 0x14 3500 // xpv
-				WRITE_SHORT 0x24 98 // hp
-				WRITE_SHORT 0x26 98 // hp
+				WRITE_SHORT 0x24 122 // hp
+				WRITE_SHORT 0x26 122 // hp
 				WRITE_BYTE 0x52 9 // thac0
 				WRITE_BYTE 0x54 7 // saveDeath
 				WRITE_BYTE 0x55 9 // saveWand
@@ -330,7 +316,6 @@ BEGIN
 				WRITE_BYTE 0x234 12 // level1
 				WRITE_BYTE 0x235 12 // level2
 				WRITE_BYTE 0x238 19 // strength
-				WRITE_BYTE 0x23d 19 // constitution
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER_MAGE~) // class
 				ADD_MEMORIZED_SPELL ~SPWI506~ #4 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~jas0m20~ #4 ~wizard~ (2) // Cone of Cold
@@ -341,24 +326,32 @@ BEGIN
 				SET_BG2_PROFICIENCY ~PROFICIENCYHALBERD~ 5
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~KAHRK~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
-				WRITE_SHORT 0x24 119 // hp
-				WRITE_SHORT 0x26 119 // hp
-				WRITE_BYTE 0x52 11 // thac0
-				WRITE_BYTE 0x54 8 // saveDeath
-				WRITE_BYTE 0x55 10 // saveWand
-				WRITE_BYTE 0x56 9 // savePolymorph
-				WRITE_BYTE 0x57 9 // saveBreath
-				WRITE_BYTE 0x58 11 // saveSpell
-				WRITE_BYTE 0x234 9 // level1
-				WRITE_BYTE 0x235 9 // level2
-				WRITE_BYTE 0x23d 19 // constitution
+				WRITE_LONG 0x14 3500 // xpv
+				WRITE_SHORT 0x24 122 // hp
+				WRITE_SHORT 0x26 122 // hp
+				WRITE_BYTE 0x52 9 // thac0
+				WRITE_BYTE 0x54 7 // saveDeath
+				WRITE_BYTE 0x55 9 // saveWand
+				WRITE_BYTE 0x56 8 // savePolymorph
+				WRITE_BYTE 0x57 8 // saveBreath
+				WRITE_BYTE 0x58 10 // saveSpell
+				WRITE_BYTE 0x234 12 // level1
+				WRITE_BYTE 0x235 12 // level2
+				WRITE_BYTE 0x238 19 // strength
+				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER_MAGE~) // class
+				ADD_MEMORIZED_SPELL ~SPWI506~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~jas0m20~ #4 ~wizard~ (2) // Cone of Cold
+				ADD_MEMORIZED_SPELL ~SPWI316~ #2 ~wizard~ (4) 
+				ADD_MEMORIZED_SPELL ~SPWI220~ #1 ~wizard~ (4) 
+				ADD_MEMORIZED_SPELL ~SPWI104~ #0 ~wizard~ (3) 
+				ADD_MEMORIZED_SPELL ~SPWI116~ #0 ~wizard~ (3) 
+				SET_BG2_PROFICIENCY ~PROFICIENCYHALBERD~ 5
 				SET_BG2_PROFICIENCY ~PROFICIENCYKATANA~ 5
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~KROTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~NTKROTAN~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
-				WRITE_SHORT 0x24 122 // hp
-				WRITE_SHORT 0x26 122 // hp
+				WRITE_SHORT 0x24 152 // hp
+				WRITE_SHORT 0x26 152 // hp
 				WRITE_BYTE 0x52 5 // thac0
 				WRITE_BYTE 0x54 4 // saveDeath
 				WRITE_BYTE 0x55 6 // saveWand
@@ -367,8 +360,15 @@ BEGIN
 				WRITE_BYTE 0x58 7 // saveSpell
 				WRITE_BYTE 0x234 15 // level1
 				WRITE_BYTE 0x235 15 // level2
-				WRITE_BYTE 0x23d 19 // constitution
+				WRITE_BYTE 0x238 19 // strength
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~FIGHTER_MAGE~) // class
+				ADD_MEMORIZED_SPELL ~SPWI506~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~jas0m20~ #4 ~wizard~ (2) // Cone of Cold
+				ADD_MEMORIZED_SPELL ~SPWI316~ #2 ~wizard~ (4) 
+				ADD_MEMORIZED_SPELL ~SPWI220~ #1 ~wizard~ (4) 
+				ADD_MEMORIZED_SPELL ~SPWI104~ #0 ~wizard~ (3) 
+				ADD_MEMORIZED_SPELL ~SPWI116~ #0 ~wizard~ (3) 
+				SET_BG2_PROFICIENCY ~PROFICIENCYHALBERD~ 5
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OGREMASU~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv

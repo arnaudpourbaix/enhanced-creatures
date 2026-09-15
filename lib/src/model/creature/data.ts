@@ -38,6 +38,13 @@ export interface CreatureData {
    * Specific case when creature have more HP or can fight when HP is below 0 like some bears.
    */
   specialBonusHp?: number;
+  /**
+   * Extra HP granted per Hit Die (level1's pnpValue), for an individual with more vigor than
+   * others of its kind. Unlike bonusHp/specialBonusHp (both flat), this is multiplied by the
+   * actual Hit Dice count, so it keeps scaling correctly across adjustments that bump level1
+   * without needing to be recomputed by hand for each one.
+   */
+  bonusHpPerHitDie?: number;
   ac?: number;
   thac0?: number;
   apr?: number;
@@ -563,6 +570,9 @@ export const CREATURE_DATA_FIELDS: {
   },
   {
     key: "specialBonusHp",
+  },
+  {
+    key: "bonusHpPerHitDie",
   },
   {
     key: "script",

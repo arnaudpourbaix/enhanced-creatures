@@ -254,8 +254,13 @@ export interface CreatureAutoGenerateSavingThrows {
   };
 }
 
+export interface CreatureAutoGenerateThac0 {
+  /** Nominal level/Hit Dice for the THAC0 table lookup, in place of level1's pnpValue. */
+  level?: number;
+}
+
 export interface CreatureAutoGenerate {
-  thac0?: boolean;
+  thac0?: boolean | CreatureAutoGenerateThac0;
   hitPoints?: boolean;
   savingThrows?: CreatureAutoGenerateSavingThrows;
   enchantment?: boolean;

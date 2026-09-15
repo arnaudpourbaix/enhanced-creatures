@@ -1,6 +1,6 @@
 import deepmerge from "deepmerge";
 import { PartialCreatureAdjustment } from "../model/creature/adjustment";
-import { Creature } from "../model/creature/creature";
+import { Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import { InputCreatureData } from "../model/creature/data-input";
 import { Variant, VariantInput } from "../model/creature/variant";
 import logService from "../services/log.service";
@@ -37,17 +37,50 @@ function buildAdjustments(
 ): PartialCreatureAdjustment[] {
   const adjustments: PartialCreatureAdjustment[] = [];
   if (input.files?.length && hasKeys(base)) {
-    adjustments.push({ files: input.files, data: base });
+    adjustments.push({ files: input.files, data: base, autoGenerate: input.autoGenerate });
   } else if (input.files?.length) {
     logService.warn(
       `variant "${label}" lists files but resolves to no data - those files get no adjustment`,
     );
   }
+
+  // Each WeiDU adjustment is a separate, sequential patch on the same .cre file: a later one
+  // overwrites any field it defines, regardless of what an earlier one for the same file already
+  // set (see weidu-creature.service's writeCreatureDataField - there's no diffing against a prior
+  // pass). So an `adjust` entry that narrows a file already covered by an earlier entry must merge
+  // on top of THAT entry's result, not re-derive from the shared `base` - otherwise every field
+  // the narrowing entry doesn't restate (its Hit Dice, class, spells, ...) silently reverts to the
+  // generic profile and clobbers the earlier entry's more specific values.
+  const stateByFile = new Map<string, InputCreatureData>();
+  const autoGenerateByFile = new Map<string, Partial<CreatureAutoGenerate> | undefined>();
+  for (const file of input.files ?? []) {
+    stateByFile.set(file.toUpperCase(), base);
+    autoGenerateByFile.set(file.toUpperCase(), input.autoGenerate);
+  }
+
   for (const entry of input.adjust ?? []) {
+    const files = entry.files.map((f) => f.toUpperCase());
+    const priorStates = new Set(files.map((f) => stateByFile.get(f) ?? base));
+    if (priorStates.size > 1) {
+      throw new Error(
+        `variant "${label}": adjust entry for [${entry.files.join(", ")}] mixes files that were narrowed differently by earlier adjust entries - split it so each group shares one prior state`,
+      );
+    }
+    const priorState = priorStates.values().next().value ?? base;
     const merged = entry.data
-      ? deepmerge<InputCreatureData>(base, entry.data, { customMerge })
-      : base;
-    adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined });
+      ? deepmerge<InputCreatureData>(priorState, entry.data, { customMerge })
+      : priorState;
+    // autoGenerate is deliberately NOT deep-merged (see VariantInput.adjust doc): an entry
+    // inherits the nearest ancestor's autoGenerate (this file's own chain, then the variant's
+    // shared one) as-is unless it declares its own (even `{}`), so a sub-entry with its own
+    // level1 can opt out of a shared nominal-level override.
+    const priorAutoGenerate = autoGenerateByFile.get(files[0]) ?? input.autoGenerate;
+    const autoGenerate = entry.autoGenerate ?? priorAutoGenerate;
+    adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined, autoGenerate });
+    for (const file of files) {
+      stateByFile.set(file, merged);
+      autoGenerateByFile.set(file, autoGenerate);
+    }
   }
   return adjustments;
 }

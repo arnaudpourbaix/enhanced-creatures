@@ -145,15 +145,19 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
       "PALKNI01",
     ],
     data: {
-      level1: 9,
-      level2: 9,
-      constitution: 19,
+      bonusHpPerHitDie: 2,
       xpv: 975,
+    },
+    autoGenerate: {
+      thac0: { level: 9 },
+      savingThrows: { level: 9 },
     },
     adjust: [
       {
         files: ["BDWAVE16", "WIOGMA01", "WIGENTLE", "DROTH"],
         data: {
+          level1: 7,
+          level2: 7,
           xpv: 1400,
           class: "FIGHTER_MAGE",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
@@ -170,6 +174,8 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
       {
         files: ["BDMURS", "BDMURS2", "UHOGRE01"],
         data: {
+          level1: 9,
+          level2: 9,
           xpv: 2000,
           class: "FIGHTER_MAGE",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
