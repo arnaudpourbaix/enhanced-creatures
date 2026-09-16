@@ -26,6 +26,11 @@ jobs:
           # Full history: release.service compares local/origin master with rev-list, which
           # needs real ancestry, not a shallow clone.
           fetch-depth: 0
+          # actions/checkout skips tags by default. release.service's resume logic checks
+          # `refs/tags/<tag>` locally to detect an interrupted release (commit/tag/push done,
+          # only packaging left) - without this it can't see an existing tag and reruns the
+          # whole release from scratch, tripping the "changelog already empty" check.
+          fetch-tags: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
