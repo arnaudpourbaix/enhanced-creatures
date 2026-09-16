@@ -1,0 +1,28 @@
+C#ENDLESSBG1: 7 new, 8 changed
+
+NEW (7):
+  C#EBG1BD  <CHARNAME>'s Bed
+  C#STELTA  Duke Eltan
+  C#STLMST  Elminster
+  C#STSRG1  Flaming Fist Mercenary
+  C#STSRG2  Flaming Fist Mercenary
+  C#STSRV1  Servant
+  C#STSRV2  Servant
+
+CHANGED (8):
+  FLAMANG   Mercenary
+    generalScript: None -> c#stdst2
+  MTOWWON1  Commoner
+    generalScript: None -> MTOWBAZ
+  MTOWWON2  Commoner
+    generalScript: None -> MTOWBAZ
+  MTOWWON3  Commoner
+    generalScript: None -> FTOWBAZ
+  NILA      Nila
+    generalScript: None -> c#stdstr
+  NOBBAX_A  Nobleman
+    generalScript: None -> NOBLBAZ
+  VOLETA    Voleta Stiletto
+    generalScript: None -> c#stdstr
+  WINSKI2   Winski Perorate
+    deathvar: None -> winski2

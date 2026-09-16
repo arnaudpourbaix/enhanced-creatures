@@ -1,41 +1,33 @@
 DEFINE_PATCH_FUNCTION clear_proficiencies BEGIN
-  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=233 END
-  PATCH_FOR_EACH ~bg1_prof~ IN ~0x6e~ ~0x6f~ ~0x70~ ~0x71~ ~0x72~ ~0x73~ ~0x74~ ~0x75~ BEGIN
-    WRITE_BYTE %bg1_prof% 0
-  END
+    LPF DELETE_CRE_EFFECT
+        INT_VAR
+            opcode_to_delete = 233
+    END
+    PATCH_FOR_EACH ~bg1_prof~ IN ~0x6e~ ~0x6f~ ~0x70~ ~0x71~ ~0x72~ ~0x73~ ~0x74~ ~0x75~ BEGIN
+        WRITE_BYTE %bg1_prof% 0
+    END
 END
 
 DEFINE_PATCH_FUNCTION set_movement_speed
-INT_VAR
-  value = 99
+    INT_VAR
+        value = 99
 BEGIN
-  PATCH_IF value < 99 BEGIN
-    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=126 END
-    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=176 END
-    LPF ADD_CRE_EFFECT INT_VAR opcode=176 target=1 timing=9 parameter1=value parameter2=1 END
-  END
-END
-
-DEFINE_PATCH_FUNCTION minimum_proficiency
-INT_VAR
-  value = 1
-  proficiency = 0
-BEGIN
-  PATCH_IF value >= 0 AND proficiency >= 0 BEGIN
-    coveredp = 0
-    GET_OFFSET_ARRAY effect_array 0x2c4 4 0x2c8 4 0 0 0x108
-    PHP_EACH effect_array AS i => off BEGIN
-      READ_LONG off + 0x08 opcode
-      READ_LONG off + 0x14 stars
-      READ_LONG off + 0x18 prof
-      PATCH_IF opcode = 233 AND prof = proficiency AND stars >= value BEGIN
-        coveredp = 1
-      END
+    PATCH_IF value < 99 BEGIN
+        LPF DELETE_CRE_EFFECT
+            INT_VAR
+                opcode_to_delete = 126
+        END
+        LPF DELETE_CRE_EFFECT
+            INT_VAR
+                opcode_to_delete = 176
+        END
+        LPF ADD_CRE_EFFECT
+            INT_VAR
+                opcode     = 176
+                target     = 1
+                timing     = 9
+                parameter1 = value
+                parameter2 = 1
+        END
     END
-    PATCH_IF !coveredp BEGIN
-      SET_BG2_PROFICIENCY proficiency value
-    END
-  END ELSE BEGIN
-    PATCH_WARN "WARNING: minimum_proficiency received illegal arguments: value = %value%, proficiency = %proficiency%"
-  END
 END

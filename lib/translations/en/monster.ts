@@ -1,7 +1,4 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
-
-import description from "./description";
-
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
@@ -114,11 +111,17 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       war: "War Dog",
       blink: "Blink Dog",
       spectralHound: "Spectral Hound",
+      hellHound: "Hell Hound",
+      moon: "Moon Dog",
     },
     weapon: { jaws: "Jaws" },
     ability: {
       blink: "Blink",
       astralPlaneShift: "Astral Plane Shift",
+      breathFire: {
+        name: "Breath Fire",
+        description: `Hell hounds attack first by breathing fire at an opponent up to 10 yards away. The fire causes 1 point of damage for each of the hell hound·s Hit Dice. A successful saving throw vs. breath weapon cuts the damage in half`,
+      },
     },
   },
   fey: {
@@ -127,6 +130,11 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       hamadryad: "Hamadryad",
       sirine: "Sirine",
       nymph: "Nymph",
+      nereid: "Nereid",
+    },
+    trait: {
+      nereid: `Resistance to magic (50%)
++4 to AC when attacked (Nereid gets a saving throw vs. poison to avoid damage from a weapon)`,
     },
     weapon: { sirineTouch: "Sirine Touch" },
     ability: {
@@ -167,6 +175,34 @@ Victims are blinded for one round, no save.`,
         name: "Touch of Tranquility",
         description: `If the sirine touches an opponent, the victim must make a saving throw vs. poison; those failing to save are reduced to an Intelligence of 2.`,
       },
+      venomSpit: {
+        name: "Venom Spit",
+        description: `Nereids can spit a venom up to 20 feet that blinds a target for 7 rounds if it hits. 
+A blinded victim suffer a -4 penalty to his attack roll, and both saving throws and Armor Class are worsened by 4 until the effects wear off.`,
+      },
+      drowningKiss: {
+        name: "Drowning Kiss",
+        description: `Any male humanoid kissed by a Nereid drowns instantly unless he makes a successful saving throw vs. breath weapon with a -2 penalty. 
+If the saving throw is successful, he finds total ecstasy.`,
+      },
+      beguilingAura: {
+        name: "Beguiling Aura",
+        description: `All males that look at a nereid find themselves incapable of harming the creature (no saving throw) for one turn.
+This ability has no effect on blinded characters.`,
+      },
+      attackEvasion: {
+        name: "Attack's Evasion",
+        description: `All males that look at a nereid find themselves incapable of harming the creature (no saving throw) for one turn.
+This ability has no effect on blinded characters.`,
+      },
+      summonGiantPoisonousSnake: {
+        name: "Summon Giant Poisonous Snake",
+        description: `Nereids are 85% likely to have a pet that tries to protect its master.`,
+      },
+      wateryFist: {
+        name: "Watery Fist",
+        description: `Form the water into the shape of a fist, and cause it to strike and inflict 1d4 points of damage.`,
+      },
     },
   },
   golem: {
@@ -192,7 +228,9 @@ Victims are blinded for one round, no save.`,
       hideousLaugh: "Hideous Laugh",
       charge: {
         name: "Charge",
-        description: `Gradually increases movement for 4 rounds. Peak speed is reached after 2 rounds.`,
+        peakSpeed: "Peak speed",
+        description: `Gradually increases movement for 5 rounds. Peak speed is reached after 2 rounds and lasts 3 rounds. 
+Attacks during peak speed inflict 10d10 crushing damage.`,
         end: "End charge",
       },
       cloudOfPoisonousGas: {
@@ -276,7 +314,8 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       gray: "Gray Ooze",
       green: "Green Slime",
       ochre: "Ochre Jelly",
-      olive: "Olive Slime Creature",
+      olive: "Olive Slime",
+      oliveCreature: "Olive Slime Creature",
       slitheringTracker: "Slithering Tracker",
     },
     weapon: {
@@ -287,6 +326,13 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
         name: SLIME_SPLIT_NAME,
         puddingDesc: SLIME_SPLIT_PUDDING_DESC,
         mustardDesc: SLIME_SPLIT_MUSTARD_DESC,
+      },
+      attachToLivingFlesh: {
+        name: "Attach itself to living flesh",
+        descriptionGreen: `Attaches itself to living flesh and in 4 melee rounds turns the creature into green slime (no resurrection possible).
+Only a cure disease spell can prevent the death of the target.`,
+        descriptionOlive: `Attaches itself to living flesh and in 1 day turns the creature into an olive slime creature (no resurrection possible).
+Only a cure disease spell can prevent the death of the target.`,
       },
       toxicVapors: {
         name: "Toxic Vapors",
@@ -374,6 +420,7 @@ Characters in contact with the webs must also make a saving throw vs. paralyzati
     name: {
       wolf: "Wolf",
       dire: "Dire Wolf",
+      shadeDire: "Shade Dire Wolf",
       dread: "Dread Wolf",
       vampiric: "Vampiric Wolf",
       winter: "Winter Wolf",
@@ -412,7 +459,7 @@ He loses 1 hp per hour until death.`,
         name: "Huge Axe",
         description: `Huge Axe
 STATISTICS:
-Damage: 1D12
+Damage: 1D10+2
 Damage type: slashing
 Weight: 15
 Speed Factor: 8
@@ -442,6 +489,7 @@ If successful, the charge causes double head-butt damage`,
       wyvern: "Wyvern",
       baby: "Baby Wyvern",
       greater: "Greater Wyvern",
+      redDrake: "Red Wyvern Drake",
     },
     weapon: { stinger: "Stinger", jaws: "Jaws" },
     ability: {},
@@ -461,6 +509,10 @@ If successful, the charge causes double head-butt damage`,
       greaterMummy: "Greater Mummy",
       shadow: "Shadow",
       greaterShadow: "Greater Shadow",
+      archerSkeleton: "Archer Skeleton",
+      skeletonMonster: "Skeleton Monster",
+      giantSkeleton: "Giant Skeleton",
+      spikeSkeleton: "Spike Skeleton",
       skeleton: "Skeleton",
       skeletonWarrior: "Skeleton Warrior",
       spectre: "Spectre",
@@ -566,5 +618,17 @@ Priests above 6th level are immune to this effect, and all other humanoids above
       ettin: "Ettin",
     },
     weapon: { largeSpikedClub: "Large Spiked Club" },
+  },
+  elemental: {
+    name: {},
+    weapon: {},
+    ability: {},
+  },
+  snake: {
+    name: {
+      giantPoisonous: "Giant Poisonous Snake",
+    },
+    weapon: { jaws: "Jaws" },
+    ability: {},
   },
 };

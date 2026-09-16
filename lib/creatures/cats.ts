@@ -297,7 +297,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 15, // sprint 45
         items: {
           remove: ["P1-8"],
@@ -354,10 +354,10 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         items: {
-          remove: ["CATJAG", "S1-6"],
+          remove: ["CATJAG", "S1-6", "P1-8"],
         },
         immunities: ["cat"],
       },
@@ -384,6 +384,21 @@ class CatFamily extends CreatureFamily<Cat> {
     jaguar.setAdjustments([
       { files: ["JAGUARSU"], data: { level1: 5 } },
       { files: ["C6GUEN", "C6GUEN2"], data: { level1: 6 } },
+      {
+        files: [
+          "BDHELP04",
+          "CATJAG01",
+          "CATJAGWP",
+          "CATPAN01",
+          "CB585AN5",
+          "D9CATJ",
+          "D9CATT",
+          "OHDANIM3",
+          "TRANIM03",
+          "TREVIL05",
+        ],
+        stringRef: "monster.cat.name.jaguar",
+      },
     ]);
     return jaguar;
   }
@@ -414,9 +429,12 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 15,
         items: {
+          remove: ["CATJAGSU", "P1-6"],
+        },
+        script: {
           remove: ["CATJAGSU"],
         },
         immunities: ["cat"],
@@ -469,10 +487,10 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["CATLIO"],
+          remove: ["CATLIO", "P1-10"],
         },
         immunities: ["cat"],
       },
@@ -524,7 +542,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["P1-6"],
@@ -551,7 +569,7 @@ class CatFamily extends CreatureFamily<Cat> {
       abilities: [this.ability(Ids.MountainLionLeap)],
       customCodes: [hunterCustomCode],
     });
-    mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 12 } }]);
+    mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 15 } }]);
     return mountainLion;
   }
 
@@ -581,10 +599,10 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["CATLIS"],
+          remove: ["CATLIS", "FIGLION", "IMMUNE1"],
         },
         immunities: ["cat"],
       },
@@ -607,6 +625,7 @@ class CatFamily extends CreatureFamily<Cat> {
     spottedLion.setBehavior({
       abilities: [this.ability(Ids.SpottedLionLeap)],
     });
+    spottedLion.setAdjustments([{ files: ["CATLIOWP"], data: { level1: 9 } }]);
     return spottedLion;
   }
 
@@ -636,7 +655,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["P1-10"],
@@ -691,7 +710,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         hideShadow: 90,
         items: {
@@ -748,7 +767,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "DEMONIC",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         hideShadow: 100,
         moveSilent: 100,
         movement: 15,
@@ -807,7 +826,7 @@ class CatFamily extends CreatureFamily<Cat> {
         race: "CAT",
         class: "CAT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         items: {
           remove: ["BDDISPBE", "JY_01DB", "JY_02DB", "JY_03DB", "BOOT01", "MOBHA39A"],
@@ -887,15 +906,6 @@ class CatFamily extends CreatureFamily<Cat> {
         data: {
           level1: 12,
           xpv: 1200,
-        },
-      },
-      {
-        files: ["MOBHA39"],
-        data: {
-          level1: 12,
-          apr: 4,
-          xpv: 1500,
-          script: { location: "None" },
         },
       },
       {

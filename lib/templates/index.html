@@ -46,6 +46,11 @@
   </header>
   <div class="layout">
     <nav class="sidebar">
+      <div class="file-search">
+        <input type="search" class="file-search-input" autocomplete="off" spellcheck="false"
+          placeholder="Find a creature by .cre file…" aria-label="Find a creature by its file name" />
+        <ul class="file-search-results" hidden></ul>
+      </div>
       <ul>{{families}}</ul>
     </nav>
     <main class="content">
@@ -59,10 +64,24 @@
     <button type="button" class="trait-popover-close" aria-label="Close">&times;</button>
     <div class="trait-popover-body traits"></div>
   </div>
+  <!-- Adjustments side panel (docs/monsters.js's initAdjustmentsPanel). A creature's
+       <details class="creature-adjustments"> block is MOVED into .adjustments-panel-mount on
+       open and moved back on close, so its popover ids stay unique. -->
+  <div class="adjustments-backdrop"></div>
+  <aside class="adjustments-panel" role="dialog" aria-label="Adjustments" aria-hidden="true" hidden>
+    <div class="adjustments-panel-head">
+      <span class="adjustments-panel-title"></span>
+      <button type="button" class="adjustments-panel-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="adjustments-panel-mount"></div>
+  </aside>
   <!-- Source content for the trait popover above (docs/monsters.js's initTraitPopover) - each
        a.trait-link looks up its matching #<name> entry here and copies it into the popover. Not
        a visible glossary; kept out of layout entirely. -->
   <div class="trait-entries" hidden>{{traitEntries}}</div>
+  <!-- Every searchable .cre resref -> its creature card, read by docs/monsters.js's
+       initFileSearch(). Generated from documentationService.fileIndex. -->
+  <script type="application/json" id="file-search-index">{{fileSearchIndex}}</script>
   <script src="monsters.js" defer></script>
 </body>
 

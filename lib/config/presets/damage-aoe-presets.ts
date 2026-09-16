@@ -50,9 +50,47 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Wizard.Fireball.file,
+    ability: {
+      name: SPELLS.Wizard.Fireball.name,
+      targets: [
+        {
+          name: "FarthestEnemies",
+          randomOrder: true,
+          triggers: [
+            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Priest.GlyphOfWarding.file,
     ability: {
       name: SPELLS.Priest.GlyphOfWarding.name,
+      targets: [
+        {
+          name: "FarthestEnemies",
+          randomOrder: true,
+          triggers: [
+            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.HolySmite.file,
+    ability: {
+      name: SPELLS.Priest.HolySmite.name,
       targets: [
         {
           name: "FarthestEnemies",
@@ -150,20 +188,23 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  ...presetFactory.create([SPELLS.Priest.CloudOfPestilence.file, FNP_SPELLS.Priest.CloudOfPestilence.file], {
-    name: SPELLS.Priest.CloudOfPestilence.name,
-    targets: [
-      {
-        name: "NearestEnemies",
-        triggers: [
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-        ],
-      },
-    ],
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
-  }),
+  ...presetFactory.create(
+    [SPELLS.Priest.CloudOfPestilence.file, FNP_SPELLS.Priest.CloudOfPestilence.file],
+    {
+      name: SPELLS.Priest.CloudOfPestilence.name,
+      targets: [
+        {
+          name: "NearestEnemies",
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  ),
   {
     preset: SPELLS.Priest.WavesOfAgony.file,
     ability: {

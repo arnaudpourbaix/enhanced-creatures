@@ -1,0 +1,137 @@
+ITEM_REV: 0 new, 52 changed
+
+CHANGED (52):
+  AKAE      Akae
+    shield: sw1h46 -> SW1H46
+    weapon1: sw1h43 -> SW1H45
+  ALUFIE01  Alu-Fiend
+    helmet: helmnoan -> HELMNOAN
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H76
+  AMSAEMON  Saemon Havarian
+    shield: sw1h52 -> SW1H76
+    weapon1: sw1h52 -> 
+  AMTGEN01  Jamis Tombelthen
+    shield: SW1H77 -> SHLD32
+    weapon1: SW1H73 -> SW1H77
+  AR18MAGE  Mage
+    weapon1: staf01 -> STAF01
+  BARONP    Baron Ployer
+    weapon1: SW2H01 -> SPER03
+  BAZDRA02  Draconis
+    helmet: helmnoan -> HELMNOAN
+    lring: dragring -> DRAGRING
+  BHCRYPT   Crypt King
+    weapon1: SW1H36 -> SW1H34
+  BSHOP02   Maliat
+    dialog: bshop02 -> dshop01
+  CEDRUID2  Dalok
+    weapon1: blun24 -> 
+  CEFGT01   Adherent
+    weapon1: sw1h20 -> SPER07
+  DSHOP01   Ikert
+    dialog: dshop01 -> bshop02
+  DUECLA01  Ilyich
+    helmet:  -> HELM07
+  GORSTA11  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: dagg24 -> STAF20
+  GPMAGE1   N'ashtar
+    weapon1: staf01 -> STAF01
+  GROMG09   Eler Had
+    weapon1: ELER -> DAGG20
+  GRTOMB01  Skeleton Warrior
+    weapon1: sper09 -> sper05
+  HAEGAN    Captain Haegan
+    shield:  -> SHLD04
+    weapon1: SW2H01 -> DVFLAIL
+  HENDAK    Hendak
+    shield: sw1h07 -> SW1H07
+    weapon1: sw1h07 -> SW1H07
+  HGBER01   Berenn
+    helmet: helmnoan -> HELMNOAN
+    amulet: amul12 -> AMUL12
+    weapon1: hgber01 -> HGBER01
+  HPRELATE  Prelate Wessalen
+    weapon2: sw2h02 -> SW2H02
+  ICMARILI  Marilith
+    lring: immune2 -> IMMUNE2
+    weapon1: sw1h52 -> SW1H76
+  JAEL03    Ist'tar Jae'llat
+    weapon1: dwsw1h02 -> DWSW1H02
+    weapon2: dwsw1h02 -> DWSW1H02
+  LEHTIN    Lehtinan
+    weapon1: dagg01 -> DAGG01
+  MEKRAT    Mekrath
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf02 -> STAF02
+  MGKET01   Lord Ketlaar Argrim
+    weapon1: dart02 -> DART02
+    weapon2: sw2h01 -> SW2H01
+  RIBALD    Ribald
+    weapon1: SW1H06 -> 
+  RNGWLF04  Anath
+    lring: ringwolf -> RINGWOLF
+  RNGWLF05  Anath
+    lring: ringwolf -> RINGWOLF
+  SAHKNG02  King Ixilthetocal
+    weapon1: SPER08 -> SPER05
+  SAHPR2    Prince Villynaty
+    weapon1: SPER08 -> SPER05
+  SENDAI    Sendai
+    helmet: helm34 -> HELM34
+    shield: dwshld01 -> DWSHLD01
+    lring: ring12 -> RING12
+    rring: bhaalhp1 -> BHAALHP1
+    weapon1: sendai -> SENDAI
+  SENKEN01  Thelynn'ss
+    shield: sw1h55 -> SW1H55
+    amulet: amul26 -> AMUL26
+    weapon1: sw1h55 -> SW1H55
+  SEVPAT01  Mencar Pebblecrusher
+    helmet: helm08 -> HELM08
+    weapon1: hamm02 -> AX1H07
+  SURAAM    Raamilat
+    weapon1: staf02 -> STAF02
+  SUSUNEER  Suneer
+    weapon1: staf02 -> STAF02
+  TAZOK     Tazok
+    weapon1: SW2H11 -> SW2H12
+  TELALU1   Alu-Fiend
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H76
+    weapon2: dart04 -> DART04
+  THESHAL   Theshal
+    lring: ring95 -> RING95
+  TRRAK01   Adratha
+    weapon1: SW1H04 -> SW1H30
+  UDDEATH2  Demon Knight
+    helmet:  -> HELM02
+    weapon1: sw2hdeat -> SW2H08
+  UDDWARF   Insane Dwarf Warrior
+    rring: RING27 -> 
+  UDPRINCE  Kuo-toan Prince
+    weapon1: KUOSPER -> SPER08
+  UDTRAP03  Riti
+    weapon1: sw2h01 -> SW2H01
+  VALRAN01  Derrick
+    weapon1: BOW03 -> BOW99
+  VVSHAD1   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg01 -> DAGG01
+  VVSHAD2   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD4   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg01 -> DAGG01
+  VVSHAD5   Shadow Thief
+    weapon1: sw1h01 -> SW1H01
+  XAPPREN1  Prebek
+    weapon1: dagg01 -> DAGG01
+  YAGA01    Yaga-Shura
+    helmet:  -> HELM26
+  YAGA03    Lieutenant Fighter
+    shield: SW1H09 -> SW1H76

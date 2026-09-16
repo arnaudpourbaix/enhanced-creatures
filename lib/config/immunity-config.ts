@@ -6,7 +6,6 @@ import {
   CastingTimeModifierTypeEnum,
   EffectBonusToEnum,
   EffectColorLocationEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   PortraitIconEnum,
   ProtectionFromWeaponsTypeEnum,
@@ -1055,7 +1054,7 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
       {
         opcode: EffectTypeEnum.Thac0Bonus,
         value: 4,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
       },
     ],
   },

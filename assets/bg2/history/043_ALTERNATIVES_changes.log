@@ -1,0 +1,32 @@
+ALTERNATIVES: 25 new, 1 changed
+
+NEW (25):
+  B!ALTMSG  Alten
+  B!ASTER   Aster
+  B!ASTER2  Aster
+  B!BALLUS  Assistant Harbormaster Ballas
+  B!BREGA   Chief Inspector Brega
+  B!LEYT    Leyt
+  B!MAL     Malficus
+  B!MAL2    Malficus
+  B!NADOR   Harbormaster Nador
+  B!NADOR2  Harbormaster Nador
+  B!PRELAT  Prelate Wessalen
+  B!STDOOR  Harold
+  B!VHELON  Vhellon
+  B!VULBTR  Butler
+  B!VULCOK  Cook
+  B!VULG1   Guest
+  B!VULG2   Guest
+  B!VULG3   Guest
+  B!VULG4   Guest
+  B!VULG5   Guest
+  B!VULG6   Guest
+  B!VULOVA  Lord Vulova
+  B!WAEL    Wael
+  B!WAEL2   Wael
+  B!ZAHL    Zahl
+
+CHANGED (1):
+  SEWCC     Carrion Crawler
+    overrideScript: None -> c#sewcc

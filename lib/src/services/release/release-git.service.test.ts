@@ -148,6 +148,18 @@ describe("ReleaseGitService", () => {
     );
   });
 
+  it("discards working-tree changes under mod/ when restoring the mod tree", () => {
+    const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
+
+    releaseGitService.restoreModTree();
+
+    expect(exec).toHaveBeenCalledWith(
+      "git",
+      ["checkout", "--", "mod"],
+      expect.objectContaining({}),
+    );
+  });
+
   it("commits with the given message", () => {
     const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
 

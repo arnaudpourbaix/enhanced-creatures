@@ -1,0 +1,34 @@
+JTWEAKS: 1 new, 14 changed
+
+NEW (1):
+  J8#NOOB   Noober
+
+CHANGED (14):
+  C6ARKAN   Arkanis
+    amulet:  -> AMUL21
+  C6ARKAN3  Arkanis
+    amulet:  -> AMUL21
+  DEVAST01  Astral Deva
+    class: CLERIC -> CLERIC_MAGE
+  DEVMON01  Monadic Deva
+    class: CLERIC -> CLERIC_MAGE
+  L#NSCHIL  Biya
+    class: MAGE -> CLERIC_MAGE
+  OHBDVA01  Fallen Deva
+    class: CLERIC -> CLERIC_MAGE
+  OHDPLANB  Planetar of Justice
+    class: MAGE -> CLERIC_MAGE
+  OHDPLANJ  Planetar of Justice
+    class: MAGE -> CLERIC_MAGE
+  OHDPLANL  Planetar
+    class: MAGE -> CLERIC_MAGE
+  OHDPPLAN  Planetar
+    class: MAGE -> CLERIC_MAGE
+  OHDSOLAR  Planetar
+    class: MAGE -> CLERIC_MAGE
+  OHDSPLAN  Planetar of Justice
+    class: MAGE -> CLERIC_MAGE
+  PLANET01  Planetar
+    class: MAGE -> CLERIC_MAGE
+  PLANWISH  Fallen Planetar
+    class: MAGE -> CLERIC_MAGE

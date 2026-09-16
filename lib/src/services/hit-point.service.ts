@@ -5,7 +5,7 @@ import { CreatureData } from "../model/creature/data";
 import { ConstitutionTable } from "../model/game-data/constitution";
 import { HitDiceTable, SizeBonusHitPointTable } from "../model/game-data/hp";
 import { CreatureSize } from "../model/game-data/sizes";
-import { PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
+import { ClassIdentifier, PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
 import logService from "./log.service";
 
 class HitPointService {
@@ -21,7 +21,7 @@ class HitPointService {
     const constitutionBonus = this.getConstitutionBonus({ ...p, level });
     const hitPointBonus = this.getHitPointBonus({ ...p, level });
     const specialBonus = this.getSpecialBonus({ ...p, level });
-    const hitDice = this.getHitDiceSize(p.creature);
+    const hitDice = this.getHitDiceSize(p.creature) + (p.data.bonusHpPerHitDie ?? 0);
     const baseHP = level * hitDice;
     const log = `${figureSet.arrowRight} Level: ${level}, HD: ${hitDice}, hit points: ${baseHP} (base) ${constitutionBonus.log}${hitPointBonus.log}${specialBonus.log}`;
     const value = baseHP + constitutionBonus.value + hitPointBonus.value + specialBonus.value;
@@ -48,6 +48,25 @@ class HitPointService {
     const value = p.level * hpPerLevel;
     const log = value > 0 ? `+${value} (con) ` : "";
     return { value, log };
+  }
+
+  /**
+   * The IE engine silently re-applies the constitution HP bonus for any creature whose class is
+   * a real PC class - getConstitutionBonus above deliberately excludes it there so the generated
+   * .cre file doesn't end up double-counting it in-game (confirmed in-game: a chieftain ogre mage
+   * variant reclassed as FIGHTER_MAGE shows up with the bonus even though it's absent from the
+   * generated hp). Documentation reads that raw generated hp, so it must add this bonus back to
+   * display the HP players actually see.
+   */
+  getDisplayHitPointBonus(p: {
+    class?: ClassIdentifier;
+    constitution?: number;
+    level: number;
+  }): number {
+    if (!GLOBAL_CONFIG.constitutionAffectHitPoint) return 0;
+    if (!PLAYER_CLASS_IDENTIFIERS.includes(p.class ?? "NO_CLASS")) return 0;
+    const constitutionHp = ConstitutionTable.find((t) => t.con === (p.constitution ?? 10));
+    return constitutionHp ? p.level * constitutionHp.warriorHp : 0;
   }
 
   private getSpecialBonus(p: {
@@ -87,7 +106,7 @@ class HitPointService {
     level: number;
     parent?: CreatureData;
   }): { value: number; log: string } {
-    const size: CreatureSize = p.data.size ?? p.parent?.size ?? "Tiny";
+    const size: CreatureSize = p.data.size?.value ?? p.parent?.size?.value ?? "Tiny";
     const item = SizeBonusHitPointTable.find(
       (c) => p.creature.data.immunities.includes(c.type) && c.size === size,
     );

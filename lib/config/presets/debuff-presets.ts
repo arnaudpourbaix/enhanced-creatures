@@ -60,9 +60,90 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Priest.Contagion.file,
+    ability: {
+      name: SPELLS.Priest.Contagion.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.Curse.file,
+    ability: {
+      name: SPELLS.Priest.Curse.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Wizard.Glitterdust.file,
     ability: {
       name: SPELLS.Wizard.Glitterdust.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.EnergyDrain.file,
+    ability: {
+      name: SPELLS.Priest.EnergyDrain.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.SymbolPain.file,
+    ability: {
+      name: SPELLS.Priest.SymbolPain.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.SymbolWeakness.file,
+    ability: {
+      name: SPELLS.Priest.SymbolWeakness.name,
       targets: [
         {
           name: "Players",

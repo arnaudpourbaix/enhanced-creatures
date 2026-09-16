@@ -1,0 +1,143 @@
+gorgon: 128 new, 5 changed
+
+NEW (128):
+  H_AISHAC  Aisha
+  H_ALARIC  Alaric
+  H_AMRIUC  Amrius
+  H_ARIOSC  Ariosh
+  H_ASNABC  Asnabel
+  H_BALD2C  Baldwin "The Butcher" Glendale
+  H_BALDWC  Baldwin "The Butcher" Glendale
+  H_BARTHC  Thief
+  H_BLAC2C  Blackthorn
+  H_BLACKC  Blackthorn
+  H_BLACTC  Thief
+  H_BMAR2C  Black Market Vendor
+  H_BMAR3C  Black Market Vendor
+  H_BMAR4C  Black Market Vendor
+  H_BMAR5C  Black Market Vendor
+  H_BMARKC  Black Market Vendor
+  H_BOBERC  Bartender Bobert
+  H_BOUNCC  Bouncer
+  H_BOUNTC  Bounty Hunter
+  H_CARTHC  Carth
+  H_CATCAC  Shadow
+  H_CITY2C  City Watch
+  H_CITY3C  City Watch
+  H_CITY4C  City Watch
+  H_CITY5C  City Watch
+  H_CITY6C  City Watch
+  H_CITYBC  City Watch
+  H_CITYGC  City Watch
+  H_CITYWC  City Watch
+  H_CLAREC  Lieutenant Clare Gallant
+  H_CMAIDC  Chambermaid
+  H_DANIKA  Danika
+  H_DARI2C  Darius
+  H_DARIUC  Darius
+  H_DEAD2C  Diomedes
+  H_DEADEC  Diomedes
+  H_DECOYC  Inspector Branic
+  H_DENEBC  Deneb
+  H_DORIAC  Dorian
+  H_DRUN2C  Drunkard
+  H_DRUNKC  Drunkard
+  H_EUDIKC  Lady Eudika
+  H_EUROPC  Europea
+  H_EURYNC  Eurynome Rhade
+  H_FLAM2C  Flaming Fist
+  H_FLAMEC  Flaming Fist
+  H_GALATC  Galatea
+  H_GAME2C  Gamesman
+  H_GAME3C  Gamesman
+  H_GAMESC  Gamesman
+  H_GILBAC  Gilbald
+  H_HUNTEC  Hunter
+  H_ILEN2C  Ilena
+  H_ILENAC  Ilena
+  H_INJURC  Gorgon's Eye Rogue
+  H_INSPEC  Inspector Branic
+  H_ISHANC  Ishani
+  H_ISLA2C  Isla Darkcloak
+  H_ISLACC  Isla Darkcloak
+  H_ISLEYC  Isley
+  H_JCOOKC  Cook
+  H_KATREC  Katreda
+  H_LADYEC  Lady Elara
+  H_LIED2C  Liedel
+  H_LIEDEC  Liedel
+  H_LORDTC  Lord Thalric
+  H_MAGNUC  Magnus
+  H_MEREDC  Madam Meredia
+  H_MIRI2C  Miria
+  H_MIRIAC  Miria
+  H_NAGACC  Naga
+  H_NAGATC  Nagate
+  H_PIRA2C  Pirate
+  H_PIRATC  Pirate
+  H_PITS1C  Khalid Blackrock
+  H_PITS2C  Grom Torrek
+  H_PITS3C  Lyria Winterheart
+  H_PITS4C  Serra Swiftwind
+  H_PITS5C  Roran "Iron Fist" Zlenka
+  H_PROCUC  Procus
+  H_PROS2C  Courtesan
+  H_PROSTC  Courtesan
+  H_PRUFLC  Pruflas
+  H_QUASSC  Quass
+  H_RAFA2C  Rafaela
+  H_RAFAEC  Rafaela
+  H_RICH2C  Richard Glendale
+  H_RICHAC  Richard Glendale
+  H_RIGALC  Rigaldo
+  H_ROGU2C  Gorgon's Eye Rogue
+  H_ROGUEC  Gorgon's Eye Rogue
+  H_SARADC  Saradin
+  H_SELENC  Selena Stardancer
+  H_SILASC  Silas
+  H_SMUGGC  Smuggler
+  H_SNAK2C  Baldwin "The Butcher" Glendale
+  H_SNAKEC  Snake
+  H_SORENC  Soren
+  H_STHI2C  Shadow Thief
+  H_STHIEC  Shadow Thief
+  H_TEMPCC  Templar Knight
+  H_TEMPFC  Templar Knight
+  H_TEMPMC  Templar Knight
+  H_TEMPRC  Templar Knight
+  H_TGUARC  Gorgon's Eye Rogue
+  H_THALDC  Thaldor
+  H_THALIC  Thalia
+  H_THAMUC  Thamuz
+  H_THEREC  Lieutenant Theresa Gallant
+  H_THIE2C  Thief
+  H_THIEFC  Shadow Thief
+  H_TMERCC  Merchant
+  H_TUZTCC  Tuzt
+  H_VALERC  Valera
+  H_VAPULC  Vapula Simberg
+  H_VARLIC  Lord Varlind
+  H_VELENC  Captain Velendra
+  H_VITIAC  Vitiare
+  H_WHIT2C  Commander Whitewood
+  H_WHITEC  Commander Whitewood
+  H_XEVECC  Xevec
+  H_YUMILC  Yumil
+  H_ZEDACC  Zeda
+  H_ZHONTC  Zhontac
+  H_ZIEKDC  Zieke's Bodyguard
+  H_ZIEKEC  Zieke
+  H_ZIEKNC  Zieke's Bodyguard
+  H_ZYLARC  Zylark
+
+CHANGED (5):
+  BART3     Bartender
+    deathvar: None -> BART3
+  HOUSG1    Carl
+    defaultScript: None -> h_guards
+  HOUSG2    Jurgen
+    defaultScript: None -> h_guards
+  MERCH2    Merchant
+    deathvar: None -> MERCH2
+  NOBL10    Gerard Travenhurst
+    deathvar: None -> NOBL10

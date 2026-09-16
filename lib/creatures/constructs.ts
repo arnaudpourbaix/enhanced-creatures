@@ -68,7 +68,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         race: "GOLEM",
         class: "FIGHTER",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         animation: "FIGHTER_MALE_HUMAN",
         hairColor: 63,
         armorColor: 63,
@@ -79,7 +79,17 @@ class ConstructFamily extends CreatureFamily<Construct> {
         leatherColor: 63,
         movement: 12,
         items: {
-          remove: ["HELM08", "SHLD18", "RING95", "BLUN08", "FBLADE", "PLAT07", "HELM13"],
+          remove: [
+            "HELM08",
+            "HELM01",
+            "SHLD18",
+            "RING95",
+            "RING98",
+            "BLUN08",
+            "FBLADE",
+            "PLAT07",
+            "HELM13",
+          ],
         },
         immunities: ["construct"],
         proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 2 }],
@@ -122,6 +132,9 @@ class ConstructFamily extends CreatureFamily<Construct> {
       class: "FIGHTER_MAGE",
       alignment: "LAWFUL_EVIL",
       xpv: 4000,
+      items: {
+        remove: ["SW1H11"],
+      },
       spells: {
         memorized: [
           { file: SPELLS.Wizard.MagicMissiles.file, memorizedCount: 1 },
@@ -200,7 +213,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         race: "GOLEM",
         class: "FIGHTER",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         items: { remove: ["HELM13", "PLAT07", "SW1H11", "RING95"] },
         immunities: ["construct"],
@@ -222,6 +235,15 @@ class ConstructFamily extends CreatureFamily<Construct> {
         data: {
           level1: 8,
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 3 }],
+        },
+      },
+      {
+        files: ["WIPINATA"],
+        noWeapon: true,
+        data: {
+          level1: 8,
+          ac: -3,
+          xpv: 3000,
         },
       },
     ]);

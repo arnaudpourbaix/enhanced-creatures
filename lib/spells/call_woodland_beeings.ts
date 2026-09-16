@@ -1,4 +1,4 @@
-import { ATWEAKS_CREATURES } from "../config/creatures";
+import { NEW_CREATURES } from "../config/creatures";
 import { SPELLS } from "../config/spells/spell-names";
 import { Durations } from "../src/model/game-data/durations";
 import { Effect } from "../src/model/spell-item/effect";
@@ -53,18 +53,18 @@ export const SPELL_CALL_WOODLAND_BEEINGS: Spell = spellService.getSpell(
         effects: [
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.DryadSummon,
+            resource: NEW_CREATURES.DryadSummon,
             probability1: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.HamadryadSummon,
+            resource: NEW_CREATURES.HamadryadSummon,
             probability1: 85,
             probability2: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant5hd,
+            resource: NEW_CREATURES.Treant5hd,
             probability1: 100,
             probability2: 85,
           },
@@ -79,18 +79,18 @@ export const SPELL_CALL_WOODLAND_BEEINGS: Spell = spellService.getSpell(
         effects: [
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.HamadryadSummon,
+            resource: NEW_CREATURES.HamadryadSummon,
             probability1: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant5hd,
+            resource: NEW_CREATURES.Treant5hd,
             probability1: 85,
             probability2: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant7hd,
+            resource: NEW_CREATURES.Treant7hd,
             probability1: 100,
             probability2: 85,
           },
@@ -105,18 +105,18 @@ export const SPELL_CALL_WOODLAND_BEEINGS: Spell = spellService.getSpell(
         effects: [
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant7hd,
+            resource: NEW_CREATURES.Treant7hd,
             probability1: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant9hd,
+            resource: NEW_CREATURES.Treant9hd,
             probability1: 85,
             probability2: 55,
           },
           {
             ...baseEffect,
-            resource: ATWEAKS_CREATURES.Treant11hd,
+            resource: NEW_CREATURES.Treant11hd,
             probability1: 100,
             probability2: 85,
           },

@@ -13,28 +13,28 @@ export const poisonImmediateDeathDuration = 12; // 2 rounds so it gives some tim
 
 export const POISONS: PoisonModel[] = [
   {
-    // 10–30 minutes 15/0
+    // 10–30 minutes (~16 rounds) 15/0
     type: "A",
     damage: 15,
     saveDamage: 0,
-    duration: 10 * Durations.minute,
+    duration: 20 * Durations.minute,
   },
   {
-    // 2–12 minutes 20/1-3
+    // 2–12 minutes (~6 rounds) 20/1-3
     type: "B",
     damage: 20,
     saveDamage: 2,
-    duration: 6 * Durations.minute,
+    duration: 7 * Durations.minute,
   },
   {
-    // 2–5 minutes 25/2-8
+    // 2–5 minutes (~3 rounds) 25/2-8
     type: "C",
     damage: 25,
     saveDamage: 5,
     duration: 3 * Durations.minute,
   },
   {
-    // 1–2 minutes 30/2-12
+    // 1–2 minutes (~2 rounds) 30/2-12
     type: "D",
     damage: 30,
     saveDamage: 7,
@@ -55,56 +55,56 @@ export const POISONS: PoisonModel[] = [
     duration: poisonImmediateDeathDuration,
   },
   {
-    // 2–12 hours 20/10
+    // 2–12 hours (~20 turns) 20/10
     type: "G",
+    damage: 20,
+    saveDamage: 10,
+    duration: 4 * Durations.hour,
+  },
+  {
+    // 1–4 hours (~10 turns) 20/10
+    type: "H",
     damage: 20,
     saveDamage: 10,
     duration: 2 * Durations.hour,
   },
   {
-    // 1–4 hours 20/10
-    type: "H",
-    damage: 20,
-    saveDamage: 10,
-    duration: Durations.hour,
-  },
-  {
-    // 2–12 minutes 30/15
+    // 2–12 minutes (~6 rounds) 30/15
     type: "I",
     damage: 30,
     saveDamage: 15,
-    duration: 6 * Durations.minute,
+    duration: 7 * Durations.minute,
   },
   {
-    // 1–4 minutes Death/20
+    // 1–4 minutes (~4 rounds) Death/20
     type: "J",
     damage: poisonFatalDamage,
     saveDamage: 20,
-    duration: poisonImmediateDeathDuration + 2 * Durations.minute,
+    duration: poisonImmediateDeathDuration + 3 * Durations.minute,
   },
   {
-    // 2–8 minutes 5/0
+    // 2–8 minutes (~4 rounds) 5/0
     type: "K",
     damage: 5,
     saveDamage: 0,
-    duration: 2 * Durations.minute,
+    duration: 5 * Durations.minute,
   },
   {
-    // 2–8 minutes 10/0
+    // 2–8 minutes (~4 rounds) 10/0
     type: "L",
     damage: 10,
     saveDamage: 0,
     duration: 2 * Durations.minute,
   },
   {
-    // 1–4 minutes 20/5
+    // 1–4 minutes (~3 rounds) 20/5
     type: "M",
     damage: 20,
     saveDamage: 5,
-    duration: 2 * Durations.minute,
+    duration: 3 * Durations.minute,
   },
   {
-    // 1 minute Death/25
+    // 1 minute (~1 round) Death/25
     type: "N",
     damage: poisonFatalDamage,
     saveDamage: 25,

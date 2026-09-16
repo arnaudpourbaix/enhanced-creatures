@@ -1,5 +1,6 @@
 import childProcess from "child_process";
 import * as path from "path";
+import { GLOBAL_CONFIG } from "../../../config/generate";
 import changelogService from "../doc/changelog.service";
 import logService from "../log.service";
 import mainService from "../main.service";
@@ -83,7 +84,7 @@ class ReleaseService {
 
     const notes = releaseChangelogService.extractNotes(this.changelogPath, version);
     try {
-      const zipPath = releasePackageService.createZip(version);
+      const zipPath = await this.buildReleaseZip(version);
       logService.log(`Publishing GitHub release ${tag}`);
       releaseGithubService.publishRelease(tag, zipPath, notes);
     } catch (e: unknown) {
@@ -94,6 +95,29 @@ class ReleaseService {
           `packaging, skipping the commit/tag/push.`,
         { cause: e },
       );
+    }
+  }
+
+  // enableRandomTargetOrder and enableSecondaryTypes are deliberately off in the committed tree:
+  // the first shuffles .baf target order (churning every committed file for no config change), the
+  // second slows installation. A release build is exactly when the *shipped* mod should carry both
+  // - baked-in target variety and integrated secondary types. So force them on for one
+  // regeneration, build the zip from that output, then restore the flags and hard-reset the mod
+  // working tree so none of that churn (which is also non-deterministic for the shuffle) reaches a
+  // commit. Runs for every resume state, since a resumed run starts from the committed flags-off
+  // tree and still needs the flag-on output in its artifact.
+  private async buildReleaseZip(version: string): Promise<string> {
+    const previousRandomTargetOrder = GLOBAL_CONFIG.enableRandomTargetOrder;
+    const previousSecondaryTypes = GLOBAL_CONFIG.enableSecondaryTypes;
+    GLOBAL_CONFIG.enableRandomTargetOrder = true;
+    GLOBAL_CONFIG.enableSecondaryTypes = true;
+    try {
+      await mainService.generateAll();
+      return releasePackageService.createZip(version);
+    } finally {
+      GLOBAL_CONFIG.enableRandomTargetOrder = previousRandomTargetOrder;
+      GLOBAL_CONFIG.enableSecondaryTypes = previousSecondaryTypes;
+      releaseGitService.restoreModTree();
     }
   }
 

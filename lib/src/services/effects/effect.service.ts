@@ -18,9 +18,15 @@ import {
   EffectTargetEnum,
   EffectTimingEnum,
   getCastSpellOnConditionValue,
+  ReplaceCreatureTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
-import { SpellProtection, SpellProtectionStat } from "../../model/spell-item/spell-protection";
+import {
+  SpellProtection,
+  SpellProtectionNotRow1AndNotRow2,
+  SpellProtectionRow1AndRow2,
+  SpellProtectionStat,
+} from "../../model/spell-item/spell-protection";
 import creatureService from "../creature.service";
 import utils from "../utils/utils.service";
 
@@ -98,6 +104,12 @@ class EffectService {
       case EffectTypeEnum.MaximumHPModifier:
       case EffectTypeEnum.MoraleBreakModifier:
       case EffectTypeEnum.FatigueBonus:
+      case EffectTypeEnum.BackstabBonus:
+      case EffectTypeEnum.MeleeWeaponDamageModifier:
+      case EffectTypeEnum.MissileWeaponDamageModifier:
+      case EffectTypeEnum.AttackDamageBonus:
+      case EffectTypeEnum.Thac0Bonus:
+      case EffectTypeEnum.OffhandThac0Bonus:
       case EffectTypeEnum.AllSavingThrowsBonus:
       case EffectTypeEnum.SaveVsBreathModifier:
       case EffectTypeEnum.SaveVsDeathModifier:
@@ -107,11 +119,11 @@ class EffectService {
         effect.parameter1 = `${effect.value}`;
         effect.parameter2 = `${effect.type}`;
         break;
-      case EffectTypeEnum.AttackDamageBonus:
+      case EffectTypeEnum.ReplaceCreature:
+        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveCreature}`;
+        break;
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:
-      case EffectTypeEnum.Thac0Bonus:
-      case EffectTypeEnum.OffhandThac0Bonus:
         effect.parameter1 = `${effect.value}`;
         effect.parameter2 = `${effect.type}`;
         break;
@@ -146,6 +158,10 @@ class EffectService {
           EffectIDSFileEnum[effect.idsFile]
         }~ ~${effect.idsEntry}~)`;
         effect.parameter2 = `${effect.idsFile}`;
+        break;
+      case EffectTypeEnum.CriticalHitEffect:
+        effect.parameter2 = `${effect.condition}`;
+        effect.special = effect.attackType;
         break;
       case EffectTypeEnum.CharacterColorPulse:
       case EffectTypeEnum.SetColorGlowPulse:
@@ -362,7 +378,9 @@ class EffectService {
     if (effect.value !== undefined && !isValueString) effect.parameter1 = `${effect.value}`;
     if (typeof effect.type === "string")
       this.protectionFromResourceFromName(effect, effect.type, isValueString);
-    else this.protectionFromResourceFromObject(effect, effect.type, isValueString);
+    else if ("relation" in effect.type)
+      this.protectionFromResourceFromObject(effect, effect.type, isValueString);
+    else throw new Error("Union spell protections are not handled in effects");
   }
 
   private protectionFromResourceFromName(
@@ -376,7 +394,7 @@ class EffectService {
 
   private protectionFromResourceFromObject(
     effect: ProtectionFromResourceEffect,
-    type: SpellProtection,
+    type: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
     isValueString: boolean,
   ) {
     type.value = type.value ?? -1;

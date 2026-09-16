@@ -170,6 +170,12 @@ class AbilityService {
     target: string,
     spell: CreatureAbilitySpell,
   ) {
+    for (const state of spell.includeStateChecks ?? []) {
+      result.triggers.push({
+        name: "StateCheck",
+        params: [target, state],
+      });
+    }
     for (const state of spell.excludeStateChecks ?? []) {
       result.triggers.push({
         name: "StateCheck",
@@ -218,7 +224,9 @@ class AbilityService {
 
   private applyPreset(ability: RawCreatureAbility, presetName: string): RawCreatureAbility {
     const preset = ABILITY_PRESETS.find((p) => p.preset === presetName);
-    if (!preset) throw new Error(`Unknown preset ${presetName}`);
+    if (!preset) {
+      throw new Error(`Unknown preset ${presetName}`);
+    }
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {

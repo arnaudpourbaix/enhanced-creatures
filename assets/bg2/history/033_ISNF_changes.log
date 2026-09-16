@@ -1,0 +1,33 @@
+ISNF: 24 new, 1 changed
+
+NEW (24):
+  ISNFPAR   Parasite of Grief
+  ISNFV1    Orion's Voice
+  ISNFV2    Selene's Voice
+  ISNFXA    Amontias the artist
+  ISNFXEN   The Incomplete
+  ISNFXGO   <CHARNAME>'s Memory
+  ISNFXHG   Halfling girl
+  ISNFXIN   Fading Shape
+  ISNFXN    Ganymedes
+  ISNFXO2   Orion
+  ISNFXOR   Orion
+  ISNFXPS   Heartwarden of Sune
+  ISNFXRE   Stranger
+  ISNFXS1   Memory
+  ISNFXS2   Memory
+  ISNFXS3   Memory
+  ISNFXS4   Memory
+  ISNFXS5   Memory
+  ISNFXS6   Memory
+  ISNFXS7   Memory
+  ISNFXSC   Sculpture
+  ISNFXSE   Selene
+  ISNFXSP   Blind Spirit
+  ISNFXSU   Heartwarden Icaos
+
+CHANGED (1):
+  COHRVALE  Cohrvale
+    helmet: helm01 -> HELM01
+    shield: Shld13 -> SHLD13
+    weapon1: ax1h01 -> AX1H01

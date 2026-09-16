@@ -324,7 +324,7 @@ export namespace Actions {
 
   export interface Shout {
     name: "Shout";
-    params: [number];
+    params: [number | string];
   }
 
   export interface DestroySelf {

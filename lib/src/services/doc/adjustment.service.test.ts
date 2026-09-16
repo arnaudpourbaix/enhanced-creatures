@@ -4,6 +4,7 @@ import { CreatureData } from "../../model/creature/data";
 import { ItemSlot } from "../../model/creature/item";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { State } from "../../state";
+import { Variant } from "../../model/creature/variant";
 import adjustmentService from "./adjustment.service";
 
 function fakeCreature(p: {
@@ -12,7 +13,9 @@ function fakeCreature(p: {
   adjustments?: {
     files: string[];
     noWeapon?: boolean;
+    game?: "bg1" | "bg2";
     data: Partial<CreatureData>;
+    variant?: Variant;
   }[];
 }): Creature {
   const data: CreatureData = {
@@ -49,6 +52,8 @@ function fakeCreature(p: {
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
       noWeapon: a.noWeapon ?? false,
+      game: a.game,
+      variant: a.variant,
       summon: false,
       scriptName: false,
       data: {
@@ -135,6 +140,41 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
   });
 
+  it("includes a file whose only authored change is hideShadow, and carries the base creature's own unchanged kit", () => {
+    const creature = fakeCreature({
+      data: { kit: "ASSASIN" },
+      adjustments: [{ files: ["SNEAK"], data: { hideShadow: 90 } }],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(1);
+    expect(effectives[0].hideShadow).toEqual({ value: 90, changed: true });
+    expect(effectives[0].kit).toEqual({ value: "ASSASIN", changed: false });
+  });
+
+  it("includes a file whose only authored change is kit, flagged changed", () => {
+    const creature = fakeCreature({
+      adjustments: [{ files: ["WELT"], data: { kit: "SHADOWDANCER" } }],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(1);
+    expect(effectives[0].kit).toEqual({ value: "SHADOWDANCER", changed: true });
+  });
+
+  // A detected summon is folded in as an adjustment that only zeroes xpv. "XP Value 0" carries no
+  // documentation value, so such a change must not pull an otherwise-empty card into view.
+  it("excludes a file whose only change zeroes xpv (a detected summon)", () => {
+    const creature = fakeCreature({
+      data: { xpv: 500 },
+      adjustments: [{ files: ["BDSUMMON"], summon: true, data: { xpv: 0 } }],
+    });
+
+    expect(adjustmentService.getEffectiveAdjustments(creature)).toEqual([]);
+  });
+
   it("still produces an entry for a file whose only change is noWeapon", () => {
     const creature = fakeCreature({
       adjustments: [{ files: ["KAHRK"], noWeapon: true, data: {} }],
@@ -165,6 +205,27 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     const different = effectives.find((e) => e.files.includes("DIFFERENT"));
     expect(different?.hp).toEqual({ value: 52, changed: true });
     expect(different?.thac0).toEqual({ value: 14, changed: true });
+  });
+
+  // The generated hp on a player-classed adjustment deliberately excludes the constitution
+  // bonus (the IE engine re-applies it itself in-game - see hitPointService.getDisplayHitPointBonus).
+  // The doc's hp field must show the HP a player actually sees, so it adds that bonus back on top
+  // of the raw generated value.
+  it("adds the constitution bonus back onto hp for an adjustment reclassed to a player class", () => {
+    const creature = fakeCreature({
+      data: { hp: 40, constitution: 12, class: "OGRE_MAGE" },
+      adjustments: [
+        {
+          files: ["CHIEF"],
+          data: { hp: 74, constitution: 19, class: "FIGHTER_MAGE", level1: { pnpValue: 9, type: "none", value: 9 } },
+        },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    const chief = effectives.find((e) => e.files.includes("CHIEF"));
+    expect(chief?.hp).toEqual({ value: 119, changed: true }); // 74 + 9*5 (con 19 -> warriorHp 5)
   });
 
   it("compares AC against the base creature's own final (dexterity-adjusted) armor class", () => {
@@ -380,6 +441,66 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     ]);
   });
 
+  // Regression: Garock/Rock (lib/creatures/minotaurs.ts) are noWeapon adjustments that never
+  // re-equip anything - the base creature's Huge Axe was still showing up as their effective
+  // weapon, contradicting the "uses his own weapon" note. Confirmed against the generated .tpa
+  // (weidu-creature.service.ts's addItemSlots excludes every base item, not just weapons, from a
+  // noWeapon file's own patch block), so the base's items shouldn't be seeded here at all.
+  it("excludes the base creature's own equipped items entirely for a noWeapon adjustment", () => {
+    const creature = fakeCreature({
+      data: {
+        items: {
+          equipped: [{ file: "BASEWEAP", slot: "WEAPON1" }],
+          remove: [],
+        },
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }],
+      },
+      adjustments: [
+        {
+          files: ["OWNWEAPON"],
+          noWeapon: true,
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("OWNWEAPON"));
+
+    expect(effective?.equipped).toEqual([]);
+  });
+
+  // The ogre's real morning-star swap (lib/creatures/ogres.ts): a noWeapon adjustment can still
+  // equip its own weapon explicitly - that goes through the adjustment's own patch block, never
+  // the excluded base loadout, so it must still show up.
+  it("still shows a weapon a noWeapon adjustment explicitly equips itself", () => {
+    const creature = fakeCreature({
+      data: {
+        items: { equipped: [{ file: "BASEWEAP", slot: "WEAPON1" }], remove: [] },
+      },
+      adjustments: [
+        {
+          files: ["OWNWEAPON"],
+          noWeapon: true,
+          data: {
+            items: { equipped: [{ file: "MORNINGSTAR", slot: "WEAPON1" }], remove: [] },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("OWNWEAPON"));
+
+    expect(effective?.equipped).toEqual([
+      { item: { file: "MORNINGSTAR", slot: "WEAPON1" }, changed: true },
+    ]);
+  });
+
   it("shows the full effective immunities set, flagging only newly granted ones", () => {
     const creature = fakeCreature({
       data: { immunities: ["giant"] },
@@ -436,7 +557,7 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(effective?.memorized).toHaveLength(2);
   });
 
-  it("adds only the latest chained adjustment's delta to the base count, not every entry's", () => {
+  it("stacks every matching chained adjustment's delta on top of the base count", () => {
     const creature = fakeCreature({
       data: {
         spells: {
@@ -467,9 +588,44 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       .getEffectiveAdjustments(creature)
       .find((e) => e.files.includes("BDSOGR1"));
 
-    // Later entry wins: base 1 + latest delta 2 = 3 (not 1 + 1 + 2 = 4 - deltas don't stack
-    // across chained adjustments, only the winning one applies on top of base).
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 3 }, changed: true }]);
+    // ADD_MEMORIZED_SPELL is cumulative and the generator emits one per matching adjustment:
+    // base 1 + delta 1 + delta 2 = 4.
+    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 4 }, changed: true }]);
+  });
+
+  it("treats a memorizedCount:0 delta as a reset, with later deltas adding back on top", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [{ file: "SPPR101", memorizedCount: 3 }],
+        },
+      },
+      adjustments: [
+        {
+          files: ["BDSOGR1"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 0 }],
+            },
+          },
+        },
+        {
+          files: ["BDSOGR1"],
+          data: {
+            spells: {
+              memorized: [{ file: "SPPR101", memorizedCount: 2 }],
+            },
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("BDSOGR1"));
+
+    // base 3 -> reset to 0 -> +2 = 2
+    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 2 }, changed: true }]);
   });
 
   it("overrides a same-type proficiency's value rather than adding a second entry, and keeps untouched types", () => {
@@ -503,6 +659,88 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       ]),
     );
     expect(effective?.proficiencies).toHaveLength(2);
+  });
+
+  it("carries game onto the effective adjustment when all matching entries agree", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["GORF"], game: "bg2", data: { level1: { pnpValue: 8, type: "none", value: 8 } } },
+      ],
+    });
+
+    const [eff] = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(eff.game).toBe("bg2");
+  });
+
+  it("splits one file into a per-game card when its adjustments target different games", () => {
+    // The real GORF case (lib/creatures/ogres.ts): a bg1 level-9 lieutenant and a weaker bg2
+    // level-5 "Squisher" both patch the file GORF - they must never fold together.
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg1",
+          data: { level1: { pnpValue: 9, type: "none", value: 9 }, xpv: 2000 },
+        },
+        {
+          files: ["GORF"],
+          game: "bg2",
+          data: { level1: { pnpValue: 5, type: "none", value: 5 }, xpv: 2500 },
+        },
+        // an untagged entry folds into both game scopes
+        { files: ["GORF"], data: { morale: 15 } },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effectives).toHaveLength(2);
+    const bg1 = effectives.find((e) => e.game === "bg1");
+    const bg2 = effectives.find((e) => e.game === "bg2");
+    expect(bg1?.files).toEqual(["GORF"]);
+    expect(bg1?.level).toEqual({ value: 9, changed: true });
+    expect(bg1?.morale).toEqual({ value: 15, changed: true });
+    expect(bg2?.level).toEqual({ value: 5, changed: false });
+    expect(bg2?.xpv).toEqual({ value: 2500, changed: true });
+  });
+
+  it("attributes a file to the deepest of two variants when it's a member of both a variant and its own sub-variant", () => {
+    // Reproduces lib/creatures/ogres/berserker.ts: the chieftain variant declares BDOGRE06 as a
+    // member, and its nested barbarian variant refines that same file further. The two variant-
+    // tagged adjustments touching BDOGRE06 aren't ambiguous - barbarian is strictly more specific
+    // - so the file's card should nest under barbarian, not fall out to "Direct adjustments".
+    const chieftain = new Variant({} as Creature, "Chieftain", {}, ["BDOGRE06"]);
+    const barbarian = new Variant({} as Creature, "Barbarian", {}, ["BDOGRE06"], chieftain);
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["BDOGRE06"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        { files: ["BDOGRE06"], variant: barbarian, data: { strength: 19 } },
+        { files: ["OTHERFIL"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+      ],
+    });
+
+    const effectives = adjustmentService.getEffectiveAdjustments(creature);
+
+    const berserker = effectives.find((e) => e.files.includes("BDOGRE06"));
+    expect(berserker?.variant).toBe(barbarian);
+    const chieftainOnly = effectives.find((e) => e.files.includes("OTHERFIL"));
+    expect(chieftainOnly?.variant).toBe(chieftain);
+  });
+
+  it("leaves a file's variant undefined when it's shared by two unrelated variants", () => {
+    const first = new Variant({} as Creature, "First", {}, ["SHARED"]);
+    const second = new Variant({} as Creature, "Second", {}, ["SHARED"]);
+    const creature = fakeCreature({
+      adjustments: [
+        { files: ["SHARED"], variant: first, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        { files: ["SHARED"], variant: second, data: { strength: 19 } },
+      ],
+    });
+
+    const [effective] = adjustmentService.getEffectiveAdjustments(creature);
+
+    expect(effective.variant).toBeUndefined();
   });
 
   it("adds a brand new proficiency type the base creature never had", () => {

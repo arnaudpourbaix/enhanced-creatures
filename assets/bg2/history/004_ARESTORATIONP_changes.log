@@ -1,0 +1,94 @@
+ARESTORATIONP: 6 new, 22 changed
+
+NEW (6):
+  L-BREG3   D'aerthe Guard
+  L-MAGE01  Cowled Enforcer
+  L-MAGE02  Cowled Enforcer
+  NALFAL    Nobleman
+  UDVADEAD  Vampire
+  UDVAMP01  Vampire
+
+CHANGED (22):
+  BREG03    D'aerthe Guard
+    allegiance: ENEMY -> NEUTRAL
+  C6ALYRA   Alyra
+    dialog: c6alyra -> C6GEN
+    overrideScript: None -> C6THIEF
+    weapon1:  -> SW1H09
+  C6KALDEN  Kalden
+    dialog: c6kalden -> C6GEN
+    overrideScript: None -> C6PALADN
+  C6LEVIN   Levin Rayn
+    dialog: c6levin -> C6GEN
+    overrideScript: None -> C6PALADN
+  C6NATAS   Natas
+    dialog: c6natas -> C6GEN
+    overrideScript: None -> C6THIEF
+    weapon1:  -> SW1H09
+  CEDELICH  Deril Lich
+    dialog: delich -> cedelich
+    level: 29 -> 19
+    gender: NIETHER -> MALE
+    overrideScript: SHOUT -> cedelich
+    classScript: INITDLG -> initdlg
+    raceScript: None -> zilmag01
+    defaultScript: WTASIGHT -> wtasight
+    lring:  -> RING95
+    rring:  -> LICH
+    amulet:  -> MINHP20
+    weapon1: STAF01 -> LICH02
+    weapon2:  -> STAF01
+  FIRKRA03  Voice
+    general: MONSTER -> GENERAL_ITEM
+    race: NO_RACE -> SWORD
+    class: NO_CLASS -> FIGHTER
+    anim: DOOM_GUARD -> STATIC_HUMANCLERIC_MAN_CHAIR
+    deathvar: Firkra03 -> firkra03
+    dialog: Firkra03 -> firkra03
+    level: 8 -> 1
+    overrideScript:  -> firkra03
+    classScript: gensht01 -> 
+    lring: RING95 -> MAGE01
+    rring: MAGE01 -> 
+    weapon1: S2-16 -> 
+  GLBEAR    Black Bear
+    anim: TROLL -> BEAR_BLACK
+  HELLFEAR  Fear
+    overrideScript: wtasight -> l-fear
+  JARLICH   Deirex
+    overrideScript: shoutdlg -> L-JARLI
+  OBSDEM02  Mane
+    deathvar: None -> OBSDEM02
+  OBSSAH01  Sahuagin Baron
+    deathvar: None -> obssah01
+  OBSSAH02  Sahuagin Priestess
+    deathvar: pries8a -> obssah02
+  OBSSAH03  Sahuagin Baronial Guard
+    deathvar: None -> obssah03
+  OBSSAH04  Sahuagin
+    deathvar: None -> obssah04
+  OBSSAH05  Sahuagin
+    deathvar: None -> obssah05
+  PLFARM03  Petr
+    overrideScript: gensht01 -> GENSHT01
+    defaultScript: None -> WTASIGHT
+  SARVIE01  Viekang
+    lring: ring20 -> RING20
+    rring: ring21 -> RING21
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h74 -> SW1H74
+    weapon2: bow09 -> BOW09
+  SUZIYAAD  Ziyaad
+    allegiance: NEUTRAL -> ENEMY
+    lring: IMMUNE2 -> RAKRING
+    weapon1:  -> SW1H04
+  TOBPAR01  Eler Had
+    overrideScript:  -> initdlg
+  TOBPAR06  Helena Fairhand
+    defaultScript:  -> CFIGH20A
+  VIEKANG   Viekang
+    lring: ring20 -> RING20
+    rring: ring21 -> RING21
+    amulet: minhp1 -> MINHP1
+    weapon1: sw1h10 -> SW1H10
+    weapon2: bow09 -> BOW09

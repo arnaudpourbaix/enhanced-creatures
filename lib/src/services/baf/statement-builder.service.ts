@@ -540,11 +540,34 @@ class StatementBuilderService {
     statements,
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
-    if (!creature.data.hideShadow) return;
-    const hideTimer = "BD_HIDE";
+    if (!creature.data.hideShadow && creature.adjustments.every((a) => !a.data.hideShadow)) return;
+    const triggers: Triggers.Trigger[] = [
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_INVISIBLE"],
+        negation: true,
+      },
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_BLIND"],
+        negation: true,
+      },
+      {
+        name: "CheckStatGT",
+        params: [ScriptTarget.myself, 49, "HIDEINSHADOWS"],
+      },
+    ];
+    this.runBeforeHideInShadow(statements, triggers);
+    this.hideInShadow(statements, triggers);
+  }
+
+  private hideInShadow(statements: Statements, triggers: Triggers.Trigger[]): void {
+    const timer = "HIDE_SHADOW";
     statements.push({
       comment: `Hide in shadow`,
       triggers: [
+        triggerFactory.globalTimerExpired(timer),
+        ...triggers,
         {
           name: "Allegiance",
           params: [ScriptTarget.myself, "NEUTRAL"],
@@ -557,26 +580,42 @@ class StatementBuilderService {
             { name: "Kit", params: [ScriptTarget.myself, "SHADOWDANCER"] },
           ],
         },
-        {
-          name: "StateCheck",
-          params: [ScriptTarget.myself, "STATE_INVISIBLE"],
-          negation: true,
-        },
-        {
-          name: "StateCheck",
-          params: [ScriptTarget.myself, "STATE_BLIND"],
-          negation: true,
-        },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.myself, 49, "HIDEINSHADOWS"],
-        },
-        triggerFactory.globalTimerExpired(hideTimer),
       ],
       responses: responseFactory.response(
         actionFactory.disableInterrupt([
-          actionFactory.setGlobalTimer(hideTimer, 6),
-          { name: "DisplayStringHead", params: [ScriptTarget.myself, 66968] }, // *attempts to hide in shadows*
+          actionFactory.setGlobalTimer(timer, 6),
+          {
+            name: "DisplayStringHead",
+            params: [
+              ScriptTarget.myself,
+              `@${translationService.stringRef("common.classAbilities.hideInShadow")}`,
+            ],
+          },
+          { name: "Hide" },
+        ]),
+      ),
+    });
+  }
+
+  private runBeforeHideInShadow(statements: Statements, triggers: Triggers.Trigger[]): void {
+    const timer = "TRY_HIDE_SHADOW";
+    const finalTriggers: Triggers.Trigger[] = utils.replaceTriggerTokens(
+      [
+        triggerFactory.globalTimerExpired(timer),
+        // triggerFactory.hasPoisonWeapon(true),
+        { name: "Detect", params: ["NearestEnemyOf"] },
+        ...triggers,
+        { name: "RandomNum", params: [9, 3] },
+      ],
+      [{ key: ScriptTarget.token, value: ScriptTarget.myself }],
+    );
+    statements.push({
+      comment: `Try to run outside of enemy sight`,
+      triggers: finalTriggers,
+      responses: responseFactory.response(
+        actionFactory.disableInterrupt([
+          actionFactory.setGlobalTimer(timer, 18),
+          { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 90] },
           { name: "Hide" },
         ]),
       ),
@@ -666,6 +705,7 @@ class StatementBuilderService {
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
   ): void {
+    const additionals = this.getAdditionals(creature, "attack");
     for (const status of statusNameList) {
       const statusDetails = TARGET_STATUS.find((t) => t.status === status);
       const weaponAttackSlot =
@@ -684,7 +724,7 @@ class StatementBuilderService {
           maxRange: creature.attack.maxRange,
         }),
       ];
-      const triggers: Triggers.Trigger[] = [];
+      const triggers: Triggers.Trigger[] = [...additionals.triggers];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {
@@ -776,6 +816,7 @@ class StatementBuilderService {
 
   private potions({ statements, creature, options }: HandlerParams): void {
     if (!creature.behavior.usePotions) return;
+    const randomGenerator = this.getPotionNumberGenerator();
     for (const potion of POTIONS) {
       for (const file of potion.files) {
         const triggers: Triggers.Trigger[] = [
@@ -784,6 +825,13 @@ class StatementBuilderService {
           ...(potion.triggers ?? []),
         ];
         if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
+        if (!!potion.probability && potion.probability < 100) {
+          const num = randomGenerator.next().value ?? 0;
+          triggers.push({
+            name: "RandomNumGT",
+            params: [num, Math.round(num * (1 - potion.probability / 100))],
+          });
+        }
         const actions: Actions.Action[] = [
           ...(potion.actions ?? []),
           {
@@ -1019,6 +1067,14 @@ class StatementBuilderService {
   ): { triggers: Triggers.Trigger[]; actions: Actions.Action[] } {
     const additionals = creature.behavior.additionalCodes.find((a) => a.location === location);
     return additionals ?? { triggers: [], actions: [] };
+  }
+
+  private *getPotionNumberGenerator(): Generator<number, void> {
+    let num = 200;
+    while (num < 300) {
+      yield num;
+      num++;
+    }
   }
 }
 

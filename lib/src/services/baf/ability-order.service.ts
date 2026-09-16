@@ -66,6 +66,34 @@ class AbilityOrderService {
     return ordered.map((o) => o.ability);
   }
 
+  /**
+   * Orders a plain, hand-written list of preset abilities by SPELL_PRIORITY_ORDER - for a
+   * creature whose abilities aren't derived from memorized spells, so `resolve()`'s
+   * entries mechanism doesn't apply, but should still cast in the same priority order as
+   * everything else. Unlike `resolve()`, a preset missing from SPELL_PRIORITY_ORDER throws
+   * instead of casting last: this list is hand-curated, so a missing entry is a mistake to
+   * fix, not something to silently deprioritize.
+   */
+  sortByPriority(abilities: RawCreatureAbility[]): RawCreatureAbility[] {
+    // Compute every index upfront rather than inside the comparator: Array.sort never calls
+    // the comparator for a 0- or 1-length array, which would let an invalid entry slip through.
+    return abilities
+      .map((ability) => ({ ability, index: this.priorityIndex(ability) }))
+      .sort((a, b) => a.index - b.index)
+      .map(({ ability }) => ability);
+  }
+
+  private priorityIndex(ability: RawCreatureAbility): number {
+    if (!ability.preset) {
+      throw new Error(`Ability has no preset to sort by priority: ${JSON.stringify(ability)}`);
+    }
+    const index = SPELL_PRIORITY_ORDER.indexOf(ability.preset);
+    if (index === -1) {
+      throw new Error(`'${ability.preset}' is missing from SPELL_PRIORITY_ORDER`);
+    }
+    return index;
+  }
+
   private validateEntries(entries: AbilityEntry[]): void {
     for (const entry of entries) {
       if ((entry.spell !== undefined) === (entry.abilityId !== undefined)) {

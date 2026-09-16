@@ -1,0 +1,83 @@
+ALABASTERSANDS: 39 new, 16 changed
+
+NEW (39):
+  L#ASART   Tym Barwiarz
+  L#ASBOY   Voby
+  L#ASCH1   Ophelia
+  L#ASCH2   Mana
+  L#ASCH3   Gima
+  L#ASCH4   Sarhie
+  L#ASCH5   Ana
+  L#ASCH6   Cindy
+  L#ASCH7   Lusia
+  L#ASCH8   Balha
+  L#ASCH9   Vivi
+  L#ASCHG   Bruner
+  L#ASCHS   Lady Cornelia Selina IV
+  L#ASCM1   Commoner
+  L#ASCM2   Commoner
+  L#ASCM3   Commoner
+  L#ASCM4   Commoner
+  L#ASCM5   Commoner
+  L#ASCM6   Commoner
+  L#ASCM7   Commoner
+  L#ASCM8   Commoner
+  L#ASGHO   Ghost
+  L#ASGU1   Amnian Soldier
+  L#ASGU2   Amnian Soldier
+  L#ASGUD   Barker
+  L#ASJEW   Jeweller
+  L#ASKIL   Mugger
+  L#ASLOV1  Shenee Lovelypox
+  L#ASLOV2  Glaven, The Fish Merchant
+  L#ASMORC
+  L#ASNOB   Fauxar
+  L#ASPOS   Mr. O. Possum
+  L#ASPT2   Bijmal
+  L#ASPTH   Thief
+  L#ASRAT   Stinkyfur
+  L#ASSIR   Copper Sirine
+  L#ASSIS   Kalina
+  L#ASTHI   Ivthi
+  L#ASTHU   Thug
+
+CHANGED (16):
+  GAAL01    Gaal
+    weapon1: staf01 -> STAF01
+  KOBSHA01  Kobold Shaman
+    weapon1: blun04 -> BLUN04
+  KPGLAI01  Glaicus
+    weapon1: sw2h01 -> SW2H01
+  MEPFIR01  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPICE01  Ice Mephit
+    amulet: Immcloud -> IMMCLOUD
+  OBSFIR03  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  OBSICE02  Ice Mephit
+    amulet: Immcloud -> IMMCLOUD
+    weapon1: mepice -> MEPICE
+  PIRSEA01  Pirate Captain
+    weapon1: sw1h05 -> SW1H05
+  RNGWLF03  Anath
+    lring: ringwolf -> RINGWOLF
+  SHAGHO01  Badon's Ghost
+    rring: ring95 -> RING95
+  SHAGHO02  Dettseh's Ghost
+    rring: ring95 -> RING95
+  TRRAK01   Adratha
+    lring: rakring -> RAKRING
+    amulet: amul22 -> AMUL22
+    weapon1: sw1h04 -> SW1H04
+  TRRAK02   Saadat
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  TRRAK03   Jalaal
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  VICG1     Fanatic
+    shield: shld13 -> SHLD13
+    weapon1: blun02 -> BLUN02
+    weapon2: slng01 -> SLNG01
+  VICG3     Fanatic
+    helmet: helm01 -> HELM01

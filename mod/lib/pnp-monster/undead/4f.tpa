@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4f.baf~
 CREATE SPL "jas0m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10373)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10403)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10865)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10965)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=13 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
@@ -21,7 +21,7 @@ COPY_EXISTING ~jas0m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-1" STR_VAR resource="EFF_E05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-1" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10376) timing=1 probability1=100 savingthrow=1 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10406) timing=1 probability1=100 savingthrow=1 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="jas0m4f" END
 OUTER_SET $f_AddSecType(jas0m4f.spl) = FearSecType
 
@@ -36,11 +36,11 @@ CREATE EFF "jas1m4f"
 CREATE SPL "jas1m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas1m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10373)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10403)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Fear
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10866)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10966)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jas1m4f" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=175 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
@@ -51,7 +51,7 @@ COPY_EXISTING ~jas1m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=18 probability1=100 savingthrow=1 savebonus="-3" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10376) timing=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10406) timing=1 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=60 probability1=100 STR_VAR resource="jas1m4f" END
 OUTER_SET $f_AddSecType(jas1m4f.spl) = FearSecType
 
@@ -68,29 +68,29 @@ CREATE EFF "jas2m4f"
 CREATE SPL "jas2m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas2m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10373)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10403)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR416C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10375)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10405)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR416B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jas1m4f" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HUMAN~) parameter2=4 timing=1 probability1=100 STR_VAR resource="jas2m4f" END
 	LPF CHANGE_SPELL INT_VAR    renew=2 END
 	
-	// Rotting Disease
+// Rotting Disease
 CREATE SPL "jas3m4f"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas3m4f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10367)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10397)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10369)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10399)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF cureWoundSpells_immunity INT_VAR duration=14400 dispelResistance=0 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=5188352 duration=2 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10370) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10400) timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 duration=14400 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=2400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=7 END
@@ -110,8 +110,8 @@ COPY_EXISTING ~jas3m4f.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=4 duration=14400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=14400 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=4 duration=14400 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10371) timing=4 duration=12000 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10372) timing=4 duration=14399 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10401) timing=4 duration=12000 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10402) timing=4 duration=14399 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=4 duration=14400 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=14400 probability1=100 STR_VAR resource="jas3m4f" END
 OUTER_SET $f_AddSecType(jas3m4f.spl) = DiseaseSecType
@@ -119,15 +119,12 @@ OUTER_SET $f_AddSecType(jas3m4f.spl) = DiseaseSecType
 // Greater Mummy traits
 CREATE ITM "jai0m4f"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10864)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10864)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10964)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10964)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10867)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10967)
 COPY_EXISTING ~jai0m4f.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-	END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=20 parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=30 target=1 global=1 parameter1=100 parameter2=1 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=29 target=1 global=1 parameter1="-50" parameter2=1 timing=2 probability1=100 END
@@ -142,11 +139,11 @@ CREATE ITM "jai1m4f"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10339)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10339)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10369)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10369)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10868)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10968)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jai1m4f.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -154,7 +151,7 @@ COPY_EXISTING ~jai1m4f.itm~ ~override~
 		WRITE_BYTE 0x74 1
 		WRITE_ASCII 0x76 ~IGHOUL~ #8
 		WRITE_BYTE 0x7e 1
-		WRITE_SHORT 0x80 1
+		WRITE_SHORT 0x80 2
 		WRITE_BYTE 0x84 5
 		WRITE_BYTE 0x88 6
 		WRITE_BYTE 0x8a 3
@@ -166,117 +163,122 @@ COPY_EXISTING ~jai1m4f.itm~ ~override~
 	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jas3m4f" END
 	END
 
-ACTION_FOR_EACH ~file~ IN
-	"MUMGRE01"
-	"RIFTCR03"
+DEFINE_ACTION_FUNCTION jam4f_patch
+STR_VAR file = ~~
 BEGIN
 	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
 		COPY_EXISTING ~%file%.cre~ ~override~
 			LPF FJ_CRE_VALIDITY END
-			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~MUMGRE01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~RIFTCR03~ BEGIN
-				LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=292 END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~D9MGRE01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~DX#MUMMY~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~MUMGRE01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHHGMUM~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHHKUNG~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHHMUMMY~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~RIFTCR03~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
 			END
 			REMOVE_KNOWN_SPELLS
 			REMOVE_MEMORIZED_SPELLS
 			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~immune1~
 			REMOVE_CRE_ITEM ~immune2~
 			REMOVE_CRE_ITEM ~immune3~
 			REMOVE_CRE_ITEM ~mumgrew~
+			REMOVE_CRE_ITEM ~ohhgmum1~
+			REMOVE_CRE_ITEM ~reghp1~
+			REMOVE_CRE_ITEM ~B1-8~
 			ADD_CRE_ITEM ~jai0m4f~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			REPLACE_CRE_ITEM ~jai1m4f~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			PATCH_IF MOD_IS_INSTALLED Faiths_and_Powers.tp2 80 BEGIN
-				ADD_MEMORIZED_SPELL ~D5P1329~ #0 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (6) 
-				ADD_MEMORIZED_SPELL ~B_C201~ #1 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~D5P1311~ #1 ~priest~ (4) 
-				ADD_MEMORIZED_SPELL ~B_PR201~ #1 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~D5P2114~ #1 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR332~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~D5P2433~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR322~ #2 ~priest~ (6) 
-				ADD_MEMORIZED_SPELL ~D5P1301~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~D5P2527~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~D5P2411~ #3 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~D5P2412~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR109~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR121~ #0 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR124~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR125~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR111~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR213~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR203~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR220~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR201~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR304~ #2 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~D5P2433~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR313~ #2 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR329~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR320~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR310~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR311~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR424~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~D5P2527~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR416~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR403~ #3 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~D5P2508~ #3 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~D5P1709~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~D5P1424~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR530~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~D5P2632~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR533~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR531~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR530~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR619~ #5 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~D5PP422~ #5 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR740~ #6 ~priest~ (1) 
-			END ELSE PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN
-				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~SPPR101~ #0 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR109~ #0 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~SPPR203~ #1 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (4) 
-				ADD_MEMORIZED_SPELL ~SPPR304~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR303~ #2 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR314~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR407~ #3 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR620~ #5 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR603~ #5 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR601~ #5 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR719~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR612~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR703~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR715~ #6 ~priest~ (1) 
 			END ELSE BEGIN
-				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (5) 
-				ADD_MEMORIZED_SPELL ~SPPR101~ #0 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR109~ #0 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (5) 
+				ADD_MEMORIZED_SPELL ~SPPR102~ #0 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR121~ #0 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR124~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR113~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR125~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR111~ #0 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR211~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR208~ #1 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR213~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR203~ #1 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR214~ #1 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (4) 
+				ADD_MEMORIZED_SPELL ~SPPR220~ #1 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR201~ #1 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR301~ #2 ~priest~ (3) 
 				ADD_MEMORIZED_SPELL ~SPPR304~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR303~ #2 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR314~ #2 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (3) 
+				ADD_MEMORIZED_SPELL ~SPPR313~ #2 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR329~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR320~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR310~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR311~ #2 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR424~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR405~ #3 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (2) 
 				ADD_MEMORIZED_SPELL ~SPPR414~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR411~ #3 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR407~ #3 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR412~ #3 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (3) 
-				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR416~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR403~ #3 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR431~ #3 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR512~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR503~ #4 ~priest~ (2) 
+				ADD_MEMORIZED_SPELL ~SPPR511~ #4 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR509~ #4 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (2) 
-				ADD_MEMORIZED_SPELL ~SPPR608~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR531~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR505~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR530~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR513~ #4 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR619~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR620~ #5 ~priest~ (1) 
 				ADD_MEMORIZED_SPELL ~SPPR603~ #5 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR601~ #5 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR708~ #6 ~priest~ (1) 
-				ADD_MEMORIZED_SPELL ~SPPR719~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR612~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR610~ #5 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR703~ #6 ~priest~ (1) 
+				ADD_MEMORIZED_SPELL ~SPPR715~ #6 ~priest~ (1) 
 			END
 			ADD_MEMORIZED_SPELL ~jas2m4f~ #0 ~innate~ (1) // Fear Aura
 			LPF clear_proficiencies END
@@ -313,10 +315,25 @@ BEGIN
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
-			PATCH_DEFINE_ARRAY removeScripts BEGIN bdmumm01 d0mummy mummy01 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE DW#GPSHM DW#GPSHT DW#MG101 DW#MG102 DW#MG103 DW#MG104 DW#MG105 DW#MG106 DW#MG107 DW#MG108 DW#MG131 DW#MG132 DW#MG137 DW#MG139 DW#MG29 DW#MG47 DW#MG56 DW#MG78 DW#MG84 DW#MG99 DW#PRSHT dw1melbe DW1MELGE dw1melmo dw1melmw DW1RANGE dw1ranmo DW2MC0GE DW2MC0GW DW2MC0MO DW2MC1GE DW2MC1MO DW2MC2MO DW2MC2GE DW2MC3MO DW2MM0GE DW2MP2MO DW2MP0GE DW2MP0GW DW2MP1GE DW2MP2GE DW2MP2GW DW2MP2TH DW2MS0GE DW2MS0MO DW2MS1GE DW2RC0MO DW2RC2MO DW2RM2MO DW2RS0MO GENSHT01 SHOUT TUTU_SCR WDASIGHT WTASIGHT wtrunsgt END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts script=jam4f END
+			PATCH_DEFINE_ARRAY removeScripts BEGIN bdmumm01 d0mummy mummy01 ohhgmum dx#mummc BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam4f END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHHKUNG~) BEGIN 
+				WRITE_BYTE 0x238 20 // strength
+			END
 		BUT_ONLY_IF_IT_CHANGES
-	END ELSE BEGIN
-		PRINT ~====> CRE %file% not found!~
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"D9MGRE01"
+		"DX#MUMMY"
+		"MUMGRE01"
+		"OHHGMUM"
+		"OHHKUNG"
+		"OHHMUMMY"
+		"RIFTCR03"
+	BEGIN
+		LAF jam4f_patch STR_VAR file END
 	END
 END

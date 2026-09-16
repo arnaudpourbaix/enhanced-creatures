@@ -1,0 +1,262 @@
+ascension: 44 new, 29 changed
+
+NEW (44):
+  ABAZDG02  Tamah
+  BALELIT1  Adherent
+  BALELIT2  Adherent
+  BALELIT3  Adherent
+  BALELIT4  Adherent
+  BALTH2    Balthazar
+  DRAKE01   Fire Drake
+  DRAKE02   Shadow Drake
+  DRAKE03   Ice Drake
+  DRAKE04   Earth Drake
+  FINABAZ   Abazigal
+  FINABSPY
+  FINALUF   Alu-Fiend
+  FINBABAU  Babau
+  FINBALOR  Balor
+  FINBALTH  Balthazar
+  FINBODH   Bodhi
+  FINCAMB2  Cambion
+  FINGLAB   Glabrezu
+  FINGROM   Gromnir Il-Khan
+  FINGRUN1  Yaga-Shura Soldier
+  FINGRUN2  Yaga-Shura Soldier
+  FINGRUN3  Yaga-Shura Soldier
+  FINGTEST  Ilyich
+  FINILLA   Illasera
+  FINIMOEN  Imoen
+  FINIREN   Jon Irenicus
+  FINMARIL  Marilith
+  FINNABAS  Nabassu
+  FINRAVER  Slayer
+  FINSARE2  Sarevok
+  FINSAREV  Sarevok
+  FINSEND   Sendai
+  FINSOLA2  Fallen Solar
+  FINSOLA3  Fallen Solar
+  FINSOLAR  Fallen Solar
+  FINSUCC   Succubus
+  FINYAGA   Yaga-Shura
+  GROMMIN   Minotaur Battle Priest
+  JUMJUM    Il-Khan Medusa
+  MELRAT
+  PPGUY02
+  RAMAZ     Ramazith
+  YSCLER01  Yaga-Shura Cleric
+
+CHANGED (29):
+  ABAZIGAL  Abazigal
+    allegiance: NEUTRAL -> ENEMY
+    helmet: helmnoan -> HELMNOAN
+    lring: bhaalhp1 -> BHAALHP1
+    weapon1: sw2h17 -> ABAZ03
+  BALELITE  Adherent
+    weapon2:  -> STAF08
+  BALTH     Balthazar
+    overrideScript: BALTH -> 
+    classScript: None -> balth
+    defaultScript: balthft -> BALTHFT2
+    helmet: HELMNOAN -> 
+    weapon1:  -> MFIST8
+    weapon2:  -> STAF20
+  DRAGBLUE  Abazigal
+    xpv: 68000 -> 78000
+  FINMEL01  Melissan
+    defaultScript: meliss01 -> finmel
+    helmet: helmnoan -> FINBALTH
+    lring: immune3 -> ALLFIVE
+    rring:  -> FINABAZ
+    amulet: finmel01 -> FINMEL01
+  GROMG03   Il-Khan Soldier
+    defaultScript: carch20b -> gparcher
+    helmet:  -> HELM01
+    weapon1: bow02 -> BOW02
+    weapon2:  -> SW1H01
+  GROMG05   Il-Khan Battle Mage
+    anim: MAGE_MALE_HUMAN -> MAGE_FEMALE_HUMAN
+    gender: MALE -> FEMALE
+    sex: MALE -> FEMALE
+    classScript: GRPSHT01 -> 
+    generalScript: None -> spseq16a
+    defaultScript: CMAGE20A -> gpmage1
+    weapon1: staf18 -> 
+  GROMG08   Karun the Black
+    level: 18 -> 20
+    classScript: GRPSHT01 -> 
+    generalScript: None -> spseq16b
+    defaultScript: CMAGE20A -> gpmage1
+    rring:  -> RING07
+    amulet:  -> AMUL21
+    weapon1: staf18 -> STAF18
+  GROMG09   Eler Had
+    race: HUMAN -> HALF_ELF
+    anim: THIEF_MALE_HUMAN -> THIEF_MALE_ELF_LOW
+    allegiance: NEUTRAL -> ENEMY
+    classScript: GRPSHT01 -> 
+    defaultScript: CTHIE20B -> gpthief
+    shield:  -> SHLD17
+    weapon1: dagg02 -> ELER
+    weapon2:  -> DAGG16
+    weapon3:  -> DAGG16
+  GROMG10   Berena Elkan
+    level: 15 -> 18
+    allegiance: NEUTRAL -> ENEMY
+    classScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> gpwslay
+    weapon1: sper06 -> BERENA
+  GROMNIR   Gromnir Il-Khan
+    level: 20 -> 22
+    classScript: GRPSHT01 -> 
+    defaultScript: CBARB20B -> gromnir
+    helmet: helmnoan -> HELMNOAN
+    shield: blun34 -> 
+    amulet:  -> BHAALIMM
+    weapon1: blun35 -> GROMNIR
+  ILLASERA  Illasera
+    class: FIGHTER_MAGE -> RANGER
+    anim: MAGE_FEMALE_HUMAN -> FIGHTER_FEMALE_HUMAN_LOW
+    level: 20 -> 18
+    overrideScript: GRPSHT01 -> None
+    helmet: helmnoan -> 
+    lring: ring06 -> RING06
+    amulet:  -> BHAALIMM
+    weapon1: dagg15 -> ILLAS01
+    weapon2:  -> ILLAS02
+    weapon3:  -> ILLAS03
+    weapon4:  -> DAGG15
+  SALGRICE  Frost Salamander
+    level: 15 -> 17
+    xpv: 9000 -> 7500
+  YAGA01    Yaga-Shura
+    race: DWARF -> GIANT
+    classScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> yagaft
+    helmet: helmnoan -> 
+    shield: shld32 -> HAMM10
+    lring: invulner -> INVULNER
+    rring: sureHP1 -> SUREHP1
+    amulet:  -> BHAALIMM
+    weapon1: giafir -> YAGAWH
+    weapon2: hamm10 -> 
+    xpv: 30000 -> 45000
+  YAGA02    Lieutenant Mage
+    overrideScript: GRPSHT01 -> 
+    raceScript: None -> spseq16a
+    defaultScript: CMAGE20A -> gpmage1
+    helmet: helmnoan -> 
+    lring:  -> RING07
+    weapon1: staf18 -> STAF18
+  YAGA03    Lieutenant Fighter
+    overrideScript: GRPSHT01 -> 
+    defaultScript: CFIGH20B -> gpkensai
+    helmet: helm15 -> HELM15
+    shield: sw1h52 -> SW1H09
+    weapon1: sw1h52 -> SW1H55
+  YAGA04    Lieutenant Cleric
+    overrideScript: GRPSHT01 -> 
+    defaultScript: ccler20b -> gphealer
+    helmet: helmnoan -> 
+    shield:  -> SHLD06
+    weapon1: blun21 -> BLUN21
+  YAGA05    Lieutenant Thief
+    race: HUMAN -> ELF
+    anim: THIEF_FEMALE_HUMAN -> THIEF_FEMALE_ELF
+    sex: MALE -> FEMALE
+    overrideScript: GRPSHT01 -> 
+    defaultScript: cthie20b -> gpthief
+    helmet: helmnoan -> 
+    shield: dagg15 -> 
+    weapon1: dagg15 -> SW1H09
+    weapon2:  -> DART03
+    weapon3:  -> DART03
+  YSFIRE01  Fire Giant
+    dialog: ysfire01 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+    weapon1: giafir2 -> GIAFIR
+  YSFIRE02  Fire Giant
+    dialog: ysfire02 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+    weapon1: ax1h03 -> GIAFIR2
+  YSMAGE01  Yaga-Shura Mage
+    overrideScript:  -> finyagar
+    classScript: mage12a -> 
+    generalScript: None -> spseq12a
+    defaultScript: None -> gpmage2
+    lring:  -> RING12
+    weapon1:  -> STAF07
+    weapon2:  -> DART02
+  YSSOLD01  Yaga-Shura Soldier
+    dialog: yssold01 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    helmet:  -> HELM01
+    shield:  -> SHLD05
+    weapon1: sw1h04 -> SW1H04
+    xpv: 2000 -> 650
+  YSSOLD02  Yaga-Shura Soldier
+    race: HUMAN -> ORC
+    class: FIGHTER -> ORC
+    anim: FIGHTER_MALE_HUMAN -> ORC_ELITE_RANGE
+    dialog: yssold02 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    weapon1: bow03 -> BOW01
+    weapon2:  -> SW1H04
+    xpv: 2000 -> 650
+  YSSOLD03  Yaga-Shura Officer
+    dialog: yssold03 -> 
+    overrideScript:  -> finyagar
+    defaultScript: WTASIGHT -> gpmerc
+    helmet:  -> HELM01
+    weapon1: sw1h01 -> SW2H02
+    xpv: 3000 -> 1400
+  YSSOLD04  Yaga-Shura Elite
+    dialog: yssold04 -> 
+    overrideScript:  -> finyagar
+    defaultScript: CFIGH20B -> gpmerc
+  ZILARC01  Black Reaver
+    class: FIGHTER -> CLERIC
+    anim: FIGHTER_FEMALE_ELF -> CLERIC_MALE_ELF_LOW
+    dialog: zilarc01 -> 
+    gender: FEMALE -> MALE
+    sex: FEMALE -> MALE
+    overrideScript: illagrp -> ILLAGRP
+    classScript: grpsht01 -> None
+    defaultScript: carch20b -> gphealer
+    helmet: helm13 -> 
+    shield:  -> shld06
+    amulet:  -> amul07
+    weapon1: bow02 -> blun03
+    xpv: 5000 -> 8000
+  ZILFGT01  Black Reaver
+    general: HUMANOID -> MONSTER
+    race: HUMAN -> OGRE
+    anim: FIGHTER_MALE_HUMAN -> OROG_CHIEFTAIN
+    deathvar: zilfgt01 -> zilfgt02
+    dialog: zilfgt01 -> zilfgt02
+    level: 16 -> 15
+    classScript: GRPSHT01 -> None
+    defaultScript: CKENS20B -> gpmerc
+    helmet:  -> helm15
+    shield: dagg02 -> 
+    weapon1: sw1h22 -> sper02
+  ZILFGT02  Black Reaver
+    race: HALF_ELF -> HUMAN
+    anim: FIGHTER_MALE_ELF -> FIGHTER_MALE_HUMAN
+    level: 15 -> 17
+    classScript: GRPSHT01 -> None
+    defaultScript: CFIGH20B -> gpmerc
+    helmet: helm15 -> 
+    shield:  -> dagg24
+    weapon1: sper02 -> sw1h76
+  ZILMAG01  Black Reaver
+    level: 20 -> 18
+    classScript: GRPSHT01 -> None
+    generalScript: None -> spseq16b
+    defaultScript: zilmag01 -> gpmage1
+    rring:  -> ring07
+    amulet:  -> amul21

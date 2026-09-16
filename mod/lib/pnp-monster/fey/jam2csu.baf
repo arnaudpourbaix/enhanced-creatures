@@ -17,6 +17,28 @@ THEN
 		Continue()
 END
 
+// Precast AnimateDead
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR301")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR301",Myself)
+		RemoveSpellRES("SPPR301")
+		Continue()
+END
+
+// Precast AnimateSkeletonWarrior
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR619")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR619",Myself)
+		RemoveSpellRES("SPPR619")
+		Continue()
+END
+
 // Precast Ironskin
 IF
 	Global("JA_PRECAST_LONG","LOCALS",0)
@@ -335,12 +357,21 @@ IF
 	!GlobalTimerNotExpired("Summoning","LOCALS")
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
-	AreaType(OUTDOOR)
+	!HaveSpell(CLERIC_SUMMON_DEATH_KNIGHT)
+	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_7)
+	!HaveSpell(CLERIC_ANIMATE_SKELETON_WARRIOR)
+	!HaveSpellRES("D5P2632")
+	!HaveSpell(WIZARD_SHADES)
+	!HaveSpellRES("D5PP422")
+	!HaveSpell(CLERIC_AERIAL_SERVANT)
+	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_6)
+	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_5)
+	!HaveSpellRES("D5P2527")
 	RandomNumGT(800,240)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),CLERIC_CALL_WOODLAND_BEINGS)
+		ForceSpell(Myself,CLERIC_CALL_WOODLAND_BEINGS)
 		RemoveSpell(CLERIC_CALL_WOODLAND_BEINGS)
 		SetGlobalTimer("Summoning","LOCALS",12)
 END
@@ -2283,15 +2314,127 @@ END
 // Cure Light Wounds
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
-	HPPercentLT(Myself,75)
 	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	HPPercentLT(LastSeenBy(Myself),75)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
 		RemoveSpell(CLERIC_CURE_LIGHT_WOUNDS)
 END
 

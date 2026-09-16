@@ -117,7 +117,9 @@ describe("checkEnchantment", () => {
 describe("checkRange", () => {
   it("assigns melee range from CreatureSizeTable based on creature size", () => {
     const weapon = { file: "w1", header: { speed: 3 } } as Weapon;
-    const creature = fakeCreature({ data: { size: "Large" } });
+    const creature = fakeCreature({
+      data: { size: { value: "Large", tall: false, long: true } },
+    });
     weaponService.checkRange(creature, weapon);
     expect(weapon.header.range).toBe(2);
   });
@@ -125,7 +127,7 @@ describe("checkRange", () => {
   it("does nothing when creature.autoGenerate.meleeRange is false", () => {
     const weapon = { file: "w1", header: { speed: 3 } } as Weapon;
     const creature = fakeCreature({
-      data: { size: "Large" },
+      data: { size: { value: "Large", tall: false, long: true } },
       autoGenerate: { meleeRange: false },
     });
     weaponService.checkRange(creature, weapon);
@@ -134,7 +136,9 @@ describe("checkRange", () => {
 
   it("does not override an already-set range", () => {
     const weapon = { file: "w1", header: { speed: 3, range: 5 } } as Weapon;
-    const creature = fakeCreature({ data: { size: "Large" } });
+    const creature = fakeCreature({
+      data: { size: { value: "Large", tall: false, long: true } },
+    });
     weaponService.checkRange(creature, weapon);
     expect(weapon.header.range).toBe(5);
   });
@@ -144,7 +148,9 @@ describe("checkRange", () => {
       file: "w1",
       header: { speed: 3, projectile: "arrow01" },
     } as unknown as Weapon;
-    const creature = fakeCreature({ data: { size: "Large" } });
+    const creature = fakeCreature({
+      data: { size: { value: "Large", tall: false, long: true } },
+    });
     weaponService.checkRange(creature, weapon);
     expect(weapon.header.range).toBeUndefined();
   });
@@ -156,7 +162,7 @@ describe("checkWeapon", () => {
     const creature = fakeCreature({
       data: {
         level1: { pnpValue: 10, value: 10, type: "none" },
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
       },
     });
     weaponService.checkWeapon(creature, weapon);

@@ -21,6 +21,16 @@ DEFINE_ACTION_MACRO load_splprot BEGIN
 	ACTION_IF (index >= 0) BEGIN
 		OUTER_SET CLERIC=index - 1
 	END
+	OUTER_SET value=IDS_OF_SYMBOL (~general~ ~HUMANOID~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10b STR_VAR value relation="5" RET index END
+	OUTER_SET row1=index
+	OUTER_SET value=IDS_OF_SYMBOL (~gender~ ~MALE~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10f STR_VAR value relation="5" RET index END
+	OUTER_SET row2=index
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x103 STR_VAR value=EVALUATE_BUFFER "%row1%" relation=EVALUATE_BUFFER "%row2%" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET NOT_MALE_HUMANOID=index - 1
+	END
 END
 LAM load_splprot
 

@@ -140,7 +140,7 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BLACK",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         items: {
           remove: ["B1-6"],
@@ -187,10 +187,10 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BROWN",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["B1-8"],
+          remove: ["B1-8", "S1-8", "BEARBR", "B1-8M1"],
         },
         script: {
           remove: ["CBEAR", "BEAR"],
@@ -203,7 +203,10 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    brown.setAdjustments([{ files: ["PLYBEAR1"], data: { script: { location: "None" } } }]);
+    brown.setAdjustments([
+      { files: ["PLYBEAR1", "CB595BRB"], data: { script: { location: "None" } } },
+      { files: ["BDBEARBR"], stringRef: "monster.bear.name.brown" },
+    ]);
     return brown;
   }
 
@@ -234,10 +237,10 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_CAVE",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["B1-10", "BEARCASU", "BEARCA"],
+          remove: ["B1-10", "BEARCASU", "BEARCA", "S1-12", "B1-12"],
         },
         script: {
           remove: ["CBEAR", "BEAR"],
@@ -252,7 +255,8 @@ class BearFamily extends CreatureFamily<Bear> {
     });
     cave.setAdjustments([
       { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
-      { files: ["B_BEAR1"], data: { level1: 9 } },
+      { files: ["BDBEARCA"], data: { level1: 9, xpv: 975 } },
+      { files: ["OHDANIM1"], data: { script: { location: "None" } } },
     ]);
     return cave;
   }
@@ -284,10 +288,19 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_POLAR",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["B1-12", "B1-12M3", "BEARPO", "BEARPOSU", "KALDW1"],
+          remove: [
+            "B1-12",
+            "B1-12M3",
+            "BEARPO",
+            "BEARPOSU",
+            "KALDW1",
+            "IMMUNE1",
+            "RING95",
+            "BEARSPIR",
+          ],
         },
         script: {
           remove: ["CBEAR", "BEAR", "kaldran", "gnsummm"],
@@ -304,7 +317,6 @@ class BearFamily extends CreatureFamily<Bear> {
     });
     polar.setAdjustments([
       { files: ["BDGHBRSU"], data: { level1: 9 } },
-      { files: ["B_PBEAR1"], data: { level1: 13 } },
       {
         files: ["KALDRAN"],
         data: {
@@ -322,6 +334,18 @@ class BearFamily extends CreatureFamily<Bear> {
           },
         },
       },
+      {
+        files: ["BEARPO01", "D9ARPO01", "NTBEARPO", "OBSICE04"],
+        stringRef: "monster.bear.name.polar",
+      },
+      // {
+      //   files: ["SPIRBEAR"],
+      //   data: {
+      //     level1: 10,
+      //     immunities: ["incorporeal"],
+      //     //TODO: ghost fear aura
+      //   },
+      // },
     ]);
     return polar;
   }
@@ -353,10 +377,10 @@ class BearFamily extends CreatureFamily<Bear> {
         race: "BEAR",
         class: "BEAR_BROWN",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 12,
         items: {
-          remove: ["B1-12"],
+          remove: ["B1-12", "S1-8"],
         },
         script: {
           remove: ["BEAR"],
@@ -369,7 +393,10 @@ class BearFamily extends CreatureFamily<Bear> {
       walk: true,
       customCodes: [this.turningHostile, hunterCustomCode],
     });
-    grizzly.setAdjustments([{ files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } }]);
+    grizzly.setAdjustments([
+      { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
+      { files: ["CB595GRB"], data: { script: { location: "None" } } },
+    ]);
     return grizzly;
   }
 

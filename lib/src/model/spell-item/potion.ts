@@ -6,4 +6,8 @@ export interface PotionConfig {
   files: string[];
   triggers?: Triggers.Trigger[];
   actions?: Actions.Action[];
+  /**
+   * Probability (0-100)
+   */
+  probability?: number;
 }

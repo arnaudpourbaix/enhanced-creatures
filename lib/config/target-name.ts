@@ -1,24 +1,26 @@
 export type TargetListName =
-  | "Players"
+  | "Animals"
+  | "CloseEnemies"
+  | "FarthestEnemies"
   | "NearestEnemies"
   | "NearestAllies"
+  | "EvilcutoffMaleHumanoids"
   | "PCs"
   | "PCsFighters"
   | "PCsPreferringStrong"
   | "PCsPreferringWeak"
   | "PCSpellcasters"
   | "PCMages"
-  | "FarthestEnemies"
-  | "CloseEnemies"
-  | "Animals";
+  | "Players";
 
 export type TargetStatusName =
+  | "Able" // Not affected by any disabling status
+  | "Blinded"
   | "Grabbed"
   | "Held"
-  | "Stunned"
-  | "Slowed"
+  | "HeldAndNotPoisoned"
+  | "NoCheck"
   | "PanicConfused" // panic, confused, feebleminded
   | "Sleep"
-  | "Able" // Not affected by any disabling status
-  | "HeldAndNotPoisoned"
-  | "NoCheck";
+  | "Slowed"
+  | "Stunned";

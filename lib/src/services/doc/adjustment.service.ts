@@ -1,11 +1,15 @@
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
-import { CreatureData, MemorizedSpell } from "../../model/creature/data";
+import { Game } from "../../model/creature/game";
+import { Variant } from "../../model/creature/variant";
+import { CreatureData, MemorizedSpell, SpellbookVariant } from "../../model/creature/data";
 import { EquippedItem, ItemSlot } from "../../model/creature/item";
 import { ClassIdentifier } from "../../model/ids/class";
+import { KitIdentifier } from "../../model/ids/kit";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import creatureService from "../creature.service";
+import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
 
 export interface AdjustmentField<T> {
@@ -15,6 +19,14 @@ export interface AdjustmentField<T> {
 
 export interface EffectiveAdjustment {
   files: string[];
+  /**
+   * The game scope this effective was built for. `getEffectiveDataForFile` splits a file whose
+   * adjustments target more than one game into one effective per tagged game scope, folding the
+   * untagged adjustments into each - so this is `"bg1"` or `"bg2"` for such a per-game effective,
+   * and `undefined` for the untagged scope (a file touched only by untagged adjustments yields a
+   * single `undefined`-scope effective).
+   */
+  game?: Game;
   noWeapon: boolean;
   level: AdjustmentField<number>;
   hp: AdjustmentField<number>;
@@ -33,16 +45,31 @@ export interface EffectiveAdjustment {
   intelligence: AdjustmentField<number>;
   wisdom: AdjustmentField<number>;
   charisma: AdjustmentField<number>;
+  hideShadow: AdjustmentField<number | undefined>;
+  kit: AdjustmentField<KitIdentifier | undefined>;
   equipped: { item: EquippedItem; changed: boolean }[];
   immunities: { name: ImmunityName; changed: boolean }[];
   memorized: { spell: MemorizedSpell; changed: boolean }[];
+  /**
+   * Mod-conditional spellbook variants (spellService.createSpellbooks) this effective's own
+   * `spells.spellbooks` resolves to - the last one defined among the folded adjustments (later
+   * wins, same as every other scalar-ish field here), since each is a complete snapshot rather
+   * than something to merge across adjustments. `undefined` when nothing in the fold sets it.
+   */
+  spellbooks?: SpellbookVariant[];
   proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
+  /**
+   * The variant that owns every adjustment folded into this effective, if they all share one.
+   * `undefined` when the file is touched only by plain `setAdjustments` entries (or by a mix of
+   * variant and non-variant entries). Documentation groups the cards by this.
+   */
+  variant?: Variant;
 }
 
 class AdjustmentService {
   getEffectiveAdjustments(creature: Creature): EffectiveAdjustment[] {
     const files = this.getAllFiles(creature.adjustments);
-    const perFile = files.map((file) => this.getEffectiveDataForFile(creature, file));
+    const perFile = files.flatMap((file) => this.getEffectiveDataForFile(creature, file));
     return this.group(perFile.filter((effective) => this.hasVisibleChanges(effective))).sort(
       (a, b) => a.level.value - b.level.value,
     );
@@ -61,22 +88,54 @@ class AdjustmentService {
     return result;
   }
 
-  private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment {
-    const matching = creature.adjustments.filter((a) => a.files.includes(file));
+  // A file whose adjustments target more than one game (e.g. GORF: a bg1 lieutenant and a weaker
+  // bg2 "Squisher") can never be folded into a single coherent creature - the two games never run
+  // together. Split such a file into one effective per game scope, folding the game-agnostic
+  // (untagged) adjustments into each. A file touched only by untagged adjustments yields a single
+  // scope-less effective, exactly as before.
+  private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment[] {
+    const all = creature.adjustments.filter((a) => a.files.includes(file));
+    const taggedGames = [...new Set(all.map((a) => a.game))].filter(
+      (g): g is Game => g !== undefined,
+    );
+    const scopes: (Game | undefined)[] = taggedGames.length ? taggedGames : [undefined];
+    return scopes.map((game) =>
+      this.buildEffectiveForScope(
+        creature,
+        file,
+        game,
+        game === undefined ? all : all.filter((a) => a.game === undefined || a.game === game),
+      ),
+    );
+  }
+
+  private buildEffectiveForScope(
+    creature: Creature,
+    file: string,
+    game: Game | undefined,
+    matching: CreatureAdjustment[],
+  ): EffectiveAdjustment {
     const base = creature.data;
     const equipped = this.getEquipped(matching, base);
     const proficiencies = this.getProficiencies(matching, base);
     const classValue = this.lastDefined(matching, (d) => d.class) ?? base.class;
-    const levelValue = this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
+    const levelValue =
+      this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
+    const constitutionValue = this.lastDefined(matching, (d) => d.constitution) ?? base.constitution;
 
     return {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
       level: this.field(levelValue, base.level1.pnpValue),
       hp: this.field(
-        this.lastDefined(matching, (d) => d.hp),
+        this.displayHp(this.lastDefined(matching, (d) => d.hp), classValue, constitutionValue, levelValue),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        base.hp!,
+        base.hp! +
+          hitPointService.getDisplayHitPointBonus({
+            class: base.class,
+            constitution: base.constitution,
+            level: base.level1.pnpValue,
+          }),
       ),
       thac0: this.field(
         this.lastDefined(matching, (d) => d.thac0),
@@ -100,8 +159,8 @@ class AdjustmentService {
         base.alignment!,
       ),
       size: this.field(
-        this.lastDefined(matching, (d) => d.size),
-        base.size,
+        this.lastDefined(matching, (d) => d.size?.value),
+        base.size.value,
       ),
       xpv: this.field(
         this.lastDefined(matching, (d) => d.xpv),
@@ -138,11 +197,64 @@ class AdjustmentService {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.charisma!,
       ),
+      hideShadow: this.field(
+        this.lastDefined(matching, (d) => d.hideShadow),
+        base.hideShadow,
+      ),
+      kit: this.field(
+        this.lastDefined(matching, (d) => d.kit),
+        base.kit,
+      ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),
+      // See getEquipped's comment above - test fixtures can leave this undefined at runtime
+      // despite the non-optional type.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      spellbooks: this.lastDefined(matching, (d) => d.spells?.spellbooks),
+      variant: this.commonVariant(matching),
+      game,
       equipped,
       proficiencies,
     };
+  }
+
+  // The one variant every variant-owned adjustment in this fold belongs to. Variant-less entries
+  // (a synthetic summon patch, an extra hand-written setAdjustments tweak on a member) are
+  // ignored - they still fold into the stats, they just don't pull the card out of its group.
+  //
+  // A file can carry adjustments from a variant *and* one of its own sub-variants at once - e.g.
+  // ogres/berserker.ts's chieftain files that are also barbarians: the chieftain variant declares
+  // them as members, and the nested barbarian variant refines the same files further. That's not
+  // ambiguity, it's specificity - the file belongs to the deepest (most specific) variant in the
+  // chain, so its card nests under the sub-variant rather than falling out to "Direct adjustments".
+  // Undefined only when the file genuinely belongs to two unrelated variants, or to none.
+  private commonVariant(matching: CreatureAdjustment[]): Variant | undefined {
+    const variants = [...new Set(matching.map((a) => a.variant).filter((v): v is Variant => !!v))];
+    if (!variants.length) return undefined;
+    const deepest = variants.reduce(
+      (a, b) => (this.variantDepth(b) > this.variantDepth(a) ? b : a),
+      variants[0],
+    );
+    return variants.every((v) => this.isVariantAncestorOrSelf(v, deepest)) ? deepest : undefined;
+  }
+
+  private isVariantAncestorOrSelf(candidate: Variant, of: Variant): boolean {
+    let v: Variant | undefined = of;
+    while (v) {
+      if (v === candidate) return true;
+      v = v.parent;
+    }
+    return false;
+  }
+
+  private variantDepth(variant: Variant): number {
+    let depth = 0;
+    let v = variant.parent;
+    while (v) {
+      depth++;
+      v = v.parent;
+    }
+    return depth;
   }
 
   private lastDefined<T>(
@@ -160,6 +272,19 @@ class AdjustmentService {
   private field<T>(overridden: T | undefined, base: T): AdjustmentField<T> {
     const value = overridden ?? base;
     return { value, changed: value !== base };
+  }
+
+  // Generated hp deliberately excludes the constitution bonus for PC-classed creatures (the IE
+  // engine re-applies it itself; see hitPointService.getDisplayHitPointBonus) - the docs need the
+  // HP a player actually sees, so add that bonus back here for display only.
+  private displayHp(
+    rawHp: number | undefined,
+    classValue: ClassIdentifier | undefined,
+    constitution: number | undefined,
+    level: number,
+  ): number | undefined {
+    if (rawHp === undefined) return undefined;
+    return rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level });
   }
 
   // checkData already ran checkDexterityArmorClassBonus on every adjustment's own data using only
@@ -221,6 +346,14 @@ class AdjustmentService {
   // and silently drop all but the last of the base creature's own traits. Base-authored order is
   // preserved (no sort) so getAdjustmentAttacks sees main hand before off-hand, exactly like the
   // main creature block does.
+  //
+  // `noWeapon` files never receive the base creature's own equipped items at all - see
+  // weidu-creature.service.ts's addItemSlots, which wraps every REPLACE_CRE_ITEM/ADD_CRE_ITEM for
+  // the base loadout in a `noWeaponFiles` exclusion (confirmed against the generated .tpa for
+  // minotaurs' GAROCK/ROCK, whose Huge Axe and trait-carrier item are both skipped). An adjustment
+  // matching such a file can still equip its own item explicitly (e.g. ogres.ts's BLUN07 morning
+  // star) - that goes through a separate per-file patch block untouched by the exclusion, so it's
+  // still folded in below.
   private getEquipped(
     matching: CreatureAdjustment[],
     base: CreatureData,
@@ -230,10 +363,10 @@ class AdjustmentService {
     const singleSlotValue = (item: EquippedItem): ItemSlot =>
       Array.isArray(item.slot) ? item.slot[0] : item.slot;
 
-    const result: { item: EquippedItem; changed: boolean }[] = base.items.equipped.map((item) => ({
-      item,
-      changed: false,
-    }));
+    const noWeapon = matching.some((a) => a.noWeapon);
+    const result: { item: EquippedItem; changed: boolean }[] = noWeapon
+      ? []
+      : base.items.equipped.map((item) => ({ item, changed: false }));
 
     for (const adjustment of matching) {
       // adjustment.data is typed as the full CreatureData (real adjustments always go through
@@ -304,35 +437,58 @@ class AdjustmentService {
       .sort((a, b) => a.type - b.type);
   }
 
-  // An adjustment's authored memorizedCount for a spell the base already has is a delta on top of
-  // the base's own count (not an absolute replacement) - e.g. base has 1, an adjustment authored
-  // with memorizedCount: 1 means "+1", i.e. an effective count of 2. Later adjustments win over
-  // earlier ones (same fold order as every other field here), but their deltas don't stack: only
-  // the latest adjustment's own delta is added to the base count. A spell the base doesn't have at
-  // all has no base count to add to, so the adjustment's authored value is the effective count
-  // directly (base 0 + delta).
+  // An adjustment's authored memorizedCount for a spell is a delta on top of the base's own count
+  // (not an absolute replacement) - e.g. base has 1, an adjustment authored with memorizedCount: 1
+  // means "+1", i.e. an effective count of 2. `ADD_MEMORIZED_SPELL` is cumulative in WeiDU and
+  // weidu-creature.service emits one per matching adjustment, so deltas DO stack: a spell touched
+  // by several chained adjustments ends at base + every matching adjustment's delta, in list
+  // order. A `memorizedCount: 0` entry is a REMOVE - it resets the running count to zero (later
+  // deltas then add back on top). A spell the base doesn't have has no base count to add to, so
+  // the deltas are the effective count directly (base 0 + deltas).
+  //
+  // An adjustment authored with `spells.cumulative: false` (see spellService.createSpellbook's
+  // callers) breaks that chain instead of extending it: its `memorized` list is a freshly
+  // computed, self-contained spellbook, and it always pairs with `removeMemorized: true`, which
+  // in the real WeiDU output emits REMOVE_MEMORIZED_SPELLS before this adjustment's own
+  // ADD_MEMORIZED_SPELL calls - wiping the base count and every earlier adjustment's contribution.
+  // Mirror that by only summing from the last such adjustment onward.
   private getMemorized(
     matching: CreatureAdjustment[],
     base: CreatureData,
   ): { spell: MemorizedSpell; changed: boolean }[] {
     const baseByFile = new Map(base.spells.memorized.map((s) => [s.file, s]));
-    const deltaByFile = new Map<string, MemorizedSpell>();
-    for (const adjustment of matching) {
+    // See getEquipped's comment above - test fixtures can leave this undefined at runtime
+    // despite the non-optional type.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const resetIndex = matching.findLastIndex((a) => a.data.spells?.cumulative === false);
+    const contributing = resetIndex === -1 ? matching : matching.slice(resetIndex);
+    const startByFile = resetIndex === -1 ? baseByFile : new Map<string, MemorizedSpell>();
+    const deltasByFile = new Map<string, MemorizedSpell[]>();
+    for (const adjustment of contributing) {
       // See getEquipped's comment above - test fixtures can leave this undefined at runtime
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      for (const spell of adjustment.data.spells?.memorized ?? [])
-        deltaByFile.set(spell.file, spell);
+      for (const spell of adjustment.data.spells?.memorized ?? []) {
+        const list = deltasByFile.get(spell.file) ?? [];
+        list.push(spell);
+        deltasByFile.set(spell.file, list);
+      }
     }
-    const files = new Set([...baseByFile.keys(), ...deltaByFile.keys()]);
+    const files = new Set([...baseByFile.keys(), ...deltasByFile.keys()]);
     return [...files]
       .map((file) => {
         const baseSpell = baseByFile.get(file);
-        const delta = deltaByFile.get(file);
+        const deltas = deltasByFile.get(file) ?? [];
         const baseCount = baseSpell?.memorizedCount ?? 0;
-        const effectiveCount = baseCount + (delta?.memorizedCount ?? 0);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const spell = delta ? { ...delta, memorizedCount: effectiveCount } : baseSpell!;
+        let effectiveCount = startByFile.get(file)?.memorizedCount ?? 0;
+        for (const delta of deltas) {
+          effectiveCount =
+            delta.memorizedCount === 0 ? 0 : effectiveCount + (delta.memorizedCount ?? 1);
+        }
+        const spell = deltas.length
+          ? { ...deltas[deltas.length - 1], memorizedCount: effectiveCount }
+          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            (startByFile.get(file) ?? baseSpell)!;
         return { spell, changed: effectiveCount !== baseCount };
       })
       .sort((a, b) => a.spell.file.localeCompare(b.spell.file));
@@ -353,7 +509,10 @@ class AdjustmentService {
       effective.morale.changed ||
       effective.alignment.changed ||
       effective.size.changed ||
-      effective.xpv.changed ||
+      // An XP Value change is never shown in documentation when the effective value is 0 (a
+      // detected summon is folded in as an adjustment that only zeroes xpv) - so it must not
+      // pull an otherwise-empty card into view either. A change to a real non-zero value still counts.
+      (effective.xpv.changed && effective.xpv.value !== 0) ||
       effective.strength.changed ||
       effective.exceptionalStrength.changed ||
       effective.dexterity.changed ||
@@ -361,19 +520,112 @@ class AdjustmentService {
       effective.intelligence.changed ||
       effective.wisdom.changed ||
       effective.charisma.changed ||
+      effective.hideShadow.changed ||
+      effective.kit.changed ||
       effective.equipped.some((e) => e.changed) ||
       effective.immunities.some((i) => i.changed) ||
       effective.memorized.some((m) => m.changed) ||
+      !!effective.spellbooks?.length ||
       effective.proficiencies.some((p) => p.changed)
     );
+  }
+
+  // The stat profile a variant's own `data` defines, folded over the base creature - the shared
+  // baseline every member file starts from, before any per-file `adjust` entry refines it.
+  // Documentation renders this as the variant card's own body instead of a one-line summary.
+  // `undefined` for a variant declared purely through `adjust` entries (no shared `files`
+  // profile), or with no adjustments at all.
+  getVariantProfile(creature: Creature, variant: Variant): EffectiveAdjustment | undefined {
+    const entries = creature.adjustments.filter((a) => a.variant === variant);
+    if (!entries.length) return undefined;
+    // variantFactory emits one entry for `input.files` carrying the merged variant data, then one
+    // per `adjust` entry (each targeting a subset of those files) - so the shared-profile entry is
+    // the one whose file set covers every file the variant touches.
+    const allFiles = new Set(entries.flatMap((a) => a.files));
+    const shared = entries.find(
+      (a) => a.files.length > 0 && [...allFiles].every((f) => a.files.includes(f)),
+    );
+    if (!shared) return undefined;
+    // A member file the variant's own `adjust` entries never target still goes through the
+    // ordinary per-file fold in getEffectiveDataForFile, which can pick up adjustments the variant
+    // knows nothing about - e.g. family.ts's applyCsvSummonFiles appending an xpv=0 patch to a
+    // creatures.csv-flagged summon after the variant was declared. Building the profile from that
+    // same fold (for a file with no variant-owned deviation) keeps it identical to what such a
+    // "vanilla" member actually renders as; hand-rolling it from `shared` alone drifted out of
+    // sync with that fold and made isEquivalent/subtractProfile never match, silently dropping the
+    // variant's whole stat block from the card (only the "Applies to" line survived).
+    const deviatingFiles = new Set(entries.filter((a) => a !== shared).flatMap((a) => a.files));
+    const cleanFile = shared.files.find((f) => !deviatingFiles.has(f));
+    if (cleanFile) {
+       
+      return this.getEffectiveDataForFile(creature, cleanFile)[0];
+    }
+    return this.buildEffectiveForScope(creature, variant.label, undefined, [shared]);
+  }
+
+  // Two effectives are equivalent when they carry the same set of changes, regardless of which
+  // files they cover - same comparison `group()` uses to merge same-stat files into one card.
+  isEquivalent(a: EffectiveAdjustment, b: EffectiveAdjustment): boolean {
+    return this.signature(a) === this.signature(b);
+  }
+
+  // A variant member's card diffs against the base creature like any adjustment, but its variant's
+  // shared profile is already shown on the variant card right above it - so re-flagging the stats
+  // it merely inherits from that profile is noise. Returns a copy with each scalar stat's
+  // `changed` cleared when its value matches the profile's, leaving only the member's own
+  // deviations (a boss's extra HD, a minion's softer AC).
+  subtractProfile(
+    effective: EffectiveAdjustment,
+    profile: EffectiveAdjustment,
+  ): EffectiveAdjustment {
+    const keys = [
+      "level",
+      "hp",
+      "thac0",
+      "ac",
+      "apr",
+      "movement",
+      "morale",
+      "alignment",
+      "size",
+      "xpv",
+      "strength",
+      "exceptionalStrength",
+      "dexterity",
+      "constitution",
+      "intelligence",
+      "wisdom",
+      "charisma",
+      "hideShadow",
+      "kit",
+    ] as const;
+    const result: EffectiveAdjustment = { ...effective };
+    for (const key of keys) {
+      const field = effective[key] as AdjustmentField<unknown>;
+      const profileField = profile[key] as AdjustmentField<unknown>;
+      (result[key] as AdjustmentField<unknown>) = {
+        value: field.value,
+        changed: field.changed && field.value !== profileField.value,
+      };
+    }
+    return result;
+  }
+
+  // `variant` is a class instance with a circular back-reference to its Creature, so it can't go
+  // through JSON.stringify - key on its label instead, which also keeps two same-stat files in
+  // different variants as separate cards.
+  private signature(effective: EffectiveAdjustment): string {
+    // `files` is dropped (JSON.stringify omits an `undefined` value) so same-change files compare
+    // equal; `variant` is reduced to its label since the instance has a circular Creature ref.
+    return JSON.stringify({ ...effective, files: undefined, variant: effective.variant?.label });
   }
 
   private group(effectives: EffectiveAdjustment[]): EffectiveAdjustment[] {
     const bySignature = new Map<string, EffectiveAdjustment>();
     const order: string[] = [];
     for (const effective of effectives) {
-      const { files, ...rest } = effective;
-      const signature = JSON.stringify(rest);
+      const { files } = effective;
+      const signature = this.signature(effective);
       const existing = bySignature.get(signature);
       if (existing) {
         existing.files.push(...files);

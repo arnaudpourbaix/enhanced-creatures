@@ -38,6 +38,13 @@ export interface CreatureData {
    * Specific case when creature have more HP or can fight when HP is below 0 like some bears.
    */
   specialBonusHp?: number;
+  /**
+   * Extra HP granted per Hit Die (level1's pnpValue), for an individual with more vigor than
+   * others of its kind. Unlike bonusHp/specialBonusHp (both flat), this is multiplied by the
+   * actual Hit Dice count, so it keeps scaling correctly across adjustments that bump level1
+   * without needing to be recomputed by hand for each one.
+   */
+  bonusHpPerHitDie?: number;
   ac?: number;
   thac0?: number;
   apr?: number;
@@ -55,7 +62,7 @@ export interface CreatureData {
   kit?: KitIdentifier;
   gender?: GenderIdentifier;
   ea?: AllegianceIdentifier;
-  size?: CreatureSize;
+  size?: { value: CreatureSize; tall: boolean; long: boolean };
   animation?: AnimationIdentifiers;
   modAnimation?: string;
   metalColor?: number;
@@ -116,6 +123,16 @@ export class CreatureDataScript {
    * Use None to prevent from assigning a script
    */
   location?: ScriptLocation;
+
+  edits?: CreatureScriptEdit[];
+}
+
+export interface CreatureScriptEdit {
+  files: string[];
+  /**
+   * Will call REPLACE_TEXTUALLY
+   */
+  replaces: [string, string][];
 }
 
 export class CreatureDataItems {
@@ -133,6 +150,15 @@ export class CreatureDataSpells {
   memorized: MemorizedSpell[] = [];
   removeKnown?: boolean;
   removeMemorized?: boolean | string[];
+  /**
+   * Whether this adjustment's `memorized` list stacks on top of the base/earlier adjustments'
+   * counts (default) or is a full replacement of them - e.g. a freshly recomputed spellbook (see
+   * spellService.createSpellbook). `false` implies a blanket wipe on its own - weidu-creature
+   * service emits REMOVE_MEMORIZED_SPELLS before this adjustment's own ADD_MEMORIZED_SPELL calls
+   * unless `removeMemorized` is set explicitly (which then takes precedence) - and
+   * adjustmentService.getMemorized mirrors that same reset when computing documentation counts.
+   */
+  cumulative?: boolean;
 }
 
 export interface SpellbookVariant {
@@ -224,7 +250,7 @@ export const CREATURE_DATA_FIELDS: {
   // its own real type); `unknown` allows calling but rejects assigning any narrower setter into
   // the table in the first place (see the individual entries below, e.g. `value: Level | number`).
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setter?: (data: CreatureData, value: any) => void;
+  setter?: (data: CreatureData, value: any, isAdjustment: boolean) => void;
 }[] = [
   {
     key: "xpv",
@@ -546,6 +572,9 @@ export const CREATURE_DATA_FIELDS: {
     key: "specialBonusHp",
   },
   {
+    key: "bonusHpPerHitDie",
+  },
+  {
     key: "script",
     setter: (data, value: Partial<CreatureDataScript>) => {
       if (value.remove) {
@@ -553,6 +582,9 @@ export const CREATURE_DATA_FIELDS: {
       }
       if (value.location !== undefined) {
         data.script.location = value.location;
+      }
+      if (value.edits !== undefined) {
+        data.script.edits = value.edits;
       }
     },
   },
@@ -592,6 +624,9 @@ export const CREATURE_DATA_FIELDS: {
       if (value.removeKnown !== undefined) {
         data.spells.removeKnown = value.removeKnown;
       }
+      if (value.cumulative !== undefined) {
+        data.spells.cumulative = value.cumulative;
+      }
       if (value.removeMemorized === undefined) return;
       if (typeof value.removeMemorized === "boolean") {
         data.spells.removeMemorized = value.removeMemorized;
@@ -607,11 +642,14 @@ export const CREATURE_DATA_FIELDS: {
   },
   {
     key: "effects",
-    setter: (data, value: Partial<CreatureDataEffects>) => {
+    setter: (data, value: Partial<CreatureDataEffects>, isAdjustment: boolean) => {
       if (value.list) {
         data.effects.list.push(...value.list);
       }
-      if (value.remove === undefined) return;
+      if (value.remove === undefined) {
+        if (!isAdjustment) value.remove = true;
+        return;
+      }
       if (typeof value.remove === "boolean") {
         data.effects.remove = value.remove;
       } else if (Array.isArray(data.effects.remove) && Array.isArray(value.remove)) {
