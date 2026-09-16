@@ -101,12 +101,7 @@ export const TARGET_LISTS: {
   },
   {
     name: "PCSpellcasters",
-    value: [
-      `[PC.0.0.MAGE_ALL]`,
-      `[PC.0.0.CLERIC_ALL]`,
-      `[PC.0.0.DRUID_ALL]`,
-      `[PC.0.0.BARD]`,
-    ],
+    value: [`[PC.0.0.MAGE_ALL]`, `[PC.0.0.CLERIC_ALL]`, `[PC.0.0.DRUID_ALL]`, `[PC.0.0.BARD]`],
     allegianceCheck: false,
   },
   {
@@ -133,6 +128,18 @@ export const TARGET_LISTS: {
       `[NEUTRAL.ANIMAL]`,
       `SecondNearest([NEUTRAL.ANIMAL])`,
       `ThirdNearest([NEUTRAL.ANIMAL])`,
+    ],
+    allegianceCheck: false,
+  },
+  {
+    name: "EvilcutoffMaleHumanoids",
+    value: [
+      `[EVILCUTOFF.HUMANOID.0.0.0.MALE]`,
+      `SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
+      `SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
     ],
     allegianceCheck: false,
   },
@@ -171,40 +178,17 @@ export const TARGET_STATUS: TargetStatus[] = [
         name: "StateCheck",
         params: [ScriptTarget.token, "STATE_SLOWED"],
       },
-      {
-        name: "CheckStatGT",
-        params: [ScriptTarget.token, 0, "HELD"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_STUNNED"],
-        negation: true,
-      },
+    ],
+  },
+  {
+    status: "Blinded",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: true,
+    triggers: [],
+    targetTriggers: [
       {
         name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_PANIC"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_CONFUSED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_FEEBLEMINDED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_SLEEPING"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_HELPLESS"],
-        negation: true,
+        params: [ScriptTarget.token, "STATE_BLIND"],
       },
     ],
   },

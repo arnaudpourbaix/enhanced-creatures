@@ -109,7 +109,7 @@ describe("hitPointService.getHitPoints", () => {
     const value = hitPointService.getHitPoints({
       data: {
         level1: { pnpValue: 1, value: 1, type: "none" },
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         bonusHp: 3,
       },
       creature: fakeCreature({ immunities: ["construct"] }),
@@ -154,5 +154,39 @@ describe("hitPointService.getHitPoints", () => {
       parent,
     });
     expect(value).toBe(19); // 2*8 (base) + 0 (con bonus skipped, parent is a player class) + 3 (parent bonusHp)
+  });
+});
+
+describe("hitPointService.getDisplayHitPointBonus", () => {
+  it("returns the constitution bonus getHitPoints skipped for a player class (IE engine re-applies it in-game)", () => {
+    const value = hitPointService.getDisplayHitPointBonus({
+      class: "FIGHTER_MAGE",
+      constitution: 19,
+      level: 9,
+    });
+    expect(value).toBe(45); // 9 * 5 (con 19 -> warriorHp 5)
+  });
+
+  it("returns 0 for a non-player class (getHitPoints already included the bonus there)", () => {
+    const value = hitPointService.getDisplayHitPointBonus({
+      class: "OGRE_MAGE",
+      constitution: 19,
+      level: 9,
+    });
+    expect(value).toBe(0);
+  });
+
+  it("returns 0 when constitution is unset (defaults to 10, which has no bonus)", () => {
+    const value = hitPointService.getDisplayHitPointBonus({ class: "FIGHTER", level: 5 });
+    expect(value).toBe(0);
+  });
+
+  it("returns 0 for an unknown constitution score instead of throwing", () => {
+    const value = hitPointService.getDisplayHitPointBonus({
+      class: "FIGHTER",
+      constitution: 999,
+      level: 5,
+    });
+    expect(value).toBe(0);
   });
 });

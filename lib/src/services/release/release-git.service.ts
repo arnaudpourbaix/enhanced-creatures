@@ -47,6 +47,14 @@ class ReleaseGitService {
     this.git(["add", "package.json", "package-lock.json", "mod"]);
   }
 
+  // Throw away every working-tree change under mod/, restoring it to HEAD. Used after the
+  // release zip has been built from a flag-on regeneration (enableRandomTargetOrder /
+  // enableSecondaryTypes) so that churn - shuffled .baf files, integrate_sectypes lines - never
+  // reaches a commit and the post-push tree stays clean.
+  restoreModTree(): void {
+    this.git(["checkout", "--", "mod"]);
+  }
+
   commit(message: string): void {
     this.git(["commit", "-m", message]);
   }

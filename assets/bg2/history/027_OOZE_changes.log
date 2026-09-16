@@ -1,0 +1,16 @@
+OOZE: 9 new, 1 changed
+
+NEW (9):
+  L#NSBAS1  Greater Basilisk
+  L#NSBAS2  Basilisk
+  L#NSBEH   Eyeblinker
+  L#NSCHIL  Biya
+  L#NSCLE   Vulab
+  L#NSLUN   Luna
+  L#NSNYM   Nym
+  L#NSSEE   Cute Floating Eye
+  L#NSSULJ  Suljak
+
+CHANGED (1):
+  FIRMON03  Director
+    lring: beholder -> BEHOLDER

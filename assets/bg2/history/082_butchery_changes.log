@@ -1,0 +1,202 @@
+butchery: 169 new, 12 changed
+
+NEW (169):
+  D9AAAXX   Orc
+  D9AIWA2   Blind Priest
+  D9AKEB01  Boalisk
+  D9AKEB03  Boalisk
+  D9AKEB0D  Boalisk
+  D9AKEB0X  Boalisk
+  D9ARPO01  Mountain Bear
+  D9AST01   Ghast
+  D9AST0G   Ghast
+  D9AST0Y   Ghast
+  D9ASTHH   Ghast
+  D9BGUARD  Guard
+  D9BRAIM   Blind Priest
+  D9BRAIX   Elite Guard
+  D9C055    Orog
+  D9C066    Orog
+  D9C0R     Orc Archer
+  D9C0Z     Orc
+  D9C0Z1    Orc
+  D9C0Z3    Orc
+  D9CAT     Spotted Lion
+  D9CATJ    Panther
+  D9CATT    Panther
+  D9CAX     Spotted Lion
+  D9DFBBB   Grimward Archer
+  D9DFGAAA  Grimwarder
+  D9DFGT01  Grimwarder
+  D9DFGT02  Grimward Archer
+  D9DFGT03  Grimwarder
+  D9DJJJ    Grimwarder
+  D9DRAZT   DrAzTiK
+  D9EARBL   Black Bear
+  D9EARC01  Duergar
+  D9EFEL01  Lesser Fire Elemental
+  D9ELARAA  Skeleton Archer
+  D9ELARBB  Skeleton Archer
+  D9ELARFF  Skeleton Archer
+  D9ELARFX  Skeleton Archer
+  D9ELARGG  Skeleton Archer
+  D9ELARKK  Skeleton Archer
+  D9ELARTT  Skeleton Archer
+  D9ELARXX  Skeleton Archer
+  D9ELARYC  Skeleton Archer
+  D9ELARYY  Skeleton Archer
+  D9ELARZZ  Skeleton Archer
+  D9ELSU11  Skeleton Warrior
+  D9ELWA    Skeleton Warrior
+  D9EMAG01  Mage
+  D9EMAG02  Mage
+  D9FGT02   Shadow Druid
+  D9FGT04   Shadow Druid
+  D9FGT09   Shadow Druid
+  D9FGT0H   Shadow Druid
+  D9FIR     Fire Elemental
+  D9GGGGG   Fledgling Vampire
+  D9GUARD2  Elite Guard
+  D9GUARD4  Elite Guard
+  D9GUARD6  Elite Guard
+  D9HCHF01  Elite Rebel
+  D9HGRD01  Rebel novice
+  D9HGRD02  Rebel novice
+  D9HGRD08  Rebel
+  D9HGRD09  Rebel
+  D9HGRD99  Sahuagin Royal Guard
+  D9HGRDOU  Rebel novice
+  D9HGRDOX  Rebel novice
+  D9HPR1    High Priestess
+  D9HPR5    Priestess novice
+  D9HPRI01  Elite Rebel
+  D9HRAMB3  Priestess
+  D9IDGI01  Giant Spider
+  D9IDGI02  Giant Spider
+  D9IDGI03  Giant Spider
+  D9IDPH01  Phase Spider
+  D9IDSM01  Small Spider
+  D9IDSM02  Mutated Spider
+  D9IDSW01  Sword Spider
+  D9IDSW03  Sword Spider
+  D9IDSW0A  Sword Spider
+  D9IDSW0B  Sword Spider
+  D9IDSW0C  Sword Spider
+  D9IDSWXC  Sword Spider
+  D9LCLA01  Clay Golem
+  D9LFDI01  Dire Wolf
+  D9LFDI02  Dire Wolf
+  D9LFDI03  Dire Wolf
+  D9LFDICC  Dire Wolf
+  D9LFDICH  Dire Wolf
+  D9LFDR01  Dread Wolf
+  D9LFDR02  Dread Wolf
+  D9LFDR03  Dread Wolf
+  D9LFGR01  Greater Wolfwere
+  D9LFLE01  Flesh Golem
+  D9LFLE0X  Flesh Golem
+  D9LFWE01  Wolfwere
+  D9LFWEXX  Wolfwere
+  D9LFWI01  Winter Wolf
+  D9LGRFIR  Salamander Noble
+  D9LICE01  Ice Golem
+  D9LIRO01  Iron Golem
+  D9LJUG01  Juggernaut Golem
+  D9LKILL2  Adamantite Golem
+  D9LLOC    Ochre Jelly
+  D9LMUS01  Mustard Jelly
+  D9LSAN01  Sand Golem
+  D9LSTO01  Stone Golem
+  D9LTBH1   Gauth
+  D9LTBH3   Beholder
+  D9MBJU01  Zombie
+  D9MEM666  Ancient Vampire
+  D9MEMI01  Ancient Vampire
+  D9MF444   Fledgling Vampire
+  D9MFLF01  Fledgling Vampire
+  D9MFLM01  Fledgling Vampire
+  D9MFLM03  Fledgling Vampire
+  D9MFLMRF  Fledgling Vampire
+  D9MFVFV   Fledgling Vampire
+  D9MFVVV   Fledgling Vampire
+  D9MGRE01  Greater Mummy
+  D9MMY     Mummy
+  D9MSUC01  Succubus
+  D9MVER01  Elder Vampire
+  D9MVER02  Elder Vampire
+  D9OGR01   Greater Ghoul
+  D9OGR0M   Greater Ghoul
+  D9OGRRT   Greater Ghoul
+  D9OGYYY   Greater Ghoul
+  D9OLDE01  Desert Troll
+  D9OLGI01  Giant Troll
+  D9OLIC01  Ice Troll
+  D9OLICFF  Ice Troll
+  D9OLL01   Troll
+  D9OLL0R   Troll
+  D9OLL0Y   Troll
+  D9OLO999  Ghoul Lord
+  D9OLOR01  Ghoul Lord
+  D9OLSI01  Spirit Troll
+  D9OLSP01  Spectral Troll
+  D9P01     Imp
+  D9PQUA01  Quasit
+  D9REGR01  Greater Werewolf
+  D9RUID    Druid
+  D9SALFIA  Salamander
+  D9SALFIR  Salamander
+  D9SDEM04  Maurezhi
+  D9STVA01  Vampiric Mist
+  D9STVA03  Vampiric Mist
+  D9TANOV   Vampire Mage
+  D9UID10A  Elite Shadow Druid
+  D9UID10B  Elite Shadow Druid
+  D9UID6A   Shadow Druid novice
+  D9UID8A   Shadow Druid
+  D9UID8B   Shadow Druid
+  D9UMB01   Umber Hulk
+  D9UMB02   Umber Hulk
+  D9VALR2   Shadow Ranger
+  D9VBEA9   Brown Bear
+  D9VBEAE   Brown Bear
+  D9VBEAR   Brown Bear
+  D9VBEAT   Brown Bear
+  D9YDEM01  Tanar'ri
+  D9YUAN03  Yuan-Ti Mage
+  D9YUAN05  Yuan-ti Prince
+  D9YUAN0X  Yuan-ti
+  D9YUGH    Otyugh
+  GOLIROXT  Iron Golem
+  GOLIROXX  Iron Golem
+  ORC033    Orc Priest
+  ORC044    Orc Mage
+
+CHANGED (12):
+  YAGA02    Lieutenant Mage
+    overrideScript:  -> d9dwctyz
+    classScript: YAGA02 -> none
+  YAGA03    Lieutenant Fighter
+    overrideScript:  -> d9dwctyz
+    classScript: YAGA02 -> none
+  YAGA04    Lieutenant Cleric
+    overrideScript:  -> d9dwctyz
+    classScript: YAGA02 -> none
+  YAGA05    Lieutenant Thief
+    overrideScript:  -> d9dwctyz
+    classScript: YAGA02 -> none
+  YSCLER01  Yaga-Shura Cleric
+    overrideScript: finyagar -> d9dwctyz
+  YSFIRE02  Fire Giant
+    overrideScript: finyagar -> d9dwctyz
+  YSMAGE01  Yaga-Shura Mage
+    overrideScript: finyagar -> d9dwctyz
+  YSMAGE02  Yaga-Shura Mage
+    overrideScript:  -> d9dwctyz
+  YSSOLD01  Yaga-Shura Soldier
+    overrideScript: finyagar -> d9dwctyz
+  YSSOLD02  Yaga-Shura Soldier
+    overrideScript: finyagar -> d9dwctyz
+  YSSOLD03  Yaga-Shura Officer
+    overrideScript: finyagar -> d9dwctyz
+  YSSOLD04  Yaga-Shura Elite
+    overrideScript: finyagar -> d9dwctyz

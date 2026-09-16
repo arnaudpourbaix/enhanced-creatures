@@ -331,10 +331,13 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 18,
         items: {
-          remove: ["P1-6"],
+          remove: ["P1-6", "P1-4", "WOLFSU", "B1-6"],
+        },
+        script: {
+          remove: ["attack"],
         },
       },
     });
@@ -371,10 +374,10 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_DIRE",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 18,
         items: {
-          remove: ["P1-8", "P2-8", "IMMUNE1", "RING95"],
+          remove: ["P1-8", "P2-8", "IMMUNE1", "RING95", "P1-4", "P1-8M1", "WOLFDI"],
         },
         script: {
           remove: ["DIREWOLF"],
@@ -387,8 +390,12 @@ class WolfFamily extends CreatureFamily<Wolf> {
     });
     dire.setAdjustments([
       {
-        files: ["SHAWOL01"],
-        data: { strength: 18, xpv: 450, immunities: ["incorporeal"] },
+        files: ["A#FERA04"],
+        data: { level1: 10, strength: 18, xpv: 450 },
+      },
+      {
+        files: ["RUFIE"],
+        data: { script: { location: "None" } },
       },
     ]);
     return dire;
@@ -421,7 +428,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_DREAD",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 18,
         items: {
           remove: ["P1-10", "RING95", "TROLLIMM", "BDWOLFD1", "BDWOLFDR"],
@@ -465,6 +472,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         },
       ],
     });
+    dread.setAdjustments([{ files: ["ANWOLF1"], stringRef: "monster.wolf.name.dread" }]);
     return dread;
   }
 
@@ -495,7 +503,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_VAMPIRIC",
         gender: "MALE",
-        size: "Small",
+        size: { value: "Small", tall: false, long: true },
         movement: 24,
         items: {
           remove: ["WOLFVA1", "BDWOLFVA", "IMMUNE1", "RING95"],
@@ -535,6 +543,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         { status: ["Grabbed"], slot: "WEAPON3" },
       ],
     });
+    vampiric.setAdjustments([{ files: ["DW#ULCWO"], data: { level1: 15 } }]);
     return vampiric;
   }
 
@@ -563,7 +572,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_WINTER",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 18,
         immunities: ["magicalBeast"],
         items: {
@@ -613,11 +622,11 @@ class WolfFamily extends CreatureFamily<Wolf> {
         race: "WOLF",
         class: "WOLF_WORG",
         gender: "MALE",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 18,
         immunities: ["magicalBeast"],
         items: {
-          remove: ["P1-6"],
+          remove: ["P1-6", "P1-8", "P2-8"],
         },
       },
     });
@@ -625,6 +634,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
       diceThrown: 2,
       diceSize: 4,
     });
+    worg.setAdjustments([{ files: ["C0CARNIF"], data: { level1: 13 } }]);
     return worg;
   }
 }

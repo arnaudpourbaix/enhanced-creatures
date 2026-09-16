@@ -335,7 +335,7 @@ class PoisonService {
       },
       {
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: -1,
         ...base,
       },

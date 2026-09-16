@@ -1,5 +1,6 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-names";
@@ -16,6 +17,16 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       requireVocal: false,
       probability: 100,
       triggers: [triggerFactory.stateCheck("STATE_SILENCED")],
+    },
+  },
+  {
+    preset: SPELLS.Wizard.NonDetection.file,
+    ability: {
+      name: SPELLS.Wizard.NonDetection.name,
+      spell: {
+        selfTarget: true,
+      },
+      probability: 100,
     },
   },
   {
@@ -152,10 +163,10 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     requireVocal: true,
     probability: DEFAULT_SPELL_PROBABILITY,
   }),
-  {
-    preset: FNP_SPELLS.Priest.CircleOfBones.file,
-    ability: {
-      name: FNP_SPELLS.Priest.CircleOfBones.name,
+  ...presetFactory.create(
+    [SPELLS.Priest.CircleOfBones.file, FNP_SPELLS.Priest.CircleOfBones.file],
+    {
+      name: SPELLS.Priest.CircleOfBones.name,
       spell: {
         selfTarget: true,
       },
@@ -163,7 +174,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
+  ),
   {
     preset: SPELLS.Priest.MagicResistance.file,
     ability: {
@@ -203,6 +214,18 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.MirrorImages.file,
     ability: {
       name: SPELLS.Wizard.MirrorImages.name,
+      spell: {
+        selfTarget: true,
+        excludeStateChecks: ["STATE_MIRRORIMAGE"],
+      },
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Wizard.ReflectedImage.file,
+    ability: {
+      name: SPELLS.Wizard.ReflectedImage.name,
       spell: {
         selfTarget: true,
         excludeStateChecks: ["STATE_MIRRORIMAGE"],
@@ -302,18 +325,6 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
-    preset: SPELLS.Priest.TrueSeeing.file,
-    ability: {
-      name: SPELLS.Priest.TrueSeeing.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [triggerFactory.checkStatGT(0, "TRUE_SIGHT", true)],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
     preset: SPELLS.Priest.HolyPower.file,
     ability: {
       name: SPELLS.Priest.HolyPower.name,
@@ -363,30 +374,184 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
-    preset: SPELLS.Class.BerserkerRage.file,
+    preset: SPELLS.Wizard.NahalRecklessDweomer.file,
     ability: {
-      name: SPELLS.Class.BerserkerRage.name,
+      name: SPELLS.Wizard.NahalRecklessDweomer.name,
       spell: {
         selfTarget: true,
       },
-      triggers: [
-        { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BERSERKER_RAGE", false),
-      ],
+      requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
   {
-    preset: SPELLS.Class.BarbarianRage.file,
+    preset: SPELLS.Priest.Aid.file,
     ability: {
-      name: SPELLS.Class.BarbarianRage.name,
+      name: SPELLS.Priest.Aid.name,
+      spell: {
+        selfTarget: true,
+      },
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.ArmorOfFaith.file,
+    ability: {
+      name: SPELLS.Priest.ArmorOfFaith.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.DivineProtection.file,
+    ability: {
+      name: SPELLS.Priest.DivineProtection.name,
       spell: {
         selfTarget: true,
       },
       triggers: [
-        { name: "See", params: ["NearestEnemyOf"] },
-        triggerFactory.checkSpellState("BARBARIAN_RAGE", false),
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "SHIELD_OF_LATHANDER"],
+          negation: true,
+        },
       ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.GreaterDivineProtection.file,
+    ability: {
+      name: SPELLS.Priest.GreaterDivineProtection.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "SHIELD_OF_LATHANDER"],
+          negation: true,
+        },
+      ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.EntropyShield.file,
+    ability: {
+      name: SPELLS.Priest.EntropyShield.name,
+      spell: { selfTarget: true },
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.FreeAction.file,
+    ability: {
+      name: SPELLS.Priest.FreeAction.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.PhysicalMirror.file,
+    ability: {
+      name: SPELLS.Priest.PhysicalMirror.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.ProtectionFromEvil.file,
+    ability: {
+      name: SPELLS.Priest.ProtectionFromEvil.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "PROTECTION_FROM_EVIL"],
+          negation: true,
+        },
+      ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.ProtectionFromGood.file,
+    ability: {
+      name: SPELLS.Priest.ProtectionFromGood.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "PROTECTION_FROM_EVIL"],
+          negation: true,
+        },
+      ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.ProtectionFromGood10Radius.file,
+    ability: {
+      name: SPELLS.Priest.ProtectionFromGood10Radius.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "PROTECTION_FROM_EVIL"],
+          negation: true,
+        },
+      ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.ShieldOfTheArchons.file,
+    ability: {
+      name: SPELLS.Priest.ShieldOfTheArchons.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Priest.Repulsion.file,
+    ability: {
+      name: SPELLS.Priest.Repulsion.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [{ name: "Range", params: ["NearestEnemyOf", 10] }],
+      requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },

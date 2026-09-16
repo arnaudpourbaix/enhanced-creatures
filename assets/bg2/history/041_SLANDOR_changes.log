@@ -1,0 +1,12 @@
+SLANDOR: 2 new, 1 changed
+
+NEW (2):
+  YSMYC01   Myconid
+  YSMYC02   Myconid King
+
+CHANGED (1):
+  SLANDOR   Andorian
+    dialog:  -> slandor
+    gender: NIETHER -> MALE
+    overrideScript: SLANDOR -> 
+    defaultScript: WTASIGHT -> slandor

@@ -17,30 +17,6 @@ const FNP_PRIEST_SPELLS = {
     type: SpellTypeEnum.Priest,
     name: "spell.CauseDisease.name",
   },
-  CauseCriticalWounds: {
-    file: "SPPR414",
-    level: 4,
-    type: SpellTypeEnum.Priest,
-    name: "spell.CauseCriticalWounds.name",
-  },
-  CauseLightWounds: {
-    file: "SPPR121",
-    level: 1,
-    type: SpellTypeEnum.Priest,
-    name: "spell.CauseLightWounds.name",
-  },
-  CauseModerateWounds: {
-    file: "SPPR220",
-    level: 2,
-    type: SpellTypeEnum.Priest,
-    name: "spell.CauseModerateWounds.name",
-  },
-  CauseSeriousWounds: {
-    file: "SPPR322",
-    level: 3,
-    type: SpellTypeEnum.Priest,
-    name: "spell.CauseSeriousWounds.name",
-  },
   CircleOfBones: {
     file: "SPPR332",
     level: 3,

@@ -4,15 +4,18 @@ import { createConeOfCold } from "../spells/cone_of_cold";
 import { CommonProjectileFiles } from "../spells/projectiles";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
+import { CreatureScriptEdit } from "../src/model/creature/data";
 import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
+  EffectCastSpellTypeEnum,
   EffectDamageTypeEnum,
   EffectHasteTypeEnum,
   EffectIDSFileEnum,
   EffectStatisticModifierEnum,
+  EffectTargetEnum,
   EffectTimingEnum,
   ItemAbilityFlagEnum,
   ItemAbilityLocationEnum,
@@ -38,6 +41,8 @@ enum Ids {
   HideousLaugh,
   WildMagicFlare,
 }
+
+const BAF_CONTINUE = "Continue()";
 
 class Golem extends Creature {
   createFists({
@@ -280,22 +285,54 @@ class Golem extends Creature {
    * Charge
    */
   createCharge() {
-    //TODO: this is a very basic idea of charge, many improvements can be done but since this golem is only used once by a mod, it is a low priority.
-    // Anyone caught in the path of a juggernaut charge is run over by the thundering behemoth, though the juggernaut must make a normal attack roll if the victim can avoid the charge.
+    //TODO: this is a poor implementation of a charge
+    // Anyone caught in the path of a juggernaut charge is run over by the thundering behemoth,
+    // though the juggernaut must make a normal attack roll if the victim can avoid the charge.
     // A hit indicates that the victim is crushed, suffering 10d10 points of damage
-    // Should be like this:
-    // 1. Choose a target, activate charge
-    // 2. Run to target (no attack)
-    // 3. Once within 5 range, switch to a new weapon that does 10d10 crushing damage then end charge
-    // If target can't be reached within a reasonable amount of time, it can end charge and pick another target.
-    // To make a better movement implementation: create several boots items and create/remove them (this is especially important for ending charge)
+    const attack = this.createFists({
+      diceSize: 10,
+      diceThrown: 10,
+      damageType: AbilityDamageTypeEnum.Crushing,
+    });
+    const duration = 3 * Durations.round;
+    const peakCharge = this.addSpell({
+      name: "monster.golem.ability.charge.peakSpeed",
+      icon: SPELLS.Wizard.Haste.file,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.Caster,
+          speed: 1,
+          effects: [
+            {
+              ...effectFactory.naturalMovementSpeed(12),
+              duration,
+            },
+            {
+              opcode: EffectTypeEnum.CreateWeapon,
+              amount: 1,
+              resource: attack.file,
+              target: EffectTargetEnum.Self,
+              duration,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayString,
+              stringRef: "monster.golem.ability.charge.end",
+              timing: EffectTimingEnum.DelayPermanent,
+              duration,
+            },
+          ],
+        },
+      ],
+    });
     return this.addSpell({
       name: "monster.golem.ability.charge.name",
       description: "monster.golem.ability.charge.description",
       id: Ids.Charge,
       memorizedCount: 1,
       icon: SPELLS.Wizard.Haste.file,
-      options: { renew: 5 },
+      options: { renew: 6 },
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -314,22 +351,18 @@ class Golem extends Creature {
               duration: Durations.round,
             },
             {
-              ...effectFactory.naturalMovementSpeed(12),
-              timing: EffectTimingEnum.DelayLimited,
-              duration: 2 * Durations.round,
-            },
-            {
-              opcode: EffectTypeEnum.DisplayString,
-              stringRef: "monster.golem.ability.charge.end",
+              opcode: EffectTypeEnum.CastSpell,
+              type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
               timing: EffectTimingEnum.DelayPermanent,
-              duration: 4 * Durations.round,
+              duration: 2 * Durations.round,
+              resource: peakCharge.file,
             },
           ],
         },
       ],
       ability: {
         spell: {
-          type: "reallyForce",
+          type: "force",
           selfTarget: true,
           remove: true,
         },
@@ -502,17 +535,17 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         modAnimation: "A7!GOLEM_FLESH_PST",
         movement: 8,
         immunities: ["construct"],
         items: {
-          remove: ["GOLFLE", "GOLCLA"],
+          remove: ["GOLFLE", "GOLCLA", "IMMUNE1", "B2-16"],
         },
       },
     });
     flesh.addTrait({
-      immunities: ["magic", "fire", "cold"],
+      immunities: ["magic", "fire", "cold", "nonMagicalWeapons"],
       effects: [
         {
           opcode: EffectTypeEnum.ElectricityResistanceModifier,
@@ -526,6 +559,10 @@ class GolemFamily extends CreatureFamily<Golem> {
       restHeal: true,
     });
     flesh.setAdjustments([
+      {
+        files: ["ARNGOL01", "L#XZEGOL", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
+        stringRef: "monster.golem.name.flesh",
+      },
       // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
     ]);
     return flesh;
@@ -557,7 +594,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["construct"],
         items: {
@@ -605,7 +642,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_FLESH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -658,7 +695,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_CLAY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 7,
         immunities: ["construct"],
         items: {
@@ -666,15 +703,19 @@ class GolemFamily extends CreatureFamily<Golem> {
             "GOLCLA",
             "GOLFLE",
             "GOLIRO",
+            "OHBGOL01",
             "B3-30",
             "RING95",
             "IMMUNE1",
+            "IMMUNE2",
+            "IMMUNE3",
+            "IRONGOL",
             "D5CLGOL",
             "HELMNOAN",
           ],
         },
         script: {
-          remove: ["GOLCLY01", "BPFHT", "OHBNONIN"],
+          remove: ["GOLCLY01", "BPFHT", "OHBNONIN", "O#BrynFi"],
         },
       },
     });
@@ -694,7 +735,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       abilities: [this.ability(Ids.Haste)],
     });
     clay.setAdjustments([
-      { files: ["MOBHA59", "OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },
+      { files: ["OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },
     ]);
     return clay;
   }
@@ -738,6 +779,14 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 14,
       strength: 22,
       xpv: 8000,
+      script: {
+        edits: [
+          {
+            files: ["OHB_T302"],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_HASTE)", BAF_CONTINUE]],
+          },
+        ],
+      },
     });
     greaterClay.addTrait({
       immunities: [
@@ -780,7 +829,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -830,6 +879,14 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 10,
       strength: 20,
       xpv: 4000,
+      script: {
+        edits: [
+          {
+            files: ["bdpetsg", "bdpetsgs"],
+            replaces: [["ReallyForceSpell(Myself,GOLEM_SLOW)", BAF_CONTINUE]],
+          },
+        ],
+      },
     });
     lesserStone.setAdjustments([
       { files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22, xpv: 6000 } },
@@ -862,7 +919,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -922,7 +979,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
         items: {
@@ -969,11 +1026,14 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: true, long: false },
         movement: 12,
         immunities: ["construct", "skeletal"],
         items: {
           remove: ["S3-8M3", "GOLCLA", "IMMUNE1", "IMMUNE2", "HELMNOAN"],
+        },
+        script: {
+          remove: ["OHBNONIN"],
         },
       },
     });
@@ -1030,12 +1090,12 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         animation: "GOLEM_CLAY",
         movement: 3,
         immunities: ["construct"],
         items: {
-          remove: ["IRONGOL"],
+          remove: ["IRONGOL", "IMMUNE1", "IMMUNE2", "GOLTOME4"],
         },
         script: {
           remove: ["GOLSTO01", "GOLIRO01", "TOMEGOL4"],
@@ -1056,6 +1116,12 @@ class GolemFamily extends CreatureFamily<Golem> {
    * Snow Golem
    */
   private snow() {
+    const edits: CreatureScriptEdit[] = [
+      {
+        files: ["gorgoli"],
+        replaces: [["ReallyForceSpell(NearestEnemyOf(Myself),WIZARD_CONE_OF_COLD)", BAF_CONTINUE]],
+      },
+    ];
     const snow = this.create({
       monster: MonsterEnum.SnowGolem,
       name: "monster.golem.name.snow",
@@ -1077,7 +1143,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 9,
         immunities: ["construct"],
         items: {
@@ -1091,10 +1157,13 @@ class GolemFamily extends CreatureFamily<Golem> {
             "IMMCHS",
             "IRONGOL",
             "GOLIRO",
+            "INVULNER",
+            "GORMISTI",
           ],
         },
         script: {
           remove: ["GOLICE01"],
+          edits,
         },
       },
     });
@@ -1114,6 +1183,15 @@ class GolemFamily extends CreatureFamily<Golem> {
       ],
     });
     snow.createConeOfCold();
+    edits.push({
+      files: ["ubsnogol"],
+      replaces: [
+        [
+          `ForceSpellRES("UBSNOBR",LastSeenBy(Myself))`,
+          `ForceSpellRES("${this.spell(Ids.ConeOfCold).file}",LastSeenBy(Myself))`,
+        ],
+      ],
+    });
     snow.createFists({ diceThrown: 2, diceSize: 12 });
     snow.setBehavior({
       restHeal: true,
@@ -1151,7 +1229,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_CLAY",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 18,
         immunities: ["construct"],
         items: {

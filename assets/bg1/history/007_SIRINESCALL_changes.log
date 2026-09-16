@@ -1,0 +1,28 @@
+SIRINESCALL: 9 new, 6 changed
+
+NEW (9):
+  J#BREN    Brennan
+  J#PIRAT1  Old Man
+  J#PIRAT2  Pirate
+  J#PIRAT3  Pirate
+  J#PIRAT4  Pirate
+  J#PIRAT5  Pirate
+  J#PIRAT6  Pirate
+  J#SIRIN1  Sirine
+  J#SIRIN2  Sirine
+
+CHANGED (6):
+  ARDROU    Ardrouine
+    deathvar: ardrou -> Ardrou
+    overrideScript:  -> SHOUT
+    raceScript: None -> RUNENEMY
+  SIL       Sil
+    classScript: None -> J#sirin0
+  SIRINE    Sirine
+    classScript: SIRINE -> J#sirin1
+  SIRINE02  Sirine
+    classScript: SIRINE -> J#sirin1
+  SIRINE_A  Sirine
+    classScript: SIRINE -> J#sirin1
+  SIRINE_B  Sirine
+    classScript: SIRINE -> J#sirin1

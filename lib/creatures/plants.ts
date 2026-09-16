@@ -1,4 +1,4 @@
-import { ATWEAKS_CREATURES } from "../config/creatures";
+import { NEW_CREATURES } from "../config/creatures";
 import { MonsterItemIconEnum } from "../config/item";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
@@ -47,29 +47,29 @@ class PlantFamily extends CreatureFamily<Plant> {
       monster: MonsterEnum.Treant,
       name: "monster.plant.name.treant",
       files: [
-        ATWEAKS_CREATURES.Treant11hd,
-        ATWEAKS_CREATURES.Treant9hd,
-        ATWEAKS_CREATURES.Treant7hd,
-        ATWEAKS_CREATURES.Treant5hd,
+        NEW_CREATURES.Treant11hd,
+        NEW_CREATURES.Treant9hd,
+        NEW_CREATURES.Treant7hd,
+        NEW_CREATURES.Treant5hd,
       ],
       newFiles: [
         {
-          files: [ATWEAKS_CREATURES.Treant11hd],
+          files: [NEW_CREATURES.Treant11hd],
           copyFrom: "jatrean",
           stringRef: "monster.plant.name.treant11HD",
         },
         {
-          files: [ATWEAKS_CREATURES.Treant9hd],
+          files: [NEW_CREATURES.Treant9hd],
           copyFrom: "jatrean",
           stringRef: "monster.plant.name.treant9HD",
         },
         {
-          files: [ATWEAKS_CREATURES.Treant7hd],
+          files: [NEW_CREATURES.Treant7hd],
           copyFrom: "jatrean",
           stringRef: "monster.plant.name.treant7HD",
         },
         {
-          files: [ATWEAKS_CREATURES.Treant5hd],
+          files: [NEW_CREATURES.Treant5hd],
           copyFrom: "jatrean",
           stringRef: "monster.plant.name.treant5HD",
         },
@@ -91,7 +91,7 @@ class PlantFamily extends CreatureFamily<Plant> {
         race: "TREANT",
         class: "NO_CLASS",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: true, long: false },
         movement: 12,
         immunities: ["plant"],
         items: {
@@ -108,7 +108,16 @@ class PlantFamily extends CreatureFamily<Plant> {
     });
     treant.setAdjustments([
       {
-        files: [ATWEAKS_CREATURES.Treant9hd],
+        files: [
+          NEW_CREATURES.Treant11hd,
+          NEW_CREATURES.Treant9hd,
+          NEW_CREATURES.Treant7hd,
+          NEW_CREATURES.Treant5hd,
+        ],
+        summon: true,
+      },
+      {
+        files: [NEW_CREATURES.Treant9hd, "BDTREANT", "WITREANT"],
         data: {
           level1: 9,
           strength: 21,
@@ -118,7 +127,7 @@ class PlantFamily extends CreatureFamily<Plant> {
         },
       },
       {
-        files: [ATWEAKS_CREATURES.Treant7hd],
+        files: [NEW_CREATURES.Treant7hd],
         data: {
           level1: 7,
           strength: 20,
@@ -128,7 +137,7 @@ class PlantFamily extends CreatureFamily<Plant> {
         },
       },
       {
-        files: [ATWEAKS_CREATURES.Treant5hd],
+        files: [NEW_CREATURES.Treant5hd],
         data: {
           level1: 5,
           strength: 19,

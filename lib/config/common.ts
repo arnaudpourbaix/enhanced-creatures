@@ -96,3 +96,30 @@ export const HOLD_TARGET_LISTS: TargetList[] = [
     randomOrder: true,
   },
 ];
+
+export const SUMMON_TARGET_LISTS: TargetList[] = [
+  {
+    name: "PCsPreferringWeak",
+    randomOrder: true,
+    includeStatus: ["Able"],
+  },
+  {
+    name: "NearestEnemies",
+    randomOrder: true,
+  },
+  {
+    name: "NearestAllies",
+    randomOrder: true,
+  },
+];
+
+export const ALLIES_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestAllies",
+    randomOrder: true,
+    triggers: [
+      { name: "Gender", params: [ScriptTarget.lastSeen, "SUMMONED"], negation: true },
+      { name: "Gender", params: [ScriptTarget.lastSeen, "ILLUSIONARY"], negation: true },
+    ],
+  },
+];

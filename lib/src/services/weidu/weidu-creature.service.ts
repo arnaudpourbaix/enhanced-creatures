@@ -3,9 +3,16 @@ import { SPELLBOOK_MODS } from "../../../config/mods";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";
-import { CREATURE_DATA_FIELDS, CreatureData, MemorizedSpell } from "../../model/creature/data";
+import { Game, GAME_IS_CONDITION } from "../../model/creature/game";
+import {
+  CREATURE_DATA_FIELDS,
+  CreatureData,
+  CreatureScriptEdit,
+  MemorizedSpell,
+} from "../../model/creature/data";
 import { EquippedItem, WEAPON_SLOTS } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
+import { StringReference } from "../../model/final/stringref";
 import { CodeLine } from "../../model/misc";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
@@ -31,6 +38,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     weiduEffectService.createEffectFiles(lines, creature.effectFiles);
     weiduSpellService.createSpells(lines, creature.spells);
     weiduItemService.createItems(lines, creature.items);
+    this.handleScriptEdits(lines, creature);
     this.createNewFiles(lines, 0, creature);
     if (creature.data.movement.hasItem()) {
       this.addMovementSpeedToItem(lines, 0, creature);
@@ -42,6 +50,30 @@ class WeiduCreatureService extends AbstractWeiduService {
       content,
     );
     weiduFamilyService.createOrUpdateMainFile(creature.family, creature);
+  }
+
+  private handleScriptEdits(lines: CodeLine[], creature: Creature) {
+    if (!creature.data.script.edits) return;
+    for (const edit of creature.data.script.edits) {
+      this.handleScriptEdit(lines, edit);
+    }
+  }
+
+  private handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit) {
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN");
+    for (const file of edit.files) this.add(lines, `"${file}"`, 1);
+    this.add(lines, "BEGIN", 0);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, 1);
+    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, 2);
+    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, 3);
+    for (const replace of edit.replaces) {
+      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, 4);
+    }
+    this.add(lines, `END`, 3);
+    this.add(lines, `BUT_ONLY`, 2);
+    this.add(lines, `END`, 1);
+    this.add(lines, `END`, 0);
+    this.add(lines, ``, 0);
   }
 
   private compileScripts(lines: CodeLine[], creature: Creature) {
@@ -83,15 +115,16 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const copy = entry.copyFromExisting
       ? `COPY_EXISTING ~${entry.copyFromExisting}.cre~`
-      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/${entry.copyFrom ?? ""}.cre~`;
+      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/assets/${entry.copyFrom ?? ""}.cre~`;
     this.add(lines, `${copy} ~override/${file}.cre~`, tab);
     if (entry.stringRef) {
-      for (const offset of ["0x8", "0xc"])
-        this.add(
-          lines,
-          `WRITE_LONG ${offset} ${utils.resolveStringRef(entry.stringRef) ?? ""}`,
-          tab + 1,
-        );
+      this.writeName(lines, tab, entry.stringRef);
+    }
+  }
+
+  private writeName(lines: CodeLine[], tab: number, stringRef: StringReference) {
+    for (const offset of ["0x8", "0xc"]) {
+      this.add(lines, `WRITE_LONG ${offset} ${utils.resolveStringRef(stringRef) ?? ""}`, tab + 1);
     }
   }
 
@@ -109,14 +142,47 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchCreatures(lines: CodeLine[], tab: number, creature: Creature) {
-    this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
-    for (const file of creature.files) this.add(lines, `"${file}"`, tab + 1);
-    this.add(lines, "BEGIN", tab);
-    tab++;
-    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab);
-    tab++;
-    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab);
-    tab++;
+    // The whole per-file block (FILE_EXISTS_IN_GAME -> COPY_EXISTING -> body ->
+    // BUT_ONLY_IF_IT_CHANGES) is emitted once as an action function; each per-game loop below just
+    // calls it per file, rather than duplicating the ~200-line body once per game group.
+    const fn = `jam${creature.id.toString(16)}_patch`;
+    this.add(lines, `DEFINE_ACTION_FUNCTION ${fn}`, tab);
+    this.add(lines, `STR_VAR file = ~~`, tab);
+    this.add(lines, `BEGIN`, tab);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN`, tab + 1);
+    this.add(lines, `COPY_EXISTING ~%file%.cre~ ~override~`, tab + 2);
+    this.patchCreatureBody(lines, tab + 3, creature);
+    this.add(lines, `BUT_ONLY_IF_IT_CHANGES`, tab + 2);
+    this.add(lines, `END`, tab + 1);
+    this.add(lines, `END`, tab);
+    this.add(lines, "", tab);
+
+    const groups: { game?: Game; names: string[] }[] = [
+      { game: undefined, names: [] },
+      { game: "bg1", names: [] },
+      { game: "bg2", names: [] },
+    ];
+    for (const f of creature.files) {
+      const group = groups.find((g) => g.game === f.game);
+      if (!group) {
+        throw new Error(`unexpected game value on creature file ${f.name}: ${String(f.game)}`);
+      }
+      group.names.push(f.name);
+    }
+    for (const group of groups) {
+      if (!group.names.length) continue;
+      if (group.game) {
+        this.add(lines, `ACTION_IF ${GAME_IS_CONDITION[group.game]} BEGIN`, tab);
+        this.patchCreatureFileLoop(lines, tab + 1, group.names, fn);
+        this.add(lines, "END", tab);
+      } else {
+        this.patchCreatureFileLoop(lines, tab, group.names, fn);
+      }
+    }
+  }
+
+  /** The per-file patch body: everything between COPY_EXISTING and BUT_ONLY_IF_IT_CHANGES. */
+  private patchCreatureBody(lines: CodeLine[], tab: number, creature: Creature) {
     this.add(lines, `LPF FJ_CRE_VALIDITY END`, tab);
     this.removeEffects(lines, tab, creature);
     this.removeKnownSpells(lines, tab, creature);
@@ -155,15 +221,14 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.patchScripts(lines, tab, creature);
     }
     this.handleAdjustments(lines, tab, creature);
-    tab--;
-    this.add(lines, "BUT_ONLY_IF_IT_CHANGES", tab);
-    tab--;
-    this.add(lines, "END ELSE BEGIN", tab);
-    tab++;
-    this.add(lines, "PRINT ~====> CRE %file% not found!~", tab);
-    tab--;
+  }
+
+  private patchCreatureFileLoop(lines: CodeLine[], tab: number, names: string[], fn: string) {
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN", tab);
+    for (const file of names) this.add(lines, `"${file}"`, tab + 1);
+    this.add(lines, "BEGIN", tab);
+    this.add(lines, `LAF ${fn} STR_VAR file END`, tab + 1);
     this.add(lines, "END", tab);
-    this.add(lines, "END", tab - 1);
   }
 
   private removeItems(lines: CodeLine[], tab: number, data: CreatureData) {
@@ -173,7 +238,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private removeAllEffects(lines: CodeLine[], tab: number, creature: Creature) {
-    const files = creature.files.reduce<string[]>((acc, file) => {
+    const files = creature.fileNames.reduce<string[]>((acc, file) => {
       const defaultValue = !!creature.data.effects.remove;
       const adj = creature.adjustments.find(
         (a) =>
@@ -192,7 +257,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     if (typeof creature.data.effects.remove === "boolean") {
       this.removeAllEffects(lines, tab, creature);
     } else if (Array.isArray(creature.data.effects.remove)) {
-      this.removeEffectOpcodes(lines, tab, creature.data.effects.remove, creature.files);
+      this.removeEffectOpcodes(lines, tab, creature.data.effects.remove, creature.fileNames);
     }
     for (const adjustment of creature.adjustments) {
       if (Array.isArray(adjustment.data.effects.remove)) {
@@ -403,14 +468,33 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchScripts(lines: CodeLine[], tab: number, creature: Creature) {
-    const summonFiles = [
-      ...new Set(
-        creature.adjustments
-          .filter((a) => a.summon)
-          .map((a) => a.files)
-          .flat(),
-      ),
+    const summonAdjustments = creature.adjustments.filter((a) => a.summon);
+    const dedupeFiles = (adjustments: CreatureAdjustment[]) => [
+      ...new Set(adjustments.flatMap((a) => a.files)),
     ];
+    const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
+    // A summon file gets the summon script instead of the normal one. The PATCH_IF GAME_IS / ELSE
+    // split below is only meaningful for a resref that is a summon in one game and a regular
+    // creature in the other (its collapsed creature.files entry spans both games). A game-tagged
+    // summon whose file exists ONLY in that same game has no "other game" to fall back to - the
+    // resref is simply absent elsewhere and the outer ACTION_IF GAME_IS loop already scopes it -
+    // so it is treated exactly like an untagged summon file: unconditional summon script.
+    const taggedSummonFiles = (["bg1", "bg2"] as const).flatMap((game) =>
+      dedupeFiles(summonAdjustments.filter((a) => a.game === game)).map((name) => ({ game, name })),
+    );
+    const summonFiles = [
+      ...dedupeFiles(summonAdjustments.filter((a) => !a.game)),
+      ...taggedSummonFiles.filter((f) => fileGame.get(f.name) !== undefined).map((f) => f.name),
+    ];
+    const gameSummonFiles = (["bg1", "bg2"] as const).map((game) => ({
+      game,
+      files: taggedSummonFiles
+        .filter((f) => f.game === game && fileGame.get(f.name) === undefined)
+        .map((f) => f.name),
+    }));
+    // Every summon file (tagged or not) is excluded from the base-script assignment below; the
+    // both-game tagged ones are re-assigned per game right after.
+    const allSummonFiles = [...summonFiles, ...gameSummonFiles.flatMap((g) => g.files)];
     const locationFiles = [
       ...new Set(
         creature.adjustments
@@ -427,6 +511,10 @@ class WeiduCreatureService extends AbstractWeiduService {
           .flat(),
       ),
     ];
+    // Files the mod creates itself (newFiles): always assign them a script, even if the asset
+    // they were copied from is scriptless - we never ship a scriptless new creature. This
+    // overrides patchCreatureScript's "leave scriptless files alone" guard for these names.
+    const newFiles = [...new Set(creature.newFiles.flatMap((f) => f.files))];
     const scriptName = this.getScriptName(creature, {});
     const summonScriptName = this.getScriptName(creature, { summon: true });
     this.patchScript({
@@ -436,7 +524,8 @@ class WeiduCreatureService extends AbstractWeiduService {
       slot: creature.data.script.location,
       removeScripts: creature.data.script.remove,
       files: [],
-      skipFiles: [...summonFiles, ...locationFiles, ...noScriptFiles],
+      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles],
+      forceFiles: newFiles,
       logging: creature.logging,
     });
     if (summonFiles.length) {
@@ -448,8 +537,30 @@ class WeiduCreatureService extends AbstractWeiduService {
         removeScripts: creature.data.script.remove,
         files: summonFiles,
         skipFiles: [],
+        forceFiles: newFiles,
         logging: creature.logging,
       });
+    }
+    for (const { game, files } of gameSummonFiles) {
+      if (!files.length) continue;
+      const assign = (script: string) => {
+        this.patchScript({
+          lines,
+          files,
+          script,
+          tab: tab + 1,
+          slot: creature.data.script.location,
+          removeScripts: creature.data.script.remove,
+          skipFiles: [],
+          forceFiles: newFiles,
+          logging: creature.logging,
+        });
+      };
+      this.add(lines, `PATCH_IF ${GAME_IS_CONDITION[game]} BEGIN`, tab);
+      assign(summonScriptName);
+      this.add(lines, `END ELSE BEGIN`, tab);
+      assign(scriptName);
+      this.add(lines, `END`, tab);
     }
     for (const adjustment of creature.adjustments) {
       if (adjustment.data.script.location && adjustment.data.script.location !== "None") {
@@ -461,6 +572,7 @@ class WeiduCreatureService extends AbstractWeiduService {
           removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
           files: adjustment.files,
           skipFiles: [],
+          forceFiles: newFiles,
           logging: creature.logging,
         });
       }
@@ -475,6 +587,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     removeScripts: string[];
     files: string[];
     skipFiles: string[];
+    forceFiles: string[];
     logging: boolean;
   }) {
     const slotLog = p.slot ? ` to slot ${p.slot}` : "";
@@ -482,6 +595,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     let removeScripts = "";
     let skipFiles = "";
     let files = "";
+    let forceFiles = "";
     // genericScriptsToRemove is a real, permanently non-empty ~90-entry array (see
     // weidu-creature.service.test.ts's audit note), so this condition is always true - kept
     // as documentation of intent rather than simplified away.
@@ -494,6 +608,13 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.add(p.lines, `PATCH_DEFINE_ARRAY removeScripts BEGIN ${scripts.join(" ")} END`, p.tab);
       removeScripts = " removeScripts";
     }
+    let removeScriptsRegexp = "";
+    if (GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx.length) {
+      const pattern = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx
+        .map((rx) => rx.source)
+        .join("\\|");
+      removeScriptsRegexp = ` removeScriptsRegexp="^${pattern}$"`;
+    }
     if (p.skipFiles.length && !p.files.length) {
       this.add(p.lines, `PATCH_DEFINE_ARRAY skipFiles BEGIN ${p.skipFiles.join(" ")} END`, p.tab);
       skipFiles = " skipFiles";
@@ -502,12 +623,17 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.add(p.lines, `PATCH_DEFINE_ARRAY files BEGIN ${p.files.join(" ")} END`, p.tab);
       files = " files";
     }
+    if (p.forceFiles.length) {
+      this.add(p.lines, `CLEAR_ARRAY forceFiles`, p.tab);
+      this.add(p.lines, `PATCH_DEFINE_ARRAY forceFiles BEGIN ${p.forceFiles.join(" ")} END`, p.tab);
+      forceFiles = " forceFiles";
+    }
     const slot = p.slot ? ` slot=${p.slot}` : "";
     this.add(
       p.lines,
       `LPF patchCreatureScript INT_VAR logging=${
         p.logging ? 1 : 0
-      } STR_VAR${slot}${files}${removeScripts}${skipFiles} script=${p.script} END`,
+      } STR_VAR${slot}${files}${removeScripts}${skipFiles}${forceFiles}${removeScriptsRegexp} script=${p.script} END`,
       p.tab,
     );
   }
@@ -531,6 +657,18 @@ class WeiduCreatureService extends AbstractWeiduService {
     creature: Creature,
     adjustment: CreatureAdjustment,
   ) {
+    // Only guard the block with PATCH_IF GAME_IS when the adjustment narrows a file that actually
+    // exists in both games. If every file it targets is exclusive to adjustment.game, the outer
+    // ACTION_IF GAME_IS loop partition already scopes it and the guard is dead weight (its ELSE-less
+    // PATCH_IF is always true - see the matching reasoning in patchScripts).
+    const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
+    const spansBothGames = adjustment.files.some((f) => fileGame.get(f) === undefined);
+    const gameGuard =
+      adjustment.game && spansBothGames ? GAME_IS_CONDITION[adjustment.game] : undefined;
+    if (gameGuard) {
+      this.add(lines, `PATCH_IF ${gameGuard} BEGIN `, tab);
+      tab++;
+    }
     this.startConditionalSourceRes(lines, tab, adjustment.files, false);
     tab++;
     // data is required by the type, but defended anyway (same reason as handleAdjustments above)
@@ -560,7 +698,14 @@ class WeiduCreatureService extends AbstractWeiduService {
     if (adjustment.scriptName) {
       this.writeAscii(lines, 0x280, 32, adjustment.files[0]);
     }
+    if (adjustment.stringRef) {
+      this.writeName(lines, tab, adjustment.stringRef);
+    }
     this.add(lines, "END", tab - 1);
+    if (gameGuard) {
+      // Guard's closing END must align with its PATCH_IF, emitted at the entry tab (tab - 2 here).
+      this.add(lines, "END", tab - 2);
+    }
   }
 
   private writeCreatureDataField(
@@ -602,8 +747,13 @@ class WeiduCreatureService extends AbstractWeiduService {
       tab: p.tab,
       data: p.data,
     });
-    if (p.data.spells.removeMemorized) {
-      const code = this.removeMemorizedSpell(p.data.spells.removeMemorized);
+    // `cumulative: false` (a full replacement spellbook, e.g. via spellService.createSpellbook)
+    // implies a blanket wipe on its own - an author doesn't also have to spell out
+    // `removeMemorized: true`. An explicit `removeMemorized` (including `false`, an explicit
+    // opt-out) still wins over that default.
+    const removeMemorized = p.data.spells.removeMemorized ?? p.data.spells.cumulative === false;
+    if (removeMemorized) {
+      const code = this.removeMemorizedSpell(removeMemorized);
       this.add(p.lines, code, p.tab);
     }
     this.addImmunities(p.lines, p.tab, p.data.immunities, []);

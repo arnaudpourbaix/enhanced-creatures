@@ -38,7 +38,8 @@ class Minotaur extends Creature {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
           diceThrown: 1,
-          diceSize: 12,
+          diceSize: 10,
+          damageBonus: 2,
           damageType: AbilityDamageTypeEnum.Slashing,
           speed: 8,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
@@ -151,11 +152,25 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
         race: "MINOTAUR",
         class: "OGRE",
         gender: "MALE",
-        size: "Large",
+        size: { value: "Large", tall: true, long: false },
         movement: 12,
         items: {
-          remove: ["AX1H01"],
+          remove: [
+            "AX1H01",
+            "HELMNOAN",
+            "HALB01",
+            "OHBFIG01",
+            "LEAT10",
+            "OHLEAT50",
+            "HALB02",
+            "UMBER01",
+            "CHAN04",
+          ],
         },
+        script: {
+          remove: ["OHBFIG01", "VA#CRE01"],
+        },
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 2 }],
       },
     });
     minotaur.addTrait({
@@ -164,20 +179,98 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
     minotaur.createHugeAxe();
     minotaur.createCharge();
     minotaur.setBehavior({
+      usePotions: true,
       abilities: [this.ability(Ids.Charge)],
     });
-    // minotaur.setAdjustments([
-    //   {
-    //     // elder
-    //     files: [""],
-    //     data: {
-    //       level1: 8,
-    //       bonusHp: 4,
-    //       exceptionalStrength: 50,
-    //       xpv: 3000,
-    //     },
-    //   },
-    // ]);
+    minotaur.setAdjustments([
+      {
+        // elder
+        files: ["GAROCK", "HLMAFER", "OHBMIN01", "OHBMINSU", "OHNGHALL", "SLANDOR"],
+        data: {
+          level1: 8,
+          bonusHp: 4,
+          exceptionalStrength: 50,
+          xpv: 3000,
+        },
+      },
+      {
+        files: ["OHBMIN01", "OHBMINSU", "OHNGHALL", "HLMAFER", "GAROCK", "ROCK"],
+        data: {
+          class: "FIGHTER",
+          kit: "BARBARIAN",
+          apr: 1,
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
+        },
+      },
+      {
+        files: ["OHBMIN01"],
+        data: {
+          level1: 11,
+          xpv: 4000,
+        },
+      },
+      {
+        files: ["OHBMINSU"],
+        data: {
+          level1: 13,
+        },
+      },
+      {
+        files: ["OHNGHALL"],
+        data: {
+          level1: 14,
+          xpv: 5000,
+        },
+      },
+      {
+        files: ["GROMMIN"],
+        data: {
+          level1: 16,
+          xpv: 10000,
+          class: "CLERIC",
+          spells: {
+            removeMemorized: false,
+          },
+          script: {
+            location: "None",
+          },
+        },
+      },
+      {
+        files: ["HLMAFER"],
+        data: {
+          level1: 17,
+          xpv: 6000,
+        },
+      },
+      {
+        files: ["GAROCK", "ROCK"],
+        noWeapon: true,
+        data: {
+          level1: 20,
+          exceptionalStrength: 100,
+          xpv: 10000,
+          proficiencies: [
+            { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 },
+            { type: ProficiencyTypeEnum.PROFICIENCY2WEAPON, value: 3 },
+          ],
+        },
+      },
+      {
+        files: ["SLANDOR"],
+        data: {
+          level1: 20,
+          exceptionalStrength: 100,
+          xpv: 10000,
+        },
+      },
+      {
+        files: ["OHBMINSU", "AMMINOT", "SLANDOR"],
+        data: {
+          script: { location: "None" },
+        },
+      },
+    ]);
     return minotaur;
   }
 }

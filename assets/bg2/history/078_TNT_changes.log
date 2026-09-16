@@ -1,0 +1,4843 @@
+TNT: 1 new, 1790 changed
+
+NEW (1):
+  G_PISPY
+
+CHANGED (1790):
+  0XGOLDG   Envious Gold
+    amulet: Immcloud -> IMMCLOUD
+  0XGWDG    Green Witch
+    weapon1: dagg01 -> DAGG01
+  0XRWDG    Red Witch
+    weapon1: dagg01 -> DAGG01
+  0XSWDG    Silver Witch
+    weapon1: dagg01 -> DAGG01
+  0XWIZDG   Mysterious Wizard
+    amulet: minhp1 -> MINHP1
+  0XYHDG    Gray Victim
+    shield: skelshld -> SKELSHLD
+    weapon1: skelclub -> SKELCLUB
+  9XBARD    Annoyed bard
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01
+  9XEA      Piece of Nightmare
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  9XEB      Piece of Nightmare
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  9XEC      Piece of Nightmare
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  9XED      Piece of Nightmare
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  9XEE      Piece of Nightmare
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  9XEF      Piece of Nightmare
+    weapon1: staf01 -> STAF01
+  9XELF     Elf
+    weapon1: staf01 -> STAF01
+  9XEVA     Eva
+    weapon1: sw2h01 -> SW2H01
+  9XGENIE   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  9XNMP     Mugger
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01
+  9XOLADY2  Barbara
+    weapon1: sw2h01 -> SW2H01
+  9XWITCH   Witch
+    weapon1: staf01 -> STAF01
+  ABISRED1  Abishai
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  ABYDEM01  Tanar'ri
+    lring: ringdemn -> RINGDEMN
+  AC#PP77W  Banshee
+    rring: immune1 -> IMMUNE1
+    amulet: immchs -> IMMCHS
+    weapon1: b1-8m2 -> B1-8M2
+  AC#PP971  Maddlethorpe Vemmil
+    shield: sw1h07 -> SW1H07
+    weapon1: sw1h07 -> SW1H07
+  AC#PP973  Edvarr Nolthune
+    weapon1: staf01 -> STAF01
+  AC#PP974  Archer
+    weapon1: bow01 -> BOW01
+  AC#PP975  Archer
+    weapon1: bow01 -> BOW01
+  AC#PPBLO  Ancient Blood Amniote
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  AC#PPDW1  Zalyndar
+    weapon1: staf01 -> STAF01
+  AC#PPDW2  Drow Warrior
+    helmet: helmnoan -> HELMNOAN
+  AC#PPEEA  Elv-Esster Aened
+    rring: immune1 -> IMMUNE1
+    amulet: immchs -> IMMCHS
+    weapon1: b1-8m2 -> B1-8M2
+  AC#PPFAE  Dell-Light Twins
+    rring: ring95 -> RING95
+  AC#PPFI1  Varric Redscar
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  AC#PPHE1  Spirit of Elv-Esster Aened
+    rring: ring95 -> RING95
+  AC#PPHE2  Spirit of Elv-Esster Aened
+    rring: ring95 -> RING95
+  AC#PPHE3  Elven Spirit
+    rring: ring95 -> RING95
+  AC#PPHEL  Elven Spirit
+    rring: ring95 -> RING95
+  AC#PPMON  Montrassa
+    weapon1: blun01 -> BLUN01
+  AC#PPMSP  Mutated Spider
+    weapon1: spspid3 -> SPSPID3
+  AC#PPNAB  Nabassu
+    lring: reghp2 -> REGHP2
+  AC#PPPOW  Poison Weird
+    rring: wallpass -> WALLPASS
+  AC#PPSON  Elven Spirit
+    rring: ring95 -> RING95
+  AC#PPSP7  Blood-Soaked Spirit
+    rring: ring95 -> RING95
+  AC#PPSPI  Blood-Soaked Spirit
+    rring: ring95 -> RING95
+  AC#PPSYM  Gruesome Symbiote
+    rring: ring95 -> RING95
+  AC#PPTME  Debbie Gobblebubble
+    weapon1: staf01 -> STAF01
+  AC#PPZAR  Zar’khaan
+    lring: rakring -> RAKRING
+  AC#W#42A  Qyriesh
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  AC#W#CLY  Clyddis
+    weapon1: b1-12m4 -> B1-12M4
+  AC#W#FAY  Faylah
+    shield: ax1h11 -> AX1H11
+    weapon1: ax1h11 -> AX1H11
+  AC#WPGCH  Igraflyn
+    lring: STONSKIN -> 
+  ACHOLD01  Beholder
+    lring: beholder -> BEHOLDER
+  ACNDRO01  Drow
+    shield: sw1h55 -> SW1H55
+    weapon1: sw1h55 -> SW1H55
+  ACNDRO03  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+  ACNDRO04  Drow
+    shield: dwsw1h01 -> DWSW1H01
+    weapon1: dwsw1h01 -> DWSW1H01
+  ACSHAD01  Shadow
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  AD3SKLM   Skeleton
+    weapon1: sw1h01 -> SW1H01
+  ADMUGG1   Mugger
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: sw1h04 -> SW1H04
+  ADMUGG2   Mugger
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: sw1h04 -> SW1H04
+  ADMUGGER  Mugger
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01
+  AEEXTORT  Hanj
+    weapon1: dagg01 -> DAGG01
+  AESOLD    Soldier
+    helmet: helm01 -> HELM01
+    shield: shld15 -> SHLD15
+    weapon1: sw1h01 -> SW1H01
+  AEWERE1   Fighter
+    rring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  AEWERE2   Fighter
+    lring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  AEWERE3   Fighter
+    lring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  AEWERE4   Fighter
+    lring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  AEWERE5   Fighter
+    lring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  AEWERE6   Fighter
+    lring: immune1 -> IMMUNE1
+    weapon1: sw1h01 -> SW1H01
+  ALEX      Sir Beverus
+    shield: shld13 -> SHLD13
+    weapon2: sw1h20 -> SW1H20
+  ALHEL     Alhelor
+    weapon1: staf01 -> STAF01
+  ALUFIE02  Alu-Fiend
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune1 -> IMMUNE1
+    weapon1: bow02 -> BOW02
+  ALYNAR    Sir Alynar
+    shield: shld05 -> SHLD05
+    weapon1: sw1h05 -> SW1H05
+  AMARCH02  Mercenary
+    helmet: helm33 -> HELM33
+    weapon2: SW1h05 -> SW1H05
+  AMCAPT01  Mercenary Captain
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h73 -> SW1H73
+  AMCARRAS  Carras
+    weapon1: SW1h05 -> SW1H05
+    weapon2: bow06 -> BOW06
+  AMCLER01  Priest of Waukeen
+    lring: ring43 -> RING43
+    weapon1: blun01 -> BLUN01
+  AMCST02   Mercenary
+    helmet: helm33 -> HELM33
+    shield: Shld04 -> SHLD04
+    weapon1: SW1h05 -> SW1H05
+  AMCST03   Mercenary
+    helmet: helm33 -> HELM33
+    shield: Shld04 -> SHLD04
+    weapon1: SW1h05 -> SW1H05
+  AMCST04   Mage
+    weapon1: dagg01 -> DAGG01
+  AMDUEL01  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    lring: minhp1 -> MINHP1
+    weapon1: sw1h05 -> SW1H05
+  AMDUEL02  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    lring: minhp1 -> MINHP1
+    weapon1: sw1h05 -> SW1H05
+  AMDUEL03  Mercenary Captain
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h73 -> SW1H73
+  AMELM01   Elminster
+    helmet: helm01 -> HELM01
+    lring: stonskin -> 
+  AMFAHEED  Faheed
+    shield: sw1h44 -> SW1H44
+    weapon1: sw1h44 -> SW1H44
+  AMMAG01   Mage
+    lring: minhp1 -> MINHP1
+  AMMAJIRA  Majira
+    weapon1: blun21 -> BLUN21
+  AMMERC01  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h05 -> SW1H05
+  AMMERC02  Mercenary
+    helmet: helm33 -> HELM33
+    shield: shld29 -> SHLD29
+    weapon1: sw1h05 -> SW1H05
+  AMMERC03  Mercenary
+    helmet: helm33 -> HELM33
+    shield: Shld04 -> SHLD04
+    weapon1: SW1h05 -> SW1H05
+  AMMERC04  Mercenary
+    helmet: helm33 -> HELM33
+    shield: Shld04 -> SHLD04
+    weapon1: SW1h05 -> SW1H05
+  AMNCEN1   Amnian Centurion
+    weapon1: sper01 -> SPER01
+  AMNLEG01  Amnian Legionary
+    weapon1: sper01 -> SPER01
+  AMNLEG1   Amnian Legionary
+    weapon1: sper01 -> SPER01
+  AMSHEP01  Cowherd
+    weapon1: staf01 -> STAF01
+  AMSMUG01  Smuggler
+    weapon1: SW1h05 -> SW1H05
+  AMSMUG02  Smuggler
+    weapon1: sw1h07 -> SW1H07
+    weapon2: xbow04 -> XBOW04
+  AMTCLER0  Cleric Of Lathander
+    weapon1: blun01 -> BLUN01
+  ANOTHUG   Guard
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  AR18ARCH  Archer
+    weapon1: dagg01 -> DAGG01
+    weapon2: bow05 -> BOW05
+  AR18FAM   Mist Mephit
+    amulet: Immcloud -> IMMCLOUD
+  AR18FIG   Mercenary
+    weapon1: sw2h11 -> SW2H11
+  AR18MAGE  Mage
+    rring: STONSKIN -> 
+  AR18PRIE  Priest of Cyric
+    weapon1: blun04 -> BLUN04
+    weapon2: slng01 -> SLNG01
+  AR18THIF  Thief
+    lring: mage01 -> MAGE01
+    weapon1: dagg15 -> DAGG15
+  ARENTHIS  Arenthis
+    weapon1: staf01 -> STAF01
+  ARNFGT01  Shadow Thief
+    weapon1: rndtre02 -> RNDTRE02
+  ARNMAN03  Cuchul
+    weapon1: sw1h07 -> SW1H07
+  ARNMAN04  Mitsu
+    weapon1: dagg01 -> DAGG01
+  ARNMAN09  Shadow Thief
+    lring: ring35 -> RING35
+    weapon1: dagg01 -> DAGG01
+  ARNTRA01  Trainee
+    weapon1: sw1h04 -> SW1H04
+  ARNTRA06  Shadow Thief
+    weapon1: sw1h01 -> SW1H01
+  ARNWAR03  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  ARNWAR06  Haz
+    weapon1: staf01 -> STAF01
+  ARNWAR07  Dedral
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    lring: ring35 -> RING35
+    weapon1: sw1h43 -> SW1H43
+  ARTEMIS   Artemis Entreri
+    shield: sw1h29 -> SW1H29
+    rring: mage01 -> MAGE01
+    weapon1: dagg20 -> DAGG20
+  BALOR01   Balor
+    helmet: helmnoan -> HELMNOAN
+    lring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  BANSHE01  Banshee
+    rring: immune1 -> IMMUNE1
+    amulet: immchs -> IMMCHS
+    weapon1: b1-8m2 -> B1-8M2
+  BARL      Barl
+    helmet: helmnoan -> HELMNOAN
+    shield: shld06 -> SHLD06
+    weapon1: barlfl -> BARLFL
+  BARSAIL1  Sailor
+    shield: shld08 -> SHLD08
+    weapon1: sw1h20 -> SW1H20
+  BARSAIL2  Sailor
+    shield: shld08 -> SHLD08
+    weapon1: sw1h20 -> SW1H20
+  BAZDRA01  Draconis
+    helmet: helmnoan -> HELMNOAN
+    lring: bhaalhp1 -> BHAALHP1
+  BAZDRA03  Fll'Yissetat
+    helmet: helmnoan -> HELMNOAN
+    weapon1: draggre1 -> DRAGGRE1
+  BAZEYE01  Iycanth the Mad
+    weapon1: staf01 -> STAF01
+  BAZEYE02  Iycanth the Mad
+    lring: ghost3 -> GHOST3
+  BDBART01  Samuel Thunderburp
+    weapon1: blun01 -> BLUN01
+  BDCOUN03  Bodyguard
+    weapon1: sw1h01 -> SW1H01
+  BDDANC01  Dancing Light
+    rring: MAGE04 -> 
+  BDDANC02  Dancing Light
+    rring: MAGE04 -> 
+  BDPRST01  Shvanana
+    weapon1: staf01 -> STAF01
+  BDTURM01  Turmish Leader
+    helmet: helm01 -> HELM01
+    weapon1: sw2h02 -> SW2H02
+  BDTURM02  Turmish Thief
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow04 -> XBOW04
+  BDTURM03  Turmish Sorceress
+    lring: stonskin -> 
+    weapon1: staf01 -> STAF01
+  BDTURM04  Turmish Thug
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sw1h01 -> SW1H01
+  BEARBRSU  Brown Bear
+    weapon1: B1-8m1 -> B1-8M1
+  BEELOO    Beeloo Jansen
+    weapon1: dagg01 -> DAGG01
+  BEHDIR01  Director
+    lring: beholder -> BEHOLDER
+  BEHGAS01  Gas Spore
+    lring: ring95 -> RING95
+    rring: minhp1 -> MINHP1
+  BEHHIV01  Hive Mother
+    helmet: helmnoan -> HELMNOAN
+    lring: beholder -> BEHOLDER
+    weapon1: behhiv01 -> BEHHIV01
+  BEHOLD01  Beholder
+    lring: beholder -> BEHOLDER
+  BERINVAR  Berinvar
+    rring: ring06 -> RING06
+    weapon1: sw1h05 -> SW1H05
+  BHAAL01   Bhaal
+    helmet: helm09 -> HELM09
+    weapon1: sw2h20 -> SW2H20
+    weapon2: xbow09 -> XBOW09
+  BHALF1    Stivan the Hunter
+    weapon2: slng02 -> SLNG02
+  BHCAPT01  Elite Guard Captain
+    helmet: helm15 -> HELM15
+    weapon1: xbow03 -> XBOW03
+    weapon2: sw1h04 -> SW1H04
+  BHELM     Guardian Vottnar
+    helmet: Helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: blun04 -> BLUN04
+  BHGAAL01  Elite Guard
+    helmet: helm15 -> HELM15
+    weapon1: sw1h04 -> SW1H04
+    weapon2: xbow01 -> XBOW01
+  BHGUARD   Elite Guard
+    helmet: helm15 -> HELM15
+    weapon1: sw1h04 -> SW1H04
+    weapon2: xbow01 -> XBOW01
+  BHGUARD2  Elite Guard
+    helmet: helm15 -> HELM15
+    weapon1: sw1h04 -> SW1H04
+    weapon2: xbow01 -> XBOW01
+  BODHI     Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+    amulet: minhp1 -> MINHP1
+  BODHI2    Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+  BODHIAMB  Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+    amulet: minhp1 -> MINHP1
+  BODYG2    Amnian Bodyguard
+    helmet: helm12 -> HELM12
+  BOGRE1    Ogre
+    helmet: helmnoan -> HELMNOAN
+  BONEBLD   Bone Blade
+    lring: immune1 -> IMMUNE1
+    rring: shalt01 -> SHALT01
+    weapon1: bonedag -> BONEDAG
+  BOO       Boo
+    lring: vorsqui1 -> VORSQUI1
+    weapon1: vorsqui2 -> VORSQUI2
+  BOOTER02  Booter
+    shield: shld01 -> SHLD01
+  BOUNHA04  Bounty Hunter
+    weapon1: staf01 -> STAF01
+  BREG01    Visaj
+    weapon1: staf02 -> STAF02
+  BREG03    D'aerthe Guard
+    weapon1: dwsw1h02 -> DWSW1H02
+  BSHOP01   Cutpurse
+    weapon1: dagg01 -> DAGG01
+  C-RENAL   Renal
+    helmet: helmnoan -> HELMNOAN
+    lring: ring15 -> RING15
+    rring: ring18 -> RING18
+    weapon1: sw1h10 -> SW1H10
+    weapon2: xbow05 -> XBOW05
+  C0AFIR01  S'aalvlani
+    weapon1: c0asper1 -> C0ASPER1
+  C0AFIR05  Duke V'thilix
+    weapon1: c0afir05 -> C0AFIR05
+  C0AFIR11
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  C0AGNO01  11th Workshop Builder
+    shield: �� -> 
+  C0AGNO02  11th Workshop Builder
+    shield: �� -> 
+  C0AGNO05  Master Builder Tagos
+    shield: �� -> 
+  C0AQINS2  Inspector
+    amulet: minhp1 -> MINHP1
+  C0AREES2  Reese
+    rring: �� -> 
+  C0ATHF1   Thug
+    weapon2: xbow04 -> XBOW04
+  C0ATHF2   Thug Leader
+    weapon2: xbow04 -> XBOW04
+  C0ATHF3   Thug
+    weapon2: xbow04 -> XBOW04
+  C0ATHF4   Thug
+    weapon2: xbow04 -> XBOW04
+  C0AUICE1  Orglash
+    rring: gorair -> GORAIR
+    weapon1: c0auice1 -> C0AUICE1
+  C0AUICEB
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  C0AUWLF1  Amatsugami-no-ken
+    rring: �������� -> 
+  C0D2_S1   Spirit Bear
+    lring: sprngb04 -> SPRNGB04
+    rring: c0d2_s1 -> C0D2_S1
+  C0D2_S2   Spirit Wolf
+    rring: c0d2_s2 -> C0D2_S2
+  C0D2_S3   Spirit Lion
+    rring: c0d2_s3 -> C0D2_S3
+  C0D2_S4   Spirit Snake
+    rring: c0d2_s4 -> C0D2_S4
+  C0PR#EF
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  C0SCLER2  Priest of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SCLER3  Priestess of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SCLER4  Priest of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SCLER5  Priestess of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SCLER6  Priest of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SCLER7  Priest of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  C0SD-A1C  Shadow
+    rring: ring95 -> RING95
+  C0SIRENG  Sirene
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  C0SLOVE1  Lena De'bryll
+    lring: minhp1 -> MINHP1
+  C0SRAID1  Fighter
+    weapon1: ax1h01 -> AX1H01
+  C0SRAID2  Fighter
+    weapon1: ax1h01 -> AX1H01
+  C0SRAID3  Fighter
+    weapon1: ax1h01 -> AX1H01
+  C0SRAID9  Fighter
+    weapon1: ax1h01 -> AX1H01
+  C6BAT     Bat
+    lring: minhp1 -> MINHP1
+  C6BGUARD  Guard
+    weapon1: vamp1 -> VAMP1
+  C6BODHI   Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+  C6BRAN    Branet Al-Thon
+    weapon1: sw1h41 -> SW1H41
+  C6CATTI   Catti-Brie
+    rring: ring05 -> RING05
+    weapon2: sw1h41 -> SW1H41
+  C6CATTI2  Catti-Brie
+    weapon2: sw1h41 -> SW1H41
+  C6CORAN   Coran
+    weapon1: sw1h08 -> SW1H08
+  C6DEL     Del
+    weapon1: vamp1 -> VAMP1
+  C6DROW1   Drow
+    weapon1: sw1h41 -> SW1H41
+  C6DROW2   Drow
+    weapon1: staf01 -> STAF01
+  C6ELF1    Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  C6ELF2    Elven Warrior
+    shield: sw1h20 -> SW1H20
+    weapon1: sw1h20 -> SW1H20
+  C6ELF3    Elven Mage
+    weapon1: staf01 -> STAF01
+  C6ELF4    Elven Warrior
+    shield: sw1h07 -> SW1H07
+    weapon1: sw1h07 -> SW1H07
+  C6ELF5    Elven Mage
+    weapon1: staf01 -> STAF01
+  C6ERIC    Eric Vanstraaten
+    helmet: helm09 -> HELM09
+    weapon1: cdsw2h07 -> CDSW2H07
+  C6ERIC3   Eric Vanstraaten
+    helmet: helm09 -> HELM09
+    weapon1: cdsw2h07 -> CDSW2H07
+  C6EXTR01  Elven Warrior
+    shield: sw1h20 -> SW1H20
+    weapon1: sw1h20 -> SW1H20
+  C6EXTR02  Elven Mage
+    weapon1: staf01 -> STAF01
+  C6EXTR03  Elven Warrior
+    shield: sw1h20 -> SW1H20
+    weapon1: sw1h20 -> SW1H20
+  C6EXTR04  Elven Mage
+    weapon1: staf01 -> STAF01
+  C6FAKE    Elhan
+    weapon1: sw1h41 -> SW1H41
+  C6GENER   General Sovalidaas
+    weapon1: sw1h41 -> SW1H41
+  C6GOD     Elven God
+    weapon1: sw1h41 -> SW1H41
+  C6HARP    Malchor Harpell
+    lring: IMOENHP1 -> 
+  C6KACH2   Kachiko
+    weapon1: sw1h41 -> SW1H41
+  C6KALDEN  Kalden
+    weapon1: sw1h41 -> SW1H41
+  C6KNGT1   Morning Knight
+    helmet: helm10 -> HELM10
+  C6LEVIN   Levin Rayn
+    weapon1: sw1h41 -> SW1H41
+  C6NERIT   Nerit
+    weapon1: sw1h41 -> SW1H41
+  C6WARSA1  Elven War Sage
+    weapon1: staf01 -> STAF01
+  C6WARSA2  Elven War Sage
+    weapon1: staf01 -> STAF01
+  C6WILL    William Reirrac
+    weapon1: sw1h41 -> SW1H41
+  CA#LWISH  Djinni
+    lring: minhp1 -> MINHP1
+    rring: ridring -> RIDRING
+    weapon1: b3-18m3 -> B3-18M3
+  CAMBION1  Cambion
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h02 -> SW1H02
+  CAMBION2  Cambion
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h02 -> SW1H02
+  CAMITIS   Camitis
+    helmet: helm01 -> HELM01
+    shield: shld15 -> SHLD15
+  CARBOS    Carbos
+    weapon1: sw1h07 -> SW1H07
+  CATJAGWP  Panther
+    lring: figring2 -> FIGRING2
+  CBC8CTM2  Cult Mage
+    lring: STONSKIN -> 
+  CBMEKRTH  Mekrath
+    lring: STONSKIN -> 
+  CBSCCW01  Cowled Wizard
+    rring: MAGE02 -> 
+  CBSCCW02  Cowled Wizard
+    rring: MAGE05 -> 
+  CBTAXCOL  Tax Collector
+    rring: MAGE03 -> 
+  CCGUARD1  Copper Coronet Guard
+    helmet: helm22 -> HELM22
+  CCGUARD2  Copper Coronet Guard
+    weapon1: staf01 -> STAF01
+  CECHAL02  Master Verthan
+    weapon1: staf01 -> STAF01
+  CECHALLE  Master Verthan
+    weapon1: staf01 -> STAF01
+  CEFALD04  Faldorn
+    weapon1: Blun01 -> BLUN01
+  CEFALDOR  Faldorn
+    lring: minhp1 -> MINHP1
+    weapon1: Blun01 -> BLUN01
+  CEFGT02   Shadow Druid
+    weapon1: blun01 -> BLUN01
+  CEFGT03   Adherent
+    weapon1: sper01 -> SPER01
+  CEFGT04   Shadow Druid
+    weapon1: staf01 -> STAF01
+  CELOGAN   High Merchant Logan Coprith
+    weapon1: sw2h02 -> SW2H02
+  CH3GRD01  Shadow Thief
+    shield: shld05 -> SHLD05
+    weapon1: sw1h01 -> SW1H01
+  CH7SPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  CHAK      Chak
+    shield: shld19 -> SHLD19
+    weapon1: ax1h11 -> AX1H11
+  CHALCY02  Favored of Cyric
+    helmet: helmnoan -> HELMNOAN
+    shield: chalcy2 -> CHALCY2
+    amulet: chalcy3 -> CHALCY3
+    weapon1: chalcy1 -> CHALCY1
+  CHALDT01  <CHARNAME>
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    weapon1: innoc2 -> INNOC2
+  CHALIN01  <CHARNAME>
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    rring: innoc -> INNOC
+    weapon1: innoc2 -> INNOC2
+  CHALPC01  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC02  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC03  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC04  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC05  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC06  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC07  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC08  <CHARNAME>
+    helmet: chalhelm -> CHALHELM
+    shield: chalshld -> CHALSHLD
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+  CHALPC09  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC10  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC11  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC12  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC13  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC14  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC15  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALPC16  <CHARNAME>
+    helmet: helm03 -> HELM03
+    lring: ring34 -> RING34
+    rring: ring29 -> RING29
+    amulet: amul22 -> AMUL22
+    weapon1: sw2h10 -> SW2H10
+  CHALSLAY  Slayer
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    rring: chalslay -> CHALSLAY
+    weapon1: innoc2 -> INNOC2
+  CHALSP01  Gavid
+    lring: minhp1 -> MINHP1
+  CHANG01   Angelo
+    helmet: helmnoan -> HELMNOAN
+    rring: ring05 -> RING05
+    weapon1: bow26 -> BOW26
+    weapon2: sw1h10 -> SW1H10
+  CHANG02   Angelo
+    helmet: helmnoan -> HELMNOAN
+    rring: ring05 -> RING05
+    weapon1: bow26 -> BOW26
+    weapon2: sw1h10 -> SW1H10
+  CHEVIL06  Drow Warrior
+    helmet: helmnoan -> HELMNOAN
+  CHEVIL07  Drow Priestess
+    weapon1: dwwhip01 -> DWWHIP01
+  CHEVIL08  Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+  CHEVIL09  Jon Irenicus
+    helmet: helmnoan -> HELMNOAN
+  CHEVIL10  Sarevok
+    weapon1: chevil10 -> CHEVIL10
+  CHGOOD01  Commoner
+    shield: shld01 -> SHLD01
+    weapon1: sw1h07 -> SW1H07
+  CHGOOD02  Commoner
+    weapon1: hamm01 -> HAMM01
+  CHGOOD03  Commoner
+    weapon1: sper01 -> SPER01
+  CHGOOD04  Elven Warrior
+    weapon1: sw1h05 -> SW1H05
+  CHGOOD05  Elven Warrior
+    weapon2: sw1h05 -> SW1H05
+  CHTAZ02   Tamoko
+    helmet: helmnoan -> HELMNOAN
+    shield: sw1h75 -> SW1H75
+    lring: ring09 -> RING09
+    rring: ring02 -> RING02
+    amulet: amul23 -> AMUL23
+    weapon1: sw1h75 -> SW1H75
+  CIVFRUS1  Jeremiah Jamtoes
+    weapon1: sw1h07 -> SW1H07
+  CLARDI01  Inspector Ardis
+    amulet: minhp1 -> MINHP1
+  CLELUN01  Eluno
+    shield: shld03 -> SHLD03
+  CLTCUT01  Cultist
+    weapon1: staf01 -> STAF01
+  CLTCUT02  Cultist
+    weapon1: staf01 -> STAF01
+  CLTCUT03  Elite Guard
+    helmet: helm15 -> HELM15
+    weapon1: sw1h04 -> SW1H04
+    weapon2: xbow01 -> XBOW01
+  COHNTA    Cohn Ta'glaen
+    weapon1: vamp1 -> VAMP1
+  COPAMB02  Copper Coronet Guard
+    helmet: helm22 -> HELM22
+  COPAMB05  Copper Coronet Guard
+    helmet: helm22 -> HELM22
+  COR       Cor Delryn
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw2h02 -> SW2H02
+  COWENF02  Cowled Enforcer
+    amulet: stonskin -> 
+  COWENF2   Cowled Enforcer
+    amulet: STONSKIN -> 
+  COWLED    Cowled Wizard
+    rring: MAGE03 -> 
+  CRAGMOON  Mrs. Cragmoon
+    weapon1: staf01 -> STAF01
+  CROLUS    Crolus
+    weapon1: halb01 -> HALB01
+  CROTHF01  Tiiro
+    weapon1: sw1h07 -> SW1H07
+  CROTHF02  Aulava
+    weapon1: xbow04 -> XBOW04
+  CSGAAL    Gaal
+    weapon1: staf01 -> STAF01
+  CSIREN    Mage
+    lring: csiren -> CSIREN
+  CSJON     Mage
+    lring: csiren -> CSIREN
+  CUARDUL   Matron Mother Ardulace
+    weapon1: dwblun01 -> DWBLUN01
+  CUBODHI   Bodhi
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+  CUCOW1    Cowled Enforcer
+    amulet: stonskin -> 
+  CUCOW2    Cowled Enforcer
+    amulet: stonskin -> 
+  CUCOW3    Cowled Enforcer
+    amulet: stonskin -> 
+  CUGUARD   Baragh
+    weapon1: dagg01 -> DAGG01
+  CUPHAER   Phaere
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  CUPRIS1   Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  CUPRIS2   Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  CUTAMFIG  Fighter
+    shield: sw1h05 -> SW1H05
+    weapon1: sw1h05 -> SW1H05
+  CUTMELIS  Melissan
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    rring: imoenhp1 -> IMOENHP1
+  CUTSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  CUTSPY2
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  D0GUARD4  Sanctioned Wizard
+    rring: MAGE03 -> 
+  D0QPSLAV  Tredor
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: sw1h04 -> SW1H04
+  D0QPWIC2  Cowled Enforcer
+    amulet: STONSKIN -> 
+  D0QPWIGI  Girl
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  D0QPWIMA  Abraxxi
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  D0XZAR    Xzar
+    helmet: helmnoan -> HELMNOAN
+  D1GHOST   Alianna
+    lring: ghost3 -> GHOST3
+  DADROW1   Drow Servant
+    weapon1: staf01 -> STAF01
+  DADROW10  Drow Torturer
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW11  Drow Torturer
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW12  Overseer Handmaiden
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW14  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  DADROW17  Taso Kala
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW18  Spelljammer Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  DADROW19  Drow
+    weapon1: dagg01 -> DAGG01
+  DADROW2   Drow Servant
+    weapon1: staf01 -> STAF01
+  DADROW20  Drow Priestess
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW23  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW24  Drow
+    weapon1: sw1h04 -> SW1H04
+  DADROW25  Drow
+    weapon1: sw1h04 -> SW1H04
+  DADROW26  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW3   Drow Slave Trader
+    weapon1: dwsper01 -> DWSPER01
+  DADROW4   Drow Priestess
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  DADROW5   Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  DADROW6   Drow Leader
+    weapon1: dwsw1h01 -> DWSW1H01
+  DAGHAUN1  Ghaunadaur Priest Leader
+    weapon1: dwblun01 -> DWBLUN01
+  DAGHAUN2  Ghaunadaur Priest
+    weapon1: dwblun01 -> DWBLUN01
+  DAGMAG01  Relonar
+    weapon1: staf01 -> STAF01
+  DAQILUE   Qilue
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  DASPITRO  Spirit Troll
+    weapon1: Troll01 -> TROLL01
+  DAVAEO    Davaeorn
+    lring: MAGE03 -> 
+    rring: MAGE05 -> 
+  DBONEF01  Bone Fiend
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: reghp2r -> REGHP2R
+    weapon1: bonefd -> BONEFD
+  DCOWL1    Rayic Gethras
+    lring: STONSKIN -> 
+  DEADBEH1  Beholder
+    lring: beholder -> BEHOLDER
+  DEADDEM1  Cornugon
+    lring: immune2 -> IMMUNE2
+    amulet: reghp2r -> REGHP2R
+    weapon1: cornugon -> CORNUGON
+  DEADDEM2  Quasit
+    lring: ringdemn -> RINGDEMN
+    weapon1: imp -> IMP
+  DEATHKNI  Demon Knight
+    weapon1: sw2hdeat -> SW2HDEAT
+  DECK615   Demon Knight
+    weapon1: sw2hdeat -> SW2HDEAT
+  DECK622   Death Shade
+    weapon1: deck622 -> DECK622
+  DEDSMUG   Smuggler
+    weapon1: SW1h05 -> SW1H05
+  DEGARD    Degardan
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    weapon1: staf18 -> STAF18
+  DEMABI01  Abishai
+    helmet: helmnoan -> HELMNOAN
+    lring: immune1 -> IMMUNE1
+    amulet: reghp1 -> REGHP1
+    weapon1: demabi01 -> DEMABI01
+  DEMBAL01  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  DEMBAL02  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  DEMCOR01  Cornugon
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    amulet: reghp2r -> REGHP2R
+    weapon1: cornugon -> CORNUGON
+  DEMFIG01  Falahar
+    helmet: helm10 -> HELM10
+    weapon1: halb01 -> HALB01
+  DEMFIG02  Valeria
+    weapon1: dart01 -> DART01
+    weapon2: sw1h01 -> SW1H01
+  DEMGLA01  Glabrezu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  DEMGLAB   Glabrezu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  DEMGLAB2  Glabrezu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  DEMILICH  Demilich
+    helmet: helmnoan -> HELMNOAN
+    lring: ring95 -> RING95
+    rring: demilich -> DEMILICH
+    weapon1: lich02 -> LICH02
+  DEMLORD   Lesser Demon Lord
+    lring: immune3 -> IMMUNE3
+    weapon1: demlord -> DEMLORD
+  DEMMAU01  Maurezhi
+    helmet: helmnoan -> HELMNOAN
+    rring: immune1 -> IMMUNE1
+    weapon1: demmau01 -> DEMMAU01
+  DEMNAB01  Nabassu
+    lring: reghp2 -> REGHP2
+  DEMNAB02  Nabassu
+    lring: reghp2 -> REGHP2
+  DEMNABSU  Nabassu
+    lring: reghp2 -> REGHP2
+  DEMOARCH  Fighter
+    weapon1: bow02 -> BOW02
+  DEMOCLER  Cleric
+    weapon1: blun21 -> BLUN21
+  DEMOGOR1  Imprisoned One
+    helmet: helmnoan -> HELMNOAN
+  DEMOSUM1  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  DEMOSUM2  Balor
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  DEMOSUM3  Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  DEMOSUM4  Cambion
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demosum4 -> DEMOSUM4
+  DEMPIT    Pit Fiend
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  DEMPIT01  Pit Fiend
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  DEMSON    Sir William Reirrac
+    helmet: helmnoan -> HELMNOAN
+  DEMSUC01  Succubus
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  DERINY01  Erinyes
+    lring: immune1 -> IMMUNE1
+    weapon1: bow12 -> BOW12
+    weapon2: sw1h05 -> SW1H05
+  DESHAR    Ferric Ironblade
+    rring: ring05 -> RING05
+    weapon1: sw1h04 -> SW1H04
+    weapon2: bow05 -> BOW05
+  DGLAB01   Glabrezu
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  DHARLOT1  Harlot
+    rring: ring16 -> RING16
+  DIMP01    Imp
+    lring: immune1 -> IMMUNE1
+    weapon1: imp -> IMP
+  DISRUP01  Wizard Slayer
+    shield: shld01 -> SHLD01
+    weapon1: dart01 -> DART01
+    weapon2: dart01 -> DART01
+    weapon3: dart01 -> DART01
+    weapon4: sw1h01 -> SW1H01
+  DMARK1    Fovem
+    helmet: helm01 -> HELM01
+    weapon1: sw1h07 -> SW1H07
+  DOCSOL01  Amnian Soldier
+    weapon1: sper01 -> SPER01
+  DOCSOL02  Barracks Guard
+    weapon1: sper01 -> SPER01
+  DOCSOL03  Guard Captain
+    weapon1: blun04 -> BLUN04
+  DOGWAWP   Astral Hound
+    rring: figring3 -> FIGRING3
+    weapon1: dogwawp -> DOGWAWP
+  DPJON01   Jon Irenicus
+    lring: csiren -> CSIREN
+  DPJON02   Jon Irenicus
+    lring: csiren -> CSIREN
+  DQUAS01   Quasit
+    lring: ringdemn -> RINGDEMN
+    weapon1: imp -> IMP
+  DRAGBLUE  Abazigal
+    helmet: helmnoan -> HELMNOAN
+  DRAGBROW  Brown Dragon
+    helmet: helmnoan -> HELMNOAN
+  DRAGPURP  Purple Dragon
+    helmet: helmnoan -> HELMNOAN
+  DRAGYELL  Yellow Dragon
+    helmet: helmnoan -> HELMNOAN
+  DRAUG     Draug Fea
+    weapon1: blun17 -> BLUN17
+  DRIM01    Imoen
+    weapon1: dagg01 -> DAGG01
+  DROFOD01  Drow
+    weapon1: sw1h55 -> SW1H55
+  DROFOD03  Drow
+    weapon1: xbow17 -> XBOW17
+  DROW01    Drow Warrior
+    weapon1: dwsw1h02 -> DWSW1H02
+  DROW02    Drow Warrior
+    weapon1: dwsw1h01 -> DWSW1H01
+  DROW03    Drow Wizard
+    weapon1: dwblun01 -> DWBLUN01
+  DROW04    Drow Priestess
+    weapon1: dwwhip01 -> DWWHIP01
+  DROW05    Drow
+    weapon1: dwwhip01 -> DWWHIP01
+  DROW06    Drow
+    weapon1: staf01 -> STAF01
+  DROW07    Drow Priestess
+    weapon1: dwwhip01 -> DWWHIP01
+  DRSHCH01  Chaos
+    rring: ring95 -> RING95
+  DRSHLO01  Loren
+    amulet: minhp1 -> MINHP1
+  DRSHSP01  Spirit of the Grove
+    lring: ghost -> GHOST
+  DRSTATU1  Statue
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  DRSTATU2  Statue
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  DRSTATU3  Statue
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  DRUEAR01  Earth Elemental
+    weapon1: druear -> DRUEAR
+  DRUFF1    Ruffian
+    weapon1: blun06 -> BLUN06
+  DRUFF2    Ruffian
+    weapon1: ax1h01 -> AX1H01
+  DRUFIR01  Fire Elemental
+    weapon1: drufir -> DRUFIR
+  DRY01     Dryad
+    weapon1: dagg01 -> DAGG01
+  DRYAD01   Dryad of the Cloudpeaks
+    weapon1: dagg01 -> DAGG01
+  DRYAD02   Dryad of the Cloudpeaks
+    weapon1: dagg01 -> DAGG01
+  DRYAD03   Dryad of the Cloudpeaks
+    weapon1: dagg01 -> DAGG01
+  DSHOP01   Ikert
+    weapon1: sw1h07 -> SW1H07
+  DW#BASUM  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  DW#BFSUM  Bone Fiend
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: reghp2r -> REGHP2R
+    weapon1: bonefd -> BONEFD
+  DW#COSUM  Cornugon
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    amulet: reghp2r -> REGHP2R
+    weapon1: cornugon -> CORNUGON
+  DW-ICE12  Ice Paraelemental
+    weapon1: dw-iewp2 -> DW-IEWP2
+  DW-ICE16  Greater Ice Paraelemental
+    weapon1: dw-iewp3 -> DW-IEWP3
+  DW-ICE24  Elder Ice Paraelemental
+    weapon1: dw-iewp3 -> DW-IEWP3
+  DX#SHOOL  Shoon VII
+    lring: �������� -> 
+    amulet: �������� -> 
+    weapon1: �� -> 
+  DX#SHOON  Shoon VII
+    lring: �� -> 
+  E34       Coran
+    weapon2: sw1h41 -> SW1H41
+  ELAIRL01  Lesser Air Elemental
+    weapon1: b1-20m3 -> B1-20M3
+  ELAIRSU4  Elder Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  ELAIRSUW  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  ELEARPR   Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARPR2  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARPR3  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARSU4  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEKUO01  Kuo-toan Warrior
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04
+  ELEKUO02  Kuo-toan Whip
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04
+  ELEMCRYO  Cryonax
+    lring: elemprin -> ELEMPRIN
+    weapon1: elemcryo -> ELEMCRYO
+  ELEMEP01  Ooze Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP02  Steam Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP03  Salt Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP04  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP05  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP06  Earth Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP07  Mineral Mephit
+    amulet: Immcloud -> IMMCLOUD
+  ELEMEP08  Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  ELEMHYDR  Olhydra
+    lring: elemprin -> ELEMPRIN
+    rring: wallpass -> WALLPASS
+    weapon1: elemhydr -> ELEMHYDR
+  ELEMIMIX  Imix
+    lring: elemprin -> ELEMPRIN
+    amulet: amul28 -> AMUL28
+    weapon1: elemimix -> ELEMIMIX
+  ELEMOGRE  Ogremoch
+    lring: elemprin -> ELEMPRIN
+    weapon1: elemogre -> ELEMOGRE
+  ELEMYANC  Yan-C-Bin
+    lring: elemprin -> ELEMPRIN
+    weapon1: elemyanc -> ELEMYANC
+  ELESAH01  Sahuagin Baron
+    weapon1: xbow04 -> XBOW04
+    weapon2: sper01 -> SPER01
+  ELESAH02  Sahuagin Baronial Guard
+    weapon1: xbow04 -> XBOW04
+    weapon2: sper01 -> SPER01
+  ELMIND    Elminster
+    weapon1: staf01 -> STAF01
+  ELOTTE    Squire Elotte
+    weapon1: sw2h01 -> SW2H01
+  ELWATG01  Greater Water Elemental
+    rring: wallpass -> WALLPASS
+    weapon1: waterele -> WATERELE
+  EMBARL    Embarl
+    helmet: helmnoan -> HELMNOAN
+    weapon1: dagg02 -> DAGG02
+  ENDDEM01  Glabrezu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  ENDDEM02  Glabrezu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  ENDDEM03  Balor
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  ENDDEM04  Nabassu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  ENDDEM05  Nabassu
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  ENDVOLO
+    amulet: imoenhp1 -> IMOENHP1
+  ENFO25
+    lring: mage01 -> MAGE01
+    rring: nocirc -> NOCIRC
+    amulet: imoenhp1 -> IMOENHP1
+  ENFORAM
+    lring: mage01 -> MAGE01
+    rring: nocirc -> NOCIRC
+    amulet: imoenhp1 -> IMOENHP1
+  ESXCD     Chain Demon
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  ESXELF    Drow
+    weapon1: staf01 -> STAF01
+  ESXLICH   DemiLich
+    rring: demilich -> DEMILICH
+    weapon1: lich02 -> LICH02
+  ESXSER    Mist Creature
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  ESXSHA2   Shas'tan
+    weapon1: sw1h41 -> SW1H41
+  ESXSHAS   Shas'tan
+    weapon1: sw1h41 -> SW1H41
+  ESXSNA    Child of Sseth
+    weapon1: p1-2p -> P1-2P
+  ESXSOLA   Solaufein
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwsw1h01 -> DWSW1H01
+  ESXVASH   Vash
+    weapon1: staf01 -> STAF01
+  EYEBHL01  Eye of the Beholder
+    lring: beholder -> BEHOLDER
+  EYEEGL01  Eagle Eye
+    weapon1: bow24 -> BOW24
+  EYEGOR01  Gorgon Eye
+    weapon1: eyegor01 -> EYEGOR01
+  FAMDUS25  Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMDUST   Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMFAI25  Fairy Dragon
+    amulet: Immcloud -> IMMCLOUD
+  FAMFAIR   Fairy Dragon
+    amulet: Immcloud -> IMMCLOUD
+  FAMFER    Ferret
+    amulet: Immcloud -> IMMCLOUD
+  FAMFER25  Ferret
+    amulet: Immcloud -> IMMCLOUD
+  FAMFIRE   Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  FAMIMP    Imp
+    amulet: ImmCloud -> IMMCLOUD
+  FAMIMP25  Imp
+    amulet: ImmCloud -> IMMCLOUD
+    weapon1: impclaw -> IMPCLAW
+  FAMLIGHT  Lightning Mephit
+    amulet: Immcloud -> IMMCLOUD
+  FAMMIST   Mist Mephit
+    amulet: Immcloud -> IMMCLOUD
+  FAMPSD    Pseudo-dragon
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMPSD25  Pseudo-dragon
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+    weapon1: psdclaw -> PSDCLAW
+  FAMQUA25  Quasit
+    amulet: immcloud -> IMMCLOUD
+    weapon1: quasclaw -> QUASCLAW
+  FAMRAB25  Rabbit
+    amulet: Immcloud -> IMMCLOUD
+  FAMRAD    Radiant Mephit
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FFACTOR1  Kirinaldo
+    weapon1: staf01 -> STAF01
+  FFACTOR2  Lunisia
+    weapon1: dagg01 -> DAGG01
+  FFBART    Samuel Thunderburp
+    helmet: helmnoan -> HELMNOAN
+    weapon1: blun02 -> BLUN02
+  FFCUST01  Ercias
+    weapon1: sw1h07 -> SW1H07
+  FFCUST06  Belle
+    weapon1: sw2h01 -> SW2H01
+  FFCUST07  H'rothgar Firehammer
+    helmet: helmnoan -> HELMNOAN
+    weapon1: hamm01 -> HAMM01
+  FFCUST08  Jerry Jamtoes
+    shield: shld11 -> SHLD11
+    weapon1: slng02 -> SLNG02
+    weapon2: sw1h07 -> SW1H07
+  FINABSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  FINALUF   Alu-Fiend
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H52
+    weapon2: bow17 -> BOW17
+  FINBABAU  Babau
+    lring: ringdemn -> RINGDEMN
+    rring: immune1 -> IMMUNE1
+    weapon1: finbabau -> FINBABAU
+  FINBALOR  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  FINBODH   Bodhi
+    lring: ring95 -> RING95
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp3 -> VAMP3
+  FINCAMB2  Cambion
+    helmet: chalhelm -> CHALHELM
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw2h08 -> SW2H08
+    weapon2: bow04 -> BOW04
+  FINGLAB   Glabrezu
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: finglab -> FINGLAB
+  FINGRUN1  Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+  FINGRUN2  Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+  FINGRUN3  Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+  FINIREN   Jon Irenicus
+    amulet: STONSKIN -> 
+    weapon2: finir0m -> FINIR0M
+    weapon3: finir0r -> FINIR0R
+  FINMARIL  Marilith
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  FINNABAS  Nabassu
+    lring: ringdemn -> RINGDEMN
+    rring: immune1 -> IMMUNE1
+    weapon1: finnabas -> FINNABAS
+  FINRAVER  Slayer
+    weapon1: slayerwp -> SLAYERWP
+  FINSAREV  Sarevok
+    helmet: helmnoan -> HELMNOAN
+    lring: monhp1 -> MONHP1
+    weapon1: finsrv -> FINSRV
+  FINSOL02  Yan-C-Bin
+    lring: elemprin -> ELEMPRIN
+    weapon1: elemyanc -> ELEMYANC
+  FINSOL03  Cryonax
+    lring: elemprin -> ELEMPRIN
+    weapon1: elemcryo -> ELEMCRYO
+  FINSOL04  Fallen Solar
+    helmet: helmnoan -> HELMNOAN
+    lring: immune4 -> IMMUNE4
+  FINSOLA2  Fallen Solar
+    helmet: helmnoan -> HELMNOAN
+    lring: immune4 -> IMMUNE4
+  FINSOLA3  Fallen Solar
+    helmet: helmnoan -> HELMNOAN
+    lring: immune4 -> IMMUNE4
+  FINSOLAR  Fallen Solar
+    helmet: helmnoan -> HELMNOAN
+    lring: immune4 -> IMMUNE4
+  FINSUCC   Succubus
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: finsucc -> FINSUCC
+  FIRBAN01  Bandit
+    lring: ring06 -> RING06
+  FIRBAN02  Plath Rededge
+    weapon1: staf01 -> STAF01
+  FIRMAG01  Conster
+    lring: STONSKIN -> 
+  FIRRAK02  Ruhk
+    rring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  FIRWLF01  Grancor
+    lring: ringwolf -> RINGWOLF
+  FIRWLF02  Falik
+    lring: ringwolf -> RINGWOLF
+  FSDRAGON  Dragon
+    helmet: helmnoan -> HELMNOAN
+  FSGLOB    Globe Machine
+    lring: immune1 -> IMMUNE1
+  FSHORDE1  Goblin
+    weapon1: Ax1h01 -> AX1H01
+  FSHORDE3  Goblin
+    weapon1: Ax1h01 -> AX1H01
+  FSSPIR1   Spirit Warrior
+    lring: ghosteff -> GHOSTEFF
+    weapon1: sw1h04 -> SW1H04
+  FSSPIR2   Helmite Ghost
+    lring: ghosteff -> GHOSTEFF
+    rring: fsspir -> FSSPIR
+    amulet: invulner -> INVULNER
+  FSSPIR3   Spirit Panel
+    lring: ghosteff -> GHOSTEFF
+  FSSPIRA   Helmite Ghost
+    lring: ghosteff -> GHOSTEFF
+    rring: fsspir -> FSSPIR
+    amulet: invulner -> INVULNER
+  FSSPIRB   Helmite Ghost
+    lring: ghosteff -> GHOSTEFF
+    rring: fsspir -> FSSPIR
+    amulet: invulner -> INVULNER
+  FSSPIRC   Helmite Ghost
+    lring: ghosteff -> GHOSTEFF
+    rring: fsspir -> FSSPIR
+    amulet: invulner -> INVULNER
+  GAAL02    Gaal
+    weapon1: staf01 -> STAF01
+  GAELAN    Gaelan Bayle
+    helmet: helmnoan -> HELMNOAN
+    lring: minhp1 -> MINHP1
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow09 -> XBOW09
+  GARKID01  Iltha
+    amulet: minhp1 -> MINHP1
+  GARKID02  Taar
+    amulet: minhp1 -> MINHP1
+  GAROCK    Garock
+    helmet: helmnoan -> HELMNOAN
+    weapon1: ax1h17 -> AX1H17
+  GENDAO01  Dao
+    weapon1: b3-18m3 -> B3-18M3
+  GENEFR01  Efreeti
+    weapon1: sw1h20 -> SW1H20
+  GENIE01   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  GENIE02   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  GENIE03   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  GENIE04   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  GENIE1    Genie
+    weapon1: b3-18m3 -> B3-18M3
+  GENMAG01  Mage
+    weapon1: staf01 -> STAF01
+  GENTH01   Thief
+    weapon1: sw1h07 -> SW1H07
+  GENTH02   Thief
+    weapon1: dagg01 -> DAGG01
+  GENTHF01  Thug
+    weapon1: sw1h01 -> SW1H01
+    weapon2: xbow04 -> XBOW04
+  GENTMG01  Thief
+    weapon1: dagg16 -> DAGG16
+    weapon2: sw1h07 -> SW1H07
+  GHASTSU   Skeleton
+    shield: skelshld -> SKELSHLD
+    weapon1: skelclub -> SKELCLUB
+  GHOGR01   Greater Ghoul
+    rring: MAGE06 -> 
+  GIANTF01  Fire Giant
+    weapon1: dart06 -> DART06
+    weapon2: giants01 -> GIANTS01
+  GISBOMB   Bombardier Beetle
+    weapon1: #s1-12 -> #S1-12
+  GITH01    Warrior
+    weapon1: sw2h01 -> SW2H01
+  GITH02    Knight
+    weapon1: sw2h01 -> SW2H01
+  GITH05    Warlock
+    weapon1: dart01 -> DART01
+    weapon2: dart01 -> DART01
+    weapon3: dart01 -> DART01
+    weapon4: sw2h01 -> SW2H01
+  GITH06    Captain
+    weapon1: sw2h01 -> SW2H01
+  GLAD1     Gladiator
+    weapon1: dagg01 -> DAGG01
+  GLADIA01  Gatekeeper
+    lring: immune1 -> IMMUNE1
+  GLOBSHAM  Shambling Mound
+    weapon1: b4-32m4 -> B4-32M4
+  GMAGE14   Mekrath
+    lring: STONSKIN -> 
+    weapon1: staf02 -> STAF02
+  GMAYOR    Theshal
+    lring: ring95 -> RING95
+  GOLBUR01  Burning Man
+    weapon1: golbur01 -> GOLBUR01
+  GOLMAG01  Magic Golem
+    weapon1: golmag01 -> GOLMAG01
+  GONCE     Meredath
+    weapon1: vamp -> VAMP
+  GORAIR01  Lesser Air Elemental
+    rring: gorair -> GORAIR
+    weapon1: b1-20m3 -> B1-20M3
+  GORAIR02  Greater Air Elemental
+    rring: gorair -> GORAIR
+  GORALU01  Alu-Fiend
+    shield: sw1h25 -> SW1H25
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h25 -> SW1H25
+    weapon2: dart04 -> DART04
+  GORARC    Archivist
+    lring: ghost2 -> GHOST2
+    amulet: minhp1 -> MINHP1
+  GORBAT1   Ka'rashur
+    helmet: helmnoan -> HELMNOAN
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  GORBAT2   Erinyes
+    helmet: helmnoan -> HELMNOAN
+    lring: immune1 -> IMMUNE1
+    weapon1: bow12 -> BOW12
+    weapon2: sw1h05 -> SW1H05
+  GORBAT3   Cornugon
+    helmet: helmnoan -> HELMNOAN
+    lring: immune2 -> IMMUNE2
+    amulet: reghp2r -> REGHP2R
+    weapon1: cornugon -> CORNUGON
+  GORBAT4   Imp
+    lring: immune1 -> IMMUNE1
+    weapon1: imp -> IMP
+  GORBAT5   Bone Fiend
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: reghp2r -> REGHP2R
+    weapon1: bonefd -> BONEFD
+  GORBEL    Bell Jar
+    lring: invulner -> INVULNER
+  GORCAMB2  Tiefling
+    helmet: helmnoan -> HELMNOAN
+    rring: ring07 -> RING07
+    weapon1: staf19 -> STAF19
+  GORCAMB3  Tiefling
+    helmet: helm09 -> HELM09
+    weapon1: blun18 -> BLUN18
+    weapon2: slng02 -> SLNG02
+  GORCAMB4  Tiefling
+    helmet: helmnoan -> HELMNOAN
+    shield: dagg15 -> DAGG15
+    weapon1: telswd -> TELSWD
+  GORCAMB5  Tiefling
+    helmet: helm08 -> HELM08
+    weapon1: bow16 -> BOW16
+    weapon2: telswd -> TELSWD
+  GORCAMB6  Fell Cat
+    lring: ringdemn -> RINGDEMN
+    weapon1: p3-12m4 -> P3-12M4
+  GORCAMB7  Fell Cat
+    lring: ringdemn -> RINGDEMN
+    weapon1: p3-12m4 -> P3-12M4
+  GORCAR    Carston
+    lring: invulner -> INVULNER
+  GORCHR    Chromatic Demon
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: invulner -> INVULNER
+    amulet: gorchr -> GORCHR
+  GORDECK1  Fighter
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  GORDECK2  Fighter
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  GORDECK3  Fighter
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  GORDECK4  Fighter
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  GORDECK5  Assassin
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H09
+  GORDEM    Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12 -> B1-12
+  GORDEM2   Velithuu
+    lring: immune2 -> IMMUNE2
+    weapon1: bow19 -> BOW19
+    weapon2: gordem2 -> GORDEM2
+  GORDEMC1  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12 -> B1-12
+  GORF      Gorf the Squisher
+    weapon1: Blun01 -> BLUN01
+  GORF03    Gorf the Squisher
+    weapon1: Blun01 -> BLUN01
+  GORFAN
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  GORFIRG   Fire Giant
+    helmet: helm31 -> HELM31
+    lring: gorfirg -> GORFIRG
+    weapon1: giants01 -> GIANTS01
+  GORGITC1  Githyanki
+    amulet: monhp1 -> MONHP1
+    weapon1: sw2h11 -> SW2H11
+  GORGITC2  Githyanki
+    weapon1: sw2h11 -> SW2H11
+  GORGITC3  Githyanki
+    amulet: monhp1 -> MONHP1
+    weapon1: sw2h11 -> SW2H11
+  GORGITC4  Githyanki
+    weapon1: sw2h11 -> SW2H11
+  GORGITH2  Githyanki
+    weapon1: gith -> GITH
+    weapon2: sw2h01 -> SW2H01
+  GORGUA01  Aurumach Rilmani
+    helmet: helmnoan -> HELMNOAN
+    lring: ghost3 -> GHOST3
+    rring: immune4 -> IMMUNE4
+    weapon1: aurstaf -> AURSTAF
+  GORGUA02  Ferrumach Rilmani
+    helmet: helm01 -> HELM01
+    lring: ghost3 -> GHOST3
+    rring: immune1 -> IMMUNE1
+    weapon1: halb02 -> HALB02
+  GORGUA03  Guardian Spirit
+    lring: ghost3 -> GHOST3
+    rring: ring95 -> RING95
+    weapon1: blun26 -> BLUN26
+  GORGUA04  Guardian Spirit
+    helmet: helm04 -> HELM04
+    lring: ghost3 -> GHOST3
+    rring: ring95 -> RING95
+    weapon1: sw2h20 -> SW2H20
+  GORGUA05  Guardian Spirit
+    helmet: helm04 -> HELM04
+    lring: ghost3 -> GHOST3
+    rring: ring95 -> RING95
+    weapon1: sw2h17 -> SW2H17
+  GORKUO01  Kuo-toan Warrior
+    rring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  GORKUO02  Kuo-toan Archer
+    rring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  GORKUO03  Kuo-toan Priest
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04
+  GORKUO04  Kuo-toan Captain
+    rring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  GORKUO05  Kuo-toan Whip
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+  GORLUM    Machine of Lum the Mad
+    lring: immune1 -> IMMUNE1
+  GORMIM01  Killer Mimic
+    amulet: wallpass -> WALLPASS
+  GORMIM02  Killer Mimic
+    amulet: wallpass -> WALLPASS
+  GORMIM03  Killer Mimic
+    amulet: wallpass -> WALLPASS
+  GORMIM04  Killer Mimic
+    amulet: wallpass -> WALLPASS
+  GORMINC2  Mind Flayer
+    amulet: monhp1 -> MONHP1
+  GORMINC4  Mind Flayer
+    amulet: monhp1 -> MONHP1
+  GORSKU01  Flaming Skull
+    rring: ring95 -> RING95
+  GORSNAKE  Giant Snake
+    lring: gormistp -> GORMISTP
+    weapon1: gorsnake -> GORSNAKE
+  GORSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  GORSTA01  Statue
+    helmet: helm10 -> HELM10
+    shield: shld29 -> SHLD29
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: sw1h62 -> SW1H62
+  GORSTA02  Statue
+    helmet: helm09 -> HELM09
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: halb07 -> HALB07
+  GORSTA03  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: blun21 -> BLUN21
+  GORSTA04  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: blun21 -> BLUN21
+  GORSTA05  Statue
+    helmet: helm10 -> HELM10
+    shield: shld30 -> SHLD30
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: sw1h42 -> SW1H42
+  GORSTA06  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    amulet: ring97 -> RING97
+    weapon1: wyvern1 -> WYVERN1
+    weapon2: wyvern2 -> WYVERN2
+  GORSTA07  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: sw1h67 -> SW1H67
+  GORSTA08  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    amulet: immune3 -> IMMUNE3
+    weapon1: goliro -> GOLIRO
+  GORSTA09  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: bow25 -> BOW25
+    weapon2: halb07 -> HALB07
+  GORSTA10  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: umber01 -> UMBER01
+  GORSTA12  Statue
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    amulet: immune1 -> IMMUNE1
+    weapon1: salasper -> SALASPER
+  GORSTALK  Guardian of Air
+    lring: stalker -> STALKER
+    rring: mage01 -> MAGE01
+    amulet: gorair -> GORAIR
+    weapon1: stalkesu -> STALKESU
+    weapon2: stalkesu -> STALKESU
+  GORSUC01  Succubus
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  GORTAN1   Tahazzar
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  GORTAN2   Succubus
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  GORTAN3   Yochlol
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: dwsw1h01 -> DWSW1H01
+  GORTAN4   Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  GORTAN5   Quasit
+    lring: ringdemn -> RINGDEMN
+    weapon1: imp -> IMP
+  GORTAN6   Maurezhi
+    helmet: helmnoan -> HELMNOAN
+    rring: immune1 -> IMMUNE1
+    weapon1: demmau01 -> DEMMAU01
+  GORTOR1   Torch
+    lring: immune1 -> IMMUNE1
+  GORTOR2   Torch
+    lring: immune1 -> IMMUNE1
+  GORTOR3   Torch
+    lring: immune1 -> IMMUNE1
+  GORTOR4   Torch
+    lring: immune1 -> IMMUNE1
+  GORTOR5   Torch
+    lring: immune1 -> IMMUNE1
+  GORTOR6   Torch
+    lring: immune1 -> IMMUNE1
+  GORWOM01  Nalmissra
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: gorwom1 -> GORWOM1
+  GORWOM02  The Huntress
+    helmet: helm16 -> HELM16
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: gorwom2 -> GORWOM2
+    weapon2: sw2h09 -> SW2H09
+  GORWOM03  Y'tossi
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  GORWOM04  Ameralis Zauviir
+    helmet: helmnoan -> HELMNOAN
+    shield: dwshld01 -> DWSHLD01
+    lring: immune2 -> IMMUNE2
+    weapon1: gorwom4 -> GORWOM4
+  GORWOM05  Hive Mother
+    helmet: helmnoan -> HELMNOAN
+    lring: beholder -> BEHOLDER
+    weapon1: behhiv01 -> BEHHIV01
+  GORWOM06  Xei Win Toh
+    shield: sharswd -> SHARSWD
+    lring: ringdemn -> RINGDEMN
+    weapon1: sharswd -> SHARSWD
+  GPFAM1    Pitch
+    amulet: Immcloud -> IMMCLOUD
+  GPFIGHT1  Boz
+    helmet: helm01 -> HELM01
+    weapon1: halb05 -> HALB05
+  GPHIL03   Huntley
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h04 -> SW1H04
+  GPPRI1    Chandrilla
+    shield: shld03 -> SHLD03
+    weapon1: blun04 -> BLUN04
+    weapon2: slng01 -> SLNG01
+  GPSIMB    Simbja
+    weapon1: dagg01 -> DAGG01
+    weapon2: bow05 -> BOW05
+  GPSKEL1   Skeleton
+    shield: skelshld -> SKELSHLD
+    weapon1: skelclub -> SKELCLUB
+  GPTHIEF1  Damien
+    lring: mage01 -> MAGE01
+    weapon1: sw1h07 -> SW1H07
+  GROMG01   Il-Khan Soldier
+    weapon1: halb01 -> HALB01
+  GROMG02   Il-Khan Soldier
+    weapon1: sw1h01 -> SW1H01
+  GROMG04   Il-Khan Soldier
+    weapon1: sper06 -> SPER06
+  GROMG06   Il-Khan Soldier
+    weapon1: halb01 -> HALB01
+  GROMG07   Il-Khan Soldier
+    weapon1: halb07 -> HALB07
+  GROMG11   Il-Khan Soldier
+    weapon1: bow02 -> BOW02
+  GROMG12   Il-Khan Soldier
+    weapon1: sper06 -> SPER06
+  GROMG13   Il-Khan Battle Mage
+    weapon1: staf18 -> STAF18
+  GROMG14   Il-Khan Soldier
+    weapon1: halb01 -> HALB01
+  GRON      Theshal
+    lring: ring95 -> RING95
+  GUARD1    Bouncer
+    helmet: helm22 -> HELM22
+  HABREGA   Chief Inspector Brega
+    helmet: helmnoan -> HELMNOAN
+    weapon2: bow01 -> BOW01
+  HACTON    Acton Balthis
+    rring: ring19 -> RING19
+  HACTONG   Amnian Bodyguard
+    helmet: helm12 -> HELM12
+  HARPASS1  Lucette
+    helmet: helmnoan -> HELMNOAN
+    shield: shld08 -> SHLD08
+    weapon1: sw1h43 -> SW1H43
+    weapon2: sw1h48 -> SW1H48
+    weapon3: dagg16 -> DAGG16
+  HELLBEH1  Elder Orb
+    lring: beholder -> BEHOLDER
+  HELLBEH2  Elder Orb
+    lring: beholder -> BEHOLDER
+  HELLFEAR  Fear
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  HELLGREE  Greed
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  HELLJON   Jon Irenicus
+    amulet: jonhp1 -> JONHP1
+  HELLJON2  Jon Irenicus
+    amulet: jonhp1 -> JONHP1
+  HELLPRID  Pride
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  HELLSLAY  Slayer
+    amulet: jonhp1 -> JONHP1
+    weapon1: hslaywpn -> HSLAYWPN
+  HELLSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HELLSPY2
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HELLSPY3
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HELLSPY4
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HELLSPY5
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HELLSPY6
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  HGFEL01   Fell Cat
+    lring: ringdemn -> RINGDEMN
+    weapon1: p3-12m4 -> P3-12M4
+  HGMAG01   Fire Giant Mage
+    lring: ring08 -> RING08
+    rring: ring17 -> RING17
+    weapon1: b1-8 -> B1-8
+  HGMAG02   Fire Giant Mage
+    lring: ring08 -> RING08
+    rring: ring17 -> RING17
+    weapon1: b1-8 -> B1-8
+  HGMND2    Shambling Mound
+    rring: ring95 -> RING95
+    weapon1: mound -> MOUND
+  HGMOUND   Shambling Mound
+    rring: ring95 -> RING95
+    weapon1: mound -> MOUND
+  HGNYMPH   Nymph
+    weapon1: hgnymph -> HGNYMPH
+  HGSAL01   Salamander
+    weapon1: hgsalf -> HGSALF
+  HGSKL03   Skeleton Mage
+    lring: ring95 -> RING95
+    weapon1: dagg16 -> DAGG16
+  HGSKU01   Flaming Skull
+    rring: ring95 -> RING95
+  HGWAR01   Fire Giant
+    weapon1: giafir -> GIAFIR
+  HGWAR02   Elite Fire Giant
+    helmet: helm01 -> HELM01
+    weapon1: giafir2 -> GIAFIR2
+  HLARCH    Archer
+    weapon1: bow01 -> BOW01
+  HLASSA    Assassin
+    lring: mage05 -> 
+    weapon1: sw1h08 -> SW1H08
+  HLDEMI    Kangaxx the Demilich
+    lring: ring39 -> RING39
+    rring: demilich -> DEMILICH
+    weapon1: lich02 -> LICH02
+  HLFIGHT   Fighter
+    shield: sw1h07 -> SW1H07
+    weapon1: sw1h07 -> SW1H07
+  HLHIVE    Hive Mother
+    lring: beholder -> BEHOLDER
+  HLMAGE    Mage
+    weapon1: staf01 -> STAF01
+  HLSHYR    Shyressa
+    lring: vampreg2 -> VAMPREG2
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp2 -> VAMP2
+  HLSTAL    Stalman
+    weapon1: blun21 -> BLUN21
+  HLVAXAL   Vaxall
+    lring: beholder -> BEHOLDER
+  HSPECTR1  Spectral Harpist
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  HSPECTR2  Spectral Harpist
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  HSPECTR3  Spectral Harpist
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  HURGISF   Hurgis Baltezan
+    weapon1: sw2h01 -> SW2H01
+  HURGISR   Hurgis Baltezan
+    weapon1: sw2h01 -> SW2H01
+  I#VHAND   Handmaiden of Lolth
+    helmet: helmnoan -> HELMNOAN
+  ICGOB03   Goblin
+    weapon1: Ax1h01 -> AX1H01
+  ICGOB04   Goblin Captain
+    weapon1: Ax1h01 -> AX1H01
+  ICYUAN04  Yuan-ti Elite
+    weapon1: sw1h73 -> SW1H73
+  IDRYAD01  Ulene
+    weapon1: dagg01 -> DAGG01
+  IDRYAD02  Cania
+    weapon1: dagg01 -> DAGG01
+  IDRYAD03  Elyme
+    weapon1: dagg01 -> DAGG01
+  ILLCAMB2  Cambion
+    rring: illblur -> ILLBLUR
+  INVISABO
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  IRETHF03  Assassin
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+  IRETHF04  Shadow Thief Archer
+    weapon1: bow05 -> BOW05
+    weapon2: sw1h07 -> SW1H07
+  ISHCLO01  Assassin
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+  ISHTHF01  Assassin
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+  ISHTHF03  Assassin
+    weapon1: bow05 -> BOW05
+    weapon2: sw1h07 -> SW1H07
+  ISNFV1    Orion's Voice
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  ISNFV2    Selene's Voice
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  ISNFXIN   Fading Shape
+    helmet: helmnoan -> HELMNOAN
+    weapon1: Hspectre -> HSPECTRE
+  ISNFXN    Ganymedes
+    amulet: stonskin -> 
+  ISNFXO2   Orion
+    helmet: helmnoan -> HELMNOAN
+  ISNFXOR   Orion
+    helmet: helmnoan -> HELMNOAN
+  ISNFXSE   Selene
+    weapon1: dagg01 -> DAGG01
+  ISNFXSP   Blind Spirit
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  JADE1     Lennah
+    helmet: helmnoan -> HELMNOAN
+  JADE2     Thenry
+    helmet: helm01 -> HELM01
+    shield: shld15 -> SHLD15
+    rring: ring06 -> RING06
+    weapon1: hamm02 -> HAMM02
+  JADE3     Jeremon
+    helmet: helmnoan -> HELMNOAN
+  JADERMIN  Dermin Courtierdale
+    helmet: helmnoan -> HELMNOAN
+  JAEL01    Hindra Jae'llat
+    weapon1: dwblun01 -> DWBLUN01
+  JAEL02    Rilloa Jae'llat
+    weapon1: dwblun01 -> DWBLUN01
+  JAEL04    Jae'llat Guard
+    weapon1: dwsw1h02 -> DWSW1H02
+  JAGA1     Bessen
+    weapon1: dart03 -> DART03
+    weapon2: dart01 -> DART01
+  JAGA2     Kail
+    weapon1: sw1h44 -> SW1H44
+  JAGA3     Nadinal
+    rring: ohringwi -> OHRINGWI
+    weapon1: staf02 -> STAF02
+  JAGALVAR  Galvarey
+    helmet: helmnoan -> HELMNOAN
+    weapon1: bow01 -> BOW01
+    weapon2: sw2h02 -> SW2H02
+  JAHEI1    Harper
+    helmet: helmnoan -> HELMNOAN
+  JAHEI2    Harper
+    helmet: helm01 -> HELM01
+    shield: shld15 -> SHLD15
+    rring: ring06 -> RING06
+    weapon1: hamm02 -> HAMM02
+  JAHEI3    Harper
+    helmet: helmnoan -> HELMNOAN
+  JAREV1    Harper
+    helmet: helmnoan -> HELMNOAN
+  JAREV2    Harper
+    helmet: helm01 -> HELM01
+    shield: shld15 -> SHLD15
+    rring: ring06 -> RING06
+    weapon1: hamm02 -> HAMM02
+  JAREV3    Harper
+    helmet: helmnoan -> HELMNOAN
+  JAREVIA   Reviane
+    helmet: helmnoan -> HELMNOAN
+    weapon1: halb07 -> HALB07
+  JARLAXLE  Jarlaxle
+    weapon1: dwsw1h02 -> DWSW1H02
+    weapon2: dagg15 -> DAGG15
+  JATERMIN  Terminsel
+    helmet: helm01 -> HELM01
+    lring: stonskin -> 
+  JOLUS     Sir Jolus
+    shield: shld30 -> SHLD30
+    weapon1: sw1h07 -> SW1H07
+  JONDEM01  Glabrezu
+    lring: immune2 -> IMMUNE2
+  JONDEM02  Balor
+    lring: immune2 -> IMMUNE2
+  JONDEM03  Glabrezu
+    lring: immune2 -> IMMUNE2
+  JONDEM04  Balor
+    lring: immune2 -> IMMUNE2
+  JONDEM05  Glabrezu
+    lring: immune2 -> IMMUNE2
+  JUMJUM    Il-Khan Medusa
+    weapon1: jumjum -> JUMJUM
+  KALWRK01  Circus Performer
+    weapon1: dart01 -> DART01
+    weapon2: dart01 -> DART01
+    weapon3: dart01 -> DART01
+  KAOL      Kaol
+    weapon1: staf01 -> STAF01
+  KAYSMG01  Rindus
+    rring: ring07 -> RING07
+  KENDAK    Sir Laren
+    helmet: helm01 -> HELM01
+    weapon1: blun04 -> BLUN04
+  KGENIE1   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  KGENIE2   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  KOBCAP01  Kobold Captain
+    weapon1: sw1h07 -> SW1H07
+  KORCRAZY  Crazyface
+    weapon1: staf01 -> STAF01
+  KORGOO01  Goon
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  KORGOO02  Goon
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  KORSCROO  Scrooloose
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  KORSHAG   Shagbag
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  KPCAPT01  Captain Arat
+    weapon1: bow01 -> BOW01
+    weapon2: sw1h04 -> SW1H04
+  KPCAPT02  Captain Cernick
+    weapon1: bow01 -> BOW01
+    weapon2: sw1h04 -> SW1H04
+  KPCAPT03  Captain Cernick
+    weapon1: bow01 -> BOW01
+    weapon2: sw1h04 -> SW1H04
+  KPGATE01  Guard
+    helmet: helm01 -> HELM01
+    weapon1: sw2h01 -> SW2H01
+  KPGATE02  Guard
+    helmet: helm01 -> HELM01
+    weapon1: sw2h01 -> SW2H01
+  KPGRD01   Lastin
+    weapon1: sw1h04 -> SW1H04
+  KPROEN01  Lord Roenall
+    shield: shld15 -> SHLD15
+    weapon1: sw1h02 -> SW1H02
+  KPROEN02  Roenall Guard
+    weapon1: dagg01 -> DAGG01
+    weapon2: bow03 -> BOW03
+  KPROEN03  Roenall Guard
+    weapon1: staf01 -> STAF01
+  KPROEN04  Roenall Soldier
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  KPROEN05  Roenall Soldier
+    weapon1: sw1h04 -> SW1H04
+    weapon2: bow05 -> BOW05
+  KPSOLD01  Hendron
+    helmet: helm01 -> HELM01
+    weapon1: sper01 -> SPER01
+  KPSOLD02  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sper01 -> SPER01
+  KPSOLD03  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sper01 -> SPER01
+  KPSOLD04  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sper01 -> SPER01
+  KPSOLD05  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sper01 -> SPER01
+  KPSOLD06  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    shield: shld05 -> SHLD05
+    weapon1: sw1h01 -> SW1H01
+  KPSOLD07  de'Arnise Guard
+    weapon1: sw1h07 -> SW1H07
+    weapon2: bow05 -> BOW05
+  KPSOLD08  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow05 -> BOW05
+    weapon2: sper01 -> SPER01
+  KPSOLD09  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    weapon1: blun01 -> BLUN01
+  KPSOLD10  de'Arnise Guard
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+  KRUIN     Kruin
+    weapon1: sw2h01 -> SW2H01
+    weapon2: sw2h15a -> SW2H15A
+  KUOARC20  Kuo-toan Archer
+    lring: kuoring -> KUORING
+    weapon1: xbow17 -> XBOW17
+  KUOCAP01  Kuo-toan Captain
+    rring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  KUOCLE20  Kuo-toan Captain
+    lring: kuoring -> KUORING
+    weapon1: blun33 -> BLUN33
+  KUOLIE01  Kuo-toan Lieutenant
+    rring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04
+  KUOMAG01  Kuo-toan Wizard
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+  KUOMON01  Kuo-toan Monitor
+    rring: kuoring -> KUORING
+    weapon1: s1-8 -> S1-8
+  KUOPRI01  Kuo-toan Priest
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+    weapon2: xbow04 -> XBOW04
+  KUOTOA01  Kuo-toan Warrior
+    lring: kuoring -> KUORING
+    weapon1: kuobow -> KUOBOW
+    weapon2: kuosper -> KUOSPER
+  KUOWAR01  Kuo-toan Warrior
+    rring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  KUOWAR20  Kuo-toan Warrior
+    lring: kuoring -> KUORING
+    weapon1: sper06 -> SPER06
+  KUOWHI01  Kuo-toan Whip
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+  KYLIE     Kylie Jansen
+    weapon1: dagg02 -> DAGG02
+  KYLIE1    Kylie Jansen
+    weapon1: dagg02 -> DAGG02
+  L#2EDJCK  Jackly
+    rring: ring95 -> RING95
+  L#2SDEDG  Shady Character
+    weapon1: sw1h07 -> SW1H07
+  L#2SDMO4  Soultaker's Manifestation
+    lring: ringdemn -> RINGDEMN
+  L#2SDNEM  Nem
+    weapon1: staf01 -> STAF01
+  L#2SDPIR  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  L#ADV2    Joah
+    weapon1: sw1h43 -> SW1H43
+  L#AFDRA   Vivembirondt
+    helmet: helmnoan -> HELMNOAN
+  L#ASGHO   Ghost
+    helmet: helmnoan -> HELMNOAN
+  L#ASNOB   Fauxar
+    rring: ring12 -> RING12
+  L#ASPTH   Thief
+    weapon2: xbow04 -> XBOW04
+  L#ASTHI   Ivthi
+    helmet: helmnoan -> HELMNOAN
+    weapon1: dagg02 -> DAGG02
+  L#ASTHU   Thug
+    weapon2: slng01 -> SLNG01
+  L#CURS    Curse
+    weapon1: nishruu -> NISHRUU
+  L#FOGRA   Gray Spectre
+    weapon1: ������ -> 
+  L#FSPS2   Shadow
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  L#JNBONE  Dried Bones
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: reghp2r -> REGHP2R
+    weapon1: bonefd -> BONEFD
+  L#JNDYBB  Dybbuk-Possessed Priest
+    lring: ringdemn -> RINGDEMN
+  L#JNSUC   Succubus
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+  L#NDPAR   Parasite
+    rring: wallpass -> WALLPASS
+    weapon1: waterele -> WATERELE
+  L#NDPRI   Watcher Tanta
+    rring: ring05 -> RING05
+    weapon2: sw1h41 -> SW1H41
+  L#NIMF5   Uklj the Serpent of Infinity
+    lring: elemprin -> ELEMPRIN
+    rring: wallpass -> WALLPASS
+  L#NIMF6   Ukk'an the Bone of Wrath
+    lring: ring95 -> RING95
+    weapon1: blun21 -> BLUN21
+  L#NINOB   Antisocial Noble
+    weapon1: staf02 -> STAF02
+  L#NISNA   Tromblo
+    weapon1: p1-2p -> P1-2P
+  L#NISST   Sakara
+    weapon1: staf01 -> STAF01
+  L#NSBEH   Eyeblinker
+    lring: beholder -> BEHOLDER
+  L#NWDOP   Koreeh
+    weapon2: sw1h07 -> SW1H07
+  L#NWGL1   Jin Kito
+    helmet: helm01 -> HELM01
+  L#NWGL3   Fhalur Dendark
+    helmet: helm01 -> HELM01
+  L#NWOER   Quiet Woman
+    shield: shld04 -> SHLD04
+    weapon1: sw1h20 -> SW1H20
+  L#RVBANS  Geist
+    rring: immune1 -> IMMUNE1
+    amulet: immchs -> IMMCHS
+    weapon1: b1-8m2 -> B1-8M2
+  L#RVBBB   Crooked Death's Head Tree
+    rring: ring95 -> RING95
+  L#RVBSM   Blacksmith's Ghost
+    rring: ring95 -> RING95
+  L#RVKNI   Undead Knight
+    helmet: helmnoan -> HELMNOAN
+  L#RVLOUP  Viâsz, the Loup Garou
+    lring: ringwolf -> RINGWOLF
+  L#RVSKLP  Skeletal Priest
+    lring: ring95 -> RING95
+  L#RVTREA  Bloodied Treant
+    rring: ring95 -> RING95
+  L#RVWOM   Will O'Mist
+    amulet: Immcloud -> IMMCLOUD
+  L#SHA1    Shadow
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  L-BREG3   D'aerthe Guard
+    weapon1: dwsw1h02 -> DWSW1H02
+  L0GHAS    Ghastlycleaver
+    lring: immune2 -> IMMUNE2
+    weapon1: bl3-12M4 -> BL3-12M4
+  L0MERCH   Merchant
+    weapon1: spectr -> SPECTR
+  L0SMWII   Cold Light
+    rring: ring95 -> RING95
+  L0SPID    Dencrawler Spider
+    rring: MAGE06 -> 
+  L0SPIDX   Spider
+    rring: MAGE06 -> 
+  L0SUMM5   Spectre
+    weapon1: spectr -> SPECTR
+  L0TREE    Dark Treant
+    rring: ring95 -> RING95
+  L0UDWI    Dense Energy
+    amulet: Immcloud -> IMMCLOUD
+  LANDLORD  Landlord
+    lring: ring13 -> RING13
+  LATKNI01  Morning Knight
+    helmet: helm10 -> HELM10
+  LATKNI02  Morning Knight
+    helmet: helm10 -> HELM10
+  LAUNE     Meredath
+    weapon1: vamp1 -> VAMP1
+  LEGDOR    Legdoril
+    shield: shld01 -> SHLD01
+    weapon1: blun04 -> BLUN04
+  LESTER    Uncle Lester
+    amulet: MAGE06 -> 
+  LK#NITHF  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  LLYNIS    Llynis
+    shield: shld08 -> SHLD08
+    weapon1: dart01 -> DART01
+    weapon2: sw1h07 -> SW1H07
+    weapon3: dart01 -> DART01
+  LOUTCAPT  Captain Dennis
+    helmet: helm01 -> HELM01
+    weapon1: xbow01 -> XBOW01
+    weapon2: halb01 -> HALB01
+    weapon3: dagg11 -> DAGG11
+  LOUTM01   Mercenary of Riatavin
+    helmet: helm01 -> HELM01
+    weapon1: sw2h01 -> SW2H01
+  LOUTM02   Mercenary of Riatavin
+    weapon1: staf01 -> STAF01
+  LOVEONE1  Fayanna
+    lring: minhp1 -> MINHP1
+  LOVEONE2  Khalid
+    lring: minhp1 -> MINHP1
+  LOVEONE3  Valas
+    lring: minhp1 -> MINHP1
+  LOVEONE4  Moira
+    lring: minhp1 -> MINHP1
+  LOVEONE5  Rowyn
+    lring: minhp1 -> MINHP1
+  LYROS     Xzar
+    helmet: helmnoan -> HELMNOAN
+  M05DEMON  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  M05ELF1   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  M05ELF2   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  M05PCSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  MADAM     Madame Nin
+    lring: ring19 -> RING19
+    amulet: amul11 -> AMUL11
+  MAGE14B   Zyntris
+    lring: stonskin -> 
+  MAGE14M   Zyntris
+    lring: stonskin -> 
+  MAGE16B   Zyntris
+    rring: stonskin -> 
+  MAGE16M   Zyntris
+    lring: stonskin -> 
+  MAGE20    Mage
+    weapon1: staf02 -> STAF02
+  MAGE20B   Mage
+    weapon1: staf02 -> STAF02
+  MAGE20C   Mage
+    weapon1: staf02 -> STAF02
+  MAGE8E    Relonar
+    weapon1: staf01 -> STAF01
+  MDDUST    Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  MDEARTH   Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  MDEARTH2  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  MDK2DOC   Doc "cheezy" Hawkins
+    lring: mdk2ring -> MDK2RING
+    weapon1: mdk2mtov -> MDK2MTOV
+  MDK2KURT  The Infamous Kurt
+    weapon1: mdk2gun -> MDK2GUN
+  MDK2MAX   Arny Max
+    weapon1: mdk2gun -> MDK2GUN
+  MDRAK     Maharajah
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  MEKRAT    Mekrath
+    lring: STONSKIN -> 
+  MEL01     Melissan
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    rring: mel01 -> MEL01
+  MELISS01  Melissan
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    rring: imoenhp1 -> IMOENHP1
+  MELRAT
+    lring: invulner -> INVULNER
+  MELSUM01  Glabrezu
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  MELSUM02  Bone Fiend
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    amulet: reghp2r -> REGHP2R
+    weapon1: bonefd -> BONEFD
+  MELSUM04  Balor
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  MELSUM05  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  MEPAIR01  Air Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  MEPDUS01  Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  MEPEAR01  Earth Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPICE02  Ice Mephit
+    amulet: Immcloud -> IMMCLOUD
+    weapon1: mepice -> MEPICE
+  MEPLIG01  Lightning Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPMAG01  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPMAG02  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPMIN01  Mineral Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPMIS01  Mist Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPOOZ01  Ooze Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPRAD01  Radiant Mephit
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  MEPRAD02  Radiant Mephit
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  MEPSAL01  Salt Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPSMO01  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPSMO02  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPSTE01  Steam Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MERONIA   Meronia
+    helmet: helmnoan -> HELMNOAN
+    lring: ring06 -> RING06
+  MGAPPR01  Larz
+    weapon1: dart01 -> DART01
+  MGAPPR02  Morul
+    weapon1: dart01 -> DART01
+  MGAPPR03  Nara
+    weapon1: dart01 -> DART01
+  MGASS01   Sergeant Natula
+    helmet: helm08 -> HELM08
+    weapon1: sw2h01 -> SW2H01
+  MGASS02   Tyrian
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h01 -> SW1H01
+  MGKETG01  Man-at-Arms
+    helmet: helm08 -> HELM08
+    weapon1: halb01 -> HALB01
+  MGKETG02  Archer
+    helmet: helm08 -> HELM08
+    weapon1: bow01 -> BOW01
+    weapon2: Ax1h01 -> AX1H01
+  MINDVA01  Vampiric Illithid
+    lring: immune1 -> IMMUNE1
+    rring: vampreg2 -> VAMPREG2
+    weapon1: mindfl02 -> MINDFL02
+  MINDVAM   Vampiric Illithid
+    lring: immune1 -> IMMUNE1
+    rring: vampreg2 -> VAMPREG2
+    weapon1: mindfl02 -> MINDFL02
+  MOONDOG   Cerebus
+    lring: mdog1 -> MDOG1
+    rring: immune2 -> IMMUNE2
+    weapon1: p3-12m4 -> P3-12M4
+  MS7BGRD   Boneguard
+    weapon1: b1-10m2 -> B1-10M2
+  MS7UMBH   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  MUGGER1   Shady Character
+    weapon2: Dart01 -> DART01
+  MUGGER2   Shady Character
+    weapon2: Dart01 -> DART01
+  MUGGER3   Shady Character
+    weapon2: Dagg05 -> DAGG05
+    weapon3: Dagg05 -> DAGG05
+  MUGGER4   Ogre
+    helmet: helm01 -> HELM01
+    weapon1: Blun06 -> BLUN06
+  NEVM1     Wight
+    weapon1: wight -> WIGHT
+  NOBLE1    Nobleman
+    rring: ring12 -> RING12
+  NOSAVE
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  O#BRIMP1  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  O#BRIMP2  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  O#BRIMP3  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  O#BRIMP4  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  O#BRYCW1  Cowled Enforcer
+    amulet: stonskin -> 
+  O#BRYNT5  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#BRYNT7  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#CRENF1  Cowled Enforcer
+    amulet: STONSKIN -> 
+  O#CRENF2  Cowled Enforcer
+    amulet: STONSKIN -> 
+  O#DAECAP  Captain Arat
+    weapon1: bow01 -> BOW01
+    weapon2: sw1h04 -> SW1H04
+  O#DAEGUY  Wounded Man
+    weapon1: blun21 -> BLUN21
+  O#DAEMA1  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  O#DAEMA2  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  O#DAEMA3  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  O#DAEMAJ  Evil Majordomo
+    weapon1: sw2hdeat -> SW2HDEAT
+  O#DAEMON  Daemon
+    shield: sw1h52 -> SW1H52
+    weapon1: sw1h52 -> SW1H52
+  O#DORA10  Cowled Battle Mage
+    rring: stonskin -> 
+  O#DORAB2  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#DORAB3  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#DORAB5  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#DORAB6  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#DORAB7  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#DORAB9  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  O#GALV2   Archer
+    helmet: helm08 -> HELM08
+    weapon1: bow01 -> BOW01
+    weapon2: Ax1h01 -> AX1H01
+  O#GONICA  Captain Rivers
+    weapon1: sw1h05 -> SW1H05
+  O#HABOD1  Amnian Bodyguard
+    helmet: helm12 -> HELM12
+  O#HABOD2  Amnian Bodyguard
+    helmet: helm12 -> HELM12
+  O#HAJAN   Janos
+    weapon1: staf02 -> STAF02
+  O#HALIEU  Amnian Centurion
+    weapon1: sper01 -> SPER01
+  O#JEREMY  Captain Jeremy
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dart01 -> DART01
+  O#LLARD1  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLARD2  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLARD3  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLARD4  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLARD5  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLARD6  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLARG1  Magic Golem
+    weapon1: golmag01 -> GOLMAG01
+  O#LLARG2  Magic Golem
+    weapon1: golmag01 -> GOLMAG01
+  O#LLARG3  Magic Golem
+    weapon1: golmag01 -> GOLMAG01
+  O#LLBAN1  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLBAN2  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLBAN3  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLBRO2  Drow
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLBROW  Drow Wizard
+    weapon1: staf01 -> STAF01
+  O#LLCAPT  Captain Jeven
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLDARR  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLDEM   Demon
+    lring: ringdemn -> RINGDEMN
+    rring: minhp1 -> MINHP1
+  O#LLFIG1  Jergan
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLFIG2  K'Hui
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLFIG3  Vintul
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLFIG4  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLFIG5  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLFIG6  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLFIGM  Mas'sai
+    weapon1: staf01 -> STAF01
+  O#LLGIT2  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIT3  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIT4  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGITH  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIW   Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIW1  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIW2  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIW3  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGIW4  Knight
+    weapon1: sw2h01 -> SW2H01
+  O#LLGOL1  Brain Golem
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  O#LLGOL2  Brain Golem
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  O#LLGOL3  Brain Golem
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  O#LLGUA3  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLGUA4  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLGUA5  Yochlol
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLGUA6  Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  O#LLISTE  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLJARL  Jarlaxle
+    weapon1: dwsw1h02 -> DWSW1H02
+    weapon2: dagg15 -> DAGG15
+  O#LLJEY   Jey're Jeven
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLJEY1  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLJEY2  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLJEY3  Drow
+    weapon1: dwsw1h01 -> DWSW1H01
+  O#LLLORN  Lorn Jeven
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  O#LLMATR  Matron Mother Jeven
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLMERA  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLMERP  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLMERS  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLMERW  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLMESS  Drow
+    weapon1: dagg01 -> DAGG01
+  O#LLPRI2  Drow Priestess
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLPRIE  Drow Priestess
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIEL  Drow Priestess
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV0  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV1  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV2  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLRIV3  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV4  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLRIV5  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLRIV6  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV7  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLRIV8  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  O#LLRIV9  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLSPY4  Drow Wizard
+    weapon1: staf01 -> STAF01
+  O#LLTAV   Drow Bartender
+    weapon1: dwblun01 -> DWBLUN01
+  O#LLZEDM  Drow Wizard
+    weapon1: staf01 -> STAF01
+  O#REVIN   Revin
+    shield: shld01 -> SHLD01
+  O#REVINS  Revin's Slaver Contact
+    shield: sw1h08 -> SW1H08
+    weapon1: sw1h29 -> SW1H29
+  O#ROSLIN  Roslin
+    weapon1: staf01 -> STAF01
+  O#WIZATH  Cowled Enforcer
+    amulet: stonskin -> 
+  O#WIZSLA  Cowled Enforcer
+    amulet: stonskin -> 
+  O#WIZSP5  Cowled Battle Mage
+    rring: stonskin -> 
+  O#WIZSPE  Cowled Enforcer
+    amulet: stonskin -> 
+  O#WOLL    Captain Woll
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dart01 -> DART01
+  O#WOLLF1  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  O#WOLLF2  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  O#WOLLF3  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  O#WOLLFM  Pirate Leader
+    weapon1: sw1h22 -> SW1H22
+  OBSDEM01  Lea'liyl
+    lring: ringdemn -> RINGDEMN
+  OBSDEM04  Maurezhi
+    weapon1: maurezhi -> MAUREZHI
+  OBSDEM05  Nabassu
+    lring: reghp2 -> REGHP2
+  OBSERVE
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  OBSFIR02  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  OBSFIR04  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  OBSHAL02  Togan
+    helmet: helm01 -> HELM01
+    weapon2: bow09 -> BOW09
+  OBSHAL04  Halfling Warrior
+    helmet: helm01 -> HELM01
+    weapon1: blun06 -> BLUN06
+  OBSICE11  Snow Troll
+    lring: trolldie -> TROLLDIE
+    amulet: trolldie -> TROLLDIE
+  OBSSAH01  Sahuagin Baron
+    weapon1: xbow04 -> XBOW04
+    weapon2: sper01 -> SPER01
+  OBSSAH02  Sahuagin Priestess
+    weapon1: sper01 -> SPER01
+  OBSSAH03  Sahuagin Baronial Guard
+    weapon1: sper01 -> SPER01
+    weapon2: xbow04 -> XBOW04
+  OBSSAH04  Sahuagin
+    weapon1: sper01 -> SPER01
+    weapon2: xbow04 -> XBOW04
+  OBSSAH05  Sahuagin
+    weapon1: sper01 -> SPER01
+    weapon2: xbow04 -> XBOW04
+  OGRESU    Ogre
+    weapon1: ogre1 -> OGRE1
+  OHB3IREN  Jon Irenicus
+    amulet: STONSKIN -> 
+  OHBDANC1  Dancer
+    rring: ring16 -> RING16
+  OHBDANC2  Dancer
+    rring: ring16 -> RING16
+  OHBIMASC  Imascus
+    weapon1: staf01 -> STAF01
+    weapon2: dart01 -> DART01
+  OHBMENA5  Boalisk
+    weapon1: p1-2p -> P1-2P
+  OHBSAH02  Sahuagin Priestess
+    weapon1: sper01 -> SPER01
+  OHBSAH03  Sahuagin Baron
+    weapon1: xbow04 -> XBOW04
+    weapon2: sper01 -> SPER01
+  OHBVMP04  Vampire
+    lring: vampreg2 -> VAMPREG2
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp2 -> VAMP2
+  OHBWAT01  Greater Water Elemental
+    rring: wallpass -> WALLPASS
+    weapon1: waterele -> WATERELE
+  OHDBY02   Mercenary
+    helmet: helm33 -> HELM33
+    shield: Shld04 -> SHLD04
+    weapon1: SW1h05 -> SW1H05
+  OHDCHAN1  Petitioner
+    amulet: STONSKIN -> 
+  OHDCHAN2  Petitioner
+    amulet: STONSKIN -> 
+  OHDCHAN3  Petitioner
+    amulet: STONSKIN -> 
+  OHDNAIMA  Naiman Alore
+    amulet: STONSKIN -> 
+  OHDSAEM   Saemon Havarian
+    shield: sw1h52 -> SW1H52
+    weapon1: sw1h52 -> SW1H52
+  OHHHAFIZ  Diya al-Hafiz
+    amulet: STONSKIN -> 
+  OHHIQBAL  Iqbal al-Din
+    amulet: STONSKIN -> 
+  OHHQAIS   Qais Ra'id
+    amulet: STONSKIN -> 
+  OHHSPI01  Spider
+    rring: MAGE06 -> 
+  OHHSPI02  Spider
+    rring: MAGE06 -> 
+  OHHSPI03  Spider
+    rring: MAGE06 -> 
+  OHHWEIMI  Weimin Min
+    helmet: helmnoan -> HELMNOAN
+    weapon1: blun21 -> BLUN21
+  OHNAMNS   Amnian Legionary
+    weapon1: sper01 -> SPER01
+  OHNAVRUM  Avrum
+    helmet: helm01 -> HELM01
+    weapon1: sw1h05 -> SW1H05
+  OHNOGREB  Ogre
+    weapon1: ogre1 -> OGRE1
+  OHRSHAD1  Shadow Creature
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  OHRSHAD2  Shadow Creature
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  OHRSHAD3  Shadow Creature
+    lring: immune2 -> IMMUNE2
+    rring: ring95 -> RING95
+    weapon1: wraith1 -> WRAITH1
+  OHRSHFIE  Shadow Fiend
+    rring: ring95 -> RING95
+  OHRSHG01  Shadow Guard
+    helmet: helm01 -> HELM01
+    weapon1: halb07 -> HALB07
+  OHRSHG02  Shadow Guard
+    helmet: helm01 -> HELM01
+    weapon1: halb07 -> HALB07
+  ORPHAN2   Peasant
+    lring: ridring -> RIDRING
+    rring: invulner -> INVULNER
+  PACE      Pace
+    helmet: helmnoan -> HELMNOAN
+    shield: shld08 -> SHLD08
+    weapon1: sw1h08 -> SW1H08
+  PARDRU    Sorsha
+    helmet: helm01 -> HELM01
+    weapon1: sw1h20 -> SW1H20
+  PARFIG16  Jalin Tix
+    shield: shld01 -> SHLD01
+    weapon1: dart01 -> DART01
+    weapon2: dart01 -> DART01
+    weapon3: dart01 -> DART01
+    weapon4: sw1h01 -> SW1H01
+  PARTHF    Alnarow
+    weapon1: sw1h07 -> SW1H07
+  PBHUNT02  Bounty Hunter
+    weapon1: bow03 -> BOW03
+    weapon2: sw1h04 -> SW1H04
+  PBHUNT05  Bounty Hunter
+    shield: shld02 -> SHLD02
+    lring: mage01 -> MAGE01
+    weapon1: dagg13 -> DAGG13
+  PCAPT02   Prison Captain
+    weapon1: sw2h02 -> SW2H02
+  PCAPT03   Prison Captain
+    weapon1: xbow01 -> XBOW01
+    weapon2: sw1h05 -> SW1H05
+  PCAPT04   Prison Captain
+    weapon1: staf01 -> STAF01
+  PCAPT05   Prison Captain
+    shield: shld03 -> SHLD03
+    lring: ring06 -> RING06
+    weapon1: sw1h05 -> SW1H05
+  PCAPT06   Prison Captain
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: blun05 -> BLUN05
+  PGNALGHA  Ghazamonar
+    weapon1: dart01 -> DART01
+  PGNALPOC  Pockney
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h01 -> SW1H01
+  PGNALTER  Tereen
+    helmet: helm08 -> HELM08
+    weapon1: sw2h01 -> SW2H01
+  PIREXE01  Executioner
+    weapon2: blun06 -> BLUN06
+  PIRKID01  Ason
+    lring: minhp1 -> MINHP1
+  PIRMUR02  Assassin
+    weapon1: bow06 -> BOW06
+    weapon2: sw1h07 -> SW1H07
+  PIRMUR04  Guard
+    weapon1: halb01 -> HALB01
+  PIRMUR07  Vadek
+    weapon1: staf18 -> STAF18
+  PIRMUR08  Guard
+    weapon1: halb07 -> HALB07
+  PIRPIR05  Chremy
+    weapon1: sw1h01 -> SW1H01
+  PIRPIR07  Pirate Bill
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  PIRSEA02  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  PLFARM04  Brunson
+    weapon1: sw1h07 -> SW1H07
+  PLFARM05  Pardo
+    shield: shld01 -> SHLD01
+    weapon1: sw1h07 -> SW1H07
+  PLFARM06  Moreno
+    shield: shld01 -> SHLD01
+    weapon1: ax1h01 -> AX1H01
+  PLYOGRE   Ogre
+    weapon1: ogre1 -> OGRE1
+  PLYSPID   Sword Spider
+    rring: MAGE06 -> 
+  PPALT     Altar
+    lring: immune1 -> IMMUNE1
+  PPALTK1   Kobold Shaman
+    weapon1: staf01 -> STAF01
+  PPALTK2   Kobold Shaman
+    weapon1: blun01 -> BLUN01
+  PPAPHRIL  Aphril
+    amulet: minhp1 -> MINHP1
+  PPARAN2   Aran Linvail
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h29 -> SW1H29
+    weapon2: xbow09 -> XBOW09
+  PPBHAAL   Bhaal
+    lring: minhp1 -> MINHP1
+    weapon1: sarevo -> SAREVO
+  PPBODHI3  Bodhi
+    lring: vampreg2 -> VAMPREG2
+    rring: immune2 -> IMMUNE2
+    amulet: minhp1 -> MINHP1
+    weapon1: vamp3 -> VAMP3
+  PPBODHI4  Bodhi
+    lring: vampreg2 -> VAMPREG2
+    rring: immune2 -> IMMUNE2
+    amulet: minhp20 -> MINHP20
+    weapon1: vamp3 -> VAMP3
+  PPDEL     Del
+    rring: immune2 -> IMMUNE2
+  PPDEMON   Demon
+    lring: ringdemn -> RINGDEMN
+    rring: minhp1 -> MINHP1
+  PPDESH    Desharik
+    shield: sw1h22 -> SW1H22
+    weapon1: sw1h22 -> SW1H22
+  PPDESH2   Desharik
+    shield: sw1h22 -> SW1H22
+    weapon1: sw1h22 -> SW1H22
+  PPDILI    Dili
+    amulet: minhp1 -> MINHP1
+  PPDJINN   Genie
+    weapon1: b3-18m3 -> B3-18M3
+  PPDOOR    Pirate Door Guard
+    shield: dagg01 -> DAGG01
+    weapon1: sw1h07 -> SW1H07
+  PPDRA2    Dradeel
+    lring: stonskin -> 
+  PPDRADEE  Dradeel
+    lring: stonskin -> 
+    amulet: minhp1 -> MINHP1
+  PPDRIMOV  Imoen
+    rring: mage01 -> MAGE01
+  PPDUEL1   Andante
+    weapon1: sw1h04 -> SW1H04
+  PPDUEL2   Dirbish the Black
+    weapon1: sw1h04 -> SW1H04
+  PPGITH    Githyanki Captain
+    rring: minhp1 -> MINHP1
+  PPGITHGI  Githyanki
+    weapon1: blun06 -> BLUN06
+  PPGITHMA  Githyanki
+    weapon1: staf01 -> STAF01
+  PPGUARD   Pirate
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dart01 -> DART01
+  PPGUARDA  Pirate
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dart01 -> DART01
+  PPINVI01  Magnet
+    lring: immune1 -> IMMUNE1
+    rring: mage01 -> MAGE01
+  PPIRENI1  Coordinator
+    lring: minhp1 -> MINHP1
+  PPIRENI2  Jon Irenicus
+    rring: minhp1 -> MINHP1
+  PPJOYE    Dace Sontan
+    lring: vampreg1 -> VAMPREG1
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp1 -> VAMP1
+  PPLDR01   Pirate Leader
+    weapon1: sw1h22 -> SW1H22
+  PPMAG01   Pirate Mage
+    weapon1: staf02 -> STAF02
+  PPMUR     Murderer
+    lring: mage01 -> MAGE01
+    weapon1: sw1h07 -> SW1H07
+  PPNAB01   Nabassu
+    lring: reghp2 -> REGHP2
+  PPNAB02   Nabassu
+    lring: reghp2 -> REGHP2
+  PPNAB03   Nabassu
+    lring: reghp2 -> REGHP2
+  PPNALJ    Naljier Skal
+    amulet: minhp1 -> MINHP1
+  PPPARIS   Parisa
+    rring: immune2 -> IMMUNE2
+  PPPIRATE  Pirate
+    weapon1: sw1h07 -> SW1H07
+  PPRIDD    Statue
+    lring: immune1 -> IMMUNE1
+    amulet: minhp1 -> MINHP1
+  PPRIGHT   Dunbar
+    weapon1: sw1h07 -> SW1H07
+  PPSAEM2   Saemon Havarian
+    weapon1: misc8u -> MISC8U
+  PPSAEM3   Saemon Havarian
+    weapon1: misc8u -> MISC8U
+  PPSAHA    Sahuagin
+    weapon1: xbow04 -> XBOW04
+    weapon2: sper01 -> SPER01
+  PPSAHALE  Sahuagin Baron
+    rring: minhp1 -> MINHP1
+    weapon1: sper01 -> SPER01
+  PPSAIL01  Pirate
+    weapon1: sw1h20 -> SW1H20
+  PPSAIL02  Pirate
+    weapon1: sw1h20 -> SW1H20
+  PPSAIL03  Pirate
+    weapon4: sw1h20 -> SW1H20
+  PPSAILOR  Sailor
+    rring: minhp1 -> MINHP1
+    weapon1: sw1h01 -> SW1H01
+  PPSHA     Saemon Havarian
+    rring: minhp1 -> MINHP1
+  PPSIME    Sime
+    weapon1: sw1h07 -> SW1H07
+  PPSTAT01  Statue of Riddles
+    lring: immune1 -> IMMUNE1
+    rring: minhp1 -> MINHP1
+  PPTHF01   Pirate
+    shield: dagg01 -> DAGG01
+    weapon1: sw1h04 -> SW1H04
+  PPTHF02   Pirate
+    weapon1: xbow01 -> XBOW01
+    weapon2: sw1h20 -> SW1H20
+  PPTIAX    Tiax
+    amulet: minhp1 -> MINHP1
+  PPUMB01   Priestess of Umberlee
+    weapon1: blun04 -> BLUN04
+  PPVALEN   Valen
+    rring: immune2 -> IMMUNE2
+  PPWANEV   Wanev
+    amulet: minhp1 -> MINHP1
+  PPWORKER  Lonk the Sane
+    amulet: minhp1 -> MINHP1
+  PRIES18B  Zorl
+    weapon1: blun04 -> BLUN04
+  PRIES18C  Zorl
+    weapon2: blun04 -> BLUN04
+  PRISS     Priss
+    weapon1: dagg01 -> DAGG01
+  PROPLAT   Morning Knight
+    helmet: helm10 -> HELM10
+  PTHRAL02  Thrall
+    amulet: misc7y -> MISC7Y
+    weapon1: staf01 -> STAF01
+  PTHRAL03  Thrall Fighter
+    amulet: misc7y -> MISC7Y
+    weapon1: sw1h04 -> SW1H04
+    weapon2: bow05 -> BOW05
+  PTHRAL05  Female Thrall
+    shield: shld03 -> SHLD03
+    lring: ring06 -> RING06
+    amulet: misc7y -> MISC7Y
+    weapon1: sw1h25 -> SW1H25
+  PTHRAL07  Warden's Thrall
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    amulet: misc7y -> MISC7Y
+    weapon1: sw1h05 -> SW1H05
+  PTHRAL08  Thrall
+    amulet: misc7y -> MISC7Y
+    weapon1: staf01 -> STAF01
+  PTHRAL09  Thrall
+    helmet: helm01 -> HELM01
+    amulet: misc7y -> MISC7Y
+    weapon1: hamm02 -> HAMM02
+  PTHRAL10  Thrall
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h01 -> SW1H01
+  PTHRAL11  Thrall
+    weapon1: sw1h07 -> SW1H07
+  PUDDEN01  Dense Pudding
+    weapon1: pudden01 -> PUDDEN01
+  PUDDEN02  Dense Pudding
+    weapon1: pudden01 -> PUDDEN01
+  QCIRC03   Circus Performer
+    weapon1: dart01 -> DART01
+    weapon2: dart01 -> DART01
+    weapon3: dart01 -> DART01
+    weapon4: sw1h01 -> SW1H01
+  RAKMAH01  Maharajah
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RAKRAJ01  Rajah
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RAKRUH01  Ruhk
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RAKSHA01  Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  REBAND01  Bandit
+    weapon1: sw1h07 -> SW1H07
+  REBAND02  Bandit
+    weapon1: dagg01 -> DAGG01
+  REBAND03  Bandit
+    weapon1: sw1h04 -> SW1H04
+  REBAND04  Bandit
+    weapon1: dagg01 -> DAGG01
+  REBAND05  Bandit
+    weapon1: blun01 -> BLUN01
+  RECKON    Duergar
+    weapon1: blun01 -> BLUN01
+  RENAL     Renal Bloodscalp
+    helmet: helmnoan -> HELMNOAN
+    lring: ring15 -> RING15
+    rring: ring18 -> RING18
+    weapon1: sw1h10 -> SW1H10
+    weapon2: xbow05 -> XBOW05
+  REPTHF1   Shadow Thief
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h43 -> SW1H43
+    weapon2: xbow01 -> XBOW01
+  REPTHF2   Shadow Thief
+    helmet: helm01 -> HELM01
+    weapon1: sw1h20 -> SW1H20
+    weapon2: bow01 -> BOW01
+  REPTHF3   Shadow Thief
+    helmet: helm01 -> HELM01
+    weapon1: sw1h20 -> SW1H20
+    weapon2: bow01 -> BOW01
+  RERAK01   Traveler
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RERAK02   Traveler
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RERAK03   Traveler
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RERAK04   Traveler
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  RERAK05   Traveler
+    lring: rakring -> RAKRING
+    weapon2: sw1h04 -> SW1H04
+  RERAK06   Traveler
+    lring: rakring -> RAKRING
+    weapon2: sw1h04 -> SW1H04
+  RESUNA    Suna Seni
+    weapon1: sw1h08 -> SW1H08
+  RETALAK   Talak
+    weapon1: dwblun01 -> DWBLUN01
+  RE_MIT    Mit
+    weapon2: xbow04 -> XBOW04
+  RH#ALIA   Alia
+    weapon1: blun01 -> BLUN01
+  RH#ALIA2  Alia
+    weapon1: blun01 -> BLUN01
+  RH#GELIO  Gelion
+    lring: STONSKIN -> 
+  RH#MIKAI  Mikail
+    helmet: helmnoan -> HELMNOAN
+    lring: ring07 -> RING07
+    weapon1: staf18 -> STAF18
+  RH#SGGRD  Soargyl Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  RH#ZHGRD  Zhentarim Guard
+    weapon1: sw1h07 -> SW1H07
+  RIFTCR01  Greater Ghoul
+    rring: MAGE06 -> 
+  RIFTG03   Avatar
+    rring: avatar -> AVATAR
+    weapon1: staf01 -> STAF01
+  RIGEN03   Tombelthen Soldier
+    shield: shld05 -> SHLD05
+    weapon1: sw1h01 -> SW1H01
+  RNGWLF01  Anath
+    lring: ringwolf -> RINGWOLF
+  RNGWLF02  Anath
+    lring: ringwolf -> RINGWOLF
+  ROCK      Rock
+    helmet: helmnoan -> HELMNOAN
+    shield: ax1h17 -> AX1H17
+    weapon1: ax1h14 -> AX1H14
+  RORCA01   Orc Archer
+    weapon1: bow05 -> BOW05
+  RSPIRIT1  Mairyn
+    lring: ghost -> GHOST
+    rring: ring95 -> RING95
+  RUFFIAN   Amalas
+    helmet: helmnoan -> HELMNOAN
+    weapon1: swudrop -> SWUDROP
+  RUFPAL1   Ruffian
+    weapon1: ax1h01 -> AX1H01
+  RUFPAL2   Ruffian
+    weapon1: blun01 -> BLUN01
+  RUMAR02   Nabassu
+    lring: reghp2 -> REGHP2
+  RUMAR03   Imp
+    weapon2: dart03 -> DART03
+  RYAN      Sir Paritin
+    shield: shld13 -> SHLD13
+    weapon2: sw1h20 -> SW1H20
+  RYLOCK    Rylock
+    helmet: helmnoan -> HELMNOAN
+    rring: ring06 -> RING06
+    weapon1: sw1h05 -> SW1H05
+  SAHAMB01  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHAMB02  Rebel
+    weapon1: sahstaff -> SAHSTAFF
+  SAHAMB03  Rebel
+    weapon1: sahstaff -> SAHSTAFF
+  SAHAMB04  Sahuagin
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahspear -> SAHSPEAR
+  SAHAMB05  Sahuagin
+    weapon1: sahspear -> SAHSPEAR
+  SAHAMB06  Sahuagin
+    weapon1: sahspear -> SAHSPEAR
+  SAHANGU   Anguiliian
+    weapon1: sper01 -> SPER01
+  SAHBAR01  Sahuagin Baronial Guard
+    weapon1: xbow04 -> XBOW04
+  SAHBAR02  Sahuagin Baron
+    weapon1: sper01 -> SPER01
+    weapon2: xbow04 -> XBOW04
+  SAHBAR03  Baron Thelokassyil
+    weapon2: xbow04 -> XBOW04
+  SAHBEH02  Sziltar's Apparition
+    lring: kuoring -> KUORING
+    weapon1: sper01 -> SPER01
+  SAHBEH04  Sziltar's Apparition
+    weapon1: sw1h30 -> SW1H30
+  SAHCAPT1  Captain Alyittyl
+    weapon1: sahspear -> SAHSPEAR
+  SAHCHF01  Sahuagin Chieftain
+    weapon2: xbow04 -> XBOW04
+  SAHCPT01  Captain Alyittyl
+    weapon1: xbow04 -> XBOW04
+  SAHCPT02  Captain Feerlattiys
+    weapon2: xbow04 -> XBOW04
+  SAHEXTRA  Sahuagin Royal Guard
+    weapon1: sahspear -> SAHSPEAR
+    weapon2: xbow01 -> XBOW01
+  SAHGRD01  Sahuagin Royal Guard
+    weapon2: xbow01 -> XBOW01
+  SAHGRD02  Sahuagin Royal Guard
+    weapon1: sahspear -> SAHSPEAR
+  SAHGRD03  Sahuagin Royal Guard
+    weapon1: sahspear -> SAHSPEAR
+    weapon2: xbow01 -> XBOW01
+  SAHIMP03  Elminster
+    amulet: minhp1 -> MINHP1
+  SAHIMP04  Khelben
+    amulet: minhp1 -> MINHP1
+  SAHIMP05  Alustriel
+    amulet: minhp1 -> MINHP1
+  SAHIMP06  Piergeiron
+    amulet: minhp1 -> MINHP1
+  SAHKIN01  Sahuagin King
+    weapon1: s1-4 -> S1-4
+  SAHPR1    Royal High Priestess Senityili
+    weapon1: sahspear -> SAHSPEAR
+  SAHPRI01  Sahuagin Prince
+    weapon1: s1-4 -> S1-4
+  SAHPRI02  Royal High Priestess
+    weapon1: sahspear -> SAHSPEAR
+    weapon2: xbow04 -> XBOW04
+  SAHRAMB1  Rebel
+    weapon2: xbow04 -> XBOW04
+  SAHRAMB2  Rebel
+    weapon1: sahstaff -> SAHSTAFF
+    weapon2: xbow04 -> XBOW04
+  SAHRAMB3  Priestess
+    weapon1: sahstaff -> SAHSTAFF
+  SAHRAMB4  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRAMB5  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRAR01  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHREB02  Prince Villynaty
+    rring: minhp1 -> MINHP1
+  SAHRGR01  Rebel
+    weapon1: xbow04 -> XBOW04
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRGR02  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRGR03  Rebel
+    weapon1: xbow04 -> XBOW04
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRNT01  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHRYL01  Sahuagin Royal Guard
+    weapon1: sahspear -> SAHSPEAR
+    weapon2: xbow04 -> XBOW04
+  SAHSPC01  Specter
+    lring: ghost -> GHOST
+    rring: ring95 -> RING95
+    weapon1: spectr -> SPECTR
+  SAHSSS01  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHSSS02  Rebel
+    weapon1: xbow04 -> XBOW04
+    weapon2: sahstaff -> SAHSTAFF
+  SAHSSS03  Rebel
+    weapon1: xbow01 -> XBOW01
+    weapon2: sahstaff -> SAHSTAFF
+  SAHUAG01  Sahuagin
+    weapon2: sahspear -> SAHSPEAR
+  SAHZOM01  Sea Zombie Lord
+    weapon1: sahzom01 -> SAHZOM01
+  SALGRFIR  Salamander Noble
+    weapon1: salgrfir -> SALGRFIR
+  SALGRICE  Ice Salamander
+    weapon1: salgrice -> SALGRICE
+  SARBAT    Bat
+    lring: minhp1 -> MINHP1
+  SARBUL04  Il-Khan Soldier
+    weapon1: ax1h01 -> AX1H01
+  SARBUL05  Il-Khan Soldier
+    weapon1: sw1h01 -> SW1H01
+  SARDW04   Dwarf
+    weapon1: ax1h01 -> AX1H01
+  SARDW05   Dwarf
+    weapon1: ax1h01 -> AX1H01
+  SARELF05  Elf
+    weapon1: ax1h01 -> AX1H01
+  SARELF06  Elf
+    weapon1: ax1h01 -> AX1H01
+  SAREVOKG  Sarevok
+    lring: ghosteff -> GHOSTEFF
+  SARGRD01  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARGRD02  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARGRD03  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARGRD04  Fighter
+    weapon1: ax1h01 -> AX1H01
+  SARGRD07  Fighter
+    shield: sw1h05 -> SW1H05
+    weapon1: sw1h05 -> SW1H05
+  SARGRD08  Fighter
+    shield: sw1h05 -> SW1H05
+    weapon1: sw1h05 -> SW1H05
+  SARGRD10  Fighter
+    weapon1: ax1h01 -> AX1H01
+  SARGRD11  Fighter
+    weapon1: ax1h01 -> AX1H01
+  SARGRD12  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARGRD13  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARGRD14  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARGRD15  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARGRD16  Militia Guard
+    weapon1: bow02 -> BOW02
+  SARIPG01  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARIPG02  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARIPG03  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARIPG04  Militia Guard
+    helmet: helm08 -> HELM08
+    weapon1: sw2h02 -> SW2H02
+  SARJAI01  Saradush Jailer
+    weapon1: xbow05 -> XBOW05
+    weapon2: sw1h05 -> SW1H05
+  SARKIS01  Kiser Jhaeri
+    helmet: helmnoan -> HELMNOAN
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h74 -> SW1H74
+  SARKIS04  Kiser Jhaeri
+    helmet: helmnoan -> HELMNOAN
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h74 -> SW1H74
+  SARMAG01  Errard
+    weapon1: staf19 -> STAF19
+  SARMIL01  Militia Soldier
+    weapon1: sper01 -> SPER01
+  SARMIL02  Militia Captain
+    weapon1: sw2h11 -> SW2H11
+  SARORC01  Elite Orc
+    weapon1: ax1h02 -> AX1H02
+  SARORO01  Elite Orog
+    weapon1: ax1h02 -> AX1H02
+  SARREIN1  Orc
+    weapon1: ax1h01 -> AX1H01
+  SARREIN2  Human
+    weapon1: sw1h01 -> SW1H01
+  SARSON01  Ardic Santele
+    lring: bumpring -> BUMPRING
+  SARTEM01  Sister Farielle
+    weapon1: blun01 -> BLUN01
+  SARTHF01  Hectan
+    weapon1: sw1h07 -> SW1H07
+  SARTRO01  Orc
+    weapon1: ax1h01 -> AX1H01
+  SARTRO02  Human
+    weapon1: sw1h01 -> SW1H01
+  SARTRO03  Orog
+    weapon1: sw1h01 -> SW1H01
+  SARVOLO   Volo
+    lring: imoenhp1 -> IMOENHP1
+    weapon1: dagg24 -> DAGG24
+  SENANI01  Moose
+    shield: sw1h55 -> SW1H55
+    weapon1: sw1h55 -> SW1H55
+  SENANI04  Rabbit
+    shield: sw1h55 -> SW1H55
+    weapon1: sw1h55 -> SW1H55
+  SENANI05  Pheasant
+    weapon1: sw1h73 -> SW1H73
+  SENBEH01  Spectator
+    lring: minhp1 -> MINHP1
+  SENDAI2   Sendai
+    helmet: helm01 -> HELM01
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  SENDAI3   Sendai
+    helmet: helmnoan -> HELMNOAN
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon2: sper10 -> SPER10
+  SENDAI4   Sendai
+    helmet: helmnoan -> HELMNOAN
+    shield: dagg24 -> DAGG24
+    lring: stonring -> STONRING
+    rring: holdring -> HOLDRING
+    weapon1: sw1h74 -> SW1H74
+  SENDAI5   Sendai
+    helmet: helm01 -> HELM01
+    shield: ax1h17 -> AX1H17
+    lring: holdring -> HOLDRING
+    rring: stonring -> STONRING
+    weapon1: ax1h17 -> AX1H17
+  SENDAI6   Sendai
+    helmet: helmnoan -> HELMNOAN
+    shield: dagg24 -> DAGG24
+    lring: stonring -> STONRING
+    rring: holdring -> HOLDRING
+    weapon1: sw1h74 -> SW1H74
+  SENDAI7   Sendai
+    helmet: helmnoan -> HELMNOAN
+    lring: stonring -> STONRING
+    rring: holdring -> HOLDRING
+    weapon1: staf19 -> STAF19
+  SENDAI8   Sendai
+    helmet: helmnoan -> HELMNOAN
+    lring: stonring -> STONRING
+    rring: holdring -> HOLDRING
+    weapon1: dwwhip -> DWWHIP
+  SENDRO01  Drow
+    shield: sw1h55 -> SW1H55
+    weapon1: sw1h55 -> SW1H55
+  SENDRO03  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+  SENDRO04  Drow
+    shield: dwsw1h01 -> DWSW1H01
+    weapon1: dwsw1h01 -> DWSW1H01
+  SENDRO05  Drow
+    weapon1: dwsw1h02 -> DWSW1H02
+  SENFOD01  Drow
+    shield: sw1h55 -> SW1H55
+    weapon1: sw1h55 -> SW1H55
+  SENGUA01  Woodcutter
+    shield: ax1h17 -> AX1H17
+    weapon1: ax1h17 -> AX1H17
+  SENGUA02  Guard Captain
+    shield: dwsw1h01 -> DWSW1H01
+    weapon1: dwsw1h01 -> DWSW1H01
+  SENGUA03  Captain Egeissag
+    shield: dwsw1h01 -> DWSW1H01
+    weapon1: dwsw1h01 -> DWSW1H01
+  SENGUA05  Drow
+    lring: wallpass -> WALLPASS
+    weapon1: dwxbow01 -> DWXBOW01
+  SENILL01  Mithykyl
+    helmet: helmnoan -> HELMNOAN
+  SENILL02  Mithykyl
+    helmet: helmnoan -> HELMNOAN
+  SENORC01  Derro Berserker
+    helmet: helm01 -> HELM01
+    weapon1: dwhalb01 -> DWHALB01
+  SENORC03  Derro Berserker
+    helmet: helm01 -> HELM01
+    weapon1: dwhalb01 -> DWHALB01
+  SENPRI01  Diaytha
+    shield: shld31 -> SHLD31
+    weapon1: dwwhip -> DWWHIP
+  SENSMSP   Mutated Spider
+    weapon1: spspid3 -> SPSPID3
+  SENSMSP2  Orog
+    helmet: helm01 -> HELM01
+    weapon1: sw2h11 -> SW2H11
+  SENSPI01  Lashar'ra
+    helmet: helmnoan -> HELMNOAN
+    weapon1: senspi01 -> SENSPI01
+  SENSTALK  Invisible Stalker
+    weapon1: stalkesu -> STALKESU
+    weapon2: stalkesu -> STALKESU
+  SEVPAT04  Smaeluv Orcslicer
+    weapon1: sw2h03 -> SW2H03
+  SEVPAT05  Brennan Risling
+    shield: shld01 -> SHLD01
+    lring: ring05 -> RING05
+    weapon1: sw1h08 -> SW1H08
+  SEWARC01  Orc Archer
+    weapon1: bow02 -> BOW02
+  SEWARC02  Orc Archer
+    weapon1: bow02 -> BOW02
+  SEWDUE01  Duergar Sapper
+    weapon1: hamm08 -> HAMM08
+    weapon2: xbow17 -> XBOW17
+  SEWDUE02  Duergar Sapper
+    weapon1: hamm08 -> HAMM08
+  SEWORO01  Elite Orog
+    shield: sw1h29 -> SW1H29
+    weapon1: sw1h29 -> SW1H29
+  SEWRAK01  Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SEWYAG01  Duergar Sapper
+    weapon1: hamm08 -> HAMM08
+    weapon2: xbow17 -> XBOW17
+  SEWYAG02  Orc Archer
+    weapon1: bow02 -> BOW02
+  SEWYAG03  Elite Orog
+    weapon1: ax1h11 -> AX1H11
+  SEWYAG04  Yaga-Shura Mage
+    weapon1: staf02 -> STAF02
+  SHALT01   Shadow Altar
+    lring: immune1 -> IMMUNE1
+  SHANK     Shank
+    weapon1: sw1h07 -> SW1H07
+  SHTH02    Goshan
+    weapon2: xbow05 -> XBOW05
+  SHTH05    Joster
+    weapon1: dagg02 -> DAGG02
+  SHTHOFF1  Sir Greshal
+    shield: shld12 -> SHLD12
+    weapon1: blun05 -> BLUN05
+  SHUGFG01  Vigil Knight
+    helmet: helm10 -> HELM10
+    shield: shld29 -> SHLD29
+    weapon1: sw1h42 -> SW1H42
+  SHUGHO01  Ghostly Apparition
+    lring: minhp1 -> MINHP1
+    weapon1: sw2h11 -> SW2H11
+  SHUGMG01  Vigil Knight
+    weapon1: staf18 -> STAF18
+  SHUGOD01  Odren
+    shield: blun21 -> BLUN21
+    weapon1: blun21 -> BLUN21
+  SHUGOD02  Odren
+    shield: blun21 -> BLUN21
+    lring: minhp1 -> MINHP1
+    weapon1: blun21 -> BLUN21
+  SHUGPR01  Vigil Knight
+    weapon1: blun21 -> BLUN21
+  SHUPOL01  Brother Pol
+    weapon1: blun13 -> BLUN13
+  SICKRAT   Diseased Rat
+    weapon1: p1-2p -> P1-2P
+  SKELHP1   Skeleton
+    rring: minhp1 -> MINHP1
+  SLAMNG01  Amnian Soldier
+    weapon1: sper01 -> SPER01
+  SLARCH1   Slaver Guard
+    weapon1: bow02 -> BOW02
+    weapon2: sw1h07 -> SW1H07
+  SLAVER1   Slaver Guard
+    helmet: helm01 -> HELM01
+    weapon1: sw2h01 -> SW2H01
+  SLAVER2   Slaver Guard
+    weapon1: sw1h04 -> SW1H04
+  SLAVER3   Slaver Guard
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dagg05 -> DAGG05
+    weapon3: dagg05 -> DAGG05
+  SLAVER4   Slaver Guard
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: sw1h04 -> SW1H04
+  SLAYER    Slayer
+    weapon1: slayerwp -> SLAYERWP
+  SLGUARD1  Slaver Guard
+    helmet: helm01 -> HELM01
+    weapon1: blun02 -> BLUN02
+  SLGUARD2  Slaver Guard
+    helmet: helm01 -> HELM01
+    weapon1: sw1h20 -> SW1H20
+  SLILMAT   Priest of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  SLMAGE1   Slaver Wizard
+    weapon1: staf01 -> STAF01
+    weapon2: dart01 -> DART01
+  SLMAGE2   Slaver Wizard
+    weapon1: staf01 -> STAF01
+    weapon2: dart01 -> DART01
+  SLSHOP01  Black Market Thief
+    weapon1: sw1h07 -> SW1H07
+    weapon2: dart01 -> DART01
+  SLSHOP02  Storekeep
+    shield: shld08 -> SHLD08
+    weapon1: sw1h07 -> SW1H07
+  SLUMF2    Commoner
+    lring: ring11 -> RING11
+  SMOUND01  Shambling Mound
+    weapon1: B4-32m3 -> B4-32M3
+  SNAKE01   Snake
+    weapon1: p1-2p -> P1-2P
+  SNAKEB01  Boalisk
+    weapon1: p1-2p -> P1-2P
+  SNAKEG01  Giant Snake
+    weapon1: p1-2p -> P1-2P
+  SPHURG    Hurg
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  SPIDSM02  Mutated Spider
+    weapon1: spspid3 -> SPSPID3
+  SPIDSW01  Sword Spider
+    rring: MAGE06 -> 
+  SPIRBEAR  Spirit Bear
+    lring: Immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: bearspir -> BEARSPIR
+  SPIRLION  Spirit Lion
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: lionspir -> LIONSPIR
+  SPIRSNAK  Spirit Snake
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: snakspir -> SNAKSPIR
+  SPIRWOLF  Spirit Wolf
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: wolfspir -> WOLFSPIR
+  SPJEAG    Jeagger
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  SPMUGG    Mugger
+    weapon2: xbow04 -> XBOW04
+  SPMUGG2   Ruffian Captain
+    weapon2: xbow04 -> XBOW04
+  SPMUGG3   Thug
+    weapon2: xbow04 -> XBOW04
+  SPSPID07  Sword Spider
+    rring: MAGE06 -> 
+  SPY406
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  SS1LIZ3   Lizard Man
+    weapon1: #s1-12 -> #S1-12
+  SS1LIZ4   Lizard Man
+    weapon1: #s1-12 -> #S1-12
+  SS3UMB8   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  SS3UMB9   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  SSHAMB    Shambling Mound
+    weapon1: shmblr -> SHMBLR
+  STARCHER  Shadow Thief Archer
+    helmet: helm01 -> HELM01
+    weapon1: sw1h20 -> SW1H20
+    weapon2: bow01 -> BOW01
+  STASS1    Shadow Thief Assassin
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h07 -> SW1H07
+    weapon2: xbow04 -> XBOW04
+  STDEATH   Arkanis Gath
+    lring: MINHP1 -> 
+    rring: MAGE06 -> 
+    weapon1: STDEATH -> SW1H10
+  STEIN     Stein
+    shield: shld09 -> SHLD09
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+    weapon3: dagg05 -> DAGG05
+  STMAGE    Shadow Thief
+    weapon1: staf01 -> STAF01
+  STOLETHF  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  SUADSAAN  Adsaan
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SUDEMDE1  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  SUDEMDE2  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  SUDEMON   Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  SUDEMON2  Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  SUDEMW1   Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  SUELF11   Wounded Elf
+    weapon1: sw1h07 -> SW1H07
+  SUELF12   Captain Aduo'on
+    weapon1: sw1h41 -> SW1H41
+  SUELF13   Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  SUELF6    Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELF7    Elven Warrior
+    weapon1: blun04 -> BLUN04
+  SUELF8    Elven Warrior
+    weapon1: blun06 -> BLUN06
+  SUELF9    Wounded Elf
+    weapon1: sw1h07 -> SW1H07
+  SUELFW1   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW13  Elven Archer
+    weapon1: bow01 -> BOW01
+  SUELFW14  Elven Archer
+    weapon1: bow01 -> BOW01
+  SUELFW15  Elven Archer
+    weapon1: bow01 -> BOW01
+  SUELFW2   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW3   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW4   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW5   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW6   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW7   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELFW8   Elven Warrior
+    weapon1: sw1h01 -> SW1H01
+  SUELLEG1  Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL1  Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL2  Elven Warrior
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL3  Elf Male
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL4  Elf Female
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL5  Elf
+    weapon1: sw1h41 -> SW1H41
+  SUENDEL6  Elf
+    weapon1: sw1h41 -> SW1H41
+  SUMDJINN  Djinni
+    rring: monhp1 -> MONHP1
+    weapon1: genscim -> GENSCIM
+  SUMEFREE  Efreeti
+    weapon1: genscim -> GENSCIM
+  SUMELAIR  Lesser Air Elemental
+    weapon1: elairl -> ELAIRL
+  SUMELFIR  Lesser Fire Elemental
+    weapon1: fireelel -> FIREELEL
+  SUMIST    Spectre
+    weapon1: mistcd -> MISTCD
+  SUMOON    Elven Warrior
+    weapon1: miscb3 -> MISCB3
+  SUMTAN01  Tanar'ri
+    lring: ringdemn -> RINGDEMN
+    weapon1: S1-10m4 -> S1-10M4
+  SUMTAN02  Tanar'ri
+    lring: ringdemn -> RINGDEMN
+    rring: berserk -> BERSERK
+    weapon1: s1-10m4 -> S1-10M4
+  SUNA      Suna Seni
+    weapon1: sw1h08 -> SW1H08
+  SUPER1    Calahan
+    weapon1: sw2h01 -> SW2H01
+  SURAKMAH  Maharajah
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SURAKRAJ  Rajah
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SURAKRUH  Ruhk
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SURAKSHA  Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  SURAKW1   Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h20 -> SW1H20
+  SURAKW2   Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h20 -> SW1H20
+  SURAKW3   Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h20 -> SW1H20
+  SURAKW4   Rakshasa
+    lring: rakring -> RAKRING
+    weapon1: sw1h20 -> SW1H20
+  SURLY     Surly
+    weapon1: hamm01 -> HAMM01
+  SUSPY
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  SUSPYIM
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  SWAAIR01  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  SWAAIR02  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  SWAEAR01  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  SWAEAR02  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  SWORD02   Ras
+    rring: minhp1 -> MINHP1
+    weapon1: sw1h33a -> SW1H33A
+  SWORD03   Sword
+    lring: nocirc -> NOCIRC
+    rring: minhp1 -> MINHP1
+    amulet: wallpass -> WALLPASS
+    weapon1: sw1h33a -> SW1H33A
+  TANADV01  Strachan Fireblade
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  TANADV02  Adventurer
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  TANADV03  Adventurer
+    helmet: helm01 -> HELM01
+    weapon1: sw1h07 -> SW1H07
+  TANADV04  Adventurer
+    helmet: helm01 -> HELM01
+    weapon1: sw1h07 -> SW1H07
+  TANALLY1  Fael
+    weapon1: hamm01 -> HAMM01
+  TANARI01  Tanar'ri
+    lring: ringdemn -> RINGDEMN
+  TANNER    Rejiek Hidesman
+    weapon1: sw1h01 -> SW1H01
+  TANTHF01  Rune Assassin
+    rring: ring05 -> RING05
+  TANTUG01  Thug
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: sw1h07 -> SW1H07
+  TANTUG02  Thug
+    shield: shld03 -> SHLD03
+  TANTUG03  Thug
+    helmet: helm01 -> HELM01
+  TANWIZ04  Rune Mage
+    weapon1: staf01 -> STAF01
+  TARNOR    Tarnor the Hatchetman
+    weapon1: ax1h08 -> AX1H08
+  TASLOISU  Tasloi Elite Trooper
+    helmet: helm01 -> HELM01
+    weapon2: slng01 -> SLNG01
+  TELBAL1   Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  TELBAL2   Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  TELCAM1   Cambion
+    weapon1: sw1h02 -> SW1H02
+  TELCOR1   Cornugon
+    lring: immune2 -> IMMUNE2
+    amulet: reghp2r -> REGHP2R
+    weapon1: demcor01 -> DEMCOR01
+  TELDOG    Aranthis
+    lring: mdog1 -> MDOG1
+    weapon1: p3-12m4 -> P3-12M4
+  TELIMP1   Imp
+    lring: ringdemn -> RINGDEMN
+  TELPIT1   Pit Fiend
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  TELPIT2   Pit Fiend
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  TELQUA1   Quasit
+    lring: ringdemn -> RINGDEMN
+    weapon1: imp -> IMP
+  TELQUA2   Quasit
+    lring: ringdemn -> RINGDEMN
+    weapon1: imp -> IMP
+  TELSUC1   Alu-Fiend
+    lring: ringdemn -> RINGDEMN
+    rring: immune1 -> IMMUNE1
+    weapon1: bow02 -> BOW02
+  TELTAN1   Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  TELTAN2   Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  TELTIEF1  Tiefling
+    shield: ax1h11 -> AX1H11
+    weapon1: ax1h11 -> AX1H11
+  TELTIEF3  Tiefling
+    weapon1: staf19 -> STAF19
+  TEMPV01
+    lring: mage01 -> MAGE01
+    rring: nocirc -> NOCIRC
+    amulet: imoenhp1 -> IMOENHP1
+  TEMSUP    Overgold Renwellyn
+    weapon1: blun03 -> BLUN03
+    weapon2: slng02 -> SLNG02
+  TERMER02  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  TERMER03  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  TERMER04  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  TERMER05  Mercenary
+    helmet: helmnoan -> HELMNOAN
+  TERRECE   Terrece
+    rring: ring06 -> RING06
+    weapon1: staf02 -> STAF02
+  THIEF1    Sidge
+    weapon2: xbow04 -> XBOW04
+  THIEF4    Shadow Thief
+    weapon2: xbow04 -> XBOW04
+  THIEF5    Gorvin
+    weapon1: dagg01 -> DAGG01
+  THIEF6    Zyntris
+    weapon1: sw1h08 -> SW1H08
+    weapon2: xbow04 -> XBOW04
+  THIEF8    Shadow Thief
+    weapon2: xbow04 -> XBOW04
+  TIANA     Tiana
+    weapon1: dagg01 -> DAGG01
+  TIRTHOLD  Tirthold
+    weapon1: staf01 -> STAF01
+  TOBBAN01  Sharik Nefal
+    weapon1: dagg24 -> DAGG24
+  TOBBAN02  Orc Archer
+    weapon1: bow02 -> BOW02
+  TOBBAN03  Orc
+    weapon1: ax1h17 -> AX1H17
+  TOBBAN04  Orog
+    weapon1: ax1h17 -> AX1H17
+  TOBPAR01  Eler Had
+    shield: dagg24 -> DAGG24
+    weapon1: sw1h74 -> SW1H74
+  TOBPAR02  Berena Elkan
+    shield: sw1h72 -> SW1H72
+    weapon1: sw1h72 -> SW1H72
+  TOBPAR04  Karun the Black
+    weapon1: dagg15 -> DAGG15
+  TOBPAR05  Delga Deepdelver
+    shield: shld29 -> SHLD29
+    weapon1: blun33 -> BLUN33
+  TOBPAR06  Helena Fairhand
+    weapon1: sw1h73 -> SW1H73
+    weapon2: bow25 -> BOW25
+  TOMEGOL4  Juggernaut Golem
+    lring: immune2 -> IMMUNE2
+  TRAXG     Trax's Guard
+    weapon1: sper01 -> SPER01
+  TRCUT07   High Merchant Logan Coprith
+    weapon1: sw2h02 -> SW2H02
+  TREVIL01  Lord Khellon Menold
+    weapon1: sw1h04 -> SW1H04
+  TREVIL03  Master Verthan
+    weapon1: staf01 -> STAF01
+  TRFUED02  Lurraxol Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED03  Lurraxol Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED04  Lurraxol Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED05  Lord Skarmaen Alibakkar
+    shield: shld01 -> SHLD01
+  TRFUED06  Alibakkar Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED07  Alibakkar Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED08  Alibakkar Guard
+    helmet: helm01 -> HELM01
+    weapon1: bow03 -> BOW03
+    weapon2: sw2h01 -> SW2H01
+  TRFUED09  Lurraxol Guard
+    weapon1: sw1h04 -> SW1H04
+  TRFUED10  Alibakkar Guard
+    shield: shld03 -> SHLD03
+    weapon1: sw1h01 -> SW1H01
+  TRFUED11  Militia Wizard
+    weapon1: staf01 -> STAF01
+  TRGENI02  Taquee
+    weapon1: b3-18m3 -> B3-18M3
+  TRGENI03  Faafirah
+    weapon1: b3-18m3 -> B3-18M3
+  TRGRD02   Militia Wizard
+    weapon1: staf01 -> STAF01
+  TRGYP04   Jidek
+    weapon1: blun01 -> BLUN01
+  TRLGRD01  Lord Logan's Guard
+    helmet: helm01 -> HELM01
+    shield: shld01 -> SHLD01
+    weapon1: sw1h01 -> SW1H01
+  TRRAK04   Ruhk
+    rring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  TRSKIN03  Rejiek Hidesman
+    weapon1: sw1h01 -> SW1H01
+  TRSKIN06  Darsidian Moor
+    weapon1: sw2h01 -> SW2H01
+  TRSKIN3B  Rejiek Hidesman
+    weapon1: sw1h01 -> SW1H01
+  TRSKIN6B  Darsidian Moor
+    weapon1: sw2h01 -> SW2H01
+  TRTHF02   Kich
+    weapon1: bow05 -> BOW05
+    weapon2: dagg01 -> DAGG01
+  TRTHF03   Shadow Thief
+    helmet: helm01 -> HELM01
+    shield: shld03 -> SHLD03
+    weapon1: hamm01 -> HAMM01
+  TRTHF04   Merchant
+    weapon1: ax1h01 -> AX1H01
+  TTSKEL    Skeleton
+    weapon1: ttsword2 -> TTSWORD2
+  TURN      Cleric
+    weapon1: blun21 -> BLUN21
+  UCOUNTER
+    lring: immune1 -> IMMUNE1
+  UDARDUL   Matron Mother Ardulace
+    weapon1: dwwhip01 -> DWWHIP01
+  UDBALOR   Balor
+    lring: immune3 -> IMMUNE3
+    weapon1: b1-12m4 -> B1-12M4
+  UDBEHO01  Beholder
+    lring: beholder -> BEHOLDER
+  UDBEHO02  Beholder
+    lring: beholder -> BEHOLDER
+  UDCHAL    Chalinthra
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDDEAR02  Uder Mordin
+    weapon1: blun01 -> BLUN01
+  UDDEATH   Demon Knight
+    weapon1: sw2hdeat -> SW2HDEAT
+  UDDEMON   Lesser Demon Lord
+    lring: immune3 -> IMMUNE3
+    weapon1: demlord -> DEMLORD
+  UDDOOR01  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDDOOR02  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDDOOR03  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDDOOR05  Drow Wizard
+    weapon1: staf01 -> STAF01
+  UDDOOR07  Skeleton
+    shield: skelshld -> SKELSHLD
+    weapon1: skelclub -> SKELCLUB
+  UDDOOR08  Drow
+    lring: mage01 -> MAGE01
+    weapon1: sw1h07 -> SW1H07
+  UDDOOR09  Drow
+    weapon1: sw1h07 -> SW1H07
+  UDDROW01  Matron's Guard
+    weapon1: dwhalb01 -> DWHALB01
+  UDDROW02  Executioner
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwsw1h02 -> DWSW1H02
+  UDDROW03  Ritual Guard
+    weapon1: dwsper01 -> DWSPER01
+  UDDROW04  Szordrin
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW05  Drow Cook
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW06  Ilmryn
+    weapon1: dagg01 -> DAGG01
+  UDDROW07  Merinid
+    weapon1: dagg01 -> DAGG01
+  UDDROW08  Baragh
+    weapon1: dagg01 -> DAGG01
+  UDDROW09  Tathlyn
+    weapon1: sw2h02 -> SW2H02
+  UDDROW10  Nym Khalazza
+    weapon1: dagg01 -> DAGG01
+  UDDROW13  Drow
+    weapon1: dagg01 -> DAGG01
+  UDDROW14  Drow
+    weapon1: dwhalb01 -> DWHALB01
+  UDDROW15  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+  UDDROW17  Drow
+    weapon1: staf01 -> STAF01
+  UDDROW18  Drow
+    weapon1: dagg01 -> DAGG01
+  UDDROW19  Drow
+    weapon1: staf01 -> STAF01
+  UDDROW20  Egg Guard
+    weapon1: dwhalb01 -> DWHALB01
+  UDDROW21  Egg Guard
+    weapon1: dwhalb01 -> DWHALB01
+  UDDROW22  Drow Bartender
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW23  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW24  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW25  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW26  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW27  Drow
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW28  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW29  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDDROW30  Drow
+    weapon1: staf01 -> STAF01
+  UDDROW31  Drow
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW32  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  UDDROW33  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  UDDROW34  Drow Wizard
+    weapon1: staf01 -> STAF01
+  UDDROW35  Priestess of Lolth
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDDROW36  Handmaiden of Lolth
+    weapon1: dwblun01 -> DWBLUN01
+    weapon2: dwblun01 -> DWBLUN01
+  UDDROW37  Drow
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDDROW50  Drow Wizard
+    weapon1: staf02 -> STAF02
+  UDDUER01  Carlig
+    weapon1: blun06 -> BLUN06
+  UDELF01   War Elf
+    shield: shld03 -> SHLD03
+    weapon1: sw1h04 -> SW1H04
+  UDELF02   War Elf
+    weapon1: bow03 -> BOW03
+    weapon2: sw1h07 -> SW1H07
+  UDELF03   War Elf
+    weapon1: sw2h01 -> SW2H01
+  UDELF04   War Elf
+    weapon1: staf01 -> STAF01
+  UDELF05   War Elf
+    shield: shld01 -> SHLD01
+    weapon1: blun04 -> BLUN04
+    weapon2: dart01 -> DART01
+  UDGIRL    Priestess of Lolth
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDIMRAE   Imrae
+    weapon1: dwwhip01 -> DWWHIP01
+  UDKUO01   Kuo-toan Leader
+    lring: kuoring -> KUORING
+    weapon1: xbow04 -> XBOW04
+    weapon2: kuosper -> KUOSPER
+  UDKUO02   Master Whip
+    lring: kuoring -> KUORING
+    weapon1: kuosper -> KUOSPER
+  UDLESA    Lasaonar
+    rring: minhp1 -> MINHP1
+    weapon1: Sw1h39 -> SW1H39
+  UDMAN     Drow
+    weapon1: staf01 -> STAF01
+  UDNABA    Nabassu
+    lring: reghp2 -> REGHP2
+  UDPENT
+    lring: mage01 -> MAGE01
+  UDPHAE02  Phaere
+    weapon1: dwwhip01 -> DWWHIP01
+  UDRUNNER  Drow
+    weapon1: dwxbow01 -> DWXBOW01
+    weapon2: dwsw1h02 -> DWSW1H02
+  UDSOLA01  Solaufein
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwsw1h01 -> DWSW1H01
+  UDSOLA02  Solaufein
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwsw1h01 -> DWSW1H01
+  UDSVIR01  Odendal Breachgnome
+    shield: shld01 -> SHLD01
+    weapon1: dart03 -> DART03
+    weapon2: ax1h01 -> AX1H01
+  UDSVIR02  Svirfneblin
+    shield: shld01 -> SHLD01
+    weapon1: dart03 -> DART03
+    weapon2: sw1h04 -> SW1H04
+  UDSVIR03  Goldander Blackenrock
+    weapon1: dart03 -> DART03
+  UDSVIR04  Innkeeper
+    weapon1: dart03 -> DART03
+    weapon2: sw1h04 -> SW1H04
+  UDSVIR05  Therndle Daglefodd
+    weapon1: dart03 -> DART03
+  UDSVIR06  Svirfneblin
+    weapon1: dart03 -> DART03
+  UDSVIR07  Svirfneblin
+    shield: shld01 -> SHLD01
+    weapon1: dart03 -> DART03
+    weapon2: sw1h04 -> SW1H04
+  UDSVIR08  Svirfneblin Leader
+    weapon1: sw1h07 -> SW1H07
+  UDTRAP01  Madman Aganalo
+    weapon1: Sw1h38 -> SW1H38
+  UDTRAP02  Raevilin Strathi
+    weapon1: staf01 -> STAF01
+  UDTRAP05  Gont of Riatavin
+    weapon1: sw1h07 -> SW1H07
+  UDTRAP06  Bedlen Daglefodd
+    shield: shld01 -> SHLD01
+    weapon1: dart03 -> DART03
+    weapon2: ax1h01 -> AX1H01
+  UDVAMP    Vampiric Illithid
+    lring: immune1 -> IMMUNE1
+    rring: vampreg2 -> VAMPREG2
+    weapon1: mindfl02 -> MINDFL02
+  UDVITH    Vithal
+    weapon1: staf01 -> STAF01
+  UHMER02   Min Minling
+    weapon1: hamm01 -> HAMM01
+  UHOSTILE
+    lring: immune1 -> IMMUNE1
+  ULVARYL   Ulvaryl
+    weapon1: vamp -> VAMP
+  UMBHUL02  Umber Hulk Elder
+    helmet: helmnoan -> HELMNOAN
+    weapon1: umber02 -> UMBER02
+  VA#LIZRD  Lizard Man Shaman
+    weapon1: b1-6 -> B1-6
+  VA#ORC    Orc Archer
+    weapon2: sw1h07 -> SW1H07
+  VAELASA   Vaelasa
+    lring: immchs -> IMMCHS
+  VAELG01   Vaelag's Guard
+    helmet: helm01 -> HELM01
+    shield: shld14 -> SHLD14
+    weapon1: ax1h01 -> AX1H01
+  VAKFGT01  Thug
+    helmet: helm01 -> HELM01
+  VAKG01    Mage
+    weapon1: staf01 -> STAF01
+  VAKMAG01  Mage
+    weapon1: staf01 -> STAF01
+  VAKTHF01  Thug
+    weapon2: xbow04 -> XBOW04
+  VALMAG01  Mage
+    weapon1: staf01 -> STAF01
+  VALMAG02  Mage
+    weapon1: staf01 -> STAF01
+  VALMAG03  Mage
+    weapon1: staf01 -> STAF01
+  VALRAN02  Ranger
+    shield: shld15 -> SHLD15
+    weapon1: blun03 -> BLUN03
+  VAMANC01  Ancient Vampire
+    lring: vampreg1 -> VAMPREG1
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp1 -> VAMP1
+  VAMEMI01  Ancient Vampire
+    lring: vampreg2 -> VAMPREG2
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp2 -> VAMP2
+  VAMOLD01  Elder Vampire
+    rring: immune2 -> IMMUNE2
+  VAMPAT01  Ancient Vampire
+    lring: vampreg2 -> VAMPREG2
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp3 -> VAMP3
+  VAMPBAT   Vampire Bat
+    amulet: minhp1 -> MINHP1
+  VAMVER01  Elder Vampire
+    lring: vampreg1 -> VAMPREG1
+    rring: immune2 -> IMMUNE2
+    weapon1: vamp -> VAMP
+  VICPRI01  Handmaiden of Lolth
+    helmet: helmnoan -> HELMNOAN
+  VORSQUIR  Vorpal Squirrel
+    lring: vorsqui1 -> VORSQUI1
+    weapon1: vorsqui2 -> VORSQUI2
+  VVAMN1    Amnian Soldier
+    weapon1: sw1h01 -> SW1H01
+  VVDEL     Del
+    lring: vampreg1 -> VAMPREG1
+    rring: immune1 -> IMMUNE1
+    weapon1: vamp -> VAMP
+  VVFEMAL1  Vampire
+    rring: immune1 -> IMMUNE1
+  VVFEMAL2  Vampire
+    rring: immune1 -> IMMUNE1
+  VVFEMAL3  Vampire
+    rring: immune1 -> IMMUNE1
+  VVHAREIS  Hareishan
+    lring: vampreg1 -> VAMPREG1
+    rring: immune2 -> IMMUNE2
+    weapon1: vamp -> VAMP
+  VVMADMAN  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVMALE1   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE2   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE3   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE4   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE5   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE6   Vampire
+    rring: immune1 -> IMMUNE1
+  VVMALE7   Vampire
+    rring: immune1 -> IMMUNE1
+  VVPARIS   Parisa
+    lring: vampreg1 -> VAMPREG1
+    rring: immune2 -> IMMUNE2
+    weapon1: vamp1 -> VAMP1
+  VVPRIEST  Priest of Talos
+    weapon1: blun04 -> BLUN04
+  VVRYOKOI  Ryokoi
+    weapon1: sw1h55 -> SW1H55
+  VVSALIA   Salia
+    lring: vampreg1 -> VAMPREG1
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp1 -> VAMP1
+  VVSANSUK  Sansuki
+    weapon1: sw1h43 -> SW1H43
+  VVSHAD10  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD11  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD12  Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD3   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD6   Shadow Thief
+    weapon1: sw1h01 -> SW1H01
+  VVSHAD7   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD8   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVSHAD9   Shadow Thief
+    weapon1: sw1h07 -> SW1H07
+  VVTANOV   Tanova
+    lring: vampreg2 -> VAMPREG2
+    rring: immune3 -> IMMUNE3
+    weapon1: vamp2 -> VAMP2
+  WAUKNI01  Waukeenar Knight
+    helmet: helm10 -> HELM10
+  WAUKSNA   Snake
+    weapon1: p1-2p -> P1-2P
+  WAYLANE   Waylane
+    weapon1: sw1h07 -> SW1H07
+  WEREGR01  Greater Werewolf
+    lring: ringwolf -> RINGWOLF
+    weapon1: s1-12m2 -> S1-12M2
+  WEREGRDR  Greater Werewolf
+    lring: ringwolf -> RINGWOLF
+    weapon1: weregrdr -> WEREGRDR
+  WEREWYV1  Ekim Cyre
+    lring: ringwolf -> RINGWOLF
+    weapon1: werewyv -> WEREWYV
+  WEREWYV2  Ekim Cyre
+    lring: ringwolf -> RINGWOLF
+    weapon1: werewyv -> WEREWYV
+  WILDZONE
+    lring: mage01 -> MAGE01
+  WILLIAM   Sir Branet Al-Thon
+    shield: shld01 -> SHLD01
+    weapon1: ax1h01 -> AX1H01
+  WILMAT    Priestess of Ilmater
+    helmet: helmnoan -> HELMNOAN
+    weapon1: staf01 -> STAF01
+  WISH01    Djinni
+    lring: minhp1 -> MINHP1
+    rring: ridring -> RIDRING
+    weapon1: b3-18m3 -> B3-18M3
+  WISH02    Djinni
+    lring: minhp1 -> MINHP1
+    rring: ridring -> RIDRING
+    weapon1: b3-18m3 -> B3-18M3
+  WIZEYE    Wizard Eye
+    rring: mage01 -> MAGE01
+  WOLFDISU  Dire Wolf
+    weapon1: P1-8m1 -> P1-8M1
+  WQXDEM    Bound Demon
+    lring: immune3 -> IMMUNE3
+    amulet: reghp2r -> REGHP2R
+    weapon1: p3-12m4 -> P3-12M4
+  WQXENT    White Archer
+    weapon1: dagg01 -> DAGG01
+  WQXKEE    White Keeper
+    helmet: helmnoan -> HELMNOAN
+  WQXKEE2   White Keeper
+    helmet: helmnoan -> HELMNOAN
+  WQXMOU    Shambling Mound
+    rring: ring95 -> RING95
+    weapon1: mound -> MOUND
+  WQXN      Necromancer
+    rring: lich -> LICH
+  WQXT2     White Beastmaster
+    helmet: helmnoan -> HELMNOAN
+  WRAITHSU  Wraith
+    weapon1: wraith1 -> WRAITH1
+  WSMITH01  Cromwell
+    weapon1: hamm08 -> HAMM08
+  WSMITH02  Forge
+    rring: minhp1 -> MINHP1
+    amulet: wallpass -> WALLPASS
+  WWDELAG   Delag
+    weapon1: ax1h01 -> AX1H01
+  WWEFF     Eforf
+    weapon1: blun01 -> BLUN01
+  WWELLE    Eleanya
+    rring: wwering -> WWERING
+  WWRATI    Boolet
+    lring: �������� -> 
+  WWSTEN    Sten
+    weapon1: blun01 -> BLUN01
+  WYVFIGHT  Wyvern Cultist
+    weapon1: sper05 -> SPER05
+  WYVMAG14  Wyvern Cultist
+    weapon1: staf02 -> STAF02
+  X3VDROW   Xel'nu
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  X3VDROW2  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  X3VDROW3  Drow Warrior
+    helmet: helm01 -> HELM01
+    weapon1: dwsw1h02 -> DWSW1H02
+  XVARTSU   Xvart Protector
+    helmet: helm01 -> HELM01
+  YARMY01   Fighter
+    helmet: helm13 -> HELM13
+    weapon1: sper06 -> SPER06
+  YARMY02   Archer
+    weapon1: bow06 -> BOW06
+  YARMY03   Mage
+    rring: stonskin -> 
+    weapon1: staf18 -> STAF18
+  YSCARA03  Fire Giant
+    weapon1: giafir2 -> GIAFIR2
+  YSCARA05  Merchant
+    shield: shld01 -> SHLD01
+    weapon1: sw1h04 -> SW1H04
+  YSCLER01  Yaga-Shura Cleric
+    weapon1: blun01 -> BLUN01
+  YSDROSIG  Drosig
+    shield: shld01 -> SHLD01
+    weapon1: dart03 -> DART03
+    weapon2: ax1h01 -> AX1H01
+  YSDWFGR2  Death Knight Guardian
+    weapon1: sw2hdeat -> SW2HDEAT
+  YSDWFGRD  Death Knight Guardian
+    weapon1: sw2hdeat -> SW2HDEAT
+  YSDWFKNT  Death Knight Lord
+    weapon1: sw2hdeat -> SW2HDEAT
+  YSELM01   Elminster
+    lring: STONSKIN -> 
+  YSG2      Fire Giant
+    weapon1: giafir -> GIAFIR
+  YSGP01    Toop the Brave
+    weapon1: dagg15 -> DAGG15
+    weapon2: dart02 -> DART02
+  YSGP02    Merlinious
+    weapon1: sw1h44 -> SW1H44
+  YSGP03    Tibbit
+    weapon1: bow06 -> BOW06
+    weapon2: sw1h08 -> SW1H08
+  YSGP04    Chinchilla
+    lring: minhp1 -> MINHP1
+  YSGRUNT   Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+  YSGUAR01  Fire Giant
+    weapon1: giafir2 -> GIAFIR2
+  YSGUAR02  Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+  YSGUAR04  Yaga-Shura Soldier
+    helmet: helm01 -> HELM01
+    shield: shld05 -> SHLD05
+    weapon1: sw1h04 -> SW1H04
+  YSGUAR05  Yaga-Shura Soldier
+    weapon1: bow03 -> BOW03
+  YSGUAR06  Yaga-Shura Officer
+    weapon1: sw1h01 -> SW1H01
+  YSOENGUS  Oengus
+    rring: ring12 -> RING12
+  YSPEAS01  Peasant
+    lring: ridring -> RIDRING
+  YSPEAS02  Peasant
+    lring: ridring -> RIDRING
+  YSPEAS03  Peasant
+    lring: ridring -> RIDRING
+  YSSOLD04  Yaga-Shura Elite
+    helmet: helm01 -> HELM01
+    weapon1: halb07 -> HALB07
+  YSSOLD10  Fire Giant
+    weapon1: giafir -> GIAFIR
+  YSSOLD12  Yaga-Shura Soldier
+    weapon1: bow01 -> BOW01
+    weapon2: sw1h04 -> SW1H04
+  YSSOLD13  Yaga-Shura Soldier
+    helmet: helm01 -> HELM01
+    shield: shld05 -> SHLD05
+    weapon1: sw1h04 -> SW1H04
+  YSSOLD14  Yaga-Shura Mage
+    lring: ring12 -> RING12
+    weapon1: staf07 -> STAF07
+    weapon2: dart02 -> DART02
+  YSSOLD15  Yaga-Shura Officer
+    helmet: helm01 -> HELM01
+    weapon1: sw2h02 -> SW2H02
+  YSSOLD16  Cleric Of Talos
+    weapon1: blun01 -> BLUN01
+  YSSTHIEF  Shadow Thief
+    weapon2: xbow04 -> XBOW04
+  ZILARC01  Black Reaver
+    shield: shld06 -> SHLD06
+    amulet: amul07 -> AMUL07
+    weapon1: blun03 -> BLUN03
+  ZILFGT01  Black Reaver
+    helmet: helm15 -> HELM15
+    weapon1: sper02 -> SPER02
+  ZILFGT02  Black Reaver
+    shield: dagg24 -> DAGG24
+    weapon1: sw1h76 -> SW1H76
+  ZILMAG01  Black Reaver
+    rring: ring07 -> RING07
+    amulet: amul21 -> AMUL21
+    weapon1: staf02 -> STAF02
+  ZOMBLO01  Zombie Lord
+    lring: ring95 -> RING95

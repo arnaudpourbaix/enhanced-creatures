@@ -1,4 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
+import type { CreatureCsvRow } from "./monster-files.service";
+import type { Game } from "../model/creature/game";
 import { BaseCreature, Creature, CreatureAutoGenerate } from "../model/creature/creature";
 import {
   CreatureData,
@@ -57,7 +59,12 @@ function fakeCreature(p: {
   }[];
 }): Creature {
   return {
-    data: { immunities: [], items: { equipped: [] }, ...p.data },
+    data: {
+      immunities: [],
+      items: { equipped: [] },
+      size: { value: "Medium", tall: false, long: true },
+      ...p.data,
+    },
     items: p.items ?? [],
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
@@ -294,6 +301,7 @@ describe("checkData - attacks per round across adjustments", () => {
         items: { equipped: [] },
       },
       items: [],
+      adjustments: [],
       attack: { dualWielding: false },
       autoGenerate: { thac0: false, hitPoints: false, enchantment: false, meleeRange: false },
     } as unknown as Creature;
@@ -501,15 +509,21 @@ describe("checkDexterityArmorClassBonus (private)", () => {
   });
 
   it("subtracts the dexterity bonus from ac", () => {
-    const data: Partial<CreatureData> = { ac: 10, dexterity: 18 };
+    const data: Partial<CreatureData> = { ac: 5, dexterity: 18 };
     service.checkDexterityArmorClassBonus(data);
-    expect(data.ac).toBe(14); // 10 - (-4)
+    expect(data.ac).toBe(9); // 5 - (-4)
   });
 
   it("leaves ac untouched when the dexterity bonus is zero", () => {
     const data: Partial<CreatureData> = { ac: 10, dexterity: 9 };
     service.checkDexterityArmorClassBonus(data);
     expect(data.ac).toBe(10);
+  });
+
+  it("caps the computed ac at 10 when subtracting the bonus would exceed it", () => {
+    const data: Partial<CreatureData> = { ac: 10, dexterity: 18 };
+    service.checkDexterityArmorClassBonus(data);
+    expect(data.ac).toBe(10); // 10 - (-4) = 14, capped to 10
   });
 });
 
@@ -1193,11 +1207,23 @@ describe("checkDialog", () => {
   });
 });
 
+function emptyAdjustmentData(): CreatureData {
+  return { script: {}, effects: {}, spells: {} } as unknown as CreatureData;
+}
+
 function fakeAdjustmentFilesCreature(files: string[], adjustmentFiles: string[]): Creature {
   return {
-    files,
+    files: files.map((name) => ({ name })),
     name: "test",
-    adjustments: [{ files: adjustmentFiles }],
+    adjustments: [
+      {
+        files: adjustmentFiles,
+        data: emptyAdjustmentData(),
+        summon: false,
+        noWeapon: false,
+        scriptName: false,
+      },
+    ],
   } as unknown as Creature;
 }
 
@@ -1223,12 +1249,589 @@ describe("checkAdjustmentFiles", () => {
   it("reports every unknown file across every adjustment", () => {
     const creature = {
       name: "test",
-      files: ["KNOWN1"],
-      adjustments: [{ files: ["UNKNOWN1"] }, { files: ["UNKNOWN2"] }],
+      files: [{ name: "KNOWN1" }],
+      adjustments: [
+        { files: ["UNKNOWN1"], data: emptyAdjustmentData() },
+        { files: ["UNKNOWN2"], data: emptyAdjustmentData() },
+      ],
     } as unknown as Creature;
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
     expect(errorSpy).toHaveBeenCalledTimes(2);
     vi.restoreAllMocks();
+  });
+
+  it("errors when a game-tagged adjustment names a wrong-game file", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "BG1ONLY", game: "bg1" }],
+      adjustments: [
+        {
+          files: ["BG1ONLY"],
+          game: "bg2",
+          data: emptyAdjustmentData(),
+          summon: false,
+          noWeapon: false,
+          scriptName: false,
+        },
+      ],
+    } as unknown as Creature;
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("not available in bg2"));
+    vi.restoreAllMocks();
+  });
+
+  it("errors when a game-tagged adjustment also toggles a non-gated field (noWeapon)", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "GORF" }],
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg1",
+          summon: false,
+          noWeapon: true,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("game-tagged adjustment"));
+    vi.restoreAllMocks();
+  });
+
+  it("accepts a game-tagged summon adjustment (patchScripts gates it per game)", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "CATLIOWP" }],
+      adjustments: [
+        {
+          files: ["CATLIOWP"],
+          game: "bg1",
+          summon: true,
+          noWeapon: false,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
+  });
+
+  it("accepts a game-tagged data-only adjustment on a both-games file", () => {
+    const creature = {
+      name: "test",
+      files: [{ name: "GORF" }],
+      adjustments: [
+        {
+          files: ["GORF"],
+          game: "bg2",
+          summon: false,
+          noWeapon: false,
+          scriptName: false,
+          data: emptyAdjustmentData(),
+        },
+      ],
+    } as unknown as Creature;
+    expect(creatureService.checkAdjustmentFiles(creature)).toBe(true);
+  });
+});
+
+function csvRow(over: Partial<CreatureCsvRow>): CreatureCsvRow {
+  return {
+    file: "F", game: undefined, level: undefined, items: [], scripts: [],
+    validatedLevel: false, validatedItems: false, validatedScript: false, ...over,
+  };
+}
+
+function creatureWith(p: {
+  files: { name: string; game?: Game }[];
+  level1?: number;
+  itemsRemove?: string[];
+  itemsEquipped?: { slot: string; file: string }[];
+  scriptRemove?: string[];
+  scriptLocation?: string;
+  adjustments?: {
+    files: string[];
+    game?: Game;
+    level1?: number;
+    itemsRemove?: string[];
+    itemsEquipped?: { slot: string; file: string }[];
+    scriptRemove?: string[];
+    scriptLocation?: string;
+    noWeapon?: boolean;
+  }[];
+}): Creature {
+  return {
+    name: "test.name",
+    files: p.files,
+    data: {
+      level1: p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
+      items: { remove: p.itemsRemove ?? [], equipped: p.itemsEquipped ?? [] },
+      script: { remove: p.scriptRemove ?? [], location: p.scriptLocation },
+    },
+    adjustments: (p.adjustments ?? []).map((a) => ({
+      files: a.files,
+      game: a.game,
+      noWeapon: a.noWeapon ?? false,
+      data: {
+        level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
+        items: { remove: a.itemsRemove ?? [], equipped: a.itemsEquipped ?? [] },
+        script: { remove: a.scriptRemove ?? [], location: a.scriptLocation },
+      },
+    })),
+  } as unknown as Creature;
+}
+
+/** Mock the per-file row resolution the three finders drive off of. */
+function mockRows(...rows: CreatureCsvRow[]) {
+  return vi.spyOn(monsterFilesService, "getCreatureRows").mockReturnValue(rows);
+}
+
+const OVERRIDE_0X1DG_DETAIL = "overrideScript=0X1DG";
+
+describe("creatureService.findPersistingItems", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports a slot item that no remove list clears", () => {
+    mockRows(
+      csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }, { slot: "lring", file: "RING95" }] }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "helmet=HELM01" },
+    ]);
+  });
+
+  it("treats an adjustment's remove list as clearing items for that adjustment's files only", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], itemsRemove: ["P1-4"] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("combines the base remove list and an adjustment's remove list into one removed set", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "lring", file: "RING95" },
+          { slot: "amulet", file: "AMUL01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsRemove: ["RING95"],
+      adjustments: [{ files: ["AAA"], itemsRemove: ["P1-4"] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "amulet=AMUL01" },
+    ]);
+  });
+
+  it("matches the creature file, the csv row and the adjustment file case-insensitively", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "p1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "aaa" }],
+      level1: 3,
+      adjustments: [{ files: ["Aaa"], itemsRemove: ["P1-4"] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports an item that is only re-equipped, never removed", () => {
+    // re-equip is modelled elsewhere; the finder only inspects `remove`
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: [] });
+    expect(creatureService.findPersistingItems(cre)).toHaveLength(1);
+  });
+
+  it("skips files with no csv row", () => {
+    mockRows();
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("does not report a persisting weapon1-weapon4 / shield item for a noWeapon adjustment's file", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "weapon2", file: "BOW01" },
+          { slot: "shield", file: "SHLD01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], noWeapon: true }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports a persisting non-weapon item for a noWeapon adjustment's file", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "lring", file: "RING95" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], noWeapon: true }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "lring=RING95" },
+    ]);
+  });
+
+  it("reports each game's row separately for a dual-game resref, tagging the detail", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: undefined, items: [{ slot: "helmet", file: "HELM01" }] }),
+      csvRow({ file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }] }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "helmet=HELM01" },
+      { file: "AAA", game: "bg2", check: "items", detail: "lring=RING95" },
+    ]);
+  });
+
+  it("does not report a persisting weapon1-weapon4 / shield item when nothing equips a weapon at all", () => {
+    // No `noWeapon` flag anywhere, but the base and its (non-noWeapon) adjustment never assign a
+    // weapon-slot item either, so the creature keeps its own original weapon exactly as if it did.
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon1", file: "P1-4" },
+          { slot: "shield", file: "SHLD01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsEquipped: [{ slot: "helmet", file: "HELM01" }],
+      adjustments: [{ files: ["AAA"], itemsEquipped: [{ slot: "lring", file: "RING95" }] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([]);
+  });
+
+  it("still reports a persisting weapon slot when the base creature equips a weapon elsewhere", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsEquipped: [{ slot: "WEAPON2", file: "NEWWEAP" }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+    ]);
+  });
+
+  it("still reports a persisting weapon slot when only a covering adjustment equips a weapon", () => {
+    mockRows(csvRow({ file: "AAA", items: [{ slot: "weapon1", file: "P1-4" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], itemsEquipped: [{ slot: "WEAPON1", file: "NEWWEAP" }] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "weapon1=P1-4" },
+    ]);
+  });
+});
+
+describe("creatureService.findLevelGaps", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports a gap greater than 2 against the base level1", () => {
+    mockRows(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 10 });
+    expect(creatureService.findLevelGaps(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "level", detail: "csv 6 / def 10" },
+    ]);
+  });
+
+  it("does not report a gap of exactly 2", () => {
+    mockRows(csvRow({ file: "AAA", level: 8 }));
+    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+  });
+
+  it("uses the last adjustment that sets level1 for the file", () => {
+    mockRows(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 10,
+      adjustments: [
+        { files: ["AAA"] },              // no level1 - ignored
+        { files: ["AAA"], level1: 7 },   // wins
+      ],
+    });
+    expect(creatureService.findLevelGaps(cre)).toEqual([]); // |6-7| = 1
+  });
+
+  it("skips a file whose csv level is blank", () => {
+    mockRows(csvRow({ file: "AAA", level: undefined }));
+    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+  });
+
+  it("skips a file when creature has no base level1 and no adjustment level override", () => {
+    mockRows(csvRow({ file: "AAA", level: 6 }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: undefined });
+    expect(creatureService.findLevelGaps(cre)).toEqual([]);
+  });
+
+  it("compares each game's row against its own level", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", level: 9 }),
+      csvRow({ file: "AAA", game: "bg2", level: 19 }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 9 });
+    expect(creatureService.findLevelGaps(cre)).toEqual([
+      { file: "AAA", game: "bg2", check: "level", detail: "csv 19 / def 9" },
+    ]);
+  });
+
+  // TAZOK regression: the half-ogre's bg2-only `level1: 19` adjustment used to be applied to the
+  // bg1 row (csv level 9), producing a false "level gap > 2" warning. Gated on the row's own game,
+  // each row now matches: bg1 against the base level 9, bg2 against the adjustment's 19.
+  it("applies a game-tagged adjustment's level1 only to that game's row", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", level: 9 }),
+      csvRow({ file: "AAA", game: "bg2", level: 19 }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 9,
+      adjustments: [{ files: ["AAA"], game: "bg2", level1: 19 }],
+    });
+    expect(creatureService.findLevelGaps(cre)).toEqual([]);
+  });
+
+  it("reports the bg1 row when a bg2-tagged adjustment is the only thing that would close its gap", () => {
+    mockRows(csvRow({ file: "AAA", game: "bg1", level: 19 }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 9,
+      adjustments: [{ files: ["AAA"], game: "bg2", level1: 19 }],
+    });
+    expect(creatureService.findLevelGaps(cre)).toEqual([
+      { file: "AAA", game: "bg1", check: "level", detail: "csv 19 / def 9" },
+    ]);
+  });
+});
+
+describe("creatureService.findOriginalScripts", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("reports scripts that are neither None, in script.remove, nor generic", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        scripts: [
+          { slot: "overrideScript", value: "0X1DG" },
+          { slot: "classScript", value: "None" },
+          { slot: "defaultScript", value: "WTASIGHT" }, // in genericScriptsToRemove
+        ],
+      }),
+    );
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
+    ]);
+  });
+
+  it("is cleared when the script is listed in data.script.remove (case-insensitive)", () => {
+    mockRows(csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0x1dg" }] }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, scriptRemove: ["0X1DG"] });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("is cleared by an adjustment's script.remove for that adjustment's files", () => {
+    mockRows(csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }));
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], scriptRemove: ["0X1DG"] }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("reports nothing when the base script.location is None (scripts deliberately unmanaged)", () => {
+    mockRows(csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }));
+    const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, scriptLocation: "None" });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("reports nothing for a file whose adjustment sets script.location None", () => {
+    mockRows(csvRow({ file: "OHDANIM1", scripts: [{ slot: "defaultScript", value: "AVBEAR1" }] }));
+    const cre = creatureWith({
+      files: [{ name: "OHDANIM1" }],
+      level1: 3,
+      adjustments: [{ files: ["OHDANIM1"], scriptLocation: "None" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("still reports the bg1 row when only a bg2-tagged adjustment sets script.location None", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+      csvRow({ file: "AAA", game: "bg2", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], game: "bg2", scriptLocation: "None" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: "bg1", check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
+    ]);
+  });
+
+  it("does not let a bg2-tagged script.remove clear the bg1 row's script", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+      csvRow({ file: "AAA", game: "bg2", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      adjustments: [{ files: ["AAA"], game: "bg2", scriptRemove: ["0X1DG"] }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: "bg1", check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
+    ]);
+  });
+});
+
+describe("creatureService.checkAgainstCsv", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("emits a file-prefixed warn line for an unacknowledged persisting item", () => {
+    const row = csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
+  });
+
+  it("suppresses a file whose row has ValidatedItems=true", () => {
+    const row = csvRow({
+      file: "AAA",
+      items: [{ slot: "helmet", file: "HELM01" }],
+      validatedItems: true,
+    });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("reports only the unacknowledged game's row when the other game's row is validated", () => {
+    const bg1 = csvRow({
+      file: "AAA", game: "bg1", items: [{ slot: "helmet", file: "HELM01" }], validatedItems: true,
+    });
+    const bg2 = csvRow({
+      file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }], validatedItems: false,
+    });
+    mockRows(bg1, bg2);
+    // suppression re-resolves each finding by its own game, exactly as on disk.
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockImplementation((_file, game) =>
+      game === "bg2" ? bg2 : bg1,
+    );
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith("AAA (bg2) : items (lring=RING95)");
+  });
+
+  it("emits a separate line per source file", () => {
+    const rowsByFile: Record<string, CreatureCsvRow> = {
+      AAA: csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] }),
+      BBB: csvRow({ file: "BBB", items: [{ slot: "lring", file: "RING95" }] }),
+    };
+    vi.spyOn(monsterFilesService, "getCreatureRows").mockImplementation((file) => [
+      rowsByFile[file.toUpperCase()],
+    ]);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockImplementation(
+      (file) => rowsByFile[file.toUpperCase()],
+    );
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(
+      creatureWith({ files: [{ name: "AAA" }, { name: "BBB" }], level1: 3 }),
+    );
+
+    expect(warn).toHaveBeenCalledTimes(2);
+    expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
+    expect(warn).toHaveBeenCalledWith("BBB : items (lring=RING95)");
+  });
+
+  it("combines every check for one file onto a single line, in level/items/scripts order", () => {
+    const row = csvRow({
+      file: "AAA",
+      level: 6,
+      items: [{ slot: "lring", file: "RING95" }],
+      scripts: [{ slot: "defaultScript", value: "0X1DG" }],
+    });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 10 }));
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      "AAA : level gap (csv 6 / def 10), items (lring=RING95), scripts (defaultScript=0X1DG)",
+    );
+  });
+
+  it("labels a level-gap line with the 'level gap' keyword", () => {
+    const row = csvRow({ file: "AAA", level: 6 });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 10 }));
+
+    expect(warn).toHaveBeenCalledWith("AAA : level gap (csv 6 / def 10)");
+  });
+
+  it("emits a scripts-only line as a warning", () => {
+    const row = csvRow({ file: "AAA", scripts: [{ slot: "overrideScript", value: "0X1DG" }] });
+    mockRows(row);
+    vi.spyOn(monsterFilesService, "getCreatureRow").mockReturnValue(row);
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const info = vi.spyOn(logService, "info").mockImplementation(() => undefined);
+
+    creatureService.checkAgainstCsv(creatureWith({ files: [{ name: "AAA" }], level1: 3 }));
+
+    expect(warn).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
+    expect(info).not.toHaveBeenCalled();
   });
 });

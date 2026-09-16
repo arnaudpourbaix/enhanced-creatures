@@ -103,6 +103,14 @@ describe("setAdjustments", () => {
     creatureFactory.setAdjustments(creature, [adjustment]);
     expect(creature.adjustments[0].files).toEqual(["GHASTGSU"]);
   });
+
+  it("passes through the game property from a direct adjustment entry", () => {
+    const creature = fakeCreature();
+    const adjustment = { files: ["test_adj"], game: "bg2" } as unknown as PartialCreatureAdjustment;
+    creatureFactory.setAdjustments(creature, [adjustment]);
+    expect(creature.adjustments[0].game).toBe("bg2");
+    expect(creature.adjustments[0].files).toEqual(["TEST_ADJ"]);
+  });
 });
 
 describe("setBehavior", () => {
@@ -171,7 +179,7 @@ describe("validate", () => {
   it("marks the creature invalid when checkDialog fails, even though every other check passes", () => {
     const creature = fakeCreature();
     creature.family = MonsterFamilyEnum.Ankheg;
-    creature.files = ["TESTCRE"];
+    creature.files = [{ name: "TESTCRE" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
@@ -181,15 +189,18 @@ describe("validate", () => {
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
 
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
     creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
 
     expect(creature.valid).toBe(false);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("is not valid, please fix it"));
   });
 
   it("keeps the creature valid when checkDialog passes and every other check passes", () => {
     const creature = fakeCreature();
     creature.family = MonsterFamilyEnum.Ankheg;
-    creature.files = ["TESTCRE2"];
+    creature.files = [{ name: "TESTCRE2" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
@@ -198,16 +209,18 @@ describe("validate", () => {
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
     creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
 
     expect(creature.valid).toBe(true);
+    expect(logSpy).not.toHaveBeenCalled();
   });
 
   it("marks the creature invalid when checkAdjustmentFiles fails, even though every other check passes", () => {
     const creature = fakeCreature();
     creature.family = MonsterFamilyEnum.Ankheg;
-    creature.files = ["TESTCRE3"];
+    creature.files = [{ name: "TESTCRE3" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
@@ -221,5 +234,61 @@ describe("validate", () => {
     creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
 
     expect(creature.valid).toBe(false);
+  });
+
+  it("allows the same resref on two creatures when their games don't overlap", () => {
+    vi.spyOn(creatureService, "check").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
+    vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    const a = fakeCreature();
+    a.family = MonsterFamilyEnum.Ankheg;
+    a.files = [{ name: "SHARED", game: "bg1" }];
+    a.name = PLACEHOLDER_NAME_KEY;
+    creatureFactory.validate(a, MonsterFamilyEnum.Ankheg);
+
+    const b = fakeCreature();
+    b.id = 2;
+    b.family = MonsterFamilyEnum.Ankheg;
+    b.files = [{ name: "SHARED", game: "bg2" }];
+    b.name = PLACEHOLDER_NAME_KEY;
+    creatureFactory.validate(b, MonsterFamilyEnum.Ankheg);
+
+    expect(warn).not.toHaveBeenCalledWith(
+      expect.stringContaining("already declared in other creatures"),
+    );
+    expect(b.valid).toBe(true);
+  });
+
+  it("still flags the same resref when one side is both-games", () => {
+    vi.spyOn(creatureService, "check").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
+    vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    const a = fakeCreature();
+    a.family = MonsterFamilyEnum.Ankheg;
+    a.files = [{ name: "SHARED2" }];
+    a.name = PLACEHOLDER_NAME_KEY;
+    creatureFactory.validate(a, MonsterFamilyEnum.Ankheg);
+
+    const b = fakeCreature();
+    b.id = 3;
+    b.family = MonsterFamilyEnum.Ankheg;
+    b.files = [{ name: "SHARED2", game: "bg1" }];
+    b.name = PLACEHOLDER_NAME_KEY;
+    creatureFactory.validate(b, MonsterFamilyEnum.Ankheg);
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("already declared in other creatures"),
+    );
+    expect(b.valid).toBe(false);
   });
 });

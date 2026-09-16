@@ -1,3 +1,18 @@
 @100 = ~Cure Disease~
 @101 = ~Remove Fear~
 @102 = ~Cure Poison~
+
+@200 = ~This small figurine is a perfect replication of a spotted lion. When the command word is spoken, the lion grows to normal proportions, becoming a living, breathing cat named Joolon. Once summoned, the lion will obey their summoner's commands for five turns, or until slain. After this period, the figurine will return to its owner, and Joloon may be summoned again after 24 hours have passed.
+
+STATISTICS:
+
+Special Abilities:
+ Summon Joolon (1x per day): 5 turns
+
+Joolon Characteristics (9 Hit Dice):
+ STR 18, DEX 14, CON 17, INT 3, WIS 13, CHA 10;  AL Neutral
+ HP 101, AC 5, THAC0 11
+ 3 Attacks per Round: 2D4, 2D4, 1D12 (Claws & Bite)
+
+ Special Qualities:
+  Leap~

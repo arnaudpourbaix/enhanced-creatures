@@ -18,6 +18,7 @@ import {
   MainCreatureData,
 } from "../model/creature/data";
 import { InputCreatureData } from "../model/creature/data-input";
+import { gamesOverlap } from "../model/creature/game";
 import { ItemSlot } from "../model/creature/item";
 import { ImmunityName } from "../model/final/immunity";
 import { Item } from "../model/spell-item/spell-item";
@@ -49,7 +50,7 @@ class CreatureFactory {
     }
     for (const field of CREATURE_DATA_FIELDS) {
       if (field.setter && input[field.key] !== undefined) {
-        field.setter(data, input[field.key]);
+        field.setter(data, input[field.key], isAdjustment);
       }
       if (!field.setter && field.key in input && input[field.key] !== undefined) {
         (data as unknown as Record<string, unknown>)[field.key] = input[field.key];
@@ -76,6 +77,7 @@ class CreatureFactory {
       const result: CreatureAdjustment = {
         ...adjustment,
         files: adjustment.files.map((f) => f.toUpperCase()),
+        game: adjustment.game,
         noWeapon: adjustment.noWeapon ?? false,
         summon: adjustment.summon ?? false,
         scriptName: adjustment.scriptName ?? false,
@@ -162,13 +164,15 @@ class CreatureFactory {
       valid = false;
     }
     const existingFiles = creature.files.filter((f) =>
-      State.creatures.some((c) => c.files.includes(f)),
+      State.creatures.some((c) =>
+        c.files.some((known) => known.name === f.name && gamesOverlap(known.game, f.game)),
+      ),
     );
     if (existingFiles.length) {
       logService.warn(
-        `${
-          figureSet.warning
-        } Those files are already declared in other creatures: ${existingFiles.join(", ")}`,
+        `${figureSet.warning} Those files are already declared in other creatures: ${existingFiles
+          .map((f) => (f.game ? `${f.name} (${f.game})` : f.name))
+          .join(", ")}`,
       );
       valid = false;
     }
@@ -193,9 +197,13 @@ class CreatureFactory {
     const adjustmentFilesValid = creatureService.checkAdjustmentFiles(creature);
     immunityService.handleImmunities(creature);
     creatureService.checkWeapons(creature);
+    creatureService.checkAgainstCsv(creature);
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
     creature.valid = valid && dialogValid && adjustmentFilesValid;
+    if (!creature.valid) {
+      logService.warn(`${translationService.from(creature.name)} is not valid, please fix it !`);
+    }
   }
 }
 

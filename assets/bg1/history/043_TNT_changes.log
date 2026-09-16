@@ -1,0 +1,588 @@
+TNT: 1 new, 239 changed
+
+NEW (1):
+  G_PISPY
+
+CHANGED (239):
+  AC#FP4S2  Voidspeaker
+    helmet: helmnoan -> HELMNOAN
+  AC#FP4S3  Voidspeaker
+    helmet: helmnoan -> HELMNOAN
+  AC#FP6S2  Voidspeaker
+    helmet: helmnoan -> HELMNOAN
+  AC#FP6S3  Voidspeaker
+    helmet: helmnoan -> HELMNOAN
+  AD3SKLM   Skeleton
+    weapon1: sw1h01 -> SW1H01
+  AIRASPEC  Air Aspect
+    rring: MAGE06 -> 
+  ALBERT    Albert
+    lring: immune1 -> IMMUNE1
+  AMARAN    Amarande
+    lring: MAGE02 -> 
+    rring: MAGE05 -> 
+  ANDRIS    Andris
+    lring: MAGE03 -> 
+  BALOR01   Balor
+    helmet: helmnoan -> HELMNOAN
+    lring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  BD302BAN  Banshee
+    rring: immune1 -> IMMUNE1
+    amulet: immchs -> IMMCHS
+    weapon1: b1-8m2 -> B1-8M2
+  BDBANDFM  Bandit Archer
+    weapon1: sw1h20 -> SW1H20
+  BDBEETRH  Rhinoceros Beetle
+    weapon1: s2-16m2 -> S2-16M2
+  BDCCCAE   Caelar Argent
+    helmet: bdhelmca -> BDHELMCA
+    shield: bdshldca -> BDSHLDCA
+    weapon1: bdsw1hca -> BDSW1HCA
+  BDCHORST  Chorster
+    lring: MAGE02 -> 
+    rring: MAGE05 -> 
+  BDCROMMU  Crommus
+    weapon1: sw1h20 -> SW1H20
+  BDDAGF43  Daggerford Militia
+    weapon1: sw1h07 -> SW1H07
+  BDDAGF44  Daggerford Militia
+    weapon1: sw1h07 -> SW1H07
+  BDDANC01  Dancing Light
+    rring: MAGE04 -> 
+  BDDANC02  Dancing Light
+    rring: MAGE04 -> 
+  BDELFIRL  Lesser Fire Elemental
+    weapon1: fireelel -> FIREELEL
+  BDGHBRSU  Ghost Bear
+    weapon1: b1-12m3 -> B1-12M3
+  BDGUAR57  Crusader Mage
+    lring: MAGE03 -> 
+  BDGUAR58  Crusader Mage
+    lring: MAGE03 -> 
+  BDHELP03  Sword Spider
+    rring: MAGE06 -> 
+  BDJAMVEN  Jamven
+    lring: MAGE02 -> 
+    rring: MAGE05 -> 
+  BDMEPHIT  Fire Mephit
+    amulet: Immcloud -> IMMCLOUD
+  BDMEPHIW  Water Mephit
+    amulet: Immcloud -> IMMCLOUD
+  BDSHAD02  Angry Spirit
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  BDSHAD04  Shadow
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  BDSPID7L  Seven-Legged Spider
+    rring: MAGE06 -> 
+  BDYMORI   Wight
+    weapon1: wight -> WIGHT
+  BEHOLD01  Beholder
+    lring: beholder -> BEHOLDER
+  BERSER02  Berserk Warrior
+    helmet: dhelm01 -> DHELM01
+    shield: dshld01 -> DSHLD01
+    lring: berserk -> BERSERK
+    weapon1: dax1h01 -> DAX1H01
+  BERSER03  Berserk Warrior
+    helmet: dhelm01 -> DHELM01
+    shield: dshld01 -> DSHLD01
+    lring: berserk -> BERSERK
+    weapon1: dax1h01 -> DAX1H01
+  BERSERSU  Berserk Warrior
+    helmet: dhelm01 -> DHELM01
+    shield: dshld01 -> DSHLD01
+    lring: berserk -> BERSERK
+    weapon1: dax1h01 -> DAX1H01
+  BEYN      Beyn
+    amulet: MAGEAMUL -> 
+  BPANKHE1  Rabid Ankheg
+    weapon2: �� -> 
+  BPBRNG01  Herbie
+    weapon2: �� -> 
+  BPGHGR01  Greater Ghoul
+    rring: �������� -> 
+  BPOGMA01  Ogre Mage
+    rring: �������� -> 
+    weapon1:  -> 
+  BPSPID03  Sword Spider
+    rring: MAGE06 -> 
+  BSPIRATE  Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  BSPIRCPT  Pirate Captain
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  C02DEMKN  Demon Knight
+    lring: reghp2 -> REGHP2
+  C0D2_S1   Spirit Bear
+    lring: sprngb04 -> SPRNGB04
+    rring: c0d2_s1 -> C0D2_S1
+  C0D2_S2   Spirit Wolf
+    rring: c0d2_s2 -> C0D2_S2
+  C0D2_S3   Spirit Lion
+    rring: c0d2_s3 -> C0D2_S3
+  C0D2_S4   Spirit Snake
+    rring: c0d2_s4 -> C0D2_S4
+  C0DTHF01  Aiden Vail
+    rring: MAGE06 -> 
+  C0PR#EF
+    rring: mage01 -> MAGE01
+    amulet: imoenhp1 -> IMOENHP1
+  C0SD-A1C  Shadow
+    rring: ring95 -> RING95
+  CARBOS    Carbos
+    weapon1: Daggshit -> DAGGSHIT
+  CATLIOWP  Joolon
+    lring: figring1 -> FIGRING1
+    rring: immune1 -> IMMUNE1
+  COWLED    Cowled Wizard
+    rring: MAGE03 -> 
+  CRYPTCRA  Crypt Crawler
+    lring: MAGE06 -> 
+  CULT3     Cult Enforcer
+    rring: MAGE06 -> 
+  CULTT1    Cult Enforcer
+    rring: MAGE06 -> 
+  D5SARGH   Phantom Figure
+    rring: d5ringgh -> D5RINGGH
+  DAVAEO    Davaeorn
+    lring: MAGE03 -> 
+    rring: MAGE05 -> 
+  DECK615   Demon Knight
+    weapon1: sw2hdeat -> SW2HDEAT
+  DECK622   Death Shade
+    weapon1: deck622 -> DECK622
+  DECKASS1  Thief
+    shield: dagg15 -> DAGG15
+    weapon1: sw1h09 -> SW1H09
+  DECKWAR1  Fighter
+    shield: sw1h09 -> SW1H09
+    weapon1: sw1h09 -> SW1H09
+  DEMNABSU  Nabassu
+    lring: reghp2 -> REGHP2
+  DEMOSUM1  Marilith
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: marili -> MARILI
+  DEMOSUM2  Balor
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune3 -> IMMUNE3
+    weapon1: balor -> BALOR
+  DEMOSUM3  Glabrezu
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: bl3-12m4 -> BL3-12M4
+  DEMOSUM4  Cambion
+    helmet: helmnoan -> HELMNOAN
+    lring: rngdemn -> RNGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demosum4 -> DEMOSUM4
+  DEMSUC01  Succubus
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  DEZKIE    Dezkiel
+    amulet: MAGEAMUL -> 
+  DOGWAWP   Astral Hound
+    rring: figring3 -> FIGRING3
+    weapon1: dogwawp -> DOGWAWP
+  DOOMSA    Doomsayer
+    rring: MAGE04 -> 
+  DRYAD     Dryad of the Cloud Peaks
+    weapon1: dagg01 -> DAGG01
+  DRYADHA   Hamadryad
+    weapon1: dagg01 -> DAGG01
+  DUPLICA1  Mirror Fiend
+    lring: MAGE04 -> 
+  DUPLICA2  Mirror Fiend
+    lring: MAGE04 -> 
+    rring: MAGE06 -> 
+  DUPLICA3  Mirror Fiend
+    lring: MAGE04 -> 
+    amulet: MAGEAMUL -> 
+  DUPLICA4  Mirror Fiend
+    lring: MAGE04 -> 
+    rring: MAGE06 -> 
+  DUPLICA5  Mirror Fiend
+    lring: MAGE04 -> 
+    rring: MAGE06 -> 
+  DUPLICA6  Mirror Fiend
+    lring: MAGE04 -> 
+    amulet: MAGEAMUL -> 
+  DW-ICE12  Ice Paraelemental
+    weapon1: dw-iewp2 -> DW-IEWP2
+  DW-ICE16  Greater Ice Paraelemental
+    weapon1: dw-iewp3 -> DW-IEWP3
+  DW-ICE24  Elder Ice Paraelemental
+    weapon1: dw-iewp3 -> DW-IEWP3
+  ELAIRSU4  Elder Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  ELAIRSUW  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  ELEARPR   Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARPR2  Greater Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARPR3  Elder Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ELEARSU4  Elder Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  ERIK3     Erik
+    weapon1: Bow03 -> BOW03
+  FAMDUS25  Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMDUST   Dust Mephit
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMFAI25  Fairy Dragon
+    amulet: Immcloud -> IMMCLOUD
+  FAMFAIR   Fairy Dragon
+    amulet: Immcloud -> IMMCLOUD
+  FAMFER    Ferret
+    amulet: Immcloud -> IMMCLOUD
+  FAMFER25  Ferret
+    amulet: Immcloud -> IMMCLOUD
+  FAMIMP    Imp
+    amulet: ImmCloud -> IMMCLOUD
+  FAMIMP25  Imp
+    amulet: ImmCloud -> IMMCLOUD
+    weapon1: impclaw -> IMPCLAW
+  FAMPSD    Pseudo-dragon
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+  FAMPSD25  Pseudo-dragon
+    lring: reghp1 -> REGHP1
+    rring: movrat10 -> MOVRAT10
+    amulet: Immcloud -> IMMCLOUD
+    weapon1: psdclaw -> PSDCLAW
+  FAMQUA25  Quasit
+    amulet: immcloud -> IMMCLOUD
+    weapon1: quasclaw -> QUASCLAW
+  FAMRAB25  Rabbit
+    amulet: Immcloud -> IMMCLOUD
+  FLAMSCO   Flaming Fist Scout
+    lring: MAGE04 -> 
+  GALDOR    Angelo
+    lring: MAGE06 -> 
+    amulet: MAGEAMUL -> 
+  GARAN     Garan
+    lring: MAGE03 -> 
+  GDOPP7    Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GDOPP71   Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GDOPP72   Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GDOPP73   Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GDOPP74   Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GDOPP75   Greater Doppelganger
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  GHASTSU   Skeleton
+    shield: skelshld -> SKELSHLD
+    weapon1: skelclub -> SKELCLUB
+  GHOULLOR  Greater Ghoul
+    rring: MAGE06 -> 
+  GISBOMB   Bombardier Beetle
+    weapon1: #s1-12 -> #S1-12
+  GLOBSHAM  Shambling Mound
+    weapon1: b4-32m4 -> B4-32M4
+  GOODDEAT  Mirror Fiend
+    lring: MAGE04 -> 
+  GRAEL     Grael
+    rring: MAGE06 -> 
+  HGSAL01   Fire Salamander
+    weapon1: hgsalf -> HGSALF
+  H_BALD2C  Baldwin "The Butcher" Glendale
+    weapon1: h_dagg03 -> H_DAGG03
+  H_BALDWC  Baldwin "The Butcher" Glendale
+    weapon1: h_dagg03 -> H_DAGG03
+  H_SNAKEC  Snake
+    weapon1: h_snakew -> H_SNAKEW
+  KAHRK     Kahrk
+    lring: MAGE06 -> 
+    amulet: MAGEAMUL -> 
+  KALDRAN   Kaldran the Bear
+    lring: MAGE06 -> 
+    weapon1: kaldw1 -> KALDW1
+  KNIGHT    Knight
+    lring: MAGE06 -> 
+  KOBCAP01  Kobold Captain
+    weapon1: sw1h07 -> SW1H07
+  L#APEAP   Starfang Tiger
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+  L#APEST   Y'Uula
+    weapon1: dagg01 -> DAGG01
+  L#BASGA   Fierce Gauth
+    lring: beholder -> BEHOLDER
+  L#BUGBU   Beetle
+    weapon1: s2-16m2 -> S2-16M2
+  L#CIREN   Energy of Planar Shades
+    weapon1: dagg01 -> DAGG01
+  L#GNOAL   Shadow Prophet
+    rring: ring95 -> RING95
+  L#GNOEN   Shadow Master
+    rring: ring95 -> RING95
+  L#GNOSH   Shadow
+    rring: ring95 -> RING95
+  L#MCBEH   Beholder
+    lring: beholder -> BEHOLDER
+  L#MCGOB2  Goblin
+    weapon1: Ax1h01 -> AX1H01
+  L#MCPIR   Charmed Pirate
+    weapon1: dagg05 -> DAGG05
+    weapon2: sw1h07 -> SW1H07
+  L#SHADM   Kimrayor, The Shard-Shatterer
+    helmet: helmnoan -> HELMNOAN
+    weapon1: sw1h02 -> SW1H02
+  L#ULCSP   Ssimkh, the Ghost-Feeding Spider
+    rring: MAGE06 -> 
+  LARZE     Larze
+    weapon1: ogre1 -> OGRE1
+  MADARC    Mad Arcand
+    lring: MAGE05 -> 
+  MEPEAR01  Earth Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MEPMAG01  Magma Mephit
+    amulet: Immcloud -> IMMCLOUD
+  MS7BGRD   Boneguard
+    weapon1: b1-10m2 -> B1-10M2
+  MS7UMBH   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  MUTAMI    Mutamin
+    lring: MAGE06 -> 
+  NADARI    Nadarin
+    weapon1: Dagg01 -> DAGG01
+  NEGOB02   Goblin
+    weapon1: Ax1h01 -> AX1H01
+  NTASCHMA  Brother Aschmaan
+    lring: MAGE04 -> 
+  NTDOOMBE  Teddy the Doomsayer
+    rring: MAGE04 -> 
+  NTDRAAGI  Brother Draagis
+    rring: MAGE05 -> 
+  NTGGHOT1  General Ghotal
+    lring: MAGE05 -> 
+  NTGGHOTA  General Ghotal
+    lring: MAGE05 -> 
+  NTHAEBAL  Haeball
+    lring: MAGE05 -> 
+  NTHASDAR  Brother Hasdar
+    rring: MAGE05 -> 
+  NTINDFI1  Maurezhi
+    helmet: helmnoan -> HELMNOAN
+    rring: immune1 -> IMMUNE1
+    weapon1: demmau01 -> DEMMAU01
+  NTINDFI2  Maurezhi
+    helmet: helmnoan -> HELMNOAN
+    rring: immune1 -> IMMUNE1
+    weapon1: demmau01 -> DEMMAU01
+  NTINDFIG  Succubus
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: demsuc01 -> DEMSUC01
+  NTSARQ    Sar'garin Ve'xelt
+    weapon1: �������� -> 
+  OGRES     Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRESU    Ogre
+    weapon1: ogre1 -> OGRE1
+  OGREUNSH  Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRE_A    Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRE_B    Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRE_C    Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRE_D    Ogre
+    weapon1: ogre1 -> OGRE1
+  OGRE_E    Ogre
+    weapon1: ogre1 -> OGRE1
+  PANGWA    Pang Wallen
+    weapon1: Dagg01 -> DAGG01
+  PLYSPID   Sword Spider
+    rring: MAGE06 -> 
+  PRAT      Prat
+    lring: MAGE04 -> 
+    rring: MAGE06 -> 
+  RETARD    Angelo
+    lring: MAGE06 -> 
+    amulet: MAGEAMUL -> 
+  RIGGILO   Riggilo
+    weapon1: sw1h08 -> SW1H08
+  ROOK      Rook
+    lring: MAGE06 -> 
+  RSGOB     Goblin
+    weapon1: Ax1h01 -> AX1H01
+  SAREVO    Sarevok
+    lring: MAGE06 -> 
+  SEMAJ     Semaj
+    lring: MAGE03 -> 
+  SHADOW01  Shadow Warrior
+    rring: ring95 -> RING95
+    weapon1: shadowwp -> SHADOWWP
+  SHALDR    Shaldrissa
+    lring: MAGE03 -> 
+  SHANDAL2  Shandalar
+    class: INNOCENT -> CLERIC_MAGE
+  SLYTHE    Slythe
+    lring: MAGE04 -> 
+    rring: MAGE06 -> 
+  SPIDFGSU  Kitthix
+    rring: figring2 -> FIGRING2
+  SPIDPHAS  Astral Phase Spider
+    rring: MAGE06 -> 
+  SPIDSW    Sword Spider
+    rring: MAGE06 -> 
+  SPIDSW01  Sword Spider
+    rring: MAGE06 -> 
+  SPIRBEAR  Spirit Bear
+    lring: Immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: bearspir -> BEARSPIR
+  SPIRLION  Spirit Lion
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: lionspir -> LIONSPIR
+  SPIRSNAK  Spirit Snake
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: snakspir -> SNAKSPIR
+  SPIRWOLF  Spirit Wolf
+    lring: immune1 -> IMMUNE1
+    rring: ring95 -> RING95
+    weapon1: wolfspir -> WOLFSPIR
+  SS1LIZ3   Lizard Man
+    weapon1: #s1-12 -> #S1-12
+  SS1LIZ4   Lizard Man
+    weapon1: #s1-12 -> #S1-12
+  SS3UMB8   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  SS3UMB9   Umber Hulk
+    weapon1: umberhlk -> UMBERHLK
+  SSHAMB    Shambling Mound
+    weapon1: shmblr -> SHMBLR
+  SUMDJINN  Djinni
+    rring: monhp1 -> MONHP1
+    weapon1: genscim -> GENSCIM
+  SUMEFREE  Efreeti
+    weapon1: genscim -> GENSCIM
+  SUMELAIR  Lesser Air Elemental
+    weapon1: elairl -> ELAIRL
+  SUMELFIR  Lesser Fire Elemental
+    weapon1: fireelel -> FIREELEL
+  SUNIN     Sunin
+    rring: MAGE05 -> 
+  SWAAIR01  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  SWAAIR02  Air Elemental
+    weapon1: b1-20m4 -> B1-20M4
+  SWAEAR01  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  SWAEAR02  Earth Elemental
+    weapon1: b4-32m4 -> B4-32M4
+  TELALU1   Alu-Fiend
+    lring: immune1 -> IMMUNE1
+    rring: ringdemn -> RINGDEMN
+    weapon1: sw1h52 -> SW1H52
+    weapon2: dart04 -> DART04
+  TELLAN    Tellan
+    lring: MAGE02 -> 
+    amulet: MAGEAMUL -> 
+  TTSKEL    Skeleton
+    weapon1: ttsword2 -> TTSWORD2
+  UDGIRL    Priestess of Lolth
+    shield: dwshld01 -> DWSHLD01
+    weapon1: dwblun01 -> DWBLUN01
+  UDMAN     Drow
+    weapon1: staf01 -> STAF01
+  VALINO    Valinor
+    lring: MAGE06 -> 
+    rring: MAGE04 -> 
+  WEREGRDR  Greater Werewolf
+    weapon1: weregrdr -> WEREGRDR
+  WHEBER    Wheber Ott
+    weapon2: Dagg02 -> DAGG02
+  WIAMARAN  Amarande
+    lring: MAGE05 -> 
+    rring: MAGE02 -> 
+  WIANKHE1  Assassin Ankheg
+    weapon2: �������� -> 
+  WIBH2TAM  Tamoko
+    weapon1: �� -> 
+  WIBH2WI2  Winski Perorate
+    rring: MAGE05 -> 
+  WIBH2WIN  Winski Perorate
+    lring: �� -> 
+    rring: MAGE05 -> 
+  WICHERI2  Cherise Siltuhr
+    rring:  -> 
+    weapon1:  -> 
+  WINSKI    Winski Perorate
+    rring: MAGE05 -> 
+  WINSKI2   Winski Perorate
+    class: INNOCENT -> MAGE
+  WIRWCLER  Thayan Apostle
+    rring:  -> 
+  WISH01    Dao
+    lring: minhp1 -> MINHP1
+    weapon1: b3-18m3 -> B3-18M3
+  WISH02    Djinni
+    lring: minhp1 -> MINHP1
+    rring: ridring -> RIDRING
+    weapon1: b3-18m3 -> B3-18M3
+  WISPID03  Lightning Sword Spider
+    rring: MAGE06 -> 
+  WIZEYE    Wizard Eye
+    rring: mage01 -> MAGE01
+  X#ANDART  Andarthe
+    lring: MAGE05 -> 
+  X#GARWYL  Myr'Cutio
+    rring: MAGE05 -> 
+  X#JONI    Stranger
+    lring: �������� -> 
+  X#MARETH  Maretha
+    lring: MAGE02 -> 
+  X#MEPHT1  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  X#MEPHT2  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  X#MEPHT3  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  X#MEPHT4  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  X#MEPHT5  Smoke Mephit
+    amulet: Immcloud -> IMMCLOUD
+  X#SHDR6   Druid
+    lring: MAGE05 -> 
+  X#SHDR6A  Druid
+    lring: MAGE05 -> 
+  X#SHDR6B  Druid
+    lring: MAGE05 -> 
+  X#SHDR8A  Druid
+    lring: MAGE05 -> 
+  X#SHDR8B  Druid
+    lring: MAGE05 -> 
+  X#TANARI  Aravaata
+    weapon1: sw1h02 -> SW1H02
+  X#WINSKI  Winski Perorate
+    rring: MAGE05 -> 

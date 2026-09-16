@@ -17,6 +17,28 @@ THEN
 		Continue()
 END
 
+// Precast AnimateDead
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR301")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR301",Myself)
+		RemoveSpellRES("SPPR301")
+		Continue()
+END
+
+// Precast AnimateSkeletonWarrior
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR619")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR619",Myself)
+		RemoveSpellRES("SPPR619")
+		Continue()
+END
+
 // Precast Ironskin
 IF
 	Global("JA_PRECAST_LONG","LOCALS",0)
@@ -138,7 +160,7 @@ THEN
 		RandomWalkContinuous()
 END
 
-// Potion of extra healing (40hp)
+// Potion of superior healing (40hp)
 IF
 	ActionListEmpty()
 	HasItem("POTN55",Myself)
@@ -147,7 +169,7 @@ IF
 	HPPercentLT(Myself,30)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN55",Myself)
 END
@@ -161,9 +183,22 @@ IF
 	HPPercentLT(Myself,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN52",Myself)
+END
+
+// Potion of regeneration
+IF
+	ActionListEmpty()
+	HasItem("POTN42",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HPPercentLT(Myself,90)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN42",Myself)
 END
 
 // Exilir of health (10hp)
@@ -177,9 +212,22 @@ IF
 		StateCheck(Myself,STATE_POISONED)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN17",Myself)
+END
+
+// Antidote
+IF
+	ActionListEmpty()
+	HasItem("POTN20",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(Myself,STATE_POISONED)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN20",Myself)
 END
 
 // Potion of healing (10hp)
@@ -191,7 +239,7 @@ IF
 	HPPercentLT(Myself,75)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN08",Myself)
 END
@@ -201,12 +249,53 @@ IF
 	ActionListEmpty()
 	HasItem("POTN14",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	RandomNumLT(888,100)
+	!StateCheck(Myself,STATE_HASTED)
+	RandomNumGT(200,40)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN14",Myself)
+END
+
+// Potion of invisibility
+IF
+	ActionListEmpty()
+	HasItem("POTN10",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(Myself,STATE_INVISIBLE)
+	RandomNumGT(201,40)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN10",Myself)
+END
+
+// Potion of invulnerability
+IF
+	ActionListEmpty()
+	HasItem("POTN11",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	RandomNumGT(202,40)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN11",Myself)
+END
+
+// Potion of defense
+IF
+	ActionListEmpty()
+	HasItem("POTN24",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	RandomNumGT(203,41)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN24",Myself)
 END
 
 // Potion of fire resistance
@@ -214,12 +303,125 @@ IF
 	ActionListEmpty()
 	HasItem("POTN02",Myself)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	RandomNumLT(888,100)
+	CheckStatLT(Myself,100,RESISTFIRE)
+	RandomNumGT(204,41)
 THEN
 	RESPONSE #100
-		DisplayStringHead(Myself,@10113)
+		DisplayStringHead(Myself,@10114)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		UseItem("POTN02",Myself)
+END
+
+// Potion of magic resistance
+IF
+	ActionListEmpty()
+	HasItem("POTN34",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,20,RESISTMAGIC)
+	RandomNumGT(205,41)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN34",Myself)
+END
+
+// Potion of magic shielding
+IF
+	ActionListEmpty()
+	HasItem("POTN35",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,50,MAGICDAMAGERESISTANCE)
+	RandomNumGT(206,41)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN35",Myself)
+END
+
+// Potion of freedom
+IF
+	ActionListEmpty()
+	HasItem("POTN45",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,CLERIC_FREE_ACTION)
+	RandomNumGT(207,41)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN45",Myself)
+END
+
+// Potion of storm giant strength
+IF
+	ActionListEmpty()
+	HasItem("POTN07",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,24,STR)
+	RandomNumGT(208,42)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN07",Myself)
+END
+
+// Potion of cloud giant strength
+IF
+	ActionListEmpty()
+	HasItem("POTN06",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,23,STR)
+	RandomNumGT(209,42)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN06",Myself)
+END
+
+// Potion of fire giant strength
+IF
+	ActionListEmpty()
+	HasItem("POTN05",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,22,STR)
+	RandomNumGT(210,42)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN05",Myself)
+END
+
+// Potion of frost giant strength
+IF
+	ActionListEmpty()
+	HasItem("POTN04",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,21,STR)
+	RandomNumGT(211,42)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN04",Myself)
+END
+
+// Potion of hill giant strength
+IF
+	ActionListEmpty()
+	HasItem("POTN03",Myself)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	CheckStatLT(Myself,19,STR)
+	RandomNumGT(212,42)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,@10114)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		UseItem("POTN03",Myself)
 END
 
 // Attack NoCheck enemy

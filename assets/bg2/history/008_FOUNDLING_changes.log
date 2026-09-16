@@ -1,0 +1,41 @@
+FOUNDLING: 20 new, 5 changed
+
+NEW (20):
+  L#ADV1    Toracz
+  L#ADV2    Joah
+  L#ADV3    Sonya
+  L#CURS    Curse
+  L#FFAM    Familiar
+  L#FOGR2   Gray Hag
+  L#FOGRA   Gray Spectre
+  L#FOIVO   Ivory Witch
+  L#FOMIST  Pearl Mist
+  L#FOU     Foundling
+  L#FOU25   Foundling
+  L#FOUD    Thaxll'ssillyia
+  L#FSP37   Shadowbound
+  L#FSPS2   Shadow
+  L#FSW
+  L#GLOR    Gloria D'Orlaux
+  L#GUAR    Misty Guardian
+  L#RAT     Faded-to-Gray
+  L#SHA1    Shadow
+  L#SSH     Shadow Hatchling
+
+CHANGED (5):
+  FIRMAG01  Conster
+    helmet: helmnoan -> HELMNOAN
+  FIRRAK01  Ruhk Transmuter
+    lring: ring02 -> RING02
+    rring: rakring -> RAKRING
+    weapon1: sw1h04 -> SW1H04
+  HGNYA01   Nyalee
+    helmet: helmnoan -> HELMNOAN
+    lring: ring03 -> RING03
+    amulet: minhp1 -> MINHP1
+    weapon1: hgnya01 -> HGNYA01
+  HGSKL01   Skeleton Cleric
+    lring: ring95 -> RING95
+    weapon1: blun21 -> BLUN21
+  PMASTER   Master of Thralls
+    lring: ringdemn -> RINGDEMN

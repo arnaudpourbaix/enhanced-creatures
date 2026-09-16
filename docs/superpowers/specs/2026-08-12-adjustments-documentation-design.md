@@ -22,14 +22,29 @@ read as a changelog, not as "what does this file actually look like," which is w
 
 **A field only appears on an adjustment's card if it already has a rendering path in the main
 per-creature block today.** Concretely, that's: ability scores, Hit Dice (level + hp), Armor
-Class, THAC0, Attacks per Round, Movement, Morale, Alignment, Size, XP Value, Attacks
-(`items.equipped`), Traits (`immunities`), and Abilities/Spellbooks (`spells.memorized`). Any field
-without an existing doc rendering - `class`/`kit`/`race`/`general`, `bonusHp`/`specialBonusHp`,
-`proficiencies`, colors, `script`, `gender`, `ea`, sub-type ACs/saves/resistances,
-`hideShadow`/`moveSilent`, `doubleApr` (as its own line - it still folds into the APR value) - is
-never shown directly, full stop, no generic fallback. If such a field affects a *shown* field (e.g.
-`bonusHp` feeding into `hp`/`thac0`, confirmed below) that effect surfaces through the shown field
-itself.
+Class, THAC0, Attacks per Round, Movement, Morale, Alignment, Size, XP Value, Kit (see below),
+Attacks (`items.equipped`), Traits (`immunities`, plus `hideShadow` - see below), and
+Abilities/Spellbooks (`spells.memorized`). Any field without an existing doc rendering -
+`class`/`race`/`general`, `bonusHp`/`specialBonusHp`, `proficiencies`, colors, `script`, `gender`,
+`ea`, sub-type ACs/saves/resistances, `moveSilent`, `doubleApr` (as its own line - it still folds
+into the APR value) - is never shown directly, full stop, no generic fallback. If such a field
+affects a *shown* field (e.g. `bonusHp` feeding into `hp`/`thac0`, confirmed below) that effect
+surfaces through the shown field itself.
+
+`hideShadow` (the thief-skill value backing Hide in Shadows, see
+`lib/src/services/baf/statement-builder.service.ts`'s `thievesAbilities`) is rendered as its own
+Traits entry, `<h5>Hide in Shadows (N%)</h5>`, whenever it's defined - on the base card via
+`getCreatureTraits`, and on adjustment/variant cards via `getAdjustmentTraits` (flagged `changed`,
+same as every other scalar field) whenever a file's folded value differs from the base creature's
+own. See `getHideInShadowsTrait` in `documentation.service.ts`.
+
+`kit` is rendered as its own "Kit" stat, following the exact same "only when there's a value" rule
+as XP Value: on the base card via `addCreature`'s `{{kitStat}}` token and `getBaseStatGrid` (the
+adjustments panel's read-only base reference), and on adjustment/variant cards via
+`getAdjustmentStatGrid`'s "Kit" row, flagged `changed` whenever a file's folded kit differs from
+the base creature's own. It is not repeated in the `hideShadow` trait line - the two are separate
+stats that happen to interact in-game (a Shadowdancer's kit changes how Hide in Shadows behaves),
+not one combined field.
 
 Each shown field displays the file's **effective value**: whatever the folded adjustment sets, or
 the base creature's own value when the adjustment doesn't touch that field. A field is flagged as

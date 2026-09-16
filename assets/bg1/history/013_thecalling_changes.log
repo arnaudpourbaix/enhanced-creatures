@@ -1,0 +1,47 @@
+thecalling: 40 new, 1 changed
+
+NEW (40):
+  CD09FRI   Mallandrea
+  CD09HAG   Pelerlertiana
+  CD09MAN   Xamm
+  CD09SPC   Spore Colony
+  CD09TH2   Mysterious Woman
+  CD09THI   Bdharlan the Simple
+  CD23BAN   Scavenger Tymothy
+  CD23MON   Inoshishi
+  CD23ROG   Vaxffee the Greedy
+  CD23TRO   Moaning Troll
+  CD41COR   Manifestation of Corruption
+  CD41GUAR  Dreamheart's Guardian
+  CD41HEA   Dreamheart
+  CD41SHA   Fear of Stasis
+  CD41WOL1  Vampiric Wolf - Pack Leader
+  CD41WOL2  Zombie-Wolf
+  CD51CH    Chieftain Hvalanya
+  CD51DED1  Amnian Soldier
+  CD51DED2  Amnian Soldier
+  CD51DED3  Amnian Soldier
+  CD51DED4  Amnian Soldier
+  CD51DED5  Amnian Soldier
+  CD51DED6  Amnian Soldier
+  CD51GHO   Kalvranalan
+  CD51GO    Watchdog Purkht
+  CD51GS    Shaman Sirkhr
+  CD51GW    Gnoll-Weakling
+  CD51GZ    Gnoll Witherling
+  CD51QM    Captain Stilind
+  CD51SHOP  Quartermaster
+  CD51SOL1  Amnian Soldier
+  CD51SOL2  Amnian Soldier
+  CD51SOL3  Amnian Scout Manlytoe
+  CDGRACE   Grace
+  CDIRIS    Iris Cotton
+  CDLARGO   Largo Cotton
+  CDMELI    Melicamp
+  CDMINER1  Miner Sal
+  CDMINER2  Miner James
+  DW#WWOLF  Werewolf
+
+CHANGED (1):
+  GELLAN    Gellana Mirrorshade
+    deathvar: None -> gellan

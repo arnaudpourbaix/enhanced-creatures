@@ -1,0 +1,35 @@
+SIRENE_BG2: 28 new, 1 changed
+
+NEW (28):
+  C0DEATHK  Demon Knight
+  C0SCLEO   Cleo
+  C0SCLER1  Revered Brother Daeron
+  C0SCLER2  Priest of Ilmater
+  C0SCLER3  Priestess of Ilmater
+  C0SCLER4  Priest of Ilmater
+  C0SCLER5  Priestess of Ilmater
+  C0SCLER6  Priest of Ilmater
+  C0SCLER7  Priest of Ilmater
+  C0SCLER8  Injured Man
+  C0SGIRL   Flower Girl
+  C0SIRE2   Sirene
+  C0SIRE25  Sirene
+  C0SIRENG  Sirene
+  C0SLOVE1  Lena De'bryll
+  C0SLOVE2  T'samon
+  C0SMESS   Brother Theodore
+  C0SRAID   Zalorne the Unfettered
+  C0SRAID1  Fighter
+  C0SRAID2  Fighter
+  C0SRAID3  Fighter
+  C0SRAID4  Mage
+  C0SRAID5  Thief
+  C0SRAID6  Thief
+  C0SRAID7  Thief
+  C0SRAID8  Cleric
+  C0SRAID9  Fighter
+  C0TSAMON  T'samon
+
+CHANGED (1):
+  WILMAT    Priestess of Ilmater
+    deathvar: None -> wilmat

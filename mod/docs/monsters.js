@@ -27,20 +27,69 @@
   }
 
   function initSpellbookTabs() {
+    // A mod-variant tab panel can itself contain a nested level-tabs group (a spellbook long
+    // enough to need spell-level tabs inside a mod tab - see
+    // documentation.service.ts's renderAbilityEntries), reusing the very same
+    // spellbook-tab-*/spellbook-tabs classes one level down. `:scope`-qualifying every lookup to
+    // this container's own direct children keeps each tab group wired to only its own
+    // buttons/panels instead of a deep querySelectorAll also matching the nested group's.
     document.querySelectorAll(".spellbook-tabs").forEach(function (tabs) {
-      var buttons = tabs.querySelectorAll(".spellbook-tab-button");
+      var buttons = tabs.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button");
       buttons.forEach(function (button) {
         button.addEventListener("click", function () {
           var targetId = button.getAttribute("data-tab");
+          // Each mod panel builds its own independent nested level-tabs widget, so a level
+          // selection in one doesn't carry over to another by DOM id - but comparing a spellbook
+          // across mods is the whole point of the mod tabs, so read off the leaving panel's
+          // active level *label* ("Level 3"/"Innate") before switching, and re-select that same
+          // label in the panel being entered if it has one - keeping the reader on the same level
+          // instead of snapping back to Level 1.
+          var activePanel = tabs.querySelector(":scope > .spellbook-tab-panel.active");
+          var activeLevelLabel = getActiveNestedTabLabel(activePanel);
+
           buttons.forEach(function (b) {
             b.classList.toggle("active", b === button);
           });
-          tabs.querySelectorAll(".spellbook-tab-panel").forEach(function (panel) {
-            panel.classList.toggle("active", panel.id === targetId);
+          var targetPanel = null;
+          tabs.querySelectorAll(":scope > .spellbook-tab-panel").forEach(function (panel) {
+            var isTarget = panel.id === targetId;
+            panel.classList.toggle("active", isTarget);
+            if (isTarget) targetPanel = panel;
           });
+          if (activeLevelLabel && targetPanel) selectNestedTabByLabel(targetPanel, activeLevelLabel);
         });
       });
     });
+  }
+
+  function getNestedSpellbookTabs(panel) {
+    return panel ? panel.querySelector(":scope > .spellbook-tabs") : null;
+  }
+
+  function getActiveNestedTabLabel(panel) {
+    var nested = getNestedSpellbookTabs(panel);
+    if (!nested) return null;
+    var active = nested.querySelector(
+      ":scope > .spellbook-tab-buttons > .spellbook-tab-button.active",
+    );
+    return active ? active.textContent : null;
+  }
+
+  function selectNestedTabByLabel(panel, label) {
+    var nested = getNestedSpellbookTabs(panel);
+    if (!nested) return;
+    var match = null;
+    nested.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button").forEach(
+      function (button) {
+        if (button.textContent === label) match = button;
+      },
+    );
+    // No matching level in this mod's spellbook (e.g. it stops at level 5 while the one just left
+    // goes to 7) - leave it on its own default rather than forcing a level it doesn't have.
+    if (!match || match.classList.contains("active")) return;
+    // Reuses that button's own click listener (bound when initSpellbookTabs walked this nested
+    // group) rather than duplicating its active-toggling logic here.
+    match.click();
   }
 
   function initTraitPopover() {
@@ -209,9 +258,258 @@
     });
   }
 
+  function initAdjustmentsPanel() {
+    var panel = document.querySelector(".adjustments-panel");
+    var mount = panel && panel.querySelector(".adjustments-panel-mount");
+    var titleEl = panel && panel.querySelector(".adjustments-panel-title");
+    var closeButton = panel && panel.querySelector(".adjustments-panel-close");
+    var backdrop = document.querySelector(".adjustments-backdrop");
+    if (!panel || !mount || !titleEl || !closeButton || !backdrop) return;
+
+    // Move just the .adj-layout into the panel, not the whole <details> - a <details> wraps its
+    // content in an implicit box that breaks the flex/height chain the two scroll panes need.
+    var active = null; // the .adj-layout currently in the panel
+    var home = null; // { parent, next } to move it back to
+
+    function openPanel(details) {
+      if (active) restore();
+      var layout = details.querySelector(".adj-layout");
+      if (!layout) return;
+      home = { parent: layout.parentNode, next: layout.nextSibling };
+      mount.appendChild(layout);
+      titleEl.textContent = details.getAttribute("data-title") || "Adjustments";
+      panel.hidden = false;
+      panel.setAttribute("aria-hidden", "false");
+      backdrop.classList.add("visible");
+      document.body.classList.add("adjustments-open");
+      var content = layout.querySelector(".adj-content");
+      if (content) content.scrollTop = 0;
+      active = layout;
+    }
+
+    function restore() {
+      if (!active) return;
+      home.parent.insertBefore(active, home.next);
+      active = null;
+    }
+
+    function closePanel() {
+      restore();
+      panel.hidden = true;
+      panel.setAttribute("aria-hidden", "true");
+      backdrop.classList.remove("visible");
+      document.body.classList.remove("adjustments-open");
+    }
+
+    document.addEventListener("click", function (event) {
+      var summary = event.target.closest ? event.target.closest("summary") : null;
+      if (summary && summary.parentNode.classList.contains("creature-adjustments")) {
+        event.preventDefault();
+        openPanel(summary.parentNode);
+        return;
+      }
+      var treeLink = event.target.closest ? event.target.closest(".adj-tree a") : null;
+      if (treeLink && active) {
+        event.preventDefault();
+        var target = document.getElementById(treeLink.getAttribute("href").slice(1));
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        active.querySelectorAll(".adj-tree a").forEach(function (link) {
+          link.classList.toggle("active", link === treeLink);
+        });
+      }
+    });
+
+    closeButton.addEventListener("click", closePanel);
+    backdrop.addEventListener("click", closePanel);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) closePanel();
+    });
+  }
+
+  function initFileSearch() {
+    var input = document.querySelector(".file-search-input");
+    var results = document.querySelector(".file-search-results");
+    var dataEl = document.getElementById("file-search-index");
+    if (!input || !results || !dataEl) return;
+
+    var index;
+    try {
+      index = JSON.parse(dataEl.textContent || "[]");
+    } catch (e) {
+      return;
+    }
+    if (!Array.isArray(index) || !index.length) return;
+    index.sort(function (a, b) {
+      return a.file < b.file ? -1 : a.file > b.file ? 1 : 0;
+    });
+
+    var MAX_RESULTS = 12;
+    var activeIndex = -1;
+    var currentHits = [];
+
+    function hideResults() {
+      results.hidden = true;
+      results.innerHTML = "";
+      activeIndex = -1;
+      currentHits = [];
+    }
+
+    function score(entry, query) {
+      var i = entry.file.indexOf(query);
+      if (i === -1) return -1;
+      return i === 0 ? 0 : 1; // prefix matches rank above mid-string matches
+    }
+
+    function search(raw) {
+      var query = raw.trim().toUpperCase();
+      if (!query) {
+        hideResults();
+        return;
+      }
+      currentHits = index
+        .map(function (entry) {
+          return { entry: entry, rank: score(entry, query) };
+        })
+        .filter(function (hit) {
+          return hit.rank !== -1;
+        })
+        .sort(function (a, b) {
+          return a.rank - b.rank || (a.entry.file < b.entry.file ? -1 : 1);
+        })
+        .slice(0, MAX_RESULTS)
+        .map(function (hit) {
+          return hit.entry;
+        });
+      render();
+    }
+
+    function render() {
+      results.innerHTML = "";
+      activeIndex = -1;
+      if (!currentHits.length) {
+        var empty = document.createElement("li");
+        empty.className = "file-search-empty";
+        empty.textContent = "No matching file";
+        results.appendChild(empty);
+        results.hidden = false;
+        return;
+      }
+      currentHits.forEach(function (entry) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.className = "file-search-hit";
+        a.href = "#" + entry.anchor;
+        a.dataset.anchor = entry.anchor;
+        a.dataset.kind = entry.kind;
+        a.dataset.file = entry.file;
+        var file = document.createElement("span");
+        file.className = "file-search-file";
+        file.textContent = entry.file;
+        var meta = document.createElement("span");
+        meta.className = "file-search-meta";
+        meta.textContent = entry.creature;
+        a.appendChild(file);
+        a.appendChild(meta);
+        li.appendChild(a);
+        results.appendChild(li);
+      });
+      results.hidden = false;
+    }
+
+    function setActive(next) {
+      var hits = results.querySelectorAll(".file-search-hit");
+      if (!hits.length) return;
+      activeIndex = (next + hits.length) % hits.length;
+      hits.forEach(function (hit, i) {
+        hit.classList.toggle("active", i === activeIndex);
+      });
+      hits[activeIndex].scrollIntoView({ block: "nearest" });
+    }
+
+    function flash(el) {
+      el.classList.add("file-search-target");
+      window.setTimeout(function () {
+        el.classList.remove("file-search-target");
+      }, 1600);
+    }
+
+    function activate(hit) {
+      var anchor = hit.dataset.anchor;
+      var kind = hit.dataset.kind;
+      var file = hit.dataset.file;
+      var card = document.getElementById(anchor);
+      hideResults();
+      input.value = "";
+      input.blur();
+      if (!card) return;
+      // For anything other than a plain replacement, the detail the reader wants is inside the
+      // adjustments panel - open it via the same summary click initAdjustmentsPanel() listens for,
+      // then scroll to the card that owns this file (its data-files carries the resref).
+      var summary =
+        kind !== "replaces" ? card.querySelector(".creature-adjustments > summary") : null;
+      if (summary) {
+        summary.click();
+        var panel = document.querySelector(".adjustments-panel");
+        var target =
+          panel && file
+            ? panel.querySelector('[data-files~="' + file.replace(/["\\]/g, "\\$&") + '"]')
+            : null;
+        if (target) {
+          window.requestAnimationFrame(function () {
+            // "center" rather than "start" so the sticky .adj-tree at the top of the scroll
+            // container never covers the card we just jumped to.
+            target.scrollIntoView({ block: "center" });
+            flash(target);
+          });
+        }
+        return;
+      }
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
+      flash(card);
+    }
+
+    input.addEventListener("input", function () {
+      search(input.value);
+    });
+
+    input.addEventListener("keydown", function (event) {
+      if (results.hidden) return;
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActive(activeIndex + 1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActive(activeIndex - 1);
+      } else if (event.key === "Enter") {
+        var hits = results.querySelectorAll(".file-search-hit");
+        var target = activeIndex >= 0 ? hits[activeIndex] : hits[0];
+        if (target) {
+          event.preventDefault();
+          activate(target);
+        }
+      } else if (event.key === "Escape") {
+        hideResults();
+      }
+    });
+
+    results.addEventListener("click", function (event) {
+      var hit = event.target.closest ? event.target.closest(".file-search-hit") : null;
+      if (!hit) return;
+      event.preventDefault();
+      activate(hit);
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest || !event.target.closest(".file-search")) hideResults();
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
     initSpellbookTabs();
     initTraitPopover();
+    initAdjustmentsPanel();
+    initFileSearch();
   });
 })();

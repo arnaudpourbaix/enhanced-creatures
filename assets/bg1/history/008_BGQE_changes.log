@@ -1,0 +1,77 @@
+BGQE: 56 new, 8 changed
+
+NEW (56):
+  C#LCNO01  Old Mother
+  C#LCNOOB  Noober
+  C#Q01001  Alanna
+  C#Q01002  Eltolth
+  C#Q01003  Eltolth
+  C#Q01004  Tulbor
+  C#Q01005  Alanna
+  C#Q02005  Mrs. Dudley
+  C#Q02006  Mr. Dudley
+  C#Q02007  Annie Dudley
+  C#Q03008  Mrs. Blackwood
+  C#Q03009  Sarah
+  C#Q03010  Tom
+  C#Q03011  Tina
+  C#Q03012  Amnian Soldier
+  C#Q03013  Amnian Soldier
+  C#Q03014  Amnian Soldier
+  C#Q03015  Fighter
+  C#Q03016  Fighter
+  C#Q03017  Fighter
+  C#Q03018  Fighter
+  C#Q04001  Arnim
+  C#Q04002  Baby Wyvern
+  C#Q04003  Lady von Undenzieht
+  C#Q04004  Lord von Undenzieht
+  C#Q04005  Amnian Soldier
+  C#Q04006  Amnian Soldier
+  C#Q04007  Mage
+  C#Q04008  Teodor
+  C#Q04009  Wraith Spider
+  C#Q05001  Dauron
+  C#Q05002  Onlooker
+  C#Q05003  Onlooker
+  C#Q05004  Onlooker
+  C#Q05005  Onlooker
+  C#Q05006  Luisa's Mother
+  C#Q05007  Nanny
+  C#Q06001  Leila
+  C#Q06002  Zombie
+  C#Q07001  Uguth
+  C#Q07002  Viola
+  C#Q07003  Mrs. Kenn
+  C#Q07004  Mr. Kenn
+  C#Q07005  Commoner
+  C#Q08001  Sir Trun
+  C#Q08002  Linda
+  C#Q10001  Merchant
+  C#Q10002  Edward
+  C#Q13AMN  Amnian Soldier
+  C#Q13BOR  Borda
+  C#Q13BRN  Berrun Ghastkill
+  C#Q13LAR  Laryssa
+  C#Q13OUB  Oublek
+  WAFARM    Farmer
+  WAGHOUL   Ghoul
+  WASYLAR   Sylar
+
+CHANGED (8):
+  C#LCIN3M  Man
+    raceScript:  -> C#Q04004
+  C#LCIN3W  Woman
+    raceScript:  -> C#Q04003
+  C#LCIN4M  Man
+    defaultScript:  -> C#Q01002
+  C#LCIN4W  Woman
+    defaultScript:  -> C#Q01001
+  C#LCIN5W  Woman
+    defaultScript:  -> C#Q06001
+  DRUNK     Drunk
+    deathvar: None -> drunk
+  FTOWN2    Commoner
+    deathvar: None -> FTOWN2
+  OUBLEK    Oublek
+    deathvar: None -> Oublek

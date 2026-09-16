@@ -143,6 +143,25 @@ describe("handleImmunities", () => {
     ]);
   });
 
+  it("skips adding the item when it is already equipped (e.g. cloned via createFrom from an already-validated creature)", () => {
+    // Mirrors "construct"'s real shape: itemSlot.slot is an array (JEWEL_SLOTS), so
+    // isSlotIncluded() can't catch this via overwrittingSlot - only the exact-file check can.
+    State.immunities = [
+      fakeImmunity({
+        name: "construct",
+        itemSlot: { file: "constructimm", slot: ["AMULET", "BELT"] },
+      }),
+    ];
+    const creature = fakeCreature({
+      immunities: ["construct"],
+      equippedItems: [{ file: "constructimm", slot: ["AMULET", "BELT"] }],
+    });
+    immunityService.handleImmunities(creature);
+    expect(creature.data.items.equipped).toEqual([
+      { file: "constructimm", slot: ["AMULET", "BELT"] },
+    ]);
+  });
+
   it("also processes adjustments that declare their own immunities", () => {
     State.immunities = [
       fakeImmunity({

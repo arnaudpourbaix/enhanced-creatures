@@ -1,0 +1,104 @@
+COWLEDMENACE: 15 new, 36 changed
+
+NEW (15):
+  DX#DALID  Dalina
+  DX#DEMI   Zallanora the Demilich
+  DX#LAERA  Laeral Silverhand
+  DX#LICH1  Kartak Spellseer
+  DX#LICHJ  Jymahna
+  DX#LICHT  Rune Lich
+  DX#MUMMY  Servant of Kartak
+  DX#RUNEA  Rune Assassin
+  DX#RUNEE  Elite Rune Assassin
+  DX#RUNEW  Rune Mage
+  DX#RZALL  Zallanora Argentresses
+  DX#SHOOL  Shoon VII
+  DX#SHOON  Shoon VII
+  DX#TAW01  Rune Mage
+  DX#ZALLA  Zallanora
+
+CHANGED (36):
+  COWENF02  Cowled Enforcer
+    xpv: 120 -> 6000
+  COWENF1   Cowled Enforcer
+    weapon1:  -> STAF02
+  COWENF2   Cowled Enforcer
+    amulet: stonskin -> STONSKIN
+    weapon1: STAF01 -> STAF18
+    xpv: 120 -> 20000
+  COWENF3   Cowled Enforcer
+    amulet:  -> RNDGRP02
+    weapon1:  -> STAF02
+  COWENF4   Cowled Enforcer
+    weapon1:  -> STAF02
+  CUCOW1    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUCOW2    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUCOW3    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ1    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ2    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ3    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ4    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ5    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZ6    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZC    Cowled Enforcer
+    xpv: 120 -> 6000
+  CUWIZSU   Cowled Enforcer
+    xpv: 120 -> 6000
+  FIRMAG01  Conster
+    weapon2:  -> STAF02
+  HLKOSHI   Koshi
+    helmet: helm01 -> HELM01
+    shield: sw1h44 -> SW1H44
+    weapon1: sw1h51 -> SW1H51
+  HLLAYEN   Layene
+    overrideScript: None -> dx#layen
+    lring:  -> RING07
+    xpv: 13000 -> 20000
+  HLSHANG   Shangalar
+    helmet:  -> HELM25
+  HLSHYR    Shyressa
+    overrideScript: None -> dx#layen
+  HLSION    Sion
+    weapon1:  -> STAF02
+  L-MAGE01  Cowled Enforcer
+    xpv: 120 -> 6000
+  L-MAGE02  Cowled Enforcer
+    xpv: 120 -> 6000
+  MAGE16C   Cowled Wizard
+    lring:  -> RING02
+    weapon1:  -> STAF02
+  MAGE18A   Cowled Wizard
+    weapon1:  -> STAF18
+  MAGE18Z   Zallanora
+    amulet:  -> AMUL22
+  O#CRENF1  Cowled Enforcer
+    xpv: 120 -> 6000
+  O#CRENF2  Cowled Enforcer
+    xpv: 120 -> 6000
+  OBSHAL03  Necre
+    weapon1: dagg17 -> DAGG17
+    weapon2:  -> SLNG04
+  OBSHAL05  Kayardi
+    helmet:  -> HELM23
+  OBSHAL07  Mogadish
+    weapon2:  -> BLUN31
+  PPCOWLED  Perth the Adept
+    weapon1:  -> STAF02
+  TANWIZ1   Vellin Dahn
+    overrideScript: SHOUTDL2 -> dx#tanw
+    classScript: tanwiz -> mage16b
+    weapon1:  -> STAF02
+  TOLGER2   Tolgerias
+    weapon1: STAF01 -> STAF18
+  TOLMAG02  Mage
+    amulet:  -> RNDGRP02
+    weapon1: STAF01 -> STAF02

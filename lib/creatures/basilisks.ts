@@ -103,7 +103,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         race: "BASILISK",
         class: "BASILISK",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 6,
         immunities: ["magicalBeast"],
         items: {
@@ -111,7 +111,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         },
         script: {
           remove: ["LBASILSK"],
-          location: "Race",
         },
       },
     });
@@ -151,7 +150,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         race: "BASILISK",
         class: "BASILISK_GREATER",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 6,
         immunities: ["magicalBeast"],
         items: {
@@ -159,7 +158,6 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         },
         script: {
           remove: ["GBASILSK"],
-          location: "Race",
         },
       },
     });

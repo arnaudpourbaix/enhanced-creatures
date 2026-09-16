@@ -1,0 +1,23 @@
+PAINA: 4 new, 2 changed
+
+NEW (4):
+  C0HVARAN  Aranea Elder
+  C0PAI25   Pai'Na
+  C0PKITT   Kitthix
+  C0PWITCH  Black Spider
+
+CHANGED (2):
+  SPIDFGSU  Kitthix
+    dialog:  -> spidfgsu
+  SPPAIN    Pai'Na
+    deathvar: sppain -> C0Paina
+    dialog: sppain -> C0Paina
+    overrideScript: ubsppain -> C0Paina
+    classScript: PAINA -> 
+    raceScript: None -> 
+    generalScript: None -> 
+    defaultScript: WTASIGHT -> C0PAINA
+    lring:  -> C0PRING
+    weapon1: STAF01 -> STAF02
+    weapon2:  -> DART01
+    xpv: 4000 -> 0

@@ -3,7 +3,8 @@ import { GeneralIdentifier } from "../src/model/ids/general";
 import { RaceIdentifier } from "../src/model/ids/race";
 import { EffectIDSFileEnum } from "../src/model/spell-item/effect.enums";
 
-export const ATWEAKS_CREATURES = {
+export const NEW_CREATURES = {
+  GiantPoisonousSnake: "jagpsnak",
   Treant5hd: "jatrea1",
   Treant7hd: "jatrea2",
   Treant9hd: "jatrea3",
@@ -13,6 +14,11 @@ export const ATWEAKS_CREATURES = {
   SplitMustardJelly: "jajelmu",
   SplitBlackPudding: "jablpud",
   SplitWhitePudding: "jawhpud",
+  WhitePudding: "japuddwh",
+  BlackPudding: "japuddbl",
+  MustardJelly: "jajellmu",
+  GreenSlime: "jagrnsli",
+  OliveSlimeCreature: "jaolisli",
 };
 
 export const VAPOR_IMMUNE_CREATURES: [

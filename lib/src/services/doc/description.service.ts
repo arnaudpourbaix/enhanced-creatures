@@ -3,6 +3,7 @@ import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { Durations } from "../../model/game-data/durations";
 import {
   ArmorClassBonusEffect,
+  BaseEffect,
   CastingTimeModifierEffect,
   CastSpellEffect,
   CharmCreatureEffect,
@@ -13,6 +14,7 @@ import {
   Effect,
   IdsEffect,
   InvisibilityEffect,
+  KillTargetEffect,
   ModifierTypeEffect,
   PoisonEffect,
   RegenerationEffect,
@@ -27,6 +29,7 @@ import {
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
   EffectModifierTypeEnum,
+  EffectTimingEnum,
   InvisibilityTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
@@ -187,6 +190,8 @@ class DescriptionService {
       case EffectTypeEnum.Paralyze:
       case EffectTypeEnum.Hold:
         return this.getParalyze(effect, target);
+      case EffectTypeEnum.KillTarget:
+        return this.getKillTarget(effect);
       case EffectTypeEnum.InvisibilityDetection:
         return ["Can see invisible creatures."];
       case EffectTypeEnum.Blur:
@@ -208,11 +213,8 @@ class DescriptionService {
       case EffectTypeEnum.CharmCreature:
       case EffectTypeEnum.CharmControlCreature:
         return this.getCharm(effect, target);
-      case EffectTypeEnum.AttackDamageBonus:
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:
-      case EffectTypeEnum.Thac0Bonus:
-      case EffectTypeEnum.OffhandThac0Bonus:
         return this.getModifierType(effect);
       case EffectTypeEnum.MirrorImageEffect:
         return [`Mirror image (${effect.amount})`];
@@ -266,6 +268,16 @@ class DescriptionService {
       default:
         return "";
     }
+  }
+
+  getTiming(effect: BaseEffect, prefix?: string): string {
+    if (
+      !effect.timing ||
+      ![EffectTimingEnum.DelayLimited, EffectTimingEnum.DelayPermanent].includes(effect.timing)
+    )
+      return "";
+    const duration = this.getDuration(effect.duration);
+    return `${prefix ?? ""}${duration}`;
   }
 
   getDuration(duration?: number, prefix?: string): string {
@@ -342,6 +354,12 @@ class DescriptionService {
         effect.duration,
       )}${restriction}${this.getSaveText(effect)}.`,
     );
+    return results;
+  }
+
+  private getKillTarget(effect: KillTargetEffect): string[] {
+    const results: string[] = [];
+    results.push(`Kill target${this.getTiming(effect, " after ")}${this.getSaveText(effect)}.`);
     return results;
   }
 
@@ -646,6 +664,12 @@ class DescriptionService {
       },
       { opcode: EffectTypeEnum.SaveVsSpellModifier, label: "Save vs Spell" },
       { opcode: EffectTypeEnum.SaveVsWandModifier, label: "Save vs Wand" },
+      { opcode: EffectTypeEnum.AttackDamageBonus, label: "Damage" },
+      { opcode: EffectTypeEnum.MeleeWeaponDamageModifier, label: "Melee Damage" },
+      { opcode: EffectTypeEnum.MissileWeaponDamageModifier, label: "Missile Damage" },
+      { opcode: EffectTypeEnum.Thac0Bonus, label: "Thac0" },
+      { opcode: EffectTypeEnum.OffhandThac0Bonus, label: "Offhand Thac0" },
+      { opcode: EffectTypeEnum.BackstabBonus, label: "Backstab multiplier" },
     ];
     const opcode = opcodes.find((o) => o.opcode === effect.opcode);
     if (!opcode) return undefined;

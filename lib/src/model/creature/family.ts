@@ -6,9 +6,31 @@ import { Item, Spell } from "../spell-item/spell-item";
 import { AbstractCreature } from "./abstract-creature";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "./creature";
 import { InputMainCreatureData } from "./data-input";
+import { CreatureFile, Game } from "./game";
 import abilityService from "../../services/baf/ability.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
+
+/**
+ * Collapse raw per-row creature file entries into one entry per (uppercased) name,
+ * preserving first-seen order. The effective `game` for a name is `undefined` (both
+ * games) when any entry for that name is `undefined`, or when the entries together
+ * cover both `bg1` and `bg2`; otherwise it is the single `Game` value present.
+ */
+export function collapseFilesByGame(files: CreatureFile[]): CreatureFile[] {
+  // Map iteration preserves insertion order, so first-seen name order is kept.
+  const byName = new Map<string, Set<Game | undefined>>();
+  for (const f of files) {
+    const games = byName.get(f.name) ?? new Set<Game | undefined>();
+    games.add(f.game);
+    byName.set(f.name, games);
+  }
+  return [...byName].map(([name, games]) => {
+    const coversBothGames = games.has("bg1") && games.has("bg2");
+    const game = games.has(undefined) || coversBothGames ? undefined : [...games][0];
+    return { name, game };
+  });
+}
 
 export interface Family {
   id: number;
@@ -29,6 +51,10 @@ export abstract class CreatureFamily<T extends Creature>
   constructor(id: MonsterFamilyEnum) {
     super(id);
     this.creatures = [];
+    // Opens a log section for the whole family so the family-wide spells/items built next in the
+    // subclass constructor (the "adding effect file/projectile" lines) get a heading and a blank
+    // line separating them from the previous family's output, instead of trailing under it.
+    logService.header(`Creating ${MonsterFamilyEnum[id]} family...`);
   }
 
   abstract createCreature(id: MonsterEnum): T;
@@ -36,7 +62,7 @@ export abstract class CreatureFamily<T extends Creature>
   create(p: {
     name: TranslationKey;
     monster: MonsterEnum;
-    files?: string[];
+    files?: (string | CreatureFile)[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
     data: InputMainCreatureData;
@@ -64,10 +90,13 @@ export abstract class CreatureFamily<T extends Creature>
     name: TranslationKey;
     from: T;
     monster: MonsterEnum;
-    files?: string[];
+    files?: (string | CreatureFile)[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
   }): T {
+    logService.header(
+      `Creating ${translationService.from(p.name)} from ${translationService.from(p.from.name)}...`,
+    );
     const cre = structuredClone(p.from);
     Object.setPrototypeOf(cre, p.from);
     Object.setPrototypeOf(cre.data.movement, p.from.data.movement);
@@ -89,21 +118,22 @@ export abstract class CreatureFamily<T extends Creature>
     cre.effectFiles = [];
     cre.projectiles = [];
     cre.adjustments = [];
+    cre.variants = [];
     cre.valid = undefined;
     if (p.from.attack.dualWielding) cre.data.apr++;
-    logService.header(
-      `Creating ${translationService.from(cre.name)} from ${translationService.from(
-        p.from.name,
-      )}...`,
-    );
     this.creatures.push(cre);
     return cre;
   }
 
-  private resolveFiles(monster: MonsterEnum, backupFiles: string[] = []): string[] {
-    return [
-      ...new Set([...monsterFilesService.getFiles(monster), ...backupFiles].map((f) => f.toUpperCase())),
-    ];
+  private resolveFiles(
+    monster: MonsterEnum,
+    backupFiles: (string | CreatureFile)[] = [],
+  ): CreatureFile[] {
+    const raw: CreatureFile[] = [
+      ...monsterFilesService.getFiles(monster),
+      ...backupFiles.map((f) => (typeof f === "string" ? { name: f } : f)),
+    ].map((f) => ({ name: f.name.toUpperCase(), game: f.game }));
+    return collapseFilesByGame(raw);
   }
 
   // creatures.csv's "summon" column is the source of truth for which files are summon variants.
@@ -120,24 +150,27 @@ export abstract class CreatureFamily<T extends Creature>
         .filter((a) => a.summon)
         .flatMap((a) => a.files.map((f) => f.toUpperCase())),
     );
-    const csvSummonFiles = [
-      ...new Set(
-        monsterFilesService
-          .getSummonFiles(creature.id)
-          .map((f) => f.toUpperCase())
-          .filter((f) => !knownFiles.has(f)),
-      ),
-    ];
+    const csvSummonFiles = collapseFilesByGame(
+      monsterFilesService
+        .getSummonFiles(creature.id)
+        .map((f) => ({ name: f.name.toUpperCase(), game: f.game })),
+    ).filter((f) => !knownFiles.has(f.name));
     if (csvSummonFiles.length) {
-      creature.setAdjustments(csvSummonFiles.map((f) => ({ files: [f], summon: true })));
+      // Carry the collapsed `game`: a resref that's a summon in only one game (e.g. CATLIOWP -
+      // a summoned lion in bg1, Joolon's ally lion in bg2) must get the summon script + xpv=0
+      // only in that game. weiduCreatureService.patchScripts + handleAdjustment gate it per game.
+      creature.setAdjustments(
+        csvSummonFiles.map((f) => ({ files: [f.name], summon: true, game: f.game })),
+      );
     }
   }
 
   private warnUnvalidatedFiles(monster: MonsterEnum): void {
     const files = monsterFilesService.getUnvalidatedFiles(monster);
     if (files.length) {
+      const labels = files.map((f) => (f.game ? `${f.name} (${f.game})` : f.name));
       logService.warn(
-        `${MonsterEnum[monster]} has unvalidated creatures.csv guesses, needs review: ${files.join(", ")}`,
+        `${MonsterEnum[monster]} has unvalidated creatures.csv guesses, needs review: ${labels.join(", ")}`,
       );
     }
   }
@@ -145,11 +178,21 @@ export abstract class CreatureFamily<T extends Creature>
   addCreature(build: () => T) {
     const countBefore = this.creatures.length;
     let creature: T | undefined;
+    // Buffer this creature's whole log section rather than writing it straight away, so it can be
+    // dropped below when the creature turns out to have nothing anyone can act on (no files at
+    // all, and no unvalidated creatures.csv guesses either) - just an unimplemented monster, not
+    // a bug to flag on every run.
+    logService.beginCapture();
     try {
       creature = build();
       this.applyCsvSummonFiles(creature);
       creature.validate(this.id);
+      const hasNothingToActOn =
+        !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
+      if (hasNothingToActOn) logService.discardCapture();
+      else logService.commitCapture();
     } catch (e: unknown) {
+      logService.commitCapture();
       // If the builder throws after calling create()/createFrom() (which already pushed the
       // creature onto this.creatures) but before returning, the `creature = build()` assignment
       // above never completes - fall back to the just-pushed creature so it can still be found

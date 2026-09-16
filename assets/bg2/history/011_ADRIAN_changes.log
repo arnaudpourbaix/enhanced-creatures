@@ -1,0 +1,19 @@
+ADRIAN: 12 new, 1 changed
+
+NEW (12):
+  RH#ADR    Adrian
+  RH#ADR25  Adrian
+  RH#ADVMP  Adrian
+  RH#DERYN  Deryn
+  RH#MIKAI  Mikail
+  RH#ORLA   Orlanna
+  RH#ORPH   Girl
+  RH#SALK   Salka
+  RH#SGGRD  Soargyl Guard
+  RH#SGYL   Soargyl
+  RH#TANYA  Tanya
+  RH#ZHGRD  Zhentarim Guard
+
+CHANGED (1):
+  FFCUST01  Ercias
+    overrideScript: SHOUT -> rh#ercia

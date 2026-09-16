@@ -107,6 +107,7 @@ function fakeCreature(
   const data = { immunities: [], race: "HUMAN", ...overrides.data };
   return {
     data,
+    adjustments: [],
     behavior: { ...BEHAVIOR_DEFAULT, ...overrides.behavior },
     attack: {
       melee: true,
@@ -524,8 +525,10 @@ describe("thievesAbilities (private)", () => {
   it("adds a hide-in-shadows statement wrapped with disable/enable interrupt", () => {
     const statements: Statements = [];
     service.thievesAbilities({ statements, creature: fakeCreature({ data: { hideShadow: 1 } }) });
-    expect(statements).toHaveLength(1);
-    const actions = statements[0].responses[0].actions;
+    expect(statements).toHaveLength(2);
+    const hideStatement = statements.find((s) => s.comment === "Hide in shadow");
+    if (!hideStatement) throw new Error("expected a 'Hide in shadow' statement");
+    const actions = hideStatement.responses[0].actions;
     expect(actions[0]).toEqual({ name: "SetInterrupt", params: ["FALSE"] });
     expect(actions[actions.length - 1]).toEqual({
       name: "SetInterrupt",
@@ -756,11 +759,13 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
   it("precasts every configured long-duration spell plus a trailing reset statement", () => {
     const statements: Statements = [];
     service.precastLongDurationSpells({ statements, options: options() });
-    // Currently only Stoneskin (SPWI) and Ironskin (SPPR) are "long" duration.
-    expect(statements).toHaveLength(3);
+    // Currently Stoneskin (SPWI), AnimateDead, AnimateSkeletonWarrior and Ironskin (SPPR) are "long" duration.
+    expect(statements).toHaveLength(5);
     expect(statements[0].comment).toBe("Precast Stoneskin");
-    expect(statements[1].comment).toBe("Precast Ironskin");
-    expect(statements[2].comment).toBeUndefined();
+    expect(statements[1].comment).toBe("Precast AnimateDead");
+    expect(statements[2].comment).toBe("Precast AnimateSkeletonWarrior");
+    expect(statements[3].comment).toBe("Precast Ironskin");
+    expect(statements[4].comment).toBeUndefined();
   });
 
   it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {

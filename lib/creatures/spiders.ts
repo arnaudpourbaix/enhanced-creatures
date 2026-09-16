@@ -13,7 +13,6 @@ import {
   AttackModifierTypeEnum,
   EffectDamageTypeEnum,
   EffectIDSFileEnum,
-  EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
@@ -93,7 +92,7 @@ class Spider extends Creature {
     if (p.impale) {
       effects.push({
         opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectModifierTypeEnum.Increment,
+        type: EffectStatisticModifierEnum.Increment,
         value: -4,
         timing: EffectTimingEnum.InstantLimited,
         duration: 2 * Durations.round,
@@ -424,7 +423,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Gargantuan",
+        size: { value: "Gargantuan", tall: false, long: true },
         movement: 9, // Web 12
         immunities: ["spider"],
         items: {
@@ -481,11 +480,11 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15,
         immunities: ["spider"],
         items: {
-          remove: ["SPIDPH1", "ANTIWEB", "GHOST2"],
+          remove: ["SPIDPH1", "ANTIWEB", "GHOST2", "SPSPID3"],
         },
         script: {
           remove: ["C#LCCENS", "PSPIDER", "L#ULCSP"],
@@ -574,14 +573,23 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 3, // Web 12
         immunities: ["spider"],
         items: {
-          remove: ["BDSPIDGI", "SPIDG1", "ANTIWEB", "PLYSPID"],
+          remove: [
+            "BDSPIDGI",
+            "SPIDGI1",
+            "SPIDG1",
+            "SPIDGISU",
+            "ANTIWEB",
+            "PLYSPID",
+            "VERMTYPE",
+            "SPIDHU1",
+          ],
         },
         script: {
-          remove: ["DW#SPIDG", "SPIDFGSU"],
+          remove: ["DW#SPIDG", "O#LLFIGH"],
         },
       },
     });
@@ -621,7 +629,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_HUGE",
         gender: "NIETHER",
-        size: "Tiny",
+        size: { value: "Tiny", tall: false, long: true },
         movement: 6, // web 15
         immunities: ["spider"],
         items: {
@@ -686,11 +694,11 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_HUGE",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 18,
         immunities: ["spider"],
         items: {
-          remove: ["BDSPIDHU", "SPIDHU1", "ANTIWEB", "D5SMSPID"],
+          remove: ["BDSPIDHU", "SPIDHU1", "ANTIWEB", "D5SMSPID", "SPSPID"],
         },
         script: {
           remove: ["DW#SPIDS"],
@@ -733,7 +741,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_GIANT",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 8,
         immunities: [
           "spider",
@@ -781,11 +789,11 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_PHASE",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 6, // Web 15
         immunities: ["spider", "magicalBeast"],
         items: {
-          remove: ["SPIDPH1", "ANTIWEB", "SPIDPHSU"],
+          remove: ["SPIDPH1", "ANTIWEB", "SPIDPHSU", "VERMTYPE"],
         },
         script: {
           remove: ["PSPIDER", "SPIDPHSU"],
@@ -854,14 +862,17 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_SWORD",
         gender: "NIETHER",
-        size: "Huge",
+        size: { value: "Huge", tall: false, long: true },
         movement: 6, // Web 8
         immunities: ["spider"],
         items: {
-          remove: ["SPIDSW1", "ANTIWEB", "SPIDSWSU", "WISPIDSW"],
+          remove: ["SPIDSW1", "ANTIWEB", "SPIDSWSU", "WISPIDSW", "FIGSPID", "VERMTYPE"],
         },
         script: {
-          remove: ["DW#SPIDS"],
+          remove: ["DW#SPIDS", "SPIDFGSU"],
+        },
+        spells: {
+          removeMemorized: true,
         },
       },
     });
@@ -888,6 +899,8 @@ class SpiderFamily extends CreatureFamily<Spider> {
     });
     sword.setAdjustments([
       { files: ["PLYSPID"], data: { script: { location: "None" } } },
+      { files: ["L0SPID"], data: { level1: 16, xpv: 4000 } },
+      { files: ["OHHSPI03"], data: { level1: 15, xpv: 4000 } },
       {
         files: ["WISPID03"],
         data: {
@@ -935,14 +948,14 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_PHASE",
         gender: "NIETHER",
-        size: "Large",
+        size: { value: "Large", tall: false, long: true },
         movement: 15, // Normal: 9, Web: 15
         immunities: ["spider"],
         items: {
-          remove: ["BDSPIDGI", "SPIDG1", "ANTIWEB", "PLYSPID"],
+          remove: ["BDSPIDGI", "SPIDG1", "ANTIWEB", "PLYSPID", "AC#WSTWS", "SPIDVO01", "VERMTYPE"],
         },
         script: {
-          remove: ["DW#SPIDG", "SPIDVO01"],
+          remove: ["DW#SPIDG", "SPIDVO01", "AC#WSTWS"],
         },
         spells: {
           memorized: [{ file: SPELLS.Innate.VortexWeb.file, memorizedCount: 1 }],
@@ -961,18 +974,19 @@ class SpiderFamily extends CreatureFamily<Spider> {
     vortex.createJaws({
       diceThrown: 2,
       diceSize: 4,
-      poisonType: "F",
+      poisonType: "E",
       saveBonus: -2,
     });
     vortex.setBehavior({
       abilities: [
         {
           preset: SPELLS.Wizard.Slow.file,
+          name: "spell.VortexWeb.name",
           spell: {
             resource: SPELLS.Innate.VortexWeb.file,
             type: "force",
           },
-          timer: { name: "VortexWeb", value: 30 },
+          timer: { name: "VortexWeb", value: 2 * Durations.round },
         },
       ],
     });
@@ -1005,7 +1019,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         race: "SPIDER",
         class: "SPIDER_WRAITH",
         gender: "NIETHER",
-        size: "Medium",
+        size: { value: "Medium", tall: false, long: true },
         movement: 12,
         immunities: ["spider", "undead"],
         items: {

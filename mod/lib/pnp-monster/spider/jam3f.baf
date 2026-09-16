@@ -34,6 +34,28 @@ THEN
 		Continue()
 END
 
+// Precast AnimateDead
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR301")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR301",Myself)
+		RemoveSpellRES("SPPR301")
+		Continue()
+END
+
+// Precast AnimateSkeletonWarrior
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	HaveSpellRES("SPPR619")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPPR619",Myself)
+		RemoveSpellRES("SPPR619")
+		Continue()
+END
+
 // Precast Ironskin
 IF
 	Global("JA_PRECAST_LONG","LOCALS",0)
@@ -136,7 +158,7 @@ THEN
 		NoAction()
 END
 
-// Slow
+// Vortex Web
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
@@ -159,7 +181,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -185,7 +207,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -211,7 +233,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -237,7 +259,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -263,7 +285,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -289,7 +311,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -315,7 +337,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -341,7 +363,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -367,11 +389,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
-// Slow
+// Vortex Web
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
@@ -394,7 +416,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -420,7 +442,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -446,7 +468,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -472,7 +494,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -498,7 +520,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 
@@ -524,7 +546,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VortexWeb","LOCALS",30)
+		SetGlobalTimer("VortexWeb","LOCALS",12)
 		ForceSpellRES("SPIN575",LastSeenBy(Myself))
 END
 

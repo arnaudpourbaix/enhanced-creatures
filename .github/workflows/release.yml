@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 1.2.0)"
+        required: true
+
+permissions:
+  contents: write
+
+# A release pushes commits/tags and publishes a GitHub release - never run two at once.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          # Full history: release.service compares local/origin master with rev-list, which
+          # needs real ancestry, not a shallow clone.
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Release
+        env:
+          # gh CLI picks this up automatically for `gh auth status` / `gh release create`.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release -- "${{ inputs.version }}"

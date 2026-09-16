@@ -9,9 +9,11 @@ function fakeCreature(
     level1?: number;
     immunities?: string[];
     abilities?: { resource: string }[];
+    adjustments?: unknown[];
   } = {},
 ): Creature {
   return {
+    name: "common.potion.use",
     data: {
       kit: p.kit,
       level1: { pnpValue: p.level1 ?? 1, value: p.level1 ?? 1, type: "none" },
@@ -19,8 +21,26 @@ function fakeCreature(
       spells: { memorized: [] },
     },
     behavior: { abilities: p.abilities ?? [] },
+    adjustments: p.adjustments ?? [],
     setBehavior: vi.fn(),
   } as unknown as Creature;
+}
+
+function fakeAdjustment(p: {
+  files: string[];
+  kit?: string;
+  level1?: number;
+}): BaseCreature & { files: string[] } {
+  return {
+    files: p.files,
+    data: {
+      kit: p.kit,
+      level1:
+        p.level1 !== undefined ? { pnpValue: p.level1, value: p.level1, type: "none" } : undefined,
+      immunities: [],
+      spells: { memorized: [] },
+    },
+  } as unknown as BaseCreature & { files: string[] };
 }
 
 function fakeBaseCreature(
@@ -46,17 +66,11 @@ function fakeAbility(
   p: {
     resource?: string;
     count?: (level: number) => number;
-    spellResource?: string;
-    hasSpell?: boolean;
   } = {},
 ): KitAbility {
   return {
-    resource: p.resource ?? "SPWI001",
+    resource: p.resource ?? "SPCL152",
     count: p.count ?? (() => 1),
-    ability: {
-      name: 12345,
-      spell: p.hasSpell === false ? undefined : { resource: p.spellResource },
-    },
   };
 }
 
@@ -85,7 +99,7 @@ describe("applyKit", () => {
     expect(creature.data.immunities).toContain("backstab");
     // eslint-disable-next-line @typescript-eslint/unbound-method -- see the note above.
     expect(creature.setBehavior).toHaveBeenCalledWith({
-      abilities: [expect.objectContaining({ name: "spell.BarbarianRage.name" })],
+      abilities: [{ preset: "SPCL152" }],
     });
   });
 
@@ -100,6 +114,85 @@ describe("applyKit", () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       { file: expect.any(String), memorizedCount: 2 },
     ]);
+  });
+
+  it("inherits the level from an earlier adjustment sharing a file when the kit block sets none", () => {
+    const creature = fakeCreature({ level1: 2 });
+    const levelBlock = fakeAdjustment({ files: ["TAZOK", "TAZOK2", "L#CHIEN"], level1: 9 });
+    const kitBlock = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], kit: "BERSERKER" });
+    creature.adjustments = [levelBlock, kitBlock] as unknown as Creature["adjustments"];
+    kitService.applyKit(creature, kitBlock);
+    // BerserkerRage count(level) = 1 + floor((level-1)/4); at the inherited level 9 -> 3.
+    // The kit block sets its own kit, so no own-level subtraction applies.
+    expect(kitBlock.data.spells.memorized).toEqual([
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      { file: expect.any(String), memorizedCount: 3 },
+    ]);
+  });
+
+  it("subtracts the previous overlapping block's level, not the base level, for stacked leveled blocks", () => {
+    const creature = fakeCreature({ kit: "BERSERKER", level1: 4 });
+    const chieftain = fakeAdjustment({ files: ["A", "B"], level1: 7 });
+    const veteran = fakeAdjustment({ files: ["B"], level1: 9 });
+    creature.adjustments = [chieftain, veteran] as unknown as Creature["adjustments"];
+    kitService.applyKit(creature, veteran);
+    // BerserkerRage count: c(9)=3, c(7)=2 -> delta 1 (not c(9)-c(4)=2)
+    expect(veteran.data.spells.memorized).toEqual([
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      { file: expect.any(String), memorizedCount: 1 },
+    ]);
+  });
+
+  it("adds nothing for a later block that neither raises the inherited level nor changes the kit", () => {
+    const creature = fakeCreature({ kit: "BERSERKER", level1: 4 });
+    const chieftain = fakeAdjustment({ files: ["A", "B"], level1: 7 });
+    const acOnly = fakeAdjustment({ files: ["B"] });
+    creature.adjustments = [chieftain, acOnly] as unknown as Creature["adjustments"];
+    kitService.applyKit(creature, acOnly);
+    expect(acOnly.data.spells.memorized).toEqual([]);
+  });
+
+  it("emits the incremental rage count for a later level-only block once an earlier block set the kit", () => {
+    const creature = fakeCreature({ kit: "TRUECLASS", level1: 2 });
+    const levelNine = fakeAdjustment({ files: ["TAZOK", "TAZOK2", "L#CHIEN"], level1: 9 });
+    const kitBlock = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], kit: "BERSERKER" });
+    const levelNineteen = fakeAdjustment({ files: ["TAZOK"], level1: 19 });
+    creature.adjustments = [
+      levelNine,
+      kitBlock,
+      levelNineteen,
+    ] as unknown as Creature["adjustments"];
+
+    kitService.applyKit(creature, kitBlock);
+    kitService.applyKit(creature, levelNineteen);
+
+    // kit block sets the kit -> full count(9) = 3
+    expect(kitBlock.data.spells.memorized).toEqual([
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      { file: expect.any(String), memorizedCount: 3 },
+    ]);
+    // level-19 block inherits BERSERKER -> count(19) - count(9) = 5 - 3 = 2
+    expect(levelNineteen.data.spells.memorized).toEqual([
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      { file: expect.any(String), memorizedCount: 2 },
+    ]);
+  });
+
+  it("emits nothing for a later level-only block whose level does not raise the inherited kit's count", () => {
+    const creature = fakeCreature({ kit: "TRUECLASS", level1: 2 });
+    const levelNine = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], level1: 9 });
+    const kitBlock = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], kit: "BERSERKER" });
+    const levelEleven = fakeAdjustment({ files: ["TAZOK2"], level1: 11 });
+    creature.adjustments = [
+      levelNine,
+      kitBlock,
+      levelEleven,
+    ] as unknown as Creature["adjustments"];
+
+    kitService.applyKit(creature, levelEleven);
+
+    // count(11) - count(9) = 3 - 3 = 0
+    expect(levelEleven.data.spells.memorized).toEqual([]);
   });
 
   it("removes the root kit's abilities from the adjustment and applies the child kit when they differ", () => {
@@ -177,10 +270,10 @@ describe("applyKitAbilities", () => {
     kitService.applyKitAbilities(
       creature,
       baseCreature,
-      [fakeAbility({ resource: "SPWI001", count: (level) => level })],
+      [fakeAbility({ resource: "SPCL152", count: (level) => level })],
       9,
     );
-    expect(baseCreature.data.spells.memorized).toEqual([{ file: "SPWI001", memorizedCount: 9 }]);
+    expect(baseCreature.data.spells.memorized).toEqual([{ file: "SPCL152", memorizedCount: 9 }]);
   });
 
   it("subtracts the creature's own-level count when baseCreature has no kit (adjustment inheriting root kit)", () => {
@@ -189,11 +282,11 @@ describe("applyKitAbilities", () => {
     kitService.applyKitAbilities(
       creature,
       baseCreature,
-      [fakeAbility({ resource: "SPWI001", count: (level) => level })],
+      [fakeAbility({ resource: "SPCL152", count: (level) => level })],
       9,
     );
     // count(9) - count(creature's level1.pnpValue=1) = 9 - 1 = 8
-    expect(baseCreature.data.spells.memorized).toEqual([{ file: "SPWI001", memorizedCount: 8 }]);
+    expect(baseCreature.data.spells.memorized).toEqual([{ file: "SPCL152", memorizedCount: 8 }]);
   });
 
   it("does not push a memorized entry when the resulting count is not positive", () => {
@@ -202,36 +295,17 @@ describe("applyKitAbilities", () => {
     kitService.applyKitAbilities(
       creature,
       baseCreature,
-      [fakeAbility({ resource: "SPWI001", count: (level) => level })],
+      [fakeAbility({ resource: "SPCL152", count: (level) => level })],
       9,
     );
     // count(9) - count(9) = 0, not > 0
     expect(baseCreature.data.spells.memorized).toEqual([]);
   });
 
-  it("defaults the ability's spell resource when the spell has no resource of its own", () => {
-    const creature = fakeCreature();
-    const baseCreature = fakeBaseCreature({ kit: "BARBARIAN", level1: 1 });
-    const ability = fakeAbility({ resource: "SPWI001", hasSpell: true });
-    kitService.applyKitAbilities(creature, baseCreature, [ability], 1);
-    expect(ability.ability.spell?.resource).toBe("SPWI001");
-  });
-
-  it("does not overwrite an already-set spell resource", () => {
-    const creature = fakeCreature();
-    const baseCreature = fakeBaseCreature({ kit: "BARBARIAN", level1: 1 });
-    const ability = fakeAbility({
-      resource: "SPWI001",
-      spellResource: "SPWI999",
-    });
-    kitService.applyKitAbilities(creature, baseCreature, [ability], 1);
-    expect(ability.ability.spell?.resource).toBe("SPWI999");
-  });
-
   it("skips setBehavior when the creature already has an ability with this resource", () => {
-    const creature = fakeCreature({ abilities: [{ resource: "SPWI001" }] });
+    const creature = fakeCreature({ abilities: [{ resource: "SPCL152" }] });
     const baseCreature = fakeBaseCreature({ kit: "BARBARIAN", level1: 1 });
-    kitService.applyKitAbilities(creature, baseCreature, [fakeAbility({ resource: "SPWI001" })], 1);
+    kitService.applyKitAbilities(creature, baseCreature, [fakeAbility({ resource: "SPCL152" })], 1);
     // creature.setBehavior is a vi.fn() mock (see fakeCreature()), not a bound Creature method -
     // the rule can't see past the static Creature type to know that.
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -241,11 +315,11 @@ describe("applyKitAbilities", () => {
   it("calls setBehavior when the creature does not already have this ability", () => {
     const creature = fakeCreature({ abilities: [] });
     const baseCreature = fakeBaseCreature({ kit: "BARBARIAN", level1: 1 });
-    const ability = fakeAbility({ resource: "SPWI001" });
+    const ability = fakeAbility({ resource: "SPCL152" });
     kitService.applyKitAbilities(creature, baseCreature, [ability], 1);
     // eslint-disable-next-line @typescript-eslint/unbound-method -- see the note above.
     expect(creature.setBehavior).toHaveBeenCalledWith({
-      abilities: [ability.ability],
+      abilities: [{ preset: "SPCL152" }],
     });
   });
 });

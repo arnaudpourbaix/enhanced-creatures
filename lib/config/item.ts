@@ -1,3 +1,7 @@
+export const EXISTING_ITEMS = {
+  InvisibilityRing: "MAGE01",
+};
+
 export const ITEMS = {
   CloudSpells: "jai1",
   Construct: "jai2",

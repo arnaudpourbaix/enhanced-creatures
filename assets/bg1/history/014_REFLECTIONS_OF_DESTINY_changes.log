@@ -1,0 +1,83 @@
+REFLECTIONS_OF_DESTINY: 14 new, 31 changed
+
+NEW (14):
+  D5BDIMO   Imoen
+  D5CHRNAM
+  D5CRU41   Crusader
+  D5CRU44   Crusader Recruit
+  D5CRU48   Crusader Sergeant
+  D5CRU52   Crusader Cleric
+  D5CRU58   Crusader Mage
+  D5CRUAF5  Crusader Archer
+  D5CUVIER  Cuvieronius
+  D5DAUSTO  Sir Dauston
+  D5GREGS   Captain Gregson
+  D5SARGH   Phantom Figure
+  D5TELBGT
+  D5UBMAY1  Mayor
+
+CHANGED (31):
+  ACGNOLL1  Gnoll Chieftain
+    classScript: ACUITM -> 
+  ACGNOLL2  Gnoll Bodyguard
+    classScript: ACUITM -> 
+  ACQ10102  Tarash
+    classScript: ACUITM -> 
+  ACQ10103  Assasin
+    classScript: ACUITM -> 
+  ACQ10106  Draglon
+    classScript: ACUITM -> 
+  ACQ10107  Cultist
+    classScript: ACUITM -> 
+  ACQ10108  Cultist
+    classScript: ACUITM -> 
+  ACQ10109  Abbathor Fanatic
+    classScript: ACUITM -> 
+  ACQ10110  Abbathor Cleric
+    classScript: ACUITM -> 
+  ACQ10111  Lugosch
+    classScript: ACUITM -> 
+    raceScript: PRIES10B -> 
+  ACQ10112  Dwarf
+    classScript: ACUITM -> 
+  ACQ10113  Galder
+    classScript: ACUITM -> 
+  ACQ10114  Therk
+    classScript: ACUITM -> 
+  ACQ10115  Jarger
+    classScript: ACUITM -> 
+  ACQ10116  Wostok
+    classScript: ACUITM -> 
+  ACQ10117  Jassir
+    classScript: ACUITM -> 
+  ACQ10118  Jenna
+    classScript: ACUITM -> 
+  ACQ10119  Shadow
+    classScript: ACUITM -> 
+  ACQ10120  Mad Priest of Dumathoin
+    classScript: ACUITM -> 
+    raceScript: PRIES6C -> 
+  ACQ11001  Agnus
+    classScript: ACUITM -> 
+  ACQ11002  Teliel
+    classScript: ACUITM -> 
+  ACQ11003  Udolf
+    classScript: ACUITM -> 
+  ACQ12004  Barin
+    classScript: ACUITM -> 
+  ACQ15001  Aphriel
+    raceScript: ACUITM -> 
+  ACQ16001  Aiwell
+    classScript: ACUITM -> 
+  ACQ16003  Tonder
+    classScript: ACUITM -> 
+  ACQ17001  Ygnatz
+    classScript: ACUITM -> 
+  ACQ17002  Karlini
+    classScript: ACUITM -> 
+  ACQ17003  Balor
+    classScript: DEMBAL01 -> 
+  BDDREON   Commander Dreon
+    overrideScript:  -> BDDREON
+  VOLETA    Voleta Stiletto
+    deathvar: None -> VOLETA

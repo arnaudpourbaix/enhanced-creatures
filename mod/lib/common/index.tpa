@@ -1,16 +1,14 @@
-INCLUDE ~%MOD_FOLDER%/lib/common/regexp.tph~                 // allows regexp to match tabs and newlines (from the G3 BG2 Fixpack)
-INCLUDE "%MOD_FOLDER%/lib/common/comp_vars.tpa"              // Game engines stuff
+INCLUDE ~%MOD_FOLDER%/lib/common/regexp.tph~  // allows regexp to match tabs and newlines (from the G3 BG2 Fixpack)
+INCLUDE "%MOD_FOLDER%/lib/common/comp_vars.tpa"  // Game engines stuff
 INCLUDE "%MOD_FOLDER%/lib/common/ids.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/2da.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/cre_item_spell.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/spell.tpa"
-INCLUDE "%MOD_FOLDER%/lib/common/item.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/creature.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/effect.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/utils.tpa"
-INCLUDE "%MOD_FOLDER%/lib/common/alter_effect.tph"           // David W. improved effect functions
-INCLUDE "%MOD_FOLDER%/lib/common/functions.tpa"              // Common aTweaks functions
-INCLUDE "%MOD_FOLDER%/lib/common/sectypes.tpa"               // Secondary types functions
+INCLUDE "%MOD_FOLDER%/lib/common/alter_effect.tph"  // David W. improved effect functions
+INCLUDE "%MOD_FOLDER%/lib/common/sectypes.tpa"  // Secondary types functions
 INCLUDE "%MOD_FOLDER%/lib/common/spell-resources.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/spell-functions.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/immunities.tpa"

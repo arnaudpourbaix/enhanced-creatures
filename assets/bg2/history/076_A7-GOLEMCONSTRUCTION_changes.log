@@ -1,0 +1,189 @@
+A7-GOLEMCONSTRUCTION: 91 new, 38 changed
+
+NEW (91):
+  A7!GLAD1  Lesser Adamantite Golem
+  A7!GLAD2  Adamantite Golem
+  A7!GLAD3  Greater Adamantite Golem
+  A7!GLAD4  Perfect Adamantite Golem
+  A7!GLBO   Bone Golem
+  A7!GLBR   Brain Golem
+  A7!GLCL1  Lesser Clay Golem
+  A7!GLCL2  Clay Golem
+  A7!GLCL3  Greater Clay Golem
+  A7!GLCL4  Perfect Clay Golem
+  A7!GLFL1  Lesser Flesh Golem
+  A7!GLFL2  Flesh Golem
+  A7!GLFL3  Greater Flesh Golem
+  A7!GLFL4  Perfect Flesh Golem
+  A7!GLIC   Ice Golem
+  A7!GLIR1  Lesser Iron Golem
+  A7!GLIR2  Iron Golem
+  A7!GLIR3  Greater Iron Golem
+  A7!GLIR4  Perfect Iron Golem
+  A7!GLLT   Lightning Golem
+  A7!GLMA   Magic Golem
+  A7!GLMG   Maggot Golem
+  A7!GLMI1  Lesser Mithral Golem
+  A7!GLMI2  Mithral Golem
+  A7!GLMI3  Greater Mithral Golem
+  A7!GLMI4  Perfect Mithral Golem
+  A7!GLRU   Ruby Golem
+  A7!GLST1  Lesser Stone Golem
+  A7!GLST2  Stone Golem
+  A7!GLST3  Greater Stone Golem
+  A7!GLST4  Perfect Stone Golem
+  A7!GSAD1  Lesser Adamantite Golem
+  A7!GSAD2  Adamantite Golem
+  A7!GSCL1  Lesser Clay Golem
+  A7!GSCL2  Clay Golem
+  A7!GSFL1  Lesser Flesh Golem
+  A7!GSFL2  Flesh Golem
+  A7!GSIR1  Lesser Iron Golem
+  A7!GSIR2  Iron Golem
+  A7!GSMI1  Lesser Mithral Golem
+  A7!GSMI2  Mithral Golem
+  A7!GSST1  Lesser Stone Golem
+  A7!GSST2  Stone Golem
+  A7!GXAD1  Lesser Adamantite Golem
+  A7!GXAD2  Adamantite Golem
+  A7!GXAD3  Greater Adamantite Golem
+  A7!GXAD4  Perfect Adamantite Golem
+  A7!GXBO   Bone Golem
+  A7!GXBR   Brain Golem
+  A7!GXCL1  Lesser Clay Golem
+  A7!GXCL2  Clay Golem
+  A7!GXCL3  Greater Clay Golem
+  A7!GXCL4  Perfect Clay Golem
+  A7!GXFL1  Lesser Flesh Golem
+  A7!GXFL2  Flesh Golem
+  A7!GXFL3  Greater Flesh Golem
+  A7!GXFL4  Perfect Flesh Golem
+  A7!GXIC   Ice Golem
+  A7!GXIR1  Lesser Iron Golem
+  A7!GXIR2  Iron Golem
+  A7!GXIR3  Greater Iron Golem
+  A7!GXIR4  Perfect Iron Golem
+  A7!GXLT   Lightning Golem
+  A7!GXMA   Magic Golem
+  A7!GXMG   Maggot Golem
+  A7!GXMI1  Lesser Mithral Golem
+  A7!GXMI2  Mithral Golem
+  A7!GXMI3  Greater Mithral Golem
+  A7!GXMI4  Perfect Mithral Golem
+  A7!GXRU   Ruby Golem
+  A7!GXST1  Lesser Stone Golem
+  A7!GXST2  Stone Golem
+  A7!GXST3  Greater Stone Golem
+  A7!GXST4  Perfect Stone Golem
+  A7!GYAD1  Lesser Adamantite Golem
+  A7!GYAD2  Adamantite Golem
+  A7!GYCL1  Lesser Clay Golem
+  A7!GYCL2  Clay Golem
+  A7!GYFL1  Lesser Flesh Golem
+  A7!GYFL2  Flesh Golem
+  A7!GYIR1  Lesser Iron Golem
+  A7!GYIR2  Iron Golem
+  A7!GYMI1  Lesser Mithral Golem
+  A7!GYMI2  Mithral Golem
+  A7!GYST1  Lesser Stone Golem
+  A7!GYST2  Stone Golem
+  A7!MARK
+  A7!NYM    Nym
+  A7!Q1SU
+  A7!SMDLG  Construct Golem
+  A7!UPGR
+
+CHANGED (38):
+  AR18SKEL  Skeleton Warrior
+    helmet: helmskwa -> HELMSKWA
+    weapon1: skelwasu -> SKELWASU
+  ARNGOL01  Golem
+    class: GOLEM_CLAY -> GOLEM_FLESH
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  BHGHOUL5  Zombie
+    weapon1: b3-12 -> B3-12
+  DEMOGOR2  Demogorgon
+    overrideScript: None -> A7!DEMO2
+    helmet: helmnoan -> HELMNOAN
+    lring: immune3 -> IMMUNE3
+    rring: minhp1 -> MINHP1
+  DRAGBLAC  Nizidramanii'yt
+    shield: dr1-6s -> DR1-6S
+  GIAFIR01  Fire Giant
+    helmet: helmnoan -> HELMNOAN
+    weapon1: giafir2 -> GIAFIR2
+  GOLADA01  Adamantite Golem
+    generalScript: GOLIRO01 -> A7!GXAD2
+  GOLBON01  Skeleton Warrior
+    weapon1: s3-8m3 -> S3-8M3
+  GOLBRA01  Brain Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_BRAIN
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  GOLFLE01  Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  GOLIRO01  Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GOLKILL2  Adamantite Golem
+    generalScript: GOLIRO01 -> A7!GXAD2
+  GORCAMB   Aesgareth
+    helmet: helmnoan -> HELMNOAN
+    lring: ringdemn -> RINGDEMN
+    rring: immune2 -> IMMUNE2
+    weapon1: gorcamb -> GORCAMB
+  GORGOLI   Ice Golem
+    lring: gormisti -> GORMISTI
+  GORGRD01  Guardian Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GORGRD02  Guardian Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GORSAL    Saladrex
+    helmet: helmnoan -> HELMNOAN
+  GORSTA08  Statue
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  GRSKEL1   Skeleton Warrior
+    lring: ring99 -> RING99
+    weapon1: sw2h01 -> SW2H01
+  GRSKEL2   Skeleton Warrior
+    lring: ring99 -> RING99
+    weapon1: sw2h01 -> SW2H01
+  GRTOMB01  Skeleton Warrior
+    weapon1: sper05 -> SPER05
+  IGOLFLE1  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE2  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE3  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  IGOLFLE4  Lesser Clay Golem
+    anim: GOLEM_CLAY -> GOLEM_MINI
+  KPGOL01   Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  KPGOL04   Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  KPGOL06   Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  LACEDO02  Greater Lacedon
+    weapon1: lacedo02 -> LACEDO02
+  NEVM2     Skeleton Warrior
+    lring: ring95 -> RING95
+    weapon1: sw2h01 -> SW2H01
+  SCJERLIA  Jerlia the Ore Merchant
+    generalScript: None -> a7!jerl
+  SENDARK   Dark Master
+    rring: immune2 -> IMMUNE2
+    weapon1: p3-12m4 -> P3-12M4
+  SHIRON    Iron Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  SUUNDEAD  Skeleton Warrior
+    rring: ring95 -> RING95
+  TOMEGOL1  Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST
+  TOMEGOL4  Juggernaut Golem
+    anim: GOLEM_IRON -> GOLEM_IRON_IWD
+  UDGOLEM   Brain Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_BRAIN
+    lring: immune2 -> IMMUNE2
+    weapon1: golbra -> GOLBRA
+  XGOLEM    Flesh Golem
+    anim: GOLEM_CLAY -> A7!GOLEM_FLESH_PST

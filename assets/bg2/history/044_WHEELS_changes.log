@@ -1,0 +1,45 @@
+WHEELS: 31 new, 4 changed
+
+NEW (31):
+  DW#AMPP1  Commoner
+  DW#AMPP2  Commoner
+  DW#AMPP3  Commoner
+  DW#CUTBD  Balthazar
+  DW#CUTME  Melissan
+  DW#GRBAL  Balor
+  DW#GRGLA  Glabrezu
+  DW#GRMAR  Marilith
+  DW#GRSOL  Fallen Solar
+  DW#MELIS  Melissan
+  DW#MONME  Monk
+  DW#VIBEH  Beholder
+  DW#VIBON  Bone Fiend
+  DW#VIDER  Derro
+  DW#VIDR1  Drow
+  DW#VIDR2  Drow
+  DW#VIDR3  Drow
+  DW#VIDR4  Drow Priestess
+  DW#VIEGL  Eagle Eye
+  DW#VIELE  Lesser Earth Elemental
+  DW#VIGOL  Iron Golem
+  DW#VIILL  Mind Flayer
+  DW#VIKUO  Kuo-toan Warrior
+  DW#VILIZ  Lizard Man
+  DW#VIME1  Mercenary
+  DW#VISAL  Ice Salamander
+  DW#VISEK  Seeker
+  DW#WRMO1  Bhaal-Touched
+  DW#WRMO2  Bhaal-Touched
+  DW#WRMO3  Bhaal-Touched
+  DW#WRMO4  Bhaal-Touched
+
+CHANGED (4):
+  BALTH     Balthazar
+    amulet:  -> MINHP1
+  CUTAMFIG  Fighter
+    overrideScript: None -> dw#amksd
+  CUTAMMAG  Mage
+    overrideScript: GRPSHT01 -> dw#amksd
+    classScript: None -> GRPSHT01
+  DEDSMUG   Smuggler
+    overrideScript: SMUGPLOT -> 

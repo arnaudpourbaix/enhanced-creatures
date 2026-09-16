@@ -3,7 +3,7 @@ import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
-import { CreatureData } from "../../model/creature/data";
+import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
 import weiduCreatureService from "./weidu-creature.service";
 
 interface WeiduCreatureServicePrivate {
@@ -11,6 +11,8 @@ interface WeiduCreatureServicePrivate {
   removeKnownSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   removeMemorizedSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   addMemorizedSpells(lines: CodeLine[], tab: number, data: Partial<CreatureData>): void;
+  handleScriptEdits(lines: CodeLine[], creature: Creature): void;
+  handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit): void;
   patchScript(p: {
     lines: CodeLine[];
     tab: number;
@@ -19,6 +21,7 @@ interface WeiduCreatureServicePrivate {
     removeScripts: string[];
     files: string[];
     skipFiles: string[];
+    forceFiles: string[];
     logging: boolean;
   }): void;
   patchCreature(p: {
@@ -29,6 +32,8 @@ interface WeiduCreatureServicePrivate {
     enforce: boolean;
     creature: Creature;
   }): void;
+  patchCreatures(lines: CodeLine[], tab: number, creature: Creature): void;
+  patchScripts(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustments(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustment(
     lines: CodeLine[],
@@ -45,6 +50,9 @@ function codes(lines: CodeLine[]): string[] {
 }
 
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
+const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
+const END_ELSE_BEGIN = "END ELSE BEGIN";
+const SCRIPT_JAM1SU = "script=jam1su";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -62,10 +70,11 @@ function fakeAdjustment(
 function fakeCreature(
   p: Partial<Omit<Creature, "data">> & { data?: Partial<CreatureData> } = {},
 ): Creature {
-  return {
+  const creature = {
     id: 1,
     files: [],
     adjustments: [],
+    newFiles: [],
     notEnforceFiles: [],
     attack: { dualWielding: false },
     data: {
@@ -74,7 +83,64 @@ function fakeCreature(
     },
     ...p,
   } as unknown as Creature;
+  // Mirror the real Creature.fileNames getter; tolerate string entries used by older fixtures.
+  Object.defineProperty(creature, "fileNames", {
+    get(this: Creature) {
+      const files = this.files as unknown as (string | { name: string })[];
+      return files.map((f) => (typeof f === "string" ? f : f.name));
+    },
+    configurable: true,
+  });
+  return creature;
 }
+
+function fullBaseData(): Partial<CreatureData> {
+  return {
+    immunities: [],
+    proficiencies: [],
+    script: { location: "None", remove: [] },
+    items: { equipped: [], remove: [] },
+    spells: { removeKnown: true, removeMemorized: undefined, memorized: [] },
+    effects: { remove: [], list: [] },
+  } as unknown as Partial<CreatureData>;
+}
+
+describe("patchCreatures (private)", () => {
+  it("emits one unconditional ACTION_FOR_EACH when all files are both-game", () => {
+    const creature = fakeCreature({
+      files: [{ name: "A" }, { name: "B" }],
+      data: fullBaseData(),
+    });
+    const lines: CodeLine[] = [];
+    service.patchCreatures(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.filter((c) => c === ACTION_FOR_EACH_FILE)).toHaveLength(1);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+    expect(out).toContain('"A"');
+    expect(out).toContain('"B"');
+  });
+
+  it("splits bg1-only and bg2-only files into GAME_IS-guarded loops", () => {
+    const creature = fakeCreature({
+      files: [{ name: "BOTH" }, { name: "ONE", game: "bg1" }, { name: "TWO", game: "bg2" }],
+      data: fullBaseData(),
+    });
+    const lines: CodeLine[] = [];
+    service.patchCreatures(lines, 0, creature);
+    const out = codes(lines);
+    expect(out).toContain("ACTION_IF GAME_IS ~bgee~ BEGIN");
+    expect(out).toContain("ACTION_IF GAME_IS ~bg2ee~ BEGIN");
+    expect(out.filter((c) => c === ACTION_FOR_EACH_FILE)).toHaveLength(3);
+    const j = out.join("\n");
+    expect(j).toMatch(/GAME_IS ~bgee~ BEGIN[\s\S]*"ONE"/);
+    expect(j).toMatch(/GAME_IS ~bg2ee~ BEGIN[\s\S]*"TWO"/);
+    // BOTH belongs to the unconditional group, before any GAME_IS guard
+    const bothIdx = out.findIndex((c) => c === '"BOTH"');
+    const firstGameIsIdx = out.findIndex((c) => c.includes("GAME_IS"));
+    expect(bothIdx).toBeGreaterThanOrEqual(0);
+    expect(firstGameIsIdx).toBeGreaterThan(bothIdx);
+  });
+});
 
 describe("removeEffects (private)", () => {
   it("removes all effects when creature.data.effects.remove is a boolean", () => {
@@ -178,7 +244,7 @@ describe("addMemorizedSpells (private)", () => {
     const result = codes(lines);
     expect(result[0]).toBe(SPELL_REVISIONS_PATCH_IF);
     expect(result.some((c) => c.includes("SPWI002"))).toBe(true);
-    expect(result).not.toContain("END ELSE BEGIN");
+    expect(result).not.toContain(END_ELSE_BEGIN);
     expect(result[result.length - 2]).toBe("END");
     expect(result[result.length - 1]).toContain("SPWI001");
   });
@@ -247,7 +313,7 @@ describe("addMemorizedSpells (private)", () => {
     });
     const result = codes(lines);
     expect(result[0]).toBe(SPELL_REVISIONS_PATCH_IF);
-    expect(result).toContain("END ELSE BEGIN");
+    expect(result).toContain(END_ELSE_BEGIN);
     expect(result.some((c) => c.includes("SPWI002"))).toBe(true);
     // The Vanilla variant only fires inside the ELSE branch - it must never appear alongside
     // the conditional branch's spells, since only one branch of the chain ever executes.
@@ -268,6 +334,69 @@ describe("addMemorizedSpells (private)", () => {
   });
 });
 
+describe("handleScriptEdits (private)", () => {
+  it("does nothing when creature.data.script.edits is unset", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({ data: { script: {} } });
+    service.handleScriptEdits(lines, creature);
+    expect(lines).toHaveLength(0);
+  });
+
+  it("processes each edit in creature.data.script.edits", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      data: {
+        script: {
+          edits: [
+            { files: ["FILE1"], replaces: [["FOO", "BAR"]] },
+            { files: ["FILE2"], replaces: [["BAZ", "QUX"]] },
+          ],
+        },
+      },
+    });
+    service.handleScriptEdits(lines, creature);
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("FILE1"))).toBe(true);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY ~FOO~ ~BAR~"))).toBe(true);
+    expect(result.some((c) => c.includes("FILE2"))).toBe(true);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY ~BAZ~ ~QUX~"))).toBe(true);
+  });
+});
+
+describe("handleScriptEdit (private)", () => {
+  it("wraps the file list and REPLACE_TEXTUALLY calls in the expected WeiDU patch structure", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, {
+      files: ["JAM01", "JAM02"],
+      replaces: [
+        ["OLD1", "NEW1"],
+        ["OLD2", "NEW2"],
+      ],
+    });
+    const result = codes(lines);
+    expect(result[0]).toBe(ACTION_FOR_EACH_FILE);
+    expect(result).toContain('"JAM01"');
+    expect(result).toContain('"JAM02"');
+    expect(result).toContain("BEGIN");
+    expect(result).toContain("ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN");
+    expect(result).toContain("COPY_EXISTING ~%file%.bcs~ ~override~");
+    expect(result).toContain("DECOMPILE_AND_PATCH BEGIN");
+    expect(result).toContain("REPLACE_TEXTUALLY ~OLD1~ ~NEW1~");
+    expect(result).toContain("REPLACE_TEXTUALLY ~OLD2~ ~NEW2~");
+    expect(result).toContain("BUT_ONLY");
+    // ACTION_FOR_EACH ... BEGIN, the nested ACTION_IF ... BEGIN, and DECOMPILE_AND_PATCH BEGIN
+    // each need a closing END - three opens, three closes.
+    expect(result.filter((c) => c === "END")).toHaveLength(3);
+  });
+
+  it("emits no REPLACE_TEXTUALLY line when replaces is empty", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["JAM01"], replaces: [] });
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
+  });
+});
+
 describe("patchScript (private)", () => {
   it("logs logging=1 when logging is true", () => {
     const lines: CodeLine[] = [];
@@ -278,6 +407,7 @@ describe("patchScript (private)", () => {
       removeScripts: [],
       files: [],
       skipFiles: [],
+      forceFiles: [],
       logging: true,
     });
     expect(codes(lines).some((c) => c.includes("logging=1"))).toBe(true);
@@ -292,9 +422,92 @@ describe("patchScript (private)", () => {
       removeScripts: [],
       files: [],
       skipFiles: [],
+      forceFiles: [],
       logging: false,
     });
     expect(codes(lines).some((c) => c.includes("logging=0"))).toBe(true);
+  });
+});
+
+describe("patchScripts (private)", () => {
+  const scriptCreature = (adjustments: CreatureAdjustment[]) =>
+    fakeCreature({
+      adjustments,
+      id: 1,
+      logging: false,
+      data: {
+        script: { location: undefined, remove: [] },
+        effects: { list: [] },
+        spells: { memorized: [], removeMemorized: undefined },
+      } as unknown as CreatureData,
+    });
+  const summonAdj = (p: Partial<Omit<CreatureAdjustment, "data">>) =>
+    fakeAdjustment({
+      summon: true,
+      ...p,
+      data: { script: {}, effects: { list: [] }, spells: { memorized: [] } } as Partial<CreatureData>,
+    });
+
+  it("assigns an untagged summon file the summon script with no GAME_IS guard", () => {
+    const lines: CodeLine[] = [];
+    service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
+    const out = codes(lines);
+    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+
+  it("gates a game-tagged summon file that also exists in the other game: summon script in its game, normal script otherwise", () => {
+    const lines: CodeLine[] = [];
+    const creature = scriptCreature([summonAdj({ files: ["CATLIOWP"], game: "bg1" })]);
+    // CATLIOWP is a summon in bg1 but a regular creature in bg2 - collapsed entry spans both games.
+    (creature as unknown as { files: { name: string; game?: string }[] }).files = [
+      { name: "CATLIOWP" },
+    ];
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    const guardIdx = out.findIndex((c) => c === "PATCH_IF GAME_IS ~bgee~ BEGIN");
+    const elseIdx = out.findIndex((c) => c === END_ELSE_BEGIN);
+    expect(guardIdx).toBeGreaterThanOrEqual(0);
+    expect(elseIdx).toBeGreaterThan(guardIdx);
+    // summon script under the guard, normal script under ELSE
+    const summonIdx = out.findIndex((c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU));
+    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
+    expect(summonIdx).toBeGreaterThan(guardIdx);
+    expect(normalIdx).toBeGreaterThan(elseIdx);
+  });
+
+  it("assigns a game-exclusive summon file the summon script unconditionally, with no GAME_IS guard", () => {
+    const lines: CodeLine[] = [];
+    const creature = scriptCreature([summonAdj({ files: ["BDANKHSU"], game: "bg1" })]);
+    // BDANKHSU only exists in bg1 - the outer loop already scopes it, so no inner guard/ELSE.
+    (creature as unknown as { files: { name: string; game?: string }[] }).files = [
+      { name: "BDANKHSU", game: "bg1" },
+    ];
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
+    expect(out.some((c) => c === END_ELSE_BEGIN)).toBe(false);
+    // BDANKHSU is only ever skipped by the base jam1 assignment, never re-assigned jam1
+    expect(out).toContain("PATCH_DEFINE_ARRAY skipFiles BEGIN BDANKHSU END");
+    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JAM1SU));
+    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jam1 "))).toBe(false);
+  });
+
+  it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
+    const lines: CodeLine[] = [];
+    const creature = scriptCreature([summonAdj({ files: ["JADRYAD"] })]);
+    (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [{ files: ["JADRYAD"] }];
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JADRYAD END");
+    expect(out.some((c) => c.includes("STR_VAR") && c.includes("forceFiles"))).toBe(true);
+  });
+
+  it("emits no forceFiles array when the creature creates no new files", () => {
+    const lines: CodeLine[] = [];
+    service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
+    expect(codes(lines).some((c) => c.includes("forceFiles"))).toBe(false);
   });
 });
 
@@ -352,5 +565,39 @@ describe("handleAdjustment (private)", () => {
     expect(() => {
       service.handleAdjustment([], 0, creature, adjustment);
     }).toThrow(/can't have a script name if it has several files/);
+  });
+
+  it("wraps a game-tagged adjustment in PATCH_IF GAME_IS when the file exists in both games", () => {
+    const creature = fakeCreature({ files: [{ name: "GORF" }] });
+    const adjustment = fakeAdjustment({ files: ["GORF"], game: "bg2", data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    const out = codes(lines);
+    expect(out).toContain("PATCH_IF GAME_IS ~bg2ee~ BEGIN ");
+    // the file-match PATCH_IF is now nested one deeper than the game guard
+    const gameIdx = out.findIndex((c) => c.includes("PATCH_IF GAME_IS"));
+    const fileIdx = out.findIndex((c) => c.includes('"%SOURCE_RES%" STRING_EQUAL_CASE ~GORF~'));
+    expect(gameIdx).toBeGreaterThanOrEqual(0);
+    expect(fileIdx).toBeGreaterThan(gameIdx);
+    // the guard's PATCH_IF and its matching (last) END sit at the same indent
+    expect(lines[lines.length - 1].code).toBe("END");
+    expect(lines[lines.length - 1].tab).toBe(lines[gameIdx].tab);
+  });
+
+  it("emits no game guard for an untagged adjustment", () => {
+    const creature = fakeCreature({ files: [{ name: "GORF" }] });
+    const adjustment = fakeAdjustment({ files: ["GORF"], data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+
+  it("emits no game guard when every targeted file is exclusive to the adjustment's game", () => {
+    // BDANKHSU only exists in bg1, so the outer ACTION_IF GAME_IS loop already scopes it.
+    const creature = fakeCreature({ files: [{ name: "BDANKHSU", game: "bg1" }] });
+    const adjustment = fakeAdjustment({ files: ["BDANKHSU"], game: "bg1", data: undefined });
+    const lines: CodeLine[] = [];
+    service.handleAdjustment(lines, 0, creature, adjustment);
+    expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
   });
 });
