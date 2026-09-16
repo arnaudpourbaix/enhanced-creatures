@@ -9,9 +9,9 @@ import {
   giantSkeleton,
   skeleton,
   skeletonMonster,
-  skeletonWarrior,
   spikeSkeleton,
 } from "./skeletons";
+import { skeletonWarrior } from "./skeletons-warrior";
 import { banshee, ghost, greaterShadow, shadow, spectre } from "./spectral";
 import { Undead } from "./undead-creature";
 
@@ -19,8 +19,6 @@ export class UndeadFamily extends CreatureFamily<Undead> {
   constructor() {
     super(MonsterFamilyEnum.Undead);
     this.addCreature(() => banshee(this));
-    // this.addCreature(() => deathKnight(this));
-    // this.addCreature(() => deathShade(this));
     this.addCreature(() => ghoul(this));
     this.addCreature(() => ghast(this));
     this.addCreature(() => ghoulLord(this));
@@ -36,6 +34,8 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => giantSkeleton(this));
     this.addCreature(() => skeletonMonster(this));
     this.addCreature(() => skeletonWarrior(this));
+    // this.addCreature(() => deathKnight(this));
+    // this.addCreature(() => deathShade(this));
     this.addCreature(() => spectre(this));
     this.addCreature(() => ghost(this));
     // this.addCreature(() => wight(this));

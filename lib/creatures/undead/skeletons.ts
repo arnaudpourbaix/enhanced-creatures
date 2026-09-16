@@ -1,147 +1,27 @@
-/**
- * Skeletal undead: skeleton, skeleton warrior, baneguard, bonebat, death knight, death shade.
- *
- * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
- */
-import effectFactory from "../../src/factories/effect.factory";
 import { SPELLS } from "../../config/spells/spell-names";
-import { CommonProjectileFiles } from "../../spells/projectiles";
+import effectFactory from "../../src/factories/effect.factory";
+import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
-  EffectDamageTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
-  EffectTimingEnum,
-  ItemAbilityCastingAnimationEnum,
-  ItemAbilityLocationEnum,
-  ItemAbilityPrimaryTypeEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   LightingEffectEnum,
   LightingEffectTargetEnum,
   SaveTypeEnum,
-  SpellExclusionFlagEnum,
-  SpellFlagEnum,
-  SpellTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
 import {
   SpellProtectionRelation,
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
-import { MonsterEnum } from "../monster";
-import { Ids } from "./ids";
-import type { UndeadFamily } from "./family";
-import { Undead } from "./undead-creature";
-import { Variant } from "../../src/model/creature/variant";
 import spellService from "../../src/services/spell.service";
-
-function skeletonWarriorFearAura(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.skeletonWarriorFearAura.name",
-    description: "monster.undead.ability.skeletonWarriorFearAura.description",
-    id: Ids.SkeletonWarriorFearAura,
-    memorizedCount: 1,
-    icon: SPELLS.Priest.CloakOfFear.file,
-    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    options: { renew: 1 },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        location: ItemAbilityLocationEnum.Ability,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        speed: 1,
-        projectile: CommonProjectileFiles.AreaOfSightNonParty,
-        range: 30,
-        effects: [
-          ...effectFactory.fear({
-            duration: Durations.turn,
-            saveType: SaveTypeEnum.Spell,
-            maxLevel: 5,
-          }),
-          {
-            opcode: EffectTypeEnum.ProtectionFromSpell,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: Durations.turn,
-          },
-        ],
-      },
-    ],
-    ability: {
-      preset: SPELLS.Priest.CloakOfFear.file,
-      spell: {
-        type: "force",
-        remove: true,
-      },
-    },
-  });
-}
-
-function wallOfIce(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.iceWall.name",
-    description: "monster.undead.ability.iceWall.description",
-    id: Ids.WallOfIce,
-    memorizedCount: 1,
-    icon: "jaICEW",
-    primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
-    secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
-    castingSound: "CAS_M06",
-    castingAnimation: ItemAbilityCastingAnimationEnum.Invocation,
-    exclusionFlags: [SpellExclusionFlagEnum.Enchanter],
-    flags: [SpellFlagEnum.Hostile],
-    type: SpellTypeEnum.Wizard,
-    level: 4,
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        location: ItemAbilityLocationEnum.Spell,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        speed: 4,
-        projectile: {
-          name: "Wall of Ice",
-          copyFromFile: "ICESTORM",
-          speed: 20,
-          behaviorFlags: [ProjectileBehaviorEnum.UseHeight],
-          impactSound: "EFF_M34",
-          areaEffectInfo: {
-            areaOfEffect: 341,
-            triggerCount: 1,
-            explosionDelay: 10,
-          },
-        },
-        range: 40,
-        effects: [
-          {
-            opcode: EffectTypeEnum.Damage,
-            type: EffectDamageTypeEnum.Cold,
-            diceThrown: 2,
-            diceSize: 10,
-            timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            saveTypes: [SaveTypeEnum.BypassMirrorImage],
-          },
-          {
-            opcode: EffectTypeEnum.Damage,
-            type: EffectDamageTypeEnum.Crushing,
-            diceThrown: 1,
-            diceSize: 10,
-            timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            saveTypes: [SaveTypeEnum.BypassMirrorImage],
-          },
-        ],
-      },
-      //TODO: level 24 header with 6d10 cold and 3d10 crushing, who is using this one??
-    ],
-    ability: {
-      preset: SPELLS.Wizard.IceStorm.file,
-      spell: {
-        type: "noDec",
-      },
-    },
-  });
-}
+import { MonsterEnum } from "../monster";
+import type { UndeadFamily } from "./family";
+import { Ids } from "./ids";
+import { Undead } from "./undead-creature";
 
 function bonebatTouch(cre: Undead) {
   return cre.addSpell({
@@ -543,10 +423,41 @@ function greaterArcherSkeletonVariant(base: Undead): Variant {
       ac: 6,
       xpv: 420,
     },
-    files: ["0XUDDG", "BDTEAM63", "BDSKGR04", "SKELAR01", "SKELAR02"],
+    files: [
+      "0XUDDG",
+      "BDTEAM63",
+      "BDSKGR04",
+      "SKELAR01",
+      "SKELAR02",
+      "D9ELARAA",
+      "D9ELARBB",
+      "D9ELARFF",
+      "D9ELARFX",
+      "D9ELARGG",
+      "D9ELARKK",
+      "D9ELARTT",
+      "D9ELARXX",
+      "D9ELARYC",
+      "D9ELARYY",
+      "D9ELARZZ",
+    ],
     adjust: [
       {
-        files: ["SKELAR01", "SKELAR02"],
+        files: [
+          "SKELAR01",
+          "SKELAR02",
+          "D9ELARAA",
+          "D9ELARBB",
+          "D9ELARFF",
+          "D9ELARFX",
+          "D9ELARGG",
+          "D9ELARKK",
+          "D9ELARTT",
+          "D9ELARXX",
+          "D9ELARYC",
+          "D9ELARYY",
+          "D9ELARZZ",
+        ],
         data: { level1: 6, xpv: 500 },
       },
       { files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } },
@@ -591,140 +502,6 @@ function mageSkeletonVariant(base: Undead): Variant {
       },
     ],
   });
-}
-
-export function skeletonWarrior(family: UndeadFamily): Undead {
-  const warrior = family.create({
-    monster: MonsterEnum.SkeletonWarrior,
-    name: "monster.undead.name.skeletonWarrior",
-    files: [],
-    data: {
-      level1: 9,
-      bonusHp: 8, // +2 to +12
-      strength: 18,
-      exceptionalStrength: 40,
-      dexterity: 14,
-      constitution: 9,
-      intelligence: 16,
-      wisdom: 12,
-      charisma: 4,
-      ac: 2,
-      apr: 1, // for some reason, they have 2 in vanilla, maybe to emulate apr of a lvl 9 fighter
-      xpv: 4000,
-      alignment: "NEUTRAL",
-      morale: 15,
-      general: "UNDEAD",
-      race: "SKELETON",
-      class: "SKELETON_WARRIOR",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 6,
-      immunities: ["undead"],
-      effects: {
-        remove: [EffectTypeEnum.Thac0Bonus],
-      },
-      items: {
-        remove: ["ring95", "ring99", "immune1", "helmnoan", "undtype"],
-      },
-    },
-  });
-  warrior.addTrait({
-    immunities: ["skeletal", "nonMagicalWeapons", "turnUndead"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 90,
-        type: EffectStatisticModifierEnum.Set,
-      },
-      {
-        // Skeleton warriors make all weapon attacks with a +3 bonus to their attack roll
-        opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectStatisticModifierEnum.Increment,
-        value: 3,
-      },
-    ],
-  });
-  // The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.
-  skeletonWarriorFearAura(warrior);
-  warrior.setBehavior({
-    restHeal: true,
-    abilities: [family.ability(Ids.SkeletonWarriorFearAura)],
-  });
-  warrior.setAttack({
-    ranged: true,
-  });
-  warrior.setAdjustments([
-    {
-      files: ["C0DESUM1", "SKELSU01"],
-      data: {
-        level1: 3,
-        strength: 16,
-        exceptionalStrength: 0,
-        ac: 6,
-      },
-    },
-    {
-      files: ["C0DESUM2", "SKELSU07"],
-      data: {
-        level1: 5,
-        strength: 17,
-        exceptionalStrength: 0,
-        ac: 4,
-      },
-    },
-    {
-      files: ["C0DESUM3", "SKELSU11"],
-      data: {
-        level1: 7,
-        strength: 18,
-        exceptionalStrength: 0,
-        ac: 3,
-      },
-    },
-    {
-      files: ["BDUNSEN"],
-      data: {
-        level1: 7,
-        xpv: 3000,
-      },
-    },
-    {
-      files: ["BDSKGR01", "BDTEAM62"],
-      data: {
-        level1: 7,
-        xpv: 3000,
-      },
-    },
-    {
-      files: ["C0DESUM4"],
-      data: {
-        level1: 9,
-        ea: "CONTROLLED",
-      },
-    },
-    {
-      files: ["SKELWA03"],
-      data: {
-        level1: 13,
-      },
-    },
-    {
-      files: ["C0DESUM5"],
-      data: {
-        level1: 15,
-        strength: 19,
-        exceptionalStrength: 0,
-      },
-    },
-    {
-      files: ["ICHARY"],
-      data: {
-        level1: 15,
-        apr: 3,
-      },
-    },
-  ]);
-  return warrior;
 }
 
 export function baneguard(family: UndeadFamily): Undead {
@@ -834,119 +611,4 @@ export function bonebat(family: UndeadFamily): Undead {
     restHeal: true,
   });
   return bonebat;
-}
-
-export function deathKnight(family: UndeadFamily): Undead {
-  const knight = family.create({
-    monster: MonsterEnum.DeathKnight,
-    name: "monster.undead.name.deathKnight",
-    files: [],
-    data: {
-      level1: 9,
-      strength: 18,
-      exceptionalStrength: 100,
-      dexterity: 11,
-      constitution: 9,
-      intelligence: 18,
-      wisdom: 16,
-      charisma: 10,
-      ac: 0,
-      apr: 1,
-      xpv: 6000,
-      alignment: "CHAOTIC_EVIL",
-      morale: 17,
-      general: "UNDEAD",
-      race: "SKELETON",
-      class: "DEATHKNIGHT",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 12,
-      immunities: ["undead", "skeletal", "turnUndead"],
-      items: {
-        remove: ["HELM15", "SHLD06", "RINGDEMN"],
-      },
-      spells: {
-        memorized: [
-          { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 1 },
-          { file: SPELLS.Wizard.DispelMagic.file, memorizedCount: 2 },
-          { file: SPELLS.Wizard.PowerWordBlind.file, memorizedCount: 1 },
-          { file: SPELLS.Wizard.PowerWordKill.file, memorizedCount: 1 },
-          { file: SPELLS.Wizard.PowerWordStun.file, memorizedCount: 1 },
-          // Symbol of Pain: rr#spain.spl
-        ],
-      },
-    },
-  });
-  wallOfIce(knight);
-  knight.addTrait({
-    immunities: ["turnUndead"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 75,
-        type: EffectStatisticModifierEnum.Set,
-      },
-    ],
-  });
-  knight.setBehavior({
-    restHeal: true,
-    abilities: [
-      {
-        preset: SPELLS.Wizard.DetectInvisibility.file,
-        spell: { type: "noDec" },
-      },
-      family.ability(Ids.WallOfIce),
-    ],
-  });
-  return knight;
-}
-
-export function deathShade(family: UndeadFamily): Undead {
-  const shade = family.create({
-    monster: MonsterEnum.DeathShade,
-    name: "monster.undead.name.deathShade",
-    files: [],
-    data: {
-      level1: 4,
-      strength: 12,
-      dexterity: 13,
-      constitution: 9,
-      intelligence: 7,
-      wisdom: 10,
-      charisma: 14,
-      ac: 7,
-      apr: 1,
-      xpv: 975,
-      alignment: "NEUTRAL_EVIL",
-      morale: 12,
-      general: "UNDEAD",
-      race: "SKELETON",
-      class: "SKELETON",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 18,
-      immunities: ["undead"],
-      items: {
-        remove: ["ring95", "bdbonbat"],
-      },
-    },
-  });
-  shade.addTrait({
-    immunities: ["skeletal"],
-  });
-  bonebatTouch(shade);
-  shade.createJaws(
-    2,
-    4,
-    [
-      {
-        spell: family.spell(Ids.BonebatTouch).file,
-      },
-    ],
-    "WEAPON1",
-  );
-  shade.setBehavior({
-    restHeal: true,
-  });
-  return shade;
 }
