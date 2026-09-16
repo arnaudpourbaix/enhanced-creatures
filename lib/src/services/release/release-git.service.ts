@@ -28,7 +28,9 @@ class ReleaseGitService {
   }
 
   tagExistsAtHead(tag: string): boolean {
-    const tagCommit = this.tryGit(["rev-parse", "--verify", `refs/tags/${tag}`]);
+    // `refs/tags/<tag>` alone resolves to the annotated tag *object*, not the commit it points
+    // to - `^{commit}` peels it, same as the commit HEAD resolves to.
+    const tagCommit = this.tryGit(["rev-parse", "--verify", `refs/tags/${tag}^{commit}`]);
     if (tagCommit === null) return false;
     const head = this.git(["rev-parse", "HEAD"]).trim();
     return tagCommit.trim() === head;
