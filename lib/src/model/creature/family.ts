@@ -93,6 +93,8 @@ export abstract class CreatureFamily<T extends Creature>
     files?: (string | CreatureFile)[];
     notEnforceFiles?: string[];
     newFiles?: CreatureNewFile[];
+    removeAbilities?: boolean;
+    removeMemorized?: boolean;
   }): T {
     logService.header(
       `Creating ${translationService.from(p.name)} from ${translationService.from(p.from.name)}...`,
@@ -119,6 +121,12 @@ export abstract class CreatureFamily<T extends Creature>
     cre.projectiles = [];
     cre.adjustments = [];
     cre.variants = [];
+    if (p.removeAbilities === true) {
+      cre.behavior.abilities = [];
+    }
+    if (p.removeMemorized === true) {
+      cre.data.spells.memorized = [];
+    }
     cre.valid = undefined;
     if (p.from.attack.dualWielding) cre.data.apr++;
     this.creatures.push(cre);

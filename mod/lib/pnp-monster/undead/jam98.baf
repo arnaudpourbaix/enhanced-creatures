@@ -159,19 +159,6 @@ THEN
 		NoAction()
 END
 
-// Poison Weapon
-IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpell(ASSASSIN_POISON)
-	See(NearestEnemyOf(Myself))
-	!CheckStat(Myself,4,SCRIPTINGSTATE4)
-	RandomNumGT(800,80)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(Myself,ASSASSIN_POISON)
-END
-
 // True Seeing
 IF
 	!StateCheck(Myself,STATE_SILENCED)
@@ -525,6 +512,7 @@ IF
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_6)
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_5)
 	!HaveSpellRES("D5P2527")
+	!HaveSpell(WIZARD_SUMMON_SHADOW)
 	!HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_4)
 	!HaveSpellRES("D5P1301")
@@ -611,6 +599,7 @@ IF
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_6)
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_5)
 	!HaveSpellRES("D5P2527")
+	!HaveSpell(WIZARD_SUMMON_SHADOW)
 	!HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
 	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_4)
 	!HaveSpellRES("D5P1301")
@@ -2212,6 +2201,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFrom(LastSeenBy(Myself),30)
 END
 
 IF
@@ -2229,6 +2219,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFrom(LastSeenBy(Myself),30)
 END
 
 IF
@@ -2246,6 +2237,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFrom(LastSeenBy(Myself),30)
 END
 
 IF
@@ -2263,6 +2255,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFrom(LastSeenBy(Myself),30)
 END
 
 // HolySmite

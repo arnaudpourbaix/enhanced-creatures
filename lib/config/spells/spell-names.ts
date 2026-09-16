@@ -49,6 +49,12 @@ const WIZARD_SPELLS = {
     id: "WIZARD_DARKNESS_15_FOOT",
     name: "spell.Darkness15Radius.name",
   },
+  DemiShadowMonsters: {
+    file: "SPWI527",
+    id: "WIZARD_DEMI_SHADOW_MONSTERS",
+    name: "spell.DemiShadowMonsters.name",
+    duration: "short",
+  },
   DetectInvisibility: {
     file: "SPWI203",
     id: "WIZARD_DETECT_INVISIBILITY",
@@ -89,6 +95,11 @@ const WIZARD_SPELLS = {
     name: "spell.GreaterMalison.name",
   },
   Haste: { file: "SPWI305", id: "WIZARD_HASTE", duration: "mid", name: "spell.Haste.name" },
+  HoldMonster: {
+    file: "SPWI507",
+    id: "WIZARD_HOLD_MONSTER",
+    name: "spell.HoldMonster.name",
+  },
   HoldPerson: {
     file: "SPWI306",
     id: "WIZARD_HOLD_PERSON",
@@ -220,6 +231,18 @@ const WIZARD_SPELLS = {
     name: "spell.Shield.name",
   },
   ShadowDoor: { file: "SPWI505", id: "WIZARD_SHADOW_DOOR", name: "spell.ShadowDoor.name" },
+  ShadowMonsters: {
+    file: "SPWI433",
+    id: "WIZARD_SHADOW_MONSTERS",
+    name: "spell.ShadowMonsters.name",
+    duration: "short",
+  },
+  ShroudOfFlame: {
+    file: "SPWI525",
+    id: "WIZARD_SHROUD_OF_FLAME",
+    name: "spell.ShroudOfFlame.name",
+  },
+  SkullTrap: { file: "SPWI313", id: "WIZARD_SKULL_TRAP", name: "spell.SkullTrap.name" },
   Sleep: { file: "SPWI116", id: "WIZARD_SLEEP", name: "spell.Sleep.name" },
   Slow: { file: "SPWI312", id: "WIZARD_SLOW", name: "spell.Slow.name" },
   SpellThrust: { file: "SPWI321", id: "WIZARD_SPELL_THRUST", name: "spell.SpellThrust.name" },
@@ -235,10 +258,21 @@ const WIZARD_SPELLS = {
     duration: "long",
     name: "spell.Stoneskin.name",
   },
+  SummonShadow: {
+    file: "SPWI501",
+    id: "WIZARD_SUMMON_SHADOW",
+    duration: "mid",
+    name: "spell.SummonShadow.name",
+  },
   TeleportField: {
     file: "SPWI421",
     id: "WIZARD_TELEPORT_FIELD",
     name: "spell.TeleportField.name",
+  },
+  VampiricTouch: {
+    file: "SPWI314",
+    id: "WIZARD_VAMPIRIC_TOUCH",
+    name: "spell.VampiricTouch.name",
   },
   VitriolicSphere: {
     file: "SPWI426",

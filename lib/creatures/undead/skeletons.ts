@@ -317,7 +317,7 @@ export function skeleton(family: UndeadFamily): Undead {
 }
 
 function greaterSkeletonVariant(base: Undead): Variant {
-  return base.variant("Greater Skeleton", {
+  const greater = base.variant("Greater Skeleton", {
     data: {
       level1: 6,
       strength: 12,
@@ -340,6 +340,7 @@ function greaterSkeletonVariant(base: Undead): Variant {
       "RSKEL03",
       "D9SKL02",
       "D9SKL08",
+      "HGSKL02",
     ],
     adjust: [
       { files: ["CBUNDEAD"], data: { script: { location: "None" } } },
@@ -349,20 +350,27 @@ function greaterSkeletonVariant(base: Undead): Variant {
       { files: ["L#XZEP1D"], data: { level1: 13, ac: -2, apr: 3.5, script: { location: "None" } } },
       { files: ["L#XZEP1E"], data: { level1: 17, ac: -4, apr: 4, script: { location: "None" } } },
       { files: ["L#XZEP1F"], data: { level1: 20, ac: -6, apr: 4.5, script: { location: "None" } } },
-      {
-        files: ["D9SKL02", "D9SKL08"],
-        data: {
-          level1: 20,
-          ac: -2,
-          apr: 2,
-          hideShadow: 100,
-          moveSilent: 100,
-          class: "THIEF",
-          kit: "ASSASIN",
-        },
-      },
     ],
   });
+  assasinVariant(greater);
+  return greater;
+}
+
+function assasinVariant(base: Variant): Variant {
+  const assasin = base.variant("Assasin", {
+    data: {
+      level1: 20,
+      ac: -2,
+      apr: 2,
+      hideShadow: 100,
+      moveSilent: 100,
+      class: "THIEF",
+      kit: "ASSASIN",
+      xpv: 6000,
+    },
+    files: ["D9SKL02", "D9SKL08", "HGSKL02"],
+  });
+  return assasin;
 }
 
 function clericSkeletonVariant(base: Undead): Variant {
@@ -400,35 +408,13 @@ function clericSkeletonVariant(base: Undead): Variant {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- will be used later on
-function mageSkeletonVariant(base: Undead): Variant {
-  return base.variant("Mage Skeleton", {
-    data: {},
-    files: ["BDSKGR07", "BDTEAM60"],
-    adjust: [
-      {
-        files: ["BDSKGR07"],
-        data: {
-          level1: { pnpValue: 2, value: 5, type: "caster" },
-          xpv: 900,
-        },
-      },
-      {
-        files: ["BDTEAM60"],
-        data: {
-          level1: { pnpValue: 4, value: 8, type: "caster" },
-          xpv: 2000,
-        },
-      },
-    ],
-  });
-}
-
 export function spikeSkeleton(family: UndeadFamily): Undead {
   const monster = family.createFrom({
     name: "monster.undead.name.spikeSkeleton",
     monster: MonsterEnum.SpikeSkeleton,
     from: family.creature(MonsterEnum.Skeleton),
+    removeAbilities: true,
+    removeMemorized: true,
   });
   monster.setData({
     level1: 3,
@@ -456,6 +442,8 @@ export function skeletonMonster(family: UndeadFamily): Undead {
     name: "monster.undead.name.skeletonMonster",
     monster: MonsterEnum.SkeletonMonster,
     from: family.creature(MonsterEnum.Skeleton),
+    removeAbilities: true,
+    removeMemorized: true,
   });
   monster.setData({
     level1: 6,
@@ -472,6 +460,8 @@ export function giantSkeleton(family: UndeadFamily): Undead {
     name: "monster.undead.name.giantSkeleton",
     monster: MonsterEnum.GiantSkeleton,
     from: family.creature(MonsterEnum.Skeleton),
+    removeAbilities: true,
+    removeMemorized: true,
   });
   giant.setData({
     level1: 4,
@@ -507,6 +497,8 @@ export function archerSkeleton(family: UndeadFamily): Undead {
     name: "monster.undead.name.archerSkeleton",
     monster: MonsterEnum.ArcherSkeleton,
     from: family.creature(MonsterEnum.Skeleton),
+    removeAbilities: true,
+    removeMemorized: true,
   });
   archer.setData({
     level1: 2,
@@ -535,30 +527,69 @@ export function archerSkeleton(family: UndeadFamily): Undead {
       // original thac0: 12
       data: { level1: 3, xpv: 120 },
     },
-    {
-      files: ["BDSKGR04", "BDTEAM63"],
-      data: { level1: 5, xpv: 420 },
-    },
-    {
-      files: ["SKELAR01", "SKELAR02"],
-      data: { level1: 6, xpv: 500 },
-    },
   ]);
   greaterArcherSkeletonVariant(archer);
+  mageSkeletonVariant(archer);
   return archer;
 }
 
 function greaterArcherSkeletonVariant(base: Undead): Variant {
   return base.variant("Greater Archer Skeleton", {
     data: {
-      level1: 6,
+      level1: 5,
       strength: 12,
       dexterity: 16,
       constitution: 11,
       ac: 6,
+      xpv: 420,
     },
-    files: ["0XUDDG"],
-    adjust: [{ files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } }],
+    files: ["0XUDDG", "BDTEAM63", "BDSKGR04", "SKELAR01", "SKELAR02"],
+    adjust: [
+      {
+        files: ["SKELAR01", "SKELAR02"],
+        data: { level1: 6, xpv: 500 },
+      },
+      { files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } },
+    ],
+  });
+}
+
+function mageSkeletonVariant(base: Undead): Variant {
+  return base.variant("Mage Skeleton", {
+    data: {
+      level1: 5,
+      class: "MAGE",
+      spells: {
+        cumulative: false,
+        spellbooks: spellService.createSpellbooks({
+          name: "EvilUndeadMageNoFF",
+          casterLevel: 5,
+          type: "mage",
+        }),
+      },
+      script: {
+        remove: ["BDSKGR07"],
+      },
+      xpv: 900,
+    },
+    files: ["BDSKGR07", "BDTEAM60"],
+    adjust: [
+      {
+        files: ["BDTEAM60"],
+        data: {
+          level1: 8,
+          spells: {
+            cumulative: false,
+            spellbooks: spellService.createSpellbooks({
+              name: "EvilUndeadMageNoFF",
+              casterLevel: 8,
+              type: "mage",
+            }),
+          },
+          xpv: 2000,
+        },
+      },
+    ],
   });
 }
 

@@ -47,3 +47,21 @@ DEFINE_PATCH_FUNCTION FJ_SPL_ITM_REINDEX BEGIN
     // added by Ardanis
     WRITE_SHORT 0x6e 0
 END
+
+
+
+DEFINE_PATCH_FUNCTION GET_CRE_ITEM_IN_SLOT
+    INT_VAR
+        slot = 0
+    RET
+        item
+BEGIN
+    READ_LONG 0x2b8 slots_offset
+    READ_LONG 0x2bc items_offset
+    READ_SHORT (slots_offset + (slot * 2)) item_index
+    PATCH_IF (item_index = 65535) BEGIN
+        SPRINT item ""
+    END ELSE BEGIN
+        READ_ASCII (items_offset + (item_index * 0x14)) item
+    END
+END

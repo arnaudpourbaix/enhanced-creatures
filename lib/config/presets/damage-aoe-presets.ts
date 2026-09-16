@@ -64,6 +64,27 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         },
       ],
       spell: {},
+      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Wizard.SkullTrap.file,
+    ability: {
+      name: SPELLS.Wizard.SkullTrap.name,
+      targets: [
+        {
+          name: "FarthestEnemies",
+          randomOrder: true,
+          triggers: [
+            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },
@@ -83,6 +104,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         },
       ],
       spell: {},
+      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

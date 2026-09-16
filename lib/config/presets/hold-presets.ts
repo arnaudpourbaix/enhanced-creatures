@@ -30,6 +30,18 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Wizard.HoldMonster.file,
+    ability: {
+      name: SPELLS.Wizard.HoldMonster.name,
+      targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
+        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+      ]),
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Wizard.Web.file,
     ability: {
       name: SPELLS.Wizard.Web.name,

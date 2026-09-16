@@ -269,6 +269,25 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Wizard.ShroudOfFlame.file,
+    ability: {
+      name: SPELLS.Wizard.ShroudOfFlame.name,
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Priest.FlameStrike.file,
     ability: {
       name: SPELLS.Priest.FlameStrike.name,
@@ -336,6 +355,24 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           name: "Players",
           randomOrder: true,
           triggers: [
+            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+          ],
+        },
+      ],
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
+    preset: SPELLS.Wizard.VampiricTouch.file,
+    ability: {
+      name: SPELLS.Wizard.VampiricTouch.name,
+      targets: [
+        {
+          name: "NearestEnemies",
+          triggers: [
+            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
             // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },

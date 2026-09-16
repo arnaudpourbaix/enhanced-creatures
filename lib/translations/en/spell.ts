@@ -156,6 +156,11 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   GreaterMalison: { name: "Greater Malison" },
   Shield: { name: "Shield" },
   Feeblemind: { name: "Feeblemind" },
+  SkullTrap: { name: "SkullTrap" },
+  SummonShadow: { name: "Summon Shadow" },
+  HoldMonster: { name: "Hold Monster" },
+  VampiricTouch: { name: "Vampiric Touch" },
+  ShroudOfFlame: { name: "Shroud Of Flame" },
   FleshToStone: { name: "Flesh to Stone" },
   ShapeshiftMustardJelly: { name: "Shapeshift: Mustard Jelly" },
 

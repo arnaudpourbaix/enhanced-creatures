@@ -56,6 +56,7 @@ export const GLOBAL_CONFIG = {
       "BDFMAG01",
       "BDFMAG23",
       "BDGRSHTV",
+      "BDMAGE01",
       "BDNONIN",
       "BDSHM00",
       "BDSUM00",
