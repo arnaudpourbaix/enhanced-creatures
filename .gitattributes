@@ -1,6 +1,7 @@
-docs/*.html text eol=crlf
-docs/*.css text eol=crlf
-docs/*.js text eol=crlf
+mod/docs/*.html text eol=crlf
+mod/docs/*.css text eol=crlf
+mod/docs/*.js text eol=crlf
 CHANGELOG.md text eol=crlf
-tra/**/*.tra text eol=crlf
-lib/pnp-monster/** text eol=crlf
+mod/languages/**/*.tra text eol=crlf
+mod/lib/pnp-monster/** text eol=crlf
+mod/lib/common/*.tpa text eol=crlf
