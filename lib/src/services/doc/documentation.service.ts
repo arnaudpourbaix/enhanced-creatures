@@ -1047,6 +1047,27 @@ class DocumentationService {
   // nothing to diff against (the base creature never has one of its own), so every entry is
   // shown as new rather than filtered down to only "changed" ones the way getAdjustmentSpells
   // filters the plain `memorized` list.
+  // Renders the tab strip shared by getCreatureSpellbooks and getAdjustmentSpellbooks. Skipped
+  // down to just the one panel's spells, with no tab button/name, when only one mod-conditional
+  // spellbook survived filtering - with nothing to switch between, a lone tab labeled "Vanilla"
+  // or "Spell Revisions" only adds noise, not information.
+  private renderSpellbookTabs(tabs: { id: string; name: string; spells: string }[]): string {
+    if (tabs.length === 1) return tabs[0].spells;
+    const buttons = tabs
+      .map(
+        (tab, i) =>
+          `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
+      )
+      .join("");
+    const panels = tabs
+      .map(
+        (tab, i) =>
+          `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
+      )
+      .join("");
+    return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+  }
+
   private getAdjustmentSpellbooks(
     creature: Creature,
     effective: EffectiveAdjustment,
@@ -1075,19 +1096,7 @@ class DocumentationService {
       })
       .filter((tab) => tab.spells);
     if (!tabs.length) return "";
-    const buttons = tabs
-      .map(
-        (tab, i) =>
-          `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
-      )
-      .join("");
-    const panels = tabs
-      .map(
-        (tab, i) =>
-          `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
-      )
-      .join("");
-    return `<h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+    return `<h4>Spellbooks</h4>${this.renderSpellbookTabs(tabs)}`;
   }
 
   private getFileName(creature: Creature, file: string): string | undefined {
@@ -1297,22 +1306,7 @@ class DocumentationService {
       })
       .filter((tab) => tab.spells);
 
-    let result = "";
-    if (tabs.length) {
-      const buttons = tabs
-        .map(
-          (tab, i) =>
-            `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
-        )
-        .join("");
-      const panels = tabs
-        .map(
-          (tab, i) =>
-            `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
-        )
-        .join("");
-      result = `<h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
-    }
+    const result = tabs.length ? `<h4>Spellbooks</h4>${this.renderSpellbookTabs(tabs)}` : "";
     this.replace(template, "spellbooks", result);
   }
 

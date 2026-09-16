@@ -1313,6 +1313,26 @@ describe("getCreatureSpellbooks", () => {
 
   it("skips a spellbook variant with no matching abilities", () => {
     const creature = fakeCreatureForSpells(
+      { abilities: [fakeAbility("SPPR101"), fakeAbility("SPPR102")] },
+      {
+        spellbooks: [
+          { mod: "FaithsAndPowers", memorized: [{ file: "SPPR101", memorizedCount: 2 }] },
+          { mod: "SpellRevisions", memorized: [{ file: "SPPR102", memorizedCount: 5 }] },
+          { mod: "Vanilla", memorized: [] },
+        ],
+      },
+    );
+    const template = { text: "{{spellbooks}}" };
+
+    documentationService.getCreatureSpellbooks(template, creature);
+
+    expect(template.text).toContain("Faiths & Powers");
+    expect(template.text).toContain("Spell Revisions");
+    expect(template.text).not.toContain("Vanilla");
+  });
+
+  it("renders the sole surviving spellbook's spells directly, without a tab or the mod's name", () => {
+    const creature = fakeCreatureForSpells(
       { abilities: [fakeAbility("SPPR101")] },
       {
         spellbooks: [
@@ -1325,8 +1345,10 @@ describe("getCreatureSpellbooks", () => {
 
     documentationService.getCreatureSpellbooks(template, creature);
 
-    expect(template.text).toContain("Faiths & Powers");
-    expect(template.text).not.toContain("Vanilla");
+    expect(template.text).toContain("2/day");
+    expect(template.text).not.toContain("Faiths & Powers");
+    expect(template.text).not.toContain("spellbook-tab-button");
+    expect(template.text).not.toContain("spellbook-tabs");
   });
 
   it("renders nothing when the creature has no spellbooks", () => {
