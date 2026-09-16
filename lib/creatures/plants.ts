@@ -5,11 +5,9 @@ import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import {
   AbilityDamageTypeEnum,
-  EffectStatisticModifierEnum,
   ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
 } from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Plant extends Creature {

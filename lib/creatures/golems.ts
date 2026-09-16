@@ -61,11 +61,11 @@ class Golem extends Creature {
         header: {
           diceThrown,
           diceSize,
+          effects,
           damageType: damageType ?? AbilityDamageTypeEnum.Crushing,
           type: ItemAbilityTypeEnum.Melee,
           speed: 4,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects,
         },
       },
       castSpells: castSpell ? [castSpell] : undefined,
@@ -111,14 +111,14 @@ class Golem extends Creature {
   createWildMagicFlare() {
     // TODO:
     // cast as a 16th level
-    // 20%	Magical blast
-    // 10%	Chain lightning
-    // 10%	Dispel magic
-    // 10%	Fire shield
-    // 10%	Color spray in a 360' radius
-    // 20%	Fireball centered on golem
-    // 10%	Time stop
-    // 10%	Earthquake
+    // 20% Magical blast
+    // 10% Chain lightning
+    // 10% Dispel magic
+    // 10% Fire shield
+    // 10% Color spray in a 360' radius
+    // 20% Fireball centered on golem
+    // 10% Time stop
+    // 10% Earthquake
     return this.addSpell({
       name: "monster.golem.ability.wildMagicFlare.name",
       description: "monster.golem.ability.wildMagicFlare.description",
