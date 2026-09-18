@@ -126,7 +126,12 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
 }
 
 function greaterSkeletonWarriorVariant(base: Undead): Variant {
-  const greater = base.variant("Greater Skeleton Warrior", {
+  const proficiencies = [
+    { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+    { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
+    { type: ProficiencyTypeEnum.PROFICIENCYLONGBOW, value: 5 },
+  ];
+  return base.variant("Greater Skeleton Warrior", {
     data: {
       level1: 13,
       bonusHp: 12,
@@ -146,14 +151,8 @@ function greaterSkeletonWarriorVariant(base: Undead): Variant {
     ],
     adjust: [
       {
-        files: ["ICHARY", "HGSKL04", "ANSCELET"],
-        data: {
-          proficiencies: [
-            { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
-            { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
-            { type: ProficiencyTypeEnum.PROFICIENCYLONGBOW, value: 5 },
-          ],
-        },
+        files: ["ANSCELET"],
+        data: { proficiencies },
       },
       {
         files: ["GOLBON01"],
@@ -163,20 +162,16 @@ function greaterSkeletonWarriorVariant(base: Undead): Variant {
         },
       },
       {
-        files: ["ICHARY", "HGSKL04"],
+        files: ["ICHARY", "C0DESUM5"],
         data: {
-          level1: 15,
-        },
-      },
-      {
-        files: ["C0DESUM5"],
-        data: {
+          proficiencies,
           level1: 15,
         },
       },
       {
         files: ["HGSKL04", "D9SKL04", "D9SKL09"],
         data: {
+          proficiencies,
           level1: 20,
           ac: -6,
           xpv: 8000,
@@ -184,5 +179,4 @@ function greaterSkeletonWarriorVariant(base: Undead): Variant {
       },
     ],
   });
-  return greater;
 }

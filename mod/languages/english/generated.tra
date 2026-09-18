@@ -2122,10 +2122,15 @@ A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, 
 Immune to fire
 Missiles Resistance: 90%~
 @10988 = ~Skeleton Warrior traits~
-@10989 = ~Spectre traits~
-@10990 = ~Immune to cold
+@10989 = ~Skeletal
+Immune to non-magical weapons
+Immune to turn undead
+Magic Resistance: 90%
+Thac0: +3~
+@10990 = ~Spectre traits~
+@10991 = ~Immune to cold
 Incorporeal~
-@10991 = ~Claws
+@10992 = ~Claws
 
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
@@ -2134,10 +2139,10 @@ Range: 2 feet
 
 Cast spell Specter's Touch:
 Their touch drains two life energy levels from the victim.~
-@10992 = ~Ghost traits~
-@10993 = ~Immune to cold
+@10993 = ~Ghost traits~
+@10994 = ~Immune to cold
 Incorporeal~
-@10994 = ~Claws
+@10995 = ~Claws
 
 Enchantment: 3
 Range: 2 feet

@@ -1,4 +1,5 @@
 import { SPELLS } from "../../config/spells/spell-names";
+import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum, RegenerationTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
@@ -128,6 +129,25 @@ export function ogreMage(family: OgreFamily): Ogre {
 }
 
 function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+  // Shared profile for Krotan/Ntkrotan/Kahrk before their own level/proficiency bump.
+  const krotanChief: InputCreatureData = {
+    level1: 12,
+    level2: 12,
+    strength: 19,
+    class: "FIGHTER_MAGE",
+    xpv: 3500,
+    proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
+    spells: {
+      memorized: [
+        { file: SPELLS.Wizard.Domination.file, memorizedCount: 1 },
+        { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
+        { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 4 },
+        { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 4 },
+        { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 3 },
+        { file: SPELLS.Wizard.Sleep.file, memorizedCount: 3 },
+      ],
+    },
+  };
   // ogre magi will be led by a chief of great strength (+2 on each Hit Die, attacking and saving as a 9 Hit Dice monster)
   return base.variant("Chieftain", {
     files: [
@@ -195,36 +215,19 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
         data: { level1: 10, level2: 10 },
       },
       {
-        files: ["KROTAN", "NTKROTAN", "KAHRK"],
-        data: {
-          level1: 12,
-          level2: 12,
-          strength: 19,
-          class: "FIGHTER_MAGE",
-          xpv: 3500,
-          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
-          spells: {
-            memorized: [
-              { file: SPELLS.Wizard.Domination.file, memorizedCount: 1 },
-              { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
-              { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 4 },
-              { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 4 },
-              { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 3 },
-              { file: SPELLS.Wizard.Sleep.file, memorizedCount: 3 },
-            ],
-          },
-        },
-      },
-      {
         files: ["KAHRK"],
         noWeapon: true,
         data: {
-          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYKATANA, value: 5 }],
+          ...krotanChief,
+          proficiencies: [
+            ...(krotanChief.proficiencies ?? []),
+            { type: ProficiencyTypeEnum.PROFICIENCYKATANA, value: 5 },
+          ],
         },
       },
       {
         files: ["KROTAN", "NTKROTAN"],
-        data: { level1: 15, level2: 15, class: "FIGHTER_MAGE", xpv: 4000 },
+        data: { ...krotanChief, level1: 15, level2: 15, xpv: 4000 },
       },
     ],
   });

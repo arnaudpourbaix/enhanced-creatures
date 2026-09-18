@@ -10,7 +10,6 @@ import {
   ItemAbilityTypeEnum,
   LightingEffectEnum,
   LightingEffectTargetEnum,
-  ProficiencyTypeEnum,
   SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
@@ -124,7 +123,7 @@ export function skeleton(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "ring99", "undtype"],
+        remove: ["ring95", "ring99", "undtype", "HELMNOAN"],
       },
       script: {
         remove: ["L#HAUSK"],

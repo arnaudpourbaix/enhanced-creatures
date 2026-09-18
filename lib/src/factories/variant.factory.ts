@@ -1,7 +1,8 @@
 import deepmerge from "deepmerge";
 import { PartialCreatureAdjustment } from "../model/creature/adjustment";
-import { Creature, CreatureAutoGenerate } from "../model/creature/creature";
+import { Creature } from "../model/creature/creature";
 import { InputCreatureData } from "../model/creature/data-input";
+import { Game, gamesOverlap } from "../model/creature/game";
 import { Variant, VariantInput } from "../model/creature/variant";
 import logService from "../services/log.service";
 import translationService from "../services/translation.service";
@@ -44,45 +45,48 @@ function buildAdjustments(
     );
   }
 
-  // Each WeiDU adjustment is a separate, sequential patch on the same .cre file: a later one
+  // Each WeiDU adjustment is a separate, independent patch on the same .cre file: a later one
   // overwrites any field it defines, regardless of what an earlier one for the same file already
   // set (see weidu-creature.service's writeCreatureDataField - there's no diffing against a prior
-  // pass). So an `adjust` entry that narrows a file already covered by an earlier entry must merge
-  // on top of THAT entry's result, not re-derive from the shared `base` - otherwise every field
-  // the narrowing entry doesn't restate (its Hit Dice, class, spells, ...) silently reverts to the
-  // generic profile and clobbers the earlier entry's more specific values.
-  const stateByFile = new Map<string, InputCreatureData>();
-  const autoGenerateByFile = new Map<string, Partial<CreatureAutoGenerate> | undefined>();
-  for (const file of input.files ?? []) {
-    stateByFile.set(file.toUpperCase(), base);
-    autoGenerateByFile.set(file.toUpperCase(), input.autoGenerate);
-  }
+  // pass). So every `adjust` entry's data is layered directly on top of the variant's own `base`
+  // (never on top of a sibling entry's result) - a file may appear in at most one `adjust` entry,
+  // enforced below. That keeps every entry's resolved data self-contained: it always carries the
+  // variant's own fields (Hit Dice, class, spells, ...) forward, so nothing can silently fall back
+  // to the plain creature profile the way chaining entries together could.
+  assertNoDuplicateAdjustFiles(input.adjust ?? [], label);
 
   for (const entry of input.adjust ?? []) {
-    const files = entry.files.map((f) => f.toUpperCase());
-    const priorStates = new Set(files.map((f) => stateByFile.get(f) ?? base));
-    if (priorStates.size > 1) {
-      throw new Error(
-        `variant "${label}": adjust entry for [${entry.files.join(", ")}] mixes files that were narrowed differently by earlier adjust entries - split it so each group shares one prior state`,
-      );
-    }
-    const priorState = priorStates.values().next().value ?? base;
-    const merged = entry.data
-      ? deepmerge<InputCreatureData>(priorState, entry.data, { customMerge })
-      : priorState;
+    const merged = entry.data ? deepmerge<InputCreatureData>(base, entry.data, { customMerge }) : base;
     // autoGenerate is deliberately NOT deep-merged (see VariantInput.adjust doc): an entry
-    // inherits the nearest ancestor's autoGenerate (this file's own chain, then the variant's
-    // shared one) as-is unless it declares its own (even `{}`), so a sub-entry with its own
-    // level1 can opt out of a shared nominal-level override.
-    const priorAutoGenerate = autoGenerateByFile.get(files[0]) ?? input.autoGenerate;
-    const autoGenerate = entry.autoGenerate ?? priorAutoGenerate;
+    // inherits the variant's shared autoGenerate as-is unless it declares its own (even `{}`), so
+    // a sub-entry with its own level1 can opt out of a shared nominal-level override.
+    const autoGenerate = entry.autoGenerate ?? input.autoGenerate;
     adjustments.push({ ...entry, data: hasKeys(merged) ? merged : undefined, autoGenerate });
-    for (const file of files) {
-      stateByFile.set(file, merged);
-      autoGenerateByFile.set(file, autoGenerate);
-    }
   }
   return adjustments;
+}
+
+/**
+ * A file's full override set for a given install must live in one `adjust` entry - see
+ * buildAdjustments above for why layering a second entry for the same file on top of the first
+ * isn't safe to do implicitly. Two entries for the same file are only exempt when their `game`
+ * scopes can't both be active in one install (see gamesOverlap) - e.g. a bg1-only entry and a
+ * bg2-only entry for the same file never coexist, so there's nothing to reconcile between them.
+ */
+function assertNoDuplicateAdjustFiles(adjust: PartialCreatureAdjustment[], label: string): void {
+  const seenByFile = new Map<string, (Game | undefined)[]>();
+  for (const entry of adjust) {
+    for (const file of entry.files.map((f) => f.toUpperCase())) {
+      const seenGames = seenByFile.get(file) ?? [];
+      if (seenGames.some((game) => gamesOverlap(game, entry.game))) {
+        throw new Error(
+          `variant "${label}": '${file}' appears in more than one adjust entry that can both apply to the same install - merge them into a single entry, or scope them to non-overlapping \`game\` values`,
+        );
+      }
+      seenGames.push(entry.game);
+      seenByFile.set(file, seenGames);
+    }
+  }
 }
 
 // `memorized`/`spellbooks` are each a complete snapshot of what's memorized, not an accumulating

@@ -107,10 +107,19 @@ function chieftainVariant(_family: OgreFamily, base: Ogre): Variant {
         },
       },
       {
-        files: ["BDBERTOR", "BDEINER", "BDYAROK"],
+        files: ["BDBERTOR", "BDEINER"],
         data: {
           level1: 11,
           xpv: 2000,
+          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 }],
+        },
+      },
+      {
+        files: ["BDYAROK"],
+        data: {
+          level1: 11,
+          xpv: 2000,
+          ac: 10,
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 }],
         },
       },
@@ -125,12 +134,6 @@ function chieftainVariant(_family: OgreFamily, base: Ogre): Variant {
         files: ["X3HOGREL"],
         data: {
           level1: 8,
-        },
-      },
-      {
-        files: ["BDYAROK"],
-        data: {
-          ac: 10,
         },
       },
     ],

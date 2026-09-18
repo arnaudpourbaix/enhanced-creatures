@@ -1,3 +1,4 @@
+import { InputCreatureData } from "../../src/model/creature/data-input";
 import { QUICK_SLOTS } from "../../src/model/creature/item";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
@@ -81,7 +82,7 @@ function veteranVariant(base: Ogre): Variant {
         },
       },
       {
-        files: ["GORF", "GORF03"],
+        files: ["GORF"],
         data: {
           exceptionalStrength: 50,
         },
@@ -89,6 +90,7 @@ function veteranVariant(base: Ogre): Variant {
       {
         files: ["GORF03"],
         data: {
+          exceptionalStrength: 50,
           level1: 8,
         },
       },
@@ -103,6 +105,12 @@ function veteranVariant(base: Ogre): Variant {
 }
 
 function chieftainVariant(base: Ogre): Variant {
+  // Tazok gets the Berserker kit in every install; the bg2 (ToB) block adds its own rage-count
+  // increment on top of this (kit.service resolves the inherited kit).
+  const berserkerKit: InputCreatureData = {
+    kit: "BERSERKER",
+    proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+  };
   return base.variant("Chieftain", {
     // Level 9 fighter
     files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX", "L#CHIEN"],
@@ -116,19 +124,18 @@ function chieftainVariant(base: Ogre): Variant {
     },
     adjust: [
       {
-        // Tazok gets the Berserker kit; the per-game level blocks below then each add their own
-        // rage-count increment on top of this (kit.service resolves the inherited kit).
-        files: ["TAZOK", "TAZOK2", "D9TAZOK", "D9TAZOKX"],
-        data: {
-          kit: "BERSERKER",
-          proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
-        },
+        // D9TAZOK/D9TAZOKX only exist in bg2 (ToB) - TAZOK is the only one of the three present
+        // in bg1, so it's the only one that needs a bg1-scoped entry here.
+        files: ["TAZOK"],
+        game: "bg1",
+        data: berserkerKit,
       },
       {
-        // Tazok, level 19
+        // Tazok, level 19 (ToB)
         files: ["TAZOK", "D9TAZOK", "D9TAZOKX"],
         game: "bg2",
         data: {
+          ...berserkerKit,
           level1: 19,
           xpv: 8000,
         },
@@ -137,6 +144,7 @@ function chieftainVariant(base: Ogre): Variant {
         // Tazok, level 11
         files: ["TAZOK2"],
         data: {
+          ...berserkerKit,
           level1: 11,
           items: {
             equipped: [{ file: "POTN02", quantity: 1, slot: QUICK_SLOTS }],
