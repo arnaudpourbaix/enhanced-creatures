@@ -1,6 +1,7 @@
 import { SPELLS } from "../../config/spells/spell-names";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
+import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectStatisticModifierEnum,
@@ -119,90 +120,69 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
   warrior.setAttack({
     ranged: true,
   });
-  warrior.setAdjustments([
-    {
-      files: ["ICHARY", "HGSKL04"],
-      data: {
-        level1: 15,
-        class: "FIGHTER",
-        proficiencies: [
-          { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
-          { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
-        ],
-      },
-    },
-    {
-      files: ["HGSKL04"],
-      data: {
-        level1: 20,
-        bonusHp: 12,
-        ac: -6,
-        class: "FIGHTER",
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
-        xpv: 10000,
-      },
-    },
-    {
-      files: ["C0DESUM4", "C0DESUM5"],
-      data: {
-        class: "FIGHTER",
-      },
-    },
-    // {
-    //   files: ["C0DESUM5"],
-    //   data: {
-    //     level1: 15,
-    //     strength: 19,
-    //     exceptionalStrength: 0,
-    //   },
-    // },
-    // {
-    //   files: ["SKELSU01"],
-    //   data: {
-    //     level1: 3,
-    //     strength: 16,
-    //     exceptionalStrength: 0,
-    //     ac: 6,
-    //   },
-    // },
-    // {
-    //   files: ["SKELSU07"],
-    //   data: {
-    //     level1: 5,
-    //     strength: 17,
-    //     exceptionalStrength: 0,
-    //     ac: 4,
-    //   },
-    // },
-    // {
-    //   files: ["SKELSU11"],
-    //   data: {
-    //     level1: 7,
-    //     strength: 18,
-    //     exceptionalStrength: 0,
-    //     ac: 3,
-    //   },
-    // },
-    // {
-    //   files: ["BDUNSEN"],
-    //   data: {
-    //     level1: 7,
-    //     xpv: 3000,
-    //   },
-    // },
-    // {
-    //   files: ["BDSKGR01", "BDTEAM62"],
-    //   data: {
-    //     level1: 7,
-    //     xpv: 3000,
-    //   },
-    // },
-    // {
-    //   files: ["SKELWA03"],
-    //   data: {
-    //     level1: 13,
-    //   },
-    // },
-  ]);
+  warrior.setAdjustments([{ files: ["C0DESUM4"], data: { class: "FIGHTER" } }]);
+  greaterSkeletonWarriorVariant(warrior);
   return warrior;
+}
+
+function greaterSkeletonWarriorVariant(base: Undead): Variant {
+  const greater = base.variant("Greater Skeleton Warrior", {
+    data: {
+      level1: 13,
+      bonusHp: 12,
+      class: "FIGHTER",
+      xpv: 6000,
+    },
+    files: [
+      "ICHARY",
+      "HGSKL04",
+      "ANSCELET",
+      "C0DESUM5",
+      "SKELWA03",
+      "FIRMON02",
+      "GOLBON01",
+      "D9SKL04",
+      "D9SKL09",
+    ],
+    adjust: [
+      {
+        files: ["ICHARY", "HGSKL04", "ANSCELET"],
+        data: {
+          proficiencies: [
+            { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+            { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
+            { type: ProficiencyTypeEnum.PROFICIENCYLONGBOW, value: 5 },
+          ],
+        },
+      },
+      {
+        files: ["GOLBON01"],
+        data: {
+          level1: 14,
+          ac: -3,
+        },
+      },
+      {
+        files: ["ICHARY", "HGSKL04"],
+        data: {
+          level1: 15,
+        },
+      },
+      {
+        files: ["C0DESUM5"],
+        data: {
+          level1: 15,
+        },
+      },
+      {
+        files: ["HGSKL04", "D9SKL04", "D9SKL09"],
+        data: {
+          level1: 20,
+          ac: -6,
+          xpv: 8000,
+        },
+      },
+    ],
+  });
+  return greater;
 }

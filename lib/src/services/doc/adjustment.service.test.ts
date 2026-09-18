@@ -661,6 +661,71 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     expect(effective?.proficiencies).toHaveLength(2);
   });
 
+  it("only shows proficiencies from the last of several matching adjustments that define any, dropping earlier ones outright", () => {
+    // Reproduces skeletons-warrior.ts's HGSKL04: a level-15 adjustment grants both
+    // PROFICIENCYTWOHANDEDSWORD and PROFICIENCYFLAILMORNINGSTAR, then a later level-20 adjustment on
+    // the same file only re-states PROFICIENCYTWOHANDEDSWORD. FLAILMORNINGSTAR must not survive as a
+    // leftover from the earlier adjustment even though nothing later ever overrides or clears it.
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["HGSKL04"],
+          data: {
+            proficiencies: [
+              { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+              { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
+            ],
+          },
+        },
+        {
+          files: ["HGSKL04"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("HGSKL04"));
+
+    expect(effective?.proficiencies).toEqual([
+      { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5, changed: true },
+    ]);
+  });
+
+  it("still accumulates 2-star-cap fighting-style proficiencies from an earlier adjustment even once a later one defines other proficiencies", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["MULTI"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON, value: 2 }],
+          },
+        },
+        {
+          files: ["MULTI"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 3 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("MULTI"));
+
+    expect(effective?.proficiencies).toEqual(
+      expect.arrayContaining([
+        { type: ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON, value: 2, changed: true },
+        { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 3, changed: true },
+      ]),
+    );
+    expect(effective?.proficiencies).toHaveLength(2);
+  });
+
   it("carries game onto the effective adjustment when all matching entries agree", () => {
     const creature = fakeCreature({
       adjustments: [

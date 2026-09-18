@@ -150,7 +150,7 @@ export function skeleton(family: UndeadFamily): Undead {
   });
   skeleton.setAdjustments([
     {
-      files: ["GHASTSU", "SKELLESU", "0XYHDG"],
+      files: ["GHASTSU", "SKELLESU", "0XYHDG", "SKELSU01"],
       data: { level1: 3 },
     },
     {
@@ -159,16 +159,15 @@ export function skeleton(family: UndeadFamily): Undead {
       data: { level1: 3 },
     },
     {
-      files: ["C0DESUM2", "C0DESUM3"],
+      files: ["C0DESUM2", "C0DESUM3", "SKELSU07"],
       data: {
         level1: 5,
+      },
+    },
+    {
+      files: ["C0DESUM2", "C0DESUM3"],
+      data: {
         class: "FIGHTER",
-        proficiencies: [
-          {
-            type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
-            value: 3,
-          },
-        ],
       },
     },
     {
@@ -248,12 +247,6 @@ function greaterSkeletonVariant(base: Undead): Variant {
         files: ["C0DESUM3"],
         data: {
           level1: 7,
-          proficiencies: [
-            {
-              type: ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD,
-              value: 4,
-            },
-          ],
         },
       },
       { files: ["L#SKEST"], data: { level1: 8, apr: 2 } },
