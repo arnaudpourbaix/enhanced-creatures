@@ -1,1 +1,2 @@
 COPY ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/jaicew.bam~ ~override~  // Wall of Ice icon
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/BDGHOST.baf~

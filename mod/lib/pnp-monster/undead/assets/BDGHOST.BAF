@@ -1,0 +1,101 @@
+IF
+    Die()
+THEN
+    RESPONSE #100
+        ReallyForceSpellDead(Myself,ILLUSION_DEATH)  // SPIN835.SPL (No such index)
+END
+
+IF
+    OnCreation()
+    IsActive(Myself)
+    AreaCheck("BD5110")  // Ettin Ghost Cave
+THEN
+    RESPONSE #100
+        Deactivate(Myself)
+END
+
+IF
+    Global("BD_CABAL","BD5300",16)  // Kanaglym
+    !StateCheck(Myself,STATE_REALLY_DEAD)
+THEN
+    RESPONSE #100
+        SetInterrupt(FALSE)
+        Wait(1)
+        SetInterrupt(TRUE)
+        Kill(Myself)
+END
+
+IF
+    Global("BD_GHOSTS","BD5110",2)  // Ettin Ghost Cave
+THEN
+    RESPONSE #100
+        SetInterrupt(FALSE)
+        Wait(2)
+        CreateVisualEffectObject("OHRSHFIE",Myself)
+        Wait(1)
+        SetInterrupt(TRUE)
+        DestroySelf()
+END
+
+IF
+    !Range([EVILCUTOFF],30)
+    CombatCounter(0)
+    See([PC])
+    Range(LastSeenBy(Myself),25)
+    Global("BD_GHOSTS","BD5110",3)  // Ettin Ghost Cave
+    !IsActive(Myself)
+THEN
+    RESPONSE #100
+        SmallWait(5)
+        Activate(Myself)
+        CreateVisualEffectObject("OHRSHFIE",Myself)
+END
+
+IF
+    !Allegiance(Myself,ENEMY)
+    Global("BD_GHOSTS","BD5110",1)  // Ettin Ghost Cave
+THEN
+    RESPONSE #100
+        Enemy()
+END
+
+IF
+    OR(2)
+        !IsActive(Myself)
+        !Detect([GOODCUTOFF])
+THEN
+    RESPONSE #100
+        NoAction()
+END
+
+IF
+    !Allegiance(Myself,ENEMY)
+    AreaCheck("bd5300")  // Kanaglym
+THEN
+    RESPONSE #100
+        NoAction()
+END
+
+IF
+    !Allegiance(Myself,ENEMY)
+THEN
+    RESPONSE #35
+        RandomWalk()
+    RESPONSE #15
+        MoveToPointNoInterrupt([3264.1356])
+        Face(NNE)
+    RESPONSE #15
+        MoveToPointNoInterrupt([3452.1362])
+        Face(NNW)
+    RESPONSE #35
+        NoAction()
+END
+
+IF
+    !See([GOODCUTOFF])
+THEN
+    RESPONSE #50
+        RandomWalk()
+    RESPONSE #50
+        NoAction()
+END

@@ -515,7 +515,7 @@ export function ghost(family: UndeadFamily): Undead {
         remove: ["bdringgh", "bdghost", "immune1", "ring94", "ghost", "helm15"],
       },
       script: {
-        remove: ["bdghost", "shoutdl2"],
+        remove: [],
       },
     },
   });
@@ -532,54 +532,10 @@ export function ghost(family: UndeadFamily): Undead {
     },
   });
   ghost.setBehavior({
-    dialog: ["daitel"],
-    abilities: [
-      family.ability(Ids.GhostFearAura),
-      family.preset(SPELLS.Wizard.Vocalize.file),
-      family.preset(SPELLS.Wizard.ShadowDoor.file),
-      family.preset(SPELLS.Wizard.ProtectionFromMagicalWeapons.file),
-      family.preset(SPELLS.Wizard.Stoneskin.file),
-      family.preset(SPELLS.Wizard.MinorGlobeOfInvulnerability.file),
-      family.preset(SPELLS.Wizard.ProtectionFromMissiles.file),
-      family.preset(SPELLS.Wizard.MinorSpellDeflection.file),
-      family.preset(SPELLS.Wizard.MirrorImages.file),
-      family.preset(SPELLS.Wizard.Shield.file),
-      family.preset(SPELLS.Wizard.FireShield.file),
-      family.preset(SPELLS.Wizard.Breach.file),
-      family.preset(SPELLS.Wizard.SpellThrust.file),
-      family.preset(SPELLS.Wizard.DispelMagic.file),
-      family.preset(SPELLS.Wizard.RemoveMagic.file),
-      family.preset(SPELLS.Wizard.ChainLightning.file),
-      family.preset(SPELLS.Wizard.Cloudkill.file),
-      family.preset(SPELLS.Wizard.Fireburst.file),
-      family.preset(SPELLS.Wizard.ConeOfCold.file),
-      family.preset(SPELLS.Wizard.GreaterMalison.file),
-      family.preset(SPELLS.Wizard.Confusion.file),
-      family.preset(SPELLS.Wizard.TeleportField.file),
-      family.preset(SPELLS.Wizard.VitriolicSphere.file),
-      family.preset(SPELLS.Wizard.MordenkainenForceMissiles.file),
-      family.preset(SPELLS.Wizard.Slow.file),
-      family.preset(SPELLS.Wizard.FlameArrow.file),
-      family.preset(SPELLS.Wizard.LightningBolt.file),
-      family.preset(SPELLS.Wizard.HoldPerson.file),
-      family.minorSequencer([SPELLS.Wizard.MirrorImages.file, SPELLS.Wizard.Blur.file]),
-      family.minorSequencer([SPELLS.Wizard.Web.file, SPELLS.Wizard.Combust.file]),
-      family.preset(SPELLS.Wizard.Combust.file),
-      family.preset(SPELLS.Wizard.MelfAcidArrow.file),
-      family.preset(SPELLS.Wizard.AgannazarScorcher.file),
-      family.preset(SPELLS.Wizard.ObscuringMist.file),
-      family.preset(SPELLS.Wizard.Spook.file),
-      family.preset(SPELLS.Wizard.MagicMissiles.file),
-      family.preset(SPELLS.Wizard.BurningHands.file),
-    ],
+    abilities: [family.ability(Ids.GhostFearAura)],
     spellcaster: {},
   });
-  ghost.setAdjustments([
-    {
-      files: ["BDLITLA"],
-      data: {},
-    },
-  ]);
+  ghost.setAdjustments([]);
   return ghost;
 }
 
