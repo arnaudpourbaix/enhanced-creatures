@@ -1702,6 +1702,58 @@ describe("getCreatureHeader", () => {
     );
   });
 
+  it("prefers an adjustment's own stringRef name over the global creatures.csv lookup", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Some Csv Name");
+    const stringRef = translationService.addCustomTranslation(["Bone Guardian"]);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["SOMEFILE"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        stringRef,
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Bone Guardian (SOMEFILE)</h4>',
+    );
+  });
+
+  // Regression: the "resolved name equals the creature's own name" collapse (see the test above
+  // this one for the csv/newFiles case it's meant for) must not swallow an explicit adjustment
+  // stringRef that happens to match the base creature's name - that's the exact case a real
+  // adjustment uses to correct a misleading creatures.csv name back to the base creature's own
+  // name (lib/creatures/undead/skeletons.ts's C0DESUM1-3 stringRef "monster.undead.name.skeleton",
+  // overriding the csv's "Skeleton Warrior" back to plain "Skeleton").
+  it("still shows an adjustment's own stringRef name even when it matches the creature's own name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Some Csv Name");
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["SOMEFILE"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        // Same translation key as the creature's own name (see fakeCreatureForAddCreature).
+        stringRef: "common.potion.use",
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">*quaffs a potion* (SOMEFILE)</h4>',
+    );
+  });
+
   it("renders 'uses his own weapon' for noWeapon and never renders scriptName/summon", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);

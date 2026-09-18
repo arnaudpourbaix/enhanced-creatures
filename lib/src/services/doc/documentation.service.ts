@@ -11,6 +11,7 @@ import { Variant } from "../../model/creature/variant";
 import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
+import { StringReference } from "../../model/final/stringref";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
@@ -1100,6 +1101,10 @@ class DocumentationService {
   }
 
   private getFileName(creature: Creature, file: string): string | undefined {
+    // An adjustment's own `stringRef` is an explicit author override for that file's name and
+    // wins over both newFiles and the creatures.csv name - see getAdjustmentStringRef.
+    const adjustmentStringRef = this.getAdjustmentStringRef(creature, file);
+    if (adjustmentStringRef !== undefined) return translationService.from(adjustmentStringRef);
     // creature.newFiles has a class field-initializer default of [] on the real Creature class, but
     // documentation.service.test.ts fixtures built via `as unknown as Creature` casts can leave it
     // genuinely undefined at runtime - same defensive pattern already used in adjustment.service.ts.
@@ -1114,21 +1119,40 @@ class DocumentationService {
     return monsterFilesService.getName(file);
   }
 
+  // Later-defined adjustments win, mirroring adjustmentService's own "last one wins" fold - a
+  // file touched by several adjustments (e.g. a variant patch plus a hand-written setAdjustments
+  // tweak) takes the stringRef of the last one that set it.
+  private getAdjustmentStringRef(creature: Creature, file: string): StringReference | undefined {
+    let result: StringReference | undefined;
+    for (const adjustment of creature.adjustments ?? []) {
+      if (adjustment.stringRef === undefined) continue;
+      if (adjustment.files.some((f) => f.toUpperCase() === file.toUpperCase())) {
+        result = adjustment.stringRef;
+      }
+    }
+    return result;
+  }
+
   // Every card is titled by the creatures.csv / newFiles name its file(s) resolve to, but several
   // distinct files often resolve to the very same name (e.g. a carrion crawler's CARRIOSU and
   // BDCRAWMU are both "Mutated Crawler") - so the originating file(s) are always spelled out in
   // parentheses after a resolved name to keep otherwise-identical cards apart. Files sharing one
   // resolved name are grouped under it ("Skeleton Warrior (KRYSKEL1, KRYSKEL2)"); a file whose
   // name doesn't resolve, or resolves to the creature's own name, already *is* its own label and
-  // gets no parenthetical.
+  // gets no parenthetical - unless that name was an explicit adjustment `stringRef`, which is an
+  // author override and always earns its label (e.g. correcting a misleading creatures.csv name
+  // back to the base creature's own name).
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
     const creatureName = translationService.from(creature.name).trim().toLowerCase();
     const filesByLabel = new Map<string, string[]>();
     const order: string[] = [];
     for (const file of files) {
+      const explicit = this.getAdjustmentStringRef(creature, file) !== undefined;
       const resolved = this.getFileName(creature, file);
       const name =
-        resolved && resolved.trim().toLowerCase() !== creatureName ? resolved : undefined;
+        resolved && (explicit || resolved.trim().toLowerCase() !== creatureName)
+          ? resolved
+          : undefined;
       const label = name ?? file;
       if (!filesByLabel.has(label)) {
         filesByLabel.set(label, []);

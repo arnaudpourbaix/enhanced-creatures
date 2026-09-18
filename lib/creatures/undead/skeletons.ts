@@ -244,7 +244,18 @@ function greaterSkeletonVariant(base: Undead): Variant {
     ],
     adjust: [
       { files: ["CBUNDEAD"], data: { script: { location: "None" } } },
-      { files: ["C0DESUM3"], data: { level1: 7 } },
+      {
+        files: ["C0DESUM3"],
+        data: {
+          level1: 7,
+          proficiencies: [
+            {
+              type: ProficiencyTypeEnum.PROFICIENCYBASTARDSWORD,
+              value: 4,
+            },
+          ],
+        },
+      },
       { files: ["L#SKEST"], data: { level1: 8, apr: 2 } },
       { files: ["L#XZEP1B"], data: { apr: 2, script: { location: "None" } } },
       { files: ["L#XZEP1C"], data: { level1: 9, ac: 0, apr: 3, script: { location: "None" } } },
