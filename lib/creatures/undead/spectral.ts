@@ -464,8 +464,11 @@ export function spectre(family: UndeadFamily): Undead {
       class: "SPECTRE",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
-      movement: 15, // flying 30
+      movement: 30, // 15, FI 30 (B)
       immunities: ["undead"],
+      items: {
+        remove: ["RING95", "immune1", "SPECTR", "bdspirit"],
+      },
     },
   });
   spectre.addTrait({
@@ -479,9 +482,7 @@ export function spectre(family: UndeadFamily): Undead {
       spell: family.spell(Ids.SpecterTouch).file,
     },
   });
-  spectre.setBehavior({
-    dialog: [],
-  });
+  spectre.setAdjustments([{ files: ["SARSPIR"], data: { level1: 10 } }]);
   return spectre;
 }
 
