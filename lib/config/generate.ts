@@ -84,6 +84,7 @@ export const GLOBAL_CONFIG = {
       "SHOUTDLG",
       "SHOUT",
       "GPSHOUT",
+      "GRPSHT01",
       "DW#SPHLP",
       "DW#SHDLG",
     ],

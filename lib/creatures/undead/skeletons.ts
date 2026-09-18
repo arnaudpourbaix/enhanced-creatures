@@ -10,6 +10,7 @@ import {
   ItemAbilityTypeEnum,
   LightingEffectEnum,
   LightingEffectTargetEnum,
+  ProficiencyTypeEnum,
   SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
@@ -153,6 +154,24 @@ export function skeleton(family: UndeadFamily): Undead {
       data: { level1: 3 },
     },
     {
+      files: ["C0DESUM1", "C0DESUM2", "C0DESUM3"],
+      stringRef: "monster.undead.name.skeleton",
+      data: { level1: 3 },
+    },
+    {
+      files: ["C0DESUM2", "C0DESUM3"],
+      data: {
+        level1: 5,
+        class: "FIGHTER",
+        proficiencies: [
+          {
+            type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
+            value: 3,
+          },
+        ],
+      },
+    },
+    {
       files: ["KRYSKEL"],
       data: { level1: 2 },
     },
@@ -221,9 +240,11 @@ function greaterSkeletonVariant(base: Undead): Variant {
       "D9SKL02",
       "D9SKL08",
       "HGSKL02",
+      "C0DESUM3",
     ],
     adjust: [
       { files: ["CBUNDEAD"], data: { script: { location: "None" } } },
+      { files: ["C0DESUM3"], data: { level1: 7 } },
       { files: ["L#SKEST"], data: { level1: 8, apr: 2 } },
       { files: ["L#XZEP1B"], data: { apr: 2, script: { location: "None" } } },
       { files: ["L#XZEP1C"], data: { level1: 9, ac: 0, apr: 3, script: { location: "None" } } },

@@ -9,6 +9,7 @@ import {
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
+  ProficiencyTypeEnum,
   SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
@@ -65,7 +66,7 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
     files: [],
     data: {
       level1: 9,
-      bonusHp: 8, // +2 to +12
+      bonusHp: 7, // +2 to +12
       strength: 18,
       exceptionalStrength: 40,
       dexterity: 14,
@@ -120,74 +121,88 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
   });
   warrior.setAdjustments([
     {
-      files: ["C0DESUM1", "SKELSU01"],
-      data: {
-        level1: 3,
-        strength: 16,
-        exceptionalStrength: 0,
-        ac: 6,
-      },
-    },
-    {
-      files: ["C0DESUM2", "SKELSU07"],
-      data: {
-        level1: 5,
-        strength: 17,
-        exceptionalStrength: 0,
-        ac: 4,
-      },
-    },
-    {
-      files: ["C0DESUM3", "SKELSU11"],
-      data: {
-        level1: 7,
-        strength: 18,
-        exceptionalStrength: 0,
-        ac: 3,
-      },
-    },
-    {
-      files: ["BDUNSEN"],
-      data: {
-        level1: 7,
-        xpv: 3000,
-      },
-    },
-    {
-      files: ["BDSKGR01", "BDTEAM62"],
-      data: {
-        level1: 7,
-        xpv: 3000,
-      },
-    },
-    {
-      files: ["C0DESUM4"],
-      data: {
-        level1: 9,
-        ea: "CONTROLLED",
-      },
-    },
-    {
-      files: ["SKELWA03"],
-      data: {
-        level1: 13,
-      },
-    },
-    {
-      files: ["C0DESUM5"],
+      files: ["ICHARY", "HGSKL04"],
       data: {
         level1: 15,
-        strength: 19,
-        exceptionalStrength: 0,
+        class: "FIGHTER",
+        proficiencies: [
+          { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+          { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
+        ],
       },
     },
     {
-      files: ["ICHARY"],
+      files: ["HGSKL04"],
       data: {
-        level1: 15,
-        apr: 3,
+        level1: 20,
+        bonusHp: 12,
+        ac: -6,
+        class: "FIGHTER",
+        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+        xpv: 10000,
       },
     },
+    {
+      files: ["C0DESUM4", "C0DESUM5"],
+      data: {
+        class: "FIGHTER",
+      },
+    },
+    // {
+    //   files: ["C0DESUM5"],
+    //   data: {
+    //     level1: 15,
+    //     strength: 19,
+    //     exceptionalStrength: 0,
+    //   },
+    // },
+    // {
+    //   files: ["SKELSU01"],
+    //   data: {
+    //     level1: 3,
+    //     strength: 16,
+    //     exceptionalStrength: 0,
+    //     ac: 6,
+    //   },
+    // },
+    // {
+    //   files: ["SKELSU07"],
+    //   data: {
+    //     level1: 5,
+    //     strength: 17,
+    //     exceptionalStrength: 0,
+    //     ac: 4,
+    //   },
+    // },
+    // {
+    //   files: ["SKELSU11"],
+    //   data: {
+    //     level1: 7,
+    //     strength: 18,
+    //     exceptionalStrength: 0,
+    //     ac: 3,
+    //   },
+    // },
+    // {
+    //   files: ["BDUNSEN"],
+    //   data: {
+    //     level1: 7,
+    //     xpv: 3000,
+    //   },
+    // },
+    // {
+    //   files: ["BDSKGR01", "BDTEAM62"],
+    //   data: {
+    //     level1: 7,
+    //     xpv: 3000,
+    //   },
+    // },
+    // {
+    //   files: ["SKELWA03"],
+    //   data: {
+    //     level1: 13,
+    //   },
+    // },
   ]);
   return warrior;
 }
