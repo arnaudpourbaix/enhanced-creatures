@@ -1,5 +1,11 @@
 import { SPELLS } from "../../config/spells/spell-names";
 import { NEW_SPELLS } from "../../config/spells/spells";
+import { createFearAura } from "../../spells/fear_aura";
+import { CommonProjectileFiles } from "../../spells/projectiles";
+import actionFactory from "../../src/factories/action.factory";
+import effectFactory from "../../src/factories/effect.factory";
+import { Durations } from "../../src/model/game-data/durations";
+import { BaseEffect } from "../../src/model/spell-item/effect";
 import {
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
@@ -20,18 +26,50 @@ import {
   SpellTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
+import {
+  AreaProjectileEnum,
+  ParticleColorEnum,
+  ProjectileBehaviorEnum,
+} from "../../src/model/spell-item/projectile";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
 
+function fearAura(cre: Undead) {
+  return cre.addSpell(
+    createFearAura({
+      id: Ids.DeathKnightFearAura,
+      description: "monster.undead.ability.deathKnightFearAura.description",
+      duration: 5 * Durations.round,
+      projectile: {
+        copyFromFile: "dvstink",
+        name: "Death Knight Aura of Fear",
+        particleColor: ParticleColorEnum.None,
+        areaEffectInfo: {
+          areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
+          explosionDelay: 12,
+          triggerCount: 6,
+          triggerRadius: 64,
+          areaOfEffect: 64, // 5 feet
+        },
+      },
+    }),
+  );
+}
+
 function wallOfIce(cre: Undead) {
+  const base: BaseEffect = {
+    timing: EffectTimingEnum.InstantPermanentUntilDeath,
+    saveTypes: [SaveTypeEnum.BypassMirrorImage],
+    power: 4,
+    dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+  };
   return cre.addSpell({
     name: "monster.undead.ability.iceWall.name",
     description: "monster.undead.ability.iceWall.description",
     id: Ids.WallOfIce,
-    memorizedCount: 1,
+    memorizedCount: 30,
     icon: "jaICEW",
     primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
     secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
@@ -64,18 +102,9 @@ function wallOfIce(cre: Undead) {
           {
             opcode: EffectTypeEnum.Damage,
             type: EffectDamageTypeEnum.Cold,
-            diceThrown: 2,
+            diceThrown: 3,
             diceSize: 10,
-            timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            saveTypes: [SaveTypeEnum.BypassMirrorImage],
-          },
-          {
-            opcode: EffectTypeEnum.Damage,
-            type: EffectDamageTypeEnum.Crushing,
-            diceThrown: 1,
-            diceSize: 10,
-            timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            saveTypes: [SaveTypeEnum.BypassMirrorImage],
+            ...base,
           },
         ],
       },
@@ -136,13 +165,10 @@ function fireball(cre: Undead) {
           },
         ],
       },
-      //TODO: level 24 header with 6d10 cold and 3d10 crushing, who is using this one??
     ],
     ability: {
-      preset: SPELLS.Wizard.IceStorm.file,
-      spell: {
-        type: "noDec",
-      },
+      preset: SPELLS.Wizard.Fireball.file,
+      spell: {},
     },
   });
 }
@@ -179,19 +205,21 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
       spells: {
         memorized: [
-          { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 15 },
+          { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 20 },
           { file: SPELLS.Wizard.DispelMagic.file, memorizedCount: 2 },
           { file: SPELLS.Wizard.PowerWordBlind.file, memorizedCount: 1 },
           { file: SPELLS.Wizard.PowerWordKill.file, memorizedCount: 1 },
           { file: SPELLS.Wizard.PowerWordStun.file, memorizedCount: 1 },
+          { file: SPELLS.Wizard.SymbolFear.file, memorizedCount: 1 },
           { file: NEW_SPELLS.WizardSymbolOfPain, memorizedCount: 1 },
-          { file: SPELLS.Wizard.PowerWordStun.file, memorizedCount: 1 },
         ],
       },
     },
   });
-  //TODO: 20-dice fireball once per day
+  //
+  fearAura(knight);
   wallOfIce(knight);
+  fireball(knight);
   // 1	Long sword +2
   // 2	Two-handed sword +3
   // 3	Two-handed sword +4
@@ -213,13 +241,42 @@ export function deathKnight(family: UndeadFamily): Undead {
   knight.setBehavior({
     restHeal: true,
     abilities: [
+      family.ability(Ids.DeathKnightFearAura),
+      family.preset(SPELLS.Wizard.DetectInvisibility.file),
       {
-        preset: SPELLS.Wizard.DetectInvisibility.file,
-        spell: { type: "noDec" },
+        preset: SPELLS.Wizard.PowerWordKill.file,
+        actionsAfter: actionFactory.removeSpell([
+          SPELLS.Wizard.PowerWordBlind,
+          SPELLS.Wizard.PowerWordStun,
+        ]),
       },
       {
-        preset: SPELLS.Wizard.DetectInvisibility.file,
-        spell: { type: "noDec" },
+        preset: SPELLS.Wizard.PowerWordStun.file,
+        actionsAfter: actionFactory.removeSpell([
+          SPELLS.Wizard.PowerWordKill,
+          SPELLS.Wizard.PowerWordBlind,
+        ]),
+        probability: 30,
+      },
+      {
+        preset: SPELLS.Wizard.PowerWordBlind.file,
+        actionsAfter: actionFactory.removeSpell([
+          SPELLS.Wizard.PowerWordKill,
+          SPELLS.Wizard.PowerWordStun,
+        ]),
+        probability: 15,
+      },
+      family.preset(SPELLS.Wizard.DispelMagic.file),
+      family.ability(Ids.Fireball),
+      {
+        preset: NEW_SPELLS.WizardSymbolOfPain,
+        actionsAfter: actionFactory.removeSpell([SPELLS.Wizard.SymbolFear]),
+        probability: 70,
+      },
+      {
+        preset: SPELLS.Wizard.SymbolFear.file,
+        actionsAfter: actionFactory.removeSpellRES([NEW_SPELLS.WizardSymbolOfPain]),
+        probability: 15,
       },
       family.ability(Ids.WallOfIce),
     ],

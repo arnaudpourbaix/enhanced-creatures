@@ -9,6 +9,7 @@ export enum Ids {
   Blink,
   BonebatTouch,
   CarrionStench,
+  DeathKnightFearAura,
   DeathWail,
   Fireball,
   GhoulTouch,

@@ -1,5 +1,6 @@
 import { EXISTING_ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-names";
+import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
 import { JEWEL_SLOTS } from "../../src/model/creature/item";
@@ -28,36 +29,14 @@ import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
 
 function bansheeFearAura(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.bansheeFearAura.name",
-    description: "monster.undead.ability.bansheeFearAura.description",
-    id: Ids.BansheeFearAura,
-    memorizedCount: 1,
-    icon: SPELLS.Priest.CloakOfFear.file,
-    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    options: { renew: 1 },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        location: ItemAbilityLocationEnum.Ability,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        speed: 1,
-        projectile: CommonProjectileFiles.AreaOfSightNonParty,
-        range: 30,
-        effects: effectFactory.fear({
-          duration: Durations.turn,
-          saveType: SaveTypeEnum.Spell,
-        }),
-      },
-    ],
-    ability: {
-      preset: SPELLS.Priest.CloakOfFear.file,
-      spell: {
-        type: "force",
-        remove: true,
-      },
-    },
-  });
+  return cre.addSpell(
+    createFearAura({
+      id: Ids.BansheeFearAura,
+      description: "monster.undead.ability.bansheeFearAura.description",
+      duration: Durations.turn,
+      saveType: SaveTypeEnum.Spell,
+    }),
+  );
 }
 
 function deathWail(cre: Undead) {
@@ -274,7 +253,7 @@ export function banshee(family: UndeadFamily): Undead {
   });
   banshee.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.DeathWail), family.ability(Ids.BansheeFearAura)],
+    abilities: [family.ability(Ids.BansheeFearAura), family.ability(Ids.DeathWail)],
   });
   return banshee;
 }

@@ -3,8 +3,38 @@
 // Death Knight
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4a.baf~
 
+// Fear Aura
+COPY_EXISTING "dvstink.pro" ~override/jas0m4a.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 64
+	WRITE_SHORT 0x206 64
+	WRITE_SHORT 0x210 12
+	WRITE_BYTE 0x216 6
+ADD_PROJECTILE ~override/jas0m4a.pro~ ~Death Knight Aura of Fear~
+
+CREATE SPL "jas0m4a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m4a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10115)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR416C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10374)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas0m4a~)) + 1 STR_VAR icon="SPPR416B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=30 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=30 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 STR_VAR resource="EFF_M07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=30 probability1=100 STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=30 probability1=100 STR_VAR resource="jas0m4a" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
 // Wall of Ice
-COPY_EXISTING "ICESTORM.pro" ~override/jas0m4a.pro~
+COPY_EXISTING "ICESTORM.pro" ~override/jas1m4a.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
@@ -15,11 +45,11 @@ COPY_EXISTING "ICESTORM.pro" ~override/jas0m4a.pro~
 	WRITE_SHORT 0x206 341
 	WRITE_SHORT 0x210 10
 	WRITE_BYTE 0x216 1
-ADD_PROJECTILE ~override/jas0m4a.pro~ ~Wall of Ice~
+ADD_PROJECTILE ~override/jas1m4a.pro~ ~Wall of Ice~
 
-CREATE SPL "jas0m4a"
+CREATE SPL "jas1m4a"
 	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jas0m4a.SPL~  ~override~
+COPY_EXISTING ~jas1m4a.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10378)
 	WRITE_ASCII 0x10 ~CAS_M06~ #8
 	WRITE_LONG 0x18 1024
@@ -31,18 +61,35 @@ COPY_EXISTING ~jas0m4a.SPL~  ~override~
 	WRITE_LONG 0x34 4
 	WRITE_ASCII 0x3a ~jaICEW~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10379)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=40 speed=4 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas0m4a~)) + 1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=4 parameter2=131072 timing=1 probability1=100 dicesize=10 dicenumber=2 savingthrow=16777216 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=4 timing=1 probability1=100 dicesize=10 dicenumber=1 savingthrow=16777216 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=40 speed=4 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas1m4a~)) + 1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=4 parameter2=131072 timing=1 resist_dispel=1 probability1=100 dicesize=10 dicenumber=3 savingthrow=16777216 END
+	
+// Unholy Fireball
+CREATE SPL "jas2m4a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas2m4a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10413)
+	WRITE_ASCII 0x10 ~CAS_M06~ #8
+	WRITE_LONG 0x18 1024
+	WRITE_SHORT 0x1c 1
+	WRITE_SHORT 0x22 15
+	WRITE_BYTE 0x25 6
+	WRITE_BYTE 0x27 10
+	WRITE_LONG 0x34 3
+	WRITE_ASCII 0x3a ~SPWI304C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10414)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~FIREBALL~)) + 1 STR_VAR icon="SPWI304B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=3 parameter2=524288 timing=1 probability1=100 dicesize=6 dicenumber=20 savingthrow=16777218 special=256 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=265 target=1 power=3 timing=4 duration=2 probability1=100 STR_VAR resource="mgArea1" END
 	
 // Death Knight traits
 CREATE ITM "jai0m4a"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10993)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10993)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10995)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10995)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10994)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10996)
 COPY_EXISTING ~jai0m4a.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=75 parameter2=1 timing=2 probability1=100 END
 	LPF turnUndead_immunity END
@@ -61,6 +108,8 @@ BEGIN
 			REMOVE_CRE_ITEM ~SHLD06~
 			REMOVE_CRE_ITEM ~RINGDEMN~
 			REMOVE_CRE_ITEM ~UNDTYPE~
+			REMOVE_CRE_ITEM ~IMMUNE1~
+			REMOVE_CRE_ITEM ~DVDEATHK~
 			ADD_CRE_ITEM ~jai0m4a~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_CRE_ITEM ~jai15~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
@@ -68,14 +117,16 @@ BEGIN
 			PATCH_IF NOT "%item%" STRING_EQUAL_CASE ""
 				REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			END
-			ADD_MEMORIZED_SPELL ~SPWI203~ #1 ~wizard~ (15) 
+			ADD_MEMORIZED_SPELL ~SPWI203~ #1 ~wizard~ (20) 
 			ADD_MEMORIZED_SPELL ~SPWI326~ #2 ~wizard~ (2) 
 			ADD_MEMORIZED_SPELL ~SPWI815~ #7 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI912~ #8 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~SPWI898~ #7 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~jaspain~ #0 ~innate~ (1) 
-			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
-			ADD_MEMORIZED_SPELL ~jas0m4a~ #3 ~wizard~ (1) // Wall of Ice
+			ADD_MEMORIZED_SPELL ~jas0m4a~ #0 ~innate~ (1) // Fear Aura
+			ADD_MEMORIZED_SPELL ~jas1m4a~ #3 ~wizard~ (30) // Wall of Ice
+			ADD_MEMORIZED_SPELL ~jas2m4a~ #2 ~wizard~ (1) // Unholy Fireball
 			LPF clear_proficiencies END
 			LPF turnUndead_immunity END
 			LPF patchCreature

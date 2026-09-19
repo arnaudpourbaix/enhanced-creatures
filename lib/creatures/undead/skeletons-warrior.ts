@@ -1,4 +1,5 @@
 import { SPELLS } from "../../config/spells/spell-names";
+import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
 import { Variant } from "../../src/model/creature/variant";
@@ -19,45 +20,15 @@ import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
 
-function skeletonWarriorFearAura(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.skeletonWarriorFearAura.name",
-    description: "monster.undead.ability.skeletonWarriorFearAura.description",
-    id: Ids.SkeletonWarriorFearAura,
-    memorizedCount: 1,
-    icon: SPELLS.Priest.CloakOfFear.file,
-    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    options: { renew: 1 },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        location: ItemAbilityLocationEnum.Ability,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        speed: 1,
-        projectile: CommonProjectileFiles.AreaOfSightNonParty,
-        range: 30,
-        effects: [
-          ...effectFactory.fear({
-            duration: Durations.turn,
-            saveType: SaveTypeEnum.Spell,
-            maxLevel: 5,
-          }),
-          {
-            opcode: EffectTypeEnum.ProtectionFromSpell,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: Durations.turn,
-          },
-        ],
-      },
-    ],
-    ability: {
-      preset: SPELLS.Priest.CloakOfFear.file,
-      spell: {
-        type: "force",
-        remove: true,
-      },
-    },
-  });
+function fearAura(cre: Undead) {
+  return cre.addSpell(
+    createFearAura({
+      id: Ids.SkeletonWarriorFearAura,
+      description: "monster.undead.ability.skeletonWarriorFearAura.description",
+      duration: Durations.turn,
+      saveType: SaveTypeEnum.Spell,
+    }),
+  );
 }
 
 export function skeletonWarrior(family: UndeadFamily): Undead {
@@ -112,7 +83,7 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
     ],
   });
   // The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.
-  skeletonWarriorFearAura(warrior);
+  fearAura(warrior);
   warrior.setBehavior({
     restHeal: true,
     abilities: [family.ability(Ids.SkeletonWarriorFearAura)],

@@ -1,4 +1,5 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
+import { SpellReference } from "../../config/spells/spell-names";
 import { Actions } from "../model/script/actions";
 import { Aera } from "../model/script/aera";
 
@@ -46,6 +47,30 @@ class ActionFactory {
   disableInterrupt(actions?: Actions.Action[]): Actions.Action | Actions.Action[] {
     if (!actions) return { name: "SetInterrupt", params: ["FALSE"] };
     return [this.disableInterrupt(), ...actions, this.enableInterrupt()];
+  }
+
+  removeSpellRES(resources: string[], negation = false): Actions.Action[] {
+    return resources.map((r) => ({
+      name: "RemoveSpellRES",
+      params: [r],
+      negation,
+    }));
+  }
+
+  removeSpell(resources: SpellReference[], negation = false): Actions.Action[] {
+    return resources.map((r) =>
+      r.id !== undefined
+        ? {
+            name: "RemoveSpell",
+            params: [r.id],
+            negation,
+          }
+        : {
+            name: "RemoveSpellRES",
+            params: [r.file],
+            negation,
+          },
+    );
   }
 }
 

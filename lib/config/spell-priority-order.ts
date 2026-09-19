@@ -51,6 +51,8 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.BlindingBeauty.file,
   SPELLS.Priest.SummonDeathKnight.file,
   SPELLS.Priest.SymbolHopelessness.file,
+  SPELLS.Wizard.SymbolDeath.file,
+  SPELLS.Wizard.SymbolFear.file,
   SPELLS.Priest.SymbolPain.file,
   NEW_SPELLS.WizardSymbolOfPain,
   SPELLS.Priest.SymbolStunning.file,

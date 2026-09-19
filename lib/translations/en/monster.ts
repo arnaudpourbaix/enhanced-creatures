@@ -10,6 +10,9 @@ const SLIME_SPLIT_PUDDING_DESC = `Lightning bolts and blows from weapons divide 
 const SLIME_SPLIT_MUSTARD_DESC = `This large creature can divide itself at will into two smaller, faster halves (movement rate 18). Each is capable of attacking, but has only half the hit points the creature had before dividing.`;
 
 export default {
+  common: {
+    fearAura: "Fear Aura",
+  },
   ankheg: {
     name: "Ankheg",
     weapon: "Mandibles",
@@ -525,13 +528,14 @@ If successful, the charge causes double head-butt damage`,
     weapon: { touch: "Touch", claws: "Claws", jaws: "Jaws" },
     ability: {
       bansheeFearAura: {
-        name: "Fear Aura",
         description: `The mere sight of one causes fear, unless a successful saving throw vs. spell is rolled.
 Those who fail must flee in terror for 10 rounds and are 50% likely to drop any items they were carrying in their hands.`,
       },
       skeletonWarriorFearAura: {
-        name: "Fear Aura",
         description: `The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.`,
+      },
+      deathKnightFearAura: {
+        description: `It constantly generates fear in a 5-foot radius.`,
       },
       blink: "Blink",
       deathWail: {
@@ -613,16 +617,7 @@ Priests above 6th level are immune to this effect, and all other humanoids above
       },
       fireball: {
         name: "Unholy Fireball",
-        description: `Fireball
-Level: 3
-School: Evocation
-Range: Long
-Duration: Instant
-Casting Time: 3
-Area of Effect: 30' radius
-Saving Throw: Breath half
-
-A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
+        description: `A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
       },
     },
   },
