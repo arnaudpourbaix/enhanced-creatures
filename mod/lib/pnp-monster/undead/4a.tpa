@@ -128,7 +128,6 @@ BEGIN
 			ADD_MEMORIZED_SPELL ~jas1m4a~ #3 ~wizard~ (30) // Wall of Ice
 			ADD_MEMORIZED_SPELL ~jas2m4a~ #2 ~wizard~ (1) // Unholy Fireball
 			LPF clear_proficiencies END
-			LPF turnUndead_immunity END
 			LPF patchCreature
 				INT_VAR
 					xpv=6000

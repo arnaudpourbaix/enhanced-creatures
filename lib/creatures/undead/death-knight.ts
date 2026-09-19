@@ -199,7 +199,7 @@ export function deathKnight(family: UndeadFamily): Undead {
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
-      immunities: ["undead", "skeletal", "turnUndead"],
+      immunities: ["undead", "skeletal"],
       items: {
         remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK"],
       },
