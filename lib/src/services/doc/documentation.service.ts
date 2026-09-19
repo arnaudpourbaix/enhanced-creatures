@@ -12,7 +12,7 @@ import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
-import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
+import { ProficiencyTypeEnum, SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
@@ -74,10 +74,10 @@ const ABILITY_TAB_THRESHOLD = 9;
 
 // BG2's own resref convention: a vanilla spell's filename is SPWI/SPPR followed by a 3-digit code
 // whose first digit is the spell's level (e.g. SPWI305 = Wizard level 3, SPPR113 = Priest level
-// 1). getSpellLevel only falls back to this when the resource has no entry in State.spells at
-// all (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow the convention, but
-// does carry a real `level` in its own config entry, e.g. fnp-spell-names.ts) - in that genuinely
-// unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
+// 1). getSpellLevel only falls back to this when the resource has no entry in State.spells or in
+// a spell-reference config (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow
+// the convention, but does carry a real `level` in its own config entry, e.g. fnp-spell-names.ts)
+// - in that genuinely unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
 const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 
 // One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
@@ -1291,14 +1291,19 @@ class DocumentationService {
     return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
   }
 
-  // A mod-introduced spell (e.g. Faiths & Powers') is registered with a real `level` in its own
-  // spell-reference config (spell-names.ts/fnp-spell-names.ts) even though its resref doesn't
-  // follow the vanilla SPWI/SPPR naming convention SPELL_LEVEL_PATTERN parses - so that config is
-  // authoritative here. It's not State.spells: that only holds spells we generate ourselves via
-  // spellService.getSpell (fresh innate abilities), never the vanilla/mod catalogs we merely
-  // reference by file. The filename regex is only a fallback for a resource with no config entry
-  // at all.
+  // A spell we author ourselves (e.g. Death Knight's Fireball/Wall of Ice, added via addSpell with
+  // an explicit `type`/`level`) gets an auto-generated resref that matches neither the vanilla
+  // SPWI/SPPR convention nor any spell-reference config, but spellService.getSpell already resolved
+  // its real type/level into State.spells - that's authoritative here, and only a genuinely
+  // Innate-type entry (e.g. Fear Aura) falls through to the "Innate" catch-all. A mod-introduced
+  // spell we merely reference by file (e.g. Faiths & Powers') isn't in State.spells at all, but is
+  // registered with a real `level` in its own spell-reference config (spell-names.ts/
+  // fnp-spell-names.ts) even though its resref doesn't follow SPELL_LEVEL_PATTERN - so that config
+  // is checked next. The filename regex is only a last-resort fallback for a resource with no entry
+  // anywhere.
   private getSpellLevel(resource: string | undefined): number | undefined {
+    const ownSpell = State.spells.find((s) => s.file === resource);
+    if (ownSpell) return ownSpell.type === SpellTypeEnum.Innate ? undefined : ownSpell.level;
     const configuredLevel = [...getAllSpells(), ...getAllFnpSpells()].find(
       (s) => s.file === resource,
     )?.level;
