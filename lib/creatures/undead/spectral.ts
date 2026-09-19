@@ -467,7 +467,10 @@ export function spectre(family: UndeadFamily): Undead {
       movement: 30, // 15, FI 30 (B)
       immunities: ["undead"],
       items: {
-        remove: ["RING95", "immune1", "SPECTR", "bdspirit"],
+        remove: ["RING95", "immune1", "SPECTR", "bdspirit", "GHOST"],
+      },
+      script: {
+        remove: ["DAO01"],
       },
     },
   });
@@ -482,7 +485,9 @@ export function spectre(family: UndeadFamily): Undead {
       spell: family.spell(Ids.SpecterTouch).file,
     },
   });
-  spectre.setAdjustments([{ files: ["SARSPIR"], data: { level1: 10 } }]);
+  spectre.setAdjustments([
+    { files: ["SARSPIR", "L0MERCH", "L0SUMM5", "SPECTR01"], data: { level1: 10 } },
+  ]);
   return spectre;
 }
 
@@ -512,7 +517,17 @@ export function ghost(family: UndeadFamily): Undead {
       movement: 9,
       immunities: ["undead"],
       items: {
-        remove: ["bdringgh", "bdghost", "immune1", "ring94", "ghost", "helm15"],
+        remove: [
+          "bdringgh",
+          "bdghost",
+          "immune1",
+          "ring94",
+          "ring95",
+          "ghost",
+          "helm15",
+          "B1-10",
+          "B1-8",
+        ],
       },
       script: {
         remove: [],
