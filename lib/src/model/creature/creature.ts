@@ -155,7 +155,7 @@ export class Creature extends AbstractCreature implements BaseCreature {
 
   override addItem(item: PartialItem): Item {
     const result = super.addItem(item);
-    if (!item.equippedSlot) return result;
+    if (!item.equippedSlot?.length) return result;
     const equippedSlot = item.equippedSlot;
     const itemInSlot = this.data.items.equipped.findIndex(
       (i) => i.slot.length === 1 && i.slot[0] === equippedSlot[0],
