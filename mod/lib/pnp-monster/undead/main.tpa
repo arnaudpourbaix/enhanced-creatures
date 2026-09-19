@@ -13,5 +13,6 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/51.tpa" // Skeleton
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/94.tpa" // Archer Skeleton
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/98.tpa" // Skeleton Monster
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/52.tpa" // Skeleton Warrior
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4a.tpa" // Death Knight
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/53.tpa" // Spectre
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost

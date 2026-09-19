@@ -42,6 +42,7 @@ import {
   KillTargetDeathTypeEnum,
   LightingEffectEnum,
   LightingEffectTargetEnum,
+  ModifyGlobalVariableTypeEnum,
   OverrideCreatureDataFieldEnum,
   PoisonTypeEnum,
   PolymorphTypeEnum,
@@ -184,6 +185,12 @@ export type StatisticModifierEffect = BaseEffect & {
   opcode: StatisticModifierOpcode;
   value: number;
   type: EffectStatisticModifierEnum;
+};
+
+export type ModifyGlobalVariableEffect = BaseEffect & {
+  opcode: EffectTypeEnum.ModifyGlobalVariable;
+  type: ModifyGlobalVariableTypeEnum;
+  value: number;
 };
 
 export type CastingTimeModifierEffect = BaseEffect & {
@@ -574,6 +581,7 @@ export type Effect =
   | MirrorImageEffect
   | ModifierTypeEffect
   | ModifyAttacksPerRoundEffect
+  | ModifyGlobalVariableEffect
   | NoCollisionDetectionEffect
   | OverrideCreatureDataEffect
   | PlayVisualEffect

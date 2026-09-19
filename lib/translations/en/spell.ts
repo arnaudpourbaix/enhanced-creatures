@@ -157,6 +157,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   Shield: { name: "Shield" },
   Feeblemind: { name: "Feeblemind" },
   SkullTrap: { name: "SkullTrap" },
+  SymbolFear: { name: "Symbol of Fear" },
   SummonShadow: { name: "Summon Shadow" },
   HoldMonster: { name: "Hold Monster" },
   VampiricTouch: { name: "Vampiric Touch" },
@@ -208,7 +209,22 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   SymbolStunning: { name: "Symbol of Stunning" },
   SymbolWeakness: { name: "Symbol of Weakness" },
   SymbolHopelessness: { name: "Symbol of Hopelessness" },
-  SymbolPain: { name: "Symbol of Pain" },
+  SymbolPain: {
+    name: "Symbol of Pain",
+    description: `Symbol, Pain
+(Conjuration/Summoning)
+
+Level: 8
+Sphere: Wards
+Range: Visual range of the caster
+Duration: 11 turns
+Casting Time: 3
+Area of Effect: 12-ft. radius
+Saving Throw: None
+
+All creatures are afflicted with wracking pains shooting through their bodies, causing a -2 penalty to Dexterity and a -4 penalty to attack rolls for 11 turns.`,
+    displayedText: `Wracking Pains`,
+  },
   AerialServant: { name: "Aerial Servant" },
   BladeBarrier: { name: "Blade Barrier" },
   RighteousMagic: { name: "Righteous Magic" },

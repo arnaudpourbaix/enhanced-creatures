@@ -1028,6 +1028,11 @@ export enum EffectStatisticModifierEnum {
   Special = 3,
 }
 
+export enum ModifyGlobalVariableTypeEnum {
+  Set = 0,
+  Increment = 1,
+}
+
 export enum EffectModifierTypeEnum {
   Increment = 0,
   Set = 1,

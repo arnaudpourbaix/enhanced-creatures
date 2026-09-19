@@ -611,6 +611,19 @@ Priests above 6th level are immune to this effect, and all other humanoids above
         description: `Ghoul lords do radiate an aura of evil. In fact, this effect is so potent that those of good alignment suffer a -4 on all attack rolls when within 30 feet of these creatures.`,
         message: "Affected by Ghoul Lord's evil aura",
       },
+      fireball: {
+        name: "Unholy Fireball",
+        description: `Fireball
+Level: 3
+School: Evocation
+Range: Long
+Duration: Instant
+Casting Time: 3
+Area of Effect: 30' radius
+Saving Throw: Breath half
+
+A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
+      },
     },
   },
   ettin: {

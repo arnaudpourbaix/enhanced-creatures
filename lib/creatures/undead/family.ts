@@ -1,5 +1,6 @@
 import { CreatureFamily } from "../../src/model/creature/family";
 import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { deathKnight } from "./death-knight";
 import { ghast, ghoul, ghoulLord } from "./ghouls";
 import { greaterMummy, mummy } from "./mummies";
 import {
@@ -34,7 +35,7 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => giantSkeleton(this));
     this.addCreature(() => skeletonMonster(this));
     this.addCreature(() => skeletonWarrior(this));
-    // this.addCreature(() => deathKnight(this));
+    this.addCreature(() => deathKnight(this));
     // this.addCreature(() => deathShade(this));
     this.addCreature(() => spectre(this));
     this.addCreature(() => ghost(this));

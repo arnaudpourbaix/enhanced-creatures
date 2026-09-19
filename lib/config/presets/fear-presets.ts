@@ -63,4 +63,17 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     requireVocal: true,
     probability: DEFAULT_SPELL_PROBABILITY,
   }),
+  {
+    preset: SPELLS.Wizard.SymbolFear.file,
+    ability: {
+      name: SPELLS.Wizard.SymbolFear.name,
+      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
+        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
+        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+      ]),
+      spell: {},
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
 ];

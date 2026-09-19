@@ -1,5 +1,6 @@
 import { SPELLS } from "./spells/spell-names";
 import { FNP_SPELLS } from "./spells/fnp-spell-names";
+import { NEW_SPELLS } from "./spells/spells";
 
 /**
  * Spell cast-priority order (earlier entry = cast sooner) for AbilityOrderService - see
@@ -51,6 +52,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.SummonDeathKnight.file,
   SPELLS.Priest.SymbolHopelessness.file,
   SPELLS.Priest.SymbolPain.file,
+  NEW_SPELLS.WizardSymbolOfPain,
   SPELLS.Priest.SymbolStunning.file,
   SPELLS.Priest.SymbolWeakness.file,
   SPELLS.Priest.BoltOfGlory.file,

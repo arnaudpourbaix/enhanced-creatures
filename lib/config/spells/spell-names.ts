@@ -264,6 +264,12 @@ const WIZARD_SPELLS = {
     duration: "mid",
     name: "spell.SummonShadow.name",
   },
+  SymbolDeath: { file: "SPWI817", id: "WIZARD_SYMBOL_DEATH", name: "spell.SymbolDeath.name" },
+  SymbolFear: {
+    file: "SPWI898",
+    id: "WIZARD_NPC_SYMBOL_FEAR",
+    name: "spell.SymbolFear.name",
+  },
   TeleportField: {
     file: "SPWI421",
     id: "WIZARD_TELEPORT_FIELD",

@@ -5,7 +5,12 @@ import {
 } from "../../src/model/spell-item/spell-protection";
 
 export type SpellProtectionName =
-  "NOT_OUTDOOR_CHECK" | "POISON_IMMUNITY" | "CLERIC" | "ANYONE" | "NOT_MALE_HUMANOID";
+  | "NOT_OUTDOOR_CHECK"
+  | "POISON_IMMUNITY"
+  | "CLERIC"
+  | "ANYONE"
+  | "NOT_MALE_HUMANOID"
+  | "UNDEAD_OR_GOLEM";
 
 /**
  * If value is not set, it will generate -1
@@ -47,6 +52,20 @@ export const SPELL_PROTECTIONS: SpellProtection[] = [
       stat: SpellProtectionStat.Gender,
       value: "MALE",
       relation: SpellProtectionRelation.NotEqual,
+    },
+  },
+  {
+    name: "UNDEAD_OR_GOLEM",
+    stat: SpellProtectionStat.Row1OrRow2,
+    row1: {
+      stat: SpellProtectionStat.General,
+      value: "UNDEAD",
+      relation: SpellProtectionRelation.Equal,
+    },
+    row2: {
+      stat: SpellProtectionStat.Race,
+      value: "GOLEM",
+      relation: SpellProtectionRelation.Equal,
     },
   },
 ];

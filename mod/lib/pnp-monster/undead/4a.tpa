@@ -1,0 +1,125 @@
+// Generated file (don't edit)
+
+// Death Knight
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam4a.baf~
+
+// Wall of Ice
+COPY_EXISTING "ICESTORM.pro" ~override/jas0m4a.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_SHORT 0xa 20
+	WRITE_LONG 0xc 2
+	WRITE_ASCII 0x18 ~EFF_M34~ #8
+	WRITE_SHORT 0x206 341
+	WRITE_SHORT 0x210 10
+	WRITE_BYTE 0x216 1
+ADD_PROJECTILE ~override/jas0m4a.pro~ ~Wall of Ice~
+
+CREATE SPL "jas0m4a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m4a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10378)
+	WRITE_ASCII 0x10 ~CAS_M06~ #8
+	WRITE_LONG 0x18 1024
+	WRITE_SHORT 0x1c 1
+	WRITE_LONG 0x1e 512
+	WRITE_SHORT 0x22 15
+	WRITE_BYTE 0x25 6
+	WRITE_BYTE 0x27 10
+	WRITE_LONG 0x34 4
+	WRITE_ASCII 0x3a ~jaICEW~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10379)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=40 speed=4 projectile=(IDS_OF_SYMBOL (~projectl~ ~jas0m4a~)) + 1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=4 parameter2=131072 timing=1 probability1=100 dicesize=10 dicenumber=2 savingthrow=16777216 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=4 timing=1 probability1=100 dicesize=10 dicenumber=1 savingthrow=16777216 END
+	
+// Death Knight traits
+CREATE ITM "jai0m4a"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10993)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10993)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10994)
+COPY_EXISTING ~jai0m4a.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=75 parameter2=1 timing=2 probability1=100 END
+	LPF turnUndead_immunity END
+
+DEFINE_ACTION_FUNCTION jam4a_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~DVDEATHK~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~SHLD06~
+			REMOVE_CRE_ITEM ~RINGDEMN~
+			REMOVE_CRE_ITEM ~UNDTYPE~
+			ADD_CRE_ITEM ~jai0m4a~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jai15~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+			PATCH_IF NOT "%item%" STRING_EQUAL_CASE ""
+				REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			END
+			ADD_MEMORIZED_SPELL ~SPWI203~ #1 ~wizard~ (15) 
+			ADD_MEMORIZED_SPELL ~SPWI326~ #2 ~wizard~ (2) 
+			ADD_MEMORIZED_SPELL ~SPWI815~ #7 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~SPWI912~ #8 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~jaspain~ #0 ~innate~ (1) 
+			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~jas0m4a~ #3 ~wizard~ (1) // Wall of Ice
+			LPF clear_proficiencies END
+			LPF turnUndead_immunity END
+			LPF patchCreature
+				INT_VAR
+					xpv=6000
+					hp=108
+					ac=0
+					thac0=11
+					apr=1
+					saveDeath=8
+					saveWand=10
+					savePolymorph=9
+					saveBreath=9
+					saveSpell=11
+					level1=9
+					level2=20
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=18
+					exceptionalStrength=100
+					intelligence=18
+					wisdom=16
+					dexterity=11
+					constitution=9
+					charisma=10
+					morale=17
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~SKELETON~)
+					class=IDS_OF_SYMBOL (~class~ ~CLERIC_MAGE~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					movement=10
+					enforce=1
+			END
+			// Assigning jam4a
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam4a END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
+	"DVDEATHK"
+BEGIN
+	LAF jam4a_patch STR_VAR file END
+END

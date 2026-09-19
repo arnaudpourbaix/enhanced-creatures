@@ -76,6 +76,8 @@ If you want to make easy edits, you can edit files inside config folder. Strong 
 
 aVENGER and Wisp for of aTweaks. Many files have been taken from aTweaks as said in the introduction. I have only changed prefixes for consistency.
 
+David Wallace for Symbol of Pain BAM files (stratagems, IWD spells).
+
 Salk, initial supporter.
 
 Many modders for all the common WEIDU functions and help in the forums.

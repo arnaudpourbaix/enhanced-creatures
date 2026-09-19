@@ -79,6 +79,7 @@ export enum EffectTypeEnum {
   MissilesResistanceModifier = 89,
   ModifyAttacksPerRound = 1,
   ModifyCollisionBehavior = 300,
+  ModifyGlobalVariable = 265,
   MoraleModifier = 23,
   MoraleBreakModifier = 106,
   MovementRateBonus = 126,

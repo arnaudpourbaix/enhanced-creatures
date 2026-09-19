@@ -1,3 +1,4 @@
+import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
@@ -57,16 +58,13 @@ export const DEATH_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: SPELLS.Priest.SymbolDeath.file,
-    ability: {
-      name: SPELLS.Priest.SymbolDeath.name,
-      targets: DeathTargets,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ...presetFactory.create([SPELLS.Priest.SymbolDeath.file, SPELLS.Wizard.SymbolDeath.file], {
+    name: SPELLS.Priest.SymbolDeath.name,
+    targets: DeathTargets,
+    spell: {},
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
     preset: SPELLS.Wizard.FleshToStone.file,
     ability: {

@@ -1,8 +1,3 @@
-/**
- * Incorporeal / spectral undead: banshee, shadow, greater shadow, spectre, ghost.
- *
- * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
- */
 import { EXISTING_ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-names";
 import { CommonProjectileFiles } from "../../spells/projectiles";

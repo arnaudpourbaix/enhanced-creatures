@@ -1,9 +1,11 @@
+import abilityFactory from "../../src/factories/ability.factory";
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-names";
 import { SPELLS } from "../spells/spell-names";
+import { NEW_SPELLS } from "../spells/spells";
 
 export const DEBUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Priest.Doom.file, FNP_SPELLS.Priest.Doom.file], {
@@ -125,21 +127,18 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: SPELLS.Priest.SymbolPain.file,
-    ability: {
-      name: SPELLS.Priest.SymbolPain.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ...presetFactory.create([SPELLS.Priest.SymbolPain.file, NEW_SPELLS.WizardSymbolOfPain], {
+    name: SPELLS.Priest.SymbolPain.name,
+    targets: [
+      {
+        name: "Players",
+        randomOrder: true,
+      },
+    ],
+    spell: {},
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
     preset: SPELLS.Priest.SymbolWeakness.file,
     ability: {

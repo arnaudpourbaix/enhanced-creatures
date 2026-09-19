@@ -10,6 +10,7 @@ export enum Ids {
   BonebatTouch,
   CarrionStench,
   DeathWail,
+  Fireball,
   GhoulTouch,
   GhoulLordTouch,
   GhastTouch,
