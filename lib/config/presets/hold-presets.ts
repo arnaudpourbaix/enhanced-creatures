@@ -10,7 +10,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     name: SPELLS.Priest.HoldPerson.name,
     targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
       triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ...triggerFactory.spellChecks(SPELLS.Priest.HoldPerson.cause),
+      ...triggerFactory.spellChecks(SPELLS.Priest.HoldPerson.keywords),
     ]),
     spell: {},
     requireVocal: true,
@@ -22,7 +22,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.HoldPersonOrAnimal.name,
       targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ...triggerFactory.spellChecks(SPELLS.Priest.HoldPersonOrAnimal.cause),
+        ...triggerFactory.spellChecks(SPELLS.Priest.HoldPersonOrAnimal.keywords),
       ]),
       spell: {},
       requireVocal: true,
@@ -35,7 +35,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.HoldMonster.name,
       targets: targetService.combineListWithTriggers(
         HOLD_TARGET_LISTS,
-        triggerFactory.spellChecks(SPELLS.Wizard.HoldMonster.cause),
+        triggerFactory.spellChecks(SPELLS.Wizard.HoldMonster.keywords),
       ),
       spell: {},
       requireVocal: true,

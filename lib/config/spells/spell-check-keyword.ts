@@ -9,19 +9,32 @@ export type SpellCheckKeyword =
   /**
    * Blocked by Protection from Missiles
    */
-  | "missile"
-  | "fire"
-  | "cold"
-  | "electrical"
   | "acid"
-  | "poison"
-  | "magicResistance"
   | "blind"
-  | "slow"
   | "charm"
-  | "fear"
-  | "hold"
+  | "cold"
   | "confusion"
-  | "stun"
+  | "death"
+  | "disease"
+  | "electrical"
+  | "fear"
+  | "fire"
+  | "movement"
+  | "hold"
+  | "levelDrain"
+  | "magicDamage"
+  | "magicResistance"
+  | "maze"
+  | "miscast"
+  | "missile"
   | "petrify"
-  | "sleep";
+  | "poison"
+  | "polymorph"
+  | "silence"
+  | "sleep"
+  | "slow"
+  | "stun"
+  /**
+   * Blocked by Shield (wizard spell)
+   */
+  | "shield";

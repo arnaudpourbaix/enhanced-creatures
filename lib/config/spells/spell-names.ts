@@ -1,7 +1,6 @@
 import { StringReference } from "../../src/model/final/stringref";
 import { SpellIdentifier } from "../../src/model/ids/spell";
 import { SpellCheckKeyword } from "./spell-check-keyword";
-import { SpellCheckType } from "./spell-check-type";
 
 export interface SpellReference {
   file: string;
@@ -14,8 +13,7 @@ export interface SpellReference {
     | "mid" // several turns
     | "short"; // several rounds to one turn
   /** Protections a target might use against this spell - see triggerFactory.spellChecks. */
-  causes?: SpellCheckKeyword[];
-  types?: SpellCheckType[];
+  keywords?: SpellCheckKeyword[];
 }
 
 // Shared by RemoveMagic (wizard), DispelMagic (wizard), and DispelMagic (cleric) below - all
@@ -23,17 +21,29 @@ export interface SpellReference {
 const DISPEL_MAGIC_NAME = "spell.DispelMagic.name";
 
 const WIZARD_SPELLS = {
+  AbiDalzimHorridWilting: {
+    file: "SPWI812",
+    id: "WIZARD_ABI_DALZIMS_HORRID_WILTING",
+    name: "spell.AbiDalzimHorridWilting.name",
+    keywords: ["magicDamage"],
+  },
+  AcidFog: {
+    file: "SPWI614",
+    id: "WIZARD_ACID_FOG",
+    name: "spell.AcidFog.name",
+    keywords: ["acid"],
+  },
   AgannazarScorcher: {
     file: "SPWI217",
     id: "WIZARD_AGANNAZAR_SCORCHER",
     name: "spell.AgannazarScorcher.name",
-    causes: ["fire"],
+    keywords: ["fire"],
   },
   BigbyIcyGrasp: {
     file: "SPWI818",
     id: "WIZARD_BIGBYS_ICY_GRASP",
     name: "spell.BigbyIcyGrasp.name",
-    causes: ["cold", "hold"],
+    keywords: ["cold", "hold"],
   },
   Blur: { file: "SPWI201", id: "WIZARD_BLUR", duration: "mid", name: "spell.Blur.name" },
   Breach: { file: "SPWI513", id: "WIZARD_BREACH", name: "spell.Breach.name" },
@@ -41,52 +51,87 @@ const WIZARD_SPELLS = {
     file: "SPWI103",
     id: "WIZARD_BURNING_HANDS",
     name: "spell.BurningHands.name",
-    causes: ["fire"],
+    keywords: ["fire"],
   },
   ChainLightning: {
     file: "SPWI615",
     id: "WIZARD_CHAIN_LIGHTNING",
     name: "spell.ChainLightning.name",
-    causes: ["electrical"],
+    keywords: ["electrical"],
   },
   CharmPerson: {
     file: "SPWI104",
     id: "WIZARD_CHARM_PERSON",
     name: "spell.CharmPerson.name",
-    causes: ["charm"],
+    keywords: ["charm"],
   },
-  ChromaticOrb: { file: "SPWI118", id: "WIZARD_CHROMATIC_ORB", name: "spell.ChromaticOrb.name" },
+  ChillTouch: {
+    file: "SPWI117",
+    id: "WIZARD_CHILL_TOUCH",
+    name: "spell.ChillTouch.name",
+    keywords: ["cold"],
+  },
+  ChromaticOrb: {
+    file: "SPWI118",
+    id: "WIZARD_CHROMATIC_ORB",
+    name: "spell.ChromaticOrb.name",
+    keywords: ["magicDamage"],
+  },
   Cloudkill: {
     file: "SPWI502",
     id: "WIZARD_CLOUDKILL",
     name: "spell.Cloudkill.name",
-    causes: ["poison"],
+    keywords: ["poison"],
   },
   ColorSpray: {
     file: "SPWI105",
     id: "WIZARD_COLOR_SPRAY",
     name: "spell.colorSpray.name",
-    causes: ["blind", "slow", "confusion"],
+    keywords: ["blind", "slow", "confusion"],
   },
-  Combust: { file: "SPWI232", id: "WIZARD_COMBUST", name: "spell.Combust.name", causes: ["fire"] },
+  Combust: {
+    file: "SPWI232",
+    id: "WIZARD_COMBUST",
+    name: "spell.Combust.name",
+    keywords: ["fire"],
+  },
   ConeOfCold: {
     file: "SPWI503",
     id: "WIZARD_CONE_OF_COLD",
     name: "spell.coneOfCold.name",
-    causes: ["cold"],
+    keywords: ["cold"],
   },
   Confusion: {
     file: "SPWI401",
     id: "WIZARD_CONFUSION",
     name: "spell.Confusion.name",
-    causes: ["confusion"],
+    keywords: ["confusion"],
+  },
+  Contagion: {
+    file: "SPWI409",
+    id: "WIZARD_CONTAGION",
+    name: "spell.Contagion.name",
+    keywords: ["disease"],
   },
   DancingLights: { file: "SPWI126", id: "WIZARD_DANCING_LIGHTS", name: "spell.DancingLights.name" },
   Darkness15Radius: {
     file: "SPWI228",
     id: "WIZARD_DARKNESS_15_FOOT",
     name: "spell.Darkness15Radius.name",
-    causes: ["blind"],
+    keywords: ["blind"],
+  },
+  Deafness: { file: "SPWI223", id: "WIZARD_DEAFNESS", name: "spell.Deafness.name" },
+  DeathSpell: {
+    file: "SPWI605",
+    id: "WIZARD_DEATH_SPELL",
+    name: "spell.DeathSpell.name",
+    keywords: ["death"],
+  },
+  DelayedBlastFireball: {
+    file: "SPWI712",
+    id: "WIZARD_DELAYED_BLAST_FIREBALL",
+    name: "spell.DelayedBlastFireball.name",
+    keywords: ["fire"],
   },
   DemiShadowMonsters: {
     file: "SPWI527",
@@ -103,7 +148,7 @@ const WIZARD_SPELLS = {
     file: "SPWI316",
     id: "WIZARD_DIRE_CHARM",
     name: "spell.DireCharm.name",
-    causes: ["charm"],
+    keywords: ["charm"],
   },
   DimensionDoor: {
     file: "SPWI402",
@@ -119,31 +164,37 @@ const WIZARD_SPELLS = {
     file: "SPWI506",
     id: "WIZARD_DOMINATION",
     name: "spell.Domination.name",
-    causes: ["charm"],
+    keywords: ["charm"],
+  },
+  DragonsBreath: {
+    file: "SPWI922",
+    id: "WIZARD_DRAGONS_BREATH",
+    name: "spell.DragonsBreath.name",
+    keywords: ["fire"],
   },
   Emotion: {
     file: "SPWI411",
     id: "WIZARD_EMOTION_HOPELESSNESS",
     name: "spell.Emotion.name",
-    causes: ["stun"],
+    keywords: ["stun"],
   },
   Feeblemind: {
     file: "SPWI509",
     id: "WIZARD_FEEBLEMIND",
     name: "spell.Feeblemind.name",
-    causes: ["confusion"],
+    keywords: ["confusion"],
   },
   Fireburst: {
     file: "SPWI523",
     id: "WIZARD_SUN_FIRE",
     name: "spell.Fireburst.name",
-    causes: ["fire"],
+    keywords: ["fire"],
   },
   Fireball: {
     file: "SPWI304",
     id: "WIZARD_FIREBALL",
     name: "spell.Fireball.name",
-    causes: ["fire"],
+    keywords: ["fire"],
   },
   FireShield: {
     file: "SPWI418",
@@ -155,16 +206,27 @@ const WIZARD_SPELLS = {
     file: "SPWI303",
     id: "WIZARD_FLAME_ARROW",
     name: "spell.FlameArrow.name",
-    causes: ["fire"],
-    types: ["missile"],
+    keywords: ["fire", "missile"],
   },
   FleshToStone: {
     file: "SPWI604",
     id: "WIZARD_FLESH_TO_STONE",
     name: "spell.FleshToStone.name",
-    causes: ["petrify"],
+    keywords: ["petrify"],
   },
   Glitterdust: { file: "SPWI224", id: "WIZARD_GLITTERDUST", name: "spell.Glitterdust.name" },
+  GlobeOfInvulnerability: {
+    file: "SPWI602",
+    id: "WIZARD_GLOBE_OF_INVULNERABILITY",
+    duration: "mid",
+    name: "spell.GlobeOfInvulnerability.name",
+  },
+  Grease: {
+    file: "SPWI101",
+    id: "WIZARD_GREASE",
+    name: "spell.Grease.name",
+    keywords: ["movement"],
+  },
   GreaterMalison: {
     file: "SPWI412",
     id: "WIZARD_GREATER_MALISON",
@@ -175,20 +237,20 @@ const WIZARD_SPELLS = {
     file: "SPWI507",
     id: "WIZARD_HOLD_MONSTER",
     name: "spell.HoldMonster.name",
-    causes: ["hold"],
+    keywords: ["hold", "movement"],
   },
   HoldPerson: {
     file: "SPWI306",
     id: "WIZARD_HOLD_PERSON",
     name: "spell.HoldPerson.name",
-    causes: ["hold"],
+    keywords: ["hold", "movement"],
   },
-  Horror: { file: "SPWI205", id: "WIZARD_HORROR", name: "spell.Horror.name", causes: ["fear"] },
+  Horror: { file: "SPWI205", id: "WIZARD_HORROR", name: "spell.Horror.name", keywords: ["fear"] },
   IceStorm: {
     file: "SPWI404",
     id: "WIZARD_ICE_STORM",
     name: "spell.IceStorm.name",
-    causes: ["cold"],
+    keywords: ["cold"],
   },
   ImprovedInvisibility: {
     file: "SPWI405",
@@ -196,34 +258,65 @@ const WIZARD_SPELLS = {
     duration: "short",
     name: "spell.ImprovedInvisibility.name",
   },
+  IncendiaryCloud: {
+    file: "SPWI810",
+    id: "WIZARD_INCENDIARY_CLOUD",
+    name: "spell.IncendiaryCloud.name",
+    keywords: ["fire"],
+  },
   Invisibility: {
     file: "SPWI206",
     id: "WIZARD_INVISIBILITY",
     name: "spell.Invisibility.name",
   },
+  LarlochEnergyDrain: {
+    file: "SPWI914",
+    id: "WIZARD_ENERGY_DRAIN",
+    name: "spell.LarlochEnergyDrain.name",
+    keywords: ["levelDrain"],
+  },
+  LarlochMinorDrain: {
+    file: "SPWI119",
+    id: "WIZARD_LARLOCH_MINOR_DRAIN",
+    name: "spell.LarlochMinorDrain.name",
+    keywords: ["magicDamage"],
+  },
   LightningBolt: {
     file: "SPWI308",
     id: "WIZARD_LIGHTNING_BOLT",
     name: "spell.LightningBolt.name",
-    causes: ["electrical"],
+    keywords: ["electrical"],
   },
   MagicMissiles: {
     file: "SPWI112",
     id: "WIZARD_MAGIC_MISSILE",
     name: "spell.MagicMissiles.name",
+    keywords: ["shield", "magicDamage"],
   },
+  Maze: { file: "SPWI813", id: "WIZARD_MAZE", name: "spell.Maze.name", keywords: ["maze"] },
   MelfAcidArrow: {
     file: "SPWI211",
     id: "WIZARD_MELF_ACID_ARROW",
     name: "spell.MelfAcidArrow.name",
-    causes: ["acid"],
-    types: ["missile"],
+    keywords: ["acid", "missile"],
+  },
+  MeteorSwarm: {
+    file: "SPWI911",
+    id: "WIZARD_METEOR_SWARM",
+    name: "spell.MeteorSwarm.name",
+    keywords: ["fire"],
   },
   MinorGlobeOfInvulnerability: {
     file: "SPWI406",
     id: "WIZARD_MINOR_GLOBE_OF_INVULNERABILITY",
     duration: "mid",
     name: "spell.MinorGlobeOfInvulnerability.name",
+  },
+  MinorLightningBolt: {
+    file: "SPWI017",
+    id: "WIZARD_MINOR_LIGHTNING_BOLT",
+    name: "spell.MinorLightningBolt.name",
+    keywords: ["electrical"],
   },
   MinorSpellDeflection: {
     file: "SPWI318",
@@ -241,6 +334,7 @@ const WIZARD_SPELLS = {
     file: "SPWI431",
     id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
     name: "spell.MordenkainenForceMissiles.name",
+    keywords: ["shield", "magicDamage"],
   },
   NahalRecklessDweomer: {
     file: "SPWI124",
@@ -257,26 +351,36 @@ const WIZARD_SPELLS = {
     id: "WIZARD_OBSCURING_MIST",
     name: "spell.ObscuringMist.name",
   },
+  PolymorphOther: {
+    file: "SPWI415",
+    id: "WIZARD_POLYMORPH_OTHER",
+    name: "spell.PolymorphOther.name",
+    keywords: ["polymorph"],
+  },
   PolymorphSelf: { file: "SPWI416", id: "WIZARD_POLYMORPH_SELF", name: "spell.PolymorphSelf.name" },
   PowerWordSleep: {
     file: "SPWI220",
     id: "WIZARD_POWER_WORD_SLEEP",
     name: "spell.PowerWordSleep.name",
+    keywords: ["sleep"],
   },
   PowerWordBlind: {
     file: "SPWI815",
     id: "WIZARD_POWER_WORD_BLIND",
     name: "spell.PowerWordBlind.name",
+    keywords: ["blind"],
   },
   PowerWordKill: {
     file: "SPWI912",
     id: "WIZARD_POWER_WORD_KILL",
     name: "spell.PowerWordKill.name",
+    keywords: ["death"],
   },
   PowerWordStun: {
     file: "SPWI715",
     id: "WIZARD_POWER_WORD_STUN",
     name: "spell.PowerWordStun.name",
+    keywords: ["stun"],
   },
   ProtectionFromMissiles: {
     file: "SPWI311",
@@ -289,6 +393,11 @@ const WIZARD_SPELLS = {
     id: "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS",
     duration: "short",
     name: "spell.ProtectionFromMagicalWeapons.name",
+  },
+  RayOfEnfeeblement: {
+    file: "SPWI221",
+    id: "WIZARD_RAY_OF_ENFEEBLEMENT",
+    name: "spell.RayOfEnfeeblement.name",
   },
   RemoveMagic: {
     file: "SPWI302",
@@ -327,12 +436,23 @@ const WIZARD_SPELLS = {
     file: "SPWI525",
     id: "WIZARD_SHROUD_OF_FLAME",
     name: "spell.ShroudOfFlame.name",
+    keywords: ["fire"],
   },
-  SkullTrap: { file: "SPWI313", id: "WIZARD_SKULL_TRAP", name: "spell.SkullTrap.name" },
-  Sleep: { file: "SPWI116", id: "WIZARD_SLEEP", name: "spell.Sleep.name" },
-  Slow: { file: "SPWI312", id: "WIZARD_SLOW", name: "spell.Slow.name" },
+  SkullTrap: {
+    file: "SPWI313",
+    id: "WIZARD_SKULL_TRAP",
+    name: "spell.SkullTrap.name",
+    keywords: ["magicDamage"],
+  },
+  Sleep: { file: "SPWI116", id: "WIZARD_SLEEP", name: "spell.Sleep.name", keywords: ["sleep"] },
+  Slow: {
+    file: "SPWI312",
+    id: "WIZARD_SLOW",
+    name: "spell.Slow.name",
+    keywords: ["slow", "movement"],
+  },
   SpellThrust: { file: "SPWI321", id: "WIZARD_SPELL_THRUST", name: "spell.SpellThrust.name" },
-  Spook: { file: "SPWI125", id: "WIZARD_SPOOK", name: "spell.Spook.name", causes: ["fear"] },
+  Spook: { file: "SPWI125", id: "WIZARD_SPOOK", name: "spell.Spook.name", keywords: ["fear"] },
   StinkingCloud: {
     file: "SPWI213",
     id: "WIZARD_STINKING_CLOUD",
@@ -355,7 +475,7 @@ const WIZARD_SPELLS = {
     file: "SPWI898",
     id: "WIZARD_NPC_SYMBOL_FEAR",
     name: "spell.SymbolFear.name",
-    causes: ["fear"],
+    keywords: ["fear"],
   },
   TeleportField: {
     file: "SPWI421",
@@ -366,11 +486,13 @@ const WIZARD_SPELLS = {
     file: "SPWI314",
     id: "WIZARD_VAMPIRIC_TOUCH",
     name: "spell.VampiricTouch.name",
+    keywords: ["magicDamage"],
   },
   VitriolicSphere: {
     file: "SPWI426",
     id: "WIZARD_VITRIOLIC_SPHERE",
     name: "spell.VitriolicSphere.name",
+    keywords: ["acid"],
   },
   Vocalize: {
     file: "SPWI219",
@@ -382,8 +504,19 @@ const WIZARD_SPELLS = {
     file: "SPWI913",
     id: "WIZARD_WAIL_OF_THE_BANSHEE",
     name: "spell.WailOfTheBanshee.name",
+    keywords: ["death"],
   },
-  Web: { file: "SPWI215", id: "WIZARD_WEB", name: "spell.Web.name" },
+  WavesOfFatigue: {
+    file: "SPWI508",
+    id: "WIZARD_WAVES_OF_FATIGUE",
+    name: "spell.WavesOfFatigue.name",
+  },
+  Web: {
+    file: "SPWI215",
+    id: "WIZARD_WEB",
+    name: "spell.Web.name",
+    keywords: ["hold", "movement"],
+  },
 } satisfies Record<string, SpellReference>;
 
 const PRIEST_SPELLS = {
@@ -474,37 +607,49 @@ const PRIEST_SPELLS = {
     file: "SPPR704",
     id: "CLERIC_NATURE_BEAUTY",
     name: "spell.BlindingBeauty.name",
+    keywords: ["blind"],
   },
   BoltOfGlory: {
     file: "SPPR612",
     id: "CLERIC_BOLT_OF_GLORY",
     name: "spell.BoltOfGlory.name",
+    keywords: ["magicDamage"],
   },
   CallLightning: {
     file: "SPPR302",
     id: "CLERIC_CALL_LIGHTNING",
     name: "spell.CallLightning.name",
-    causes: ["electrical"],
+    keywords: ["electrical"],
   },
   CauseDisease: {
     file: "SPPR329",
     id: "CLERIC_CAUSE_DISEASE",
     name: "spell.CauseDisease.name",
+    keywords: ["disease"],
+  },
+  CauseCriticalWounds: {
+    file: "SPPR510",
+    id: "CLERIC_CAUSE_CRITICAL_WOUNDS",
+    name: "spell.CauseCriticalWounds.name",
+    keywords: ["magicDamage"],
   },
   CauseLightWounds: {
     file: "SPPR121",
     id: "CLERIC_CAUSE_LIGHT_WOUNDS",
     name: "spell.CauseLightWounds.name",
+    keywords: ["magicDamage"],
   },
   CauseModerateWounds: {
     file: "SPPR220",
     id: "CLERIC_CAUSE_MODERATE_WOUNDS",
     name: "spell.CauseModerateWounds.name",
+    keywords: ["magicDamage"],
   },
   CauseSeriousWounds: {
     file: "SPPR414",
     id: "CLERIC_CAUSE_SERIOUS_WOUNDS",
     name: "spell.CauseSeriousWounds.name",
+    keywords: ["magicDamage"],
   },
   CallWoodlandBeeings: {
     file: "SPPR410",
@@ -515,6 +660,7 @@ const PRIEST_SPELLS = {
     file: "SPPR424",
     id: "CLERIC_CLOUD_OF_PESTILENCE",
     name: "spell.CloudOfPestilence.name",
+    keywords: ["magicDamage", "blind"],
   },
   Chant: {
     file: "SPPR203",
@@ -522,11 +668,17 @@ const PRIEST_SPELLS = {
     name: "spell.Chant.name",
     duration: "short",
   },
-  Chaos: { file: "SPPR709", id: "CLERIC_CONFUSION", name: "spell.Chaos.name" },
+  Chaos: {
+    file: "SPPR709",
+    id: "CLERIC_CONFUSION",
+    name: "spell.Chaos.name",
+    keywords: ["confusion"],
+  },
   CharmPersonOrAnimal: {
     file: "SPPR204",
     id: "CLERIC_CHARM_PERSON",
     name: "spell.CharmPersonOrAnimal.name",
+    keywords: ["charm"],
   },
   CircleOfBones: {
     file: "SPPR332",
@@ -538,14 +690,40 @@ const PRIEST_SPELLS = {
     file: "SPPR416",
     id: "CLERIC_CLOAK_OF_FEAR",
     name: "spell.CloakOfFear.name",
-    causes: ["fear"],
+    keywords: ["fear"],
   },
-  Command: { file: "SPPR102", id: "CLERIC_COMMAND", name: "spell.Command.name" },
-  Contagion: { file: "SPPR320", id: "CLERIC_CONTAGION", name: "spell.Contagion.name" },
+  Command: {
+    file: "SPPR102",
+    id: "CLERIC_COMMAND",
+    name: "spell.Command.name",
+    keywords: ["sleep"],
+  },
+  Contagion: {
+    file: "SPPR320",
+    id: "CLERIC_CONTAGION",
+    name: "spell.Contagion.name",
+    keywords: ["disease"],
+  },
+  CreepingDoom: {
+    file: "SPPR717",
+    id: "CLERIC_CREEPING_DOOM",
+    name: "spell.CreepingDoom.name",
+    keywords: ["miscast"],
+  },
+  CureCriticalWounds: {
+    file: "SPPR502",
+    id: "CLERIC_CURE_CRITICAL_WOUNDS",
+    name: "spell.CureCriticalWounds.name",
+  },
   CureLightWounds: {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",
     name: "spell.CureLightWounds.name",
+  },
+  CureSeriousWounds: {
+    file: "SPPR401",
+    id: "CLERIC_CURE_SERIOUS_WOUNDS",
+    name: "spell.CureSeriousWounds.name",
   },
   Curse: {
     file: "SPPR124",
@@ -556,6 +734,7 @@ const PRIEST_SPELLS = {
     file: "SPPR737",
     id: "CLERIC_DESTRUCTION",
     name: "spell.Destruction.name",
+    keywords: ["death"],
   },
   DetectEvil: {
     file: "SPPR104",
@@ -581,6 +760,7 @@ const PRIEST_SPELLS = {
     file: "SPPR610",
     id: "CLERIC_DOLOROUS_DECAY",
     name: "spell.DolorousDecay.name",
+    keywords: ["magicDamage"],
   },
   Doom: { file: "SPPR113", id: "CLERIC_DOOM", name: "spell.Doom.name" },
   DrawUponHolyMight: {
@@ -589,8 +769,24 @@ const PRIEST_SPELLS = {
     name: "spell.DrawUponHolyMight.name",
     duration: "short",
   },
-  EnergyDrain: { file: "SPPR714", id: "CLERIC_ENERGY_DRAIN", name: "spell.EnergyDrain.name" },
-  Entangle: { file: "SPPR105", id: "CLERIC_ENTANGLE", name: "spell.Entangle.name" },
+  Earthquake: {
+    file: "SPPR720",
+    id: "CLERIC_EARTHQUAKE",
+    name: "spell.Earthquake.name",
+    keywords: ["death", "sleep"],
+  },
+  EnergyDrain: {
+    file: "SPPR714",
+    id: "CLERIC_ENERGY_DRAIN",
+    name: "spell.EnergyDrain.name",
+    keywords: ["levelDrain"],
+  },
+  Entangle: {
+    file: "SPPR105",
+    id: "CLERIC_ENTANGLE",
+    name: "spell.Entangle.name",
+    keywords: ["movement"],
+  },
   EntropyShield: {
     file: "SPPR620",
     id: "CLERIC_ENTROPY_SHIELD",
@@ -602,8 +798,20 @@ const PRIEST_SPELLS = {
     file: "SPPR708",
     id: "CLERIC_FINGER_OF_DEATH",
     name: "spell.FingerOfDeath.name",
+    keywords: ["death"],
   },
-  FlameStrike: { file: "SPPR503", id: "CLERIC_FLAME_STRIKE", name: "spell.FlameStrike.name" },
+  FireStorm: {
+    file: "SPPR705",
+    id: "CLERIC_FIRE_STORM",
+    name: "spell.FireStorm.name",
+    keywords: ["fire"],
+  },
+  FlameStrike: {
+    file: "SPPR503",
+    id: "CLERIC_FLAME_STRIKE",
+    name: "spell.FlameStrike.name",
+    keywords: ["fire"],
+  },
   FreeAction: {
     file: "SPPR403",
     id: "CLERIC_FREE_ACTION",
@@ -614,24 +822,27 @@ const PRIEST_SPELLS = {
     file: "SPPR304",
     id: "CLERIC_GLYPH_OF_WARDING",
     name: "spell.GlyphOfWarding.name",
+    keywords: ["magicDamage"],
   },
   GreaterCommand: {
     file: "SPPR512",
     id: "CLERIC_GREATER_COMMAND",
     name: "spell.GreaterCommand.name",
+    keywords: ["sleep"],
   },
-  Harm: { file: "SPPR608", id: "CLERIC_HARM", name: "spell.Harm.name" },
+  Harm: { file: "SPPR608", id: "CLERIC_HARM", name: "spell.Harm.name", keywords: ["magicDamage"] },
+  Heal: { file: "SPPR607", id: "CLERIC_HEAL", name: "spell.Heal.name" },
   HoldPerson: {
     file: "SPPR208",
     id: "CLERIC_HOLD_PERSON",
     name: "spell.HoldPerson.name",
-    causes: ["hold"],
+    keywords: ["hold"],
   },
   HoldPersonOrAnimal: {
     file: "SPPR305",
     id: "CLERIC_HOLD_ANIMAL",
     name: "spell.HoldPersonOrAnimal.name",
-    causes: ["hold"],
+    keywords: ["hold"],
   },
   HolyPower: {
     file: "SPPR412",
@@ -643,16 +854,25 @@ const PRIEST_SPELLS = {
     file: "SPPR313",
     id: "CLERIC_HOLY_SMITE",
     name: "spell.HolySmite.name",
+    keywords: ["magicDamage"],
   },
   HolyWord: {
     file: "SPPR710",
     id: "CLERIC_HOLY_WORD",
     name: "spell.HolyWord.name",
+    keywords: ["death", "stun"],
   },
   UnholyWord: {
     file: "SPPR715",
     id: "CLERIC_UNHOLY_WORD",
     name: "spell.UnholyWord.name",
+    keywords: ["death", "confusion"],
+  },
+  InsectPlague: {
+    file: "SPPR517",
+    id: "CLERIC_INSECT_PLAGUE",
+    name: "spell.InsectPlague.name",
+    keywords: ["miscast"],
   },
   Ironskin: {
     file: "SPPR506",
@@ -671,17 +891,25 @@ const PRIEST_SPELLS = {
     id: "CLERIC_MASS_CAUSE_LIGHT_WOUNDS",
     name: "spell.MassCauseLightWounds.name",
   },
+  MassCure: { file: "SPPR514", id: "CLERIC_MASS_CURE", name: "spell.MassCure.name" },
   MentalDomination: {
     file: "SPPR405",
     id: "CLERIC_MENTAL_DOMINATION",
     name: "spell.MentalDomination.name",
+    keywords: ["charm"],
   },
   MiscastMagic: {
     file: "SPPR310",
     id: "CLERIC_MISCAST_MAGIC",
     name: "spell.MiscastMagic.name",
+    keywords: ["miscast"],
   },
-  Poison: { file: "SPPR411", id: "CLERIC_POISON", name: "spell.Poison.name" },
+  NeutralizePoison: {
+    file: "SPPR404",
+    id: "CLERIC_NEUTRALIZE_POISON",
+    name: "spell.NeutralizePoison.name",
+  },
+  Poison: { file: "SPPR411", id: "CLERIC_POISON", name: "spell.Poison.name", keywords: ["poison"] },
   PhysicalMirror: {
     file: "SPPR531",
     id: "CLERIC_PHYSICAL_MIRROR",
@@ -757,6 +985,7 @@ const PRIEST_SPELLS = {
     file: "SPPR311",
     id: "CLERIC_RIGID_THINKING",
     name: "spell.RigidThinking.name",
+    keywords: ["confusion"],
   },
   Sanctuary: {
     file: "SPPR109",
@@ -769,8 +998,18 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SHIELD_OF_THE_ARCHONS",
     name: "spell.ShieldOfTheArchons.name",
   },
-  Silence: { file: "SPPR211", id: "CLERIC_SILENCE_15_FOOT", name: "spell.Silence.name" },
-  SlayLiving: { file: "SPPR511", id: "CLERIC_SLAY_LIVING", name: "spell.SlayLiving.name" },
+  Silence: {
+    file: "SPPR211",
+    id: "CLERIC_SILENCE_15_FOOT",
+    name: "spell.Silence.name",
+    keywords: ["silence"],
+  },
+  SlayLiving: {
+    file: "SPPR511",
+    id: "CLERIC_SLAY_LIVING",
+    name: "spell.SlayLiving.name",
+    keywords: ["death"],
+  },
   SpiritualHammer: {
     file: "SPPR213",
     id: "CLERIC_SPIRITUAL_HAMMER",
@@ -786,24 +1025,51 @@ const PRIEST_SPELLS = {
     file: "SPPR319",
     id: "CLERIC_SUMMON_INSECTS",
     name: "spell.SummonInsects.name",
+    keywords: ["miscast"],
   },
-  SymbolDeath: { file: "SPPR719", id: "CLERIC_SYMBOL_DEATH", name: "spell.SymbolDeath.name" },
+  SymbolDeath: {
+    file: "SPPR719",
+    id: "CLERIC_SYMBOL_DEATH",
+    name: "spell.SymbolDeath.name",
+    keywords: ["death"],
+  },
   SymbolHopelessness: {
     file: "SPPR735",
     id: "CLERIC_SYMBOL_HOPELESSNESS",
     name: "spell.SymbolHopelessness.name",
+    keywords: ["stun"],
   },
   SymbolPain: { file: "SPPR734", id: "CLERIC_SYMBOL_PAIN", name: "spell.SymbolPain.name" },
-  SymbolStunning: { file: "SPPR718", id: "CLERIC_SYMBOL_STUN", name: "spell.SymbolStunning.name" },
+  SymbolStunning: {
+    file: "SPPR718",
+    id: "CLERIC_SYMBOL_STUN",
+    name: "spell.SymbolStunning.name",
+    keywords: ["stun"],
+  },
   SymbolWeakness: {
     file: "SPPR706",
     id: "CLERIC_SYMBOL_WEAKNESS",
     name: "spell.SymbolWeakness.name",
+    keywords: ["disease"],
   },
   TrueSeeing: { file: "SPPR505", id: "CLERIC_TRUE_SIGHT", name: "spell.TrueSeeing.name" },
-  UnholyBlight: { file: "SPPR314", id: "CLERIC_UNHOLY_BLIGHT", name: "spell.UnholyBlight.name" },
-  WavesOfAgony: { file: "SPPR533", id: "CLERIC_WAVES_OF_AGONY", name: "spell.WavesOfAgony.name" },
-  Wither: { file: "SPPR740", id: "CLERIC_WITHER", name: "spell.Wither.name" },
+  UnholyBlight: {
+    file: "SPPR314",
+    id: "CLERIC_UNHOLY_BLIGHT",
+    name: "spell.UnholyBlight.name",
+    keywords: ["magicDamage"],
+  },
+  WavesOfAgony: {
+    file: "SPPR533",
+    id: "CLERIC_WAVES_OF_AGONY",
+    name: "spell.WavesOfAgony.name",
+  },
+  Wither: {
+    file: "SPPR740",
+    id: "CLERIC_WITHER",
+    name: "spell.Wither.name",
+    keywords: ["magicDamage"],
+  },
 } satisfies Record<string, SpellReference>;
 
 const INNATE_SPELLS = {
@@ -818,7 +1084,7 @@ const INNATE_SPELLS = {
     file: "SPIN891",
     name: "spell.MoonDogHowl.name",
     id: "MOON_DOG_FEAR",
-    causes: ["fear"],
+    keywords: ["fear"],
   },
   SpiderSingleTargetWeb: { file: "BDSPIDGA", name: "spell.SpiderSingleTargetWeb.name" },
   VortexWeb: { file: "SPIN575", id: "VORTEX_WEB", name: "spell.VortexWeb.name" },
@@ -852,4 +1118,11 @@ export function getAllSpells(): (SpellReference & { key: string })[] {
     ...flattenSpells(CLASS_SPELLS),
     ...flattenSpells(INNATE_SPELLS),
   ];
+}
+
+/** Files of every spell tagged with the given keyword - see SpellCheckKeyword. */
+export function spellsByKeyword(keyword: SpellCheckKeyword): string[] {
+  return getAllSpells()
+    .filter((spell) => spell.keywords?.includes(keyword))
+    .map((spell) => spell.file);
 }

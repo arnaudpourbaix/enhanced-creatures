@@ -101,7 +101,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.areaType("OUTDOOR"),
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            ...triggerFactory.spellChecks(SPELLS.Priest.CallLightning.cause),
+            ...triggerFactory.spellChecks(SPELLS.Priest.CallLightning.keywords),
           ],
           randomOrder: true,
         },

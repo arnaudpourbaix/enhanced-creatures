@@ -368,6 +368,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -388,6 +389,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -408,6 +410,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -428,6 +431,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -448,6 +452,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -468,6 +473,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -488,6 +494,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -508,6 +515,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -528,6 +536,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -548,6 +557,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

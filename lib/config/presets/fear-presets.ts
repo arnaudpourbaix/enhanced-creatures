@@ -13,7 +13,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Horror.name,
       targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ...triggerFactory.spellChecks(SPELLS.Wizard.Horror.cause),
+        ...triggerFactory.spellChecks(SPELLS.Wizard.Horror.keywords),
       ]),
       spell: {},
       requireVocal: true,
@@ -26,7 +26,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Spook.name,
       targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ...triggerFactory.spellChecks(SPELLS.Wizard.Spook.cause),
+        ...triggerFactory.spellChecks(SPELLS.Wizard.Spook.keywords),
       ]),
       spell: {},
       requireVocal: true,
@@ -37,7 +37,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     name: SPELLS.Priest.CloakOfFear.name,
     targets: targetService.combineListWithTriggers(
       FEAR_TARGET_LISTS,
-      triggerFactory.spellChecks(SPELLS.Priest.CloakOfFear.cause),
+      triggerFactory.spellChecks(SPELLS.Priest.CloakOfFear.keywords),
     ),
     spell: {
       selfTarget: true,
@@ -51,7 +51,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
       triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       triggerFactory.alignment("MASK_EVIL"),
-      ...triggerFactory.spellChecks(SPELLS.Innate.MoonDogHowl.cause),
+      ...triggerFactory.spellChecks(SPELLS.Innate.MoonDogHowl.keywords),
     ]),
     spell: {
       selfTarget: true,
@@ -66,7 +66,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.SymbolFear.name,
       targets: targetService.combineListWithTriggers(
         FEAR_TARGET_LISTS,
-        triggerFactory.spellChecks(SPELLS.Wizard.SymbolFear.cause),
+        triggerFactory.spellChecks(SPELLS.Wizard.SymbolFear.keywords),
       ),
       spell: {},
       requireVocal: true,
