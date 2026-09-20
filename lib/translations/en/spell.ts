@@ -181,6 +181,13 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   ShroudOfFlame: { name: "Shroud Of Flame" },
   FleshToStone: { name: "Flesh to Stone" },
   ShapeshiftMustardJelly: { name: "Shapeshift: Mustard Jelly" },
+  AcidStorm: { name: "Acid Storm" },
+  BeltynsBurningBlood: { name: "Beltyn's Burning Blood" },
+  Blindness: { name: "Blindness" },
+  IceLance: { name: "Icelance" },
+  OtilukesFreezingSphere: { name: "Otiluke's Freezing Sphere" },
+  PrismaticSpray: { name: "Prismatic Spray" },
+  SnillocsSnowballSwarm: { name: "Snilloc's Snowball Swarm" },
 
   // Priest
   CreepingDoom: { name: "Creeping Doom" },
@@ -293,6 +300,12 @@ All creatures are afflicted with wracking pains shooting through their bodies, c
   EntropyShield: { name: "Entropy Shield" },
   BoltOfGlory: { name: "Bolt Of Glory" },
   EnergyDrain: { name: "Energy Drain" },
+  CureMediumWounds: { name: "Cure Medium Wounds" },
+  CureModerateWounds: { name: "Cure Moderate Wounds" },
+  ProduceFire: { name: "Produce Fire" },
+  StaticCharge: { name: "Static Charge" },
+  Sunray: { name: "Sunray" },
+  Sunscorch: { name: "Sunscorch" },
 
   // Innate
   MephitColorSpray: { name: "Mephit Color Spray" },

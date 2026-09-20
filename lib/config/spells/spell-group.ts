@@ -4,9 +4,6 @@ import { SPELLS, spellsByKeyword } from "./spell-names";
 export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "acidSpells",
-    idsSpells: [
-      { id: "WIZARD_ACID_STORM" }, // Acid Storm (IWDification)
-    ],
     spells: [
       ...spellsByKeyword("acid"),
       "SPIN994", // Acid Pools in Durlag's Tower (ACID_DAMAGE_1)
@@ -23,18 +20,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "blindness",
-    idsSpells: [
-      { id: "CLERIC_SUNSCORCH" }, // Cloud of Pestilence (IWDification)
-      { id: "CLERIC_SUNRAY" },
-      { id: "WIZARD_BLINDNESS" },
-      { id: "WIZARD_PRISMATIC_SPRAY" },
-    ],
     spells: [
       ...spellsByKeyword("blind"),
-      SPELLS.Priest.CloudOfPestilence.file,
-      SPELLS.Priest.BlindingBeauty.file,
-      SPELLS.Wizard.ChromaticOrb.file,
-      SPELLS.Wizard.Glitterdust.file,
       "spdr101.spl", // Chromatic Orb
       "spin595.spl", // Yellow Dragon Scorching Sand
       "spin878.spl", // Level Drain
@@ -55,11 +42,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "cold",
-    idsSpells: [
-      { id: "WIZARD_OTILUKES_FREEZING_SPHERE" }, // Otiluke's Freezing Sphere (IWDification)
-      { id: "WIZARD_SNILLOCS_SNOWBALL_SWARM" }, // Snilloc's Snowball Swarm (IWDification)
-      { id: "WIZARD_ICELANCE" }, // Icelance (IWDification)
-    ],
     spells: [
       ...spellsByKeyword("cold"),
       "d1#wi503", // Cone of Cold (mod)
@@ -80,14 +62,9 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "cloud",
     spells: [
-      SPELLS.Priest.CloudOfPestilence.file,
+      ...spellsByKeyword("cloud"),
       "SPWI004", // Stinking Cloud (trap)
       "SPWI016", // Cloudkill (trap)
-      SPELLS.Wizard.StinkingCloud.file,
-      SPELLS.Wizard.Cloudkill.file,
-      SPELLS.Wizard.AcidFog.file,
-      "A#CYR11", // Death Fog (Divine Remix)
-      SPELLS.Wizard.IncendiaryCloud.file,
       "DW#TRPIN", // Incendiary Cloud (Stratagems)
       "SPIN673", // Cloudkill
       "dvckill", // Cloudkill (IR/SR)
@@ -116,14 +93,11 @@ export const SPELL_GROUPS: SpellGroup[] = [
     name: "confusion",
     spells: [
       ...spellsByKeyword("confusion"),
-      SPELLS.Priest.Chaos.file,
       "SPIN582", // Confusion
       "SPIN704", // Confusion
       "SPIN839", // Confusion
       "SPIN976", // Confusion
       "SPPR983", // Confusion
-      "MISC3M", // Confusion (Divine Remix)
-      "A#SHA07", // Confusion (Divine Remix)
       // ATWEAKS_SPELLS.Confusion,
     ],
   },
@@ -139,19 +113,11 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "causeWounds",
-    idsSpells: [
-      { id: "CLERIC_CAUSE_MEDIUM_WOUNDS" }, // Cause medium Wounds (IWDification)
-    ],
     spells: [
-      SPELLS.Priest.CauseModerateWounds.file,
-      SPELLS.Priest.CauseLightWounds.file,
-      SPELLS.Priest.MassCauseLightWounds.file,
+      ...spellsByKeyword("causeWounds"),
       "SPIN202", // Cause Serious Wounds
       "SPIN551", // Cause Serious Wounds (Hive Mother)
       "SPIN986", // Cause Serious Wounds (Beholder)
-      SPELLS.Priest.CauseSeriousWounds.file,
-      SPELLS.Priest.CauseCriticalWounds.file,
-      SPELLS.Priest.Harm.file,
       "sppr699", // Harm
       // ATWEAKS_SPELLS.MarilithCauseSeriousWounds,
       // ATWEAKS_SPELLS.CauseSeriousWounds,
@@ -167,7 +133,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
     ],
     spells: [
       SPELLS.Priest.CureLightWounds.file,
-      "A#JUSTCL", // Cure Light Wounds (Divine Remix)
       "ca#culw", // Cure Light Wounds (PnP Deva)
       "L#KORIEP", // Cure Light Wounds (mod)
       "A7Q6CURE", // Cure Light Wounds (afaaq)
@@ -177,7 +142,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN958", // Cure Serious Wounds
       SPELLS.Priest.CureCriticalWounds.file,
       SPELLS.Priest.MassCure.file,
-      "A#RE11", // Mass Cure (Divine Remix)
       "DVMCURE", // Mass Cure (IR/SR)
       SPELLS.Priest.Heal.file,
       "SPWM168", // Heal (Wild Mage)
@@ -319,8 +283,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPWI957", // Fireball
       "WAND05", // Fireball (IRR)
       "CDSLSUN", // Sunfire (mod)
-      "A#KOS09", // Sunfire (Divine Remix)
-      "A#KOS14", // Delayed Blast Fireball (Divine Remix)
       "DW#TRPIN", // Incendiary Cloud (Stratagems)
       "SPIN719", // Meteor Swarm
       "SPWISH24", // Meteor Swarm
@@ -417,6 +379,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "lightningBolt",
     spells: [
+      SPELLS.Wizard.MinorLightningBolt.file,
+      SPELLS.Wizard.LightningBolt.file,
       "b_tal10",
       "c0dm302",
       "spcl722",
@@ -425,9 +389,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "spin933",
       "spin989",
       "SPWI002",
-      SPELLS.Wizard.MinorLightningBolt.file,
       "SPWI231",
-      SPELLS.Wizard.LightningBolt.file,
       "SPWI399",
       "SPWI997",
       "wand07",
@@ -436,16 +398,16 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "magicMissile",
     spells: [
+      SPELLS.Wizard.MagicMissiles.file,
       SPELLS.Wizard.MordenkainenForceMissiles.file,
       `${SPELLS.Wizard.MordenkainenForceMissiles.file}B`,
       "SPWI003", // Magic Missile
-      SPELLS.Wizard.MagicMissiles.file,
       // ATWEAKS_SPELLS.MagicMissile,
     ],
   },
   {
     name: "maze",
-    spells: ["SPIN774", ...spellsByKeyword("maze"), "BDZHADRO"],
+    spells: [...spellsByKeyword("maze"), "SPIN774", "BDZHADRO"],
   },
   {
     name: "minorGlobeOfInvulnerability",
@@ -482,11 +444,11 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "poison",
     spells: [
-      "SPWI016", // Cloudkill (trap)
       ...spellsByKeyword("poison"),
-      "dvckill", // Cloudkill (IR/SR)
+      "SPWI016", // Cloudkill (trap)
       "SPIN979", // Golem Gas Cloud
       "SPIN642", // Poisonous Cloud
+      "dvckill", // Cloudkill (IR/SR)
       // ATWEAKS_SPELLS.Cloudkill,
       // ATWEAKS_SPELLS.SpiderPoisonClassF,
       // ATWEAKS_SPELLS.WraithSpiderPoisonClassF,
@@ -495,19 +457,19 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "polymorph",
     spells: [
-      "SPIN538", // Polymorph Other
       ...spellsByKeyword("polymorph"),
+      "SPIN538", // Polymorph Other
       "CA#PAOO", // Polymorph Other (Pnp Celestial)
     ],
   },
   {
     name: "web",
     spells: [
+      SPELLS.Wizard.Web.file,
+      SPELLS.Innate.VortexWeb.file,
       "SPDR201", // Web (druid version)
       "SPIN566", // Mimic Web
-      SPELLS.Innate.VortexWeb.file,
       "SPIN683", // Web Tangle
-      SPELLS.Wizard.Web.file,
       "D0SPIWEB", // Web (D0QUESTPACK)
       "ETTERWEB", // Web (heartwood)
       "spletter", // Web (heartwood)

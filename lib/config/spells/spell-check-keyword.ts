@@ -11,7 +11,9 @@ export type SpellCheckKeyword =
    */
   | "acid"
   | "blind"
+  | "causeWounds"
   | "charm"
+  | "cloud"
   | "cold"
   | "confusion"
   | "death"

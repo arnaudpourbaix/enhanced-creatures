@@ -10,6 +10,8 @@ import triggerFactory from "../../src/factories/trigger.factory";
 export const SPELL_CHECK_TRIGGERS: Record<SpellCheckKeyword, Triggers.Trigger[]> = {
   acid: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTACID"] }],
   blind: [],
+  causeWounds: [],
+  cloud: [],
   charm: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
   ],
