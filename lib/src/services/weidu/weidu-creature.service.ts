@@ -370,7 +370,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       }~ ${quantity} #0 #0 ${flags} ~${slots.join(" ")}~ ${equip}`;
       if (slots.includes("HELMET")) {
         this.add(p.lines, `LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END`, p.tab);
-        this.add(p.lines, `PATCH_IF NOT "%item%" STRING_EQUAL_CASE ""`, p.tab++);
+        this.add(p.lines, `PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN`, p.tab++);
       }
       this.addConditionalSourceRes(p.lines, code, p.tab, noWeaponFiles, true);
       if (slots.includes("HELMET")) {

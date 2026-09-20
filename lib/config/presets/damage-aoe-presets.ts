@@ -7,6 +7,9 @@ import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-names";
 import { SPELLS } from "../spells/spell-names";
 
+// NumCreatureGT is not used purposely
+// Although it is best to maximize spell efficiency, you must remember the solo enemy case.
+
 export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
   {
     preset: SPELLS.Wizard.ConeOfCold.file,

@@ -59,15 +59,22 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             triggerFactory.stateCheck("STATE_CHARMED", true),
+            triggerFactory.stateCheck("STATE_DISABLED", true),
             triggerFactory.checkStatGT(0, "CLERIC_INSECT_PLAGUE", true),
             {
               name: "Or",
               triggers: [
+                triggerFactory.checkStatGT(0, "IMPROVEDHASTE"),
                 triggerFactory.checkStatGT(0, "MINORGLOBE"),
                 triggerFactory.checkStatGT(0, "STONESKINS"),
+                triggerFactory.checkStatGT(0, "DEFENSIVE_MODIFIER"),
+                triggerFactory.checkStatGT(0, "TRUE_SIGHT"),
                 triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR"),
                 triggerFactory.checkStatGT(0, "CLERIC_CHAOTIC_COMMANDS"),
+                triggerFactory.checkStatGT(49, "CLERIC_FREE_ACTION"),
+                triggerFactory.checkStatGT(49, "CLERIC_DEFENSIVE_HARMONY"),
                 triggerFactory.checkStatGT(49, "RESISTFIRE"),
+                triggerFactory.checkStatGT(49, "RESISTCOLD"),
                 triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"),
                 triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
                 triggerFactory.stateCheck("STATE_HASTED"),
