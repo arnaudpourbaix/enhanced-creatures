@@ -14,6 +14,7 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
       },
       triggers: [
         triggerFactory.detect("PC"),
+        triggerFactory.see("PC", true),
         triggerFactory.checkSpellState("DETECT_INVISIBILITY", true),
       ],
       requireVocal: true,

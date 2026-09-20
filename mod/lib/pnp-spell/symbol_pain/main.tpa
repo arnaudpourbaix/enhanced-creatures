@@ -1,1 +1,5 @@
-LAF create_spell_ColorSpray END
+COPY ~lib/pnp-spell/symbol_pain/jaspainA.BAM~ ~override~
+COPY ~lib/pnp-spell/symbol_pain/jaspainB.BAM~ ~override~
+COPY ~lib/pnp-spell/symbol_pain/jaspainC.BAM~ ~override~
+
+LAF create_spell_SymbolPain END

@@ -850,25 +850,21 @@ class StatementBuilderService {
     }
   }
 
-  private precastLongDurationSpells({
-    statements,
-    options,
-  }: Pick<HandlerParams, "statements" | "options">): void {
+  private precastLongDurationSpells({ statements, creature, options }: HandlerParams): void {
     this.precastSpells(
       statements,
+      creature,
       "long",
       GLOBAL_CONFIG.bafConstants.precastLongDurationSpells,
       options,
     );
   }
 
-  private precastMidDurationSpells({
-    statements,
-    options,
-  }: Pick<HandlerParams, "statements" | "options">): void {
+  private precastMidDurationSpells({ statements, creature, options }: HandlerParams): void {
     if (!GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells) return;
     this.precastSpells(
       statements,
+      creature,
       "mid",
       GLOBAL_CONFIG.bafConstants.precastMidDurationSpells,
       options,
@@ -877,12 +873,21 @@ class StatementBuilderService {
 
   private precastSpells(
     statements: Statements,
+    creature: Creature,
     duration: Required<SpellReference["duration"]>,
     variable: string,
     _options: BuilderOptions,
   ): void {
+    let precast = 0;
     for (const spell of getAllSpells()) {
-      if (!("duration" in spell) || spell.duration !== duration) continue;
+      const durationMatch = "duration" in spell && spell.duration === duration;
+      const hasSpell =
+        creature.data.spells.memorized.some((m) => m.file === spell.file) ||
+        creature.adjustments.some((a) =>
+          a.data.spells.memorized.some((m) => m.file === spell.file),
+        );
+      if (!durationMatch || !hasSpell) continue;
+      precast++;
       statements.push({
         comment: `Precast ${spell.key}`,
         triggers: [
@@ -899,10 +904,12 @@ class StatementBuilderService {
         ]),
       });
     }
-    statements.push({
-      triggers: [triggerFactory.global(variable, 0)],
-      responses: responseFactory.response([actionFactory.setGlobal(variable, 1)]),
-    });
+    if (precast) {
+      statements.push({
+        triggers: [triggerFactory.global(variable, 0)],
+        responses: responseFactory.response([actionFactory.setGlobal(variable, 1)]),
+      });
+    }
   }
 
   private creatureAbilities({ statements, creature, options }: HandlerParams): void {

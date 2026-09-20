@@ -131,7 +131,7 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
     name: SPELLS.Priest.SymbolPain.name,
     targets: [
       {
-        name: "Players",
+        name: "PCsFighters",
         randomOrder: true,
       },
     ],

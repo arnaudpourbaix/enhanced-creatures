@@ -68,5 +68,13 @@ export const createFearAura = ({
       type: "force",
       remove: true,
     },
+    probability: 100,
+    noRoundTimer: true,
+    disableInterrupt: true,
+    requireVocal: false,
+    timer: {
+      name: "fear_aura",
+      value: 6,
+    },
   },
 });

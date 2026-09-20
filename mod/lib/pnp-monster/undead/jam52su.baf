@@ -6,57 +6,6 @@ THEN
 		DestroySelf()
 END
 
-// Precast Stoneskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPWI408")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPWI408",Myself)
-		RemoveSpellRES("SPWI408")
-		Continue()
-END
-
-// Precast AnimateDead
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR301")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR301",Myself)
-		RemoveSpellRES("SPPR301")
-		Continue()
-END
-
-// Precast AnimateSkeletonWarrior
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR619")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR619",Myself)
-		RemoveSpellRES("SPPR619")
-		Continue()
-END
-
-// Precast Ironskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR506")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR506",Myself)
-		RemoveSpellRES("SPPR506")
-		Continue()
-END
-
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
-END
-
 // Detect combat
 IF
 	Global("JA_COMBAT","LOCALS",0)
@@ -146,11 +95,9 @@ END
 
 // Fear Aura
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -173,17 +120,17 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -206,17 +153,17 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -239,17 +186,17 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -272,17 +219,17 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -305,17 +252,17 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m52")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -338,9 +285,11 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
 END
 
 // Try to reposition to use ranged attack

@@ -78,6 +78,14 @@ class TriggerFactory {
     };
   }
 
+  see(value: ParamObject, negation = false): Triggers.Trigger {
+    return {
+      name: "See",
+      params: [value],
+      negation,
+    };
+  }
+
   allegiance(value: AllegianceIdentifier, negation = false): Triggers.Trigger {
     return {
       name: "Allegiance",

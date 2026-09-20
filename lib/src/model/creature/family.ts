@@ -68,7 +68,9 @@ export abstract class CreatureFamily<T extends Creature>
     data: InputMainCreatureData;
     autoGenerate?: CreatureAutoGenerate;
   }): T {
-    logService.header(`Creating ${translationService.from(p.name)}...`);
+    logService.header(
+      `Creating ${translationService.from(p.name)} (${p.monster.toString(16)})...`,
+    );
     const cre = this.createCreature(p.monster);
     cre.name = p.name;
     cre.family = this.id;
@@ -97,7 +99,7 @@ export abstract class CreatureFamily<T extends Creature>
     removeMemorized?: boolean;
   }): T {
     logService.header(
-      `Creating ${translationService.from(p.name)} from ${translationService.from(p.from.name)}...`,
+      `Creating ${translationService.from(p.name)} (${p.monster.toString(16)}) from ${translationService.from(p.from.name)}...`,
     );
     const cre = structuredClone(p.from);
     Object.setPrototypeOf(cre, p.from);

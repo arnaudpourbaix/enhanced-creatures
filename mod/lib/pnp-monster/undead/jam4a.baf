@@ -24,57 +24,6 @@ THEN
 		ApplySpell(Myself,RESTORE_FULL_HEALTH)
 END
 
-// Precast Stoneskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPWI408")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPWI408",Myself)
-		RemoveSpellRES("SPWI408")
-		Continue()
-END
-
-// Precast AnimateDead
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR301")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR301",Myself)
-		RemoveSpellRES("SPPR301")
-		Continue()
-END
-
-// Precast AnimateSkeletonWarrior
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR619")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR619",Myself)
-		RemoveSpellRES("SPPR619")
-		Continue()
-END
-
-// Precast Ironskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR506")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR506",Myself)
-		RemoveSpellRES("SPPR506")
-		Continue()
-END
-
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
-END
-
 // Turn hostile if attacked
 IF
 	Allegiance(Myself,NEUTRAL)
@@ -161,10 +110,8 @@ END
 
 // Fear Aura
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -180,16 +127,16 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -205,16 +152,16 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -230,16 +177,16 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -255,16 +202,16 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -280,16 +227,16 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 IF
-	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m4a")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -305,9 +252,11 @@ IF
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
 		ForceSpellRES("jas0m4a",Myself)
 		RemoveSpellRES("jas0m4a")
+		SetInterrupt(TRUE)
 END
 
 // Detect Invisibility
@@ -316,8 +265,9 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(WIZARD_DETECT_INVISIBILITY)
 	Detect([PC])
+	!See([PC])
 	!CheckSpellState(Myself,DETECT_INVISIBILITY)
-	RandomNumGT(801,240)
+	RandomNumGT(800,240)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -328,7 +278,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -354,7 +304,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -380,7 +330,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -406,7 +356,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -432,7 +382,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -458,7 +408,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -485,7 +435,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -504,7 +454,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -523,7 +473,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -542,7 +492,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -561,7 +511,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -580,7 +530,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_KILL)
-	RandomNumGT(802,241)
+	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -600,7 +550,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -625,7 +575,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -650,7 +600,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -675,7 +625,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -700,7 +650,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -725,7 +675,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_POWER_WORD_STUN)
-	RandomNumGT(803,562)
+	RandomNumGT(802,561)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -753,7 +703,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player1,STATE_BLIND)
 	!StateCheck(Player1,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -774,7 +724,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player2,STATE_BLIND)
 	!StateCheck(Player2,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -795,7 +745,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player3,STATE_BLIND)
 	!StateCheck(Player3,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -816,7 +766,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player4,STATE_BLIND)
 	!StateCheck(Player4,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -837,7 +787,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player5,STATE_BLIND)
 	!StateCheck(Player5,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -858,7 +808,7 @@ IF
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
 	!StateCheck(Player6,STATE_BLIND)
 	!StateCheck(Player6,STATE_DISABLED)
-	RandomNumGT(804,683)
+	RandomNumGT(803,683)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -879,7 +829,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player1,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player1)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -908,7 +858,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player2,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player2)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -937,7 +887,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player3,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player3)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -966,7 +916,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player4,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player4)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -995,7 +945,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player5,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player5)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1024,7 +974,7 @@ IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
 	!StateCheck(Player6,STATE_DISABLED)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(Player6)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1053,7 +1003,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4a")
-	RandomNumGT(806,242)
+	RandomNumGT(805,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1071,7 +1021,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4a")
-	RandomNumGT(806,242)
+	RandomNumGT(805,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1089,7 +1039,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4a")
-	RandomNumGT(806,242)
+	RandomNumGT(805,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1107,7 +1057,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4a")
-	RandomNumGT(806,242)
+	RandomNumGT(805,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1126,9 +1076,9 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player1)
+	See(NearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1143,9 +1093,9 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player2)
+	See(SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1160,9 +1110,9 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player3)
+	See(ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1177,9 +1127,9 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player4)
+	See(NearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1194,9 +1144,9 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player5)
+	See(SecondNearestEnemyOfType([PC.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1211,9 +1161,60 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jaspain")
-	RandomNumGT(807,242)
+	RandomNumGT(806,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(Player6)
+	See(ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1229,7 +1230,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1253,7 +1254,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1277,7 +1278,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1301,7 +1302,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1325,7 +1326,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1349,7 +1350,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
-	RandomNumGT(808,687)
+	RandomNumGT(807,686)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOfType([PC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1374,7 +1375,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas1m4a")
-	RandomNumGT(809,243)
+	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1391,7 +1392,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas1m4a")
-	RandomNumGT(809,243)
+	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1408,7 +1409,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas1m4a")
-	RandomNumGT(809,243)
+	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1425,7 +1426,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas1m4a")
-	RandomNumGT(809,243)
+	RandomNumGT(808,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

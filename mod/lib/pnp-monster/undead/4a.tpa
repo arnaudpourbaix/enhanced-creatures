@@ -123,7 +123,7 @@ BEGIN
 			ADD_MEMORIZED_SPELL ~SPWI912~ #8 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI898~ #7 ~wizard~ (1) 
-			ADD_MEMORIZED_SPELL ~jaspain~ #0 ~innate~ (1) 
+			ADD_MEMORIZED_SPELL ~jaspain~ #7 ~wizard~ (1) // Symbol of Pain
 			ADD_MEMORIZED_SPELL ~jas0m4a~ #0 ~innate~ (1) // Fear Aura
 			ADD_MEMORIZED_SPELL ~jas1m4a~ #3 ~wizard~ (30) // Wall of Ice
 			ADD_MEMORIZED_SPELL ~jas2m4a~ #2 ~wizard~ (1) // Unholy Fireball

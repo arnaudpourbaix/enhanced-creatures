@@ -33,57 +33,6 @@ THEN
 		Rest()
 END
 
-// Precast Stoneskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPWI408")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPWI408",Myself)
-		RemoveSpellRES("SPWI408")
-		Continue()
-END
-
-// Precast AnimateDead
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR301")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR301",Myself)
-		RemoveSpellRES("SPPR301")
-		Continue()
-END
-
-// Precast AnimateSkeletonWarrior
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR619")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR619",Myself)
-		RemoveSpellRES("SPPR619")
-		Continue()
-END
-
-// Precast Ironskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR506")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR506",Myself)
-		RemoveSpellRES("SPPR506")
-		Continue()
-END
-
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
-END
-
 // Turn hostile if attacked
 IF
 	Allegiance(Myself,NEUTRAL)
