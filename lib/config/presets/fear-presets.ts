@@ -13,8 +13,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Horror.name,
       targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+        ...triggerFactory.spellChecks(SPELLS.Wizard.Horror.cause),
       ]),
       spell: {},
       requireVocal: true,
@@ -27,8 +26,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Spook.name,
       targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+        ...triggerFactory.spellChecks(SPELLS.Wizard.Spook.cause),
       ]),
       spell: {},
       requireVocal: true,
@@ -37,10 +35,10 @@ export const FEAR_PRESETS: AbilityPreset[] = [
   },
   ...presetFactory.create([SPELLS.Priest.CloakOfFear.file, FNP_SPELLS.Priest.CloakOfFear.file], {
     name: SPELLS.Priest.CloakOfFear.name,
-    targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-      // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-    ]),
+    targets: targetService.combineListWithTriggers(
+      FEAR_TARGET_LISTS,
+      triggerFactory.spellChecks(SPELLS.Priest.CloakOfFear.cause),
+    ),
     spell: {
       selfTarget: true,
     },
@@ -53,8 +51,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
       triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       triggerFactory.alignment("MASK_EVIL"),
-      // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+      ...triggerFactory.spellChecks(SPELLS.Innate.MoonDogHowl.cause),
     ]),
     spell: {
       selfTarget: true,
@@ -67,10 +64,10 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.SymbolFear.file,
     ability: {
       name: SPELLS.Wizard.SymbolFear.name,
-      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
+      targets: targetService.combineListWithTriggers(
+        FEAR_TARGET_LISTS,
+        triggerFactory.spellChecks(SPELLS.Wizard.SymbolFear.cause),
+      ),
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,

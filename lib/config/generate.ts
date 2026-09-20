@@ -1,4 +1,23 @@
+import { SpellCheckKeyword } from "./spells/spell-check-keyword";
+
 export const GLOBAL_CONFIG = {
+  /**
+   * Per-keyword toggles for the spell "cause" protection checks (see
+   * lib/config/spells/spell-check.ts and triggerFactory.spellChecks). Turn a keyword off here to
+   * stop testing that protection on every spell tagged with it at once, without touching presets.
+   */
+  spellChecks: {
+    fire: true,
+    cold: true,
+    electrical: true,
+    acid: true,
+    poison: true,
+    magicResistance: true,
+    fear: true,
+    hold: true,
+    sleep: true,
+    charm: true,
+  } satisfies Record<SpellCheckKeyword, boolean>,
   files: {
     coreMonsters: "lib/pnp-monster/common/core.tpa",
     spellResources: "lib/common/spell-resources.tpa",

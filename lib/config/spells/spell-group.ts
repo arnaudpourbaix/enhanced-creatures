@@ -5,13 +5,13 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "acidSpells",
     idsSpells: [
-      { id: "WIZARD_VITRIOLIC_SPHERE" }, // Vitriolic Sphere (IWDification)
       { id: "WIZARD_ACID_STORM" }, // Acid Storm (IWDification)
     ],
     spells: [
+      SPELLS.Wizard.VitriolicSphere.file, // Vitriolic Sphere (IWDification)
       "SPIN994", // Acid Pools in Durlag's Tower (ACID_DAMAGE_1)
-      "SPWI614", // Death Fog
-      "A#CYR11", // Death Fog (Divine Remix)
+      "SPWI614", // Acid Fog
+      "A#CYR11", // Acid Fog (Divine Remix)
       "SPIN596", // Brown Dragon Acid Breath
       "SPIN691", // Black Dragon Breath
       "SPIN913", // Mimic Acid
@@ -26,23 +26,24 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "blindness",
     idsSpells: [
-      { id: "CLERIC_CLOUD_OF_PESTILENCE" }, // Sunscorch (IWDification)
       { id: "CLERIC_SUNSCORCH" }, // Cloud of Pestilence (IWDification)
+      { id: "CLERIC_SUNRAY" },
+      { id: "WIZARD_BLINDNESS" },
+      { id: "WIZARD_PRISMATIC_SPRAY" },
     ],
     spells: [
+      SPELLS.Priest.CloudOfPestilence.file, // Sunscorch (IWDification)
+      SPELLS.Priest.BlindingBeauty.file,
+      SPELLS.Wizard.ChromaticOrb.file,
+      SPELLS.Wizard.Glitterdust.file,
+      SPELLS.Wizard.PowerWordBlind.file,
       "spdr101.spl", // Chromatic Orb
       "spin595.spl", // Yellow Dragon Scorching Sand
       "spin878.spl", // Level Drain
       "spin893.spl", // Shadow Dragon Breath
       "spin929.spl", // Mist Ball
       "spin931.spl", // Sooty Ball
-      "sppr704.spl", // Nature's Beauty
-      "sppr707.spl", // Sunray
-      "spwi106.spl", // Blindness
-      "spwi118.spl", // Chromatic Orb
-      "spwi224.spl", // Glitterdust
-      "spwi714.spl", // Prismatic Spray
-      "spwi815.spl", // Power Word, Blind
+      SPELLS.Wizard.PowerWordBlind.file, // Power Word, Blind
       "spwi958.spl", // Power Word, Blind
       "spwm178.spl", // Blindness
       "chalcy2.itm", // The Shadow's Blade +3
@@ -53,16 +54,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "wand19.itm", // Wand of Cursing
       "wand19.spl", // IR/IRR
       "wand19d.spl", // IR/IRR
-      "sppr313.spl", // SpellPack b6
-      // TODO: check these - not found in any installed mod (SpellPack itself isn't installed
-      // locally to check directly; sppr614c.spl exists as a same-named resource inside
-      // Stratagems' own files, but that doesn't confirm it's actually SpellPack's - see
-      // TODO_ROADMAP.md):
-      "sppr614c.spl", // SpellPack b6
-      "sppr614d.spl", // SpellPack b6
-      "spwi224c.spl", // SpellPack b6
-      "halb06.spl", // IR/IRR
-      "sw1h51.spl", // IR/IRR
     ],
   },
   {
@@ -73,8 +64,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
       { id: "WIZARD_ICELANCE" }, // Icelance (IWDification)
     ],
     spells: [
-      "SPWI404", // Ice Storm
-      "SPWI503", // Cone of Cold
+      SPELLS.Wizard.IceStorm.file,
+      SPELLS.Wizard.ConeOfCold.file,
       "d1#wi503", // Cone of Cold (mod)
       "DVCONEC", // Cone of Cold (IR)
       "SPCRYO01", // Cone of Cold (mod)
@@ -92,14 +83,12 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "cloud",
-    idsSpells: [
-      { id: "CLERIC_CLOUD_OF_PESTILENCE" }, // Cloud of Pestilence (IWDification)
-    ],
     spells: [
+      SPELLS.Priest.CloudOfPestilence.file, // Cloud of Pestilence (IWDification)
       "SPWI004", // Stinking Cloud (trap)
       "SPWI016", // Cloudkill (trap)
-      "SPWI213", // Stinking Cloud
-      "SPWI502", // Cloudkill
+      SPELLS.Wizard.StinkingCloud.file, // Stinking Cloud
+      SPELLS.Wizard.Cloudkill.file, // Cloudkill
       "SPWI614", // Death Fog
       "A#CYR11", // Death Fog (Divine Remix)
       "SPWI810", // Incendiary Cloud
@@ -130,8 +119,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "confusion",
     spells: [
-      "SPPR709", // Confusion (priest version)
-      "SPWI401", // Confusion (wizard version)
+      SPELLS.Priest.Chaos.file, // Confusion (priest version)
+      SPELLS.Wizard.Confusion.file, // Confusion (wizard version)
       "SPIN582", // Confusion
       "SPIN704", // Confusion
       "SPIN839", // Confusion
@@ -155,18 +144,18 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "causeWounds",
     idsSpells: [
-      { id: "CLERIC_CAUSE_MODERATE_WOUNDS" }, // Cause moderate Wounds (IWDification)
-      { id: "CLERIC_CAUSE_LIGHT_WOUNDS" }, // Cause Light Wounds (IWDification)
       { id: "CLERIC_CAUSE_MEDIUM_WOUNDS" }, // Cause medium Wounds (IWDification)
-      { id: "CLERIC_MASS_CAUSE_LIGHT_WOUNDS" }, // Mass Cause Light Wounds (IWDification)
     ],
     spells: [
+      SPELLS.Priest.CauseModerateWounds.file, // Cause moderate Wounds (IWDification)
+      SPELLS.Priest.CauseLightWounds.file, // Cause Light Wounds (IWDification)
+      SPELLS.Priest.MassCauseLightWounds.file, // Mass Cause Light Wounds (IWDification)
       "SPIN202", // Cause Serious Wounds
       "SPIN551", // Cause Serious Wounds (Hive Mother)
       "SPIN986", // Cause Serious Wounds (Beholder)
-      "SPPR414", // Cause Serious Wounds
+      SPELLS.Priest.CauseSeriousWounds.file, // Cause Serious Wounds
       "SPPR510", // Cause critical Wounds
-      "sppr608", // Harm
+      SPELLS.Priest.Harm.file, // Harm
       "sppr699", // Harm
       // ATWEAKS_SPELLS.MarilithCauseSeriousWounds,
       // ATWEAKS_SPELLS.CauseSeriousWounds,
@@ -181,7 +170,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       { id: "CLERIC_CURE_MEDIUM_WOUNDS" }, // Cure Medium Wounds  (Spell Revisions)
     ],
     spells: [
-      "SPPR103", // Cure Light Wounds
+      SPELLS.Priest.CureLightWounds.file, // Cure Light Wounds
       "A#JUSTCL", // Cure Light Wounds (Divine Remix)
       "ca#culw", // Cure Light Wounds (PnP Deva)
       "L#KORIEP", // Cure Light Wounds (mod)
@@ -216,10 +205,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "disease",
-    idsSpells: [
-      { id: "CLERIC_CAUSE_DISEASE" }, // Cause Disease (IWDification)
-    ],
     spells: [
+      SPELLS.Priest.CauseDisease.file, // Cause Disease (IWDification)
       "SPWI409", // Contagion
       // ATWEAKS_SPELLS.CauseDisease,
       // ATWEAKS_SPELLS.PitFiendDisease,
@@ -260,13 +247,13 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPWI025", // Minor Lightning Bolt
       "SPWI026", // Minor Lightning Bolt
       "SPWI027", // Minor Lightning Bolt
-      "SPWI308", // Lightning Bolt
+      SPELLS.Wizard.LightningBolt.file, // Lightning Bolt
       "SPWI399", // Lightning Bolt
       "SPWI997", // Lightning Bolt
       "SPDR601", // Chain Lightning
-      "SPWI615", // Chain Lightning
+      SPELLS.Wizard.ChainLightning.file, // Chain Lightning
       "SPBLUN29", // Chain Lightning
-      "SPPR302", // Call Lightning
+      SPELLS.Priest.CallLightning.file, // Call Lightning
       "SPPR987", // Call Lightning
       "SPIN597", // Blue Dragon Lightning Breath
       // ATWEAKS_SPELLS.LightningBolt,
@@ -274,11 +261,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "entangle",
-    idsSpells: [
-      { id: "WIZARD_CHARM_PLANTS" }, // Charm plants (SpellPack)
-    ],
     spells: [
-      "SPPR105", // Entangle (Priest)
+      SPELLS.Priest.Entangle.file, // Entangle (Priest)
       "SPWM111", // Entangle (Wild Mage)
       "SPIN688", // Plant Growth (Black Dragon)
       "BDBOW06", // Entangle (Hamadryad SoD ?)
@@ -294,9 +278,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "fear",
-    idsSpells: [
-      { id: "WIZARD_EMOTION_FEAR" }, // SpellPack Charm plants
-    ],
     spells: [
       "SPIN203", // Cloak of Fear
       "SPIN536", // Fear
@@ -305,10 +286,10 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN890", // Demon Fear
       "SPIN895", // Dragon Fear
       "SPIN981", // Fear
-      "SPPR416", // Cloak of Fear
-      "SPPR706", // Symbol, Fear
-      "SPWI125", // Spook
-      "SPWI205", // Horror
+      SPELLS.Priest.CloakOfFear.file, // Cloak of Fear
+      SPELLS.Priest.SymbolWeakness.file, // Symbol, Fear
+      SPELLS.Wizard.Spook.file, // Spook
+      SPELLS.Wizard.Horror.file, // Horror
       "SPWI811", // Symbol, Fear
       "SPWI899", // Symbol, Fear
       "SPWI956", // Symbol, Fear
@@ -333,26 +314,25 @@ export const SPELL_GROUPS: SpellGroup[] = [
     name: "fire",
     idsSpells: [
       { id: "WIZARD_BELTYNS_BURNING_BLOOD" }, // Beltyn's Burning Blood (IWDification)
-      { id: "WIZARD_SHROUD_OF_FLAME" }, // Shroud of Flame (IWDification)
       { id: "CLERIC_SUNSCORCH" }, // Sunscorch (IWDification)
       { id: "CLERIC_PRODUCE_FIRE" }, // Produe Fire (IWDification)
-      { id: "CLERIC_WALL_OF_FIRE" }, // Wall of Fire (SpellPack)
     ],
     spells: [
+      SPELLS.Wizard.ShroudOfFlame.file, // Shroud of Flame (IWDification)
       "SPIN561", // Fire Giant Lava Pit (FIRE_GIANT_LAVA)
       "SPIN819", // Lava Burst (LAVA_BURST)
       "SPWI022", // Lava Pit (TRAP_MUCK)
-      "SPWI103", // Burning Hands
+      SPELLS.Wizard.BurningHands.file, // Burning Hands
       "SPIN131", // Burning Hands
-      "SPWI217", // Agannazar's Scorcher
+      SPELLS.Wizard.AgannazarScorcher.file, // Agannazar's Scorcher
       "SPWI940", // Agannazar's Scorcher
-      "SPWI304", // Fireball
+      SPELLS.Wizard.Fireball.file, // Fireball
       "DVFBALL", // Fireball (IRR + SRR)
       "SPIN160", // Breath Fireball
       "SPWI001", // Fireball
       "SPWI957", // Fireball
       "WAND05", // Fireball (IRR)
-      "SPWI523", // Sunfire
+      SPELLS.Wizard.Fireburst.file, // Sunfire
       "CDSLSUN", // Sunfire (mod)
       "A#KOS09", // Sunfire (Divine Remix)
       "SPWI712", // Delayed Blast Fireball
@@ -385,7 +365,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "flameArrow",
-    spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", "SPWI303", "SPWI888"],
+    spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", SPELLS.Wizard.FlameArrow.file, "SPWI888"],
   },
   {
     name: "fireball",
@@ -396,7 +376,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "BDMORLIS",
       "c0ausp03",
       "SPWI001",
-      "SPWI304",
+      SPELLS.Wizard.Fireball.file,
       "SPIN957",
       "wand05a",
     ],
@@ -429,17 +409,17 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "hold",
     spells: [
-      "SPPR208", // Hold Person
-      "SPWI306", // Hold Person
+      SPELLS.Priest.HoldPerson.file, // Hold Person
+      SPELLS.Wizard.HoldPerson.file, // Hold Person
     ],
   },
   {
     name: "illusion",
     spells: [
-      "sppr704", //Nature's beauty
-      "spwi106", //Blindness
+      SPELLS.Priest.BlindingBeauty.file, //Nature's beauty
+      SPELLS.Wizard.ObscuringMist.file, //Blindness
       "IKDB2", //Spook (mod)
-      "spwi125", //Spook
+      SPELLS.Wizard.Spook.file, //Spook
       "spwi223", //Deafness
       "spwm178", //Blindness (Wild mage)
     ],
@@ -447,7 +427,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "insect",
     spells: [
-      "SPPR319", // Summon Insects
+      SPELLS.Priest.SummonInsects.file, // Summon Insects
       "SPPR517", // Insect Plague
       "SPPR717", // Creeping Doom
       "SPIN689", // Summon Insects (Black Dragon)
@@ -470,7 +450,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPWI002",
       "SPWI017",
       "SPWI231",
-      "SPWI308",
+      SPELLS.Wizard.LightningBolt.file,
       "SPWI399",
       "SPWI997",
       "wand07",
@@ -478,15 +458,11 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "magicMissile",
-    idsSpells: [
-      {
-        id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
-        suffixes: ["B"],
-      }, // Mordenkainen's Force Missiles (IWDification)
-    ],
     spells: [
+      SPELLS.Wizard.MordenkainenForceMissiles.file, // Mordenkainen's Force Missiles (IWDification)
+      `${SPELLS.Wizard.MordenkainenForceMissiles.file}B`, // Mordenkainen's Force Missiles (IWDification)
       "SPWI003", // Magic Missile
-      "SPWI112", // Magic Missile
+      SPELLS.Wizard.MagicMissiles.file, // Magic Missile
       // ATWEAKS_SPELLS.MagicMissile,
     ],
   },
@@ -497,7 +473,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "minorGlobeOfInvulnerability",
     spells: [
-      "spwi406",
+      SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
       "RR#WI406", // used by RR for Selina's Amulet
       "SPWM126", // Wild Mage
       "DWSW406", // Stratagems Cast Previously
@@ -506,14 +482,14 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "necromancyEffects",
     spells: [
-      "sppr313", // Holy Smite
-      "sppr314", // Unholy Blight
+      SPELLS.Priest.HolySmite.file, // Holy Smite
+      SPELLS.Priest.UnholyBlight.file, // Unholy Blight
       "spwi117", // Chill Touch
       "spwi117d", // Chill Touch
       "spwi119", // Larloch's Minor Drain
       "spwi221", // Ray of Enfeeblement
-      "spwi313", // Skull Trap
-      "spwi314", // Vampiric Touch
+      SPELLS.Wizard.SkullTrap.file, // Skull Trap
+      SPELLS.Wizard.VampiricTouch.file, // Vampiric Touch
       "spwi812", // Abi-Dalzim's Horrid Wilting
       "spwi812d", // Abi-Dalzim's Horrid Wilting
       "spwi914", // Larloch's Energy Drain
@@ -522,7 +498,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "petrification",
     spells: [
-      "SPWI604", // Flesh to Stone
+      SPELLS.Wizard.FleshToStone.file, // Flesh to Stone
       "SPWI604D", // Flesh to Stone
     ],
   },
@@ -530,7 +506,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
     name: "poison",
     spells: [
       "SPWI016", // Cloudkill (trap)
-      "SPWI502", // Cloudkill
+      SPELLS.Wizard.Cloudkill.file, // Cloudkill
       "dvckill", // Cloudkill (IR/SR)
       "SPIN979", // Golem Gas Cloud
       "SPIN642", // Poisonous Cloud
@@ -552,9 +528,9 @@ export const SPELL_GROUPS: SpellGroup[] = [
     spells: [
       "SPDR201", // Web (druid version)
       "SPIN566", // Mimic Web
-      "SPIN575", // Vortex web
+      SPELLS.Innate.VortexWeb.file, // Vortex web
       "SPIN683", // Web Tangle
-      "SPWI215", // Web (wizard version)
+      SPELLS.Wizard.Web.file, // Web (wizard version)
       "D0SPIWEB", // Web (D0QUESTPACK)
       "ETTERWEB", // Web (heartwood)
       "spletter", // Web (heartwood)

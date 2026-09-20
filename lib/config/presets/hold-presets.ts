@@ -10,7 +10,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     name: SPELLS.Priest.HoldPerson.name,
     targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
       triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+      ...triggerFactory.spellChecks(SPELLS.Priest.HoldPerson.cause),
     ]),
     spell: {},
     requireVocal: true,
@@ -22,7 +22,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.HoldPersonOrAnimal.name,
       targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+        ...triggerFactory.spellChecks(SPELLS.Priest.HoldPersonOrAnimal.cause),
       ]),
       spell: {},
       requireVocal: true,
@@ -33,9 +33,10 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.HoldMonster.file,
     ability: {
       name: SPELLS.Wizard.HoldMonster.name,
-      targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
+      targets: targetService.combineListWithTriggers(
+        HOLD_TARGET_LISTS,
+        triggerFactory.spellChecks(SPELLS.Wizard.HoldMonster.cause),
+      ),
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
