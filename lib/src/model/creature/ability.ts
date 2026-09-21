@@ -5,7 +5,7 @@ import { Actions } from "../script/actions";
 import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
-import { SpellReference } from "../../../config/spells/spell-names";
+import { SpellReference, SpellVariant } from "../../../config/spells/spell-names";
 
 export interface BaseCreatureAbility {
   name: StringReference;
@@ -50,6 +50,12 @@ export interface CreatureAbility extends BaseCreatureAbility {
   infiniteUse: boolean;
   actions: Actions.Action[];
   resource?: string;
+  /**
+   * Per-mod overrides for `resource` above (mirrors SpellReference.variants) - installed via
+   * weidu-creature.service.ts as an OUTER_SPRINT/ACTION_IF assignment, since a compiled script
+   * needs the correct resource baked in before COMPILE, not resolved from a plain string here.
+   */
+  resourceVariants?: SpellVariant[];
   /**
    * Probability (0-100)
    */
@@ -97,6 +103,12 @@ export type SpellCastType = "normal" | "noDec" | "force" | "reallyForce";
 export interface CreatureAbilitySpell {
   id?: SpellIdentifier;
   resource?: string;
+  /**
+   * Per-mod overrides for `resource` - use when the resource this ability casts moves to a
+   * different file under a mod (e.g. SPELLS.Wizard.DimensionDoor.variants), instead of `id`, which
+   * compiles to a bare spell.ids symbol that can fail to resolve entirely once a mod renames it.
+   */
+  resourceVariants?: SpellVariant[];
   type?: SpellCastType;
   includeStateChecks?: StateIdentifier[];
   excludeStateChecks?: StateIdentifier[];

@@ -1,1 +1,2 @@
-export type SpellbookModName = "Vanilla" | "SpellRevisions" | "FaithsAndPowers";
+export type SpellbookModName =
+  "Vanilla" | "SpellRevisions" | "FaithsAndPowers" | "StratagemsIWD" | "StratagemsNewSpells";

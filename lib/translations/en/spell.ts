@@ -107,6 +107,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   ChillTouch: { name: "Chill Touch" },
   Deafness: { name: "Deafness" },
   DeathSpell: { name: "Death Spell" },
+  SoundBurst: { name: "Sound Burst" },
   DelayedBlastFireball: { name: "Delayed Blast Fireball" },
   DragonsBreath: { name: "Dragon's Breath" },
   GlobeOfInvulnerability: { name: "Globe of Invulnerability" },
@@ -192,6 +193,7 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   // Priest
   CreepingDoom: { name: "Creeping Doom" },
   CureCriticalWounds: { name: "Cure Critical Wounds" },
+  CureMortalWounds: { name: "Cure Mortal Wounds" },
   CureSeriousWounds: { name: "Cure Serious Wounds" },
   Earthquake: { name: "Earthquake" },
   FireStorm: { name: "Fire Storm" },

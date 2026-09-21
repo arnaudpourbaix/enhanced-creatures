@@ -1,6 +1,8 @@
 import deepmerge from "deepmerge";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { GLOBAL_CONFIG } from "../../../config/generate";
+import { resourcePlaceholderToken } from "../../../config/mods";
+import { SpellVariant } from "../../../config/spells/spell-names";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";
@@ -131,6 +133,7 @@ class AbilityService {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
     result.isSpell = !spell.isAttack;
     result.resource = spell.resource ?? ability.preset;
+    result.resourceVariants = spell.resourceVariants;
     spell.type ??= "normal";
     result.infiniteUse = spell.type !== "normal" && !spell.remove;
     spell.memorizedSpellCheck ??= true;
@@ -144,7 +147,7 @@ class AbilityService {
     } else if (spell.memorizedSpellCheck && spell.resource) {
       result.triggers.unshift({
         name: "HaveSpellRES",
-        params: [spell.resource],
+        params: [this.resourceParam(spell.resource, spell.resourceVariants)],
       });
     }
     this.addExclusionTriggers(result, target, spell);
@@ -159,7 +162,7 @@ class AbilityService {
     } else if (spell.remove && spell.type !== "normal" && spell.resource) {
       result.actions.push({
         name: "RemoveSpellRES",
-        params: [spell.resource],
+        params: [this.resourceParam(spell.resource, spell.resourceVariants)],
       });
     }
     return result;
@@ -239,6 +242,16 @@ class AbilityService {
     ) {
       result.spell.resource = undefined;
     }
+    // The override's own resource is a different spell than whatever the preset's
+    // resourceVariants described - deepmerge would otherwise leave the preset's variants attached
+    // to the override's unrelated resource.
+    if (
+      ability.spell?.resource &&
+      !ability.spell.resourceVariants &&
+      result.spell?.resourceVariants
+    ) {
+      result.spell.resourceVariants = undefined;
+    }
     return result;
   }
 
@@ -249,13 +262,25 @@ class AbilityService {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   private getSpellAction(spell: CreatureAbilitySpell, target: string): Actions.Action {
     if (spell.resource && spell.type === "normal")
-      return { name: "SpellRES", params: [spell.resource, target] };
+      return {
+        name: "SpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "noDec")
-      return { name: "SpellNoDecRES", params: [spell.resource, target] };
+      return {
+        name: "SpellNoDecRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "force")
-      return { name: "ForceSpellRES", params: [spell.resource, target] };
+      return {
+        name: "ForceSpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "reallyForce")
-      return { name: "ReallyForceSpellRES", params: [spell.resource, target] };
+      return {
+        name: "ReallyForceSpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.id && spell.type === "normal")
       return { name: "Spell", params: [target, spell.id] };
     else if (spell.id && spell.type === "noDec")
@@ -266,6 +291,16 @@ class AbilityService {
       return { name: "ReallyForceSpell", params: [target, spell.id] };
 
     throw new Error("getSpellAction: unexpected combination");
+  }
+
+  /**
+   * The literal resource to bake into a compiled action/trigger param - the resource itself when
+   * it's always correct, or a `%TOKEN%` placeholder when it has mod-dependent variants, resolved by
+   * weidu-creature.service.ts's OUTER_SPRINT assignment right before this creature's script is
+   * actually compiled (an install-time decision, not something this generator can know).
+   */
+  private resourceParam(resource: string, variants: SpellVariant[] | undefined): string {
+    return variants?.length ? `%${resourcePlaceholderToken(resource)}%` : resource;
   }
 }
 

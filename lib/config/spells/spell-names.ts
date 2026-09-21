@@ -1,6 +1,22 @@
 import { StringReference } from "../../src/model/final/stringref";
 import { SpellIdentifier } from "../../src/model/ids/spell";
+import { SpellbookModName } from "./spellbook-mod-name";
 import { SpellKeyword as SpellKeyword } from "./keyword";
+
+/**
+ * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
+ * repurpose an existing file's slot for a different spell (e.g. spell_rev turns SPWI106 from
+ * Blindness into Obscuring Mist), or move a spell.ids constant to a different file entirely (e.g.
+ * CLERIC_PROTECTION_FROM_LIGHTNING moves from SPPR407 to SPPR521). For a spell that doesn't exist
+ * at all without a mod (rather than existing but pointing elsewhere), use `requiresMod` on the
+ * SpellReference instead. See scripts/report-spell-collisions.ts, which audits SPELLS against real
+ * spell.ids snapshots per mod to find entries that need one of these.
+ */
+export interface SpellVariant {
+  mod: SpellbookModName;
+  file: string;
+  id?: SpellIdentifier;
+}
 
 export interface SpellReference {
   file: string;
@@ -13,6 +29,22 @@ export interface SpellReference {
     | "mid" // several turns
     | "short"; // several rounds to one turn
   keywords?: SpellKeyword[];
+  /**
+   * Per-mod overrides, checked in order - the first installed mod wins, falling back to `file`/`id`
+   * above when none match (or when this is unset, which is the common case). Not yet consumed by
+   * every place that reads `file`/`id` directly - memorized spells, SPELL_GROUPS and ability presets
+   * (e.g. lib/config/presets/buff-presets.ts) all still read the base fields unconditionally, so a
+   * variant here doesn't yet protect those call sites.
+   */
+  variants?: SpellVariant[];
+  /**
+   * Set when this spell doesn't exist at all without a mod - `file`/`id` above describe it once
+   * that mod is installed; there is no correct fallback to fall back to (unlike `variants`, which
+   * is for a spell that exists everywhere but points somewhere different). Not yet consumed by any
+   * generation code - memorized spells, SPELL_GROUPS and ability presets still reference `file`
+   * unconditionally, so this only documents the requirement for now.
+   */
+  requiresMod?: SpellbookModName;
 }
 
 // Shared by RemoveMagic (wizard), DispelMagic (wizard), and DispelMagic (cleric) below - all
@@ -37,6 +69,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ACID_STORM",
     name: "spell.AcidStorm.name",
     keywords: ["acid"],
+    requiresMod: "StratagemsIWD",
   },
   AgannazarScorcher: {
     file: "SPWI217",
@@ -49,13 +82,18 @@ const WIZARD_SPELLS = {
     id: "WIZARD_BELTYNS_BURNING_BLOOD",
     name: "spell.BeltynsBurningBlood.name",
     keywords: ["fire"],
+    requiresMod: "StratagemsIWD",
   },
   BigbyIcyGrasp: {
     file: "SPWI818",
     id: "WIZARD_BIGBYS_ICY_GRASP",
     name: "spell.BigbyIcyGrasp.name",
     keywords: ["cold", "hold"],
+    requiresMod: "SpellRevisions",
   },
+  // Vanilla-only: Spell Revisions repurposes SPWI106 into Obscuring Mist (see that entry) and there
+  // is no evidence of where, if anywhere, Blindness itself moves to. Not currently referenced
+  // outside this file, so left undocumented beyond this note rather than guessing a replacement.
   Blindness: {
     file: "SPWI106",
     id: "WIZARD_BLINDNESS",
@@ -107,10 +145,11 @@ const WIZARD_SPELLS = {
     keywords: ["blind", "slow", "confusion"],
   },
   Combust: {
-    file: "SPWI232",
+    file: "SPWI231",
     id: "WIZARD_COMBUST",
     name: "spell.Combust.name",
     keywords: ["fire"],
+    requiresMod: "StratagemsNewSpells",
   },
   ConeOfCold: {
     file: "SPWI503",
@@ -138,6 +177,17 @@ const WIZARD_SPELLS = {
     keywords: ["blind"],
   },
   Deafness: { file: "SPWI223", id: "WIZARD_DEAFNESS", name: "spell.Deafness.name" },
+  // Spell Revisions repurposes SPWI223 into this - Deafness above stays the correct name for the
+  // same file in vanilla only.
+  SoundBurst: {
+    file: "SPWI223",
+    id: "WIZARD_SOUND_BURST",
+    name: "spell.SoundBurst.name",
+    requiresMod: "SpellRevisions",
+  },
+  // Vanilla-only: once Spell Revisions is installed, SPWI605 becomes Banishment (WIZARD_BANISHMENT
+  // under Spell Revisions alone, oddly reverting to the WIZARD_DEATH_SPELL symbol - still Banishment
+  // content - once Stratagems is also installed). Not currently referenced outside this file.
   DeathSpell: {
     file: "SPWI605",
     id: "WIZARD_DEATH_SPELL",
@@ -155,6 +205,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_DEMI_SHADOW_MONSTERS",
     name: "spell.DemiShadowMonsters.name",
     duration: "short",
+    requiresMod: "StratagemsIWD",
   },
   DetectInvisibility: {
     file: "SPWI203",
@@ -168,9 +219,14 @@ const WIZARD_SPELLS = {
     keywords: ["charm"],
   },
   DimensionDoor: {
+    // Spell Revisions removes this from spellbooks (SPWI402's id becomes _DEPRECATED - a leftover
+    // resource, not a real spellbook entry, so it can never actually be cast) and adds a genuinely
+    // separate, spellbook-integrated "Dimension Jump" at SPWI127/WIZARD_DIMENSION_JUMP instead. The
+    // two never coexist, so the variant points at the real replacement, not the deprecated husk.
     file: "SPWI402",
     id: "WIZARD_DIMENSION_DOOR",
     name: "spell.dimensionDoor.name",
+    variants: [{ mod: "SpellRevisions", file: "SPWI127", id: "WIZARD_DIMENSION_JUMP" }],
   },
   DispelMagic: {
     file: "SPWI326",
@@ -268,6 +324,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ICELANCE",
     name: "spell.IceLance.name",
     keywords: ["cold"],
+    requiresMod: "SpellRevisions",
   },
   IceStorm: {
     file: "SPWI404",
@@ -336,10 +393,11 @@ const WIZARD_SPELLS = {
     name: "spell.MinorGlobeOfInvulnerability.name",
   },
   MinorLightningBolt: {
-    file: "SPWI017",
+    file: "SPWI230",
     id: "WIZARD_MINOR_LIGHTNING_BOLT",
     name: "spell.MinorLightningBolt.name",
     keywords: ["electrical"],
+    requiresMod: "StratagemsNewSpells",
   },
   MinorSpellDeflection: {
     file: "SPWI318",
@@ -358,6 +416,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
     name: "spell.MordenkainenForceMissiles.name",
     keywords: ["shield", "magicDamage"],
+    requiresMod: "StratagemsIWD",
   },
   NahalRecklessDweomer: {
     file: "SPWI124",
@@ -373,12 +432,14 @@ const WIZARD_SPELLS = {
     file: "SPWI106",
     id: "WIZARD_OBSCURING_MIST",
     name: "spell.ObscuringMist.name",
+    requiresMod: "SpellRevisions",
   },
   OtilukesFreezingSphere: {
     file: "SPWI626",
     id: "WIZARD_OTILUKES_FREEZING_SPHERE",
     name: "spell.OtilukesFreezingSphere.name",
     keywords: ["cold"],
+    requiresMod: "StratagemsIWD",
   },
   PolymorphOther: {
     file: "SPWI415",
@@ -453,6 +514,7 @@ const WIZARD_SPELLS = {
     file: "SPWI632",
     id: "WIZARD_SHADES",
     name: "spell.Shades.name",
+    requiresMod: "StratagemsIWD",
   },
   Shield: {
     file: "SPWI114",
@@ -466,12 +528,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SHADOW_MONSTERS",
     name: "spell.ShadowMonsters.name",
     duration: "short",
+    requiresMod: "StratagemsIWD",
   },
   ShroudOfFlame: {
     file: "SPWI525",
     id: "WIZARD_SHROUD_OF_FLAME",
     name: "spell.ShroudOfFlame.name",
     keywords: ["fire"],
+    requiresMod: "StratagemsIWD",
   },
   SkullTrap: {
     file: "SPWI313",
@@ -491,6 +555,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SNILLOCS_SNOWBALL_SWARM",
     name: "spell.SnillocsSnowballSwarm.name",
     keywords: ["cold"],
+    requiresMod: "StratagemsIWD",
   },
   SpellThrust: { file: "SPWI321", id: "WIZARD_SPELL_THRUST", name: "spell.SpellThrust.name" },
   Spook: { file: "SPWI125", id: "WIZARD_SPOOK", name: "spell.Spook.name", keywords: ["fear"] },
@@ -511,10 +576,11 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SUMMON_SHADOW",
     duration: "mid",
     name: "spell.SummonShadow.name",
+    requiresMod: "SpellRevisions",
   },
   SymbolDeath: { file: "SPWI817", id: "WIZARD_SYMBOL_DEATH", name: "spell.SymbolDeath.name" },
   SymbolFear: {
-    file: "SPWI898",
+    file: "SPWI899",
     id: "WIZARD_NPC_SYMBOL_FEAR",
     name: "spell.SymbolFear.name",
     keywords: ["fear"],
@@ -535,6 +601,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_VITRIOLIC_SPHERE",
     name: "spell.VitriolicSphere.name",
     keywords: ["acid"],
+    requiresMod: "SpellRevisions",
   },
   Vocalize: {
     file: "SPWI219",
@@ -552,6 +619,7 @@ const WIZARD_SPELLS = {
     file: "SPWI508",
     id: "WIZARD_WAVES_OF_FATIGUE",
     name: "spell.WavesOfFatigue.name",
+    requiresMod: "SpellRevisions",
   },
   Web: {
     file: "SPWI215",
@@ -578,36 +646,43 @@ const PRIEST_SPELLS = {
     file: "SPPR122",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_1",
     name: "spell.AnimalSummoning1.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning2: {
     file: "SPPR221",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_2",
     name: "spell.AnimalSummoning2.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning3: {
     file: "SPPR321",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_3",
     name: "spell.AnimalSummoning3.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning4: {
     file: "SPPR402",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_4",
     name: "spell.AnimalSummoning4.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning5: {
     file: "SPPR501",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_5",
     name: "spell.AnimalSummoning5.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning6: {
     file: "SPPR602",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_6",
     name: "spell.AnimalSummoning6.name",
+    requiresMod: "SpellRevisions",
   },
   AnimalSummoning7: {
     file: "SPPR733",
     id: "CLERIC_ANIMAL_SUMMONING_LEVEL_7",
     name: "spell.AnimalSummoning7.name",
+    requiresMod: "SpellRevisions",
   },
   AnimateDead: {
     file: "SPPR301",
@@ -620,6 +695,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_ANIMATE_SKELETON_WARRIOR",
     name: "spell.AnimateSkeletonWarrior.name",
     duration: "long",
+    requiresMod: "SpellRevisions",
   },
   ArmorOfFaith: {
     file: "SPPR111",
@@ -631,6 +707,7 @@ const PRIEST_SPELLS = {
     file: "SPPR616",
     id: "CLERIC_BANISHMENT",
     name: "spell.Banishment.name",
+    requiresMod: "SpellRevisions",
   },
   Barkskin: {
     file: "SPPR202",
@@ -668,6 +745,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CAUSE_DISEASE",
     name: "spell.CauseDisease.name",
     keywords: ["disease"],
+    requiresMod: "StratagemsIWD",
   },
   CauseCriticalWounds: {
     file: "SPPR414",
@@ -680,18 +758,21 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CAUSE_LIGHT_WOUNDS",
     name: "spell.CauseLightWounds.name",
     keywords: ["magicDamage", "causeWounds"],
+    requiresMod: "SpellRevisions",
   },
   CauseSeriousWounds: {
     file: "SPPR322",
     id: "CLERIC_CAUSE_MEDIUM_WOUNDS",
     name: "spell.CauseSeriousWounds.name",
     keywords: ["magicDamage", "causeWounds"],
+    requiresMod: "SpellRevisions",
   },
   CauseModerateWounds: {
     file: "SPPR220",
     id: "CLERIC_CAUSE_MODERATE_WOUNDS",
     name: "spell.CauseModerateWounds.name",
     keywords: ["magicDamage", "causeWounds"],
+    requiresMod: "SpellRevisions",
   },
   CallWoodlandBeeings: {
     file: "SPPR410",
@@ -703,6 +784,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CLOUD_OF_PESTILENCE",
     name: "spell.CloudOfPestilence.name",
     keywords: ["magicDamage", "blind", "cloud"],
+    requiresMod: "StratagemsIWD",
   },
   Chant: {
     file: "SPPR203",
@@ -711,10 +793,19 @@ const PRIEST_SPELLS = {
     duration: "short",
   },
   Chaos: {
+    // SPPR709 is CLERIC_CONFUSION in vanilla and, once Stratagems' IWD spells are also installed,
+    // in Spell Revisions too - but Spell Revisions alone (no Stratagems) renames it to CLERIC_CHAOS.
+    // The StratagemsIWD entry re-asserts the base value and is listed first, matching SpellReference
+    // .variants' documented "checked in order, first installed mod wins" contract, so it takes
+    // priority over the SpellRevisions entry when both mods are installed together.
     file: "SPPR709",
     id: "CLERIC_CONFUSION",
     name: "spell.Chaos.name",
     keywords: ["confusion"],
+    variants: [
+      { mod: "StratagemsIWD", file: "SPPR709", id: "CLERIC_CONFUSION" },
+      { mod: "SpellRevisions", file: "SPPR709", id: "CLERIC_CHAOS" },
+    ],
   },
   CharmPersonOrAnimal: {
     file: "SPPR204",
@@ -727,6 +818,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CIRCLE_OF_BONES",
     name: "spell.CircleOfBones.name",
     duration: "short",
+    requiresMod: "StratagemsIWD",
   },
   CloakOfFear: {
     file: "SPPR416",
@@ -745,6 +837,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CONTAGION",
     name: "spell.Contagion.name",
     keywords: ["disease"],
+    requiresMod: "SpellRevisions",
   },
   CreepingDoom: {
     file: "SPPR717",
@@ -756,6 +849,14 @@ const PRIEST_SPELLS = {
     file: "SPPR502",
     id: "CLERIC_CURE_CRITICAL_WOUNDS",
     name: "spell.CureCriticalWounds.name",
+  },
+  // Spell Revisions repurposes SPPR502 into this - CureCriticalWounds above stays the correct name
+  // for the same file in vanilla only.
+  CureMortalWounds: {
+    file: "SPPR502",
+    id: "CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED",
+    name: "spell.CureMortalWounds.name",
+    requiresMod: "SpellRevisions",
   },
   CureLightWounds: {
     file: "SPPR103",
@@ -771,6 +872,7 @@ const PRIEST_SPELLS = {
     file: "SPPR216",
     id: "CLERIC_CURE_MODERATE_WOUNDS",
     name: "spell.CureModerateWounds.name",
+    requiresMod: "SpellRevisions",
   },
   CureSeriousWounds: {
     file: "SPPR401",
@@ -781,12 +883,14 @@ const PRIEST_SPELLS = {
     file: "SPPR124",
     id: "CLERIC_CURSE",
     name: "spell.Curse.name",
+    requiresMod: "StratagemsIWD",
   },
   Destruction: {
     file: "SPPR737",
     id: "CLERIC_DESTRUCTION",
     name: "spell.Destruction.name",
     keywords: ["death"],
+    requiresMod: "StratagemsIWD",
   },
   DetectEvil: {
     file: "SPPR104",
@@ -802,11 +906,13 @@ const PRIEST_SPELLS = {
     file: "SPPR527",
     id: "CLERIC_SHIELD_OF_LATHANDER",
     name: "spell.DivineProtection.name",
+    requiresMod: "StratagemsIWD",
   },
   GreaterDivineProtection: {
     file: "SPPR738",
     id: "CLERIC_GREATER_SHIELD_OF_LATHANDER",
     name: "spell.GreaterDivineProtection.name",
+    requiresMod: "StratagemsIWD",
   },
   DolorousDecay: {
     file: "SPPR610",
@@ -832,6 +938,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_ENERGY_DRAIN",
     name: "spell.EnergyDrain.name",
     keywords: ["levelDrain"],
+    requiresMod: "StratagemsIWD",
   },
   Entangle: {
     file: "SPPR105",
@@ -844,6 +951,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_ENTROPY_SHIELD",
     name: "spell.EntropyShield.name",
     duration: "short",
+    requiresMod: "StratagemsIWD",
   },
   FindTraps: { file: "SPPR205", id: "CLERIC_FIND_TRAPS", name: "spell.FindTraps.name" },
   FingerOfDeath: {
@@ -948,6 +1056,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_MASS_CAUSE_LIGHT_WOUNDS",
     name: "spell.MassCauseLightWounds.name",
     keywords: ["magicDamage", "causeWounds"],
+    requiresMod: "StratagemsIWD",
   },
   MassCure: { file: "SPPR514", id: "CLERIC_MASS_CURE", name: "spell.MassCure.name" },
   MentalDomination: {
@@ -969,15 +1078,20 @@ const PRIEST_SPELLS = {
   },
   Poison: { file: "SPPR411", id: "CLERIC_POISON", name: "spell.Poison.name", keywords: ["poison"] },
   PhysicalMirror: {
-    file: "SPPR531",
+    // Vanilla/Spell Revisions keep this spell at SPPR613. Stratagems' IWD spells add a level-5
+    // duplicate at SPPR531 and take over the live CLERIC_PHYSICAL_MIRROR id there, relabeling
+    // SPPR613's own id to CLERIC_MIRROR_OLD (still literally "Physical Mirror" content).
+    file: "SPPR613",
     id: "CLERIC_PHYSICAL_MIRROR",
     name: "spell.PhysicalMirror.name",
+    variants: [{ mod: "StratagemsIWD", file: "SPPR531", id: "CLERIC_PHYSICAL_MIRROR" }],
   },
   ProduceFire: {
     file: "SPPR420",
     id: "CLERIC_PRODUCE_FIRE",
     name: "spell.ProduceFire.name",
     keywords: ["fire"],
+    requiresMod: "StratagemsIWD",
   },
   ProtectionFromEvil: {
     file: "SPPR107",
@@ -990,38 +1104,48 @@ const PRIEST_SPELLS = {
     id: "CLERIC_PROTECT_FROM_GOOD",
     name: "spell.ProtectionFromGood.name",
     duration: "short",
+    requiresMod: "StratagemsNewSpells",
   },
   ProtectionFromGood10Radius: {
     file: "SPPR431",
     id: "CLERIC_PROTECTION_FROM_GOOD_10_FOOT",
     name: "spell.ProtectionFromGood10Radius.name",
     duration: "mid",
+    requiresMod: "StratagemsNewSpells",
   },
   ProtectionFromLightning: {
+    // Spell Revisions moves the live CLERIC_PROTECTION_FROM_LIGHTNING id from SPPR407 to SPPR521
+    // (renamed "Protection from Electricity"), relabeling SPPR407's own id to
+    // CLERIC_PROTECTION_FROM_LIGHTNING_DEPRECATED.
     file: "SPPR407",
     id: "CLERIC_PROTECTION_FROM_LIGHTNING",
     name: "spell.ProtectionFromLightning.name",
     duration: "mid",
+    variants: [{ mod: "SpellRevisions", file: "SPPR521", id: "CLERIC_PROTECTION_FROM_LIGHTNING" }],
   },
   RegenerateLightWounds: {
     file: "SPPR119",
     id: "CLERIC_REGENERATE_LIGHT_WOUNDS",
     name: "spell.RegenerateLightWounds.name",
+    requiresMod: "SpellRevisions",
   },
   RegenerateModerateWounds: {
     file: "SPPR218",
     id: "CLERIC_REGENERATE_MODERATE_WOUNDS",
     name: "spell.RegenerateModerateWounds.name",
+    requiresMod: "SpellRevisions",
   },
   RegenerateSeriousWounds: {
     file: "SPPR324",
     id: "CLERIC_REGENERATE_SERIOUS_WOUNDS",
     name: "spell.RegenerateSeriousWounds.name",
+    requiresMod: "SpellRevisions",
   },
   RegenerateCriticalWounds: {
     file: "SPPR419",
     id: "CLERIC_REGENERATE_CRITICAL_WOUNDS",
     name: "spell.RegenerateCriticalWounds.name",
+    requiresMod: "SpellRevisions",
   },
   Regeneration: {
     file: "SPPR711",
@@ -1032,6 +1156,7 @@ const PRIEST_SPELLS = {
     file: "SPPR515",
     id: "CLERIC_REPULSION",
     name: "spell.Repulsion.name",
+    requiresMod: "SpellRevisions",
   },
   ResistFear: {
     file: "SPPR108",
@@ -1084,12 +1209,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_STATIC_CHARGE",
     name: "spell.StaticCharge.name",
     keywords: ["electrical"],
+    requiresMod: "StratagemsIWD",
   },
   SummonDeathKnight: {
     file: "SPPR703",
     id: "CLERIC_SUMMON_DEATH_KNIGHT",
     name: "spell.SummonDeathKnight.name",
     duration: "mid",
+    requiresMod: "SpellRevisions",
   },
   SummonInsects: {
     file: "SPPR319",
@@ -1108,6 +1235,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SUNSCORCH",
     name: "spell.Sunscorch.name",
     keywords: ["fire", "blind"],
+    requiresMod: "SpellRevisions",
   },
   SymbolDeath: {
     file: "SPPR719",
@@ -1120,8 +1248,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SYMBOL_HOPELESSNESS",
     name: "spell.SymbolHopelessness.name",
     keywords: ["stun"],
+    requiresMod: "StratagemsIWD",
   },
-  SymbolPain: { file: "SPPR734", id: "CLERIC_SYMBOL_PAIN", name: "spell.SymbolPain.name" },
+  SymbolPain: {
+    file: "SPPR734",
+    id: "CLERIC_SYMBOL_PAIN",
+    name: "spell.SymbolPain.name",
+    requiresMod: "StratagemsIWD",
+  },
   SymbolStunning: {
     file: "SPPR718",
     id: "CLERIC_SYMBOL_STUN",
@@ -1133,6 +1267,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SYMBOL_WEAKNESS",
     name: "spell.SymbolWeakness.name",
     keywords: ["disease"],
+    requiresMod: "SpellRevisions",
   },
   TrueSeeing: { file: "SPPR505", id: "CLERIC_TRUE_SIGHT", name: "spell.TrueSeeing.name" },
   UnholyBlight: {
@@ -1151,6 +1286,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_WITHER",
     name: "spell.Wither.name",
     keywords: ["magicDamage"],
+    requiresMod: "StratagemsIWD",
   },
 } satisfies Record<string, SpellReference>;
 

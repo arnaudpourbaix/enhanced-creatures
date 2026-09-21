@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
@@ -11,6 +12,8 @@ interface WeiduCreatureServicePrivate {
   removeKnownSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   removeMemorizedSpells(lines: CodeLine[], tab: number, creature: Creature): void;
   addMemorizedSpells(lines: CodeLine[], tab: number, data: Partial<CreatureData>): void;
+  addResourceVariantAssignments(lines: CodeLine[], tab: number, creature: Creature): boolean;
+  compileScripts(lines: CodeLine[], creature: Creature, evaluateBuffer: boolean): void;
   handleScriptEdits(lines: CodeLine[], creature: Creature): void;
   handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit): void;
   patchScript(p: {
@@ -276,6 +279,25 @@ describe("addMemorizedSpells (private)", () => {
     expect(result.some((c) => c.includes("SPWI001"))).toBe(true);
   });
 
+  it("resolves a multi-component mod's weiduCheck array to WeiDU's OR(n) syntax", () => {
+    const lines: CodeLine[] = [];
+    service.addMemorizedSpells(lines, 0, {
+      spells: {
+        memorized: [],
+        spellbooks: [
+          {
+            mod: "StratagemsIWD",
+            memorized: [{ file: "SPWI126", memorizedCount: 1 }],
+          },
+        ],
+      },
+    });
+    const result = codes(lines);
+    expect(result[0]).toBe(
+      "PATCH_IF OR(2) MOD_IS_INSTALLED STRATAGEMS.TP2 1500 MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
+    );
+  });
+
   it("emits a lone unconditional (Vanilla) spellbook variant with no PATCH_IF wrapper", () => {
     const lines: CodeLine[] = [];
     service.addMemorizedSpells(lines, 0, {
@@ -331,6 +353,95 @@ describe("addMemorizedSpells (private)", () => {
     const result = codes(lines);
     expect(result.some((c) => c.includes("PATCH_IF"))).toBe(false);
     expect(result).toHaveLength(1);
+  });
+});
+
+describe("addResourceVariantAssignments (private)", () => {
+  function creatureWithAbilityResource(resource: string, resourceVariants?: unknown): Creature {
+    return fakeCreature({
+      behavior: { abilities: [{ resource, resourceVariants }] },
+    } as unknown as Partial<Creature>);
+  }
+
+  it("returns false and emits nothing when no ability has resourceVariants", () => {
+    const lines: CodeLine[] = [];
+    const creature = creatureWithAbilityResource("SPWI001");
+    const needsEvaluateBuffer = service.addResourceVariantAssignments(lines, 0, creature);
+    expect(needsEvaluateBuffer).toBe(false);
+    expect(lines).toHaveLength(0);
+  });
+
+  it("emits an ACTION_IF/OUTER_SPRINT chain ending in the base resource fallback", () => {
+    const lines: CodeLine[] = [];
+    const creature = creatureWithAbilityResource("SPWI402", [
+      { mod: "SpellRevisions", file: "SPWI127" },
+    ]);
+    const needsEvaluateBuffer = service.addResourceVariantAssignments(lines, 0, creature);
+    expect(needsEvaluateBuffer).toBe(true);
+    expect(codes(lines)).toEqual([
+      "ACTION_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN",
+      'OUTER_SPRINT RES_SPWI402 "SPWI127"',
+      "END ELSE BEGIN",
+      'OUTER_SPRINT RES_SPWI402 "SPWI402"',
+      "END",
+    ]);
+  });
+
+  it("chains multiple variants with END ELSE ACTION_IF, in listed order", () => {
+    const lines: CodeLine[] = [];
+    const creature = creatureWithAbilityResource("SPWI223", [
+      { mod: "StratagemsIWD", file: "SPWI500" },
+      { mod: "SpellRevisions", file: "SPWI600" },
+    ]);
+    service.addResourceVariantAssignments(lines, 0, creature);
+    const result = codes(lines);
+    expect(result[0]).toBe(
+      "ACTION_IF OR(2) MOD_IS_INSTALLED STRATAGEMS.TP2 1500 MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
+    );
+    expect(result).toContain("END ELSE ACTION_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN");
+    expect(result[result.length - 1]).toBe("END");
+  });
+
+  it("only assigns once per distinct resource across multiple abilities", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      behavior: {
+        abilities: [
+          { resource: "SPWI402", resourceVariants: [{ mod: "SpellRevisions", file: "SPWI127" }] },
+          { resource: "SPWI402", resourceVariants: [{ mod: "SpellRevisions", file: "SPWI127" }] },
+        ],
+      },
+    } as unknown as Partial<Creature>);
+    service.addResourceVariantAssignments(lines, 0, creature);
+    expect(codes(lines).filter((c) => c.includes("OUTER_SPRINT"))).toHaveLength(2);
+  });
+
+  it("throws when a variant's mod has no weiduCheck to condition on", () => {
+    const lines: CodeLine[] = [];
+    const creature = creatureWithAbilityResource("SPWI402", [{ mod: "Vanilla", file: "SPWI127" }]);
+    expect(() => service.addResourceVariantAssignments(lines, 0, creature)).toThrow(
+      /has no weiduCheck/,
+    );
+  });
+});
+
+describe("compileScripts (private)", () => {
+  it("omits EVALUATE_BUFFER when the creature has no resource variants", () => {
+    const lines: CodeLine[] = [];
+    service.compileScripts(lines, fakeCreature({ family: MonsterFamilyEnum.Ankheg }), false);
+    expect(codes(lines)[0]).not.toContain("EVALUATE_BUFFER");
+  });
+
+  it("appends EVALUATE_BUFFER to every COMPILE line when a resource variant is present", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      family: MonsterFamilyEnum.Ankheg,
+      adjustments: [fakeAdjustment({ summon: true })],
+    });
+    service.compileScripts(lines, creature, true);
+    const compileLines = codes(lines).filter((c) => c.startsWith("COMPILE"));
+    expect(compileLines).toHaveLength(2);
+    expect(compileLines.every((c) => c.endsWith(" EVALUATE_BUFFER"))).toBe(true);
   });
 });
 
@@ -445,7 +556,11 @@ describe("patchScripts (private)", () => {
     fakeAdjustment({
       summon: true,
       ...p,
-      data: { script: {}, effects: { list: [] }, spells: { memorized: [] } } as Partial<CreatureData>,
+      data: {
+        script: {},
+        effects: { list: [] },
+        spells: { memorized: [] },
+      } as Partial<CreatureData>,
     });
 
   it("assigns an untagged summon file the summon script with no GAME_IS guard", () => {
@@ -470,7 +585,9 @@ describe("patchScripts (private)", () => {
     expect(guardIdx).toBeGreaterThanOrEqual(0);
     expect(elseIdx).toBeGreaterThan(guardIdx);
     // summon script under the guard, normal script under ELSE
-    const summonIdx = out.findIndex((c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU));
+    const summonIdx = out.findIndex(
+      (c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU),
+    );
     const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
     expect(summonIdx).toBeGreaterThan(guardIdx);
     expect(normalIdx).toBeGreaterThan(elseIdx);
@@ -497,7 +614,9 @@ describe("patchScripts (private)", () => {
   it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
     const lines: CodeLine[] = [];
     const creature = scriptCreature([summonAdj({ files: ["JADRYAD"] })]);
-    (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [{ files: ["JADRYAD"] }];
+    (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [
+      { files: ["JADRYAD"] },
+    ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
     expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JADRYAD END");

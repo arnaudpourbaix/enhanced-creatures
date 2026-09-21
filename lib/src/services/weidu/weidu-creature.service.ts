@@ -1,5 +1,6 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { SPELLBOOK_MODS } from "../../../config/mods";
+import { resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
+import { SpellVariant } from "../../../config/spells/spell-names";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";
@@ -33,7 +34,10 @@ class WeiduCreatureService extends AbstractWeiduService {
   generateWeiduScript(creature: Creature): void {
     const lines = this.initLines();
     this.add(lines, `// ${translationService.from(creature.name)}`);
-    if (creature.data.script.location !== "None") this.compileScripts(lines, creature);
+    if (creature.data.script.location !== "None") {
+      const needsEvaluateBuffer = this.addResourceVariantAssignments(lines, 0, creature);
+      this.compileScripts(lines, creature, needsEvaluateBuffer);
+    }
     weiduProjectileService.createProjectiles(lines, creature.projectiles);
     weiduEffectService.createEffectFiles(lines, creature.effectFiles);
     weiduSpellService.createSpells(lines, creature.spells);
@@ -76,13 +80,14 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.add(lines, ``, 0);
   }
 
-  private compileScripts(lines: CodeLine[], creature: Creature) {
+  private compileScripts(lines: CodeLine[], creature: Creature, evaluateBuffer: boolean) {
+    const suffix = evaluateBuffer ? " EVALUATE_BUFFER" : "";
     this.add(
       lines,
       `COMPILE ~%MOD_FOLDER%/${this.getScriptName(creature, {
         withPath: true,
         ext: true,
-      })}~`,
+      })}~${suffix}`,
     );
     if (creature.adjustments.some((a) => a.summon))
       this.add(
@@ -91,9 +96,53 @@ class WeiduCreatureService extends AbstractWeiduService {
           withPath: true,
           summon: true,
           ext: true,
-        })}~`,
+        })}~${suffix}`,
       );
     this.add(lines, "");
+  }
+
+  /**
+   * Assigns an OUTER_SPRINT variable for each distinct resource an ability needs resolved by mod
+   * before this creature's script compiles - ability.service.ts already substituted a `%TOKEN%`
+   * placeholder for that resource in the relevant action/trigger params, so EVALUATE_BUFFER (needed
+   * only when this returns true) fills it in with whichever branch below actually matches at
+   * install time. Mirrors addMemorizedSpells' PATCH_IF chain: variants checked in order, first
+   * installed mod wins, falling back to the base resource when none match.
+   */
+  private addResourceVariantAssignments(
+    lines: CodeLine[],
+    tab: number,
+    creature: Creature,
+  ): boolean {
+    const byResource = new Map<string, SpellVariant[]>();
+    for (const ability of creature.behavior.abilities) {
+      if (
+        ability.resource &&
+        ability.resourceVariants?.length &&
+        !byResource.has(ability.resource)
+      ) {
+        byResource.set(ability.resource, ability.resourceVariants);
+      }
+    }
+    for (const [resource, variants] of byResource) {
+      const token = resourcePlaceholderToken(resource);
+      variants.forEach((variant, index) => {
+        const weiduCheck = resolveWeiduCheck(SPELLBOOK_MODS[variant.mod].weiduCheck);
+        if (!weiduCheck) {
+          throw new Error(
+            `Resource variant for mod "${variant.mod}" has no weiduCheck - can't be used ` +
+              "conditionally (only the base/fallback resource may target a mod with none, e.g. Vanilla).",
+          );
+        }
+        const keyword = index === 0 ? "ACTION_IF" : "END ELSE ACTION_IF";
+        this.add(lines, `${keyword} ${weiduCheck} BEGIN`, tab);
+        this.add(lines, `OUTER_SPRINT ${token} "${variant.file}"`, tab + 1);
+      });
+      this.add(lines, "END ELSE BEGIN", tab);
+      this.add(lines, `OUTER_SPRINT ${token} "${resource}"`, tab + 1);
+      this.add(lines, "END", tab);
+    }
+    return byResource.size > 0;
   }
 
   private createNewFiles(lines: CodeLine[], tab: number, creature: Creature) {
@@ -401,9 +450,14 @@ class WeiduCreatureService extends AbstractWeiduService {
       // A spellbook variant with no weiduCheck (e.g. Vanilla) is the mutually-exclusive fallback
       // of the chain below - used only when none of the mod-gated variants match - not an extra
       // variant stacked on top of whichever one did match.
-      const fallback = spellbooks.find((sb) => !SPELLBOOK_MODS[sb.mod].weiduCheck);
+      const fallback = spellbooks.find(
+        (sb) => !resolveWeiduCheck(SPELLBOOK_MODS[sb.mod].weiduCheck),
+      );
       const conditional = spellbooks
-        .map((sb) => ({ spellbook: sb, weiduCheck: SPELLBOOK_MODS[sb.mod].weiduCheck }))
+        .map((sb) => ({
+          spellbook: sb,
+          weiduCheck: resolveWeiduCheck(SPELLBOOK_MODS[sb.mod].weiduCheck),
+        }))
         .filter((sb): sb is typeof sb & { weiduCheck: string } => !!sb.weiduCheck);
 
       if (conditional.length) {

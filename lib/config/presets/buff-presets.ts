@@ -130,7 +130,12 @@ export const BUFF_PRESETS: AbilityPreset[] = [
         ]),
       ],
       spell: {
-        id: SPELLS.Wizard.DimensionDoor.id,
+        // .resource (not .id): DimensionDoor's file moves under Spell Revisions (see its
+        // variants), and .id would compile to a bare spell.ids symbol that can fail to resolve
+        // entirely once a mod renames it - .resource lets weidu-creature.service.ts bake in the
+        // right file per install via an OUTER_SPRINT placeholder instead.
+        resource: SPELLS.Wizard.DimensionDoor.file,
+        resourceVariants: SPELLS.Wizard.DimensionDoor.variants,
         targetName: "RR#TRAT",
       },
       requireVocal: false,

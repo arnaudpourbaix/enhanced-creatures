@@ -308,7 +308,7 @@ describe("getAbilities - preset id/resource conflict resolution (applyPreset)", 
     expect(ability.triggers.some((t) => t.name === "HaveSpell")).toBe(false);
   });
 
-  it("leaves the preset's own spell.id untouched when the override sets neither id nor resource", () => {
+  it("leaves the preset's own spell.resource untouched when the override sets neither id nor resource", () => {
     const [ability] = abilityService.getAbilities([
       {
         preset: PRESET_NAMES.DimensionDoorOffscreen,
@@ -316,7 +316,7 @@ describe("getAbilities - preset id/resource conflict resolution (applyPreset)", 
       },
     ]);
     expect(ability.actions).toContainEqual({
-      name: "Spell",
+      name: "SpellRES",
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- vitest's asymmetric matchers are typed `any`
       params: expect.arrayContaining(["RR#TRAT"]),
     });
