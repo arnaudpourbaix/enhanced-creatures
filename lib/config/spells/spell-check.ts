@@ -1,13 +1,12 @@
-import { Triggers } from "../../src/model/script/triggers";
 import { ScriptTarget } from "../../src/model/constants";
-import { SpellCheckKeyword } from "./spell-check-keyword";
-import triggerFactory from "../../src/factories/trigger.factory";
+import { Triggers } from "../../src/model/script/triggers";
+import { SpellKeyword } from "./keyword";
 
 /**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
  * several triggers (e.g. a protection covered by both an old-style stat and a newer spell state).
  */
-export const SPELL_CHECK_TRIGGERS: Record<SpellCheckKeyword, Triggers.Trigger[]> = {
+export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   acid: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTACID"] }],
   blind: [],
   causeWounds: [],

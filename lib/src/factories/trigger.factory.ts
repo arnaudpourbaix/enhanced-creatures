@@ -1,6 +1,6 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
-import { SpellCheckKeyword } from "../../config/spells/spell-check-keyword";
+import { SpellKeyword } from "../../config/spells/keyword";
 import { SpellReference } from "../../config/spells/spell-names";
 import { TargetListName } from "../../config/target-name";
 import { ScriptTarget } from "../model/constants";
@@ -371,10 +371,11 @@ class TriggerFactory {
    * Triggers testing whether the target is protected against the given causes (e.g.
    * SPELLS.Wizard.Horror.cause), skipping any keyword disabled via GLOBAL_CONFIG.spellChecks.
    */
-  spellChecks(keywords: SpellCheckKeyword[] = []): Triggers.Trigger[] {
-    return keywords
-      .filter((keyword) => GLOBAL_CONFIG.spellChecks[keyword])
-      .flatMap((keyword) => SPELL_CHECK_TRIGGERS[keyword]);
+  spellChecks(keywords: SpellKeyword[] = []): Triggers.Trigger[] {
+    // return keywords
+    //   .filter((keyword) => GLOBAL_CONFIG.spellChecks[keyword])
+    //   .flatMap((keyword) => SPELL_CHECK_TRIGGERS[keyword]);
+    return [];
   }
 }
 

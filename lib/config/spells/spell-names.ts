@@ -1,6 +1,6 @@
 import { StringReference } from "../../src/model/final/stringref";
 import { SpellIdentifier } from "../../src/model/ids/spell";
-import { SpellCheckKeyword as SpellKeyword } from "./spell-check-keyword";
+import { SpellKeyword as SpellKeyword } from "./keyword";
 
 export interface SpellReference {
   file: string;
