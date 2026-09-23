@@ -51,6 +51,7 @@ export const WEAPON_PRESETS: AbilityPreset[] = [
   ...factory([
     SPELLS.Priest.Harm,
     SPELLS.Priest.SlayLiving,
+    SPELLS.Priest.CauseCriticalWounds,
     SPELLS.Priest.CauseSeriousWounds,
     SPELLS.Priest.SpiritualHammer,
     SPELLS.Priest.CauseModerateWounds,

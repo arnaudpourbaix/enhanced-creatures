@@ -492,14 +492,12 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SPIDER_SPAWN",
     level: 4,
     name: "spell.MonsterSummoning4.name",
-    requiresMod: "AllSpellMods",
   },
   MonsterSummoning5: {
     file: "SPWI504",
     id: "WIZARD_MONSTER_SUMMONING_LEVEL_5",
     level: 5,
     name: "spell.MonsterSummoning5.name",
-    requiresMod: "AllSpellMods",
   },
   MonsterSummoning6: {
     file: "SPWI610",

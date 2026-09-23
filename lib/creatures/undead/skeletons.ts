@@ -261,7 +261,7 @@ function greaterSkeletonVariant(base: Undead): Variant {
 }
 
 function assasinVariant(base: Variant): Variant {
-  const assasin = base.variant("Assasin", {
+  return base.variant("Assasin", {
     data: {
       level1: 20,
       ac: -2,
@@ -274,7 +274,6 @@ function assasinVariant(base: Variant): Variant {
     },
     files: ["D9SKL02", "D9SKL08", "HGSKL02"],
   });
-  return assasin;
 }
 
 function clericSkeletonVariant(base: Undead): Variant {

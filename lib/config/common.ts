@@ -24,6 +24,7 @@ export const CHARM_TARGET_LISTS: TargetList[] = [
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "HALF_ELF"],
+        negation: true,
       },
     ],
   },
@@ -35,10 +36,12 @@ export const CHARM_TARGET_LISTS: TargetList[] = [
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "ELF"],
+        negation: true,
       },
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "HALF_ELF"],
+        negation: true,
       },
     ],
   },
@@ -50,6 +53,7 @@ export const CHARM_TARGET_LISTS: TargetList[] = [
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "ELF"],
+        negation: true,
       },
     ],
   },
@@ -73,10 +77,12 @@ export const SLEEP_TARGET_LISTS: TargetList[] = [
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "ELF"],
+        negation: true,
       },
       {
         name: "Race",
         params: [ScriptTarget.lastSeen, "HALF_ELF"],
+        negation: true,
       },
     ],
   },

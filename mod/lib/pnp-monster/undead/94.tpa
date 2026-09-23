@@ -170,7 +170,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI125~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI116~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI212~ #1 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI213~ #1 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI217~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI305~ #2 ~wizard~ (1) 
 				END
 			END
@@ -204,7 +204,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI125~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI116~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI212~ #1 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI213~ #1 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI217~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI220~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI305~ #2 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI312~ #2 ~wizard~ (1) 

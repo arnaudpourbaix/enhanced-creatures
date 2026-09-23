@@ -30,7 +30,11 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
   ],
   levelDrain: [
-    { name: "CheckStat", params: [ScriptTarget.token, 1, "SCRIPTINGSTATE3"], negation: true },
+    {
+      name: "CheckStatGT",
+      params: [ScriptTarget.token, 0, "LEVEL_DRAIN_IMMUNITY"],
+      negation: true,
+    },
   ],
   magicDamage: [
     {
@@ -43,6 +47,11 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   maze: [],
   miscast: [],
   missile: [
+    // {
+    //   name: "CheckStatGT",
+    //   params: [ScriptTarget.token, 0, "SHIELDGLOBE"],
+    //   negation: true,
+    // },
     {
       name: "CheckSpellState",
       params: [ScriptTarget.token, "PROTECTION_FROM_NORMAL_MISSILES"],

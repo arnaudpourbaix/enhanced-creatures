@@ -134,8 +134,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -155,8 +157,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -176,8 +180,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -197,8 +203,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -218,8 +226,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -238,8 +248,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -258,8 +270,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -278,8 +292,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -299,8 +315,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -319,8 +337,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -339,8 +359,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -359,8 +381,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -379,8 +403,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -399,8 +425,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -911,6 +939,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100
@@ -928,6 +957,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100
@@ -945,6 +975,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100
@@ -962,6 +993,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100
@@ -979,6 +1011,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100
@@ -996,6 +1029,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	Range(LastSeenBy(Myself),180)
 THEN
 	RESPONSE #100

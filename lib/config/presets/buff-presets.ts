@@ -537,6 +537,24 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     },
   },
   {
+    preset: SPELLS.Priest.ProtectionFromEvil10Radius.file,
+    ability: {
+      name: SPELLS.Priest.ProtectionFromEvil10Radius.name,
+      spell: {
+        selfTarget: true,
+      },
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.lastSeen, "PROTECTION_FROM_EVIL"],
+          negation: true,
+        },
+      ],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    },
+  },
+  {
     preset: SPELLS.Priest.ShieldOfTheArchons.file,
     ability: {
       name: SPELLS.Priest.ShieldOfTheArchons.name,
