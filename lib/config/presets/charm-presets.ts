@@ -1,6 +1,5 @@
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import targetService from "../../src/services/baf/target.service";
 import { CHARM_TARGET_LISTS, DEFAULT_SPELL_PROBABILITY } from "../common";
 import { SPELLS } from "../spells/spell-database";
 
@@ -29,9 +28,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.DireCharm.file,
     ability: {
       name: SPELLS.Wizard.DireCharm.name,
-      targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: CHARM_TARGET_LISTS,
       spell: {},
       triggers: [
         ...triggerFactory.haveSpellRES(
@@ -47,9 +44,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.CharmPerson.file,
     ability: {
       name: SPELLS.Wizard.CharmPerson.name,
-      targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: CHARM_TARGET_LISTS,
       spell: {},
       triggers: [
         ...triggerFactory.haveSpellRES(
@@ -69,9 +64,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.CharmPersonOrAnimal.file,
     ability: {
       name: SPELLS.Priest.CharmPersonOrAnimal.name,
-      targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: CHARM_TARGET_LISTS,
       spell: {},
       triggers: [
         ...triggerFactory.haveSpellRES(
