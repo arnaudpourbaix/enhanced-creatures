@@ -11,9 +11,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.Horror.file,
     ability: {
       name: SPELLS.Wizard.Horror.name,
-      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: FEAR_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -23,9 +21,7 @@ export const FEAR_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.Spook.file,
     ability: {
       name: SPELLS.Wizard.Spook.name,
-      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: FEAR_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -44,7 +40,6 @@ export const FEAR_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Innate.MoonDogHowl.file], {
     name: SPELLS.Innate.MoonDogHowl.name,
     targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-      triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       triggerFactory.alignment("MASK_EVIL"),
     ]),
     spell: {
