@@ -21,7 +21,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             //   triggerFactory.checkStatLT(50, "RESISTCOLD"),
-            //   triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },
       ],
@@ -40,7 +39,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },
       ],
@@ -60,10 +58,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -80,10 +75,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -100,10 +92,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -120,10 +109,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -139,11 +125,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -161,7 +143,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           name: "FarthestEnemies",
           randomOrder: true,
           triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
             // triggerFactory.checkStatLT(50, "RESISTCOLD"),
           ],
         },
@@ -220,9 +201,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       targets: [
         {
           name: "NearestEnemies",
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -238,9 +216,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -259,8 +234,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTELECTRICITY"),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -278,11 +251,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -299,7 +268,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           name: "FarthestEnemies",
           randomOrder: true,
           triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
             // triggerFactory.checkStatLT(50, "RESISTACID"),
           ],
         },
@@ -318,9 +286,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -337,7 +302,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           name: "NearestEnemies",
           randomOrder: true,
           triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
             // triggerFactory.checkStatLT(50, "RESISTELECTRICITY"),
           ],
         },
@@ -358,7 +322,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
             triggerFactory.alignment("MASK_GOOD"),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },
       ],

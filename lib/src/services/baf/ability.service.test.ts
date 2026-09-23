@@ -1,6 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { PRESET_NAMES } from "../../../config/common";
+import { GLOBAL_CONFIG } from "../../../config/generate";
+import { SPELL_CHECK_TRIGGERS } from "../../../config/spells/spell-check";
+import { SPELLS } from "../../../config/spells/spell-database";
 import { RawCreatureAbility } from "../../model/creature/ability";
 import { SpellIdentifier } from "../../model/ids/spell";
 import { Triggers } from "../../model/script/triggers";
@@ -348,6 +351,92 @@ describe("getAbilities - preset id/resource conflict resolution (applyPreset)", 
   });
 });
 
+describe("applyPreset - auto-resolves keywords from SPELLS", () => {
+  // SPELLS.Wizard.Domination is a real, plain-literal preset (not built via PresetFactory.create)
+  // that deliberately sets no `keywords` field of its own, so it only gets them through
+  // applyPreset's own SPELLS lookup fallback - a clean real-world case for that fallback.
+  it("resolves keywords from the preset name when neither the preset nor the override set them", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Domination.file);
+    expect(result.keywords).toEqual(SPELLS.Wizard.Domination.keywords);
+  });
+
+  it("keeps the override's own keywords instead of resolving from the preset name", () => {
+    const result = service.applyPreset({ keywords: ["poison"] }, SPELLS.Wizard.Domination.file);
+    expect(result.keywords).toEqual(["poison"]);
+  });
+
+  it("leaves keywords unset when the preset name matches no SPELLS entry", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_UNREGISTERED_PRESET",
+      ability: { name: DEFAULT_ABILITY_NAME },
+    });
+    try {
+      const result = service.applyPreset({}, "JA#TEST_UNREGISTERED_PRESET");
+      expect(result.keywords).toBeUndefined();
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
+describe("getAbilities - auto spellChecks via ability.keywords", () => {
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.stats = true;
+  });
+
+  it("appends the keyword's SPELL_CHECK_TRIGGERS to every target list", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_KEYWORDS_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["acid"],
+        targets: [{ name: "Players" }, { name: "PCs", triggers: [{ name: "See", params: [] }] }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_KEYWORDS_PRESET" }]);
+      expect(ability.targets).toEqual([
+        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
+        {
+          name: "PCs",
+          triggers: [{ name: "See", params: [] }, ...SPELL_CHECK_TRIGGERS.acid],
+        },
+      ]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+
+  it("leaves targets untouched when the ability has no keywords", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [{ name: "Players" }] },
+    ]);
+    expect(ability.targets).toEqual([{ name: "Players" }]);
+  });
+
+  it("respects GLOBAL_CONFIG.spellChecks - a disabled category drops the auto-appended trigger", () => {
+    GLOBAL_CONFIG.spellChecks.stats = false;
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_KEYWORDS_DISABLED_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["acid"],
+        targets: [{ name: "Players" }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([
+        { preset: "JA#TEST_KEYWORDS_DISABLED_PRESET" },
+      ]);
+      expect(ability.targets).toEqual([{ name: "Players" }]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
 describe("getMinorSequencer / getSequencer", () => {
   it("builds a 2-spell sequencer with the MinorSequencer name and the standard probability/triggers", () => {
     const ability = abilityService.getMinorSequencer([
@@ -374,6 +463,31 @@ describe("getMinorSequencer / getSequencer", () => {
       );
     } finally {
       spy.mockRestore();
+    }
+  });
+
+  it("appends the keyword's SPELL_CHECK_TRIGGERS to a sequenced preset's target list too", () => {
+    const presetName = "JA#TEST_SEQUENCER_KEYWORDS_PRESET";
+    ABILITY_PRESETS.push({
+      preset: presetName,
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["acid"],
+        targets: [{ name: "Players" }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const ability = abilityService.getMinorSequencer([presetName, presetName] as [
+        string,
+        string,
+      ]);
+      expect(ability.targets).toEqual([
+        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
+        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
+      ]);
+    } finally {
+      ABILITY_PRESETS.pop();
     }
   });
 

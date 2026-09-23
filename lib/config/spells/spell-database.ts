@@ -27,20 +27,20 @@ const WIZARD_SPELLS = {
     file: "SPWI724",
     id: "WIZARD_ACID_STORM",
     name: "spell.AcidStorm.name",
-    keywords: ["acid"],
+    keywords: ["acid", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   AgannazarScorcher: {
     file: "SPWI217",
     id: "WIZARD_AGANNAZAR_SCORCHER",
     name: "spell.AgannazarScorcher.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
   },
   BeltynsBurningBlood: {
     file: "SPWI427",
     id: "WIZARD_BELTYNS_BURNING_BLOOD",
     name: "spell.BeltynsBurningBlood.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   BigbyIcyGrasp: {
@@ -66,7 +66,7 @@ const WIZARD_SPELLS = {
     file: "SPWI103",
     id: "WIZARD_BURNING_HANDS",
     name: "spell.BurningHands.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
   },
   ChainLightning: {
     file: "SPWI615",
@@ -108,7 +108,7 @@ const WIZARD_SPELLS = {
     file: "SPWI231",
     id: "WIZARD_COMBUST",
     name: "spell.Combust.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   ConeOfCold: {
@@ -139,7 +139,7 @@ const WIZARD_SPELLS = {
     file: "SPWI228",
     id: "WIZARD_DARKNESS_15_FOOT",
     name: "spell.Darkness15Radius.name",
-    keywords: ["blind"],
+    keywords: ["blind", "magicResistance"],
     hiddenIn: "AllSpellMods",
   },
   Deafness: {
@@ -187,7 +187,7 @@ const WIZARD_SPELLS = {
     file: "SPWI316",
     id: "WIZARD_DIRE_CHARM",
     name: "spell.DireCharm.name",
-    keywords: ["charm"],
+    keywords: ["charm", "magicResistance"],
   },
   DimensionDoor: {
     // Spell Revisions removes this from spellbooks (SPWI402's id becomes _DEPRECATED - a leftover
@@ -209,7 +209,7 @@ const WIZARD_SPELLS = {
     file: "SPWI506",
     id: "WIZARD_DOMINATION",
     name: "spell.Domination.name",
-    keywords: ["charm"],
+    keywords: ["charm", "magicResistance"],
   },
   DragonsBreath: {
     file: "SPWI922",
@@ -222,13 +222,13 @@ const WIZARD_SPELLS = {
     file: "SPWI411",
     id: "WIZARD_EMOTION_HOPELESSNESS",
     name: "spell.Emotion.name",
-    keywords: ["stun"],
+    keywords: ["stun", "magicResistance"],
   },
   Feeblemind: {
     file: "SPWI509",
     id: "WIZARD_FEEBLEMIND",
     name: "spell.Feeblemind.name",
-    keywords: ["confusion"],
+    keywords: ["confusion", "magicResistance"],
   },
   Fireburst: {
     file: "SPWI523",
@@ -258,7 +258,7 @@ const WIZARD_SPELLS = {
     file: "SPWI604",
     id: "WIZARD_FLESH_TO_STONE",
     name: "spell.FleshToStone.name",
-    keywords: ["petrify"],
+    keywords: ["petrify", "magicResistance"],
   },
   Glitterdust: { file: "SPWI224", id: "WIZARD_GLITTERDUST", name: "spell.Glitterdust.name" },
   GlobeOfInvulnerability: {
@@ -332,26 +332,26 @@ const WIZARD_SPELLS = {
     file: "SPWI119",
     id: "WIZARD_LARLOCH_MINOR_DRAIN",
     name: "spell.LarlochMinorDrain.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "magicResistance"],
   },
   LightningBolt: {
     file: "SPWI308",
     id: "WIZARD_LIGHTNING_BOLT",
     name: "spell.LightningBolt.name",
-    keywords: ["electrical"],
+    keywords: ["electrical", "magicResistance"],
   },
   MagicMissiles: {
     file: "SPWI112",
     id: "WIZARD_MAGIC_MISSILE",
     name: "spell.MagicMissiles.name",
-    keywords: ["shield", "magicDamage"],
+    keywords: ["shield", "magicDamage", "magicResistance"],
   },
   Maze: { file: "SPWI813", id: "WIZARD_MAZE", name: "spell.Maze.name", keywords: ["maze"] },
   MelfAcidArrow: {
     file: "SPWI211",
     id: "WIZARD_MELF_ACID_ARROW",
     name: "spell.MelfAcidArrow.name",
-    keywords: ["acid", "missile"],
+    keywords: ["acid", "missile", "magicResistance"],
   },
   MeteorSwarm: {
     file: "SPWI911",
@@ -436,7 +436,7 @@ const WIZARD_SPELLS = {
     file: "SPWI431",
     id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
     name: "spell.MordenkainenForceMissiles.name",
-    keywords: ["shield", "magicDamage"],
+    keywords: ["shield", "magicDamage", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   NahalRecklessDweomer: {
@@ -460,39 +460,39 @@ const WIZARD_SPELLS = {
     file: "SPWI626",
     id: "WIZARD_OTILUKES_FREEZING_SPHERE",
     name: "spell.OtilukesFreezingSphere.name",
-    keywords: ["cold"],
+    keywords: ["cold", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   PolymorphOther: {
     file: "SPWI415",
     id: "WIZARD_POLYMORPH_OTHER",
     name: "spell.PolymorphOther.name",
-    keywords: ["polymorph"],
+    keywords: ["polymorph", "magicResistance"],
   },
   PolymorphSelf: { file: "SPWI416", id: "WIZARD_POLYMORPH_SELF", name: "spell.PolymorphSelf.name" },
   PowerWordSleep: {
     file: "SPWI220",
     id: "WIZARD_POWER_WORD_SLEEP",
     name: "spell.PowerWordSleep.name",
-    keywords: ["sleep"],
+    keywords: ["sleep", "magicResistance"],
   },
   PowerWordBlind: {
     file: "SPWI815",
     id: "WIZARD_POWER_WORD_BLIND",
     name: "spell.PowerWordBlind.name",
-    keywords: ["blind"],
+    keywords: ["blind", "magicResistance"],
   },
   PowerWordKill: {
     file: "SPWI912",
     id: "WIZARD_POWER_WORD_KILL",
     name: "spell.PowerWordKill.name",
-    keywords: ["death"],
+    keywords: ["death", "magicResistance"],
   },
   PowerWordStun: {
     file: "SPWI715",
     id: "WIZARD_POWER_WORD_STUN",
     name: "spell.PowerWordStun.name",
-    keywords: ["stun"],
+    keywords: ["stun", "magicResistance"],
   },
   PrismaticSpray: {
     file: "SPWI714",
@@ -516,6 +516,7 @@ const WIZARD_SPELLS = {
     file: "SPWI221",
     id: "WIZARD_RAY_OF_ENFEEBLEMENT",
     name: "spell.RayOfEnfeeblement.name",
+    keywords: ["magicResistance"],
   },
   RemoveMagic: {
     file: "SPWI302",
@@ -557,7 +558,7 @@ const WIZARD_SPELLS = {
     file: "SPWI525",
     id: "WIZARD_SHROUD_OF_FLAME",
     name: "spell.ShroudOfFlame.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   SkullTrap: {
@@ -566,7 +567,12 @@ const WIZARD_SPELLS = {
     name: "spell.SkullTrap.name",
     keywords: ["magicDamage"],
   },
-  Sleep: { file: "SPWI116", id: "WIZARD_SLEEP", name: "spell.Sleep.name", keywords: ["sleep"] },
+  Sleep: {
+    file: "SPWI116",
+    id: "WIZARD_SLEEP",
+    name: "spell.Sleep.name",
+    keywords: ["sleep", "magicResistance"],
+  },
   Slow: {
     file: "SPWI312",
     id: "WIZARD_SLOW",
@@ -577,11 +583,16 @@ const WIZARD_SPELLS = {
     file: "SPWI227",
     id: "WIZARD_SNILLOCS_SNOWBALL_SWARM",
     name: "spell.SnillocsSnowballSwarm.name",
-    keywords: ["cold"],
+    keywords: ["cold", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   SpellThrust: { file: "SPWI321", id: "WIZARD_SPELL_THRUST", name: "spell.SpellThrust.name" },
-  Spook: { file: "SPWI125", id: "WIZARD_SPOOK", name: "spell.Spook.name", keywords: ["fear"] },
+  Spook: {
+    file: "SPWI125",
+    id: "WIZARD_SPOOK",
+    name: "spell.Spook.name",
+    keywords: ["fear", "magicResistance"],
+  },
   StinkingCloud: {
     file: "SPWI213",
     id: "WIZARD_STINKING_CLOUD",
@@ -620,7 +631,7 @@ const WIZARD_SPELLS = {
     file: "SPWI314",
     id: "WIZARD_VAMPIRIC_TOUCH",
     name: "spell.VampiricTouch.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "magicResistance"],
   },
   VitriolicSphere: {
     file: "SPWI426",
@@ -764,13 +775,13 @@ const PRIEST_SPELLS = {
     file: "SPPR302",
     id: "CLERIC_CALL_LIGHTNING",
     name: "spell.CallLightning.name",
-    keywords: ["electrical"],
+    keywords: ["electrical", "magicResistance"],
   },
   CauseDisease: {
     file: "SPPR329",
     id: "CLERIC_CAUSE_DISEASE",
     name: "spell.CauseDisease.name",
-    keywords: ["disease"],
+    keywords: ["disease", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   CauseCriticalWounds: {
@@ -809,7 +820,7 @@ const PRIEST_SPELLS = {
     file: "SPPR424",
     id: "CLERIC_CLOUD_OF_PESTILENCE",
     name: "spell.CloudOfPestilence.name",
-    keywords: ["magicDamage", "blind", "cloud"],
+    keywords: ["magicDamage", "blind", "cloud", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   Chant: {
@@ -850,13 +861,13 @@ const PRIEST_SPELLS = {
     file: "SPPR102",
     id: "CLERIC_COMMAND",
     name: "spell.Command.name",
-    keywords: ["sleep"],
+    keywords: ["sleep", "magicResistance"],
   },
   Contagion: {
     file: "SPPR320",
     id: "CLERIC_CONTAGION",
     name: "spell.Contagion.name",
-    keywords: ["disease"],
+    keywords: ["disease", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   CreepingDoom: {
@@ -899,13 +910,14 @@ const PRIEST_SPELLS = {
     file: "SPPR124",
     id: "CLERIC_CURSE",
     name: "spell.Curse.name",
+    keywords: ["magicResistance"],
     requiresMod: "AllSpellMods",
   },
   Destruction: {
     file: "SPPR737",
     id: "CLERIC_DESTRUCTION",
     name: "spell.Destruction.name",
-    keywords: ["death"],
+    keywords: ["death", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   DetectEvil: {
@@ -936,7 +948,12 @@ const PRIEST_SPELLS = {
     name: "spell.DolorousDecay.name",
     keywords: ["magicDamage"],
   },
-  Doom: { file: "SPPR113", id: "CLERIC_DOOM", name: "spell.Doom.name" },
+  Doom: {
+    file: "SPPR113",
+    id: "CLERIC_DOOM",
+    name: "spell.Doom.name",
+    keywords: ["magicResistance"],
+  },
   DrawUponHolyMight: {
     file: "SPPR214",
     id: "CLERIC_DRAW_UPON_HOLY_MIGHT",
@@ -974,7 +991,7 @@ const PRIEST_SPELLS = {
     file: "SPPR708",
     id: "CLERIC_FINGER_OF_DEATH",
     name: "spell.FingerOfDeath.name",
-    keywords: ["death"],
+    keywords: ["death", "magicResistance"],
   },
   FireStorm: {
     file: "SPPR705",
@@ -1078,7 +1095,7 @@ const PRIEST_SPELLS = {
     file: "SPPR530",
     id: "CLERIC_MASS_CAUSE_LIGHT_WOUNDS",
     name: "spell.MassCauseLightWounds.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   MassCure: { file: "SPPR514", id: "CLERIC_MASS_CURE", name: "spell.MassCure.name" },
@@ -1086,20 +1103,25 @@ const PRIEST_SPELLS = {
     file: "SPPR405",
     id: "CLERIC_MENTAL_DOMINATION",
     name: "spell.MentalDomination.name",
-    keywords: ["charm"],
+    keywords: ["charm", "magicResistance"],
   },
   MiscastMagic: {
     file: "SPPR310",
     id: "CLERIC_MISCAST_MAGIC",
     name: "spell.MiscastMagic.name",
-    keywords: ["miscast"],
+    keywords: ["miscast", "magicResistance"],
   },
   NeutralizePoison: {
     file: "SPPR404",
     id: "CLERIC_NEUTRALIZE_POISON",
     name: "spell.NeutralizePoison.name",
   },
-  Poison: { file: "SPPR411", id: "CLERIC_POISON", name: "spell.Poison.name", keywords: ["poison"] },
+  Poison: {
+    file: "SPPR411",
+    id: "CLERIC_POISON",
+    name: "spell.Poison.name",
+    keywords: ["poison", "magicResistance"],
+  },
   PhysicalMirror: {
     // Vanilla keeps this spell at SPPR613. Stratagems' IWD spells add a level-5 duplicate at
     // SPPR531 and take over the live CLERIC_PHYSICAL_MIRROR id there, relabeling SPPR613's own id
@@ -1113,7 +1135,7 @@ const PRIEST_SPELLS = {
     file: "SPPR420",
     id: "CLERIC_PRODUCE_FIRE",
     name: "spell.ProduceFire.name",
-    keywords: ["fire"],
+    keywords: ["fire", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   ProtectionFromEvil: {
@@ -1149,6 +1171,7 @@ const PRIEST_SPELLS = {
     file: "SPPR407",
     id: "CLERIC_PROTECTION_FROM_LIGHTNING",
     name: "spell.ProtectionFromLightning.name",
+    keywords: ["magicResistance"],
     duration: "mid",
     variants: [{ mod: "AllSpellMods", file: "SPPR521", id: "CLERIC_PROTECTION_FROM_LIGHTNING" }],
   },
@@ -1203,7 +1226,7 @@ const PRIEST_SPELLS = {
     file: "SPPR311",
     id: "CLERIC_RIGID_THINKING",
     name: "spell.RigidThinking.name",
-    keywords: ["confusion"],
+    keywords: ["confusion", "magicResistance"],
   },
   Sanctuary: {
     file: "SPPR109",
@@ -1220,7 +1243,7 @@ const PRIEST_SPELLS = {
     file: "SPPR211",
     id: "CLERIC_SILENCE_15_FOOT",
     name: "spell.Silence.name",
-    keywords: ["silence"],
+    keywords: ["silence", "magicResistance"],
   },
   SlayLiving: {
     file: "SPPR511",
@@ -1263,7 +1286,7 @@ const PRIEST_SPELLS = {
     file: "SPPR118",
     id: "CLERIC_SUNSCORCH",
     name: "spell.Sunscorch.name",
-    keywords: ["fire", "blind"],
+    keywords: ["fire", "blind", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   SymbolDeath: {
@@ -1276,13 +1299,14 @@ const PRIEST_SPELLS = {
     file: "SPPR735",
     id: "CLERIC_SYMBOL_HOPELESSNESS",
     name: "spell.SymbolHopelessness.name",
-    keywords: ["stun"],
+    keywords: ["stun", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
   SymbolPain: {
     file: "SPPR734",
     id: "CLERIC_SYMBOL_PAIN",
     name: "spell.SymbolPain.name",
+    keywords: ["magicResistance"],
     requiresMod: "AllSpellMods",
   },
   SymbolStunning: {
@@ -1309,12 +1333,13 @@ const PRIEST_SPELLS = {
     file: "SPPR533",
     id: "CLERIC_WAVES_OF_AGONY",
     name: "spell.WavesOfAgony.name",
+    keywords: ["magicResistance"],
   },
   Wither: {
     file: "SPPR740",
     id: "CLERIC_WITHER",
     name: "spell.Wither.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "magicResistance"],
     requiresMod: "AllSpellMods",
   },
 } satisfies Record<string, SpellReference>;
@@ -1326,14 +1351,23 @@ const INNATE_SPELLS = {
     name: "spell.MephitColorSpray.name",
   },
   HealingLick: { file: "SPIN699", name: "spell.HealingLick.name" },
-  MoonDogSight: { file: "SPIN696", name: "spell.MoonDogSight.name", id: "MOON_DOG_HOWL" },
+  MoonDogSight: {
+    file: "SPIN696",
+    name: "spell.MoonDogSight.name",
+    keywords: ["magicResistance"],
+    id: "MOON_DOG_HOWL",
+  },
   MoonDogHowl: {
     file: "SPIN891",
     name: "spell.MoonDogHowl.name",
     id: "MOON_DOG_FEAR",
-    keywords: ["fear"],
+    keywords: ["fear", "magicResistance"],
   },
-  SpiderSingleTargetWeb: { file: "BDSPIDGA", name: "spell.SpiderSingleTargetWeb.name" },
+  SpiderSingleTargetWeb: {
+    file: "BDSPIDGA",
+    name: "spell.SpiderSingleTargetWeb.name",
+    keywords: ["magicResistance"],
+  },
   VortexWeb: { file: "SPIN575", id: "VORTEX_WEB", name: "spell.VortexWeb.name" },
 } satisfies Record<string, SpellReference>;
 

@@ -12,7 +12,6 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
       targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
         triggerFactory.hplt(20),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
       ]),
       spell: {},
       requireVocal: true,
@@ -25,7 +24,6 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Sleep.name,
       targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
       ]),
       spell: {},
       requireVocal: true,
@@ -36,9 +34,7 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.GreaterCommand.file,
     ability: {
       name: SPELLS.Priest.GreaterCommand.name,
-      targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
+      targets: SLEEP_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -50,7 +46,6 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.Command.name,
       targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
       ]),
       spell: {},
       requireVocal: true,

@@ -2,7 +2,9 @@ import deepmerge from "deepmerge";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resourcePlaceholderToken } from "../../../config/mods";
-import { SpellVariant } from "../../model/spell-item/spell-reference";
+import { SpellKeyword } from "../../../config/spells/keyword";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { keywordsForFile, SpellVariant } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";
@@ -15,6 +17,7 @@ import {
 import { StringReference } from "../../model/final/stringref";
 import { Actions } from "../../model/script/actions";
 import { CustomCode, PartialCustomCode } from "../../model/script/script";
+import { TargetList } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 
 class AbilityService {
@@ -60,9 +63,26 @@ class AbilityService {
       );
       if (!rawAb.spell) throw new Error(`Sequencer only supports spells`);
       ability.spells.push(rawAb.spell);
-      if (rawAb.targets) ability.targets?.push(...rawAb.targets);
+      const targets = this.appendSpellCheckTriggers(rawAb.targets, rawAb.keywords);
+      if (targets) ability.targets?.push(...targets);
     }
     return ability;
+  }
+
+  /**
+   * Appends trigger.factory.spellChecks()'s triggers for `keywords` to every target list's own
+   * `triggers` - not the ability's top-level triggers - since a target list is what actually
+   * restricts an offensive ability to a subset of targets, so that's where a "skip protected
+   * targets" condition belongs. A no-op when there's nothing to add.
+   */
+  private appendSpellCheckTriggers(
+    targets: TargetList[] | undefined,
+    keywords: SpellKeyword[] | undefined,
+  ): TargetList[] | undefined {
+    if (!targets || !keywords?.length) return targets;
+    const checks = triggerFactory.spellChecks(keywords);
+    if (!checks.length) return targets;
+    return targets.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), ...checks] }));
   }
 
   getCustomCodes(customCodes: PartialCustomCode[] | undefined): CustomCode[] {
@@ -97,6 +117,7 @@ class AbilityService {
     const triggers: Triggers.Trigger[] = ability.triggers ?? [];
     let targets = !ability.targets || Array.isArray(ability.targets) ? ability.targets : undefined;
     if (!!ability.targets && !Array.isArray(ability.targets)) targets = [ability.targets];
+    targets = this.appendSpellCheckTriggers(targets, ability.keywords);
     const result: CreatureAbility = {
       infiniteUse: false,
       requireVocal: false,
@@ -232,6 +253,12 @@ class AbilityService {
     }
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
+    // Covers presets not built via PresetFactory.create (which already resolves this once, shared
+    // across every file variant of a group - see its comment): when neither the preset nor the
+    // override declared keywords explicitly, fall back to whatever SPELLS says about this exact
+    // presetName. Left unset (rather than []) when nothing matches, so a one-off ability with no
+    // SPELLS entry of its own is unaffected.
+    result.keywords ??= keywordsForFile(SPELLS, presetName);
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {
       result.spell.id = undefined;
     } else if (

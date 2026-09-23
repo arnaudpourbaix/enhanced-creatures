@@ -1,3 +1,4 @@
+import { SpellKeyword } from "../../../config/spells/keyword";
 import { SpellIdentifier } from "../ids/spell";
 import { StateIdentifier } from "../ids/state";
 import { StatsIdentifier } from "../ids/stats";
@@ -11,6 +12,14 @@ export interface BaseCreatureAbility {
   name: StringReference;
   targets: TargetList[];
   triggers: Triggers.Trigger[];
+  /**
+   * The spell's SpellKeyword(s) (e.g. SPELLS.Wizard.Horror.keywords) - ability.service.ts
+   * auto-appends the matching trigger.factory.spellChecks() triggers to every target list, so a
+   * preset never needs its own `...triggerFactory.spellChecks(...)` call (see
+   * SPELL_CHECK_CONFIG_KEYWORDS for how a keyword maps to a toggleable GLOBAL_CONFIG.spellChecks
+   * category).
+   */
+  keywords?: SpellKeyword[];
   /**
    * Ability maximum range (if applicable)
    */

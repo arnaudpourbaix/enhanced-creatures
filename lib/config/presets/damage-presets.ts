@@ -30,8 +30,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         ],
         [
           triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          triggerFactory.checkStat(2, "SCRIPTINGSTATE5", true), // Shield
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           // triggerFactory.hasBounceEffects(true),
         ],
       ),
@@ -61,8 +59,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           },
         ],
         [
-          triggerFactory.checkStat(2, "SCRIPTINGSTATE5", true), // Shield
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           // triggerFactory.hasBounceEffects(true),
         ],
       ),
@@ -81,7 +77,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -101,7 +96,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.areaType("OUTDOOR"),
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            ...triggerFactory.spellChecks(SPELLS.Priest.CallLightning.keywords),
           ],
           randomOrder: true,
         },
@@ -119,7 +113,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         triggers: [
           triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
           triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
         ],
         randomOrder: true,
       },
@@ -137,7 +130,8 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           name: "NearestEnemies",
           triggers: [
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
+            // magicResistance not wired here: FNP_SPELLS' BaseSpell type has no `keywords` field,
+            // so this file variant can't opt into the auto spellChecks() mechanism yet.
           ],
         },
       ],
@@ -163,9 +157,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
             randomOrder: true,
           },
         ],
-        [
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC")
-        ],
+        [],
       ),
       range: 10,
       spell: {},
@@ -177,22 +169,17 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.DolorousDecay.file,
     ability: {
       name: SPELLS.Priest.DolorousDecay.name,
-      targets: targetService.combineListWithTriggers(
-        [
-          {
-            name: "Players",
-            randomOrder: true,
-            triggers: [triggerFactory.stateCheck("STATE_POISONED", true)],
-          },
-          {
-            name: "Players",
-            randomOrder: true,
-          },
-        ],
-        [
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC")
-        ],
-      ),
+      targets: [
+        {
+          name: "Players",
+          randomOrder: true,
+          triggers: [triggerFactory.stateCheck("STATE_POISONED", true)],
+        },
+        {
+          name: "Players",
+          randomOrder: true,
+        },
+      ],
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -206,11 +193,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            triggerFactory.stateCheck("STATE_POISONED", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTPOISON"),
-          ],
+          triggers: [triggerFactory.stateCheck("STATE_POISONED", true)],
         },
       ],
       spell: {},
@@ -233,12 +216,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
             randomOrder: true,
           },
         ],
-        [
-          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          triggerFactory.checkSpellState("PROTECTION_FROM_NORMAL_MISSILES", true),
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          // triggerFactory.checkStatLT(50, "RESISTACID"),
-        ],
+        [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
       ),
       spell: {},
       requireVocal: true,
@@ -255,9 +233,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           randomOrder: true,
           triggers: [
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            triggerFactory.checkSpellState("PROTECTION_FROM_NORMAL_MISSILES", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -275,10 +250,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
         },
       ],
       spell: {},
@@ -294,10 +265,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
         },
       ],
       spell: {},
@@ -313,11 +280,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -334,9 +297,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -353,9 +313,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -370,10 +327,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       targets: [
         {
           name: "NearestEnemies",
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},

@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
+import { GLOBAL_CONFIG } from "../../config/generate";
+import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { Triggers } from "../model/script/triggers";
 import triggerFactory from "./trigger.factory";
 
@@ -105,6 +107,40 @@ describe("validAttackTarget", () => {
       isTargetPlayer: true,
     });
     expect(results.some((t) => t.name === "Range")).toBe(false);
+  });
+});
+
+describe("spellChecks", () => {
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.spellProtections = true;
+    GLOBAL_CONFIG.spellChecks.stats = true;
+  });
+
+  it("defaults to an empty list", () => {
+    expect(triggerFactory.spellChecks()).toEqual([]);
+  });
+
+  it("flattens the triggers of every given keyword", () => {
+    expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([
+      ...SPELL_CHECK_TRIGGERS.acid,
+      ...SPELL_CHECK_TRIGGERS.charm,
+    ]);
+  });
+
+  it("drops a keyword whose category (stats) is disabled, keeping others", () => {
+    GLOBAL_CONFIG.spellChecks.stats = false;
+    expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([...SPELL_CHECK_TRIGGERS.charm]);
+  });
+
+  it("drops a keyword whose category (spellProtections) is disabled, keeping others", () => {
+    GLOBAL_CONFIG.spellChecks.spellProtections = false;
+    expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([...SPELL_CHECK_TRIGGERS.acid]);
+  });
+
+  it("leaves an uncategorized keyword unaffected by either toggle", () => {
+    GLOBAL_CONFIG.spellChecks.spellProtections = false;
+    GLOBAL_CONFIG.spellChecks.stats = false;
+    expect(triggerFactory.spellChecks(["blind"])).toEqual([...SPELL_CHECK_TRIGGERS.blind]);
   });
 });
 

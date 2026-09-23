@@ -10,7 +10,6 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     name: SPELLS.Priest.HoldPerson.name,
     targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
       triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ...triggerFactory.spellChecks(SPELLS.Priest.HoldPerson.keywords),
     ]),
     spell: {},
     requireVocal: true,
@@ -22,7 +21,6 @@ export const HOLD_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.HoldPersonOrAnimal.name,
       targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ...triggerFactory.spellChecks(SPELLS.Priest.HoldPersonOrAnimal.keywords),
       ]),
       spell: {},
       requireVocal: true,
@@ -33,10 +31,7 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.HoldMonster.file,
     ability: {
       name: SPELLS.Wizard.HoldMonster.name,
-      targets: targetService.combineListWithTriggers(
-        HOLD_TARGET_LISTS,
-        triggerFactory.spellChecks(SPELLS.Wizard.HoldMonster.keywords),
-      ),
+      targets: HOLD_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -48,7 +43,6 @@ export const HOLD_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Web.name,
       targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
       ]),
       spell: {},
       requireVocal: true,

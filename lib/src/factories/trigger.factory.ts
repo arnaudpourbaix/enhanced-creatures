@@ -1,5 +1,6 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
+import { keywordCheckCategory } from "../../config/spells/spell-check-config";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { SpellReference } from "../model/spell-item/spell-reference";
 import { TargetListName } from "../../config/target-name";
@@ -369,13 +370,17 @@ class TriggerFactory {
 
   /**
    * Triggers testing whether the target is protected against the given causes (e.g.
-   * SPELLS.Wizard.Horror.cause), skipping any keyword disabled via GLOBAL_CONFIG.spellChecks.
+   * SPELLS.Wizard.Horror.keywords), skipping any keyword whose SpellCheckConfig category (see
+   * SPELL_CHECK_CONFIG_KEYWORDS) is disabled via GLOBAL_CONFIG.spellChecks. A keyword with no
+   * assigned category is never filtered out - it's unaffected by every toggle.
    */
   spellChecks(keywords: SpellKeyword[] = []): Triggers.Trigger[] {
-    // return keywords
-    //   .filter((keyword) => GLOBAL_CONFIG.spellChecks[keyword])
-    //   .flatMap((keyword) => SPELL_CHECK_TRIGGERS[keyword]);
-    return [];
+    return keywords
+      .filter((keyword) => {
+        const category = keywordCheckCategory(keyword);
+        return category === undefined || GLOBAL_CONFIG.spellChecks[category];
+      })
+      .flatMap((keyword) => SPELL_CHECK_TRIGGERS[keyword]);
   }
 }
 

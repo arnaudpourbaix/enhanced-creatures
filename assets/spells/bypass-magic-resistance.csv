@@ -1,0 +1,1103 @@
+
+SPCL001.SPL;
+SPCL102.SPL;Life Drain
+SPCL104.SPL;Resist Fear
+SPCL105.SPL;Negative Plane Protection
+SPCL106.SPL;Animate Dead
+SPCL121.SPL;Called Shot
+SPCL122.SPL;
+SPCL123.SPL;
+SPCL131.SPL;
+SPCL132.SPL;
+SPCL133.SPL;
+SPCL141.SPL;
+SPCL142.SPL;
+SPCL143.SPL;
+SPCL144.SPL;Ki Focus
+SPCL151.SPL;
+SPCL152.SPL;Barbarian Rage
+SPCL153.SPL;
+SPCL154.SPL;
+SPCL211.SPL;Lay On Hands
+SPCL213.SPL;Protection From Evil
+SPCL221.SPL;
+SPCL222.SPL;Remove Fear
+SPCL231.SPL;Dispel Magic
+SPCL232.SPL;True Sight
+SPCL233.SPL;Protection From Evil, 10' Radius
+SPCL234.SPL;
+SPCL235.SPL;
+SPCL237.SPL;Greater Sun
+SPCL238.SPL;Flaming Fists
+SPCL241.SPL;
+SPCL242.SPL;
+SPCL321.SPL;Enrage
+SPCL322.SPL;
+SPCL331.SPL;
+SPCL332.SPL;
+SPCL341.SPL;
+SPCL342.SPL;Find Familiar
+SPCL351.SPL;
+SPCL411.SPL;
+SPCL412.SPL;Set Snare
+SPCL414.SPL;Set Special Snare
+SPCL415.SPL;
+SPCL417.SPL;Special Snare
+SPCL421.SPL;
+SPCL422.SPL;
+SPCL423.SPL;Poison Weapon
+SPCL441.SPL;
+SPCL442.SPL;
+SPCL521.SPL;Offensive Spin
+SPCL522.SPL;Defensive Spin
+SPCL541.SPL;
+SPCL542.SPL;
+SPCL611.SPL;Shapeshift: Brown Bear
+SPCL612.SPL;Shapeshift: Wolf
+SPCL613.SPL;Shapeshift: Black Bear
+SPCL621.SPL;Summon Spirit Animal
+SPCL622.SPL;Spirit Snake
+SPCL623.SPL;Spirit Bear
+SPCL624.SPL;Spirit Lion
+SPCL625.SPL;Spirit Wolf
+SPCL631.SPL;
+SPCL632.SPL;Shapeshift: Sword Spider
+SPCL633.SPL;Shapeshift: Baby Wyvern
+SPCL634.SPL;Shapeshift: Fire Salamander
+SPCL642.SPL;
+SPCL643.SPL;Shapeshift: Werewolf
+SPCL644.SPL;Shapeshift: Greater Werewolf
+SPCL721.SPL;Storm Shield
+SPCL731.SPL;Seeking Sword
+SPCL732.SPL;True Sight
+SPCL741.SPL;Boon of Lathander
+SPCL751.SPL;
+SPCL801.SPL;
+SPCL811.SPL;Stunning Blow
+SPCL812.SPL;
+SPCL813.SPL;
+SPCL814.SPL;
+SPCL815.SPL;Wholeness of Body
+SPCL816.SPL;
+SPCL817.SPL;
+SPCL818.SPL;
+SPCL819.SPL;
+SPCL820.SPL;Quivering Palm
+SPCL821.SPL;Perfect Self
+SPCL822.SPL;
+SPCL900.SPL;Whirlwind Attack
+SPCL901.SPL;Greater Whirlwind Attack
+SPCL902.SPL;Deathblow
+SPCL903.SPL;Greater Deathblow
+SPCL904.SPL;Resist Magic
+SPCL905.SPL;Critical Strike
+SPCL906.SPL;Power Attack
+SPCL907.SPL;Hardiness
+SPCL908.SPL;War Cry
+SPCL909.SPL;Smite
+SPCL910.SPL;Set Spike Trap
+SPCL911.SPL;Set Exploding Trap
+SPCL912.SPL;Set Time Trap
+SPCL913.SPL;Evasion
+SPCL914.SPL;Greater Evasion
+SPCL915.SPL;Use Any Item
+SPCL916.SPL;Assassination
+SPCL917.SPL;Avoid Death
+SPCL918.SPL;Alchemy
+SPCL919.SPL;Scribe Scrolls
+SPCL920.SPL;Enhanced Bard Song
+SPCL921.SPL;Magic Flute
+SPCL922.SPL;Tracking
+SPCL923.SPL;Summon Deva
+SPCL924.SPL;
+SPCL925.SPL;
+SPCL926.SPL;
+SPCL927.SPL;
+SPCL928.SPL;Extra Level 6 Spell
+SPCL929.SPL;Extra Level 7 Spell
+SPCL930.SPL;Extra Level 8 Spell
+SPCL931.SPL;
+SPCL932.SPL;
+SPCL933.SPL;
+SPCL934.SPL;
+SPCL935.SPL;Summon Fallen Deva
+SPCL936.SPL;Shadow Twin
+SPCL938.SPL;Shadow Form
+SPCL940.SPL;Spirit Form
+SPCL941.SPL;Favored of the Spirits
+SPIN001.SPL;Druid Polymorph
+SPIN101.SPL;Cure Light Wounds
+SPIN102.SPL;Slow Poison
+SPIN103.SPL;Draw upon Divine Might
+SPIN107.SPL;Shapeshift: Brown Bear
+SPIN109.SPL;Lay On Hands
+SPIN110.SPL;Shapeshift: Wolf
+SPIN111.SPL;Shapeshift: Black Bear
+SPIN112.SPL;Dispel Magic
+SPIN113.SPL;Spiritual Hammer
+SPIN117.SPL;Berserker Rage
+SPIN118.SPL;Invisibility
+SPIN122.SPL;Shapeshift: Natural Form
+SPIN123.SPL;Shapeshift: Natural Form
+SPIN124.SPL;Shapeshift: Natural Form
+SPIN125.SPL;Shapeshift: Spider
+SPIN126.SPL;Shapeshift: Baby Wyvern
+SPIN127.SPL;Shapeshift: Fire Salamander
+SPIN128.SPL;Eye of the Mind
+SPIN129.SPL;Eye of the Mage
+SPIN130.SPL;Eye of the Sword
+SPIN131.SPL;Eye of Venom
+SPIN132.SPL;Eye of Fortitude
+SPIN133.SPL;Eye of the Spirit
+SPIN134.SPL;Eye of Stone
+SPIN135.SPL;
+SPIN136.SPL;Unholy Fireball
+SPIN137.SPL;Improved Invisibility
+SPIN138.SPL;True Seeing
+SPIN141.SPL;Simply step upon the branch and the great tree will deliver you to your fate.
+SPIN142.SPL;Cone of Cold
+SPIN143.SPL;Teleport Without Error
+SPIN144.SPL;Dispel Magic
+SPIN145.SPL;Mirror Image
+SPIN146.SPL;Unholy Blight
+SPIN147.SPL;Confusion
+SPIN148.SPL;Blade Barrier
+SPIN149.SPL;Cure Mortal Wounds
+SPIN150.SPL;Shapeshift: Natural Form (Shapechange)
+SPIN151.SPL;Shapeshift: Natural Form
+SPIN152.SPL;Shapechange: Mind Flayer
+SPIN153.SPL;Shapechange: Iron Golem
+SPIN154.SPL;Shapechange: Giant Troll
+SPIN155.SPL;Shapechange: Greater Wolfwere
+SPIN156.SPL;Shapechange: Fire Elemental
+SPIN157.SPL;Shapechange: Earth Elemental
+SPIN158.SPL;Invisibility
+SPIN159.SPL;Prismatic Spray
+SPIN160.SPL;Breathe Fireball
+SPIN161.SPL;Slow
+SPIN163.SPL;Blur
+SPIN164.SPL;Stoneskin
+SPIN165.SPL;Protection from Magical Weapons
+SPIN166.SPL;Summon Shadow
+SPIN167.SPL;Cloudkill
+SPIN168.SPL;Flame Strike
+SPIN169.SPL;Monster Summoning IV
+SPIN170.SPL;Heal
+SPIN171.SPL;Banishment
+SPIN172.SPL;Vocalize
+SPIN173.SPL;Lay on Hands
+SPIN174.SPL;Telekinesis
+SPIN176.SPL;Cone of Cold
+SPIN178.SPL;Planar Travel
+SPIN179.SPL;Psionic Disjunction
+SPIN180.SPL;Blur
+SPIN181.SPL;Cloud of Bats
+SPIN183.SPL;Anti-Magic Ray
+SPIN200.SPL;Cure Serious Wounds
+SPIN201.SPL;Neutralize Poison
+SPIN202.SPL;Cause Serious Wounds
+SPIN529.SPL;End Slayer Change
+SPIN530.SPL;Lower Poison Resistance
+SPIN532.SPL;Lower Electrical Resistance
+SPIN533.SPL;
+SPIN534.SPL;Call Dark Horde
+SPIN535.SPL;Green Dragon Breath
+SPIN536.SPL;Fear
+SPIN537.SPL;
+SPIN538.SPL;Polymorph Other
+SPIN539.SPL;Magma Ball
+SPIN540.SPL;
+SPIN541.SPL;Divination
+SPIN542.SPL;Disintegrate
+SPIN543.SPL;Inflict Pain
+SPIN544.SPL;Improved Invisibility
+SPIN545.SPL;Life Drain
+SPIN546.SPL;Inertial Barrier
+SPIN547.SPL;Project Force
+SPIN548.SPL;Gate
+SPIN549.SPL;Summon the Abyssal Host
+SPIN550.SPL;Anti-Magic Ray
+SPIN554.SPL;Charisma Increase
+SPIN555.SPL;Wisdom Increase
+SPIN556.SPL;Intelligence Increase
+SPIN557.SPL;Dexterity Increase
+SPIN560.SPL;Cinder Shower
+SPIN561.SPL;
+SPIN562.SPL;Scalding Steam
+SPIN563.SPL;
+SPIN564.SPL;Skull Trap
+SPIN565.SPL;Dimension Door
+SPIN567.SPL;Mimic Fire
+SPIN568.SPL;Mimic Poison
+SPIN569.SPL;Summon Ice Salamander
+SPIN570.SPL;Summon Fire Elemental
+SPIN571.SPL;Energy Drain
+SPIN572.SPL;Haste
+SPIN573.SPL;
+SPIN574.SPL;
+SPIN575.SPL;Vortex Web
+SPIN576.SPL;
+SPIN577.SPL;
+SPIN578.SPL;
+SPIN580.SPL;Imprisonment
+SPIN581.SPL;
+SPIN582.SPL;Confusion
+SPIN583.SPL;
+SPIN584.SPL;
+SPIN585.SPL;Magic Resistance
+SPIN586.SPL;
+SPIN587.SPL;
+SPIN588.SPL;
+SPIN589.SPL;
+SPIN590.SPL;Constitution Increase
+SPIN591.SPL;Strength Increase
+SPIN592.SPL;
+SPIN593.SPL;
+SPIN594.SPL;
+SPIN595.SPL;Yellow Dragon Scorching Sand
+SPIN596.SPL;Brown Dragon Acid Breath
+SPIN597.SPL;Blue Dragon Lightning Breath
+SPIN598.SPL;
+SPIN599.SPL;
+SPIN600.SPL;
+SPIN601.SPL;
+SPIN602.SPL;
+SPIN603.SPL;
+SPIN604.SPL;
+SPIN605.SPL;
+SPIN606.SPL;Sun
+SPIN607.SPL;Jester
+SPIN608.SPL;Vizier
+SPIN609.SPL;Gem
+SPIN610.SPL;Erinyes
+SPIN611.SPL;Comet
+SPIN612.SPL;Fool
+SPIN613.SPL;Talons
+SPIN614.SPL;Rogue
+SPIN615.SPL;Knight
+SPIN616.SPL;Flames
+SPIN617.SPL;Euryale
+SPIN618.SPL;Moon
+SPIN619.SPL;Throne
+SPIN621.SPL;Key
+SPIN622.SPL;Skull
+SPIN623.SPL;Magician
+SPIN625.SPL;Ruin
+SPIN626.SPL;Donjon
+SPIN627.SPL;Trap
+SPIN628.SPL;
+SPIN629.SPL;Wheel
+SPIN630.SPL;Strength Curse
+SPIN631.SPL;Construct
+SPIN632.SPL;Emperor
+SPIN633.SPL;True Seeing
+SPIN634.SPL;High Priestess
+SPIN635.SPL;Strife
+SPIN636.SPL;Defiance
+SPIN637.SPL;Guile
+SPIN638.SPL;Triumph
+SPIN639.SPL;Plague
+SPIN640.SPL;Energy Drain
+SPIN641.SPL;Vitality Drain
+SPIN642.SPL;Trap
+SPIN643.SPL;
+SPIN644.SPL;
+SPIN645.SPL;
+SPIN646.SPL;
+SPIN647.SPL;Hold Person
+SPIN648.SPL;Hold Person
+SPIN649.SPL;Pocket Plane
+SPIN650.SPL;Armor
+SPIN651.SPL;Magic Resistance
+SPIN652.SPL;Magic Resistance
+SPIN653.SPL;Magic Resistance
+SPIN654.SPL;Magic Resistance
+SPIN655.SPL;Improved Haste
+SPIN656.SPL;
+SPIN657.SPL;
+SPIN658.SPL;
+SPIN659.SPL;
+SPIN660.SPL;Teleport
+SPIN661.SPL;
+SPIN662.SPL;Dispel Magic
+SPIN663.SPL;Flame Blade
+SPIN664.SPL;
+SPIN665.SPL;
+SPIN666.SPL;Level Drain
+SPIN667.SPL;End Slayer Change
+SPIN668.SPL;
+SPIN669.SPL;
+SPIN670.SPL;
+SPIN671.SPL;Teleport
+SPIN672.SPL;
+SPIN673.SPL;Cloudkill
+SPIN674.SPL;Chaos
+SPIN675.SPL;Wandering Horror
+SPIN676.SPL;Invoke Courage
+SPIN677.SPL;
+SPIN678.SPL;
+SPIN679.SPL;Heal
+SPIN681.SPL;Wail of the Banshee
+SPIN682.SPL;Lower Fire Resistance
+SPIN683.SPL;Web Tangle
+SPIN684.SPL;True Sight
+SPIN686.SPL;Protection From Magical Weapons
+SPIN687.SPL;Create Shadows
+SPIN688.SPL;Plant Growth
+SPIN689.SPL;Summon Insects
+SPIN690.SPL;
+SPIN691.SPL;Black Dragon Breath
+SPIN692.SPL;Silence, 15' Radius
+SPIN693.SPL;
+SPIN694.SPL;Stoneskin
+SPIN695.SPL;Wing Buffet
+SPIN697.SPL;Mirror Image
+SPIN698.SPL;Improved Invisibility
+SPIN699.SPL;Healing Lick
+SPIN700.SPL;Troll Death
+SPIN701.SPL;Unholy Fireball
+SPIN702.SPL;Spawn Demons
+SPIN704.SPL;Confusion
+SPIN706.SPL;
+SPIN707.SPL;Trap
+SPIN708.SPL;
+SPIN709.SPL;
+SPIN710.SPL;Spell Deflection
+SPIN711.SPL;Heal
+SPIN712.SPL;
+SPIN715.SPL;
+SPIN716.SPL;
+SPIN717.SPL;Slayer Change
+SPIN718.SPL;End Slayer Change
+SPIN720.SPL;
+SPIN721.SPL;
+SPIN722.SPL;
+SPIN723.SPL;Dragon Rain
+SPIN724.SPL;
+SPIN725.SPL;
+SPIN726.SPL;
+SPIN727.SPL;Psionic Blast
+SPIN728.SPL;
+SPIN729.SPL;
+SPIN730.SPL;Summon Fungus
+SPIN731.SPL;Wish
+SPIN732.SPL;Wish
+SPIN733.SPL;Wish
+SPIN734.SPL;Wish
+SPIN735.SPL;Wish
+SPIN736.SPL;Wish
+SPIN737.SPL;Wish
+SPIN738.SPL;Wish
+SPIN739.SPL;
+SPIN740.SPL;
+SPIN741.SPL;
+SPIN742.SPL;
+SPIN743.SPL;
+SPIN744.SPL;
+SPIN745.SPL;
+SPIN746.SPL;
+SPIN747.SPL;
+SPIN748.SPL;
+SPIN749.SPL;
+SPIN750.SPL;
+SPIN751.SPL;
+SPIN752.SPL;
+SPIN753.SPL;
+SPIN754.SPL;
+SPIN755.SPL;
+SPIN756.SPL;
+SPIN757.SPL;Word Of Power
+SPIN758.SPL;Word Of Power
+SPIN759.SPL;Charisma Increase
+SPIN760.SPL;Constitution Increase
+SPIN761.SPL;Dexterity Increase
+SPIN762.SPL;Wisdom Increase
+SPIN763.SPL;Intelligence Increase
+SPIN764.SPL;Strength Increase
+SPIN765.SPL;
+SPIN766.SPL;
+SPIN767.SPL;
+SPIN768.SPL;
+SPIN769.SPL;
+SPIN770.SPL;
+SPIN771.SPL;
+SPIN772.SPL;
+SPIN773.SPL;Lay On Hands
+SPIN774.SPL;Psionic Maze
+SPIN775.SPL;Mind Blast
+SPIN776.SPL;
+SPIN777.SPL;
+SPIN778.SPL;Wild Magic Zone
+SPIN779.SPL;Anti-Magic
+SPIN780.SPL;
+SPIN781.SPL;
+SPIN782.SPL;
+SPIN783.SPL;Slayer Change
+SPIN784.SPL;Nauseating Gaze
+SPIN785.SPL;
+SPIN786.SPL;Banishment
+SPIN787.SPL;
+SPIN788.SPL;Demilich Soul Trap
+SPIN789.SPL;Demilich Howl
+SPIN790.SPL;
+SPIN791.SPL;
+SPIN792.SPL;
+SPIN793.SPL;
+SPIN794.SPL;
+SPIN795.SPL;
+SPIN796.SPL;
+SPIN797.SPL;
+SPIN798.SPL;
+SPIN800.SPL;
+SPIN801.SPL;
+SPIN802.SPL;Psychic Drain
+SPIN803.SPL;
+SPIN804.SPL;Psychic Drain
+SPIN805.SPL;
+SPIN806.SPL;
+SPIN807.SPL;Slayer Fear
+SPIN808.SPL;
+SPIN809.SPL;
+SPIN810.SPL;Slayer Change
+SPIN811.SPL;
+SPIN812.SPL;
+SPIN814.SPL;
+SPIN815.SPL;
+SPIN816.SPL;
+SPIN817.SPL;
+SPIN818.SPL;
+SPIN819.SPL;Lava burst
+SPIN820.SPL;Wail of the Banshee
+SPIN821.SPL;
+SPIN822.SPL;Slayer Change
+SPIN823.SPL;Slayer Change
+SPIN825.SPL;Drow Transformation
+SPIN826.SPL;Strength
+SPIN827.SPL;Lay On Hands
+SPIN829.SPL;Create Bruiser Mates
+SPIN830.SPL;
+SPIN831.SPL;
+SPIN832.SPL;Silver Dragon Paralyzation
+SPIN833.SPL;Silver Dragon Cone of Cold
+SPIN834.SPL;Psionic Blast
+SPIN835.SPL;
+SPIN836.SPL;Wish
+SPIN838.SPL;Loses all Bhaal powers
+SPIN840.SPL;
+SPIN841.SPL;
+SPIN842.SPL;
+SPIN843.SPL;
+SPIN844.SPL;
+SPIN845.SPL;
+SPIN846.SPL;
+SPIN847.SPL;
+SPIN848.SPL;Level Drain
+SPIN849.SPL;
+SPIN850.SPL;
+SPIN851.SPL;
+SPIN852.SPL;Slayer Change
+SPIN854.SPL;
+SPIN855.SPL;
+SPIN856.SPL;
+SPIN857.SPL;
+SPIN858.SPL;
+SPIN859.SPL;
+SPIN860.SPL;
+SPIN861.SPL;
+SPIN862.SPL;
+SPIN863.SPL;
+SPIN865.SPL;Flesh to Stone
+SPIN866.SPL;Dispel Magic
+SPIN867.SPL;
+SPIN868.SPL;
+SPIN870.SPL;
+SPIN871.SPL;End Spell
+SPIN872.SPL;
+SPIN873.SPL;
+SPIN874.SPL;
+SPIN875.SPL;
+SPIN876.SPL;
+SPIN877.SPL;Explosion
+SPIN878.SPL;Level Drain
+SPIN879.SPL;
+SPIN880.SPL;
+SPIN881.SPL;
+SPIN882.SPL;Vampire Fear
+SPIN884.SPL;Change Chicken
+SPIN885.SPL;Kamikaze Explosion
+SPIN886.SPL;
+SPIN887.SPL;
+SPIN888.SPL;Flesh to Stone
+SPIN889.SPL;Flesh to Stone
+SPIN892.SPL;Sleep
+SPIN893.SPL;Shadow Dragon Breath
+SPIN894.SPL;Red Dragon Breath
+SPIN896.SPL;Repulse X
+SPIN898.SPL;Archer Protection
+SPIN899.SPL;
+SPIN901.SPL;
+SPIN902.SPL;
+SPIN903.SPL;
+SPIN904.SPL;
+SPIN905.SPL;
+SPIN906.SPL;
+SPIN907.SPL;
+SPIN908.SPL;
+SPIN909.SPL;Ego Whip
+SPIN910.SPL;Domination
+SPIN911.SPL;Ballistic Attack
+SPIN912.SPL;Detonate
+SPIN913.SPL;Mimic Acid
+SPIN914.SPL;Mimic Glue
+SPIN915.SPL;
+SPIN916.SPL;Nether Spell
+SPIN917.SPL;Mane Gas
+SPIN921.SPL;Deathsong
+SPIN922.SPL;
+SPIN923.SPL;Limited Wish
+SPIN924.SPL;Partial cover
+SPIN925.SPL;Full cover
+SPIN930.SPL;Magma Ball
+SPIN937.SPL;Color Spray
+SPIN940.SPL;Stinking Cloud
+SPIN941.SPL;Stone Spit
+SPIN942.SPL;Breathes Grit
+SPIN943.SPL;Blur
+SPIN944.SPL;Power Word, Stun
+SPIN948.SPL;Lower Resistance
+SPIN949.SPL;Ruby Ray of Reversal
+SPIN951.SPL;Power Word, Kill
+SPIN952.SPL;Phantasmal Killer
+SPIN953.SPL;Imprisonment
+SPIN954.SPL;Teleport
+SPIN955.SPL;
+SPIN958.SPL;Cure Serious Wounds
+SPIN959.SPL;Psionic Blast
+SPIN963.SPL;
+SPIN964.SPL;
+SPIN965.SPL;
+SPIN966.SPL;
+SPIN967.SPL;
+SPIN968.SPL;
+SPIN969.SPL;
+SPIN970.SPL;
+SPIN971.SPL;
+SPIN972.SPL;
+SPIN973.SPL;Air Elemental Whirlwind
+SPIN974.SPL;Psionic Blast
+SPIN975.SPL;Psionic Domination
+SPIN976.SPL;Confusion
+SPIN977.SPL;Golem Slow
+SPIN978.SPL;Golem Haste
+SPIN979.SPL;Gas Cloud
+SPIN992.SPL;Anti-Magic Ray
+SPIN994.SPL;
+SPIN995.SPL;
+SPIN998.SPL;Silence, 15' Radius
+SPIN999.SPL;Paralyze
+SPPR101.SPL;Bless
+SPPR103.SPL;Cure Light Wounds
+SPPR104.SPL;Detect Alignment
+SPPR105.SPL;Entangle
+SPPR106.SPL;Magical Stone
+SPPR107.SPL;Protection from Evil
+SPPR108.SPL;Resist Fear
+SPPR109.SPL;Sanctuary
+SPPR110.SPL;Shillelagh
+SPPR111.SPL;Armor of Faith
+SPPR117.SPL;Strength of Stone
+SPPR119.SPL;Regenerate Light Wounds
+SPPR120.SPL;Goodberry
+SPPR121.SPL;Cause Light Wounds
+SPPR122.SPL;Animal Summoning I
+SPPR123.SPL;Obscuring Mist
+SPPR125.SPL;Protection From Good
+SPPR149.SPL;
+SPPR150.SPL;Spirit Ward
+SPPR201.SPL;Aid
+SPPR202.SPL;Barkskin
+SPPR203.SPL;Chant
+SPPR204.SPL;Charm Person or Animal
+SPPR205.SPL;Find Traps
+SPPR206.SPL;Flame Blade
+SPPR207.SPL;Goodberry
+SPPR208.SPL;Hold Person
+SPPR209.SPL;Know Opponent
+SPPR210.SPL;Resist Elements
+SPPR212.SPL;Slow Poison
+SPPR213.SPL;Spiritual Hammer
+SPPR214.SPL;Draw upon Divine Might
+SPPR216.SPL;Cure Moderate Wounds
+SPPR218.SPL;Regenerate Moderate Wounds
+SPPR219.SPL;Gust of Wind
+SPPR220.SPL;Cause Moderate Wounds
+SPPR221.SPL;Animal Summoning II
+SPPR223.SPL;Beast Claw
+SPPR224.SPL;Resist Acid and Corrosion
+SPPR249.SPL;
+SPPR250.SPL;Writhing Fog
+SPPR301.SPL;Animate Dead
+SPPR303.SPL;Dispel Magic
+SPPR304.SPL;Glyph of Warding
+SPPR305.SPL;Hold Person or Animal
+SPPR306.SPL;Protection from Fire
+SPPR307.SPL;Break Enchantment
+SPPR308.SPL;Remove Paralysis
+SPPR309.SPL;Invisibility Purge
+SPPR312.SPL;Strength of One
+SPPR313.SPL;Holy Smite
+SPPR314.SPL;Unholy Blight
+SPPR315.SPL;Cure Serious Wounds
+SPPR317.SPL;Cure Disease
+SPPR318.SPL;Gust of Wind
+SPPR319.SPL;Summon Insects
+SPPR321.SPL;Animal Summoning III
+SPPR322.SPL;Cause Serious Wounds
+SPPR323.SPL;Storm Shield
+SPPR324.SPL;Regenerate Serious Wounds
+SPPR325.SPL;Magic Fang
+SPPR328.SPL;Prayer
+SPPR330.SPL;Exaltation
+SPPR332.SPL;Circle of Bones
+SPPR335.SPL;Storm Shell
+SPPR336.SPL;Favor of the Martyr
+SPPR349.SPL;
+SPPR350.SPL;Spiritual Clarity
+SPPR401.SPL;Cure Critical Wounds
+SPPR402.SPL;Animal Summoning IV
+SPPR403.SPL;Free Action
+SPPR404.SPL;Neutralize Poison
+SPPR406.SPL;Defensive Harmony
+SPPR408.SPL;Magic Circle against Evil
+SPPR409.SPL;Death Ward
+SPPR410.SPL;Call Woodland Beings
+SPPR412.SPL;Divine Power
+SPPR413.SPL;Negative Plane Protection
+SPPR414.SPL;Cause Critical Wounds
+SPPR415.SPL;Farsight
+SPPR416.SPL;Cloak of Fear
+SPPR417.SPL;Lesser Restoration
+SPPR419.SPL;Regenerate Critical Wounds
+SPPR421.SPL;Static Charge
+SPPR422.SPL;Recitation
+SPPR423.SPL;Blood Rage
+SPPR425.SPL;Unfailing Endurance
+SPPR426.SPL;Star Metal Cudgel
+SPPR430.SPL;Giant Insect
+SPPR431.SPL;Protection From Good 10' Radius
+SPPR449.SPL;
+SPPR501.SPL;Animal Summoning V
+SPPR502.SPL;Cure Mortal Wounds
+SPPR503.SPL;Flame Strike
+SPPR504.SPL;Raise Dead
+SPPR505.SPL;True Seeing
+SPPR506.SPL;Stoneskin
+SPPR507.SPL;Champion's Strength
+SPPR508.SPL;Chaotic Commands
+SPPR509.SPL;Magic Resistance
+SPPR510.SPL;Cause Mortal Wounds
+SPPR511.SPL;Slay Living
+SPPR512.SPL;Greater Command
+SPPR513.SPL;Righteous Fury
+SPPR514.SPL;Mass Cure
+SPPR515.SPL;Repulsion
+SPPR516.SPL;Pixie Dust
+SPPR517.SPL;Insect Plague
+SPPR519.SPL;Protection from Acid
+SPPR520.SPL;Protection from Cold
+SPPR522.SPL;Protection from Fire
+SPPR523.SPL;Mass Regenerate
+SPPR524.SPL;Animal Growth
+SPPR525.SPL;Righteous Wrath of the Faithful
+SPPR526.SPL;Spike Stones
+SPPR527.SPL;Divine Protection
+SPPR529.SPL;Animal Rage
+SPPR531.SPL;Physical Mirror
+SPPR549.SPL;
+SPPR550.SPL;Recall Spirit
+SPPR599.SPL;Slay Living
+SPPR601.SPL;Aerial Servant
+SPPR602.SPL;Animal Summoning VI
+SPPR603.SPL;Blade Barrier
+SPPR604.SPL;Conjure Animals
+SPPR605.SPL;Conjure Fire Elemental
+SPPR606.SPL;Fire Seeds
+SPPR607.SPL;Heal
+SPPR608.SPL;Harm
+SPPR609.SPL;False Dawn
+SPPR610.SPL;Dolorous Decay
+SPPR611.SPL;Wondrous Recall
+SPPR612.SPL;Bolt of Glory
+SPPR613.SPL;Physical Mirror
+SPPR614.SPL;Sol's Searing Orb
+SPPR615.SPL;Regeneration
+SPPR616.SPL;Banishment
+SPPR617.SPL;Conjure Air Elemental
+SPPR618.SPL;Conjure Earth Elemental
+SPPR619.SPL;Animate Skeleton Warrior
+SPPR620.SPL;Entropy Shield
+SPPR649.SPL;
+SPPR698.SPL;Blade Barrier
+SPPR699.SPL;Harm
+SPPR701.SPL;Shield of the Archons
+SPPR702.SPL;Stalker
+SPPR703.SPL;Summon Death Knight
+SPPR704.SPL;Nature's Beauty
+SPPR705.SPL;Fire Storm
+SPPR706.SPL;Symbol of Weakness
+SPPR707.SPL;Sunray
+SPPR709.SPL;Chaos
+SPPR710.SPL;Holy Word
+SPPR711.SPL;Regeneration
+SPPR712.SPL;Resurrection
+SPPR713.SPL;Greater Restoration
+SPPR714.SPL;Energy Drain
+SPPR715.SPL;Unholy Word
+SPPR717.SPL;Creeping Doom
+SPPR718.SPL;Symbol of Stunning
+SPPR719.SPL;Symbol of Death
+SPPR720.SPL;Earthquake
+SPPR721.SPL;Energy Blades
+SPPR722.SPL;Storm of Vengeance
+SPPR723.SPL;Elemental Swarm
+SPPR724.SPL;Elemental Prince Call
+SPPR725.SPL;Globe of Blades
+SPPR726.SPL;Summon Deva
+SPPR727.SPL;Summon Fallen Deva
+SPPR728.SPL;Implosion
+SPPR729.SPL;Mass Raise Dead
+SPPR730.SPL;Aura of Flaming Death
+SPPR731.SPL;Fire Elemental Transformation
+SPPR732.SPL;Earth Elemental Transformation
+SPPR733.SPL;Animal Summoning VII
+SPPR736.SPL;Impervious Sanctity of Mind
+SPPR738.SPL;Greater Divine Protection
+SPPR739.SPL;Healing Mist
+SPPR741.SPL;Fiendish Warding
+SPPR749.SPL;
+SPPR950.SPL;True Sight
+SPPR983.SPL;Confusion
+SPPR988.SPL;Silence, 15' Radius
+SPPR999.SPL;Raise Dead
+SPWI001.SPL;Fireball
+SPWI004.SPL;Stinking Cloud
+SPWI005.SPL;
+SPWI007.SPL;
+SPWI008.SPL;Trap
+SPWI009.SPL;
+SPWI010.SPL;
+SPWI013.SPL;
+SPWI016.SPL;Cloudkill
+SPWI018.SPL;Frost
+SPWI019.SPL;
+SPWI020.SPL;just ten damage
+SPWI021.SPL;
+SPWI022.SPL;
+SPWI023.SPL;Trap
+SPWI024.SPL;
+SPWI025.SPL;Minor Lightning Bolt
+SPWI026.SPL;Minor Lightning Bolt
+SPWI027.SPL;Minor Lightning Bolt
+SPWI050.SPL;Chaos
+SPWI051.SPL;Dispel Magic
+SPWI052.SPL;Power Word, Silence
+SPWI053.SPL;Flesh to Stone
+SPWI054.SPL;Finger of Death
+SPWI055.SPL;Disintegrate
+SPWI056.SPL;Disintegrate
+SPWI101.SPL;Grease
+SPWI102.SPL;Mage Armor
+SPWI104.SPL;Charm Person
+SPWI105.SPL;Color Spray
+SPWI106.SPL;Obscuring Mist
+SPWI107.SPL;Monster Summoning I
+SPWI108.SPL;Protection from Petrification
+SPWI110.SPL;Identify
+SPWI111.SPL;True Strike
+SPWI113.SPL;Protection from Evil
+SPWI114.SPL;Shield
+SPWI115.SPL;Shocking Grasp
+SPWI117.SPL;Chill Touch
+SPWI118.SPL;Chromatic Orb
+SPWI120.SPL;Reflected Image
+SPWI123.SPL;Find Familiar
+SPWI124.SPL;Nahal's Reckless Dweomer
+SPWI126.SPL;Dancing Lights
+SPWI127.SPL;Expeditious Retreat
+SPWI128.SPL;Dimension Jump
+SPWI129.SPL;Detect Alignment
+SPWI130.SPL;Stonefist
+SPWI201.SPL;Blur
+SPWI202.SPL;Detect Alignment
+SPWI203.SPL;Detect Invisibility
+SPWI205.SPL;Horror
+SPWI206.SPL;Invisibility
+SPWI208.SPL;Know Opponent
+SPWI209.SPL;Luck
+SPWI210.SPL;Resist Fear
+SPWI212.SPL;Mirror Image
+SPWI213.SPL;Stinking Cloud
+SPWI214.SPL;Strength
+SPWI215.SPL;Web
+SPWI218.SPL;Ghoul Touch
+SPWI219.SPL;Vocalize
+SPWI222.SPL;Chaos Shield
+SPWI223.SPL;Sound Burst
+SPWI224.SPL;Glitterdust
+SPWI225.SPL;Resist Elements
+SPWI226.SPL;Monster Summoning II
+SPWI229.SPL;Decastave
+SPWI230.SPL;Cat's Grace
+SPWI301.SPL;Clairvoyance
+SPWI302.SPL;Dispel Magic
+SPWI303.SPL;Flame Arrow
+SPWI304.SPL;Fireball
+SPWI305.SPL;Haste
+SPWI306.SPL;Hold Person
+SPWI307.SPL;Invisibility Sphere
+SPWI309.SPL;Monster Summoning III
+SPWI310.SPL;Non-Detection
+SPWI311.SPL;Protection from Missiles
+SPWI312.SPL;Slow
+SPWI313.SPL;Skull Trap
+SPWI317.SPL;Ghost Armor
+SPWI318.SPL;Minor Spell Deflection
+SPWI319.SPL;Protection from Fire
+SPWI320.SPL;Protection from Cold
+SPWI321.SPL;Spell Thrust
+SPWI322.SPL;Detect Illusion
+SPWI323.SPL;Icelance
+SPWI324.SPL;Halt Undead
+SPWI325.SPL;Melf's Minute Meteors
+SPWI326.SPL;Dispel Magic
+SPWI328.SPL;Turn Pebble to Boulder
+SPWI399.SPL;Lightning Bolt
+SPWI401.SPL;Confusion
+SPWI402.SPL;Dimension Jump
+SPWI403.SPL;Mestil's Acid Sheath
+SPWI404.SPL;Ice Storm
+SPWI405.SPL;Improved Invisibility
+SPWI406.SPL;Minor Globe of Invulnerability
+SPWI407.SPL;Monster Summoning II
+SPWI408.SPL;Stoneskin
+SPWI409.SPL;Contagion
+SPWI410.SPL;Break Enchantment
+SPWI412.SPL;Greater Malison
+SPWI413.SPL;Otiluke's Resilient Sphere
+SPWI414.SPL;Spirit Armor
+SPWI416.SPL;Polymorph Self
+SPWI417.SPL;Enchanted Weapon
+SPWI418.SPL;Fire Shield
+SPWI419.SPL;Secret Word
+SPWI420.SPL;Simbul's Spell Matrix
+SPWI421.SPL;Teleport Field
+SPWI422.SPL;Protection from Elemental Energy
+SPWI423.SPL;Monster Summoning IV
+SPWI424.SPL;Farsight
+SPWI425.SPL;Wizard Eye
+SPWI426.SPL;Vitriolic Sphere
+SPWI428.SPL;Emotion, Courage
+SPWI429.SPL;Emotion, Hope
+SPWI433.SPL;Shadow Monsters
+SPWI461.SPL;Shapeshift: Flind
+SPWI462.SPL;Shapeshift: Ogre
+SPWI463.SPL;Shapeshift: Mustard Jelly
+SPWI464.SPL;Shapeshift: Spider
+SPWI465.SPL;Shapeshifts Winter Wolf
+SPWI485.SPL;Long Sword
+SPWI486.SPL;Short Sword
+SPWI487.SPL;Axe
+SPWI488.SPL;Mace
+SPWI489.SPL;Shapeshift: Natural Form (Polymorph Self)
+SPWI490.SPL;Shapeshift: Natural Form
+SPWI491.SPL;Shapeshift: Natural Form
+SPWI493.SPL;Shapeshift: Flind
+SPWI494.SPL;Shapeshift: Ogre
+SPWI495.SPL;Shapeshift: Spider
+SPWI496.SPL;Shapeshift: Mustard Jelly
+SPWI497.SPL;Shapeshift: Brown Bear
+SPWI498.SPL;Shapeshift: Black Bear
+SPWI499.SPL;Shapeshift: Wolf
+SPWI501.SPL;Summon Shadow
+SPWI502.SPL;Cloudkill
+SPWI503.SPL;Cone of Cold
+SPWI504.SPL;Monster Summoning V
+SPWI505.SPL;Shadow Door
+SPWI507.SPL;Hold Monster
+SPWI508.SPL;Waves of Fatigue
+SPWI510.SPL;Dispelling Screen
+SPWI511.SPL;Protection from Normal Weapons
+SPWI512.SPL;Protection from Electricity
+SPWI513.SPL;Breach
+SPWI514.SPL;Lower Resistance
+SPWI515.SPL;Oracle
+SPWI516.SPL;Conjure Lesser Fire Elemental
+SPWI517.SPL;Protection from Acid
+SPWI518.SPL;Phantom Blade
+SPWI519.SPL;Spell Shield
+SPWI520.SPL;Conjure Lesser Air Elemental
+SPWI521.SPL;Conjure Lesser Earth Elemental
+SPWI522.SPL;Spell Deflection
+SPWI523.SPL;Fireburst
+SPWI524.SPL;Mestil's Acid Sheath
+SPWI526.SPL;Conjure Lesser Water Elemental
+SPWI527.SPL;Demi-Shadow Monsters
+SPWI528.SPL;Telekinesis
+SPWI590.SPL;Dispelling Screen
+SPWI591.SPL;Immunity: Conjuration
+SPWI592.SPL;Non-Detection
+SPWI593.SPL;Mind Blank
+SPWI594.SPL;Immunity: Illusion
+SPWI595.SPL;Immunity: Evocation
+SPWI596.SPL;Immunity: Necromancy
+SPWI597.SPL;Immunity: Alteration
+SPWI601.SPL;Invisible Stalker
+SPWI602.SPL;Globe of Invulnerability
+SPWI603.SPL;Tenser's Transformation
+SPWI605.SPL;Banishment
+SPWI606.SPL;Protection from Magic Energy
+SPWI607.SPL;Mislead
+SPWI608.SPL;Pierce Magic
+SPWI609.SPL;True Seeing
+SPWI610.SPL;Monster Summoning VI
+SPWI611.SPL;Protection from Magical Weapons
+SPWI613.SPL;Improved Haste
+SPWI614.SPL;Acid Fog
+SPWI615.SPL;Chain Lightning
+SPWI617.SPL;Contingency
+SPWI618.SPL;Spell Deflection
+SPWI619.SPL;Wyvern Call
+SPWI620.SPL;Conjure Fire Elemental
+SPWI621.SPL;Conjure Air Elemental
+SPWI622.SPL;Conjure Earth Elemental
+SPWI623.SPL;Animate Skeleton Warrior
+SPWI624.SPL;Summon Nishruu
+SPWI627.SPL;Darts of Bone
+SPWI629.SPL;Trollish Fortitude
+SPWI630.SPL;Antimagic Shell
+SPWI631.SPL;Lich Touch
+SPWI632.SPL;Shades
+SPWI633.SPL;Conjure Water Elemental
+SPWI701.SPL;Greater Spell Deflection
+SPWI702.SPL;Protection from the Elements
+SPWI703.SPL;Project Image
+SPWI704.SPL;Ruby Ray of Reversal
+SPWI705.SPL;Khelben's Warding Whip
+SPWI706.SPL;Monster Summoning VII
+SPWI707.SPL;Summon Death Knight
+SPWI708.SPL;Prismatic Mantle
+SPWI710.SPL;Simbul's Spell Sequencer
+SPWI711.SPL;Chaos
+SPWI712.SPL;Delayed Blast Fireball
+SPWI714.SPL;Prismatic Spray
+SPWI716.SPL;Mordenkainen's Sword
+SPWI717.SPL;Summon Efreeti
+SPWI718.SPL;Summon Djinni
+SPWI719.SPL;Summon Nishruu
+SPWI720.SPL;Control Undead
+SPWI721.SPL;Mass Invisibility
+SPWI722.SPL;Limited Wish
+SPWI723.SPL;Improved Chaos Shield
+SPWI726.SPL;Mordenkainen's Force Blade
+SPWI728.SPL;Seven Eyes
+SPWI801.SPL;Ghostform
+SPWI802.SPL;Mind Blank
+SPWI803.SPL;Protection from Energy
+SPWI805.SPL;Pierce Shield
+SPWI806.SPL;Monster Summoning VIII
+SPWI807.SPL;Summon Fiend
+SPWI808.SPL;Moment of Prescience
+SPWI809.SPL;Simbul's Spell Trigger
+SPWI810.SPL;Incendiary Cloud
+SPWI811.SPL;Symbol of Weakness
+SPWI812.SPL;Abi-Dalzim's Horrid Wilting
+SPWI813.SPL;Maze
+SPWI816.SPL;Symbol of Stunning
+SPWI817.SPL;Symbol of Death
+SPWI818.SPL;Bigby's Icy Grasp
+SPWI820.SPL;Iron Body
+SPWI888.SPL;Flame Arrow
+SPWI897.SPL;Symbol, Death
+SPWI898.SPL;Symbol, Stun
+SPWI899.SPL;Symbol, Fear
+SPWI901.SPL;Monster Summoning VII
+SPWI902.SPL;Spell Trap
+SPWI903.SPL;Spellstrike
+SPWI904.SPL;Stormbolts
+SPWI905.SPL;Gate
+SPWI906.SPL;Veridon's Icy Ray
+SPWI907.SPL;Absolute Immunity
+SPWI908.SPL;Chain Contingency
+SPWI909.SPL;Time Stop
+SPWI910.SPL;Imprisonment
+SPWI911.SPL;Meteor Swarm
+SPWI913.SPL;Wail of the Banshee
+SPWI914.SPL;Larloch's Energy Drain
+SPWI915.SPL;Black Blade of Disaster
+SPWI916.SPL;Shapechange
+SPWI917.SPL;Freedom
+SPWI918.SPL;Bigby's Crushing Hand
+SPWI919.SPL;Wish
+SPWI920.SPL;Energy Blades
+SPWI921.SPL;Improved Alacrity
+SPWI922.SPL;Dragon's Breath
+SPWI923.SPL;Summon Planetar
+SPWI924.SPL;Summon Dark Planetar
+SPWI925.SPL;Comet
+SPWI926.SPL;Dimension Door
+SPWI927.SPL;Ethereal
+SPWI931.SPL;Teleport Without Error
+SPWI932.SPL;
+SPWI933.SPL;
+SPWI934.SPL;
+SPWI935.SPL;
+SPWI936.SPL;
+SPWI937.SPL;
+SPWI938.SPL;Lightning
+SPWI939.SPL;
+SPWI941.SPL;
+SPWI942.SPL;
+SPWI944.SPL;
+SPWI945.SPL;
+SPWI946.SPL;
+SPWI947.SPL;
+SPWI948.SPL;
+SPWI949.SPL;
+SPWI951.SPL;
+SPWI953.SPL;Selûne's Curse
+SPWI955.SPL;Symbol, Pain
+SPWI956.SPL;Symbol, Fear
+SPWI957.SPL;Fireball
+SPWI961.SPL;
+SPWI962.SPL;
+SPWI963.SPL;
+SPWI964.SPL;
+SPWI965.SPL;
+SPWI966.SPL;Create Boneguard
+SPWI971.SPL;Shapechange: Earth Elemental
+SPWI972.SPL;Shapechange: Fire Elemental
+SPWI973.SPL;Shapechange: Iron Golem
+SPWI974.SPL;Shapechange: Mind Flayer
+SPWI975.SPL;Shapechange: Spirit Troll
+SPWI976.SPL;Shapechange: Greater Wolfwere
+SPWI977.SPL;Shapeshift: Natural Form
+SPWI978.SPL;Shapeshift: Natural Form
+SPWI980.SPL;
+SPWI981.SPL;
+SPWI982.SPL;Dimension Door
+SPWI983.SPL;
+SPWI984.SPL;
+SPWI985.SPL;
+SPWI986.SPL;
+SPWI987.SPL;
+SPWI988.SPL;
+SPWI989.SPL;Antichickenator
+SPWI990.SPL;
+SPWI991.SPL;
+SPWI992.SPL;
+SPWI993.SPL;
+SPWI994.SPL;Dimension Door
+SPWI996.SPL;
+SPWI997.SPL;Lightning Bolt
+SPWI998.SPL;Magic Missile
+SPWI999.SPL;

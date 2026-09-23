@@ -12,9 +12,6 @@ export const CONFUSION_PRESETS: AbilityPreset[] = [
         name: "NearestEnemies",
         includeStatus: ["Able"],
         randomOrder: true,
-        triggers: [
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-        ],
       },
     ],
     spell: {},
@@ -28,9 +25,6 @@ export const CONFUSION_PRESETS: AbilityPreset[] = [
         name: "NearestEnemies",
         includeStatus: ["Able"],
         randomOrder: true,
-        triggers: [
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-        ],
       },
     ],
     spell: {},

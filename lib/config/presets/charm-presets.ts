@@ -9,9 +9,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.Domination.file,
     ability: {
       name: SPELLS.Wizard.Domination.name,
-      targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
+      targets: CHARM_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -21,9 +19,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.MentalDomination.file,
     ability: {
       name: SPELLS.Priest.MentalDomination.name,
-      targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
+      targets: CHARM_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -34,7 +30,6 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.DireCharm.name,
       targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       ]),
       spell: {},
@@ -53,7 +48,6 @@ export const CHARM_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.CharmPerson.name,
       targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       ]),
       spell: {},
@@ -77,7 +71,6 @@ export const CHARM_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.CharmPersonOrAnimal.name,
       targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
         triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
       ]),
       spell: {},
       triggers: [

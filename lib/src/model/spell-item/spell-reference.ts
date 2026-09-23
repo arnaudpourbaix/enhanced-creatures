@@ -154,3 +154,18 @@ export function spellsByKeyword(spells: SpellCollection, keyword: SpellKeyword):
     .filter((spell) => spell.keywords?.includes(keyword))
     .flatMap((spell) => spellFiles(spell));
 }
+
+/**
+ * The `keywords` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches. Backs the automatic
+ * keyword resolution in PresetFactory.create and AbilityService.applyPreset: a preset built from a
+ * real SPELLS entry gets its keywords for free, so an explicit `keywords` field on a preset is
+ * only needed for a one-off ability with no SPELLS entry of its own (e.g. a spell declared
+ * directly on a monster rather than registered in the shared database).
+ */
+export function keywordsForFile(spells: SpellCollection, file: string): SpellKeyword[] | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.keywords;
+}

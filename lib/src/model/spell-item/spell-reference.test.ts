@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { resolveForMod, spellFiles, type SpellReference } from "./spell-reference";
+import {
+  keywordsForFile,
+  resolveForMod,
+  spellFiles,
+  type SpellCollection,
+  type SpellReference,
+} from "./spell-reference";
 
 describe("spellFiles", () => {
   it("returns just the base file when there are no variants", () => {
@@ -60,5 +66,41 @@ describe("resolveForMod", () => {
     const b: SpellReference = { file: "B", requiresMod: "AllSpellMods", fallback: a };
     a.fallback = b;
     expect(() => resolveForMod(a, "Vanilla")).toThrow(/cycle/);
+  });
+});
+
+describe("keywordsForFile", () => {
+  const spells: SpellCollection = {
+    Wizard: {
+      Horror: { file: "SPWI205", keywords: ["fear"] },
+      DimensionDoor: {
+        file: "SPWI402",
+        variants: [{ mod: "AllSpellMods", file: "SPWI127" }],
+        keywords: ["movement"],
+      },
+    },
+    Priest: {
+      Bless: { file: "SPPR101" },
+    },
+  };
+
+  it("returns the keywords of the entry whose own file matches", () => {
+    expect(keywordsForFile(spells, "SPWI205")).toEqual(["fear"]);
+  });
+
+  it("matches case-insensitively", () => {
+    expect(keywordsForFile(spells, "spwi205")).toEqual(["fear"]);
+  });
+
+  it("matches a variant's file, not just the base file", () => {
+    expect(keywordsForFile(spells, "SPWI127")).toEqual(["movement"]);
+  });
+
+  it("returns undefined for an entry with no keywords field", () => {
+    expect(keywordsForFile(spells, "SPPR101")).toBeUndefined();
+  });
+
+  it("returns undefined when no entry matches at all", () => {
+    expect(keywordsForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
   });
 });

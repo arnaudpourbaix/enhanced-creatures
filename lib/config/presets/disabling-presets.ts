@@ -18,10 +18,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           includeStatus: ["Able"],
           limit: 6,
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -37,10 +34,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "PCsFighters",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -59,7 +53,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.range(20, true),
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
           randomOrder: true,
         },
@@ -78,10 +71,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "PCSpellcasters",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -98,10 +88,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "NearestEnemies",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -118,10 +105,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "PCSpellcasters",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -140,7 +124,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.checkStatGT(0, "ENTANGLE", true),
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },
       ],
@@ -165,10 +148,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
             limit: 6,
           },
         ],
-        [
-          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-        ],
+        [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
       ),
       spell: {
         excludeStateChecks: ["STATE_SLOWED"],
@@ -184,10 +164,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {
@@ -206,9 +183,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "Players",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -225,9 +199,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "Players",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -242,10 +213,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       targets: [
         {
           name: "NearestEnemies",
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -264,7 +232,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           triggers: [
             triggerFactory.checkSpellState("MISCAST_MAGIC", true),
             triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
           ],
         },
       ],
@@ -282,10 +249,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "Players",
           randomOrder: true,
           includeStatus: ["Able"],
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -363,9 +327,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           includeStatus: ["Able"],
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
           randomOrder: true,
         },
       ],
@@ -383,9 +344,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {
@@ -403,9 +361,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {
@@ -423,9 +378,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {

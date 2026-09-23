@@ -7,21 +7,19 @@ import targetService from "../../src/services/baf/target.service";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { SPELLS } from "../spells/spell-database";
 
+// Shared by several presets below whose magicResistance status differs per spell (some of these
+// spells bypass magic resistance entirely, some check it), so no single "check RESISTMAGIC" note
+// belongs on this shared list - each preset's keywords (and thus its spellChecks triggers) are
+// auto-resolved per spell by AbilityService.applyPreset instead.
 const DeathTargets: TargetList[] = [
   {
     name: "Players",
     includeStatus: ["Able"],
     randomOrder: true,
-    triggers: [
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-    ],
   },
   {
     name: "Players",
     randomOrder: true,
-    triggers: [
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-    ],
   },
 ];
 

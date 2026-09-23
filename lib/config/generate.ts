@@ -1,28 +1,20 @@
-import { SpellKeyword } from "./spells/keyword";
+import { SpellCheckConfig } from "./spells/spell-check-config";
+
+// `: SpellCheckConfig` (not `satisfies`) is deliberate here: satisfies would keep each field's
+// narrow literal-true type from this initializer (as e.g. SPELLS.* rely on for id/file literals -
+// see setFallback's comment), which would make these toggles permanently stuck at `true` and
+// unable to ever be set to false. A plain annotation still catches missing/excess properties and
+// widens every field to `boolean`, so GLOBAL_CONFIG.spellChecks.* can genuinely be toggled off.
+const SPELL_CHECKS: SpellCheckConfig = {
+  spellProtections: true,
+  stats: true,
+  races: true,
+  classes: true,
+  kits: true,
+};
 
 export const GLOBAL_CONFIG = {
-  spellChecks: {
-    /**
-     * Check for spells or items that grant some protection
-     */
-    spellProtections: true,
-    /**
-     * Check for stats like hit points, saving throws, resists
-     */
-    stats: true,
-    /**
-     * Check for races
-     */
-    races: true,
-    /**
-     * Check for classes
-     */
-    classes: true,
-    /**
-     * Check for kits
-     */
-    kits: true,
-  },
+  spellChecks: SPELL_CHECKS,
   files: {
     coreMonsters: "lib/pnp-monster/common/core.tpa",
     spellResources: "lib/common/spell-resources.tpa",

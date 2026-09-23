@@ -16,7 +16,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
         triggers: [
           triggerFactory.checkSpellState("DOOM", true),
           triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
         ],
         randomOrder: true,
       },
@@ -33,9 +32,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -51,9 +47,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -69,9 +62,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
@@ -87,9 +77,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-          ],
         },
       ],
       spell: {},
