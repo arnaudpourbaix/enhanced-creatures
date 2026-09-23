@@ -4,7 +4,7 @@ import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { SPELLS } from "../../../config/spells/spell-database";
-import { keywordsForFile, SpellVariant } from "../../model/spell-item/spell-reference";
+import { keywordsForFile, levelForFile, SpellVariant } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";
@@ -259,6 +259,9 @@ class AbilityService {
     // presetName. Left unset (rather than []) when nothing matches, so a one-off ability with no
     // SPELLS entry of its own is unaffected.
     result.keywords ??= keywordsForFile(SPELLS, presetName);
+    // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
+    // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system.
+    result.level ??= levelForFile(SPELLS, presetName);
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {
       result.spell.id = undefined;
     } else if (

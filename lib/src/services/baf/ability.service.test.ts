@@ -379,6 +379,31 @@ describe("applyPreset - auto-resolves keywords from SPELLS", () => {
   });
 });
 
+describe("applyPreset - auto-resolves level from SPELLS", () => {
+  it("resolves level from the preset name when neither the preset nor the override set it", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Domination.file);
+    expect(result.level).toBe(SPELLS.Wizard.Domination.level);
+  });
+
+  it("keeps the override's own level instead of resolving from the preset name", () => {
+    const result = service.applyPreset({ level: 1 }, SPELLS.Wizard.Domination.file);
+    expect(result.level).toBe(1);
+  });
+
+  it("leaves level unset when the preset name matches no SPELLS entry", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_UNREGISTERED_PRESET_LEVEL",
+      ability: { name: DEFAULT_ABILITY_NAME },
+    });
+    try {
+      const result = service.applyPreset({}, "JA#TEST_UNREGISTERED_PRESET_LEVEL");
+      expect(result.level).toBeUndefined();
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
 describe("getAbilities - auto spellChecks via ability.keywords", () => {
   afterEach(() => {
     GLOBAL_CONFIG.spellChecks.stats = true;
