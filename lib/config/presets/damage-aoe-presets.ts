@@ -58,7 +58,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -75,7 +74,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -92,7 +90,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -109,7 +106,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "FarthestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -125,7 +121,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -233,7 +228,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
           name: "Players",
           randomOrder: true,
           triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -251,7 +245,6 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -319,10 +312,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            triggerFactory.alignment("MASK_GOOD"),
-          ],
+          triggers: [triggerFactory.alignment("MASK_GOOD")],
         },
       ],
       spell: {},
