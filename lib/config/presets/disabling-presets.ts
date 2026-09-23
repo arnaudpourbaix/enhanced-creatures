@@ -18,7 +18,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           includeStatus: ["Able"],
           limit: 6,
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -34,7 +33,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "PCsFighters",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -50,10 +48,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "PCSpellcasters",
           includeStatus: ["Able"],
-          triggers: [
-            triggerFactory.range(20, true),
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          ],
+          triggers: [triggerFactory.range(20, true)],
           randomOrder: true,
         },
       ],
@@ -71,7 +66,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "PCSpellcasters",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -88,7 +82,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "NearestEnemies",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -105,7 +98,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "PCSpellcasters",
           includeStatus: ["Able"],
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -121,10 +113,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           includeStatus: ["Able"],
-          triggers: [
-            triggerFactory.checkStatGT(0, "ENTANGLE", true),
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          ],
+          triggers: [triggerFactory.checkStatGT(0, "ENTANGLE", true)],
         },
       ],
       spell: {},
@@ -148,7 +137,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
             limit: 6,
           },
         ],
-        [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
+        [],
       ),
       spell: {
         excludeStateChecks: ["STATE_SLOWED"],
@@ -164,7 +153,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
         {
           name: "Players",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {
@@ -210,12 +198,10 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
     preset: FNP_SPELLS.Priest.Forbiddance.file,
     ability: {
       name: FNP_SPELLS.Priest.Forbiddance.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
-        },
-      ],
+      // Explicit level (not auto-resolved): FNP_SPELLS' BaseSpell type isn't a SpellCollection
+      // entry, so levelForFile(SPELLS, ...) can't find it - same gap already noted for keywords.
+      level: FNP_SPELLS.Priest.Forbiddance.level,
+      targets: [{ name: "NearestEnemies" }],
       spell: {},
       timer: { name: "Forbiddance", value: 2 * Durations.round },
       requireVocal: true,
@@ -226,13 +212,13 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
     preset: FNP_SPELLS.Priest.MiscastMagic.file,
     ability: {
       name: FNP_SPELLS.Priest.MiscastMagic.name,
+      // Explicit level (not auto-resolved): FNP_SPELLS' BaseSpell type isn't a SpellCollection
+      // entry, so levelForFile(SPELLS, ...) can't find it - same gap already noted for keywords.
+      level: FNP_SPELLS.Priest.MiscastMagic.level,
       targets: [
         {
           name: "PCSpellcasters",
-          triggers: [
-            triggerFactory.checkSpellState("MISCAST_MAGIC", true),
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          ],
+          triggers: [triggerFactory.checkSpellState("MISCAST_MAGIC", true)],
         },
       ],
       spell: {},
@@ -249,7 +235,6 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
           name: "Players",
           randomOrder: true,
           includeStatus: ["Able"],
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},

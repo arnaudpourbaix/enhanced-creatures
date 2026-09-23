@@ -157,6 +157,10 @@ const WIZARD_SPELLS = {
     file: "SPWI228",
     id: "WIZARD_DARKNESS_15_FOOT",
     name: "spell.Darkness15Radius.name",
+    // Not backfilled from the CSVs (scripts/tmp-add-spell-level.ts skipped it): SPWI228 is a
+    // different spell (Decastave) under the Stratagems IWD spell lists, so the file code alone
+    // isn't reliable here. 2 is Darkness, 15' Radius's real, well-known spell level.
+    level: 2,
     keywords: ["blind", "magicResistance"],
     hiddenIn: "AllSpellMods",
   },
