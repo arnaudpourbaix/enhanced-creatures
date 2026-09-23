@@ -2,7 +2,7 @@ import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
 import { ALLIES_TARGET_LISTS, DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 export const HEAL_PRESETS: AbilityPreset[] = [
   {

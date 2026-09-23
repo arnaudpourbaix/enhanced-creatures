@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { SPELLBOOK_MODS } from "../../../config/mods";
-import { getAllFnpSpells } from "../../../config/spells/fnp-spell-names";
-import { getAllSpells } from "../../../config/spells/spell-names";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { getAllSpells } from "../../model/spell-item/spell-reference";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
@@ -76,7 +77,7 @@ const ABILITY_TAB_THRESHOLD = 9;
 // whose first digit is the spell's level (e.g. SPWI305 = Wizard level 3, SPPR113 = Priest level
 // 1). getSpellLevel only falls back to this when the resource has no entry in State.spells or in
 // a spell-reference config (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow
-// the convention, but does carry a real `level` in its own config entry, e.g. fnp-spell-names.ts)
+// the convention, but does carry a real `level` in its own config entry, e.g. fnp-spell-database.ts)
 // - in that genuinely unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
 const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 
@@ -1297,14 +1298,14 @@ class DocumentationService {
   // its real type/level into State.spells - that's authoritative here, and only a genuinely
   // Innate-type entry (e.g. Fear Aura) falls through to the "Innate" catch-all. A mod-introduced
   // spell we merely reference by file (e.g. Faiths & Powers') isn't in State.spells at all, but is
-  // registered with a real `level` in its own spell-reference config (spell-names.ts/
-  // fnp-spell-names.ts) even though its resref doesn't follow SPELL_LEVEL_PATTERN - so that config
+  // registered with a real `level` in its own spell-reference config (spell-database.ts/
+  // fnp-spell-database.ts) even though its resref doesn't follow SPELL_LEVEL_PATTERN - so that config
   // is checked next. The filename regex is only a last-resort fallback for a resource with no entry
   // anywhere.
   private getSpellLevel(resource: string | undefined): number | undefined {
     const ownSpell = State.spells.find((s) => s.file === resource);
     if (ownSpell) return ownSpell.type === SpellTypeEnum.Innate ? undefined : ownSpell.level;
-    const configuredLevel = [...getAllSpells(), ...getAllFnpSpells()].find(
+    const configuredLevel = [...getAllSpells(SPELLS), ...getAllFnpSpells()].find(
       (s) => s.file === resource,
     )?.level;
     if (configuredLevel !== undefined) return configuredLevel;
@@ -1324,7 +1325,11 @@ class DocumentationService {
         const entries = abilities
           .map((ability, abilityIndex) => ({
             ability,
-            html: this.getCreatureSpell(ability, spellbook.memorized, `${idPrefix}-ability-${abilityIndex}`),
+            html: this.getCreatureSpell(
+              ability,
+              spellbook.memorized,
+              `${idPrefix}-ability-${abilityIndex}`,
+            ),
           }))
           .filter((entry) => entry.html);
         return {

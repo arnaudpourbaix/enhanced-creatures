@@ -1,7 +1,7 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { SpellKeyword } from "../../config/spells/keyword";
-import { SpellReference } from "../../config/spells/spell-names";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import { TargetListName } from "../../config/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";

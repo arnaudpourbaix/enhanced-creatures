@@ -1,4 +1,4 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";

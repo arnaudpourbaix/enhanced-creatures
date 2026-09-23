@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { SPELLS, spellFiles, type SpellReference } from "../lib/config/spells/spell-names";
+import { SPELLS } from "../lib/config/spells/spell-database";
+import { spellFiles, type SpellReference } from "../lib/src/model/spell-item/spell-reference";
 import { SPELL_PRIORITY_ORDER } from "../lib/config/spell-priority-order";
 
 // Reorders lib/config/spell-priority-order.ts using real cast-order evidence from
@@ -59,7 +60,11 @@ function resolveSpellPath(spellPath: string): SpellReference {
     }
     node = (node as Record<string, unknown>)[part];
   }
-  if (typeof node !== "object" || node === null || typeof (node as SpellReference).file !== "string") {
+  if (
+    typeof node !== "object" ||
+    node === null ||
+    typeof (node as SpellReference).file !== "string"
+  ) {
     throw new Error(`"${spellPath}" did not resolve to a spell with a "file" property`);
   }
   return node as SpellReference;
@@ -158,7 +163,11 @@ function extractBafRanks(idToFile: Map<string, string>): Map<string, number> {
 // after exactly p of them." Closed form: an anchored entry never changes its relative
 // position among the entries it was placed among. See the design doc for why this beats
 // interpolating a borrowed baf line number from a neighbour.
-function placeEntries(rawEntries: RawEntry[], resolved: string[], bafRanks: Map<string, number>): ResolvedEntry[] {
+function placeEntries(
+  rawEntries: RawEntry[],
+  resolved: string[],
+  bafRanks: Map<string, number>,
+): ResolvedEntry[] {
   const partial: ResolvedEntry[] = [];
   let cursor = 0;
   for (const [originalIndex, raw] of rawEntries.entries()) {
@@ -280,9 +289,13 @@ const moves = deduped
   .filter((m) => m.to !== m.from);
 
 console.log(`${TARGET_FILE} rewritten.`);
-console.log(`${deduped.length} entries (${deduped.length - deduped.filter((e) => e.bafRank === undefined).length} evidence-backed, ${deduped.filter((e) => e.bafRank === undefined).length} anchored).`);
+console.log(
+  `${deduped.length} entries (${deduped.length - deduped.filter((e) => e.bafRank === undefined).length} evidence-backed, ${deduped.filter((e) => e.bafRank === undefined).length} anchored).`,
+);
 if (collapsedDuplicates.length > 0) {
-  console.log(`${collapsedDuplicates.length} duplicate resource entr${collapsedDuplicates.length === 1 ? "y" : "ies"} collapsed (two registry paths resolving to the same file):`);
+  console.log(
+    `${collapsedDuplicates.length} duplicate resource entr${collapsedDuplicates.length === 1 ? "y" : "ies"} collapsed (two registry paths resolving to the same file):`,
+  );
   for (const d of collapsedDuplicates) {
     console.log(`  kept "${d.kept}", dropped "${d.dropped}"`);
   }
@@ -292,7 +305,11 @@ if (moves.length > 0) {
   const largest = [...moves].sort((a, b) => Math.abs(b.to - b.from) - Math.abs(a.to - a.from));
   console.log("Largest moves:");
   for (const m of largest.slice(0, 15)) {
-    console.log(`  ${m.file}: ${m.from} -> ${m.to} (${m.to - m.from > 0 ? "+" : ""}${m.to - m.from})`);
+    console.log(
+      `  ${m.file}: ${m.from} -> ${m.to} (${m.to - m.from > 0 ? "+" : ""}${m.to - m.from})`,
+    );
   }
 }
-console.log("Next: npm run build && npm test - if the array changed, npm run generate and commit any regenerated fixtures too.");
+console.log(
+  "Next: npm run build && npm test - if the array changed, npm run generate and commit any regenerated fixtures too.",
+);

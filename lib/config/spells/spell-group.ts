@@ -1,11 +1,12 @@
 import { SpellGroup } from "../../src/model/spell-item/spell-group";
-import { SPELLS, spellsByKeyword } from "./spell-names";
+import { spellsByKeyword } from "../../src/model/spell-item/spell-reference";
+import { SPELLS } from "./spell-database";
 
 export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "acidSpells",
     spells: [
-      ...spellsByKeyword("acid"),
+      ...spellsByKeyword(SPELLS, "acid"),
       "SPIN994", // Acid Pools in Durlag's Tower (ACID_DAMAGE_1)
       "SPIN596", // Brown Dragon Acid Breath
       "SPIN691", // Black Dragon Breath
@@ -21,7 +22,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "blindness",
     spells: [
-      ...spellsByKeyword("blind"),
+      ...spellsByKeyword(SPELLS, "blind"),
       "spdr101.spl", // Chromatic Orb
       "spin595.spl", // Yellow Dragon Scorching Sand
       "spin878.spl", // Level Drain
@@ -43,7 +44,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "cold",
     spells: [
-      ...spellsByKeyword("cold"),
+      ...spellsByKeyword(SPELLS, "cold"),
       "d1#wi503", // Cone of Cold (mod)
       "DVCONEC", // Cone of Cold (IR)
       "SPCRYO01", // Cone of Cold (mod)
@@ -62,7 +63,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "cloud",
     spells: [
-      ...spellsByKeyword("cloud"),
+      ...spellsByKeyword(SPELLS, "cloud"),
       "SPWI004", // Stinking Cloud (trap)
       "SPWI016", // Cloudkill (trap)
       "DW#TRPIN", // Incendiary Cloud (Stratagems)
@@ -92,7 +93,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "confusion",
     spells: [
-      ...spellsByKeyword("confusion"),
+      ...spellsByKeyword(SPELLS, "confusion"),
       "SPIN582", // Confusion
       "SPIN704", // Confusion
       "SPIN839", // Confusion
@@ -114,7 +115,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "causeWounds",
     spells: [
-      ...spellsByKeyword("causeWounds"),
+      ...spellsByKeyword(SPELLS, "causeWounds"),
       "SPIN202", // Cause Serious Wounds
       "SPIN551", // Cause Serious Wounds (Hive Mother)
       "SPIN986", // Cause Serious Wounds (Beholder)
@@ -159,14 +160,14 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "death",
     spells: [
-      ...spellsByKeyword("death"),
+      ...spellsByKeyword(SPELLS, "death"),
       "cdxvdth", // Death Spell (mod)
     ],
   },
   {
     name: "disease",
     spells: [
-      ...spellsByKeyword("disease"),
+      ...spellsByKeyword(SPELLS, "disease"),
       SPELLS.Priest.CauseDisease.file,
       // ATWEAKS_SPELLS.CauseDisease,
       // ATWEAKS_SPELLS.PitFiendDisease,
@@ -195,7 +196,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       { id: "CLERIC_STATIC_CHARGE" }, // Static Charge (IWDification)
     ],
     spells: [
-      ...spellsByKeyword("electrical"),
+      ...spellsByKeyword(SPELLS, "electrical"),
       "CDSTAF12", // Lightning Bolt
       "SPCL722", // Lightning Bolt
       "SPIN579", // Lightning Bolt
@@ -234,7 +235,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "fear",
     spells: [
-      ...spellsByKeyword("fear"),
+      ...spellsByKeyword(SPELLS, "fear"),
       "SPIN203", // Cloak of Fear
       "SPIN536", // Fear
       "SPIN807", // Salyer Fear
@@ -271,7 +272,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       { id: "CLERIC_PRODUCE_FIRE" }, // Produe Fire (IWDification)
     ],
     spells: [
-      ...spellsByKeyword("fire"),
+      ...spellsByKeyword(SPELLS, "fire"),
       "SPIN561", // Fire Giant Lava Pit (FIRE_GIANT_LAVA)
       "SPIN819", // Lava Burst (LAVA_BURST)
       "SPWI022", // Lava Pit (TRAP_MUCK)
@@ -350,7 +351,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "hold",
-    spells: [...spellsByKeyword("hold")],
+    spells: [...spellsByKeyword(SPELLS, "hold")],
   },
   {
     name: "illusion",
@@ -407,7 +408,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "maze",
-    spells: [...spellsByKeyword("maze"), "SPIN774", "BDZHADRO"],
+    spells: [...spellsByKeyword(SPELLS, "maze"), "SPIN774", "BDZHADRO"],
   },
   {
     name: "minorGlobeOfInvulnerability",
@@ -437,14 +438,14 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "petrification",
     spells: [
-      ...spellsByKeyword("petrify"),
+      ...spellsByKeyword(SPELLS, "petrify"),
       "SPWI604D", // Flesh to Stone
     ],
   },
   {
     name: "poison",
     spells: [
-      ...spellsByKeyword("poison"),
+      ...spellsByKeyword(SPELLS, "poison"),
       "SPWI016", // Cloudkill (trap)
       "SPIN979", // Golem Gas Cloud
       "SPIN642", // Poisonous Cloud
@@ -457,7 +458,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "polymorph",
     spells: [
-      ...spellsByKeyword("polymorph"),
+      ...spellsByKeyword(SPELLS, "polymorph"),
       "SPIN538", // Polymorph Other
       "CA#PAOO", // Polymorph Other (Pnp Celestial)
     ],

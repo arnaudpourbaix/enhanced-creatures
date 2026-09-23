@@ -1,6 +1,6 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
-import { SpellVariant } from "../../../config/spells/spell-names";
+import { SpellVariant } from "../../model/spell-item/spell-reference";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature, CreatureAutoGenerate, CreatureNewFile } from "../../model/creature/creature";

@@ -1,5 +1,5 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { SpellReference } from "../../config/spells/spell-names";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import { Actions } from "../model/script/actions";
 import { Aera } from "../model/script/aera";
 

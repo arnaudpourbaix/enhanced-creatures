@@ -1,7 +1,7 @@
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../config/common";
 import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../config/creatures";
 import { ITEMS, MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { BafExistingStringReference } from "../config/stringRef";
 import { createDimensionDoor } from "../spells/dimension_door";
 import { CommonProjectileFiles } from "../spells/projectiles";

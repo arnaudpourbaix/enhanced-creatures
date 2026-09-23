@@ -1,4 +1,4 @@
-// Cross-checks lib/config/spells/spell-names.ts's SPELLS registry against the cumulative spell
+// Cross-checks lib/config/spells/spell-database.ts's SPELLS registry against the cumulative spell
 // snapshots in assets/spells/*.csv. Each snapshot is the full spell.ids state after installing one
 // more mod layer on top of the previous ones, in the fixed order vanilla -> spell_rev ->
 // stratagems_iwd -> stratagems_newspells (see docs/superpowers/... for the design discussion this

@@ -2,7 +2,7 @@ import deepmerge from "deepmerge";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resourcePlaceholderToken } from "../../../config/mods";
-import { SpellVariant } from "../../../config/spells/spell-names";
+import { SpellVariant } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";

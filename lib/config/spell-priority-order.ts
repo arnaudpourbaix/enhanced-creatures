@@ -1,5 +1,6 @@
-import { spellFiles, SPELLS } from "./spells/spell-names";
-import { FNP_SPELLS } from "./spells/fnp-spell-names";
+import { SPELLS } from "./spells/spell-database";
+import { FNP_SPELLS } from "./spells/fnp-spell-database";
+import { spellFiles } from "../src/model/spell-item/spell-reference";
 import { NEW_SPELLS } from "./spells/spells";
 
 /**
@@ -50,6 +51,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.EnergyDrain.file,
   SPELLS.Priest.Banishment.file,
   SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
+  SPELLS.Wizard.MonsterSummoning8.file,
   SPELLS.Priest.SummonDeathKnight.file,
   SPELLS.Priest.SymbolHopelessness.file,
   SPELLS.Wizard.FireShield.file,
@@ -60,9 +62,11 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.SymbolWeakness.file,
   SPELLS.Priest.FreeAction.file,
   SPELLS.Priest.AnimalSummoning7.file,
+  SPELLS.Wizard.MonsterSummoning7.file,
   SPELLS.Wizard.ProtectionFromMissiles.file,
   SPELLS.Priest.BladeBarrier.file,
   SPELLS.Priest.AnimalSummoning6.file,
+  SPELLS.Wizard.MonsterSummoning6.file,
   SPELLS.Priest.AnimateSkeletonWarrior.file,
   SPELLS.Priest.CallWoodlandBeeings.file,
   SPELLS.Priest.Repulsion.file,
@@ -71,6 +75,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.MinorSpellDeflection.file,
   SPELLS.Wizard.Blur.file,
   SPELLS.Priest.AnimalSummoning5.file,
+  SPELLS.Wizard.MonsterSummoning5.file,
   SPELLS.Wizard.MirrorImages.file,
   SPELLS.Wizard.ImprovedInvisibility.file,
   SPELLS.Priest.ProtectionFromGood.file,
@@ -82,6 +87,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   FNP_SPELLS.Priest.AnimateDead.file,
   FNP_SPELLS.Priest.DemiShadowMonsters.file,
   SPELLS.Priest.AnimalSummoning4.file,
+  SPELLS.Wizard.MonsterSummoning4.file,
   FNP_SPELLS.Priest.ShadowMonsters.file,
   SPELLS.Wizard.Shield.file,
   FNP_SPELLS.Priest.CircleOfBones.file,
@@ -153,6 +159,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.SummonInsects.file,
   FNP_SPELLS.Priest.CloakOfFear.file,
   SPELLS.Priest.AnimalSummoning3.file,
+  SPELLS.Wizard.MonsterSummoning3.file,
   SPELLS.Wizard.DireCharm.file,
   SPELLS.Wizard.FlameArrow.file,
   SPELLS.Wizard.AgannazarScorcher.file,
@@ -178,6 +185,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   FNP_SPELLS.Priest.Shatter.file,
   SPELLS.Wizard.Horror.file,
   SPELLS.Priest.AnimalSummoning2.file,
+  SPELLS.Wizard.MonsterSummoning2.file,
   SPELLS.Priest.Entangle.file,
   SPELLS.Priest.HoldPersonOrAnimal.file,
   SPELLS.Priest.CauseSeriousWounds.file,
@@ -193,6 +201,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Priest.Command.file,
   SPELLS.Priest.CauseLightWounds.file,
   SPELLS.Priest.AnimalSummoning1.file,
+  SPELLS.Wizard.MonsterSummoning1.file,
   SPELLS.Priest.SpiritualHammer.file,
   SPELLS.Priest.Curse.file,
   SPELLS.Priest.DrawUponHolyMight.file,

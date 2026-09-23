@@ -5,7 +5,7 @@ import { Actions } from "../script/actions";
 import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
-import { SpellReference, SpellVariant } from "../../../config/spells/spell-names";
+import { SpellReference, SpellVariant } from "../spell-item/spell-reference";
 
 export interface BaseCreatureAbility {
   name: StringReference;

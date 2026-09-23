@@ -1,5 +1,6 @@
 import { SpellTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { BaseSpell } from "../../src/model/spell-item/spell-item";
+import { flattenSpellCategories } from "../../src/model/spell-item/spell-reference";
 
 /**
  * Faiths and Powers
@@ -162,10 +163,6 @@ export const FNP_SPELLS = {
   Priest: FNP_PRIEST_SPELLS,
 };
 
-function flattenSpells(spells: Record<string, BaseSpell>): (BaseSpell & { key: string })[] {
-  return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
-}
-
 export function getAllFnpSpells() {
-  return [...flattenSpells(FNP_PRIEST_SPELLS)];
+  return flattenSpellCategories(FNP_SPELLS);
 }

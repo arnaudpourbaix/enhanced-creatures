@@ -2,7 +2,7 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
 import { CHARM_TARGET_LISTS, DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 export const CHARM_PRESETS: AbilityPreset[] = [
   {
@@ -59,7 +59,11 @@ export const CHARM_PRESETS: AbilityPreset[] = [
       spell: {},
       triggers: [
         ...triggerFactory.haveSpellRES(
-          [SPELLS.Wizard.Domination.file, SPELLS.Priest.MentalDomination.file, SPELLS.Wizard.DireCharm.file],
+          [
+            SPELLS.Wizard.Domination.file,
+            SPELLS.Priest.MentalDomination.file,
+            SPELLS.Wizard.DireCharm.file,
+          ],
           true,
         ),
       ],
@@ -78,7 +82,11 @@ export const CHARM_PRESETS: AbilityPreset[] = [
       spell: {},
       triggers: [
         ...triggerFactory.haveSpellRES(
-          [SPELLS.Wizard.Domination.file, SPELLS.Priest.MentalDomination.file, SPELLS.Wizard.DireCharm.file],
+          [
+            SPELLS.Wizard.Domination.file,
+            SPELLS.Priest.MentalDomination.file,
+            SPELLS.Wizard.DireCharm.file,
+          ],
           true,
         ),
       ],

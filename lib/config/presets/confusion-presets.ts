@@ -1,8 +1,8 @@
 import presetFactory from "../../src/factories/preset.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 
 export const CONFUSION_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Wizard.Confusion.file], {

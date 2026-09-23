@@ -1,8 +1,9 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
+import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELL_GROUPS } from "../../config/spells/spell-group";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
+import { getAllSpells, SpellReference } from "../model/spell-item/spell-reference";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { MemorizedSpell, SpellbookVariant } from "../model/creature/data";
@@ -214,14 +215,14 @@ class SpellService {
   }
 
   getSpellInfo(resource: string): SpellReference {
-    const spells = getAllSpells();
+    const spells = getAllSpells(SPELLS);
     const spell = spells.find((s) => s.file === resource);
     if (!spell) throw new Error(`spell ${resource} not found!`);
     return spell;
   }
 
   getAllSpellNames(): { file: string; name: StringReference }[] {
-    const spells = [...getAllSpells(), ...getAllFnpSpells()];
+    const spells = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
     return spells.flatMap((spell) => (spell.name ? [{ file: spell.file, name: spell.name }] : []));
   }
 

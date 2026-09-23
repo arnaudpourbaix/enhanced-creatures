@@ -1,4 +1,4 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum, RegenerationTypeEnum } from "../../src/model/spell-item/effect.enums";

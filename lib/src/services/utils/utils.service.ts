@@ -13,7 +13,7 @@ import { MemorizedSpellType, Spell } from "../../model/spell-item/spell-item";
 import { SpellProtectionStat } from "../../model/spell-item/spell-protection";
 import { State } from "../../state";
 import translationService from "./../translation.service";
-import { getAllFnpSpells } from "../../../config/spells/fnp-spell-names";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
 
 class UtilsService {
   objectKeys = <T extends object>(obj: T): (keyof T)[] => Object.keys(obj) as (keyof T)[];

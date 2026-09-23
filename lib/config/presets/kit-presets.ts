@@ -1,6 +1,6 @@
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 export const KIT_PRESETS: AbilityPreset[] = [
   {

@@ -2,7 +2,7 @@ import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 export const DISPEL_PRESETS: AbilityPreset[] = [
   {

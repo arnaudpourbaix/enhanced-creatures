@@ -1,14 +1,11 @@
 import { SpellBook } from "../../src/model/spell-item/spellbook";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Priest;
 
 export const EvilUndeadClericSpellbook: SpellBook = {
   name: "EvilUndeadCleric",
-  // Authored once for AllSpellMods (Spell Revisions + Stratagems, see the spellbook-availability
-  // design discussion) - the Vanilla variant is derived automatically via each spell's `fallback`
-  // (see SpellReference.fallback / spellBookVariants).
   values: [
     {
       level: 1,

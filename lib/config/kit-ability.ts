@@ -1,7 +1,7 @@
 import { KitConfig } from "../src/model/creature/kit";
 import { EffectStatisticModifierEnum } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { SPELLS } from "./spells/spell-names";
+import { SPELLS } from "./spells/spell-database";
 
 export const KITS: KitConfig[] = [
   {

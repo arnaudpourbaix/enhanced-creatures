@@ -1,4 +1,4 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "../monster";
 import type { OgreFamily } from "./family";

@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { createConeOfCold } from "../spells/cone_of_cold";
 import { CommonProjectileFiles } from "../spells/projectiles";
 import effectFactory from "../src/factories/effect.factory";

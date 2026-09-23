@@ -3,8 +3,8 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
 import { DEFAULT_SPELL_PROBABILITY, FEAR_TARGET_LISTS } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 
 export const FEAR_PRESETS: AbilityPreset[] = [
   {

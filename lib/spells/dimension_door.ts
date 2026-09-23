@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   EffectDispelResistanceEnum,

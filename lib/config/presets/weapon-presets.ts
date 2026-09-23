@@ -1,7 +1,8 @@
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SpellReference, SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
+import { SpellReference } from "../../src/model/spell-item/spell-reference";
 
 const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
   [

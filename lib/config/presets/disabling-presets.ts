@@ -4,8 +4,8 @@ import { Durations } from "../../src/model/game-data/durations";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 
 export const DISABLING_PRESETS: AbilityPreset[] = [
   {

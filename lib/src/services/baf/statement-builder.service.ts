@@ -1,6 +1,7 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
-import { getAllSpells, SpellReference } from "../../../config/spells/spell-names";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { getAllSpells, SpellReference } from "../../model/spell-item/spell-reference";
 import { TARGET_STATUS } from "../../../config/target-config";
 import { TargetListName, TargetStatusName } from "../../../config/target-name";
 import actionFactory from "../../factories/action.factory";
@@ -879,7 +880,7 @@ class StatementBuilderService {
     _options: BuilderOptions,
   ): void {
     let precast = 0;
-    for (const spell of getAllSpells()) {
+    for (const spell of getAllSpells(SPELLS)) {
       const durationMatch = "duration" in spell && spell.duration === duration;
       const hasSpell =
         creature.data.spells.memorized.some((m) => m.file === spell.file) ||

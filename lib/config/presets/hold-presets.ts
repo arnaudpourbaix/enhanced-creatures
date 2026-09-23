@@ -3,7 +3,7 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
 import { DEFAULT_SPELL_PROBABILITY, HOLD_TARGET_LISTS } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 export const HOLD_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Priest.HoldPerson.file, SPELLS.Wizard.HoldPerson.file], {

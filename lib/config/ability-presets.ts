@@ -16,7 +16,7 @@ import { KIT_PRESETS } from "./presets/kit-presets";
 import { SLEEP_PRESETS } from "./presets/sleep-presets";
 import { SUMMON_PRESETS } from "./presets/summon-presets";
 import { WEAPON_PRESETS } from "./presets/weapon-presets";
-import { SPELLS } from "./spells/spell-names";
+import { SPELLS } from "./spells/spell-database";
 
 // Spells from SPELLS with no preset defined yet.
 // TODO: fill in targets/triggers/spell for each, then move it to the appropriate presets/*.ts

@@ -1,6 +1,6 @@
 import { NEW_CREATURES, VAPOR_IMMUNE_CREATURES } from "../config/creatures";
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { RawCreatureAbility } from "../src/model/creature/ability";
 import { Creature } from "../src/model/creature/creature";

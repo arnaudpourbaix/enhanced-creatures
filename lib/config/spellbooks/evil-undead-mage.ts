@@ -1,11 +1,8 @@
 import { SpellBook } from "../../src/model/spell-item/spellbook";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Wizard;
 
-// Authored once for AllSpellMods (Spell Revisions + Stratagems, see the spellbook-availability
-// design discussion) - the Vanilla variant is derived automatically via each spell's `fallback`
-// (see SpellReference.fallback / spellBookVariants).
 export const EvilUndeadMageSpellbook: SpellBook = {
   name: "EvilUndeadMage",
   values: [
@@ -47,6 +44,18 @@ export const EvilUndeadMageSpellbook: SpellBook = {
     },
     {
       level: 7,
+      base: [],
+      additionnals: [],
+      repeat: [],
+    },
+    {
+      level: 8,
+      base: [],
+      additionnals: [],
+      repeat: [],
+    },
+    {
+      level: 9,
       base: [],
       additionnals: [],
       repeat: [],
@@ -96,6 +105,18 @@ export const EvilUndeadMageNoFFSpellbook: SpellBook = {
     },
     {
       level: 7,
+      base: [],
+      additionnals: [],
+      repeat: [],
+    },
+    {
+      level: 8,
+      base: [],
+      additionnals: [],
+      repeat: [],
+    },
+    {
+      level: 9,
       base: [],
       additionnals: [],
       repeat: [],

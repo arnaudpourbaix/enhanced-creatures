@@ -2,8 +2,9 @@ import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../config/mods";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
-import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
-import { getAllSpells, type SpellReference } from "../../config/spells/spell-names";
+import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
+import { SPELLS } from "../../config/spells/spell-database";
+import { getAllSpells, type SpellReference } from "../model/spell-item/spell-reference";
 import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
@@ -86,7 +87,7 @@ class MainService {
 
   checkPresets() {
     logService.section("Checking presets");
-    const spells = [...getAllSpells(), ...getAllFnpSpells()];
+    const spells = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
     for (const preset of ABILITY_PRESETS) {
       if (!preset.ability.spell || preset.ability.spell.resource || preset.ability.spell.id) {
         continue;
@@ -113,7 +114,7 @@ class MainService {
     // slot across mod states, not a real duplicate.
     const byFile = new Map<string, SpellReference[]>();
     const identifiers: string[] = [];
-    for (const spell of getAllSpells()) {
+    for (const spell of getAllSpells(SPELLS)) {
       const sameFile = byFile.get(spell.file) ?? [];
       for (const other of sameFile) {
         if (availabilityOverlaps(spell, other)) {

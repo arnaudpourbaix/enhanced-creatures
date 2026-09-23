@@ -3,8 +3,8 @@ import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 import { NEW_SPELLS } from "../spells/spells";
 
 export const DEBUFF_PRESETS: AbilityPreset[] = [

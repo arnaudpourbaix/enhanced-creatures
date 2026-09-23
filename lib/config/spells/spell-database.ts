@@ -1,79 +1,10 @@
-import { StringReference } from "../../src/model/final/stringref";
-import { SpellIdentifier } from "../../src/model/ids/spell";
-import { isAvailableInMod } from "../mods";
-import { SpellbookModName } from "./spellbook-mod-name";
-import { SpellKeyword as SpellKeyword } from "./keyword";
+import { setFallback, SpellReference } from "../../src/model/spell-item/spell-reference";
 
-/**
- * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
- * repurpose an existing file's slot for a different spell (e.g. spell_rev turns SPWI106 from
- * Blindness into Obscuring Mist), or move a spell.ids constant to a different file entirely (e.g.
- * CLERIC_PROTECTION_FROM_LIGHTNING moves from SPPR407 to SPPR521). For a spell that doesn't exist
- * at all without a mod (rather than existing but pointing elsewhere), use `requiresMod` on the
- * SpellReference instead. See scripts/report-spell-collisions.ts, which audits SPELLS against real
- * spell.ids snapshots per mod to find entries that need one of these.
- */
-export interface SpellVariant {
-  mod: SpellbookModName;
-  file: string;
-  id?: SpellIdentifier;
-}
-
-export interface SpellReference {
-  file: string;
-  id?: SpellIdentifier;
-  /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
-  name?: StringReference;
-  level?: number;
-  duration?:
-    | "long" // several hours
-    | "mid" // several turns
-    | "short"; // several rounds to one turn
-  keywords?: SpellKeyword[];
-  /**
-   * Per-mod overrides, checked in order - the first installed mod wins, falling back to `file`/`id`
-   * above when none match (or when this is unset, which is the common case). Not yet consumed by
-   * every place that reads `file`/`id` directly - memorized spells, SPELL_GROUPS and ability presets
-   * (e.g. lib/config/presets/buff-presets.ts) all still read the base fields unconditionally, so a
-   * variant here doesn't yet protect those call sites.
-   */
-  variants?: SpellVariant[];
-  /**
-   * Set when this spell doesn't exist at all without a mod - `file`/`id` above describe it once
-   * that mod is installed; there is no correct fallback to fall back to (unlike `variants`, which
-   * is for a spell that exists everywhere but points somewhere different). Checked by
-   * main.service.ts's checkSpells() (so a later mod reusing this file doesn't look like a
-   * duplicate) - not yet consumed by generation itself (memorized spells, SPELL_GROUPS and ability
-   * presets still reference `file` unconditionally).
-   */
-  requiresMod?: SpellbookModName;
-  /**
-   * The inverse of `requiresMod` - set when this spell stops existing once a mod (or anything
-   * layered after it - see MOD_LAYER_ORDER) is installed, because that mod repurposes `file` for a
-   * different spell (e.g. Deafness's SPWI223 becomes Sound Burst under Spell Revisions). Lets
-   * checkSpells() recognize two entries sharing a file as correctly disjoint instead of a real
-   * duplicate. Not yet consumed by generation itself, same caveat as `requiresMod`.
-   */
-  obsoletedBy?: SpellbookModName;
-  /**
-   * Set when a mod hides this spell from normal spell-selection (e.g. HIDESPL.2da) without
-   * repurposing `file` into different content - unlike `obsoletedBy`, the spell itself is still
-   * real and fully castable, just not something a caster could ever have learned normally. So a
-   * monster whose abilities are hand-picked (not built from a SpellBook) can still reference it
-   * directly; only spellbook derivation (resolveForMod/checkSpellbooks) treats it as unavailable
-   * here, since a true spellbook (e.g. Greater Mummy's) should only ever contain spells actually
-   * obtainable in that install.
-   */
-  hiddenIn?: SpellbookModName;
-  /**
-   * The vanilla-safe spell to use instead when this one isn't available (its `requiresMod` isn't
-   * satisfied) - e.g. Wizard.SoundBurst's fallback is Wizard.Deafness, the vanilla spell it
-   * replaces at the same file. Lets a spellbook/ability be authored once (for AllSpellMods) and the
-   * Vanilla variant derived automatically via resolveForMod, instead of hand-authoring both. Set
-   * after SPELLS is assembled below, since a fallback is itself another SPELLS entry.
-   */
-  fallback?: SpellReference;
-}
+// Types (SpellReference/SpellVariant) and all spell-resolution logic (resolveForMod, spellFiles,
+// setFallback, getAllSpells, spellsByKeyword) live in lib/src/model/spell-item/spell-reference.ts,
+// not here - this file is just the SPELLS data itself (see the "spell-database is becoming a mess"
+// cleanup discussion). Callers needing that logic import it from the model file directly, passing
+// SPELLS in where a spell registry argument is expected (e.g. getAllSpells(SPELLS)).
 
 // Shared by RemoveMagic (wizard), DispelMagic (wizard), and DispelMagic (cleric) below - all
 // three display the same in-game name.
@@ -119,10 +50,10 @@ const WIZARD_SPELLS = {
     keywords: ["cold", "hold"],
     requiresMod: "AllSpellMods",
   },
-  // Vanilla-only: Spell Revisions repurposes SPWI106 into Obscuring Mist (see that entry) and there
-  // is no evidence of where, if anywhere, Blindness itself moves to. Not currently referenced
-  // outside this file, so left undocumented beyond this note rather than guessing a replacement.
   Blindness: {
+    // Vanilla-only: Spell Revisions repurposes SPWI106 into Obscuring Mist (see that entry) and there
+    // is no evidence of where, if anywhere, Blindness itself moves to. Not currently referenced
+    // outside this file, so left undocumented beyond this note rather than guessing a replacement.
     file: "SPWI106",
     id: "WIZARD_BLINDNESS",
     name: "spell.Blindness.name",
@@ -217,18 +148,18 @@ const WIZARD_SPELLS = {
     name: "spell.Deafness.name",
     obsoletedBy: "AllSpellMods",
   },
-  // Spell Revisions repurposes SPWI223 into this - Deafness above stays the correct name for the
-  // same file in vanilla only.
   SoundBurst: {
+    // Spell Revisions repurposes SPWI223 into this - Deafness above stays the correct name for the
+    // same file in vanilla only.
     file: "SPWI223",
     id: "WIZARD_SOUND_BURST",
     name: "spell.SoundBurst.name",
     requiresMod: "AllSpellMods",
   },
-  // Vanilla-only: once Spell Revisions is installed, SPWI605 becomes Banishment (WIZARD_BANISHMENT
-  // under Spell Revisions alone, oddly reverting to the WIZARD_DEATH_SPELL symbol - still Banishment
-  // content - once Stratagems is also installed). Not currently referenced outside this file.
   DeathSpell: {
+    // Vanilla-only: once Spell Revisions is installed, SPWI605 becomes Banishment (WIZARD_BANISHMENT
+    // under Spell Revisions alone, oddly reverting to the WIZARD_DEATH_SPELL symbol - still Banishment
+    // content - once Stratagems is also installed). Not currently referenced outside this file.
     file: "SPWI605",
     id: "WIZARD_DEATH_SPELL",
     name: "spell.DeathSpell.name",
@@ -452,6 +383,54 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MIRROR_IMAGE",
     duration: "mid",
     name: "spell.MirrorImages.name",
+  },
+  MonsterSummoning1: {
+    file: "SPWI107",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_1",
+    name: "spell.MonsterSummoning1.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning2: {
+    file: "SPWI226",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_2",
+    name: "spell.MonsterSummoning2.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning3: {
+    file: "SPWI309",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_3",
+    name: "spell.MonsterSummoning3.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning4: {
+    file: "SPWI423",
+    id: "WIZARD_SPIDER_SPAWN",
+    name: "spell.MonsterSummoning4.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning5: {
+    file: "SPWI504",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_5",
+    name: "spell.MonsterSummoning5.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning6: {
+    file: "SPWI610",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_6",
+    name: "spell.MonsterSummoning6.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning7: {
+    file: "SPWI706",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_7",
+    name: "spell.MonsterSummoning7.name",
+    requiresMod: "AllSpellMods",
+  },
+  MonsterSummoning8: {
+    file: "SPWI806",
+    id: "WIZARD_MONSTER_SUMMONING_LEVEL_8",
+    name: "spell.MonsterSummoning8.name",
+    requiresMod: "AllSpellMods",
   },
   MordenkainenForceMissiles: {
     file: "SPWI431",
@@ -1015,6 +994,13 @@ const PRIEST_SPELLS = {
     name: "spell.FreeAction.name",
     duration: "mid",
   },
+  Gate: {
+    file: "SPPR703",
+    id: "CLERIC_GATE",
+    name: "spell.Gate.name",
+    duration: "mid",
+    obsoletedBy: "AllSpellMods",
+  },
   GlyphOfWarding: {
     file: "SPPR304",
     id: "CLERIC_GLYPH_OF_WARDING",
@@ -1135,6 +1121,12 @@ const PRIEST_SPELLS = {
     id: "CLERIC_PROTECT_FROM_EVIL",
     name: "spell.ProtectionFromEvil.name",
     duration: "short",
+  },
+  ProtectionFromEvil10Radius: {
+    file: "SPPR408",
+    id: "CLERIC_PROTECTION_FROM_EVIL_10_FOOT",
+    name: "spell.ProtectionFromEvil.name",
+    duration: "mid",
   },
   ProtectionFromGood: {
     file: "SPPR125",
@@ -1360,92 +1352,31 @@ export const SPELLS = {
   Innate: INNATE_SPELLS,
 };
 
-// Fallbacks (see SpellReference.fallback) - set here, not inline above, since a fallback is
-// itself another SPELLS entry and can't reference a sibling from within the same object literal.
-// Only the "same slot, different era" pairs have an obvious fallback; the rest of the
+// Fallbacks (see SpellReference.fallback / setFallback) - assigned here, not inline above, since a
+// fallback is itself another SPELLS entry and can't reference a sibling from within the same object
+// literal. Only the "same slot, different era" pairs have an obvious fallback; the rest of the
 // requiresMod-only entries (new spells with no vanilla predecessor) still need one chosen.
-function setFallback(spell: SpellReference, fallback: SpellReference): void {
-  spell.fallback = fallback;
-}
 setFallback(WIZARD_SPELLS.SoundBurst, WIZARD_SPELLS.Deafness);
 setFallback(WIZARD_SPELLS.ObscuringMist, WIZARD_SPELLS.Blindness);
-
-// Filler fallbacks for requiresMod-only spells that have no vanilla predecessor at the same slot -
-// picked for mechanical validity (same rough level/role, genuinely vanilla-safe), not thematic
-// accuracy. Revisit these choices later.
-setFallback(WIZARD_SPELLS.Combust, WIZARD_SPELLS.StinkingCloud);
-setFallback(WIZARD_SPELLS.ShadowMonsters, WIZARD_SPELLS.Confusion);
-setFallback(WIZARD_SPELLS.MordenkainenForceMissiles, WIZARD_SPELLS.Stoneskin);
-setFallback(WIZARD_SPELLS.DemiShadowMonsters, WIZARD_SPELLS.HoldMonster);
-setFallback(WIZARD_SPELLS.SummonShadow, WIZARD_SPELLS.Breach);
-setFallback(WIZARD_SPELLS.ShroudOfFlame, WIZARD_SPELLS.Breach);
-setFallback(PRIEST_SPELLS.CauseLightWounds, PRIEST_SPELLS.CureLightWounds);
-setFallback(PRIEST_SPELLS.CauseModerateWounds, PRIEST_SPELLS.Aid);
-setFallback(PRIEST_SPELLS.CauseSeriousWounds, PRIEST_SPELLS.Poison);
-setFallback(PRIEST_SPELLS.MassCauseLightWounds, PRIEST_SPELLS.MagicResistance);
-setFallback(PRIEST_SPELLS.Curse, PRIEST_SPELLS.Entangle);
+setFallback(WIZARD_SPELLS.Combust, WIZARD_SPELLS.AgannazarScorcher);
+setFallback(WIZARD_SPELLS.ShadowMonsters, WIZARD_SPELLS.MonsterSummoning4);
+setFallback(WIZARD_SPELLS.MordenkainenForceMissiles, WIZARD_SPELLS.Confusion);
+setFallback(WIZARD_SPELLS.DemiShadowMonsters, WIZARD_SPELLS.MonsterSummoning5);
+setFallback(WIZARD_SPELLS.SummonShadow, WIZARD_SPELLS.MonsterSummoning5);
+setFallback(WIZARD_SPELLS.ShroudOfFlame, WIZARD_SPELLS.Fireburst);
+setFallback(PRIEST_SPELLS.CauseLightWounds, PRIEST_SPELLS.Command);
+setFallback(PRIEST_SPELLS.CauseModerateWounds, PRIEST_SPELLS.HoldPerson);
+setFallback(PRIEST_SPELLS.CauseSeriousWounds, PRIEST_SPELLS.RigidThinking);
+setFallback(PRIEST_SPELLS.MassCauseLightWounds, PRIEST_SPELLS.CauseCriticalWounds);
+setFallback(PRIEST_SPELLS.Curse, PRIEST_SPELLS.Command);
 setFallback(PRIEST_SPELLS.ProtectionFromGood, PRIEST_SPELLS.ProtectionFromEvil);
-setFallback(PRIEST_SPELLS.ProtectionFromGood10Radius, PRIEST_SPELLS.FreeAction);
+setFallback(PRIEST_SPELLS.ProtectionFromGood10Radius, PRIEST_SPELLS.ProtectionFromEvil10Radius);
 setFallback(PRIEST_SPELLS.CauseDisease, PRIEST_SPELLS.MiscastMagic);
 setFallback(PRIEST_SPELLS.Contagion, PRIEST_SPELLS.RigidThinking);
 setFallback(PRIEST_SPELLS.CloudOfPestilence, PRIEST_SPELLS.Poison);
-setFallback(PRIEST_SPELLS.AnimateSkeletonWarrior, PRIEST_SPELLS.BladeBarrier);
-setFallback(PRIEST_SPELLS.EntropyShield, PRIEST_SPELLS.BladeBarrier);
-setFallback(PRIEST_SPELLS.Banishment, PRIEST_SPELLS.DolorousDecay);
-setFallback(PRIEST_SPELLS.SummonDeathKnight, PRIEST_SPELLS.FingerOfDeath);
+setFallback(PRIEST_SPELLS.AnimateSkeletonWarrior, PRIEST_SPELLS.AerialServant);
+setFallback(PRIEST_SPELLS.EntropyShield, PRIEST_SPELLS.PhysicalMirror);
+setFallback(PRIEST_SPELLS.Banishment, PRIEST_SPELLS.BoltOfGlory);
+setFallback(PRIEST_SPELLS.SummonDeathKnight, PRIEST_SPELLS.Gate);
 setFallback(PRIEST_SPELLS.Destruction, PRIEST_SPELLS.SymbolDeath);
-setFallback(PRIEST_SPELLS.Wither, PRIEST_SPELLS.SymbolStunning);
-
-/**
- * Resolves a spell for a specific mod state: itself (or its matching `variants` entry) if
- * available there, otherwise walks `fallback` until it finds one that is. Throws if the chain runs
- * out (no fallback) or loops (a fallback cycle) before finding an available spell.
- */
-export function resolveForMod(spell: SpellReference, mod: SpellbookModName): SpellReference {
-  let current = spell;
-  const seen = new Set<SpellReference>();
-  while (!isAvailableInMod(current, mod)) {
-    if (seen.has(current)) {
-      throw new Error(`Fallback cycle detected while resolving a spell for ${mod}.`);
-    }
-    seen.add(current);
-    if (!current.fallback) {
-      throw new Error(`No spell available for ${mod}, and no fallback is defined for it.`);
-    }
-    current = current.fallback;
-  }
-  const variant = current.variants?.find((v) => v.mod === mod);
-  return variant ? { ...current, file: variant.file, id: variant.id } : current;
-}
-
-function flattenSpells(
-  spells: Record<string, SpellReference>,
-): (SpellReference & { key: string })[] {
-  return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
-}
-
-export function getAllSpells(): (SpellReference & { key: string })[] {
-  return [
-    ...flattenSpells(WIZARD_SPELLS),
-    ...flattenSpells(PRIEST_SPELLS),
-    ...flattenSpells(CLASS_SPELLS),
-    ...flattenSpells(INNATE_SPELLS),
-  ];
-}
-
-/**
- * Every file a spell could resolve to across mods - its base `file` plus each `variants` entry's
- * file. For a static resource list (SPELL_GROUPS, SPELL_PRIORITY_ORDER) this is all that's needed:
- * unlike a compiled ability, listing a file that doesn't exist under some install is harmless there
- * (see spell-group.ts), so there's no need to pick the "right" one at generation time.
- */
-export function spellFiles(spell: SpellReference): string[] {
-  return [spell.file, ...(spell.variants?.map((v) => v.file) ?? [])];
-}
-
-/** Files of every spell tagged with the given keyword - see SpellCheckKeyword. */
-export function spellsByKeyword(keyword: SpellKeyword): string[] {
-  return getAllSpells()
-    .filter((spell) => spell.keywords?.includes(keyword))
-    .flatMap((spell) => spellFiles(spell));
-}
+setFallback(PRIEST_SPELLS.Wither, PRIEST_SPELLS.FingerOfDeath);

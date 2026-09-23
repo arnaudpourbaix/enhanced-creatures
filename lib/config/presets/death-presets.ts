@@ -5,7 +5,7 @@ import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
 import targetService from "../../src/services/baf/target.service";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 const DeathTargets: TargetList[] = [
   {

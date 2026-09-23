@@ -1,16 +1,15 @@
 # Spell registry vs installed-mod snapshots
 
-## File collisions (3)
+## File collisions (2)
 
 Two or more SPELLS entries share the same resource file.
 
 | file | entries | verdict |
 | --- | --- | --- |
-| SPPR502 | Priest.CureCriticalWounds (001_vanilla); Priest.CureMortalWounds (004_stratagems_newspells) | disjoint (needs per-mod availability) |
 | SPWI106 | Wizard.Blindness (001_vanilla); Wizard.ObscuringMist (004_stratagems_newspells) | disjoint (needs per-mod availability) |
 | SPWI223 | Wizard.Deafness (001_vanilla); Wizard.SoundBurst (004_stratagems_newspells) | disjoint (needs per-mod availability) |
 
-## Identity mismatches (21)
+## Identity mismatches (20)
 
 A SPELLS entry's declared `id` doesn't match the file's actual spell.ids constant in one or more snapshots.
 
@@ -20,7 +19,6 @@ A SPELLS entry's declared `id` doesn't match the file's actual spell.ids constan
 | Priest.AnimalSummoning5 | SPPR501 | CLERIC_ANIMAL_SUMMONING_LEVEL_5 | 001_vanilla (CLERIC_ANIMAL_SUMMONING_2) |
 | Priest.AnimalSummoning6 | SPPR602 | CLERIC_ANIMAL_SUMMONING_LEVEL_6 | 001_vanilla (CLERIC_ANIMAL_SUMMONING_3) |
 | Priest.CureCriticalWounds | SPPR502 | CLERIC_CURE_CRITICAL_WOUNDS | 004_stratagems_newspells (CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED) |
-| Priest.CureMortalWounds | SPPR502 | CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED | 001_vanilla (CLERIC_CURE_CRITICAL_WOUNDS) |
 | Priest.PhysicalMirror | SPPR613 | CLERIC_PHYSICAL_MIRROR | 004_stratagems_newspells (CLERIC_MIRROR_OLD) |
 | Priest.ProtectionFromLightning | SPPR407 | CLERIC_PROTECTION_FROM_LIGHTNING | 004_stratagems_newspells (CLERIC_PROTECTION_FROM_LIGHTNING_DEPRECATED) |
 | Priest.Repulsion | SPPR515 | CLERIC_REPULSION | 001_vanilla (CLERIC_REPULSE_UNDEAD) |

@@ -1,4 +1,4 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";

@@ -1,11 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  resolveForMod,
-  SPELLS,
-  spellFiles,
-  spellsByKeyword,
-  type SpellReference,
-} from "./spell-names";
+import { resolveForMod, spellFiles, type SpellReference } from "./spell-reference";
 
 describe("spellFiles", () => {
   it("returns just the base file when there are no variants", () => {
@@ -22,13 +16,6 @@ describe("spellFiles", () => {
       ],
     };
     expect(spellFiles(spell)).toEqual(["SPWI402", "SPWI127", "SPWI999"]);
-  });
-});
-
-describe("spellsByKeyword", () => {
-  it("returns only the base file for a spell with no variants", () => {
-    const files = spellsByKeyword("poison");
-    expect(files.filter((f) => f === "SPPR411")).toEqual(["SPPR411"]);
   });
 });
 
@@ -73,10 +60,5 @@ describe("resolveForMod", () => {
     const b: SpellReference = { file: "B", requiresMod: "AllSpellMods", fallback: a };
     a.fallback = b;
     expect(() => resolveForMod(a, "Vanilla")).toThrow(/cycle/);
-  });
-
-  it("resolves the real SoundBurst/Deafness fallback pair end to end", () => {
-    expect(resolveForMod(SPELLS.Wizard.SoundBurst, "AllSpellMods")).toBe(SPELLS.Wizard.SoundBurst);
-    expect(resolveForMod(SPELLS.Wizard.SoundBurst, "Vanilla")).toBe(SPELLS.Wizard.Deafness);
   });
 });

@@ -1,7 +1,7 @@
 import { MOD_LAYER_ORDER } from "../../../config/mods";
 import { SpellBookName } from "../../../config/spellbooks/spellbook-name";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
-import { resolveForMod, SpellReference } from "../../../config/spells/spell-names";
+import { resolveForMod, SpellReference } from "./spell-reference";
 
 export interface SpellBookSpells {
   level: number;

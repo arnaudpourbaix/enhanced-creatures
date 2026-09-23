@@ -1,7 +1,7 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import {
   EffectTargetEnum,
   ItemAbilityTypeEnum,
@@ -210,7 +210,7 @@ describe("useEffectFile (racial resistance skip-add dedup)", () => {
 });
 
 describe("getAllSpellNames", () => {
-  it("includes a named spell from the base spell-names list", () => {
+  it("includes a named spell from the base spell-database list", () => {
     const result = spellService.getAllSpellNames();
     expect(result).toContainEqual({ file: "SPWI118", name: "spell.ChromaticOrb.name" });
   });

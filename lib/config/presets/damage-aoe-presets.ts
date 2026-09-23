@@ -4,8 +4,8 @@ import { ScriptTarget } from "../../src/model/constants";
 import { Durations } from "../../src/model/game-data/durations";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
 
 // NumCreatureGT is not used purposely
 // Although it is best to maximize spell efficiency, you must remember the solo enemy case.

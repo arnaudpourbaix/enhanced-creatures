@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { SPELLS, type SpellReference } from "../lib/config/spells/spell-names";
+import { SPELLS } from "../lib/config/spells/spell-database";
+import { type SpellReference } from "../lib/src/model/spell-item/spell-reference";
 import { parseCsv } from "./lib/build-creatures";
 import {
   findAvailabilityGaps,
@@ -11,7 +12,7 @@ import {
   type RegistryEntry,
 } from "./lib/spell-collisions";
 
-// Cross-checks SPELLS (lib/config/spells/spell-names.ts) against the two spell-identity states
+// Cross-checks SPELLS (lib/config/spells/spell-database.ts) against the two spell-identity states
 // this pack actually supports (see the spellbook-availability design discussion): 001_vanilla (none
 // of Spell Revisions/Stratagems installed) and 004_stratagems_newspells (all of them installed
 // together - partial combinations aren't supported, so 002/003's intermediate snapshots are kept on

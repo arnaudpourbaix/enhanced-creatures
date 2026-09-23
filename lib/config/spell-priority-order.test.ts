@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SPELL_PRIORITY_ORDER } from "./spell-priority-order";
-import { SPELLS } from "./spells/spell-names";
+import { SPELLS } from "./spells/spell-database";
 
 describe("SPELL_PRIORITY_ORDER", () => {
   it("is a non-empty list containing spells seeded from the ability presets", () => {

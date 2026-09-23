@@ -1,5 +1,6 @@
 import figureSet from "figures";
-import { getAllSpells } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
+import { getAllSpells } from "../model/spell-item/spell-reference";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { CreatureAbility } from "../model/creature/ability";
 import { CreatureAdjustment } from "../model/creature/adjustment";
@@ -294,7 +295,7 @@ class CreatureService {
   }
 
   private resolveSpellIdToFile(id: string): string | undefined {
-    const spells = getAllSpells();
+    const spells = getAllSpells(SPELLS);
     return spells.find((s) => s.id === id)?.file;
   }
 
@@ -460,8 +461,7 @@ class CreatureService {
       });
     }
     if (p.autoGenerate.thac0 && p.data.thac0 === undefined) {
-      const options =
-        typeof p.autoGenerate.thac0 === "object" ? p.autoGenerate.thac0 : undefined;
+      const options = typeof p.autoGenerate.thac0 === "object" ? p.autoGenerate.thac0 : undefined;
       this.autogenerateThac0(p.data, p.parent, options);
     }
     if (p.data.saveBreath === undefined) {

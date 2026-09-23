@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { NEW_SPELLS } from "../config/spells/spells";
 import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect } from "../src/model/spell-item/effect";

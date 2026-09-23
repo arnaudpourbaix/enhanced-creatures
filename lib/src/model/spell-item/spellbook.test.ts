@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SpellReference } from "../../../config/spells/spell-names";
+import { SpellReference } from "./spell-reference";
 import {
   resolveSpellBookSpellsForMod,
   SpellBook,

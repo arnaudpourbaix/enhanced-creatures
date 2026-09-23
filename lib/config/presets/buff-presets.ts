@@ -3,8 +3,9 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { spellFiles, SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
+import { spellFiles } from "../../src/model/spell-item/spell-reference";
 
 export const BUFF_PRESETS: AbilityPreset[] = [
   {
