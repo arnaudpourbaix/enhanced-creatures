@@ -29,7 +29,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           },
         ],
         [
-          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
           // triggerFactory.hasBounceEffects(true),
         ],
       ),
@@ -76,7 +75,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           name: "PCs",
           randomOrder: true,
           triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -93,10 +91,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       targets: [
         {
           name: "NearestEnemies",
-          triggers: [
-            triggerFactory.areaType("OUTDOOR"),
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-          ],
+          triggers: [triggerFactory.areaType("OUTDOOR")],
           randomOrder: true,
         },
       ],
@@ -110,10 +105,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     targets: [
       {
         name: "PCsFighters",
-        triggers: [
-          triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
-          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ],
+        triggers: [triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER")],
         randomOrder: true,
       },
     ],
@@ -125,16 +117,10 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     preset: FNP_SPELLS.Priest.Shatter.file,
     ability: {
       name: FNP_SPELLS.Priest.Shatter.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-            // magicResistance not wired here: FNP_SPELLS' BaseSpell type has no `keywords` field,
-            // so this file variant can't opt into the auto spellChecks() mechanism yet.
-          ],
-        },
-      ],
+      // Explicit level (not auto-resolved): FNP_SPELLS' BaseSpell type isn't a SpellCollection
+      // entry, so levelForFile(SPELLS, ...) can't find it - same gap already noted for keywords.
+      level: FNP_SPELLS.Priest.Shatter.level,
+      targets: [{ name: "NearestEnemies" }],
       spell: {},
       timer: { name: "Shatter", value: 4 * Durations.round },
       requireVocal: true,
@@ -216,7 +202,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
             randomOrder: true,
           },
         ],
-        [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
+        [],
       ),
       spell: {},
       requireVocal: true,
@@ -232,7 +218,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
           name: "Players",
           randomOrder: true,
           triggers: [
-            triggerFactory.checkStatGT(0, "MINORGLOBE", true),
             // triggerFactory.hasBounceEffects(true),
           ],
         },
@@ -280,7 +265,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
         {
           name: "NearestEnemies",
           randomOrder: true,
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
@@ -327,7 +311,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       targets: [
         {
           name: "NearestEnemies",
-          triggers: [triggerFactory.checkStatGT(0, "MINORGLOBE", true)],
         },
       ],
       spell: {},
