@@ -9,10 +9,7 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.PowerWordSleep.file,
     ability: {
       name: SPELLS.Wizard.PowerWordSleep.name,
-      targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        triggerFactory.hplt(20),
-      ]),
+      targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [triggerFactory.hplt(20)]),
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -22,9 +19,7 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.Sleep.file,
     ability: {
       name: SPELLS.Wizard.Sleep.name,
-      targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: SLEEP_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -44,9 +39,7 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.Command.file,
     ability: {
       name: SPELLS.Priest.Command.name,
-      targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ]),
+      targets: SLEEP_TARGET_LISTS,
       spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
