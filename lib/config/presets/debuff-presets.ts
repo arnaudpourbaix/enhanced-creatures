@@ -1,4 +1,3 @@
-import abilityFactory from "../../src/factories/ability.factory";
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
@@ -13,10 +12,7 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
     targets: [
       {
         name: "Players",
-        triggers: [
-          triggerFactory.checkSpellState("DOOM", true),
-          triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ],
+        triggers: [triggerFactory.checkSpellState("DOOM", true)],
         randomOrder: true,
       },
     ],
