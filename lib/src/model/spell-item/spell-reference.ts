@@ -169,3 +169,18 @@ export function keywordsForFile(spells: SpellCollection, file: string): SpellKey
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.keywords;
 }
+
+/**
+ * The `level` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches or it has no `level`.
+ * Backs the automatic level resolution in PresetFactory.create and AbilityService.applyPreset,
+ * mirroring keywordsForFile: a preset built from a real SPELLS entry gets its level for free, so
+ * an explicit `level` field on a preset is only needed for a one-off ability with no SPELLS entry
+ * of its own (e.g. a spell declared directly on a monster, or one only present in FNP_SPELLS).
+ */
+export function levelForFile(spells: SpellCollection, file: string): number | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.level;
+}

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   keywordsForFile,
+  levelForFile,
   resolveForMod,
   spellFiles,
   type SpellCollection,
@@ -102,5 +103,41 @@ describe("keywordsForFile", () => {
 
   it("returns undefined when no entry matches at all", () => {
     expect(keywordsForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
+  });
+});
+
+describe("levelForFile", () => {
+  const spells: SpellCollection = {
+    Wizard: {
+      Horror: { file: "SPWI205", level: 3 },
+      DimensionDoor: {
+        file: "SPWI402",
+        variants: [{ mod: "AllSpellMods", file: "SPWI127" }],
+        level: 4,
+      },
+    },
+    Priest: {
+      Bless: { file: "SPPR101" },
+    },
+  };
+
+  it("returns the level of the entry whose own file matches", () => {
+    expect(levelForFile(spells, "SPWI205")).toBe(3);
+  });
+
+  it("matches case-insensitively", () => {
+    expect(levelForFile(spells, "spwi205")).toBe(3);
+  });
+
+  it("matches a variant's file, not just the base file", () => {
+    expect(levelForFile(spells, "SPWI127")).toBe(4);
+  });
+
+  it("returns undefined for an entry with no level field", () => {
+    expect(levelForFile(spells, "SPPR101")).toBeUndefined();
+  });
+
+  it("returns undefined when no entry matches at all", () => {
+    expect(levelForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
   });
 });

@@ -21,6 +21,14 @@ export interface BaseCreatureAbility {
    */
   keywords?: SpellKeyword[];
   /**
+   * The spell's level (e.g. SPELLS.Wizard.Horror.level) - ability.service.ts auto-appends an
+   * ImmuneToSpellLevel(target, level) trigger to every target list whenever this is known, so a
+   * preset never needs its own hand-written globe/spell-deflection/etc. check. Independent of
+   * `keywords` above - this mechanism doesn't use SpellKeyword/SPELL_CHECK_TRIGGERS at all, since
+   * ImmuneToSpellLevel already covers whatever protection is actually active on the target.
+   */
+  level?: number;
+  /**
    * Ability maximum range (if applicable)
    */
   range?: number;
