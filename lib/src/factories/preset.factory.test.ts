@@ -49,4 +49,32 @@ describe("create", () => {
     });
     expect(result.ability.keywords).toEqual(["poison"]);
   });
+
+  it("auto-resolves level from a real SPELLS entry when the ability doesn't set it", () => {
+    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
+      name: DEFAULT_ABILITY_NAME,
+    });
+    expect(result.ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
+  });
+
+  it("resolves level once and shares it across every name, even one that isn't a SPELLS entry", () => {
+    const results = presetFactory.create(["NOT_IN_SPELLS", SPELLS.Priest.CloakOfFear.file], {
+      name: DEFAULT_ABILITY_NAME,
+    });
+    expect(results[0].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
+    expect(results[1].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
+  });
+
+  it("leaves level unset when no name resolves to a SPELLS entry", () => {
+    const [result] = presetFactory.create(["NOT_IN_SPELLS"], { name: DEFAULT_ABILITY_NAME });
+    expect(result.ability.level).toBeUndefined();
+  });
+
+  it("keeps an explicit ability.level instead of auto-resolving", () => {
+    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
+      name: DEFAULT_ABILITY_NAME,
+      level: 99,
+    });
+    expect(result.ability.level).toBe(99);
+  });
 });
