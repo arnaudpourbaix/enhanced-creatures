@@ -4,7 +4,11 @@ import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { SPELLS } from "../../../config/spells/spell-database";
-import { keywordsForFile, levelForFile, SpellVariant } from "../../model/spell-item/spell-reference";
+import {
+  keywordsForFile,
+  levelForFile,
+  SpellVariant,
+} from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";
@@ -74,8 +78,16 @@ class AbilityService {
    * ImmuneToSpellLevel(target, level) check when `level` is known, to every target list's own
    * `triggers` - not the ability's top-level triggers - since a target list is what actually
    * restricts an offensive ability to a subset of targets, so "skip protected targets" belongs
-   * there. The two are independent: an ability can have either, both, or neither. A no-op when
-   * there's nothing to add.
+   * there. These ability-level checks are shared by every target list; each target list's own
+   * `keywords` (see TargetList.keywords) are additionally resolved and appended per-tier, so a
+   * fallback cascade's tiers can carry different, independently-toggleable checks (e.g. excluding
+   * both Elf and Half-Elf in a best-case tier, only Elf in a looser fallback). `keywords` is
+   * consumed here and dropped from the result - it's build-time input only, never read again
+   * downstream, and dropping it lets two tiers whose *resolved* triggers end up identical dedupe
+   * against each other even when they were authored with different `keywords` (see
+   * dedupeTargetLists). Finishes by deduping any target list that's become a full duplicate of an
+   * earlier one - toggling a tier-only check off can otherwise leave two tiers identical. A no-op
+   * when there's nothing to add.
    */
   private appendSpellCheckTriggers(
     targets: TargetList[] | undefined,
@@ -83,12 +95,34 @@ class AbilityService {
     level: number | undefined,
   ): TargetList[] | undefined {
     if (!targets) return targets;
-    const checks = triggerFactory.spellChecks(keywords);
+    const sharedChecks = triggerFactory.spellChecks(keywords);
     if (level !== undefined && GLOBAL_CONFIG.spellChecks.spellProtections) {
-      checks.push(triggerFactory.immuneToSpellLevel(level, true));
+      sharedChecks.push(triggerFactory.immuneToSpellLevel(level, true));
     }
-    if (!checks.length) return targets;
-    return targets.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), ...checks] }));
+    const withChecks = targets.map((t) => {
+      const { keywords: ownKeywords, ...rest } = t;
+      const allChecks = [...sharedChecks, ...triggerFactory.spellChecks(ownKeywords)];
+      return allChecks.length
+        ? { ...rest, triggers: [...(rest.triggers ?? []), ...allChecks] }
+        : rest;
+    });
+    return this.dedupeTargetLists(withChecks);
+  }
+
+  /**
+   * Drops any TargetList that's a full structural duplicate of an earlier one in the same array.
+   * A fallback cascade's tiers can end up identical once a tier-only toggleable check (see
+   * TargetList.keywords) is disabled by GLOBAL_CONFIG - trying the exact same filter twice can
+   * never produce a different result, so the later duplicate is pure waste in the generated output.
+   */
+  private dedupeTargetLists(targets: TargetList[]): TargetList[] {
+    const seen: string[] = [];
+    return targets.filter((t) => {
+      const key = JSON.stringify(t);
+      if (seen.includes(key)) return false;
+      seen.push(key);
+      return true;
+    });
   }
 
   getCustomCodes(customCodes: PartialCustomCode[] | undefined): CustomCode[] {

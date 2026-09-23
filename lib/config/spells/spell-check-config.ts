@@ -38,8 +38,8 @@ export interface SpellCheckConfig {
  *
  * A keyword absent from every list here is unaffected by any toggle - either its
  * SPELL_CHECK_TRIGGERS entry is still empty (blind, causeWounds, cloud, disease, maze, miscast,
- * petrify, polymorph, silence, slow) so there's nothing to gate yet, or (for races/classes/kits)
- * no trigger of that kind exists at all yet. Classify a keyword here once its trigger is written.
+ * petrify, polymorph, silence, slow) so there's nothing to gate yet, or (for classes/kits) no
+ * trigger of that kind exists at all yet. Classify a keyword here once its trigger is written.
  *
  * This only maps the keyword-driven mechanism; `spellProtections` also independently gates the
  * level-driven ImmuneToSpellLevel check, which has no keyword of its own to list here (see
@@ -61,7 +61,7 @@ export const SPELL_CHECK_CONFIG_KEYWORDS: Record<keyof SpellCheckConfig, SpellKe
     "stun",
   ],
   stats: ["acid", "cold", "electrical", "fire", "magicResistance", "poison"],
-  races: [],
+  races: ["elf", "halfElf"],
   classes: [],
   kits: [],
 };

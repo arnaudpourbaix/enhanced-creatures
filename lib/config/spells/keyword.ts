@@ -12,9 +12,17 @@ export type SpellKeyword =
   | "death"
   | "disease"
   | "electrical"
+  /**
+   * Resisted by elven blood (90% for full elves) - skip Elf targets
+   */
+  | "elf"
   | "fear"
   | "fire"
   | "movement"
+  /**
+   * Resisted by half-elven blood (30%) - skip Half-Elf targets
+   */
+  | "halfElf"
   | "hold"
   | "levelDrain"
   | "magicDamage"

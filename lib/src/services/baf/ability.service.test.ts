@@ -462,6 +462,87 @@ describe("getAbilities - auto spellChecks via ability.keywords", () => {
   });
 });
 
+describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.races = true;
+  });
+
+  it("appends a target list's own keyword checks in addition to the ability's shared ones", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_TARGET_KEYWORDS_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["acid"],
+        targets: [{ name: "Players", keywords: ["elf"] }, { name: "PCs" }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_TARGET_KEYWORDS_PRESET" }]);
+      expect(ability.targets).toEqual([
+        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid, ...SPELL_CHECK_TRIGGERS.elf] },
+        { name: "PCs", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
+      ]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+
+  it("drops TargetList.keywords from the result - it's build-time input only", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [{ name: "Players", keywords: ["elf"] }] },
+    ]);
+    expect(ability.targets).toEqual([{ name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.elf] }]);
+  });
+
+  it("respects GLOBAL_CONFIG.spellChecks.races - disabling it drops a target list's own race-driven check", () => {
+    GLOBAL_CONFIG.spellChecks.races = false;
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [{ name: "Players", keywords: ["elf"] }] },
+    ]);
+    expect(ability.targets).toEqual([{ name: "Players" }]);
+  });
+
+  it("dedupes target lists that become identical once a tier-only check is disabled", () => {
+    GLOBAL_CONFIG.spellChecks.races = false;
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [
+          { name: "PCsFighters", keywords: ["elf", "halfElf"] },
+          { name: "PCs", keywords: ["elf", "halfElf"] },
+          { name: "PCsFighters", keywords: ["elf"] },
+          { name: "PCs" },
+        ],
+      },
+    ]);
+    expect(ability.targets).toEqual([{ name: "PCsFighters" }, { name: "PCs" }]);
+  });
+
+  it("keeps tiers distinct when re-enabling GLOBAL_CONFIG.spellChecks.races makes them differ again", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [
+          { name: "PCsFighters", keywords: ["elf", "halfElf"] },
+          { name: "PCs", keywords: ["elf", "halfElf"] },
+          { name: "PCsFighters", keywords: ["elf"] },
+          { name: "PCs" },
+        ],
+      },
+    ]);
+    expect(ability.targets).toEqual([
+      {
+        name: "PCsFighters",
+        triggers: [...SPELL_CHECK_TRIGGERS.elf, ...SPELL_CHECK_TRIGGERS.halfElf],
+      },
+      { name: "PCs", triggers: [...SPELL_CHECK_TRIGGERS.elf, ...SPELL_CHECK_TRIGGERS.halfElf] },
+      { name: "PCsFighters", triggers: [...SPELL_CHECK_TRIGGERS.elf] },
+      { name: "PCs" },
+    ]);
+  });
+});
+
 describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
   afterEach(() => {
     GLOBAL_CONFIG.spellChecks.spellProtections = true;
@@ -480,7 +561,10 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
     try {
       const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_LEVEL_PRESET" }]);
       expect(ability.targets).toEqual([
-        { name: "Players", triggers: [{ name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true }] },
+        {
+          name: "Players",
+          triggers: [{ name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true }],
+        },
         {
           name: "PCs",
           triggers: [

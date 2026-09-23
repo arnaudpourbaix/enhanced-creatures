@@ -10,52 +10,29 @@ export const SPELL_STATES = {
 
 export const DEFAULT_SPELL_PROBABILITY = 70;
 
+// Fallback cascade: best case excludes both Elf (90% resistant) and Half-Elf (30% resistant),
+// a looser fallback tier allows Half-Elf, and the last-resort tier excludes neither. Each tier's
+// own `keywords` (see TargetList.keywords) is independently toggleable via
+// GLOBAL_CONFIG.spellChecks.races - disabling it collapses now-identical tiers automatically (see
+// AbilityService.dedupeTargetLists).
 export const CHARM_TARGET_LISTS: TargetList[] = [
   {
     name: "PCsFighters",
     randomOrder: true,
     includeStatus: ["Able"],
-    triggers: [
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "ELF"],
-        negation: true,
-      },
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "HALF_ELF"],
-        negation: true,
-      },
-    ],
+    keywords: ["elf", "halfElf"],
   },
   {
     name: "PCs",
     includeStatus: ["Able"],
     randomOrder: true,
-    triggers: [
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "ELF"],
-        negation: true,
-      },
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "HALF_ELF"],
-        negation: true,
-      },
-    ],
+    keywords: ["elf", "halfElf"],
   },
   {
     name: "PCsFighters",
     randomOrder: true,
     includeStatus: ["Able"],
-    triggers: [
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "ELF"],
-        negation: true,
-      },
-    ],
+    keywords: ["elf"],
   },
   {
     name: "PCs",
@@ -73,18 +50,7 @@ export const SLEEP_TARGET_LISTS: TargetList[] = [
     name: "PCs",
     includeStatus: ["Able"],
     randomOrder: true,
-    triggers: [
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "ELF"],
-        negation: true,
-      },
-      {
-        name: "Race",
-        params: [ScriptTarget.lastSeen, "HALF_ELF"],
-        negation: true,
-      },
-    ],
+    keywords: ["elf", "halfElf"],
   },
 ];
 

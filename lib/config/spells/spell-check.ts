@@ -21,10 +21,12 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   death: [{ name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"], negation: true }],
   disease: [],
   electrical: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTELECTRICITY"] }],
+  elf: [{ name: "Race", params: [ScriptTarget.token, "ELF"], negation: true }],
   fear: [
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "WIZARD_RESIST_FEAR"], negation: true },
   ],
   fire: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTFIRE"] }],
+  halfElf: [{ name: "Race", params: [ScriptTarget.token, "HALF_ELF"], negation: true }],
   hold: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
