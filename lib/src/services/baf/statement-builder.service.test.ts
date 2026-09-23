@@ -104,7 +104,17 @@ function fakeCreature(
     attack?: Partial<CreatureAttack>;
   } = {},
 ): Creature {
-  const data = { immunities: [], race: "HUMAN", ...overrides.data };
+  const data = {
+    immunities: [],
+    race: "HUMAN",
+    // Mirrors DATA_DEFAULT.spells (data.ts) - CreatureData.spells is a required field in real
+    // Creature objects (filled in by creature.factory.ts before this point), and precastSpells
+    // reads creature.data.spells.memorized unconditionally, so a fake creature needs the same
+    // shape or it crashes with "Cannot read properties of undefined" for any test that doesn't
+    // explicitly override `data.spells` itself.
+    spells: { memorized: [], removeKnown: true, removeMemorized: true },
+    ...overrides.data,
+  };
   return {
     data,
     adjustments: [],
@@ -758,8 +768,22 @@ describe("potions (private)", () => {
 describe("precastLongDurationSpells / precastMidDurationSpells (private)", () => {
   it("precasts every configured long-duration spell plus a trailing reset statement", () => {
     const statements: Statements = [];
-    service.precastLongDurationSpells({ statements, options: options() });
-    // Currently Stoneskin (SPWI), AnimateDead, AnimateSkeletonWarrior and Ironskin (SPPR) are "long" duration.
+    // Currently Stoneskin (SPWI408), AnimateDead (SPPR301), AnimateSkeletonWarrior (SPPR619) and
+    // Ironskin (SPPR506) are "long" duration - precastSpells only emits a statement for a spell
+    // this creature actually has memorized, so all four need to be listed here.
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [
+            { file: "SPWI408" },
+            { file: "SPPR301" },
+            { file: "SPPR619" },
+            { file: "SPPR506" },
+          ],
+        },
+      },
+    });
+    service.precastLongDurationSpells({ statements, creature, options: options() });
     expect(statements).toHaveLength(5);
     expect(statements[0].comment).toBe("Precast Stoneskin");
     expect(statements[1].comment).toBe("Precast AnimateDead");
@@ -779,7 +803,10 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = true;
     try {
       const statements: Statements = [];
-      service.precastMidDurationSpells({ statements, options: options() });
+      // Blur (SPWI201) is "mid" duration - needs to be memorized for precastSpells to emit
+      // anything for it.
+      const creature = fakeCreature({ data: { spells: { memorized: [{ file: "SPWI201" }] } } });
+      service.precastMidDurationSpells({ statements, creature, options: options() });
       expect(statements.length).toBeGreaterThan(0);
     } finally {
       GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = false;
