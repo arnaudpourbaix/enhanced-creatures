@@ -95,6 +95,11 @@ export function setFallback(spell: SpellReference, fallback: SpellReference): vo
   spell.fallback = fallback;
 }
 
+/** A spell's `file` (plus `id` when set), for identifying it in an error message. */
+function spellLabel(spell: SpellReference): string {
+  return spell.id ? `${spell.file} (${spell.id})` : spell.file;
+}
+
 /**
  * Resolves a spell for a specific mod state: itself (or its matching `variants` entry) if
  * available there, otherwise walks `fallback` until it finds one that is. Throws if the chain runs
@@ -105,11 +110,21 @@ export function resolveForMod(spell: SpellReference, mod: SpellbookModName): Spe
   const seen = new Set<SpellReference>();
   while (!isAvailableInMod(current, mod)) {
     if (seen.has(current)) {
-      throw new Error(`Fallback cycle detected while resolving a spell for ${mod}.`);
+      throw new Error(
+        `Fallback cycle detected while resolving ${spellLabel(spell)} for ${mod} ` +
+          `(loops back to ${spellLabel(current)}).`,
+      );
     }
     seen.add(current);
     if (!current.fallback) {
-      throw new Error(`No spell available for ${mod}, and no fallback is defined for it.`);
+      const chain =
+        current === spell
+          ? ""
+          : ` (its fallback chain from ${spellLabel(spell)} reached this point)`;
+      throw new Error(
+        `No spell available for ${mod}: ${spellLabel(current)} requires ${current.requiresMod ?? "a mod"}, ` +
+          `and no fallback is defined for it${chain}.`,
+      );
     }
     current = current.fallback;
   }

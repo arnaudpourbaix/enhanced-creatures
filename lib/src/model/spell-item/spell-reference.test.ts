@@ -57,16 +57,43 @@ describe("resolveForMod", () => {
     expect(resolveForMod(soundBurst, "AllSpellMods")).toBe(soundBurst);
   });
 
-  it("throws when unavailable and no fallback is defined", () => {
-    const spell: SpellReference = { file: "SPPR121", requiresMod: "AllSpellMods" };
-    expect(() => resolveForMod(spell, "Vanilla")).toThrow(/no fallback is defined/);
+  it("throws when unavailable and no fallback is defined, naming the spell and the mod it requires", () => {
+    const spell: SpellReference = {
+      file: "SPPR121",
+      id: "CLERIC_EXAMPLE",
+      requiresMod: "AllSpellMods",
+    };
+    expect(() => resolveForMod(spell, "Vanilla")).toThrow(
+      /No spell available for Vanilla: SPPR121 \(CLERIC_EXAMPLE\) requires AllSpellMods, and no fallback is defined for it\./,
+    );
   });
 
-  it("throws on a fallback cycle instead of looping forever", () => {
-    const a: SpellReference = { file: "A", requiresMod: "AllSpellMods" };
+  it("names both the original spell and the dead-end fallback when the chain runs out partway through", () => {
+    // Reproduces the real bug this message was too vague to diagnose: a spell's fallback points
+    // to another mod-gated spell that itself has no further fallback.
+    const deadEnd: SpellReference = {
+      file: "SPWI423",
+      id: "WIZARD_SPIDER_SPAWN",
+      requiresMod: "AllSpellMods",
+    };
+    const shadowMonsters: SpellReference = {
+      file: "SPWI433",
+      id: "WIZARD_SHADOW_MONSTERS",
+      requiresMod: "AllSpellMods",
+      fallback: deadEnd,
+    };
+    expect(() => resolveForMod(shadowMonsters, "Vanilla")).toThrow(
+      /No spell available for Vanilla: SPWI423 \(WIZARD_SPIDER_SPAWN\) requires AllSpellMods, and no fallback is defined for it \(its fallback chain from SPWI433 \(WIZARD_SHADOW_MONSTERS\) reached this point\)\./,
+    );
+  });
+
+  it("throws on a fallback cycle instead of looping forever, naming both spells", () => {
+    const a: SpellReference = { file: "A", id: "SPELL_A", requiresMod: "AllSpellMods" };
     const b: SpellReference = { file: "B", requiresMod: "AllSpellMods", fallback: a };
     a.fallback = b;
-    expect(() => resolveForMod(a, "Vanilla")).toThrow(/cycle/);
+    expect(() => resolveForMod(a, "Vanilla")).toThrow(
+      /Fallback cycle detected while resolving A \(SPELL_A\) for Vanilla \(loops back to A \(SPELL_A\)\)\./,
+    );
   });
 });
 
