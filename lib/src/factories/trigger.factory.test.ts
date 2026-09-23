@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
+import { ScriptTarget } from "../model/constants";
 import { Triggers } from "../model/script/triggers";
 import triggerFactory from "./trigger.factory";
 
@@ -141,6 +142,24 @@ describe("spellChecks", () => {
     GLOBAL_CONFIG.spellChecks.spellProtections = false;
     GLOBAL_CONFIG.spellChecks.stats = false;
     expect(triggerFactory.spellChecks(["blind"])).toEqual([...SPELL_CHECK_TRIGGERS.blind]);
+  });
+});
+
+describe("immuneToSpellLevel", () => {
+  it("builds a CheckStatGT-shaped ImmuneToSpellLevel trigger against the target token", () => {
+    expect(triggerFactory.immuneToSpellLevel(3)).toEqual({
+      name: "ImmuneToSpellLevel",
+      params: [ScriptTarget.token, 3],
+      negation: false,
+    });
+  });
+
+  it("supports negation", () => {
+    expect(triggerFactory.immuneToSpellLevel(3, true)).toEqual({
+      name: "ImmuneToSpellLevel",
+      params: [ScriptTarget.token, 3],
+      negation: true,
+    });
   });
 });
 

@@ -462,6 +462,94 @@ describe("getAbilities - auto spellChecks via ability.keywords", () => {
   });
 });
 
+describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.spellProtections = true;
+  });
+
+  it("appends ImmuneToSpellLevel to every target list when the ability has a level", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_LEVEL_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        level: 3,
+        targets: [{ name: "Players" }, { name: "PCs", triggers: [{ name: "See", params: [] }] }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_LEVEL_PRESET" }]);
+      expect(ability.targets).toEqual([
+        { name: "Players", triggers: [{ name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true }] },
+        {
+          name: "PCs",
+          triggers: [
+            { name: "See", params: [] },
+            { name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true },
+          ],
+        },
+      ]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+
+  it("leaves targets untouched when the ability has no level", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [{ name: "Players" }] },
+    ]);
+    expect(ability.targets).toEqual([{ name: "Players" }]);
+  });
+
+  it("respects GLOBAL_CONFIG.spellChecks.spellProtections - disabling it drops the check", () => {
+    GLOBAL_CONFIG.spellChecks.spellProtections = false;
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_LEVEL_DISABLED_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        level: 3,
+        targets: [{ name: "Players" }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_LEVEL_DISABLED_PRESET" }]);
+      expect(ability.targets).toEqual([{ name: "Players" }]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+
+  it("combines with keyword-driven checks on the same target list", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_LEVEL_AND_KEYWORDS_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        level: 3,
+        keywords: ["acid"],
+        targets: [{ name: "Players" }],
+        spell: { id: SPWI001 },
+      },
+    });
+    try {
+      const [ability] = abilityService.getAbilities([
+        { preset: "JA#TEST_LEVEL_AND_KEYWORDS_PRESET" },
+      ]);
+      expect(ability.targets).toEqual([
+        {
+          name: "Players",
+          triggers: [
+            ...SPELL_CHECK_TRIGGERS.acid,
+            { name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true },
+          ],
+        },
+      ]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
 describe("getMinorSequencer / getSequencer", () => {
   it("builds a 2-spell sequencer with the MinorSequencer name and the standard probability/triggers", () => {
     const ability = abilityService.getMinorSequencer([

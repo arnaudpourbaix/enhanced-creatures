@@ -204,6 +204,16 @@ class TriggerFactory {
     };
   }
 
+  /**
+   * True when the target is immune to spells of `level` for any reason currently active on it
+   * (Minor Globe, Globe of Invulnerability, Spell Deflection, Spell Turning, Spell Immunity,
+   * Shield of the Archons, ...) - the engine's own generic spell-level-immunity check, so this
+   * needs no protection-specific stat or SpellKeyword (see BaseCreatureAbility.level).
+   */
+  immuneToSpellLevel(level: number, negation = false): Triggers.Trigger {
+    return { name: "ImmuneToSpellLevel", params: [ScriptTarget.token, level], negation };
+  }
+
   stateCheck(state: StateIdentifier, negation = false): Triggers.Trigger {
     return {
       name: "StateCheck",

@@ -63,24 +63,30 @@ class AbilityService {
       );
       if (!rawAb.spell) throw new Error(`Sequencer only supports spells`);
       ability.spells.push(rawAb.spell);
-      const targets = this.appendSpellCheckTriggers(rawAb.targets, rawAb.keywords);
+      const targets = this.appendSpellCheckTriggers(rawAb.targets, rawAb.keywords, rawAb.level);
       if (targets) ability.targets?.push(...targets);
     }
     return ability;
   }
 
   /**
-   * Appends trigger.factory.spellChecks()'s triggers for `keywords` to every target list's own
+   * Appends trigger.factory.spellChecks()'s triggers for `keywords`, and an
+   * ImmuneToSpellLevel(target, level) check when `level` is known, to every target list's own
    * `triggers` - not the ability's top-level triggers - since a target list is what actually
-   * restricts an offensive ability to a subset of targets, so that's where a "skip protected
-   * targets" condition belongs. A no-op when there's nothing to add.
+   * restricts an offensive ability to a subset of targets, so "skip protected targets" belongs
+   * there. The two are independent: an ability can have either, both, or neither. A no-op when
+   * there's nothing to add.
    */
   private appendSpellCheckTriggers(
     targets: TargetList[] | undefined,
     keywords: SpellKeyword[] | undefined,
+    level: number | undefined,
   ): TargetList[] | undefined {
-    if (!targets || !keywords?.length) return targets;
+    if (!targets) return targets;
     const checks = triggerFactory.spellChecks(keywords);
+    if (level !== undefined && GLOBAL_CONFIG.spellChecks.spellProtections) {
+      checks.push(triggerFactory.immuneToSpellLevel(level, true));
+    }
     if (!checks.length) return targets;
     return targets.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), ...checks] }));
   }
@@ -117,7 +123,7 @@ class AbilityService {
     const triggers: Triggers.Trigger[] = ability.triggers ?? [];
     let targets = !ability.targets || Array.isArray(ability.targets) ? ability.targets : undefined;
     if (!!ability.targets && !Array.isArray(ability.targets)) targets = [ability.targets];
-    targets = this.appendSpellCheckTriggers(targets, ability.keywords);
+    targets = this.appendSpellCheckTriggers(targets, ability.keywords, ability.level);
     const result: CreatureAbility = {
       infiniteUse: false,
       requireVocal: false,
