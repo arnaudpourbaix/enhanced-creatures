@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
 import presetFactory from "./preset.factory";
 
@@ -63,6 +64,26 @@ describe("create", () => {
     });
     expect(results[0].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
     expect(results[1].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
+  });
+
+  it("resolves each name's own level from SPELLS instead of sharing the first name's level", () => {
+    const results = presetFactory.create(
+      [SPELLS.Priest.HoldPerson.file, SPELLS.Wizard.HoldPerson.file],
+      { name: DEFAULT_ABILITY_NAME },
+    );
+    expect(results[0].ability.level).toBe(SPELLS.Priest.HoldPerson.level);
+    expect(results[1].ability.level).toBe(SPELLS.Wizard.HoldPerson.level);
+    expect(results[1].ability.level).not.toBe(results[0].ability.level);
+  });
+
+  it("resolves an FNP_SPELLS-only name's own level instead of the SPELLS name's level", () => {
+    const results = presetFactory.create(
+      [SPELLS.Priest.CauseDisease.file, FNP_SPELLS.Priest.CauseDisease.file],
+      { name: DEFAULT_ABILITY_NAME },
+    );
+    expect(results[0].ability.level).toBe(SPELLS.Priest.CauseDisease.level);
+    expect(results[1].ability.level).toBe(FNP_SPELLS.Priest.CauseDisease.level);
+    expect(results[1].ability.level).not.toBe(results[0].ability.level);
   });
 
   it("leaves level unset when no name resolves to a SPELLS entry", () => {

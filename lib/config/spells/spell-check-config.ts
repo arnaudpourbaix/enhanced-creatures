@@ -2,7 +2,11 @@ import { SpellKeyword } from "./keyword";
 
 export interface SpellCheckConfig {
   /**
-   * Check for spells or items that grant some protection
+   * Check for spells or items that grant some protection. Also gates a second, independent
+   * mechanism: the ImmuneToSpellLevel check that AbilityService.appendSpellCheckTriggers
+   * auto-injects whenever an ability's `level` is known (see BaseCreatureAbility.level) - so
+   * turning this off silently disables both the keyword-driven checks below and the level-driven
+   * ImmuneToSpellLevel check.
    */
   spellProtections: boolean;
   /**
@@ -36,6 +40,10 @@ export interface SpellCheckConfig {
  * SPELL_CHECK_TRIGGERS entry is still empty (blind, causeWounds, cloud, disease, maze, miscast,
  * petrify, polymorph, silence, slow) so there's nothing to gate yet, or (for races/classes/kits)
  * no trigger of that kind exists at all yet. Classify a keyword here once its trigger is written.
+ *
+ * This only maps the keyword-driven mechanism; `spellProtections` also independently gates the
+ * level-driven ImmuneToSpellLevel check, which has no keyword of its own to list here (see
+ * SpellCheckConfig.spellProtections above).
  */
 export const SPELL_CHECK_CONFIG_KEYWORDS: Record<keyof SpellCheckConfig, SpellKeyword[]> = {
   spellProtections: [
