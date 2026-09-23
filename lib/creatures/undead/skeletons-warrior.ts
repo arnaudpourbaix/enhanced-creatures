@@ -1,16 +1,8 @@
-import { SPELLS } from "../../config/spells/spell-database";
 import { createFearAura } from "../../spells/fear_aura";
-import { CommonProjectileFiles } from "../../spells/projectiles";
-import effectFactory from "../../src/factories/effect.factory";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectStatisticModifierEnum,
-  EffectTimingEnum,
-  ItemAbilityLocationEnum,
-  ItemAbilitySecondaryTypeEnum,
-  ItemAbilityTargetEnum,
-  ItemAbilityTypeEnum,
   ProficiencyTypeEnum,
   SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";

@@ -1,9 +1,7 @@
 import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { createFearAura } from "../../spells/fear_aura";
-import { CommonProjectileFiles } from "../../spells/projectiles";
 import actionFactory from "../../src/factories/action.factory";
-import effectFactory from "../../src/factories/effect.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect } from "../../src/model/spell-item/effect";
 import {
@@ -220,12 +218,12 @@ export function deathKnight(family: UndeadFamily): Undead {
   fearAura(knight);
   wallOfIce(knight);
   fireball(knight);
-  // 1	Long sword +2
-  // 2	Two-handed sword +3
-  // 3	Two-handed sword +4
-  // 4	Short sword of quickness
-  // 5	Short sword of dancing
-  // 6	Short sword of life stealing
+  // 1  Long sword +2
+  // 2  Two-handed sword +3
+  // 3  Two-handed sword +4
+  // 4  Short sword of quickness
+  // 5  Short sword of dancing
+  // 6  Short sword of life stealing
   knight.addTrait({
     immunities: ["turnUndead"],
     effects: [

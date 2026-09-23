@@ -1125,7 +1125,7 @@ class DocumentationService {
   // tweak) takes the stringRef of the last one that set it.
   private getAdjustmentStringRef(creature: Creature, file: string): StringReference | undefined {
     let result: StringReference | undefined;
-    for (const adjustment of creature.adjustments ?? []) {
+    for (const adjustment of creature.adjustments) {
       if (adjustment.stringRef === undefined) continue;
       if (adjustment.files.some((f) => f.toUpperCase() === file.toUpperCase())) {
         result = adjustment.stringRef;
