@@ -85,11 +85,11 @@ COPY_EXISTING ~jas2m4a.SPL~  ~override~
 // Death Knight traits
 CREATE ITM "jai0m4a"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11021)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11021)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11035)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11035)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11022)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11036)
 COPY_EXISTING ~jai0m4a.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=75 parameter2=1 timing=2 probability1=100 END
 	LPF turnUndead_immunity END
@@ -122,7 +122,7 @@ BEGIN
 			ADD_MEMORIZED_SPELL ~SPWI815~ #7 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI912~ #8 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~SPWI715~ #6 ~wizard~ (1) 
-			ADD_MEMORIZED_SPELL ~SPWI898~ #7 ~wizard~ (1) 
+			ADD_MEMORIZED_SPELL ~SPWI899~ #7 ~wizard~ (1) 
 			ADD_MEMORIZED_SPELL ~jaspain~ #7 ~wizard~ (1) // Symbol of Pain
 			ADD_MEMORIZED_SPELL ~jas0m4a~ #0 ~innate~ (1) // Fear Aura
 			ADD_MEMORIZED_SPELL ~jas1m4a~ #3 ~wizard~ (30) // Wall of Ice

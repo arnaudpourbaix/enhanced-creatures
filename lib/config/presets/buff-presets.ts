@@ -4,7 +4,7 @@ import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { spellFiles, SPELLS } from "../spells/spell-names";
 
 export const BUFF_PRESETS: AbilityPreset[] = [
   {
@@ -341,18 +341,18 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: SPELLS.Priest.ProtectionFromLightning.file,
-    ability: {
-      name: SPELLS.Priest.ProtectionFromLightning.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [triggerFactory.checkStatLT(100, "RESISTELECTRICITY")],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  // Spell Revisions moves this to a different file (see ProtectionFromLightning.variants) -
+  // registered under every resolved file so the auto-generated ability preset lookup matches
+  // either one.
+  ...presetFactory.create(spellFiles(SPELLS.Priest.ProtectionFromLightning), {
+    name: SPELLS.Priest.ProtectionFromLightning.name,
+    spell: {
+      selfTarget: true,
     },
-  },
+    triggers: [triggerFactory.checkStatLT(100, "RESISTELECTRICITY")],
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
     preset: SPELLS.Priest.DrawUponHolyMight.file,
     ability: {
@@ -470,18 +470,17 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: SPELLS.Priest.PhysicalMirror.file,
-    ability: {
-      name: SPELLS.Priest.PhysicalMirror.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  // Stratagems duplicates this at a different file (see PhysicalMirror.variants) - registered
+  // under every resolved file so the auto-generated ability preset lookup matches either one.
+  ...presetFactory.create(spellFiles(SPELLS.Priest.PhysicalMirror), {
+    name: SPELLS.Priest.PhysicalMirror.name,
+    spell: {
+      selfTarget: true,
     },
-  },
+    triggers: [],
+    requireVocal: true,
+    probability: DEFAULT_SPELL_PROBABILITY,
+  }),
   {
     preset: SPELLS.Priest.ProtectionFromEvil.file,
     ability: {

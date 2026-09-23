@@ -283,25 +283,6 @@ THEN
 		Spell(Myself,WIZARD_NON_DETECTION)
 END
 
-// Shades
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!GlobalTimerNotExpired("Summoning","LOCALS")
-	ActionListEmpty()
-	HaveSpell(WIZARD_SHADES)
-	!HaveSpell(CLERIC_SUMMON_DEATH_KNIGHT)
-	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_7)
-	!HaveSpell(CLERIC_ANIMATE_SKELETON_WARRIOR)
-	!HaveSpellRES("D5P2632")
-	RandomNumGT(803,241)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(Myself,WIZARD_SHADES)
-		SetGlobalTimer("Summoning","LOCALS",12)
-END
-
 // Mirror Images
 IF
 	!StateCheck(Myself,STATE_SILENCED)
@@ -309,7 +290,7 @@ IF
 	ActionListEmpty()
 	HaveSpell(WIZARD_MIRROR_IMAGE)
 	!StateCheck(Myself,STATE_MIRRORIMAGE)
-	RandomNumGT(804,241)
+	RandomNumGT(803,241)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -324,11 +305,30 @@ IF
 	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
 	Detect(NearestEnemyOf(Myself))
 	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(805,242)
+	RandomNumGT(804,241)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(Myself,WIZARD_IMPROVED_INVISIBILITY)
+END
+
+// Shades
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("Summoning","LOCALS")
+	ActionListEmpty()
+	HaveSpell(WIZARD_SHADES)
+	!HaveSpell(CLERIC_SUMMON_DEATH_KNIGHT)
+	!HaveSpell(CLERIC_ANIMAL_SUMMONING_LEVEL_7)
+	!HaveSpell(CLERIC_ANIMATE_SKELETON_WARRIOR)
+	!HaveSpellRES("D5P2632")
+	RandomNumGT(805,242)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_SHADES)
+		SetGlobalTimer("Summoning","LOCALS",12)
 END
 
 // Moon Dog Howl
@@ -345,7 +345,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -380,7 +379,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -415,7 +413,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -450,7 +447,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -485,7 +481,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -520,7 +515,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	Alignment(LastSeenBy(Myself),MASK_EVIL)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)

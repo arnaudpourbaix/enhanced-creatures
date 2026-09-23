@@ -193,7 +193,6 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   // Priest
   CreepingDoom: { name: "Creeping Doom" },
   CureCriticalWounds: { name: "Cure Critical Wounds" },
-  CureMortalWounds: { name: "Cure Mortal Wounds" },
   CureSeriousWounds: { name: "Cure Serious Wounds" },
   Earthquake: { name: "Earthquake" },
   FireStorm: { name: "Fire Storm" },

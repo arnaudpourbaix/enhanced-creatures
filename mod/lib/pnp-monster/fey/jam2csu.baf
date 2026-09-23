@@ -368,7 +368,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -389,7 +388,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -410,7 +408,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -431,7 +428,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -452,7 +448,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -473,7 +468,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -494,7 +488,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -515,7 +508,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -536,7 +528,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -557,7 +548,6 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	AreaType(OUTDOOR)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTELECTRICITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1054,7 +1044,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1092,7 +1082,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1130,7 +1120,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1168,7 +1158,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1206,7 +1196,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1244,7 +1234,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1282,7 +1272,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1320,7 +1310,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1358,7 +1348,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	Race(LastSeenBy(Myself),ELF)
+	!Race(LastSeenBy(Myself),ELF)
 	Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)

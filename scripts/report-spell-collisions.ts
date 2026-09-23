@@ -11,36 +11,29 @@ import {
   type RegistryEntry,
 } from "./lib/spell-collisions";
 
-// Cross-checks SPELLS (lib/config/spells/spell-names.ts) against the cumulative spell snapshots in
-// assets/spells/*.csv - each is the full spell.ids state after installing one more mod layer, in
-// the fixed order vanilla -> spell_rev -> stratagems_iwd -> stratagems_newspells (matching how
-// Stratagems' own two components are numbered). SPELLS hardcodes one (file, id) pair per key, but
-// a mod layer can repurpose a file's slot for a different spell - e.g. spell_rev turns SPWI106
-// from Blindness into Obscuring Mist, and SPELLS currently has both Blindness and ObscuringMist
-// pinned to that same (file, id) pair, each only correct in one of the snapshots.
+// Cross-checks SPELLS (lib/config/spells/spell-names.ts) against the two spell-identity states
+// this pack actually supports (see the spellbook-availability design discussion): 001_vanilla (none
+// of Spell Revisions/Stratagems installed) and 004_stratagems_newspells (all of them installed
+// together - partial combinations aren't supported, so 002/003's intermediate snapshots are kept on
+// disk as historical evidence but aren't compared against here). A mod can repurpose a file's slot
+// for a different spell - e.g. Spell Revisions turns SPWI106 from Blindness into Obscuring Mist,
+// and SPELLS currently has both Blindness and ObscuringMist pinned to that same (file, id) pair,
+// each only correct in one of the two states.
 //
 // Writes assets/spells/spell-collisions-report.md listing:
-//  - file collisions: two SPELLS entries sharing a file, and which snapshot(s) each one is
-//    actually correct in ("disjoint" is a real gap - the entry never says which mod state it
-//    needs; "same-state conflict" or "dangling entry" are outright bugs).
+//  - file collisions: two SPELLS entries sharing a file, and which state(s) each one is actually
+//    correct in ("disjoint" is a real gap - the entry never says which mod state it needs;
+//    "same-state conflict" or "dangling entry" are outright bugs).
 //  - identity mismatches: any SPELLS entry whose declared id stops matching the file's actual
-//    spell.ids constant in some snapshot, whether or not another entry collides with it.
+//    spell.ids constant in the other state, whether or not another entry collides with it.
 //
 // Run: ts-node scripts/report-spell-collisions.ts   (pass --assets <dir> to point elsewhere)
 
-const SNAPSHOT_FILES = [
-  "001_vanilla.csv",
-  "002_spell_rev.csv",
-  "003_stratagems_iwd.csv",
-  "004_stratagems_newspells.csv",
-];
+const SNAPSHOT_FILES = ["001_vanilla.csv", "004_stratagems_newspells.csv"];
 
-/** Which snapshot each SpellbookModName's content first appears in - matches SNAPSHOT_FILES' fixed
- * cumulative order (vanilla -> spell_rev -> stratagems_iwd -> stratagems_newspells). */
+/** Which snapshot each SpellbookModName's content appears in - matches SNAPSHOT_FILES' order. */
 const MOD_INTRODUCED_AT: Partial<Record<string, string>> = {
-  SpellRevisions: "002_spell_rev",
-  StratagemsIWD: "003_stratagems_iwd",
-  StratagemsNewSpells: "004_stratagems_newspells",
+  AllSpellMods: "004_stratagems_newspells",
 };
 
 function parseArgs(): { assetsDir: string } {

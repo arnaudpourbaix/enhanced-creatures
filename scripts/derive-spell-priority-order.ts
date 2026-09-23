@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { SPELLS } from "../lib/config/spells/spell-names";
+import { SPELLS, spellFiles, type SpellReference } from "../lib/config/spells/spell-names";
 import { SPELL_PRIORITY_ORDER } from "../lib/config/spell-priority-order";
 
 // Reorders lib/config/spell-priority-order.ts using real cast-order evidence from
@@ -31,15 +31,38 @@ const BAF_FILE = path.join(ROOT, "assets/emulti.baf");
 const HOTKEY_EXCLUDE_START_LINE = 2871;
 const HOTKEY_EXCLUDE_END_LINE = 5055;
 
+const SPREAD_PATTERN = /^\.\.\.spellFiles\((SPELLS(?:\.\w+)+)\)/;
+
 interface RawEntry {
   rawExpr: string; // e.g. "SPELLS.Wizard.Vocalize.file,"
   comment?: string; // any comment line that preceded this entry
+  /** Set for a "...spellFiles(SPELLS.X.Y)," line - the "SPELLS.X.Y" path inside the call. Such a
+   * line stands for multiple resolved values at once (its base file plus every variant's file),
+   * not the usual one. */
+  spreadPath?: string;
 }
 
 interface ResolvedEntry extends RawEntry {
-  file: string;
+  /** The resolved value(s) this entry accounts for - one, unless spreadPath is set. */
+  files: string[];
   originalIndex: number;
   bafRank?: number;
+}
+
+/** Resolves a "SPELLS.Wizard.DimensionDoor"-style dotted path to the SpellReference it names. */
+function resolveSpellPath(spellPath: string): SpellReference {
+  const parts = spellPath.split(".");
+  let node: unknown = SPELLS;
+  for (const part of parts.slice(1)) {
+    if (typeof node !== "object" || node === null) {
+      throw new Error(`Cannot resolve "${spellPath}": "${part}" is not reachable`);
+    }
+    node = (node as Record<string, unknown>)[part];
+  }
+  if (typeof node !== "object" || node === null || typeof (node as SpellReference).file !== "string") {
+    throw new Error(`"${spellPath}" did not resolve to a spell with a "file" property`);
+  }
+  return node as SpellReference;
 }
 
 // --- parse the current file: preserve the header (imports, doc comment) verbatim,
@@ -57,12 +80,17 @@ function parseSource(source: string): { header: string; rawEntries: RawEntry[] }
   for (let i = arrayStart + 1; i < lines.length; i++) {
     const trimmed = lines[i].trim();
     if (trimmed === "];") return { header, rawEntries };
+    const spreadMatch = SPREAD_PATTERN.exec(trimmed);
     if (trimmed.startsWith("//")) {
       pendingComment = trimmed;
+    } else if (spreadMatch) {
+      rawEntries.push({ rawExpr: trimmed, comment: pendingComment, spreadPath: spreadMatch[1] });
+      pendingComment = undefined;
     } else if (
       trimmed.startsWith("SPELLS.") ||
       trimmed.startsWith("FNP_SPELLS.") ||
-      trimmed.startsWith("PRESET_NAMES.")
+      trimmed.startsWith("PRESET_NAMES.") ||
+      trimmed.startsWith("NEW_SPELLS.")
     ) {
       rawEntries.push({ rawExpr: trimmed, comment: pendingComment });
       pendingComment = undefined;
@@ -131,18 +159,29 @@ function extractBafRanks(idToFile: Map<string, string>): Map<string, number> {
 // position among the entries it was placed among. See the design doc for why this beats
 // interpolating a borrowed baf line number from a neighbour.
 function placeEntries(rawEntries: RawEntry[], resolved: string[], bafRanks: Map<string, number>): ResolvedEntry[] {
-  if (rawEntries.length !== resolved.length) {
+  const partial: ResolvedEntry[] = [];
+  let cursor = 0;
+  for (const [originalIndex, raw] of rawEntries.entries()) {
+    const count = raw.spreadPath ? spellFiles(resolveSpellPath(raw.spreadPath)).length : 1;
+    const files = resolved.slice(cursor, cursor + count);
+    if (files.length !== count) {
+      throw new Error(
+        `"${raw.rawExpr}" expects ${count} resolved value(s) starting at index ${cursor}, but only ` +
+          `${files.length} remain - parseSource()/resolved mismatch.`,
+      );
+    }
+    cursor += count;
+    // A spread entry stands for several concrete files at once - there's no single unambiguous baf
+    // rank to pick among them, so it's always anchored (never reordered), like a no-evidence entry.
+    const bafRank = raw.spreadPath ? undefined : bafRanks.get(files[0]);
+    partial.push({ ...raw, files, originalIndex, bafRank });
+  }
+  if (cursor !== resolved.length) {
     throw new Error(
-      `Source entry count (${rawEntries.length}) does not match resolved SPELL_PRIORITY_ORDER length (${resolved.length}) - parseSource() missed or double-counted a line.`,
+      `Source entries account for ${cursor} resolved value(s) but SPELL_PRIORITY_ORDER has ` +
+        `${resolved.length} - parseSource() missed or double-counted a line.`,
     );
   }
-
-  const partial = rawEntries.map((raw, originalIndex) => ({
-    ...raw,
-    file: resolved[originalIndex],
-    originalIndex,
-    bafRank: bafRanks.get(resolved[originalIndex]),
-  }));
 
   const rankedSortedLines = partial
     .filter((e): e is typeof e & { bafRank: number } => e.bafRank !== undefined)
@@ -199,26 +238,28 @@ const placed = placeEntries(rawEntries, SPELL_PRIORITY_ORDER, bafRanks);
 // Two different registry entries can resolve to the same resource file (e.g. an
 // FNP_SPELLS.* spell that reuses a vanilla resource because Faiths & Powers doesn't
 // implement a distinct one) - only one line is needed per file, since AbilityOrderService
-// looks entries up by resolved file, not by which registry path produced it.
+// looks entries up by resolved file, not by which registry path produced it. A spread entry
+// collapses (and takes any of its files out of later consideration) if ANY of its files was
+// already seen - a partial overlap doesn't currently arise in practice, so it isn't split apart.
 const seenFiles = new Set<string>();
 const collapsedDuplicates: { kept: string; dropped: string }[] = [];
 const deduped: ResolvedEntry[] = [];
 for (const e of placed) {
-  if (seenFiles.has(e.file)) {
-    const kept = deduped.find((k) => k.file === e.file);
+  if (e.files.some((f) => seenFiles.has(f))) {
+    const kept = deduped.find((k) => k.files.some((f) => e.files.includes(f)));
     if (!kept) {
-      throw new Error(`Internal error: expected a previously-deduped entry for ${e.file}`);
+      throw new Error(`Internal error: expected a previously-deduped entry for ${e.rawExpr}`);
     }
     collapsedDuplicates.push({ kept: kept.rawExpr, dropped: e.rawExpr });
     continue;
   }
-  seenFiles.add(e.file);
+  for (const f of e.files) seenFiles.add(f);
   deduped.push(e);
 }
 
 // sanity: never drop an entry (aside from deliberate duplicate collapsing above)
-const beforeFiles = new Set(rawEntries.map((_, i) => SPELL_PRIORITY_ORDER[i]));
-const afterFiles = new Set(deduped.map((e) => e.file));
+const beforeFiles = new Set(SPELL_PRIORITY_ORDER);
+const afterFiles = new Set(deduped.flatMap((e) => e.files));
 for (const f of beforeFiles) {
   if (!afterFiles.has(f) && !collapsedDuplicates.some((d) => d.dropped.includes(f))) {
     throw new Error(`Entry dropped: ${f}`);
@@ -235,7 +276,7 @@ fs.writeFileSync(TARGET_FILE, `${header}\n${bodyLines.join("\n")}\n];\n`, "utf-8
 
 // --- report ---
 const moves = deduped
-  .map((e, to) => ({ file: e.file, from: e.originalIndex, to }))
+  .map((e, to) => ({ file: e.files[0], from: e.originalIndex, to }))
   .filter((m) => m.to !== m.from);
 
 console.log(`${TARGET_FILE} rewritten.`);

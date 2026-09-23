@@ -1,9 +1,13 @@
 import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../config/mods";
+import { Spellbooks } from "../../config/spellbooks/spellbook";
+import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
-import { getAllSpells } from "../../config/spells/spell-names";
+import { getAllSpells, type SpellReference } from "../../config/spells/spell-names";
 import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
+import { SpellBookModVariant, spellBookVariants } from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
@@ -103,13 +107,21 @@ class MainService {
 
   checkSpells() {
     logService.section("Checking spells");
-    const files: string[] = [];
+    // Two entries may share a file only when their requiresMod/obsoletedBy availability ranges
+    // are provably disjoint (e.g. Deafness obsoletedBy SpellRevisions, SoundBurst requiresMod
+    // SpellRevisions) - they're never both present in the same install, so it's the same resource
+    // slot across mod states, not a real duplicate.
+    const byFile = new Map<string, SpellReference[]>();
     const identifiers: string[] = [];
     for (const spell of getAllSpells()) {
-      if (files.includes(spell.file)) {
-        throw new Error(`Spell file ${spell.file} is declared multiple times.`);
+      const sameFile = byFile.get(spell.file) ?? [];
+      for (const other of sameFile) {
+        if (availabilityOverlaps(spell, other)) {
+          throw new Error(`Spell file ${spell.file} is declared multiple times.`);
+        }
       }
-      files.push(spell.file);
+      sameFile.push(spell);
+      byFile.set(spell.file, sameFile);
       if (spell.id === undefined) continue;
       if (identifiers.includes(spell.id)) {
         throw new Error(`Spell identifier ${spell.id} is declared multiple times.`);
@@ -118,11 +130,41 @@ class MainService {
     }
   }
 
+  /**
+   * Catches a spellbook mod variant listing a spell that mod has already obsoleted (or hasn't
+   * introduced yet) - e.g. a "SpellRevisions" variant that still lists Deafness, which Spell
+   * Revisions repurposes into Sound Burst. FaithsAndPowers-scoped variants are skipped: it's an
+   * orthogonal mod outside MOD_LAYER_ORDER's vanilla/spell_rev/stratagems chain, so
+   * requiresMod/obsoletedBy don't apply to it.
+   */
+  checkSpellbooks() {
+    logService.section("Checking spellbooks");
+    for (const book of Spellbooks) {
+      for (const variant of spellBookVariants(book)) {
+        if (MOD_LAYER_ORDER.includes(variant.mod)) this.checkSpellbookVariant(book.name, variant);
+      }
+    }
+  }
+
+  private checkSpellbookVariant(name: SpellBookName, variant: SpellBookModVariant): void {
+    for (const level of variant.values) {
+      for (const spell of [...level.base, ...level.additionnals, ...level.repeat]) {
+        if (!isAvailableInMod(spell, variant.mod)) {
+          throw new Error(
+            `Spellbook "${name}" (${variant.mod} variant, level ${level.level}) lists ` +
+              `${spell.file}, which isn't available under ${variant.mod}.`,
+          );
+        }
+      }
+    }
+  }
+
   async generateAll(): Promise<void> {
     logService.init();
     await stateService.init();
     this.checkPresets();
     this.checkSpells();
+    this.checkSpellbooks();
     this.generateCreatures();
     this.generateCommonCode();
     this.generateTranslations();
