@@ -807,6 +807,10 @@ const WIZARD_SPELLS = {
   Web: {
     file: "SPWI215",
     id: "WIZARD_WEB",
+    // Not backfilled from the CSVs (scripts/tmp-add-spell-level.ts skipped it): the script's
+    // name-match heuristic requires 4+ letter words, and "Web" is too short to match. All 4 spell
+    // CSVs (001_vanilla through 004_stratagems_newspells) agree unambiguously this is level 2.
+    level: 2,
     name: "spell.Web.name",
     keywords: ["hold", "movement"],
   },
