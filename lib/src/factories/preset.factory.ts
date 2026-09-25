@@ -1,8 +1,11 @@
+import deepmerge from "deepmerge";
+import { DEFAULT_SPELL_PROBABILITY } from "../../config/common";
 import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
 import { RawCreatureAbility } from "../model/creature/ability";
 import { AbilityPreset } from "../model/misc";
-import { keywordsForFile, levelForFile } from "../model/spell-item/spell-reference";
+import { keywordsForFile, levelForFile, SpellReference } from "../model/spell-item/spell-reference";
+import triggerFactory from "./trigger.factory";
 
 class PresetFactory {
   /**
@@ -41,6 +44,71 @@ class PresetFactory {
       return { preset: n, ability: structuredClone(merged) };
     });
     return results;
+  }
+
+  createFromSpellList(spells: SpellReference[], override?: RawCreatureAbility): AbilityPreset[] {
+    const weakerSpells: SpellReference[] = [];
+    override ??= {};
+    return spells.map((spell) => {
+      const ability: RawCreatureAbility = {
+        name: spell.name,
+        spell: {},
+        triggers: weakerSpells.length ? triggerFactory.haveSpell(weakerSpells, true) : [],
+        requireVocal: true,
+        probability: DEFAULT_SPELL_PROBABILITY,
+      };
+      const preset: AbilityPreset = {
+        preset: spell.file,
+        ability: deepmerge(ability, override),
+      };
+      weakerSpells.push(spell);
+      return preset;
+    });
+  }
+
+  /**
+   * variants are spell files identicals to the spell, but outside the database
+   */
+  createSpell(
+    spell: SpellReference,
+    override: RawCreatureAbility,
+    variants?: string[],
+  ): AbilityPreset[] {
+    override ??= {};
+    variants ??= [];
+    const ability: RawCreatureAbility = {
+      name: spell.name,
+      spell: {},
+      triggers: [],
+      requireVocal: true,
+      probability: DEFAULT_SPELL_PROBABILITY,
+    };
+    const mergedAbility = deepmerge(ability, override);
+    const preset: AbilityPreset = {
+      preset: spell.file,
+      ability: mergedAbility,
+    };
+    const results = [preset];
+    for (const variant of variants) {
+      results.push({
+        ...preset,
+        ability: {
+          ...ability,
+          spell: {
+            resource: variant,
+          },
+        },
+      });
+    }
+    return results;
+  }
+
+  createSpells(
+    spells: SpellReference[],
+    override: RawCreatureAbility,
+    variants?: string[],
+  ): AbilityPreset[] {
+    return spells.flatMap((s) => this.createSpell(s, override));
   }
 }
 

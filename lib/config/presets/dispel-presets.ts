@@ -1,155 +1,95 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { DEFAULT_SPELL_PROBABILITY } from "../common";
+import { TargetList } from "../../src/model/script/target";
 import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+
+const DISPEL_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      triggerFactory.checkStatGT(0, "CLERIC_INSECT_PLAGUE", true),
+      {
+        name: "Or",
+        triggers: [
+          triggerFactory.checkStatGT(0, "IMPROVEDHASTE"),
+          triggerFactory.checkStatGT(0, "MINORGLOBE"),
+          triggerFactory.checkStatGT(0, "STONESKINS"),
+          triggerFactory.checkStatGT(0, "DEFENSIVE_MODIFIER"),
+          triggerFactory.checkStatGT(0, "TRUE_SIGHT"),
+          triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR"),
+          triggerFactory.checkStatGT(0, "CLERIC_CHAOTIC_COMMANDS"),
+          triggerFactory.checkStatGT(49, "CLERIC_FREE_ACTION"),
+          triggerFactory.checkStatGT(49, "CLERIC_DEFENSIVE_HARMONY"),
+          triggerFactory.checkStatGT(49, "RESISTFIRE"),
+          triggerFactory.checkStatGT(49, "RESISTCOLD"),
+          triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"),
+          triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
+          triggerFactory.stateCheck("STATE_HASTED"),
+          triggerFactory.stateCheck("STATE_DRAWUPONHOLYMIGHT"),
+        ],
+      },
+    ],
+    randomOrder: true,
+  },
+];
 
 export const DISPEL_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Wizard.DetectInvisibility.file,
-    ability: {
-      name: SPELLS.Wizard.DetectInvisibility.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        triggerFactory.detect("PC"),
-        triggerFactory.see("PC", true),
-        triggerFactory.checkSpellState("DETECT_INVISIBILITY", true),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ...presetFactory.createSpell(SPELLS.Wizard.DetectInvisibility, {
+    spell: {
+      selfTarget: true,
     },
-  },
-  {
-    preset: SPELLS.Priest.TrueSeeing.file,
-    ability: {
-      name: SPELLS.Priest.TrueSeeing.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Innate.MoonDogSight.file,
-    ability: {
-      name: SPELLS.Innate.MoonDogSight.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [triggerFactory.checkSpellState("TRUE_SIGHT", true)],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create(
-    [
-      SPELLS.Wizard.DispelMagic.file,
-      SPELLS.Priest.DispelMagic.file,
-      SPELLS.Wizard.RemoveMagic.file,
+    triggers: [
+      triggerFactory.detect("PC"),
+      triggerFactory.see("PC", true),
+      triggerFactory.checkSpellState("DETECT_INVISIBILITY", true),
     ],
+  }),
+  ...presetFactory.createSpell(SPELLS.Priest.TrueSeeing, {
+    spell: {
+      selfTarget: true,
+    },
+    triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+  }),
+  ...presetFactory.createSpell(SPELLS.Innate.MoonDogSight, {
+    spell: {
+      selfTarget: true,
+    },
+    triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+    requireVocal: false,
+  }),
+  ...presetFactory.createSpells(
+    [SPELLS.Wizard.DispelMagic, SPELLS.Priest.DispelMagic, SPELLS.Wizard.RemoveMagic],
     {
-      name: SPELLS.Wizard.DispelMagic.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-          triggers: [
-            triggerFactory.stateCheck("STATE_CHARMED", true),
-            triggerFactory.stateCheck("STATE_DISABLED", true),
-            triggerFactory.checkStatGT(0, "CLERIC_INSECT_PLAGUE", true),
-            {
-              name: "Or",
-              triggers: [
-                triggerFactory.checkStatGT(0, "IMPROVEDHASTE"),
-                triggerFactory.checkStatGT(0, "MINORGLOBE"),
-                triggerFactory.checkStatGT(0, "STONESKINS"),
-                triggerFactory.checkStatGT(0, "DEFENSIVE_MODIFIER"),
-                triggerFactory.checkStatGT(0, "TRUE_SIGHT"),
-                triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR"),
-                triggerFactory.checkStatGT(0, "CLERIC_CHAOTIC_COMMANDS"),
-                triggerFactory.checkStatGT(49, "CLERIC_FREE_ACTION"),
-                triggerFactory.checkStatGT(49, "CLERIC_DEFENSIVE_HARMONY"),
-                triggerFactory.checkStatGT(49, "RESISTFIRE"),
-                triggerFactory.checkStatGT(49, "RESISTCOLD"),
-                triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"),
-                triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
-                triggerFactory.stateCheck("STATE_HASTED"),
-                triggerFactory.stateCheck("STATE_DRAWUPONHOLYMIGHT"),
-              ],
-            },
-          ],
-        },
-      ],
+      targets: DISPEL_TARGET_LISTS,
       spell: {
         excludeStateChecks: ["STATE_DISABLED"],
       },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
   ),
-  {
-    preset: SPELLS.Wizard.Breach.file,
-    ability: {
-      name: SPELLS.Wizard.Breach.name,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          randomOrder: true,
-          triggers: [
-            triggerFactory.or([
-              triggerFactory.hasBounceEffects(),
-              triggerFactory.hasImmunityEffects(),
-            ]),
-          ],
-        },
-      ],
-      spell: {
-        excludeStateChecks: ["STATE_DISABLED"],
+  ...presetFactory.createFromSpellList([SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust], {
+    targets: [
+      {
+        name: "Spellcasters",
+        includeStatus: ["Able"],
+        randomOrder: true,
+        triggers: [
+          ...ExcludeUnwantedTargetsTriggers,
+          triggerFactory.or([
+            triggerFactory.hasBounceEffects(),
+            triggerFactory.hasImmunityEffects(),
+          ]),
+        ],
       },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+    ],
+  }),
+  ...presetFactory.createSpells([SPELLS.Priest.DetectEvil, SPELLS.Priest.FindTraps], {
+    spell: {
+      selfTarget: true,
     },
-  },
-  {
-    preset: SPELLS.Wizard.SpellThrust.file,
-    ability: {
-      name: SPELLS.Wizard.SpellThrust.name,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          randomOrder: true,
-          triggers: [triggerFactory.checkSpellState("BUFF_PRO_SPELLS")],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.FindTraps.file,
-    ability: {
-      name: SPELLS.Priest.FindTraps.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [{ name: "False" }], // leave it as a manual cast
-      requireVocal: true,
-    },
-  },
-  {
-    preset: SPELLS.Priest.DetectEvil.file,
-    ability: {
-      name: SPELLS.Priest.DetectEvil.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [{ name: "False" }], // leave it as a manual cast
-      requireVocal: true,
-    },
-  },
+    triggers: [{ name: "False" }], // leave it as a manual cast
+  }),
 ];

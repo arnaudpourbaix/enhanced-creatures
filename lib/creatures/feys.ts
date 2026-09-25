@@ -284,7 +284,7 @@ class Fey extends Creature {
         },
       ],
       ability: {
-        targets: [{ name: "EvilcutoffMaleHumanoids" }],
+        targets: [{ name: "MaleHumanoids" }],
         spell: {
           type: "force",
           remove: true,

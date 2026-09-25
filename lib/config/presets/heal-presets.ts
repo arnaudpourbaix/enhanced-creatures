@@ -1,45 +1,35 @@
+import presetFactory from "../../src/factories/preset.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
-import { ALLIES_TARGET_LISTS, DEFAULT_SPELL_PROBABILITY } from "../common";
 import { SPELLS } from "../spells/spell-database";
+import { CommonTargetLists } from "../target/common";
 
 export const HEAL_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Priest.CureLightWounds.file,
-    ability: {
-      name: SPELLS.Priest.CureLightWounds.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
+  ...presetFactory.createFromSpellList(
+    [
+      SPELLS.Priest.Heal,
+      SPELLS.Priest.CureCriticalWounds,
+      SPELLS.Priest.CureMediumWounds,
+      SPELLS.Priest.CureModerateWounds,
+      SPELLS.Priest.CureLightWounds,
+    ],
+    {
+      targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
         { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
       ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
-  {
-    preset: SPELLS.Innate.HealingLick.file,
-    ability: {
-      name: SPELLS.Innate.HealingLick.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
-        {
-          name: "Or",
-          triggers: [
-            { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
-            { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_DISEASED"] },
-          ],
-        },
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.RegenerateLightWounds.file,
-    ability: {
-      name: SPELLS.Priest.RegenerateLightWounds.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
+  ),
+  ...presetFactory.createFromSpellList(
+    [
+      SPELLS.Priest.Regeneration,
+      SPELLS.Priest.RegenerateCriticalWounds,
+      SPELLS.Priest.RegenerateSeriousWounds,
+      SPELLS.Priest.RegenerateModerateWounds,
+      SPELLS.Priest.RegenerateLightWounds,
+    ],
+    {
+      targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
         { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 80] },
         {
           name: "CheckStatGT",
@@ -47,77 +37,18 @@ export const HEAL_PRESETS: AbilityPreset[] = [
           negation: true,
         },
       ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
-  {
-    preset: SPELLS.Priest.RegenerateModerateWounds.file,
-    ability: {
-      name: SPELLS.Priest.RegenerateModerateWounds.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
-        { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 80] },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.lastSeen, 0, "CLERIC_REGENERATION"],
-          negation: true,
-        },
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.RegenerateSeriousWounds.file,
-    ability: {
-      name: SPELLS.Priest.RegenerateSeriousWounds.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
-        { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 80] },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.lastSeen, 0, "CLERIC_REGENERATION"],
-          negation: true,
-        },
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.RegenerateCriticalWounds.file,
-    ability: {
-      name: SPELLS.Priest.RegenerateCriticalWounds.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
-        { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 80] },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.lastSeen, 0, "CLERIC_REGENERATION"],
-          negation: true,
-        },
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.Regeneration.file,
-    ability: {
-      name: SPELLS.Priest.Regeneration.name,
-      targets: targetService.combineListWithTriggers(ALLIES_TARGET_LISTS, [
-        { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 80] },
-        {
-          name: "CheckStatGT",
-          params: [ScriptTarget.lastSeen, 0, "CLERIC_REGENERATION"],
-          negation: true,
-        },
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ),
+  ...presetFactory.createSpell(SPELLS.Innate.HealingLick, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
+      {
+        name: "Or",
+        triggers: [
+          { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
+          { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_DISEASED"] },
+        ],
+      },
+    ]),
+    requireVocal: false,
+  }),
 ];

@@ -3,373 +3,90 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { AbilityPreset } from "../../src/model/misc";
 import targetService from "../../src/services/baf/target.service";
-import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
+import { CommonTargetLists } from "../target/common";
 
 export const DISABLING_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Wizard.Darkness15Radius.file,
-    ability: {
-      name: SPELLS.Wizard.Darkness15Radius.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          includeStatus: ["Able"],
-          limit: 6,
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.ObscuringMist.file,
-    ability: {
-      name: SPELLS.Wizard.ObscuringMist.name,
-      targets: [
-        {
-          name: "PCsFighters",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.Silence.file,
-    ability: {
-      name: SPELLS.Priest.Silence.name,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          includeStatus: ["Able"],
-          triggers: [triggerFactory.range(20, true)],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.MiscastMagic.file,
-    ability: {
-      name: SPELLS.Priest.MiscastMagic.name,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create(
-    [SPELLS.Priest.RigidThinking.file, FNP_SPELLS.Priest.RigidThinking.file],
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Priest.RigidThinking,
+      FNP_SPELLS.Priest.RigidThinking,
+      SPELLS.Wizard.PowerWordStun,
+      SPELLS.Priest.SymbolStunning,
+      SPELLS.Wizard.StinkingCloud,
+      SPELLS.Wizard.Emotion,
+      FNP_SPELLS.Priest.Emotion,
+      SPELLS.Priest.SymbolHopelessness,
+      SPELLS.Wizard.TeleportField,
+      SPELLS.Wizard.Feeblemind,
+    ],
     {
-      name: SPELLS.Priest.RigidThinking.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+      targets: CommonTargetLists.AbleEnemies,
     },
   ),
-  {
-    preset: SPELLS.Priest.SummonInsects.file,
-    ability: {
-      name: SPELLS.Priest.SummonInsects.name,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ...presetFactory.createFromSpellList(
+    [
+      SPELLS.Priest.CreepingDoom,
+      SPELLS.Priest.InsectPlague,
+      SPELLS.Priest.SummonInsects,
+      SPELLS.Priest.MiscastMagic,
+      FNP_SPELLS.Priest.MiscastMagic,
+    ],
+    {
+      targets: targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
+        triggerFactory.checkStatGT(50, "SPELLFAILUREPRIEST", true),
+        triggerFactory.checkStatGT(50, "SPELLFAILUREMAGE", true),
+      ]),
     },
-  },
-  {
-    preset: SPELLS.Priest.Entangle.file,
-    ability: {
-      name: SPELLS.Priest.Entangle.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          includeStatus: ["Able"],
-          triggers: [triggerFactory.checkStatGT(0, "ENTANGLE", true)],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.Slow.file,
-    ability: {
-      name: SPELLS.Wizard.Slow.name,
-      targets: targetService.combineListWithTriggers(
-        [
-          {
-            name: "PCsFighters",
-            includeStatus: ["Able"],
-          },
-          {
-            name: "NearestEnemies",
-            includeStatus: ["Able"],
-            limit: 6,
-          },
-        ],
-        [],
-      ),
-      spell: {
-        excludeStateChecks: ["STATE_SLOWED"],
-      },
-      requireVocal: true,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.PowerWordBlind.file,
-    ability: {
-      name: SPELLS.Wizard.PowerWordBlind.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {
-        excludeStateChecks: ["STATE_BLIND", "STATE_DISABLED"],
-      },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.PowerWordStun.file,
-    ability: {
-      name: SPELLS.Wizard.PowerWordStun.name,
-      targets: [
-        {
-          name: "Players",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.SymbolStunning.file,
-    ability: {
-      name: SPELLS.Priest.SymbolStunning.name,
-      targets: [
-        {
-          name: "Players",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: FNP_SPELLS.Priest.Forbiddance.file,
-    ability: {
-      name: FNP_SPELLS.Priest.Forbiddance.name,
-      // Explicit level (not auto-resolved): FNP_SPELLS' BaseSpell type isn't a SpellCollection
-      // entry, so levelForFile(SPELLS, ...) can't find it - same gap already noted for keywords.
-      level: FNP_SPELLS.Priest.Forbiddance.level,
-      targets: [{ name: "NearestEnemies" }],
-      spell: {},
-      timer: { name: "Forbiddance", value: 2 * Durations.round },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: FNP_SPELLS.Priest.MiscastMagic.file,
-    ability: {
-      name: FNP_SPELLS.Priest.MiscastMagic.name,
-      // Explicit level (not auto-resolved): FNP_SPELLS' BaseSpell type isn't a SpellCollection
-      // entry, so levelForFile(SPELLS, ...) can't find it - same gap already noted for keywords.
-      level: FNP_SPELLS.Priest.MiscastMagic.level,
-      targets: [
-        {
-          name: "PCSpellcasters",
-          triggers: [triggerFactory.checkSpellState("MISCAST_MAGIC", true)],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.StinkingCloud.file,
-    ability: {
-      name: SPELLS.Wizard.StinkingCloud.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-          includeStatus: ["Able"],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create([SPELLS.Wizard.Emotion.file, FNP_SPELLS.Priest.Emotion.file], {
-    name: SPELLS.Wizard.Emotion.name,
+  ),
+  ...presetFactory.createSpell(SPELLS.Wizard.Darkness15Radius, {
     targets: [
       {
         name: "NearestEnemies",
         includeStatus: ["Able"],
+        limit: 6,
         randomOrder: true,
       },
     ],
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
   }),
-  {
-    preset: SPELLS.Priest.SymbolHopelessness.file,
-    ability: {
-      name: SPELLS.Priest.SymbolHopelessness.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.TeleportField.file,
-    ability: {
-      name: SPELLS.Wizard.TeleportField.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.ColorSpray.file,
-    ability: {
-      name: SPELLS.Wizard.ColorSpray.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          includeStatus: ["Able"],
-          excludeStatus: ["Slowed", "Blinded"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.Feeblemind.file,
-    ability: {
-      name: SPELLS.Wizard.Feeblemind.name,
-      targets: [
-        {
-          name: "Players",
-          includeStatus: ["Able"],
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.BlindingBeauty.file,
-    ability: {
-      name: SPELLS.Priest.BlindingBeauty.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
+  ...presetFactory.createSpell(SPELLS.Wizard.ObscuringMist, {
+    targets: CommonTargetLists.Fighters,
+  }),
+  ...presetFactory.createSpell(SPELLS.Priest.Silence, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
+      triggerFactory.range(15, true),
+    ]),
+  }),
+  ...presetFactory.createSpell(SPELLS.Priest.Entangle, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.AbleEnemies, [
+      triggerFactory.checkStatGT(0, "ENTANGLE", true),
+    ]),
+  }),
+  ...presetFactory.createSpells(
+    [SPELLS.Wizard.PowerWordBlind, SPELLS.Priest.BlindingBeauty, SPELLS.Priest.HolyWord],
+    {
+      targets: CommonTargetLists.AbleEnemies,
       spell: {
-        excludeStateChecks: ["STATE_BLIND", "STATE_DISABLED"],
+        excludeStateChecks: ["STATE_BLIND"],
       },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
-  {
-    preset: SPELLS.Priest.HolyWord.file,
-    ability: {
-      name: SPELLS.Priest.HolyWord.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {
-        excludeStateChecks: ["STATE_BLIND", "STATE_DISABLED"],
-      },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ),
+  ...presetFactory.createSpells([SPELLS.Priest.UnholyWord, SPELLS.Wizard.Slow], {
+    targets: CommonTargetLists.AbleEnemies,
+    spell: {
+      excludeStateChecks: ["STATE_SLOWED"],
     },
-  },
-  {
-    preset: SPELLS.Priest.UnholyWord.file,
-    ability: {
-      name: SPELLS.Priest.UnholyWord.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {
-        excludeStateChecks: ["STATE_SLOWED", "STATE_DISABLED"],
-      },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  }),
+  ...presetFactory.createSpell(SPELLS.Wizard.ColorSpray, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.AbleEnemies, []),
+    spell: {
+      excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
     },
-  },
+    range: 5,
+  }),
+  ...presetFactory.createSpell(FNP_SPELLS.Priest.Forbiddance, {
+    targets: CommonTargetLists.AbleEnemies,
+    timer: { name: "Forbiddance", value: 2 * Durations.round },
+  }),
 ];

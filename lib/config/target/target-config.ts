@@ -1,147 +1,101 @@
-import { ScriptTarget } from "../src/model/constants";
-import { GRAB_DEFAULT_CONFIG } from "../src/model/creature/grab";
-import { TargetStatus } from "../src/model/script/target";
+import { ScriptTarget } from "../../src/model/constants";
+import { GRAB_DEFAULT_CONFIG } from "../../src/model/creature/grab";
+import { ClassIdentifier } from "../../src/model/ids/class";
+import { TargetStatus } from "../../src/model/script/target";
 import { TargetListName, TargetStatusName } from "./target-name";
+
+const Token = "$obj";
+
+const Counts = [
+  "",
+  "Second",
+  "Third",
+  "Fourth",
+  "Fifth",
+  "Sixth",
+  "Seventh",
+  "Eighth",
+  "Ninth",
+  "Tenth",
+];
+
+function repeat(obj: string, count = 10) {
+  const list = Counts.map((c) => `${c}${obj}`);
+  return list.slice(0, count);
+}
+
+const EnemyOfType = repeat(`NearestEnemyOfType(${Token})`, 3);
+
+function enemyOfClassTypes(list: (ClassIdentifier | "0")[]) {
+  return list.flatMap((o) => EnemyOfType.map((e) => e.replaceAll(Token, `0.0.0.${o}`)));
+}
 
 export const TARGET_LISTS: {
   name: TargetListName;
   value: string[];
-  allegianceCheck: boolean;
 }[] = [
   {
     name: "NearestEnemies",
-    value: [
-      "NearestEnemyOf",
-      "SecondNearestEnemyOf",
-      "ThirdNearestEnemyOf",
-      "FourthNearestEnemyOf",
-      "FifthNearestEnemyOf",
-      "SixthNearestEnemyOf",
-      "SeventhNearestEnemyOf",
-      "EighthNearestEnemyOf",
-      "NinthNearestEnemyOf",
-      "TenthNearestEnemyOf",
-    ],
-    allegianceCheck: false,
+    value: repeat("NearestEnemyOf"),
   },
   {
     name: "NearestAllies",
-    value: [
-      "NearestAllyOf",
-      "SecondNearestAllyOf",
-      "ThirdNearestAllyOf",
-      "FourthNearestAllyOf",
-      "FifthNearestAllyOf",
-      "SixthNearestAllyOf",
-    ],
-    allegianceCheck: false,
+    value: repeat("NearestAllyOf", 6),
   },
   {
     name: "Players",
     value: ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"],
-    allegianceCheck: false,
   },
   {
-    name: "PCs",
+    name: "PreferringStrong",
     value: [
-      `NearestEnemyOfType([PC])`,
-      `SecondNearestEnemyOfType([PC])`,
-      `ThirdNearestEnemyOfType([PC])`,
-      `FourthNearestEnemyOfType([PC])`,
-      `FifthNearestEnemyOfType([PC])`,
-      `SixthNearestEnemyOfType([PC])`,
+      ...enemyOfClassTypes([
+        "FIGHTER",
+        "RANGER",
+        "PALADIN",
+        "FIGHTER_THIEF",
+        "FIGHTER_ALL",
+        "RANGER_ALL",
+        "BARD",
+        "THIEF",
+        "0",
+      ]),
     ],
-    allegianceCheck: false,
   },
   {
-    name: "PCsFighters",
+    name: "PreferringWeak",
     value: [
-      `NearestEnemyOfType([PC.0.0.FIGHTER_ALL])`,
-      `SecondNearestEnemyOfType([PC.0.0.FIGHTER_ALL])`,
-      `ThirdNearestEnemyOfType([PC.0.0.FIGHTER_ALL])`,
-      `NearestEnemyOfType([PC.0.0.RANGER_ALL])`,
-      `SecondNearestEnemyOfType([PC.0.0.RANGER_ALL])`,
-      `ThirdNearestEnemyOfType([PC.0.0.RANGER_ALL])`,
-      `NearestEnemyOfType([PC.0.0.PALADIN_ALL])`,
-      `SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL])`,
-      `ThirdNearestEnemyOfType([PC.0.0.PALADIN_ALL])`,
+      ...enemyOfClassTypes(["MAGE", "MAGE_THIEF", "THIEF", "BARD", "CLERIC_MAGE", "CLERIC", "0"]),
     ],
-    allegianceCheck: false,
   },
   {
-    name: "PCsPreferringStrong",
-    value: [
-      `[PC.0.0.FIGHTER]`,
-      `[PC.0.0.RANGER]`,
-      `[PC.0.0.PALADIN]`,
-      `[PC.0.0.FIGHTER_THIEF]`,
-      `[PC.0.0.BARD]`,
-      `[PC.0.0.THIEF]`,
-      `NearestEnemyOfType([PC])`,
-      `SecondNearestEnemyOfType([PC])`,
-      `ThirdNearestEnemyOfType([PC])`,
-    ],
-    allegianceCheck: false,
+    name: "Fighters",
+    value: enemyOfClassTypes(["FIGHTER_ALL", "RANGER_ALL", "PALADIN_ALL"]),
   },
   {
-    name: "PCsPreferringWeak",
-    value: [
-      `[PC.0.0.MAGE]`,
-      `[PC.0.0.MAGE_THIEF]`,
-      `[PC.0.0.MAGE_ALL]`,
-      `[PC.0.0.THIEF]`,
-      `[PC.0.0.BARD]`,
-      `[PC.0.0.THIEF_ALL]`,
-      `[PC.0.0.CLERIC]`,
-      `NearestEnemyOfType([PC])`,
-      `SecondNearestEnemyOfType([PC])`,
-      `ThirdNearestEnemyOfType([PC])`,
-    ],
-    allegianceCheck: false,
+    name: "Spellcasters",
+    value: enemyOfClassTypes(["MAGE_ALL", "CLERIC_ALL", "DRUID_ALL", "BARD"]),
   },
   {
-    name: "PCSpellcasters",
-    value: [`[PC.0.0.MAGE_ALL]`, `[PC.0.0.CLERIC_ALL]`, `[PC.0.0.DRUID_ALL]`, `[PC.0.0.BARD]`],
-    allegianceCheck: false,
-  },
-  {
-    name: "PCMages",
-    value: [`[PC.0.0.MAGE_ALL]`, `[PC.0.0.BARD]`],
-    allegianceCheck: false,
+    name: "Mages",
+    value: enemyOfClassTypes(["MAGE_ALL", "BARD"]),
   },
   {
     name: "FarthestEnemies",
-    value: [
-      "FarthestEnemyOf(Myself)",
-      "SecondFarthestEnemyOf(Myself)",
-      "ThirdFarthestEnemyOf(Myself)",
-      "FourthFarthestEnemyOf(Myself)",
-    ],
-    allegianceCheck: false,
+    value: repeat("FarthestEnemyOf(Myself)", 4),
   },
   {
     name: "Animals",
     value: [
-      `NearestEnemyOfType([0.ANIMAL])`,
-      `SecondNearestEnemyOfType([0.ANIMAL])`,
-      `ThirdNearestEnemyOfType([0.ANIMAL])`,
+      ...EnemyOfType.map((e) => e.replaceAll(Token, "0.ANIMAL")),
       `[NEUTRAL.ANIMAL]`,
       `SecondNearest([NEUTRAL.ANIMAL])`,
       `ThirdNearest([NEUTRAL.ANIMAL])`,
     ],
-    allegianceCheck: false,
   },
   {
-    name: "EvilcutoffMaleHumanoids",
-    value: [
-      `[EVILCUTOFF.HUMANOID.0.0.0.MALE]`,
-      `SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
-      `ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
-      `FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
-      `FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
-      `SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE])`,
-    ],
-    allegianceCheck: false,
+    name: "MaleHumanoids",
+    value: repeat("NearestEnemyOfType([0.HUMANOID.0.0.0.MALE])", 6),
   },
 ];
 

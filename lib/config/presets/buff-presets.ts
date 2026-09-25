@@ -106,6 +106,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.DimensionDoor.file,
     ability: {
       name: SPELLS.Wizard.DimensionDoor.name,
+      //TODO: players looks weird !
       targets: [
         {
           name: "Players",
@@ -199,7 +200,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       spell: {
         selfTarget: true,
       },
-      triggers: triggerFactory.seeOneInTargetList("PCSpellcasters"),
+      triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

@@ -3,7 +3,7 @@ import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { SpellReference } from "../model/spell-item/spell-reference";
-import { TargetListName } from "../../config/target-name";
+import { TargetListName } from "../../config/target/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";
 import { AllegianceIdentifier } from "../model/ids/allegiance";

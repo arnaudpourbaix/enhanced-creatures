@@ -4,13 +4,12 @@ export type TargetListName =
   | "FarthestEnemies"
   | "NearestEnemies"
   | "NearestAllies"
-  | "EvilcutoffMaleHumanoids"
-  | "PCs"
-  | "PCsFighters"
-  | "PCsPreferringStrong"
-  | "PCsPreferringWeak"
-  | "PCSpellcasters"
-  | "PCMages"
+  | "MaleHumanoids"
+  | "Fighters"
+  | "PreferringStrong"
+  | "PreferringWeak"
+  | "Spellcasters"
+  | "Mages"
   | "Players";
 
 export type TargetStatusName =

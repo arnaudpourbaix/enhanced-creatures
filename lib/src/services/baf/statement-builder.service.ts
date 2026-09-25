@@ -2,8 +2,8 @@ import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
 import { SPELLS } from "../../../config/spells/spell-database";
 import { getAllSpells, SpellReference } from "../../model/spell-item/spell-reference";
-import { TARGET_STATUS } from "../../../config/target-config";
-import { TargetListName, TargetStatusName } from "../../../config/target-name";
+import { TARGET_STATUS } from "../../../config/target/target-config";
+import { TargetListName, TargetStatusName } from "../../../config/target/target-name";
 import actionFactory from "../../factories/action.factory";
 import bafFactory from "../../factories/baf.factory";
 import responseFactory from "../../factories/response.factory";
@@ -105,12 +105,6 @@ class StatementBuilderService {
           statement.target.limit,
           statement.target.randomOrder,
         );
-        if (list.allegianceCheck) {
-          triggers.push({
-            name: "Allegiance",
-            params: [ScriptTarget.myself, "ENEMY"],
-          });
-        }
         bafFactory.addStatementsFromTargetList({
           statements,
           comment: statement.comment,
@@ -1010,12 +1004,6 @@ class StatementBuilderService {
       actions.push(actionFactory.enableInterrupt());
     }
     const list = targetService.getTargetFromAbility(target.name, target.limit, target.randomOrder);
-    if (list.allegianceCheck) {
-      triggers.push({
-        name: "Allegiance",
-        params: [ScriptTarget.myself, "ENEMY"],
-      });
-    }
     bafFactory.addStatementsFromTargetList({
       statements,
       comment: translationService.from(ability.name),

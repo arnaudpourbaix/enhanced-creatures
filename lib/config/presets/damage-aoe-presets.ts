@@ -6,42 +6,20 @@ import { AbilityPreset } from "../../src/model/misc";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
+import { CommonTargetLists } from "../target/common";
 
 // NumCreatureGT is not used purposely
 // Although it is best to maximize spell efficiency, you must remember the solo enemy case.
 
 export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Wizard.ConeOfCold.file,
-    ability: {
-      name: SPELLS.Wizard.ConeOfCold.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          randomOrder: true,
-          triggers: [
-            //   triggerFactory.checkStatLT(50, "RESISTCOLD"),
-          ],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ...presetFactory.createSpells([SPELLS.Wizard.ConeOfCold], {
+    targets: CommonTargetLists.Enemies,
+  }),
   {
     preset: SPELLS.Wizard.Fireburst.file,
     ability: {
       name: SPELLS.Wizard.Fireburst.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTFIRE"),
-          ],
-        },
-      ],
+      targets: CommonTargetLists.Enemies,
       spell: {
         selfTarget: true,
       },
@@ -50,85 +28,21 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  {
-    preset: SPELLS.Wizard.Fireball.file,
-    ability: {
-      name: SPELLS.Wizard.Fireball.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.Fireball,
+      SPELLS.Wizard.SkullTrap,
+      SPELLS.Priest.GlyphOfWarding,
+      SPELLS.Priest.HolySmite,
+    ],
+    {
+      targets: CommonTargetLists.FarthestEnemies,
       actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
-  {
-    preset: SPELLS.Wizard.SkullTrap.file,
-    ability: {
-      name: SPELLS.Wizard.SkullTrap.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.GlyphOfWarding.file,
-    ability: {
-      name: SPELLS.Priest.GlyphOfWarding.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.HolySmite.file,
-    ability: {
-      name: SPELLS.Priest.HolySmite.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.BurningHands.file,
-    ability: {
-      name: SPELLS.Wizard.BurningHands.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      range: 5,
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ),
+  ...presetFactory.createSpells([SPELLS.Wizard.BurningHands], {
+    targets: CommonTargetLists.Enemies,
+  }),
   {
     preset: SPELLS.Wizard.IceStorm.file,
     ability: {

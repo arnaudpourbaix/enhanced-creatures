@@ -1,4 +1,4 @@
-import { TargetStatusName } from "../../../config/target-name";
+import { TargetStatusName } from "../../../config/target/target-name";
 import { TargetPriority } from "../script/target";
 import { Triggers } from "../script/triggers";
 import { WeaponSlot } from "./item";

@@ -1,107 +1,48 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
-import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
 import targetService from "../../src/services/baf/target.service";
-import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers, SummonsTriggers } from "../target/common";
 
-// Shared by several presets below whose magicResistance status differs per spell (some of these
-// spells bypass magic resistance entirely, some check it), so no single "check RESISTMAGIC" note
-// belongs on this shared list - each preset's keywords (and thus its spellChecks triggers) are
-// auto-resolved per spell by AbilityService.applyPreset instead.
-const DeathTargets: TargetList[] = [
+const DEATH_TARGET_LISTS: TargetList[] = [
   {
-    name: "Players",
+    name: "NearestEnemies",
     includeStatus: ["Able"],
-    randomOrder: true,
-  },
-  {
-    name: "Players",
+    triggers: ExcludeUnwantedTargetsTriggers,
     randomOrder: true,
   },
 ];
 
 export const DEATH_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Wizard.WailOfTheBanshee.file,
-    ability: {
-      name: SPELLS.Wizard.WailOfTheBanshee.name,
-      targets: DeathTargets,
-      spell: {
-        selfTarget: true,
-      },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ...presetFactory.createFromSpellList(
+    [
+      SPELLS.Wizard.WailOfTheBanshee,
+      SPELLS.Priest.Destruction,
+      SPELLS.Priest.FingerOfDeath,
+      SPELLS.Priest.SymbolDeath,
+      SPELLS.Wizard.SymbolDeath,
+    ],
+    {
+      targets: DEATH_TARGET_LISTS,
     },
-  },
-  {
-    preset: SPELLS.Wizard.PowerWordKill.file,
-    ability: {
-      name: SPELLS.Wizard.PowerWordKill.name,
-      targets: targetService.combineListWithTriggers(DeathTargets, [triggerFactory.hplt(61)]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.FingerOfDeath.file,
-    ability: {
-      name: SPELLS.Priest.FingerOfDeath.name,
-      targets: DeathTargets,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create([SPELLS.Priest.SymbolDeath.file, SPELLS.Wizard.SymbolDeath.file], {
-    name: SPELLS.Priest.SymbolDeath.name,
-    targets: DeathTargets,
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
+  ),
+  ...presetFactory.createSpell(SPELLS.Wizard.PowerWordKill, {
+    targets: targetService.combineListWithTriggers(DEATH_TARGET_LISTS, [triggerFactory.hplt(61)]),
   }),
-  {
-    preset: SPELLS.Wizard.FleshToStone.file,
-    ability: {
-      name: SPELLS.Wizard.FleshToStone.name,
-      targets: DeathTargets,
-      spell: {
-        excludeStateChecks: ["STATE_STONE_DEATH"],
+  ...presetFactory.createSpell(SPELLS.Wizard.FleshToStone, {
+    targets: DEATH_TARGET_LISTS,
+    spell: {
+      excludeStateChecks: ["STATE_STONE_DEATH"],
+    },
+  }),
+  ...presetFactory.createSpell(SPELLS.Priest.Banishment, {
+    targets: [
+      {
+        name: "NearestEnemies",
+        triggers: SummonsTriggers,
       },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.Destruction.file,
-    ability: {
-      name: SPELLS.Priest.Destruction.name,
-      targets: DeathTargets,
-      spell: {},
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.Banishment.file,
-    ability: {
-      name: SPELLS.Priest.Banishment.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          triggers: [{ name: "Gender", params: [ScriptTarget.lastSeen, "SUMMONED"] }],
-        },
-      ],
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+    ],
+  }),
 ];

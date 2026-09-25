@@ -1,44 +1,34 @@
 import presetFactory from "../../src/factories/preset.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { DEFAULT_SPELL_PROBABILITY, HOLD_TARGET_LISTS } from "../common";
+import { TargetList } from "../../src/model/script/target";
 import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+
+export const HOLD_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
+  },
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    randomOrder: true,
+  },
+];
 
 export const HOLD_PRESETS: AbilityPreset[] = [
-  ...presetFactory.create([SPELLS.Priest.HoldPerson.file, SPELLS.Wizard.HoldPerson.file], {
-    name: SPELLS.Priest.HoldPerson.name,
-    targets: HOLD_TARGET_LISTS,
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
-  }),
-  {
-    preset: SPELLS.Priest.HoldPersonOrAnimal.file,
-    ability: {
-      name: SPELLS.Priest.HoldPersonOrAnimal.name,
+  ...presetFactory.createFromSpellList(
+    [
+      SPELLS.Wizard.Web,
+      SPELLS.Wizard.HoldMonster,
+      SPELLS.Priest.HoldPersonOrAnimal,
+      SPELLS.Priest.HoldPerson,
+      SPELLS.Wizard.HoldPerson,
+    ],
+    {
       targets: HOLD_TARGET_LISTS,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
-  {
-    preset: SPELLS.Wizard.HoldMonster.file,
-    ability: {
-      name: SPELLS.Wizard.HoldMonster.name,
-      targets: HOLD_TARGET_LISTS,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.Web.file,
-    ability: {
-      name: SPELLS.Wizard.Web.name,
-      targets: HOLD_TARGET_LISTS,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ),
 ];

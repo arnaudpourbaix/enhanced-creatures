@@ -1,34 +1,22 @@
 import presetFactory from "../../src/factories/preset.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { DEFAULT_SPELL_PROBABILITY } from "../common";
+import { TargetList } from "../../src/model/script/target";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
-export const CONFUSION_PRESETS: AbilityPreset[] = [
-  ...presetFactory.create([SPELLS.Wizard.Confusion.file], {
-    name: SPELLS.Wizard.Confusion.name,
-    targets: [
-      {
-        name: "NearestEnemies",
-        includeStatus: ["Able"],
-        randomOrder: true,
-      },
-    ],
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
-  }),
-  ...presetFactory.create([SPELLS.Priest.Chaos.file, FNP_SPELLS.Priest.Chaos.file], {
-    name: SPELLS.Priest.Chaos.name,
-    targets: [
-      {
-        name: "NearestEnemies",
-        includeStatus: ["Able"],
-        randomOrder: true,
-      },
-    ],
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
-  }),
+const CONFUSION_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
+  },
 ];
+
+export const CONFUSION_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList(
+  [SPELLS.Priest.Chaos, FNP_SPELLS.Priest.Chaos, SPELLS.Wizard.Confusion],
+  {
+    targets: CONFUSION_TARGET_LISTS,
+  },
+);

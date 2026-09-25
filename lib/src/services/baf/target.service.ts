@@ -1,6 +1,10 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { DEFAULT_STATUS_ORDER, TARGET_LISTS, TARGET_STATUS } from "../../../config/target-config";
-import { TargetListName, TargetStatusName } from "../../../config/target-name";
+import {
+  DEFAULT_STATUS_ORDER,
+  TARGET_LISTS,
+  TARGET_STATUS,
+} from "../../../config/target/target-config";
+import { TargetListName, TargetStatusName } from "../../../config/target/target-name";
 import triggerFactory from "../../factories/trigger.factory";
 import { PartialCreatureAttack } from "../../model/creature/attack";
 import { Creature } from "../../model/creature/creature";
@@ -55,7 +59,6 @@ class TargetService {
     randomOrder = false,
   ): {
     targets: ObjectIdentifier | AllegianceIdentifier | string[];
-    allegianceCheck: boolean;
   } {
     try {
       const result = this.getList(target as TargetListName);
@@ -67,7 +70,6 @@ class TargetService {
     } catch {
       return {
         targets: target as ObjectIdentifier | AllegianceIdentifier,
-        allegianceCheck: false,
       };
     }
   }
@@ -149,11 +151,10 @@ class TargetService {
 
   getList(name: TargetListName): {
     targets: string[];
-    allegianceCheck: boolean;
   } {
     const list = TARGET_LISTS.find((l) => l.name === name);
     if (!list) throw new Error(`Target list ${name} is not defined !`);
-    return { targets: list.value, allegianceCheck: list.allegianceCheck };
+    return { targets: list.value };
   }
 
   combineListWithTriggers(list: TargetList[], triggers: Triggers.Trigger[]): TargetList[] {

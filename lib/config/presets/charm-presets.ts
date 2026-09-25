@@ -1,83 +1,56 @@
-import triggerFactory from "../../src/factories/trigger.factory";
+import presetFactory from "../../src/factories/preset.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { CHARM_TARGET_LISTS, DEFAULT_SPELL_PROBABILITY } from "../common";
+import { TargetList } from "../../src/model/script/target";
 import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
-export const CHARM_PRESETS: AbilityPreset[] = [
+const CHARM_TARGET_LISTS: TargetList[] = [
   {
-    preset: SPELLS.Wizard.Domination.file,
-    ability: {
-      name: SPELLS.Wizard.Domination.name,
-      targets: CHARM_TARGET_LISTS,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
+    name: "Fighters",
+    includeStatus: ["Able"],
+    keywords: ["elf", "halfElf"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
   },
   {
-    preset: SPELLS.Priest.MentalDomination.file,
-    ability: {
-      name: SPELLS.Priest.MentalDomination.name,
-      targets: CHARM_TARGET_LISTS,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    keywords: ["elf", "halfElf"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
   },
   {
-    preset: SPELLS.Wizard.DireCharm.file,
-    ability: {
-      name: SPELLS.Wizard.DireCharm.name,
-      targets: CHARM_TARGET_LISTS,
-      spell: {},
-      triggers: [
-        ...triggerFactory.haveSpellRES(
-          [SPELLS.Wizard.Domination.file, SPELLS.Priest.MentalDomination.file],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
+    name: "Fighters",
+    includeStatus: ["Able"],
+    keywords: ["elf"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
   },
   {
-    preset: SPELLS.Wizard.CharmPerson.file,
-    ability: {
-      name: SPELLS.Wizard.CharmPerson.name,
-      targets: CHARM_TARGET_LISTS,
-      spell: {},
-      triggers: [
-        ...triggerFactory.haveSpellRES(
-          [
-            SPELLS.Wizard.Domination.file,
-            SPELLS.Priest.MentalDomination.file,
-            SPELLS.Wizard.DireCharm.file,
-          ],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    keywords: ["elf"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
   },
   {
-    preset: SPELLS.Priest.CharmPersonOrAnimal.file,
-    ability: {
-      name: SPELLS.Priest.CharmPersonOrAnimal.name,
-      targets: CHARM_TARGET_LISTS,
-      spell: {},
-      triggers: [
-        ...triggerFactory.haveSpellRES(
-          [
-            SPELLS.Wizard.Domination.file,
-            SPELLS.Priest.MentalDomination.file,
-            SPELLS.Wizard.DireCharm.file,
-          ],
-          true,
-        ),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    keywords: ["elf"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
   },
 ];
+
+export const CHARM_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList(
+  [
+    SPELLS.Wizard.Domination,
+    SPELLS.Priest.MentalDomination,
+    SPELLS.Wizard.DireCharm,
+    SPELLS.Priest.CharmPersonOrAnimal,
+    SPELLS.Wizard.CharmPerson,
+  ],
+  {
+    targets: CHARM_TARGET_LISTS,
+  },
+);
