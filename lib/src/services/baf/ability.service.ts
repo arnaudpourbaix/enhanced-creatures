@@ -7,6 +7,7 @@ import { SPELLS } from "../../../config/spells/spell-database";
 import {
   excludeSpellStatesForFile,
   excludeStateChecksForFile,
+  excludeStatsChecksForFile,
   includeStateChecksForFile,
   keywordsForFile,
   levelForFile,
@@ -331,6 +332,7 @@ class AbilityService {
       result.spell.includeStateChecks ??= includeStateChecksForFile(SPELLS, presetName);
       result.spell.excludeStateChecks ??= excludeStateChecksForFile(SPELLS, presetName);
       result.spell.excludeSpellStates ??= excludeSpellStatesForFile(SPELLS, presetName);
+      result.spell.excludeStatsChecks ??= excludeStatsChecksForFile(SPELLS, presetName);
     }
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {
       result.spell.id = undefined;

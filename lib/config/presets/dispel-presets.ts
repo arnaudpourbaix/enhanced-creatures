@@ -39,20 +39,16 @@ const DISPEL_TARGET_LISTS: TargetList[] = [
 
 export const DISPEL_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.DetectInvisibility, {
-    triggers: [
-      triggerFactory.detect("PC"),
-      triggerFactory.see("PC", true),
-      triggerFactory.checkSpellState("DETECT_INVISIBILITY", true),
-    ],
+    triggers: [triggerFactory.detect("PC"), triggerFactory.see("PC", true)],
   }),
   ...presetFactory.createSpell(SPELLS.Priest.TrueSeeing, {
-    triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+    triggers: [triggerFactory.detect("PC")],
   }),
   ...presetFactory.createSpell(SPELLS.Innate.MoonDogSight, {
     spell: {
       castOnSelf: true,
     },
-    triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
+    triggers: [triggerFactory.detect("PC")],
     requireVocal: false,
   }),
   ...presetFactory.createSpells(

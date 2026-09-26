@@ -3,6 +3,7 @@ import { SpellKeyword } from "../../../config/spells/keyword";
 import { isAvailableInMod } from "../../../config/mods";
 import { SpellIdentifier } from "../ids/spell";
 import { StateIdentifier } from "../ids/state";
+import { StatsIdentifier } from "../ids/stats";
 import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
@@ -55,6 +56,11 @@ export interface SpellReference {
    * CreatureAbilitySpell.excludeSpellStates.
    */
   excludeSpellStates?: (SplStateIdentifier | SpellStateValue)[];
+  /**
+   * Stat(s) that make re-casting this spell pointless when above 0 on the target (e.g. a hold
+   * excluding HELD) - see CreatureAbilitySpell.excludeStatsChecks.
+   */
+  excludeStatsChecks?: StatsIdentifier[];
   /**
    * Per-mod overrides, checked in order - the first installed mod wins, falling back to `file`/`id`
    * above when none match (or when this is unset, which is the common case). Not yet consumed by
@@ -277,4 +283,15 @@ export function excludeSpellStatesForFile(
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.excludeSpellStates;
+}
+
+/** Same as includeStateChecksForFile, for CreatureAbilitySpell.excludeStatsChecks. */
+export function excludeStatsChecksForFile(
+  spells: SpellCollection,
+  file: string,
+): StatsIdentifier[] | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.excludeStatsChecks;
 }

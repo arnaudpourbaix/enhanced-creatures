@@ -222,6 +222,7 @@ const WIZARD_SPELLS = {
     level: 2,
     name: "spell.DetectInvisibility.name",
     keywords: ["castOnSelf"],
+    excludeSpellStates: ["DETECT_INVISIBILITY"],
   },
   DireCharm: {
     file: "SPWI316",
@@ -636,6 +637,7 @@ const WIZARD_SPELLS = {
     duration: "short",
     name: "spell.ProtectionFromMissiles.name",
     keywords: ["castOnSelf"],
+    excludeSpellStates: ["PROTECTION_FROM_NORMAL_MISSILES"],
   },
   ProtectionFromMagicalWeapons: {
     file: "SPWI611",
@@ -1073,6 +1075,7 @@ const PRIEST_SPELLS = {
     duration: "short",
     keywords: ["castOnSelf"],
     requiresMod: "AllSpellMods",
+    excludeSpellStates: ["CIRCLE_OF_BONES"],
   },
   CloakOfFear: {
     file: "SPPR416",
@@ -1198,6 +1201,7 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.Doom.name",
     keywords: ["magicResistance"],
+    excludeSpellStates: ["DOOM"],
   },
   DrawUponHolyMight: {
     file: "SPPR214",
@@ -1657,6 +1661,7 @@ const PRIEST_SPELLS = {
     level: 5,
     name: "spell.TrueSeeing.name",
     keywords: ["castOnSelf"],
+    excludeStatsChecks: ["TRUE_SIGHT"],
   },
   UnholyBlight: {
     file: "SPPR314",
@@ -1696,6 +1701,7 @@ const INNATE_SPELLS = {
     keywords: ["magicResistance"],
     id: "MOON_DOG_HOWL",
     level: 3,
+    excludeStatsChecks: ["TRUE_SIGHT"],
   },
   MoonDogHowl: {
     file: "SPIN891",
@@ -1718,6 +1724,7 @@ const CLASS_SPELLS = {
     id: "BERSERKER_RAGE",
     name: "spell.BerserkerRage.name",
     keywords: ["castOnSelf"],
+    excludeSpellStates: ["BERSERKER_RAGE"],
   },
   BarbarianRage: {
     file: "SPCL152",
@@ -1725,6 +1732,7 @@ const CLASS_SPELLS = {
     level: 1,
     name: "spell.BarbarianRage.name",
     keywords: ["castOnSelf"],
+    excludeSpellStates: ["BARBARIAN_RAGE"],
   },
   OffensiveSpin: {
     file: "SPCL521",

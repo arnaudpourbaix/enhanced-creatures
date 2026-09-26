@@ -13,13 +13,6 @@ const CHARM_TARGET_LISTS: TargetList[] = [
     randomOrder: true,
   },
   {
-    name: "NearestEnemies",
-    includeStatus: ["Able"],
-    keywords: ["elf", "halfElf"],
-    triggers: ExcludeUnwantedTargetsTriggers,
-    randomOrder: true,
-  },
-  {
     name: "Fighters",
     includeStatus: ["Able"],
     keywords: ["elf"],
@@ -29,7 +22,7 @@ const CHARM_TARGET_LISTS: TargetList[] = [
   {
     name: "NearestEnemies",
     includeStatus: ["Able"],
-    keywords: ["elf"],
+    keywords: ["elf", "halfElf"],
     triggers: ExcludeUnwantedTargetsTriggers,
     randomOrder: true,
   },

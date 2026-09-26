@@ -51,9 +51,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       triggerFactory.hplt(75),
     ],
   }),
-  ...presetFactory.createSpells([SPELLS.Priest.CircleOfBones, FNP_SPELLS.Priest.CircleOfBones], {
-    triggers: [triggerFactory.checkSpellState("CIRCLE_OF_BONES", true)],
-  }),
+  ...presetFactory.createSpells([SPELLS.Priest.CircleOfBones, FNP_SPELLS.Priest.CircleOfBones], {}),
   {
     preset: SPELLS.Wizard.DimensionDoor.file,
     ability: {
@@ -105,24 +103,23 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells([SPELLS.Wizard.MinorSpellDeflection], {
     triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
   }),
-  ...presetFactory.createSpells([SPELLS.Wizard.MirrorImages, SPELLS.Wizard.ReflectedImage], {}),
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.MirrorImages,
+      SPELLS.Wizard.ReflectedImage,
+      SPELLS.Wizard.ProtectionFromMissiles,
+      SPELLS.Wizard.Haste,
+    ],
+    {},
+  ),
   {
+    // Fighter first !
     preset: SPELLS.Wizard.Haste.file,
     ability: {
       name: SPELLS.Wizard.Haste.name,
       spell: {
         castOnSelf: true,
       },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.ProtectionFromMissiles.file,
-    ability: {
-      name: SPELLS.Wizard.ProtectionFromMissiles.name,
-      spell: {},
-      triggers: [triggerFactory.checkSpellState("PROTECTION_FROM_NORMAL_MISSILES", true)],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

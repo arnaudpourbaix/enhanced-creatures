@@ -21,6 +21,8 @@ function spellDefaults(spell: SpellReference): CreatureAbilitySpell {
     defaults.excludeStateChecks = spell.excludeStateChecks;
   if (spell.excludeSpellStates !== undefined)
     defaults.excludeSpellStates = spell.excludeSpellStates;
+  if (spell.excludeStatsChecks !== undefined)
+    defaults.excludeStatsChecks = spell.excludeStatsChecks;
   return defaults;
 }
 

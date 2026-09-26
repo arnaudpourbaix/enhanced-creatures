@@ -1,19 +1,21 @@
+import { SpellStateValue } from "../../config/common";
 import { GLOBAL_CONFIG } from "../../config/generate";
+import { SpellKeyword } from "../../config/spells/keyword";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
-import { SpellKeyword } from "../../config/spells/keyword";
-import { SpellReference } from "../model/spell-item/spell-reference";
 import { TargetListName } from "../../config/target/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";
 import { AllegianceIdentifier } from "../model/ids/allegiance";
 import { AStylesIdentifiers } from "../model/ids/astyles";
 import { AreaTypeValue } from "../model/ids/misc";
+import { SplStateIdentifier } from "../model/ids/splstate";
 import { StateIdentifier } from "../model/ids/state";
 import { StatsIdentifier } from "../model/ids/stats";
 import { ParamObject } from "../model/parameter";
 import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import targetService from "../services/baf/target.service";
 
 class TriggerFactory {
@@ -97,7 +99,7 @@ class TriggerFactory {
     };
   }
 
-  checkSpellState(spell: string, negation = false): Triggers.Trigger {
+  checkSpellState(spell: SplStateIdentifier | SpellStateValue, negation = false): Triggers.Trigger {
     return {
       name: "CheckSpellState",
       params: [ScriptTarget.token, spell],

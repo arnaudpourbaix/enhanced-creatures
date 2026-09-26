@@ -70,6 +70,11 @@ export const CommonTargetLists = {
       triggers: ExcludeUnwantedTargetsTriggers,
       randomOrder: true,
     },
+    {
+      name: "Fighters",
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
   ],
   Spellcasters: [
     {
@@ -78,11 +83,20 @@ export const CommonTargetLists = {
       triggers: ExcludeUnwantedTargetsTriggers,
       randomOrder: true,
     },
+    {
+      name: "Spellcasters",
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
   ],
   FarthestEnemies: [
     {
       name: "FarthestEnemies",
       triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
+    {
+      name: "FarthestEnemies",
       randomOrder: true,
     },
   ],

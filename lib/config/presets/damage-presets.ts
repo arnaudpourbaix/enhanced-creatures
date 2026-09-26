@@ -32,15 +32,10 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     [SPELLS.Wizard.MordenkainenForceMissiles, SPELLS.Wizard.MagicMissiles],
     {
       targets: [
-        {
-          name: "Spellcasters",
-          randomOrder: true,
-          triggers: [triggerFactory.stateCheck("STATE_MIRRORIMAGE")],
-        },
-        {
-          name: "Spellcasters",
-          randomOrder: true,
-        },
+        ...targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
+          triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
+        ]),
+        ...CommonTargetLists.Enemies,
       ],
     },
   ),
