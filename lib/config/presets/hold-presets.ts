@@ -19,7 +19,7 @@ export const HOLD_TARGET_LISTS: TargetList[] = [
 ];
 
 export const HOLD_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Priest.WavesOfAgony,
       SPELLS.Wizard.Web,

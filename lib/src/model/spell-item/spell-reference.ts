@@ -2,7 +2,10 @@ import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { isAvailableInMod } from "../../../config/mods";
 import { SpellIdentifier } from "../ids/spell";
+import { StateIdentifier } from "../ids/state";
+import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
+import { SpellStateValue } from "../../../config/common";
 
 /**
  * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
@@ -34,6 +37,24 @@ export interface SpellReference {
    * Max range for this spell
    */
   range?: number;
+  /**
+   * State(s) that must already be active on the target for this spell to be worth casting (e.g. a
+   * dispel that only makes sense against a specific ongoing effect) - see
+   * CreatureAbilitySpell.includeStateChecks, which this feeds the same way `range`/`keywords`
+   * feed BaseCreatureAbility's fields.
+   */
+  includeStateChecks?: StateIdentifier[];
+  /**
+   * State(s) that make re-casting this spell pointless (e.g. Invisibility excluding
+   * STATE_INVISIBLE) - see CreatureAbilitySpell.excludeStateChecks.
+   */
+  excludeStateChecks?: StateIdentifier[];
+  /**
+   * Spell-state(s) that make re-casting this spell pointless, tracked via CheckSpellState rather
+   * than a STATE_ opcode (e.g. a buff with no state icon of its own) - see
+   * CreatureAbilitySpell.excludeSpellStates.
+   */
+  excludeSpellStates?: (SplStateIdentifier | SpellStateValue)[];
   /**
    * Per-mod overrides, checked in order - the first installed mod wins, falling back to `file`/`id`
    * above when none match (or when this is unset, which is the common case). Not yet consumed by
@@ -202,4 +223,58 @@ export function levelForFile(spells: SpellCollection, file: string): number | un
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.level;
+}
+
+/**
+ * The `range` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches or it has no `range`.
+ * Mirrors levelForFile, backing the automatic range resolution in AbilityService.applyPreset: a
+ * hand-written preset (e.g. BUFF_PRESETS) that doesn't set its own `range` gets the matching
+ * SPELLS entry's range for free, so BaseCreatureAbility.range's Range() trigger doesn't need to be
+ * hand-authored again for a spell whose SPELLS entry already declares one.
+ */
+export function rangeForFile(spells: SpellCollection, file: string): number | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.range;
+}
+
+/**
+ * The `includeStateChecks` of whichever SPELLS-registry entry's `file` - or one of its
+ * `variants[].file` - matches `file` (case-insensitive), or undefined when no entry matches or it
+ * has none. Mirrors levelForFile/rangeForFile, backing the automatic resolution in
+ * AbilityService.applyPreset: a hand-written preset that doesn't set its own
+ * CreatureAbilitySpell.includeStateChecks gets the matching SPELLS entry's for free.
+ */
+export function includeStateChecksForFile(
+  spells: SpellCollection,
+  file: string,
+): StateIdentifier[] | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.includeStateChecks;
+}
+
+/** Same as includeStateChecksForFile, for CreatureAbilitySpell.excludeStateChecks. */
+export function excludeStateChecksForFile(
+  spells: SpellCollection,
+  file: string,
+): StateIdentifier[] | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.excludeStateChecks;
+}
+
+/** Same as includeStateChecksForFile, for CreatureAbilitySpell.excludeSpellStates. */
+export function excludeSpellStatesForFile(
+  spells: SpellCollection,
+  file: string,
+): (SplStateIdentifier | SpellStateValue)[] | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.excludeSpellStates;
 }

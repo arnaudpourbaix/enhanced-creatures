@@ -1,63 +1,47 @@
 import deepmerge from "deepmerge";
 import { DEFAULT_SPELL_PROBABILITY } from "../../config/common";
-import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
-import { SPELLS } from "../../config/spells/spell-database";
-import { RawCreatureAbility } from "../model/creature/ability";
+import { CreatureAbilitySpell, RawCreatureAbility } from "../model/creature/ability";
 import { AbilityPreset } from "../model/misc";
-import { keywordsForFile, levelForFile, SpellReference } from "../model/spell-item/spell-reference";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import triggerFactory from "./trigger.factory";
+
+/**
+ * The subset of CreatureAbilitySpell that a SpellReference can also declare (see
+ * SpellReference.includeStateChecks and siblings) - copied onto every ability built from that
+ * spell so a preset doesn't need to re-declare a check the spell itself already carries. Kept as
+ * its own object (merged into `spell: {}` up front) rather than assigned field-by-field onto
+ * `ability.spell`, since that field is typed as possibly-undefined on RawCreatureAbility even right
+ * after being initialized to `{}` in the same object literal.
+ */
+function spellDefaults(spell: SpellReference): CreatureAbilitySpell {
+  const defaults: CreatureAbilitySpell = {};
+  if (spell.includeStateChecks !== undefined)
+    defaults.includeStateChecks = spell.includeStateChecks;
+  if (spell.excludeStateChecks !== undefined)
+    defaults.excludeStateChecks = spell.excludeStateChecks;
+  if (spell.excludeSpellStates !== undefined)
+    defaults.excludeSpellStates = spell.excludeSpellStates;
+  return defaults;
+}
 
 class PresetFactory {
   /**
-   * Builds one AbilityPreset per file variant sharing the same ability body (e.g. a spell's
-   * vanilla file and its Faiths & Powers equivalent) - see AbilityPreset.
-   *
-   * `ability.keywords` is auto-resolved here (once, shared by every variant) when not already set:
-   * the first name that matches a real SPELLS entry wins. Resolving once up front - rather than per
-   * variant in AbilityService.applyPreset - matters because not every variant is itself a SPELLS
-   * entry (e.g. FNP_SPELLS has no `keywords` field compatible with SpellCollection), so resolving
-   * per variant would silently leave some of them unprotected even though they're the same spell.
-   * This is safe for `keywords` because every variant of one spell shares the same effect type.
-   *
-   * `ability.level`, by contrast, is resolved PER NAME: unlike `keywords`, variants of the same
-   * spell do not necessarily share a level (e.g. Wizard Hold Person is level 3 while Priest Hold
-   * Person is level 2; a vanilla spell and its Faiths & Powers equivalent can also differ, e.g.
-   * Cause Disease is level 3 in SPELLS but level 1 in FNP_SPELLS). Each name gets its own level:
-   * first via levelForFile(SPELLS, n), then via levelForFile(FNP_SPELLS, n) for a name that isn't a
-   * SPELLS entry but is a real FNP_SPELLS one (FNP_SPELLS entries are structurally compatible with
-   * levelForFile's SpellCollection shape - they just aren't SpellCollection *members*, i.e. SPELLS
-   * itself doesn't include them). A name that resolves in neither registry falls back to the first
-   * level resolved from any other name, so it still gets something reasonable rather than nothing.
-   *
-   * An explicit `ability.keywords`/`ability.level` (for an ability with no SPELLS entry of its own)
-   * always wins over auto-resolution.
+   * Spells will be cast from the first of the list to the last, in that order.
    */
-  create(names: string[], ability: RawCreatureAbility): AbilityPreset[] {
-    const keywords = ability.keywords ?? names.map((n) => keywordsForFile(SPELLS, n)).find(Boolean);
-    const resolvedLevels = names.map((n) => levelForFile(SPELLS, n) ?? levelForFile(FNP_SPELLS, n));
-    const sharedFallbackLevel = resolvedLevels.find((l) => l !== undefined);
-    const results: AbilityPreset[] = names.map((n, i) => {
-      const merged: RawCreatureAbility = { ...ability };
-      if (keywords) merged.keywords = keywords;
-      const level = ability.level ?? resolvedLevels[i] ?? sharedFallbackLevel;
-      if (level !== undefined) merged.level = level;
-      return { preset: n, ability: structuredClone(merged) };
-    });
-    return results;
-  }
-
-  createFromSpellList(spells: SpellReference[], override?: RawCreatureAbility): AbilityPreset[] {
+  createOrderedSpells(spells: SpellReference[], override?: RawCreatureAbility): AbilityPreset[] {
     const weakerSpells: SpellReference[] = [];
     override ??= {};
     return spells.map((spell) => {
       const ability: RawCreatureAbility = {
         name: spell.name,
-        spell: {},
+        spell: spellDefaults(spell),
         triggers: weakerSpells.length ? triggerFactory.haveSpell(weakerSpells, true) : [],
         requireVocal: true,
         probability: DEFAULT_SPELL_PROBABILITY,
       };
+      if (spell.keywords !== undefined) ability.keywords = spell.keywords;
       if (spell.level !== undefined) ability.level = spell.level;
+      if (spell.range !== undefined) ability.range = spell.range;
       const preset: AbilityPreset = {
         preset: spell.file,
         ability: deepmerge(ability, override),
@@ -67,14 +51,6 @@ class PresetFactory {
     });
   }
 
-  /**
-   * variants are spell files identicals to the spell, but outside the database
-   *
-   * `ability.level` comes straight from `spell.level` (unless `override` sets its own): unlike
-   * `create()`, which only gets a bare file name and has to look the level up via levelForFile,
-   * this receives the actual SpellReference - including for FNP_SPELLS entries, which levelForFile
-   * can't find since FNP_SPELLS isn't a SpellCollection member (same gap noted on `create()`).
-   */
   createSpell(
     spell: SpellReference,
     override: RawCreatureAbility,
@@ -84,12 +60,14 @@ class PresetFactory {
     variants ??= [];
     const ability: RawCreatureAbility = {
       name: spell.name,
-      spell: {},
+      spell: spellDefaults(spell),
       triggers: [],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     };
+    if (spell.keywords !== undefined) ability.keywords = spell.keywords;
     if (spell.level !== undefined) ability.level = spell.level;
+    if (spell.range !== undefined) ability.range = spell.range;
     const mergedAbility = deepmerge(ability, override);
     const preset: AbilityPreset = {
       preset: spell.file,
@@ -110,11 +88,7 @@ class PresetFactory {
     return results;
   }
 
-  createSpells(
-    spells: SpellReference[],
-    override: RawCreatureAbility,
-    variants?: string[],
-  ): AbilityPreset[] {
+  createSpells(spells: SpellReference[], override: RawCreatureAbility): AbilityPreset[] {
     return spells.flatMap((s) => this.createSpell(s, override));
   }
 }

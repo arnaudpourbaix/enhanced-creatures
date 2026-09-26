@@ -5,9 +5,6 @@ import { AbilityPreset } from "../../src/model/misc";
 import { SPELLS } from "../spells/spell-database";
 
 const defaults: RawCreatureAbility = {
-  spell: {
-    castOnSelf: true,
-  },
   triggers: [{ name: "See", params: ["NearestEnemyOf"] }],
   requireVocal: false,
   probability: 90,

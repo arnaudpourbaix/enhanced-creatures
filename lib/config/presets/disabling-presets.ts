@@ -25,7 +25,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       targets: CommonTargetLists.AbleEnemies,
     },
   ),
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Priest.CreepingDoom,
       SPELLS.Priest.InsectPlague,
@@ -67,22 +67,13 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
     [SPELLS.Wizard.PowerWordBlind, SPELLS.Priest.BlindingBeauty, SPELLS.Priest.HolyWord],
     {
       targets: CommonTargetLists.AbleEnemies,
-      spell: {
-        excludeStateChecks: ["STATE_BLIND"],
-      },
     },
   ),
   ...presetFactory.createSpells([SPELLS.Priest.UnholyWord, SPELLS.Wizard.Slow], {
     targets: CommonTargetLists.AbleEnemies,
-    spell: {
-      excludeStateChecks: ["STATE_SLOWED"],
-    },
   }),
   ...presetFactory.createSpell(SPELLS.Wizard.ColorSpray, {
     targets: targetService.combineListWithTriggers(CommonTargetLists.AbleEnemies, []),
-    spell: {
-      excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
-    },
     range: 5,
   }),
   ...presetFactory.createSpell(FNP_SPELLS.Priest.Forbiddance, {

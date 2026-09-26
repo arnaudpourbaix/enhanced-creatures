@@ -16,7 +16,7 @@ const DEATH_TARGET_LISTS: TargetList[] = [
 ];
 
 export const DEATH_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Wizard.WailOfTheBanshee,
       SPELLS.Priest.Destruction,
@@ -33,9 +33,6 @@ export const DEATH_PRESETS: AbilityPreset[] = [
   }),
   ...presetFactory.createSpell(SPELLS.Wizard.FleshToStone, {
     targets: DEATH_TARGET_LISTS,
-    spell: {
-      excludeStateChecks: ["STATE_STONE_DEATH"],
-    },
   }),
   ...presetFactory.createSpell(SPELLS.Priest.Banishment, {
     targets: [

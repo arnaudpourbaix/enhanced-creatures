@@ -26,7 +26,7 @@ const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
   true,
 );
 
-export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList(
+export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
   [
     SPELLS.Priest.Harm,
     SPELLS.Priest.SlayLiving,

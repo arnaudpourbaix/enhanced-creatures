@@ -99,4 +99,17 @@ export const CommonTargetLists = {
       randomOrder: true,
     },
   ],
+  PreferringWeak: [
+    {
+      name: "PreferringWeak",
+      includeStatus: ["Able"],
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
+    {
+      name: "PreferringWeak",
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
+  ],
 } satisfies Record<string, TargetList[]>;

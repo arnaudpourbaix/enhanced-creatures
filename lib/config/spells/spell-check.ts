@@ -9,6 +9,7 @@ import { SpellKeyword } from "./keyword";
 export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   acid: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTACID"] }],
   blind: [],
+  castOnSelf: [],
   causeWounds: [],
   cloud: [],
   charm: [

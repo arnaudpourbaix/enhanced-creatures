@@ -337,7 +337,6 @@ All creatures are afflicted with wracking pains shooting through their bodies, c
 
   // Faiths & Powers only
   CauseDisease: { name: "Cause Disease" },
-  FrostFingers: { name: "Frost Fingers" },
   Forbiddance: { name: "Forbiddance" },
   Shatter: { name: "Shatter" },
   CircleOfBones: { name: "Circle of Bones" },

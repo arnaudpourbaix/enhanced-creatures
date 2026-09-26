@@ -62,7 +62,7 @@ export function berserker(family: OgreFamily): Ogre {
     targetPriorities: [
       {
         // The ogres fight more wisely when led by a half-ogre that concentrates assaults on characters it recognizes as spellcasters and teaming up against skilled fighters.
-        targets: ["PCSpellcasters", "PCsPreferringStrong"],
+        targets: ["Spellcasters", "PreferringStrong"],
       },
     ],
   });

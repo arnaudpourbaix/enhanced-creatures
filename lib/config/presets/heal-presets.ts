@@ -6,7 +6,7 @@ import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
 
 export const HEAL_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Priest.Heal,
       SPELLS.Priest.CureCriticalWounds,
@@ -20,7 +20,7 @@ export const HEAL_PRESETS: AbilityPreset[] = [
       ]),
     },
   ),
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Priest.Regeneration,
       SPELLS.Priest.RegenerateCriticalWounds,

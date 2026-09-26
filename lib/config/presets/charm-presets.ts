@@ -42,7 +42,7 @@ const CHARM_TARGET_LISTS: TargetList[] = [
   },
 ];
 
-export const CHARM_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList(
+export const CHARM_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
   [
     SPELLS.Wizard.Domination,
     SPELLS.Priest.MentalDomination,

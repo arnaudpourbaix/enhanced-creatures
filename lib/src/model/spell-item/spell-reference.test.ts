@@ -2,11 +2,19 @@ import { describe, expect, it } from "vitest";
 import {
   keywordsForFile,
   levelForFile,
+  rangeForFile,
   resolveForMod,
   spellFiles,
   type SpellCollection,
   type SpellReference,
 } from "./spell-reference";
+
+// Shared across keywordsForFile/levelForFile/rangeForFile below - they exercise the identical
+// file-matching logic each helper inherits from getAllSpells/spellFiles, so their test titles
+// (and the fixture file names they describe) are intentionally the same.
+const MATCHES_CASE_INSENSITIVELY = "matches case-insensitively";
+const MATCHES_VARIANT_NOT_BASE_FILE = "matches a variant's file, not just the base file";
+const RETURNS_UNDEFINED_NO_MATCH = "returns undefined when no entry matches at all";
 
 describe("spellFiles", () => {
   it("returns just the base file when there are no variants", () => {
@@ -116,11 +124,11 @@ describe("keywordsForFile", () => {
     expect(keywordsForFile(spells, "SPWI205")).toEqual(["fear"]);
   });
 
-  it("matches case-insensitively", () => {
+  it(MATCHES_CASE_INSENSITIVELY, () => {
     expect(keywordsForFile(spells, "spwi205")).toEqual(["fear"]);
   });
 
-  it("matches a variant's file, not just the base file", () => {
+  it(MATCHES_VARIANT_NOT_BASE_FILE, () => {
     expect(keywordsForFile(spells, "SPWI127")).toEqual(["movement"]);
   });
 
@@ -128,7 +136,7 @@ describe("keywordsForFile", () => {
     expect(keywordsForFile(spells, "SPPR101")).toBeUndefined();
   });
 
-  it("returns undefined when no entry matches at all", () => {
+  it(RETURNS_UNDEFINED_NO_MATCH, () => {
     expect(keywordsForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
   });
 });
@@ -152,11 +160,11 @@ describe("levelForFile", () => {
     expect(levelForFile(spells, "SPWI205")).toBe(3);
   });
 
-  it("matches case-insensitively", () => {
+  it(MATCHES_CASE_INSENSITIVELY, () => {
     expect(levelForFile(spells, "spwi205")).toBe(3);
   });
 
-  it("matches a variant's file, not just the base file", () => {
+  it(MATCHES_VARIANT_NOT_BASE_FILE, () => {
     expect(levelForFile(spells, "SPWI127")).toBe(4);
   });
 
@@ -164,7 +172,43 @@ describe("levelForFile", () => {
     expect(levelForFile(spells, "SPPR101")).toBeUndefined();
   });
 
-  it("returns undefined when no entry matches at all", () => {
+  it(RETURNS_UNDEFINED_NO_MATCH, () => {
     expect(levelForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
+  });
+});
+
+describe("rangeForFile", () => {
+  const spells: SpellCollection = {
+    Wizard: {
+      Horror: { file: "SPWI205", range: 10 },
+      DimensionDoor: {
+        file: "SPWI402",
+        variants: [{ mod: "AllSpellMods", file: "SPWI127" }],
+        range: 5,
+      },
+    },
+    Priest: {
+      Bless: { file: "SPPR101" },
+    },
+  };
+
+  it("returns the range of the entry whose own file matches", () => {
+    expect(rangeForFile(spells, "SPWI205")).toBe(10);
+  });
+
+  it(MATCHES_CASE_INSENSITIVELY, () => {
+    expect(rangeForFile(spells, "spwi205")).toBe(10);
+  });
+
+  it(MATCHES_VARIANT_NOT_BASE_FILE, () => {
+    expect(rangeForFile(spells, "SPWI127")).toBe(5);
+  });
+
+  it("returns undefined for an entry with no range field", () => {
+    expect(rangeForFile(spells, "SPPR101")).toBeUndefined();
+  });
+
+  it(RETURNS_UNDEFINED_NO_MATCH, () => {
+    expect(rangeForFile(spells, "NOT_A_REAL_FILE")).toBeUndefined();
   });
 });

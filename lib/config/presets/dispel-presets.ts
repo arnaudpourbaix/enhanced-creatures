@@ -46,9 +46,6 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
     ],
   }),
   ...presetFactory.createSpell(SPELLS.Priest.TrueSeeing, {
-    spell: {
-      castOnSelf: true,
-    },
     triggers: [triggerFactory.detect("PC"), triggerFactory.checkSpellState("TRUE_SIGHT", true)],
   }),
   ...presetFactory.createSpell(SPELLS.Innate.MoonDogSight, {
@@ -62,12 +59,9 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
     [SPELLS.Wizard.DispelMagic, SPELLS.Priest.DispelMagic, SPELLS.Wizard.RemoveMagic],
     {
       targets: DISPEL_TARGET_LISTS,
-      spell: {
-        excludeStateChecks: ["STATE_DISABLED"],
-      },
     },
   ),
-  ...presetFactory.createFromSpellList([SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust], {
+  ...presetFactory.createOrderedSpells([SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust], {
     targets: [
       {
         name: "Spellcasters",

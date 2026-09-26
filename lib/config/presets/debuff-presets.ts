@@ -21,7 +21,7 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells([SPELLS.Wizard.GreaterMalison, FNP_SPELLS.Priest.GreaterMalison], {
     targets: DEBUFF_TARGET_LISTS,
   }),
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Priest.EnergyDrain,
       SPELLS.Priest.SymbolWeakness,

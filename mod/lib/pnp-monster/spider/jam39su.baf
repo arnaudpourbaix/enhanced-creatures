@@ -95,16 +95,135 @@ END
 
 // Phase out
 IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas0m39")
-	Detect(NearestEnemyOf(Myself))
-	!StateCheck(Myself,STATE_INVISIBLE)
 	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m39",Myself)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m39")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m39")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m39")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m39")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	HaveSpellRES("jas0m39")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m39",LastSeenBy(Myself))
 END
 
 // Attack NoCheck enemy

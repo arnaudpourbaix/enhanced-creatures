@@ -14,7 +14,7 @@ const CONFUSION_TARGET_LISTS: TargetList[] = [
   },
 ];
 
-export const CONFUSION_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList(
+export const CONFUSION_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
   [SPELLS.Priest.Chaos, FNP_SPELLS.Priest.Chaos, SPELLS.Wizard.Confusion],
   {
     targets: CONFUSION_TARGET_LISTS,

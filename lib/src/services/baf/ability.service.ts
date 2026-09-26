@@ -5,8 +5,12 @@ import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { SPELLS } from "../../../config/spells/spell-database";
 import {
+  excludeSpellStatesForFile,
+  excludeStateChecksForFile,
+  includeStateChecksForFile,
   keywordsForFile,
   levelForFile,
+  rangeForFile,
   SpellVariant,
 } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
@@ -198,6 +202,10 @@ class AbilityService {
     spell.type ??= "normal";
     result.infiniteUse = spell.type !== "normal" && !spell.remove;
     spell.memorizedSpellCheck ??= true;
+    // Lets a SPELLS entry's `keywords: ["castOnSelf"]` (see SpellKeyword) drive the same behavior
+    // as hand-setting CreatureAbilitySpell.castOnSelf, once ability.keywords is resolved (either
+    // explicitly or via keywordsForFile in applyPreset above).
+    spell.castOnSelf ??= ability.keywords?.includes("castOnSelf");
     if (!spell.id && !spell.resource)
       throw new Error(`No spell specified for ability ${ability.name ?? "unknown"}`);
     if (spell.memorizedSpellCheck && spell.id) {
@@ -269,6 +277,11 @@ class AbilityService {
     spells: CreatureAbilitySpell[],
   ): CreatureAbility {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
+    // See parseAbilitySpell's identical line - applied before the same-target check below so a
+    // keyword-driven default is validated exactly like an explicit one.
+    for (const spell of spells) {
+      spell.castOnSelf ??= ability.keywords?.includes("castOnSelf");
+    }
     if (spells.some((s) => s.castOnSelf) && !spells.every((s) => s.castOnSelf)) {
       throw new Error(
         `Every spells must have the same target in ability ${ability.name ?? "unknown"}`,
@@ -293,15 +306,32 @@ class AbilityService {
     }
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
-    // Covers presets not built via PresetFactory.create (which already resolves this once, shared
-    // across every file variant of a group - see its comment): when neither the preset nor the
-    // override declared keywords explicitly, fall back to whatever SPELLS says about this exact
-    // presetName. Left unset (rather than []) when nothing matches, so a one-off ability with no
-    // SPELLS entry of its own is unaffected.
-    result.keywords ??= keywordsForFile(SPELLS, presetName);
+    // deepmerge concatenates array fields by default (the right behavior for triggers/actions,
+    // which genuinely accumulate) but wrong for `keywords`: an override declaring its own keywords
+    // must fully replace the preset's, not get appended to them. Recomputed explicitly with the
+    // right precedence instead of trusting whatever the deepmerge above produced: the override's
+    // own keywords win, else the preset's own, else - covering a preset that isn't built from a
+    // SpellReference at all (PresetFactory.createSpell/createOrderedSpells already resolve this
+    // once per spell, before this method ever runs) - a fallback to whatever SPELLS says about
+    // this exact presetName. Left unset (rather than []) when nothing matches, so a one-off
+    // ability with no SPELLS entry of its own is unaffected.
+    result.keywords =
+      ability.keywords ?? preset.ability.keywords ?? keywordsForFile(SPELLS, presetName);
     // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
     // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system.
     result.level ??= levelForFile(SPELLS, presetName);
+    // Same fallback as keywords/level above, for the Range() trigger mechanism (see
+    // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
+    result.range ??= rangeForFile(SPELLS, presetName);
+    // Same fallback as keywords/level/range above, but for CreatureAbilitySpell's own state-check
+    // fields (see SpellReference.includeStateChecks and siblings) - only fires when the deepmerge
+    // above produced nothing for the field at all, so it never duplicates a check that's already
+    // present (e.g. baked in via PresetFactory's spellDefaults, or set by the override itself).
+    if (result.spell) {
+      result.spell.includeStateChecks ??= includeStateChecksForFile(SPELLS, presetName);
+      result.spell.excludeStateChecks ??= excludeStateChecksForFile(SPELLS, presetName);
+      result.spell.excludeSpellStates ??= excludeSpellStatesForFile(SPELLS, presetName);
+    }
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {
       result.spell.id = undefined;
     } else if (

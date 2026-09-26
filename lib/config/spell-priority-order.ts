@@ -195,7 +195,6 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.CharmPerson.file,
   SPELLS.Priest.CharmPersonOrAnimal.file,
   SPELLS.Wizard.MelfAcidArrow.file,
-  FNP_SPELLS.Priest.FrostFingers.file,
   SPELLS.Wizard.BurningHands.file,
   SPELLS.Wizard.MagicMissiles.file,
   SPELLS.Wizard.Sleep.file,

@@ -1,101 +1,70 @@
 import { describe, expect, it } from "vitest";
-import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import presetFactory from "./preset.factory";
 
 const DEFAULT_ABILITY_NAME = "ability.unknown";
 
-describe("create", () => {
-  it("builds one preset per name, each with its own preset field", () => {
-    const results = presetFactory.create(["FILE_A", "FILE_B"], { name: DEFAULT_ABILITY_NAME });
-    expect(results).toEqual([
-      { preset: "FILE_A", ability: { name: DEFAULT_ABILITY_NAME } },
-      { preset: "FILE_B", ability: { name: DEFAULT_ABILITY_NAME } },
-    ]);
-  });
-
-  it("clones the ability so mutating one result doesn't affect another", () => {
-    const [first, second] = presetFactory.create(["FILE_A", "FILE_B"], {
-      name: DEFAULT_ABILITY_NAME,
-      triggers: [],
-    });
-    first.ability.triggers?.push({ name: "See", params: ["Myself"] });
-    expect(second.ability.triggers).toEqual([]);
-  });
-
-  it("auto-resolves keywords from a real SPELLS entry when the ability doesn't set them", () => {
-    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
+describe("createSpell", () => {
+  it("copies the spell's range onto the resulting ability", () => {
+    const [result] = presetFactory.createSpell(SPELLS.Wizard.BurningHands, {
       name: DEFAULT_ABILITY_NAME,
     });
-    expect(result.ability.keywords).toEqual(SPELLS.Priest.CloakOfFear.keywords);
+    expect(result.ability.range).toBe(SPELLS.Wizard.BurningHands.range);
   });
 
-  it("resolves once and shares the result across every name, even one that isn't a SPELLS entry", () => {
-    const results = presetFactory.create(["NOT_IN_SPELLS", SPELLS.Priest.CloakOfFear.file], {
+  it("leaves range unset when the spell has none", () => {
+    const [result] = presetFactory.createSpell(SPELLS.Wizard.Domination, {
       name: DEFAULT_ABILITY_NAME,
     });
-    expect(results[0].ability.keywords).toEqual(SPELLS.Priest.CloakOfFear.keywords);
-    expect(results[1].ability.keywords).toEqual(SPELLS.Priest.CloakOfFear.keywords);
+    expect(result.ability.range).toBeUndefined();
   });
 
-  it("leaves keywords unset when no name resolves to a SPELLS entry", () => {
-    const [result] = presetFactory.create(["NOT_IN_SPELLS"], { name: DEFAULT_ABILITY_NAME });
-    expect(result.ability.keywords).toBeUndefined();
-  });
-
-  it("keeps an explicit ability.keywords instead of auto-resolving", () => {
-    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
+  it("keeps the override's own range instead of the spell's", () => {
+    const [result] = presetFactory.createSpell(SPELLS.Wizard.BurningHands, {
       name: DEFAULT_ABILITY_NAME,
-      keywords: ["poison"],
+      range: 30,
     });
-    expect(result.ability.keywords).toEqual(["poison"]);
+    expect(result.ability.range).toBe(30);
   });
 
-  it("auto-resolves level from a real SPELLS entry when the ability doesn't set it", () => {
-    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
+  it("copies the spell's own state checks onto the resulting ability's spell", () => {
+    const spell: SpellReference = {
+      file: "SPWI999",
+      includeStateChecks: ["STATE_BLESS"],
+      excludeStateChecks: ["STATE_INVISIBLE"],
+      excludeSpellStates: ["STONESKIN"],
+    };
+    const [result] = presetFactory.createSpell(spell, { name: DEFAULT_ABILITY_NAME });
+    expect(result.ability.spell?.includeStateChecks).toEqual(["STATE_BLESS"]);
+    expect(result.ability.spell?.excludeStateChecks).toEqual(["STATE_INVISIBLE"]);
+    expect(result.ability.spell?.excludeSpellStates).toEqual(["STONESKIN"]);
+  });
+
+  it("accumulates the override's own exclusion checks alongside the spell's, rather than replacing them", () => {
+    const spell: SpellReference = { file: "SPWI999", excludeStateChecks: ["STATE_INVISIBLE"] };
+    const [result] = presetFactory.createSpell(spell, {
+      name: DEFAULT_ABILITY_NAME,
+      spell: { excludeStateChecks: ["STATE_SLEEPING"] },
+    });
+    expect(result.ability.spell?.excludeStateChecks).toEqual(["STATE_INVISIBLE", "STATE_SLEEPING"]);
+  });
+
+  it("leaves the spell's state-check fields unset when the spell has none", () => {
+    const [result] = presetFactory.createSpell(SPELLS.Wizard.BurningHands, {
       name: DEFAULT_ABILITY_NAME,
     });
-    expect(result.ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
+    expect(result.ability.spell?.includeStateChecks).toBeUndefined();
+    expect(result.ability.spell?.excludeStateChecks).toBeUndefined();
+    expect(result.ability.spell?.excludeSpellStates).toBeUndefined();
   });
+});
 
-  it("resolves level once and shares it across every name, even one that isn't a SPELLS entry", () => {
-    const results = presetFactory.create(["NOT_IN_SPELLS", SPELLS.Priest.CloakOfFear.file], {
-      name: DEFAULT_ABILITY_NAME,
-    });
-    expect(results[0].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
-    expect(results[1].ability.level).toBe(SPELLS.Priest.CloakOfFear.level);
-  });
-
-  it("resolves each name's own level from SPELLS instead of sharing the first name's level", () => {
-    const results = presetFactory.create(
-      [SPELLS.Priest.HoldPerson.file, SPELLS.Wizard.HoldPerson.file],
-      { name: DEFAULT_ABILITY_NAME },
-    );
-    expect(results[0].ability.level).toBe(SPELLS.Priest.HoldPerson.level);
-    expect(results[1].ability.level).toBe(SPELLS.Wizard.HoldPerson.level);
-    expect(results[1].ability.level).not.toBe(results[0].ability.level);
-  });
-
-  it("resolves an FNP_SPELLS-only name's own level instead of the SPELLS name's level", () => {
-    const results = presetFactory.create(
-      [SPELLS.Priest.CauseDisease.file, FNP_SPELLS.Priest.CauseDisease.file],
-      { name: DEFAULT_ABILITY_NAME },
-    );
-    expect(results[0].ability.level).toBe(SPELLS.Priest.CauseDisease.level);
-    expect(results[1].ability.level).toBe(FNP_SPELLS.Priest.CauseDisease.level);
-    expect(results[1].ability.level).not.toBe(results[0].ability.level);
-  });
-
-  it("leaves level unset when no name resolves to a SPELLS entry", () => {
-    const [result] = presetFactory.create(["NOT_IN_SPELLS"], { name: DEFAULT_ABILITY_NAME });
-    expect(result.ability.level).toBeUndefined();
-  });
-
-  it("keeps an explicit ability.level instead of auto-resolving", () => {
-    const [result] = presetFactory.create([SPELLS.Priest.CloakOfFear.file], {
-      name: DEFAULT_ABILITY_NAME,
-      level: 99,
-    });
-    expect(result.ability.level).toBe(99);
+describe("createOrderedSpells", () => {
+  it("copies each spell's own range onto its resulting ability", () => {
+    const spells: SpellReference[] = [SPELLS.Wizard.BurningHands, SPELLS.Wizard.Domination];
+    const [withRange, withoutRange] = presetFactory.createOrderedSpells(spells);
+    expect(withRange.ability.range).toBe(SPELLS.Wizard.BurningHands.range);
+    expect(withoutRange.ability.range).toBeUndefined();
   });
 });

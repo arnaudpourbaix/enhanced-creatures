@@ -50,12 +50,6 @@ const FNP_PRIEST_SPELLS = {
     type: SpellTypeEnum.Priest,
     name: "spell.Forbiddance.name",
   },
-  FrostFingers: {
-    file: "B_PR101",
-    level: 1,
-    type: SpellTypeEnum.Priest,
-    name: "spell.FrostFingers.name",
-  },
   MiscastMagic: {
     file: "D5P1310",
     level: 2,

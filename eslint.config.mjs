@@ -12,7 +12,18 @@ export default tseslint.config(
     // mod/docs/monsters.js is hand-authored plain browser JS for the mod's doc site (var/IIFE
     // style, DOM globals) - it's not part of the TS project and was never meant to be type-aware
     // linted alongside it.
-    ignores: ["node_modules", "dist", "coverage", "eslint.config.mjs", "mod/docs/monsters.js"],
+    // *.test.ts: production-code hygiene rules (no-duplicate-string, no-unused-vars, complexity,
+    // etc.) fight normal test structure - near-identical `it()` titles/fixtures across sibling
+    // describe blocks, unused destructured params in mocks, etc. - without catching real bugs, so
+    // tests are exempted from lint entirely rather than special-cased rule by rule.
+    ignores: [
+      "node_modules",
+      "dist",
+      "coverage",
+      "eslint.config.mjs",
+      "mod/docs/monsters.js",
+      "**/*.test.ts",
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,

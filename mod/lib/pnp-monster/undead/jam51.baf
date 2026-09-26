@@ -148,7 +148,6 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(ASSASSIN_POISON)
-	See(NearestEnemyOf(Myself))
 	!CheckStat(Myself,4,SCRIPTINGSTATE4)
 	RandomNumGT(800,80)
 THEN

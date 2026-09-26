@@ -1,5 +1,6 @@
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
+import { CommonTargetLists } from "../config/target/common";
 import actionFactory from "../src/factories/action.factory";
 import effectFactory from "../src/factories/effect.factory";
 import responseFactory from "../src/factories/response.factory";
@@ -63,7 +64,7 @@ class Ankheg extends Creature {
           type: "force",
           remove: true,
         },
-        targets: [{ name: "PCsPreferringWeak", randomOrder: true }],
+        targets: CommonTargetLists.PreferringWeak,
         triggers: [{ name: "HPPercentLT", params: [ScriptTarget.myself, 50] }],
         range: 30,
       },

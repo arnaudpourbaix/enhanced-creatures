@@ -38,7 +38,7 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [
       SPELLS.Wizard.MonsterSummoning8,
       SPELLS.Priest.Gate,

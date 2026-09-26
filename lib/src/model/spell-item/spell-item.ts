@@ -34,7 +34,6 @@ export interface BaseSpell {
   file: string;
   type: SpellTypeEnum;
   level: number;
-  /** Translation key for this spell's display name when used as an ability, e.g. "spell.FrostFingers.name" */
   name?: StringReference;
 }
 

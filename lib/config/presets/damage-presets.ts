@@ -8,7 +8,27 @@ import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
 
 export const DAMAGE_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Priest.DolorousDecay,
+      SPELLS.Priest.Poison,
+      SPELLS.Wizard.BigbyIcyGrasp,
+      SPELLS.Priest.BoltOfGlory,
+      SPELLS.Priest.FlameStrike,
+      SPELLS.Wizard.FlameArrow,
+      SPELLS.Wizard.VampiricTouch,
+      SPELLS.Wizard.ShroudOfFlame,
+      SPELLS.Wizard.Combust,
+      SPELLS.Wizard.ChromaticOrb,
+    ],
+    {
+      targets: CommonTargetLists.Enemies,
+    },
+  ),
+  ...presetFactory.createSpell(SPELLS.Wizard.MelfAcidArrow, {
+    targets: [...CommonTargetLists.Spellcasters, ...CommonTargetLists.Enemies],
+  }),
+  ...presetFactory.createSpells(
     [SPELLS.Wizard.MordenkainenForceMissiles, SPELLS.Wizard.MagicMissiles],
     {
       targets: [
@@ -38,28 +58,4 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     targets: CommonTargetLists.Enemies,
     timer: { name: "Shatter", value: 4 * Durations.round },
   }),
-  ...presetFactory.createFromSpellList([SPELLS.Priest.DolorousDecay, SPELLS.Priest.Poison], {
-    targets: CommonTargetLists.Enemies,
-    spell: {
-      excludeStateChecks: ["STATE_POISONED"],
-    },
-  }),
-  ...presetFactory.createSpell(SPELLS.Wizard.MelfAcidArrow, {
-    targets: CommonTargetLists.Spellcasters,
-  }),
-  ...presetFactory.createSpells(
-    [
-      SPELLS.Wizard.BigbyIcyGrasp,
-      SPELLS.Priest.BoltOfGlory,
-      SPELLS.Priest.FlameStrike,
-      SPELLS.Wizard.FlameArrow,
-      SPELLS.Wizard.VampiricTouch,
-      SPELLS.Wizard.ShroudOfFlame,
-      SPELLS.Wizard.Combust,
-      SPELLS.Wizard.ChromaticOrb,
-    ],
-    {
-      targets: CommonTargetLists.Enemies,
-    },
-  ),
 ];

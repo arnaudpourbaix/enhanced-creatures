@@ -110,14 +110,14 @@ describe("getAbilities - single spell", () => {
     expect(ability.actions).toEqual([{ name: "Spell", params: ["LastSeenBy", "SPWI001"] }]);
   });
 
-  it("targets Myself when the spell has selfTarget set", () => {
+  it("targets Myself when the spell has castOnSelf set", () => {
     const [ability] = abilityService.getAbilities([
       {
         name: DEFAULT_ABILITY_NAME,
         spell: {
           id: SPWI001,
           memorizedSpellCheck: false,
-          selfTarget: true,
+          castOnSelf: true,
         },
       },
     ]);
@@ -207,6 +207,28 @@ describe("getAbilities - single spell", () => {
     ]);
   });
 
+  it("targets Myself when ability.keywords includes castOnSelf, without an explicit spell.castOnSelf", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["castOnSelf"],
+        spell: { id: SPWI001, memorizedSpellCheck: false },
+      },
+    ]);
+    expect(ability.actions).toEqual([{ name: "Spell", params: ["Myself", "SPWI001"] }]);
+  });
+
+  it("keeps an explicit spell.castOnSelf: false instead of the castOnSelf keyword", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["castOnSelf"],
+        spell: { id: SPWI001, memorizedSpellCheck: false, castOnSelf: false },
+      },
+    ]);
+    expect(ability.actions).toEqual([{ name: "Spell", params: ["LastSeenBy", "SPWI001"] }]);
+  });
+
   it("adds negated exclude-state/stat/spellstate checks as triggers", () => {
     const [ability] = abilityService.getAbilities([
       {
@@ -247,18 +269,35 @@ describe("getAbilities - multi-spell (spells array)", () => {
     ]);
   });
 
-  it("throws when spells mix selfTarget true and false", () => {
+  it("throws when spells mix castOnSelf true and false", () => {
     expect(() =>
       abilityService.getAbilities([
         {
           name: DEFAULT_ABILITY_NAME,
           spells: [
-            { id: SPWI001, selfTarget: true },
-            { id: SPWI002, selfTarget: false },
+            { id: SPWI001, castOnSelf: true },
+            { id: SPWI002, castOnSelf: false },
           ],
         } as unknown as RawCreatureAbility,
       ]),
     ).toThrow(/Every spells must have the same target in ability ability.unknown/);
+  });
+
+  it("targets Myself for every spell when ability.keywords includes castOnSelf", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        keywords: ["castOnSelf"],
+        spells: [
+          { id: SPWI001, type: "normal" },
+          { id: SPWI002, type: "normal" },
+        ],
+      } as unknown as RawCreatureAbility,
+    ]);
+    expect(ability.actions).toEqual([
+      { name: "Spell", params: ["Myself", "SPWI001"] },
+      { name: "Spell", params: ["Myself", "SPWI002"] },
+    ]);
   });
 
   it("casts an individual spell at its explicit targetName instead of the default target", () => {
@@ -398,6 +437,64 @@ describe("applyPreset - auto-resolves level from SPELLS", () => {
     try {
       const result = service.applyPreset({}, "JA#TEST_UNREGISTERED_PRESET_LEVEL");
       expect(result.level).toBeUndefined();
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
+describe("applyPreset - auto-resolves range from SPELLS", () => {
+  // SPELLS.Wizard.BurningHands is a real preset (via createSpells, see damage-aoe-presets.ts)
+  // that carries a `range` of its own, a clean real-world case for this fallback.
+  it("resolves range from the preset name when neither the preset nor the override set it", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.BurningHands.file);
+    expect(result.range).toBe(SPELLS.Wizard.BurningHands.range);
+  });
+
+  it("keeps the override's own range instead of resolving from the preset name", () => {
+    const result = service.applyPreset({ range: 1 }, SPELLS.Wizard.BurningHands.file);
+    expect(result.range).toBe(1);
+  });
+
+  it("leaves range unset when the preset name matches no SPELLS entry", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_UNREGISTERED_PRESET_RANGE",
+      ability: { name: DEFAULT_ABILITY_NAME },
+    });
+    try {
+      const result = service.applyPreset({}, "JA#TEST_UNREGISTERED_PRESET_RANGE");
+      expect(result.range).toBeUndefined();
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+});
+
+describe("applyPreset - auto-resolves excludeStateChecks from SPELLS", () => {
+  // SPELLS.Wizard.Haste is a real, hand-written preset (see buff-presets.ts) that deliberately
+  // sets no excludeStateChecks of its own, so it only gets them through applyPreset's own SPELLS
+  // lookup fallback - a clean real-world case for that fallback.
+  it("resolves excludeStateChecks from the preset name when neither the preset nor the override set them", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Haste.file);
+    expect(result.spell?.excludeStateChecks).toEqual(SPELLS.Wizard.Haste.excludeStateChecks);
+  });
+
+  it("keeps the override's own excludeStateChecks instead of resolving from the preset name", () => {
+    const result = service.applyPreset(
+      { spell: { excludeStateChecks: ["STATE_SLOWED"] } },
+      SPELLS.Wizard.Haste.file,
+    );
+    expect(result.spell?.excludeStateChecks).toEqual(["STATE_SLOWED"]);
+  });
+
+  it("leaves excludeStateChecks unset when the preset name matches no SPELLS entry", () => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_UNREGISTERED_PRESET_STATE",
+      ability: { name: DEFAULT_ABILITY_NAME, spell: {} },
+    });
+    try {
+      const result = service.applyPreset({}, "JA#TEST_UNREGISTERED_PRESET_STATE");
+      expect(result.spell?.excludeStateChecks).toBeUndefined();
     } finally {
       ABILITY_PRESETS.pop();
     }

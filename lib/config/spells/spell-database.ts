@@ -126,6 +126,7 @@ const WIZARD_SPELLS = {
     name: "spell.colorSpray.name",
     keywords: ["blind", "slow", "confusion"],
     range: 10,
+    excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
   },
   Combust: {
     file: "SPWI231",
@@ -246,6 +247,7 @@ const WIZARD_SPELLS = {
     level: 3,
     name: DISPEL_MAGIC_NAME,
     hiddenIn: "AllSpellMods",
+    excludeStateChecks: ["STATE_DISABLED"],
   },
   Domination: {
     file: "SPWI506",
@@ -311,6 +313,7 @@ const WIZARD_SPELLS = {
     level: 6,
     name: "spell.FleshToStone.name",
     keywords: ["petrify", "magicResistance"],
+    excludeStateChecks: ["STATE_STONE_DEATH"],
   },
   Glitterdust: {
     file: "SPWI224",
@@ -345,6 +348,7 @@ const WIZARD_SPELLS = {
     level: 3,
     duration: "mid",
     name: "spell.Haste.name",
+    excludeStateChecks: ["STATE_HASTED"],
   },
   HoldMonster: {
     file: "SPWI507",
@@ -481,6 +485,7 @@ const WIZARD_SPELLS = {
     duration: "mid",
     name: "spell.MirrorImages.name",
     keywords: ["castOnSelf"],
+    excludeStateChecks: ["STATE_MIRRORIMAGE"],
   },
   MonsterSummoning1: {
     file: "SPWI107",
@@ -600,6 +605,7 @@ const WIZARD_SPELLS = {
     level: 8,
     name: "spell.PowerWordBlind.name",
     keywords: ["blind", "magicResistance"],
+    excludeStateChecks: ["STATE_BLIND"],
   },
   PowerWordKill: {
     file: "SPWI912",
@@ -651,6 +657,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_REMOVE_MAGIC",
     level: 3,
     name: DISPEL_MAGIC_NAME,
+    excludeStateChecks: ["STATE_DISABLED"],
   },
   ReflectedImage: {
     file: "SPWI120",
@@ -658,6 +665,7 @@ const WIZARD_SPELLS = {
     level: 1,
     name: "spell.ReflectedImage.name",
     keywords: ["castOnSelf"],
+    excludeStateChecks: ["STATE_MIRRORIMAGE"],
   },
   ShapeshiftMustardJelly: {
     file: "SPWI496",
@@ -725,6 +733,7 @@ const WIZARD_SPELLS = {
     level: 3,
     name: "spell.Slow.name",
     keywords: ["slow", "movement"],
+    excludeStateChecks: ["STATE_SLOWED"],
   },
   SnillocsSnowballSwarm: {
     file: "SPWI227",
@@ -962,6 +971,7 @@ const PRIEST_SPELLS = {
     level: 7,
     name: "spell.BlindingBeauty.name",
     keywords: ["blind", "castOnSelf"],
+    excludeStateChecks: ["STATE_BLIND"],
   },
   BoltOfGlory: {
     file: "SPPR612",
@@ -1156,6 +1166,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_DISPEL_MAGIC",
     level: 3,
     name: DISPEL_MAGIC_NAME,
+    excludeStateChecks: ["STATE_DISABLED"],
   },
   DivineProtection: {
     file: "SPPR527",
@@ -1179,6 +1190,7 @@ const PRIEST_SPELLS = {
     level: 6,
     name: "spell.DolorousDecay.name",
     keywords: ["magicDamage"],
+    excludeStateChecks: ["STATE_POISONED"],
   },
   Doom: {
     file: "SPPR113",
@@ -1326,6 +1338,7 @@ const PRIEST_SPELLS = {
     level: 7,
     name: "spell.HolyWord.name",
     keywords: ["death", "stun"],
+    excludeStateChecks: ["STATE_BLIND"],
   },
   UnholyWord: {
     file: "SPPR715",
@@ -1333,6 +1346,7 @@ const PRIEST_SPELLS = {
     level: 7,
     name: "spell.UnholyWord.name",
     keywords: ["death", "confusion"],
+    excludeStateChecks: ["STATE_SLOWED"],
   },
   InsectPlague: {
     file: "SPPR517",
@@ -1396,6 +1410,7 @@ const PRIEST_SPELLS = {
     level: 4,
     name: "spell.Poison.name",
     keywords: ["poison", "magicResistance"],
+    excludeStateChecks: ["STATE_POISONED"],
   },
   PhysicalMirror: {
     // Vanilla keeps this spell at SPPR613. Stratagems' IWD spells add a level-5 duplicate at
@@ -1531,6 +1546,7 @@ const PRIEST_SPELLS = {
     name: "spell.Sanctuary.name",
     keywords: ["castOnSelf"],
     duration: "short",
+    excludeStateChecks: ["STATE_INVISIBLE"],
   },
   ShieldOfTheArchons: {
     file: "SPPR701",

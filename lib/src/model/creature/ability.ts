@@ -7,6 +7,8 @@ import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
 import { SpellReference, SpellVariant } from "../spell-item/spell-reference";
+import { SplStateIdentifier } from "../ids/splstate";
+import { SpellStateValue } from "../../../config/common";
 
 export interface BaseCreatureAbility {
   name: StringReference;
@@ -129,7 +131,7 @@ export interface CreatureAbilitySpell {
   type?: SpellCastType;
   includeStateChecks?: StateIdentifier[];
   excludeStateChecks?: StateIdentifier[];
-  excludeSpellStates?: string[];
+  excludeSpellStates?: (SplStateIdentifier | SpellStateValue)[];
   excludeStatsChecks?: StatsIdentifier[];
   /**
    * Will be cast on self (Myself)

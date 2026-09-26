@@ -33,7 +33,7 @@ export const SLEEP_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.PowerWordSleep, {
     targets: targetService.combineListWithTriggers(SLEEP_TARGET_LISTS, [triggerFactory.hplt(20)]),
   }),
-  ...presetFactory.createFromSpellList(
+  ...presetFactory.createOrderedSpells(
     [SPELLS.Priest.GreaterCommand, SPELLS.Wizard.Sleep, SPELLS.Priest.Command],
     {
       targets: SLEEP_TARGET_LISTS,
