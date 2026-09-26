@@ -31,6 +31,10 @@ export interface SpellReference {
     | "short"; // several rounds to one turn
   keywords?: SpellKeyword[];
   /**
+   * Max range for this spell
+   */
+  range?: number;
+  /**
    * Per-mod overrides, checked in order - the first installed mod wins, falling back to `file`/`id`
    * above when none match (or when this is unset, which is the common case). Not yet consumed by
    * every place that reads `file`/`id` directly - memorized spells, SPELL_GROUPS and ability presets

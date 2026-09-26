@@ -212,7 +212,7 @@ class AbilityService {
       });
     }
     this.addExclusionTriggers(result, target, spell);
-    let spellTarget: string = spell.selfTarget ? ScriptTarget.myself : ScriptTarget.lastSeen;
+    let spellTarget: string = spell.castOnSelf ? ScriptTarget.myself : ScriptTarget.lastSeen;
     if (spell.targetName) spellTarget = spell.targetName;
     result.actions.push(this.getSpellAction(spell, spellTarget));
     if (spell.remove && spell.type !== "normal" && spell.id) {
@@ -269,7 +269,7 @@ class AbilityService {
     spells: CreatureAbilitySpell[],
   ): CreatureAbility {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
-    if (spells.some((s) => s.selfTarget) && !spells.every((s) => s.selfTarget)) {
+    if (spells.some((s) => s.castOnSelf) && !spells.every((s) => s.castOnSelf)) {
       throw new Error(
         `Every spells must have the same target in ability ${ability.name ?? "unknown"}`,
       );
@@ -279,7 +279,7 @@ class AbilityService {
     // result.resource = spell.resource ?? ability.preset;
     for (const spell of spells) {
       this.addExclusionTriggers(result, target, spell);
-      let spellTarget: string = spell.selfTarget ? ScriptTarget.myself : ScriptTarget.lastSeen;
+      let spellTarget: string = spell.castOnSelf ? ScriptTarget.myself : ScriptTarget.lastSeen;
       if (spell.targetName) spellTarget = spell.targetName;
       result.actions.push(this.getSpellAction(spell, spellTarget));
     }

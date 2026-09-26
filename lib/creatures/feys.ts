@@ -361,7 +361,7 @@ class Fey extends Creature {
         spell: {
           type: "reallyForce",
           excludeStateChecks: ["STATE_INVISIBLE"],
-          selfTarget: true,
+          castOnSelf: true,
         },
         noRoundTimer: true,
         timer: { name: "BeguilingAura", value: 6 },
@@ -415,7 +415,7 @@ class Fey extends Creature {
         spell: {
           type: "force",
           remove: true,
-          selfTarget: true,
+          castOnSelf: true,
         },
         noRoundTimer: true,
       },
@@ -1645,7 +1645,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       ability: {
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           excludeStateChecks: ["STATE_BLIND"],
         },
         targets: [

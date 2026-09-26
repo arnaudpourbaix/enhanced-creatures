@@ -6,7 +6,7 @@ import { SPELLS } from "../spells/spell-database";
 
 const defaults: RawCreatureAbility = {
   spell: {
-    selfTarget: true,
+    castOnSelf: true,
   },
   triggers: [{ name: "See", params: ["NearestEnemyOf"] }],
   requireVocal: false,

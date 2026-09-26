@@ -39,7 +39,7 @@ export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createFromSpellList
   {
     triggers: [...WEAPON_ITEM_TRIGGERS],
     spell: {
-      selfTarget: true,
+      castOnSelf: true,
     },
   },
 );

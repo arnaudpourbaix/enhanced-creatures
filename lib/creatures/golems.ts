@@ -156,7 +156,7 @@ class Golem extends Creature {
         range: 10,
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
       },
@@ -238,7 +238,7 @@ class Golem extends Creature {
         spell: {
           type: "reallyForce",
           excludeStateChecks: ["STATE_HASTED"],
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
         triggers: [{ name: "Delay", params: [6] }],
@@ -363,7 +363,7 @@ class Golem extends Creature {
       ability: {
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
         triggers: [{ name: "Range", params: ["NearestEnemyOf", 5], negation: true }],
@@ -445,7 +445,7 @@ class Golem extends Creature {
         range: 10,
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
       },
@@ -854,7 +854,7 @@ class GolemFamily extends CreatureFamily<Golem> {
           preset: SPELLS.Wizard.Slow.file,
           spell: {
             type: "reallyForce",
-            selfTarget: true,
+            castOnSelf: true,
             remove: true,
           },
           requireVocal: false,

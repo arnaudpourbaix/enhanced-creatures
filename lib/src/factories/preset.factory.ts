@@ -57,6 +57,7 @@ class PresetFactory {
         requireVocal: true,
         probability: DEFAULT_SPELL_PROBABILITY,
       };
+      if (spell.level !== undefined) ability.level = spell.level;
       const preset: AbilityPreset = {
         preset: spell.file,
         ability: deepmerge(ability, override),
@@ -68,6 +69,11 @@ class PresetFactory {
 
   /**
    * variants are spell files identicals to the spell, but outside the database
+   *
+   * `ability.level` comes straight from `spell.level` (unless `override` sets its own): unlike
+   * `create()`, which only gets a bare file name and has to look the level up via levelForFile,
+   * this receives the actual SpellReference - including for FNP_SPELLS entries, which levelForFile
+   * can't find since FNP_SPELLS isn't a SpellCollection member (same gap noted on `create()`).
    */
   createSpell(
     spell: SpellReference,
@@ -83,6 +89,7 @@ class PresetFactory {
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     };
+    if (spell.level !== undefined) ability.level = spell.level;
     const mergedAbility = deepmerge(ability, override);
     const preset: AbilityPreset = {
       preset: spell.file,

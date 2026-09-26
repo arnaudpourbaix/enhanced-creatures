@@ -13,7 +13,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.Vocalize.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: false,
       probability: 100,
@@ -25,7 +25,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.NonDetection.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       probability: 100,
     },
@@ -36,7 +36,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.Invisibility.name,
       spell: {
         excludeStateChecks: ["STATE_INVISIBLE"],
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -49,7 +49,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.ImprovedInvisibility.name,
       spell: {
         excludeStateChecks: ["STATE_IMPROVEDINVISIBILITY"],
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -62,7 +62,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       name: SPELLS.Wizard.ShadowDoor.name,
       spell: {
         excludeStateChecks: ["STATE_IMPROVEDINVISIBILITY"],
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -74,7 +74,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.Bless.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -85,7 +85,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ResistFear.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -96,7 +96,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.Chant.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -155,7 +155,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.Barkskin.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -164,7 +164,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Wizard.Shield.file, FNP_SPELLS.Priest.Shield.file], {
     name: SPELLS.Wizard.Shield.name,
     spell: {
-      selfTarget: true,
+      castOnSelf: true,
     },
     triggers: [triggerFactory.checkStat(2, "SCRIPTINGSTATE5")],
     requireVocal: true,
@@ -175,7 +175,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     {
       name: SPELLS.Priest.CircleOfBones.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkSpellState("CIRCLE_OF_BONES", true)],
       requireVocal: true,
@@ -187,7 +187,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.MagicResistance.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -198,7 +198,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.MinorSpellDeflection.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
       requireVocal: true,
@@ -209,9 +209,6 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Wizard.FireShield.file,
     ability: {
       name: SPELLS.Wizard.FireShield.name,
-      spell: {
-        selfTarget: true,
-      },
       triggers: [triggerFactory.checkStatGT(0, "WIZARD_FIRE_SHIELD", true)],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -222,7 +219,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.MirrorImages.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
         excludeStateChecks: ["STATE_MIRRORIMAGE"],
       },
       requireVocal: true,
@@ -234,7 +231,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.ReflectedImage.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
         excludeStateChecks: ["STATE_MIRRORIMAGE"],
       },
       requireVocal: true,
@@ -246,7 +243,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.Haste.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
         excludeStateChecks: ["STATE_HASTED"],
       },
       requireVocal: true,
@@ -258,7 +255,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.ProtectionFromMissiles.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkSpellState("PROTECTION_FROM_NORMAL_MISSILES", true)],
       requireVocal: true,
@@ -270,7 +267,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.MinorGlobeOfInvulnerability.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -279,7 +276,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.create([SPELLS.Wizard.Stoneskin.file, SPELLS.Priest.Ironskin.file], {
     name: SPELLS.Wizard.Stoneskin.name,
     spell: {
-      selfTarget: true,
+      castOnSelf: true,
     },
     triggers: [triggerFactory.checkStatLT(2, "STONESKINS")],
     requireVocal: true,
@@ -290,7 +287,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.ProtectionFromMagicalWeapons.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS", true)],
       requireVocal: true,
@@ -302,7 +299,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.Blur.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -313,7 +310,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.BladeBarrier.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkStatGT(0, "CLERIC_BLADE_BARRIER", true)],
       requireVocal: true,
@@ -325,7 +322,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.RighteousMagic.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -336,7 +333,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.HolyPower.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkStatLT(100, "STR")],
       requireVocal: true,
@@ -349,7 +346,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.create(spellFiles(SPELLS.Priest.ProtectionFromLightning), {
     name: SPELLS.Priest.ProtectionFromLightning.name,
     spell: {
-      selfTarget: true,
+      castOnSelf: true,
     },
     triggers: [triggerFactory.checkStatLT(100, "RESISTELECTRICITY")],
     requireVocal: true,
@@ -360,7 +357,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.DrawUponHolyMight.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [triggerFactory.checkStat(4, "SCRIPTINGSTATE6", true)],
       requireVocal: true,
@@ -373,7 +370,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       name: SPELLS.Priest.Sanctuary.name,
       spell: {
         excludeStateChecks: ["STATE_INVISIBLE"],
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -385,7 +382,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Wizard.NahalRecklessDweomer.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -396,7 +393,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.Aid.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -407,7 +404,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ArmorOfFaith.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [],
       requireVocal: true,
@@ -419,7 +416,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.DivineProtection.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -437,7 +434,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.GreaterDivineProtection.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -454,7 +451,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     preset: SPELLS.Priest.EntropyShield.file,
     ability: {
       name: SPELLS.Priest.EntropyShield.name,
-      spell: { selfTarget: true },
+      spell: { castOnSelf: true },
       triggers: [],
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
@@ -465,7 +462,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.FreeAction.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [],
       requireVocal: true,
@@ -477,7 +474,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.create(spellFiles(SPELLS.Priest.PhysicalMirror), {
     name: SPELLS.Priest.PhysicalMirror.name,
     spell: {
-      selfTarget: true,
+      castOnSelf: true,
     },
     triggers: [],
     requireVocal: true,
@@ -488,7 +485,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ProtectionFromEvil.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -506,7 +503,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ProtectionFromGood.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -524,7 +521,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ProtectionFromGood10Radius.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -542,7 +539,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ProtectionFromEvil10Radius.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
@@ -560,7 +557,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.ShieldOfTheArchons.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [],
       requireVocal: true,
@@ -572,7 +569,7 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     ability: {
       name: SPELLS.Priest.Repulsion.name,
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [{ name: "Range", params: ["NearestEnemyOf", 10] }],
       requireVocal: true,

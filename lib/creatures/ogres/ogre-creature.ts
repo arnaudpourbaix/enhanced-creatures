@@ -217,7 +217,7 @@ export class Ogre extends Creature {
         spell: {
           type: "noDec",
           excludeSpellStates: [SPELL_STATES.flying],
-          selfTarget: true,
+          castOnSelf: true,
         },
         triggers: [
           { name: "Detect", params: ["NearestEnemyOf"] },

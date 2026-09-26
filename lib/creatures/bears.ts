@@ -462,7 +462,7 @@ class BearFamily extends CreatureFamily<Bear> {
         ],
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
         },
         range: 10,
         probability: 20,

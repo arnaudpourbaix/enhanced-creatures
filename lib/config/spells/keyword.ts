@@ -4,6 +4,7 @@ export type SpellKeyword =
    */
   | "acid"
   | "blind"
+  | "castOnSelf"
   | "causeWounds"
   | "charm"
   | "cloud"
@@ -18,7 +19,6 @@ export type SpellKeyword =
   | "elf"
   | "fear"
   | "fire"
-  | "movement"
   /**
    * Resisted by half-elven blood (30%) - skip Half-Elf targets
    */
@@ -30,14 +30,15 @@ export type SpellKeyword =
   | "maze"
   | "miscast"
   | "missile"
+  | "movement"
   | "petrify"
   | "poison"
   | "polymorph"
-  | "silence"
-  | "sleep"
-  | "slow"
-  | "stun"
   /**
    * Blocked by Shield (wizard spell)
    */
-  | "shield";
+  | "shield"
+  | "silence"
+  | "sleep"
+  | "slow"
+  | "stun";

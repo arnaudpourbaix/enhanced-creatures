@@ -12,70 +12,45 @@ import { CommonTargetLists } from "../target/common";
 // Although it is best to maximize spell efficiency, you must remember the solo enemy case.
 
 export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createSpells([SPELLS.Wizard.ConeOfCold], {
-    targets: CommonTargetLists.Enemies,
-  }),
-  {
-    preset: SPELLS.Wizard.Fireburst.file,
-    ability: {
-      name: SPELLS.Wizard.Fireburst.name,
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.Cloudkill,
+      SPELLS.Wizard.ChainLightning,
+      SPELLS.Wizard.ConeOfCold,
+      SPELLS.Wizard.BurningHands,
+      SPELLS.Priest.MassCauseLightWounds,
+      SPELLS.Priest.CloudOfPestilence,
+      FNP_SPELLS.Priest.CloudOfPestilence,
+      SPELLS.Wizard.LightningBolt,
+      SPELLS.Wizard.AgannazarScorcher,
+    ],
+    {
       targets: CommonTargetLists.Enemies,
-      spell: {
-        selfTarget: true,
-      },
-      range: 10,
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
     },
-  },
+  ),
+  ...presetFactory.createSpells([SPELLS.Wizard.Fireburst], {
+    targets: CommonTargetLists.Enemies,
+    spell: {
+      castOnSelf: true,
+    },
+    range: 10,
+  }),
   ...presetFactory.createSpells(
     [
       SPELLS.Wizard.Fireball,
       SPELLS.Wizard.SkullTrap,
       SPELLS.Priest.GlyphOfWarding,
+      SPELLS.Wizard.VitriolicSphere,
       SPELLS.Priest.HolySmite,
+      SPELLS.Priest.UnholyBlight,
+      SPELLS.Wizard.IceStorm,
     ],
     {
       targets: CommonTargetLists.FarthestEnemies,
+      minRange: 20,
       actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
     },
   ),
-  ...presetFactory.createSpells([SPELLS.Wizard.BurningHands], {
-    targets: CommonTargetLists.Enemies,
-  }),
-  {
-    preset: SPELLS.Wizard.IceStorm.file,
-    ability: {
-      name: SPELLS.Wizard.IceStorm.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTCOLD"),
-          ],
-        },
-      ],
-      minRange: 20,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.MassCauseLightWounds.file,
-    ability: {
-      name: SPELLS.Priest.MassCauseLightWounds.name,
-      spell: {
-        selfTarget: true,
-      },
-      triggers: [
-        ...triggerFactory.hasItem(["LIGHT", "SERIOUS", "CRITICAL", "HARM", "SLAYLIVE"], true),
-      ],
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
   {
     // Frost Fingers itself is broken in the Faiths & Powers mod that provides it (confirmed:
     // not a bug in this generator or this preset) - can't be fixed from here. Currently unused
@@ -90,146 +65,16 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
         },
       ],
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: [
         {
           name: "CheckStat",
           params: [ScriptTarget.myself, 5, "SCRIPTINGSTATE4"],
+          negation: true,
         },
       ],
       range: 10,
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create(
-    [SPELLS.Priest.CloudOfPestilence.file, FNP_SPELLS.Priest.CloudOfPestilence.file],
-    {
-      name: SPELLS.Priest.CloudOfPestilence.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  ),
-  {
-    preset: SPELLS.Priest.WavesOfAgony.file,
-    ability: {
-      name: SPELLS.Priest.WavesOfAgony.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      timer: { name: "WavesOfAgony", value: 3 * Durations.round },
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.LightningBolt.file,
-    ability: {
-      name: SPELLS.Wizard.LightningBolt.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-          triggers: [
-            // triggerFactory.hasBounceEffects(true),
-          ],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.AgannazarScorcher.file,
-    ability: {
-      name: SPELLS.Wizard.AgannazarScorcher.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.VitriolicSphere.file,
-    ability: {
-      name: SPELLS.Wizard.VitriolicSphere.name,
-      targets: [
-        {
-          name: "FarthestEnemies",
-          randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTACID"),
-          ],
-        },
-      ],
-      minRange: 20,
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.Cloudkill.file,
-    ability: {
-      name: SPELLS.Wizard.Cloudkill.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          randomOrder: true,
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.ChainLightning.file,
-    ability: {
-      name: SPELLS.Wizard.ChainLightning.name,
-      targets: [
-        {
-          name: "NearestEnemies",
-          randomOrder: true,
-          triggers: [
-            // triggerFactory.checkStatLT(50, "RESISTELECTRICITY"),
-          ],
-        },
-      ],
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Priest.UnholyBlight.file,
-    ability: {
-      name: SPELLS.Priest.UnholyBlight.name,
-      targets: [
-        {
-          name: "Players",
-          randomOrder: true,
-          triggers: [triggerFactory.alignment("MASK_GOOD")],
-        },
-      ],
-      spell: {},
       requireVocal: true,
       probability: DEFAULT_SPELL_PROBABILITY,
     },

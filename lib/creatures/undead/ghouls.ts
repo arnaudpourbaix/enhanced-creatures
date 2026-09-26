@@ -180,7 +180,7 @@ function carrionStench(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
       range: 5,
     },
@@ -297,7 +297,7 @@ function auraOfEvil(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
     },
   });

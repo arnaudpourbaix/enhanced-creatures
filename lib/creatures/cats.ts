@@ -245,7 +245,7 @@ class Cat extends Creature {
       ability: {
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
       },

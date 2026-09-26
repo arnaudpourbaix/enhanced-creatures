@@ -132,9 +132,9 @@ export interface CreatureAbilitySpell {
   excludeSpellStates?: string[];
   excludeStatsChecks?: StatsIdentifier[];
   /**
-   * Target self with spell even if target is set
+   * Will be cast on self (Myself)
    */
-  selfTarget?: boolean;
+  castOnSelf?: boolean;
   /**
    * Is it an attack or a spell ? (default: false)
    * A spell can't target an improved invisible character while an attack can

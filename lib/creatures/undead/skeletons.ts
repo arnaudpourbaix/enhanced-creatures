@@ -88,7 +88,7 @@ function blink(cre: Undead) {
     ],
     ability: {
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: false,
       triggers: [{ name: "Range", params: ["NearestEnemyOf", 5] }],

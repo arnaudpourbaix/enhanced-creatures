@@ -248,7 +248,7 @@ class Wolf extends Creature {
         ],
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
         },
         range: 10,
         probability: 20,

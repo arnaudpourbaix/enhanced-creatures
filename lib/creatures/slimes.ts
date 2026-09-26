@@ -198,7 +198,7 @@ class Slime extends Creature {
     return {
       spell: {
         type: "force",
-        selfTarget: true,
+        castOnSelf: true,
         remove: true,
       },
       triggers: withTriggers ? triggers : [],
@@ -1117,7 +1117,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         ],
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
         },
         range: 10,
         probability: 100,
