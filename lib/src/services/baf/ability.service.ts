@@ -16,6 +16,7 @@ import {
 } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
+import logService from "../log.service";
 import { ScriptTarget } from "../../model/constants";
 import {
   CreatureAbility,
@@ -80,7 +81,8 @@ class AbilityService {
 
   /**
    * Appends trigger.factory.spellChecks()'s triggers for `keywords`, and an
-   * ImmuneToSpellLevel(target, level) check when `level` is known, to every target list's own
+   * ImmuneToSpellLevel(target, level) check when `level` is known (unless the spell is
+   * "friendly"), to every target list's own
    * `triggers` - not the ability's top-level triggers - since a target list is what actually
    * restricts an offensive ability to a subset of targets, so "skip protected targets" belongs
    * there. These ability-level checks are shared by every target list; each target list's own
@@ -101,7 +103,13 @@ class AbilityService {
   ): TargetList[] | undefined {
     if (!targets) return targets;
     const sharedChecks = triggerFactory.spellChecks(keywords);
-    if (level !== undefined && GLOBAL_CONFIG.spellChecks.spellProtections) {
+    // A "friendly" spell is one the target wants to receive, so its spell protections are
+    // irrelevant.
+    if (
+      level !== undefined &&
+      GLOBAL_CONFIG.spellChecks.spellProtections &&
+      !keywords?.includes("friendly")
+    ) {
       sharedChecks.push(triggerFactory.immuneToSpellLevel(level, true));
     }
     const withChecks = targets.map((t) => {
@@ -300,12 +308,39 @@ class AbilityService {
     return result;
   }
 
+  /**
+   * Logs every state-check field an ability sets on top of its preset - deepmerge appends it to
+   * the preset's own (e.g. baked in via PresetFactory's spellDefaults) rather than replacing it,
+   * so generator.log lists each case (under its creature's section) for review.
+   */
+  private logCheckOverrides(
+    presetSpell: CreatureAbilitySpell | undefined,
+    overrideSpell: CreatureAbilitySpell | undefined,
+    presetName: string,
+  ): void {
+    if (!overrideSpell) return;
+    const fields = [
+      "includeStateChecks",
+      "excludeStateChecks",
+      "excludeSpellStates",
+      "excludeStatsChecks",
+    ] as const;
+    for (const field of fields) {
+      const override = overrideSpell[field];
+      if (override === undefined) continue;
+      logService.info(
+        `Preset ${presetName} ${field} override: ${JSON.stringify(override)} appended to preset's ${JSON.stringify(presetSpell?.[field] ?? [])}`,
+      );
+    }
+  }
+
   private applyPreset(ability: RawCreatureAbility, presetName: string): RawCreatureAbility {
     const preset = ABILITY_PRESETS.find((p) => p.preset === presetName);
     if (!preset) {
       throw new Error(`Unknown preset ${presetName}`);
     }
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
+    this.logCheckOverrides(preset.ability.spell, ability.spell, presetName);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
     // deepmerge concatenates array fields by default (the right behavior for triggers/actions,
     // which genuinely accumulate) but wrong for `keywords`: an override declaring its own keywords

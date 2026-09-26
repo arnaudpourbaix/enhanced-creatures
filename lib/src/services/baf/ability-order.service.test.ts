@@ -89,7 +89,9 @@ describe("resolve", () => {
   it("appends a custom abilityId entry at the end with insertLast", () => {
     const creature = fakeCreature({
       memorized: [],
-      customSpells: [{ id: 7, file: "custom-spell-file", ability: { preset: CUSTOM_ABILITY_PRESET } }],
+      customSpells: [
+        { id: 7, file: "custom-spell-file", ability: { preset: CUSTOM_ABILITY_PRESET } },
+      ],
       entries: [{ abilityId: 7, insertLast: true }],
     });
     expect(abilityOrderService.resolve(creature)).toEqual([{ preset: CUSTOM_ABILITY_PRESET }]);
@@ -281,9 +283,9 @@ describe("sortByPriority", () => {
   });
 
   it("throws when a preset is missing from SPELL_PRIORITY_ORDER", () => {
-    expect(() =>
-      abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }]),
-    ).toThrow(NOT_IN_PRIORITY_ORDER);
+    expect(() => abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }])).toThrow(
+      NOT_IN_PRIORITY_ORDER,
+    );
   });
 
   it("throws when an ability has no preset to sort by", () => {

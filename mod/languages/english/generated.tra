@@ -2130,27 +2130,49 @@ For each day the rot progresses, the victim permanently loses 2 points of Charis
 The disease can be cured only with a cure disease spell.
 Cure wounds spells have no effect on a person inflicted with mummy rot.~
 @11023 = ~Greater Mummy traits~
-@11024 = ~Shadow traits~
-@11025 = ~Immune to cold
+@11024 = ~Paralyze target for 3 rounds (saves vs spell at -1).
+Panic for 3 rounds (saves vs spell at -1)~
+@11025 = ~Paralyze target for 3 rounds (saves vs spell at -3).
+Panic for 3 rounds (saves vs spell at -3)~
+@11026 = ~Resistance to physical damage (50%)
+Immune to cold
+Immune to all weapons of +2 or less enchantment
+Magic Resistance: 20%
+Fire Resistance: 100%
+Electricity Resistance: -50%~
+@11027 = ~Claws
+
+Melee damage: 3D6 (Slashing)
+Speed Factor: 5
+Enchantment: 4
+Range: 2 feet
+
+Cast spell Rotting Disease:
+The scabrous touch infects the victim with a rotting disease which is fatal in 48 hours.
+Every 8 hours, the victim permanently loses 2 points of Charisma and 1 point each of Strength and Constitution.
+The disease can be cured only with a cure disease spell.
+Cure wounds spells have no effect on a person inflicted with mummy rot.~
+@11028 = ~Shadow traits~
+@11029 = ~Immune to cold
 Incorporeal~
-@11026 = ~Claws
+@11030 = ~Claws
 
 Melee damage: 1D4+1 (Slashing)
 Speed Factor: 5
 Range: 2 feet
 Strength: -1 for an hour~
-@11027 = ~Claws
+@11031 = ~Claws
 
 Melee damage: 1D4+1 (Slashing)
 Speed Factor: 5
 Range: 2 feet
 Wisdom: -2 for an hour~
-@11028 = ~Baneguard traits~
-@11029 = ~~
-@11030 = ~Skeletal~
-@11031 = ~Bonebat traits~
-@11032 = ~Skeletal~
-@11033 = ~Jaws
+@11032 = ~Baneguard traits~
+@11033 = ~~
+@11034 = ~Skeletal~
+@11035 = ~Bonebat traits~
+@11036 = ~Skeletal~
+@11037 = ~Jaws
 
 Melee damage: 2D4 (Piercing)
 Speed Factor: 3
@@ -2158,23 +2180,25 @@ Range: 2 feet
 
 Cast spell Bonebat's Touch:
 A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, unless a successful saving throw vs. paralyzation is made.~
-@11034 = ~Skeleton traits~
-@11035 = ~Skeletal~
-@11036 = ~Giant Skeleton traits~
-@11037 = ~Skeletal
+@11038 = ~Skeleton traits~
+@11039 = ~Skeletal~
+@11040 = ~Giant Skeleton traits~
+@11041 = ~Skeletal
 Immune to fire
 Missiles Resistance: 90%~
-@11038 = ~Skeleton Warrior traits~
-@11039 = ~Skeletal
+@11042 = ~Skeleton Warrior traits~
+@11043 = ~Skeletal
 Immune to non-magical weapons
 Immune to turn undead
 Magic Resistance: 90%
 Thac0: +3~
-@11040 = ~Death Knight traits~
-@11041 = ~Spectre traits~
-@11042 = ~Immune to cold
+@11044 = ~Death Knight traits~
+@11045 = ~Immune to turn undead
+Magic Resistance: 75%~
+@11046 = ~Spectre traits~
+@11047 = ~Immune to cold
 Incorporeal~
-@11043 = ~Claws
+@11048 = ~Claws
 
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
@@ -2183,10 +2207,10 @@ Range: 2 feet
 
 Cast spell Specter's Touch:
 Their touch drains two life energy levels from the victim.~
-@11044 = ~Ghost traits~
-@11045 = ~Immune to cold
+@11049 = ~Ghost traits~
+@11050 = ~Immune to cold
 Incorporeal~
-@11046 = ~Claws
+@11051 = ~Claws
 
 Enchantment: 3
 Range: 2 feet

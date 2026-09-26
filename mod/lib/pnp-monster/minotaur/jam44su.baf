@@ -191,6 +191,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
 	HaveSpell(BARBARIAN_RAGE)
+	See(NearestEnemyOf(Myself))
 	!CheckSpellState(Myself,BARBARIAN_RAGE)
 	RandomNumGT(800,80)
 THEN

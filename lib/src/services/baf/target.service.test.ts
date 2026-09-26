@@ -37,10 +37,9 @@ describe("targetObject", () => {
 });
 
 describe("getList", () => {
-  it("returns the players list with allegianceCheck false", () => {
+  it("returns the players list", () => {
     expect(targetService.getList("Players")).toEqual({
       targets: ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"],
-      allegianceCheck: false,
     });
   });
 
@@ -121,21 +120,18 @@ describe("getTargetFromAbility", () => {
   it("resolves a known target list name to its target strings", () => {
     expect(targetService.getTargetFromAbility("Players", undefined)).toEqual({
       targets: ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"],
-      allegianceCheck: false,
     });
   });
 
   it("limits the resolved list when limit is provided", () => {
     expect(targetService.getTargetFromAbility("Players", 2)).toEqual({
       targets: ["Player1", "Player2"],
-      allegianceCheck: false,
     });
   });
 
   it("falls back to the raw identifier when it isn't a known target list name", () => {
     expect(targetService.getTargetFromAbility("GOODCUTOFF", undefined)).toEqual({
       targets: "GOODCUTOFF",
-      allegianceCheck: false,
     });
   });
 

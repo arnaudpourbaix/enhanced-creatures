@@ -27,7 +27,7 @@ function repeat(obj: string, count = 10) {
 const EnemyOfType = repeat(`NearestEnemyOfType(${Token})`, 3);
 
 function enemyOfClassTypes(list: (ClassIdentifier | "0")[]) {
-  return list.flatMap((o) => EnemyOfType.map((e) => e.replaceAll(Token, `0.0.0.${o}`)));
+  return list.flatMap((o) => EnemyOfType.map((e) => e.replaceAll(Token, `[0.0.0.${o}]`)));
 }
 
 export const TARGET_LISTS: {

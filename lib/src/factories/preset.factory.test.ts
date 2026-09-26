@@ -58,6 +58,14 @@ describe("createSpell", () => {
     expect(result.ability.spell?.excludeStateChecks).toBeUndefined();
     expect(result.ability.spell?.excludeSpellStates).toBeUndefined();
   });
+
+  it("emits one preset per mod variant file, sharing the same ability", () => {
+    const results = presetFactory.createSpell(SPELLS.Priest.PhysicalMirror, {
+      name: DEFAULT_ABILITY_NAME,
+    });
+    expect(results.map((r) => r.preset)).toEqual(["SPPR613", "SPPR531"]);
+    expect(results[1].ability).toEqual(results[0].ability);
+  });
 });
 
 describe("createOrderedSpells", () => {

@@ -109,7 +109,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -131,7 +130,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -153,7 +151,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -175,7 +172,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -197,7 +193,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -219,7 +214,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

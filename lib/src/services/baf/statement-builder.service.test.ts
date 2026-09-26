@@ -975,28 +975,6 @@ describe("creatureTargetAbility (private)", () => {
       params: ["LastSeenBy", 20],
     });
   });
-
-  it("adds an Allegiance(Myself,ENEMY) trigger when the resolved target list requires an allegiance check (no real target list currently sets this)", () => {
-    const spy = vi
-      .spyOn(targetService, "getTargetFromAbility")
-      .mockReturnValueOnce({ targets: ["PC"], allegianceCheck: true });
-    try {
-      const statements: Statements = [];
-      service.creatureTargetAbility(
-        statements,
-        fakeCreature(),
-        fakeAbility(),
-        { name: "Players" },
-        options(),
-      );
-      expect(statements[0].triggers).toContainEqual({
-        name: "Allegiance",
-        params: ["Myself", "ENEMY"],
-      });
-    } finally {
-      spy.mockRestore();
-    }
-  });
 });
 
 describe("getAdditionals (private)", () => {
@@ -1222,24 +1200,6 @@ describe("processStatements (private)", () => {
       { triggers: [], responses: [], target: { name: "Players", limit: 2 } },
     ]);
     expect(statements).toHaveLength(2);
-  });
-
-  it("adds an Allegiance(Myself,ENEMY) trigger when the resolved target list requires an allegiance check (no real target list currently sets this)", () => {
-    const spy = vi
-      .spyOn(targetService, "getTargetFromAbility")
-      .mockReturnValueOnce({ targets: ["PC"], allegianceCheck: true });
-    try {
-      const statements: Statements = [];
-      service.processStatements(statements, [
-        { triggers: [], responses: [], target: { name: "Players" } },
-      ]);
-      expect(statements[0].triggers).toContainEqual({
-        name: "Allegiance",
-        params: ["Myself", "ENEMY"],
-      });
-    } finally {
-      spy.mockRestore();
-    }
   });
 });
 

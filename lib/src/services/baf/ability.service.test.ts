@@ -7,6 +7,7 @@ import { SPELLS } from "../../../config/spells/spell-database";
 import { RawCreatureAbility } from "../../model/creature/ability";
 import { SpellIdentifier } from "../../model/ids/spell";
 import { Triggers } from "../../model/script/triggers";
+import logService from "../log.service";
 import abilityService from "./ability.service";
 
 interface AbilityServicePrivate {
@@ -471,20 +472,47 @@ describe("applyPreset - auto-resolves range from SPELLS", () => {
 });
 
 describe("applyPreset - auto-resolves excludeStateChecks from SPELLS", () => {
-  // SPELLS.Wizard.Haste is a real, hand-written preset (see buff-presets.ts) that deliberately
-  // sets no excludeStateChecks of its own, so it only gets them through applyPreset's own SPELLS
-  // lookup fallback - a clean real-world case for that fallback.
-  it("resolves excludeStateChecks from the preset name when neither the preset nor the override set them", () => {
+  // SPELLS.Wizard.Haste's preset is built by PresetFactory (see buff-presets.ts), which bakes the
+  // SPELLS entry's excludeStateChecks into the preset itself via spellDefaults.
+  it("resolves excludeStateChecks from the SPELLS entry when the override sets none", () => {
     const result = service.applyPreset({}, SPELLS.Wizard.Haste.file);
     expect(result.spell?.excludeStateChecks).toEqual(SPELLS.Wizard.Haste.excludeStateChecks);
   });
 
-  it("keeps the override's own excludeStateChecks instead of resolving from the preset name", () => {
+  it("appends the override's own excludeStateChecks to the preset's", () => {
     const result = service.applyPreset(
       { spell: { excludeStateChecks: ["STATE_SLOWED"] } },
       SPELLS.Wizard.Haste.file,
     );
-    expect(result.spell?.excludeStateChecks).toEqual(["STATE_SLOWED"]);
+    expect(result.spell?.excludeStateChecks).toEqual([
+      ...(SPELLS.Wizard.Haste.excludeStateChecks ?? []),
+      "STATE_SLOWED",
+    ]);
+  });
+
+  it("logs the override so generator.log lists every case", () => {
+    const info = vi.spyOn(logService, "info").mockImplementation(() => {});
+    try {
+      service.applyPreset(
+        { spell: { excludeStateChecks: ["STATE_SLOWED"] } },
+        SPELLS.Wizard.Haste.file,
+      );
+      expect(info).toHaveBeenCalledWith(
+        `Preset ${SPELLS.Wizard.Haste.file} excludeStateChecks override: ["STATE_SLOWED"] appended to preset's ${JSON.stringify(SPELLS.Wizard.Haste.excludeStateChecks)}`,
+      );
+    } finally {
+      info.mockRestore();
+    }
+  });
+
+  it("logs nothing when the override sets no state-check field", () => {
+    const info = vi.spyOn(logService, "info").mockImplementation(() => {});
+    try {
+      service.applyPreset({ spell: { type: "force" } }, SPELLS.Wizard.Haste.file);
+      expect(info).not.toHaveBeenCalled();
+    } finally {
+      info.mockRestore();
+    }
   });
 
   it("leaves excludeStateChecks unset when the preset name matches no SPELLS entry", () => {

@@ -14,7 +14,7 @@ describe("polymorphSelf", () => {
     expect(results[0]).toMatchObject({
       triggers,
       name: "spell.PolymorphSelf.name",
-      spell: { id: "WIZARD_POLYMORPH_SELF", selfTarget: true },
+      spell: { id: "WIZARD_POLYMORPH_SELF", castOnSelf: true },
       requireVocal: true,
     });
   });

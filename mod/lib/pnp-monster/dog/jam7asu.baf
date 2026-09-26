@@ -276,7 +276,7 @@ IF
 	ActionListEmpty()
 	HaveSpell(MOON_DOG_HOWL)
 	Detect([PC])
-	!CheckSpellState(Myself,TRUE_SIGHT)
+	!CheckStatGT(Myself,0,TRUE_SIGHT)
 	RandomNumGT(802,241)
 THEN
 	RESPONSE #100
@@ -300,7 +300,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -322,7 +321,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -344,7 +342,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -366,7 +363,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -388,7 +384,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -410,7 +405,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -448,7 +442,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -471,7 +464,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -494,7 +486,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -517,7 +508,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -540,7 +530,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -563,7 +552,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1540,7 +1528,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.MAGE))
+	See(NearestEnemyOfType([0.0.0.MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1575,7 +1563,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.MAGE))
+	See(SecondNearestEnemyOfType([0.0.0.MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1610,7 +1598,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.MAGE))
+	See(ThirdNearestEnemyOfType([0.0.0.MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1645,7 +1633,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.MAGE_THIEF))
+	See(NearestEnemyOfType([0.0.0.MAGE_THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1680,7 +1668,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.MAGE_THIEF))
+	See(SecondNearestEnemyOfType([0.0.0.MAGE_THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1715,7 +1703,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.MAGE_THIEF))
+	See(ThirdNearestEnemyOfType([0.0.0.MAGE_THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1750,7 +1738,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.THIEF))
+	See(NearestEnemyOfType([0.0.0.THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1785,7 +1773,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.THIEF))
+	See(SecondNearestEnemyOfType([0.0.0.THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1820,7 +1808,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.THIEF))
+	See(ThirdNearestEnemyOfType([0.0.0.THIEF]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1855,7 +1843,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.BARD))
+	See(NearestEnemyOfType([0.0.0.BARD]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1890,7 +1878,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.BARD))
+	See(SecondNearestEnemyOfType([0.0.0.BARD]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1925,7 +1913,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.BARD))
+	See(ThirdNearestEnemyOfType([0.0.0.BARD]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1960,7 +1948,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.CLERIC_MAGE))
+	See(NearestEnemyOfType([0.0.0.CLERIC_MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -1995,7 +1983,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.CLERIC_MAGE))
+	See(SecondNearestEnemyOfType([0.0.0.CLERIC_MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2030,7 +2018,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.CLERIC_MAGE))
+	See(ThirdNearestEnemyOfType([0.0.0.CLERIC_MAGE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2065,7 +2053,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.CLERIC))
+	See(NearestEnemyOfType([0.0.0.CLERIC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2100,7 +2088,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.CLERIC))
+	See(SecondNearestEnemyOfType([0.0.0.CLERIC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2135,7 +2123,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.CLERIC))
+	See(ThirdNearestEnemyOfType([0.0.0.CLERIC]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2170,7 +2158,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType(0.0.0.0))
+	See(NearestEnemyOfType([0.0.0.0]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2205,7 +2193,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType(0.0.0.0))
+	See(SecondNearestEnemyOfType([0.0.0.0]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2240,7 +2228,7 @@ IF
 	HaveSpell(WIZARD_DANCING_LIGHTS)
 	RandomNumGT(809,243)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType(0.0.0.0))
+	See(ThirdNearestEnemyOfType([0.0.0.0]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)

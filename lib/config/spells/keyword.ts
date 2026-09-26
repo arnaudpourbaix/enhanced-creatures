@@ -20,6 +20,10 @@ export type SpellKeyword =
   | "fear"
   | "fire"
   /**
+   * Means that the spell is friendly and we should not check for protections
+   */
+  | "friendly"
+  /**
    * Resisted by half-elven blood (30%) - skip Half-Elf targets
    */
   | "halfElf"

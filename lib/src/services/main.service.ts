@@ -4,7 +4,8 @@ import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
-import { getAllSpells, type SpellReference } from "../model/spell-item/spell-reference";
+import { SpellIdentifier } from "../model/ids/spell";
+import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
 import { familyFactories } from "../../creatures";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
@@ -87,23 +88,35 @@ class MainService {
 
   checkPresets() {
     logService.section("Checking presets");
-    const spells = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
+    const spells = getAllSpells(SPELLS);
+    const fnpSpells = getAllFnpSpells();
     for (const preset of ABILITY_PRESETS) {
       if (!preset.ability.spell || preset.ability.spell.resource || preset.ability.spell.id) {
         continue;
       }
-      const spell = spells.find((s) => s.file === preset.preset);
+      // PresetFactory emits one preset per file a spell can resolve to (base `file` plus each mod
+      // `variants[].file`), so match against all of them.
+      const spell =
+        spells.find((s) => spellFiles(s).includes(preset.preset)) ??
+        fnpSpells.find((s) => s.file === preset.preset);
       if (!spell) {
         logService.warn(`Checking ${preset.preset}, spell not found!`);
       } else {
         logService.log(`Checking ${preset.preset}, spell found: ${JSON.stringify(spell)}`);
       }
-      if (!spell || !("id" in spell)) {
+      const id = spell && "id" in spell ? this.presetSpellId(spell, preset.preset) : undefined;
+      if (id === undefined) {
         preset.ability.spell.resource = preset.preset;
       } else {
-        preset.ability.spell.id = spell.id;
+        preset.ability.spell.id = id;
       }
     }
+  }
+
+  /** The id `file` resolves to - a variant file takes its variant's id, not the base spell's. */
+  private presetSpellId(spell: SpellReference, file: string): SpellIdentifier | undefined {
+    const variant = spell.variants?.find((v) => v.file === file);
+    return variant ? variant.id : spell.id;
   }
 
   checkSpells() {

@@ -73,7 +73,7 @@ const WIZARD_SPELLS = {
     level: 2,
     duration: "mid",
     name: "spell.Blur.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   Breach: { file: "SPWI513", id: "WIZARD_BREACH", level: 5, name: "spell.Breach.name" },
   BurningHands: {
@@ -215,13 +215,14 @@ const WIZARD_SPELLS = {
     name: "spell.DemiShadowMonsters.name",
     duration: "short",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   DetectInvisibility: {
     file: "SPWI203",
     id: "WIZARD_DETECT_INVISIBILITY",
     level: 2,
     name: "spell.DetectInvisibility.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     excludeSpellStates: ["DETECT_INVISIBILITY"],
   },
   DireCharm: {
@@ -241,6 +242,8 @@ const WIZARD_SPELLS = {
     level: 4,
     name: "spell.dimensionDoor.name",
     variants: [{ mod: "AllSpellMods", file: "SPWI127", id: "WIZARD_DIMENSION_JUMP" }],
+    keywords: ["friendly"],
+    excludeStateChecks: ["STATE_BLIND"],
   },
   DispelMagic: {
     file: "SPWI326",
@@ -299,7 +302,7 @@ const WIZARD_SPELLS = {
     level: 4,
     duration: "short",
     name: "spell.FireShield.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   FlameArrow: {
     file: "SPWI303",
@@ -328,7 +331,7 @@ const WIZARD_SPELLS = {
     level: 6,
     duration: "mid",
     name: "spell.GlobeOfInvulnerability.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   Grease: {
     file: "SPWI101",
@@ -349,6 +352,7 @@ const WIZARD_SPELLS = {
     level: 3,
     duration: "mid",
     name: "spell.Haste.name",
+    keywords: ["friendly"],
     excludeStateChecks: ["STATE_HASTED"],
   },
   HoldMonster: {
@@ -392,6 +396,7 @@ const WIZARD_SPELLS = {
     level: 4,
     duration: "short",
     name: "spell.ImprovedInvisibility.name",
+    keywords: ["friendly"],
   },
   IncendiaryCloud: {
     file: "SPWI810",
@@ -405,6 +410,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_INVISIBILITY",
     level: 2,
     name: "spell.Invisibility.name",
+    keywords: ["friendly"],
   },
   LarlochEnergyDrain: {
     file: "SPWI914",
@@ -461,7 +467,7 @@ const WIZARD_SPELLS = {
     level: 4,
     duration: "mid",
     name: "spell.MinorGlobeOfInvulnerability.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   MinorLightningBolt: {
     file: "SPWI230",
@@ -477,7 +483,7 @@ const WIZARD_SPELLS = {
     level: 3,
     duration: "mid",
     name: "spell.MinorSpellDeflection.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   MirrorImages: {
     file: "SPWI212",
@@ -485,7 +491,7 @@ const WIZARD_SPELLS = {
     level: 2,
     duration: "mid",
     name: "spell.MirrorImages.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     excludeStateChecks: ["STATE_MIRRORIMAGE"],
   },
   MonsterSummoning1: {
@@ -493,6 +499,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MONSTER_SUMMONING_LEVEL_1",
     level: 1,
     name: "spell.MonsterSummoning1.name",
+    keywords: ["friendly"],
     requiresMod: "AllSpellMods",
   },
   MonsterSummoning2: {
@@ -500,6 +507,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MONSTER_SUMMONING_LEVEL_2",
     level: 2,
     name: "spell.MonsterSummoning2.name",
+    keywords: ["friendly"],
     requiresMod: "AllSpellMods",
   },
   MonsterSummoning3: {
@@ -507,6 +515,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MONSTER_SUMMONING_LEVEL_3",
     level: 3,
     name: "spell.MonsterSummoning3.name",
+    keywords: ["friendly"],
     requiresMod: "AllSpellMods",
   },
   MonsterSummoning4: {
@@ -514,12 +523,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SPIDER_SPAWN",
     level: 4,
     name: "spell.MonsterSummoning4.name",
+    keywords: ["friendly"],
   },
   MonsterSummoning5: {
     file: "SPWI504",
     id: "WIZARD_MONSTER_SUMMONING_LEVEL_5",
     level: 5,
     name: "spell.MonsterSummoning5.name",
+    keywords: ["friendly"],
   },
   MonsterSummoning6: {
     file: "SPWI610",
@@ -527,6 +538,7 @@ const WIZARD_SPELLS = {
     level: 6,
     name: "spell.MonsterSummoning6.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   MonsterSummoning7: {
     file: "SPWI706",
@@ -534,6 +546,7 @@ const WIZARD_SPELLS = {
     level: 7,
     name: "spell.MonsterSummoning7.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   MonsterSummoning8: {
     file: "SPWI806",
@@ -541,6 +554,7 @@ const WIZARD_SPELLS = {
     level: 8,
     name: "spell.MonsterSummoning8.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   MordenkainenForceMissiles: {
     file: "SPWI431",
@@ -556,13 +570,14 @@ const WIZARD_SPELLS = {
     level: 1,
     name: "spell.NahalRecklessDweomer.name",
     hiddenIn: "AllSpellMods",
+    keywords: ["friendly"],
   },
   NonDetection: {
     file: "SPWI310",
     id: "WIZARD_NON_DETECTION",
     level: 3,
     name: "spell.NonDetection.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   ObscuringMist: {
     file: "SPWI106",
@@ -591,7 +606,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_POLYMORPH_SELF",
     level: 4,
     name: "spell.PolymorphSelf.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   PowerWordSleep: {
     file: "SPWI220",
@@ -636,7 +651,7 @@ const WIZARD_SPELLS = {
     level: 3,
     duration: "short",
     name: "spell.ProtectionFromMissiles.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     excludeSpellStates: ["PROTECTION_FROM_NORMAL_MISSILES"],
   },
   ProtectionFromMagicalWeapons: {
@@ -645,7 +660,8 @@ const WIZARD_SPELLS = {
     level: 6,
     duration: "short",
     name: "spell.ProtectionFromMagicalWeapons.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
+    excludeStatsChecks: ["WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"],
   },
   RayOfEnfeeblement: {
     file: "SPWI221",
@@ -666,7 +682,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_REFLECTED_IMAGE",
     level: 1,
     name: "spell.ReflectedImage.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     excludeStateChecks: ["STATE_MIRRORIMAGE"],
   },
   ShapeshiftMustardJelly: {
@@ -674,7 +690,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_POLYMORPH_MUSTARD_JELLY",
     level: 1,
     name: "spell.ShapeshiftMustardJelly.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     hiddenIn: "AllSpellMods",
   },
   Shades: {
@@ -683,6 +699,7 @@ const WIZARD_SPELLS = {
     level: 6,
     name: "spell.Shades.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   Shield: {
     file: "SPWI114",
@@ -690,14 +707,14 @@ const WIZARD_SPELLS = {
     level: 1,
     duration: "mid",
     name: "spell.Shield.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   ShadowDoor: {
     file: "SPWI505",
     id: "WIZARD_SHADOW_DOOR",
     level: 5,
     name: "spell.ShadowDoor.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   ShadowMonsters: {
     file: "SPWI433",
@@ -706,6 +723,7 @@ const WIZARD_SPELLS = {
     name: "spell.ShadowMonsters.name",
     duration: "short",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   ShroudOfFlame: {
     file: "SPWI525",
@@ -771,6 +789,8 @@ const WIZARD_SPELLS = {
     level: 4,
     duration: "long",
     name: "spell.Stoneskin.name",
+    excludeStatsChecks: ["STONESKINS"],
+    keywords: ["friendly"],
   },
   SummonShadow: {
     file: "SPWI501",
@@ -779,6 +799,7 @@ const WIZARD_SPELLS = {
     duration: "mid",
     name: "spell.SummonShadow.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   SymbolDeath: {
     file: "SPWI817",
@@ -824,7 +845,7 @@ const WIZARD_SPELLS = {
     level: 2,
     duration: "short",
     name: "spell.Vocalize.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   WailOfTheBanshee: {
     file: "SPWI913",
@@ -858,6 +879,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_AID",
     name: "spell.Aid.name",
     duration: "mid",
+    keywords: ["friendly"],
   },
   AerialServant: {
     file: "SPPR601",
@@ -865,6 +887,7 @@ const PRIEST_SPELLS = {
     level: 6,
     name: "spell.AerialServant.name",
     duration: "mid",
+    keywords: ["friendly"],
   },
   AnimalSummoning1: {
     file: "SPPR122",
@@ -872,6 +895,7 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.AnimalSummoning1.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning2: {
     file: "SPPR221",
@@ -879,6 +903,7 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.AnimalSummoning2.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning3: {
     file: "SPPR321",
@@ -886,6 +911,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.AnimalSummoning3.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning4: {
     file: "SPPR402",
@@ -893,6 +919,7 @@ const PRIEST_SPELLS = {
     level: 4,
     name: "spell.AnimalSummoning4.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning5: {
     file: "SPPR501",
@@ -900,6 +927,7 @@ const PRIEST_SPELLS = {
     level: 5,
     name: "spell.AnimalSummoning5.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning6: {
     file: "SPPR602",
@@ -907,6 +935,7 @@ const PRIEST_SPELLS = {
     level: 6,
     name: "spell.AnimalSummoning6.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimalSummoning7: {
     file: "SPPR733",
@@ -914,6 +943,7 @@ const PRIEST_SPELLS = {
     level: 7,
     name: "spell.AnimalSummoning7.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   AnimateDead: {
     file: "SPPR301",
@@ -921,6 +951,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.AnimateDead.name",
     duration: "long",
+    keywords: ["friendly"],
   },
   AnimateSkeletonWarrior: {
     file: "SPPR619",
@@ -929,6 +960,7 @@ const PRIEST_SPELLS = {
     name: "spell.AnimateSkeletonWarrior.name",
     duration: "long",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   ArmorOfFaith: {
     file: "SPPR111",
@@ -936,7 +968,7 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.ArmorOfFaith.name",
     duration: "mid",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   Banishment: {
     file: "SPPR616",
@@ -951,6 +983,7 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.Barkskin.name",
     duration: "mid",
+    keywords: ["friendly"],
   },
   BladeBarrier: {
     file: "SPPR603",
@@ -958,7 +991,8 @@ const PRIEST_SPELLS = {
     level: 6,
     duration: "short",
     name: "spell.BladeBarrier.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
+    excludeStatsChecks: ["CLERIC_BLADE_BARRIER"],
   },
   Bless: {
     file: "SPPR101",
@@ -966,6 +1000,7 @@ const PRIEST_SPELLS = {
     level: 1,
     duration: "mid",
     name: "spell.Bless.name",
+    keywords: ["friendly"],
   },
   BlindingBeauty: {
     file: "SPPR704",
@@ -1002,14 +1037,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CAUSE_SERIOUS_WOUNDS",
     level: 4,
     name: "spell.CauseCriticalWounds.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "friendly"],
   },
   CauseLightWounds: {
     file: "SPPR121",
     id: "CLERIC_CAUSE_LIGHT_WOUNDS",
     level: 1,
     name: "spell.CauseLightWounds.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "friendly"],
     requiresMod: "AllSpellMods",
   },
   CauseSeriousWounds: {
@@ -1017,7 +1052,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CAUSE_MEDIUM_WOUNDS",
     level: 3,
     name: "spell.CauseSeriousWounds.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "friendly"],
     requiresMod: "AllSpellMods",
   },
   CauseModerateWounds: {
@@ -1025,7 +1060,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CAUSE_MODERATE_WOUNDS",
     level: 2,
     name: "spell.CauseModerateWounds.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "friendly"],
     requiresMod: "AllSpellMods",
   },
   CallWoodlandBeeings: {
@@ -1033,6 +1068,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CALL_WOODLAND_BEINGS",
     level: 4,
     name: "spell.callWoodlandBeeings.name",
+    keywords: ["friendly"],
   },
   CloudOfPestilence: {
     file: "SPPR424",
@@ -1048,7 +1084,7 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.Chant.name",
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   // SPPR709 is CLERIC_CONFUSION both in vanilla and under AllSpellMods (Spell Revisions alone,
   // which isn't a supported install state on its own, briefly renames it to CLERIC_CHAOS - but
@@ -1073,7 +1109,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.CircleOfBones.name",
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
     excludeSpellStates: ["CIRCLE_OF_BONES"],
   },
@@ -1116,18 +1152,21 @@ const PRIEST_SPELLS = {
     level: 5,
     name: "spell.CureCriticalWounds.name",
     obsoletedBy: "AllSpellMods",
+    keywords: ["friendly"],
   },
   CureLightWounds: {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",
     level: 1,
     name: "spell.CureLightWounds.name",
+    keywords: ["friendly"],
   },
   CureMediumWounds: {
     file: "SPPR315",
     id: "CLERIC_CURE_MEDIUM_WOUNDS",
     level: 3,
     name: "spell.CureMediumWounds.name",
+    keywords: ["friendly"],
   },
   CureModerateWounds: {
     file: "SPPR216",
@@ -1135,12 +1174,14 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.CureModerateWounds.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   CureSeriousWounds: {
     file: "SPPR401",
     id: "CLERIC_CURE_SERIOUS_WOUNDS",
     level: 4,
     name: "spell.CureSeriousWounds.name",
+    keywords: ["friendly"],
   },
   Curse: {
     file: "SPPR124",
@@ -1163,6 +1204,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_DETECT_EVIL",
     level: 1,
     name: "spell.DetectEvil.name",
+    keywords: ["friendly"],
   },
   DispelMagic: {
     file: "SPPR303",
@@ -1176,16 +1218,18 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SHIELD_OF_LATHANDER",
     level: 5,
     name: "spell.DivineProtection.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
+    excludeSpellStates: ["SHIELD_OF_LATHANDER"],
   },
   GreaterDivineProtection: {
     file: "SPPR738",
     id: "CLERIC_GREATER_SHIELD_OF_LATHANDER",
     level: 7,
     name: "spell.GreaterDivineProtection.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
+    excludeSpellStates: ["SHIELD_OF_LATHANDER"],
   },
   DolorousDecay: {
     file: "SPPR610",
@@ -1209,7 +1253,7 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.DrawUponHolyMight.name",
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   Earthquake: {
     file: "SPPR720",
@@ -1239,7 +1283,7 @@ const PRIEST_SPELLS = {
     level: 6,
     name: "spell.EntropyShield.name",
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
   },
   FindTraps: {
@@ -1247,7 +1291,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_FIND_TRAPS",
     level: 2,
     name: "spell.FindTraps.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   FingerOfDeath: {
     file: "SPPR708",
@@ -1276,6 +1320,7 @@ const PRIEST_SPELLS = {
     level: 4,
     name: "spell.FreeAction.name",
     duration: "mid",
+    keywords: ["friendly"],
   },
   Gate: {
     file: "SPPR703",
@@ -1284,6 +1329,7 @@ const PRIEST_SPELLS = {
     name: "spell.Gate.name",
     duration: "mid",
     obsoletedBy: "AllSpellMods",
+    keywords: ["friendly"],
   },
   GlyphOfWarding: {
     file: "SPPR304",
@@ -1304,9 +1350,15 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HARM",
     level: 6,
     name: "spell.Harm.name",
-    keywords: ["magicDamage", "causeWounds"],
+    keywords: ["magicDamage", "causeWounds", "friendly"],
   },
-  Heal: { file: "SPPR607", id: "CLERIC_HEAL", level: 6, name: "spell.Heal.name" },
+  Heal: {
+    file: "SPPR607",
+    id: "CLERIC_HEAL",
+    level: 6,
+    name: "spell.Heal.name",
+    keywords: ["friendly"],
+  },
   HoldPerson: {
     file: "SPPR208",
     id: "CLERIC_HOLD_PERSON",
@@ -1326,7 +1378,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HOLY_POWER",
     level: 4,
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     name: "spell.HolyPower.name",
   },
   HolySmite: {
@@ -1364,7 +1416,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_IRONSKIN",
     duration: "long",
     name: "spell.Ironskin.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   MagicResistance: {
     file: "SPPR509",
@@ -1372,6 +1424,7 @@ const PRIEST_SPELLS = {
     level: 5,
     name: "spell.MagicResistance.name",
     duration: "short",
+    keywords: ["friendly"],
   },
   MassCauseLightWounds: {
     file: "SPPR530",
@@ -1386,7 +1439,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_MASS_CURE",
     level: 5,
     name: "spell.MassCure.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   MentalDomination: {
     file: "SPPR405",
@@ -1407,6 +1460,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_NEUTRALIZE_POISON",
     level: 4,
     name: "spell.NeutralizePoison.name",
+    keywords: ["friendly"],
   },
   Poison: {
     file: "SPPR411",
@@ -1424,7 +1478,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_PHYSICAL_MIRROR",
     level: 6,
     name: "spell.PhysicalMirror.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     variants: [{ mod: "AllSpellMods", file: "SPPR531", id: "CLERIC_PHYSICAL_MIRROR" }],
   },
   ProduceFire: {
@@ -1441,14 +1495,17 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.ProtectionFromEvil.name",
     duration: "short",
+    excludeSpellStates: ["PROTECTION_FROM_EVIL"],
+    keywords: ["friendly"],
   },
   ProtectionFromEvil10Radius: {
     file: "SPPR408",
     id: "CLERIC_PROTECTION_FROM_EVIL_10_FOOT",
     level: 4,
     name: "spell.ProtectionFromEvil.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     duration: "mid",
+    excludeSpellStates: ["PROTECTION_FROM_EVIL"],
   },
   ProtectionFromGood: {
     file: "SPPR125",
@@ -1457,6 +1514,8 @@ const PRIEST_SPELLS = {
     name: "spell.ProtectionFromGood.name",
     duration: "short",
     requiresMod: "AllSpellMods",
+    excludeSpellStates: ["PROTECTION_FROM_EVIL"],
+    keywords: ["friendly"],
   },
   ProtectionFromGood10Radius: {
     file: "SPPR431",
@@ -1464,8 +1523,9 @@ const PRIEST_SPELLS = {
     level: 4,
     name: "spell.ProtectionFromGood10Radius.name",
     duration: "mid",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
+    excludeSpellStates: ["PROTECTION_FROM_EVIL"],
   },
   ProtectionFromLightning: {
     // Spell Revisions moves the live CLERIC_PROTECTION_FROM_LIGHTNING id from SPPR407 to SPPR521
@@ -1475,9 +1535,10 @@ const PRIEST_SPELLS = {
     id: "CLERIC_PROTECTION_FROM_LIGHTNING",
     level: 4,
     name: "spell.ProtectionFromLightning.name",
-    keywords: ["magicResistance"],
+    keywords: ["friendly"],
     duration: "mid",
     variants: [{ mod: "AllSpellMods", file: "SPPR521", id: "CLERIC_PROTECTION_FROM_LIGHTNING" }],
+    excludeStatsChecks: ["RESISTELECTRICITY"],
   },
   RegenerateLightWounds: {
     file: "SPPR119",
@@ -1485,6 +1546,7 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.RegenerateLightWounds.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   RegenerateModerateWounds: {
     file: "SPPR218",
@@ -1492,6 +1554,7 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.RegenerateModerateWounds.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   RegenerateSeriousWounds: {
     file: "SPPR324",
@@ -1499,6 +1562,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.RegenerateSeriousWounds.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   RegenerateCriticalWounds: {
     file: "SPPR419",
@@ -1506,19 +1570,21 @@ const PRIEST_SPELLS = {
     level: 4,
     name: "spell.RegenerateCriticalWounds.name",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   Regeneration: {
     file: "SPPR711",
     id: "CLERIC_REGENERATE",
     level: 7,
     name: "spell.Regeneration.name",
+    keywords: ["friendly"],
   },
   Repulsion: {
     file: "SPPR515",
     id: "CLERIC_REPULSION",
     level: 5,
     name: "spell.Repulsion.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     requiresMod: "AllSpellMods",
   },
   ResistFear: {
@@ -1527,13 +1593,14 @@ const PRIEST_SPELLS = {
     level: 1,
     name: "spell.ResistFear.name",
     duration: "mid",
+    keywords: ["friendly"],
   },
   RighteousMagic: {
     file: "SPPR513",
     id: "CLERIC_RIGHTEOUS_MAGIC",
     level: 5,
     name: "spell.RighteousMagic.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     duration: "short",
   },
   RigidThinking: {
@@ -1548,7 +1615,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SANCTUARY",
     level: 1,
     name: "spell.Sanctuary.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     duration: "short",
     excludeStateChecks: ["STATE_INVISIBLE"],
   },
@@ -1557,7 +1624,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SHIELD_OF_THE_ARCHONS",
     level: 7,
     name: "spell.ShieldOfTheArchons.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
   },
   Silence: {
     file: "SPPR211",
@@ -1571,13 +1638,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SLAY_LIVING",
     level: 5,
     name: "spell.SlayLiving.name",
-    keywords: ["death"],
+    keywords: ["death", "friendly"],
   },
   SpiritualHammer: {
     file: "SPPR213",
     id: "CLERIC_SPIRITUAL_HAMMER",
     level: 2,
     name: "spell.SpiritualHammer.name",
+    keywords: ["friendly"],
   },
   StaticCharge: {
     file: "SPPR421",
@@ -1594,6 +1662,7 @@ const PRIEST_SPELLS = {
     name: "spell.SummonDeathKnight.name",
     duration: "mid",
     requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
   },
   SummonInsects: {
     file: "SPPR319",
@@ -1660,7 +1729,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_TRUE_SIGHT",
     level: 5,
     name: "spell.TrueSeeing.name",
-    keywords: ["castOnSelf"],
+    keywords: ["castOnSelf", "friendly"],
     excludeStatsChecks: ["TRUE_SIGHT"],
   },
   UnholyBlight: {
