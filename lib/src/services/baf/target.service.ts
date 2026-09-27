@@ -78,7 +78,7 @@ class TargetService {
     triggers: Triggers.Trigger[];
     targetTriggers: Triggers.Trigger[];
   } {
-    const targetTriggers: Triggers.Trigger[] = target.triggers ?? [];
+    const targetTriggers: Triggers.Trigger[] = [...(target.triggers ?? [])];
     const triggers: Triggers.Trigger[] = [];
     for (const name of target.includeStatus ?? []) {
       const status = this.getStatusDetails(name);

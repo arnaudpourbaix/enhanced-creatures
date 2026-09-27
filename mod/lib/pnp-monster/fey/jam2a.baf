@@ -2814,6 +2814,7 @@ END
 
 // Attack Sleep enemy
 IF
+	Allegiance(Myself,ENEMY)
 	!HaveSpellRES("jas2f8")
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
@@ -2851,6 +2852,7 @@ THEN
 END
 
 IF
+	Allegiance(Myself,ENEMY)
 	!HaveSpellRES("jas2f8")
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

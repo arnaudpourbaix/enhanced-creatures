@@ -719,7 +719,7 @@ class StatementBuilderService {
           maxRange: creature.attack.maxRange,
         }),
       ];
-      const triggers: Triggers.Trigger[] = [...additionals.triggers];
+      const triggers: Triggers.Trigger[] = [...statusDetails.triggers, ...additionals.triggers];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {

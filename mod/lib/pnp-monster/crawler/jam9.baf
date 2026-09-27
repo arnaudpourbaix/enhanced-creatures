@@ -336,6 +336,7 @@ END
 
 // Attack Sleep enemy
 IF
+	Allegiance(Myself,ENEMY)
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -372,6 +373,7 @@ THEN
 END
 
 IF
+	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
