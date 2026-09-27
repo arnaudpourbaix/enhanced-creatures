@@ -24,22 +24,22 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "blind",
     spells: [
-      "spdr101.spl", // Chromatic Orb
-      "spin595.spl", // Yellow Dragon Scorching Sand
-      "spin878.spl", // Level Drain
-      "spin893.spl", // Shadow Dragon Breath
-      "spin929.spl", // Mist Ball
-      "spin931.spl", // Sooty Ball
-      "spwi958.spl", // Power Word, Blind
-      "spwm178.spl", // Blindness
+      "spdr101", // Chromatic Orb
+      "spin595", // Yellow Dragon Scorching Sand
+      "spin878", // Level Drain
+      "spin893", // Shadow Dragon Breath
+      "spin929", // Mist Ball
+      "spin931", // Sooty Ball
+      "spwi958", // Power Word, Blind
+      "spwm178", // Blindness
       "chalcy2.itm", // The Shadow's Blade +3
       "gorwom4.itm", // Drow Flail +3
       "halb06.itm", // Blackmist +4
       "sorb.itm", // Searing Orb
       "sw1h51.itm", // Celestial Fury +3
       "wand19.itm", // Wand of Cursing
-      "wand19.spl", // IR/IRR
-      "wand19d.spl", // IR/IRR
+      "wand19", // IR/IRR
+      "wand19d", // IR/IRR
     ],
   },
   {
@@ -58,19 +58,19 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "cloud",
     spells: [
+      "SPIN642", // Poisonous Cloud
+      "SPIN673", // Cloudkill
+      "SPIN940", // Stinking Cloud (mephit)
+      "SPIN979", // Golem Gas Cloud
       "SPWI004", // Stinking Cloud (trap)
       "SPWI016", // Cloudkill (trap)
       "DW#TRPIN", // Incendiary Cloud (Stratagems)
-      "SPIN673", // Cloudkill
       "dvckill", // Cloudkill (IR/SR)
-      "SPIN940", // Stinking Cloud (mephit)
-      "SPIN979", // Golem Gas Cloud
-      "SPIN642", // Poisonous Cloud
     ],
   },
   {
     name: "colorSpray",
-    spells: [SPELLS.Wizard.ColorSpray.file, SPELLS.Innate.MephitColorSpray.file],
+    spells: [],
   },
   {
     name: "confusion",
@@ -86,7 +86,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
     name: "curePoison",
     idsSpells: [],
     spells: [
-      SPELLS.Priest.NeutralizePoison.file,
       "cdilnps", // Neutralize Poison (mod)
       "scrl08", // Neutralize Poison (IR)
       "SPIN201", // Neutralize Poison
@@ -103,23 +102,14 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "cureWounds",
-    idsSpells: [
-      { id: "CLERIC_CURE_MODERATE_WOUNDS" }, // Cure moderate Wounds  (IWDification)
-      { id: "CLERIC_CURE_MEDIUM_WOUNDS" }, // Cure Medium Wounds  (Spell Revisions)
-    ],
     spells: [
-      SPELLS.Priest.CureLightWounds.file,
       "ca#culw", // Cure Light Wounds (PnP Deva)
       "L#KORIEP", // Cure Light Wounds (mod)
       "A7Q6CURE", // Cure Light Wounds (afaaq)
-      SPELLS.Priest.CureSeriousWounds.file,
       "CA#CURSW", // Cure Serious Wounds (PnP Deva)
       "SPIN200", // Cure Serious Wounds
       "SPIN958", // Cure Serious Wounds
-      SPELLS.Priest.CureCriticalWounds.file,
-      SPELLS.Priest.MassCure.file,
       "DVMCURE", // Mass Cure (IR/SR)
-      SPELLS.Priest.Heal.file,
       "SPWM168", // Heal (Wild Mage)
       "SPWISH39", // Heal
       "spin711", // Heal
@@ -144,16 +134,12 @@ export const SPELL_GROUPS: SpellGroup[] = [
     name: "earthquake",
     spells: [
       "SPOGRE01", // Earthquake (Ogremoch)
-      SPELLS.Priest.Earthquake.file,
       "CA#EQ", // Earthquake (PnP Deva)
       "CDTLQAK", // Earthquake (mod)
     ],
   },
   {
     name: "electrical",
-    idsSpells: [
-      { id: "CLERIC_STATIC_CHARGE" }, // Static Charge (IWDification)
-    ],
     spells: [
       "CDSTAF12", // Lightning Bolt
       "SPCL722", // Lightning Bolt
@@ -177,7 +163,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "entangle",
     spells: [
-      SPELLS.Priest.Entangle.file,
       "SPWM111", // Entangle (Wild Mage)
       "SPIN688", // Plant Growth (Black Dragon)
       "BDBOW06", // Entangle (Hamadryad SoD ?)
@@ -185,7 +170,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "fatigue",
-    spells: [SPELLS.Wizard.WavesOfFatigue.file],
+    spells: [],
   },
   {
     name: "fear",
@@ -197,7 +182,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN890", // Demon Fear
       "SPIN895", // Dragon Fear
       "SPIN981", // Fear
-      SPELLS.Priest.SymbolWeakness.file,
       "SPWI811", // Symbol, Fear
       "SPWI956", // Symbol, Fear
       "SPWM123", // Symbol, Fear
@@ -210,33 +194,28 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "fire",
-    idsSpells: [
-      { id: "WIZARD_BELTYNS_BURNING_BLOOD" }, // Beltyn's Burning Blood (IWDification)
-      { id: "CLERIC_SUNSCORCH" }, // Sunscorch (IWDification)
-      { id: "CLERIC_PRODUCE_FIRE" }, // Produe Fire (IWDification)
-    ],
     spells: [
-      "SPIN561", // Fire Giant Lava Pit (FIRE_GIANT_LAVA)
-      "SPIN819", // Lava Burst (LAVA_BURST)
-      "SPWI022", // Lava Pit (TRAP_MUCK)
       "SPIN131", // Burning Hands
-      "SPWI940", // Agannazar's Scorcher
-      "DVFBALL", // Fireball (IRR + SRR)
       "SPIN160", // Breath Fireball
+      "SPIN561", // Fire Giant Lava Pit (FIRE_GIANT_LAVA)
+      "SPIN719", // Meteor Swarm
+      "SPIN819", // Lava Burst (LAVA_BURST)
       "SPWI001", // Fireball
+      "SPWI022", // Lava Pit (TRAP_MUCK)
+      "SPWI940", // Agannazar's Scorcher
       "SPWI957", // Fireball
+      "SPWISH24", // Meteor Swarm
+      "DVFBALL", // Fireball (IRR + SRR)
       "WAND05", // Fireball (IRR)
       "CDSLSUN", // Sunfire (mod)
       "DW#TRPIN", // Incendiary Cloud (Stratagems)
-      "SPIN719", // Meteor Swarm
-      "SPWISH24", // Meteor Swarm
       "DW#TRPMS", // Meteor Swarm (Stratagems)
       "CA#FSTOM", // Fire Storm (PnP Deva)
     ],
   },
   {
     name: "flameArrow",
-    spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", SPELLS.Wizard.FlameArrow.file, "SPWI888"],
+    spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", "SPWI888"],
   },
   {
     name: "fireball",
@@ -247,7 +226,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "BDMORLIS",
       "c0ausp03",
       "SPWI001",
-      SPELLS.Wizard.Fireball.file,
       "SPIN957",
       "wand05a",
     ],
@@ -255,7 +233,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "globeOfInvulnerability",
     spells: [
-      SPELLS.Wizard.GlobeOfInvulnerability.file,
       "DWSW602", // Stratagems Cast Previously
       "DW#mlglb", // Stratagems
     ],
@@ -268,9 +245,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN994", // Acid Pools in Durlag's Tower (ACID_DAMAGE_1)
       "SPWI022", // Lava Pit (TRAP_MUCK)
       "SPIN914", // Mimic Glue
-      SPELLS.Wizard.Grease.file,
       "SPOGRE01", // Earthquake (Ogremoch)
-      SPELLS.Priest.Earthquake.file,
       "CA#EQ", // Earthquake (PnP Deva)
       "CDTLQAK", // Earthquake (mod)
     ],
@@ -282,20 +257,13 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "illusion",
     spells: [
-      SPELLS.Priest.BlindingBeauty.file,
-      SPELLS.Wizard.ObscuringMist.file,
       "IKDB2", //Spook (mod)
-      SPELLS.Wizard.Spook.file,
-      SPELLS.Wizard.Deafness.file,
       "spwm178", //Blindness (Wild mage)
     ],
   },
   {
     name: "insect",
     spells: [
-      SPELLS.Priest.SummonInsects.file,
-      SPELLS.Priest.InsectPlague.file,
-      SPELLS.Priest.CreepingDoom.file,
       "SPIN689", // Summon Insects (Black Dragon)
       "DW#VBAT1", // Bat Cloud (SCSII)
       "DW#VBAT2", // Bat Cloud (SCSII)
@@ -306,8 +274,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "lightningBolt",
     spells: [
-      SPELLS.Wizard.MinorLightningBolt.file,
-      SPELLS.Wizard.LightningBolt.file,
       "b_tal10",
       "c0dm302",
       "spcl722",
@@ -325,8 +291,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "magicMissile",
     spells: [
-      SPELLS.Wizard.MagicMissiles.file,
-      SPELLS.Wizard.MordenkainenForceMissiles.file,
       `${SPELLS.Wizard.MordenkainenForceMissiles.file}B`,
       "SPWI003", // Magic Missile
     ],
@@ -338,7 +302,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "minorGlobeOfInvulnerability",
     spells: [
-      SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
       "RR#WI406", // used by RR for Selina's Amulet
       "SPWM126", // Wild Mage
       "DWSW406", // Stratagems Cast Previously
@@ -347,17 +310,8 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "necromancyEffects",
     spells: [
-      SPELLS.Priest.HolySmite.file,
-      SPELLS.Priest.UnholyBlight.file,
-      SPELLS.Wizard.ChillTouch.file,
       "spwi117d", // Chill Touch
-      SPELLS.Wizard.LarlochMinorDrain.file,
-      SPELLS.Wizard.RayOfEnfeeblement.file,
-      SPELLS.Wizard.SkullTrap.file,
-      SPELLS.Wizard.VampiricTouch.file,
-      SPELLS.Wizard.AbiDalzimHorridWilting.file,
       "spwi812d", // Abi-Dalzim's Horrid Wilting
-      SPELLS.Wizard.LarlochEnergyDrain.file,
     ],
   },
   {
@@ -385,8 +339,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "web",
     spells: [
-      SPELLS.Wizard.Web.file,
-      SPELLS.Innate.VortexWeb.file,
       "SPDR201", // Web (druid version)
       "SPIN566", // Mimic Web
       "SPIN683", // Web Tangle

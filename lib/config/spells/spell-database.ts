@@ -16,7 +16,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ABI_DALZIMS_HORRID_WILTING",
     level: 8,
     name: "spell.AbiDalzimHorridWilting.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "necromancyEffects"],
   },
   AcidFog: {
     file: "SPWI614",
@@ -124,7 +124,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_COLOR_SPRAY",
     level: 1,
     name: "spell.colorSpray.name",
-    keywords: ["blind", "slow", "confusion"],
+    keywords: ["blind", "slow", "confusion", "colorSpray"],
     range: 10,
     excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
   },
@@ -181,6 +181,7 @@ const WIZARD_SPELLS = {
     level: 2,
     name: "spell.Deafness.name",
     obsoletedBy: "AllSpellMods",
+    keywords: ["illusion"],
   },
   SoundBurst: {
     // Spell Revisions repurposes SPWI223 into this - Deafness above stays the correct name for the
@@ -294,7 +295,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_FIREBALL",
     level: 3,
     name: "spell.Fireball.name",
-    keywords: ["fire"],
+    keywords: ["fire", "fireball"],
   },
   FireShield: {
     file: "SPWI418",
@@ -309,7 +310,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_FLAME_ARROW",
     level: 3,
     name: "spell.FlameArrow.name",
-    keywords: ["fire", "missile"],
+    keywords: ["fire", "missile", "flameArrow"],
   },
   FleshToStone: {
     file: "SPWI604",
@@ -331,14 +332,14 @@ const WIZARD_SPELLS = {
     level: 6,
     duration: "mid",
     name: "spell.GlobeOfInvulnerability.name",
-    keywords: ["castOnSelf", "friendly"],
+    keywords: ["castOnSelf", "friendly", "globeOfInvulnerability"],
   },
   Grease: {
     file: "SPWI101",
     id: "WIZARD_GREASE",
     level: 1,
     name: "spell.Grease.name",
-    keywords: ["movement"],
+    keywords: ["movement", "ground"],
   },
   GreaterMalison: {
     file: "SPWI412",
@@ -417,28 +418,28 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ENERGY_DRAIN",
     level: 9,
     name: "spell.LarlochEnergyDrain.name",
-    keywords: ["levelDrain"],
+    keywords: ["levelDrain", "necromancyEffects"],
   },
   LarlochMinorDrain: {
     file: "SPWI119",
     id: "WIZARD_LARLOCH_MINOR_DRAIN",
     level: 1,
     name: "spell.LarlochMinorDrain.name",
-    keywords: ["magicDamage", "magicResistance"],
+    keywords: ["magicDamage", "magicResistance", "necromancyEffects"],
   },
   LightningBolt: {
     file: "SPWI308",
     id: "WIZARD_LIGHTNING_BOLT",
     level: 3,
     name: "spell.LightningBolt.name",
-    keywords: ["electrical", "magicResistance"],
+    keywords: ["electrical", "magicResistance", "lightningBolt"],
   },
   MagicMissiles: {
     file: "SPWI112",
     id: "WIZARD_MAGIC_MISSILE",
     level: 1,
     name: "spell.MagicMissiles.name",
-    keywords: ["shield", "magicDamage", "magicResistance"],
+    keywords: ["shield", "magicDamage", "magicResistance", "magicMissile"],
   },
   Maze: {
     file: "SPWI813",
@@ -467,14 +468,14 @@ const WIZARD_SPELLS = {
     level: 4,
     duration: "mid",
     name: "spell.MinorGlobeOfInvulnerability.name",
-    keywords: ["castOnSelf", "friendly"],
+    keywords: ["castOnSelf", "friendly", "minorGlobeOfInvulnerability"],
   },
   MinorLightningBolt: {
     file: "SPWI230",
     id: "WIZARD_MINOR_LIGHTNING_BOLT",
     level: 2,
     name: "spell.MinorLightningBolt.name",
-    keywords: ["electrical"],
+    keywords: ["electrical", "lightningBolt"],
     requiresMod: "AllSpellMods",
   },
   MinorSpellDeflection: {
@@ -561,7 +562,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_MORDENKAINENS_FORCE_MISSILES",
     level: 4,
     name: "spell.MordenkainenForceMissiles.name",
-    keywords: ["shield", "magicDamage", "magicResistance"],
+    keywords: ["shield", "magicDamage", "magicResistance", "magicMissile"],
     requiresMod: "AllSpellMods",
   },
   NahalRecklessDweomer: {
@@ -585,6 +586,7 @@ const WIZARD_SPELLS = {
     level: 1,
     name: "spell.ObscuringMist.name",
     requiresMod: "AllSpellMods",
+    keywords: ["illusion"],
   },
   OtilukesFreezingSphere: {
     file: "SPWI626",
@@ -668,7 +670,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_RAY_OF_ENFEEBLEMENT",
     level: 2,
     name: "spell.RayOfEnfeeblement.name",
-    keywords: ["magicResistance"],
+    keywords: ["magicResistance", "necromancyEffects"],
   },
   RemoveMagic: {
     file: "SPWI302",
@@ -738,7 +740,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SKULL_TRAP",
     level: 3,
     name: "spell.SkullTrap.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "necromancyEffects"],
   },
   Sleep: {
     file: "SPWI116",
@@ -774,7 +776,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SPOOK",
     level: 1,
     name: "spell.Spook.name",
-    keywords: ["fear", "magicResistance"],
+    keywords: ["fear", "magicResistance", "illusion"],
   },
   StinkingCloud: {
     file: "SPWI213",
@@ -828,7 +830,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_VAMPIRIC_TOUCH",
     level: 3,
     name: "spell.VampiricTouch.name",
-    keywords: ["magicDamage", "magicResistance"],
+    keywords: ["magicDamage", "magicResistance", "necromancyEffects"],
     range: 10,
   },
   VitriolicSphere: {
@@ -860,6 +862,7 @@ const WIZARD_SPELLS = {
     level: 5,
     name: "spell.WavesOfFatigue.name",
     requiresMod: "AllSpellMods",
+    keywords: ["fatigue"],
   },
   Web: {
     file: "SPWI215",
@@ -869,7 +872,7 @@ const WIZARD_SPELLS = {
     // CSVs (001_vanilla through 004_stratagems_newspells) agree unambiguously this is level 2.
     level: 2,
     name: "spell.Web.name",
-    keywords: ["hold", "movement"],
+    keywords: ["hold", "movement", "web"],
   },
 } satisfies Record<string, SpellReference>;
 
@@ -1007,7 +1010,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_NATURE_BEAUTY",
     level: 7,
     name: "spell.BlindingBeauty.name",
-    keywords: ["blind", "castOnSelf"],
+    keywords: ["blind", "castOnSelf", "illusion"],
     excludeStateChecks: ["STATE_BLIND"],
   },
   BoltOfGlory: {
@@ -1141,7 +1144,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CREEPING_DOOM",
     level: 7,
     name: "spell.CreepingDoom.name",
-    keywords: ["miscast"],
+    keywords: ["miscast", "insect"],
   },
   // Once Spell Revisions is installed, SPPR502's id becomes CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED
   // and genuinely stops working in-game (confirmed in-game, not just hidden from selection) - no
@@ -1152,21 +1155,21 @@ const PRIEST_SPELLS = {
     level: 5,
     name: "spell.CureCriticalWounds.name",
     obsoletedBy: "AllSpellMods",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   CureLightWounds: {
     file: "SPPR103",
     id: "CLERIC_CURE_LIGHT_WOUNDS",
     level: 1,
     name: "spell.CureLightWounds.name",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   CureMediumWounds: {
     file: "SPPR315",
     id: "CLERIC_CURE_MEDIUM_WOUNDS",
     level: 3,
     name: "spell.CureMediumWounds.name",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   CureModerateWounds: {
     file: "SPPR216",
@@ -1174,14 +1177,14 @@ const PRIEST_SPELLS = {
     level: 2,
     name: "spell.CureModerateWounds.name",
     requiresMod: "AllSpellMods",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   CureSeriousWounds: {
     file: "SPPR401",
     id: "CLERIC_CURE_SERIOUS_WOUNDS",
     level: 4,
     name: "spell.CureSeriousWounds.name",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   Curse: {
     file: "SPPR124",
@@ -1260,7 +1263,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_EARTHQUAKE",
     level: 7,
     name: "spell.Earthquake.name",
-    keywords: ["death", "sleep"],
+    keywords: ["death", "sleep", "ground", "earthquake"],
   },
   EnergyDrain: {
     file: "SPPR714",
@@ -1275,7 +1278,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_ENTANGLE",
     level: 1,
     name: "spell.Entangle.name",
-    keywords: ["movement"],
+    keywords: ["movement", "entangle"],
   },
   EntropyShield: {
     file: "SPPR620",
@@ -1357,7 +1360,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HEAL",
     level: 6,
     name: "spell.Heal.name",
-    keywords: ["friendly"],
+    keywords: ["friendly", "cureWounds"],
   },
   HoldPerson: {
     file: "SPPR208",
@@ -1386,7 +1389,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HOLY_SMITE",
     level: 3,
     name: "spell.HolySmite.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "necromancyEffects"],
   },
   HolyWord: {
     file: "SPPR710",
@@ -1409,7 +1412,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_INSECT_PLAGUE",
     level: 5,
     name: "spell.InsectPlague.name",
-    keywords: ["miscast"],
+    keywords: ["miscast", "insect"],
   },
   Ironskin: {
     file: "SPPR506",
@@ -1439,7 +1442,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_MASS_CURE",
     level: 5,
     name: "spell.MassCure.name",
-    keywords: ["castOnSelf", "friendly"],
+    keywords: ["castOnSelf", "friendly", "cureWounds"],
   },
   MentalDomination: {
     file: "SPPR405",
@@ -1460,7 +1463,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_NEUTRALIZE_POISON",
     level: 4,
     name: "spell.NeutralizePoison.name",
-    keywords: ["friendly"],
+    keywords: ["friendly", "curePoison"],
   },
   Poison: {
     file: "SPPR411",
@@ -1669,7 +1672,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SUMMON_INSECTS",
     level: 3,
     name: "spell.SummonInsects.name",
-    keywords: ["miscast"],
+    keywords: ["miscast", "insect"],
   },
   Sunray: {
     file: "SPPR707",
@@ -1737,7 +1740,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_UNHOLY_BLIGHT",
     level: 3,
     name: "spell.UnholyBlight.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "necromancyEffects"],
   },
   WavesOfAgony: {
     file: "SPPR533",
@@ -1762,6 +1765,7 @@ const INNATE_SPELLS = {
     level: 1,
     name: "spell.MephitColorSpray.name",
     range: 10,
+    keywords: ["blind", "slow", "confusion", "colorSpray"],
   },
   HealingLick: { file: "SPIN699", level: 1, name: "spell.HealingLick.name" },
   MoonDogSight: {
@@ -1782,9 +1786,15 @@ const INNATE_SPELLS = {
   SpiderSingleTargetWeb: {
     file: "BDSPIDGA",
     name: "spell.SpiderSingleTargetWeb.name",
-    keywords: ["magicResistance"],
+    keywords: ["magicResistance", "movement", "web"],
   },
-  VortexWeb: { file: "SPIN575", id: "VORTEX_WEB", level: 3, name: "spell.VortexWeb.name" },
+  VortexWeb: {
+    file: "SPIN575",
+    id: "VORTEX_WEB",
+    level: 3,
+    name: "spell.VortexWeb.name",
+    keywords: ["web"],
+  },
 } satisfies Record<string, SpellReference>;
 
 const CLASS_SPELLS = {
