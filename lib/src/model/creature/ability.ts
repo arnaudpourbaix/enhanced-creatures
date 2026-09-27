@@ -28,8 +28,10 @@ export interface BaseCreatureAbility {
    * preset never needs its own hand-written globe/spell-deflection/etc. check. Independent of
    * `keywords` above - this mechanism doesn't use SpellKeyword/SPELL_CHECK_TRIGGERS at all, since
    * ImmuneToSpellLevel already covers whatever protection is actually active on the target.
+   * `null` means "not really a spell" (e.g. an addSpell-created ability with no explicit level):
+   * no check, and no fallback to its preset's level either.
    */
-  level?: number;
+  level?: number | null;
   /**
    * Ability maximum range (if applicable)
    */

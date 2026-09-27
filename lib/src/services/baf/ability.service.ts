@@ -99,14 +99,14 @@ class AbilityService {
   private appendSpellCheckTriggers(
     targets: TargetList[] | undefined,
     keywords: SpellKeyword[] | undefined,
-    level: number | undefined,
+    level: number | null | undefined,
   ): TargetList[] | undefined {
     if (!targets) return targets;
     const sharedChecks = triggerFactory.spellChecks(keywords);
     // A "friendly" spell is one the target wants to receive, so its spell protections are
     // irrelevant.
     if (
-      level !== undefined &&
+      typeof level === "number" &&
       GLOBAL_CONFIG.spellChecks.spellProtections &&
       !keywords?.includes("friendly")
     ) {
@@ -354,8 +354,9 @@ class AbilityService {
     result.keywords =
       ability.keywords ?? preset.ability.keywords ?? keywordsForFile(SPELLS, presetName);
     // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
-    // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system.
-    result.level ??= levelForFile(SPELLS, presetName);
+    // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system. An explicit
+    // `null` (not a real spell) is kept as is.
+    if (result.level === undefined) result.level = levelForFile(SPELLS, presetName);
     // Same fallback as keywords/level above, for the Range() trigger mechanism (see
     // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
     result.range ??= rangeForFile(SPELLS, presetName);

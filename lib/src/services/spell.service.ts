@@ -79,6 +79,11 @@ class SpellService {
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
     if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
+    // The ability casts this spell, not its preset's: the preset's level mustn't leak in (e.g. an
+    // innate aura reusing Cloak of Fear's preset isn't a level 4 spell). Without an explicit
+    // level it isn't really a spell at all, so no ImmuneToSpellLevel check (see
+    // BaseCreatureAbility.level).
+    if (result.ability?.preset) result.ability.level ??= spell.level ?? null;
     if (result.ability?.spell) {
       result.ability.spell.resource = file;
       result.ability.name ??= spell.name;

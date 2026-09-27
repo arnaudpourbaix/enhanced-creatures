@@ -122,7 +122,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -153,7 +152,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -184,7 +182,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -215,7 +212,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -246,7 +242,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -277,7 +272,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -308,7 +302,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -339,7 +332,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -370,7 +362,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -401,7 +392,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -429,7 +419,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -456,7 +445,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -483,7 +471,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -510,7 +497,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -537,7 +523,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -564,7 +549,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -591,7 +575,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -618,7 +601,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -645,7 +627,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -672,7 +653,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -706,7 +686,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -736,7 +715,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -766,7 +744,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -796,7 +773,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -826,7 +802,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -856,7 +831,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -886,7 +860,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -916,7 +889,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -946,7 +918,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -976,7 +947,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1007,7 +977,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1030,7 +999,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1053,7 +1021,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1076,7 +1043,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1099,7 +1065,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1122,7 +1087,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1145,7 +1109,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1168,7 +1131,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1191,7 +1153,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1214,7 +1175,6 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1234,7 +1194,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1253,7 +1212,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1272,7 +1230,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1291,7 +1248,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1310,7 +1266,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1329,7 +1284,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1348,7 +1302,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1367,7 +1320,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1386,7 +1338,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1405,7 +1356,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),9)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
