@@ -136,6 +136,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["blind"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -182,6 +183,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["cold"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -237,6 +239,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["death"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -325,6 +328,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1195,6 +1199,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       level: 1,
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1311,6 +1316,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 3,
       },
+      keywords: ["movement"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1425,6 +1431,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 1,
       },
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1608,6 +1615,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 1,
       },
+      keywords: ["blind"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1713,6 +1721,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1758,7 +1767,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       name: "monster.fey.ability.fogCloud.name",
       id: Ids.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
-      keywords: ["cloud", "blind"],
       icon: "SPWI204",
       castingSound: "CAS_M08",
       type: SpellTypeEnum.Innate,
@@ -1769,6 +1777,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
+      keywords: ["cloud", "blind"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -1824,6 +1833,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
       secondaryType: ItemAbilitySecondaryTypeEnum.Battleground,
       icon: SPELLS.Wizard.Feeblemind.file,
+      keywords: ["confusion"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,

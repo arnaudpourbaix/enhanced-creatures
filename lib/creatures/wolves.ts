@@ -200,6 +200,7 @@ class Wolf extends Creature {
       memorizedCount: 1,
       secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
       options: { renew: 10 },
+      keywords: ["cold"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

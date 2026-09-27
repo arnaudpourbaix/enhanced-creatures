@@ -29,6 +29,7 @@ function bonebatTouch(cre: Undead) {
     description: "monster.undead.ability.bonebatTouch.description",
     id: Ids.BonebatTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

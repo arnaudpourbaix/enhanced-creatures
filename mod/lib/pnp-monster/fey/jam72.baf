@@ -134,6 +134,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -149,6 +150,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -164,6 +166,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -377,6 +380,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -398,6 +402,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -419,6 +424,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -440,6 +446,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -461,6 +468,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -482,6 +490,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -502,6 +511,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -519,6 +529,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -536,6 +547,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -553,6 +565,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -570,6 +583,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -587,6 +601,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -604,6 +619,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -621,6 +637,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -638,6 +655,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -655,6 +673,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100

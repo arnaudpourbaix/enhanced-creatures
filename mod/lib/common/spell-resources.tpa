@@ -10,6 +10,7 @@ DEFINE_ACTION_FUNCTION get_acid_resources RET_ARRAY resources BEGIN
 		"SPIN596"
 		"SPIN691"
 		"SPIN913"
+		"jas0m1"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -50,7 +51,9 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"wand19.itm"
 		"wand19.spl"
 		"wand19d.spl"
+		"jas8f8"
 		"jasbf8"
+		"jas3m72"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -73,6 +76,12 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPIN162"
 		"SPIN833"
 		"WAND06"
+		"jas0f3"
+		"jas5m72"
+		"jas0m43"
+		"jas0m20"
+		"jas0m14"
+		"jas1m4a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -94,6 +103,7 @@ DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 		"SPIN979"
 		"SPIN642"
 		"jasbf8"
+		"jas0m1a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -121,6 +131,7 @@ DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 		"SPIN839"
 		"SPIN976"
 		"SPPR983"
+		"jascf8"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -194,6 +205,8 @@ DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 		"SPPR511"
 		"SPPR719"
 		"cdxvdth"
+		"jas2m72"
+		"jas1m49"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -205,6 +218,9 @@ DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 		"SPPR329"
 		"SPPR320"
 		"SPPR706"
+		"jas1m4d"
+		"jas3m4e"
+		"jas3m4f"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -292,6 +308,13 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 		"A^causfr"
 		"DVFEARSM"
 		"DVHORRO"
+		"jas0m1b"
+		"jas0m49"
+		"jas2m4e"
+		"jas2m4f"
+		"jas0m52"
+		"jas0m4a"
+		"jas0m5d"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -331,6 +354,8 @@ DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 		"SPWISH24"
 		"DW#TRPMS"
 		"CA#FSTOM"
+		"jas0m7b"
+		"jas2m4a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN WIZARD_BELTYNS_BURNING_BLOOD CLERIC_SUNSCORCH CLERIC_PRODUCE_FIRE END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -400,6 +425,14 @@ DEFINE_ACTION_FUNCTION get_hold_resources RET_ARRAY resources BEGIN
 		"SPWI215"
 		"SPPR208"
 		"SPPR305"
+		"jas0m40"
+		"jas0m3a"
+		"jas0m4c"
+		"jas0m4b"
+		"jas0m4d"
+		"jas2m4e"
+		"jas2m4f"
+		"jas0m5b"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -524,7 +557,7 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 		"dvckill"
 		"jas0m3"
 		"jas0m45"
-		"jas0fc"
+		"jas0m1a"
 		"jas0m73"
 		"jas1m40"
 		"jas1m3a"

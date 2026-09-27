@@ -232,6 +232,7 @@ class Spider extends Creature {
       icon: SPELLS.Wizard.Web.file,
       options: { renew: 2 },
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      keywords: ["hold"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

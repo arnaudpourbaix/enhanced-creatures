@@ -4110,6 +4110,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -4128,6 +4129,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -4146,6 +4148,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -4164,6 +4167,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -4182,6 +4186,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -4200,6 +4205,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)

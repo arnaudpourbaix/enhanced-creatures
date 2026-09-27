@@ -37,6 +37,7 @@ export const createFearAura = ({
   icon: SPELLS.Priest.CloakOfFear.file,
   secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
   options: { renew: 1 },
+  keywords: ["fear"],
   headers: [
     {
       type: ItemAbilityTypeEnum.Melee,

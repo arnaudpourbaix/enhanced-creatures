@@ -147,6 +147,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -178,6 +179,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -209,6 +211,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -240,6 +243,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -271,6 +275,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -302,6 +307,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -333,6 +339,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -364,6 +371,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -395,6 +403,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -426,6 +435,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -457,6 +467,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -488,6 +499,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -519,6 +531,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -550,6 +563,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -581,6 +595,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -612,6 +627,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -643,6 +659,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -674,6 +691,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -705,6 +723,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -736,6 +755,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -767,6 +787,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -799,6 +820,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -823,6 +845,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -847,6 +870,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -871,6 +895,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -895,6 +920,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -919,6 +945,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -943,6 +970,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -967,6 +995,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -991,6 +1020,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1015,6 +1045,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1039,6 +1070,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1063,6 +1095,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1087,6 +1120,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1111,6 +1145,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1135,6 +1170,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1159,6 +1195,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1183,6 +1220,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1207,6 +1245,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1231,6 +1270,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1255,6 +1295,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -1279,6 +1320,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTACID)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100

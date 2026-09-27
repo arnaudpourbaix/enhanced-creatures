@@ -123,6 +123,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -136,7 +138,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -154,6 +156,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -167,7 +171,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -185,6 +189,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -198,7 +204,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -216,6 +222,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -229,7 +237,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -247,6 +255,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -260,7 +270,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -278,6 +288,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -291,7 +303,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -309,6 +321,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -322,7 +336,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -340,6 +354,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -353,7 +369,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -371,6 +387,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -384,7 +402,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -402,6 +420,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -415,7 +435,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -430,6 +450,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -443,7 +465,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -457,6 +479,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -470,7 +494,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -484,6 +508,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -497,7 +523,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -511,6 +537,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -524,7 +552,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -538,6 +566,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -551,7 +581,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -565,6 +595,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -578,7 +610,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -592,6 +624,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -605,7 +639,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -619,6 +653,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -632,7 +668,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -646,6 +682,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -659,7 +697,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 
@@ -673,6 +711,8 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -686,7 +726,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas2m4e",Myself)
+		ForceSpellRES("jas2m4e",LastSeenBy(Myself))
 		RemoveSpellRES("jas2m4e")
 END
 

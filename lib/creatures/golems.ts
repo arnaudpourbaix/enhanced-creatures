@@ -257,6 +257,7 @@ class Golem extends Creature {
       icon: SPELLS.Priest.CloakOfFear.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: { renew: 3 },
+      keywords: ["fear"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -382,6 +383,7 @@ class Golem extends Creature {
       memorizedCount: 1,
       icon: SPELLS.Wizard.Cloudkill.file,
       options: { renew: 7 },
+      keywords: ["cloud", "poison"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

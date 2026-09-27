@@ -278,12 +278,12 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description",
       id: Ids.Petrification,
-      keywords: ["petrify"],
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: {
         renew: 1,
       },
       icon: SPELLS.Wizard.FleshToStone.file,
+      keywords: ["petrify"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -344,10 +344,10 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     const technical = this.addSpell({
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description5e",
-      keywords: ["petrify"],
       doc: false,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       icon: SPELLS.Wizard.FleshToStone.file,
+      keywords: ["petrify"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

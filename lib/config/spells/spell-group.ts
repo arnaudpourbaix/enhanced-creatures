@@ -19,9 +19,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "bleeding",
-    spells: [
-      // ATWEAKS_SPELLS.Bleeding
-    ],
+    spells: [],
   },
   {
     name: "blind",
@@ -55,11 +53,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN162", // Cone of Cold (mod)
       "SPIN833", // Dragon Cone of Cold
       "WAND06", // Cone of Cold (IR)
-      // ATWEAKS_SPELLS.IceStorm,
-      // ATWEAKS_SPELLS.ConeOfCold,
-      // ATWEAKS_SPELLS.WallOfIce,
-      // ATWEAKS_SPELLS.Freeze,
-      // ATWEAKS_SPELLS.IceStorn,
     ],
   },
   {
@@ -73,23 +66,11 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN940", // Stinking Cloud (mephit)
       "SPIN979", // Golem Gas Cloud
       "SPIN642", // Poisonous Cloud
-      // ATWEAKS_SPELLS.Cloudkill,
-      // ATWEAKS_SPELLS.WallOfFog,
-      // ATWEAKS_SPELLS.FogCloud,
-      // ATWEAKS_SPELLS.ToxicVapors,
-      // ATWEAKS_SPELLS.OozeStinkingCloud,
-      // ATWEAKS_SPELLS.SolidFog,
-      // ATWEAKS_SPELLS.StinkingCloud,
     ],
   },
   {
     name: "colorSpray",
-    spells: [
-      SPELLS.Wizard.ColorSpray.file,
-      SPELLS.Innate.MephitColorSpray.file,
-      // ATWEAKS_SPELLS.ColorSpray,
-      // ATWEAKS_SPELLS.ColorSprayRadiant,
-    ],
+    spells: [SPELLS.Wizard.ColorSpray.file, SPELLS.Innate.MephitColorSpray.file],
   },
   {
     name: "confusion",
@@ -99,7 +80,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN839", // Confusion
       "SPIN976", // Confusion
       "SPPR983", // Confusion
-      // ATWEAKS_SPELLS.Confusion,
     ],
   },
   {
@@ -119,10 +99,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN551", // Cause Serious Wounds (Hive Mother)
       "SPIN986", // Cause Serious Wounds (Beholder)
       "sppr699", // Harm
-      // ATWEAKS_SPELLS.MarilithCauseSeriousWounds,
-      // ATWEAKS_SPELLS.CauseSeriousWounds,
-      // ATWEAKS_SPELLS.CauseCriticalWounds,
-      // ATWEAKS_SPELLS.Harm,
     ],
   },
   {
@@ -152,8 +128,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "FINP101", // Cure Light Wounds (TOB Bhaalpower Ascension)
       "SPCL211", // Paladin Lay On Hands
       "BHAAL1A", // Mass Healing (Bhaalpower restored by Ascension/UB)
-      // ATWEAKS_SPELLS.CureLightWounds,
-      // ATWEAKS_SPELLS.TempleMassCure,
     ],
   },
   {
@@ -164,16 +138,7 @@ export const SPELL_GROUPS: SpellGroup[] = [
   },
   {
     name: "disease",
-    spells: [
-      // ATWEAKS_SPELLS.CauseDisease,
-      // ATWEAKS_SPELLS.PitFiendDisease,
-      // ATWEAKS_SPELLS.GhoulLordDisease,
-      // ATWEAKS_SPELLS.MummyDisease,
-      // ATWEAKS_SPELLS.GreaterMummyDisease,
-      // ATWEAKS_SPELLS.ZombieSeaDisease,
-      // ATWEAKS_SPELLS.SporeExplosionDisease,
-      // ATWEAKS_SPELLS.BoaliskDisease,
-    ],
+    spells: [],
   },
   {
     name: "earthquake",
@@ -182,8 +147,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       SPELLS.Priest.Earthquake.file,
       "CA#EQ", // Earthquake (PnP Deva)
       "CDTLQAK", // Earthquake (mod)
-      // ATWEAKS_SPELLS.Earthquake,
-      // ATWEAKS_SPELLS.RockToMud,
     ],
   },
   {
@@ -209,7 +172,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPBLUN29", // Chain Lightning
       "SPPR987", // Call Lightning
       "SPIN597", // Blue Dragon Lightning Breath
-      // ATWEAKS_SPELLS.LightningBolt,
     ],
   },
   {
@@ -219,8 +181,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPWM111", // Entangle (Wild Mage)
       "SPIN688", // Plant Growth (Black Dragon)
       "BDBOW06", // Entangle (Hamadryad SoD ?)
-      // ATWEAKS_SPELLS.ShamblerEntangle,
-      // ATWEAKS_SPELLS.HamadryadEntangle,
     ],
   },
   {
@@ -246,15 +206,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "A^causfr", // Cause Fear
       "DVFEARSM", // Panic
       "DVHORRO", // Panic
-      // ATWEAKS_SPELLS.Fear1,
-      // ATWEAKS_SPELLS.Fear2,
-      // ATWEAKS_SPELLS.Fear3,
-      // ATWEAKS_SPELLS.CauseFear,
-      // ATWEAKS_SPELLS.AuraOfFear1,
-      // ATWEAKS_SPELLS.AuraOfFear2,
-      // ATWEAKS_SPELLS.BlastOfFear,
-      // ATWEAKS_SPELLS.CloakOfFear,
-      // ATWEAKS_SPELLS.SymbolFear,
     ],
   },
   {
@@ -281,21 +232,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPWISH24", // Meteor Swarm
       "DW#TRPMS", // Meteor Swarm (Stratagems)
       "CA#FSTOM", // Fire Storm (PnP Deva)
-      // ATWEAKS_SPELLS.PitFiendFireball,
-      // ATWEAKS_SPELLS.BurningHand,
-      // ATWEAKS_SPELLS.SunfireBlazingGloryBuckler,
-      // ATWEAKS_SPELLS.FireStorm,
-      // ATWEAKS_SPELLS.FlameFan,
-      // ATWEAKS_SPELLS.FlameJet,
-      // ATWEAKS_SPELLS.HeatAura,
-      // ATWEAKS_SPELLS.HeatEmission,
-      // ATWEAKS_SPELLS.ImixHeatEmission,
-      // ATWEAKS_SPELLS.ImixFireball,
-      // ATWEAKS_SPELLS.ZaamanRulFireball,
-      // ATWEAKS_SPELLS.Burn,
-      // ATWEAKS_SPELLS.Engulf,
-      // ATWEAKS_SPELLS.WallOfFire,
-      // ATWEAKS_SPELLS.FireBreath,
     ],
   },
   {
@@ -337,8 +273,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       SPELLS.Priest.Earthquake.file,
       "CA#EQ", // Earthquake (PnP Deva)
       "CDTLQAK", // Earthquake (mod)
-      // ATWEAKS_SPELLS.Earthquake,
-      // ATWEAKS_SPELLS.RockToMud,
     ],
   },
   {
@@ -395,7 +329,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       SPELLS.Wizard.MordenkainenForceMissiles.file,
       `${SPELLS.Wizard.MordenkainenForceMissiles.file}B`,
       "SPWI003", // Magic Missile
-      // ATWEAKS_SPELLS.MagicMissile,
     ],
   },
   {
@@ -440,9 +373,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "SPIN979", // Golem Gas Cloud
       "SPIN642", // Poisonous Cloud
       "dvckill", // Cloudkill (IR/SR)
-      // ATWEAKS_SPELLS.Cloudkill,
-      // ATWEAKS_SPELLS.SpiderPoisonClassF,
-      // ATWEAKS_SPELLS.WraithSpiderPoisonClassF,
     ],
   },
   {
@@ -465,9 +395,6 @@ export const SPELL_GROUPS: SpellGroup[] = [
       "spletter", // Web (heartwood)
       "wand14", // Web (IR/IRR)
       "wtpin05", // Web (wtp familiar)
-      // ATWEAKS_SPELLS.WebTangle,
-      // ATWEAKS_SPELLS.WraithWeb,
-      // ATWEAKS_SPELLS.Web,
     ],
   },
 ];

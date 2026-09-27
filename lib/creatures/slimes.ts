@@ -1032,7 +1032,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
       id: Ids.ToxicVapors,
       name: "monster.slime.ability.toxicVapors.name",
       description: "monster.slime.ability.toxicVapors.description",
-      keywords: ["poison"],
       icon: SPELLS.Wizard.StinkingCloud.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: { renew: 1 },
@@ -1058,10 +1057,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
           effects: [
             ...[...VAPOR_IMMUNE_CREATURES].map(
               (c) =>
-                // no-unnecessary-type-assertion is wrong here (verified against tsc directly):
-                // without this cast, opcode/idsFile widen instead of narrowing to IdsEffect's
-                // literal types, which then breaks inference for the array literal's other
-                // (sibling) elements below too.
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 ({
                   opcode: EffectTypeEnum.UseEFFFile,

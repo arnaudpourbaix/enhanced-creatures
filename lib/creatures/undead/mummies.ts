@@ -66,6 +66,7 @@ function mummyRottingDisease(cre: Undead, greater: boolean) {
     name: "monster.undead.ability.mummyRottingDisease.name",
     id: greater ? Ids.GreaterMummyRottingDisease : Ids.MummyRottingDisease,
     secondaryType: "Disease",
+    keywords: ["disease"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -143,6 +144,7 @@ function mummyFearAura(cre: Undead, greater: boolean) {
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
+    keywords: ["hold", "fear"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

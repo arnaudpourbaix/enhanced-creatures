@@ -40,6 +40,7 @@ class Ankheg extends Creature {
       id: Ids.Stream,
       secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
       icon: SPELLS.Wizard.MelfAcidArrow.file,
+      keywords: ["acid"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

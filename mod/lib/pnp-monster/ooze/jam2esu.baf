@@ -114,7 +114,6 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTPOISON)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
@@ -130,7 +129,6 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTPOISON)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
@@ -146,7 +144,6 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTPOISON)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100

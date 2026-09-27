@@ -77,6 +77,7 @@ function wallOfIce(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 4,
+    keywords: ["cold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -131,6 +132,7 @@ function fireball(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 3,
+    keywords: ["fire"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Ranged,
