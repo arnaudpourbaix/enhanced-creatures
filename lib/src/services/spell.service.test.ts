@@ -1,6 +1,5 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { SpellGroupName } from "../../config/spells/spell-group-name";
 import { SPELLS } from "../../config/spells/spell-database";
 import {
   EffectTargetEnum,
@@ -139,18 +138,6 @@ describe("getSpell", () => {
     expect(result.headers[0].effects.some((e) => e.opcode === EffectTypeEnum.UseEFFFile)).toBe(
       false,
     );
-  });
-});
-
-describe("getGroupRessources", () => {
-  it("throws when the group is not defined", () => {
-    expect(() => spellService.getGroupRessources("not-a-real-group" as SpellGroupName)).toThrow(
-      /Group not-a-real-group is not defined/,
-    );
-  });
-
-  it("returns the group's spell resrefs when the group is defined", () => {
-    expect(spellService.getGroupRessources("acidSpells")).toBeInstanceOf(Array);
   });
 });
 

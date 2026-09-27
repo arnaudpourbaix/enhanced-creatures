@@ -241,6 +241,11 @@ class WeiduFunctionService extends AbstractWeiduService {
   }
 
   generateEffect(lines: CodeLine[], effect: Effect, tab: number): void {
+    if (effect.resourceGroup) {
+      // only weiduEffectService.addEffect() expands BaseEffect.resourceGroup - an immunity
+      // wanting a whole group should list it in its own `spellGroups` instead.
+      throw new Error(`Immunity effects don't support resourceGroup (${effect.resourceGroup})`);
+    }
     const parameter1 = effect.parameter1
       ? ` parameter1=${weiduUtils.getIntegerValue(effect.parameter1) ?? ""}`
       : "";

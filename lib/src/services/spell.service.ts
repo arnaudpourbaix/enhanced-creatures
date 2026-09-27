@@ -1,7 +1,5 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
-import { SPELL_GROUPS } from "../../config/spells/spell-group";
-import { SpellGroupName } from "../../config/spells/spell-group-name";
 import { SPELLS } from "../../config/spells/spell-database";
 import { getAllSpells, SpellReference } from "../model/spell-item/spell-reference";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
@@ -83,12 +81,6 @@ class SpellService {
     }
     State.spells.push(result);
     return result;
-  }
-
-  getGroupRessources(name: SpellGroupName): string[] {
-    const group = SPELL_GROUPS.find((g) => g.name === name);
-    if (!group) throw new Error(`Group ${name} is not defined !`);
-    return group.spells ?? [];
   }
 
   private addHeader(header: PartialSpellHeader, spell: Spell, file: string): void {

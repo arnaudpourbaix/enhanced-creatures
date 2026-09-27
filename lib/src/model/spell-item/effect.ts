@@ -1,3 +1,4 @@
+import { SpellGroupName } from "../../../config/spells/spell-group-name";
 import { SpellProtectionName } from "../../../config/spells/spell-protection";
 import { StringReference } from "../final/stringref";
 import { AnimationIdentifiers } from "../ids/animate";
@@ -81,6 +82,13 @@ export interface BaseEffect {
   saveBonus?: number;
   flags?: EffectFlagsEnum[] | number;
   resource?: string;
+  /**
+   * Instead of a single `resource`, emit this effect once per resource of the given SPELL_GROUPS
+   * group - resolved at install time (the group's get_<name>_resources function), so the list
+   * includes spells created anywhere in this mod (and other mods' spells matched by ids), not
+   * just those known when this effect was built.
+   */
+  resourceGroup?: SpellGroupName;
   special?: number;
 }
 
