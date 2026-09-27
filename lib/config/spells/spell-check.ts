@@ -3,6 +3,20 @@ import { Triggers } from "../../src/model/script/triggers";
 import { SpellKeyword } from "./keyword";
 
 /**
+ * Keywords guarding the whole spell rather than one of its effects: a target protected by any of
+ * them is skipped. Every other keyword is an effect, and a target is only skipped once it's
+ * protected from all of the spell's effects (e.g. a hold + fear aura still targets someone with
+ * free action but no fear protection). See TriggerFactory.spellChecks.
+ */
+export const SPELL_CHECK_GATE_KEYWORDS: ReadonlySet<SpellKeyword> = new Set<SpellKeyword>([
+  "elf",
+  "halfElf",
+  "magicResistance",
+  "missile",
+  "shield",
+]);
+
+/**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
  * several triggers (e.g. a protection covered by both an old-style stat and a newer spell state).
  */

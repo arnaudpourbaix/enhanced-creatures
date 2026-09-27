@@ -121,11 +121,35 @@ describe("spellChecks", () => {
     expect(triggerFactory.spellChecks()).toEqual([]);
   });
 
-  it("flattens the triggers of every given keyword", () => {
-    expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([
-      ...SPELL_CHECK_TRIGGERS.acid,
-      ...SPELL_CHECK_TRIGGERS.charm,
+  it("returns a single effect keyword's triggers as is", () => {
+    expect(triggerFactory.spellChecks(["hold"])).toEqual([...SPELL_CHECK_TRIGGERS.hold]);
+  });
+
+  it("only skips a target protected from every effect keyword", () => {
+    const [fear] = SPELL_CHECK_TRIGGERS.fear;
+    const [chaotic, freeAction] = SPELL_CHECK_TRIGGERS.hold;
+    expect(triggerFactory.spellChecks(["hold", "fear"])).toEqual([
+      triggerFactory.or([chaotic, fear]),
+      triggerFactory.or([freeAction, fear]),
     ]);
+  });
+
+  it("drops an effect clause implied by a smaller one", () => {
+    // hold is chaotic commands + free action, movement is free action alone
+    expect(triggerFactory.spellChecks(["hold", "movement"])).toEqual([
+      ...SPELL_CHECK_TRIGGERS.movement,
+    ]);
+  });
+
+  it("keeps gate keywords mandatory alongside effect keywords", () => {
+    expect(triggerFactory.spellChecks(["fire", "cold", "magicResistance"])).toEqual([
+      ...SPELL_CHECK_TRIGGERS.magicResistance,
+      triggerFactory.or([...SPELL_CHECK_TRIGGERS.fire, ...SPELL_CHECK_TRIGGERS.cold]),
+    ]);
+  });
+
+  it("ignores keywords with no triggers when combining effects", () => {
+    expect(triggerFactory.spellChecks(["fire", "cloud"])).toEqual([...SPELL_CHECK_TRIGGERS.fire]);
   });
 
   it("drops a keyword whose category (stats) is disabled, keeping others", () => {
