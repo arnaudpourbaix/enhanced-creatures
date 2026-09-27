@@ -1032,7 +1032,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
       id: Ids.ToxicVapors,
       name: "monster.slime.ability.toxicVapors.name",
       description: "monster.slime.ability.toxicVapors.description",
-      groups: ["poison"],
+      keywords: ["poison"],
       icon: SPELLS.Wizard.StinkingCloud.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: { renew: 1 },

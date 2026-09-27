@@ -1,7 +1,8 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
-import { getAllSpells, SpellReference } from "../model/spell-item/spell-reference";
+import { getAllSpells, SpellReference, spellsByKeyword } from "../model/spell-item/spell-reference";
+import { SpellGroup } from "../model/spell-item/spell-group";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { MemorizedSpell, SpellbookVariant } from "../model/creature/data";
@@ -50,8 +51,10 @@ class SpellService {
       headers: [],
       effectFiles: [],
       projectiles: [],
-      groups: [],
       ...others,
+      // one list for both uses (see Spell.keywords): keywords declared on the ability alone still
+      // put the spell in their groups, and the spell's own keywords reach the ability's triggers.
+      keywords: [...new Set([...(spell.keywords ?? []), ...(spell.ability?.keywords ?? [])])],
     };
     for (const effectFile of spell.effectFiles ?? []) {
       result.effectFiles.push({
@@ -75,12 +78,34 @@ class SpellService {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
+    if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
     if (result.ability?.spell) {
       result.ability.spell.resource = file;
       result.ability.name ??= spell.name;
     }
     State.spells.push(result);
     return result;
+  }
+
+  /**
+   * Every resource of a SPELL_GROUPS group: SPELLS entries tagged with the group's keyword, then
+   * the group's own `spells`, then spells created by this mod tagged with it (so this must run
+   * once every creature has been generated). Duplicates are dropped case-insensitively, keeping
+   * the first occurrence. `idsSpells` aren't included - they're resolved at install time.
+   */
+  getGroupResources(group: SpellGroup): string[] {
+    const files = [
+      ...spellsByKeyword(SPELLS, group.name),
+      ...(group.spells ?? []),
+      ...State.spells.filter((s) => s.keywords.includes(group.name)).map((s) => s.file),
+    ];
+    const seen = new Set<string>();
+    return files.filter((file) => {
+      const key = file.toUpperCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 
   private addHeader(header: PartialSpellHeader, spell: Spell, file: string): void {

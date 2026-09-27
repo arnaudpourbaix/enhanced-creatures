@@ -1,6 +1,6 @@
 // Generated file (don't edit)
 
-DEFINE_ACTION_FUNCTION get_acidSpells_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_acid_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI614"
 		"SPWI724"
@@ -22,7 +22,7 @@ DEFINE_ACTION_FUNCTION get_bleeding_resources RET_ARRAY resources BEGIN
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
-DEFINE_ACTION_FUNCTION get_blindness_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI106"
 		"SPWI118"
@@ -205,7 +205,6 @@ DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 		"SPPR329"
 		"SPPR320"
 		"SPPR706"
-		"SPPR329"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -286,7 +285,6 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 		"SPIN981"
 		"SPPR706"
 		"SPWI811"
-		"SPWI899"
 		"SPWI956"
 		"SPWM123"
 		"dw#licfi"
@@ -506,7 +504,7 @@ DEFINE_ACTION_FUNCTION get_necromancyEffects_resources RET_ARRAY resources BEGIN
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
-DEFINE_ACTION_FUNCTION get_petrification_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_petrify_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI604"
 		"SPWI604D"

@@ -38,8 +38,9 @@ export interface SpellCheckConfig {
  *
  * A keyword absent from every list here is unaffected by any toggle - either its
  * SPELL_CHECK_TRIGGERS entry is still empty (blind, causeWounds, cloud, disease, maze, miscast,
- * petrify, polymorph, silence, slow) so there's nothing to gate yet, or (for classes/kits) no
- * trigger of that kind exists at all yet. Classify a keyword here once its trigger is written.
+ * petrify, polymorph, silence, slow, plus the group-tag-only keywords like fireball or web) so
+ * there's nothing to gate yet, or (for classes/kits) no trigger of that kind exists at all yet.
+ * Classify a keyword here once its trigger is written.
  *
  * This only maps the keyword-driven mechanism; `spellProtections` also independently gates the
  * level-driven ImmuneToSpellLevel check, which has no keyword of its own to list here (see

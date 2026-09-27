@@ -1758,7 +1758,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       name: "monster.fey.ability.fogCloud.name",
       id: Ids.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
-      groups: ["cloud", "blindness"],
+      keywords: ["cloud", "blind"],
       icon: "SPWI204",
       castingSound: "CAS_M08",
       type: SpellTypeEnum.Innate,

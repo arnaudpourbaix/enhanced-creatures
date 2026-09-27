@@ -74,7 +74,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_acidSpells_resources RET_ARRAY spells=resources END
+		LAF get_acid_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
 END
@@ -135,7 +135,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_blindness_resources RET_ARRAY spells=resources END
+		LAF get_blind_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="74" prevent_icons="8" spells END
 END
@@ -863,7 +863,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_petrification_resources RET_ARRAY spells=resources END
+		LAF get_petrify_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="134" strings="14665 25863" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PETRIFY_IMMUNITY~)) special=1 END

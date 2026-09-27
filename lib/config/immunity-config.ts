@@ -213,7 +213,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     stringRef: "common.immunity.blindness",
     preventEffects: [EffectTypeEnum.Blindness],
     preventIcons: [PortraitIconEnum.Blind],
-    spellGroups: ["blindness"],
+    spellGroups: ["blind"],
   },
   {
     name: "fireSpells",
@@ -325,7 +325,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "acidSpells",
     type: "immunity",
     stringRef: "common.immunity.acidSpells",
-    spellGroups: ["acidSpells"],
+    spellGroups: ["acid"],
   },
   {
     name: "cureWoundSpells",
@@ -391,7 +391,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     stringRef: "common.immunity.petrification",
     preventEffects: [EffectTypeEnum.Petrification],
     strings: StringRefUtils.getStringIds("petrified"),
-    spellGroups: ["petrification"],
+    spellGroups: ["petrify"],
     displaySpellIneffective: true,
     effects: [
       {

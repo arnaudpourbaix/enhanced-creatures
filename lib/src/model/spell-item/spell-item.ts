@@ -1,4 +1,4 @@
-import { SpellGroupName } from "../../../config/spells/spell-group-name";
+import { SpellKeyword } from "../../../config/spells/keyword";
 import { RawCreatureAbility } from "../creature/ability";
 import { ItemSlot } from "../creature/item";
 import { ImmunityName } from "../final/immunity";
@@ -69,9 +69,11 @@ export interface Spell extends BaseSpell {
   doc: SpellDocOption;
 
   /**
-   * Will be used to add these new spells to various immunities
+   * What this spell does (e.g. ["acid"]) - adds it to the SPELL_GROUPS group of the same name
+   * (immunities etc.), and is merged into `ability.keywords` so the AI checks the matching
+   * protections on its target (see SPELL_CHECK_TRIGGERS).
    */
-  groups: SpellGroupName[];
+  keywords: SpellKeyword[];
 
   /**
    * Spellbook icon
@@ -191,7 +193,7 @@ export type MemorizedSpellType = "priest" | "wizard" | "innate";
 export type PartialSpellHeader = PartialBy<SpellHeader, "effects">;
 
 export type PartialSpellOptionalKeys =
-  "icon" | "effects" | "projectiles" | "doc" | "groups" | "level" | "type";
+  "icon" | "effects" | "projectiles" | "doc" | "keywords" | "level" | "type";
 
 export type PartialSpell = PartialBy<
   Omit<Spell, "file" | "headers" | "effectFiles">,

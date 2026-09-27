@@ -79,4 +79,23 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   stun: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
   ],
+  // group tags only (see SpellKeyword) - no protection to check
+  bleeding: [],
+  colorSpray: [],
+  curePoison: [],
+  cureWounds: [],
+  earthquake: [],
+  entangle: [],
+  fatigue: [],
+  fireball: [],
+  flameArrow: [],
+  globeOfInvulnerability: [],
+  ground: [],
+  illusion: [],
+  insect: [],
+  lightningBolt: [],
+  magicMissile: [],
+  minorGlobeOfInvulnerability: [],
+  necromancyEffects: [],
+  web: [],
 };

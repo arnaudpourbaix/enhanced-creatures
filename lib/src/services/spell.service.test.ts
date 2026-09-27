@@ -141,6 +141,44 @@ describe("getSpell", () => {
   });
 });
 
+describe("getSpell keywords", () => {
+  it("merges the spell's and its ability's keywords, and hands the union back to the ability", () => {
+    const result = spellService.getSpell(
+      { name: SPELL_NAME, keywords: ["acid"], ability: { keywords: ["elf", "acid"] } },
+      "kwspl01",
+    );
+    expect(result.keywords).toEqual(["acid", "elf"]);
+    expect(result.ability?.keywords).toEqual(["acid", "elf"]);
+  });
+
+  it("leaves an ability without keywords untouched when the spell has none either", () => {
+    const result = spellService.getSpell({ name: SPELL_NAME, ability: {} }, "kwspl02");
+    expect(result.keywords).toEqual([]);
+    expect(result.ability?.keywords).toBeUndefined();
+  });
+});
+
+describe("getGroupResources", () => {
+  it("gathers SPELLS entries, the group's own spells and created spells by keyword, without duplicates", () => {
+    State.spells.push({ file: "GRPTEST1", keywords: ["colorSpray"] } as unknown as Spell);
+    State.spells.push({ file: "GRPTEST2", keywords: ["fire"] } as unknown as Spell);
+    const result = spellService.getGroupResources({
+      name: "colorSpray",
+      spells: ["EXTRA01", "grptest1"],
+    });
+    expect(result).toEqual(["EXTRA01", "grptest1"]);
+    expect(
+      spellService.getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] }),
+    ).toEqual(expect.arrayContaining([SPELLS.Wizard.Horror.file]));
+    expect(
+      spellService
+        .getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] })
+        .filter((f) => f === SPELLS.Wizard.Horror.file),
+    ).toHaveLength(1);
+    State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
+  });
+});
+
 describe("addProjectile (private, via header.projectile object)", () => {
   it("adds a projectile and sets header.projectile to the spell file", () => {
     const result = spellService.getSpell(
