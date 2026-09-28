@@ -7,6 +7,7 @@ import { StatsIdentifier } from "../ids/stats";
 import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
+import type { AlliesCheck } from "../creature/ability";
 
 /**
  * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
@@ -38,6 +39,11 @@ export interface SpellReference {
    * Max range for this spell
    */
   range?: number;
+  /**
+   * The spell also hits the caster's allies around its target - see
+   * BaseCreatureAbility.alliesCheck, which this feeds the same way `range`/`keywords` feed theirs.
+   */
+  alliesCheck?: AlliesCheck;
   /**
    * State(s) that must already be active on the target for this spell to be worth casting (e.g. a
    * dispel that only makes sense against a specific ongoing effect) - see
@@ -244,6 +250,22 @@ export function rangeForFile(spells: SpellCollection, file: string): number | un
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.range;
+}
+
+/**
+ * The `alliesCheck` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches or it has none. Mirrors
+ * rangeForFile, backing the automatic resolution in AbilityService.applyPreset: an ability cast
+ * through a standard spell's preset (e.g. a monster's stronger Fireball) inherits its allies check.
+ */
+export function alliesCheckForFile(
+  spells: SpellCollection,
+  file: string,
+): AlliesCheck | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.alliesCheck;
 }
 
 /**

@@ -296,6 +296,7 @@ const WIZARD_SPELLS = {
     level: 3,
     name: "spell.Fireball.name",
     keywords: ["fire", "fireball"],
+    alliesCheck: { range: 15 }, // 30' radius
   },
   FireShield: {
     file: "SPWI418",
@@ -390,6 +391,7 @@ const WIZARD_SPELLS = {
     level: 4,
     name: "spell.IceStorm.name",
     keywords: ["cold"],
+    alliesCheck: { range: 15 }, // 30' radius
   },
   ImprovedInvisibility: {
     file: "SPWI405",
@@ -744,6 +746,7 @@ const WIZARD_SPELLS = {
     level: 3,
     name: "spell.SkullTrap.name",
     keywords: ["magicDamage", "necromancyEffects"],
+    alliesCheck: { range: 8 },
   },
   Sleep: {
     file: "SPWI116",
@@ -842,6 +845,7 @@ const WIZARD_SPELLS = {
     level: 4,
     name: "spell.VitriolicSphere.name",
     keywords: ["acid"],
+    alliesCheck: { range: 5 }, // 10' radius
     requiresMod: "AllSpellMods",
   },
   Vocalize: {
@@ -1343,6 +1347,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.GlyphOfWarding.name",
     keywords: ["magicDamage"],
+    alliesCheck: { range: 8 }, // 15' radius
   },
   GreaterCommand: {
     file: "SPPR512",
@@ -1393,6 +1398,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.HolySmite.name",
     keywords: ["magicDamage", "necromancyEffects"],
+    alliesCheck: { range: 10 }, // 20' radius
   },
   HolyWord: {
     file: "SPPR710",
@@ -1744,6 +1750,7 @@ const PRIEST_SPELLS = {
     level: 3,
     name: "spell.UnholyBlight.name",
     keywords: ["magicDamage", "necromancyEffects"],
+    alliesCheck: { range: 10 }, // 20' radius
   },
   WavesOfAgony: {
     file: "SPPR533",

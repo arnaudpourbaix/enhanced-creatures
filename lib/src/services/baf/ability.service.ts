@@ -5,6 +5,7 @@ import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { SPELLS } from "../../../config/spells/spell-database";
 import {
+  alliesCheckForFile,
   excludeSpellStatesForFile,
   excludeStateChecksForFile,
   excludeStatsChecksForFile,
@@ -183,6 +184,11 @@ class AbilityService {
       triggers,
       actions: ability.actionsBefore ?? [],
     };
+    // The caster is caught in its own blast too: keep out of it unless told otherwise (see
+    // StatementBuilderService.closeRangeFallback for a protected caster).
+    if (result.alliesCheck && result.minRange === undefined) {
+      result.minRange = result.alliesCheck.range;
+    }
     if ("spell" in ability && ability.spell) {
       this.parseAbilitySpell(result, ability, ability.spell);
     } else if ("spells" in ability) {
@@ -360,6 +366,13 @@ class AbilityService {
     // Same fallback as keywords/level above, for the Range() trigger mechanism (see
     // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
     result.range ??= rangeForFile(SPELLS, presetName);
+    // Same fallback again, but with keywords' precedence rather than deepmerge's: an override's own
+    // alliesCheck (or null to disable it) fully replaces the preset's instead of merging safeIf.
+    const alliesCheck =
+      ability.alliesCheck !== undefined
+        ? ability.alliesCheck
+        : (preset.ability.alliesCheck ?? alliesCheckForFile(SPELLS, presetName));
+    if (alliesCheck !== undefined) result.alliesCheck = alliesCheck;
     // Same fallback as keywords/level/range above, but for CreatureAbilitySpell's own state-check
     // fields (see SpellReference.includeStateChecks and siblings) - only fires when the deepmerge
     // above produced nothing for the field at all, so it never duplicates a check that's already

@@ -60,6 +60,11 @@ class UtilsService {
     for (const trigger of results) {
       if ("triggers" in trigger) {
         trigger.triggers = this.replaceTriggerTokens(trigger.triggers, tokens);
+      } else if ("trigger" in trigger) {
+        const object = [trigger.object];
+        this.replaceParamTokens(object, tokens);
+        trigger.object = object[0];
+        [trigger.trigger] = this.replaceTriggerTokens([trigger.trigger], tokens);
       } else if ("params" in trigger) {
         this.replaceParamTokens(trigger.params, tokens);
       }

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
+import { allySafe, defaultAllySafe } from "../../config/target/ally-safe";
 import { ScriptTarget } from "../model/constants";
 import { Triggers } from "../model/script/triggers";
 import triggerFactory from "./trigger.factory";
@@ -184,6 +185,106 @@ describe("immuneToSpellLevel", () => {
       params: [ScriptTarget.token, 3],
       negation: true,
     });
+  });
+});
+
+describe("alliesSafe", () => {
+  const target = "LastSeenBy(Myself)";
+  const ally = (prefix: string) => `${prefix}NearestEnemyOf(Myself)`;
+  const asTarget = (trigger: Triggers.Trigger, negation = false) => ({
+    name: "TriggerOverride",
+    object: target,
+    trigger,
+    negation,
+  });
+
+  it("requires each nearest ally to be out of range or safe, and the next one out of range", () => {
+    expect(
+      triggerFactory.alliesSafe({
+        range: 16,
+        count: 2,
+        safeIf: [allySafe.resist("RESISTFIRE"), allySafe.spellLevel(3)],
+      }),
+    ).toEqual([
+      {
+        name: "Or",
+        exceptMyself: true,
+        triggers: [
+          asTarget({ name: "Range", params: [ally(""), 16] }, true),
+          asTarget({ name: "CheckStatGT", params: [ally(""), 99, "RESISTFIRE"] }),
+          asTarget({ name: "ImmuneToSpellLevel", params: [ally(""), 3] }),
+        ],
+      },
+      {
+        name: "Or",
+        exceptMyself: true,
+        triggers: [
+          asTarget({ name: "Range", params: [ally("Second"), 16] }, true),
+          asTarget({ name: "CheckStatGT", params: [ally("Second"), 99, "RESISTFIRE"] }),
+          asTarget({ name: "ImmuneToSpellLevel", params: [ally("Second"), 3] }),
+        ],
+      },
+      {
+        ...asTarget({ name: "Range", params: [ally("Third"), 16] }, true),
+        exceptMyself: true,
+      },
+    ]);
+  });
+
+  it("checks 3 allies by default", () => {
+    const result = triggerFactory.alliesSafe({ range: 16, safeIf: [] });
+    expect(result).toHaveLength(4);
+    expect(result[3]).toMatchObject({ trigger: { params: [ally("Fourth"), 16] } });
+  });
+
+  it("derives safeIf from keywords and level when not given", () => {
+    const [first] = triggerFactory.alliesSafe({ range: 16, count: 1 }, ["fire", "fireball"], 3);
+    expect(first).toMatchObject({
+      triggers: [
+        { trigger: { name: "Range" } },
+        { trigger: { name: "CheckStatGT", params: [ally(""), 99, "RESISTFIRE"] } },
+        { trigger: { name: "CheckStatGT", params: [ally(""), 74, "RESISTMAGIC"] } },
+        { trigger: { name: "ImmuneToSpellLevel", params: [ally(""), 3] } },
+      ],
+    });
+  });
+
+  it("rejects a count beyond the available NearestEnemyOf objects", () => {
+    expect(() => triggerFactory.alliesSafe({ range: 16, count: 10 })).toThrow();
+  });
+});
+
+describe("casterSafe", () => {
+  it("checks the caster against any of safeIf", () => {
+    expect(
+      triggerFactory.casterSafe({
+        range: 16,
+        safeIf: [allySafe.resist("RESISTFIRE"), allySafe.spellLevel(3)],
+      }),
+    ).toEqual({
+      name: "Or",
+      triggers: [
+        { name: "CheckStatGT", params: ["Myself", 99, "RESISTFIRE"] },
+        { name: "ImmuneToSpellLevel", params: ["Myself", 3] },
+      ],
+    });
+  });
+
+  it("returns a single condition as is", () => {
+    expect(triggerFactory.casterSafe({ range: 16, safeIf: [allySafe.spellLevel(3)] })).toEqual({
+      name: "ImmuneToSpellLevel",
+      params: ["Myself", 3],
+    });
+  });
+
+  it("returns undefined without any condition", () => {
+    expect(triggerFactory.casterSafe({ range: 16, safeIf: [] })).toBeUndefined();
+  });
+});
+
+describe("defaultAllySafe", () => {
+  it("only adds magic resistance without damage keywords nor level", () => {
+    expect(defaultAllySafe(["hold"], null)).toEqual([allySafe.magicResistance()]);
   });
 });
 

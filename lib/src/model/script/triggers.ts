@@ -657,8 +657,19 @@ export namespace Triggers {
     triggers: Trigger[];
   }
 
+  /**
+   * Evaluates `trigger` as `object` (EE only): inside it, Myself is `object` and Range() is
+   * measured from it. `object` itself is resolved by the active creature.
+   */
+  export interface TriggerOverride extends BaseTrigger {
+    name: "TriggerOverride";
+    object: ParamObject;
+    trigger: Trigger;
+  }
+
   export type Trigger =
     | Or
+    | TriggerOverride
     | HaveSpell
     | HaveSpellRES
     | HaveAnySpells

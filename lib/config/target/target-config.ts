@@ -6,7 +6,7 @@ import { TargetListName, TargetStatusName } from "./target-name";
 
 const Token = "$obj";
 
-const Counts = [
+export const Counts = [
   "",
   "Second",
   "Third",

@@ -41,6 +41,12 @@ export interface BaseCreatureAbility {
    */
   minRange?: number;
   /**
+   * The ability also hits the caster's allies around its target: only use it when each of them is
+   * either out of the blast or protected (see triggerFactory.alliesSafe). Falls back to the preset's
+   * SPELLS entry (see SpellReference.alliesCheck); `null` disables it for this ability.
+   */
+  alliesCheck?: AlliesCheck | null;
+  /**
    * For ability that can be cast every n seconds (one hour is 300)
    */
   timer?: { name: string; value: number };
@@ -60,6 +66,23 @@ export interface BaseCreatureAbility {
    * Can use ability when polymorphed (false by default)
    */
   canUseWhenPolymorphed: boolean;
+}
+
+export interface AlliesCheck {
+  /**
+   * Area of effect radius around the target, in script Range() units
+   */
+  range: number;
+  /**
+   * Number of allies checked one by one (3 by default): one more ally within radius and the
+   * ability isn't used at all
+   */
+  count?: number;
+  /**
+   * An ally within radius is safe if any of these holds, ScriptTarget.token being the ally (see
+   * allySafe). Defaults to defaultAllySafe(keywords, level).
+   */
+  safeIf?: Triggers.Trigger[];
 }
 
 export interface CreatureAbility extends BaseCreatureAbility {

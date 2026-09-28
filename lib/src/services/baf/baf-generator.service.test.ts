@@ -74,6 +74,33 @@ describe("generateAction", () => {
 });
 
 describe("generateTrigger", () => {
+  it("renders a TriggerOverride with its own negation and the nested trigger's", () => {
+    const [trigger] = utils.replaceTriggerTokens(
+      [
+        triggerFactory.triggerOverride(
+          ScriptTarget.token,
+          { name: "Range", params: ["NearestEnemyOf(Myself)", 15] },
+          true,
+        ),
+        triggerFactory.triggerOverride(ScriptTarget.token, triggerFactory.range(15, true)),
+      ],
+      [{ key: ScriptTarget.token, value: ScriptTarget.lastSeen }],
+    );
+    expect(bafGeneratorService.generateTrigger(trigger, true)).toBe(
+      "\t\t!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),15))",
+    );
+  });
+
+  it("replaces tokens in both the TriggerOverride object and its nested trigger", () => {
+    const triggers = utils.replaceTriggerTokens(
+      [triggerFactory.triggerOverride(ScriptTarget.token, triggerFactory.range(15, true))],
+      [{ key: ScriptTarget.token, value: ScriptTarget.lastSeen }],
+    );
+    expect(bafGeneratorService.generateTriggers(triggers, false)).toEqual([
+      "\tTriggerOverride(LastSeenBy(Myself),!Range(LastSeenBy(Myself),15))",
+    ]);
+  });
+
   it("renders an object+number trigger resolved against Myself", () => {
     const [trigger] = utils.replaceTriggerTokens(
       [triggerFactory.range(30)],

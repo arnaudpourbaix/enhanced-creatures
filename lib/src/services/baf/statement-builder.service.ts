@@ -934,6 +934,27 @@ class StatementBuilderService {
     for (const target of targets) {
       this.creatureTargetAbility(statements, creature, ability, target, options);
     }
+    const closeRange = this.closeRangeFallback(ability);
+    if (!closeRange) return;
+    for (const target of targets) {
+      this.creatureTargetAbility(statements, creature, closeRange, target, options);
+    }
+  }
+
+  /**
+   * An area ability hitting allies (alliesCheck) prefers targets beyond its minRange, but once none
+   * is left, a caster protected from it (its own safeIf) gambles a close one: same target lists
+   * again, without minRange and only while the caster is safe. Its allies check still applies.
+   */
+  private closeRangeFallback(ability: CreatureAbility): CreatureAbility | undefined {
+    if (!ability.minRange || !ability.alliesCheck) return;
+    const casterSafe = triggerFactory.casterSafe(
+      ability.alliesCheck,
+      ability.keywords,
+      ability.level,
+    );
+    if (!casterSafe) return;
+    return { ...ability, minRange: undefined, triggers: [...ability.triggers, casterSafe] };
   }
 
   private creatureTargetAbility(
@@ -985,6 +1006,11 @@ class StatementBuilderService {
         params: [ScriptTarget.lastSeen, ability.minRange],
         negation: true,
       });
+    }
+    if (ability.alliesCheck) {
+      targetTriggers.push(
+        ...triggerFactory.alliesSafe(ability.alliesCheck, ability.keywords, ability.level),
+      );
     }
     if (ability.requireVocal) {
       triggers.unshift({

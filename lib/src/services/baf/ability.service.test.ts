@@ -471,6 +471,26 @@ describe("applyPreset - auto-resolves range from SPELLS", () => {
   });
 });
 
+describe("applyPreset - resolves alliesCheck from SPELLS", () => {
+  // SPELLS.Wizard.Fireball declares an alliesCheck, and a monster's own stronger Fireball is cast
+  // through its preset (e.g. the death knight's).
+  it("inherits the SPELLS entry's alliesCheck", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Fireball.file);
+    expect(result.alliesCheck).toEqual(SPELLS.Wizard.Fireball.alliesCheck);
+  });
+
+  it("fully replaces it with the override's own, without merging safeIf", () => {
+    const own = { range: 5, safeIf: [] };
+    const result = service.applyPreset({ alliesCheck: own }, SPELLS.Wizard.Fireball.file);
+    expect(result.alliesCheck).toEqual(own);
+  });
+
+  it("disables it with null", () => {
+    const result = service.applyPreset({ alliesCheck: null }, SPELLS.Wizard.Fireball.file);
+    expect(result.alliesCheck).toBeNull();
+  });
+});
+
 describe("applyPreset - auto-resolves excludeStateChecks from SPELLS", () => {
   // SPELLS.Wizard.Haste's preset is built by PresetFactory (see buff-presets.ts), which bakes the
   // SPELLS entry's excludeStateChecks into the preset itself via spellDefaults.
@@ -665,6 +685,29 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
       { name: "PCsFighters", triggers: [...SPELL_CHECK_TRIGGERS.elf] },
       { name: "PCs" },
     ]);
+  });
+});
+
+describe("getAbilities - minRange from alliesCheck", () => {
+  it("defaults minRange to the alliesCheck range", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.Fireball.file, spell: { id: SPWI001 } },
+    ]);
+    expect(ability.minRange).toBe(SPELLS.Wizard.Fireball.alliesCheck?.range);
+  });
+
+  it("keeps an explicit minRange", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.Fireball.file, spell: { id: SPWI001 }, minRange: 25 },
+    ]);
+    expect(ability.minRange).toBe(25);
+  });
+
+  it("leaves minRange unset without alliesCheck", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.Fireball.file, spell: { id: SPWI001 }, alliesCheck: null },
+    ]);
+    expect(ability.minRange).toBeUndefined();
   });
 });
 

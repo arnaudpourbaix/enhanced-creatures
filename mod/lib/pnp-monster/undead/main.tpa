@@ -8,6 +8,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4e.tpa" // Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4f.tpa" // Greater Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/50.tpa" // Shadow
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/59.tpa" // Greater Shadow
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5a.tpa" // Baneguard
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5b.tpa" // Bonebat
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/51.tpa" // Skeleton
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/94.tpa" // Archer Skeleton

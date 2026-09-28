@@ -1,4 +1,5 @@
 COPY ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/jaicew.bam~ ~override~  // Wall of Ice icon
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/BDGHOST.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/dvdeathk.baf~
 
 INCLUDE ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/main.tpa~

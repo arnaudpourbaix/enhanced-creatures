@@ -3,11 +3,14 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { SPELL_CHECK_GATE_KEYWORDS, SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
+import { defaultAllySafe } from "../../config/target/ally-safe";
+import { Counts } from "../../config/target/target-config";
 import { TargetListName } from "../../config/target/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";
 import { AllegianceIdentifier } from "../model/ids/allegiance";
 import { AStylesIdentifiers } from "../model/ids/astyles";
+import { AlliesCheck } from "../model/creature/ability";
 import { AreaTypeValue } from "../model/ids/misc";
 import { SplStateIdentifier } from "../model/ids/splstate";
 import { StateIdentifier } from "../model/ids/state";
@@ -17,6 +20,7 @@ import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
 import { SpellReference } from "../model/spell-item/spell-reference";
 import targetService from "../services/baf/target.service";
+import utils from "../services/utils/utils.service";
 
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
@@ -427,6 +431,62 @@ class TriggerFactory {
         ),
     );
     return minimal.map(({ triggers }) => (triggers.length === 1 ? triggers[0] : this.or(triggers)));
+  }
+
+  triggerOverride(object: string, trigger: Triggers.Trigger, negation = false): Triggers.Trigger {
+    return { name: "TriggerOverride", object, trigger, negation };
+  }
+
+  /**
+   * Triggers checking that an area ability aimed at `target` spares the caster's allies (see
+   * BaseCreatureAbility.alliesCheck). BAF can't loop over allies, but the target's nearest enemies
+   * are the caster's side sorted by distance to the impact point: each of the first `count` ones
+   * must be out of `range` or match one of `safeIf`, and the next one must be out of `range`
+   * (too many allies around: don't gamble). A missing ally fails Range(), so it passes. The caster
+   * is part of that list too, which is right since it's hit as well when within range. Dropped for
+   * a Myself target (exceptMyself), where the target's enemies aren't the caster's allies.
+   *
+   * Every check runs through TriggerOverride(target, ...): Range() is always measured from the
+   * active creature, so only the target itself can tell how far its enemies are.
+   */
+  alliesSafe(
+    check: AlliesCheck,
+    keywords?: SpellKeyword[],
+    level?: number | null,
+    target = `${ScriptTarget.lastSeen}(${ScriptTarget.myself})`,
+  ): Triggers.Trigger[] {
+    const count = check.count ?? 3;
+    if (count < 0 || count >= Counts.length) throw new Error(`Invalid alliesCheck count ${count}`);
+    const safeIf = check.safeIf ?? defaultAllySafe(keywords, level);
+    const ally = (index: number) => `${Counts[index]}NearestEnemyOf(${ScriptTarget.myself})`;
+    const outOfRange = (index: number): Triggers.Trigger =>
+      this.triggerOverride(target, { name: "Range", params: [ally(index), check.range] }, true);
+    const allies = Counts.slice(0, count).map((_, index) => ({
+      ...this.or([
+        outOfRange(index),
+        ...utils
+          .replaceTriggerTokens(safeIf, [{ key: ScriptTarget.token, value: ally(index) }])
+          .map((t) => this.triggerOverride(target, t)),
+      ]),
+      exceptMyself: true,
+    }));
+    return [...allies, { ...outOfRange(count), exceptMyself: true }];
+  }
+
+  /**
+   * Trigger checking that the caster itself matches the alliesCheck's safeIf (any of them), or
+   * undefined when there's no condition to match.
+   */
+  casterSafe(
+    check: AlliesCheck,
+    keywords?: SpellKeyword[],
+    level?: number | null,
+  ): Triggers.Trigger | undefined {
+    const safeIf = utils.replaceTriggerTokens(check.safeIf ?? defaultAllySafe(keywords, level), [
+      { key: ScriptTarget.token, value: ScriptTarget.myself },
+    ]);
+    if (safeIf.length <= 1) return safeIf[0];
+    return this.or(safeIf);
   }
 }
 

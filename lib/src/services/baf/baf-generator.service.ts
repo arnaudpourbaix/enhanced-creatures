@@ -80,6 +80,16 @@ class BafGeneratorService {
   }
 
   generateTrigger(trigger: Triggers.Trigger, isOr: boolean): string {
+    return `${TAB.repeat(isOr ? 2 : 1)}${this.triggerExpression(trigger)}`;
+  }
+
+  private triggerExpression(trigger: Triggers.Trigger): string {
+    const negation = trigger.negation ? "!" : "";
+    if ("trigger" in trigger) {
+      const object = this.getObjectParamValue(trigger.object);
+      return `${negation}TriggerOverride(${object},${this.triggerExpression(trigger.trigger)})`;
+    }
+    if ("triggers" in trigger) throw new Error(`OR trigger can't be nested`);
     const params: string[] = [];
     const paramsRef = this.getTriggerParameters(trigger.name);
     const triggerParams = "params" in trigger ? trigger.params : [];
@@ -100,9 +110,7 @@ class BafGeneratorService {
       if (!paramRef) throw new Error(`Unexpected parameter ${p} for trigger ${trigger.name}`);
       params.push(this.getParamValue(p, paramRef));
     }
-    return `${TAB.repeat(isOr ? 2 : 1)}${trigger.negation ? "!" : ""}${
-      trigger.name
-    }(${params.join(",")})`;
+    return `${negation}${trigger.name}(${params.join(",")})`;
   }
 
   generateActions(actions: Actions.Action[]): string[] {

@@ -1,6 +1,7 @@
 import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { createFearAura } from "../../spells/fear_aura";
+import { CommonProjectileFiles } from "../../spells/projectiles";
 import actionFactory from "../../src/factories/action.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect } from "../../src/model/spell-item/effect";
@@ -24,11 +25,7 @@ import {
   SpellTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import {
-  AreaProjectileEnum,
-  ParticleColorEnum,
-  ProjectileBehaviorEnum,
-} from "../../src/model/spell-item/projectile";
+import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
@@ -41,13 +38,9 @@ function fearAura(cre: Undead) {
       description: "monster.undead.ability.deathKnightFearAura.description",
       duration: 5 * Durations.round,
       projectile: {
-        copyFromFile: "dvstink",
+        copyFromFile: CommonProjectileFiles.AreaOfSightNonParty,
         name: "Death Knight Aura of Fear",
-        particleColor: ParticleColorEnum.None,
         areaEffectInfo: {
-          areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
-          explosionDelay: 12,
-          triggerCount: 6,
           triggerRadius: 64,
           areaOfEffect: 64, // 5 feet
         },
@@ -107,12 +100,15 @@ function wallOfIce(cre: Undead) {
           },
         ],
       },
-      //TODO: level 24 header with 6d10 cold and 3d10 crushing, who is using this one??
     ],
     ability: {
       preset: SPELLS.Wizard.IceStorm.file,
       spell: {
         type: "noDec",
+      },
+      timer: {
+        name: "WallOfIce",
+        value: 3 * Durations.round,
       },
     },
   });
@@ -150,6 +146,7 @@ function fireball(cre: Undead) {
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
             saveTypes: [SaveTypeEnum.BypassMirrorImage, SaveTypeEnum.Breath],
             flags: [EffectFlagsEnum.SaveForHalf],
+            dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
             power: 3,
           },
           {
@@ -203,6 +200,9 @@ export function deathKnight(family: UndeadFamily): Undead {
       items: {
         remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05"],
       },
+      script: {
+        remove: ["AC#DTDKN"],
+      },
       spells: {
         memorized: [
           { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 20 },
@@ -241,6 +241,7 @@ export function deathKnight(family: UndeadFamily): Undead {
   // 6  Short sword of life stealing
   knight.setBehavior({
     restHeal: true,
+    dialog: ["AC#DTDKN"],
     abilities: [
       family.ability(Ids.DeathKnightFearAura),
       family.preset(SPELLS.Wizard.DetectInvisibility.file),
@@ -257,7 +258,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordBlind,
         ]),
-        probability: 30,
+        probability: 5,
       },
       {
         preset: SPELLS.Wizard.PowerWordBlind.file,
@@ -265,7 +266,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordStun,
         ]),
-        probability: 15,
+        probability: 1,
       },
       family.preset(SPELLS.Wizard.DispelMagic.file),
       family.ability(Ids.Fireball),
@@ -305,6 +306,7 @@ export function deathKnight(family: UndeadFamily): Undead {
       files: ["AC#DTDKN"],
       data: {
         level1: 15,
+        xpv: 10000,
         items: {
           equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
         },
