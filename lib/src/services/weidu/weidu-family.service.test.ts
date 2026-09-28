@@ -75,3 +75,50 @@ describe("generateFinalCode", () => {
     expect(content).not.toContain("integrate_sectypes");
   });
 });
+
+describe("createOrUpdateMainFile", () => {
+  let tempDir: string;
+  let originalModFolder: string;
+
+  afterEach(() => {
+    State.modFolder = originalModFolder;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  function setupTempFamilyFolder(): string {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-family-"));
+    originalModFolder = State.modFolder;
+    State.modFolder = tempDir;
+    const familyFolder = path.join(tempDir, "lib/pnp-monster/ankheg");
+    fs.mkdirSync(familyFolder, { recursive: true });
+    return familyFolder;
+  }
+
+  it("compiles every asset script, guarded by the script existing in game", () => {
+    const familyFolder = setupTempFamilyFolder();
+    const assets = path.join(familyFolder, "assets");
+    fs.mkdirSync(assets);
+    for (const f of ["L#XZEANK.BAF", "ankhegb.baf", "jaicew.bam"]) fs.writeFileSync(path.join(assets, f), "");
+    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
+    expect(content).toBe(
+      [
+        "LAM load_secondary_types",
+        "ACTION_IF FILE_EXISTS_IN_GAME ~ANKHEGB.BCS~ BEGIN",
+        "\tCOMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/assets/ankhegb.baf~",
+        "END",
+        "ACTION_IF FILE_EXISTS_IN_GAME ~L#XZEANK.BCS~ BEGIN",
+        "\tCOMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/assets/L#XZEANK.BAF~",
+        "END",
+        "",
+      ].join("\r\n"),
+    );
+  });
+
+  it("emits no compile code without an assets folder", () => {
+    const familyFolder = setupTempFamilyFolder();
+    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
+    expect(content).toBe("LAM load_secondary_types\r\n");
+  });
+});

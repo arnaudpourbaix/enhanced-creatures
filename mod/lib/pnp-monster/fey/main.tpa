@@ -1,5 +1,11 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSI2.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/AC#DTSI2.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSIR.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/AC#DTSIR.BAF~
+END
 // Dimension Door
 CREATE SPL "jas0f8"
 	WRITE_LONG 0x64 0x72
