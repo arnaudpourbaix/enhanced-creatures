@@ -87,7 +87,7 @@ export const TARGET_LISTS: {
   {
     name: "Animals",
     value: [
-      ...EnemyOfType.map((e) => e.replaceAll(Token, "0.ANIMAL")),
+      ...EnemyOfType.map((e) => e.replaceAll(Token, "[0.ANIMAL]")),
       `[NEUTRAL.ANIMAL]`,
       `SecondNearest([NEUTRAL.ANIMAL])`,
       `ThirdNearest([NEUTRAL.ANIMAL])`,

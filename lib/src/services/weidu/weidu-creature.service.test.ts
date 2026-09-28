@@ -279,7 +279,7 @@ describe("addMemorizedSpells (private)", () => {
     expect(result.some((c) => c.includes("SPWI001"))).toBe(true);
   });
 
-  it("resolves a multi-component mod's weiduCheck array to WeiDU's OR(n) syntax", () => {
+  it("resolves a multi-component mod's weiduCheck array to WeiDU's infix OR", () => {
     const lines: CodeLine[] = [];
     service.addMemorizedSpells(lines, 0, {
       spells: {
@@ -294,7 +294,7 @@ describe("addMemorizedSpells (private)", () => {
     });
     const result = codes(lines);
     expect(result[0]).toBe(
-      "PATCH_IF OR(2) MOD_IS_INSTALLED STRATAGEMS.TP2 1500 MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
+      "PATCH_IF MOD_IS_INSTALLED STRATAGEMS.TP2 1500 OR MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
     );
   });
 
@@ -396,7 +396,7 @@ describe("addResourceVariantAssignments (private)", () => {
     service.addResourceVariantAssignments(lines, 0, creature);
     const result = codes(lines);
     expect(result[0]).toBe(
-      "ACTION_IF OR(2) MOD_IS_INSTALLED STRATAGEMS.TP2 1500 MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
+      "ACTION_IF MOD_IS_INSTALLED STRATAGEMS.TP2 1500 OR MOD_IS_INSTALLED STRATAGEMS.TP2 1510 BEGIN",
     );
     expect(result).toContain("END ELSE ACTION_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN");
     expect(result[result.length - 1]).toBe("END");

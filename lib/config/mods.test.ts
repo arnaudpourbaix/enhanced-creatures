@@ -21,13 +21,13 @@ describe("resolveWeiduCheck", () => {
     expect(resolveWeiduCheck([])).toBeUndefined();
   });
 
-  it("unwraps a single-entry array without adding OR()", () => {
+  it("unwraps a single-entry array without adding OR", () => {
     expect(resolveWeiduCheck(["MOD_IS_INSTALLED STRATAGEMS.TP2 1500"])).toBe(
       "MOD_IS_INSTALLED STRATAGEMS.TP2 1500",
     );
   });
 
-  it("joins multiple entries with WeiDU's OR(n) syntax", () => {
+  it("joins multiple entries with WeiDU's infix OR", () => {
     expect(
       resolveWeiduCheck([
         "MOD_IS_INSTALLED STRATAGEMS.TP2 2000",
@@ -35,7 +35,7 @@ describe("resolveWeiduCheck", () => {
         "MOD_IS_INSTALLED STRATAGEMS.TP2 2510",
       ]),
     ).toBe(
-      "OR(3) MOD_IS_INSTALLED STRATAGEMS.TP2 2000 MOD_IS_INSTALLED STRATAGEMS.TP2 2500 " +
+      "MOD_IS_INSTALLED STRATAGEMS.TP2 2000 OR MOD_IS_INSTALLED STRATAGEMS.TP2 2500 OR " +
         "MOD_IS_INSTALLED STRATAGEMS.TP2 2510",
     );
   });

@@ -14,15 +14,15 @@ interface SpellbookMod {
 }
 
 /**
- * Resolves a mod's `weiduCheck` to a single WeiDU condition string - an array becomes WeiDU's
- * `OR(n) cond1 cond2 ...` syntax so callers never hand-count the n themselves. Undefined and empty
+ * Resolves a mod's `weiduCheck` to a single WeiDU condition string - an array is joined with WeiDU's
+ * infix `cond1 OR cond2 ...` (not BAF's `OR(n)` prefix syntax, which WeiDU patch code rejects). Undefined and empty
  * arrays both resolve to undefined (no check needed / nothing to check).
  */
 export function resolveWeiduCheck(check: string | string[] | undefined): string | undefined {
   if (check === undefined) return undefined;
   if (typeof check === "string") return check;
   if (check.length === 0) return undefined;
-  return check.length === 1 ? check[0] : `OR(${check.length}) ${check.join(" ")}`;
+  return check.join(" OR ");
 }
 
 const SPELL_REVISIONS_CHECK = "MOD_IS_INSTALLED spell_rev.tp2 0";
