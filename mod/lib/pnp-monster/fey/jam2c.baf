@@ -339,6 +339,22 @@ IF
 	HaveSpell(CLERIC_BLESS)
 	RandomNumGT(801,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(Myself,CLERIC_BLESS)
+		RemoveSpell(CLERIC_BLESS)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_BLESS)
+	RandomNumGT(801,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -461,6 +477,22 @@ THEN
 END
 
 // Barkskin
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_BARKSKIN)
+	RandomNumGT(802,241)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(Myself,CLERIC_BARKSKIN)
+		RemoveSpell(CLERIC_BARKSKIN)
+END
+
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BARKSKIN)

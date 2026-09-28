@@ -7,12 +7,33 @@ import { Triggers } from "../../src/model/script/triggers";
  * - enemy charmed target (meaning a charmed ally)
  * - summon or summoned demon
  * - illusion
+ * None of these apply when the target is Myself (exceptMyself).
  */
 export const ExcludeUnwantedTargetsTriggers: Triggers.Trigger[] = [
-  { name: "StateCheck", params: [ScriptTarget.token, "STATE_CHARMED"], negation: true },
-  { name: "Gender", params: [ScriptTarget.token, "SUMMONED"], negation: true },
-  { name: "Gender", params: [ScriptTarget.token, "SUMMONED_DEMON"], negation: true },
-  { name: "Gender", params: [ScriptTarget.lastSeen, "ILLUSIONARY"], negation: true },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_CHARMED"],
+    negation: true,
+    exceptMyself: true,
+  },
+  {
+    name: "Gender",
+    params: [ScriptTarget.token, "SUMMONED"],
+    negation: true,
+    exceptMyself: true,
+  },
+  {
+    name: "Gender",
+    params: [ScriptTarget.token, "SUMMONED_DEMON"],
+    negation: true,
+    exceptMyself: true,
+  },
+  {
+    name: "Gender",
+    params: [ScriptTarget.lastSeen, "ILLUSIONARY"],
+    negation: true,
+    exceptMyself: true,
+  },
 ];
 
 export const SummonsTriggers: Triggers.Trigger[] = [
@@ -29,6 +50,23 @@ export const CommonTargetLists = {
   Allies: [
     {
       name: "NearestAllies",
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
+  ],
+  MyselfThenAllies: [
+    {
+      name: "Myself",
+    },
+    {
+      name: "NearestAllies",
+      triggers: ExcludeUnwantedTargetsTriggers,
+      randomOrder: true,
+    },
+  ],
+  MyselfOrAllies: [
+    {
+      name: "MyselfAndNearestAllies",
       triggers: ExcludeUnwantedTargetsTriggers,
       randomOrder: true,
     },

@@ -398,6 +398,7 @@ const WIZARD_SPELLS = {
     duration: "short",
     name: "spell.ImprovedInvisibility.name",
     keywords: ["friendly"],
+    excludeStateChecks: ["STATE_IMPROVEDINVISIBILITY"],
   },
   IncendiaryCloud: {
     file: "SPWI810",
@@ -412,6 +413,7 @@ const WIZARD_SPELLS = {
     level: 2,
     name: "spell.Invisibility.name",
     keywords: ["friendly"],
+    excludeStateChecks: ["STATE_INVISIBLE"],
   },
   LarlochEnergyDrain: {
     file: "SPWI914",
@@ -717,6 +719,7 @@ const WIZARD_SPELLS = {
     level: 5,
     name: "spell.ShadowDoor.name",
     keywords: ["castOnSelf", "friendly"],
+    excludeStateChecks: ["STATE_IMPROVEDINVISIBILITY"],
   },
   ShadowMonsters: {
     file: "SPWI433",

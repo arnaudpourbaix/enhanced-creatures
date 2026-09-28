@@ -114,6 +114,21 @@ IF
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_AID)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_AID)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestAllyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -247,6 +262,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_TRUE_SIGHT)
 	Detect([PC])
+	!See([PC])
 	!CheckStatGT(Myself,0,TRUE_SIGHT)
 	RandomNumGT(802,241)
 THEN
@@ -318,6 +334,21 @@ THEN
 END
 
 // Magic Resistance
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_MAGIC_RESISTANCE)
+	RandomNumGT(807,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_MAGIC_RESISTANCE)
+END
+
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
@@ -439,6 +470,21 @@ THEN
 END
 
 // Free Action
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_FREE_ACTION)
+	RandomNumGT(808,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_FREE_ACTION)
+END
+
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
@@ -629,6 +675,22 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
+	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
+	RandomNumGT(812,244)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
 	RandomNumGT(812,244)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -753,6 +815,22 @@ THEN
 END
 
 // Protection From Good 10 Radius
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
+	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
+	RandomNumGT(813,244)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
+END
+
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
@@ -883,6 +961,22 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
+	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
+	RandomNumGT(814,244)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_PROTECT_FROM_GOOD)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
 	RandomNumGT(814,244)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1007,6 +1101,22 @@ THEN
 END
 
 // Protection From Evil
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
+	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
+	RandomNumGT(815,245)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,CLERIC_PROTECT_FROM_EVIL)
+END
+
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)

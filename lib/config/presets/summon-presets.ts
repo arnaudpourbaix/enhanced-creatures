@@ -5,7 +5,7 @@ import { TargetList } from "../../src/model/script/target";
 import { DEFAULT_SPELL_PROBABILITY } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
-import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+import { CommonTargetLists, ExcludeUnwantedTargetsTriggers } from "../target/common";
 
 const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
   {
@@ -20,11 +20,7 @@ const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
     triggers: ExcludeUnwantedTargetsTriggers,
     randomOrder: true,
   },
-  {
-    name: "NearestAllies",
-    triggers: ExcludeUnwantedTargetsTriggers,
-    randomOrder: true,
-  },
+  ...CommonTargetLists.MyselfOrAllies,
 ];
 
 export const SUMMON_PRESETS: AbilityPreset[] = [

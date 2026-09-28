@@ -35,12 +35,20 @@ export const TARGET_LISTS: {
   value: string[];
 }[] = [
   {
-    name: "NearestEnemies",
-    value: repeat("NearestEnemyOf"),
+    name: "Myself",
+    value: ["Myself"],
   },
   {
     name: "NearestAllies",
     value: repeat("NearestAllyOf", 6),
+  },
+  {
+    name: "MyselfAndNearestAllies",
+    value: ["Myself", ...repeat("NearestAllyOf", 6)],
+  },
+  {
+    name: "NearestEnemies",
+    value: repeat("NearestEnemyOf"),
   },
   {
     name: "Players",

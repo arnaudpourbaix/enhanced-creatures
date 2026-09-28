@@ -1,7 +1,6 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import targetService from "../../src/services/baf/target.service";
 import { PRESET_NAMES } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
@@ -22,9 +21,11 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.ResistFear,
       SPELLS.Priest.Barkskin,
       SPELLS.Priest.Aid,
+      SPELLS.Wizard.Invisibility,
+      SPELLS.Wizard.ImprovedInvisibility,
     ],
     {
-      targets: CommonTargetLists.Allies,
+      targets: CommonTargetLists.MyselfOrAllies,
     },
   ),
   ...presetFactory.createSpells(
@@ -68,22 +69,8 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells([SPELLS.Wizard.MinorSpellDeflection], {
     triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
   }),
-  ...presetFactory.createSpell(SPELLS.Wizard.Invisibility, {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
-      triggerFactory.stateCheck("STATE_INVISIBLE", true),
-    ]),
-  }),
-  ...presetFactory.createSpell(SPELLS.Wizard.ImprovedInvisibility, {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
-      triggerFactory.stateCheck("STATE_IMPROVEDINVISIBILITY", true),
-    ]),
-  }),
   ...presetFactory.createSpell(SPELLS.Wizard.ShadowDoor, {
-    triggers: [
-      triggerFactory.stateCheck("STATE_IMPROVEDINVISIBILITY", true),
-      triggerFactory.detect("NearestEnemyOf"),
-      triggerFactory.hplt(75),
-    ],
+    triggers: [triggerFactory.detect("NearestEnemyOf"), triggerFactory.hplt(75)],
   }),
   ...presetFactory.createSpell(SPELLS.Wizard.DimensionDoor, {
     targets: [

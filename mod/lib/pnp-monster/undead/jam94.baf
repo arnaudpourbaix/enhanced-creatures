@@ -137,6 +137,22 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(WIZARD_HASTE)
+	!StateCheck(Myself,STATE_HASTED)
+	RandomNumGT(802,241)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_HASTE)
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_HASTE)
 	!StateCheck(NearestAllyOf(Myself),STATE_HASTED)
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")

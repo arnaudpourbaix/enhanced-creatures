@@ -159,6 +159,11 @@ export namespace Triggers {
 
   export interface BaseTrigger {
     negation?: boolean;
+    /**
+     * Only meaningful for other creatures: dropped from the statement bafFactory generates for a
+     * Myself target (e.g. a summoned caster must still be able to buff itself).
+     */
+    exceptMyself?: boolean;
   }
 
   export interface HaveSpell extends BaseTrigger {
