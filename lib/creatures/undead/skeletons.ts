@@ -555,6 +555,9 @@ export function baneguard(family: UndeadFamily): Undead {
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
       immunities: ["undead"],
+      script: {
+        remove: ["AC#DTDIG"],
+      },
       items: {
         remove: ["ring95", "ring99"],
       },
@@ -584,6 +587,7 @@ export function baneguard(family: UndeadFamily): Undead {
   baneguard.setAttack({
     ranged: true,
   });
+  baneguard.setAdjustments([{ files: ["AC#DTDIG"], data: { level1: 6 } }]);
   return baneguard;
 }
 
