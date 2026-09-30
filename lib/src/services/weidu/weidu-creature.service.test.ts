@@ -703,6 +703,30 @@ describe("handleAdjustment (private)", () => {
     expect(lines[lines.length - 1].tab).toBe(lines[gameIdx].tab);
   });
 
+  it("does not write sex/gender on a summon adjustment", () => {
+    const creature = fakeCreature({ files: [{ name: "GORF" }] });
+    const data = {
+      gender: "NIETHER",
+      effects: { list: [] },
+      spells: { memorized: [] },
+      items: { remove: [], equipped: [] },
+      immunities: [],
+      proficiencies: [],
+    } as unknown as Partial<CreatureData>;
+    const write = (summon: boolean) => {
+      const lines: CodeLine[] = [];
+      service.handleAdjustment(
+        lines,
+        0,
+        creature,
+        fakeAdjustment({ files: ["GORF"], summon, data: { ...data } }),
+      );
+      return codes(lines).filter((c) => c.includes("// gender"));
+    };
+    expect(write(false)).toHaveLength(2);
+    expect(write(true)).toHaveLength(0);
+  });
+
   it("emits no game guard for an untagged adjustment", () => {
     const creature = fakeCreature({ files: [{ name: "GORF" }] });
     const adjustment = fakeAdjustment({ files: ["GORF"], data: undefined });

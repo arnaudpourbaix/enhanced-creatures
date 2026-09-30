@@ -201,7 +201,7 @@ export function deathKnight(family: UndeadFamily): Undead {
         remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05"],
       },
       script: {
-        remove: ["AC#DTDKN"],
+        remove: ["AC#DTDKN", "DVDEATHK"],
       },
       spells: {
         memorized: [

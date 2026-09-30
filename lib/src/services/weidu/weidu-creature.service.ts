@@ -802,6 +802,9 @@ class WeiduCreatureService extends AbstractWeiduService {
       p.data.xpv = 0;
     }
     for (const data of CREATURE_DATA_FIELDS) {
+      // Summon files already carry a specific sex/gender (SUMMONED, SUMMONED_DEMON...) that
+      // scripts and targeting rely on - never overwrite it with the creature's regular gender.
+      if (p.summon && data.key === "gender") continue;
       this.writeCreatureDataField(p.lines, p.tab, p.data, data);
     }
     this.removeItems(p.lines, p.tab, p.data);

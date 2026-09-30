@@ -221,7 +221,8 @@ BEGIN
   PATCH_IF oldLevel3 < level3 OR enforce = 1 BEGIN
     WRITE_BYTE 0x236 level3 // set new level (third class) value
   END
-  PATCH_IF gender != 999 BEGIN // AND (oldGender != gender OR enforce = 1)
+  // Summons already carry a specific sex (SUMMONED, SUMMONED_DEMON) that scripts rely on: keep it
+  PATCH_IF gender != 999 AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~) BEGIN
     WRITE_BYTE 0x237 gender
     WRITE_BYTE 0x275 gender
   END
