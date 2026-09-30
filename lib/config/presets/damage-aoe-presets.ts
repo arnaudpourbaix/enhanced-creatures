@@ -38,7 +38,9 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
     ],
     {
       targets: CommonTargetLists.FarthestEnemies,
-      actionsAfter: [{ name: "RunAwayFrom", params: [ScriptTarget.lastSeen, 30] }],
+      actionsAfter: [
+        { name: "RunAwayFromNoInterruptNoLeaveArea", params: [ScriptTarget.lastSeen, 10] },
+      ],
     },
   ),
 ];

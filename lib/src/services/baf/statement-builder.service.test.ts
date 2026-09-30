@@ -1013,6 +1013,34 @@ describe("parseAbilities / creatureAbilities (private)", () => {
     expect(statements).toHaveLength(6);
   });
 
+  // Disabled along with the feature (see creatureTargetsAbility)
+  it.skip("makes the target's nearest allies run away before an area ability, except in its close-range fallback", () => {
+    const statements: Statements = [];
+    service.parseAbilities(statements, fakeCreature(), options(), [
+      fakeAbility({
+        targets: [{ name: "Players" }],
+        minRange: 15,
+        alliesCheck: {
+          range: 15,
+          count: 2,
+          safeIf: [{ name: "CheckStatGT", params: ["{Target}", 99, "RESISTFIRE"] }],
+        },
+      }),
+    ]);
+    expect(statements).toHaveLength(12);
+    const runAway = "RunAwayFromNoInterruptNoLeaveArea(NearestEnemyOf(Myself),15)";
+    expect(statements[0].responses[0].actions).toEqual([
+      { name: "SetGlobalTimer", params: ["JA_ROUND", "LOCALS", 6] },
+      { name: "ActionOverride", params: ["NearestEnemyOf(LastSeenBy(Myself))", runAway] },
+      { name: "ActionOverride", params: ["SecondNearestEnemyOf(LastSeenBy(Myself))", runAway] },
+      { name: "Shout", params: [1] },
+    ]);
+    expect(statements[6].responses[0].actions).toEqual([
+      { name: "SetGlobalTimer", params: ["JA_ROUND", "LOCALS", 6] },
+      { name: "Shout", params: [1] },
+    ]);
+  });
+
   it("creatureAbilities delegates to behavior.abilities", () => {
     const statements: Statements = [];
     service.creatureAbilities({

@@ -9298,7 +9298,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9338,7 +9338,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9378,7 +9378,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9418,7 +9418,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // HolySmite
@@ -9455,7 +9455,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9491,7 +9491,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9527,7 +9527,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9563,7 +9563,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // HolySmite
@@ -9607,7 +9607,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9650,7 +9650,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9693,7 +9693,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9736,7 +9736,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // HolySmite
@@ -9776,7 +9776,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9815,7 +9815,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9854,7 +9854,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9893,7 +9893,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_HOLY_SMITE)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Glyph of Warding
@@ -9934,7 +9934,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -9974,7 +9974,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10014,7 +10014,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10054,7 +10054,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Glyph of Warding
@@ -10091,7 +10091,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10127,7 +10127,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10163,7 +10163,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10199,7 +10199,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Glyph of Warding
@@ -10243,7 +10243,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10286,7 +10286,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10329,7 +10329,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10372,7 +10372,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Glyph of Warding
@@ -10412,7 +10412,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10451,7 +10451,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10490,7 +10490,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -10529,7 +10529,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Greater Command

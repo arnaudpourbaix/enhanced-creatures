@@ -3251,7 +3251,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3291,7 +3291,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3331,7 +3331,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3371,7 +3371,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Unholy Fireball
@@ -3408,7 +3408,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3444,7 +3444,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3480,7 +3480,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3516,7 +3516,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Unholy Fireball
@@ -3560,7 +3560,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3603,7 +3603,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3646,7 +3646,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3689,7 +3689,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Unholy Fireball
@@ -3729,7 +3729,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3768,7 +3768,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3807,7 +3807,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -3846,7 +3846,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("jas2m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Symbol of Pain
@@ -4464,7 +4464,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4506,7 +4506,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4548,7 +4548,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4590,7 +4590,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Wall of Ice
@@ -4629,7 +4629,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4667,7 +4667,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4705,7 +4705,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4743,7 +4743,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Wall of Ice
@@ -4789,7 +4789,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4834,7 +4834,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4879,7 +4879,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -4924,7 +4924,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Wall of Ice
@@ -4966,7 +4966,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -5007,7 +5007,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -5048,7 +5048,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 IF
@@ -5089,7 +5089,7 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("WallOfIce","LOCALS",18)
 		SpellNoDecRES("jas1m4a",LastSeenBy(Myself))
-		RunAwayFrom(LastSeenBy(Myself),30)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
 END
 
 // Attack Slowed enemy

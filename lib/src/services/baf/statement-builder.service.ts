@@ -977,6 +977,16 @@ class StatementBuilderService {
     targets: TargetList[],
     options: BuilderOptions,
   ): void {
+    // Disabled: didn't help much in game testing, kept for now.
+    // Allies near the target run away before the spell is cast (see actionFactory.alliesRunAway),
+    // but not in the close-range fallback below: the caster may then be one of them, and
+    // overriding itself would clear its own action queue, spell included.
+    // const withAlliesRunAway = ability.alliesCheck
+    //   ? {
+    //       ...ability,
+    //       actions: [...actionFactory.alliesRunAway(ability.alliesCheck), ...ability.actions],
+    //     }
+    //   : ability;
     for (const target of targets) {
       this.creatureTargetAbility(statements, creature, ability, target, options);
     }
