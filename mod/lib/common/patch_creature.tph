@@ -104,6 +104,7 @@ BEGIN
   READ_BYTE  0x235 oldLevel2
   READ_BYTE  0x236 oldLevel3
   READ_BYTE  0x237 oldGender
+  READ_BYTE  0x275 oldSex
   READ_BYTE  0x238 oldStrength
   READ_BYTE  0x239 oldExceptionalStrength
   READ_BYTE  0x23a oldIntelligence
@@ -221,8 +222,11 @@ BEGIN
   PATCH_IF oldLevel3 < level3 OR enforce = 1 BEGIN
     WRITE_BYTE 0x236 level3 // set new level (third class) value
   END
-  // Summons already carry a specific sex (SUMMONED, SUMMONED_DEMON) that scripts rely on: keep it
-  PATCH_IF gender != 999 AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~) BEGIN
+  // Summons already carry a specific sex (SUMMONED, SUMMONED_DEMON) that scripts rely on: keep it.
+  // It can be set on either byte only (e.g. DVDEATHK: 0x237=MALE, 0x275=SUMMONED_DEMON), so check both.
+  PATCH_IF gender != 999
+    AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~)
+    AND oldSex != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldSex != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~) BEGIN
     WRITE_BYTE 0x237 gender
     WRITE_BYTE 0x275 gender
   END

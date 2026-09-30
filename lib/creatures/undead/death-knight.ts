@@ -3,6 +3,8 @@ import { NEW_SPELLS } from "../../config/spells/spells";
 import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import actionFactory from "../../src/factories/action.factory";
+import responseFactory from "../../src/factories/response.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect } from "../../src/model/spell-item/effect";
 import {
@@ -26,6 +28,7 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
+import { ScriptTarget } from "../../src/model/constants";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
@@ -61,7 +64,8 @@ function wallOfIce(cre: Undead) {
     description: "monster.undead.ability.iceWall.description",
     id: Ids.WallOfIce,
     memorizedCount: 30,
-    icon: "jaICEW",
+    //icon: "jaICEW",
+    icon: SPELLS.Wizard.IceStorm.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
     secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
     castingSound: "CAS_M06",
@@ -170,6 +174,12 @@ function fireball(cre: Undead) {
   });
 }
 
+const summonRemovedSpells = [
+  SPELLS.Wizard.PowerWordStun,
+  SPELLS.Wizard.PowerWordBlind,
+  SPELLS.Wizard.SymbolFear,
+];
+
 export function deathKnight(family: UndeadFamily): Undead {
   const knight = family.create({
     monster: MonsterEnum.DeathKnight,
@@ -201,7 +211,7 @@ export function deathKnight(family: UndeadFamily): Undead {
         remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05"],
       },
       script: {
-        remove: ["AC#DTDKN", "DVDEATHK"],
+        remove: ["AC#DTDKN"],
       },
       spells: {
         memorized: [
@@ -281,6 +291,22 @@ export function deathKnight(family: UndeadFamily): Undead {
         probability: 15,
       },
       family.ability(Ids.WallOfIce),
+    ],
+    customCodes: [
+      {
+        location: "init",
+        type: "insertBefore",
+        statements: [
+          {
+            comment: "Summoned death knights spells selection adjustments",
+            triggers: [
+              { name: "Gender", params: [ScriptTarget.token, "SUMMONED_DEMON"] },
+              triggerFactory.or(triggerFactory.haveSpell(summonRemovedSpells)),
+            ],
+            responses: responseFactory.response(actionFactory.removeSpell(summonRemovedSpells)),
+          },
+        ],
+      },
     ],
   });
   knight.setAdjustments([
