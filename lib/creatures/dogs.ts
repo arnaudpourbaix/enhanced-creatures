@@ -26,6 +26,7 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { PartialSpellHeader, WeaponCastSpell } from "../src/model/spell-item/spell-item";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -200,7 +201,10 @@ class DogFamily extends CreatureFamily<Dog> {
       },
     });
     wild.createJaws({ diceThrown: 1, diceSize: 4 });
-    wild.setBehavior({ dialog: ["BDDOGW01"] });
+    wild.setBehavior({
+      dialog: ["BDDOGW01"],
+      customCodes: [customCodes.wildAnimalsTurningHostile],
+    });
     wild.setAdjustments([
       { files: ["BDDOG"], data: { class: "INNOCENT" } },
       { files: ["BDDEADOG"], data: { script: { location: "None" } } },
@@ -246,6 +250,9 @@ class DogFamily extends CreatureFamily<Dog> {
       { files: ["FSDOG", "L#2EDDOG"], data: { level1: 3 } },
       { files: ["GPDOG1"], data: { level1: 4 } },
     ]);
+    war.setBehavior({
+      customCodes: [customCodes.wildAnimalsTurningHostile],
+    });
     return war;
   }
 

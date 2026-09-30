@@ -50,6 +50,7 @@ export const GLOBAL_CONFIG = {
     minorSequencer: "JA_MINOR_SEQUENCER",
     sequencer: "JA_SEQUENCER",
     restTimer: "JA_REST",
+    shoutTimer: "JA_SHOUT",
     helpTimer: "JA_HELP",
     roundTimer: "JA_ROUND",
     noOpenDoor: "RR#NOPND",

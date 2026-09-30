@@ -25,10 +25,9 @@ export interface CustomCode {
   abilities: CreatureAbility[];
 }
 
-export type PartialCustomCode = Omit<
-  PartialBy<CustomCode, "statements">,
-  "abilities"
-> & { abilities?: RawCreatureAbility[] };
+export type PartialCustomCode = Omit<PartialBy<CustomCode, "statements">, "abilities"> & {
+  abilities?: RawCreatureAbility[];
+};
 
 export interface AdditionalCode {
   location: CustomCodeLocation;
@@ -36,10 +35,7 @@ export interface AdditionalCode {
   actions: Actions.Action[];
 }
 
-export type PartialAdditionalCode = PartialBy<
-  AdditionalCode,
-  "triggers" | "actions"
->;
+export type PartialAdditionalCode = PartialBy<AdditionalCode, "triggers" | "actions">;
 
 export type CustomCodeLocation =
   | "attack"
@@ -49,6 +45,7 @@ export type CustomCodeLocation =
   | "dialog"
   | "followSummoner"
   | "handlePanic"
+  | "help"
   | "init"
   | "kitAbilities"
   | "noActionOutsideOfCombat"

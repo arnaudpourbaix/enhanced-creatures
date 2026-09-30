@@ -1,0 +1,27 @@
+IF
+    HPLT(Myself,10)
+    Global("SummonDryads","AR1200",5)  // Windspear Hills
+THEN
+    RESPONSE #100
+        SetGlobal("SummonDryads","AR1200",6)  // Windspear Hills
+        StartCutSceneMode()
+        StartCutScene("sufakeb")
+END
+
+IF
+    Global("SummonDryads","AR1200",1)  // Windspear Hills
+THEN
+    RESPONSE #100
+        SetGlobal("SummonDryads","AR1200",2)  // Windspear Hills
+        StartCutSceneMode()
+        StartCutScene("Cut23a")
+END
+
+IF
+    AttackedBy([GOODCUTOFF],DEFAULT)
+    Global("VaelasaHostile","GLOBAL",0)
+THEN
+    RESPONSE #100
+        SetGlobal("VaelasaHostile","GLOBAL",1)
+        Enemy()
+END

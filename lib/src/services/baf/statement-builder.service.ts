@@ -49,6 +49,7 @@ class StatementBuilderService {
     this.execute(this.turnHostile.bind(this), "turnHostile", p);
     this.execute(this.detectCombat.bind(this), "detectCombat", p);
     this.execute(this.shouts.bind(this), "shouts", p);
+    this.execute(this.help.bind(this), "help", p);
     this.execute(this.followSummoner.bind(this), "followSummoner", p);
     this.execute(this.randomWalkNoCombat.bind(this), "randomWalkNoCombat", p);
     this.execute(this.noActionOutsideOfCombat.bind(this), "noActionOutsideOfCombat", p);
@@ -314,14 +315,14 @@ class StatementBuilderService {
       comment: "Shouts every 3 rounds",
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
-        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.helpTimer),
+        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.shoutTimer),
       ],
       responses: responseFactory.response([
         {
           name: "Shout",
           params: [shoutId],
         },
-        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.helpTimer, 18),
+        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.shoutTimer, 18),
       ]),
     });
     const heardObject = options.summon ? "LastSummonerOf" : `EVILCUTOFF.0.${creature.data.race}`;
@@ -329,6 +330,7 @@ class StatementBuilderService {
       comment: "React to shouts",
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
         { name: "Heard", params: [heardObject, shoutId] },
         { name: "InMyArea", params: [heardObject] },
       ],
@@ -340,11 +342,55 @@ class StatementBuilderService {
     statements.push({
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
         { name: "Heard", params: [heardObject, shoutId] },
         { name: "InMyArea", params: [heardObject] },
-        { name: "See", params: ["GOODCUTOFF"], negation: true },
+        { name: "See", params: ["NearestEnemyOf"], negation: true },
       ],
       responses: responseFactory.response([{ name: "MoveToObject", params: ["LastHeardBy"] }]),
+    });
+  }
+
+  private help({ statements, creature, options }: HandlerParams): void {
+    if (!creature.behavior.help) return;
+    statements.push({
+      comment: "Help every 3 rounds",
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.helpTimer),
+      ],
+      responses: responseFactory.response([
+        {
+          name: "Help",
+        },
+        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.helpTimer, 18),
+      ]),
+    });
+    const helpObject = "[ENEMY]";
+    statements.push({
+      comment: "React to help",
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        { name: "Help", params: [helpObject] },
+        { name: "InMyArea", params: [helpObject] },
+      ],
+      responses: responseFactory.response([
+        actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Help" },
+        { name: "MoveToObject", params: ["LastHelp"] },
+      ]),
+    });
+    statements.push({
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        { name: "Help", params: [helpObject] },
+        { name: "InMyArea", params: [helpObject] },
+        { name: "See", params: ["NearestEnemyOf"], negation: true },
+      ],
+      responses: responseFactory.response([{ name: "MoveToObject", params: ["LastHelp"] }]),
     });
   }
 

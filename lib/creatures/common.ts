@@ -1,8 +1,82 @@
 import responseFactory from "../src/factories/response.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { CustomCode } from "../src/model/script/script";
+import targetService from "../src/services/baf/target.service";
 
-export const hunterCustomCode: CustomCode = {
+const avoidNaturalFriends: CustomCode = {
+  location: "attack",
+  type: "insertBefore",
+  statements: [
+    {
+      comment: "Random walk if any druid/ranger/fey",
+      triggers: [
+        {
+          name: "See",
+          params: ["NearestEnemyOf"],
+        },
+        {
+          name: "DamageTaken",
+          params: [0],
+        },
+        {
+          name: "Or",
+          triggers: [
+            {
+              name: "Class",
+              params: ["LastSeenBy", "DRUID_ALL"],
+            },
+            {
+              name: "Class",
+              params: ["LastSeenBy", "RANGER_ALL"],
+            },
+            {
+              name: "Race",
+              params: ["LastSeenBy", "FAIRY"],
+            },
+          ],
+        },
+      ],
+      responses: responseFactory.response([{ name: "RandomWalk" }]),
+    },
+  ],
+  abilities: [],
+};
+
+const wildAnimalsTurningHostile: CustomCode = {
+  location: "turnHostile",
+  type: "insertAfter",
+  statements: [
+    {
+      comment: "Turn hostile if too close and not druid/ranger/fey",
+      triggers: [
+        { name: "Range", params: ["GOODCUTOFF", 7] },
+        {
+          name: "See",
+          params: [targetService.targetObject({ ea: "PC", clazz: "DRUID_ALL" })],
+          negation: true,
+        },
+        {
+          name: "See",
+          params: [targetService.targetObject({ ea: "PC", clazz: "RANGER_ALL" })],
+          negation: true,
+        },
+        {
+          name: "See",
+          params: [targetService.targetObject({ ea: "PC", race: "FAIRY" })],
+          negation: true,
+        },
+        {
+          name: "Allegiance",
+          params: [ScriptTarget.myself, "NEUTRAL"],
+        },
+      ],
+      responses: responseFactory.response([{ name: "Enemy" }]),
+    },
+  ],
+  abilities: [],
+};
+
+const hunterCustomCode: CustomCode = {
   location: "init",
   type: "insertBefore",
   statements: [
@@ -78,4 +152,10 @@ export const hunterCustomCode: CustomCode = {
     },
   ],
   abilities: [],
+};
+
+export const customCodes = {
+  avoidNaturalFriends,
+  hunterCustomCode,
+  wildAnimalsTurningHostile,
 };

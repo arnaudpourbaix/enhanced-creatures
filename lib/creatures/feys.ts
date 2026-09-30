@@ -526,7 +526,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         {
           location: "init",
           type: "insertBefore",
-          statements: [...this.dryadWildernessAbilities(), ...this.irenicusCode()],
+          statements: [...this.dryadWildernessAbilities()],
         },
         this.noMeleeUntilForced(),
       ],
@@ -659,11 +659,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         {
           location: "init",
           type: "insertBefore",
-          statements: [
-            ...this.dryadWildernessAbilities(),
-            ...this.vaelasaFairyQueenCode(),
-            ...this.cloakwoodCode(),
-          ],
+          statements: [...this.dryadWildernessAbilities(), ...this.cloakwoodCode()],
         },
         this.noMeleeUntilForced(),
       ],
@@ -2001,111 +1997,6 @@ class FeyFamily extends CreatureFamily<Fey> {
             params: [this.spell(Ids.DetectTraps).file],
           },
           actionFactory.setGlobal(globals.Wilderness, 2),
-        ]),
-      },
-    ];
-  }
-
-  private irenicusCode(): ConditionalStatement[] {
-    const globals = {
-      MinscCharmed: "MinscCharmed",
-      HelpDryads: "HelpDryads",
-    };
-    return [
-      {
-        comment: "Irenicus' Dungeon specific code",
-        triggers: [
-          {
-            name: "Name",
-            params: ["Ulene", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          triggerFactory.global(globals.MinscCharmed, 1, "AR0602"),
-          triggerFactory.global(globals.HelpDryads, 0, "GLOBAL"),
-          { name: "See", params: ["Minsc"], negation: true },
-          { name: "Range", params: ["Minsc", 4], negation: true },
-        ],
-        responses: responseFactory.response([
-          {
-            name: "ActionOverride",
-            params: ["Minsc", "JumpToPoint([4069.1222])"],
-          },
-        ]),
-      },
-      {
-        triggers: [
-          {
-            name: "Name",
-            params: ["Ulene", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          triggerFactory.global(globals.MinscCharmed, 1, "AR0602"),
-          triggerFactory.global(globals.HelpDryads, 0, "GLOBAL"),
-          { name: "See", params: ["Minsc"] },
-          { name: "Range", params: ["Minsc", 4], negation: true },
-        ],
-        responses: responseFactory.response([
-          {
-            name: "ActionOverride",
-            params: ["Minsc", `MoveToObject("Ulene")`],
-          },
-        ]),
-      },
-    ];
-  }
-
-  private vaelasaFairyQueenCode(): ConditionalStatement[] {
-    const globals = {
-      SummonDryads: "SummonDryads",
-      VaelasaHostile: "VaelasaHostile",
-    };
-    return [
-      {
-        comment: "Vaelasa, the Fairy Queen",
-        triggers: [
-          {
-            name: "Name",
-            params: ["VAELASA", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR1200"], // Windsper Hills
-          },
-          triggerFactory.global(globals.SummonDryads, 1, "AR1200"),
-        ],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(globals.SummonDryads, 2, "AR1200"),
-          {
-            name: "StartCutSceneMode",
-          },
-          {
-            name: "StartCutScene",
-            params: ["Cut23a"],
-          },
-        ]),
-      },
-      {
-        triggers: [
-          {
-            name: "Name",
-            params: ["VAELASA", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          { name: "AttackedBy", params: ["GOODCUTOFF", "DEFAULT"] },
-          triggerFactory.global(globals.VaelasaHostile, 0, "GLOBAL"),
-        ],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(globals.VaelasaHostile, 1, "GLOBAL"),
-          { name: "Enemy" },
         ]),
       },
     ];

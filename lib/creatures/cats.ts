@@ -26,7 +26,7 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import creatureService from "../src/services/creature.service";
-import { hunterCustomCode } from "./common";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -323,7 +323,7 @@ class CatFamily extends CreatureFamily<Cat> {
     });
     cheetah.setBehavior({
       abilities: [this.ability(Ids.CheetahLeap), this.ability(Ids.BurstOfSpeed)],
-      customCodes: [hunterCustomCode],
+      customCodes: [customCodes.hunterCustomCode],
     });
     return cheetah;
   }
@@ -379,7 +379,7 @@ class CatFamily extends CreatureFamily<Cat> {
     });
     jaguar.setBehavior({
       abilities: [this.ability(Ids.JaguarLeap)],
-      customCodes: [hunterCustomCode],
+      customCodes: [customCodes.hunterCustomCode],
     });
     jaguar.setAdjustments([
       { files: ["JAGUARSU"], data: { level1: 5 } },
@@ -567,7 +567,7 @@ class CatFamily extends CreatureFamily<Cat> {
     });
     mountainLion.setBehavior({
       abilities: [this.ability(Ids.MountainLionLeap)],
-      customCodes: [hunterCustomCode],
+      customCodes: [customCodes.hunterCustomCode],
     });
     mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 15 } }]);
     return mountainLion;

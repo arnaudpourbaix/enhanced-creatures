@@ -1,10 +1,12 @@
 import { MonsterItemIconEnum } from "../config/item";
 import effectFactory from "../src/factories/effect.factory";
+import responseFactory from "../src/factories/response.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import { CreatureGrabConfig } from "../src/model/creature/grab";
 import { ItemSlot } from "../src/model/creature/item";
 import { Durations } from "../src/model/game-data/durations";
+import { CustomCode } from "../src/model/script/script";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
@@ -31,8 +33,10 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
 import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
+import targetService from "../src/services/baf/target.service";
 import creatureService from "../src/services/creature.service";
 import effectService from "../src/services/effects/effect.service";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -345,6 +349,9 @@ class WolfFamily extends CreatureFamily<Wolf> {
     wolf.createJaws({
       diceThrown: 1,
       diceSize: 4,
+    });
+    wolf.setBehavior({
+      customCodes: [customCodes.avoidNaturalFriends],
     });
     return wolf;
   }

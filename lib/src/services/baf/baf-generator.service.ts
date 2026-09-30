@@ -198,7 +198,8 @@ class BafGeneratorService {
   }
 
   requireParameter(objectParam: ObjectIdentifier): boolean {
-    return objectParam.endsWith("Of") || objectParam.endsWith("By");
+    const list: ObjectIdentifier[] = ["LastHelp"];
+    return objectParam.endsWith("Of") || objectParam.endsWith("By") || list.includes(objectParam);
   }
 }
 

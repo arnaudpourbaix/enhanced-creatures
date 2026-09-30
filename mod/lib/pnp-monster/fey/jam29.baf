@@ -39,31 +39,6 @@ THEN
 		SetGlobal("ja_wilderness","LOCALS",2)
 END
 
-// Irenicus' Dungeon specific code
-IF
-	Name("Ulene",Myself)
-	AreaCheck("AR0602")
-	Global("MinscCharmed","AR0602",1)
-	Global("HelpDryads","GLOBAL",0)
-	!See("Minsc")
-	!Range("Minsc",4)
-THEN
-	RESPONSE #100
-		ActionOverride("Minsc",JumpToPoint([4069.1222]))
-END
-
-IF
-	Name("Ulene",Myself)
-	AreaCheck("AR0602")
-	Global("MinscCharmed","AR0602",1)
-	Global("HelpDryads","GLOBAL",0)
-	See("Minsc")
-	!Range("Minsc",4)
-THEN
-	RESPONSE #100
-		ActionOverride("Minsc",MoveToObject("Ulene"))
-END
-
 // Init
 IF
 	Global("JA_INIT","LOCALS",0)
@@ -124,16 +99,17 @@ END
 // Shouts every 3 rounds
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
 		Shout(99)
-		SetGlobalTimer("JA_HELP","LOCALS",18)
+		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.FAIRY],99)
 	InMyArea([EVILCUTOFF.0.FAIRY])
 THEN
@@ -144,12 +120,48 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.FAIRY],99)
 	InMyArea([EVILCUTOFF.0.FAIRY])
-	!See([GOODCUTOFF])
+	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
+END
+
+// Help every 3 rounds
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+THEN
+	RESPONSE #100
+		Help()
+		SetGlobalTimer("JA_HELP","LOCALS",18)
+END
+
+// React to help
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_COMBAT","LOCALS",1)
+		Help()
+		MoveToObject(LastHelp(Myself))
+END
+
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastHelp(Myself))
 END
 
 // Do nothing if...

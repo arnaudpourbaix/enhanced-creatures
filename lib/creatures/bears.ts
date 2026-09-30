@@ -24,7 +24,7 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
 import targetService from "../src/services/baf/target.service";
-import { hunterCustomCode } from "./common";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -154,7 +154,7 @@ class BearFamily extends CreatureFamily<Bear> {
     black.createJaws(1, 6);
     black.setBehavior({
       walk: true,
-      customCodes: [this.turningHostile, this.fearFire],
+      customCodes: [customCodes.wildAnimalsTurningHostile, this.fearFire],
     });
     black.setAdjustments([{ files: ["PLYBEAR2"], data: { script: { location: "None" } } }]);
     return black;
@@ -201,7 +201,7 @@ class BearFamily extends CreatureFamily<Bear> {
     brown.createJaws(1, 8);
     brown.setBehavior({
       walk: true,
-      customCodes: [this.turningHostile, hunterCustomCode],
+      customCodes: [customCodes.wildAnimalsTurningHostile, customCodes.hunterCustomCode],
     });
     brown.setAdjustments([
       { files: ["PLYBEAR1", "CB595BRB"], data: { script: { location: "None" } } },
@@ -250,7 +250,7 @@ class BearFamily extends CreatureFamily<Bear> {
     cave.createPaws(1, 8, { diceThrown: 2, diceSize: 6 });
     cave.createJaws(1, 12);
     cave.setBehavior({
-      customCodes: [this.turningHostile],
+      customCodes: [customCodes.wildAnimalsTurningHostile],
       walk: true,
     });
     cave.setAdjustments([
@@ -313,7 +313,7 @@ class BearFamily extends CreatureFamily<Bear> {
     polar.setBehavior({
       walk: true,
       abilities: [this.ability(Ids.ImprovedStreamOfFrost)],
-      customCodes: [this.turningHostile, this.kaldranInit],
+      customCodes: [customCodes.wildAnimalsTurningHostile, this.kaldran],
     });
     polar.setAdjustments([
       { files: ["BDGHBRSU"], data: { level1: 9 } },
@@ -391,7 +391,7 @@ class BearFamily extends CreatureFamily<Bear> {
     grizzly.createJaws(2, 6);
     grizzly.setBehavior({
       walk: true,
-      customCodes: [this.turningHostile, hunterCustomCode],
+      customCodes: [customCodes.wildAnimalsTurningHostile, customCodes.hunterCustomCode],
     });
     grizzly.setAdjustments([
       { files: ["BDGRIZHU"], data: { class: "HUNTER_CREATURE" } },
@@ -471,45 +471,6 @@ class BearFamily extends CreatureFamily<Bear> {
     });
   }
 
-  turningHostile: CustomCode = {
-    location: "turnHostile",
-    type: "insertAfter",
-    statements: [
-      {
-        comment: "Turn hostile if too close and not druid/ranger",
-        triggers: [
-          { name: "Range", params: ["GOODCUTOFF", 7] },
-          {
-            name: "See",
-            params: [targetService.targetObject({ ea: "PC", clazz: "DRUID" })],
-            negation: true,
-          },
-          {
-            name: "See",
-            params: [targetService.targetObject({ ea: "PC", clazz: "RANGER" })],
-            negation: true,
-          },
-          {
-            name: "See",
-            params: [targetService.targetObject({ ea: "PC", clazz: "FIGHTER_DRUID" })],
-            negation: true,
-          },
-          {
-            name: "See",
-            params: [targetService.targetObject({ ea: "PC", clazz: "CLERIC_RANGER" })],
-            negation: true,
-          },
-          {
-            name: "Allegiance",
-            params: [ScriptTarget.myself, "NEUTRAL"],
-          },
-        ],
-        responses: responseFactory.response([{ name: "Enemy" }]),
-      },
-    ],
-    abilities: [],
-  };
-
   fearFire: CustomCode = {
     location: "handlePanic",
     type: "insertAfter",
@@ -526,7 +487,7 @@ class BearFamily extends CreatureFamily<Bear> {
     abilities: [],
   };
 
-  kaldranInit: CustomCode = {
+  kaldran: CustomCode = {
     location: "init",
     type: "insertAfter",
     statements: [
