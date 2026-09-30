@@ -44,7 +44,7 @@ export function ogrillon(family: OgreFamily): Ogre {
   ogrillon.setAttack({
     targetPriorities: [
       {
-        targets: ["PCsFighters", "PCsPreferringStrong"],
+        targets: ["Fighters", "PreferringStrong"],
       },
     ],
   });

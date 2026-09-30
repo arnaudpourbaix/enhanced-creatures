@@ -72,16 +72,17 @@ END
 // Shouts every 3 rounds
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
 		Shout(99)
-		SetGlobalTimer("JA_HELP","LOCALS",18)
+		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.SPIDER],99)
 	InMyArea([EVILCUTOFF.0.SPIDER])
 THEN
@@ -92,12 +93,48 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.SPIDER],99)
 	InMyArea([EVILCUTOFF.0.SPIDER])
-	!See([GOODCUTOFF])
+	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
+END
+
+// Help every 3 rounds
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+THEN
+	RESPONSE #100
+		Help()
+		SetGlobalTimer("JA_HELP","LOCALS",18)
+END
+
+// React to help
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_COMBAT","LOCALS",1)
+		Help()
+		MoveToObject(LastHelp(Myself))
+END
+
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastHelp(Myself))
 END
 
 // Do nothing if...
@@ -123,9 +160,15 @@ END
 // Web Tangle
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -133,10 +176,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(NearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(NearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(NearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(NearestEnemyOfType([PC]))
+	!General(NearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(NearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(NearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -146,9 +189,15 @@ END
 
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -156,10 +205,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(SecondNearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(SecondNearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(SecondNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(SecondNearestEnemyOfType([PC]))
+	!General(SecondNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondNearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -169,9 +218,15 @@ END
 
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -179,10 +234,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(ThirdNearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(ThirdNearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(ThirdNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(ThirdNearestEnemyOfType([PC]))
+	!General(ThirdNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdNearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -192,9 +247,15 @@ END
 
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -202,10 +263,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(FourthNearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(FourthNearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(FourthNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(FourthNearestEnemyOfType([PC]))
+	!General(FourthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthNearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -215,9 +276,15 @@ END
 
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -225,10 +292,10 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(FifthNearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(FifthNearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(FifthNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(FifthNearestEnemyOfType([PC]))
+	!General(FifthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FifthNearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -238,9 +305,15 @@ END
 
 IF
 	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -248,10 +321,377 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	!General(SixthNearestEnemyOfType([PC]),WEAPON)
-	!CheckStatGT(SixthNearestEnemyOfType([PC]),0,SANCTUARY)
-	!StateCheck(SixthNearestEnemyOfType([PC]),STATE_REALLY_DEAD)
-	See(SixthNearestEnemyOfType([PC]))
+	!General(SixthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SixthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(SeventhNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SeventhNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SeventhNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(EighthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(EighthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(EighthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(EighthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(NinthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(NinthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(NinthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(NinthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(TenthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(TenthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(TenthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(TenthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+// Web Tangle
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(NearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(NearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(NearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(SecondNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(ThirdNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(FourthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(FifthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FifthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FifthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(SixthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SixthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SixthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(SeventhNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SeventhNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SeventhNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(EighthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(EighthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(EighthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(EighthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(NinthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(NinthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(NinthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(NinthNearestEnemyOf(Myself))
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas0m3a",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas0m3a")
+	!HaveSpell(CLERIC_WAVES_OF_AGONY)
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	!General(TenthNearestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(TenthNearestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(TenthNearestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(TenthNearestEnemyOf(Myself))
 	Range(LastSeenBy(Myself),6)
 THEN
 	RESPONSE #100
@@ -963,6 +1403,7 @@ END
 
 // Attack Sleep enemy
 IF
+	Allegiance(Myself,ENEMY)
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -1023,6 +1464,7 @@ THEN
 END
 
 IF
+	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)

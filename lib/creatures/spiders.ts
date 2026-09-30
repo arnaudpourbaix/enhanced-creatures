@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
@@ -232,6 +232,7 @@ class Spider extends Creature {
       icon: SPELLS.Wizard.Web.file,
       options: { renew: 2 },
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      keywords: ["hold", "web"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

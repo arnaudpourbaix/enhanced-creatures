@@ -1256,8 +1256,9 @@ describe("getCreatureSpells", () => {
     );
     // Each level panel holds exactly its own three entries.
     const level2Panel =
-      /id="m79-abilitylevel-2">((?:(?!<div class="spellbook-tab-panel).)*)/s.exec(template.text)?.[1] ??
-      "";
+      /id="m79-abilitylevel-2">((?:(?!<div class="spellbook-tab-panel).)*)/s.exec(
+        template.text,
+      )?.[1] ?? "";
     expect(level2Panel.match(/ability-entry/g)).toHaveLength(3);
   });
 });
@@ -1712,8 +1713,8 @@ describe("getCreatureHeader", () => {
         noWeapon: false,
         summon: false,
         scriptName: false,
-        stringRef,
         data: { xpv: 100 },
+        stringRef,
       },
     ] as unknown as Creature["adjustments"];
     const template = { text: "{{header}}" };

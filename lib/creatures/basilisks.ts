@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
@@ -278,12 +278,12 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description",
       id: Ids.Petrification,
-      groups: ["petrification"],
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: {
         renew: 1,
       },
       icon: SPELLS.Wizard.FleshToStone.file,
+      keywords: ["petrify"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -344,10 +344,10 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     const technical = this.addSpell({
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description5e",
-      groups: ["petrification"],
       doc: false,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       icon: SPELLS.Wizard.FleshToStone.file,
+      keywords: ["petrify"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -393,7 +393,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description5e",
       id: Ids.Petrification,
-      groups: ["petrification"],
+      keywords: ["petrify"],
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: {
         renew: 1,

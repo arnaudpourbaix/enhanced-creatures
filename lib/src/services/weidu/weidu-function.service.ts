@@ -12,6 +12,7 @@ import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduCoreService from "./weidu-core.service";
 import weiduSpellService from "./weidu-spell.service";
+import spellService from "../spell.service";
 import weiduUtils from "../utils/weidu.utils";
 import { SPELL_PROTECTIONS } from "../../../config/spells/spell-protection";
 import {
@@ -138,11 +139,7 @@ class WeiduFunctionService extends AbstractWeiduService {
   }
 
   private generateSpellResource(lines: CodeLine[], group: SpellGroup, tab: number): void {
-    const spells = group.spells ?? [];
-    // add new created spells when a group has been specified
-    for (const spell of State.spells) {
-      if (spell.groups.includes(group.name)) spells.push(spell.file);
-    }
+    const spells = spellService.getGroupResources(group);
     const idsSpells = group.idsSpells ?? [];
     this.add(
       lines,
@@ -241,6 +238,11 @@ class WeiduFunctionService extends AbstractWeiduService {
   }
 
   generateEffect(lines: CodeLine[], effect: Effect, tab: number): void {
+    if (effect.resourceGroup) {
+      // only weiduEffectService.addEffect() expands BaseEffect.resourceGroup - an immunity
+      // wanting a whole group should list it in its own `spellGroups` instead.
+      throw new Error(`Immunity effects don't support resourceGroup (${effect.resourceGroup})`);
+    }
     const parameter1 = effect.parameter1
       ? ` parameter1=${weiduUtils.getIntegerValue(effect.parameter1) ?? ""}`
       : "";

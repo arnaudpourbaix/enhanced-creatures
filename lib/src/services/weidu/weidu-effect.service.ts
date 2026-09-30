@@ -2,6 +2,7 @@ import { CodeLine } from "../../model/misc";
 import { Effect, EffectFile } from "../../model/spell-item/effect";
 import { EffectTargetEnum } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import utils from "../utils/utils.service";
 import weiduUtils from "../utils/weidu.utils";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 
@@ -67,8 +68,29 @@ class WeiduEffectService extends AbstractWeiduService {
     this.addParameterIntVars(intVars, effect);
     this.addSimpleIntVars(intVars, effect);
     this.addSaveAndFlagIntVars(intVars, effect);
-    const strVar = effect.resource ? ` STR_VAR resource="${effect.resource}"` : "";
-    this.add(lines, `LPF ${fn} INT_VAR ${intVars.join(" ")}${strVar} END`, tab);
+    if (effect.resourceGroup) {
+      // one effect per group resource, resolved at install time - see BaseEffect.resourceGroup.
+      // The array is named after its group so a reused name can't keep stale keys from a larger
+      // array returned by a different group.
+      const array = `${effect.resourceGroup}_resources`;
+      this.add(lines, `INNER_ACTION BEGIN`, tab);
+      this.add(
+        lines,
+        `LAF ${utils.getSpellResourceFunctionName(effect.resourceGroup)} RET_ARRAY ${array}=resources END`,
+        tab + 1,
+      );
+      this.add(lines, `END`, tab);
+      this.add(lines, `PATCH_PHP_EACH ${array} AS _ => resource BEGIN`, tab);
+      this.add(
+        lines,
+        `LPF ${fn} INT_VAR ${intVars.join(" ")} STR_VAR resource=EVALUATE_BUFFER "%resource%" END`,
+        tab + 1,
+      );
+      this.add(lines, `END`, tab);
+    } else {
+      const strVar = effect.resource ? ` STR_VAR resource="${effect.resource}"` : "";
+      this.add(lines, `LPF ${fn} INT_VAR ${intVars.join(" ")}${strVar} END`, tab);
+    }
     if (has2da) {
       this.add(lines, `END`, tab - 1);
     }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SPELL_PRIORITY_ORDER } from "./spell-priority-order";
-import { SPELLS } from "./spells/spell-names";
+import { SPELLS } from "./spells/spell-database";
 
 describe("SPELL_PRIORITY_ORDER", () => {
   it("is a non-empty list containing spells seeded from the ability presets", () => {
@@ -15,5 +15,14 @@ describe("SPELL_PRIORITY_ORDER", () => {
     expect(buffIndex).toBeGreaterThanOrEqual(0);
     expect(deathIndex).toBeGreaterThanOrEqual(0);
     expect(buffIndex).toBeLessThan(deathIndex);
+  });
+
+  it("also lists a variant-bearing spell's mod-specific file, not just its base file", () => {
+    // DimensionDoor moves to a different resource under Spell Revisions (see its variants) - a
+    // memorized spell cast from that resource still needs to match a priority entry.
+    expect(SPELLS.Wizard.DimensionDoor.variants.length).toBeGreaterThan(0);
+    for (const variant of SPELLS.Wizard.DimensionDoor.variants) {
+      expect(SPELL_PRIORITY_ORDER).toContain(variant.file);
+    }
   });
 });

@@ -37,6 +37,7 @@ function ghoulTouch(cre: Undead) {
     description: "monster.undead.ability.ghoulTouch.description",
     id: Ids.GhoulTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -74,6 +75,7 @@ function ghastTouch(cre: Undead) {
     description: "monster.undead.ability.ghastTouch.description",
     id: Ids.GhastTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -103,6 +105,7 @@ function ghoulLordTouch(cre: Undead) {
     description: "monster.undead.ability.ghoulLordTouch.description",
     id: Ids.GhoulLordTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -180,7 +183,7 @@ function carrionStench(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
       range: 5,
     },
@@ -197,6 +200,7 @@ function ghoulRottingDisease(cre: Undead) {
     description: "monster.undead.ability.ghoulRottingDisease.description",
     id: Ids.GhoulRottingDisease,
     secondaryType: "Disease",
+    keywords: ["disease"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -297,7 +301,7 @@ function auraOfEvil(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
     },
   });

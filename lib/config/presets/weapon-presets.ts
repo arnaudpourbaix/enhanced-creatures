@@ -1,7 +1,7 @@
+import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import { DEFAULT_SPELL_PROBABILITY } from "../common";
-import { SpellReference, SPELLS } from "../spells/spell-names";
+import { SPELLS } from "../spells/spell-database";
 
 const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
   [
@@ -26,33 +26,20 @@ const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
   true,
 );
 
-function factory(spells: SpellReference[]): AbilityPreset[] {
-  const weakerSpells: SpellReference[] = [];
-  return spells.map((spell) => {
-    const preset: AbilityPreset = {
-      preset: spell.file,
-      ability: {
-        name: spell.name,
-        spell: {
-          selfTarget: true,
-        },
-        triggers: [...WEAPON_ITEM_TRIGGERS, ...triggerFactory.haveSpell(weakerSpells, true)],
-        requireVocal: true,
-        probability: DEFAULT_SPELL_PROBABILITY,
-      },
-    };
-    weakerSpells.push(spell);
-    return preset;
-  });
-}
-
-export const WEAPON_PRESETS: AbilityPreset[] = [
-  ...factory([
+export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
+  [
     SPELLS.Priest.Harm,
     SPELLS.Priest.SlayLiving,
+    SPELLS.Priest.CauseCriticalWounds,
     SPELLS.Priest.CauseSeriousWounds,
     SPELLS.Priest.SpiritualHammer,
     SPELLS.Priest.CauseModerateWounds,
     SPELLS.Priest.CauseLightWounds,
-  ]),
-];
+  ],
+  {
+    triggers: [...WEAPON_ITEM_TRIGGERS],
+    spell: {
+      castOnSelf: true,
+    },
+  },
+);

@@ -1,17 +1,18 @@
 // Generated file (don't edit)
 
-DEFINE_ACTION_FUNCTION get_acidSpells_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_acid_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI614"
+		"SPWI724"
 		"SPWI211"
 		"SPWI426"
 		"SPIN994"
-		"A#CYR11"
 		"SPIN596"
 		"SPIN691"
 		"SPIN913"
+		"jas0m1"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN WIZARD_ACID_STORM END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
@@ -22,36 +23,40 @@ DEFINE_ACTION_FUNCTION get_bleeding_resources RET_ARRAY resources BEGIN
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
-DEFINE_ACTION_FUNCTION get_blindness_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI106"
+		"SPWI118"
 		"SPWI105"
 		"SPWI228"
 		"SPWI815"
+		"SPWI714"
 		"SPPR704"
 		"SPPR424"
-		"SPPR424"
-		"SPPR704"
-		"SPWI118"
-		"SPWI224"
-		"spdr101.spl"
-		"spin595.spl"
-		"spin878.spl"
-		"spin893.spl"
-		"spin929.spl"
-		"spin931.spl"
-		"spwi958.spl"
-		"spwm178.spl"
+		"SPPR707"
+		"SPPR118"
+		"SPIN937"
+		"spdr101"
+		"spin595"
+		"spin878"
+		"spin893"
+		"spin929"
+		"spin931"
+		"spwi958"
+		"spwm178"
 		"chalcy2.itm"
 		"gorwom4.itm"
 		"halb06.itm"
 		"sorb.itm"
 		"sw1h51.itm"
 		"wand19.itm"
-		"wand19.spl"
-		"wand19d.spl"
+		"wand19"
+		"wand19d"
+		"jas8f8"
 		"jasbf8"
+		"jas3m72"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_SUNSCORCH CLERIC_SUNRAY WIZARD_BLINDNESS WIZARD_PRISMATIC_SPRAY END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
@@ -60,7 +65,10 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPWI818"
 		"SPWI117"
 		"SPWI503"
+		"SPWI323"
 		"SPWI404"
+		"SPWI626"
+		"SPWI227"
 		"d1#wi503"
 		"DVCONEC"
 		"SPCRYO01"
@@ -69,28 +77,34 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPIN162"
 		"SPIN833"
 		"WAND06"
+		"jas0f3"
+		"jas5m72"
+		"jas0m43"
+		"jas0m20"
+		"jas0m14"
+		"jas1m4a"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN WIZARD_OTILUKES_FREEZING_SPHERE WIZARD_SNILLOCS_SNOWBALL_SWARM WIZARD_ICELANCE END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
 DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPPR424"
-		"SPWI004"
-		"SPWI016"
-		"SPWI213"
-		"SPWI502"
 		"SPWI614"
-		"A#CYR11"
+		"SPWI502"
 		"SPWI810"
-		"DW#TRPIN"
+		"SPWI213"
+		"SPPR424"
+		"SPIN642"
 		"SPIN673"
-		"dvckill"
 		"SPIN940"
 		"SPIN979"
-		"SPIN642"
+		"SPWI004"
+		"SPWI016"
+		"DW#TRPIN"
+		"dvckill"
 		"jasbf8"
+		"jas0m1a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -113,14 +127,13 @@ DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 		"SPPR709"
 		"SPPR715"
 		"SPPR311"
-		"SPPR709"
+		"SPIN937"
 		"SPIN582"
 		"SPIN704"
 		"SPIN839"
 		"SPIN976"
 		"SPPR983"
-		"MISC3M"
-		"A#SHA07"
+		"jascf8"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -139,37 +152,37 @@ END
 
 DEFINE_ACTION_FUNCTION get_causeWounds_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPPR220"
+		"SPPR414"
 		"SPPR121"
+		"SPPR322"
+		"SPPR220"
+		"SPPR608"
 		"SPPR530"
 		"SPIN202"
 		"SPIN551"
 		"SPIN986"
-		"SPPR414"
-		"SPPR510"
-		"SPPR608"
 		"sppr699"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_CAUSE_MEDIUM_WOUNDS END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
 DEFINE_ACTION_FUNCTION get_cureWounds_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPPR502"
 		"SPPR103"
-		"A#JUSTCL"
+		"SPPR315"
+		"SPPR216"
+		"SPPR401"
+		"SPPR607"
+		"SPPR514"
 		"ca#culw"
 		"L#KORIEP"
 		"A7Q6CURE"
-		"SPPR401"
 		"CA#CURSW"
 		"SPIN200"
 		"SPIN958"
-		"SPPR502"
-		"SPPR514"
-		"A#RE11"
 		"DVMCURE"
-		"SPPR607"
 		"SPWM168"
 		"SPWISH39"
 		"spin711"
@@ -179,7 +192,7 @@ DEFINE_ACTION_FUNCTION get_cureWounds_resources RET_ARRAY resources BEGIN
 		"SPCL211"
 		"BHAAL1A"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_CURE_MODERATE_WOUNDS CLERIC_CURE_MEDIUM_WOUNDS END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
@@ -196,6 +209,8 @@ DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 		"SPPR511"
 		"SPPR719"
 		"cdxvdth"
+		"jas2m72"
+		"jas1m49"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -207,7 +222,9 @@ DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 		"SPPR329"
 		"SPPR320"
 		"SPPR706"
-		"SPPR329"
+		"jas1m4d"
+		"jas3m4e"
+		"jas3m4f"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -215,8 +232,8 @@ END
 
 DEFINE_ACTION_FUNCTION get_earthquake_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPOGRE01"
 		"SPPR720"
+		"SPOGRE01"
 		"CA#EQ"
 		"CDTLQAK"
 	END
@@ -228,8 +245,9 @@ DEFINE_ACTION_FUNCTION get_electrical_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI615"
 		"SPWI308"
-		"SPWI017"
+		"SPWI230"
 		"SPPR302"
+		"SPPR421"
 		"CDSTAF12"
 		"SPCL722"
 		"SPIN579"
@@ -248,7 +266,7 @@ DEFINE_ACTION_FUNCTION get_electrical_resources RET_ARRAY resources BEGIN
 		"SPPR987"
 		"SPIN597"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN CLERIC_STATIC_CHARGE END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
@@ -258,6 +276,7 @@ DEFINE_ACTION_FUNCTION get_entangle_resources RET_ARRAY resources BEGIN
 		"SPWM111"
 		"SPIN688"
 		"BDBOW06"
+		"jas4f8"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -275,7 +294,7 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI205"
 		"SPWI125"
-		"SPWI898"
+		"SPWI899"
 		"SPPR416"
 		"SPIN891"
 		"SPIN203"
@@ -285,9 +304,7 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 		"SPIN890"
 		"SPIN895"
 		"SPIN981"
-		"SPPR706"
 		"SPWI811"
-		"SPWI899"
 		"SPWI956"
 		"SPWM123"
 		"dw#licfi"
@@ -295,6 +312,13 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 		"A^causfr"
 		"DVFEARSM"
 		"DVHORRO"
+		"jas0m1b"
+		"jas0m49"
+		"jas2m4e"
+		"jas2m4f"
+		"jas0m52"
+		"jas0m4a"
+		"jas0m5d"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -303,8 +327,9 @@ END
 DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI217"
+		"SPWI427"
 		"SPWI103"
-		"SPWI232"
+		"SPWI231"
 		"SPWI712"
 		"SPWI922"
 		"SPWI523"
@@ -315,36 +340,38 @@ DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 		"SPWI525"
 		"SPPR705"
 		"SPPR503"
-		"SPIN561"
-		"SPIN819"
-		"SPWI022"
+		"SPPR420"
+		"SPPR118"
 		"SPIN131"
-		"SPWI940"
-		"DVFBALL"
 		"SPIN160"
+		"SPIN561"
+		"SPIN719"
+		"SPIN819"
 		"SPWI001"
+		"SPWI022"
+		"SPWI940"
 		"SPWI957"
+		"SPWISH24"
+		"DVFBALL"
 		"WAND05"
 		"CDSLSUN"
-		"A#KOS09"
-		"A#KOS14"
 		"DW#TRPIN"
-		"SPIN719"
-		"SPWISH24"
 		"DW#TRPMS"
 		"CA#FSTOM"
+		"jas0m7b"
+		"jas2m4a"
 	END
-	ACTION_DEFINE_ARRAY ids BEGIN WIZARD_BELTYNS_BURNING_BLOOD CLERIC_SUNSCORCH CLERIC_PRODUCE_FIRE END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
 DEFINE_ACTION_FUNCTION get_flameArrow_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI303"
 		"d5f2303"
 		"d5p2303"
 		"d5p2303W"
 		"d5y391i"
-		"SPWI303"
 		"SPWI888"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -353,13 +380,13 @@ END
 
 DEFINE_ACTION_FUNCTION get_fireball_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI304"
 		"BDBLOWUP"
 		"BDDAUSTO"
 		"BDKORLAS"
 		"BDMORLIS"
 		"c0ausp03"
 		"SPWI001"
-		"SPWI304"
 		"SPIN957"
 		"wand05a"
 	END
@@ -379,14 +406,14 @@ END
 
 DEFINE_ACTION_FUNCTION get_ground_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI101"
+		"SPPR720"
 		"SPIN561"
 		"SPIN819"
 		"SPIN994"
 		"SPWI022"
 		"SPIN914"
-		"SPWI101"
 		"SPOGRE01"
-		"SPPR720"
 		"CA#EQ"
 		"CDTLQAK"
 	END
@@ -402,6 +429,14 @@ DEFINE_ACTION_FUNCTION get_hold_resources RET_ARRAY resources BEGIN
 		"SPWI215"
 		"SPPR208"
 		"SPPR305"
+		"jas0m40"
+		"jas0m3a"
+		"jas0m4c"
+		"jas0m4b"
+		"jas0m4d"
+		"jas2m4e"
+		"jas2m4f"
+		"jas0m5b"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -409,11 +444,11 @@ END
 
 DEFINE_ACTION_FUNCTION get_illusion_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPPR704"
-		"SPWI106"
-		"IKDB2"
-		"SPWI125"
 		"SPWI223"
+		"SPWI106"
+		"SPWI125"
+		"SPPR704"
+		"IKDB2"
 		"spwm178"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -422,9 +457,9 @@ END
 
 DEFINE_ACTION_FUNCTION get_insect_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPPR319"
-		"SPPR517"
 		"SPPR717"
+		"SPPR517"
+		"SPPR319"
 		"SPIN689"
 		"DW#VBAT1"
 		"DW#VBAT2"
@@ -437,6 +472,8 @@ END
 
 DEFINE_ACTION_FUNCTION get_lightningBolt_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI308"
+		"SPWI230"
 		"b_tal10"
 		"c0dm302"
 		"spcl722"
@@ -445,9 +482,7 @@ DEFINE_ACTION_FUNCTION get_lightningBolt_resources RET_ARRAY resources BEGIN
 		"spin933"
 		"spin989"
 		"SPWI002"
-		"SPWI017"
 		"SPWI231"
-		"SPWI308"
 		"SPWI399"
 		"SPWI997"
 		"wand07"
@@ -458,10 +493,10 @@ END
 
 DEFINE_ACTION_FUNCTION get_magicMissile_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI112"
 		"SPWI431"
 		"SPWI431B"
 		"SPWI003"
-		"SPWI112"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -469,8 +504,8 @@ END
 
 DEFINE_ACTION_FUNCTION get_maze_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPIN774"
 		"SPWI813"
+		"SPIN774"
 		"BDZHADRO"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -490,23 +525,22 @@ END
 
 DEFINE_ACTION_FUNCTION get_necromancyEffects_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPPR313"
-		"SPPR314"
-		"SPWI117"
-		"spwi117d"
+		"SPWI812"
+		"SPWI914"
 		"SPWI119"
 		"SPWI221"
 		"SPWI313"
 		"SPWI314"
-		"SPWI812"
+		"SPPR313"
+		"SPPR314"
+		"spwi117d"
 		"spwi812d"
-		"SPWI914"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
-DEFINE_ACTION_FUNCTION get_petrification_resources RET_ARRAY resources BEGIN
+DEFINE_ACTION_FUNCTION get_petrify_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI604"
 		"SPWI604D"
@@ -518,15 +552,15 @@ END
 
 DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPWI016"
 		"SPWI502"
 		"SPPR411"
-		"dvckill"
+		"SPWI016"
 		"SPIN979"
 		"SPIN642"
+		"dvckill"
 		"jas0m3"
 		"jas0m45"
-		"jas0fc"
+		"jas0m1a"
 		"jas0m73"
 		"jas1m40"
 		"jas1m3a"
@@ -547,8 +581,8 @@ END
 
 DEFINE_ACTION_FUNCTION get_polymorph_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPIN538"
 		"SPWI415"
+		"SPIN538"
 		"CA#PAOO"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -557,16 +591,19 @@ END
 
 DEFINE_ACTION_FUNCTION get_web_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI215"
+		"BDSPIDGA"
+		"SPIN575"
 		"SPDR201"
 		"SPIN566"
-		"SPIN575"
 		"SPIN683"
-		"SPWI215"
 		"D0SPIWEB"
 		"ETTERWEB"
 		"spletter"
 		"wand14"
 		"wtpin05"
+		"jas0m40"
+		"jas0m3a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

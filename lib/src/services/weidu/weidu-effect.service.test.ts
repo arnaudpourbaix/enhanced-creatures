@@ -33,6 +33,29 @@ describe("createEffectFiles", () => {
 });
 
 describe("addEffect", () => {
+  it("loops over the group's install-time resources when resourceGroup is set", () => {
+    const lines: CodeLine[] = [];
+    weiduEffectService.addEffect({
+      lines,
+      tab: 0,
+      effect: fakeEffect({
+        opcode: EffectTypeEnum.ProtectionFromSpell,
+        resourceGroup: "colorSpray",
+        resource: "IGNORED",
+      }),
+      type: "SPL",
+      global: false,
+    });
+    expect(codes(lines)).toEqual([
+      "INNER_ACTION BEGIN",
+      "LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END",
+      "END",
+      "PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN",
+      `LPF ADD_EFFECT INT_VAR opcode=206 target=1 STR_VAR resource=EVALUATE_BUFFER "%resource%" END`,
+      "END",
+    ]);
+  });
+
   it("uses ADD_ITEM_EQEFFECT for a global ITM effect", () => {
     const lines: CodeLine[] = [];
     weiduEffectService.addEffect({

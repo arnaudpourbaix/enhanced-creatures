@@ -59,16 +59,17 @@ END
 // Shouts every 3 rounds
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
 		Shout(99)
-		SetGlobalTimer("JA_HELP","LOCALS",18)
+		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.DOG],99)
 	InMyArea([EVILCUTOFF.0.DOG])
 THEN
@@ -79,12 +80,48 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.DOG],99)
 	InMyArea([EVILCUTOFF.0.DOG])
-	!See([GOODCUTOFF])
+	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
+END
+
+// Help every 3 rounds
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+THEN
+	RESPONSE #100
+		Help()
+		SetGlobalTimer("JA_HELP","LOCALS",18)
+END
+
+// React to help
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_COMBAT","LOCALS",1)
+		Help()
+		MoveToObject(LastHelp(Myself))
+END
+
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastHelp(Myself))
 END
 
 // Do nothing if...
@@ -192,6 +229,7 @@ END
 
 // Attack Sleep enemy
 IF
+	Allegiance(Myself,ENEMY)
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -228,6 +266,7 @@ THEN
 END
 
 IF
+	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)

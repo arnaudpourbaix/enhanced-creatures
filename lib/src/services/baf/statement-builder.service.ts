@@ -1,8 +1,9 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
-import { getAllSpells, SpellReference } from "../../../config/spells/spell-names";
-import { TARGET_STATUS } from "../../../config/target-config";
-import { TargetListName, TargetStatusName } from "../../../config/target-name";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { getAllSpells, SpellReference } from "../../model/spell-item/spell-reference";
+import { TARGET_STATUS } from "../../../config/target/target-config";
+import { TargetListName, TargetStatusName } from "../../../config/target/target-name";
 import actionFactory from "../../factories/action.factory";
 import bafFactory from "../../factories/baf.factory";
 import responseFactory from "../../factories/response.factory";
@@ -48,6 +49,7 @@ class StatementBuilderService {
     this.execute(this.turnHostile.bind(this), "turnHostile", p);
     this.execute(this.detectCombat.bind(this), "detectCombat", p);
     this.execute(this.shouts.bind(this), "shouts", p);
+    this.execute(this.help.bind(this), "help", p);
     this.execute(this.followSummoner.bind(this), "followSummoner", p);
     this.execute(this.randomWalkNoCombat.bind(this), "randomWalkNoCombat", p);
     this.execute(this.noActionOutsideOfCombat.bind(this), "noActionOutsideOfCombat", p);
@@ -104,12 +106,6 @@ class StatementBuilderService {
           statement.target.limit,
           statement.target.randomOrder,
         );
-        if (list.allegianceCheck) {
-          triggers.push({
-            name: "Allegiance",
-            params: [ScriptTarget.myself, "ENEMY"],
-          });
-        }
         bafFactory.addStatementsFromTargetList({
           statements,
           comment: statement.comment,
@@ -319,14 +315,14 @@ class StatementBuilderService {
       comment: "Shouts every 3 rounds",
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
-        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.helpTimer),
+        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.shoutTimer),
       ],
       responses: responseFactory.response([
         {
           name: "Shout",
           params: [shoutId],
         },
-        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.helpTimer, 18),
+        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.shoutTimer, 18),
       ]),
     });
     const heardObject = options.summon ? "LastSummonerOf" : `EVILCUTOFF.0.${creature.data.race}`;
@@ -334,6 +330,7 @@ class StatementBuilderService {
       comment: "React to shouts",
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
         { name: "Heard", params: [heardObject, shoutId] },
         { name: "InMyArea", params: [heardObject] },
       ],
@@ -345,11 +342,55 @@ class StatementBuilderService {
     statements.push({
       triggers: [
         triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
         { name: "Heard", params: [heardObject, shoutId] },
         { name: "InMyArea", params: [heardObject] },
-        { name: "See", params: ["GOODCUTOFF"], negation: true },
+        { name: "See", params: ["NearestEnemyOf"], negation: true },
       ],
       responses: responseFactory.response([{ name: "MoveToObject", params: ["LastHeardBy"] }]),
+    });
+  }
+
+  private help({ statements, creature, options }: HandlerParams): void {
+    if (!creature.behavior.help) return;
+    statements.push({
+      comment: "Help every 3 rounds",
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        triggerFactory.globalTimerExpired(GLOBAL_CONFIG.bafConstants.helpTimer),
+      ],
+      responses: responseFactory.response([
+        {
+          name: "Help",
+        },
+        actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.helpTimer, 18),
+      ]),
+    });
+    const helpObject = "[ENEMY]";
+    statements.push({
+      comment: "React to help",
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        { name: "Help", params: [helpObject] },
+        { name: "InMyArea", params: [helpObject] },
+      ],
+      responses: responseFactory.response([
+        actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Help" },
+        { name: "MoveToObject", params: ["LastHelp"] },
+      ]),
+    });
+    statements.push({
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 1),
+        { name: "Allegiance", params: [ScriptTarget.myself, "ENEMY"] },
+        { name: "Help", params: [helpObject] },
+        { name: "InMyArea", params: [helpObject] },
+        { name: "See", params: ["NearestEnemyOf"], negation: true },
+      ],
+      responses: responseFactory.response([{ name: "MoveToObject", params: ["LastHelp"] }]),
     });
   }
 
@@ -724,7 +765,7 @@ class StatementBuilderService {
           maxRange: creature.attack.maxRange,
         }),
       ];
-      const triggers: Triggers.Trigger[] = [...additionals.triggers];
+      const triggers: Triggers.Trigger[] = [...statusDetails.triggers, ...additionals.triggers];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {
@@ -879,7 +920,7 @@ class StatementBuilderService {
     _options: BuilderOptions,
   ): void {
     let precast = 0;
-    for (const spell of getAllSpells()) {
+    for (const spell of getAllSpells(SPELLS)) {
       const durationMatch = "duration" in spell && spell.duration === duration;
       const hasSpell =
         creature.data.spells.memorized.some((m) => m.file === spell.file) ||
@@ -936,9 +977,40 @@ class StatementBuilderService {
     targets: TargetList[],
     options: BuilderOptions,
   ): void {
+    // Disabled: didn't help much in game testing, kept for now.
+    // Allies near the target run away before the spell is cast (see actionFactory.alliesRunAway),
+    // but not in the close-range fallback below: the caster may then be one of them, and
+    // overriding itself would clear its own action queue, spell included.
+    // const withAlliesRunAway = ability.alliesCheck
+    //   ? {
+    //       ...ability,
+    //       actions: [...actionFactory.alliesRunAway(ability.alliesCheck), ...ability.actions],
+    //     }
+    //   : ability;
     for (const target of targets) {
       this.creatureTargetAbility(statements, creature, ability, target, options);
     }
+    const closeRange = this.closeRangeFallback(ability);
+    if (!closeRange) return;
+    for (const target of targets) {
+      this.creatureTargetAbility(statements, creature, closeRange, target, options);
+    }
+  }
+
+  /**
+   * An area ability hitting allies (alliesCheck) prefers targets beyond its minRange, but once none
+   * is left, a caster protected from it (its own safeIf) gambles a close one: same target lists
+   * again, without minRange and only while the caster is safe. Its allies check still applies.
+   */
+  private closeRangeFallback(ability: CreatureAbility): CreatureAbility | undefined {
+    if (!ability.minRange || !ability.alliesCheck) return;
+    const casterSafe = triggerFactory.casterSafe(
+      ability.alliesCheck,
+      ability.keywords,
+      ability.level,
+    );
+    if (!casterSafe) return;
+    return { ...ability, minRange: undefined, triggers: [...ability.triggers, casterSafe] };
   }
 
   private creatureTargetAbility(
@@ -991,6 +1063,11 @@ class StatementBuilderService {
         negation: true,
       });
     }
+    if (ability.alliesCheck) {
+      targetTriggers.push(
+        ...triggerFactory.alliesSafe(ability.alliesCheck, ability.keywords, ability.level),
+      );
+    }
     if (ability.requireVocal) {
       triggers.unshift({
         name: "StateCheck",
@@ -1009,12 +1086,6 @@ class StatementBuilderService {
       actions.push(actionFactory.enableInterrupt());
     }
     const list = targetService.getTargetFromAbility(target.name, target.limit, target.randomOrder);
-    if (list.allegianceCheck) {
-      triggers.push({
-        name: "Allegiance",
-        params: [ScriptTarget.myself, "ENEMY"],
-      });
-    }
     bafFactory.addStatementsFromTargetList({
       statements,
       comment: translationService.from(ability.name),

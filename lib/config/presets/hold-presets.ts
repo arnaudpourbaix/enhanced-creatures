@@ -1,58 +1,35 @@
 import presetFactory from "../../src/factories/preset.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
-import targetService from "../../src/services/baf/target.service";
-import { DEFAULT_SPELL_PROBABILITY, HOLD_TARGET_LISTS } from "../common";
-import { SPELLS } from "../spells/spell-names";
+import { TargetList } from "../../src/model/script/target";
+import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+
+export const HOLD_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
+  },
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    randomOrder: true,
+  },
+];
 
 export const HOLD_PRESETS: AbilityPreset[] = [
-  ...presetFactory.create([SPELLS.Priest.HoldPerson.file, SPELLS.Wizard.HoldPerson.file], {
-    name: SPELLS.Priest.HoldPerson.name,
-    targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
-      triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-      ...triggerFactory.spellChecks(SPELLS.Priest.HoldPerson.keywords),
-    ]),
-    spell: {},
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
-  }),
-  {
-    preset: SPELLS.Priest.HoldPersonOrAnimal.file,
-    ability: {
-      name: SPELLS.Priest.HoldPersonOrAnimal.name,
-      targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        ...triggerFactory.spellChecks(SPELLS.Priest.HoldPersonOrAnimal.keywords),
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ...presetFactory.createOrderedSpells(
+    [
+      SPELLS.Priest.WavesOfAgony,
+      SPELLS.Wizard.Web,
+      SPELLS.Wizard.HoldMonster,
+      SPELLS.Priest.HoldPersonOrAnimal,
+      SPELLS.Priest.HoldPerson,
+      SPELLS.Wizard.HoldPerson,
+    ],
+    {
+      targets: HOLD_TARGET_LISTS,
     },
-  },
-  {
-    preset: SPELLS.Wizard.HoldMonster.file,
-    ability: {
-      name: SPELLS.Wizard.HoldMonster.name,
-      targets: targetService.combineListWithTriggers(
-        HOLD_TARGET_LISTS,
-        triggerFactory.spellChecks(SPELLS.Wizard.HoldMonster.keywords),
-      ),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  {
-    preset: SPELLS.Wizard.Web.file,
-    ability: {
-      name: SPELLS.Wizard.Web.name,
-      targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
+  ),
 ];

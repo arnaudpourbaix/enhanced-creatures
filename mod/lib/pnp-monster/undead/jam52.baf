@@ -60,16 +60,17 @@ END
 // Shouts every 3 rounds
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
 		Shout(99)
-		SetGlobalTimer("JA_HELP","LOCALS",18)
+		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.SKELETON],99)
 	InMyArea([EVILCUTOFF.0.SKELETON])
 THEN
@@ -80,12 +81,48 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.SKELETON],99)
 	InMyArea([EVILCUTOFF.0.SKELETON])
-	!See([GOODCUTOFF])
+	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
+END
+
+// Help every 3 rounds
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+THEN
+	RESPONSE #100
+		Help()
+		SetGlobalTimer("JA_HELP","LOCALS",18)
+END
+
+// React to help
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_COMBAT","LOCALS",1)
+		Help()
+		MoveToObject(LastHelp(Myself))
+END
+
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastHelp(Myself))
 END
 
 // Do nothing if...
@@ -112,11 +149,15 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(NearestEnemyOfType([PC]))
+	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -130,7 +171,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -138,11 +179,15 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(SecondNearestEnemyOfType([PC]))
+	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -156,7 +201,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -164,11 +209,15 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(ThirdNearestEnemyOfType([PC]))
+	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -182,7 +231,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -190,11 +239,15 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(FourthNearestEnemyOfType([PC]))
+	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -208,7 +261,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -216,11 +269,15 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(FifthNearestEnemyOfType([PC]))
+	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -234,7 +291,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -242,7 +299,158 @@ END
 IF
 	!GlobalTimerNotExpired("fear_aura","LOCALS")
 	HaveSpellRES("jas0m52")
-	See(SixthNearestEnemyOfType([PC]))
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+// Fear Aura
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -260,7 +468,241 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",Myself)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		RemoveSpellRES("jas0m52")
+		SetInterrupt(TRUE)
+END
+
+IF
+	!GlobalTimerNotExpired("fear_aura","LOCALS")
+	HaveSpellRES("jas0m52")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_RESIST_FEAR)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("fear_aura","LOCALS",6)
+		ForceSpellRES("jas0m52",LastSeenBy(Myself))
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -810,6 +1252,7 @@ END
 
 // Attack Sleep enemy
 IF
+	Allegiance(Myself,ENEMY)
 	OR(4)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -863,6 +1306,7 @@ THEN
 END
 
 IF
+	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)

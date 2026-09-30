@@ -1,8 +1,8 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { getAllFnpSpells } from "../../config/spells/fnp-spell-names";
-import { SPELL_GROUPS } from "../../config/spells/spell-group";
-import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { getAllSpells, SpellReference } from "../../config/spells/spell-names";
+import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
+import { SPELLS } from "../../config/spells/spell-database";
+import { getAllSpells, SpellReference, spellsByKeyword } from "../model/spell-item/spell-reference";
+import { SpellGroup } from "../model/spell-item/spell-group";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { MemorizedSpell, SpellbookVariant } from "../model/creature/data";
@@ -28,7 +28,7 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
-import { SpellBook, SpellBookSpells } from "../model/spell-item/spellbook";
+import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
 import { State } from "../state";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
@@ -51,8 +51,10 @@ class SpellService {
       headers: [],
       effectFiles: [],
       projectiles: [],
-      groups: [],
       ...others,
+      // one list for both uses (see Spell.keywords): keywords declared on the ability alone still
+      // put the spell in their groups, and the spell's own keywords reach the ability's triggers.
+      keywords: [...new Set([...(spell.keywords ?? []), ...(spell.ability?.keywords ?? [])])],
     };
     for (const effectFile of spell.effectFiles ?? []) {
       result.effectFiles.push({
@@ -76,6 +78,12 @@ class SpellService {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
+    if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
+    // The ability casts this spell, not its preset's: the preset's level mustn't leak in (e.g. an
+    // innate aura reusing Cloak of Fear's preset isn't a level 4 spell). Without an explicit
+    // level it isn't really a spell at all, so no ImmuneToSpellLevel check (see
+    // BaseCreatureAbility.level).
+    if (result.ability?.preset) result.ability.level ??= spell.level ?? null;
     if (result.ability?.spell) {
       result.ability.spell.resource = file;
       result.ability.name ??= spell.name;
@@ -84,10 +92,25 @@ class SpellService {
     return result;
   }
 
-  getGroupRessources(name: SpellGroupName): string[] {
-    const group = SPELL_GROUPS.find((g) => g.name === name);
-    if (!group) throw new Error(`Group ${name} is not defined !`);
-    return group.spells ?? [];
+  /**
+   * Every resource of a SPELL_GROUPS group: SPELLS entries tagged with the group's keyword, then
+   * the group's own `spells`, then spells created by this mod tagged with it (so this must run
+   * once every creature has been generated). Duplicates are dropped case-insensitively, keeping
+   * the first occurrence. `idsSpells` aren't included - they're resolved at install time.
+   */
+  getGroupResources(group: SpellGroup): string[] {
+    const files = [
+      ...spellsByKeyword(SPELLS, group.name),
+      ...(group.spells ?? []),
+      ...State.spells.filter((s) => s.keywords.includes(group.name)).map((s) => s.file),
+    ];
+    const seen = new Set<string>();
+    return files.filter((file) => {
+      const key = file.toUpperCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 
   private addHeader(header: PartialSpellHeader, spell: Spell, file: string): void {
@@ -214,14 +237,14 @@ class SpellService {
   }
 
   getSpellInfo(resource: string): SpellReference {
-    const spells = getAllSpells();
+    const spells = getAllSpells(SPELLS);
     const spell = spells.find((s) => s.file === resource);
     if (!spell) throw new Error(`spell ${resource} not found!`);
     return spell;
   }
 
   getAllSpellNames(): { file: string; name: StringReference }[] {
-    const spells = [...getAllSpells(), ...getAllFnpSpells()];
+    const spells = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
     return spells.flatMap((spell) => (spell.name ? [{ file: spell.file, name: spell.name }] : []));
   }
 
@@ -229,9 +252,9 @@ class SpellService {
    * Builds a memorized spell list for a caster from a named Spellbooks entry, sized by
    * ClericSpellTable/MageSpellTable (plus WisdomBonusSpellTable for clerics). Bonus spells only
    * apply to levels the caster table already grants at least one spell for, per 2e rules. A
-   * SpellBook may define several mod variants (see SpellBook.spells/SpellBookModVariant); this
-   * picks whichever is listed first, so callers that don't care about mod-specific variants get a
-   * sensible default. Use createSpellbooks to build one variant per mod instead.
+   * SpellBook may resolve to several mod variants (see spellBookVariants); this picks the richest
+   * one, so callers that don't care about mod-specific variants get a sensible default. Use
+   * createSpellbooks to build one variant per mod instead.
    */
   createSpellbook(params: {
     name: SpellBookName;
@@ -240,18 +263,14 @@ class SpellService {
     wisdom?: number;
   }): MemorizedSpell[] {
     const book = this.getSpellbook(params.name);
-    const [variant] = book.spells;
-    // Destructuring types `variant` as always-defined, but every SpellBook in config could in
-    // theory be authored with an empty `spells` array - defended anyway.
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!variant) throw new Error(`Spellbook ${params.name} has no mod variants defined!`);
+    const [variant] = spellBookVariants(book);
     return this.buildMemorized(params.name, variant.values, params);
   }
 
   /**
-   * Same as createSpellbook, but builds one SpellbookVariant per mod variant defined on the named
-   * SpellBook - e.g. a distinct spell set for SpellRevisions vs. Vanilla installs of
-   * "EvilUndeadCleric".
+   * Same as createSpellbook, but builds one SpellbookVariant per mod variant of the named
+   * SpellBook (see spellBookVariants) - e.g. a distinct spell set for Vanilla vs. AllSpellMods
+   * installs of "EvilUndeadCleric".
    */
   createSpellbooks(params: {
     name: SpellBookName;
@@ -260,16 +279,13 @@ class SpellService {
     wisdom?: number;
   }): SpellbookVariant[] {
     const book = this.getSpellbook(params.name);
-    return book.spells.map((variant) => ({
+    return spellBookVariants(book).map((variant) => ({
       mod: variant.mod,
       memorized: this.buildMemorized(params.name, variant.values, params),
     }));
   }
 
   private getSpellbook(name: SpellBookName): SpellBook {
-    // SpellBookName only has one variant today, which makes this comparison look tautological to
-    // eslint - but the union is expected to grow as more spellbooks are added.
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const book = Spellbooks.find((b) => b.name === name);
     if (!book) throw new Error(`Spellbook ${name} is not defined!`);
     return book;
@@ -282,7 +298,8 @@ class SpellService {
   ): MemorizedSpell[] {
     const table = params.type === "cleric" ? ClericSpellTable : MageSpellTable;
     const levelEntry = table.find((t) => t.level === params.casterLevel) ?? table.at(-1);
-    if (!levelEntry) throw new Error(`No spell table entry for caster level ${params.casterLevel}!`);
+    if (!levelEntry)
+      throw new Error(`No spell table entry for caster level ${params.casterLevel}!`);
     const wisdom = params.wisdom;
     const wisdomBonusRow =
       params.type === "cleric" && wisdom !== undefined
@@ -291,7 +308,8 @@ class SpellService {
 
     const memorized: MemorizedSpell[] = [];
     for (const spellCount of levelEntry.spells) {
-      const bonus = wisdomBonusRow?.bonusSpells.find((b) => b.level === spellCount.level)?.count ?? 0;
+      const bonus =
+        wisdomBonusRow?.bonusSpells.find((b) => b.level === spellCount.level)?.count ?? 0;
       const slots = spellCount.count + bonus;
       const bookLevel = values.find((s) => s.level === spellCount.level);
       if (!bookLevel) {

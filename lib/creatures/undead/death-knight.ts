@@ -1,9 +1,8 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import actionFactory from "../../src/factories/action.factory";
-import effectFactory from "../../src/factories/effect.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect } from "../../src/model/spell-item/effect";
 import {
@@ -26,11 +25,7 @@ import {
   SpellTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import {
-  AreaProjectileEnum,
-  ParticleColorEnum,
-  ProjectileBehaviorEnum,
-} from "../../src/model/spell-item/projectile";
+import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
@@ -43,13 +38,9 @@ function fearAura(cre: Undead) {
       description: "monster.undead.ability.deathKnightFearAura.description",
       duration: 5 * Durations.round,
       projectile: {
-        copyFromFile: "dvstink",
+        copyFromFile: CommonProjectileFiles.AreaOfSightNonParty,
         name: "Death Knight Aura of Fear",
-        particleColor: ParticleColorEnum.None,
         areaEffectInfo: {
-          areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
-          explosionDelay: 12,
-          triggerCount: 6,
           triggerRadius: 64,
           areaOfEffect: 64, // 5 feet
         },
@@ -79,6 +70,7 @@ function wallOfIce(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 4,
+    keywords: ["cold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -108,12 +100,15 @@ function wallOfIce(cre: Undead) {
           },
         ],
       },
-      //TODO: level 24 header with 6d10 cold and 3d10 crushing, who is using this one??
     ],
     ability: {
       preset: SPELLS.Wizard.IceStorm.file,
       spell: {
         type: "noDec",
+      },
+      timer: {
+        name: "WallOfIce",
+        value: 3 * Durations.round,
       },
     },
   });
@@ -133,6 +128,7 @@ function fireball(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 3,
+    keywords: ["fire"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Ranged,
@@ -150,6 +146,7 @@ function fireball(cre: Undead) {
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
             saveTypes: [SaveTypeEnum.BypassMirrorImage, SaveTypeEnum.Breath],
             flags: [EffectFlagsEnum.SaveForHalf],
+            dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
             power: 3,
           },
           {
@@ -201,7 +198,10 @@ export function deathKnight(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead", "skeletal"],
       items: {
-        remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK"],
+        remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05"],
+      },
+      script: {
+        remove: ["AC#DTDKN"],
       },
       spells: {
         memorized: [
@@ -220,12 +220,6 @@ export function deathKnight(family: UndeadFamily): Undead {
   fearAura(knight);
   wallOfIce(knight);
   fireball(knight);
-  // 1	Long sword +2
-  // 2	Two-handed sword +3
-  // 3	Two-handed sword +4
-  // 4	Short sword of quickness
-  // 5	Short sword of dancing
-  // 6	Short sword of life stealing
   knight.addTrait({
     immunities: ["turnUndead"],
     effects: [
@@ -238,8 +232,16 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
     ],
   });
+  // Weapon choices:
+  // 1  Long sword +2
+  // 2  Two-handed sword +3
+  // 3  Two-handed sword +4
+  // 4  Short sword of quickness
+  // 5  Short sword of dancing
+  // 6  Short sword of life stealing
   knight.setBehavior({
     restHeal: true,
+    dialog: ["AC#DTDKN"],
     abilities: [
       family.ability(Ids.DeathKnightFearAura),
       family.preset(SPELLS.Wizard.DetectInvisibility.file),
@@ -256,7 +258,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordBlind,
         ]),
-        probability: 30,
+        probability: 5,
       },
       {
         preset: SPELLS.Wizard.PowerWordBlind.file,
@@ -264,7 +266,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordStun,
         ]),
-        probability: 15,
+        probability: 1,
       },
       family.preset(SPELLS.Wizard.DispelMagic.file),
       family.ability(Ids.Fireball),
@@ -281,5 +283,35 @@ export function deathKnight(family: UndeadFamily): Undead {
       family.ability(Ids.WallOfIce),
     ],
   });
+  knight.setAdjustments([
+    {
+      files: ["dvdeathk"],
+      game: "bg1",
+      data: {
+        items: {
+          equipped: [{ file: "sw2h11", slot: "WEAPON1" }], // two handed sword +2
+        },
+      },
+    },
+    {
+      files: ["dvdeathk"],
+      game: "bg2",
+      data: {
+        items: {
+          equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
+        },
+      },
+    },
+    {
+      files: ["AC#DTDKN"],
+      data: {
+        level1: 15,
+        xpv: 10000,
+        items: {
+          equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
+        },
+      },
+    },
+  ]);
   return knight;
 }

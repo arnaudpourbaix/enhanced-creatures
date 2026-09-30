@@ -47,7 +47,7 @@ class PoisonService {
         name: translationService.addCustomTranslation([name]),
         description: translationService.addCustomTranslation([description]),
         secondaryType: "Poison",
-        groups: ["poison"],
+        keywords: ["poison"],
         headers: [{ type: ItemAbilityTypeEnum.Melee, effects }],
       },
     };

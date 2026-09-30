@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import {
   EffectDispelResistanceEnum,
@@ -10,7 +10,7 @@ import {
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { PartialProjectile, Projectile } from "../src/model/spell-item/projectile";
+import { PartialProjectile } from "../src/model/spell-item/projectile";
 import { PartialSpell } from "../src/model/spell-item/spell-item";
 import { TranslationKey } from "../translations/i18n";
 import { CommonProjectileFiles } from "./projectiles";
@@ -30,13 +30,14 @@ export const createFearAura = ({
   saveBonus?: number;
   projectile?: PartialProjectile;
 }): PartialSpell => ({
-  name: "monster.common.fearAura",
   description,
   id,
+  name: "monster.common.fearAura",
   memorizedCount: 1,
   icon: SPELLS.Priest.CloakOfFear.file,
   secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
   options: { renew: 1 },
+  keywords: ["fear"],
   headers: [
     {
       type: ItemAbilityTypeEnum.Melee,
@@ -55,8 +56,8 @@ export const createFearAura = ({
         {
           opcode: EffectTypeEnum.ProtectionFromSpell,
           timing: EffectTimingEnum.InstantLimited,
-          duration,
           saveTypes: saveType ? [saveType] : undefined,
+          duration,
           saveBonus,
         },
       ],

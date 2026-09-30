@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import {
   EffectDamageTypeEnum,
   EffectFlagsEnum,
@@ -52,6 +52,7 @@ export const createConeOfCold = ({
   primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
   secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
   level: 5,
+  keywords: ["cold"],
   headers: headers.map((h) => ({
     type: ItemAbilityTypeEnum.Melee,
     minLevel: h.minLevel,

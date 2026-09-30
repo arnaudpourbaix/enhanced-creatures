@@ -1,7 +1,6 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import {
   EffectTargetEnum,
   ItemAbilityTypeEnum,
@@ -142,15 +141,41 @@ describe("getSpell", () => {
   });
 });
 
-describe("getGroupRessources", () => {
-  it("throws when the group is not defined", () => {
-    expect(() => spellService.getGroupRessources("not-a-real-group" as SpellGroupName)).toThrow(
-      /Group not-a-real-group is not defined/,
+describe("getSpell keywords", () => {
+  it("merges the spell's and its ability's keywords, and hands the union back to the ability", () => {
+    const result = spellService.getSpell(
+      { name: SPELL_NAME, keywords: ["acid"], ability: { keywords: ["elf", "acid"] } },
+      "kwspl01",
     );
+    expect(result.keywords).toEqual(["acid", "elf"]);
+    expect(result.ability?.keywords).toEqual(["acid", "elf"]);
   });
 
-  it("returns the group's spell resrefs when the group is defined", () => {
-    expect(spellService.getGroupRessources("acidSpells")).toBeInstanceOf(Array);
+  it("leaves an ability without keywords untouched when the spell has none either", () => {
+    const result = spellService.getSpell({ name: SPELL_NAME, ability: {} }, "kwspl02");
+    expect(result.keywords).toEqual([]);
+    expect(result.ability?.keywords).toBeUndefined();
+  });
+});
+
+describe("getGroupResources", () => {
+  it("gathers SPELLS entries, the group's own spells and created spells by keyword, without duplicates", () => {
+    State.spells.push({ file: "GRPTEST1", keywords: ["colorSpray"] } as unknown as Spell);
+    State.spells.push({ file: "GRPTEST2", keywords: ["fire"] } as unknown as Spell);
+    const result = spellService.getGroupResources({
+      name: "colorSpray",
+      spells: ["EXTRA01", "grptest1"],
+    });
+    expect(result).toEqual(["EXTRA01", "grptest1"]);
+    expect(
+      spellService.getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] }),
+    ).toEqual(expect.arrayContaining([SPELLS.Wizard.Horror.file]));
+    expect(
+      spellService
+        .getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] })
+        .filter((f) => f === SPELLS.Wizard.Horror.file),
+    ).toHaveLength(1);
+    State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
   });
 });
 
@@ -210,7 +235,7 @@ describe("useEffectFile (racial resistance skip-add dedup)", () => {
 });
 
 describe("getAllSpellNames", () => {
-  it("includes a named spell from the base spell-names list", () => {
+  it("includes a named spell from the base spell-database list", () => {
     const result = spellService.getAllSpellNames();
     expect(result).toContainEqual({ file: "SPWI118", name: "spell.ChromaticOrb.name" });
   });
@@ -372,6 +397,7 @@ describe("createSpellbooks", () => {
       type: "cleric",
     });
     expect(result).toEqual([
+      { mod: "AllSpellMods", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "FaithsAndPowers", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
     ]);

@@ -23,6 +23,7 @@ class WeiduFamilyService extends AbstractWeiduService {
       if (fs.existsSync(commonFile)) {
         content += `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/common.tpa"${CR}`;
       }
+      content += this.compileAssetScripts(family);
       if (fs.existsSync(file)) fs.rmSync(file);
       utils.writeFile(file, content);
     } else {
@@ -33,6 +34,28 @@ class WeiduFamilyService extends AbstractWeiduService {
         )}.tpa" // ${translationService.from(creature.name)}${CR}`,
       );
     }
+  }
+
+  // Every .baf in the family's assets folder overrides an existing game script:
+  // compile it only when that script is present in the game.
+  private compileAssetScripts(family: MonsterFamilyEnum): string {
+    const assetsFolder = `${utils.getFamilyFolder(family)}/assets`;
+    const assetsPath = path.join(State.modFolder, assetsFolder);
+    if (!fs.existsSync(assetsPath)) return "";
+    return fs
+      .readdirSync(assetsPath)
+      .filter((f) => path.extname(f).toLowerCase() === ".baf")
+      .sort((a, b) => a.localeCompare(b))
+      .map((f) => {
+        const script = path.basename(f, path.extname(f)).toUpperCase();
+        return [
+          `ACTION_IF FILE_EXISTS_IN_GAME ~${script}.BCS~ BEGIN`,
+          `${TAB}COMPILE ~%MOD_FOLDER%/${assetsFolder}/${f}~`,
+          `END`,
+        ].join(CR);
+      })
+      .map((code) => `${code}${CR}`)
+      .join("");
   }
 
   generateFamilyData(family: Family) {

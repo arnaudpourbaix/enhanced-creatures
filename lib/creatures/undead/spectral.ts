@@ -1,5 +1,5 @@
 import { EXISTING_ITEMS } from "../../config/item";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
@@ -46,6 +46,7 @@ function deathWail(cre: Undead) {
     id: Ids.DeathWail,
     memorizedCount: 1,
     icon: SPELLS.Wizard.WailOfTheBanshee.file,
+    keywords: ["death"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -100,6 +101,7 @@ function ghostFearAura(cre: Undead) {
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
+    keywords: ["fear"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -167,6 +169,7 @@ function ghostTouch(cre: Undead) {
     description: "monster.undead.ability.ghostTouch.description",
     id: Ids.GhostTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain", "magicDamage"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -194,6 +197,7 @@ function specterTouch(cre: Undead) {
     description: "monster.undead.ability.specterTouch.description",
     id: Ids.SpecterTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

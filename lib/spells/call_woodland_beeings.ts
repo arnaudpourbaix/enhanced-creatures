@@ -1,5 +1,5 @@
 import { NEW_CREATURES } from "../config/creatures";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { Durations } from "../src/model/game-data/durations";
 import { Effect } from "../src/model/spell-item/effect";
 import {

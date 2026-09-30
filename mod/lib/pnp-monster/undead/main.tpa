@@ -1,5 +1,11 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~BDGHOST.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/BDGHOST.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~DVDEATHK.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/dvdeathk.BAF~
+END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Banshee
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4c.tpa" // Ghoul
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4b.tpa" // Ghast
@@ -8,6 +14,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4e.tpa" // Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4f.tpa" // Greater Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/50.tpa" // Shadow
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/59.tpa" // Greater Shadow
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5a.tpa" // Baneguard
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5b.tpa" // Bonebat
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/51.tpa" // Skeleton
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/94.tpa" // Archer Skeleton

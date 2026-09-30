@@ -1,4 +1,4 @@
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
@@ -29,6 +29,7 @@ function bonebatTouch(cre: Undead) {
     description: "monster.undead.ability.bonebatTouch.description",
     id: Ids.BonebatTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -88,7 +89,7 @@ function blink(cre: Undead) {
     ],
     ability: {
       spell: {
-        selfTarget: true,
+        castOnSelf: true,
       },
       requireVocal: false,
       triggers: [{ name: "Range", params: ["NearestEnemyOf", 5] }],
@@ -261,7 +262,7 @@ function greaterSkeletonVariant(base: Undead): Variant {
 }
 
 function assasinVariant(base: Variant): Variant {
-  const assasin = base.variant("Assasin", {
+  return base.variant("Assasin", {
     data: {
       level1: 20,
       ac: -2,
@@ -274,7 +275,6 @@ function assasinVariant(base: Variant): Variant {
     },
     files: ["D9SKL02", "D9SKL08", "HGSKL02"],
   });
-  return assasin;
 }
 
 function clericSkeletonVariant(base: Undead): Variant {
@@ -555,6 +555,9 @@ export function baneguard(family: UndeadFamily): Undead {
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
       immunities: ["undead"],
+      script: {
+        remove: ["AC#DTDIG"],
+      },
       items: {
         remove: ["ring95", "ring99"],
       },
@@ -584,6 +587,7 @@ export function baneguard(family: UndeadFamily): Undead {
   baneguard.setAttack({
     ranged: true,
   });
+  baneguard.setAdjustments([{ files: ["AC#DTDIG"], data: { level1: 6 } }]);
   return baneguard;
 }
 

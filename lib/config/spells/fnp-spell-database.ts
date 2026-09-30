@@ -1,5 +1,6 @@
 import { SpellTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { BaseSpell } from "../../src/model/spell-item/spell-item";
+import { flattenSpellCategories } from "../../src/model/spell-item/spell-reference";
 
 /**
  * Faiths and Powers
@@ -48,12 +49,6 @@ const FNP_PRIEST_SPELLS = {
     level: 2,
     type: SpellTypeEnum.Priest,
     name: "spell.Forbiddance.name",
-  },
-  FrostFingers: {
-    file: "B_PR101",
-    level: 1,
-    type: SpellTypeEnum.Priest,
-    name: "spell.FrostFingers.name",
   },
   MiscastMagic: {
     file: "D5P1310",
@@ -162,10 +157,6 @@ export const FNP_SPELLS = {
   Priest: FNP_PRIEST_SPELLS,
 };
 
-function flattenSpells(spells: Record<string, BaseSpell>): (BaseSpell & { key: string })[] {
-  return Object.entries(spells).map(([key, spell]) => ({ key, ...spell }));
-}
-
 export function getAllFnpSpells() {
-  return [...flattenSpells(FNP_PRIEST_SPELLS)];
+  return flattenSpellCategories(FNP_SPELLS);
 }

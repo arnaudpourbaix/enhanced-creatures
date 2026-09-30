@@ -1,2 +1,8 @@
 LAM load_secondary_types
+ACTION_IF FILE_EXISTS_IN_GAME ~ANKHEGB.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/assets/ANKHEGB.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~L#XZEANK.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/assets/L#XZEANK.BAF~
+END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/1.tpa" // Ankheg

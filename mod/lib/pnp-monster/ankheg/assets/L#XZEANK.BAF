@@ -1,0 +1,9 @@
+IF
+    See([PC])
+    Global("L#XZEAnkheGreater","LOCALS",0)
+THEN
+    RESPONSE #100
+        SetGlobal("L#XZEAnkheGreater","LOCALS",1)
+        ReallyForceSpell(Myself,WIZARD_STONE_SKIN)  // SPWI408.SPL (Stoneskin)
+        Enemy()
+END
