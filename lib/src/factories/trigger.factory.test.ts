@@ -110,6 +110,28 @@ describe("validAttackTarget", () => {
     });
     expect(results.some((t) => t.name === "Range")).toBe(false);
   });
+
+  it("adds main hand weapon checks when weaponCheck is enabled", () => {
+    GLOBAL_CONFIG.weaponCheck = true;
+    const results = triggerFactory.validAttackTarget({ isTargetPlayer: true });
+    expect(results).toContainEqual({
+      name: "WeaponEffectiveVs",
+      params: [expect.any(String), "MAINHAND"],
+    });
+    expect(results).toContainEqual({
+      name: "WeaponCanDamage",
+      params: [expect.any(String), "MAINHAND"],
+    });
+  });
+
+  it("adds no weapon checks when weaponCheck is disabled", () => {
+    GLOBAL_CONFIG.weaponCheck = false;
+    const results = triggerFactory.validAttackTarget({ isTargetPlayer: true });
+    GLOBAL_CONFIG.weaponCheck = true;
+    expect(
+      results.some((t) => t.name === "WeaponEffectiveVs" || t.name === "WeaponCanDamage"),
+    ).toBe(false);
+  });
 });
 
 describe("spellChecks", () => {

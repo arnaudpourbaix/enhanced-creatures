@@ -15,6 +15,11 @@ const SPELL_CHECKS: SpellCheckConfig = {
 
 export const GLOBAL_CONFIG = {
   spellChecks: SPELL_CHECKS,
+  /**
+   * Add WeaponEffectiveVs/WeaponCanDamage (main hand) to attack target triggers, so a creature
+   * doesn't attack a target its weapon can't hit or damage.
+   */
+  weaponCheck: true,
   files: {
     coreMonsters: "lib/pnp-monster/common/core.tpa",
     spellResources: "lib/common/spell-resources.tpa",

@@ -339,6 +339,12 @@ class TriggerFactory {
       },
       { name: "See", params: [ScriptTarget.token] },
     ];
+    if (GLOBAL_CONFIG.weaponCheck) {
+      results.push(
+        { name: "WeaponEffectiveVs", params: [ScriptTarget.token, "MAINHAND"] },
+        { name: "WeaponCanDamage", params: [ScriptTarget.token, "MAINHAND"] },
+      );
+    }
     if (!isTargetPlayer)
       results.unshift({
         name: "General",

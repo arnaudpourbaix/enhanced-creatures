@@ -391,14 +391,16 @@ export namespace Triggers {
     params: [ParamObject];
   }
 
+  export type HandIdentifier = "MAINHAND" | "OFFHAND";
+
   export interface WeaponEffectiveVs extends BaseTrigger {
     name: "WeaponEffectiveVs";
-    params: [ParamObject, number];
+    params: [ParamObject, HandIdentifier];
   }
 
   export interface WeaponCanDamage extends BaseTrigger {
     name: "WeaponCanDamage";
-    params: [ParamObject, number];
+    params: [ParamObject, HandIdentifier];
   }
 
   export interface Level extends BaseTrigger {
