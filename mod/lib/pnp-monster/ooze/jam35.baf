@@ -785,7 +785,7 @@ IF
 	!StateCheck(Player1,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player1)
 END
 
 IF
@@ -798,7 +798,7 @@ IF
 	!StateCheck(Player2,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player2)
 END
 
 IF
@@ -811,7 +811,7 @@ IF
 	!StateCheck(Player3,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player3)
 END
 
 IF
@@ -824,7 +824,7 @@ IF
 	!StateCheck(Player4,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player4)
 END
 
 IF
@@ -837,7 +837,7 @@ IF
 	!StateCheck(Player5,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player5)
 END
 
 IF
@@ -850,7 +850,7 @@ IF
 	!StateCheck(Player6,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player6)
 END
 
 // Track last seen enemy if allegiance is GOODCUTOFF

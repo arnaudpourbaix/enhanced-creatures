@@ -4077,10 +4077,510 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jaspain")
 	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+// Symbol of Pain
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jaspain",LastSeenBy(Myself))
+		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	ActionListEmpty()
+	HaveSpellRES("jaspain")
+	RandomNumGT(806,242)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -6034,7 +6534,7 @@ IF
 	!StateCheck(Player1,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player1)
 END
 
 IF
@@ -6050,7 +6550,7 @@ IF
 	!StateCheck(Player2,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player2)
 END
 
 IF
@@ -6066,7 +6566,7 @@ IF
 	!StateCheck(Player3,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player3)
 END
 
 IF
@@ -6082,7 +6582,7 @@ IF
 	!StateCheck(Player4,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player4)
 END
 
 IF
@@ -6098,7 +6598,7 @@ IF
 	!StateCheck(Player5,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player5)
 END
 
 IF
@@ -6114,7 +6614,7 @@ IF
 	!StateCheck(Player6,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player6)
 END
 
 // Track last seen enemy if allegiance is GOODCUTOFF

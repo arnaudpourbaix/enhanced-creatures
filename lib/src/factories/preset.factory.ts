@@ -23,7 +23,7 @@ class PresetFactory {
       if (spell.keywords !== undefined) ability.keywords = spell.keywords;
       if (spell.level !== undefined) ability.level = spell.level;
       if (spell.range !== undefined) ability.range = spell.range;
-    if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
+      if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
       const presets = this.presetsForFiles(spell, deepmerge(ability, override));
       weakerSpells.push(spell);
       return presets;
@@ -52,22 +52,11 @@ class PresetFactory {
     if (spell.range !== undefined) ability.range = spell.range;
     if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
     const mergedAbility = deepmerge(ability, override);
-    const preset: AbilityPreset = {
-      preset: spell.file,
-      ability: mergedAbility,
-    };
     const results = this.presetsForFiles(spell, mergedAbility);
     for (const variant of resourceVariants) {
-      results.push({
-        ...preset,
-        preset: variant,
-        ability: {
-          ...ability,
-          spell: {
-            resource: variant,
-          },
-        },
-      });
+      const variantAbility = structuredClone(mergedAbility);
+      variantAbility.spell = { ...variantAbility.spell, resource: variant };
+      results.push({ preset: variant, ability: variantAbility });
     }
     return results;
   }

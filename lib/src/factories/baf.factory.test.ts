@@ -50,7 +50,7 @@ describe("addStatementsFromTargetList", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
       statements,
-      triggers: [triggerFactory.range(30)],
+      triggers: [{ name: "See", params: [ScriptTarget.token] }, triggerFactory.range(30)],
       targets: [GOODCUTOFF, ScriptTarget.myself],
       responses: responseFactory.response([
         { name: "AttackOneRound", params: [ScriptTarget.token] } as unknown as Actions.Action,
@@ -60,6 +60,28 @@ describe("addStatementsFromTargetList", () => {
     expect(
       (statements[0].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
     ).toEqual([ScriptTarget.lastSeen]);
+    expect(
+      (statements[1].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
+    ).toEqual([ScriptTarget.myself]);
+  });
+
+  it("resolves the response action target to the target itself when no See(token) sets LastSeenBy", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        { name: "See", params: [ScriptTarget.token], negation: true },
+        triggerFactory.range(30),
+      ],
+      targets: ["Player1", ScriptTarget.myself],
+      responses: responseFactory.response([
+        { name: "MoveToObject", params: [ScriptTarget.token] } as unknown as Actions.Action,
+      ]),
+    });
+
+    expect(
+      (statements[0].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
+    ).toEqual(["Player1"]);
     expect(
       (statements[1].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
     ).toEqual([ScriptTarget.myself]);

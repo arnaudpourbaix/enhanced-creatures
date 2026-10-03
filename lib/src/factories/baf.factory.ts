@@ -16,6 +16,11 @@ class BafFactory {
   }): void => {
     p.reverse = p.reverse ?? false;
     const targets = p.reverse ? [...p.targets].reverse() : [...p.targets];
+    // The action token can only become LastSeenBy when See(token) is what sets it; without it
+    // (e.g. tracking unseen players) LastSeenBy is unrelated, so the action aims at the target.
+    const seesTarget = p.triggers.some(
+      (t) => t.name === "See" && !t.negation && t.params[0] === ScriptTarget.token,
+    );
     for (const [index, target] of targets.entries()) {
       const isMyself = target === ScriptTarget.myself;
       const triggers = isMyself
@@ -28,7 +33,7 @@ class BafFactory {
             { key: ScriptTarget.token, value: ScriptTarget.myself },
             { key: ScriptTarget.lastSeen, value: ScriptTarget.myself },
           ]
-        : [{ key: ScriptTarget.token, value: ScriptTarget.lastSeen }];
+        : [{ key: ScriptTarget.token, value: seesTarget ? ScriptTarget.lastSeen : target }];
       p.statements.push({
         triggers,
         comment: index === 0 ? p.comment : "",

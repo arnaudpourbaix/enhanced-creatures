@@ -1536,8 +1536,7 @@ export namespace Triggers {
       parameters: "O:Object*",
       description:
         "Returns true if any of the specified object is currently affected by any of the listed effects: Protection from projectiles, Protection from effects, Protection from portrait icon, Protection from display string, Protection from visual effect, Immunity to spell level, Decrementing spell level immunity, Immunity to primary type (school",
-      section:
-        "Immunity to secondary type, Decrementing immunity to primary type, Decrementing immunity to secondary type",
+      section: "Immunity",
     },
     {
       name: "ImmuneToSpellLevel",
