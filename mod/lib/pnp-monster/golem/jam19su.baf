@@ -143,6 +143,7 @@ END
 
 // Slow
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -177,6 +178,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -211,6 +213,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -245,6 +248,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -279,6 +283,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -313,6 +318,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -347,6 +353,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -381,6 +388,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -415,6 +423,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -449,6 +458,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -484,6 +494,7 @@ END
 
 // Slow
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -514,6 +525,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -544,6 +556,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -574,6 +587,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -604,6 +618,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -634,6 +649,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -664,6 +680,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -694,6 +711,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -724,6 +742,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)
@@ -754,6 +773,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("Slow","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_SLOW)

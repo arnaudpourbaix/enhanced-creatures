@@ -147,7 +147,6 @@ function fakeAbility(overrides: Partial<CreatureAbility> = {}): CreatureAbility 
     triggers: [],
     disableInterrupt: false,
     requireVocal: false,
-    spellcasting: false,
     canUseWhenPolymorphed: false,
     isSpell: false,
     infiniteUse: false,
@@ -944,24 +943,40 @@ describe("creatureSelfAbility (private)", () => {
     });
   });
 
-  it("adds a disable spellcasting check only for a spellcasting ability", () => {
+  it.each<[string, Partial<CreatureAbility>, boolean]>([
+    ["a wizard spell", { actions: [{ name: "SpellRES", params: ["SPWI112", "Myself"] }] }, true],
+    [
+      "a priest spell by id",
+      { actions: [{ name: "Spell", params: ["Myself", "CLERIC_BLESS"] }] },
+      true,
+    ],
+    ["an innate", { actions: [{ name: "ForceSpellRES", params: ["SPIN937", "Myself"] }] }, false],
+    [
+      "an unknown (created innate) resource",
+      { actions: [{ name: "SpellRES", params: ["jas0zz", "Myself"] }], requireVocal: true },
+      false,
+    ],
+    ["a non-spell action", {}, false],
+    [
+      "an innate explicitly marked as spellcasting",
+      { actions: [{ name: "SpellRES", params: ["SPIN937", "Myself"] }], spellcasting: true },
+      true,
+    ],
+    [
+      "a wizard spell explicitly marked as not spellcasting",
+      { actions: [{ name: "SpellRES", params: ["SPWI112", "Myself"] }], spellcasting: false },
+      false,
+    ],
+  ])("disable spellcasting check for %s", (_, overrides, expected) => {
     const disableCheck = {
       name: "Global",
       params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
       negation: false,
     };
-    const spell: Statements = [];
-    service.creatureSelfAbility(
-      spell,
-      fakeCreature(),
-      fakeAbility({ spellcasting: true }),
-      options(),
-    );
-    expect(spell[0].triggers).toContainEqual(disableCheck);
-
-    const innate: Statements = [];
-    service.creatureSelfAbility(innate, fakeCreature(), fakeAbility(), options());
-    expect(innate[0].triggers).not.toContainEqual(disableCheck);
+    const statements: Statements = [];
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(overrides), options());
+    if (expected) expect(statements[0].triggers).toContainEqual(disableCheck);
+    else expect(statements[0].triggers).not.toContainEqual(disableCheck);
   });
 
   it("adds a polymorph check when the creature can polymorph and the ability doesn't allow it", () => {

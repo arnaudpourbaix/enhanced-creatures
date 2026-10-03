@@ -71,17 +71,6 @@ describe("getAbilities", () => {
     expect(ability.disableInterrupt).toBe(true);
   });
 
-  it("defaults spellcasting to requireVocal unless set explicitly", () => {
-    const [innate, spell, vocalize] = abilityService.getAbilities([
-      { name: DEFAULT_ABILITY_NAME },
-      { name: DEFAULT_ABILITY_NAME, requireVocal: true },
-      { name: DEFAULT_ABILITY_NAME, requireVocal: false, spellcasting: true },
-    ]);
-    expect(innate.spellcasting).toBe(false);
-    expect(spell.spellcasting).toBe(true);
-    expect(vocalize.spellcasting).toBe(true);
-  });
-
   it("adds a RandomNumGT trigger when probability is below 100", () => {
     const [ability] = abilityService.getAbilities([
       { name: DEFAULT_ABILITY_NAME, probability: 50 },

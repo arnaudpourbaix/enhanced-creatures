@@ -15,6 +15,7 @@ import { WEAPON_SLOTS } from "../../model/creature/item";
 import { Durations } from "../../model/game-data/durations";
 import { AllegianceIdentifier } from "../../model/ids/allegiance";
 import { BuilderOptions } from "../../model/misc";
+import { MemorizedSpellType } from "../../model/spell-item/spell-item";
 import { Actions } from "../../model/script/actions";
 import { CustomCodeLocation, Statements } from "../../model/script/script";
 import { TargetList } from "../../model/script/target";
@@ -22,6 +23,17 @@ import { Triggers } from "../../model/script/triggers";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
+
+const SPELL_ACTIONS: Actions.Action["name"][] = [
+  "Spell",
+  "SpellRES",
+  "SpellNoDec",
+  "SpellNoDecRES",
+  "ForceSpell",
+  "ForceSpellRES",
+  "ReallyForceSpell",
+  "ReallyForceSpellRES",
+];
 
 // Shared shape for every handler dispatched through execute() below. Each handler destructures
 // only the fields it uses (via Pick<HandlerParams, ...>) instead of taking 3 positional
@@ -1096,7 +1108,7 @@ class StatementBuilderService {
         negation: true,
       });
     }
-    if (ability.spellcasting) {
+    if (this.isSpellcasting(ability)) {
       triggers.unshift(triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0));
     }
     if (!ability.canUseWhenPolymorphed && creature.behavior.canPolymorph) {
@@ -1146,7 +1158,7 @@ class StatementBuilderService {
         negation: true,
       });
     }
-    if (ability.spellcasting) {
+    if (this.isSpellcasting(ability)) {
       triggers.unshift(triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0));
     }
     if (!ability.canUseWhenPolymorphed && creature.behavior.canPolymorph) {
@@ -1164,6 +1176,38 @@ class StatementBuilderService {
       comment: translationService.from(ability.name),
       responses: responseFactory.response(actions),
     });
+  }
+
+  /**
+   * An ability casting a wizard/priest spell is spellcasting, one casting only innates isn't
+   * (unless BaseCreatureAbility.spellcasting says otherwise). Resolved here rather than when the
+   * ability is parsed, once every spell created by a creature is known.
+   */
+  private isSpellcasting(ability: CreatureAbility): boolean {
+    if (ability.spellcasting !== undefined) return ability.spellcasting;
+    return ability.actions.some((action) => {
+      const type = this.castSpellType(action, ability);
+      return type === "wizard" || type === "priest";
+    });
+  }
+
+  private castSpellType(
+    action: Actions.Action,
+    ability: CreatureAbility,
+  ): MemorizedSpellType | undefined {
+    if (!SPELL_ACTIONS.includes(action.name) || !("params" in action)) return;
+    const [first, second] = action.params as unknown[];
+    if (action.name.endsWith("RES")) {
+      // A `%TOKEN%` placeholder for a resource with mod-dependent variants (see
+      // AbilityService.resourceParam): ability.resource is the base spell.
+      const file = String(first).startsWith("%") ? ability.resource : String(first);
+      return file ? utils.getSpellInfos(file).type : undefined;
+    }
+    const file = getAllSpells(SPELLS).find((s) => s.id === second)?.file;
+    if (file) return utils.getSpellInfos(file).type;
+    if (String(second).startsWith("WIZARD_")) return "wizard";
+    if (String(second).startsWith("CLERIC_")) return "priest";
+    return "innate";
   }
 
   private getAdditionals(

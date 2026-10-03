@@ -158,7 +158,6 @@ END
 
 // Hideous Laugh
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -189,7 +188,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -220,7 +218,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -251,7 +248,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -282,7 +278,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -313,7 +308,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -344,7 +338,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -375,7 +368,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -406,7 +398,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -437,7 +428,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -469,7 +459,6 @@ END
 
 // Hideous Laugh
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -496,7 +485,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -523,7 +511,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -550,7 +537,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -577,7 +563,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -604,7 +589,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -631,7 +615,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -658,7 +641,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -685,7 +667,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)
@@ -712,7 +693,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas0m1b")
 	RandomNumGT(800,240)

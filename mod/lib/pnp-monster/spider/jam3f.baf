@@ -157,7 +157,6 @@ END
 
 // Vortex Web
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -190,7 +189,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -223,7 +221,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -256,7 +253,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -289,7 +285,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -322,7 +317,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -355,7 +349,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -388,7 +381,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -421,7 +413,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -454,7 +445,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -488,7 +478,6 @@ END
 
 // Vortex Web
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -517,7 +506,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -546,7 +534,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -575,7 +562,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -604,7 +590,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -633,7 +618,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -662,7 +646,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -691,7 +674,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -720,7 +702,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")
@@ -749,7 +730,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("VortexWeb","LOCALS")
 	HaveSpellRES("SPIN575")

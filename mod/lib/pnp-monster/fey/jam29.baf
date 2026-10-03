@@ -246,7 +246,6 @@ END
 
 // Dryad Charm
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -283,7 +282,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -320,7 +318,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -357,7 +354,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -394,7 +390,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -431,7 +426,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -468,7 +462,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -505,7 +498,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -542,7 +534,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -580,7 +571,6 @@ END
 
 // Dryad Charm
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -616,7 +606,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -652,7 +641,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -688,7 +676,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -724,7 +711,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -760,7 +746,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -796,7 +781,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -832,7 +816,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -868,7 +851,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -905,7 +887,6 @@ END
 
 // Dryad Charm
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -942,7 +923,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -979,7 +959,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1016,7 +995,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1053,7 +1031,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1090,7 +1067,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1127,7 +1103,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1164,7 +1139,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1201,7 +1175,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1238,7 +1211,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1276,7 +1248,6 @@ END
 
 // Dryad Charm
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1312,7 +1283,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1348,7 +1318,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1384,7 +1353,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1420,7 +1388,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1456,7 +1423,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1492,7 +1458,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1528,7 +1493,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1564,7 +1528,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1600,7 +1563,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
 	!HaveSpell(WIZARD_DOMINATION)

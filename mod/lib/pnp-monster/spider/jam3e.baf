@@ -157,6 +157,7 @@ END
 
 // Detect Invisibility
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("detectInvisibility","LOCALS")
 	HaveSpell(WIZARD_DETECT_INVISIBILITY)

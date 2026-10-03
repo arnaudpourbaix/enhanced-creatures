@@ -670,7 +670,6 @@ END
 
 // Moon Dog Howl
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -702,7 +701,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -734,7 +732,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -766,7 +763,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -798,7 +794,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -830,7 +825,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -862,7 +856,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -894,7 +887,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -926,7 +918,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -958,7 +949,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -991,7 +981,6 @@ END
 
 // Moon Dog Howl
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1019,7 +1008,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1047,7 +1035,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1075,7 +1062,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1103,7 +1089,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1131,7 +1116,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1159,7 +1143,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1187,7 +1170,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1215,7 +1197,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)
@@ -1243,7 +1224,6 @@ THEN
 END
 
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(MOON_DOG_FEAR)
 	RandomNumGT(807,242)

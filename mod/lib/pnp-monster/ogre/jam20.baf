@@ -338,6 +338,7 @@ END
 
 // Fly
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jas1m20")
 	Detect(NearestEnemyOf(Myself))
@@ -1591,6 +1592,7 @@ END
 
 // Cone of Cold
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1620,6 +1622,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1649,6 +1652,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1678,6 +1682,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1707,6 +1712,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1736,6 +1742,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1765,6 +1772,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1794,6 +1802,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1823,6 +1832,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1852,6 +1862,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1882,6 +1893,7 @@ END
 
 // Cone of Cold
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1904,6 +1916,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1926,6 +1939,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1948,6 +1962,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1970,6 +1985,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1992,6 +2008,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2014,6 +2031,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2036,6 +2054,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2058,6 +2077,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2080,6 +2100,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2103,6 +2124,7 @@ END
 
 // Cone of Cold
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2121,6 +2143,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2139,6 +2162,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2157,6 +2181,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2175,6 +2200,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2193,6 +2219,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2211,6 +2238,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2229,6 +2257,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2247,6 +2276,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2265,6 +2295,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jas0m20")
 	RandomNumGT(803,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -7047,6 +7078,7 @@ END
 
 // Gaseous form
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jas2m20")
 	Detect(NearestEnemyOf(Myself))

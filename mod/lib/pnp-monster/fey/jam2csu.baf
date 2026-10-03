@@ -330,6 +330,7 @@ END
 
 // Dimension Door
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jas1f8")

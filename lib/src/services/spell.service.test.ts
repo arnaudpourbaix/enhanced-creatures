@@ -8,6 +8,7 @@ import {
 } from "../model/spell-item/effect.enums";
 import { Effect } from "../model/spell-item/effect";
 import { PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
+import { spellsByKeyword } from "../model/spell-item/spell-reference";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { State } from "../state";
 import spellService from "./spell.service";
@@ -166,7 +167,11 @@ describe("getGroupResources", () => {
       name: "colorSpray",
       spells: ["EXTRA01", "grptest1"],
     });
-    expect(result).toEqual(["EXTRA01", "grptest1"]);
+    // SPELLS entries tagged with the keyword come first (e.g. Color Spray itself).
+    const tagged = spellsByKeyword(SPELLS, "colorSpray");
+    expect(tagged).toContain(SPELLS.Wizard.ColorSpray.file);
+    // grptest1 (group's own) and GRPTEST1 (created spell) are the same file: kept once.
+    expect(result).toEqual([...tagged, "EXTRA01", "grptest1"]);
     expect(
       spellService.getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] }),
     ).toEqual(expect.arrayContaining([SPELLS.Wizard.Horror.file]));

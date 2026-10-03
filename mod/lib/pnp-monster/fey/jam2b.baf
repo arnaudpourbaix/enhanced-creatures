@@ -370,7 +370,6 @@ END
 // Charm Song
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -407,7 +406,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -444,7 +442,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -481,7 +478,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -518,7 +514,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -555,7 +550,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -592,7 +586,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -629,7 +622,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -666,7 +658,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -704,7 +695,6 @@ END
 // Charm Song
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -740,7 +730,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -776,7 +765,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -812,7 +800,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -848,7 +835,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -884,7 +870,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -920,7 +905,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -956,7 +940,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -992,7 +975,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1029,7 +1011,6 @@ END
 // Charm Song
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1066,7 +1047,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1103,7 +1083,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1140,7 +1119,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1177,7 +1155,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1214,7 +1191,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1251,7 +1227,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1288,7 +1263,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1325,7 +1299,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1362,7 +1335,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1400,7 +1372,6 @@ END
 // Charm Song
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1436,7 +1407,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1472,7 +1442,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1508,7 +1477,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1544,7 +1512,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1580,7 +1547,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1616,7 +1582,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1652,7 +1617,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1688,7 +1652,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1724,7 +1687,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasaf8")
 	!HaveSpell(WIZARD_DOMINATION)
@@ -1918,7 +1880,6 @@ END
 // Fog Cloud
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -1939,7 +1900,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -1960,7 +1920,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -1981,7 +1940,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2002,7 +1960,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2023,7 +1980,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2044,7 +2000,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -2065,7 +2020,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2086,7 +2040,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2107,7 +2060,6 @@ END
 
 IF
 	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jasbf8")
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2145,6 +2097,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI495")
 	RandomNumLT(1000,111)
@@ -2156,6 +2109,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI496")
 	RandomNumLT(1000,125)
@@ -2200,6 +2154,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI493")
 	RandomNumLT(1000,250)
@@ -2211,6 +2166,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI494")
 	RandomNumLT(1000,333)
@@ -2222,6 +2178,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI497")
 	RandomNumLT(1000,500)
@@ -2233,6 +2190,7 @@ END
 
 // Polymorph Self
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("polymorph","LOCALS")
 	HaveSpellRES("SPWI490")
 THEN

@@ -64,7 +64,6 @@ export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.Vocalize, {
     triggers: [triggerFactory.stateCheck("STATE_SILENCED")],
     requireVocal: false,
-    spellcasting: true,
     probability: 100,
   }),
   ...presetFactory.createSpells([SPELLS.Wizard.MinorSpellDeflection], {

@@ -171,6 +171,7 @@ END
 
 // Magic Missiles
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -205,6 +206,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -239,6 +241,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -273,6 +276,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -307,6 +311,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -341,6 +346,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -375,6 +381,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -409,6 +416,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -443,6 +451,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -477,6 +486,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -511,6 +521,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -545,6 +556,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -580,6 +592,7 @@ END
 
 // Magic Missiles
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -607,6 +620,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -634,6 +648,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -661,6 +676,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -688,6 +704,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -715,6 +732,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -742,6 +760,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -769,6 +788,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -796,6 +816,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -823,6 +844,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -850,6 +872,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -877,6 +900,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -905,6 +929,7 @@ END
 
 // Magic Missiles
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -938,6 +963,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -971,6 +997,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1004,6 +1031,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1037,6 +1065,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1070,6 +1099,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1103,6 +1133,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1136,6 +1167,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1169,6 +1201,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1202,6 +1235,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1236,6 +1270,7 @@ END
 
 // Magic Missiles
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1262,6 +1297,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1288,6 +1324,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1314,6 +1351,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1340,6 +1378,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1366,6 +1405,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1392,6 +1432,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1418,6 +1459,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1444,6 +1486,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1470,6 +1513,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1497,6 +1541,7 @@ END
 
 // Magic Missiles
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1519,6 +1564,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1541,6 +1587,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1563,6 +1610,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1585,6 +1633,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1607,6 +1656,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1629,6 +1679,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1651,6 +1702,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1673,6 +1725,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -1695,6 +1748,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("MagicMissiles","LOCALS")
 	HaveSpell(WIZARD_MAGIC_MISSILE)
 	!Range(NearestEnemyOf(Myself),10)
@@ -2336,6 +2390,7 @@ END
 
 // Dimension Door
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player1,STATE_BLIND)
 	RandomNumGT(800,240)
@@ -2353,6 +2408,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player2,STATE_BLIND)
 	RandomNumGT(800,240)
@@ -2370,6 +2426,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player3,STATE_BLIND)
 	RandomNumGT(800,240)
@@ -2387,6 +2444,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player4,STATE_BLIND)
 	RandomNumGT(800,240)
@@ -2404,6 +2462,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player5,STATE_BLIND)
 	RandomNumGT(800,240)
@@ -2421,6 +2480,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpell(WIZARD_DIMENSION_DOOR)
 	!StateCheck(Player6,STATE_BLIND)
 	RandomNumGT(800,240)
