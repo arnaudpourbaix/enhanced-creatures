@@ -35,6 +35,17 @@ THEN
 		SetGlobal("JA_INIT","LOCALS",1)
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Rest (reset everything and heal if applicable)
 IF
 	Global("JA_INIT","LOCALS",1)
@@ -170,6 +181,7 @@ END
 
 // Fear Aura
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -205,6 +217,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -240,6 +253,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -275,6 +289,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -310,6 +325,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -345,6 +361,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -380,6 +397,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -415,6 +433,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -450,6 +469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -485,6 +505,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -521,6 +542,7 @@ END
 
 // Fear Aura
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -552,6 +574,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -583,6 +606,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -614,6 +638,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -645,6 +670,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -676,6 +702,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -707,6 +734,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -738,6 +766,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -769,6 +798,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -800,6 +830,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4f")
 	RandomNumGT(800,240)
@@ -832,6 +863,7 @@ END
 
 // Aid
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -847,6 +879,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -867,6 +900,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -887,6 +921,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -907,6 +942,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -927,6 +963,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -947,6 +984,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_AID)
 	RandomNumGT(801,240)
@@ -968,6 +1006,7 @@ END
 
 // Entropy Shield
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_ENTROPY_SHIELD)
@@ -980,6 +1019,7 @@ END
 
 // True Seeing
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_TRUE_SIGHT)
@@ -995,6 +1035,7 @@ END
 
 // Physical Mirror
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_PHYSICAL_MIRROR)
@@ -1007,6 +1048,7 @@ END
 
 // Physical Mirror
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_PHYSICAL_MIRROR)
@@ -1019,6 +1061,7 @@ END
 
 // Aerial Servant
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -1042,6 +1085,7 @@ END
 
 // Gate
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -1057,6 +1101,7 @@ END
 
 // Magic Resistance
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1072,6 +1117,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1092,6 +1138,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1112,6 +1159,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1132,6 +1180,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1152,6 +1201,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1172,6 +1222,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MAGIC_RESISTANCE)
 	RandomNumGT(808,242)
@@ -1193,6 +1244,7 @@ END
 
 // Free Action
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1208,6 +1260,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1228,6 +1281,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1248,6 +1302,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1268,6 +1323,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1288,6 +1344,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1308,6 +1365,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FREE_ACTION)
 	RandomNumGT(809,243)
@@ -1329,6 +1387,7 @@ END
 
 // Blade Barrier
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_BLADE_BARRIER)
@@ -1342,6 +1401,7 @@ END
 
 // Animate Skeleton Warrior
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -1361,6 +1421,7 @@ END
 
 // Animate Dead
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -1395,6 +1456,7 @@ END
 
 // Protection From Evil
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
@@ -1411,6 +1473,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1432,6 +1495,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(SecondNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1453,6 +1517,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(ThirdNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1474,6 +1539,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(FourthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1495,6 +1561,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(FifthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1516,6 +1583,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_EVIL_10_FOOT)
 	!CheckSpellState(SixthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1538,6 +1606,7 @@ END
 
 // Protection From Good 10 Radius
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
@@ -1554,6 +1623,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1575,6 +1645,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(SecondNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1596,6 +1667,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(ThirdNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1617,6 +1689,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(FourthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1638,6 +1711,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(FifthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1659,6 +1733,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECTION_FROM_GOOD_10_FOOT)
 	!CheckSpellState(SixthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1681,6 +1756,7 @@ END
 
 // Protection From Good
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
@@ -1697,6 +1773,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1718,6 +1795,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(SecondNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1739,6 +1817,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(ThirdNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1760,6 +1839,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(FourthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1781,6 +1861,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(FifthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1802,6 +1883,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_GOOD)
 	!CheckSpellState(SixthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1824,6 +1906,7 @@ END
 
 // Protection From Evil
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(Myself,PROTECTION_FROM_EVIL)
@@ -1840,6 +1923,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(NearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1861,6 +1945,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(SecondNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1882,6 +1967,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(ThirdNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1903,6 +1989,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(FourthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1924,6 +2011,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(FifthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1945,6 +2033,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_PROTECT_FROM_EVIL)
 	!CheckSpellState(SixthNearestAllyOf(Myself),PROTECTION_FROM_EVIL)
@@ -1967,6 +2056,7 @@ END
 
 // Summon Shadows
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -1989,6 +2079,7 @@ END
 
 // Shades
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -2009,6 +2100,7 @@ END
 
 // Demi-Shadow Monsters
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -2037,6 +2129,7 @@ END
 
 // Shadow Monsters
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -2072,6 +2165,7 @@ END
 
 // Armor Of Faith
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_ARMOR_OF_FAITH)
@@ -2084,6 +2178,7 @@ END
 
 // Chant
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_CHANT)
@@ -2096,6 +2191,7 @@ END
 
 // Sanctuary
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_SANCTUARY)
@@ -2109,6 +2205,7 @@ END
 
 // Unholy Word
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
@@ -2141,6 +2238,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2173,6 +2271,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2205,6 +2304,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2237,6 +2337,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2269,6 +2370,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2301,6 +2403,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2333,6 +2436,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2365,6 +2469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2397,6 +2502,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2430,6 +2536,7 @@ END
 
 // Unholy Word
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
@@ -2458,6 +2565,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2486,6 +2594,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2514,6 +2623,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2542,6 +2652,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2570,6 +2681,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2598,6 +2710,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2626,6 +2739,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2654,6 +2768,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2682,6 +2797,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_UNHOLY_WORD)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_SLOWED)
@@ -2711,6 +2827,7 @@ END
 
 // Dolorous Decay
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -2741,6 +2858,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -2771,6 +2889,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -2801,6 +2920,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -2831,6 +2951,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -2861,6 +2982,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -2891,6 +3013,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -2921,6 +3044,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -2951,6 +3075,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -2981,6 +3106,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3012,6 +3138,7 @@ END
 
 // Dolorous Decay
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -3035,6 +3162,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -3058,6 +3186,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -3081,6 +3210,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3104,6 +3234,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3127,6 +3258,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3150,6 +3282,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -3173,6 +3306,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3196,6 +3330,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3219,6 +3354,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3243,6 +3379,7 @@ END
 
 // Dolorous Decay
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -3262,6 +3399,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -3281,6 +3419,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -3300,6 +3439,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3319,6 +3459,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3338,6 +3479,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3357,6 +3499,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -3376,6 +3519,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3395,6 +3539,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3414,6 +3559,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOLOROUS_DECAY)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -3434,6 +3580,7 @@ END
 
 // Bolt Of Glory
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3463,6 +3610,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3492,6 +3640,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3521,6 +3670,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3550,6 +3700,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3579,6 +3730,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3608,6 +3760,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3637,6 +3790,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3666,6 +3820,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3695,6 +3850,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3725,6 +3881,7 @@ END
 
 // Bolt Of Glory
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3747,6 +3904,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3769,6 +3927,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3791,6 +3950,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3813,6 +3973,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3835,6 +3996,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3857,6 +4019,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3879,6 +4042,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3901,6 +4065,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3923,6 +4088,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3946,6 +4112,7 @@ END
 
 // Bolt Of Glory
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3964,6 +4131,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -3982,6 +4150,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4000,6 +4169,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4018,6 +4188,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4036,6 +4207,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4054,6 +4226,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4072,6 +4245,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4090,6 +4264,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4108,6 +4283,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_BOLT_OF_GLORY)
 	RandomNumGT(826,248)
@@ -4127,6 +4303,7 @@ END
 
 // Slay Living
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_SLAY_LIVING)
@@ -4157,6 +4334,7 @@ END
 
 // Righteous Magic
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_RIGHTEOUS_MAGIC)
@@ -4169,6 +4347,7 @@ END
 
 // Holy Power
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_HOLY_POWER)
@@ -4181,6 +4360,7 @@ END
 
 // Silence
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4211,6 +4391,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4241,6 +4422,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4271,6 +4453,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4301,6 +4484,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4331,6 +4515,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4361,6 +4546,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4391,6 +4577,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4421,6 +4608,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4451,6 +4639,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4481,6 +4670,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4511,6 +4701,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4542,6 +4733,7 @@ END
 
 // Silence
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4565,6 +4757,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4588,6 +4781,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4611,6 +4805,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4634,6 +4829,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4657,6 +4853,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4680,6 +4877,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4703,6 +4901,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4726,6 +4925,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4749,6 +4949,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4772,6 +4973,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4795,6 +4997,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_SILENCE_15_FOOT)
 	RandomNumGT(830,249)
@@ -4819,6 +5022,7 @@ END
 
 // Miscast Magic
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -4853,6 +5057,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -4887,6 +5092,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -4921,6 +5127,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -4955,6 +5162,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -4989,6 +5197,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5023,6 +5232,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5057,6 +5267,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5091,6 +5302,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5125,6 +5337,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5159,6 +5372,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5193,6 +5407,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5228,6 +5443,7 @@ END
 
 // Miscast Magic
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5255,6 +5471,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5282,6 +5499,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5309,6 +5527,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5336,6 +5555,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5363,6 +5583,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5390,6 +5611,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5417,6 +5639,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5444,6 +5667,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5471,6 +5695,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5498,6 +5723,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5525,6 +5751,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MISCAST_MAGIC)
 	!HaveSpell(CLERIC_CREEPING_DOOM)
@@ -5553,6 +5780,7 @@ END
 
 // Mental Domination
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5586,6 +5814,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5619,6 +5848,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5652,6 +5882,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5685,6 +5916,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5718,6 +5950,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5751,6 +5984,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5784,6 +6018,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5817,6 +6052,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5851,6 +6087,7 @@ END
 
 // Mental Domination
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5883,6 +6120,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5915,6 +6153,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5947,6 +6186,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -5979,6 +6219,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6011,6 +6252,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6043,6 +6285,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6075,6 +6318,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6107,6 +6351,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6140,6 +6385,7 @@ END
 
 // Mental Domination
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6173,6 +6419,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6206,6 +6453,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6239,6 +6487,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6272,6 +6521,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6305,6 +6555,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6338,6 +6589,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6371,6 +6623,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6404,6 +6657,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6437,6 +6691,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6471,6 +6726,7 @@ END
 
 // Mental Domination
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6503,6 +6759,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6535,6 +6792,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6567,6 +6825,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6599,6 +6858,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6631,6 +6891,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6663,6 +6924,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6695,6 +6957,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6727,6 +6990,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6759,6 +7023,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DOMINATION)
@@ -6792,6 +7057,7 @@ END
 
 // Flame Strike
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6821,6 +7087,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6850,6 +7117,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6879,6 +7147,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6908,6 +7177,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6937,6 +7207,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6966,6 +7237,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -6995,6 +7267,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7024,6 +7297,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7053,6 +7327,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7083,6 +7358,7 @@ END
 
 // Flame Strike
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7105,6 +7381,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7127,6 +7404,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7149,6 +7427,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7171,6 +7450,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7193,6 +7473,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7215,6 +7496,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7237,6 +7519,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7259,6 +7542,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7281,6 +7565,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7304,6 +7589,7 @@ END
 
 // Flame Strike
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7322,6 +7608,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7340,6 +7627,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7358,6 +7646,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7376,6 +7665,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7394,6 +7684,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7412,6 +7703,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7430,6 +7722,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7448,6 +7741,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7466,6 +7760,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_FLAME_STRIKE)
 	RandomNumGT(833,250)
@@ -7485,6 +7780,7 @@ END
 
 // Poison
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -7516,6 +7812,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -7547,6 +7844,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -7578,6 +7876,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7609,6 +7908,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7640,6 +7940,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7671,6 +7972,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -7702,6 +8004,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7733,6 +8036,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7764,6 +8068,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7796,6 +8101,7 @@ END
 
 // Poison
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -7820,6 +8126,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -7844,6 +8151,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -7868,6 +8176,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7892,6 +8201,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7916,6 +8226,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7940,6 +8251,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -7964,6 +8276,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -7988,6 +8301,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8012,6 +8326,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8037,6 +8352,7 @@ END
 
 // Poison
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NearestEnemyOf(Myself),STATE_POISONED)
@@ -8057,6 +8373,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_POISONED)
@@ -8077,6 +8394,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_POISONED)
@@ -8097,6 +8415,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8117,6 +8436,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8137,6 +8457,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8157,6 +8478,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_POISONED)
@@ -8177,6 +8499,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8197,6 +8520,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8217,6 +8541,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_POISON)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_POISONED)
@@ -8238,6 +8563,7 @@ END
 
 // Waves of Fatigue
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8268,6 +8594,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8298,6 +8625,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8328,6 +8656,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8358,6 +8687,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8388,6 +8718,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8418,6 +8749,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8448,6 +8780,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8478,6 +8811,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8508,6 +8842,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("D5P2508")
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -8539,6 +8874,7 @@ END
 
 // Cloud of Pestilence
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8569,6 +8905,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8599,6 +8936,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8629,6 +8967,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8659,6 +8998,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8689,6 +9029,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8719,6 +9060,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8749,6 +9091,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8779,6 +9122,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8809,6 +9153,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8840,6 +9185,7 @@ END
 
 // Cloud of Pestilence
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8863,6 +9209,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8886,6 +9233,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8909,6 +9257,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8932,6 +9281,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8955,6 +9305,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -8978,6 +9329,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9001,6 +9353,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9024,6 +9377,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9047,6 +9401,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9071,6 +9426,7 @@ END
 
 // Cloud of Pestilence
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9090,6 +9446,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9109,6 +9466,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9128,6 +9486,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9147,6 +9506,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9166,6 +9526,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9185,6 +9546,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9204,6 +9566,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9223,6 +9586,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9242,6 +9606,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOUD_OF_PESTILENCE)
 	RandomNumGT(836,251)
@@ -9262,6 +9627,7 @@ END
 
 // HolySmite
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9302,6 +9668,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9342,6 +9709,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9382,6 +9750,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9423,6 +9792,7 @@ END
 
 // HolySmite
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9459,6 +9829,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9495,6 +9866,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9531,6 +9903,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9568,6 +9941,7 @@ END
 
 // HolySmite
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9611,6 +9985,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9654,6 +10029,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9697,6 +10073,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9741,6 +10118,7 @@ END
 
 // HolySmite
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9780,6 +10158,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9819,6 +10198,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9858,6 +10238,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLY_SMITE)
 	RandomNumGT(837,251)
@@ -9898,6 +10279,7 @@ END
 
 // Glyph of Warding
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -9938,6 +10320,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -9978,6 +10361,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10018,6 +10402,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10059,6 +10444,7 @@ END
 
 // Glyph of Warding
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10095,6 +10481,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10131,6 +10518,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10167,6 +10555,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10204,6 +10593,7 @@ END
 
 // Glyph of Warding
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10247,6 +10637,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10290,6 +10681,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10333,6 +10725,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10377,6 +10770,7 @@ END
 
 // Glyph of Warding
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10416,6 +10810,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10455,6 +10850,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10494,6 +10890,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GLYPH_OF_WARDING)
 	RandomNumGT(838,251)
@@ -10534,6 +10931,7 @@ END
 
 // Greater Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10565,6 +10963,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10596,6 +10995,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10627,6 +11027,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10658,6 +11059,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10689,6 +11091,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10720,6 +11123,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10751,6 +11155,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10782,6 +11187,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10813,6 +11219,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10845,6 +11252,7 @@ END
 
 // Greater Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10875,6 +11283,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10905,6 +11314,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10935,6 +11345,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10965,6 +11376,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -10995,6 +11407,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11025,6 +11438,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11055,6 +11469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11085,6 +11500,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11115,6 +11531,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11146,6 +11563,7 @@ END
 
 // Greater Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11172,6 +11590,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11198,6 +11617,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11224,6 +11644,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11250,6 +11671,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11276,6 +11698,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11302,6 +11725,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11328,6 +11752,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11354,6 +11779,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11380,6 +11806,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_GREATER_COMMAND)
 	RandomNumGT(839,252)
@@ -11407,6 +11834,7 @@ END
 
 // Rigid Thinking
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11437,6 +11865,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11467,6 +11896,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11497,6 +11927,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11527,6 +11958,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11557,6 +11989,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11587,6 +12020,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11617,6 +12051,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11647,6 +12082,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11677,6 +12113,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11708,6 +12145,7 @@ END
 
 // Rigid Thinking
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11734,6 +12172,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11760,6 +12199,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11786,6 +12226,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11812,6 +12253,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11838,6 +12280,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11864,6 +12307,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11890,6 +12334,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11916,6 +12361,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11942,6 +12388,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_RIGID_THINKING)
 	RandomNumGT(840,252)
@@ -11969,6 +12416,7 @@ END
 
 // Cloak of Fear
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -11999,6 +12447,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12029,6 +12478,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12059,6 +12509,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12089,6 +12540,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12119,6 +12571,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12149,6 +12602,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12179,6 +12633,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12209,6 +12664,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12239,6 +12695,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12270,6 +12727,7 @@ END
 
 // Cloak of Fear
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12296,6 +12754,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12322,6 +12781,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12348,6 +12808,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12374,6 +12835,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12400,6 +12862,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12426,6 +12889,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12452,6 +12916,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12478,6 +12943,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12504,6 +12970,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CLOAK_OF_FEAR)
 	RandomNumGT(841,252)
@@ -12531,6 +12998,7 @@ END
 
 // Mass Cause Light Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12561,6 +13029,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12591,6 +13060,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12621,6 +13091,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12651,6 +13122,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12681,6 +13153,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12711,6 +13184,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12741,6 +13215,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12771,6 +13246,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12801,6 +13277,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12832,6 +13309,7 @@ END
 
 // Mass Cause Light Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12855,6 +13333,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12878,6 +13357,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12901,6 +13381,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12924,6 +13405,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12947,6 +13429,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12970,6 +13453,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -12993,6 +13477,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13016,6 +13501,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13039,6 +13525,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13063,6 +13550,7 @@ END
 
 // Mass Cause Light Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13082,6 +13570,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13101,6 +13590,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13120,6 +13610,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13139,6 +13630,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13158,6 +13650,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13177,6 +13670,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13196,6 +13690,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13215,6 +13710,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13234,6 +13730,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_MASS_CAUSE_LIGHT_WOUNDS)
 	RandomNumGT(842,253)
@@ -13254,6 +13751,7 @@ END
 
 // Cause Critical Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_CAUSE_SERIOUS_WOUNDS)
@@ -13285,6 +13783,7 @@ END
 
 // Cause Moderate Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_CAUSE_MODERATE_WOUNDS)
@@ -13319,6 +13818,7 @@ END
 
 // Contagion
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13351,6 +13851,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13383,6 +13884,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13415,6 +13917,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13447,6 +13950,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13479,6 +13983,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13511,6 +14016,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13543,6 +14049,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13575,6 +14082,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13607,6 +14115,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CONTAGION)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -13640,6 +14149,7 @@ END
 
 // Cause Disease
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13670,6 +14180,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13700,6 +14211,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13730,6 +14242,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13760,6 +14273,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13790,6 +14304,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13820,6 +14335,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13850,6 +14366,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13880,6 +14397,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13911,6 +14429,7 @@ END
 
 // Cause Disease
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13934,6 +14453,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13957,6 +14477,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -13980,6 +14501,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14003,6 +14525,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14026,6 +14549,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14049,6 +14573,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14072,6 +14597,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14095,6 +14621,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CAUSE_DISEASE)
 	RandomNumGT(846,254)
@@ -14119,6 +14646,7 @@ END
 
 // Cause Serious Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_CAUSE_MEDIUM_WOUNDS)
@@ -14151,6 +14679,7 @@ END
 
 // Hold Person
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14185,6 +14714,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14219,6 +14749,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14253,6 +14784,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14287,6 +14819,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14321,6 +14854,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14355,6 +14889,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14389,6 +14924,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14423,6 +14959,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14457,6 +14994,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14492,6 +15030,7 @@ END
 
 // Hold Person
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14522,6 +15061,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14552,6 +15092,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14582,6 +15123,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14612,6 +15154,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14642,6 +15185,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14672,6 +15216,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14702,6 +15247,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14732,6 +15278,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14762,6 +15309,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_HOLD_PERSON)
 	!HaveSpell(CLERIC_WAVES_OF_AGONY)
@@ -14793,6 +15341,7 @@ END
 
 // Doom
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -14829,6 +15378,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -14865,6 +15415,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -14901,6 +15452,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -14937,6 +15489,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -14973,6 +15526,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -15009,6 +15563,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -15045,6 +15600,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -15081,6 +15637,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -15117,6 +15674,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_DOOM)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -15154,6 +15712,7 @@ END
 
 // Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15188,6 +15747,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15222,6 +15782,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15256,6 +15817,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15290,6 +15852,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15324,6 +15887,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15358,6 +15922,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15392,6 +15957,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15426,6 +15992,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15460,6 +16027,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15495,6 +16063,7 @@ END
 
 // Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15528,6 +16097,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15561,6 +16131,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15594,6 +16165,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15627,6 +16199,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15660,6 +16233,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15693,6 +16267,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15726,6 +16301,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15759,6 +16335,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15792,6 +16369,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15826,6 +16404,7 @@ END
 
 // Command
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15855,6 +16434,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15884,6 +16464,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15913,6 +16494,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15942,6 +16524,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -15971,6 +16554,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -16000,6 +16584,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -16029,6 +16614,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -16058,6 +16644,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -16087,6 +16674,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_COMMAND)
 	!HaveSpell(CLERIC_GREATER_COMMAND)
@@ -16117,6 +16705,7 @@ END
 
 // Cause Light Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_CAUSE_LIGHT_WOUNDS)
@@ -16152,6 +16741,7 @@ END
 
 // Spiritual Hammer
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_SPIRITUAL_HAMMER)
@@ -16185,6 +16775,7 @@ END
 
 // Curse
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16219,6 +16810,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16253,6 +16845,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16287,6 +16880,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16321,6 +16915,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16355,6 +16950,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16389,6 +16985,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16423,6 +17020,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16457,6 +17055,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16491,6 +17090,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpell(CLERIC_CURSE)
 	!HaveSpell(CLERIC_ENERGY_DRAIN)
@@ -16526,6 +17126,7 @@ END
 
 // Draw Upon Holy Might
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(CLERIC_DRAW_UPON_HOLY_MIGHT)

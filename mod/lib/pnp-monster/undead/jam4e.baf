@@ -12,6 +12,17 @@ THEN
 		SetGlobal("JA_INIT","LOCALS",1)
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Rest (reset everything and heal if applicable)
 IF
 	Global("JA_INIT","LOCALS",1)
@@ -147,6 +158,7 @@ END
 
 // Fear Aura
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -182,6 +194,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -217,6 +230,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -252,6 +266,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -287,6 +302,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -322,6 +338,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -357,6 +374,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -392,6 +410,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -427,6 +446,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -462,6 +482,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -498,6 +519,7 @@ END
 
 // Fear Aura
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -529,6 +551,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -560,6 +583,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -591,6 +615,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -622,6 +647,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -653,6 +679,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -684,6 +711,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -715,6 +743,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -746,6 +775,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)
@@ -777,6 +807,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2m4e")
 	RandomNumGT(800,240)

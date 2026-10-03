@@ -3,8 +3,14 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/common.tpa"
 ACTION_IF FILE_EXISTS_IN_GAME ~BDGHOST.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/BDGHOST.BAF~
 END
+ACTION_IF FILE_EXISTS_IN_GAME ~CB3579DK.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/CB3579DK.BAF~
+END
 ACTION_IF FILE_EXISTS_IN_GAME ~DVDEATHK.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/dvdeathk.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~DW#DEATH.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/dw#death.BAF~
 END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Banshee
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4c.tpa" // Ghoul

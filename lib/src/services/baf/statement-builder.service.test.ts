@@ -36,6 +36,7 @@ interface StatementBuilderServicePrivate {
   handlePanic(p: Pick<HandlerParams, "statements" | "creature">): void;
   destroyUponDeath(p: Pick<HandlerParams, "statements" | "options">): void;
   init(p: Pick<HandlerParams, "statements" | "options">): void;
+  disableSpellcasting(p: Pick<HandlerParams, "statements">): void;
   rest(p: HandlerParams): void;
   turnHostile(p: HandlerParams): void;
   detectCombat(p: Pick<HandlerParams, "statements">): void;
@@ -146,6 +147,7 @@ function fakeAbility(overrides: Partial<CreatureAbility> = {}): CreatureAbility 
     triggers: [],
     disableInterrupt: false,
     requireVocal: false,
+    spellcasting: false,
     canUseWhenPolymorphed: false,
     isSpell: false,
     infiniteUse: false,
@@ -270,6 +272,62 @@ describe("init (private)", () => {
         params: [GLOBAL_CONFIG.bafConstants.initGlobal, "LOCALS", 1],
       },
     ]);
+  });
+});
+
+describe("disableSpellcasting (private)", () => {
+  const areas = GLOBAL_CONFIG.disableSpellcastingAreas;
+  const withAreas = (value: string[], fn: () => void) => {
+    GLOBAL_CONFIG.disableSpellcastingAreas = value;
+    try {
+      fn();
+    } finally {
+      GLOBAL_CONFIG.disableSpellcastingAreas = areas;
+    }
+  };
+
+  it("adds nothing without any configured area", () => {
+    withAreas([], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements).toEqual([]);
+    });
+  });
+
+  it("uses a single AreaCheck (no Or) for one area", () => {
+    withAreas(["AR0001"], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements[0].triggers[1]).toEqual({ name: "AreaCheck", params: ["AR0001"] });
+    });
+  });
+
+  it("sets the disable global once in any configured area", () => {
+    withAreas(["AR0001", "AR0002"], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements).toHaveLength(1);
+      expect(statements[0].triggers).toEqual([
+        {
+          name: "Global",
+          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+          negation: false,
+        },
+        {
+          name: "Or",
+          triggers: [
+            { name: "AreaCheck", params: ["AR0001"] },
+            { name: "AreaCheck", params: ["AR0002"] },
+          ],
+        },
+      ]);
+      expect(statements[0].responses[0].actions).toEqual([
+        {
+          name: "SetGlobal",
+          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 1],
+        },
+      ]);
+    });
   });
 });
 
@@ -790,6 +848,16 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     expect(statements[2].comment).toBe("Precast AnimateSkeletonWarrior");
     expect(statements[3].comment).toBe("Precast Ironskin");
     expect(statements[4].comment).toBeUndefined();
+    expect(statements[0].triggers).toContainEqual({
+      name: "Global",
+      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      negation: false,
+    });
+    expect(statements[4].triggers).not.toContainEqual(
+      expect.objectContaining({
+        params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      }),
+    );
   });
 
   it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
@@ -874,6 +942,26 @@ describe("creatureSelfAbility (private)", () => {
       params: ["Myself", "STATE_SILENCED"],
       negation: true,
     });
+  });
+
+  it("adds a disable spellcasting check only for a spellcasting ability", () => {
+    const disableCheck = {
+      name: "Global",
+      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      negation: false,
+    };
+    const spell: Statements = [];
+    service.creatureSelfAbility(
+      spell,
+      fakeCreature(),
+      fakeAbility({ spellcasting: true }),
+      options(),
+    );
+    expect(spell[0].triggers).toContainEqual(disableCheck);
+
+    const innate: Statements = [];
+    service.creatureSelfAbility(innate, fakeCreature(), fakeAbility(), options());
+    expect(innate[0].triggers).not.toContainEqual(disableCheck);
   });
 
   it("adds a polymorph check when the creature can polymorph and the ability doesn't allow it", () => {

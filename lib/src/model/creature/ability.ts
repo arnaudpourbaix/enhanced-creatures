@@ -63,6 +63,11 @@ export interface BaseCreatureAbility {
    */
   requireVocal: boolean;
   /**
+   * Is a real spell (not an innate ability): can't be cast once spellcasting is disabled (see
+   * GLOBAL_CONFIG.bafConstants.disableSpellcasting). Defaults to `requireVocal`.
+   */
+  spellcasting: boolean;
+  /**
    * Can use ability when polymorphed (false by default)
    */
   canUseWhenPolymorphed: boolean;

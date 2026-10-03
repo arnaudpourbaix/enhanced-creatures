@@ -20,6 +20,12 @@ export const GLOBAL_CONFIG = {
    * doesn't attack a target its weapon can't hit or damage.
    */
   weaponCheck: true,
+  /**
+   * Areas where creatures can't cast spells (innate abilities still work): entering one sets
+   * bafConstants.disableSpellcasting, which every spellcasting block checks (see
+   * BaseCreatureAbility.spellcasting).
+   */
+  disableSpellcastingAreas: ["AR3004", "AR3008"],
   files: {
     coreMonsters: "lib/pnp-monster/common/core.tpa",
     spellResources: "lib/common/spell-resources.tpa",

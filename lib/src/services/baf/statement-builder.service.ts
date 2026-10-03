@@ -44,6 +44,7 @@ class StatementBuilderService {
     this.execute(this.destroyUponDeath.bind(this), "destroyUponDeath", p);
     this.execute(this.dialog.bind(this), "dialog", p);
     this.execute(this.init.bind(this), "init", p);
+    this.execute(this.disableSpellcasting.bind(this), "disableSpellcasting", p);
     this.execute(this.rest.bind(this), "rest", p);
     this.execute(this.precastLongDurationSpells.bind(this), "precastLongDurationSpells", p);
     this.execute(this.turnHostile.bind(this), "turnHostile", p);
@@ -195,10 +196,6 @@ class StatementBuilderService {
       actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
       actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.precastLongDurationSpells, 0),
       actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.precastMidDurationSpells, 0),
-      // actionFactory.setGlobal(
-      //   GLOBAL_CONFIG.bafConstants.disableSpellcasting,
-      //   0,
-      // ),
       actionFactory.setGlobalTimer(GLOBAL_CONFIG.bafConstants.restTimer, Durations.eightHours),
       actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.initGlobal, 1),
     ];
@@ -206,6 +203,29 @@ class StatementBuilderService {
       comment: "Init",
       triggers: [triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0)],
       responses: responseFactory.response(actions),
+    });
+  }
+
+  /**
+   * Sets bafConstants.disableSpellcasting once in a GLOBAL_CONFIG.disableSpellcastingAreas area.
+   * Never reset here: other mechanisms may set it too.
+   */
+  private disableSpellcasting({ statements }: Pick<HandlerParams, "statements">): void {
+    const areas = GLOBAL_CONFIG.disableSpellcastingAreas;
+    if (!areas.length) return;
+    const areaChecks: Triggers.Trigger[] = areas.map((area) => ({
+      name: "AreaCheck",
+      params: [area],
+    }));
+    statements.push({
+      comment: "Disable spellcasting in some areas",
+      triggers: [
+        triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+        areaChecks.length === 1 ? areaChecks[0] : triggerFactory.or(areaChecks),
+      ],
+      responses: responseFactory.response([
+        actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 1),
+      ]),
     });
   }
 
@@ -933,6 +953,7 @@ class StatementBuilderService {
         comment: `Precast ${spell.key}`,
         triggers: [
           triggerFactory.global(variable, 0),
+          triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
           { name: "HaveSpellRES", params: [spell.file] },
         ],
         responses: responseFactory.response([
@@ -1075,6 +1096,9 @@ class StatementBuilderService {
         negation: true,
       });
     }
+    if (ability.spellcasting) {
+      triggers.unshift(triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0));
+    }
     if (!ability.canUseWhenPolymorphed && creature.behavior.canPolymorph) {
       triggers.unshift({
         name: "CheckStat",
@@ -1121,6 +1145,9 @@ class StatementBuilderService {
         params: [ScriptTarget.myself, "STATE_SILENCED"],
         negation: true,
       });
+    }
+    if (ability.spellcasting) {
+      triggers.unshift(triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0));
     }
     if (!ability.canUseWhenPolymorphed && creature.behavior.canPolymorph) {
       triggers.unshift({

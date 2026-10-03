@@ -33,6 +33,17 @@ THEN
 		RemoveSpell(WIZARD_NPC_SYMBOL_FEAR)
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Detect combat
 IF
 	Global("JA_COMBAT","LOCALS",0)
@@ -741,6 +752,7 @@ END
 
 // Detect Invisibility
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
@@ -757,6 +769,7 @@ END
 
 // Power Word Kill
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -791,6 +804,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -825,6 +839,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -859,6 +874,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -893,6 +909,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -927,6 +944,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -961,6 +979,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -995,6 +1014,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1029,6 +1049,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1063,6 +1084,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1098,6 +1120,7 @@ END
 
 // Power Word Kill
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1125,6 +1148,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1152,6 +1176,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1179,6 +1204,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1206,6 +1232,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1233,6 +1260,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1260,6 +1288,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1287,6 +1316,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1314,6 +1344,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1341,6 +1372,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1369,6 +1401,7 @@ END
 
 // Power Word Kill
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1392,6 +1425,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1415,6 +1449,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1438,6 +1473,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1461,6 +1497,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1484,6 +1521,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1507,6 +1545,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1530,6 +1569,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1553,6 +1593,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1576,6 +1617,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_KILL)
@@ -1600,6 +1642,7 @@ END
 
 // Power Word Stun
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1633,6 +1676,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1666,6 +1710,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1699,6 +1744,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1732,6 +1778,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1765,6 +1812,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1798,6 +1846,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1831,6 +1880,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1864,6 +1914,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1897,6 +1948,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1931,6 +1983,7 @@ END
 
 // Power Word Stun
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1960,6 +2013,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -1989,6 +2043,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2018,6 +2073,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2047,6 +2103,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2076,6 +2133,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2105,6 +2163,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2134,6 +2193,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2163,6 +2223,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2192,6 +2253,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_STUN)
@@ -2222,6 +2284,7 @@ END
 
 // Power Word Blind
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2255,6 +2318,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2288,6 +2352,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2321,6 +2386,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2354,6 +2420,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2387,6 +2454,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2420,6 +2488,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2453,6 +2522,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2486,6 +2556,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2519,6 +2590,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2553,6 +2625,7 @@ END
 
 // Power Word Blind
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2582,6 +2655,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2611,6 +2685,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2640,6 +2715,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2669,6 +2745,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2698,6 +2775,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2727,6 +2805,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2756,6 +2835,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2785,6 +2865,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2814,6 +2895,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_POWER_WORD_BLIND)
@@ -2844,6 +2926,7 @@ END
 
 // Dispel Magic
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -2891,6 +2974,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -2938,6 +3022,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -2985,6 +3070,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3032,6 +3118,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3079,6 +3166,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3126,6 +3214,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3173,6 +3262,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3220,6 +3310,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3267,6 +3358,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_TRUE_DISPEL_MAGIC)
@@ -3315,6 +3407,7 @@ END
 
 // Unholy Fireball
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3356,6 +3449,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3397,6 +3491,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3438,6 +3533,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3480,6 +3576,7 @@ END
 
 // Unholy Fireball
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3517,6 +3614,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3554,6 +3652,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3591,6 +3690,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3629,6 +3729,7 @@ END
 
 // Unholy Fireball
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3673,6 +3774,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3717,6 +3819,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3761,6 +3864,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3806,6 +3910,7 @@ END
 
 // Unholy Fireball
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3846,6 +3951,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3886,6 +3992,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3926,6 +4033,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpellRES("jas2m4a")
@@ -3967,6 +4075,7 @@ END
 
 // Symbol of Pain
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
@@ -3981,6 +4090,7 @@ END
 
 // Symbol of Fear
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4012,6 +4122,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4043,6 +4154,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4074,6 +4186,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4105,6 +4218,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4136,6 +4250,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4167,6 +4282,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4198,6 +4314,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4229,6 +4346,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4260,6 +4378,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4292,6 +4411,7 @@ END
 
 // Symbol of Fear
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4319,6 +4439,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4346,6 +4467,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4373,6 +4495,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4400,6 +4523,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4427,6 +4551,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4454,6 +4579,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4481,6 +4607,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4508,6 +4635,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4535,6 +4663,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(WIZARD_NPC_SYMBOL_FEAR)
@@ -4563,6 +4692,7 @@ END
 
 // Wall of Ice
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4606,6 +4736,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4649,6 +4780,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4692,6 +4824,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4736,6 +4869,7 @@ END
 
 // Wall of Ice
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4775,6 +4909,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4814,6 +4949,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4853,6 +4989,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4893,6 +5030,7 @@ END
 
 // Wall of Ice
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4939,6 +5077,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -4985,6 +5124,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -5031,6 +5171,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -5078,6 +5219,7 @@ END
 
 // Wall of Ice
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -5120,6 +5262,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -5162,6 +5305,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()
@@ -5204,6 +5348,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("WallOfIce","LOCALS")
 	ActionListEmpty()

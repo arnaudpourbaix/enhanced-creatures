@@ -43,6 +43,7 @@ export type CustomCodeLocation =
   | "destroyUponDeath"
   | "detectCombat"
   | "dialog"
+  | "disableSpellcasting"
   | "followSummoner"
   | "handlePanic"
   | "help"

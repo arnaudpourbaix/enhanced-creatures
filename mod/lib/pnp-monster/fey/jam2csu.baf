@@ -6,6 +6,17 @@ THEN
 		DestroySelf()
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Detect combat
 IF
 	Global("JA_COMBAT","LOCALS",0)
@@ -338,6 +349,7 @@ END
 
 // Call Woodland Beeings
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("Summoning","LOCALS")
@@ -370,6 +382,7 @@ END
 
 // Bless
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -387,6 +400,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -409,6 +423,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -431,6 +446,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -453,6 +469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -475,6 +492,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -497,6 +515,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BLESS)
@@ -520,6 +539,7 @@ END
 
 // Barkskin
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -537,6 +557,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -559,6 +580,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -581,6 +603,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -603,6 +626,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -625,6 +649,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -647,6 +672,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_BARKSKIN)
@@ -670,6 +696,7 @@ END
 
 // Call Lightning
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -703,6 +730,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -736,6 +764,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -769,6 +798,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -802,6 +832,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -835,6 +866,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -868,6 +900,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -901,6 +934,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -934,6 +968,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -967,6 +1002,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1001,6 +1037,7 @@ END
 
 // Call Lightning
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1027,6 +1064,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1053,6 +1091,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1079,6 +1118,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1105,6 +1145,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1131,6 +1172,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1157,6 +1199,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1183,6 +1226,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1209,6 +1253,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1235,6 +1280,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1262,6 +1308,7 @@ END
 
 // Call Lightning
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1284,6 +1331,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1306,6 +1354,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1328,6 +1377,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1350,6 +1400,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1372,6 +1423,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1394,6 +1446,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1416,6 +1469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1438,6 +1492,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1460,6 +1515,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CALL_LIGHTNING)
@@ -1483,6 +1539,7 @@ END
 
 // Summon Insects
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1517,6 +1574,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1551,6 +1609,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1585,6 +1644,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1619,6 +1679,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1653,6 +1714,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1687,6 +1749,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1721,6 +1784,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1755,6 +1819,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1789,6 +1854,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1823,6 +1889,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1857,6 +1924,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1892,6 +1960,7 @@ END
 
 // Summon Insects
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1919,6 +1988,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1946,6 +2016,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -1973,6 +2044,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2000,6 +2072,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2027,6 +2100,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2054,6 +2128,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2081,6 +2156,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2108,6 +2184,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2135,6 +2212,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2162,6 +2240,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2189,6 +2268,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_SUMMON_INSECTS)
@@ -2217,6 +2297,7 @@ END
 
 // Entangle
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2249,6 +2330,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2281,6 +2363,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2313,6 +2396,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2345,6 +2429,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2377,6 +2462,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2409,6 +2495,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2441,6 +2528,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2473,6 +2561,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2505,6 +2594,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2538,6 +2628,7 @@ END
 
 // Entangle
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2566,6 +2657,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2594,6 +2686,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2622,6 +2715,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2650,6 +2744,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2678,6 +2773,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2706,6 +2802,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2734,6 +2831,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2762,6 +2860,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2790,6 +2889,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_ENTANGLE)
@@ -2819,6 +2919,7 @@ END
 
 // Charm Person or Animal
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -2855,6 +2956,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -2891,6 +2993,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -2927,6 +3030,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -2963,6 +3067,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -2999,6 +3104,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3035,6 +3141,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3071,6 +3178,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3107,6 +3215,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3144,6 +3253,7 @@ END
 
 // Charm Person or Animal
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3179,6 +3289,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3214,6 +3325,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3249,6 +3361,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3284,6 +3397,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3319,6 +3433,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3354,6 +3469,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3389,6 +3505,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3424,6 +3541,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3460,6 +3578,7 @@ END
 
 // Charm Person or Animal
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3496,6 +3615,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3532,6 +3652,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3568,6 +3689,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3604,6 +3726,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3640,6 +3763,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3676,6 +3800,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3712,6 +3837,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3748,6 +3874,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3784,6 +3911,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3821,6 +3949,7 @@ END
 
 // Charm Person or Animal
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3856,6 +3985,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3891,6 +4021,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3926,6 +4057,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3961,6 +4093,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -3996,6 +4129,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -4031,6 +4165,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -4066,6 +4201,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -4101,6 +4237,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -4136,6 +4273,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CHARM_PERSON)
@@ -4287,6 +4425,7 @@ END
 
 // Cure Light Wounds
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
@@ -4314,6 +4453,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
@@ -4341,6 +4481,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
@@ -4368,6 +4509,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
@@ -4395,6 +4537,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
@@ -4422,6 +4565,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	ActionListEmpty()
 	HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)

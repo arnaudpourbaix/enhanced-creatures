@@ -208,10 +208,18 @@ export function deathKnight(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead", "skeletal"],
       items: {
-        remove: ["SHLD06", "RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05"],
+        remove: ["RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05", "SW2HDEAT"],
+        // Weapon choices:
+        // 1  Long sword +2
+        // 2  Two-handed sword +3
+        // 3  Two-handed sword +4
+        // 4  Short sword of quickness
+        // 5  Short sword of dancing
+        // 6  Short sword of life stealing
+        equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
       },
       script: {
-        remove: ["AC#DTDKN"],
+        remove: ["AC#DTDKN", "UDDEATH", "DVDEATHK", "CB3579DK"],
       },
       spells: {
         memorized: [
@@ -242,13 +250,6 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
     ],
   });
-  // Weapon choices:
-  // 1  Long sword +2
-  // 2  Two-handed sword +3
-  // 3  Two-handed sword +4
-  // 4  Short sword of quickness
-  // 5  Short sword of dancing
-  // 6  Short sword of life stealing
   knight.setBehavior({
     restHeal: true,
     dialog: ["AC#DTDKN"],
@@ -320,22 +321,24 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
     },
     {
-      files: ["dvdeathk"],
-      game: "bg2",
-      data: {
-        items: {
-          equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
-        },
-      },
-    },
-    {
       files: ["AC#DTDKN"],
       data: {
         level1: 15,
         xpv: 10000,
-        items: {
-          equipped: [{ file: "sw2h08", slot: "WEAPON1" }], // soul reaver +4
-        },
+      },
+    },
+    {
+      files: ["DEATHK"],
+      data: {
+        level1: 15,
+        xpv: 10000,
+      },
+    },
+    {
+      files: ["C0DEATHK", "DEATHKNI", "DECK615", "MELSUM02", "UDDEATH", "UDDEATH2"],
+      data: {
+        level1: 18,
+        xpv: 12000,
       },
     },
   ]);

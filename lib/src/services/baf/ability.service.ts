@@ -178,6 +178,7 @@ class AbilityService {
       disableInterrupt: false,
       canUseWhenPolymorphed: false,
       ...ability,
+      spellcasting: ability.spellcasting ?? ability.requireVocal ?? false,
       targets: targets ?? [],
       name: ability.name ?? "ability.unknown",
       isSpell: false,

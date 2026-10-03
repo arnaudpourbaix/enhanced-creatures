@@ -19,6 +19,17 @@ THEN
 		StartDialogueNoSet([PC])
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Turn hostile if too close and not druid/ranger/fey
 IF
 	Range([GOODCUTOFF],7)
