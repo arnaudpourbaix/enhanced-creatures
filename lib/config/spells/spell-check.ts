@@ -56,7 +56,14 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   electrical: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTELECTRICITY"] }],
   elf: [{ name: "Race", params: [ScriptTarget.token, "ELF"], negation: true }],
   fear: [
+    // Remove Fear, Resist Fear (both also set RESIST_FEAR below)
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "WIZARD_RESIST_FEAR"], negation: true },
+    // Permanent immunities: Blackguard, the mod's own fear immunity (see IMMUNITIES), ...
+    { name: "CheckSpellState", params: [ScriptTarget.token, "RESIST_FEAR"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "EXALTATION"], negation: true },
+    // Kit ability not tied to any stat or spell state (opcode 101 against panic only)
+    { name: "Kit", params: [ScriptTarget.token, "CAVALIER"], negation: true },
+    { name: "General", params: [ScriptTarget.token, "UNDEAD"], negation: true },
   ],
   fire: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTFIRE"] }],
   friendly: [],

@@ -149,12 +149,12 @@ describe("spellChecks", () => {
   });
 
   it("only skips a target protected from every effect keyword", () => {
-    const [fear] = SPELL_CHECK_TRIGGERS.fear;
-    const [chaotic, freeAction] = SPELL_CHECK_TRIGGERS.hold;
-    expect(triggerFactory.spellChecks(["hold", "fear"])).toEqual([
-      triggerFactory.or([chaotic, fear]),
-      triggerFactory.or([freeAction, fear]),
-    ]);
+    // "not protected from hold, or not protected from fear", distributed into one OR per pair
+    expect(triggerFactory.spellChecks(["hold", "fear"])).toEqual(
+      SPELL_CHECK_TRIGGERS.hold.flatMap((hold) =>
+        SPELL_CHECK_TRIGGERS.fear.map((fear) => triggerFactory.or([hold, fear])),
+      ),
+    );
   });
 
   it("drops an effect clause implied by a smaller one", () => {
