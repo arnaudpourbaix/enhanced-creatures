@@ -217,7 +217,18 @@ export function deathKnight(family: UndeadFamily): Undead {
       movement: 12,
       immunities: ["undead", "skeletal"],
       items: {
-        remove: ["RINGDEMN", "UNDTYPE", "IMMUNE1", "DVDEATHK", "SHLD06", "SW2H05", "SW2HDEAT"],
+        remove: [
+          "RINGDEMN",
+          "UNDTYPE",
+          "IMMUNE1",
+          "DVDEATHK",
+          "SHLD06",
+          "SW2H05",
+          "SW2H08",
+          "SW2HDEAT",
+          "SEEINVIS",
+          "HELMNOAN",
+        ],
         // Weapon choices:
         // 1  Long sword +2
         // 2  Two-handed sword +3
@@ -243,7 +254,6 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
     },
   });
-  //
   fearAura(knight);
   wallOfIce(knight);
   fireball(knight);
@@ -278,7 +288,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordBlind,
         ]),
-        probability: 5,
+        probability: 10,
       },
       {
         preset: SPELLS.Wizard.PowerWordBlind.file,
@@ -286,7 +296,7 @@ export function deathKnight(family: UndeadFamily): Undead {
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordStun,
         ]),
-        probability: 1,
+        probability: 5,
       },
       family.preset(SPELLS.Wizard.DispelMagic.file),
       family.ability(Ids.Fireball),
@@ -337,14 +347,18 @@ export function deathKnight(family: UndeadFamily): Undead {
       },
     },
     {
-      files: ["DEATHK"],
+      files: ["DEATHK", "NTDEATH1", "CB3579DK"],
       data: {
         level1: 15,
         xpv: 10000,
       },
     },
     {
-      files: ["C0DEATHK", "DEATHKNI", "DECK615", "MELSUM02", "UDDEATH", "UDDEATH2"],
+      files: ["NTDEATH1", "AC#W40UM"],
+      noWeapon: true,
+    },
+    {
+      files: ["C0DEATHK", "DEATHKNI", "DECK615", "MELSUM02", "UDDEATH", "UDDEATH2", "O#DAEMAJ"],
       data: {
         level1: 18,
         xpv: 12000,
