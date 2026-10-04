@@ -276,6 +276,18 @@ describe("alliesSafe", () => {
   });
 });
 
+describe("enemyNearTarget", () => {
+  it("checks the target's nearest ally (one of the caster's enemies) is within range", () => {
+    expect(triggerFactory.enemyNearTarget(10)).toEqual({
+      name: "TriggerOverride",
+      object: "LastSeenBy(Myself)",
+      trigger: { name: "Range", params: ["NearestAllyOf(Myself)", 10] },
+      negation: false,
+      exceptMyself: true,
+    });
+  });
+});
+
 describe("casterSafe", () => {
   it("checks the caster against any of safeIf", () => {
     expect(

@@ -70,6 +70,11 @@ export const GLOBAL_CONFIG = {
     summonerShoutId: 98,
     trackingRange: 150,
     meleeRange: 4,
+    /**
+     * Radius (script Range() units) of an area spell without an alliesCheck of its own, used to
+     * prefer a target with other enemies around it (see StatementBuilderService.clusterTriggers).
+     */
+    areaRange: 10,
   },
   tpaConstants: {
     genericScriptsToRemove: [

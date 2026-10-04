@@ -1020,14 +1020,59 @@ class StatementBuilderService {
     //       actions: [...actionFactory.alliesRunAway(ability.alliesCheck), ...ability.actions],
     //     }
     //   : ability;
+    const cluster = this.clusterTriggers(ability);
+    if (cluster.length) this.targetPasses(statements, creature, ability, targets, options, cluster);
+    this.targetPasses(statements, creature, ability, targets, options);
+  }
+
+  /**
+   * Every target list, then (see closeRangeFallback) every target list again at close range.
+   * `extraTargetTriggers` are added to every target's own checks.
+   */
+  private targetPasses(
+    statements: Statements,
+    creature: Creature,
+    ability: CreatureAbility,
+    targets: TargetList[],
+    options: BuilderOptions,
+    extraTargetTriggers: Triggers.Trigger[] = [],
+  ): void {
     for (const target of targets) {
-      this.creatureTargetAbility(statements, creature, ability, target, options);
+      this.creatureTargetAbility(
+        statements,
+        creature,
+        ability,
+        target,
+        options,
+        extraTargetTriggers,
+      );
     }
     const closeRange = this.closeRangeFallback(ability);
     if (!closeRange) return;
     for (const target of targets) {
-      this.creatureTargetAbility(statements, creature, closeRange, target, options);
+      this.creatureTargetAbility(
+        statements,
+        creature,
+        closeRange,
+        target,
+        options,
+        extraTargetTriggers,
+      );
     }
+  }
+
+  /**
+   * An area spell is worth more on several targets: a first pass only picks a target with another
+   * enemy around it, then the regular pass falls back to a lone one (enemies purposely staying
+   * apart must still be hit). The radius is the spell's alliesCheck one, else
+   * bafConstants.areaRange. Not for a spell centered on its caster (castOnSelf).
+   */
+  private clusterTriggers(ability: CreatureAbility): Triggers.Trigger[] {
+    const keywords = ability.keywords ?? [];
+    if (!ability.isSpell || !keywords.includes("area") || keywords.includes("castOnSelf"))
+      return [];
+    const range = ability.alliesCheck?.range ?? GLOBAL_CONFIG.bafConstants.areaRange;
+    return [triggerFactory.enemyNearTarget(range)];
   }
 
   /**
@@ -1052,6 +1097,7 @@ class StatementBuilderService {
     ability: CreatureAbility,
     target: TargetList,
     options: BuilderOptions,
+    extraTargetTriggers: Triggers.Trigger[] = [],
   ): void {
     const triggerList = targetService.getTriggersFromTargetList(target);
     const triggers = triggerList.triggers;
@@ -1101,6 +1147,7 @@ class StatementBuilderService {
         ...triggerFactory.alliesSafe(ability.alliesCheck, ability.keywords, ability.level),
       );
     }
+    targetTriggers.push(...extraTargetTriggers);
     if (ability.requireVocal) {
       triggers.unshift({
         name: "StateCheck",

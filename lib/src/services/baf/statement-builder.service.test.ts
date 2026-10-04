@@ -1144,6 +1144,47 @@ describe("parseAbilities / creatureAbilities (private)", () => {
     ]);
   });
 
+  describe("area spells: a first pass on targets with company, then the lone-target fallback", () => {
+    const enemyNear = (range: number) => ({
+      name: "TriggerOverride",
+      object: "LastSeenBy(Myself)",
+      trigger: { name: "Range", params: ["NearestAllyOf(Myself)", range] },
+      negation: false,
+      exceptMyself: true,
+    });
+    const run = (overrides: Parameters<typeof fakeAbility>[0]) => {
+      const statements: Statements = [];
+      service.parseAbilities(statements, fakeCreature(), options(), [
+        fakeAbility({ targets: [{ name: "Players" }], isSpell: true, ...overrides }),
+      ]);
+      return statements;
+    };
+
+    it("doubles the target passes, the first one requiring another enemy near the target", () => {
+      const statements = run({ keywords: ["area"] });
+      expect(statements).toHaveLength(12);
+      expect(statements[0].triggers).toContainEqual(
+        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
+      );
+      expect(statements[6].triggers).not.toContainEqual(
+        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
+      );
+    });
+
+    it("uses the allies check radius when there is one", () => {
+      const statements = run({ keywords: ["area"], alliesCheck: { range: 15, safeIf: [] } });
+      expect(statements[0].triggers).toContainEqual(enemyNear(15));
+    });
+
+    it.each([
+      ["a non-area spell", { keywords: [] }],
+      ["a spell centered on its caster", { keywords: ["area", "castOnSelf"] }],
+      ["a non-spell ability", { keywords: ["area"], isSpell: false }],
+    ] as const)("adds no first pass for %s", (_, overrides) => {
+      expect(run({ ...overrides, keywords: [...overrides.keywords] })).toHaveLength(6);
+    });
+  });
+
   it("creatureAbilities delegates to behavior.abilities", () => {
     const statements: Statements = [];
     service.creatureAbilities({

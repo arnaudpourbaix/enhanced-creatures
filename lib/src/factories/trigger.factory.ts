@@ -517,6 +517,24 @@ class TriggerFactory {
   }
 
   /**
+   * Trigger checking that another enemy stands within `range` of the target, so an area spell hits
+   * several of them. Inside the TriggerOverride, Myself is the target: its nearest ally is one of
+   * the caster's enemies. Skipped for a Myself target (exceptMyself).
+   */
+  enemyNearTarget(
+    range: number,
+    target = `${ScriptTarget.lastSeen}(${ScriptTarget.myself})`,
+  ): Triggers.Trigger {
+    return {
+      ...this.triggerOverride(target, {
+        name: "Range",
+        params: [`NearestAllyOf(${ScriptTarget.myself})`, range],
+      }),
+      exceptMyself: true,
+    };
+  }
+
+  /**
    * Trigger checking that the caster itself matches the alliesCheck's safeIf (any of them), or
    * undefined when there's no condition to match.
    */
