@@ -177,7 +177,9 @@ export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
   "Grabbed",
   "HeldNearby",
   "StunnedNearby",
+  "Wounded",
   "Slowed",
+  "Unprotected",
   "Able",
   "Held",
   "Stunned",
@@ -186,6 +188,26 @@ export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
 ];
 
 export const TARGET_STATUS: TargetStatus[] = [
+  {
+    status: "Wounded",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: false,
+    preferWithin: true,
+    triggers: [],
+    targetTriggers: [...ABLE_TRIGGERS, { name: "HPPercentLT", params: [ScriptTarget.token, 25] }],
+  },
+  {
+    status: "Unprotected",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: true,
+    preferWithin: true,
+    triggers: [],
+    targetTriggers: [
+      ...ABLE_TRIGGERS,
+      { name: "StateCheck", params: [ScriptTarget.token, "STATE_MIRRORIMAGE"], negation: true },
+      { name: "CheckStatGT", params: [ScriptTarget.token, 0, "STONESKINS"], negation: true },
+    ],
+  },
   {
     status: "HeldNearby",
     canOnlyTargetPlayer: false,

@@ -213,7 +213,7 @@ function fakeCreature(intelligence?: number): Creature {
 describe("getTargetPriorities", () => {
   it("defaults to NoCheck for enemies and Sleep for players when intelligence is unset", () => {
     expect(targetService.getTargetPriorities(fakeCreature(), {})).toEqual([
-      { targets: ["NearestEnemies"], status: ["NoCheck"] },
+      { targets: ["NearestEnemies"], status: ["Wounded", "NoCheck"] },
       { targets: ["Players"], status: ["Sleep"] },
     ]);
   });
@@ -222,7 +222,17 @@ describe("getTargetPriorities", () => {
     expect(targetService.getTargetPriorities(fakeCreature(8), {})).toEqual([
       {
         targets: ["NearestEnemies"],
-        status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
+        status: [
+          "HeldNearby",
+          "StunnedNearby",
+          "Wounded",
+          "Slowed",
+          "Unprotected",
+          "Able",
+          "Held",
+          "Stunned",
+          "NoCheck",
+        ],
       },
       { targets: ["Players"], status: ["Sleep"] },
     ]);
@@ -245,7 +255,9 @@ describe("getTargetPriorities", () => {
       status: [
         "HeldNearby",
         "StunnedNearby",
+        "Wounded",
         "Slowed",
+        "Unprotected",
         "Able",
         "Held",
         "Stunned",
@@ -255,7 +267,17 @@ describe("getTargetPriorities", () => {
     });
     expect(result[1]).toEqual({
       targets: ["Animals"],
-      status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
+      status: [
+        "HeldNearby",
+        "StunnedNearby",
+        "Wounded",
+        "Slowed",
+        "Unprotected",
+        "Able",
+        "Held",
+        "Stunned",
+        "NoCheck",
+      ],
     });
   });
 
@@ -274,7 +296,17 @@ describe("getTargetPriorities", () => {
       targetPriorities: [
         {
           targets: ["NearestEnemies"],
-          status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
+          status: [
+            "HeldNearby",
+            "StunnedNearby",
+            "Wounded",
+            "Slowed",
+            "Unprotected",
+            "Able",
+            "Held",
+            "Stunned",
+            "NoCheck",
+          ],
         },
         { targets: ["Players"], status: ["Sleep"] },
       ],

@@ -26,4 +26,6 @@ export type TargetStatusName =
   | "Sleep"
   | "Slowed"
   | "Stunned"
-  | "StunnedNearby"; // stunned within bafConstants.preferRange, while no able enemy engages the creature
+  | "StunnedNearby" // stunned within bafConstants.preferRange, while no able enemy engages the creature
+  | "Unprotected" // able, without mirror images nor stoneskin, within bafConstants.preferRange
+  | "Wounded"; // able, below 25% hit points, within bafConstants.preferRange
