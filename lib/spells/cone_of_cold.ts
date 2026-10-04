@@ -52,7 +52,6 @@ export const createConeOfCold = ({
   primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
   secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
   level: 5,
-  keywords: ["cold", "area"],
   headers: headers.map((h) => ({
     type: ItemAbilityTypeEnum.Melee,
     minLevel: h.minLevel,

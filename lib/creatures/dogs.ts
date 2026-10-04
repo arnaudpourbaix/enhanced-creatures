@@ -142,7 +142,7 @@ class Dog extends Creature {
         },
         range: 10,
       },
-      keywords: ["fire"],
+      keywords: ["fire", "area"],
       headers,
     });
   }

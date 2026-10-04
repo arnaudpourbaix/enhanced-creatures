@@ -328,7 +328,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
-      keywords: ["charm"],
+      keywords: ["charm", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1312,7 +1312,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 3,
       },
-      keywords: ["movement", "entangle", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1566,6 +1565,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     } satisfies BaseEffect;
     const technical = this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
+      keywords: ["area"],
       doc: false,
       type: SpellTypeEnum.Innate,
       icon: SPELLS.Priest.BlindingBeauty.file,
@@ -1611,7 +1611,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 1,
       },
-      keywords: ["blind"],
+      keywords: ["blind", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1678,6 +1678,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createCharmSong() {
     const technical = this.addSpell({
       name: "monster.fey.ability.charmSong.name",
+      keywords: ["area"],
       doc: false,
       icon: SPELLS.Wizard.DireCharm.file,
       castingSound: "SIRIN05",
@@ -1717,7 +1718,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
-      keywords: ["charm"],
+      keywords: ["charm", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1773,7 +1774,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
-      keywords: ["cloud", "blind"],
+      keywords: ["cloud", "blind", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

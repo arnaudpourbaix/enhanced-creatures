@@ -186,7 +186,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -220,7 +220,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -254,7 +254,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -288,7 +288,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -322,7 +322,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -356,7 +356,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -390,7 +390,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -424,7 +424,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -458,7 +458,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -492,7 +492,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -523,7 +523,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -553,7 +553,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -583,7 +583,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -613,7 +613,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -643,7 +643,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -673,7 +673,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -703,7 +703,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -733,7 +733,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -763,7 +763,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 
@@ -793,7 +793,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jas0m5d",LastSeenBy(Myself))
+		ForceSpellRES("jas0m5d",Myself)
 		RemoveSpellRES("jas0m5d")
 END
 

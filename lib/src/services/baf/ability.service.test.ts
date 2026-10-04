@@ -414,9 +414,13 @@ describe("applyPreset - auto-resolves keywords from SPELLS", () => {
     expect(result.keywords).toEqual(SPELLS.Wizard.Domination.keywords);
   });
 
-  it("keeps the override's own keywords instead of resolving from the preset name", () => {
-    const result = service.applyPreset({ keywords: ["poison"] }, SPELLS.Wizard.Domination.file);
-    expect(result.keywords).toEqual(["poison"]);
+  it("adds the override's own keywords to the preset's (deduped)", () => {
+    const presetKeywords = SPELLS.Wizard.Domination.keywords ?? [];
+    const result = service.applyPreset(
+      { keywords: ["poison", ...presetKeywords] },
+      SPELLS.Wizard.Domination.file,
+    );
+    expect(result.keywords).toEqual([...presetKeywords, "poison"]);
   });
 
   it("leaves keywords unset when the preset name matches no SPELLS entry", () => {

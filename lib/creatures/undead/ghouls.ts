@@ -139,6 +139,7 @@ function carrionStench(cre: Undead) {
   };
   return cre.addSpell({
     name: "monster.undead.ability.carrionStench.name",
+    keywords: ["area"],
     description: "monster.undead.ability.carrionStench.description",
     id: Ids.CarrionStench,
     options: { renew: 1 },
@@ -250,6 +251,7 @@ function auraOfEvil(cre: Undead) {
   };
   return cre.addSpell({
     name: "monster.undead.ability.auraOfEvil.name",
+    keywords: ["area"],
     description: "monster.undead.ability.auraOfEvil.description",
     id: Ids.AuraOfEvil,
     options: { renew: 1 },

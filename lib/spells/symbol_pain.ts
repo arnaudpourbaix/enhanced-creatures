@@ -38,6 +38,7 @@ const baseWithDuration: BaseEffect = {
 export const SPELL_SYMBOL_PAIN: Spell = spellService.getSpell(
   {
     name: "spell.SymbolPain.name",
+    keywords: ["area"],
     description: "spell.SymbolPain.description",
     castingSound: "CAS_P03",
     flags: [SpellFlagEnum.BreakSanctuary],

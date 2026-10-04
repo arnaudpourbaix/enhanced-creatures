@@ -1031,6 +1031,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
     return this.addSpell({
       id: Ids.ToxicVapors,
       name: "monster.slime.ability.toxicVapors.name",
+      keywords: ["area"],
       description: "monster.slime.ability.toxicVapors.description",
       icon: SPELLS.Wizard.StinkingCloud.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,

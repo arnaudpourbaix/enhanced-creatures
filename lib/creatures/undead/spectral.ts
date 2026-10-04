@@ -46,7 +46,6 @@ function deathWail(cre: Undead) {
     id: Ids.DeathWail,
     memorizedCount: 1,
     icon: SPELLS.Wizard.WailOfTheBanshee.file,
-    keywords: ["death"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -101,7 +100,6 @@ function ghostFearAura(cre: Undead) {
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
-    keywords: ["fear"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

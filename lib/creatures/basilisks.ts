@@ -185,6 +185,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       castSpell: {
         spell: {
           name: "monster.basilisk.ability.foulBreath.name",
+          keywords: ["area"],
           description: "monster.basilisk.ability.foulBreath.description",
           secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
           headers: [
@@ -283,7 +284,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
         renew: 1,
       },
       icon: SPELLS.Wizard.FleshToStone.file,
-      keywords: ["petrify"],
+      keywords: ["petrify", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -347,7 +348,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       doc: false,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       icon: SPELLS.Wizard.FleshToStone.file,
-      keywords: ["petrify"],
+      keywords: ["petrify", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -393,7 +394,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
       name: PETRIFYING_GAZE_NAME,
       description: "monster.basilisk.ability.petrifyingGaze.description5e",
       id: Ids.Petrification,
-      keywords: ["petrify"],
+      keywords: ["petrify", "area"],
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: {
         renew: 1,

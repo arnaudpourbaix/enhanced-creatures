@@ -144,7 +144,7 @@ function mummyFearAura(cre: Undead, greater: boolean) {
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
-    keywords: ["hold", "fear"],
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -224,6 +224,7 @@ function mummyFearAuraTechnical(cre: Undead, saveBonus: number, excludeHumans: b
   ];
   const spell: PartialSpell = {
     name: "monster.undead.ability.mummyFearAura.name",
+    keywords: ["area"],
     secondaryType: "Fear",
     headers: [
       {

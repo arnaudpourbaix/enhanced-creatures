@@ -333,6 +333,26 @@ class AbilityService {
     }
   }
 
+  /**
+   * An ability's final keywords: its own (e.g. a custom spell's, see spell.service) added to its
+   * preset's, deduped - keywords are cumulative, so a spell cast through a preset keeps every check
+   * and spell group the preset implies (a spell too different from its preset shouldn't use it).
+   * The preset's side falls back to whatever SPELLS says about this exact presetName, covering a
+   * preset that isn't built from a SpellReference at all. Undefined (rather than []) when nothing
+   * matches, so a one-off ability with no SPELLS entry of its own is unaffected.
+   */
+  mergeKeywords(
+    own: SpellKeyword[] | undefined,
+    presetName: string | undefined,
+  ): SpellKeyword[] | undefined {
+    const preset = presetName ? ABILITY_PRESETS.find((p) => p.preset === presetName) : undefined;
+    const presetKeywords = presetName
+      ? (preset?.ability.keywords ?? keywordsForFile(SPELLS, presetName))
+      : undefined;
+    const keywords = [...(presetKeywords ?? []), ...(own ?? [])];
+    return keywords.length ? [...new Set(keywords)] : undefined;
+  }
+
   private applyPreset(ability: RawCreatureAbility, presetName: string): RawCreatureAbility {
     const preset = ABILITY_PRESETS.find((p) => p.preset === presetName);
     if (!preset) {
@@ -341,17 +361,8 @@ class AbilityService {
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
     this.logCheckOverrides(preset.ability.spell, ability.spell, presetName);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
-    // deepmerge concatenates array fields by default (the right behavior for triggers/actions,
-    // which genuinely accumulate) but wrong for `keywords`: an override declaring its own keywords
-    // must fully replace the preset's, not get appended to them. Recomputed explicitly with the
-    // right precedence instead of trusting whatever the deepmerge above produced: the override's
-    // own keywords win, else the preset's own, else - covering a preset that isn't built from a
-    // SpellReference at all (PresetFactory.createSpell/createOrderedSpells already resolve this
-    // once per spell, before this method ever runs) - a fallback to whatever SPELLS says about
-    // this exact presetName. Left unset (rather than []) when nothing matches, so a one-off
-    // ability with no SPELLS entry of its own is unaffected.
-    result.keywords =
-      ability.keywords ?? preset.ability.keywords ?? keywordsForFile(SPELLS, presetName);
+    // Recomputed explicitly rather than trusting deepmerge's concatenation (see mergeKeywords).
+    result.keywords = this.mergeKeywords(ability.keywords, presetName);
     // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
     // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system. An explicit
     // `null` (not a real spell) is kept as is.

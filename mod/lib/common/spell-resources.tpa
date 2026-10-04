@@ -389,6 +389,7 @@ DEFINE_ACTION_FUNCTION get_fireball_resources RET_ARRAY resources BEGIN
 		"SPWI001"
 		"SPIN957"
 		"wand05a"
+		"jas2m4a"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

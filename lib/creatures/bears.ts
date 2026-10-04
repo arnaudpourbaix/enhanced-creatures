@@ -411,7 +411,7 @@ class BearFamily extends CreatureFamily<Bear> {
       options: { renew: 3 },
       icon: SPELLS.Wizard.Fireburst.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
-      keywords: ["cold"],
+      keywords: ["cold", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,

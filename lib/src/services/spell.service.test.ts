@@ -182,6 +182,20 @@ describe("getGroupResources", () => {
     ).toHaveLength(1);
     State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
   });
+
+  it("includes a created spell through its ability preset's keywords", () => {
+    State.spells.push({
+      file: "GRPTEST3",
+      keywords: [],
+      ability: { preset: SPELLS.Wizard.Fireball.file },
+    } as unknown as Spell);
+    try {
+      expect(spellService.getGroupResources({ name: "fireball" })).toContain("GRPTEST3");
+      expect(spellService.getGroupResources({ name: "cold" })).not.toContain("GRPTEST3");
+    } finally {
+      State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
+    }
+  });
 });
 
 describe("addProjectile (private, via header.projectile object)", () => {

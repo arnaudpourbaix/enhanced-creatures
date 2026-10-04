@@ -172,7 +172,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -207,7 +207,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -242,7 +242,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -277,7 +277,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -312,7 +312,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -347,7 +347,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -382,7 +382,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -417,7 +417,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -452,7 +452,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -487,7 +487,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -519,7 +519,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -550,7 +550,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -581,7 +581,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -612,7 +612,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -643,7 +643,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -674,7 +674,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -705,7 +705,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -736,7 +736,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -767,7 +767,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END
@@ -798,7 +798,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("fear_aura","LOCALS",6)
-		ForceSpellRES("jas0m52",LastSeenBy(Myself))
+		ForceSpellRES("jas0m52",Myself)
 		RemoveSpellRES("jas0m52")
 		SetInterrupt(TRUE)
 END

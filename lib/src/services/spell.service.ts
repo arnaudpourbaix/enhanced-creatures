@@ -30,6 +30,7 @@ import {
 } from "../model/spell-item/spell-item";
 import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
 import { State } from "../state";
+import abilityService from "./baf/ability.service";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
 import translationService from "./translation.service";
@@ -94,15 +95,20 @@ class SpellService {
 
   /**
    * Every resource of a SPELL_GROUPS group: SPELLS entries tagged with the group's keyword, then
-   * the group's own `spells`, then spells created by this mod tagged with it (so this must run
-   * once every creature has been generated). Duplicates are dropped case-insensitively, keeping
+   * the group's own `spells`, then spells created by this mod tagged with it - through their final
+   * ability's keywords, which include their preset's (see AbilityService.mergeKeywords) - so this
+   * must run once every creature has been generated. Duplicates are dropped case-insensitively, keeping
    * the first occurrence. `idsSpells` aren't included - they're resolved at install time.
    */
   getGroupResources(group: SpellGroup): string[] {
     const files = [
       ...spellsByKeyword(SPELLS, group.name),
       ...(group.spells ?? []),
-      ...State.spells.filter((s) => s.keywords.includes(group.name)).map((s) => s.file),
+      ...State.spells
+        .filter((s) =>
+          abilityService.mergeKeywords(s.keywords, s.ability?.preset)?.includes(group.name),
+        )
+        .map((s) => s.file),
     ];
     const seen = new Set<string>();
     return files.filter((file) => {
