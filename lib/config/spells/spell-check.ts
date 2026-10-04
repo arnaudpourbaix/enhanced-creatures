@@ -36,6 +36,7 @@ export const SPELL_CHECK_SUPPRESSORS: Partial<Record<SpellKeyword, SpellLevelChe
 /**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
  * several triggers (e.g. a protection covered by both an old-style stat and a newer spell state).
+ * The *_IMMUNITY / ITEM_* spell states are those set by the mod's own immunities (see IMMUNITIES).
  */
 export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   acid: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTACID"] }],
@@ -46,12 +47,17 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   cloud: [],
   charm: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "CHARM_IMMUNITY"], negation: true },
   ],
   cold: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTCOLD"] }],
   confusion: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "CONFUSION_IMMUNITY"], negation: true },
   ],
-  death: [{ name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"], negation: true }],
+  death: [
+    { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_IMMUNITY"], negation: true },
+  ],
   disease: [],
   electrical: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTELECTRICITY"] }],
   elf: [{ name: "Race", params: [ScriptTarget.token, "ELF"], negation: true }],
@@ -71,6 +77,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   hold: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "HOLD_IMMUNITY"], negation: true },
   ],
   levelDrain: [
     {
@@ -78,6 +85,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
       params: [ScriptTarget.token, 0, "LEVEL_DRAIN_IMMUNITY"],
       negation: true,
     },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "ITEM_LEVELDRAIN"], negation: true },
   ],
   magicDamage: [
     {
@@ -104,7 +112,9 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   movement: [
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
   ],
-  petrify: [],
+  petrify: [
+    { name: "CheckSpellState", params: [ScriptTarget.token, "PETRIFY_IMMUNITY"], negation: true },
+  ],
   poison: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTPOISON"] }],
   polymorph: [],
   shield: [
@@ -113,10 +123,12 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   silence: [],
   sleep: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "SLEEP_IMMUNITY"], negation: true },
   ],
   slow: [],
   stun: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
+    { name: "CheckSpellState", params: [ScriptTarget.token, "STUN_IMMUNITY"], negation: true },
   ],
   // group tags only (see SpellKeyword) - no protection to check
   bleeding: [],

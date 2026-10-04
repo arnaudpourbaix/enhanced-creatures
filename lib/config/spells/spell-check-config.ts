@@ -38,7 +38,7 @@ export interface SpellCheckConfig {
  *
  * A keyword absent from every list here is unaffected by any toggle - either its
  * SPELL_CHECK_TRIGGERS entry is still empty (blind, causeWounds, cloud, disease, maze, miscast,
- * petrify, polymorph, silence, slow, plus the group-tag-only keywords like fireball or web) so
+ * polymorph, silence, slow, plus the group-tag-only keywords like fireball or web) so
  * there's nothing to gate yet, or (for classes/kits) no trigger of that kind exists at all yet.
  * Classify a keyword here once its trigger is written.
  *
@@ -57,6 +57,7 @@ export const SPELL_CHECK_CONFIG_KEYWORDS: Record<keyof SpellCheckConfig, SpellKe
     "magicDamage",
     "missile",
     "movement",
+    "petrify",
     "shield",
     "sleep",
     "stun",
