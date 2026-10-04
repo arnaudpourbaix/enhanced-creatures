@@ -431,27 +431,28 @@ class StatementBuilderService {
     options,
   }: Pick<HandlerParams, "statements" | "options">): void {
     const responses = responseFactory.response([{ name: "NoAction" }]);
-    let triggers: Triggers.Trigger[] = [
+    const idleIf: Triggers.Trigger[] = [
+      triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
       {
-        name: "Or",
-        triggers: [
-          triggerFactory.global(GLOBAL_CONFIG.bafConstants.combatStarted, 0),
-          {
-            name: "Allegiance",
-            params: [ScriptTarget.myself, "EVILCUTOFF"],
-            negation: true,
-          },
-          {
-            name: "StateCheck",
-            params: [ScriptTarget.myself, "STATE_IMMOBILE"],
-          },
-          {
-            name: "StateCheck",
-            params: [ScriptTarget.myself, "STATE_REALLY_DEAD"],
-          },
-        ],
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_IMMOBILE"],
+      },
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_REALLY_DEAD"],
       },
     ];
+    // An ally (e.g. charmed) running a regular script would override the player's orders, since
+    // its blocks don't wait for an empty action list: it stays idle. A summon script does wait
+    // (ActionListEmpty), so an allied summon fights on its own between the player's orders.
+    if (!options.summon) {
+      idleIf.splice(1, 0, {
+        name: "Allegiance",
+        params: [ScriptTarget.myself, "EVILCUTOFF"],
+        negation: true,
+      });
+    }
+    let triggers: Triggers.Trigger[] = [{ name: "Or", triggers: idleIf }];
     if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
     statements.push({
       comment: "Do nothing if...",

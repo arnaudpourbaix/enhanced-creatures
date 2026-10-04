@@ -184,6 +184,8 @@ export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
   "Held",
   "Stunned",
   "NoCheck",
+  // Not redundant with NoCheck: NearestEnemyOf() never returns a sleeping creature, so a sleeping
+  // enemy can only be found through the Players list this status targets.
   "Sleep",
 ];
 

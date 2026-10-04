@@ -147,9 +147,8 @@ END
 // Do nothing if...
 IF
 	ActionListEmpty()
-	OR(4)
+	OR(3)
 		Global("JA_COMBAT","LOCALS",0)
-		!Allegiance(Myself,EVILCUTOFF)
 		StateCheck(Myself,STATE_IMMOBILE)
 		StateCheck(Myself,STATE_REALLY_DEAD)
 THEN

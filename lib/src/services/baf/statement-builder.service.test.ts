@@ -469,6 +469,22 @@ describe("noActionOutsideOfCombat (private)", () => {
     expect(statements[0].triggers[0]).toEqual({ name: "ActionListEmpty" });
     expect(statements[1].triggers[0]).toEqual({ name: "ActionListEmpty" });
   });
+
+  it("keeps allies idle in a regular script, but lets an allied summon act", () => {
+    const notEnemy = {
+      name: "Allegiance",
+      params: ["Myself", "EVILCUTOFF"],
+      negation: true,
+    };
+    const idleIf = (summon: boolean) => {
+      const statements: Statements = [];
+      service.noActionOutsideOfCombat({ statements, options: options(summon) });
+      const or = statements[0].triggers.find((t) => t.name === "Or");
+      return or && "triggers" in or ? or.triggers : [];
+    };
+    expect(idleIf(false)).toContainEqual(notEnemy);
+    expect(idleIf(true)).not.toContainEqual(notEnemy);
+  });
 });
 
 describe("followSummoner (private)", () => {
