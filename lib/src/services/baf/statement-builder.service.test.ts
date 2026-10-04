@@ -710,6 +710,51 @@ describe("attackTargetWithStatuses (private)", () => {
     expect(statements[0].comment).toBe("Attack Able enemy");
   });
 
+  describe("preferred statuses (preferWithin)", () => {
+    const preferRange = {
+      name: "Range",
+      params: ["LastSeenBy", GLOBAL_CONFIG.bafConstants.preferRange],
+    };
+    const attackStatement = (melee: boolean, status: TargetStatusName) => {
+      const statements: Statements = [];
+      service.attackTargetWithStatuses(
+        statements,
+        fakeCreature({ attack: { melee, ranged: !melee, selectWeapons: [] } }),
+        options(),
+        "NearestEnemies",
+        [status],
+      );
+      return statements[statements.length - 1];
+    };
+
+    it("only prefers a target within preferRange for a melee attacker", () => {
+      expect(attackStatement(true, "Slowed").triggers).toContainEqual(preferRange);
+      expect(attackStatement(false, "Slowed").triggers).not.toContainEqual(preferRange);
+    });
+
+    it("doesn't limit a regular status", () => {
+      expect(attackStatement(true, "Held").triggers).not.toContainEqual(preferRange);
+    });
+
+    it("only attacks a nearby helpless target while no able enemy is in melee range", () => {
+      const triggers = attackStatement(true, "HeldNearby").triggers;
+      expect(triggers).toContainEqual(preferRange);
+      expect(triggers).toContainEqual(
+        expect.objectContaining({
+          name: "Or",
+          triggers: expect.arrayContaining([
+            {
+              name: "Range",
+              params: ["NearestEnemyOf(Myself)", GLOBAL_CONFIG.bafConstants.meleeRange],
+              negation: true,
+            },
+            { name: "CheckStatGT", params: ["NearestEnemyOf(Myself)", 0, "HELD"], negation: false },
+          ]),
+        }),
+      );
+    });
+  });
+
   it("inserts weapon-selection statements between the guard and attack blocks when melee+ranged are both available and no explicit selectWeapons is configured", () => {
     const statements: Statements = [];
     service.attackTargetWithStatuses(

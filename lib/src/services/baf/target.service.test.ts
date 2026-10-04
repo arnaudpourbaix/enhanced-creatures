@@ -222,7 +222,7 @@ describe("getTargetPriorities", () => {
     expect(targetService.getTargetPriorities(fakeCreature(8), {})).toEqual([
       {
         targets: ["NearestEnemies"],
-        status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+        status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
       },
       { targets: ["Players"], status: ["Sleep"] },
     ]);
@@ -242,11 +242,20 @@ describe("getTargetPriorities", () => {
     });
     expect(result[0]).toEqual({
       targets: ["Players"],
-      status: ["Slowed", "Able", "Held", "Stunned", "NoCheck", "Sleep"],
+      status: [
+        "HeldNearby",
+        "StunnedNearby",
+        "Slowed",
+        "Able",
+        "Held",
+        "Stunned",
+        "NoCheck",
+        "Sleep",
+      ],
     });
     expect(result[1]).toEqual({
       targets: ["Animals"],
-      status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+      status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
     });
   });
 
@@ -265,7 +274,7 @@ describe("getTargetPriorities", () => {
       targetPriorities: [
         {
           targets: ["NearestEnemies"],
-          status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+          status: ["HeldNearby", "StunnedNearby", "Slowed", "Able", "Held", "Stunned", "NoCheck"],
         },
         { targets: ["Players"], status: ["Sleep"] },
       ],

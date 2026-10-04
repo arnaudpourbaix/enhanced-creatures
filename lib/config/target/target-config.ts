@@ -2,6 +2,8 @@ import { ScriptTarget } from "../../src/model/constants";
 import { GRAB_DEFAULT_CONFIG } from "../../src/model/creature/grab";
 import { ClassIdentifier } from "../../src/model/ids/class";
 import { TargetStatus } from "../../src/model/script/target";
+import { Triggers } from "../../src/model/script/triggers";
+import { GLOBAL_CONFIG } from "../generate";
 import { TargetListName, TargetStatusName } from "./target-name";
 
 const Token = "$obj";
@@ -107,8 +109,74 @@ export const TARGET_LISTS: {
   },
 ];
 
+/**
+ * A target not affected by any disabling status (see the Able status).
+ */
+const ABLE_TRIGGERS: Triggers.Trigger[] = [
+  {
+    name: "CheckStatGT",
+    params: [ScriptTarget.token, 0, "HELD"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_STUNNED"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_PANIC"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_CONFUSED"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_FEEBLEMINDED"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_SLEEPING"],
+    negation: true,
+  },
+  {
+    name: "StateCheck",
+    params: [ScriptTarget.token, "STATE_HELPLESS"],
+    negation: true,
+  },
+];
+
+/**
+ * No able enemy is in melee range of the creature: none of its 3 nearest enemies is both within
+ * bafConstants.meleeRange and able (enemies are sorted by distance, so farther ones aren't either).
+ */
+const NOT_ENGAGED: Triggers.Trigger[] = ["", "Second", "Third"].map((rank) => {
+  const enemy = `${rank}NearestEnemyOf(${ScriptTarget.myself})`;
+  return {
+    name: "Or",
+    // Built by hand: this module loads before triggerFactory (import cycle).
+    triggers: [
+      { name: "Range", params: [enemy, GLOBAL_CONFIG.bafConstants.meleeRange], negation: true },
+      ...ABLE_TRIGGERS.map(
+        (t) =>
+          ({
+            ...t,
+            params: "params" in t ? [enemy, ...t.params.slice(1)] : [],
+            negation: !t.negation,
+          }) as Triggers.Trigger,
+      ),
+    ],
+  };
+});
+
 export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
   "Grabbed",
+  "HeldNearby",
+  "StunnedNearby",
   "Slowed",
   "Able",
   "Held",
@@ -118,6 +186,32 @@ export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
 ];
 
 export const TARGET_STATUS: TargetStatus[] = [
+  {
+    status: "HeldNearby",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: true,
+    preferWithin: true,
+    triggers: NOT_ENGAGED,
+    targetTriggers: [
+      {
+        name: "CheckStatGT",
+        params: [ScriptTarget.token, 0, "HELD"],
+      },
+    ],
+  },
+  {
+    status: "StunnedNearby",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: true,
+    preferWithin: true,
+    triggers: NOT_ENGAGED,
+    targetTriggers: [
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.token, "STATE_STUNNED"],
+      },
+    ],
+  },
   {
     status: "Grabbed",
     canOnlyTargetPlayer: false,
@@ -134,6 +228,7 @@ export const TARGET_STATUS: TargetStatus[] = [
     status: "Slowed",
     canOnlyTargetPlayer: false,
     requireIntelligence: true,
+    preferWithin: true,
     triggers: [],
     targetTriggers: [
       {
@@ -159,43 +254,7 @@ export const TARGET_STATUS: TargetStatus[] = [
     canOnlyTargetPlayer: false,
     requireIntelligence: true,
     triggers: [],
-    targetTriggers: [
-      {
-        name: "CheckStatGT",
-        params: [ScriptTarget.token, 0, "HELD"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_STUNNED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_PANIC"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_CONFUSED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_FEEBLEMINDED"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_SLEEPING"],
-        negation: true,
-      },
-      {
-        name: "StateCheck",
-        params: [ScriptTarget.token, "STATE_HELPLESS"],
-        negation: true,
-      },
-    ],
+    targetTriggers: ABLE_TRIGGERS,
   },
   {
     status: "Held",

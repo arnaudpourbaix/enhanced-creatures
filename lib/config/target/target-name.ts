@@ -20,8 +20,10 @@ export type TargetStatusName =
   | "Grabbed"
   | "Held"
   | "HeldAndNotPoisoned"
+  | "HeldNearby" // held within bafConstants.preferRange, while no able enemy engages the creature
   | "NoCheck"
   | "PanicConfused" // panic, confused, feebleminded
   | "Sleep"
   | "Slowed"
-  | "Stunned";
+  | "Stunned"
+  | "StunnedNearby"; // stunned within bafConstants.preferRange, while no able enemy engages the creature

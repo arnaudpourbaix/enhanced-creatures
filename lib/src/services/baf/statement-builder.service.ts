@@ -797,6 +797,13 @@ class StatementBuilderService {
           maxRange: creature.attack.maxRange,
         }),
       ];
+      // A ranged attacker doesn't have to walk to its target: no need to limit the preference.
+      if (statusDetails.preferWithin && creature.attack.melee) {
+        targetTriggers.push({
+          name: "Range",
+          params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
+        });
+      }
       const triggers: Triggers.Trigger[] = [...statusDetails.triggers, ...additionals.triggers];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {

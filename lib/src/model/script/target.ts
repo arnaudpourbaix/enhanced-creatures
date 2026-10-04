@@ -34,6 +34,12 @@ export interface TargetStatus {
   triggers: Triggers.Trigger[];
   canOnlyTargetPlayer: boolean;
   requireIntelligence: boolean;
+  /**
+   * A status preferred over the next ones only within bafConstants.preferRange (for a creature
+   * fighting in melee): a farther target falls through to the next statuses instead of making the
+   * creature cross the battlefield.
+   */
+  preferWithin?: boolean;
 }
 
 /**

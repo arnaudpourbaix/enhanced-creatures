@@ -75,6 +75,11 @@ export const GLOBAL_CONFIG = {
      * prefer a target with other enemies around it (see StatementBuilderService.clusterTriggers).
      */
     areaRange: 10,
+    /**
+     * Radius (script Range() units) within which a melee attacker prefers a weakened target (see
+     * TargetStatus.preferWithin) over the nearest one.
+     */
+    preferRange: 10,
   },
   tpaConstants: {
     genericScriptsToRemove: [
