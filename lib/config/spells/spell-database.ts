@@ -16,21 +16,21 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ABI_DALZIMS_HORRID_WILTING",
     level: 8,
     name: "spell.AbiDalzimHorridWilting.name",
-    keywords: ["magicDamage", "necromancyEffects"],
+    keywords: ["magicDamage", "necromancyEffects", "area"],
   },
   AcidFog: {
     file: "SPWI614",
     id: "WIZARD_ACID_FOG",
     level: 6,
     name: "spell.AcidFog.name",
-    keywords: ["acid", "cloud"],
+    keywords: ["acid", "cloud", "area"],
   },
   AcidStorm: {
     file: "SPWI724",
     id: "WIZARD_ACID_STORM",
     level: 7,
     name: "spell.AcidStorm.name",
-    keywords: ["acid", "magicResistance"],
+    keywords: ["acid", "magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   AgannazarScorcher: {
@@ -81,7 +81,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_BURNING_HANDS",
     level: 1,
     name: "spell.BurningHands.name",
-    keywords: ["fire", "magicResistance"],
+    keywords: ["fire", "magicResistance", "area"],
     range: 10,
   },
   ChainLightning: {
@@ -89,7 +89,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_CHAIN_LIGHTNING",
     level: 6,
     name: "spell.ChainLightning.name",
-    keywords: ["electrical"],
+    keywords: ["electrical", "area"],
   },
   CharmPerson: {
     file: "SPWI104",
@@ -117,14 +117,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_CLOUDKILL",
     level: 5,
     name: "spell.Cloudkill.name",
-    keywords: ["poison", "cloud"],
+    keywords: ["poison", "cloud", "area"],
   },
   ColorSpray: {
     file: "SPWI105",
     id: "WIZARD_COLOR_SPRAY",
     level: 1,
     name: "spell.colorSpray.name",
-    keywords: ["blind", "slow", "confusion", "colorSpray"],
+    keywords: ["blind", "slow", "confusion", "colorSpray", "area"],
     range: 10,
     excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
   },
@@ -142,14 +142,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_CONE_OF_COLD",
     level: 5,
     name: "spell.coneOfCold.name",
-    keywords: ["cold"],
+    keywords: ["cold", "area"],
   },
   Confusion: {
     file: "SPWI401",
     id: "WIZARD_CONFUSION",
     level: 4,
     name: "spell.Confusion.name",
-    keywords: ["confusion"],
+    keywords: ["confusion", "area"],
   },
   Contagion: {
     file: "SPWI409",
@@ -172,7 +172,7 @@ const WIZARD_SPELLS = {
     // different spell (Decastave) under the Stratagems IWD spell lists, so the file code alone
     // isn't reliable here. 2 is Darkness, 15' Radius's real, well-known spell level.
     level: 2,
-    keywords: ["blind", "magicResistance"],
+    keywords: ["blind", "magicResistance", "area"],
     hiddenIn: "AllSpellMods",
   },
   Deafness: {
@@ -191,6 +191,7 @@ const WIZARD_SPELLS = {
     level: 2,
     name: "spell.SoundBurst.name",
     requiresMod: "AllSpellMods",
+    keywords: ["area"],
   },
   DeathSpell: {
     // Vanilla-only: once Spell Revisions is installed, SPWI605 becomes Banishment (WIZARD_BANISHMENT
@@ -200,14 +201,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_DEATH_SPELL",
     level: 6,
     name: "spell.DeathSpell.name",
-    keywords: ["death"],
+    keywords: ["death", "area"],
   },
   DelayedBlastFireball: {
     file: "SPWI712",
     id: "WIZARD_DELAYED_BLAST_FIREBALL",
     level: 7,
     name: "spell.DelayedBlastFireball.name",
-    keywords: ["fire"],
+    keywords: ["fire", "area"],
   },
   DemiShadowMonsters: {
     file: "SPWI527",
@@ -249,6 +250,7 @@ const WIZARD_SPELLS = {
   DispelMagic: {
     file: "SPWI326",
     id: "WIZARD_TRUE_DISPEL_MAGIC",
+    keywords: ["area"],
     level: 3,
     name: DISPEL_MAGIC_NAME,
     hiddenIn: "AllSpellMods",
@@ -266,7 +268,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_DRAGONS_BREATH",
     level: 9,
     name: "spell.DragonsBreath.name",
-    keywords: ["fire"],
+    keywords: ["fire", "area"],
     hiddenIn: "AllSpellMods",
   },
   Emotion: {
@@ -274,7 +276,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_EMOTION_HOPELESSNESS",
     level: 4,
     name: "spell.Emotion.name",
-    keywords: ["stun", "magicResistance"],
+    keywords: ["stun", "magicResistance", "area"],
   },
   Feeblemind: {
     file: "SPWI509",
@@ -288,14 +290,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SUN_FIRE",
     level: 5,
     name: "spell.Fireburst.name",
-    keywords: ["fire", "castOnSelf"],
+    keywords: ["fire", "castOnSelf", "area"],
   },
   Fireball: {
     file: "SPWI304",
     id: "WIZARD_FIREBALL",
     level: 3,
     name: "spell.Fireball.name",
-    keywords: ["fire", "fireball"],
+    keywords: ["fire", "fireball", "area"],
     alliesCheck: { range: 15 }, // 30' radius
   },
   FireShield: {
@@ -340,11 +342,12 @@ const WIZARD_SPELLS = {
     id: "WIZARD_GREASE",
     level: 1,
     name: "spell.Grease.name",
-    keywords: ["movement", "ground"],
+    keywords: ["movement", "ground", "area"],
   },
   GreaterMalison: {
     file: "SPWI412",
     id: "WIZARD_GREATER_MALISON",
+    keywords: ["area"],
     level: 4,
     name: "spell.GreaterMalison.name",
   },
@@ -376,7 +379,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_HORROR",
     level: 2,
     name: "spell.Horror.name",
-    keywords: ["fear"],
+    keywords: ["fear", "area"],
   },
   IceLance: {
     file: "SPWI323",
@@ -390,7 +393,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_ICE_STORM",
     level: 4,
     name: "spell.IceStorm.name",
-    keywords: ["cold"],
+    keywords: ["cold", "area"],
     alliesCheck: { range: 15 }, // 30' radius
   },
   ImprovedInvisibility: {
@@ -407,7 +410,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_INCENDIARY_CLOUD",
     level: 8,
     name: "spell.IncendiaryCloud.name",
-    keywords: ["fire", "cloud"],
+    keywords: ["fire", "cloud", "area"],
   },
   Invisibility: {
     file: "SPWI206",
@@ -464,7 +467,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_METEOR_SWARM",
     level: 9,
     name: "spell.MeteorSwarm.name",
-    keywords: ["fire"],
+    keywords: ["fire", "area"],
   },
   MinorGlobeOfInvulnerability: {
     file: "SPWI406",
@@ -590,7 +593,7 @@ const WIZARD_SPELLS = {
     level: 1,
     name: "spell.ObscuringMist.name",
     requiresMod: "AllSpellMods",
-    keywords: ["illusion"],
+    keywords: ["illusion", "area"],
   },
   OtilukesFreezingSphere: {
     file: "SPWI626",
@@ -648,7 +651,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_PRISMATIC_SPRAY",
     level: 7,
     name: "spell.PrismaticSpray.name",
-    keywords: ["blind"],
+    keywords: ["blind", "area"],
     range: 10,
   },
   ProtectionFromMissiles: {
@@ -682,6 +685,7 @@ const WIZARD_SPELLS = {
     level: 3,
     name: DISPEL_MAGIC_NAME,
     excludeStateChecks: ["STATE_DISABLED"],
+    keywords: ["area"],
   },
   ReflectedImage: {
     file: "SPWI120",
@@ -745,7 +749,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SKULL_TRAP",
     level: 3,
     name: "spell.SkullTrap.name",
-    keywords: ["magicDamage", "necromancyEffects"],
+    keywords: ["magicDamage", "necromancyEffects", "area"],
     alliesCheck: { range: 8 },
   },
   Sleep: {
@@ -753,14 +757,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SLEEP",
     level: 1,
     name: "spell.Sleep.name",
-    keywords: ["sleep", "magicResistance"],
+    keywords: ["sleep", "magicResistance", "area"],
   },
   Slow: {
     file: "SPWI312",
     id: "WIZARD_SLOW",
     level: 3,
     name: "spell.Slow.name",
-    keywords: ["slow", "movement"],
+    keywords: ["slow", "movement", "area"],
     excludeStateChecks: ["STATE_SLOWED"],
   },
   SnillocsSnowballSwarm: {
@@ -768,7 +772,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SNILLOCS_SNOWBALL_SWARM",
     level: 2,
     name: "spell.SnillocsSnowballSwarm.name",
-    keywords: ["cold", "magicResistance"],
+    keywords: ["cold", "magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   SpellThrust: {
@@ -789,7 +793,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_STINKING_CLOUD",
     level: 2,
     name: "spell.StinkingCloud.name",
-    keywords: ["cloud"],
+    keywords: ["cloud", "area"],
   },
   Stoneskin: {
     file: "SPWI408",
@@ -814,13 +818,14 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SYMBOL_DEATH",
     level: 8,
     name: "spell.SymbolDeath.name",
+    keywords: ["area"],
   },
   SymbolFear: {
     file: "SPWI899",
     id: "WIZARD_NPC_SYMBOL_FEAR",
     level: 8,
     name: "spell.SymbolFear.name",
-    keywords: ["fear"],
+    keywords: ["fear", "area"],
     // NPC-only content (not player-learnable even in vanilla) - hiddenIn only matters for
     // spellbook derivation, so this stays fine to hand a creature directly under any mod.
     hiddenIn: "AllSpellMods",
@@ -844,7 +849,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_VITRIOLIC_SPHERE",
     level: 4,
     name: "spell.VitriolicSphere.name",
-    keywords: ["acid"],
+    keywords: ["acid", "area"],
     alliesCheck: { range: 5 }, // 10' radius
     requiresMod: "AllSpellMods",
   },
@@ -861,7 +866,7 @@ const WIZARD_SPELLS = {
     id: "WIZARD_WAIL_OF_THE_BANSHEE",
     level: 9,
     name: "spell.WailOfTheBanshee.name",
-    keywords: ["death"],
+    keywords: ["death", "area"],
   },
   WavesOfFatigue: {
     file: "SPWI508",
@@ -879,7 +884,7 @@ const WIZARD_SPELLS = {
     // CSVs (001_vanilla through 004_stratagems_newspells) agree unambiguously this is level 2.
     level: 2,
     name: "spell.Web.name",
-    keywords: ["hold", "movement", "web"],
+    keywords: ["hold", "movement", "web", "area"],
   },
 } satisfies Record<string, SpellReference>;
 
@@ -986,6 +991,7 @@ const PRIEST_SPELLS = {
     level: 6,
     name: "spell.Banishment.name",
     requiresMod: "AllSpellMods",
+    keywords: ["area"],
   },
   Barkskin: {
     file: "SPPR202",
@@ -1017,7 +1023,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_NATURE_BEAUTY",
     level: 7,
     name: "spell.BlindingBeauty.name",
-    keywords: ["blind", "castOnSelf", "illusion"],
+    keywords: ["blind", "castOnSelf", "illusion", "area"],
     excludeStateChecks: ["STATE_BLIND"],
   },
   BoltOfGlory: {
@@ -1085,7 +1091,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CLOUD_OF_PESTILENCE",
     level: 4,
     name: "spell.CloudOfPestilence.name",
-    keywords: ["magicDamage", "blind", "cloud", "magicResistance"],
+    keywords: ["magicDamage", "blind", "cloud", "magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   Chant: {
@@ -1104,7 +1110,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CONFUSION",
     level: 7,
     name: "spell.Chaos.name",
-    keywords: ["confusion"],
+    keywords: ["confusion", "area"],
   },
   CharmPersonOrAnimal: {
     file: "SPPR204",
@@ -1128,7 +1134,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CLOAK_OF_FEAR",
     level: 4,
     name: "spell.CloakOfFear.name",
-    keywords: ["fear", "castOnSelf"],
+    keywords: ["fear", "castOnSelf", "area"],
     range: 10,
   },
   Command: {
@@ -1198,7 +1204,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_CURSE",
     level: 1,
     name: "spell.Curse.name",
-    keywords: ["magicResistance"],
+    keywords: ["magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   Destruction: {
@@ -1270,7 +1276,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_EARTHQUAKE",
     level: 7,
     name: "spell.Earthquake.name",
-    keywords: ["death", "sleep", "ground", "earthquake"],
+    keywords: ["death", "sleep", "ground", "earthquake", "area"],
   },
   EnergyDrain: {
     file: "SPPR714",
@@ -1285,7 +1291,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_ENTANGLE",
     level: 1,
     name: "spell.Entangle.name",
-    keywords: ["movement", "entangle"],
+    keywords: ["movement", "entangle", "area"],
   },
   EntropyShield: {
     file: "SPPR620",
@@ -1315,7 +1321,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_FIRE_STORM",
     level: 7,
     name: "spell.FireStorm.name",
-    keywords: ["fire"],
+    keywords: ["fire", "area"],
   },
   FlameStrike: {
     file: "SPPR503",
@@ -1346,7 +1352,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_GLYPH_OF_WARDING",
     level: 3,
     name: "spell.GlyphOfWarding.name",
-    keywords: ["magicDamage"],
+    keywords: ["magicDamage", "area"],
     alliesCheck: { range: 8 }, // 15' radius
   },
   GreaterCommand: {
@@ -1354,7 +1360,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_GREATER_COMMAND",
     level: 5,
     name: "spell.GreaterCommand.name",
-    keywords: ["sleep"],
+    keywords: ["sleep", "area"],
   },
   Harm: {
     file: "SPPR608",
@@ -1397,7 +1403,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HOLY_SMITE",
     level: 3,
     name: "spell.HolySmite.name",
-    keywords: ["magicDamage", "necromancyEffects"],
+    keywords: ["magicDamage", "necromancyEffects", "area"],
     alliesCheck: { range: 10 }, // 20' radius
   },
   HolyWord: {
@@ -1405,7 +1411,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_HOLY_WORD",
     level: 7,
     name: "spell.HolyWord.name",
-    keywords: ["death", "stun"],
+    keywords: ["death", "stun", "area"],
     excludeStateChecks: ["STATE_BLIND"],
   },
   UnholyWord: {
@@ -1413,7 +1419,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_UNHOLY_WORD",
     level: 7,
     name: "spell.UnholyWord.name",
-    keywords: ["death", "confusion"],
+    keywords: ["death", "confusion", "area"],
     excludeStateChecks: ["STATE_SLOWED"],
   },
   InsectPlague: {
@@ -1443,7 +1449,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_MASS_CAUSE_LIGHT_WOUNDS",
     level: 5,
     name: "spell.MassCauseLightWounds.name",
-    keywords: ["magicDamage", "causeWounds", "magicResistance", "castOnSelf"],
+    keywords: ["magicDamage", "causeWounds", "magicResistance", "castOnSelf", "area"],
     requiresMod: "AllSpellMods",
   },
   MassCure: {
@@ -1643,7 +1649,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SILENCE_15_FOOT",
     level: 2,
     name: "spell.Silence.name",
-    keywords: ["silence", "magicResistance"],
+    keywords: ["silence", "magicResistance", "area"],
   },
   SlayLiving: {
     file: "SPPR511",
@@ -1688,7 +1694,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SUNRAY",
     level: 7,
     name: "spell.Sunray.name",
-    keywords: ["magicDamage", "blind", "castOnSelf"],
+    keywords: ["magicDamage", "blind", "castOnSelf", "area"],
   },
   Sunscorch: {
     file: "SPPR118",
@@ -1703,14 +1709,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SYMBOL_DEATH",
     level: 7,
     name: "spell.SymbolDeath.name",
-    keywords: ["death"],
+    keywords: ["death", "area"],
   },
   SymbolHopelessness: {
     file: "SPPR735",
     id: "CLERIC_SYMBOL_HOPELESSNESS",
     level: 7,
     name: "spell.SymbolHopelessness.name",
-    keywords: ["stun", "magicResistance"],
+    keywords: ["stun", "magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   SymbolPain: {
@@ -1718,7 +1724,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SYMBOL_PAIN",
     level: 7,
     name: "spell.SymbolPain.name",
-    keywords: ["magicResistance"],
+    keywords: ["magicResistance", "area"],
     requiresMod: "AllSpellMods",
   },
   SymbolStunning: {
@@ -1726,14 +1732,14 @@ const PRIEST_SPELLS = {
     id: "CLERIC_SYMBOL_STUN",
     level: 7,
     name: "spell.SymbolStunning.name",
-    keywords: ["stun"],
+    keywords: ["stun", "area"],
   },
   SymbolWeakness: {
     file: "SPPR706",
     id: "CLERIC_SYMBOL_WEAKNESS",
     level: 7,
     name: "spell.SymbolWeakness.name",
-    keywords: ["disease"],
+    keywords: ["disease", "area"],
     requiresMod: "AllSpellMods",
   },
   TrueSeeing: {
@@ -1749,7 +1755,7 @@ const PRIEST_SPELLS = {
     id: "CLERIC_UNHOLY_BLIGHT",
     level: 3,
     name: "spell.UnholyBlight.name",
-    keywords: ["magicDamage", "necromancyEffects"],
+    keywords: ["magicDamage", "necromancyEffects", "area"],
     alliesCheck: { range: 10 }, // 20' radius
   },
   WavesOfAgony: {
@@ -1777,7 +1783,12 @@ const INNATE_SPELLS = {
     range: 10,
     keywords: ["blind", "slow", "confusion", "colorSpray"],
   },
-  HealingLick: { file: "SPIN699", level: 1, name: "spell.HealingLick.name" },
+  HealingLick: {
+    file: "SPIN699",
+    level: 1,
+    name: "spell.HealingLick.name",
+    keywords: ["friendly"],
+  },
   MoonDogSight: {
     file: "SPIN696",
     name: "spell.MoonDogSight.name",
@@ -1791,7 +1802,7 @@ const INNATE_SPELLS = {
     name: "spell.MoonDogHowl.name",
     id: "MOON_DOG_FEAR",
     level: 6,
-    keywords: ["fear", "magicResistance", "castOnSelf"],
+    keywords: ["fear", "magicResistance", "castOnSelf", "area"],
   },
   SpiderSingleTargetWeb: {
     file: "BDSPIDGA",

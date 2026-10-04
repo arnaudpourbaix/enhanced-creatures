@@ -35,6 +35,8 @@ export interface BaseSpell {
   type: SpellTypeEnum;
   level: number;
   name?: StringReference;
+  /** See SpellReference.keywords */
+  keywords?: SpellKeyword[];
 }
 
 /**

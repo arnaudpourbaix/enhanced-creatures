@@ -178,6 +178,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -213,6 +217,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -248,6 +256,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -283,6 +295,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -318,6 +334,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -353,6 +373,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -388,6 +412,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -423,6 +451,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -458,6 +490,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -493,6 +529,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -528,6 +568,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -563,6 +607,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -599,6 +647,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -627,6 +679,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -655,6 +711,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -683,6 +743,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -711,6 +775,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -739,6 +807,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -767,6 +839,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -795,6 +871,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -823,6 +903,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -851,6 +935,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -879,6 +967,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -907,6 +999,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -935,6 +1031,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -969,6 +1069,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1003,6 +1107,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1037,6 +1145,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1071,6 +1183,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1105,6 +1221,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1139,6 +1259,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1173,6 +1297,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1207,6 +1335,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1241,6 +1373,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1276,6 +1412,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1303,6 +1443,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1330,6 +1474,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1357,6 +1505,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1384,6 +1536,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1411,6 +1567,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1438,6 +1598,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1465,6 +1629,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1492,6 +1660,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1519,6 +1691,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1543,6 +1719,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1566,6 +1746,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1589,6 +1773,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1612,6 +1800,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1635,6 +1827,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1658,6 +1854,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1681,6 +1881,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1704,6 +1908,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1727,6 +1935,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1750,6 +1962,10 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

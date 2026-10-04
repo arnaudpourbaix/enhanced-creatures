@@ -9,6 +9,10 @@ export type SpellKeyword =
    * Blocked by Protection from Missiles
    */
   | "acid"
+  /**
+   * Affects an area: spell reflections don't stop it (see SPELL_CHECK_SUPPRESSORS)
+   */
+  | "area"
   | "bleeding"
   | "blind"
   | "castOnSelf"
@@ -35,7 +39,8 @@ export type SpellKeyword =
   | "fireball"
   | "flameArrow"
   /**
-   * Means that the spell is friendly and we should not check for protections
+   * Means that the spell is friendly and we should not check for protections (see
+   * SPELL_CHECK_SUPPRESSORS)
    */
   | "friendly"
   | "globeOfInvulnerability"

@@ -74,7 +74,7 @@ function wallOfIce(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 4,
-    keywords: ["cold"],
+    keywords: ["cold", "area"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -132,7 +132,7 @@ function fireball(cre: Undead) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 3,
-    keywords: ["fire"],
+    keywords: ["fire", "area"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Ranged,
@@ -165,6 +165,17 @@ function fireball(cre: Undead) {
             power: 3,
           },
         ],
+      },
+    ],
+    effects: [
+      {
+        opcode: EffectTypeEnum.ModifyGlobalVariable,
+        target: EffectTargetEnum.Self,
+        type: ModifyGlobalVariableTypeEnum.Set,
+        value: 1,
+        resource: "mgArea1",
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
+        dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
       },
     ],
     ability: {

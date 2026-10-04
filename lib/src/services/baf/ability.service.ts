@@ -81,9 +81,8 @@ class AbilityService {
   }
 
   /**
-   * Appends trigger.factory.spellChecks()'s triggers for `keywords`, and an
-   * ImmuneToSpellLevel(target, level) check when `level` is known (unless the spell is
-   * "friendly"), to every target list's own
+   * Appends trigger.factory.spellChecks()'s triggers for `keywords`, and the level-driven checks
+   * (trigger.factory.spellLevelChecks) when `level` is known, to every target list's own
    * `triggers` - not the ability's top-level triggers - since a target list is what actually
    * restricts an offensive ability to a subset of targets, so "skip protected targets" belongs
    * there. These ability-level checks are shared by every target list; each target list's own
@@ -104,14 +103,8 @@ class AbilityService {
   ): TargetList[] | undefined {
     if (!targets) return targets;
     const sharedChecks = triggerFactory.spellChecks(keywords);
-    // A "friendly" spell is one the target wants to receive, so its spell protections are
-    // irrelevant.
-    if (
-      typeof level === "number" &&
-      GLOBAL_CONFIG.spellChecks.spellProtections &&
-      !keywords?.includes("friendly")
-    ) {
-      sharedChecks.push(triggerFactory.immuneToSpellLevel(level, true));
+    if (typeof level === "number" && GLOBAL_CONFIG.spellChecks.spellProtections) {
+      sharedChecks.push(...triggerFactory.spellLevelChecks(level, keywords));
     }
     const withChecks = targets.map((t) => {
       const { keywords: ownKeywords, ...rest } = t;

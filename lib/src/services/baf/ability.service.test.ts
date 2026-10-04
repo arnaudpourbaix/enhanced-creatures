@@ -21,6 +21,20 @@ const SPWI002 = "SPWI002" as SpellIdentifier;
 // The real default name abilityService falls back to when none is given - reused across many
 // independent test cases below that don't set an explicit name.
 const DEFAULT_ABILITY_NAME = "ability.unknown";
+const IMMUNE_LEVEL_3: Triggers.Trigger = {
+  name: "ImmuneToSpellLevel",
+  params: ["{Target}", 3],
+  negation: true,
+};
+const SPELL_REFLECTIONS: Triggers.Trigger[] = [
+  "WIZARD_SPELL_TURNING",
+  "WIZARD_SPELL_TRAP",
+  "WIZARD_SPELL_DEFLECTION",
+  "CLERIC_SHIELD_OF_THE_ARCHONS",
+].map(
+  (stat) =>
+    ({ name: "CheckStatGT", params: ["{Target}", 0, stat], negation: true }) as Triggers.Trigger,
+);
 
 describe("getAbilities", () => {
   it("returns an empty array when abilities is undefined", () => {
@@ -731,14 +745,11 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
       expect(ability.targets).toEqual([
         {
           name: "Players",
-          triggers: [{ name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true }],
+          triggers: [IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
         },
         {
           name: "PCs",
-          triggers: [
-            { name: "See", params: [] },
-            { name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true },
-          ],
+          triggers: [{ name: "See", params: [] }, IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
         },
       ]);
     } finally {
@@ -790,12 +801,37 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
       expect(ability.targets).toEqual([
         {
           name: "Players",
-          triggers: [
-            ...SPELL_CHECK_TRIGGERS.acid,
-            { name: "ImmuneToSpellLevel", params: ["{Target}", 3], negation: true },
-          ],
+          triggers: [...SPELL_CHECK_TRIGGERS.acid, IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
         },
       ]);
+    } finally {
+      ABILITY_PRESETS.pop();
+    }
+  });
+
+  it.each([
+    ["the area keyword", { keywords: ["area"] }, [IMMUNE_LEVEL_3]],
+    [
+      "nothing for an allies check alone (only the area keyword marks an area spell)",
+      { alliesCheck: { range: 15 } },
+      [IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
+    ],
+    ["the friendly keyword", { keywords: ["friendly"] }, []],
+  ] as const)("keeps only the level checks not suppressed by %s", (_, override, expected) => {
+    ABILITY_PRESETS.push({
+      preset: "JA#TEST_SUPPRESSED_PRESET",
+      ability: {
+        name: DEFAULT_ABILITY_NAME,
+        level: 3,
+        targets: [{ name: "Players" }],
+        spell: { id: SPWI001 },
+        ...structuredClone(override),
+      } as RawCreatureAbility,
+    });
+    try {
+      const [ability] = abilityService.getAbilities([{ preset: "JA#TEST_SUPPRESSED_PRESET" }]);
+      const triggers = ability.targets[0].triggers ?? [];
+      expect(triggers.filter((t) => "params" in t && t.params[0] === "{Target}")).toEqual(expected);
     } finally {
       ABILITY_PRESETS.pop();
     }

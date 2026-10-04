@@ -1312,7 +1312,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 3,
       },
-      keywords: ["movement", "entangle"],
+      keywords: ["movement", "entangle", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,

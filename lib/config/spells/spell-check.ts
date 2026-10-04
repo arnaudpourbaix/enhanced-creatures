@@ -17,11 +17,29 @@ export const SPELL_CHECK_GATE_KEYWORDS: ReadonlySet<SpellKeyword> = new Set<Spel
 ]);
 
 /**
+ * Checks driven by the spell's level rather than by a keyword (see
+ * AbilityService.appendSpellCheckTriggers):
+ * - immuneToSpellLevel: Minor Globe, Globe of Invulnerability, Spell Immunity, ...
+ * - spellReflections: Spell Turning/Trap/Deflection, Shield of the Archons (single-target only)
+ */
+export type SpellLevelCheck = "immuneToSpellLevel" | "spellReflections";
+
+/**
+ * Keywords that turn level-driven checks off: a friendly spell is wanted by its target, and spell
+ * reflections don't stop an area spell.
+ */
+export const SPELL_CHECK_SUPPRESSORS: Partial<Record<SpellKeyword, SpellLevelCheck[]>> = {
+  friendly: ["immuneToSpellLevel", "spellReflections"],
+  area: ["spellReflections"],
+};
+
+/**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
  * several triggers (e.g. a protection covered by both an old-style stat and a newer spell state).
  */
 export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   acid: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTACID"] }],
+  area: [],
   blind: [],
   castOnSelf: [],
   causeWounds: [],

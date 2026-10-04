@@ -26,6 +26,7 @@ const FNP_PRIEST_SPELLS = {
   },
   CloakOfFear: {
     file: "D5P1416",
+    keywords: ["area"],
     level: 3,
     type: SpellTypeEnum.Priest,
     name: "spell.CloakOfFear.name",
@@ -40,6 +41,7 @@ const FNP_PRIEST_SPELLS = {
   Emotion: { file: "D5P2411", level: 4, type: SpellTypeEnum.Priest, name: "spell.Emotion.name" },
   GreaterMalison: {
     file: "D5P2412",
+    keywords: ["area"],
     level: 4,
     type: SpellTypeEnum.Priest,
     name: "spell.GreaterMalison.name",
@@ -78,25 +80,35 @@ const FNP_PRIEST_SPELLS = {
   },
   WavesOfFatigue: {
     file: "D5P2508",
+    keywords: ["area"],
     level: 4,
     type: SpellTypeEnum.Priest,
     name: "spell.WavesOfFatigue.name",
   },
-  Chaos: { file: "D5P1709", level: 5, type: SpellTypeEnum.Priest, name: "spell.Chaos.name" },
+  Chaos: {
+    file: "D5P1709",
+    keywords: ["area"],
+    level: 5,
+    type: SpellTypeEnum.Priest,
+    name: "spell.Chaos.name",
+  },
   CloudOfPestilence: {
     file: "D5P1424",
+    keywords: ["area"],
     level: 5,
     type: SpellTypeEnum.Priest,
     name: "spell.CloudOfPestilence.name",
   },
   GreaterCommand: {
     file: "D5P1512",
+    keywords: ["area"],
     level: 5,
     type: SpellTypeEnum.Priest,
     name: "spell.GreaterCommand.name",
   },
   MassCauseLightWounds: {
     file: "D5P1530",
+    keywords: ["area"],
     level: 5,
     type: SpellTypeEnum.Priest,
     name: "spell.MassCauseLightWounds.name",
@@ -115,6 +127,7 @@ const FNP_PRIEST_SPELLS = {
   },
   WavesOfAgony: {
     file: "D5P1533",
+    keywords: ["area"],
     level: 5,
     type: SpellTypeEnum.Priest,
     name: "spell.WavesOfAgony.name",

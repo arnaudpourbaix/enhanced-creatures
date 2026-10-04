@@ -1,7 +1,12 @@
 import { SpellStateValue } from "../../config/common";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellKeyword } from "../../config/spells/keyword";
-import { SPELL_CHECK_GATE_KEYWORDS, SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
+import {
+  SPELL_CHECK_GATE_KEYWORDS,
+  SPELL_CHECK_SUPPRESSORS,
+  SPELL_CHECK_TRIGGERS,
+  SpellLevelCheck,
+} from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
 import { defaultAllySafe } from "../../config/target/ally-safe";
 import { Counts } from "../../config/target/target-config";
@@ -211,13 +216,45 @@ class TriggerFactory {
   }
 
   /**
-   * True when the target is immune to spells of `level` for any reason currently active on it
-   * (Minor Globe, Globe of Invulnerability, Spell Deflection, Spell Turning, Spell Immunity,
-   * Shield of the Archons, ...) - the engine's own generic spell-level-immunity check, so this
-   * needs no protection-specific stat or SpellKeyword (see BaseCreatureAbility.level).
+   * True when the target is immune to spells of `level` (Minor Globe, Globe of Invulnerability,
+   * Spell Immunity, ...) - the engine's own generic spell-level-immunity check (see
+   * BaseCreatureAbility.level). It doesn't see level-decrementing reflections/absorptions, which
+   * spellReflections covers.
    */
   immuneToSpellLevel(level: number, negation = false): Triggers.Trigger {
     return { name: "ImmuneToSpellLevel", params: [ScriptTarget.token, level], negation };
+  }
+
+  /**
+   * Excludes targets protected by Spell Turning, Spell Trap, Spell Deflection or Shield of the
+   * Archons - missed by ImmuneToSpellLevel (tested in game). These only stop single-target spells,
+   * not area ones.
+   */
+  spellReflections(): Triggers.Trigger[] {
+    const stats: StatsIdentifier[] = [
+      "WIZARD_SPELL_TURNING",
+      "WIZARD_SPELL_TRAP",
+      "WIZARD_SPELL_DEFLECTION",
+      "CLERIC_SHIELD_OF_THE_ARCHONS",
+    ];
+    return stats.map((stat) => this.checkStatGT(0, stat, true));
+  }
+
+  /**
+   * The level-driven checks (see SpellLevelCheck) excluding protected targets, minus those
+   * suppressed by one of `keywords` (see SPELL_CHECK_SUPPRESSORS).
+   */
+  spellLevelChecks(level: number, keywords: SpellKeyword[] = []): Triggers.Trigger[] {
+    const suppressed = new Set(
+      keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []),
+    );
+    const checks: Record<SpellLevelCheck, () => Triggers.Trigger[]> = {
+      immuneToSpellLevel: () => [this.immuneToSpellLevel(level, true)],
+      spellReflections: () => this.spellReflections(),
+    };
+    return (Object.keys(checks) as SpellLevelCheck[])
+      .filter((check) => !suppressed.has(check))
+      .flatMap((check) => checks[check]());
   }
 
   stateCheck(state: StateIdentifier, negation = false): Triggers.Trigger {
