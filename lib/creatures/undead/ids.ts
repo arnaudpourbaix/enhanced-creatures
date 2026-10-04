@@ -25,4 +25,5 @@ export enum Ids {
   SkeletonWarriorFearAura,
   SpecterTouch,
   WallOfIce,
+  WightTouch,
 }

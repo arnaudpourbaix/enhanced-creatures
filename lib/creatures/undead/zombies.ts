@@ -3,11 +3,38 @@
  *
  * Shared weapon primitives live on `Undead` (undead-creature.ts).
  */
-import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
+import effectFactory from "../../src/factories/effect.factory";
+import {
+  EffectStatisticModifierEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
+import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
+
+function wightTouch(cre: Undead) {
+  return cre.addSpell({
+    name: "monster.undead.ability.wightTouch.name",
+    description: "monster.undead.ability.wightTouch.description",
+    id: Ids.WightTouch,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 5,
+        effects: [
+          ...effectFactory.levelDrain({
+            levels: 1,
+          }),
+        ],
+      },
+    ],
+  });
+}
 
 export function wight(family: UndeadFamily): Undead {
   const wight = family.create({
@@ -15,39 +42,37 @@ export function wight(family: UndeadFamily): Undead {
     name: "monster.undead.name.wight",
     files: [],
     data: {
-      level1: 3,
-      bonusHp: 2,
-      strength: 17,
-      dexterity: 15,
+      level1: 4,
+      bonusHp: 3,
+      strength: 15,
+      dexterity: 14,
       constitution: 9,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 1,
+      intelligence: 9,
+      wisdom: 13,
+      charisma: 15,
       ac: 5,
       apr: 1,
       xpv: 1400,
       alignment: "LAWFUL_EVIL",
-      morale: 15,
-      general: "MONSTER",
-      race: "SPIDER",
-      class: "SPIDER_WRAITH",
+      morale: 14,
+      general: "UNDEAD",
+      race: "ZOMBIE",
+      class: "WIGHT",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
     },
   });
+  wightTouch(wight);
+  wight.createClaws({
+    diceThrown: 1,
+    diceSize: 4,
+    castSpell: {
+      spell: family.spell(Ids.WightTouch).file,
+    },
+  });
   wight.addTrait({
     immunities: ["cold", "nonSilverNonMagicalWeapons"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 15,
-        type: EffectStatisticModifierEnum.Set,
-      },
-    ],
-  });
-  wight.setBehavior({
-    dialog: ["C#Q04009", "ttspid"],
   });
   return wight;
 }
