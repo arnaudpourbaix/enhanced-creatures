@@ -46,6 +46,7 @@ export function skeletonWarrior(family: UndeadFamily): Undead {
       general: "UNDEAD",
       race: "SKELETON",
       class: "SKELETON_WARRIOR",
+      animation: "SKELETON_WARRIOR",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 6,

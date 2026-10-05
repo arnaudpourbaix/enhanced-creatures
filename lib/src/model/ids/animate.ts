@@ -502,3 +502,90 @@ export type AnimationIdentifiers =
   | "WATER_WEIRD"
   | "BOLT_OF_GLORY"
   | "SUN_SOULRAY";
+
+/**
+ * Animations added to ANIMATE.IDS by mods (the non-vanilla `anim` values of creatures.csv). They
+ * may be missing at install time, so a creature only gets one through an animation priority list
+ * (see CreatureData.animation) that falls back when the mod isn't installed.
+ */
+export const MOD_ANIMATIONS = [
+  "A7!GOLEM_BRAIN",
+  "A7!GOLEM_FLESH_PST",
+  "A7_CORNUGON_BLACK",
+  "A7_DRONE_HEAVY",
+  "A7_DRONE_LIGHT",
+  "A7_DRONE_WIZARD",
+  "A7_MODRON_MONO",
+  "A7_MODRON_QUAD_MELEE",
+  "A7_MODRON_QUAD_RANGED",
+  "A7_RAVER_BLUE",
+  "AC#ARANOTH",
+  "AC#BABAU",
+  "AC#BAPHITAUR",
+  "AC#BARIAUR",
+  "AC#BEBILITH",
+  "AC#BLOOD_ELEMENTAL",
+  "AC#DUSTMAN_FEMALE",
+  "AC#EARTH_WEIRD",
+  "AC#ELEMENTAL_WATER_LARGE",
+  "AC#ELEMENTAL_WATER_SMALL",
+  "AC#GIANT_FROST_ZOMBIE",
+  "AC#HAMATULA",
+  "AC#LARVA",
+  "AC#MANE",
+  "AC#MARETTA",
+  "AC#MERRENOLOTH",
+  "AC#MONODRON",
+  "AC#NIGHTHAG",
+  "AC#OTYUGH_BROWN",
+  "AC#PISCOLOTH",
+  "AC#SEA_HAG",
+  "AC#SNAKE_SMALL",
+  "AC#SUCCUBUS_NWN",
+  "AC#TIEFLING_FEMALE",
+  "AC#TIEFLING_MALE",
+  "AC#TRANSCENDENT_ONE_PST",
+  "AC#VARGOUILLE",
+  "AC#VARRDIG",
+  "AC#VROCK",
+  "ACIFER_OBLIVIAX",
+  "ALKILITH_ACIFER",
+  "ARCANALOTH_ACIFER",
+  "BARLGURA_ACIFER",
+  "BODAK_ACIFER",
+  "C0_ARANEA",
+  "C0_MUTANT",
+  "C0_SNOW_HAG",
+  "DRETCH_ACIFER",
+  "HEZROU_ACIFER",
+  "L#2SD_SOULTAKER_MIASMA",
+  "L#AFU",
+  "L#JN_COYOTLWERE",
+  "L#JN_DYBBUK",
+  "L#JN_HUGE_SNAKE",
+  "L#JN_JACKALWERE",
+  "L#RV_BEE_MAGGOT",
+  "L#RV_LOUP_GAROU",
+  "L#RV_NECROTIC_HONEY",
+  "L#RV_RAVEN",
+  "L#RV_WILLOMIST",
+  "L#RV_ZOMBIEDOE",
+  "L#_ANKHEG_ZOMBIE",
+  "L#_CHIMERA_INFERNAL",
+  "L#_DOG_MOSS",
+  "L#_PUPPY",
+  "L#_SHADE_WYVERN",
+  "MEFISTO_ACIFER",
+  "MEZZOLOTH_ACIFER",
+  "NALFESHNEE_ACIFER",
+  "NEOTHELID",
+  "RUTTERKIN_ACIFER",
+] as const;
+
+export type ModAnimationIdentifiers = (typeof MOD_ANIMATIONS)[number];
+
+const MOD_ANIMATION_SET: ReadonlySet<string> = new Set(MOD_ANIMATIONS);
+
+export function isModAnimation(animation: string): animation is ModAnimationIdentifiers {
+  return MOD_ANIMATION_SET.has(animation);
+}

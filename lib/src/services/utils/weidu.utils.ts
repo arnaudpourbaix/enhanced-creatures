@@ -17,7 +17,24 @@ class WeiduUtils {
 
   getIdsValue(file: string, value: string | undefined): string | undefined {
     if (value === undefined) return undefined;
-    return `IDS_OF_SYMBOL (~${file}~ ~${value}~)`;
+    return this.idsOfSymbol(file, value);
+  }
+
+  idsOfSymbol(file: string, symbol: string): string {
+    return `IDS_OF_SYMBOL (~${file}~ ~${symbol}~)`;
+  }
+
+  /**
+   * Value of the first of `symbols` present in `file`.IDS at install time (IDS_OF_SYMBOL gives -1
+   * for a missing one, e.g. added by a mod that isn't installed), else `fallback` - one nested
+   * WeiDU ternary, so it still fits wherever a single value is expected.
+   */
+  getFirstIdsValue(file: string, symbols: string[], fallback: string): string {
+    const chain = symbols.reduceRight((rest, symbol) => {
+      const ids = this.idsOfSymbol(file, symbol);
+      return `(${ids} >= 0) ? ${ids} : ${rest}`;
+    }, fallback);
+    return symbols.length ? `(${chain})` : fallback;
   }
 }
 

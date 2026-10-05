@@ -383,6 +383,7 @@ export function ghast(family: UndeadFamily): Undead {
       general: "UNDEAD",
       race: "GHOUL",
       class: "GHOUL_GHAST",
+      animation: "GHAST",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 15,

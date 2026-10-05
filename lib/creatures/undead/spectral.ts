@@ -10,7 +10,6 @@ import {
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
   EffectIDSFileEnum,
-  EffectStatisticModifierEnum,
   EffectTimingEnum,
   ItemAbilityLocationEnum,
   ItemAbilitySecondaryTypeEnum,
@@ -254,6 +253,7 @@ export function banshee(family: UndeadFamily): Undead {
       general: "UNDEAD",
       race: "WRAITH",
       class: "SPECTRE",
+      animation: "WAILING_VIRGIN",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 15,
@@ -381,6 +381,7 @@ export function greaterShadow(family: UndeadFamily): Undead {
     bonusHp: 8,
     apr: 8,
     xpv: 3000,
+    animation: "SHADOW_LARGE",
     items: {
       remove: ["BDSHADGR", "BDSPECTQ", "BDSHADGA"],
       equipped: [{ file: EXISTING_ITEMS.InvisibilityRing, slot: JEWEL_SLOTS }],

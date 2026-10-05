@@ -69,7 +69,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         class: "FIGHTER",
         gender: "NIETHER",
         size: { value: "Medium", tall: true, long: false },
-        animation: "FIGHTER_MALE_HUMAN",
+        animation: "DOOM_GUARD",
         hairColor: 63,
         armorColor: 63,
         skinColor: 63,

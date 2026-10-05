@@ -74,7 +74,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~GOLEM~)
 					class=IDS_OF_SYMBOL (~class~ ~FIGHTER~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
-					animation=IDS_OF_SYMBOL (~animate~ ~FIGHTER_MALE_HUMAN~)
+					animation=IDS_OF_SYMBOL (~animate~ ~DOOM_GUARD~)
 					metalColor=63
 					minorColor=63
 					majorColor=63

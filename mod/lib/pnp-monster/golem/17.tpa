@@ -97,7 +97,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~GOLEM~)
 					class=IDS_OF_SYMBOL (~class~ ~GOLEM_FLESH~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
-					modAnimation=IDS_OF_SYMBOL (~animate~ ~A7!GOLEM_FLESH_PST~)
+					animation=((IDS_OF_SYMBOL (~animate~ ~A7!GOLEM_FLESH_PST~) >= 0) ? IDS_OF_SYMBOL (~animate~ ~A7!GOLEM_FLESH_PST~) : IDS_OF_SYMBOL (~animate~ ~OGRILLON~))
 					movement=6
 					enforce=1
 			END

@@ -537,7 +537,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         class: "GOLEM_FLESH",
         gender: "NIETHER",
         size: { value: "Large", tall: true, long: false },
-        modAnimation: "A7!GOLEM_FLESH_PST",
+        animation: ["A7!GOLEM_FLESH_PST", "OGRILLON"],
         movement: 8,
         immunities: ["construct"],
         items: {
@@ -561,10 +561,9 @@ class GolemFamily extends CreatureFamily<Golem> {
     });
     flesh.setAdjustments([
       {
-        files: ["ARNGOL01", "L#XZEGOL", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
+        files: ["ARNGOL01", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
         stringRef: "monster.golem.name.flesh",
       },
-      // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
     ]);
     return flesh;
   }
@@ -754,6 +753,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 9,
       strength: 19,
       xpv: 3000,
+      animation: "GOLEM_MINI",
     });
     lesserClay.addTrait({
       immunities: [
@@ -920,6 +920,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
+        animation: ["GOLEM_IRON_IWD", "GOLEM_IRON"],
         size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
@@ -1090,9 +1091,9 @@ class GolemFamily extends CreatureFamily<Golem> {
         general: "GIANTHUMANOID",
         race: "GOLEM",
         class: "GOLEM_STONE",
+        animation: ["GOLEM_IRON_IWD", "GOLEM_IRON"],
         gender: "NIETHER",
         size: { value: "Large", tall: true, long: false },
-        animation: "GOLEM_CLAY",
         movement: 3,
         immunities: ["construct"],
         items: {
@@ -1144,6 +1145,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
+        animation: "GOLEM_ICE",
         size: { value: "Large", tall: true, long: false },
         movement: 9,
         immunities: ["construct"],

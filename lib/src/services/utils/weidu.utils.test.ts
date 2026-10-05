@@ -39,3 +39,16 @@ describe("getIdsValue", () => {
     expect(weiduUtils.getIdsValue("race", undefined)).toBeUndefined();
   });
 });
+
+describe("getFirstIdsValue", () => {
+  it("chains each symbol's lookup in order, ending on the fallback", () => {
+    expect(weiduUtils.getFirstIdsValue("animate", ["A", "B"], "LONG_AT 0x28")).toBe(
+      "((IDS_OF_SYMBOL (~animate~ ~A~) >= 0) ? IDS_OF_SYMBOL (~animate~ ~A~) : " +
+        "(IDS_OF_SYMBOL (~animate~ ~B~) >= 0) ? IDS_OF_SYMBOL (~animate~ ~B~) : LONG_AT 0x28)",
+    );
+  });
+
+  it("returns the fallback alone when there is no symbol", () => {
+    expect(weiduUtils.getFirstIdsValue("animate", [], "7")).toBe("7");
+  });
+});

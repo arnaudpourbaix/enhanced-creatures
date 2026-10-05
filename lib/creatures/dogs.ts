@@ -249,6 +249,7 @@ class DogFamily extends CreatureFamily<Dog> {
       { files: ["UBNIMDOG", "L#NIDOG"], data: { script: { location: "None" } } },
       { files: ["FSDOG", "L#2EDDOG"], data: { level1: 3 } },
       { files: ["GPDOG1"], data: { level1: 4 } },
+      { files: ["L#NIDOG"], data: { animation: "DOG_WAR" } },
     ]);
     war.setBehavior({
       customCodes: [customCodes.wildAnimalsTurningHostile],

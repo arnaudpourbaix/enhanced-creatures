@@ -17,7 +17,9 @@ class VariantFactory {
     assertFiles(cre, label, members, adjustFiles);
 
     const base: InputCreatureData = parent
-      ? deepmerge<InputCreatureData>(parent.data, input.data ?? {})
+      ? deepmerge<InputCreatureData>(parent.data, input.data ?? {}, {
+          customMerge: (key) => (key === "animation" ? replaceArray : undefined),
+        })
       : (input.data ?? {});
     const variant = new Variant(cre, label, base, members, parent);
 
@@ -97,9 +99,15 @@ function assertNoDuplicateAdjustFiles(adjust: PartialCreatureAdjustment[], label
 // variant's own `spellbooks` - duplicating each mod's entry (one from the shared profile's caster
 // level, one from the adjust entry's) and making weidu-creature.service's `.find()` fallback pick
 // the shared profile's (wrong, weaker) one instead of the adjust entry's override.
-function customMerge(key: string): ((target: unknown[], source: unknown[]) => unknown[]) | undefined {
-  if (key !== "memorized" && key !== "spellbooks") return undefined;
-  return (_target, source) => source;
+// `animation` is a priority list (see CreatureData.animation): concatenating two would put the
+// parent's vanilla fallback in the middle, so it's replaced too - here and in a sub-variant's base.
+function customMerge(key: string): typeof replaceArray | undefined {
+  if (key !== "memorized" && key !== "spellbooks" && key !== "animation") return undefined;
+  return replaceArray;
+}
+
+function replaceArray(_target: unknown[], source: unknown[]): unknown[] {
+  return source;
 }
 
 function linkToParent(cre: Creature, variant: Variant, members: string[]): void {

@@ -33,6 +33,7 @@ export function ogreMage(family: OgreFamily): Ogre {
       race: "OGRE",
       class: "OGRE_MAGE",
       kit: "TRUECLASS",
+      animation: "OGRE_MAGE",
       gender: "MALE",
       size: { value: "Large", tall: true, long: false },
       movement: 9,

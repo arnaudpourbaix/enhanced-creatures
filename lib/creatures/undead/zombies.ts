@@ -80,6 +80,12 @@ export function wight(family: UndeadFamily): Undead {
       },
       noWeapon: true,
     },
+    {
+      files: ["NEVM1"],
+      data: {
+        animation: "WIGHT_GRAY",
+      },
+    },
   ]);
   return wight;
 }

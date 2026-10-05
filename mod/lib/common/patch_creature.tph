@@ -51,8 +51,7 @@ INT_VAR
   alignment=99          // alignment
   hideShadow=999        // Hide in Shadows value
   moveSilent=999        // Move Silently value
-  animation="-1"
-  modAnimation="-1"
+  animation="-1"        // animation (may be a generated fallback chain, see CreatureData.animation)
   metalColor="-1"
   minorColor="-1"
   majorColor="-1"
@@ -284,9 +283,7 @@ BEGIN
   PATCH_IF moveSilent != 999 AND (oldMoveSilent < moveSilent OR enforce = 1) BEGIN
     WRITE_BYTE 0x68 moveSilent // set new Hide in Shadows value
   END
-  PATCH_IF modAnimation != "-1" BEGIN
-    WRITE_LONG 0x28 modAnimation
-  END ELSE PATCH_IF animation != "-1" BEGIN
+  PATCH_IF animation != "-1" BEGIN
     WRITE_LONG 0x28 animation
   END
   PATCH_IF metalColor != "-1" BEGIN

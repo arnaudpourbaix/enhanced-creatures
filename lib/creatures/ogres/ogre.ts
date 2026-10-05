@@ -28,6 +28,7 @@ export function ogre(family: OgreFamily): Ogre {
       general: "GIANTHUMANOID",
       race: "OGRE",
       class: "OGRE",
+      animation: "OGRE",
       size: { value: "Large", tall: true, long: false },
       movement: 9,
       immunities: ["giant"],

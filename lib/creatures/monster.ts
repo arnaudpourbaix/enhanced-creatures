@@ -180,4 +180,5 @@ export enum MonsterEnum {
   Vampire = 153,
   Watchghost = 154,
   Cambion = 155,
+  Neothelid = 156,
 }
