@@ -613,9 +613,9 @@ export function wraith(family: UndeadFamily): Undead {
 function greaterWraithVariant(base: Undead): Variant {
   const greater = base.variant("Greater Wraith", {
     data: {
-      level1: 8,
+      level1: 9,
       ac: 2,
-      xpv: 4000,
+      xpv: 3000,
     },
     files: ["AC#DT30W", "FIRWRA01"],
     adjust: [],

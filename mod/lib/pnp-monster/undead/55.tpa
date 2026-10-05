@@ -128,18 +128,18 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#FPWRA~) BEGIN 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#DT30W~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~FIRWRA01~) BEGIN 
-				WRITE_LONG 0x14 4000 // xpv
-				WRITE_SHORT 0x24 99 // hp
-				WRITE_SHORT 0x26 99 // hp
+				WRITE_LONG 0x14 3000 // xpv
+				WRITE_SHORT 0x24 111 // hp
+				WRITE_SHORT 0x26 111 // hp
 				WRITE_SHORT 0x46 2 // ac
 				WRITE_SHORT 0x48 2 // ac
-				WRITE_BYTE 0x52 13 // thac0
-				WRITE_BYTE 0x54 10 // saveDeath
-				WRITE_BYTE 0x55 12 // saveWand
-				WRITE_BYTE 0x56 11 // savePolymorph
-				WRITE_BYTE 0x57 12 // saveBreath
-				WRITE_BYTE 0x58 13 // saveSpell
-				WRITE_BYTE 0x234 8 // level1
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 8 // saveDeath
+				WRITE_BYTE 0x55 10 // saveWand
+				WRITE_BYTE 0x56 9 // savePolymorph
+				WRITE_BYTE 0x57 9 // saveBreath
+				WRITE_BYTE 0x58 11 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CBMALR6A~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
