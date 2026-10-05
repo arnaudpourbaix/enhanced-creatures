@@ -61,6 +61,9 @@ export function wight(family: UndeadFamily): Undead {
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
+      items: {
+        remove: ["wight", "bdwight", "ring95", "immune1"],
+      },
     },
   });
   wightTouch(wight);
@@ -74,6 +77,15 @@ export function wight(family: UndeadFamily): Undead {
   wight.addTrait({
     immunities: ["cold", "nonSilverNonMagicalWeapons"],
   });
+  wight.setAdjustments([
+    {
+      files: ["BDWIGHT3"],
+      data: {
+        level1: 7,
+      },
+      noWeapon: true,
+    },
+  ]);
   return wight;
 }
 
