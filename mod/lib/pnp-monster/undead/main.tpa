@@ -30,3 +30,4 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4a.tpa" // Death Knight
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/53.tpa" // Spectre
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/54.tpa" // Wight
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/55.tpa" // Wraith

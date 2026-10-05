@@ -4,11 +4,13 @@ import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
 import { JEWEL_SLOTS } from "../../src/model/creature/item";
+import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
   EffectIDSFileEnum,
+  EffectStatisticModifierEnum,
   EffectTimingEnum,
   ItemAbilityLocationEnum,
   ItemAbilitySecondaryTypeEnum,
@@ -183,6 +185,27 @@ function ghostTouch(cre: Undead) {
             amount: 10,
             dispelResistance: EffectDispelResistanceEnum.NotDispelBypassResistance,
           },
+        ],
+      },
+    ],
+  });
+}
+
+function wraithTouch(cre: Undead) {
+  return cre.addSpell({
+    name: "monster.undead.ability.wraithTouch.name",
+    description: "monster.undead.ability.wraithTouch.description",
+    id: Ids.WraithTouch,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 5,
+        effects: [
+          ...effectFactory.levelDrain({
+            levels: 1,
+          }),
         ],
       },
     ],
@@ -529,6 +552,75 @@ export function ghost(family: UndeadFamily): Undead {
   });
   ghost.setAdjustments([]);
   return ghost;
+}
+
+export function wraith(family: UndeadFamily): Undead {
+  const wraith = family.create({
+    monster: MonsterEnum.Wraith,
+    name: "monster.undead.name.wraith",
+    files: [],
+    data: {
+      level1: 5,
+      bonusHp: 3,
+      strength: 6,
+      dexterity: 16,
+      constitution: 9,
+      intelligence: 12,
+      wisdom: 14,
+      charisma: 15,
+      ac: 4,
+      apr: 1,
+      xpv: 2000,
+      alignment: "LAWFUL_EVIL",
+      morale: 15,
+      general: "UNDEAD",
+      race: "WRAITH",
+      class: "WRAITH",
+      gender: "NIETHER",
+      animation: "SHADOW",
+      size: { value: "Medium", tall: true, long: false },
+      movement: 24, // 12, FI 24 (B)
+      items: {
+        remove: ["wraith1", "ring95", "immune1", "immchs", "s1-8", "undtype", "dvwraith"],
+      },
+    },
+  });
+  wraith.addTrait({
+    immunities: ["cold", "nonSilverNonMagicalWeapons"],
+  });
+  wraithTouch(wraith);
+  wraith.createClaws({
+    diceThrown: 1,
+    diceSize: 6,
+    castSpell: {
+      spell: family.spell(Ids.WraithTouch).file,
+    },
+  });
+  wraith.setAdjustments([
+    {
+      files: ["AC#FPWRA"],
+      data: {
+        script: {
+          location: "None",
+        },
+      },
+    },
+  ]);
+  greaterWraithVariant(wraith);
+  return wraith;
+}
+
+function greaterWraithVariant(base: Undead): Variant {
+  const greater = base.variant("Greater Wraith", {
+    data: {
+      level1: 8,
+      ac: 2,
+      xpv: 4000,
+    },
+    files: ["AC#DT30W", "FIRWRA01"],
+    adjust: [],
+  });
+  return greater;
 }
 
 export function deathShade(family: UndeadFamily): Undead {

@@ -564,6 +564,10 @@ The sheet has the same effect as an ice storm's hail stones—3d10 points of dam
         name: "Wight's Touch",
         description: `Their touch drains one life energy level from the victim.`,
       },
+      wraithTouch: {
+        name: "Wraith's Touch",
+        description: `Their touch drains one life energy level from the victim.`,
+      },
       ghostTouch: {
         name: "Ghost's Touch",
         description: `Their touch drains two life energy levels from the victim.`,

@@ -232,7 +232,7 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         16   // Haste
         31   // Stat: Magic Damage Resistance Modifier
         63   // State: Infravision
-        65   // Overlay: Blur
+        65   // Blur
         66   // Graphics: Transparency Fade
         69   // Protection: From Detection (Non-Detection)
         83   // Protection: From Projectile

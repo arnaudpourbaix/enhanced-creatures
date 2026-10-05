@@ -26,4 +26,5 @@ export enum Ids {
   SpecterTouch,
   WallOfIce,
   WightTouch,
+  WraithTouch,
 }
