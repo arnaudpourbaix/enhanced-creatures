@@ -12,6 +12,9 @@ All the monsters are described in Typescript files to get something strongly-typ
 
 Each monster will gather its validated cre files inside `creatures.csv`. Most monsters have more powerful versions like named or variants. It is handled with adjustments, they will take care of changes like more hit dices, special powers, and so on.
 
+You can check differences between before and after install [here](assets/stats-report.html) but bear in mind
+that it also depends on your installed mods.
+
 ## Install
 
 - Install nodejs: https://nodejs.org/en/download. It is quick and easy.

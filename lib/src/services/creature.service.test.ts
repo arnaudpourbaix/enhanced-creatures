@@ -706,23 +706,27 @@ describe("checkWeapons", () => {
     // higher-level adjustment still ends up wielding the same physical item in-game - but that
     // item is only authored/leveled for the base creature, so its level must not count here.
     // Boosting it would over-enchant the (often weaker) base creature that actually owns it.
-    const weapon = { file: "wShared", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const weapon = {
+      file: "wShared",
+      header: { location: ItemAbilityLocationEnum.Weapon },
+    } as Weapon;
     const creature = fakeCreature({
       data: {
         level1: { pnpValue: 6, value: 6, type: "none" },
         items: { equipped: [{ file: "wShared", slot: "WEAPON1" }] },
       },
       items: [weapon],
-      adjustments: [
-        { files: ["ADJ1"], data: { level1: { pnpValue: 9, value: 9, type: "none" } } },
-      ],
+      adjustments: [{ files: ["ADJ1"], data: { level1: { pnpValue: 9, value: 9, type: "none" } } }],
     });
     creatureService.checkWeapons(creature);
     expect(weapon.enchantment).toBe(1); // base level 6 only -> level:4/enchant:1
   });
 
   it("does not let a noWeapon adjustment count as an owner even if it explicitly lists the weapon", () => {
-    const weapon = { file: "wShared", header: { location: ItemAbilityLocationEnum.Weapon } } as Weapon;
+    const weapon = {
+      file: "wShared",
+      header: { location: ItemAbilityLocationEnum.Weapon },
+    } as Weapon;
     const creature = fakeCreature({
       data: {
         level1: { pnpValue: 6, value: 6, type: "none" },
@@ -1054,7 +1058,11 @@ describe("memorizedSpellFiles", () => {
       spellbooks: [{ mod: "FaithsAndPowers", memorized: [{ file: "sppr201" }] }],
       adjustmentsMemorized: [[{ file: "sppr301" }]],
     });
-    expect(creatureService.memorizedSpellFiles(creature)).toEqual(["sppr101", "sppr201", "sppr301"]);
+    expect(creatureService.memorizedSpellFiles(creature)).toEqual([
+      "sppr101",
+      "sppr201",
+      "sppr301",
+    ]);
   });
 
   it("returns an empty array when nothing is memorized", () => {
@@ -1066,7 +1074,10 @@ describe("memorizedSpellFiles", () => {
 describe("checkDuplicateAbilities", () => {
   it("errors when two abilities share the same resource and the same trigger/target signature", () => {
     const creature = fakeSpellCreature({
-      abilities: [fakeFullAbility("sppr101", [{ name: "Global" }]), fakeFullAbility("sppr101", [{ name: "Global" }])],
+      abilities: [
+        fakeFullAbility("sppr101", [{ name: "Global" }]),
+        fakeFullAbility("sppr101", [{ name: "Global" }]),
+      ],
     });
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     creatureService.checkDuplicateAbilities(creature);
@@ -1099,8 +1110,14 @@ describe("checkDuplicateAbilities", () => {
   });
 
   it("errors when two id-cast abilities resolve to the same spell file and share a trigger signature", () => {
-    const first = { ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"), triggers: [{ name: "Global" }] } as CreatureAbility;
-    const second = { ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"), triggers: [{ name: "Global" }] } as CreatureAbility;
+    const first = {
+      ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"),
+      triggers: [{ name: "Global" }],
+    } as CreatureAbility;
+    const second = {
+      ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"),
+      triggers: [{ name: "Global" }],
+    } as CreatureAbility;
     const creature = fakeSpellCreature({
       abilities: [first, second],
     });
@@ -1111,8 +1128,14 @@ describe("checkDuplicateAbilities", () => {
   });
 
   it("does not error when two id-cast abilities resolve to different spell files despite sharing a trigger signature", () => {
-    const first = { ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"), triggers: [{ name: "Global" }] } as CreatureAbility;
-    const second = { ...fakeIdCastAbility("WIZARD_CHROMATIC_ORB"), triggers: [{ name: "Global" }] } as CreatureAbility;
+    const first = {
+      ...fakeIdCastAbility("WIZARD_POLYMORPH_SELF"),
+      triggers: [{ name: "Global" }],
+    } as CreatureAbility;
+    const second = {
+      ...fakeIdCastAbility("WIZARD_CHROMATIC_ORB"),
+      triggers: [{ name: "Global" }],
+    } as CreatureAbility;
     const creature = fakeSpellCreature({
       abilities: [first, second],
     });
@@ -1342,8 +1365,15 @@ describe("checkAdjustmentFiles", () => {
 
 function csvRow(over: Partial<CreatureCsvRow>): CreatureCsvRow {
   return {
-    file: "F", game: undefined, level: undefined, items: [], scripts: [],
-    validatedLevel: false, validatedItems: false, validatedScript: false, ...over,
+    file: "F",
+    game: undefined,
+    level: undefined,
+    items: [],
+    scripts: [],
+    validatedLevel: false,
+    validatedItems: false,
+    validatedScript: false,
+    ...over,
   };
 }
 
@@ -1369,7 +1399,8 @@ function creatureWith(p: {
     name: "test.name",
     files: p.files,
     data: {
-      level1: p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
+      level1:
+        p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
       items: { remove: p.itemsRemove ?? [], equipped: p.itemsEquipped ?? [] },
       script: { remove: p.scriptRemove ?? [], location: p.scriptLocation },
     },
@@ -1378,7 +1409,10 @@ function creatureWith(p: {
       game: a.game,
       noWeapon: a.noWeapon ?? false,
       data: {
-        level1: a.level1 === undefined ? undefined : { pnpValue: a.level1, value: a.level1, type: "none" },
+        level1:
+          a.level1 === undefined
+            ? undefined
+            : { pnpValue: a.level1, value: a.level1, type: "none" },
         items: { remove: a.itemsRemove ?? [], equipped: a.itemsEquipped ?? [] },
         script: { remove: a.scriptRemove ?? [], location: a.scriptLocation },
       },
@@ -1398,7 +1432,13 @@ describe("creatureService.findPersistingItems", () => {
 
   it("reports a slot item that no remove list clears", () => {
     mockRows(
-      csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }, { slot: "lring", file: "RING95" }] }),
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "helmet", file: "HELM01" },
+          { slot: "lring", file: "RING95" },
+        ],
+      }),
     );
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: ["RING95"] });
     expect(creatureService.findPersistingItems(cre)).toEqual([
@@ -1571,7 +1611,9 @@ describe("creatureService.findLevelGaps", () => {
 
   it("does not report a gap of exactly 2", () => {
     mockRows(csvRow({ file: "AAA", level: 8 }));
-    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+    expect(
+      creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 })),
+    ).toEqual([]);
   });
 
   it("uses the last adjustment that sets level1 for the file", () => {
@@ -1580,8 +1622,8 @@ describe("creatureService.findLevelGaps", () => {
       files: [{ name: "AAA" }],
       level1: 10,
       adjustments: [
-        { files: ["AAA"] },              // no level1 - ignored
-        { files: ["AAA"], level1: 7 },   // wins
+        { files: ["AAA"] }, // no level1 - ignored
+        { files: ["AAA"], level1: 7 }, // wins
       ],
     });
     expect(creatureService.findLevelGaps(cre)).toEqual([]); // |6-7| = 1
@@ -1589,7 +1631,9 @@ describe("creatureService.findLevelGaps", () => {
 
   it("skips a file whose csv level is blank", () => {
     mockRows(csvRow({ file: "AAA", level: undefined }));
-    expect(creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 }))).toEqual([]);
+    expect(
+      creatureService.findLevelGaps(creatureWith({ files: [{ name: "AAA" }], level1: 10 })),
+    ).toEqual([]);
   });
 
   it("skips a file when creature has no base level1 and no adjustment level override", () => {
@@ -1752,10 +1796,16 @@ describe("creatureService.checkAgainstCsv", () => {
 
   it("reports only the unacknowledged game's row when the other game's row is validated", () => {
     const bg1 = csvRow({
-      file: "AAA", game: "bg1", items: [{ slot: "helmet", file: "HELM01" }], validatedItems: true,
+      file: "AAA",
+      game: "bg1",
+      items: [{ slot: "helmet", file: "HELM01" }],
+      validatedItems: true,
     });
     const bg2 = csvRow({
-      file: "AAA", game: "bg2", items: [{ slot: "lring", file: "RING95" }], validatedItems: false,
+      file: "AAA",
+      game: "bg2",
+      items: [{ slot: "lring", file: "RING95" }],
+      validatedItems: false,
     });
     mockRows(bg1, bg2);
     // suppression re-resolves each finding by its own game, exactly as on disk.

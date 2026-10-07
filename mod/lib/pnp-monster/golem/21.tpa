@@ -154,7 +154,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~GOLEM~)
 					class=IDS_OF_SYMBOL (~class~ ~GOLEM_STONE~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
-					animation=IDS_OF_SYMBOL (~animate~ ~GOLEM_CLAY~)
+					animation=IDS_OF_SYMBOL (~animate~ ~GOLEM_IRON~)
 					movement=2
 					enforce=1
 			END

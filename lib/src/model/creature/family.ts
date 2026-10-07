@@ -68,9 +68,7 @@ export abstract class CreatureFamily<T extends Creature>
     data: InputMainCreatureData;
     autoGenerate?: CreatureAutoGenerate;
   }): T {
-    logService.header(
-      `Creating ${translationService.from(p.name)} (${p.monster.toString(16)})...`,
-    );
+    logService.header(`Creating ${translationService.from(p.name)} (${p.monster.toString(16)})...`);
     const cre = this.createCreature(p.monster);
     cre.name = p.name;
     cre.family = this.id;
@@ -200,9 +198,8 @@ export abstract class CreatureFamily<T extends Creature>
       const hasNothingToActOn =
         !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
       if (hasNothingToActOn) logService.discardCapture();
-      else logService.commitCapture();
+      else logService.commitCapture(creature);
     } catch (e: unknown) {
-      logService.commitCapture();
       // If the builder throws after calling create()/createFrom() (which already pushed the
       // creature onto this.creatures) but before returning, the `creature = build()` assignment
       // above never completes - fall back to the just-pushed creature so it can still be found
@@ -213,6 +210,7 @@ export abstract class CreatureFamily<T extends Creature>
       const label = creature ? translationService.from(creature.name) : "creature";
       logService.error(`Failed to build ${label}: ${message}`);
       if (e instanceof Error && e.stack) logService.log(e.stack);
+      logService.commitCapture(creature);
       if (creature) creature.valid = false;
     }
   }

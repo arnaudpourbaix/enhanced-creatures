@@ -217,7 +217,12 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       adjustments: [
         {
           files: ["CHIEF"],
-          data: { hp: 74, constitution: 19, class: "FIGHTER_MAGE", level1: { pnpValue: 9, type: "none", value: 9 } },
+          data: {
+            hp: 74,
+            constitution: 19,
+            class: "FIGHTER_MAGE",
+            level1: { pnpValue: 9, type: "none", value: 9 },
+          },
         },
       ],
     });
@@ -590,7 +595,9 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
 
     // ADD_MEMORIZED_SPELL is cumulative and the generator emits one per matching adjustment:
     // base 1 + delta 1 + delta 2 = 4.
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 4 }, changed: true }]);
+    expect(effective?.memorized).toEqual([
+      { spell: { file: "SPPR101", memorizedCount: 4 }, changed: true },
+    ]);
   });
 
   it("treats a memorizedCount:0 delta as a reset, with later deltas adding back on top", () => {
@@ -625,7 +632,9 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       .find((e) => e.files.includes("BDSOGR1"));
 
     // base 3 -> reset to 0 -> +2 = 2
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 2 }, changed: true }]);
+    expect(effective?.memorized).toEqual([
+      { spell: { file: "SPPR101", memorizedCount: 2 }, changed: true },
+    ]);
   });
 
   it("overrides a same-type proficiency's value rather than adding a second entry, and keeps untouched types", () => {
@@ -779,9 +788,17 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     const barbarian = new Variant({} as Creature, "Barbarian", {}, ["BDOGRE06"], chieftain);
     const creature = fakeCreature({
       adjustments: [
-        { files: ["BDOGRE06"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["BDOGRE06"],
+          variant: chieftain,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
         { files: ["BDOGRE06"], variant: barbarian, data: { strength: 19 } },
-        { files: ["OTHERFIL"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["OTHERFIL"],
+          variant: chieftain,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
       ],
     });
 
@@ -798,7 +815,11 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     const second = new Variant({} as Creature, "Second", {}, ["SHARED"]);
     const creature = fakeCreature({
       adjustments: [
-        { files: ["SHARED"], variant: first, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["SHARED"],
+          variant: first,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
         { files: ["SHARED"], variant: second, data: { strength: 19 } },
       ],
     });

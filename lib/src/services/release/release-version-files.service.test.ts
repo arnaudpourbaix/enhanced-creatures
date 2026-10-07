@@ -65,7 +65,7 @@ describe("ReleaseVersionFilesService", () => {
     });
 
     it("throws when there is no VERSION line", () => {
-      fs.writeFileSync(tp2Path, "AUTHOR \"Aigleborgne\"\n");
+      fs.writeFileSync(tp2Path, 'AUTHOR "Aigleborgne"\n');
       expect(() => releaseVersionFilesService.readTp2Version(tp2Path)).toThrow(
         /no "VERSION ~v...~" line/,
       );

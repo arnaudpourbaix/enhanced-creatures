@@ -74,6 +74,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~WOLF~)
 					class=IDS_OF_SYMBOL (~class~ ~WOLF_WORG~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~WORG~)
 					movement=14
 					enforce=1
 			END

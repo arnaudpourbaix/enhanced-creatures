@@ -134,6 +134,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~GOLEM~)
 					class=IDS_OF_SYMBOL (~class~ ~GOLEM_IRON~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~GOLEM_IRON_IWD~)
 					movement=5
 					enforce=1
 			END

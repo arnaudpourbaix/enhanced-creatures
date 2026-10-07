@@ -101,7 +101,12 @@ class AbilityOrderService {
           `Ability entry must set exactly one of 'spell' or 'abilityId': ${JSON.stringify(entry)}`,
         );
       }
-      const positions = [entry.insertBefore, entry.insertAfter, entry.insertFirst, entry.insertLast];
+      const positions = [
+        entry.insertBefore,
+        entry.insertAfter,
+        entry.insertFirst,
+        entry.insertLast,
+      ];
       if (positions.filter((p) => p !== undefined).length > 1) {
         throw new Error(
           `Ability entry must set at most one of insertBefore/insertAfter/insertFirst/insertLast: ${JSON.stringify(entry)}`,

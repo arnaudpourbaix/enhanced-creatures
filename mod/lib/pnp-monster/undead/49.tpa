@@ -131,6 +131,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~WRAITH~)
 					class=IDS_OF_SYMBOL (~class~ ~SPECTRE~)
 					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~WAILING_VIRGIN~)
 					movement=12
 					enforce=1
 			END

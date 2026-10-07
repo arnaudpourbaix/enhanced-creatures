@@ -30,9 +30,7 @@ describe("getBooleanValue", () => {
 
 describe("getIdsValue", () => {
   it("builds an IDS_OF_SYMBOL lookup expression", () => {
-    expect(weiduUtils.getIdsValue("race", "TROLL")).toBe(
-      "IDS_OF_SYMBOL (~race~ ~TROLL~)",
-    );
+    expect(weiduUtils.getIdsValue("race", "TROLL")).toBe("IDS_OF_SYMBOL (~race~ ~TROLL~)");
   });
 
   it("returns undefined when value is undefined", () => {

@@ -163,6 +163,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~WOLF~)
 					class=IDS_OF_SYMBOL (~class~ ~WOLF_DREAD~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~WOLF_DREAD~)
 					movement=14
 					enforce=1
 			END
@@ -183,6 +184,9 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANWOLF1~) BEGIN 
 					WRITE_LONG 0x8 RESOLVE_STR_REF(@10317)
 					WRITE_LONG 0xc RESOLVE_STR_REF(@10317)
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#HALWO~) BEGIN 
+				WRITE_LONG 0x28 ((IDS_OF_SYMBOL (~animate~ ~L#_DOG_MOSS~) >= 0) ? IDS_OF_SYMBOL (~animate~ ~L#_DOG_MOSS~) : LONG_AT 0x28) // animation
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WOLFD1~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv

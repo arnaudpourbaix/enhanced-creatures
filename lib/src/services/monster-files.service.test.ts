@@ -138,10 +138,7 @@ describe("parseMonsterSummonFilesCsv", () => {
   });
 
   it("excludes rows that aren't summons", () => {
-    const csv = [
-      SUMMON_HEADER,
-      "GORF;X;X;X;X;gorf;;BD;;Ogre;true;;Gorf",
-    ].join("\n");
+    const csv = [SUMMON_HEADER, "GORF;X;X;X;X;gorf;;BD;;Ogre;true;;Gorf"].join("\n");
 
     expect(parseMonsterSummonFilesCsv(csv).has("Ogre")).toBe(false);
   });
@@ -289,10 +286,9 @@ describe("parseCreatureRowsCsv", () => {
   });
 
   it("reads the three Validated* flags, treating only 'true' as set", () => {
-    const csv = [
-      ROW_HEADER,
-      "AAA;1;None;None;None;None;None;;;;;;;;;;N;true;true;false;;;A",
-    ].join("\n");
+    const csv = [ROW_HEADER, "AAA;1;None;None;None;None;None;;;;;;;;;;N;true;true;false;;;A"].join(
+      "\n",
+    );
     expect(parseCreatureRowsCsv(csv).get("AAA")).toEqual([
       expect.objectContaining({
         validatedLevel: true,
@@ -329,8 +325,13 @@ describe("parseCreatureRowsCsv", () => {
 describe("pickCreatureRow", () => {
   const mk = (game: CreatureCsvRow["game"]): CreatureCsvRow => ({
     game,
-    file: "X", level: 0, items: [], scripts: [],
-    validatedLevel: false, validatedItems: false, validatedScript: false,
+    file: "X",
+    level: 0,
+    items: [],
+    scripts: [],
+    validatedLevel: false,
+    validatedItems: false,
+    validatedScript: false,
   });
 
   it("prefers an exact game match", () => {

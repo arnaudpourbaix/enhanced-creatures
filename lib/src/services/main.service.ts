@@ -27,23 +27,40 @@ class MainService {
     logService.section("Generating creatures");
     const families: MonsterFamilyEnum[] = [];
     for (const factory of familyFactories) {
-      const family = factory();
-      descriptionService.generateCreatureSpells(family.spells);
-      descriptionService.generateCreatureItems(family.items);
-      if (families.includes(family.id)) {
-        throw new Error(`Family '${MonsterFamilyEnum[family.id]}' already declared`);
+      // Deferred per family so each creature's generation output (errors included) joins its own
+      // "Creating ..." section, instead of trailing under the family's last created creature.
+      logService.beginDeferred();
+      try {
+        this.generateFamily(factory, families);
+      } finally {
+        logService.flushSections();
       }
-      families.push(family.id);
-      weiduFamilyService.createOrUpdateMainFile(family.id);
-      weiduFamilyService.generateFamilyData(family);
-      for (const creature of family.creatures) {
-        this.generateCreature(creature);
-      }
-      weiduFamilyService.generateFinalCode(family);
-      documentationService.addFamily(family);
     }
     documentationService.generate();
     homeService.generate();
+  }
+
+  private generateFamily(factory: (typeof familyFactories)[number], families: MonsterFamilyEnum[]) {
+    const family = factory();
+    descriptionService.generateCreatureSpells(family.spells);
+    descriptionService.generateCreatureItems(family.items);
+    if (families.includes(family.id)) {
+      throw new Error(`Family '${MonsterFamilyEnum[family.id]}' already declared`);
+    }
+    families.push(family.id);
+    weiduFamilyService.createOrUpdateMainFile(family.id);
+    weiduFamilyService.generateFamilyData(family);
+    for (const creature of family.creatures) {
+      logService.withSection(
+        creature,
+        `Generating ${translationService.from(creature.name)}...`,
+        () => {
+          this.generateCreature(creature);
+        },
+      );
+    }
+    weiduFamilyService.generateFinalCode(family);
+    documentationService.addFamily(family);
   }
 
   generateCreature(creature: Creature) {

@@ -55,9 +55,7 @@ describe("handleImmunities", () => {
     ];
     const creature = fakeCreature({ immunities: ["fire"] });
     immunityService.handleImmunities(creature);
-    expect(creature.data.items.equipped).toEqual([
-      { file: "fireimm", slot: "HELMET" },
-    ]);
+    expect(creature.data.items.equipped).toEqual([{ file: "fireimm", slot: "HELMET" }]);
   });
 
   it("also adds a helmet when an immunity granting critical-hit immunity uses a non-helmet slot and none is equipped", () => {
@@ -138,9 +136,7 @@ describe("handleImmunities", () => {
       equippedItems: [{ file: "otheramulet", slot: "AMULET" }],
     });
     immunityService.handleImmunities(creature);
-    expect(creature.data.items.equipped).toEqual([
-      { file: "otheramulet", slot: "AMULET" },
-    ]);
+    expect(creature.data.items.equipped).toEqual([{ file: "otheramulet", slot: "AMULET" }]);
   });
 
   it("skips adding the item when it is already equipped (e.g. cloned via createFrom from an already-validated creature)", () => {

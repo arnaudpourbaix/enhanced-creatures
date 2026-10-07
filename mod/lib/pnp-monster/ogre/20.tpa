@@ -232,6 +232,7 @@ BEGIN
 					class=IDS_OF_SYMBOL (~class~ ~OGRE_MAGE~)
 					kit=IDS_OF_SYMBOL (~kit~ ~TRUECLASS~)
 					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~OGRE_MAGE~)
 					enforce=1
 			END
 			// Assigning jam20

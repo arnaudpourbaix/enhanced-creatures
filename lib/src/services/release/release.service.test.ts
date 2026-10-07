@@ -130,10 +130,7 @@ describe("ReleaseService", () => {
   it("builds the release zip from a regeneration with random target order and secondary types on", async () => {
     let flagsWhenZipped: [boolean, boolean] | undefined;
     createZip.mockImplementation(() => {
-      flagsWhenZipped = [
-        GLOBAL_CONFIG.enableRandomTargetOrder,
-        GLOBAL_CONFIG.enableSecondaryTypes,
-      ];
+      flagsWhenZipped = [GLOBAL_CONFIG.enableRandomTargetOrder, GLOBAL_CONFIG.enableSecondaryTypes];
       return `dist/enhanced_creatures-${TAG}.zip`;
     });
 

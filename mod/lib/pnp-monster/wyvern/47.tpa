@@ -101,6 +101,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~WYVERN~)
 					class=IDS_OF_SYMBOL (~class~ ~WYVERN~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~WYVERN~)
 					movement=19
 					enforce=1
 					perfect2weapon=1

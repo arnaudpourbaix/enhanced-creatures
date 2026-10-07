@@ -101,6 +101,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~SPIDER~)
 					class=IDS_OF_SYMBOL (~class~ ~SPIDER_GIANT~)
 					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~SPIDER_GIANT~)
 					movement=2
 					enforce=1
 			END

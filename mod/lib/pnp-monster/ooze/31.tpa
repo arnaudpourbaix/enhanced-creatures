@@ -89,6 +89,7 @@ BEGIN
 					race=IDS_OF_SYMBOL (~race~ ~SLIME~)
 					class=IDS_OF_SYMBOL (~class~ ~OCRE_JELLY~)
 					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~SLIME_OCHRE~)
 					movement=2
 					enforce=1
 			END

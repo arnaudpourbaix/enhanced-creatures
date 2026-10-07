@@ -166,7 +166,13 @@ class DocumentationService {
       // like creature.attack are still unset - skip it here rather than crash the whole
       // documentation pass on one bad creature.
       if (!creature.valid) continue;
-      this.addCreature(creature);
+      logService.withSection(
+        creature,
+        `Documenting ${translationService.from(creature.name)}...`,
+        () => {
+          this.addCreature(creature);
+        },
+      );
       this.indexCreatureFiles(creature);
     }
   }

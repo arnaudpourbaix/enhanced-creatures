@@ -22,9 +22,9 @@ function fakeCreature(
 
 describe("hitPointService.getHitPoints", () => {
   it("throws when level1 is unknown and there is no parent", () => {
-    expect(() =>
-      hitPointService.getHitPoints({ data: {}, creature: fakeCreature() }),
-    ).toThrow(/level1 is unknown/);
+    expect(() => hitPointService.getHitPoints({ data: {}, creature: fakeCreature() })).toThrow(
+      /level1 is unknown/,
+    );
   });
 
   it("returns 0 without throwing when level1 is unknown but a parent is provided (adjustment doesn't override level)", () => {
