@@ -42,9 +42,17 @@ Code generator (WEIDU, BAF) for Infinity Engine
 - Install nodejs: https://nodejs.org/en/download. It is quick and easy.
 - Install dependencies with `npm i` shell command in root folder.
 
+I highly recommend (Visual Studio Code)[https://code.visualstudio.com/] with these extensions:
+- BGforge MLS
+- Claude Code for VS Code (if you have a subscription)
+
 ### Generate
 
 Generate mod's files with `npm run generate`.
+
+### Copy (local testing)
+
+To copy the mod's files into local BG1/BG2, create `paths.local.json` from `paths.example.json` with your install paths, then run `npm run copy`. Pass `npm run copy -- --bg1` or `npm run copy -- --bg2` to copy to only one of them.
 
 #### Random ordering for targets
 
@@ -63,10 +71,6 @@ They need to be added in spells that provide cure or immunity, this is really im
 Note: it is disabled because it slows down installation's time by a huge margin. However, it is activated when doing a release, but only for the files in the zip.
 
 To activate it in a local build, edit `lib\config\generate.ts` and set enableSecondaryTypes to true. Then, just run the previous generate command.
-
-### Copy (local testing)
-
-To copy the mod's files into local BG1/BG2, create `paths.local.json` from `paths.example.json` with your install paths, then run `npm run copy`. Pass `npm run copy -- --bg1` or `npm run copy -- --bg2` to copy to only one of them.
 
 ### Customize
 

@@ -1,7 +1,7 @@
 import type { Game } from "../../lib/src/model/creature/game";
 
 // HTML rendering for scripts/report-stats.ts: one self-contained page (inline CSS + JS, no
-// external assets) with a monster sidebar, collapsible per-monster tables, an APR/THAC0 filter
+// external assets) with a monster sidebar, collapsible per-monster tables, an APR/THAC0/Level filter
 // and a text filter. Follows the OS light/dark preference.
 
 export interface StatsCsvRow {
@@ -20,13 +20,15 @@ export interface StatsComparison {
   name: string;
   csv: StatsCsvRow;
   doc: { level: number; hp: number; thac0: number; apr: number };
+  levelFlag: boolean;
   thac0Flag: boolean;
   aprFlag: boolean;
 }
 
 export interface MonsterReport {
   monster: string;
-  compared: number;
+  /** Every compared file of the monster, reported or not - the base for the header averages. */
+  all: StatsComparison[];
   flagged: StatsComparison[];
 }
 
@@ -42,13 +44,23 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function cell(csv: number | undefined, doc: number, flagged: boolean): string {
-  const cls = flagged ? ` class="flag"` : "";
+interface CellOptions {
+  /** CSS class for a flagged cell: `flag` (highlighted background) or `flag-text` (bold only). */
+  flag?: "flag" | "flag-text";
+  /** thac0: a lower value is the stronger creature, so a negative difference is the good one. */
+  lowerIsBetter?: boolean;
+}
+
+// The difference is green when the doc makes the creature stronger, red when weaker.
+function cell(csv: number | undefined, doc: number, options: CellOptions = {}): string {
+  const cls = options.flag ? ` class="${options.flag}"` : "";
   if (csv === undefined) return `<td${cls}><span class="csv">?</span> → ${doc}</td>`;
-  if (csv === doc) return `<td${cls}>${doc}</td>`;
+  if (csv === doc) return `<td></td>`;
+  const delta = doc - csv;
+  const better = options.lowerIsBetter ? delta < 0 : delta > 0;
   return (
     `<td${cls}><span class="csv">${csv}</span> → <span class="doc">${doc}</span>` +
-    ` <span class="delta">${signed(doc - csv)}</span></td>`
+    ` <span class="delta ${better ? "up" : "down"}">${signed(delta)}</span></td>`
   );
 }
 
@@ -56,32 +68,65 @@ function anchor(monster: string): string {
   return `m-${monster}`;
 }
 
-function chip(kind: "apr" | "thac0", count: number): string {
-  return count ? `<span class="chip ${kind}">${kind.toUpperCase()} ${count}</span>` : "";
+type StatKey = "level" | "hp" | "thac0" | "apr";
+
+const AVERAGED_STATS: { key: StatKey; label: string; lowerIsBetter?: boolean }[] = [
+  { key: "level", label: "Level" },
+  { key: "hp", label: "HP" },
+  { key: "thac0", label: "THAC0", lowerIsBetter: true },
+  { key: "apr", label: "APR" },
+];
+
+// Mean csv -> doc difference over *every* compared file of the monster (reported or not, unchanged
+// files counting as 0), so a change on 6 of 30 files weighs less than the same change on 6 of 6.
+// Rounded to the nearest integer (halves away from zero), followed by how many files actually
+// change the stat. Same green/red convention as the table cells, muted when it rounds to 0;
+// omitted when no compared file changes the stat.
+function averageDiffs(report: MonsterReport): string {
+  return AVERAGED_STATS.map(({ key, label, lowerIsBetter }) => {
+    const diffs = report.all.map((c) => {
+      const csv = c.csv[key];
+      return csv === undefined ? 0 : c.doc[key] - csv;
+    });
+    const changed = diffs.filter((d) => d !== 0).length;
+    if (!changed) return "";
+    const exact = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+    const mean = Math.sign(exact) * Math.round(Math.abs(exact));
+    const better = lowerIsBetter ? mean < 0 : mean > 0;
+    let tone = better ? "up" : "down";
+    if (mean === 0) tone = "flat";
+    return (
+      `<span class="avg">${label} <span class="delta ${tone}">` +
+      `${mean === 0 ? "0" : signed(mean)}</span> ` +
+      `<span class="count">(${changed}/${diffs.length})</span></span>`
+    );
+  }).join("");
 }
 
 function renderRow(c: StatsComparison): string {
   const search = escapeHtml(`${c.file} ${c.name}`.toLowerCase());
   return (
-    `<tr data-apr="${c.aprFlag ? 1 : 0}" data-thac0="${c.thac0Flag ? 1 : 0}" data-search="${search}">` +
+    `<tr data-level="${c.levelFlag ? 1 : 0}" data-apr="${c.aprFlag ? 1 : 0}" ` +
+    `data-thac0="${c.thac0Flag ? 1 : 0}" data-search="${search}">` +
     `<td class="file">${escapeHtml(c.file)}</td>` +
     `<td>${c.game ?? ""}</td>` +
     `<td class="name">${escapeHtml(c.name)}</td>` +
-    cell(c.csv.level, c.doc.level, false) +
-    cell(c.csv.hp, c.doc.hp, false) +
-    cell(c.csv.thac0, c.doc.thac0, c.thac0Flag) +
-    cell(c.csv.apr, c.doc.apr, c.aprFlag) +
+    cell(c.csv.level, c.doc.level, { flag: c.levelFlag ? "flag-text" : undefined }) +
+    cell(c.csv.hp, c.doc.hp) +
+    cell(c.csv.thac0, c.doc.thac0, {
+      flag: c.thac0Flag ? "flag" : undefined,
+      lowerIsBetter: true,
+    }) +
+    cell(c.csv.apr, c.doc.apr, { flag: c.aprFlag ? "flag-text" : undefined }) +
     `</tr>`
   );
 }
 
 function renderMonster(report: MonsterReport): string {
-  const apr = report.flagged.filter((c) => c.aprFlag).length;
-  const thac0 = report.flagged.filter((c) => c.thac0Flag).length;
   return (
     `<details class="monster" id="${anchor(report.monster)}" open>` +
-    `<summary><h2>${report.monster}</h2><span class="chips">${chip("apr", apr)}${chip("thac0", thac0)}` +
-    `<span class="muted">${report.flagged.length} of ${report.compared} files</span></span></summary>` +
+    `<summary><h2>${report.monster}</h2><span class="avgs" title="Average difference over ` +
+    `all ${report.all.length} compared files (unchanged ones count as 0), then changed/total">${averageDiffs(report)}</span></summary>` +
     `<div class="table-wrap"><table><thead><tr><th>File</th><th>Game</th><th>Name</th>` +
     `<th>Level</th><th>HP</th><th>THAC0</th><th>APR</th></tr></thead>` +
     `<tbody>${report.flagged.map(renderRow).join("")}</tbody></table></div></details>`
@@ -91,14 +136,12 @@ function renderMonster(report: MonsterReport): string {
 const STYLE = `
 :root {
   --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --border: #e2e1dc;
-  --flag-bg: #fff1e6; --flag-text: #b4410f;
-  --apr-bg: #fde8e8; --apr-text: #b42318; --thac0-bg: #fff4d6; --thac0-text: #8a5a00;
+  --flag-bg: #fff4e0; --up: #1a7f37; --down: #c62828;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #161615; --surface: #1f1f1d; --text: #ecebe6; --muted: #9a998f; --border: #33332f;
-    --flag-bg: #3a2414; --flag-text: #ffb38a;
-    --apr-bg: #3d1d1d; --apr-text: #ff9b94; --thac0-bg: #3a2f14; --thac0-text: #f2c66d;
+    --flag-bg: #3a2e18; --up: #4ac26b; --down: #ff7b72;
   }
 }
 * { box-sizing: border-box; }
@@ -130,20 +173,23 @@ h1 { margin: 0 0 8px; font-size: 22px; }
 .monster summary { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   padding: 10px 16px; cursor: pointer; }
 .monster h2 { margin: 0; font-size: 16px; }
-.chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-.chip { padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-.chip.apr { background: var(--apr-bg); color: var(--apr-text); }
-.chip.thac0 { background: var(--thac0-bg); color: var(--thac0-text); }
+.avgs { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; margin-left: auto;
+  font-size: 12px; color: var(--muted); }
+.avgs .delta { font-size: 13px; }
+.avgs .count { font-size: 11px; }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 th, td { padding: 6px 12px; text-align: left; border-top: 1px solid var(--border); white-space: nowrap; }
 th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 td.file { font-family: ui-monospace, Consolas, monospace; }
 td.name { white-space: normal; }
-td.flag { background: var(--flag-bg); color: var(--flag-text); font-weight: 600; }
-.csv, .delta { color: var(--muted); }
-.delta { font-size: 12px; }
-td.flag .csv, td.flag .delta { color: inherit; opacity: .8; }
+td.flag { background: var(--flag-bg); font-weight: 600; }
+td.flag-text { font-weight: 600; }
+.csv { color: var(--muted); }
+.delta { font-size: 12px; font-weight: 600; }
+.delta.up { color: var(--up); }
+.delta.down { color: var(--down); }
+.delta.flat { color: var(--muted); }
 .hidden { display: none !important; }
 .missing { font-family: ui-monospace, Consolas, monospace; line-height: 1.9; }
 @media (max-width: 760px) {
@@ -158,6 +204,7 @@ const SCRIPT = `
 const search = document.getElementById("search");
 const showApr = document.getElementById("show-apr");
 const showThac0 = document.getElementById("show-thac0");
+const showLevel = document.getElementById("show-level");
 function applyFilters() {
   const q = search.value.trim().toLowerCase();
   for (const monster of document.querySelectorAll(".monster")) {
@@ -165,7 +212,8 @@ function applyFilters() {
     let visible = 0;
     for (const row of monster.querySelectorAll("tbody tr")) {
       const byStat = (showApr.checked && row.dataset.apr === "1") ||
-        (showThac0.checked && row.dataset.thac0 === "1");
+        (showThac0.checked && row.dataset.thac0 === "1") ||
+        (showLevel.checked && row.dataset.level === "1");
       const show = byStat && (!q || monsterMatch || row.dataset.search.includes(q));
       row.classList.toggle("hidden", !show);
       if (show) visible++;
@@ -178,6 +226,7 @@ function applyFilters() {
 search.addEventListener("input", applyFilters);
 showApr.addEventListener("change", applyFilters);
 showThac0.addEventListener("change", applyFilters);
+showLevel.addEventListener("change", applyFilters);
 document.getElementById("expand").addEventListener("click", () =>
   document.querySelectorAll(".monster").forEach((d) => { d.open = true; }));
 document.getElementById("collapse").addEventListener("click", () =>
@@ -194,13 +243,8 @@ export function renderStatsReport(p: {
   const all = p.flagged.flatMap((r) => r.flagged);
   const apr = all.filter((c) => c.aprFlag).length;
   const thac0 = all.filter((c) => c.thac0Flag).length;
-  const nav = p.flagged
-    .map(
-      (r) =>
-        `<a href="#${anchor(r.monster)}"><span>${r.monster}</span>` +
-        `<span class="muted">${r.flagged.length}</span></a>`,
-    )
-    .join("");
+  const level = all.filter((c) => c.levelFlag).length;
+  const nav = p.flagged.map((r) => `<a href="#${anchor(r.monster)}">${r.monster}</a>`).join("");
   const missing = [...new Set(p.missing)].sort((a, b) => a.localeCompare(b));
   const stat = (value: number, label: string) =>
     `<div class="stat"><b>${value}</b><span class="muted">${label}</span></div>`;
@@ -218,26 +262,30 @@ export function renderStatsReport(p: {
 <main>
 <h1>THAC0 / APR: creatures.csv vs documentation</h1>
 <p class="muted">Each row is one creature file (per game when the doc shows a game-specific
-card), shown as <span class="csv">csv</span> → doc and the difference. Highlighted cells are
-relevant differences:</p>
+card), shown as <span class="csv">csv</span> → doc and the difference: <span class="delta up">green</span>
+when the doc makes the creature stronger, <span class="delta down">red</span> when weaker (for
+THAC0, lower is stronger). Bold cells are relevant differences (THAC0 also highlighted):</p>
 <ul class="rules">
 <li><b>THAC0</b>: more than ${p.thac0Tolerance}</li>
 <li><b>APR</b>: any difference (csv decoded through AttackPerRoundTable; doc includes the
 fighter level/proficiency bonus and the off-hand attack)</li>
 </ul>
-<p class="muted">Only those two put a file in the report. Level and HP are shown for context
-and never flagged.</p>
+<p class="muted">Only those two put a file in the report. A level difference is bold too and
+can be filtered on, but never puts a file in the report on its own. HP is shown for context and
+never flagged. A blank cell means the stat is unchanged.</p>
 <div class="summary">
 ${stat(all.length, "flagged files")}
 ${stat(p.flagged.length, `of ${p.monsters} monsters`)}
 ${stat(apr, "APR differences")}
 ${stat(thac0, "THAC0 differences")}
+${stat(level, "Level differences")}
 ${stat(p.compared, "files compared")}
 </div>
 <div class="toolbar">
 <input type="search" id="search" placeholder="Filter by monster, file or name">
 <label><input type="checkbox" id="show-apr" checked> APR</label>
 <label><input type="checkbox" id="show-thac0" checked> THAC0</label>
+<label><input type="checkbox" id="show-level" checked> Level</label>
 <button id="expand" type="button">Expand all</button>
 <button id="collapse" type="button">Collapse all</button>
 </div>

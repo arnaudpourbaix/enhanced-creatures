@@ -28,7 +28,8 @@ import {
 // - apr: any difference. The csv apr is the raw CRE byte, decoded through AttackPerRoundTable
 //   (6 = 1/2, 7 = 3/2, ...).
 // hp is never a reason to report a file (the mod deliberately reworks hp almost everywhere), but
-// its change is still shown alongside level for every reported file.
+// its change is still shown for every reported file. A level difference doesn't report a file
+// either, but is flagged (levelFlag) so the page can filter reported files down to level changes.
 //
 // Run: npx ts-node scripts/report-stats.ts   (pass --assets <dir> to point elsewhere)
 // Output: assets/stats-report.html (rendering in scripts/lib/stats-report-html.ts)
@@ -113,26 +114,31 @@ function compare(creature: Creature, csvByFile: Map<string, CsvRow[]>, missing: 
         continue;
       }
       for (const game of scopesFor(creature, file, row)) {
-        const e = adjustmentService.getEffectiveForGame(creature, file, game);
-        const doc = {
-          level: e.level.value,
-          hp: e.hp.value,
-          thac0: e.thac0.value,
-          apr: e.apr.value,
-        };
-        comparisons.push({
-          file,
-          doc,
-          game: game ?? row.game,
-          name: row.name,
-          csv: row,
-          thac0Flag: Math.abs(doc.thac0 - row.thac0) > THAC0_TOLERANCE,
-          aprFlag: doc.apr !== row.apr,
-        });
+        comparisons.push(compareRow(creature, file, game, row));
       }
     }
   }
   return comparisons;
+}
+
+function compareRow(
+  creature: Creature,
+  file: string,
+  game: Game | undefined,
+  row: CsvRow,
+): Comparison {
+  const e = adjustmentService.getEffectiveForGame(creature, file, game);
+  const doc = { level: e.level.value, hp: e.hp.value, thac0: e.thac0.value, apr: e.apr.value };
+  return {
+    file,
+    doc,
+    game: game ?? row.game,
+    name: row.name,
+    csv: row,
+    levelFlag: row.level !== undefined && doc.level !== row.level,
+    thac0Flag: row.thac0 !== undefined && Math.abs(doc.thac0 - row.thac0) > THAC0_TOLERANCE,
+    aprFlag: doc.apr !== row.apr,
+  };
 }
 
 async function main() {
@@ -153,7 +159,7 @@ async function main() {
       const comparisons = compare(creature, csvByFile, missing);
       reports.push({
         monster: MonsterEnum[creature.id],
-        compared: comparisons.length,
+        all: comparisons,
         flagged: comparisons.filter((c) => c.thac0Flag || c.aprFlag),
       });
     }
@@ -161,7 +167,7 @@ async function main() {
 
   const flagged = reports.filter((r) => r.flagged.length);
   const all = flagged.flatMap((r) => r.flagged);
-  const compared = reports.reduce((sum, r) => sum + r.compared, 0);
+  const compared = reports.reduce((sum, r) => sum + r.all.length, 0);
   const html = renderStatsReport({
     flagged,
     compared,

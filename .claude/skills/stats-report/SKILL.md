@@ -36,6 +36,7 @@ A file with no adjustment gets the base creature card's values.
 
 | stat | flagged when | constant |
 | --- | --- | --- |
+| level | any difference (filter only, never reports a file on its own) | - |
 | thac0 | `|doc - csv| > 3` | `THAC0_TOLERANCE` |
 | apr | any difference | - |
 
@@ -45,10 +46,15 @@ The csv `apr` is the raw CRE byte; it is decoded through `AttackPerRoundTable`
 
 hp is deliberately not a criterion (the mod reworks hp almost everywhere), but it is still shown.
 A file appears in the report only if thac0 or apr is flagged. Each row shows level, hp, thac0
-and apr as `csv → doc (difference)`, flagged cells highlighted; level and hp are context only.
+and apr as `csv → doc (difference)`; hp is context only. The difference is green when
+the doc makes the creature stronger and red when weaker (inverted for thac0, lower is better).
+Flagged cells are bold; flagged thac0 cells also get a background. A stat with no change is left
+blank.
 
 The page (rendered by `scripts/lib/stats-report-html.ts`) is self-contained: monster sidebar,
-summary tiles, collapsible per-monster tables with APR/THAC0 count chips, an APR/THAC0 filter
+summary tiles, collapsible per-monster tables whose header shows the average difference per stat
+over all the monster's compared files (reported or not, unchanged counting as 0; rounded to an
+integer, followed by changed/total file count, same green/red convention), an APR/THAC0/Level filter
 and a text filter on monster/file/name. Open it in a browser.
 
 ## Procedure
