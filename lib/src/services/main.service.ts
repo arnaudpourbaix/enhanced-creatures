@@ -13,6 +13,7 @@ import { SpellBookModVariant, spellBookVariants } from "../model/spell-item/spel
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
+import homeService from "./doc/home.service";
 import logService from "./log.service";
 import stateService from "./state.service";
 import translationService from "./translation.service";
@@ -42,6 +43,7 @@ class MainService {
       documentationService.addFamily(family);
     }
     documentationService.generate();
+    homeService.generate();
   }
 
   generateCreature(creature: Creature) {
