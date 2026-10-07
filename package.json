@@ -11,7 +11,7 @@
     "generate": "ts-node lib/src/index.ts",
     "copy": "ts-node lib/src/index.ts copy",
     "release": "ts-node lib/src/index.ts release",
-    "check-monsters": "ts-node lib/src/index.ts check-monsters",
+    "dashboard": "ts-node scripts/dashboard.ts",
     "build": "tsc -p .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",

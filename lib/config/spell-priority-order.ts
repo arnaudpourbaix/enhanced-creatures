@@ -9,11 +9,8 @@ import { NEW_SPELLS } from "./spells/spells";
  *
  * A memorized spell that isn't listed here isn't an error - it's simply cast last,
  * after everything below (AbilityOrderService.resolve() treats "not found" as lowest
- * priority). Add an entry here only once you want to give it a specific priority,
- * either because assets/emulti.baf casts it (this script sorts those automatically by
- * real cast-order evidence, wherever you put the line) or because you've decided by
- * hand where it belongs (this script never moves an entry it has no evidence for once
- * it's in this list - see scripts/derive-spell-priority-order.ts).
+ * priority). Add an entry here only once you want to give it a specific priority. The
+ * initial order was derived from the cast order in emulti.baf; it is now maintained by hand.
  */
 export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.Vocalize.file,

@@ -1,7 +1,7 @@
 import type { Game } from "../../lib/src/model/creature/game";
 
-// HTML rendering for scripts/report-stats.ts: one self-contained page (inline CSS + JS, no
-// external assets) with a monster sidebar, collapsible per-monster tables, an APR/THAC0/Level filter
+// HTML rendering for the dashboard's Stats report tab (data from scripts/lib/stats-report.ts),
+// inline CSS + JS with a monster sidebar, collapsible per-monster tables, an APR/THAC0/Level filter
 // and a text filter. Follows the OS light/dark preference.
 
 export interface StatsCsvRow {
@@ -32,11 +32,21 @@ export interface MonsterReport {
   flagged: StatsComparison[];
 }
 
+export interface StatsReportData {
+  /** Monsters with at least one flagged file. */
+  flagged: MonsterReport[];
+  compared: number;
+  /** Number of valid monsters compared. */
+  monsters: number;
+  missing: string[];
+  thac0Tolerance: number;
+}
+
 function signed(n: number): string {
   return n > 0 ? `+${n}` : `${n}`;
 }
 
-function escapeHtml(text: string): string {
+export function escapeHtml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -133,7 +143,7 @@ function renderMonster(report: MonsterReport): string {
   );
 }
 
-const STYLE = `
+export const STATS_STYLE = `
 :root {
   --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --border: #e2e1dc;
   --flag-bg: #fff4e0; --up: #1a7f37; --down: #c62828;
@@ -200,7 +210,7 @@ td.flag-text { font-weight: 600; }
 }
 `;
 
-const SCRIPT = `
+export const STATS_SCRIPT = `
 const search = document.getElementById("search");
 const showApr = document.getElementById("show-apr");
 const showThac0 = document.getElementById("show-thac0");
@@ -233,13 +243,8 @@ document.getElementById("collapse").addEventListener("click", () =>
   document.querySelectorAll(".monster").forEach((d) => { d.open = false; }));
 `;
 
-export function renderStatsReport(p: {
-  flagged: MonsterReport[];
-  compared: number;
-  monsters: number;
-  missing: string[];
-  thac0Tolerance: number;
-}): string {
+/** The report's layout (sidebar + main), embeddable in another page with STATS_STYLE/STATS_SCRIPT. */
+export function renderStatsBody(p: StatsReportData): string {
   const all = p.flagged.flatMap((r) => r.flagged);
   const apr = all.filter((c) => c.aprFlag).length;
   const thac0 = all.filter((c) => c.thac0Flag).length;
@@ -248,16 +253,7 @@ export function renderStatsReport(p: {
   const missing = [...new Set(p.missing)].sort((a, b) => a.localeCompare(b));
   const stat = (value: number, label: string) =>
     `<div class="stat"><b>${value}</b><span class="muted">${label}</span></div>`;
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stats report</title>
-<style>${STYLE}</style>
-</head>
-<body>
-<div class="layout">
+  return `<div class="layout">
 <nav>${nav}</nav>
 <main>
 <h1>THAC0 / APR: creatures.csv vs documentation</h1>
@@ -295,9 +291,5 @@ ${p.flagged.map(renderMonster).join("\n")}
 values.</p>
 <p class="missing">${missing.length ? missing.map(escapeHtml).join(", ") : "None."}</p>
 </main>
-</div>
-<script>${SCRIPT}</script>
-</body>
-</html>
-`;
+</div>`;
 }

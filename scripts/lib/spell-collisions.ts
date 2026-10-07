@@ -6,7 +6,7 @@
 // slot for a different spell (e.g. spell_rev turns SPWI106 from Blindness into Obscuring Mist) -
 // this module finds where that single hardcoded pair stops matching reality.
 
-import type { Csv } from "./build-creatures";
+import type { Csv } from "./csv";
 
 export interface SpellSnapshot {
   label: string;

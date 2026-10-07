@@ -12,8 +12,9 @@ All the monsters are described in Typescript files to get something strongly-typ
 
 Each monster will gather its validated cre files inside `creatures.csv`. Most monsters have more powerful versions like named or variants. It is handled with adjustments, they will take care of changes like more hit dices, special powers, and so on.
 
-You can check differences between before and after install [here](assets/stats-report.html) but bear in mind
-that it also depends on your installed mods.
+`npm run dashboard` builds [assets/dashboard.html](assets/dashboard.html), a single page with the `creatures.csv` MonsterId counts, the stats report, and the missing monsters (with how many `creatures.csv` rows each one already has, to help prioritize).
+
+The stats report tab shows the differences between before and after install, but bear in mind that it also depends on your installed mods.
 
 ## Install
 
@@ -24,6 +25,11 @@ I highly recommend [Visual Studio Code](https://code.visualstudio.com/) with the
 
 - BGforge MLS
 - Claude Code for VS Code (if you have a subscription)
+
+## Dashboard
+
+A dashboard can be generated with `npm run dashboard`.
+It will create `assets/dashboard.html`. This dashboard shows several interesting things.
 
 ## Generate
 

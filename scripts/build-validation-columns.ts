@@ -4,7 +4,7 @@ import { familyFactories } from "../lib/creatures";
 import type { Creature } from "../lib/src/model/creature/creature";
 import creatureService, { type CsvFinding } from "../lib/src/services/creature.service";
 import monsterFilesService from "../lib/src/services/monster-files.service";
-import { parseCsv, serializeCsv, withNameLast } from "./lib/build-creatures";
+import { parseCsv, serializeCsv, withNameLast } from "./lib/csv";
 import {
   applyValidationColumns,
   rowKey,
@@ -32,7 +32,6 @@ const FINDERS: { col: ValidationColumn; find: (c: Creature) => CsvFinding[] }[] 
 const csv = parseCsv(fs.readFileSync(CSV_PATH, "utf-8"));
 // Deliberately no stateService.init() / checkPresets() / checkSpells(): the three finders only
 // read `files`, `adjustments` and `data`, all of which are populated at family-construction time.
-// Same rationale as scripts/report-game-adjustments.ts.
 const creatures = familyFactories.flatMap((factory) => factory().creatures);
 
 const ownedKeys = new Set<string>();

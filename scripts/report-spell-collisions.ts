@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { SPELLS } from "../lib/config/spells/spell-database";
 import { type SpellReference } from "../lib/src/model/spell-item/spell-reference";
-import { parseCsv } from "./lib/build-creatures";
+import { parseCsv } from "./lib/csv";
 import {
   findAvailabilityGaps,
   findFileCollisions,

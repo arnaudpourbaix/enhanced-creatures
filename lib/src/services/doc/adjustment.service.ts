@@ -87,7 +87,7 @@ class AdjustmentService {
    * The documented stats of one file as `game` sees it: the untagged adjustments covering it plus
    * the ones tagged for `game` (untagged only when `game` is undefined), folded over the base
    * creature. A file no adjustment covers comes back with the base creature's own values. Used by
-   * scripts/report-stats.ts to compare every file against creatures.csv.
+   * the dashboard (scripts/lib/stats-report.ts) to compare every file against creatures.csv.
    */
   getEffectiveForGame(
     creature: Creature,

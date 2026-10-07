@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseCsv } from "./build-creatures";
+import { parseCsv } from "./csv";
 import {
   findAvailabilityGaps,
   findFileCollisions,

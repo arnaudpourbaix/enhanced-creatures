@@ -291,4 +291,47 @@ describe("validate", () => {
     );
     expect(b.valid).toBe(false);
   });
+
+  it("marks a file-less but otherwise valid creature noFiles, not generated and not warned", () => {
+    const creature = fakeCreature();
+    creature.family = MonsterFamilyEnum.Ankheg;
+    creature.files = [];
+    creature.name = PLACEHOLDER_NAME_KEY;
+
+    vi.spyOn(creatureService, "check").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
+    vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+
+    expect(creature.valid).toBe(false);
+    expect(creature.noFiles).toBe(true);
+    expect(warn).not.toHaveBeenCalled();
+    expect(State.creatures).not.toContain(creature);
+  });
+
+  it("doesn't mark a file-less creature noFiles when another check fails", () => {
+    const creature = fakeCreature();
+    creature.family = MonsterFamilyEnum.Ankheg;
+    creature.files = [];
+    creature.name = PLACEHOLDER_NAME_KEY;
+
+    vi.spyOn(creatureService, "check").mockImplementation(() => {});
+    vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
+    vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+
+    expect(creature.valid).toBe(false);
+    expect(creature.noFiles).toBe(false);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("is not valid, please fix it"));
+  });
 });
