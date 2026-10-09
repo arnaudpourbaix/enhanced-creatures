@@ -1,6 +1,5 @@
 import childProcess from "child_process";
 import * as path from "path";
-import { GLOBAL_CONFIG } from "../../../config/generate";
 import changelogService from "../doc/changelog.service";
 import logService from "../log.service";
 import mainService from "../main.service";
@@ -84,7 +83,7 @@ class ReleaseService {
 
     const notes = releaseChangelogService.extractNotes(this.changelogPath, version);
     try {
-      const zipPath = await this.buildReleaseZip(version);
+      const zipPath = this.buildReleaseZip(version);
       logService.log(`Publishing GitHub release ${tag}`);
       releaseGithubService.publishRelease(tag, zipPath, notes);
     } catch (e: unknown) {
@@ -101,23 +100,37 @@ class ReleaseService {
   // enableRandomTargetOrder and enableSecondaryTypes are deliberately off in the committed tree:
   // the first shuffles .baf target order (churning every committed file for no config change), the
   // second slows installation. A release build is exactly when the *shipped* mod should carry both
-  // - baked-in target variety and integrated secondary types. So force them on for one
-  // regeneration, build the zip from that output, then restore the flags and hard-reset the mod
-  // working tree so none of that churn (which is also non-deterministic for the shuffle) reaches a
-  // commit. Runs for every resume state, since a resumed run starts from the committed flags-off
-  // tree and still needs the flag-on output in its artifact.
-  private async buildReleaseZip(version: string): Promise<string> {
-    const previousRandomTargetOrder = GLOBAL_CONFIG.enableRandomTargetOrder;
-    const previousSecondaryTypes = GLOBAL_CONFIG.enableSecondaryTypes;
-    GLOBAL_CONFIG.enableRandomTargetOrder = true;
-    GLOBAL_CONFIG.enableSecondaryTypes = true;
+  // - baked-in target variety and integrated secondary types. So regenerate once with both forced
+  // on, build the zip from that output, then hard-reset the mod working tree so none of that churn
+  // (which is also non-deterministic for the shuffle) reaches a commit. Runs for every resume
+  // state, since a resumed run starts from the committed flags-off tree and still needs the
+  // flag-on output in its artifact.
+  //
+  // The regeneration runs in a child process: generateAll() is not re-entrant - State and other
+  // module-level registries keep the first run's creatures/spells, so a second in-process run
+  // fails ("Monster ... already declared") or silently produces different output.
+  private buildReleaseZip(version: string): string {
     try {
-      await mainService.generateAll();
+      this.runReleaseBuild();
       return releasePackageService.createZip(version);
     } finally {
-      GLOBAL_CONFIG.enableRandomTargetOrder = previousRandomTargetOrder;
-      GLOBAL_CONFIG.enableSecondaryTypes = previousSecondaryTypes;
       releaseGitService.restoreModTree();
+    }
+  }
+
+  private runReleaseBuild(): void {
+    logService.log("Regenerating with release-only flags");
+    try {
+      // Same PATH/shell:true rationale as checkTestsPass(). stdio: "inherit" so the child's
+      // generator output (and any error) shows up in the release log.
+      // eslint-disable-next-line sonarjs/no-os-command-from-path
+      childProcess.execFileSync("npm", ["run", "generate", "--", "generate", "--release-build"], {
+        cwd: this.repoRoot,
+        stdio: "inherit",
+        shell: true,
+      });
+    } catch (e: unknown) {
+      throw new Error("Release build regeneration failed (see output above)", { cause: e });
     }
   }
 

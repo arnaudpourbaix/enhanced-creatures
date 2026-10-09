@@ -127,40 +127,59 @@ describe("ReleaseService", () => {
     );
   });
 
-  it("builds the release zip from a regeneration with random target order and secondary types on", async () => {
-    let flagsWhenZipped: [boolean, boolean] | undefined;
-    createZip.mockImplementation(() => {
-      flagsWhenZipped = [GLOBAL_CONFIG.enableRandomTargetOrder, GLOBAL_CONFIG.enableSecondaryTypes];
-      return `dist/enhanced_creatures-${TAG}.zip`;
-    });
-
+  it("builds the release zip from a release-build regeneration in a child process", async () => {
     await releaseService.release(VERSION);
 
-    expect(flagsWhenZipped).toEqual([true, true]);
-    // a regeneration feeds the zip - the last generateAll runs right before createZip
-    const lastGenerate = Math.max(...generateAll.mock.invocationCallOrder);
-    expect(lastGenerate).toBeLessThan(createZip.mock.invocationCallOrder[0]);
-  });
-
-  it("restores the flags and the mod working tree after the zip is built", async () => {
-    await releaseService.release(VERSION);
-
+    const buildCall = execFileSync.mock.calls.findIndex((call) =>
+      call[1]?.includes("--release-build"),
+    );
+    expect(buildCall).toBeGreaterThanOrEqual(0);
+    expect(execFileSync.mock.calls[buildCall][0]).toBe("npm");
+    expect(execFileSync.mock.calls[buildCall][1]).toEqual([
+      "run",
+      "generate",
+      "--",
+      "generate",
+      "--release-build",
+    ]);
+    expect(execFileSync.mock.invocationCallOrder[buildCall]).toBeLessThan(
+      createZip.mock.invocationCallOrder[0],
+    );
+    // generateAll() isn't re-entrant: the in-process run only happens once, before the commit
+    expect(generateAll).toHaveBeenCalledTimes(1);
     expect(GLOBAL_CONFIG.enableRandomTargetOrder).toBe(false);
     expect(GLOBAL_CONFIG.enableSecondaryTypes).toBe(false);
+  });
+
+  it("restores the mod working tree after the zip is built", async () => {
+    await releaseService.release(VERSION);
+
     expect(restoreModTree.mock.invocationCallOrder[0]).toBeGreaterThan(
       createZip.mock.invocationCallOrder[0],
     );
   });
 
-  it("restores the flags and the mod working tree even when the zip build throws", async () => {
+  it("restores the mod working tree even when the zip build throws", async () => {
     createZip.mockImplementation(() => {
       throw new Error("zip failed");
     });
 
     await releaseService.release(VERSION).catch(() => undefined);
 
-    expect(GLOBAL_CONFIG.enableRandomTargetOrder).toBe(false);
-    expect(GLOBAL_CONFIG.enableSecondaryTypes).toBe(false);
+    expect(restoreModTree).toHaveBeenCalled();
+  });
+
+  it("restores the mod working tree and skips the zip when the release build fails", async () => {
+    execFileSync.mockImplementation((_cmd, args) => {
+      if (args?.includes("--release-build")) throw new Error("generate failed");
+      return "";
+    });
+
+    const error = await releaseService.release(VERSION).catch((e: unknown) => e);
+
+    expect(error).toBeInstanceOf(Error);
+    expect(((error as Error).cause as Error).message).toMatch(/Release build regeneration failed/);
+    expect(createZip).not.toHaveBeenCalled();
     expect(restoreModTree).toHaveBeenCalled();
   });
 
@@ -227,7 +246,11 @@ describe("ReleaseService", () => {
     expect(tagRelease).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
     // the artifact is still rebuilt fresh from a flag-on regeneration
-    expect(generateAll).toHaveBeenCalled();
+    expect(execFileSync).toHaveBeenCalledWith(
+      "npm",
+      expect.arrayContaining(["--release-build"]),
+      expect.objectContaining({}),
+    );
     expect(restoreModTree).toHaveBeenCalled();
     expect(createZip).toHaveBeenCalledWith(VERSION);
     expect(publishRelease).toHaveBeenCalledWith(
@@ -251,8 +274,13 @@ describe("ReleaseService", () => {
     expect(tagRelease).not.toHaveBeenCalled();
     // the commit-flow's npm steps (test run, package-lock sync) are skipped; the only generate is
     // the flag-on one that feeds the zip
-    expect(execFileSync).not.toHaveBeenCalled();
-    expect(generateAll).toHaveBeenCalled();
+    expect(execFileSync).toHaveBeenCalledTimes(1);
+    expect(execFileSync).toHaveBeenCalledWith(
+      "npm",
+      expect.arrayContaining(["--release-build"]),
+      expect.objectContaining({}),
+    );
+    expect(generateAll).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledWith(MASTER);
     expect(createZip).toHaveBeenCalledWith(VERSION);
     expect(publishRelease).toHaveBeenCalledWith(

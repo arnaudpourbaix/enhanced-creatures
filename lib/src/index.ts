@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import { program } from "commander";
 import * as path from "path";
+import { GLOBAL_CONFIG } from "../config/generate";
 import copyService, { CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
@@ -11,8 +12,16 @@ program.version("0.0.1").description("Generate WEIDU code and BAF files for IE g
 program
   .command("generate", { isDefault: true })
   .description("Generate WEIDU code and BAF files for IE games")
-  .action(async () => {
+  .option(
+    "--release-build",
+    "force on the release-only flags (random target order, secondary types) - used by release",
+  )
+  .action(async (opts: { releaseBuild?: boolean }) => {
     try {
+      if (opts.releaseBuild) {
+        GLOBAL_CONFIG.enableRandomTargetOrder = true;
+        GLOBAL_CONFIG.enableSecondaryTypes = true;
+      }
       await runGenerate();
     } catch (e: unknown) {
       handleError(e);
@@ -81,7 +90,15 @@ async function runRelease(version: string): Promise<void> {
 }
 
 function handleError(e: unknown): never {
-  const message = e instanceof Error ? e.message : String(e);
+  // Walk the cause chain - wrapper errors (e.g. release's "Packaging/publishing failed") would
+  // otherwise hide the underlying failure entirely.
+  const parts = [e instanceof Error ? e.message : String(e)];
+  let cause = e instanceof Error ? e.cause : undefined;
+  while (cause instanceof Error) {
+    parts.push(cause.message);
+    cause = cause.cause;
+  }
+  const message = parts.join("\n  Caused by: ");
   logService.log(`ERROR: ${message}`);
   console.error(chalk.red(`\nError: ${message}`));
   process.exit(1);
