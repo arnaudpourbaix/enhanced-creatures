@@ -6,11 +6,11 @@ import {
   StatsReportData,
 } from "./stats-report-html";
 
-// HTML rendering for scripts/dashboard.ts: one self-contained page (inline CSS + JS) with three
+// HTML rendering for scripts/dashboard.ts: a page of the mod docs (mod/docs/dashboard.html, shares
+// the site nav and main.css with the other docs pages; its own CSS + JS are inline) with three
 // tabs - Overview (creatures.csv and monster counts), Stats report (scripts/lib/stats-report-html.ts)
 // and Missing monsters (creatures.csv rows per missing, file-less or unvalidated MonsterEnum
-// member). The
-// active tab is kept in the url hash. Follows the OS light/dark preference.
+// member). The active tab is kept in the url hash. Content follows the OS light/dark preference.
 
 /** creatures.csv rows grouped by MonsterId status. */
 export interface CsvSummary {
@@ -217,11 +217,12 @@ const STYLE = `
 @media (prefers-color-scheme: dark) {
   :root { --good: #4fae6b; --warn: #e0a43a; --bad: #e0675c; --none: #55554f; --accent: #7aa2f7; }
 }
-header { position: sticky; top: 0; z-index: 10; height: var(--header-h); display: flex;
+/* main.css (site nav) styles headings and links for the parchment pages: undo it here. */
+.tab-bar h1, .tab-bar h2, .tab-panel h1, .tab-panel h2 { font-family: inherit; color: inherit; }
+.tab-bar { position: sticky; top: 0; z-index: 10; height: var(--header-h); display: flex;
   align-items: center; gap: 24px; padding: 0 24px; background: var(--surface);
   border-bottom: 1px solid var(--border); }
-header h1 { margin: 0; font-size: 17px; white-space: nowrap; }
-header .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
+.tab-bar .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
 .tabs { display: flex; gap: 4px; height: 100%; }
 .tabs a { display: flex; align-items: center; padding: 0 14px; color: var(--muted);
   text-decoration: none; font-weight: 600; border-bottom: 2px solid transparent; }
@@ -229,10 +230,13 @@ header .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
 .tabs a.active { color: var(--text); border-bottom-color: var(--accent); }
 .tabs .badge { margin-left: 6px; padding: 0 7px; border-radius: 10px; font-size: 11px;
   background: var(--bg); border: 1px solid var(--border); }
-.panel { display: none; }
-.panel.active { display: block; }
-.page { padding: 24px 32px; max-width: 1100px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.tab-panel .page { padding: 24px 32px; max-width: 1100px; margin: 0; }
 a { color: var(--accent); }
+.notice { margin: 16px 32px 0; max-width: 1100px; padding: 12px 16px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  font-size: 13px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   padding: 16px 20px; margin-bottom: 16px; }
 .card h2 { margin: 0 0 4px; font-size: 16px; }
@@ -265,9 +269,10 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
 .toolbar { top: var(--header-h); }
 .monster { scroll-margin-top: calc(var(--header-h) + 64px); }
 @media (max-width: 760px) {
-  header { padding: 0 12px; gap: 12px; }
-  header h1, header .generated { display: none; }
-  .page { padding: 16px; }
+  .tab-bar { padding: 0 12px; gap: 12px; }
+  .tab-bar .generated { display: none; }
+  .tab-panel .page { padding: 16px; }
+  .notice { margin: 12px 16px 0; }
   td.bar-cell { width: 25%; }
 }
 `;
@@ -330,22 +335,44 @@ export function renderDashboard(d: DashboardData): string {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enhanced Creatures dashboard</title>
+<title>Enhanced Creatures - Dashboard</title>
+<link rel="icon"
+  href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9876;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<link href="main.css" rel="stylesheet" type="text/css">
 <style>${STATS_STYLE}${STYLE}</style>
 </head>
 <body>
-<header>
-<h1>Enhanced Creatures</h1>
+<header class="site-nav">
+  <a class="brand" href="index.html">&#9876; Enhanced Creatures</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="monsters.html">Monsters</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+  </ul>
+</header>
+<div class="tab-bar">
 <div class="tabs">
 <a href="#overview">Overview</a>
 <a href="#stats">Stats report<span class="badge">${d.stats.flagged.reduce((s, r) => s + r.flagged.length, 0)}</span></a>
 <a href="#missing">Missing monsters<span class="badge">${d.monsters.missing.length}</span></a>
 </div>
 <span class="generated muted">Generated ${generated} UTC</span>
-</header>
-<section class="panel" id="tab-overview"><div class="page">${renderOverview(d)}</div></section>
-<section class="panel" id="tab-stats">${renderStatsBody(d.stats)}</section>
-<section class="panel" id="tab-missing"><div class="page">${renderMissing(d)}</div></section>
+</div>
+<aside class="notice">
+<b>This is a technical dashboard.</b> It tracks the mod's development progress: which monsters
+are covered, which creature files are mapped to them, and how their THAC0 and attacks per round
+compare to the game's originals. It is mainly meant for development, but you may find it
+interesting to see what is done and what is coming. Terms such as <code>creatures.csv</code> or
+<code>MonsterId</code> refer to the mod's internal data. For the reworked monsters themselves, see the
+<a href="monsters.html">Monster Compendium</a>.
+</aside>
+<section class="tab-panel" id="tab-overview"><div class="page">${renderOverview(d)}</div></section>
+<section class="tab-panel" id="tab-stats">${renderStatsBody(d.stats)}</section>
+<section class="tab-panel" id="tab-missing"><div class="page">${renderMissing(d)}</div></section>
 <script>${STATS_SCRIPT}${SCRIPT}</script>
 </body>
 </html>

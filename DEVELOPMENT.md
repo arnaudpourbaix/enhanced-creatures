@@ -12,7 +12,7 @@ All the monsters are described in Typescript files to get something strongly-typ
 
 Each monster will gather its validated cre files inside `creatures.csv`. Most monsters have more powerful versions like named or variants. It is handled with adjustments, they will take care of changes like more hit dices, special powers, and so on.
 
-`npm run dashboard` builds [assets/dashboard.html](assets/dashboard.html), a single page with the `creatures.csv` MonsterId counts, the stats report, and the missing monsters (with how many `creatures.csv` rows each one already has, to help prioritize).
+`npm run dashboard` builds [mod/docs/dashboard.html](mod/docs/dashboard.html), a page of the mod docs (linked from the site nav, so players can consult it too) with the `creatures.csv` MonsterId counts, the stats report, and the missing monsters (with how many `creatures.csv` rows each one already has, to help prioritize).
 
 The stats report tab shows the differences between before and after install, but bear in mind that it also depends on your installed mods.
 
@@ -29,7 +29,7 @@ I highly recommend [Visual Studio Code](https://code.visualstudio.com/) with the
 ## Dashboard
 
 A dashboard can be generated with `npm run dashboard`.
-It will create `assets/dashboard.html`. This dashboard shows several interesting things.
+It will create `mod/docs/dashboard.html`, which is shipped and published with the rest of the docs. This dashboard shows several interesting things.
 
 ## Generate
 

@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enhanced Creatures dashboard</title>
+<title>Enhanced Creatures - Dashboard</title>
+<link rel="icon"
+  href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9876;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<link href="main.css" rel="stylesheet" type="text/css">
 <style>
 :root {
   --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --border: #e2e1dc;
@@ -75,11 +81,12 @@ td.flag-text { font-weight: 600; }
 @media (prefers-color-scheme: dark) {
   :root { --good: #4fae6b; --warn: #e0a43a; --bad: #e0675c; --none: #55554f; --accent: #7aa2f7; }
 }
-header { position: sticky; top: 0; z-index: 10; height: var(--header-h); display: flex;
+/* main.css (site nav) styles headings and links for the parchment pages: undo it here. */
+.tab-bar h1, .tab-bar h2, .tab-panel h1, .tab-panel h2 { font-family: inherit; color: inherit; }
+.tab-bar { position: sticky; top: 0; z-index: 10; height: var(--header-h); display: flex;
   align-items: center; gap: 24px; padding: 0 24px; background: var(--surface);
   border-bottom: 1px solid var(--border); }
-header h1 { margin: 0; font-size: 17px; white-space: nowrap; }
-header .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
+.tab-bar .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
 .tabs { display: flex; gap: 4px; height: 100%; }
 .tabs a { display: flex; align-items: center; padding: 0 14px; color: var(--muted);
   text-decoration: none; font-weight: 600; border-bottom: 2px solid transparent; }
@@ -87,10 +94,13 @@ header .generated { margin-left: auto; font-size: 12px; white-space: nowrap; }
 .tabs a.active { color: var(--text); border-bottom-color: var(--accent); }
 .tabs .badge { margin-left: 6px; padding: 0 7px; border-radius: 10px; font-size: 11px;
   background: var(--bg); border: 1px solid var(--border); }
-.panel { display: none; }
-.panel.active { display: block; }
-.page { padding: 24px 32px; max-width: 1100px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.tab-panel .page { padding: 24px 32px; max-width: 1100px; margin: 0; }
 a { color: var(--accent); }
+.notice { margin: 16px 32px 0; max-width: 1100px; padding: 12px 16px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  font-size: 13px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   padding: 16px 20px; margin-bottom: 16px; }
 .card h2 { margin: 0 0 4px; font-size: 16px; }
@@ -123,24 +133,41 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
 .toolbar { top: var(--header-h); }
 .monster { scroll-margin-top: calc(var(--header-h) + 64px); }
 @media (max-width: 760px) {
-  header { padding: 0 12px; gap: 12px; }
-  header h1, header .generated { display: none; }
-  .page { padding: 16px; }
+  .tab-bar { padding: 0 12px; gap: 12px; }
+  .tab-bar .generated { display: none; }
+  .tab-panel .page { padding: 16px; }
+  .notice { margin: 12px 16px 0; }
   td.bar-cell { width: 25%; }
 }
 </style>
 </head>
 <body>
-<header>
-<h1>Enhanced Creatures</h1>
+<header class="site-nav">
+  <a class="brand" href="index.html">&#9876; Enhanced Creatures</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="monsters.html">Monsters</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+  </ul>
+</header>
+<div class="tab-bar">
 <div class="tabs">
 <a href="#overview">Overview</a>
 <a href="#stats">Stats report<span class="badge">403</span></a>
 <a href="#missing">Missing monsters<span class="badge">48</span></a>
 </div>
-<span class="generated muted">Generated 2026-10-07 14:05 UTC</span>
-</header>
-<section class="panel" id="tab-overview"><div class="page">
+<span class="generated muted">Generated 2026-10-09 08:09 UTC</span>
+</div>
+<aside class="notice">
+<b>This is a technical dashboard.</b> It tracks the mod's development progress: which monsters
+are covered, which creature files are mapped to them, and how their THAC0 and attacks per round
+compare to the game's originals. It is mainly meant for development, but you may find it
+interesting to see what is done and what is coming. Terms such as <code>creatures.csv</code> or
+<code>MonsterId</code> refer to the mod's internal data. For the reworked monsters themselves, see the
+<a href="monsters.html">Monster Compendium</a>.
+</aside>
+<section class="tab-panel" id="tab-overview"><div class="page">
 <section class="card">
 <h2>creatures.csv</h2>
 <div class="summary">
@@ -173,7 +200,7 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
 </div>
 <p><a href="#stats">See stats report →</a></p>
 </section></div></section>
-<section class="panel" id="tab-stats"><div class="layout">
+<section class="tab-panel" id="tab-stats"><div class="layout">
 <nav><a href="#m-Ankheg">Ankheg</a><a href="#m-GreaterBasilisk">GreaterBasilisk</a><a href="#m-CaveBear">CaveBear</a><a href="#m-GrizzlyBear">GrizzlyBear</a><a href="#m-PolarBear">PolarBear</a><a href="#m-CarrionCrawler">CarrionCrawler</a><a href="#m-Leopard">Leopard</a><a href="#m-SpottedLion">SpottedLion</a><a href="#m-DisplacerBeast">DisplacerBeast</a><a href="#m-HelmedHorror">HelmedHorror</a><a href="#m-BattleHorror">BattleHorror</a><a href="#m-DoomSayer">DoomSayer</a><a href="#m-DoomGuard">DoomGuard</a><a href="#m-WildDog">WildDog</a><a href="#m-SpectralHound">SpectralHound</a><a href="#m-Ettercap">Ettercap</a><a href="#m-Ettin">Ettin</a><a href="#m-Dryad">Dryad</a><a href="#m-Hamadryad">Hamadryad</a><a href="#m-Nymph">Nymph</a><a href="#m-Sirine">Sirine</a><a href="#m-Nereid">Nereid</a><a href="#m-FleshGolem">FleshGolem</a><a href="#m-GreaterClayGolem">GreaterClayGolem</a><a href="#m-IronGolem">IronGolem</a><a href="#m-BoneGolem">BoneGolem</a><a href="#m-JuggernautGolem">JuggernautGolem</a><a href="#m-SnowGolem">SnowGolem</a><a href="#m-MagicGolem">MagicGolem</a><a href="#m-WaxGolem">WaxGolem</a><a href="#m-Minotaur">Minotaur</a><a href="#m-Ogre">Ogre</a><a href="#m-HalfOgre">HalfOgre</a><a href="#m-OgreMage">OgreMage</a><a href="#m-OgreBerserker">OgreBerserker</a><a href="#m-MustardJelly">MustardJelly</a><a href="#m-FissionSlime">FissionSlime</a><a href="#m-OliveSlimeCreature">OliveSlimeCreature</a><a href="#m-GargantuanSpider">GargantuanSpider</a><a href="#m-GhostwalkSpider">GhostwalkSpider</a><a href="#m-GiantSpider">GiantSpider</a><a href="#m-HugeSpider">HugeSpider</a><a href="#m-PhaseSpider">PhaseSpider</a><a href="#m-SwordSpider">SwordSpider</a><a href="#m-Wolf">Wolf</a><a href="#m-DireWolf">DireWolf</a><a href="#m-DreadWolf">DreadWolf</a><a href="#m-VampiricWolf">VampiricWolf</a><a href="#m-WinterWolf">WinterWolf</a><a href="#m-Wyvern">Wyvern</a><a href="#m-BabyWyvern">BabyWyvern</a><a href="#m-GreaterWyvern">GreaterWyvern</a><a href="#m-Ghoul">Ghoul</a><a href="#m-Ghast">Ghast</a><a href="#m-GhoulLord">GhoulLord</a><a href="#m-GreaterMummy">GreaterMummy</a><a href="#m-Shadow">Shadow</a><a href="#m-GreaterShadow">GreaterShadow</a><a href="#m-Baneguard">Baneguard</a><a href="#m-Bonebat">Bonebat</a><a href="#m-Skeleton">Skeleton</a><a href="#m-ArcherSkeleton">ArcherSkeleton</a><a href="#m-SkeletonMonster">SkeletonMonster</a><a href="#m-SkeletonWarrior">SkeletonWarrior</a><a href="#m-DeathKnight">DeathKnight</a><a href="#m-Wight">Wight</a><a href="#m-Wraith">Wraith</a></nav>
 <main>
 <h1>THAC0 / APR: creatures.csv vs documentation</h1>
@@ -278,7 +305,7 @@ values.</p>
 <p class="missing">DW#VIGOL (bg2), JABLPUD, JADRYAD, JAGPSNAK, JAGRNSLI, JAHAMA, JAJELMU, JAOLISLI, JATREA1, JATREA2, JATREA3, JATREA4, JAWHPUD</p>
 </main>
 </div></section>
-<section class="panel" id="tab-missing"><div class="page">
+<section class="tab-panel" id="tab-missing"><div class="page">
 <p class="muted">Creatures are the creatures.csv rows whose <code>MonsterId</code> is the monster
 (validated or not). It is not a final count - most rows of an unimplemented monster are still
 unmapped - but it helps prioritize.</p>

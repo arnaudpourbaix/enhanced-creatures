@@ -18,7 +18,8 @@ import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 //   creatures.csv rows carrying its MonsterId
 //
 // Run: npm run dashboard   (or npx ts-node scripts/dashboard.ts --assets <dir>)
-// Output: assets/dashboard.html (rendering in scripts/lib/dashboard-html.ts)
+// Output: mod/docs/dashboard.html, linked from the docs site nav (rendering in
+// scripts/lib/dashboard-html.ts)
 
 function parseArgs(): { assetsDir: string } {
   const args = process.argv.slice(2);
@@ -86,7 +87,7 @@ async function main() {
 
   if (unknown.length) console.warn(`Unknown MonsterId in creatures.csv: ${unknown.join(", ")}`);
 
-  const outPath = path.join(assetsDir, "dashboard.html");
+  const outPath = path.join(process.cwd(), "mod", "docs", "dashboard.html");
   fs.writeFileSync(outPath, html, "utf-8");
   console.log(`Wrote ${path.relative(process.cwd(), outPath)}`);
   console.log(
