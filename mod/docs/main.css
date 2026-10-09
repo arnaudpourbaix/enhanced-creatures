@@ -69,6 +69,17 @@ a:hover {
   letter-spacing: 0.04em;
 }
 
+.site-nav .brand .version {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--color-gold);
+  border-radius: 3px;
+  color: var(--color-ink-soft);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
 .site-nav ul {
   list-style: none;
   display: flex;

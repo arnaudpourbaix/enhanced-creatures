@@ -31,6 +31,8 @@ export interface MonsterRowCount {
 
 export interface DashboardData {
   generatedAt: Date;
+  /** Mod version shown next to the brand in the nav header, like the other docs pages. */
+  version: string;
   csv: CsvSummary;
   monsters: {
     total: number;
@@ -346,7 +348,7 @@ export function renderDashboard(d: DashboardData): string {
 </head>
 <body>
 <header class="site-nav">
-  <a class="brand" href="index.html">&#9876; Enhanced Creatures</a>
+  <a class="brand" href="index.html">&#9876; Enhanced Creatures <span class="version">v${d.version}</span></a>
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="monsters.html">Monsters</a></li>

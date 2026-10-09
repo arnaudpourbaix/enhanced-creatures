@@ -51,11 +51,14 @@ class ReleaseService {
 
       this.checkTestsPass();
 
-      await mainService.generateAll();
-
+      // Bump the version files before regenerating: every docs page shows the tp2 VERSION in its
+      // nav header, so generating first would commit docs still labelled with the old version.
       releaseVersionFilesService.writePackageVersion(this.packageJsonPath, version);
       this.syncPackageLock();
       releaseVersionFilesService.writeTp2Version(this.tp2Path, version);
+
+      await mainService.generateAll();
+
       const today = new Date().toISOString().slice(0, 10);
       releaseChangelogService.rollover(this.changelogPath, version, today);
       changelogService.generate();

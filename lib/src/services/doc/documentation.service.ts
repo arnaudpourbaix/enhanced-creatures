@@ -24,6 +24,7 @@ import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
+import { readModVersion, stampVersion } from "./doc-version";
 
 // Standard AD&D 2e proficiency names, since the enum's own SCREAMING_CASE keys (e.g.
 // PROFICIENCYFLAILMORNINGSTAR) aren't separable into words the way formatEnumLabel's
@@ -116,6 +117,7 @@ class DocumentationService {
     // Raw (split/join, not String.replace) so `$` sequences in a resolved creature name can't be
     // read as replacement-pattern references and corrupt the JSON.
     this.replaceRaw(template, "fileSearchIndex", JSON.stringify(this.fileIndex));
+    template.text = stampVersion(template.text, readModVersion());
     try {
       utils.writeFile("docs/monsters.html", template.text);
     } catch (e) {

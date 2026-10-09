@@ -6,16 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Current version in doc's header
+
+### Fixed
+
+- GH Action Release was not working
+
 ## [0.4.0] - 2026-10-09
 
 ### Added
 
 - Many Undead
-- 
 
 ### Fixed
 
 - BAF script fixes and improvements (spell triggers, attacks, tracking)
+- Many other fixes
 
 ## [0.3.0] - 2026-09-16
 

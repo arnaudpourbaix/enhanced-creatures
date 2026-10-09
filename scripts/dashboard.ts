@@ -5,6 +5,7 @@ import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
 import { CsvSummary, MonsterRowCount, renderDashboard } from "./lib/dashboard-html";
 import { diffMonsters } from "./lib/monster-status";
+import { readModVersion } from "../lib/src/services/doc/doc-version";
 import logService from "../lib/src/services/log.service";
 import mainService from "../lib/src/services/main.service";
 import stateService from "../lib/src/services/state.service";
@@ -74,6 +75,7 @@ async function main() {
 
   const html = renderDashboard({
     generatedAt: new Date(),
+    version: readModVersion(),
     csv: summary,
     monsters: {
       total,
