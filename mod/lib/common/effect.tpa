@@ -232,7 +232,7 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         16   // Haste
         31   // Stat: Magic Damage Resistance Modifier
         63   // State: Infravision
-        65   // Overlay: Blur
+        65   // Blur
         66   // Graphics: Transparency Fade
         69   // Protection: From Detection (Non-Detection)
         83   // Protection: From Projectile
@@ -242,6 +242,7 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         119  // Spell Effect: Mirror Image
         120  // Protection: from Weapons
         126  // Stat: Movement Modifier
+        142  // Display Portrait Icon
         155  // Overlay: Minor Globe
         156  // Overlay: Protection from Normal Missiles Cylinder
         159  // Spell Effect: Mirror Image (Exact Number)
@@ -252,12 +253,13 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         188  // Spell Effect: Aura Cleansing
         189  // Increase casting speed
         191  // Spell: Casting Level Modifier
-        193  // Spell Effect: Invisible Detection by Script
+        193  // Invisible Detection
         206  // Spell: Protection from Spell
         232  // Spell Effect: Cast Spell on Condition
         233  // Stat: Proficiency Modifier
         248  // Item: Set Melee Effect
         263  // Backstab bonus
+        267  // Disable Display String
         286  // Missile weapon damage bonus
         292  // Protection: Backstab
         296  // Immunity to Specific Animation

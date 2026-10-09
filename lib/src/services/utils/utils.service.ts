@@ -13,7 +13,7 @@ import { MemorizedSpellType, Spell } from "../../model/spell-item/spell-item";
 import { SpellProtectionStat } from "../../model/spell-item/spell-protection";
 import { State } from "../../state";
 import translationService from "./../translation.service";
-import { getAllFnpSpells } from "../../../config/spells/fnp-spell-names";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
 
 class UtilsService {
   objectKeys = <T extends object>(obj: T): (keyof T)[] => Object.keys(obj) as (keyof T)[];
@@ -60,6 +60,11 @@ class UtilsService {
     for (const trigger of results) {
       if ("triggers" in trigger) {
         trigger.triggers = this.replaceTriggerTokens(trigger.triggers, tokens);
+      } else if ("trigger" in trigger) {
+        const object = [trigger.object];
+        this.replaceParamTokens(object, tokens);
+        trigger.object = object[0];
+        [trigger.trigger] = this.replaceTriggerTokens([trigger.trigger], tokens);
       } else if ("params" in trigger) {
         this.replaceParamTokens(trigger.params, tokens);
       }

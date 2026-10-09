@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { createConeOfCold } from "../spells/cone_of_cold";
 import { CommonProjectileFiles } from "../spells/projectiles";
 import effectFactory from "../src/factories/effect.factory";
@@ -156,7 +156,7 @@ class Golem extends Creature {
         range: 10,
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
       },
@@ -238,7 +238,7 @@ class Golem extends Creature {
         spell: {
           type: "reallyForce",
           excludeStateChecks: ["STATE_HASTED"],
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
         triggers: [{ name: "Delay", params: [6] }],
@@ -363,7 +363,7 @@ class Golem extends Creature {
       ability: {
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
         triggers: [{ name: "Range", params: ["NearestEnemyOf", 5], negation: true }],
@@ -382,6 +382,7 @@ class Golem extends Creature {
       memorizedCount: 1,
       icon: SPELLS.Wizard.Cloudkill.file,
       options: { renew: 7 },
+      keywords: ["cloud", "poison", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -445,7 +446,7 @@ class Golem extends Creature {
         range: 10,
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           remove: true,
         },
       },
@@ -536,7 +537,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         class: "GOLEM_FLESH",
         gender: "NIETHER",
         size: { value: "Large", tall: true, long: false },
-        modAnimation: "A7!GOLEM_FLESH_PST",
+        animation: ["A7!GOLEM_FLESH_PST", "OGRILLON"],
         movement: 8,
         immunities: ["construct"],
         items: {
@@ -560,10 +561,9 @@ class GolemFamily extends CreatureFamily<Golem> {
     });
     flesh.setAdjustments([
       {
-        files: ["ARNGOL01", "L#XZEGOL", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
+        files: ["ARNGOL01", "IGOLFLE1", "IGOLFLE2", "IGOLFLE3", "IGOLFLE4", "BDGOLEMF"],
         stringRef: "monster.golem.name.flesh",
       },
-      // { files: ["BDGOLEMF"], data: {} }, // TODO: need to keep effect #114 (dither)
     ]);
     return flesh;
   }
@@ -753,6 +753,7 @@ class GolemFamily extends CreatureFamily<Golem> {
       level1: 9,
       strength: 19,
       xpv: 3000,
+      animation: "GOLEM_MINI",
     });
     lesserClay.addTrait({
       immunities: [
@@ -854,7 +855,7 @@ class GolemFamily extends CreatureFamily<Golem> {
           preset: SPELLS.Wizard.Slow.file,
           spell: {
             type: "reallyForce",
-            selfTarget: true,
+            castOnSelf: true,
             remove: true,
           },
           requireVocal: false,
@@ -919,6 +920,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_IRON",
         gender: "NIETHER",
+        animation: ["GOLEM_IRON_IWD"],
         size: { value: "Large", tall: true, long: false },
         movement: 6,
         immunities: ["construct"],
@@ -1089,9 +1091,9 @@ class GolemFamily extends CreatureFamily<Golem> {
         general: "GIANTHUMANOID",
         race: "GOLEM",
         class: "GOLEM_STONE",
+        animation: ["GOLEM_IRON"],
         gender: "NIETHER",
         size: { value: "Large", tall: true, long: false },
-        animation: "GOLEM_CLAY",
         movement: 3,
         immunities: ["construct"],
         items: {
@@ -1143,6 +1145,7 @@ class GolemFamily extends CreatureFamily<Golem> {
         race: "GOLEM",
         class: "GOLEM_STONE",
         gender: "NIETHER",
+        animation: "GOLEM_ICE",
         size: { value: "Large", tall: true, long: false },
         movement: 9,
         immunities: ["construct"],

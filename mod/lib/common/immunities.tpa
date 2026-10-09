@@ -31,6 +31,16 @@ DEFINE_ACTION_MACRO load_splprot BEGIN
 	ACTION_IF (index >= 0) BEGIN
 		OUTER_SET NOT_MALE_HUMANOID=index - 1
 	END
+	OUTER_SET value=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10b STR_VAR value relation="1" RET index END
+	OUTER_SET row1=index
+	OUTER_SET value=IDS_OF_SYMBOL (~race~ ~GOLEM~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10c STR_VAR value relation="1" RET index END
+	OUTER_SET row2=index
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x103 STR_VAR value=EVALUATE_BUFFER "%row1%" relation=EVALUATE_BUFFER "%row2%" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET UNDEAD_OR_GOLEM=index - 1
+	END
 END
 LAM load_splprot
 
@@ -64,7 +74,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_acidSpells_resources RET_ARRAY spells=resources END
+		LAF get_acid_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR spells END
 END
@@ -125,7 +135,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_blindness_resources RET_ARRAY spells=resources END
+		LAF get_blind_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="74" prevent_icons="8" spells END
 END
@@ -853,7 +863,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_petrification_resources RET_ARRAY spells=resources END
+		LAF get_petrify_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="134" strings="14665 25863" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PETRIFY_IMMUNITY~)) special=1 END

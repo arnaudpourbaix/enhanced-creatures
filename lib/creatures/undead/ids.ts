@@ -9,7 +9,9 @@ export enum Ids {
   Blink,
   BonebatTouch,
   CarrionStench,
+  DeathKnightFearAura,
   DeathWail,
+  Fireball,
   GhoulTouch,
   GhoulLordTouch,
   GhastTouch,
@@ -23,4 +25,6 @@ export enum Ids {
   SkeletonWarriorFearAura,
   SpecterTouch,
   WallOfIce,
+  WightTouch,
+  WraithTouch,
 }

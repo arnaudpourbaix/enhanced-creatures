@@ -33,6 +33,7 @@ import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
 import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
 import creatureService from "../src/services/creature.service";
 import effectService from "../src/services/effects/effect.service";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -200,6 +201,7 @@ class Wolf extends Creature {
       memorizedCount: 1,
       secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
       options: { renew: 10 },
+      keywords: ["cold", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -248,7 +250,7 @@ class Wolf extends Creature {
         ],
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
         },
         range: 10,
         probability: 20,
@@ -345,6 +347,9 @@ class WolfFamily extends CreatureFamily<Wolf> {
       diceThrown: 1,
       diceSize: 4,
     });
+    wolf.setBehavior({
+      customCodes: [customCodes.avoidNaturalFriends],
+    });
     return wolf;
   }
 
@@ -427,6 +432,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         general: "ANIMAL",
         race: "WOLF",
         class: "WOLF_DREAD",
+        animation: "WOLF_DREAD",
         gender: "MALE",
         size: { value: "Small", tall: false, long: true },
         movement: 18,
@@ -472,7 +478,10 @@ class WolfFamily extends CreatureFamily<Wolf> {
         },
       ],
     });
-    dread.setAdjustments([{ files: ["ANWOLF1"], stringRef: "monster.wolf.name.dread" }]);
+    dread.setAdjustments([
+      { files: ["ANWOLF1"], stringRef: "monster.wolf.name.dread" },
+      { files: ["L#HALWO"], data: { animation: "L#_DOG_MOSS" } },
+    ]);
     return dread;
   }
 
@@ -621,6 +630,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
         general: "ANIMAL",
         race: "WOLF",
         class: "WOLF_WORG",
+        animation: "WORG",
         gender: "MALE",
         size: { value: "Medium", tall: false, long: true },
         movement: 18,

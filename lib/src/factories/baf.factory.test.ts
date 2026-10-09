@@ -50,7 +50,7 @@ describe("addStatementsFromTargetList", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
       statements,
-      triggers: [triggerFactory.range(30)],
+      triggers: [{ name: "See", params: [ScriptTarget.token] }, triggerFactory.range(30)],
       targets: [GOODCUTOFF, ScriptTarget.myself],
       responses: responseFactory.response([
         { name: "AttackOneRound", params: [ScriptTarget.token] } as unknown as Actions.Action,
@@ -63,6 +63,99 @@ describe("addStatementsFromTargetList", () => {
     expect(
       (statements[1].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
     ).toEqual([ScriptTarget.myself]);
+  });
+
+  it("resolves the response action target to the target itself when no See(token) sets LastSeenBy", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        { name: "See", params: [ScriptTarget.token], negation: true },
+        triggerFactory.range(30),
+      ],
+      targets: ["Player1", ScriptTarget.myself],
+      responses: responseFactory.response([
+        { name: "MoveToObject", params: [ScriptTarget.token] } as unknown as Actions.Action,
+      ]),
+    });
+
+    expect(
+      (statements[0].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
+    ).toEqual(["Player1"]);
+    expect(
+      (statements[1].responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
+    ).toEqual([ScriptTarget.myself]);
+  });
+
+  it("drops See(Myself) and rewrites the target's LastSeenBy to Myself for a Myself target", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        { name: "See", params: ["NearestEnemyOf"] },
+        { name: "Range", params: [ScriptTarget.lastSeen, 10] },
+        { name: "See", params: [ScriptTarget.token] },
+        { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
+      ],
+      targets: [GOODCUTOFF, ScriptTarget.myself],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([
+      { name: "See", params: ["NearestEnemyOf"] },
+      { name: "Range", params: [ScriptTarget.lastSeen, 10] },
+      { name: "See", params: [GOODCUTOFF] },
+      { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
+    ]);
+    expect(statements[1].triggers).toEqual([
+      { name: "See", params: ["NearestEnemyOf"] },
+      { name: "Range", params: [ScriptTarget.lastSeen, 10] },
+      { name: "HPPercentLT", params: [ScriptTarget.myself, 75] },
+    ]);
+  });
+
+  it("rewrites a LastSeenBy action target to Myself for a Myself target", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [],
+      targets: [GOODCUTOFF, ScriptTarget.myself],
+      responses: responseFactory.response([
+        { name: "SpellNoDec", params: [ScriptTarget.lastSeen, "WIZARD_INVISIBILITY"] },
+      ]),
+    });
+
+    expect(statements[0].responses[0].actions[0]).toMatchObject({
+      params: [ScriptTarget.lastSeen, "WIZARD_INVISIBILITY"],
+    });
+    expect(statements[1].responses[0].actions[0]).toMatchObject({
+      params: [ScriptTarget.myself, "WIZARD_INVISIBILITY"],
+    });
+  });
+
+  it("drops exceptMyself triggers (also inside Or) only for a Myself target", () => {
+    const statements: Statements = [];
+    const summoned = {
+      name: "Gender",
+      params: [ScriptTarget.token, "SUMMONED"],
+      negation: true,
+      exceptMyself: true,
+    } as const;
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        summoned,
+        { name: "Or", triggers: [summoned] },
+        { name: "Or", triggers: [summoned, triggerFactory.range(30)] },
+      ],
+      targets: [GOODCUTOFF, ScriptTarget.myself],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toHaveLength(3);
+    expect(statements[1].triggers).toEqual([
+      { name: "Or", triggers: [{ ...triggerFactory.range(30), params: [ScriptTarget.myself, 30] }] },
+    ]);
   });
 
   it("reverses target order when reverse is set", () => {

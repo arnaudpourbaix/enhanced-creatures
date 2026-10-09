@@ -63,9 +63,9 @@ describe("checkEnchantment", () => {
     const creature = fakeCreature({
       data: { level1: { pnpValue: 0, value: 0, type: "none" } },
     });
-    expect(() => { weaponService.checkEnchantment(creature, weapon); }).toThrow(
-      /enchantment not found in table/,
-    );
+    expect(() => {
+      weaponService.checkEnchantment(creature, weapon);
+    }).toThrow(/enchantment not found in table/);
   });
 
   it("does not compute enchantment when creature.autoGenerate.enchantment is false", () => {

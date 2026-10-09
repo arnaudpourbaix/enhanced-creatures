@@ -1,3 +1,0 @@
-ACTION_IF FILE_EXISTS_IN_GAME ~P#WOLFA.BCS~ BEGIN
-    COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wolf/assets/P#WOLFA.baf~
-END

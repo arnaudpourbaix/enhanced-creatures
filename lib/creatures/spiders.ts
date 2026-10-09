@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
@@ -479,6 +479,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         general: "MONSTER",
         race: "SPIDER",
         class: "SPIDER_WRAITH",
+        animation: "SPIDER_WRAITH",
         gender: "NIETHER",
         size: { value: "Large", tall: false, long: true },
         movement: 15,
@@ -572,6 +573,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         general: "MONSTER",
         race: "SPIDER",
         class: "SPIDER_GIANT",
+        animation: "SPIDER_GIANT",
         gender: "NIETHER",
         size: { value: "Large", tall: false, long: true },
         movement: 3, // Web 12
@@ -693,6 +695,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         general: "MONSTER",
         race: "SPIDER",
         class: "SPIDER_HUGE",
+        animation: "SPIDER_HUGE",
         gender: "NIETHER",
         size: { value: "Medium", tall: false, long: true },
         movement: 18,
@@ -861,6 +864,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         general: "MONSTER",
         race: "SPIDER",
         class: "SPIDER_SWORD",
+        animation: "SPIDER_SWORD",
         gender: "NIETHER",
         size: { value: "Huge", tall: false, long: true },
         movement: 6, // Web 8
@@ -947,6 +951,7 @@ class SpiderFamily extends CreatureFamily<Spider> {
         general: "MONSTER",
         race: "SPIDER",
         class: "SPIDER_PHASE",
+        animation: "SPIDER_WRAITH",
         gender: "NIETHER",
         size: { value: "Large", tall: false, long: true },
         movement: 15, // Normal: 9, Web: 15

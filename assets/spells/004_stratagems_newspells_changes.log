@@ -1,0 +1,41 @@
+stratagems_newspells: 19 new, 7 changed, 0 removed
+
+NEW (19):
+  SPIN136;1;Innate;INNATE_FIEND_FIREBALL;Unholy Fireball
+  SPIN137;1;Innate;INNATE_FIEND_IMPROVED_INVISIBILITY;Improved Invisibility
+  SPIN138;1;Innate;INNATE_FIEND_TRUE_SIGHT;True Seeing
+  SPIN139;1;Innate;INNATE_FIEND_DOMINATION;Domination
+  SPIN140;1;Innate;INNATE_FIEND_RAY_OF_ENFEEBLEMENT;Ray of Enfeeblement
+  SPPR125;1;Priest;CLERIC_PROTECT_FROM_GOOD;Protection From Good
+  SPPR224;2;Priest;CLERIC_RESIST_ACID_AND_CORROSION;Resist Acid and Corrosion
+  SPPR431;4;Priest;CLERIC_PROTECTION_FROM_GOOD_10_FOOT;Protection From Good 10' Radius
+  SPPR741;7;Priest;CLERIC_FIENDISH_WARDING;Fiendish Warding
+  SPWI129;1;Wizard;WIZARD_STONEFIST;Stonefist
+  SPWI130;1;Wizard;WIZARD_ICE_KNIFE;Ice Knife
+  SPWI230;2;Wizard;WIZARD_MINOR_LIGHTNING_BOLT;Minor Lightning Bolt
+  SPWI231;2;Wizard;WIZARD_COMBUST;Combust
+  SPWI328;3;Wizard;WIZARD_TURN_PEBBLE_TO_BOULDER;Turn Pebble to Boulder
+  SPWI528;5;Wizard;WIZARD_TELEKINESIS;Telekinesis
+  SPWI821;8;Wizard;WIZARD_TELEKINETIC_STORM;Telekinetic Storm
+  SPWI904;9;Wizard;WIZARD_STORMBOLTS;Stormbolts
+  SPWI906;9;Wizard;WIZARD_VERIDONS_ICY_RAY;Veridon's Icy Ray
+  SPWI966;9;Wizard;WIZARD_CREATE_BONEGUARD;Create Boneguard
+
+CHANGED (7):
+  SPIN996   Death Gaze
+    level: 8 -> 1
+
+  SPIN997   Vampiric Touch
+    level: 8 -> 1
+
+  SPIN999   Paralyze
+    level: 8 -> 1
+    type: Wizard -> Innate
+
+  SPPR336   Favor of Ilmater -> Favor of the Martyr
+
+  SPPR527   Shield of Lathander -> Divine Protection
+
+  SPPR738   Greater Shield of Lathander -> Greater Divine Protection
+
+  SPPR739   Mist of Eldath -> Healing Mist

@@ -184,6 +184,10 @@ class EffectService {
       case EffectTypeEnum.Haste2:
         effect.parameter2 = `${effect.type}`;
         break;
+      case EffectTypeEnum.ModifyGlobalVariable:
+        effect.parameter1 = `${effect.value}`;
+        effect.parameter2 = `${effect.type}`;
+        break;
       case EffectTypeEnum.ProtectionFromOpcode:
         effect.parameter2 = `${effect.type}`;
         break;

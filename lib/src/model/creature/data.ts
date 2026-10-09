@@ -4,7 +4,7 @@ import { ImmunityName } from "../final/immunity";
 import { CreatureSize } from "../game-data/sizes";
 import { AlignIdentifier } from "../ids/align";
 import { AllegianceIdentifier } from "../ids/allegiance";
-import { AnimationIdentifiers } from "../ids/animate";
+import { AnimationIdentifiers, isModAnimation, ModAnimationIdentifiers } from "../ids/animate";
 import { ClassIdentifier } from "../ids/class";
 import { GenderIdentifier } from "../ids/gender";
 import { GeneralIdentifier } from "../ids/general";
@@ -63,8 +63,13 @@ export interface CreatureData {
   gender?: GenderIdentifier;
   ea?: AllegianceIdentifier;
   size?: { value: CreatureSize; tall: boolean; long: boolean };
-  animation?: AnimationIdentifiers;
-  modAnimation?: string;
+  /**
+   * A single animation, or a priority list: the first one present at install time wins. Mod
+   * animations (see MOD_ANIMATIONS) may be missing, so they go before a vanilla fallback - e.g.
+   * `["A7!GOLEM_FLESH_PST", "GOLEM_CLAY"]`. A list of only mod animations keeps the file's own
+   * animation when none of them is installed.
+   */
+  animation?: AnyAnimationIdentifier | AnyAnimationIdentifier[];
   metalColor?: number;
   minorColor?: number;
   majorColor?: number;
@@ -197,7 +202,36 @@ export interface MemorizedSpell {
   level?: number;
 }
 
-export type ScriptLocation = "Override" | "Class" | "Race" | "General" | "Default" | "None";
+export type AnyAnimationIdentifier = AnimationIdentifiers | ModAnimationIdentifiers;
+
+/**
+ * Resolves CreatureData.animation to one WeiDU value. Vanilla animations always exist, so the
+ * list stops at the first one; with no vanilla fallback, the current value (`LONG_AT 0x28`) is
+ * kept, so a missing mod never writes -1 - both patchCreature and a direct adjustment WRITE_LONG
+ * consume this value.
+ */
+export function getAnimationValue(
+  animation: AnyAnimationIdentifier | AnyAnimationIdentifier[] | undefined,
+): string | undefined {
+  if (animation === undefined) return;
+  const list = Array.isArray(animation) ? animation : [animation];
+  const vanillaIndex = list.findIndex((a) => !isModAnimation(a));
+  if (!list.length || (vanillaIndex !== -1 && vanillaIndex < list.length - 1)) {
+    throw new Error(
+      `animation [${list.join(", ")}]: a vanilla animation always exists, so it must be the last (and only vanilla) entry`,
+    );
+  }
+  if (vanillaIndex === -1) {
+    return weiduUtils.getFirstIdsValue("animate", list, "LONG_AT 0x28");
+  }
+  return weiduUtils.getFirstIdsValue(
+    "animate",
+    list.slice(0, -1),
+    weiduUtils.idsOfSymbol("animate", list[vanillaIndex]),
+  );
+}
+
+export type ScriptLocation ="Override" | "Class" | "Race" | "General" | "Default" | "None";
 
 export const DATA_DEFAULT: Partial<CreatureData> = {
   immunities: [],
@@ -509,12 +543,7 @@ export const CREATURE_DATA_FIELDS: {
   },
   {
     key: "animation",
-    value: (data) => weiduUtils.getIdsValue("animate", data.animation),
-    fields: [{ index: 0x28, size: 4 }],
-  },
-  {
-    key: "modAnimation",
-    value: (data) => weiduUtils.getIdsValue("animate", data.modAnimation),
+    value: (data) => getAnimationValue(data.animation),
     fields: [{ index: 0x28, size: 4 }],
   },
   {

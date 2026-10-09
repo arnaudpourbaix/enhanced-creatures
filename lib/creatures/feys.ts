@@ -1,7 +1,7 @@
 import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../config/common";
 import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../config/creatures";
 import { ITEMS, MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { BafExistingStringReference } from "../config/stringRef";
 import { createDimensionDoor } from "../spells/dimension_door";
 import { CommonProjectileFiles } from "../spells/projectiles";
@@ -136,6 +136,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["blind"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -182,6 +183,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["cold"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -237,6 +239,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["death"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -284,7 +287,7 @@ class Fey extends Creature {
         },
       ],
       ability: {
-        targets: [{ name: "EvilcutoffMaleHumanoids" }],
+        targets: [{ name: "MaleHumanoids" }],
         spell: {
           type: "force",
           remove: true,
@@ -325,6 +328,7 @@ class Fey extends Creature {
       options: {
         renew: 1,
       },
+      keywords: ["charm", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -361,7 +365,7 @@ class Fey extends Creature {
         spell: {
           type: "reallyForce",
           excludeStateChecks: ["STATE_INVISIBLE"],
-          selfTarget: true,
+          castOnSelf: true,
         },
         noRoundTimer: true,
         timer: { name: "BeguilingAura", value: 6 },
@@ -415,7 +419,7 @@ class Fey extends Creature {
         spell: {
           type: "force",
           remove: true,
-          selfTarget: true,
+          castOnSelf: true,
         },
         noRoundTimer: true,
       },
@@ -522,7 +526,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         {
           location: "init",
           type: "insertBefore",
-          statements: [...this.dryadWildernessAbilities(), ...this.irenicusCode()],
+          statements: [...this.dryadWildernessAbilities()],
         },
         this.noMeleeUntilForced(),
       ],
@@ -655,11 +659,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         {
           location: "init",
           type: "insertBefore",
-          statements: [
-            ...this.dryadWildernessAbilities(),
-            ...this.vaelasaFairyQueenCode(),
-            ...this.cloakwoodCode(),
-          ],
+          statements: [...this.dryadWildernessAbilities(), ...this.cloakwoodCode()],
         },
         this.noMeleeUntilForced(),
       ],
@@ -1195,6 +1195,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       level: 1,
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1425,6 +1426,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 1,
       },
+      keywords: ["charm"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1563,6 +1565,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     } satisfies BaseEffect;
     const technical = this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
+      keywords: ["area"],
       doc: false,
       type: SpellTypeEnum.Innate,
       icon: SPELLS.Priest.BlindingBeauty.file,
@@ -1608,6 +1611,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         renew: 1,
       },
+      keywords: ["blind", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1645,7 +1649,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       ability: {
         spell: {
           type: "reallyForce",
-          selfTarget: true,
+          castOnSelf: true,
           excludeStateChecks: ["STATE_BLIND"],
         },
         targets: [
@@ -1674,6 +1678,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createCharmSong() {
     const technical = this.addSpell({
       name: "monster.fey.ability.charmSong.name",
+      keywords: ["area"],
       doc: false,
       icon: SPELLS.Wizard.DireCharm.file,
       castingSound: "SIRIN05",
@@ -1713,6 +1718,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
+      keywords: ["charm", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1758,7 +1764,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       name: "monster.fey.ability.fogCloud.name",
       id: Ids.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
-      groups: ["cloud", "blindness"],
       icon: "SPWI204",
       castingSound: "CAS_M08",
       type: SpellTypeEnum.Innate,
@@ -1769,6 +1774,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       options: {
         removeInvisbilityOnCast: true,
       },
+      keywords: ["cloud", "blind", "area"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Ranged,
@@ -1824,6 +1830,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
       secondaryType: ItemAbilitySecondaryTypeEnum.Battleground,
       icon: SPELLS.Wizard.Feeblemind.file,
+      keywords: ["confusion"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -1991,111 +1998,6 @@ class FeyFamily extends CreatureFamily<Fey> {
             params: [this.spell(Ids.DetectTraps).file],
           },
           actionFactory.setGlobal(globals.Wilderness, 2),
-        ]),
-      },
-    ];
-  }
-
-  private irenicusCode(): ConditionalStatement[] {
-    const globals = {
-      MinscCharmed: "MinscCharmed",
-      HelpDryads: "HelpDryads",
-    };
-    return [
-      {
-        comment: "Irenicus' Dungeon specific code",
-        triggers: [
-          {
-            name: "Name",
-            params: ["Ulene", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          triggerFactory.global(globals.MinscCharmed, 1, "AR0602"),
-          triggerFactory.global(globals.HelpDryads, 0, "GLOBAL"),
-          { name: "See", params: ["Minsc"], negation: true },
-          { name: "Range", params: ["Minsc", 4], negation: true },
-        ],
-        responses: responseFactory.response([
-          {
-            name: "ActionOverride",
-            params: ["Minsc", "JumpToPoint([4069.1222])"],
-          },
-        ]),
-      },
-      {
-        triggers: [
-          {
-            name: "Name",
-            params: ["Ulene", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          triggerFactory.global(globals.MinscCharmed, 1, "AR0602"),
-          triggerFactory.global(globals.HelpDryads, 0, "GLOBAL"),
-          { name: "See", params: ["Minsc"] },
-          { name: "Range", params: ["Minsc", 4], negation: true },
-        ],
-        responses: responseFactory.response([
-          {
-            name: "ActionOverride",
-            params: ["Minsc", `MoveToObject("Ulene")`],
-          },
-        ]),
-      },
-    ];
-  }
-
-  private vaelasaFairyQueenCode(): ConditionalStatement[] {
-    const globals = {
-      SummonDryads: "SummonDryads",
-      VaelasaHostile: "VaelasaHostile",
-    };
-    return [
-      {
-        comment: "Vaelasa, the Fairy Queen",
-        triggers: [
-          {
-            name: "Name",
-            params: ["VAELASA", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR1200"], // Windsper Hills
-          },
-          triggerFactory.global(globals.SummonDryads, 1, "AR1200"),
-        ],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(globals.SummonDryads, 2, "AR1200"),
-          {
-            name: "StartCutSceneMode",
-          },
-          {
-            name: "StartCutScene",
-            params: ["Cut23a"],
-          },
-        ]),
-      },
-      {
-        triggers: [
-          {
-            name: "Name",
-            params: ["VAELASA", ScriptTarget.myself],
-          },
-          {
-            name: "AreaCheck",
-            params: ["AR0602"], // Irenicus' Dungeon, first level
-          },
-          { name: "AttackedBy", params: ["GOODCUTOFF", "DEFAULT"] },
-          triggerFactory.global(globals.VaelasaHostile, 0, "GLOBAL"),
-        ],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(globals.VaelasaHostile, 1, "GLOBAL"),
-          { name: "Enemy" },
         ]),
       },
     ];

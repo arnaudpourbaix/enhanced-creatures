@@ -12,6 +12,17 @@ THEN
 		SetGlobal("JA_INIT","LOCALS",1)
 END
 
+// Disable spellcasting in some areas
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	OR(2)
+		AreaCheck("AR3004")
+		AreaCheck("AR3008")
+THEN
+	RESPONSE #100
+		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
 // Rest (reset everything and heal if applicable)
 IF
 	Global("JA_INIT","LOCALS",1)
@@ -22,57 +33,6 @@ THEN
 		SetGlobal("JA_INIT","LOCALS",0)
 		Rest()
 		ApplySpell(Myself,RESTORE_FULL_HEALTH)
-END
-
-// Precast Stoneskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPWI408")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPWI408",Myself)
-		RemoveSpellRES("SPWI408")
-		Continue()
-END
-
-// Precast AnimateDead
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR301")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR301",Myself)
-		RemoveSpellRES("SPPR301")
-		Continue()
-END
-
-// Precast AnimateSkeletonWarrior
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR619")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR619",Myself)
-		RemoveSpellRES("SPPR619")
-		Continue()
-END
-
-// Precast Ironskin
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-	HaveSpellRES("SPPR506")
-THEN
-	RESPONSE #100
-		ReallyForceSpellRES("SPPR506",Myself)
-		RemoveSpellRES("SPPR506")
-		Continue()
-END
-
-IF
-	Global("JA_PRECAST_LONG","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
 END
 
 // Turn hostile if attacked
@@ -111,16 +71,17 @@ END
 // Shouts every 3 rounds
 IF
 	Global("JA_COMBAT","LOCALS",1)
-	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
 		Shout(99)
-		SetGlobalTimer("JA_HELP","LOCALS",18)
+		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
 // React to shouts
 IF
 	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.FAIRY],99)
 	InMyArea([EVILCUTOFF.0.FAIRY])
 THEN
@@ -131,12 +92,48 @@ END
 
 IF
 	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
 	Heard([EVILCUTOFF.0.FAIRY],99)
 	InMyArea([EVILCUTOFF.0.FAIRY])
-	!See([GOODCUTOFF])
+	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
 		MoveToObject(LastHeardBy(Myself))
+END
+
+// Help every 3 rounds
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	!GlobalTimerNotExpired("JA_HELP","LOCALS")
+THEN
+	RESPONSE #100
+		Help()
+		SetGlobalTimer("JA_HELP","LOCALS",18)
+END
+
+// React to help
+IF
+	Global("JA_COMBAT","LOCALS",0)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_COMBAT","LOCALS",1)
+		Help()
+		MoveToObject(LastHelp(Myself))
+END
+
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	Allegiance(Myself,ENEMY)
+	Help([ENEMY])
+	InMyArea([ENEMY])
+	!See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastHelp(Myself))
 END
 
 // Do nothing if...
@@ -185,6 +182,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -200,6 +200,9 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -215,6 +218,61 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("BeguilingAura","LOCALS",6)
+		ReallyForceSpellRES("jas1m72",Myself)
+END
+
+// Beguiling Aura
+IF
+	!GlobalTimerNotExpired("BeguilingAura","LOCALS")
+	HaveSpellRES("jas1m72")
+	!StateCheck(NearestEnemyOf(Myself),STATE_INVISIBLE)
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("BeguilingAura","LOCALS",6)
+		ReallyForceSpellRES("jas1m72",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("BeguilingAura","LOCALS")
+	HaveSpellRES("jas1m72")
+	!StateCheck(SecondNearestEnemyOf(Myself),STATE_INVISIBLE)
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("BeguilingAura","LOCALS",6)
+		ReallyForceSpellRES("jas1m72",Myself)
+END
+
+IF
+	!GlobalTimerNotExpired("BeguilingAura","LOCALS")
+	HaveSpellRES("jas1m72")
+	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_INVISIBLE)
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
+	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("BeguilingAura","LOCALS",6)
@@ -419,15 +477,17 @@ END
 // Drowning Kiss
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck([EVILCUTOFF.HUMANOID.0.0.0.MALE],STATE_CHARMED)
-	!StateCheck([EVILCUTOFF.HUMANOID.0.0.0.MALE],STATE_HELPLESS)
+	StateCheck(NearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(NearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See([EVILCUTOFF.HUMANOID.0.0.0.MALE])
+	See(NearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -440,15 +500,17 @@ END
 
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck(SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
-	!StateCheck(SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
+	StateCheck(SecondNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(SecondNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]))
+	See(SecondNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -461,15 +523,17 @@ END
 
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck(ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
-	!StateCheck(ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
+	StateCheck(ThirdNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(ThirdNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]))
+	See(ThirdNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -482,15 +546,17 @@ END
 
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck(FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
-	!StateCheck(FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
+	StateCheck(FourthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(FourthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]))
+	See(FourthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -503,15 +569,17 @@ END
 
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck(FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
-	!StateCheck(FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
+	StateCheck(FifthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(FifthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]))
+	See(FifthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -524,15 +592,17 @@ END
 
 IF
 	HaveSpellRES("jas2m72")
-	StateCheck(SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
-	!StateCheck(SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
+	StateCheck(SixthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_CHARMED)
+	!StateCheck(SixthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]),STATE_HELPLESS)
 	RandomNumGT(801,200)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearest([EVILCUTOFF.HUMANOID.0.0.0.MALE]))
+	See(SixthNearestEnemyOfType([0.HUMANOID.0.0.0.MALE]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -553,6 +623,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -570,6 +641,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -587,6 +659,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -604,6 +677,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -621,6 +695,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -638,6 +713,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -655,6 +731,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -672,6 +749,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -689,6 +767,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -706,6 +785,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTCOLD)
 	Range(LastSeenBy(Myself),30)
 THEN
 	RESPONSE #100
@@ -735,7 +815,7 @@ IF
 	!StateCheck(Player1,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player1)
 END
 
 IF
@@ -750,7 +830,7 @@ IF
 	!StateCheck(Player2,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player2)
 END
 
 IF
@@ -765,7 +845,7 @@ IF
 	!StateCheck(Player3,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player3)
 END
 
 IF
@@ -780,7 +860,7 @@ IF
 	!StateCheck(Player4,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player4)
 END
 
 IF
@@ -795,7 +875,7 @@ IF
 	!StateCheck(Player5,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player5)
 END
 
 IF
@@ -810,7 +890,7 @@ IF
 	!StateCheck(Player6,STATE_REALLY_DEAD)
 THEN
 	RESPONSE #100
-		MoveToObject(LastSeenBy(Myself))
+		MoveToObject(Player6)
 END
 
 // Track last seen enemy if allegiance is GOODCUTOFF

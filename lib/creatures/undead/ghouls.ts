@@ -37,6 +37,7 @@ function ghoulTouch(cre: Undead) {
     description: "monster.undead.ability.ghoulTouch.description",
     id: Ids.GhoulTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -74,6 +75,7 @@ function ghastTouch(cre: Undead) {
     description: "monster.undead.ability.ghastTouch.description",
     id: Ids.GhastTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -103,6 +105,7 @@ function ghoulLordTouch(cre: Undead) {
     description: "monster.undead.ability.ghoulLordTouch.description",
     id: Ids.GhoulLordTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -136,6 +139,7 @@ function carrionStench(cre: Undead) {
   };
   return cre.addSpell({
     name: "monster.undead.ability.carrionStench.name",
+    keywords: ["area"],
     description: "monster.undead.ability.carrionStench.description",
     id: Ids.CarrionStench,
     options: { renew: 1 },
@@ -180,7 +184,7 @@ function carrionStench(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
       range: 5,
     },
@@ -197,6 +201,7 @@ function ghoulRottingDisease(cre: Undead) {
     description: "monster.undead.ability.ghoulRottingDisease.description",
     id: Ids.GhoulRottingDisease,
     secondaryType: "Disease",
+    keywords: ["disease"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -246,6 +251,7 @@ function auraOfEvil(cre: Undead) {
   };
   return cre.addSpell({
     name: "monster.undead.ability.auraOfEvil.name",
+    keywords: ["area"],
     description: "monster.undead.ability.auraOfEvil.description",
     id: Ids.AuraOfEvil,
     options: { renew: 1 },
@@ -297,7 +303,7 @@ function auraOfEvil(cre: Undead) {
       ],
       spell: {
         type: "reallyForce",
-        selfTarget: true,
+        castOnSelf: true,
       },
     },
   });
@@ -377,6 +383,7 @@ export function ghast(family: UndeadFamily): Undead {
       general: "UNDEAD",
       race: "GHOUL",
       class: "GHOUL_GHAST",
+      animation: "GHAST",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 15,

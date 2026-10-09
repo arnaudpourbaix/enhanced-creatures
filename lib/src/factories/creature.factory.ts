@@ -159,9 +159,9 @@ class CreatureFactory {
       logService.warn(`Family doesn't match: ${creature.family} <-> ${family}`);
       valid = false;
     }
-    if (!creature.files.length) {
-      logService.warn(`No files defined`);
-      valid = false;
+    const hasFiles = creature.files.length > 0;
+    if (!hasFiles) {
+      logService.info(`No creature files yet (no validated creatures.csv row), not generated`);
     }
     const existingFiles = creature.files.filter((f) =>
       State.creatures.some((c) =>
@@ -188,7 +188,7 @@ class CreatureFactory {
       logService.info(`No behavior defined, using defaults`);
       this.setBehavior(creature, {});
     }
-    if (valid) State.creatures.push(creature);
+    if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
     this.resolveAbilities(creature);
     creatureService.checkSpellAbilities(creature);
@@ -200,8 +200,10 @@ class CreatureFactory {
     creatureService.checkAgainstCsv(creature);
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
-    creature.valid = valid && dialogValid && adjustmentFilesValid;
-    if (!creature.valid) {
+    const otherwiseValid = valid && dialogValid && adjustmentFilesValid;
+    creature.valid = otherwiseValid && hasFiles;
+    creature.noFiles = otherwiseValid && !hasFiles;
+    if (!otherwiseValid) {
       logService.warn(`${translationService.from(creature.name)} is not valid, please fix it !`);
     }
   }

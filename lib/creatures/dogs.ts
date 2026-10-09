@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
@@ -26,6 +26,7 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { PartialSpellHeader, WeaponCastSpell } from "../src/model/spell-item/spell-item";
+import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -141,6 +142,7 @@ class Dog extends Creature {
         },
         range: 10,
       },
+      keywords: ["fire", "area"],
       headers,
     });
   }
@@ -199,7 +201,10 @@ class DogFamily extends CreatureFamily<Dog> {
       },
     });
     wild.createJaws({ diceThrown: 1, diceSize: 4 });
-    wild.setBehavior({ dialog: ["BDDOGW01"] });
+    wild.setBehavior({
+      dialog: ["BDDOGW01"],
+      customCodes: [customCodes.wildAnimalsTurningHostile],
+    });
     wild.setAdjustments([
       { files: ["BDDOG"], data: { class: "INNOCENT" } },
       { files: ["BDDEADOG"], data: { script: { location: "None" } } },
@@ -244,7 +249,11 @@ class DogFamily extends CreatureFamily<Dog> {
       { files: ["UBNIMDOG", "L#NIDOG"], data: { script: { location: "None" } } },
       { files: ["FSDOG", "L#2EDDOG"], data: { level1: 3 } },
       { files: ["GPDOG1"], data: { level1: 4 } },
+      { files: ["L#NIDOG"], data: { animation: "DOG_WAR" } },
     ]);
+    war.setBehavior({
+      customCodes: [customCodes.wildAnimalsTurningHostile],
+    });
     return war;
   }
 

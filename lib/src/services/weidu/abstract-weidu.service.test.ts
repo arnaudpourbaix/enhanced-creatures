@@ -10,12 +10,7 @@ interface AbstractWeiduServiceProtected {
     files: string[],
     exclude: boolean,
   ): void;
-  executeCodeWithIncludedFiles(
-    lines: CodeLine[],
-    tab: number,
-    code: string,
-    files: string[],
-  ): void;
+  executeCodeWithIncludedFiles(lines: CodeLine[], tab: number, code: string, files: string[]): void;
 }
 
 const service = weiduItemService as unknown as AbstractWeiduServiceProtected;
@@ -33,16 +28,8 @@ describe("addConditionalSourceRes (protected)", () => {
 
   it("accepts an array of code strings", () => {
     const lines: CodeLine[] = [];
-    service.addConditionalSourceRes(
-      lines,
-      ["CODE1", "CODE2"],
-      0,
-      ["FILE1"],
-      false,
-    );
-    expect(codes(lines)).toEqual(
-      expect.arrayContaining(["CODE1", "CODE2"]),
-    );
+    service.addConditionalSourceRes(lines, ["CODE1", "CODE2"], 0, ["FILE1"], false);
+    expect(codes(lines)).toEqual(expect.arrayContaining(["CODE1", "CODE2"]));
   });
 });
 

@@ -1,5 +1,7 @@
 LAM load_secondary_types
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~P#WOLFA.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wolf/assets/P#WOLFA.BAF~
+END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/11.tpa" // Wolf
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/13.tpa" // Dire Wolf
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/16.tpa" // Dread Wolf

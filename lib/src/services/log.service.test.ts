@@ -176,4 +176,74 @@ describe("LogService", () => {
     logService.init();
     expect(logService.hasErrors()).toBe(false);
   });
+
+  describe("deferred sections", () => {
+    const ogre = {};
+    const troll = {};
+
+    function captureCreature(key: object, title: string, line: string) {
+      logService.beginCapture();
+      logService.header(title);
+      logService.log(line);
+      logService.commitCapture(key);
+    }
+
+    it("writes nothing until flushSections", () => {
+      logService.init();
+      logService.beginDeferred();
+      captureCreature(ogre, CREATING_OGRE, "created");
+      expect(readLog()).toBe("");
+      logService.flushSections();
+      expect(readLog()).toBe(`\n${CREATING_OGRE}\n    created\n`);
+    });
+
+    it("withSection appends to the key's committed section, not the last one", () => {
+      logService.init();
+      logService.beginDeferred();
+      captureCreature(ogre, CREATING_OGRE, "created");
+      captureCreature(troll, "Creating Troll...", "created");
+      logService.withSection(ogre, "unused", () => logService.error("failed to generate"));
+      logService.flushSections();
+      expect(readLog()).toBe(
+        `\n${CREATING_OGRE}\n    created\n    error: failed to generate\n` +
+          "\nCreating Troll...\n    created\n",
+      );
+    });
+
+    it("writes outside withSection keep their place instead of joining a keyed section", () => {
+      logService.init();
+      logService.beginDeferred();
+      logService.header("Creating Ogre family...");
+      captureCreature(ogre, CREATING_OGRE, "created");
+      logService.log("family code");
+      logService.withSection(ogre, "unused", () => logService.log("generated"));
+      logService.flushSections();
+      expect(readLog()).toBe(
+        `\nCreating Ogre family...\n\n${CREATING_OGRE}\n    created\n    generated\n    family code\n`,
+      );
+    });
+
+    it("withSection on an unknown key heads a new section with its title", () => {
+      logService.init();
+      logService.beginDeferred();
+      logService.withSection(ogre, "Generating Ogre...", () => logService.log("generated"));
+      logService.flushSections();
+      expect(readLog()).toBe("\nGenerating Ogre...\n    generated\n");
+    });
+
+    it("drops a title-only section nothing was written to", () => {
+      logService.init();
+      logService.beginDeferred();
+      logService.withSection(ogre, "Generating Ogre...", () => undefined);
+      logService.flushSections();
+      expect(readLog()).toBe("");
+    });
+
+    it("withSection writes in place when not deferring", () => {
+      logService.init();
+      logService.header(CREATING_OGRE);
+      logService.withSection(troll, "unused", () => logService.log("generated"));
+      expect(readLog()).toBe(`\n${CREATING_OGRE}\n    generated\n`);
+    });
+  });
 });

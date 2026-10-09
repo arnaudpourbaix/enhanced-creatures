@@ -1,7 +1,6 @@
 generator.log
 copy.log
 release.log
-check-monsters.log
 coverage
 dist
 node_modules
@@ -12,3 +11,4 @@ paths.local.json
 .worktrees
 .claude/worktrees/
 ~$creatures.xlsx
+dashboard.log

@@ -5,7 +5,7 @@
  */
 import { SPELL_STATES } from "../../config/common";
 import { ITEMS, MonsterItemIconEnum } from "../../config/item";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { createConeOfCold } from "../../spells/cone_of_cold";
 import effectFactory from "../../src/factories/effect.factory";
 import { ScriptTarget } from "../../src/model/constants";
@@ -217,7 +217,7 @@ export class Ogre extends Creature {
         spell: {
           type: "noDec",
           excludeSpellStates: [SPELL_STATES.flying],
-          selfTarget: true,
+          castOnSelf: true,
         },
         triggers: [
           { name: "Detect", params: ["NearestEnemyOf"] },

@@ -1256,8 +1256,9 @@ describe("getCreatureSpells", () => {
     );
     // Each level panel holds exactly its own three entries.
     const level2Panel =
-      /id="m79-abilitylevel-2">((?:(?!<div class="spellbook-tab-panel).)*)/s.exec(template.text)?.[1] ??
-      "";
+      /id="m79-abilitylevel-2">((?:(?!<div class="spellbook-tab-panel).)*)/s.exec(
+        template.text,
+      )?.[1] ?? "";
     expect(level2Panel.match(/ability-entry/g)).toHaveLength(3);
   });
 });
@@ -1313,6 +1314,26 @@ describe("getCreatureSpellbooks", () => {
 
   it("skips a spellbook variant with no matching abilities", () => {
     const creature = fakeCreatureForSpells(
+      { abilities: [fakeAbility("SPPR101"), fakeAbility("SPPR102")] },
+      {
+        spellbooks: [
+          { mod: "FaithsAndPowers", memorized: [{ file: "SPPR101", memorizedCount: 2 }] },
+          { mod: "SpellRevisions", memorized: [{ file: "SPPR102", memorizedCount: 5 }] },
+          { mod: "Vanilla", memorized: [] },
+        ],
+      },
+    );
+    const template = { text: "{{spellbooks}}" };
+
+    documentationService.getCreatureSpellbooks(template, creature);
+
+    expect(template.text).toContain("Faiths & Powers");
+    expect(template.text).toContain("Spell Revisions");
+    expect(template.text).not.toContain("Vanilla");
+  });
+
+  it("renders the sole surviving spellbook's spells directly, without a tab or the mod's name", () => {
+    const creature = fakeCreatureForSpells(
       { abilities: [fakeAbility("SPPR101")] },
       {
         spellbooks: [
@@ -1325,8 +1346,10 @@ describe("getCreatureSpellbooks", () => {
 
     documentationService.getCreatureSpellbooks(template, creature);
 
-    expect(template.text).toContain("Faiths & Powers");
-    expect(template.text).not.toContain("Vanilla");
+    expect(template.text).toContain("2/day");
+    expect(template.text).not.toContain("Faiths & Powers");
+    expect(template.text).not.toContain("spellbook-tab-button");
+    expect(template.text).not.toContain("spellbook-tabs");
   });
 
   it("renders nothing when the creature has no spellbooks", () => {
@@ -1677,6 +1700,58 @@ describe("getCreatureHeader", () => {
 
     expect(template.text).toContain(
       '<h4 class="adjustment-card-title">Young Treant (SOMEFILE)</h4>',
+    );
+  });
+
+  it("prefers an adjustment's own stringRef name over the global creatures.csv lookup", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Some Csv Name");
+    const stringRef = translationService.addCustomTranslation(["Bone Guardian"]);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["SOMEFILE"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { xpv: 100 },
+        stringRef,
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">Bone Guardian (SOMEFILE)</h4>',
+    );
+  });
+
+  // Regression: the "resolved name equals the creature's own name" collapse (see the test above
+  // this one for the csv/newFiles case it's meant for) must not swallow an explicit adjustment
+  // stringRef that happens to match the base creature's name - that's the exact case a real
+  // adjustment uses to correct a misleading creatures.csv name back to the base creature's own
+  // name (lib/creatures/undead/skeletons.ts's C0DESUM1-3 stringRef "monster.undead.name.skeleton",
+  // overriding the csv's "Skeleton Warrior" back to plain "Skeleton").
+  it("still shows an adjustment's own stringRef name even when it matches the creature's own name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue("Some Csv Name");
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["SOMEFILE"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        // Same translation key as the creature's own name (see fakeCreatureForAddCreature).
+        stringRef: "common.potion.use",
+        data: { xpv: 100 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature);
+
+    expect(template.text).toContain(
+      '<h4 class="adjustment-card-title">*quaffs a potion* (SOMEFILE)</h4>',
     );
   });
 

@@ -36,6 +36,7 @@ interface StatementBuilderServicePrivate {
   handlePanic(p: Pick<HandlerParams, "statements" | "creature">): void;
   destroyUponDeath(p: Pick<HandlerParams, "statements" | "options">): void;
   init(p: Pick<HandlerParams, "statements" | "options">): void;
+  disableSpellcasting(p: Pick<HandlerParams, "statements">): void;
   rest(p: HandlerParams): void;
   turnHostile(p: HandlerParams): void;
   detectCombat(p: Pick<HandlerParams, "statements">): void;
@@ -104,7 +105,17 @@ function fakeCreature(
     attack?: Partial<CreatureAttack>;
   } = {},
 ): Creature {
-  const data = { immunities: [], race: "HUMAN", ...overrides.data };
+  const data = {
+    immunities: [],
+    race: "HUMAN",
+    // Mirrors DATA_DEFAULT.spells (data.ts) - CreatureData.spells is a required field in real
+    // Creature objects (filled in by creature.factory.ts before this point), and precastSpells
+    // reads creature.data.spells.memorized unconditionally, so a fake creature needs the same
+    // shape or it crashes with "Cannot read properties of undefined" for any test that doesn't
+    // explicitly override `data.spells` itself.
+    spells: { memorized: [], removeKnown: true, removeMemorized: true },
+    ...overrides.data,
+  };
   return {
     data,
     adjustments: [],
@@ -263,6 +274,62 @@ describe("init (private)", () => {
   });
 });
 
+describe("disableSpellcasting (private)", () => {
+  const areas = GLOBAL_CONFIG.disableSpellcastingAreas;
+  const withAreas = (value: string[], fn: () => void) => {
+    GLOBAL_CONFIG.disableSpellcastingAreas = value;
+    try {
+      fn();
+    } finally {
+      GLOBAL_CONFIG.disableSpellcastingAreas = areas;
+    }
+  };
+
+  it("adds nothing without any configured area", () => {
+    withAreas([], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements).toEqual([]);
+    });
+  });
+
+  it("uses a single AreaCheck (no Or) for one area", () => {
+    withAreas(["AR0001"], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements[0].triggers[1]).toEqual({ name: "AreaCheck", params: ["AR0001"] });
+    });
+  });
+
+  it("sets the disable global once in any configured area", () => {
+    withAreas(["AR0001", "AR0002"], () => {
+      const statements: Statements = [];
+      service.disableSpellcasting({ statements });
+      expect(statements).toHaveLength(1);
+      expect(statements[0].triggers).toEqual([
+        {
+          name: "Global",
+          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+          negation: false,
+        },
+        {
+          name: "Or",
+          triggers: [
+            { name: "AreaCheck", params: ["AR0001"] },
+            { name: "AreaCheck", params: ["AR0002"] },
+          ],
+        },
+      ]);
+      expect(statements[0].responses[0].actions).toEqual([
+        {
+          name: "SetGlobal",
+          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 1],
+        },
+      ]);
+    });
+  });
+});
+
 describe("rest (private)", () => {
   it("adds nothing for a summon", () => {
     const statements: Statements = [];
@@ -401,6 +468,22 @@ describe("noActionOutsideOfCombat (private)", () => {
     service.noActionOutsideOfCombat({ statements, options: options(true) });
     expect(statements[0].triggers[0]).toEqual({ name: "ActionListEmpty" });
     expect(statements[1].triggers[0]).toEqual({ name: "ActionListEmpty" });
+  });
+
+  it("keeps allies idle in a regular script, but lets an allied summon act", () => {
+    const notEnemy = {
+      name: "Allegiance",
+      params: ["Myself", "EVILCUTOFF"],
+      negation: true,
+    };
+    const idleIf = (summon: boolean) => {
+      const statements: Statements = [];
+      service.noActionOutsideOfCombat({ statements, options: options(summon) });
+      const or = statements[0].triggers.find((t) => t.name === "Or");
+      return or && "triggers" in or ? or.triggers : [];
+    };
+    expect(idleIf(false)).toContainEqual(notEnemy);
+    expect(idleIf(true)).not.toContainEqual(notEnemy);
   });
 });
 
@@ -643,6 +726,51 @@ describe("attackTargetWithStatuses (private)", () => {
     expect(statements[0].comment).toBe("Attack Able enemy");
   });
 
+  describe("preferred statuses (preferWithin)", () => {
+    const preferRange = {
+      name: "Range",
+      params: ["LastSeenBy", GLOBAL_CONFIG.bafConstants.preferRange],
+    };
+    const attackStatement = (melee: boolean, status: TargetStatusName) => {
+      const statements: Statements = [];
+      service.attackTargetWithStatuses(
+        statements,
+        fakeCreature({ attack: { melee, ranged: !melee, selectWeapons: [] } }),
+        options(),
+        "NearestEnemies",
+        [status],
+      );
+      return statements[statements.length - 1];
+    };
+
+    it("only prefers a target within preferRange for a melee attacker", () => {
+      expect(attackStatement(true, "Slowed").triggers).toContainEqual(preferRange);
+      expect(attackStatement(false, "Slowed").triggers).not.toContainEqual(preferRange);
+    });
+
+    it("doesn't limit a regular status", () => {
+      expect(attackStatement(true, "Held").triggers).not.toContainEqual(preferRange);
+    });
+
+    it("only attacks a nearby helpless target while no able enemy is in melee range", () => {
+      const triggers = attackStatement(true, "HeldNearby").triggers;
+      expect(triggers).toContainEqual(preferRange);
+      expect(triggers).toContainEqual(
+        expect.objectContaining({
+          name: "Or",
+          triggers: expect.arrayContaining([
+            {
+              name: "Range",
+              params: ["NearestEnemyOf(Myself)", GLOBAL_CONFIG.bafConstants.meleeRange],
+              negation: true,
+            },
+            { name: "CheckStatGT", params: ["NearestEnemyOf(Myself)", 0, "HELD"], negation: false },
+          ]),
+        }),
+      );
+    });
+  });
+
   it("inserts weapon-selection statements between the guard and attack blocks when melee+ranged are both available and no explicit selectWeapons is configured", () => {
     const statements: Statements = [];
     service.attackTargetWithStatuses(
@@ -758,14 +886,38 @@ describe("potions (private)", () => {
 describe("precastLongDurationSpells / precastMidDurationSpells (private)", () => {
   it("precasts every configured long-duration spell plus a trailing reset statement", () => {
     const statements: Statements = [];
-    service.precastLongDurationSpells({ statements, options: options() });
-    // Currently Stoneskin (SPWI), AnimateDead, AnimateSkeletonWarrior and Ironskin (SPPR) are "long" duration.
+    // Currently Stoneskin (SPWI408), AnimateDead (SPPR301), AnimateSkeletonWarrior (SPPR619) and
+    // Ironskin (SPPR506) are "long" duration - precastSpells only emits a statement for a spell
+    // this creature actually has memorized, so all four need to be listed here.
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [
+            { file: "SPWI408" },
+            { file: "SPPR301" },
+            { file: "SPPR619" },
+            { file: "SPPR506" },
+          ],
+        },
+      },
+    });
+    service.precastLongDurationSpells({ statements, creature, options: options() });
     expect(statements).toHaveLength(5);
     expect(statements[0].comment).toBe("Precast Stoneskin");
     expect(statements[1].comment).toBe("Precast AnimateDead");
     expect(statements[2].comment).toBe("Precast AnimateSkeletonWarrior");
     expect(statements[3].comment).toBe("Precast Ironskin");
     expect(statements[4].comment).toBeUndefined();
+    expect(statements[0].triggers).toContainEqual({
+      name: "Global",
+      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      negation: false,
+    });
+    expect(statements[4].triggers).not.toContainEqual(
+      expect.objectContaining({
+        params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      }),
+    );
   });
 
   it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
@@ -779,7 +931,10 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = true;
     try {
       const statements: Statements = [];
-      service.precastMidDurationSpells({ statements, options: options() });
+      // Blur (SPWI201) is "mid" duration - needs to be memorized for precastSpells to emit
+      // anything for it.
+      const creature = fakeCreature({ data: { spells: { memorized: [{ file: "SPWI201" }] } } });
+      service.precastMidDurationSpells({ statements, creature, options: options() });
       expect(statements.length).toBeGreaterThan(0);
     } finally {
       GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = false;
@@ -847,6 +1002,42 @@ describe("creatureSelfAbility (private)", () => {
       params: ["Myself", "STATE_SILENCED"],
       negation: true,
     });
+  });
+
+  it.each<[string, Partial<CreatureAbility>, boolean]>([
+    ["a wizard spell", { actions: [{ name: "SpellRES", params: ["SPWI112", "Myself"] }] }, true],
+    [
+      "a priest spell by id",
+      { actions: [{ name: "Spell", params: ["Myself", "CLERIC_BLESS"] }] },
+      true,
+    ],
+    ["an innate", { actions: [{ name: "ForceSpellRES", params: ["SPIN937", "Myself"] }] }, false],
+    [
+      "an unknown (created innate) resource",
+      { actions: [{ name: "SpellRES", params: ["jas0zz", "Myself"] }], requireVocal: true },
+      false,
+    ],
+    ["a non-spell action", {}, false],
+    [
+      "an innate explicitly marked as spellcasting",
+      { actions: [{ name: "SpellRES", params: ["SPIN937", "Myself"] }], spellcasting: true },
+      true,
+    ],
+    [
+      "a wizard spell explicitly marked as not spellcasting",
+      { actions: [{ name: "SpellRES", params: ["SPWI112", "Myself"] }], spellcasting: false },
+      false,
+    ],
+  ])("disable spellcasting check for %s", (_, overrides, expected) => {
+    const disableCheck = {
+      name: "Global",
+      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      negation: false,
+    };
+    const statements: Statements = [];
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(overrides), options());
+    if (expected) expect(statements[0].triggers).toContainEqual(disableCheck);
+    else expect(statements[0].triggers).not.toContainEqual(disableCheck);
   });
 
   it("adds a polymorph check when the creature can polymorph and the ability doesn't allow it", () => {
@@ -948,28 +1139,6 @@ describe("creatureTargetAbility (private)", () => {
       params: ["LastSeenBy", 20],
     });
   });
-
-  it("adds an Allegiance(Myself,ENEMY) trigger when the resolved target list requires an allegiance check (no real target list currently sets this)", () => {
-    const spy = vi
-      .spyOn(targetService, "getTargetFromAbility")
-      .mockReturnValueOnce({ targets: ["PC"], allegianceCheck: true });
-    try {
-      const statements: Statements = [];
-      service.creatureTargetAbility(
-        statements,
-        fakeCreature(),
-        fakeAbility(),
-        { name: "Players" },
-        options(),
-      );
-      expect(statements[0].triggers).toContainEqual({
-        name: "Allegiance",
-        params: ["Myself", "ENEMY"],
-      });
-    } finally {
-      spy.mockRestore();
-    }
-  });
 });
 
 describe("getAdditionals (private)", () => {
@@ -1006,6 +1175,75 @@ describe("parseAbilities / creatureAbilities (private)", () => {
       fakeAbility({ targets: [{ name: "Players" }] }),
     ]);
     expect(statements).toHaveLength(6);
+  });
+
+  // Disabled along with the feature (see creatureTargetsAbility)
+  it.skip("makes the target's nearest allies run away before an area ability, except in its close-range fallback", () => {
+    const statements: Statements = [];
+    service.parseAbilities(statements, fakeCreature(), options(), [
+      fakeAbility({
+        targets: [{ name: "Players" }],
+        minRange: 15,
+        alliesCheck: {
+          range: 15,
+          count: 2,
+          safeIf: [{ name: "CheckStatGT", params: ["{Target}", 99, "RESISTFIRE"] }],
+        },
+      }),
+    ]);
+    expect(statements).toHaveLength(12);
+    const runAway = "RunAwayFromNoInterruptNoLeaveArea(NearestEnemyOf(Myself),15)";
+    expect(statements[0].responses[0].actions).toEqual([
+      { name: "SetGlobalTimer", params: ["JA_ROUND", "LOCALS", 6] },
+      { name: "ActionOverride", params: ["NearestEnemyOf(LastSeenBy(Myself))", runAway] },
+      { name: "ActionOverride", params: ["SecondNearestEnemyOf(LastSeenBy(Myself))", runAway] },
+      { name: "Shout", params: [1] },
+    ]);
+    expect(statements[6].responses[0].actions).toEqual([
+      { name: "SetGlobalTimer", params: ["JA_ROUND", "LOCALS", 6] },
+      { name: "Shout", params: [1] },
+    ]);
+  });
+
+  describe("area spells: a first pass on targets with company, then the lone-target fallback", () => {
+    const enemyNear = (range: number) => ({
+      name: "TriggerOverride",
+      object: "LastSeenBy(Myself)",
+      trigger: { name: "Range", params: ["NearestAllyOf(Myself)", range] },
+      negation: false,
+      exceptMyself: true,
+    });
+    const run = (overrides: Parameters<typeof fakeAbility>[0]) => {
+      const statements: Statements = [];
+      service.parseAbilities(statements, fakeCreature(), options(), [
+        fakeAbility({ targets: [{ name: "Players" }], isSpell: true, ...overrides }),
+      ]);
+      return statements;
+    };
+
+    it("doubles the target passes, the first one requiring another enemy near the target", () => {
+      const statements = run({ keywords: ["area"] });
+      expect(statements).toHaveLength(12);
+      expect(statements[0].triggers).toContainEqual(
+        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
+      );
+      expect(statements[6].triggers).not.toContainEqual(
+        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
+      );
+    });
+
+    it("uses the allies check radius when there is one", () => {
+      const statements = run({ keywords: ["area"], alliesCheck: { range: 15, safeIf: [] } });
+      expect(statements[0].triggers).toContainEqual(enemyNear(15));
+    });
+
+    it.each([
+      ["a non-area spell", { keywords: [] }],
+      ["a spell centered on its caster", { keywords: ["area", "castOnSelf"] }],
+      ["a non-spell ability", { keywords: ["area"], isSpell: false }],
+    ] as const)("adds no first pass for %s", (_, overrides) => {
+      expect(run({ ...overrides, keywords: [...overrides.keywords] })).toHaveLength(6);
+    });
   });
 
   it("creatureAbilities delegates to behavior.abilities", () => {
@@ -1195,24 +1433,6 @@ describe("processStatements (private)", () => {
       { triggers: [], responses: [], target: { name: "Players", limit: 2 } },
     ]);
     expect(statements).toHaveLength(2);
-  });
-
-  it("adds an Allegiance(Myself,ENEMY) trigger when the resolved target list requires an allegiance check (no real target list currently sets this)", () => {
-    const spy = vi
-      .spyOn(targetService, "getTargetFromAbility")
-      .mockReturnValueOnce({ targets: ["PC"], allegianceCheck: true });
-    try {
-      const statements: Statements = [];
-      service.processStatements(statements, [
-        { triggers: [], responses: [], target: { name: "Players" } },
-      ]);
-      expect(statements[0].triggers).toContainEqual({
-        name: "Allegiance",
-        params: ["Myself", "ENEMY"],
-      });
-    } finally {
-      spy.mockRestore();
-    }
   });
 });
 

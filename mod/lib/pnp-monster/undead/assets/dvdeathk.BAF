@@ -1,0 +1,52 @@
+IF
+    HasItem("dw#sumfi",Myself)
+THEN
+    RESPONSE #100
+        DestroyItem("dw#sumfi")
+        Continue()
+END
+
+IF
+    Allegiance(LastSummonerOf(Myself),ENEMY)
+    !Allegiance(Myself,ENEMY)
+THEN
+    RESPONSE #100
+        SetGlobal("DeathKnightControl","LOCALS",1)
+        Enemy()
+END
+
+IF
+    Global("DeathKnightControl","LOCALS",0)
+    OR(6)
+        CheckStatGT(LastSummonerOf(Myself),18,INT)
+        CheckStatGT(LastSummonerOf(Myself),18,WIS)
+        CheckStatGT(LastSummonerOf(Myself),18,CHR)
+        CheckStatGT(LastSummonerOf(Myself),20,LEVEL)
+        CheckStatGT(LastSummonerOf(Myself),20,LEVEL2)
+        CheckStatGT(LastSummonerOf(Myself),20,LEVEL3)
+THEN
+    RESPONSE #100
+        FaceObject(LastSummonerOf(Myself))
+        Wait(2)
+        LeaveParty()
+        ChangeEnemyAlly(Myself,ALLY)
+        SetGlobal("DeathKnightControl","LOCALS",1)
+END
+
+IF
+    Global("DeathKnightControl","LOCALS",0)
+THEN
+    RESPONSE #15
+        FaceObject(LastSummonerOf(Myself))
+        Wait(2)
+        DisplayStringHead(Myself,12663)  // I would know what payment I can expect. I'll not take this task without knowing what it is worth.
+        Enemy()
+        SetGlobal("DeathKnightControl","LOCALS",1)
+    RESPONSE #85
+        FaceObject(LastSummonerOf(Myself))
+        Wait(2)
+        DisplayStringHead(Myself,7841)  // It is amazing how trusting you small folk are. With your door left open you are an easy mark for thieves.
+        LeaveParty()
+        ChangeEnemyAlly(Myself,ALLY)
+        SetGlobal("DeathKnightControl","LOCALS",1)
+END

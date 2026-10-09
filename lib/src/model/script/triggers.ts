@@ -159,6 +159,11 @@ export namespace Triggers {
 
   export interface BaseTrigger {
     negation?: boolean;
+    /**
+     * Only meaningful for other creatures: dropped from the statement bafFactory generates for a
+     * Myself target (e.g. a summoned caster must still be able to buff itself).
+     */
+    exceptMyself?: boolean;
   }
 
   export interface HaveSpell extends BaseTrigger {
@@ -386,14 +391,16 @@ export namespace Triggers {
     params: [ParamObject];
   }
 
+  export type HandIdentifier = "MAINHAND" | "OFFHAND";
+
   export interface WeaponEffectiveVs extends BaseTrigger {
     name: "WeaponEffectiveVs";
-    params: [ParamObject, number];
+    params: [ParamObject, HandIdentifier];
   }
 
   export interface WeaponCanDamage extends BaseTrigger {
     name: "WeaponCanDamage";
-    params: [ParamObject, number];
+    params: [ParamObject, HandIdentifier];
   }
 
   export interface Level extends BaseTrigger {
@@ -652,8 +659,19 @@ export namespace Triggers {
     triggers: Trigger[];
   }
 
+  /**
+   * Evaluates `trigger` as `object` (EE only): inside it, Myself is `object` and Range() is
+   * measured from it. `object` itself is resolved by the active creature.
+   */
+  export interface TriggerOverride extends BaseTrigger {
+    name: "TriggerOverride";
+    object: ParamObject;
+    trigger: Trigger;
+  }
+
   export type Trigger =
     | Or
+    | TriggerOverride
     | HaveSpell
     | HaveSpellRES
     | HaveAnySpells
@@ -1518,8 +1536,7 @@ export namespace Triggers {
       parameters: "O:Object*",
       description:
         "Returns true if any of the specified object is currently affected by any of the listed effects: Protection from projectiles, Protection from effects, Protection from portrait icon, Protection from display string, Protection from visual effect, Immunity to spell level, Decrementing spell level immunity, Immunity to primary type (school",
-      section:
-        "Immunity to secondary type, Decrementing immunity to primary type, Decrementing immunity to secondary type",
+      section: "Immunity",
     },
     {
       name: "ImmuneToSpellLevel",

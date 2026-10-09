@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect, Effect } from "../src/model/spell-item/effect";
 import {
@@ -248,6 +248,7 @@ const confusionEffects: (level: number) => Effect[] = (level: number) => {
 export const SPELL_COLOR_SPRAY: Spell = spellService.getSpell(
   {
     name: "spell.colorSpray.name",
+    keywords: ["area"],
     description: "spell.colorSpray.description",
     castingSound: "CAS_M08",
     flags: [SpellFlagEnum.Hostile],

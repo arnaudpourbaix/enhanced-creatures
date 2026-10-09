@@ -48,6 +48,35 @@ describe("CREATURE_DATA_FIELDS 'movement'", () => {
   });
 });
 
+describe("CREATURE_DATA_FIELDS 'animation'", () => {
+  const ids = (symbol: string) => `IDS_OF_SYMBOL (~animate~ ~${symbol}~)`;
+  const animation = (value: CreatureData["animation"]) =>
+    fieldValue("animation")(baseData({ animation: value }));
+
+  it("emits a plain lookup for a single vanilla animation", () => {
+    expect(animation("GOLEM_CLAY")).toBe(ids("GOLEM_CLAY"));
+    expect(animation(["GOLEM_CLAY"])).toBe(ids("GOLEM_CLAY"));
+  });
+
+  it("falls back from mod animations to the vanilla one", () => {
+    expect(animation(["A7!GOLEM_FLESH_PST", "GOLEM_CLAY"])).toBe(
+      `((${ids("A7!GOLEM_FLESH_PST")} >= 0) ? ${ids("A7!GOLEM_FLESH_PST")} : ${ids("GOLEM_CLAY")})`,
+    );
+  });
+
+  it("keeps the current animation when no mod animation is installed and there is no fallback", () => {
+    expect(animation("A7!GOLEM_FLESH_PST")).toBe(
+      `((${ids("A7!GOLEM_FLESH_PST")} >= 0) ? ${ids("A7!GOLEM_FLESH_PST")} : LONG_AT 0x28)`,
+    );
+  });
+
+  it("rejects an empty list or entries after a vanilla animation (unreachable)", () => {
+    expect(() => animation([])).toThrow();
+    expect(() => animation(["GOLEM_CLAY", "A7!GOLEM_FLESH_PST"])).toThrow();
+    expect(() => animation(["GOLEM_CLAY", "GOLEM_IRON"])).toThrow();
+  });
+});
+
 describe("CREATURE_DATA_FIELDS 'level1'/'level2'/'level3'", () => {
   it("the setter wraps a plain number shorthand into a Level object with type 'none'", () => {
     const data = baseData({});

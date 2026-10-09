@@ -13,11 +13,22 @@ const NAME_COLUMN = "name";
 const GAME_COLUMN = "game";
 const LEVEL_COLUMN = "level";
 const SLOT_COLUMNS = [
-  "helmet", "shield", "lring", "rring", "amulet",
-  "weapon1", "weapon2", "weapon3", "weapon4",
+  "helmet",
+  "shield",
+  "lring",
+  "rring",
+  "amulet",
+  "weapon1",
+  "weapon2",
+  "weapon3",
+  "weapon4",
 ] as const;
 const SCRIPT_COLUMNS = [
-  "overrideScript", "classScript", "raceScript", "generalScript", "defaultScript",
+  "overrideScript",
+  "classScript",
+  "raceScript",
+  "generalScript",
+  "defaultScript",
 ] as const;
 const VALIDATED_LEVEL_COLUMN = "ValidatedLevel";
 const VALIDATED_ITEMS_COLUMN = "ValidatedItems";
@@ -92,11 +103,7 @@ export function pickCreatureRow(
   rows: CreatureCsvRow[],
   game: Game | undefined,
 ): CreatureCsvRow | undefined {
-  return (
-    rows.find((r) => r.game === game) ??
-    rows.find((r) => r.game === undefined) ??
-    rows[0]
-  );
+  return rows.find((r) => r.game === game) ?? rows.find((r) => r.game === undefined) ?? rows[0];
 }
 
 export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {

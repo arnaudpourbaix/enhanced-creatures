@@ -38,7 +38,11 @@ describe("ReleaseGithubService", () => {
       const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
       vi.spyOn(fs, "rmSync").mockImplementation(() => {});
 
-      releaseGithubService.publishRelease("v0.2.0", "dist/enhanced_creatures-v0.2.0.zip", "notes body");
+      releaseGithubService.publishRelease(
+        "v0.2.0",
+        "dist/enhanced_creatures-v0.2.0.zip",
+        "notes body",
+      );
 
       expect(writeSpy).toHaveBeenCalledWith(expect.stringContaining("v0.2.0"), "notes body");
       expect(exec).toHaveBeenCalledWith(

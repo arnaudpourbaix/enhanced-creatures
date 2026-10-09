@@ -183,11 +183,7 @@ describe("applyKit", () => {
     const levelNine = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], level1: 9 });
     const kitBlock = fakeAdjustment({ files: ["TAZOK", "TAZOK2"], kit: "BERSERKER" });
     const levelEleven = fakeAdjustment({ files: ["TAZOK2"], level1: 11 });
-    creature.adjustments = [
-      levelNine,
-      kitBlock,
-      levelEleven,
-    ] as unknown as Creature["adjustments"];
+    creature.adjustments = [levelNine, kitBlock, levelEleven] as unknown as Creature["adjustments"];
 
     kitService.applyKit(creature, levelEleven);
 

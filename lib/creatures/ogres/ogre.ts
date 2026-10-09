@@ -1,3 +1,4 @@
+import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "../monster";
@@ -27,6 +28,7 @@ export function ogre(family: OgreFamily): Ogre {
       general: "GIANTHUMANOID",
       race: "OGRE",
       class: "OGRE",
+      animation: "OGRE",
       size: { value: "Large", tall: true, long: false },
       movement: 9,
       immunities: ["giant"],
@@ -64,7 +66,7 @@ export function ogre(family: OgreFamily): Ogre {
     targetPriorities: [
       {
         // The ogres fight more wisely when led by a half-ogre that concentrates assaults on characters it recognizes as spellcasters and teaming up against skilled fighters.
-        targets: ["PCSpellcasters", "PCsPreferringStrong"],
+        targets: ["Spellcasters", "PreferringStrong"],
       },
     ],
   });
@@ -121,6 +123,16 @@ function leaderVariant(family: OgreFamily, base: Ogre): Variant {
 }
 
 function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+  const chieftain: InputCreatureData = {
+    level1: 9,
+    morale: 18,
+    class: "FIGHTER",
+    xpv: 2000,
+    proficiencies: [
+      { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+      { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
+    ],
+  };
   return base.variant("Chieftain", {
     // chieftain is a 7+4 Hit Dice monster with Armor Class 2, Strenth 18/100, XP 975
     // He inflicts 2d6+6 points of damage per attack.
@@ -150,17 +162,8 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
     },
     adjust: [
       {
-        files: ["AC#WRIM1", "HACK", "LARZE", "GORF", "CBELHOE", "WIOGRE02"],
-        data: {
-          level1: 9,
-          morale: 18,
-          class: "FIGHTER",
-          xpv: 2000,
-          proficiencies: [
-            { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
-            { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
-          ],
-        },
+        files: ["GORF"],
+        data: chieftain,
       },
       {
         files: ["BDSOGR1", "BDSOGR2"],
@@ -178,19 +181,19 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
       },
       {
         files: ["AC#WRIM1"],
-        data: { level1: 10 },
+        data: { ...chieftain, level1: 10 },
       },
       {
-        files: ["HACK", "CBELHOE", "WIOGRE02"],
-        data: { level1: 11 },
+        files: ["HACK", "WIOGRE02"],
+        data: { ...chieftain, level1: 11 },
       },
       {
         files: ["CBELHOE"],
-        data: { apr: 2 },
+        data: { ...chieftain, level1: 11, apr: 2 },
       },
       {
         files: ["LARZE"],
-        data: { level1: 13 },
+        data: { ...chieftain, level1: 13 },
       },
       {
         files: ["UDOGRE"],

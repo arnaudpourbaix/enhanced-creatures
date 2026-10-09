@@ -1,17 +1,31 @@
+import { SpellStateValue } from "../../config/common";
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { SpellReference } from "../../config/spells/spell-names";
-import { TargetListName } from "../../config/target-name";
+import { SpellKeyword } from "../../config/spells/keyword";
+import {
+  SPELL_CHECK_GATE_KEYWORDS,
+  SPELL_CHECK_SUPPRESSORS,
+  SPELL_CHECK_TRIGGERS,
+  SpellLevelCheck,
+} from "../../config/spells/spell-check";
+import { keywordCheckCategory } from "../../config/spells/spell-check-config";
+import { defaultAllySafe } from "../../config/target/ally-safe";
+import { Counts } from "../../config/target/target-config";
+import { TargetListName } from "../../config/target/target-name";
 import { ScriptTarget } from "../model/constants";
 import { AlignIdentifier } from "../model/ids/align";
 import { AllegianceIdentifier } from "../model/ids/allegiance";
 import { AStylesIdentifiers } from "../model/ids/astyles";
+import { AlliesCheck } from "../model/creature/ability";
 import { AreaTypeValue } from "../model/ids/misc";
+import { SplStateIdentifier } from "../model/ids/splstate";
 import { StateIdentifier } from "../model/ids/state";
 import { StatsIdentifier } from "../model/ids/stats";
 import { ParamObject } from "../model/parameter";
 import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import targetService from "../services/baf/target.service";
+import utils from "../services/utils/utils.service";
 
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
@@ -78,6 +92,14 @@ class TriggerFactory {
     };
   }
 
+  see(value: ParamObject, negation = false): Triggers.Trigger {
+    return {
+      name: "See",
+      params: [value],
+      negation,
+    };
+  }
+
   allegiance(value: AllegianceIdentifier, negation = false): Triggers.Trigger {
     return {
       name: "Allegiance",
@@ -86,7 +108,7 @@ class TriggerFactory {
     };
   }
 
-  checkSpellState(spell: string, negation = false): Triggers.Trigger {
+  checkSpellState(spell: SplStateIdentifier | SpellStateValue, negation = false): Triggers.Trigger {
     return {
       name: "CheckSpellState",
       params: [ScriptTarget.token, spell],
@@ -191,6 +213,48 @@ class TriggerFactory {
       params: [ScriptTarget.token, value, stat],
       negation,
     };
+  }
+
+  /**
+   * True when the target is immune to spells of `level` (Minor Globe, Globe of Invulnerability,
+   * Spell Immunity, ...) - the engine's own generic spell-level-immunity check (see
+   * BaseCreatureAbility.level). It doesn't see level-decrementing reflections/absorptions, which
+   * spellReflections covers.
+   */
+  immuneToSpellLevel(level: number, negation = false): Triggers.Trigger {
+    return { name: "ImmuneToSpellLevel", params: [ScriptTarget.token, level], negation };
+  }
+
+  /**
+   * Excludes targets protected by Spell Turning, Spell Trap, Spell Deflection or Shield of the
+   * Archons - missed by ImmuneToSpellLevel (tested in game). These only stop single-target spells,
+   * not area ones.
+   */
+  spellReflections(): Triggers.Trigger[] {
+    const stats: StatsIdentifier[] = [
+      "WIZARD_SPELL_TURNING",
+      "WIZARD_SPELL_TRAP",
+      "WIZARD_SPELL_DEFLECTION",
+      "CLERIC_SHIELD_OF_THE_ARCHONS",
+    ];
+    return stats.map((stat) => this.checkStatGT(0, stat, true));
+  }
+
+  /**
+   * The level-driven checks (see SpellLevelCheck) excluding protected targets, minus those
+   * suppressed by one of `keywords` (see SPELL_CHECK_SUPPRESSORS).
+   */
+  spellLevelChecks(level: number, keywords: SpellKeyword[] = []): Triggers.Trigger[] {
+    const suppressed = new Set(
+      keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []),
+    );
+    const checks: Record<SpellLevelCheck, () => Triggers.Trigger[]> = {
+      immuneToSpellLevel: () => [this.immuneToSpellLevel(level, true)],
+      spellReflections: () => this.spellReflections(),
+    };
+    return (Object.keys(checks) as SpellLevelCheck[])
+      .filter((check) => !suppressed.has(check))
+      .flatMap((check) => checks[check]());
   }
 
   stateCheck(state: StateIdentifier, negation = false): Triggers.Trigger {
@@ -312,6 +376,12 @@ class TriggerFactory {
       },
       { name: "See", params: [ScriptTarget.token] },
     ];
+    if (GLOBAL_CONFIG.weaponCheck) {
+      results.push(
+        { name: "WeaponEffectiveVs", params: [ScriptTarget.token, "MAINHAND"] },
+        { name: "WeaponCanDamage", params: [ScriptTarget.token, "MAINHAND"] },
+      );
+    }
     if (!isTargetPlayer)
       results.unshift({
         name: "General",
@@ -355,6 +425,129 @@ class TriggerFactory {
 
   hasPoisonWeapon(negation = false): Triggers.Trigger {
     return triggerFactory.checkStat(4, "SCRIPTINGSTATE4", negation);
+  }
+
+  /**
+   * Triggers testing whether the target is protected against the given causes (e.g.
+   * SPELLS.Wizard.Horror.keywords), skipping any keyword whose SpellCheckConfig category (see
+   * SPELL_CHECK_CONFIG_KEYWORDS) is disabled via GLOBAL_CONFIG.spellChecks. A keyword with no
+   * assigned category is never filtered out - it's unaffected by every toggle.
+   *
+   * Gate keywords (SPELL_CHECK_GATE_KEYWORDS) must all pass. Effect keywords only need one to
+   * pass: "not protected from A, or not protected from B", each side being the AND of its
+   * keyword's triggers. BAF has no AND inside OR, so that's distributed into OR clauses (one
+   * trigger per effect keyword each), dropping any clause implied by a smaller one.
+   */
+  spellChecks(keywords: SpellKeyword[] = []): Triggers.Trigger[] {
+    const enabled = keywords.filter((keyword) => {
+      const category = keywordCheckCategory(keyword);
+      return category === undefined || GLOBAL_CONFIG.spellChecks[category];
+    });
+    const gates = enabled
+      .filter((keyword) => SPELL_CHECK_GATE_KEYWORDS.has(keyword))
+      .flatMap((keyword) => SPELL_CHECK_TRIGGERS[keyword]);
+    return [...gates, ...this.effectChecks(enabled)];
+  }
+
+  private effectChecks(keywords: SpellKeyword[]): Triggers.Trigger[] {
+    const effects = keywords
+      .filter((keyword) => !SPELL_CHECK_GATE_KEYWORDS.has(keyword))
+      .map((keyword) => SPELL_CHECK_TRIGGERS[keyword])
+      // group tags (cloud, castOnSelf, ...) and effects with no known protection check nothing
+      .filter((triggers) => triggers.length);
+    if (effects.length <= 1) return effects.flat();
+    let clauses: Triggers.Trigger[][] = [[]];
+    for (const triggers of effects) {
+      clauses = clauses.flatMap((clause) => triggers.map((t) => [...clause, t]));
+    }
+    const keyed = clauses.map((clause) => {
+      const byKey = new Map(clause.map((t) => [JSON.stringify(t), t]));
+      return { keys: new Set(byKey.keys()), triggers: [...byKey.values()] };
+    });
+    const minimal = keyed.filter(
+      (clause, i) =>
+        !keyed.some(
+          (other, j) =>
+            j !== i &&
+            [...other.keys].every((k) => clause.keys.has(k)) &&
+            (other.keys.size < clause.keys.size || j < i),
+        ),
+    );
+    return minimal.map(({ triggers }) => (triggers.length === 1 ? triggers[0] : this.or(triggers)));
+  }
+
+  triggerOverride(object: string, trigger: Triggers.Trigger, negation = false): Triggers.Trigger {
+    return { name: "TriggerOverride", object, trigger, negation };
+  }
+
+  /**
+   * Triggers checking that an area ability aimed at `target` spares the caster's allies (see
+   * BaseCreatureAbility.alliesCheck). BAF can't loop over allies, but the target's nearest enemies
+   * are the caster's side sorted by distance to the impact point: each of the first `count` ones
+   * must be out of `range` or match one of `safeIf`, and the next one must be out of `range`
+   * (too many allies around: don't gamble). A missing ally fails Range(), so it passes. The caster
+   * is part of that list too, which is right since it's hit as well when within range. Dropped for
+   * a Myself target (exceptMyself), where the target's enemies aren't the caster's allies.
+   *
+   * Every check runs through TriggerOverride(target, ...): Range() is always measured from the
+   * active creature, so only the target itself can tell how far its enemies are.
+   */
+  alliesSafe(
+    check: AlliesCheck,
+    keywords?: SpellKeyword[],
+    level?: number | null,
+    target = `${ScriptTarget.lastSeen}(${ScriptTarget.myself})`,
+  ): Triggers.Trigger[] {
+    const count = check.count ?? 3;
+    if (count < 0 || count >= Counts.length) throw new Error(`Invalid alliesCheck count ${count}`);
+    const safeIf = check.safeIf ?? defaultAllySafe(keywords, level);
+    const ally = (index: number) => `${Counts[index]}NearestEnemyOf(${ScriptTarget.myself})`;
+    const outOfRange = (index: number): Triggers.Trigger =>
+      this.triggerOverride(target, { name: "Range", params: [ally(index), check.range] }, true);
+    const allies = Counts.slice(0, count).map((_, index) => ({
+      ...this.or([
+        outOfRange(index),
+        ...utils
+          .replaceTriggerTokens(safeIf, [{ key: ScriptTarget.token, value: ally(index) }])
+          .map((t) => this.triggerOverride(target, t)),
+      ]),
+      exceptMyself: true,
+    }));
+    return [...allies, { ...outOfRange(count), exceptMyself: true }];
+  }
+
+  /**
+   * Trigger checking that another enemy stands within `range` of the target, so an area spell hits
+   * several of them. Inside the TriggerOverride, Myself is the target: its nearest ally is one of
+   * the caster's enemies. Skipped for a Myself target (exceptMyself).
+   */
+  enemyNearTarget(
+    range: number,
+    target = `${ScriptTarget.lastSeen}(${ScriptTarget.myself})`,
+  ): Triggers.Trigger {
+    return {
+      ...this.triggerOverride(target, {
+        name: "Range",
+        params: [`NearestAllyOf(${ScriptTarget.myself})`, range],
+      }),
+      exceptMyself: true,
+    };
+  }
+
+  /**
+   * Trigger checking that the caster itself matches the alliesCheck's safeIf (any of them), or
+   * undefined when there's no condition to match.
+   */
+  casterSafe(
+    check: AlliesCheck,
+    keywords?: SpellKeyword[],
+    level?: number | null,
+  ): Triggers.Trigger | undefined {
+    const safeIf = utils.replaceTriggerTokens(check.safeIf ?? defaultAllySafe(keywords, level), [
+      { key: ScriptTarget.token, value: ScriptTarget.myself },
+    ]);
+    if (safeIf.length <= 1) return safeIf[0];
+    return this.or(safeIf);
   }
 }
 

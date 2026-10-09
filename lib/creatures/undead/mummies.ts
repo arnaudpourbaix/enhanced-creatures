@@ -4,7 +4,7 @@
  * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
  */
 import effectFactory from "../../src/factories/effect.factory";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import { StringReference } from "../../src/model/final/stringref";
 import { Durations } from "../../src/model/game-data/durations";
@@ -51,23 +51,22 @@ function mummyRottingDisease(cre: Undead, greater: boolean) {
     );
   }
   const diseaseEffects: Effect[] = Array.from(Array(count), (_e, i) =>
-    disease.map(
-      (e): Effect => ({
-        opcode: EffectTypeEnum.Disease,
-        type: e.type,
-        amount: e.amount,
-        icon: PortraitIconEnum.Diseased,
-        timing: EffectTimingEnum.DelayPermanent,
-        duration: (i + 1) * interval,
-        dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-      }),
-    ),
+    disease.map((e): Effect => ({
+      opcode: EffectTypeEnum.Disease,
+      type: e.type,
+      amount: e.amount,
+      icon: PortraitIconEnum.Diseased,
+      timing: EffectTimingEnum.DelayPermanent,
+      duration: (i + 1) * interval,
+      dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+    })),
   ).flat();
   return cre.addSpell({
     description,
     name: "monster.undead.ability.mummyRottingDisease.name",
     id: greater ? Ids.GreaterMummyRottingDisease : Ids.MummyRottingDisease,
     secondaryType: "Disease",
+    keywords: ["disease"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -145,6 +144,7 @@ function mummyFearAura(cre: Undead, greater: boolean) {
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
+    keywords: ["hold"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -224,6 +224,7 @@ function mummyFearAuraTechnical(cre: Undead, saveBonus: number, excludeHumans: b
   ];
   const spell: PartialSpell = {
     name: "monster.undead.ability.mummyFearAura.name",
+    keywords: ["area"],
     secondaryType: "Fear",
     headers: [
       {

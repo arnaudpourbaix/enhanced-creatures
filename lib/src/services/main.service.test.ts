@@ -95,6 +95,7 @@ describe("generateAll", () => {
     vi.spyOn(stateService, "init").mockResolvedValue(undefined);
     vi.spyOn(mainService, "checkPresets").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpells").mockImplementation(() => {});
+    vi.spyOn(mainService, "checkSpellbooks").mockImplementation(() => {});
     vi.spyOn(mainService, "generateCreatures").mockImplementation(() => {});
     vi.spyOn(mainService, "generateCommonCode").mockImplementation(() => {});
     vi.spyOn(mainService, "generateTranslations").mockImplementation(() => {});

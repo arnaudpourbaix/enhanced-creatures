@@ -12,6 +12,14 @@ import creatureService from "../creature.service";
 import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
 
+// Fighting-style proficiencies capped at 2 stars (mirrors documentation.service.ts's
+// MAX_PROFICIENCY_STARS_OVERRIDES - duplicated rather than imported because documentation.service.ts
+// already imports this file). PROFICIENCY2WEAPON is deliberately excluded: it caps at 3 stars, not 2.
+const TWO_STAR_CAP_PROFICIENCY_TYPES = new Set<ProficiencyTypeEnum>([
+  ProficiencyTypeEnum.PROFICIENCYSWORDANDSHIELD,
+  ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON,
+]);
+
 export interface AdjustmentField<T> {
   value: T;
   changed: boolean;
@@ -75,6 +83,23 @@ class AdjustmentService {
     );
   }
 
+  /**
+   * The documented stats of one file as `game` sees it: the untagged adjustments covering it plus
+   * the ones tagged for `game` (untagged only when `game` is undefined), folded over the base
+   * creature. A file no adjustment covers comes back with the base creature's own values. Used by
+   * the dashboard (scripts/lib/stats-report.ts) to compare every file against creatures.csv.
+   */
+  getEffectiveForGame(
+    creature: Creature,
+    file: string,
+    game: Game | undefined,
+  ): EffectiveAdjustment {
+    const matching = creature.adjustments.filter(
+      (a) => a.files.includes(file) && (a.game === undefined || a.game === game),
+    );
+    return this.buildEffectiveForScope(creature, file, game, matching);
+  }
+
   private getAllFiles(adjustments: CreatureAdjustment[]): string[] {
     const seen = new Set<string>();
     const result: string[] = [];
@@ -121,14 +146,20 @@ class AdjustmentService {
     const classValue = this.lastDefined(matching, (d) => d.class) ?? base.class;
     const levelValue =
       this.lastDefined(matching, (d) => d.level1?.pnpValue) ?? base.level1.pnpValue;
-    const constitutionValue = this.lastDefined(matching, (d) => d.constitution) ?? base.constitution;
+    const constitutionValue =
+      this.lastDefined(matching, (d) => d.constitution) ?? base.constitution;
 
     return {
       files: [file],
       noWeapon: matching.some((a) => a.noWeapon),
       level: this.field(levelValue, base.level1.pnpValue),
       hp: this.field(
-        this.displayHp(this.lastDefined(matching, (d) => d.hp), classValue, constitutionValue, levelValue),
+        this.displayHp(
+          this.lastDefined(matching, (d) => d.hp),
+          classValue,
+          constitutionValue,
+          levelValue,
+        ),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.hp! +
           hitPointService.getDisplayHitPointBonus({
@@ -284,7 +315,9 @@ class AdjustmentService {
     level: number,
   ): number | undefined {
     if (rawHp === undefined) return undefined;
-    return rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level });
+    return (
+      rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level })
+    );
   }
 
   // checkData already ran checkDexterityArmorClassBonus on every adjustment's own data using only
@@ -411,9 +444,17 @@ class AdjustmentService {
 
   // Unlike memorizedCount, an adjustment's authored proficiency value for a type the base already
   // has is an absolute replacement, not a delta on top of it - each proficiency type can only ever
-  // carry one rank at a time in the CRE file (see weidu-creature.service.ts's addProficiencies), so
-  // stacking wouldn't correspond to anything the engine can represent. Later adjustments win over
-  // earlier ones, same fold order as every other field here.
+  // carry one rank at a time in the CRE file (see weidu-creature.service.ts's addProficiencies).
+  //
+  // A file often passes through several level-up-style adjustments in sequence (e.g.
+  // skeletons-warrior.ts's HGSKL04, touched once at level 15 and again at level 20) - documenting
+  // every proficiency any of them ever set would show ranks the file's final adjustment already
+  // superseded in intent. So only the *last* matching adjustment that defines any proficiency at
+  // all gets to contribute its (non-fighting-style) entries; earlier adjustments' proficiencies are
+  // dropped entirely once a later one defines its own, even for types the later one doesn't mention.
+  // Fighting-style proficiencies (TWO_STAR_CAP_PROFICIENCY_TYPES) are exempt from that rule and keep
+  // accumulating per-type across every matching adjustment, same as before - a creature's fighting
+  // style is layered onto its weapon proficiencies rather than replaced by them.
   private getProficiencies(
     matching: CreatureAdjustment[],
     base: CreatureData,
@@ -425,8 +466,15 @@ class AdjustmentService {
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       for (const prof of adjustment.data.proficiencies ?? []) {
-        effectiveByType.set(prof.type, prof.value);
+        if (TWO_STAR_CAP_PROFICIENCY_TYPES.has(prof.type))
+          effectiveByType.set(prof.type, prof.value);
       }
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const last = [...matching].reverse().find((a) => (a.data.proficiencies?.length ?? 0) > 0);
+    for (const prof of last?.data.proficiencies ?? []) {
+      if (!TWO_STAR_CAP_PROFICIENCY_TYPES.has(prof.type))
+        effectiveByType.set(prof.type, prof.value);
     }
     return [...effectiveByType.entries()]
       .map(([type, value]) => ({
@@ -557,7 +605,6 @@ class AdjustmentService {
     const deviatingFiles = new Set(entries.filter((a) => a !== shared).flatMap((a) => a.files));
     const cleanFile = shared.files.find((f) => !deviatingFiles.has(f));
     if (cleanFile) {
-       
       return this.getEffectiveDataForFile(creature, cleanFile)[0];
     }
     return this.buildEffectiveForScope(creature, variant.label, undefined, [shared]);

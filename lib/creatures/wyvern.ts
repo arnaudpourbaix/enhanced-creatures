@@ -138,6 +138,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
       ac: 5,
       morale: 12,
       xpv: 650,
+      animation: "WYVERN",
       size: { value: "Large", tall: false, long: true },
       movement: 24,
       items: {

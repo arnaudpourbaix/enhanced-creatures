@@ -1,4 +1,31 @@
+import { SpellCheckConfig } from "./spells/spell-check-config";
+
+// `: SpellCheckConfig` (not `satisfies`) is deliberate here: satisfies would keep each field's
+// narrow literal-true type from this initializer (as e.g. SPELLS.* rely on for id/file literals -
+// see setFallback's comment), which would make these toggles permanently stuck at `true` and
+// unable to ever be set to false. A plain annotation still catches missing/excess properties and
+// widens every field to `boolean`, so GLOBAL_CONFIG.spellChecks.* can genuinely be toggled off.
+const SPELL_CHECKS: SpellCheckConfig = {
+  spellProtections: true,
+  stats: true,
+  races: true,
+  classes: true,
+  kits: true,
+};
+
 export const GLOBAL_CONFIG = {
+  spellChecks: SPELL_CHECKS,
+  /**
+   * Add WeaponEffectiveVs/WeaponCanDamage (main hand) to attack target triggers, so a creature
+   * doesn't attack a target its weapon can't hit or damage.
+   */
+  weaponCheck: true,
+  /**
+   * Areas where creatures can't cast spells (innate abilities still work): entering one sets
+   * bafConstants.disableSpellcasting, which every spellcasting block checks (see
+   * BaseCreatureAbility.spellcasting).
+   */
+  disableSpellcastingAreas: ["AR3004", "AR3008"],
   files: {
     coreMonsters: "lib/pnp-monster/common/core.tpa",
     spellResources: "lib/common/spell-resources.tpa",
@@ -34,6 +61,7 @@ export const GLOBAL_CONFIG = {
     minorSequencer: "JA_MINOR_SEQUENCER",
     sequencer: "JA_SEQUENCER",
     restTimer: "JA_REST",
+    shoutTimer: "JA_SHOUT",
     helpTimer: "JA_HELP",
     roundTimer: "JA_ROUND",
     noOpenDoor: "RR#NOPND",
@@ -42,6 +70,16 @@ export const GLOBAL_CONFIG = {
     summonerShoutId: 98,
     trackingRange: 150,
     meleeRange: 4,
+    /**
+     * Radius (script Range() units) of an area spell without an alliesCheck of its own, used to
+     * prefer a target with other enemies around it (see StatementBuilderService.clusterTriggers).
+     */
+    areaRange: 10,
+    /**
+     * Radius (script Range() units) within which a melee attacker prefers a weakened target (see
+     * TargetStatus.preferWithin) over the nearest one.
+     */
+    preferRange: 10,
   },
   tpaConstants: {
     genericScriptsToRemove: [
@@ -56,6 +94,7 @@ export const GLOBAL_CONFIG = {
       "BDFMAG01",
       "BDFMAG23",
       "BDGRSHTV",
+      "BDMAGE01",
       "BDNONIN",
       "BDSHM00",
       "BDSUM00",
@@ -83,6 +122,7 @@ export const GLOBAL_CONFIG = {
       "SHOUTDLG",
       "SHOUT",
       "GPSHOUT",
+      "GRPSHT01",
       "DW#SPHLP",
       "DW#SHDLG",
     ],

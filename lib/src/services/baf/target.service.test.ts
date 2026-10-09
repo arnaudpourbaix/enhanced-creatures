@@ -37,10 +37,9 @@ describe("targetObject", () => {
 });
 
 describe("getList", () => {
-  it("returns the players list with allegianceCheck false", () => {
+  it("returns the players list", () => {
     expect(targetService.getList("Players")).toEqual({
       targets: ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"],
-      allegianceCheck: false,
     });
   });
 
@@ -121,21 +120,18 @@ describe("getTargetFromAbility", () => {
   it("resolves a known target list name to its target strings", () => {
     expect(targetService.getTargetFromAbility("Players", undefined)).toEqual({
       targets: ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"],
-      allegianceCheck: false,
     });
   });
 
   it("limits the resolved list when limit is provided", () => {
     expect(targetService.getTargetFromAbility("Players", 2)).toEqual({
       targets: ["Player1", "Player2"],
-      allegianceCheck: false,
     });
   });
 
   it("falls back to the raw identifier when it isn't a known target list name", () => {
     expect(targetService.getTargetFromAbility("GOODCUTOFF", undefined)).toEqual({
       targets: "GOODCUTOFF",
-      allegianceCheck: false,
     });
   });
 
@@ -217,7 +213,7 @@ function fakeCreature(intelligence?: number): Creature {
 describe("getTargetPriorities", () => {
   it("defaults to NoCheck for enemies and Sleep for players when intelligence is unset", () => {
     expect(targetService.getTargetPriorities(fakeCreature(), {})).toEqual([
-      { targets: ["NearestEnemies"], status: ["NoCheck"] },
+      { targets: ["NearestEnemies"], status: ["Wounded", "NoCheck"] },
       { targets: ["Players"], status: ["Sleep"] },
     ]);
   });
@@ -226,7 +222,17 @@ describe("getTargetPriorities", () => {
     expect(targetService.getTargetPriorities(fakeCreature(8), {})).toEqual([
       {
         targets: ["NearestEnemies"],
-        status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+        status: [
+          "HeldNearby",
+          "StunnedNearby",
+          "Wounded",
+          "Slowed",
+          "Unprotected",
+          "Able",
+          "Held",
+          "Stunned",
+          "NoCheck",
+        ],
       },
       { targets: ["Players"], status: ["Sleep"] },
     ]);
@@ -246,11 +252,32 @@ describe("getTargetPriorities", () => {
     });
     expect(result[0]).toEqual({
       targets: ["Players"],
-      status: ["Slowed", "Able", "Held", "Stunned", "NoCheck", "Sleep"],
+      status: [
+        "HeldNearby",
+        "StunnedNearby",
+        "Wounded",
+        "Slowed",
+        "Unprotected",
+        "Able",
+        "Held",
+        "Stunned",
+        "NoCheck",
+        "Sleep",
+      ],
     });
     expect(result[1]).toEqual({
       targets: ["Animals"],
-      status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+      status: [
+        "HeldNearby",
+        "StunnedNearby",
+        "Wounded",
+        "Slowed",
+        "Unprotected",
+        "Able",
+        "Held",
+        "Stunned",
+        "NoCheck",
+      ],
     });
   });
 
@@ -269,7 +296,17 @@ describe("getTargetPriorities", () => {
       targetPriorities: [
         {
           targets: ["NearestEnemies"],
-          status: ["Slowed", "Able", "Held", "Stunned", "NoCheck"],
+          status: [
+            "HeldNearby",
+            "StunnedNearby",
+            "Wounded",
+            "Slowed",
+            "Unprotected",
+            "Able",
+            "Held",
+            "Stunned",
+            "NoCheck",
+          ],
         },
         { targets: ["Players"], status: ["Sleep"] },
       ],

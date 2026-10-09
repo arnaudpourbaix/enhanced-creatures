@@ -1,6 +1,6 @@
 import { NEW_CREATURES, VAPOR_IMMUNE_CREATURES } from "../config/creatures";
 import { MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { RawCreatureAbility } from "../src/model/creature/ability";
 import { Creature } from "../src/model/creature/creature";
@@ -198,7 +198,7 @@ class Slime extends Creature {
     return {
       spell: {
         type: "force",
-        selfTarget: true,
+        castOnSelf: true,
         remove: true,
       },
       triggers: withTriggers ? triggers : [],
@@ -449,6 +449,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         general: "MONSTER",
         race: "SLIME",
         class: "MUSTARD_JELLY",
+        animation: "SLIME_MUSTARD",
         gender: "NIETHER",
         size: { value: "Large", tall: false, long: true },
         movement: 9,
@@ -833,6 +834,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         general: "MONSTER",
         race: "SLIME",
         class: "OCRE_JELLY",
+        animation: "SLIME_OCHRE",
         gender: "NIETHER",
         size: { value: "Medium", tall: false, long: true },
         movement: 3,
@@ -981,6 +983,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         general: "MONSTER",
         race: "SLIME",
         class: "GREY_OOZE",
+        animation: "GRAY_OOZE",
         gender: "NIETHER",
         size: { value: "Small", tall: false, long: true },
         movement: 12,
@@ -1031,8 +1034,8 @@ class SlimeFamily extends CreatureFamily<Slime> {
     return this.addSpell({
       id: Ids.ToxicVapors,
       name: "monster.slime.ability.toxicVapors.name",
+      keywords: ["area"],
       description: "monster.slime.ability.toxicVapors.description",
-      groups: ["poison"],
       icon: SPELLS.Wizard.StinkingCloud.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: { renew: 1 },
@@ -1058,10 +1061,6 @@ class SlimeFamily extends CreatureFamily<Slime> {
           effects: [
             ...[...VAPOR_IMMUNE_CREATURES].map(
               (c) =>
-                // no-unnecessary-type-assertion is wrong here (verified against tsc directly):
-                // without this cast, opcode/idsFile widen instead of narrowing to IdsEffect's
-                // literal types, which then breaks inference for the array literal's other
-                // (sibling) elements below too.
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 ({
                   opcode: EffectTypeEnum.UseEFFFile,
@@ -1117,7 +1116,7 @@ class SlimeFamily extends CreatureFamily<Slime> {
         ],
         spell: {
           type: "force",
-          selfTarget: true,
+          castOnSelf: true,
         },
         range: 10,
         probability: 100,

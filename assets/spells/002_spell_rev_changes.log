@@ -1,0 +1,395 @@
+spell_rev: 63 new, 121 changed, 0 removed
+
+NEW (63):
+  SPPR116;1;Priest;CLERIC_FAERIE_FIRE;Faerie Fire
+  SPPR117;1;Priest;CLERIC_STRENGTH_OF_STONE;Strength of Stone
+  SPPR118;1;Priest;CLERIC_SUNSCORCH;Sunscorch
+  SPPR119;1;Priest;CLERIC_REGENERATE_LIGHT_WOUNDS;Regenerate Light Wounds
+  SPPR120;1;Priest;CLERIC_GOOD_BERRIES;Goodberry
+  SPPR121;1;Priest;CLERIC_CAUSE_LIGHT_WOUNDS;Cause Light Wounds
+  SPPR122;1;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_1;Animal Summoning I
+  SPPR123;1;Priest;CLERIC_OBSCURING_MIST;Obscuring Mist
+  SPPR216;2;Priest;CLERIC_CURE_MODERATE_WOUNDS;Cure Moderate Wounds
+  SPPR217;2;Priest;CLERIC_FIRE_TRAP;Fire Trap
+  SPPR218;2;Priest;CLERIC_REGENERATE_MODERATE_WOUNDS;Regenerate Moderate Wounds
+  SPPR219;2;Priest;CLERIC_GUST_OF_WIND_DRUID_VERSION;Gust of Wind
+  SPPR220;2;Priest;CLERIC_CAUSE_MODERATE_WOUNDS;Cause Moderate Wounds
+  SPPR221;2;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_2;Animal Summoning II
+  SPPR320;3;Priest;CLERIC_CONTAGION;Contagion
+  SPPR321;3;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_3;Animal Summoning III
+  SPPR322;3;Priest;CLERIC_CAUSE_MEDIUM_WOUNDS;Cause Serious Wounds
+  SPPR323;3;Priest;CLERIC_STORM_SHIELD;Storm Shield
+  SPPR324;3;Priest;CLERIC_REGENERATE_SERIOUS_WOUNDS;Regenerate Serious Wounds
+  SPPR325;3;Priest;CLERIC_MAGIC_FANG;Magic Fang
+  SPPR326;3;Priest;CLERIC_SPIKE_GROWTH;Spike Growth
+  SPPR327;3;Priest;CLERIC_ICELANCE;Icelance
+  SPPR418;4;Priest;CLERIC_ICE_STORM;Ice Storm
+  SPPR419;4;Priest;CLERIC_REGENERATE_CRITICAL_WOUNDS;Regenerate Critical Wounds
+  SPPR518;5;Priest;CLERIC_POLYMORPH_OTHER;Polymorph Other
+  SPPR519;5;Priest;CLERIC_PROTECTION_FROM_ACID;Protection from Acid
+  SPPR520;5;Priest;CLERIC_PROTECTION_FROM_COLD;Protection from Cold
+  SPPR521;5;Priest;CLERIC_PROTECTION_FROM_LIGHTNING;Protection from Electricity
+  SPPR522;5;Priest;CLERIC_PROTECTION_FROM_FIRE;Protection from Fire
+  SPPR523;5;Priest;CLERIC_MASS_REGENERATE;Mass Regenerate
+  SPPR524;5;Priest;CLERIC_ANIMAL_GROWTH;Animal Growth
+  SPPR615;6;Priest;CLERIC_REGENERATION_DRUID_VERSION;Regeneration
+  SPPR616;6;Priest;CLERIC_BANISHMENT;Banishment
+  SPPR617;6;Priest;CLERIC_CONJURE_AIR_ELEMENTAL;Conjure Air Elemental
+  SPPR618;6;Priest;CLERIC_CONJURE_EARTH_ELEMENTAL;Conjure Earth Elemental
+  SPPR619;6;Priest;CLERIC_ANIMATE_SKELETON_WARRIOR;Animate Skeleton Warrior
+  SPPR733;7;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_7;Animal Summoning VII
+  SPWI126;1;Wizard;WIZARD_EXPEDITIOUS_RETREAT;Expeditious Retreat
+  SPWI127;1;Wizard;WIZARD_DIMENSION_JUMP;Dimension Jump
+  SPWI128;1;Wizard;WIZARD_KNOW_ALIGNMENT;Detect Alignment
+  SPWI225;2;Wizard;WIZARD_RESIST_ELEMENTS;Resist Elements
+  SPWI226;2;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_2;Monster Summoning II
+  SPWI323;3;Wizard;WIZARD_ICELANCE;Icelance
+  SPWI422;4;Wizard;WIZARD_PROTECTION_FROM_ELEMENTAL_ENERGY;Protection from Elemental Energy
+  SPWI426;4;Wizard;WIZARD_VITRIOLIC_SPHERE;Vitriolic Sphere
+  SPWI461;1;Innate;;Shapeshift: Flind
+  SPWI462;1;Innate;;Shapeshift: Ogre
+  SPWI463;1;Innate;;Shapeshift: Mustard Jelly
+  SPWI464;1;Innate;;Shapeshift: Spider
+  SPWI465;1;Innate;;Shapeshifts Winter Wolf
+  SPWI524;5;Wizard;WIZARD_MESTILS_ACID_SHEATH;Mestil's Acid Sheath
+  SPWI610;6;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_6;Monster Summoning VI
+  SPWI706;7;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_7;Monster Summoning VII
+  SPWI801;8;Wizard;WIZARD_GHOSTFORM;Ghostform
+  SPWI806;8;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_8;Monster Summoning VIII
+  SPWI971;1;Innate;;Shapechange: Earth Elemental
+  SPWI972;1;Innate;;Shapechange: Fire Elemental
+  SPWI973;1;Innate;;Shapechange: Iron Golem
+  SPWI974;1;Innate;;Shapechange: Mind Flayer
+  SPWI975;1;Innate;;Shapechange: Spirit Troll
+  SPWI976;1;Innate;;Shapechange: Greater Wolfwere
+  SPWI977;1;Innate;;Shapeshift: Natural Form
+  SPWI978;1;Innate;;Shapeshift: Natural Form
+
+CHANGED (121):
+  SPCL721   Storm Shield
+    type: Innate -> Priest
+
+  SPCL722   Lightning Bolt
+    level: 3 -> 1
+
+  SPIN103   Draw Upon Holy Might -> Draw upon Divine Might
+
+  SPIN683   Web Tangle
+    level: 3 -> 1
+
+  SPIN701   Fireball -> Unholy Fireball
+    level: 3 -> 7
+
+  SPIN788   Imprisonment -> Demilich Soul Trap
+
+  SPPR104   Detect Evil -> Detect Alignment
+
+  SPPR107   Protection From Evil -> Protection from Evil
+
+  SPPR108   Remove Fear -> Resist Fear
+
+  SPPR204   Charm Person or Mammal -> Charm Person or Animal
+
+  SPPR207   Goodberry
+    ids: CLERIC_GOOD_BERRIES -> CLERIC_GOOD_BERRIES_DEPRECATED
+
+  SPPR209   Know Alignment -> Know Opponent
+    ids: CLERIC_KNOW_ALIGNMENT -> CLERIC_KNOW_OPPONENT
+
+  SPPR210   Resist Fire and Cold -> Resist Elements
+    ids: CLERIC_RESIST_FIRE -> CLERIC_RESIST_ELEMENTS
+
+  SPPR211   Silence, 15' Radius -> Silence
+
+  SPPR214   Draw Upon Holy Might -> Draw upon Divine Might
+
+  SPPR305   Hold Animal -> Hold Person or Animal
+
+  SPPR306   Protection From Fire -> Protection from Fire
+    ids: CLERIC_PROTECTION_FROM_FIRE -> CLERIC_PROTECTION_FROM_FIRE_DEPRECATED
+
+  SPPR307   Remove Curse -> Break Enchantment
+    ids: CLERIC_REMOVE_CURSE -> CLERIC_BREAK_ENCHANTMENT
+
+  SPPR315   Cure Medium Wounds -> Cure Serious Wounds
+
+  SPPR318   Zone of Sweet Air -> Gust of Wind
+    ids: CLERIC_ZONE_OF_SWEET_AIR -> CLERIC_GUST_OF_WIND
+
+  SPPR401   Cure Serious Wounds -> Cure Critical Wounds
+
+  SPPR402   Animal Summoning I -> Animal Summoning IV
+    ids: CLERIC_ANIMAL_SUMMONING_1 -> CLERIC_ANIMAL_SUMMONING_LEVEL_4
+
+  SPPR407   Protection From Lightning -> Protection from Electricity
+    ids: CLERIC_PROTECTION_FROM_LIGHTNING -> CLERIC_PROTECTION_FROM_LIGHTNING_DEPRECATED
+
+  SPPR408   Protection From Evil, 10' Radius -> Magic Circle against Evil
+
+  SPPR412   Holy Power -> Divine Power
+
+  SPPR414   Cause Serious Wounds -> Cause Critical Wounds
+
+  SPPR501   Animal Summoning II -> Animal Summoning V
+    ids: CLERIC_ANIMAL_SUMMONING_2 -> CLERIC_ANIMAL_SUMMONING_LEVEL_5
+
+  SPPR502   Cure Critical Wounds -> Cure Mortal Wounds
+    ids: CLERIC_CURE_CRITICAL_WOUNDS -> CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED
+
+  SPPR506   Iron Skins -> Stoneskin
+
+  SPPR510   Cause Critical Wounds -> Cause Mortal Wounds
+    ids: CLERIC_CAUSE_CRITICAL_WOUNDS -> CLERIC_CAUSE_CRITICAL_WOUNDS_DEPRECATED
+
+  SPPR513   Righteous Magic -> Righteous Fury
+
+  SPPR515   Repulse Undead -> Repulsion
+    ids: CLERIC_REPULSE_UNDEAD -> CLERIC_REPULSION
+
+  SPPR602   Animal Summoning III -> Animal Summoning VI
+    ids: CLERIC_ANIMAL_SUMMONING_3 -> CLERIC_ANIMAL_SUMMONING_LEVEL_6
+
+  SPPR604   Conjure Animals
+    ids: CLERIC_CONJURE_ANIMALS -> CLERIC_CONJURE_ANIMALS_DEPRECATED
+
+  SPPR702   Conjure Earth Elemental -> Summon Shambling Mound
+    ids: CLERIC_CONJURE_EARTH_ELEMENTAL -> CLERIC_STALKER
+
+  SPPR703   Gate -> Summon Death Knight
+    ids: CLERIC_GATE -> CLERIC_SUMMON_DEATH_KNIGHT
+
+  SPPR706   Symbol, Fear -> Symbol of Weakness
+    ids: CLERIC_SYMBOL_FEAR -> CLERIC_SYMBOL_WEAKNESS
+
+  SPPR709   Confusion -> Chaos
+    ids: CLERIC_CONFUSION -> CLERIC_CHAOS
+
+  SPPR718   Symbol, Stun -> Symbol of Stunning
+
+  SPPR719   Symbol, Death -> Symbol of Death
+
+  SPPR721   Energy Blades
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR722   Storm of Vengeance
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR723   Elemental Summoning -> Elemental Swarm
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR724   Greater Elemental Summoning -> Elemental Prince Call
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR725   Globe of Blades
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR726   Summon Deva
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR727   Summon Fallen Deva
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR728   Implosion
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR729   Mass Raise Dead
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPPR730   Aura of Flaming Death
+    level: 7 -> 1
+    type: Priest -> Innate
+
+  SPWI102   Armor -> Mage Armor
+
+  SPWI106   Blindness -> Obscuring Mist
+    ids: WIZARD_BLINDNESS -> WIZARD_OBSCURING_MIST
+
+  SPWI107   Friends -> Monster Summoning I
+    ids: WIZARD_FRIENDS -> WIZARD_MONSTER_SUMMONING_LEVEL_1
+
+  SPWI108   Protection From Petrification -> Protection from Petrification
+
+  SPWI111   Infravision -> True Strike
+    ids: WIZARD_INFRAVISION -> WIZARD_TRUE_STRIKE
+
+  SPWI113   Protection From Evil -> Protection from Evil
+
+  SPWI202   Detect Evil -> Detect Alignment
+    ids: WIZARD_DETECT_EVIL -> WIZARD_DETECT_EVIL_DEPRECATED
+
+  SPWI207   Knock -> Battering Ram
+    ids: WIZARD_KNOCK -> WIZARD_BATTERING_RAM
+
+  SPWI208   Know Alignment -> Know Opponent
+    ids: WIZARD_KNOW_ALIGNMENT -> WIZARD_KNOW_OPPONENT
+
+  SPWI220   Power Word, Sleep -> Power Word Sleep
+
+  SPWI223   Deafness -> Sound Burst
+    ids: WIZARD_DEAFNESS -> WIZARD_SOUND_BURST
+
+  SPWI302   Remove Magic -> Dispel Magic
+
+  SPWI307   Invisibility, 10' Radius -> Invisibility Sphere
+
+  SPWI309   Monster Summoning I -> Monster Summoning III
+    ids: WIZARD_MONSTER_SUMMONING_1 -> WIZARD_MONSTER_SUMMONING_LEVEL_3
+
+  SPWI311   Protection From Normal Missiles -> Protection from Missiles
+
+  SPWI319   Protection From Fire -> Protection from Fire
+    level: 3 -> 4
+
+  SPWI320   Protection From Cold -> Protection from Cold
+    level: 3 -> 4
+
+  SPWI324   Hold Undead -> Halt Undead
+
+  SPWI402   Dimension Door -> Dimension Jump
+    ids: WIZARD_DIMENSION_DOOR -> WIZARD_DIMENSION_DOOR_DEPRECATED
+
+  SPWI403   Fire Shield (Blue) -> Mestil's Acid Sheath
+
+  SPWI407   Monster Summoning II
+    ids: WIZARD_MONSTER_SUMMONING_2 -> WIZARD_MONSTER_SUMMONING_2_DEPRECATED
+
+  SPWI410   Remove Curse -> Break Enchantment
+    ids: WIZARD_REMOVE_CURSE -> WIZARD_BREAK_ENCHANTMENT
+
+  SPWI411   Emotion: Hopelessness -> Emotion: Despair
+
+  SPWI418   Fire Shield (Red) -> Fire Shield
+
+  SPWI420   Minor Sequencer -> Simbul's Spell Matrix
+
+  SPWI423   Spider Spawn -> Monster Summoning IV
+    ids: WIZARD_SPIDER_SPAWN -> WIZARD_MONSTER_SUMMONING_LEVEL_4
+
+  SPWI501   Animate Dead -> Summon Shadow
+    ids: WIZARD_ANIMATE_DEAD -> WIZARD_SUMMON_SHADOW
+
+  SPWI504   Monster Summoning III -> Monster Summoning V
+    ids: WIZARD_MONSTER_SUMMONING_3 -> WIZARD_MONSTER_SUMMONING_LEVEL_5
+
+  SPWI508   Chaos -> Waves of Fatigue
+    ids: WIZARD_CHAOS -> WIZARD_WAVES_OF_FATIGUE
+
+  SPWI510   Spell Immunity -> Dispelling Screen
+    ids: WIZARD_SPELL_IMMUNITY -> WIZARD_DISPELLING_SCREEN
+
+  SPWI511   Protection From Normal Weapons -> Protection from Normal Weapons
+
+  SPWI512   Protection From Electricity -> Protection from Electricity
+    level: 5 -> 4
+
+  SPWI517   Protection From Acid -> Protection from Acid
+    level: 5 -> 4
+
+  SPWI522   Minor Spell Turning -> Spell Deflection
+    ids: WIZARD_MINOR_SPELL_TURNING -> WIZARD_SPELL_DEFLECTION
+
+  SPWI523   Sunfire -> Fireburst
+
+  SPWI590   Immunity: Abjuration -> Dispelling Screen
+
+  SPWI592   Immunity: Divination -> Non-Detection
+
+  SPWI593   Immunity: Enchantment -> Mind Blank
+
+  SPWI605   Death Spell -> Banishment
+    ids: WIZARD_DEATH_SPELL -> WIZARD_BANISHMENT
+
+  SPWI606   Protection From Magic Energy -> Protection from Magic Energy
+
+  SPWI609   True Sight -> True Seeing
+
+  SPWI611   Protection From Magical Weapons -> Protection from Magical Weapons
+
+  SPWI612   Power Word, Silence -> Power Word Silence
+
+  SPWI614   Death Fog -> Acid Fog
+    ids: WIZARD_DEATH_FOG -> WIZARD_ACID_FOG
+
+  SPWI618   Spell Deflection
+    ids: WIZARD_SPELL_DEFLECTION -> WIZARD_SPELL_DEFLECTION_DEPRECATED
+
+  SPWI623   Carrion Summons -> Animate Skeleton Warrior
+    ids: WIZARD_CARRION -> WIZARD_ANIMATE_SKELETON_WARRIOR
+
+  SPWI701   Spell Turning -> Greater Spell Deflection
+    ids: WIZARD_SPELL_TURNING -> WIZARD_GREATER_SPELL_DEFLECTION
+
+  SPWI702   Protection From The Elements -> Protection from the Elements
+
+  SPWI707   Cacofiend -> Summon Death Knight
+    ids: WIZARD_CACOFIEND -> WIZARD_SUMMON_DEATH_KNIGHT
+
+  SPWI708   Mantle -> Prismatic Mantle
+
+  SPWI710   Spell Sequencer -> Simbul's Spell Sequencer
+
+  SPWI711   Sphere of Chaos -> Chaos
+    ids: WIZARD_SPHERE_OF_CHAOS -> WIZARD_CHAOS
+
+  SPWI715   Power Word, Stun -> Power Word Stun
+
+  SPWI719   Summon Hakeashar -> Summon Nishruu
+
+  SPWI802   Spell Deflection -> Mind Blank
+    ids:  -> WIZARD_MIND_BLANK
+
+  SPWI803   Protection From Energy -> Protection from Energy
+
+  SPWI808   Improved Mantle -> Moment of Prescience
+    ids: WIZARD_IMPROVED_MANTLE -> WIZARD_MOMENT_OF_PRESCIENCE
+
+  SPWI809   Spell Trigger -> Simbul's Spell Trigger
+
+  SPWI811   Symbol, Fear -> Symbol of Weakness
+    ids: WIZARD_SYMBOL_FEAR -> WIZARD_SYMBOL_WEAKNESS
+
+  SPWI815   Power Word, Blind -> Power Word Blind
+
+  SPWI816   Symbol, Stun -> Symbol of Stunning
+
+  SPWI817   Symbol, Death -> Symbol of Death
+
+  SPWI818   Bigby's Clenched Fist -> Bigby's Icy Grasp
+    ids: WIZARD_BIGBYS_CLENCHED_FIST -> WIZARD_BIGBYS_ICY_GRASP
+
+  SPWI912   Power Word, Kill -> Power Word Kill
+
+  SPWI914   Energy Drain -> Larloch's Energy Drain
+
+  SPWI920   Energy Blades
+    level: 9 -> 1
+    type: Wizard -> Innate
+
+  SPWI921   Improved Alacrity
+    level: 9 -> 1
+    type: Wizard -> Innate
+
+  SPWI922   Dragon's Breath
+    level: 9 -> 1
+    type: Wizard -> Innate
+
+  SPWI923   Summon Planetar
+    level: 9 -> 1
+    type: Wizard -> Innate
+
+  SPWI924   Summon Dark Planetar
+    level: 9 -> 1
+    type: Wizard -> Innate
+
+  SPWI925   Comet
+    level: 9 -> 1
+    type: Wizard -> Innate

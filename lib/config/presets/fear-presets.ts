@@ -1,66 +1,40 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
+import { TargetList } from "../../src/model/script/target";
 import targetService from "../../src/services/baf/target.service";
-import { DEFAULT_SPELL_PROBABILITY, FEAR_TARGET_LISTS } from "../common";
-import { FNP_SPELLS } from "../spells/fnp-spell-names";
-import { SPELLS } from "../spells/spell-names";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
+import { SPELLS } from "../spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+
+const FEAR_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    triggers: ExcludeUnwantedTargetsTriggers,
+    randomOrder: true,
+  },
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    randomOrder: true,
+  },
+];
 
 export const FEAR_PRESETS: AbilityPreset[] = [
-  {
-    preset: SPELLS.Wizard.Horror.file,
-    ability: {
-      name: SPELLS.Wizard.Horror.name,
-      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
+  ...presetFactory.createOrderedSpells(
+    [SPELLS.Wizard.SymbolFear, SPELLS.Wizard.Horror, SPELLS.Wizard.Spook],
+    {
+      targets: FEAR_TARGET_LISTS,
     },
-  },
-  {
-    preset: SPELLS.Wizard.Spook.file,
-    ability: {
-      name: SPELLS.Wizard.Spook.name,
-      targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-        triggerFactory.checkStatGT(0, "MINORGLOBE", true),
-        // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-        // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-      ]),
-      spell: {},
-      requireVocal: true,
-      probability: DEFAULT_SPELL_PROBABILITY,
-    },
-  },
-  ...presetFactory.create([SPELLS.Priest.CloakOfFear.file, FNP_SPELLS.Priest.CloakOfFear.file], {
-    name: SPELLS.Priest.CloakOfFear.name,
-    targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-      // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
-    ]),
-    spell: {
-      selfTarget: true,
-    },
+  ),
+  ...presetFactory.createSpells([SPELLS.Priest.CloakOfFear, FNP_SPELLS.Priest.CloakOfFear], {
+    targets: FEAR_TARGET_LISTS,
     range: 10,
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
   }),
-  ...presetFactory.create([SPELLS.Innate.MoonDogHowl.file], {
-    name: SPELLS.Innate.MoonDogHowl.name,
+  ...presetFactory.createSpell(SPELLS.Innate.MoonDogHowl, {
     targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [
-      triggerFactory.checkStatGT(0, "MINORGLOBE", true),
       triggerFactory.alignment("MASK_EVIL"),
-      // triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR", true),
-      // triggerFactory.checkStatLT(50, "RESISTMAGIC"),
     ]),
-    spell: {
-      selfTarget: true,
-    },
-    range: 30,
-    requireVocal: true,
-    probability: DEFAULT_SPELL_PROBABILITY,
   }),
 ];

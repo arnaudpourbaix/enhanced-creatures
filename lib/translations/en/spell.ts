@@ -102,6 +102,24 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   },
 
   // Wizard
+  AbiDalzimHorridWilting: { name: "Abi-Dalzim's Horrid Wilting" },
+  AcidFog: { name: "Acid Fog" },
+  ChillTouch: { name: "Chill Touch" },
+  Deafness: { name: "Deafness" },
+  DeathSpell: { name: "Death Spell" },
+  SoundBurst: { name: "Sound Burst" },
+  DelayedBlastFireball: { name: "Delayed Blast Fireball" },
+  DragonsBreath: { name: "Dragon's Breath" },
+  GlobeOfInvulnerability: { name: "Globe of Invulnerability" },
+  Grease: { name: "Grease" },
+  IncendiaryCloud: { name: "Incendiary Cloud" },
+  LarlochEnergyDrain: { name: "Larloch's Energy Drain" },
+  LarlochMinorDrain: { name: "Larloch's Minor Drain" },
+  Maze: { name: "Maze" },
+  MeteorSwarm: { name: "Meteor Swarm" },
+  MinorLightningBolt: { name: "Minor Lightning Bolt" },
+  PolymorphOther: { name: "Polymorph Other" },
+  RayOfEnfeeblement: { name: "Ray of Enfeeblement" },
   Invisibility: { name: "Invisibility" },
   ImprovedInvisibility: { name: "Improved Invisibility" },
   Domination: { name: "Domination" },
@@ -128,6 +146,14 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   SpellThrust: { name: "Spell Thrust" },
   MinorSpellDeflection: { name: "Minor Spell Deflection" },
   MirrorImages: { name: "Mirror Images" },
+  MonsterSummoning1: { name: "Monster Summoning 1" },
+  MonsterSummoning2: { name: "Monster Summoning 2" },
+  MonsterSummoning3: { name: "Monster Summoning 3" },
+  MonsterSummoning4: { name: "Monster Summoning 4" },
+  MonsterSummoning5: { name: "Monster Summoning 5" },
+  MonsterSummoning6: { name: "Monster Summoning 6" },
+  MonsterSummoning7: { name: "Monster Summoning 7" },
+  MonsterSummoning8: { name: "Monster Summoning 8" },
   Haste: { name: "Haste" },
   StinkingCloud: { name: "Stinking Cloud" },
   MelfAcidArrow: { name: "Melf Acid Arrow" },
@@ -156,10 +182,32 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   GreaterMalison: { name: "Greater Malison" },
   Shield: { name: "Shield" },
   Feeblemind: { name: "Feeblemind" },
+  SkullTrap: { name: "SkullTrap" },
+  SymbolFear: { name: "Symbol of Fear" },
+  SummonShadow: { name: "Summon Shadow" },
+  HoldMonster: { name: "Hold Monster" },
+  VampiricTouch: { name: "Vampiric Touch" },
+  ShroudOfFlame: { name: "Shroud Of Flame" },
   FleshToStone: { name: "Flesh to Stone" },
   ShapeshiftMustardJelly: { name: "Shapeshift: Mustard Jelly" },
+  AcidStorm: { name: "Acid Storm" },
+  BeltynsBurningBlood: { name: "Beltyn's Burning Blood" },
+  Blindness: { name: "Blindness" },
+  IceLance: { name: "Icelance" },
+  OtilukesFreezingSphere: { name: "Otiluke's Freezing Sphere" },
+  PrismaticSpray: { name: "Prismatic Spray" },
+  SnillocsSnowballSwarm: { name: "Snilloc's Snowball Swarm" },
 
   // Priest
+  CreepingDoom: { name: "Creeping Doom" },
+  CureCriticalWounds: { name: "Cure Critical Wounds" },
+  CureSeriousWounds: { name: "Cure Serious Wounds" },
+  Earthquake: { name: "Earthquake" },
+  FireStorm: { name: "Fire Storm" },
+  Heal: { name: "Heal" },
+  InsectPlague: { name: "Insect Plague" },
+  MassCure: { name: "Mass Cure" },
+  NeutralizePoison: { name: "Neutralize Poison" },
   CharmPersonOrAnimal: { name: "Charm Person or Animal" },
   HoldPerson: { name: "Hold Person" },
   HoldPersonOrAnimal: { name: "Hold person or animal" },
@@ -203,7 +251,22 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   SymbolStunning: { name: "Symbol of Stunning" },
   SymbolWeakness: { name: "Symbol of Weakness" },
   SymbolHopelessness: { name: "Symbol of Hopelessness" },
-  SymbolPain: { name: "Symbol of Pain" },
+  SymbolPain: {
+    name: "Symbol of Pain",
+    description: `Symbol, Pain
+(Conjuration/Summoning)
+
+Level: 8
+Sphere: Wards
+Range: Visual range of the caster
+Duration: 11 turns
+Casting Time: 3
+Area of Effect: 12-ft. radius
+Saving Throw: None
+
+All creatures are afflicted with wracking pains shooting through their bodies, causing a -2 penalty to Dexterity and a -4 penalty to attack rolls for 11 turns.`,
+    displayedText: `Wracking Pains`,
+  },
   AerialServant: { name: "Aerial Servant" },
   BladeBarrier: { name: "Blade Barrier" },
   RighteousMagic: { name: "Righteous Magic" },
@@ -230,6 +293,8 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   SpiritualHammer: { name: "Spiritual Hammer" },
   Contagion: { name: "Contagion" },
   HolySmite: { name: "HolySmite" },
+  Gate: { name: "Gate" },
+  ProtectionFromEvil10Radius: { name: "Protection From Evil 10 Radius" },
   ProtectionFromGood10Radius: { name: "Protection From Good 10 Radius" },
   FreeAction: { name: "Free Action" },
   DivineProtection: { name: "Divine Protection" },
@@ -246,6 +311,12 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
   EntropyShield: { name: "Entropy Shield" },
   BoltOfGlory: { name: "Bolt Of Glory" },
   EnergyDrain: { name: "Energy Drain" },
+  CureMediumWounds: { name: "Cure Medium Wounds" },
+  CureModerateWounds: { name: "Cure Moderate Wounds" },
+  ProduceFire: { name: "Produce Fire" },
+  StaticCharge: { name: "Static Charge" },
+  Sunray: { name: "Sunray" },
+  Sunscorch: { name: "Sunscorch" },
 
   // Innate
   MephitColorSpray: { name: "Mephit Color Spray" },
@@ -266,7 +337,6 @@ Upon passing through the portal, the caster finds himself at his chosen destinat
 
   // Faiths & Powers only
   CauseDisease: { name: "Cause Disease" },
-  FrostFingers: { name: "Frost Fingers" },
   Forbiddance: { name: "Forbiddance" },
   Shatter: { name: "Shatter" },
   CircleOfBones: { name: "Circle of Bones" },

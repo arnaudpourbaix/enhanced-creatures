@@ -1,13 +1,10 @@
-/**
- * Incorporeal / spectral undead: banshee, shadow, greater shadow, spectre, ghost.
- *
- * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
- */
 import { EXISTING_ITEMS } from "../../config/item";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
+import { createFearAura } from "../../spells/fear_aura";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
 import { JEWEL_SLOTS } from "../../src/model/creature/item";
+import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectDamageTypeEnum,
@@ -33,36 +30,14 @@ import { Ids } from "./ids";
 import { Undead } from "./undead-creature";
 
 function bansheeFearAura(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.bansheeFearAura.name",
-    description: "monster.undead.ability.bansheeFearAura.description",
-    id: Ids.BansheeFearAura,
-    memorizedCount: 1,
-    icon: SPELLS.Priest.CloakOfFear.file,
-    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    options: { renew: 1 },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        location: ItemAbilityLocationEnum.Ability,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        speed: 1,
-        projectile: CommonProjectileFiles.AreaOfSightNonParty,
-        range: 30,
-        effects: effectFactory.fear({
-          duration: Durations.turn,
-          saveType: SaveTypeEnum.Spell,
-        }),
-      },
-    ],
-    ability: {
-      preset: SPELLS.Priest.CloakOfFear.file,
-      spell: {
-        type: "force",
-        remove: true,
-      },
-    },
-  });
+  return cre.addSpell(
+    createFearAura({
+      id: Ids.BansheeFearAura,
+      description: "monster.undead.ability.bansheeFearAura.description",
+      duration: Durations.turn,
+      saveType: SaveTypeEnum.Spell,
+    }),
+  );
 }
 
 function deathWail(cre: Undead) {
@@ -193,6 +168,7 @@ function ghostTouch(cre: Undead) {
     description: "monster.undead.ability.ghostTouch.description",
     id: Ids.GhostTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain", "magicDamage"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -214,12 +190,34 @@ function ghostTouch(cre: Undead) {
   });
 }
 
+function wraithTouch(cre: Undead) {
+  return cre.addSpell({
+    name: "monster.undead.ability.wraithTouch.name",
+    description: "monster.undead.ability.wraithTouch.description",
+    id: Ids.WraithTouch,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 5,
+        effects: [
+          ...effectFactory.levelDrain({
+            levels: 1,
+          }),
+        ],
+      },
+    ],
+  });
+}
+
 function specterTouch(cre: Undead) {
   return cre.addSpell({
     name: "monster.undead.ability.specterTouch.name",
     description: "monster.undead.ability.specterTouch.description",
     id: Ids.SpecterTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -255,6 +253,7 @@ export function banshee(family: UndeadFamily): Undead {
       general: "UNDEAD",
       race: "WRAITH",
       class: "SPECTRE",
+      animation: "WAILING_VIRGIN",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 15,
@@ -279,7 +278,7 @@ export function banshee(family: UndeadFamily): Undead {
   });
   banshee.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.DeathWail), family.ability(Ids.BansheeFearAura)],
+    abilities: [family.ability(Ids.BansheeFearAura), family.ability(Ids.DeathWail)],
   });
   return banshee;
 }
@@ -382,6 +381,7 @@ export function greaterShadow(family: UndeadFamily): Undead {
     bonusHp: 8,
     apr: 8,
     xpv: 3000,
+    animation: "SHADOW_LARGE",
     items: {
       remove: ["BDSHADGR", "BDSPECTQ", "BDSHADGA"],
       equipped: [{ file: EXISTING_ITEMS.InvisibilityRing, slot: JEWEL_SLOTS }],
@@ -464,8 +464,14 @@ export function spectre(family: UndeadFamily): Undead {
       class: "SPECTRE",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
-      movement: 15, // flying 30
+      movement: 30, // 15, FI 30 (B)
       immunities: ["undead"],
+      items: {
+        remove: ["RING95", "immune1", "SPECTR", "bdspirit", "GHOST"],
+      },
+      script: {
+        remove: ["DAO01"],
+      },
     },
   });
   spectre.addTrait({
@@ -479,9 +485,10 @@ export function spectre(family: UndeadFamily): Undead {
       spell: family.spell(Ids.SpecterTouch).file,
     },
   });
-  spectre.setBehavior({
-    dialog: [],
-  });
+  spectre.setAdjustments([
+    { files: ["SARSPIR", "L0MERCH", "L0SUMM5", "SPECTR01"], data: { level1: 10 } },
+    { files: ["SAHSPC01"], data: { level1: 10, xpv: 5000 } },
+  ]);
   return spectre;
 }
 
@@ -511,10 +518,20 @@ export function ghost(family: UndeadFamily): Undead {
       movement: 9,
       immunities: ["undead"],
       items: {
-        remove: ["bdringgh", "bdghost", "immune1", "ring94", "ghost", "helm15"],
+        remove: [
+          "bdringgh",
+          "bdghost",
+          "immune1",
+          "ring94",
+          "ring95",
+          "ghost",
+          "helm15",
+          "B1-10",
+          "B1-8",
+        ],
       },
       script: {
-        remove: ["bdghost", "shoutdl2"],
+        remove: [],
       },
     },
   });
@@ -531,53 +548,115 @@ export function ghost(family: UndeadFamily): Undead {
     },
   });
   ghost.setBehavior({
-    dialog: ["daitel"],
-    abilities: [
-      family.ability(Ids.GhostFearAura),
-      family.preset(SPELLS.Wizard.Vocalize.file),
-      family.preset(SPELLS.Wizard.ShadowDoor.file),
-      family.preset(SPELLS.Wizard.ProtectionFromMagicalWeapons.file),
-      family.preset(SPELLS.Wizard.Stoneskin.file),
-      family.preset(SPELLS.Wizard.MinorGlobeOfInvulnerability.file),
-      family.preset(SPELLS.Wizard.ProtectionFromMissiles.file),
-      family.preset(SPELLS.Wizard.MinorSpellDeflection.file),
-      family.preset(SPELLS.Wizard.MirrorImages.file),
-      family.preset(SPELLS.Wizard.Shield.file),
-      family.preset(SPELLS.Wizard.FireShield.file),
-      family.preset(SPELLS.Wizard.Breach.file),
-      family.preset(SPELLS.Wizard.SpellThrust.file),
-      family.preset(SPELLS.Wizard.DispelMagic.file),
-      family.preset(SPELLS.Wizard.RemoveMagic.file),
-      family.preset(SPELLS.Wizard.ChainLightning.file),
-      family.preset(SPELLS.Wizard.Cloudkill.file),
-      family.preset(SPELLS.Wizard.Fireburst.file),
-      family.preset(SPELLS.Wizard.ConeOfCold.file),
-      family.preset(SPELLS.Wizard.GreaterMalison.file),
-      family.preset(SPELLS.Wizard.Confusion.file),
-      family.preset(SPELLS.Wizard.TeleportField.file),
-      family.preset(SPELLS.Wizard.VitriolicSphere.file),
-      family.preset(SPELLS.Wizard.MordenkainenForceMissiles.file),
-      family.preset(SPELLS.Wizard.Slow.file),
-      family.preset(SPELLS.Wizard.FlameArrow.file),
-      family.preset(SPELLS.Wizard.LightningBolt.file),
-      family.preset(SPELLS.Wizard.HoldPerson.file),
-      family.minorSequencer([SPELLS.Wizard.MirrorImages.file, SPELLS.Wizard.Blur.file]),
-      family.minorSequencer([SPELLS.Wizard.Web.file, SPELLS.Wizard.Combust.file]),
-      family.preset(SPELLS.Wizard.Combust.file),
-      family.preset(SPELLS.Wizard.MelfAcidArrow.file),
-      family.preset(SPELLS.Wizard.AgannazarScorcher.file),
-      family.preset(SPELLS.Wizard.ObscuringMist.file),
-      family.preset(SPELLS.Wizard.Spook.file),
-      family.preset(SPELLS.Wizard.MagicMissiles.file),
-      family.preset(SPELLS.Wizard.BurningHands.file),
-    ],
+    abilities: [family.ability(Ids.GhostFearAura)],
     spellcaster: {},
   });
-  ghost.setAdjustments([
+  ghost.setAdjustments([]);
+  return ghost;
+}
+
+export function wraith(family: UndeadFamily): Undead {
+  const wraith = family.create({
+    monster: MonsterEnum.Wraith,
+    name: "monster.undead.name.wraith",
+    files: [],
+    data: {
+      level1: 5,
+      bonusHp: 3,
+      strength: 6,
+      dexterity: 16,
+      constitution: 9,
+      intelligence: 12,
+      wisdom: 14,
+      charisma: 15,
+      ac: 4,
+      apr: 1,
+      xpv: 2000,
+      alignment: "LAWFUL_EVIL",
+      morale: 15,
+      general: "UNDEAD",
+      race: "WRAITH",
+      class: "WRAITH",
+      gender: "NIETHER",
+      animation: "SHADOW",
+      size: { value: "Medium", tall: true, long: false },
+      movement: 24, // 12, FI 24 (B)
+      items: {
+        remove: ["wraith1", "ring95", "immune1", "immchs", "s1-8", "undtype", "dvwraith"],
+      },
+    },
+  });
+  wraith.addTrait({
+    immunities: ["cold", "nonSilverNonMagicalWeapons"],
+  });
+  wraithTouch(wraith);
+  wraith.createClaws({
+    diceThrown: 1,
+    diceSize: 6,
+    castSpell: {
+      spell: family.spell(Ids.WraithTouch).file,
+    },
+  });
+  wraith.setAdjustments([
     {
-      files: ["BDLITLA"],
-      data: {},
+      files: ["AC#FPWRA"],
+      data: {
+        script: {
+          location: "None",
+        },
+      },
     },
   ]);
-  return ghost;
+  greaterWraithVariant(wraith);
+  return wraith;
+}
+
+function greaterWraithVariant(base: Undead): Variant {
+  const greater = base.variant("Greater Wraith", {
+    data: {
+      level1: 9,
+      ac: 2,
+      xpv: 3000,
+    },
+    files: ["AC#DT30W", "FIRWRA01"],
+    adjust: [],
+  });
+  return greater;
+}
+
+export function deathShade(family: UndeadFamily): Undead {
+  const shade = family.create({
+    monster: MonsterEnum.DeathShade,
+    name: "monster.undead.name.deathShade",
+    files: [],
+    data: {
+      level1: 4,
+      strength: 12,
+      dexterity: 13,
+      constitution: 9,
+      intelligence: 7,
+      wisdom: 10,
+      charisma: 14,
+      ac: 7,
+      apr: 1,
+      xpv: 975,
+      alignment: "NEUTRAL_EVIL",
+      morale: 12,
+      general: "UNDEAD",
+      race: "SKELETON",
+      class: "SKELETON",
+      gender: "NIETHER",
+      size: { value: "Medium", tall: true, long: false },
+      movement: 18,
+      immunities: ["undead"],
+      items: {
+        remove: ["ring95", "bdbonbat"],
+      },
+    },
+  });
+  shade.addTrait({});
+  shade.setBehavior({
+    restHeal: true,
+  });
+  return shade;
 }

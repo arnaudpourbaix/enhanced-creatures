@@ -18,7 +18,7 @@ LAF create_spell_ColorSpray END
 // Patch immunity to both Color Spray versions into spells and items that cause blindness
 // Note: Color Spray should not protect the target from its own effects. It's clunky and can often cause more harm than good. The drawbacks outweigh the benefits in this case.
 ACTION_IF !GAME_IS ~iwdee~ BEGIN // not needed on IWD:EE
-  LAF get_blindness_resources RET_ARRAY resources END
+  LAF get_blind_resources RET_ARRAY resources END
   ACTION_PHP_EACH resources AS _ => file BEGIN
     ACTION_IF FILE_EXISTS_IN_GAME ~%file%~ BEGIN
       COPY_EXISTING ~%file%~ ~override~

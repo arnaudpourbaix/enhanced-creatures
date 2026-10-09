@@ -1,8 +1,23 @@
 import deepmerge from "deepmerge";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { GLOBAL_CONFIG } from "../../../config/generate";
+import { resourcePlaceholderToken } from "../../../config/mods";
+import { SpellKeyword } from "../../../config/spells/keyword";
+import { SPELLS } from "../../../config/spells/spell-database";
+import {
+  alliesCheckForFile,
+  excludeSpellStatesForFile,
+  excludeStateChecksForFile,
+  excludeStatsChecksForFile,
+  includeStateChecksForFile,
+  keywordsForFile,
+  levelForFile,
+  rangeForFile,
+  SpellVariant,
+} from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
+import logService from "../log.service";
 import { ScriptTarget } from "../../model/constants";
 import {
   CreatureAbility,
@@ -13,6 +28,7 @@ import {
 import { StringReference } from "../../model/final/stringref";
 import { Actions } from "../../model/script/actions";
 import { CustomCode, PartialCustomCode } from "../../model/script/script";
+import { TargetList } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 
 class AbilityService {
@@ -58,9 +74,62 @@ class AbilityService {
       );
       if (!rawAb.spell) throw new Error(`Sequencer only supports spells`);
       ability.spells.push(rawAb.spell);
-      if (rawAb.targets) ability.targets?.push(...rawAb.targets);
+      const targets = this.appendSpellCheckTriggers(rawAb.targets, rawAb.keywords, rawAb.level);
+      if (targets) ability.targets?.push(...targets);
     }
     return ability;
+  }
+
+  /**
+   * Appends trigger.factory.spellChecks()'s triggers for `keywords`, and the level-driven checks
+   * (trigger.factory.spellLevelChecks) when `level` is known, to every target list's own
+   * `triggers` - not the ability's top-level triggers - since a target list is what actually
+   * restricts an offensive ability to a subset of targets, so "skip protected targets" belongs
+   * there. These ability-level checks are shared by every target list; each target list's own
+   * `keywords` (see TargetList.keywords) are additionally resolved and appended per-tier, so a
+   * fallback cascade's tiers can carry different, independently-toggleable checks (e.g. excluding
+   * both Elf and Half-Elf in a best-case tier, only Elf in a looser fallback). `keywords` is
+   * consumed here and dropped from the result - it's build-time input only, never read again
+   * downstream, and dropping it lets two tiers whose *resolved* triggers end up identical dedupe
+   * against each other even when they were authored with different `keywords` (see
+   * dedupeTargetLists). Finishes by deduping any target list that's become a full duplicate of an
+   * earlier one - toggling a tier-only check off can otherwise leave two tiers identical. A no-op
+   * when there's nothing to add.
+   */
+  private appendSpellCheckTriggers(
+    targets: TargetList[] | undefined,
+    keywords: SpellKeyword[] | undefined,
+    level: number | null | undefined,
+  ): TargetList[] | undefined {
+    if (!targets) return targets;
+    const sharedChecks = triggerFactory.spellChecks(keywords);
+    if (typeof level === "number" && GLOBAL_CONFIG.spellChecks.spellProtections) {
+      sharedChecks.push(...triggerFactory.spellLevelChecks(level, keywords));
+    }
+    const withChecks = targets.map((t) => {
+      const { keywords: ownKeywords, ...rest } = t;
+      const allChecks = [...sharedChecks, ...triggerFactory.spellChecks(ownKeywords)];
+      return allChecks.length
+        ? { ...rest, triggers: [...(rest.triggers ?? []), ...allChecks] }
+        : rest;
+    });
+    return this.dedupeTargetLists(withChecks);
+  }
+
+  /**
+   * Drops any TargetList that's a full structural duplicate of an earlier one in the same array.
+   * A fallback cascade's tiers can end up identical once a tier-only toggleable check (see
+   * TargetList.keywords) is disabled by GLOBAL_CONFIG - trying the exact same filter twice can
+   * never produce a different result, so the later duplicate is pure waste in the generated output.
+   */
+  private dedupeTargetLists(targets: TargetList[]): TargetList[] {
+    const seen: string[] = [];
+    return targets.filter((t) => {
+      const key = JSON.stringify(t);
+      if (seen.includes(key)) return false;
+      seen.push(key);
+      return true;
+    });
   }
 
   getCustomCodes(customCodes: PartialCustomCode[] | undefined): CustomCode[] {
@@ -95,6 +164,7 @@ class AbilityService {
     const triggers: Triggers.Trigger[] = ability.triggers ?? [];
     let targets = !ability.targets || Array.isArray(ability.targets) ? ability.targets : undefined;
     if (!!ability.targets && !Array.isArray(ability.targets)) targets = [ability.targets];
+    targets = this.appendSpellCheckTriggers(targets, ability.keywords, ability.level);
     const result: CreatureAbility = {
       infiniteUse: false,
       requireVocal: false,
@@ -107,6 +177,11 @@ class AbilityService {
       triggers,
       actions: ability.actionsBefore ?? [],
     };
+    // The caster is caught in its own blast too: keep out of it unless told otherwise (see
+    // StatementBuilderService.closeRangeFallback for a protected caster).
+    if (result.alliesCheck && result.minRange === undefined) {
+      result.minRange = result.alliesCheck.range;
+    }
     if ("spell" in ability && ability.spell) {
       this.parseAbilitySpell(result, ability, ability.spell);
     } else if ("spells" in ability) {
@@ -131,9 +206,14 @@ class AbilityService {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
     result.isSpell = !spell.isAttack;
     result.resource = spell.resource ?? ability.preset;
+    result.resourceVariants = spell.resourceVariants;
     spell.type ??= "normal";
     result.infiniteUse = spell.type !== "normal" && !spell.remove;
     spell.memorizedSpellCheck ??= true;
+    // Lets a SPELLS entry's `keywords: ["castOnSelf"]` (see SpellKeyword) drive the same behavior
+    // as hand-setting CreatureAbilitySpell.castOnSelf, once ability.keywords is resolved (either
+    // explicitly or via keywordsForFile in applyPreset above).
+    spell.castOnSelf ??= ability.keywords?.includes("castOnSelf");
     if (!spell.id && !spell.resource)
       throw new Error(`No spell specified for ability ${ability.name ?? "unknown"}`);
     if (spell.memorizedSpellCheck && spell.id) {
@@ -144,11 +224,11 @@ class AbilityService {
     } else if (spell.memorizedSpellCheck && spell.resource) {
       result.triggers.unshift({
         name: "HaveSpellRES",
-        params: [spell.resource],
+        params: [this.resourceParam(spell.resource, spell.resourceVariants)],
       });
     }
     this.addExclusionTriggers(result, target, spell);
-    let spellTarget: string = spell.selfTarget ? ScriptTarget.myself : ScriptTarget.lastSeen;
+    let spellTarget: string = spell.castOnSelf ? ScriptTarget.myself : ScriptTarget.lastSeen;
     if (spell.targetName) spellTarget = spell.targetName;
     result.actions.push(this.getSpellAction(spell, spellTarget));
     if (spell.remove && spell.type !== "normal" && spell.id) {
@@ -159,7 +239,7 @@ class AbilityService {
     } else if (spell.remove && spell.type !== "normal" && spell.resource) {
       result.actions.push({
         name: "RemoveSpellRES",
-        params: [spell.resource],
+        params: [this.resourceParam(spell.resource, spell.resourceVariants)],
       });
     }
     return result;
@@ -205,7 +285,12 @@ class AbilityService {
     spells: CreatureAbilitySpell[],
   ): CreatureAbility {
     const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
-    if (spells.some((s) => s.selfTarget) && !spells.every((s) => s.selfTarget)) {
+    // See parseAbilitySpell's identical line - applied before the same-target check below so a
+    // keyword-driven default is validated exactly like an explicit one.
+    for (const spell of spells) {
+      spell.castOnSelf ??= ability.keywords?.includes("castOnSelf");
+    }
+    if (spells.some((s) => s.castOnSelf) && !spells.every((s) => s.castOnSelf)) {
       throw new Error(
         `Every spells must have the same target in ability ${ability.name ?? "unknown"}`,
       );
@@ -215,11 +300,57 @@ class AbilityService {
     // result.resource = spell.resource ?? ability.preset;
     for (const spell of spells) {
       this.addExclusionTriggers(result, target, spell);
-      let spellTarget: string = spell.selfTarget ? ScriptTarget.myself : ScriptTarget.lastSeen;
+      let spellTarget: string = spell.castOnSelf ? ScriptTarget.myself : ScriptTarget.lastSeen;
       if (spell.targetName) spellTarget = spell.targetName;
       result.actions.push(this.getSpellAction(spell, spellTarget));
     }
     return result;
+  }
+
+  /**
+   * Logs every state-check field an ability sets on top of its preset - deepmerge appends it to
+   * the preset's own (e.g. baked in via PresetFactory's spellDefaults) rather than replacing it,
+   * so generator.log lists each case (under its creature's section) for review.
+   */
+  private logCheckOverrides(
+    presetSpell: CreatureAbilitySpell | undefined,
+    overrideSpell: CreatureAbilitySpell | undefined,
+    presetName: string,
+  ): void {
+    if (!overrideSpell) return;
+    const fields = [
+      "includeStateChecks",
+      "excludeStateChecks",
+      "excludeSpellStates",
+      "excludeStatsChecks",
+    ] as const;
+    for (const field of fields) {
+      const override = overrideSpell[field];
+      if (override === undefined) continue;
+      logService.info(
+        `Preset ${presetName} ${field} override: ${JSON.stringify(override)} appended to preset's ${JSON.stringify(presetSpell?.[field] ?? [])}`,
+      );
+    }
+  }
+
+  /**
+   * An ability's final keywords: its own (e.g. a custom spell's, see spell.service) added to its
+   * preset's, deduped - keywords are cumulative, so a spell cast through a preset keeps every check
+   * and spell group the preset implies (a spell too different from its preset shouldn't use it).
+   * The preset's side falls back to whatever SPELLS says about this exact presetName, covering a
+   * preset that isn't built from a SpellReference at all. Undefined (rather than []) when nothing
+   * matches, so a one-off ability with no SPELLS entry of its own is unaffected.
+   */
+  mergeKeywords(
+    own: SpellKeyword[] | undefined,
+    presetName: string | undefined,
+  ): SpellKeyword[] | undefined {
+    const preset = presetName ? ABILITY_PRESETS.find((p) => p.preset === presetName) : undefined;
+    const presetKeywords = presetName
+      ? (preset?.ability.keywords ?? keywordsForFile(SPELLS, presetName))
+      : undefined;
+    const keywords = [...(presetKeywords ?? []), ...(own ?? [])];
+    return keywords.length ? [...new Set(keywords)] : undefined;
   }
 
   private applyPreset(ability: RawCreatureAbility, presetName: string): RawCreatureAbility {
@@ -228,7 +359,34 @@ class AbilityService {
       throw new Error(`Unknown preset ${presetName}`);
     }
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
+    this.logCheckOverrides(preset.ability.spell, ability.spell, presetName);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
+    // Recomputed explicitly rather than trusting deepmerge's concatenation (see mergeKeywords).
+    result.keywords = this.mergeKeywords(ability.keywords, presetName);
+    // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
+    // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system. An explicit
+    // `null` (not a real spell) is kept as is.
+    if (result.level === undefined) result.level = levelForFile(SPELLS, presetName);
+    // Same fallback as keywords/level above, for the Range() trigger mechanism (see
+    // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
+    result.range ??= rangeForFile(SPELLS, presetName);
+    // Same fallback again, but with keywords' precedence rather than deepmerge's: an override's own
+    // alliesCheck (or null to disable it) fully replaces the preset's instead of merging safeIf.
+    const alliesCheck =
+      ability.alliesCheck !== undefined
+        ? ability.alliesCheck
+        : (preset.ability.alliesCheck ?? alliesCheckForFile(SPELLS, presetName));
+    if (alliesCheck !== undefined) result.alliesCheck = alliesCheck;
+    // Same fallback as keywords/level/range above, but for CreatureAbilitySpell's own state-check
+    // fields (see SpellReference.includeStateChecks and siblings) - only fires when the deepmerge
+    // above produced nothing for the field at all, so it never duplicates a check that's already
+    // present (e.g. baked in via PresetFactory's spellDefaults, or set by the override itself).
+    if (result.spell) {
+      result.spell.includeStateChecks ??= includeStateChecksForFile(SPELLS, presetName);
+      result.spell.excludeStateChecks ??= excludeStateChecksForFile(SPELLS, presetName);
+      result.spell.excludeSpellStates ??= excludeSpellStatesForFile(SPELLS, presetName);
+      result.spell.excludeStatsChecks ??= excludeStatsChecksForFile(SPELLS, presetName);
+    }
     if (ability.spell && preset.ability.spell?.id && ability.spell.resource && result.spell) {
       result.spell.id = undefined;
     } else if (
@@ -238,6 +396,16 @@ class AbilityService {
       result.spell
     ) {
       result.spell.resource = undefined;
+    }
+    // The override's own resource is a different spell than whatever the preset's
+    // resourceVariants described - deepmerge would otherwise leave the preset's variants attached
+    // to the override's unrelated resource.
+    if (
+      ability.spell?.resource &&
+      !ability.spell.resourceVariants &&
+      result.spell?.resourceVariants
+    ) {
+      result.spell.resourceVariants = undefined;
     }
     return result;
   }
@@ -249,13 +417,25 @@ class AbilityService {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   private getSpellAction(spell: CreatureAbilitySpell, target: string): Actions.Action {
     if (spell.resource && spell.type === "normal")
-      return { name: "SpellRES", params: [spell.resource, target] };
+      return {
+        name: "SpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "noDec")
-      return { name: "SpellNoDecRES", params: [spell.resource, target] };
+      return {
+        name: "SpellNoDecRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "force")
-      return { name: "ForceSpellRES", params: [spell.resource, target] };
+      return {
+        name: "ForceSpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.resource && spell.type === "reallyForce")
-      return { name: "ReallyForceSpellRES", params: [spell.resource, target] };
+      return {
+        name: "ReallyForceSpellRES",
+        params: [this.resourceParam(spell.resource, spell.resourceVariants), target],
+      };
     else if (spell.id && spell.type === "normal")
       return { name: "Spell", params: [target, spell.id] };
     else if (spell.id && spell.type === "noDec")
@@ -266,6 +446,16 @@ class AbilityService {
       return { name: "ReallyForceSpell", params: [target, spell.id] };
 
     throw new Error("getSpellAction: unexpected combination");
+  }
+
+  /**
+   * The literal resource to bake into a compiled action/trigger param - the resource itself when
+   * it's always correct, or a `%TOKEN%` placeholder when it has mod-dependent variants, resolved by
+   * weidu-creature.service.ts's OUTER_SPRINT assignment right before this creature's script is
+   * actually compiled (an install-time decision, not something this generator can know).
+   */
+  private resourceParam(resource: string, variants: SpellVariant[] | undefined): string {
+    return variants?.length ? `%${resourcePlaceholderToken(resource)}%` : resource;
   }
 }
 

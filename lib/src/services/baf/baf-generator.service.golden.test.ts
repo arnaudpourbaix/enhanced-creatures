@@ -14,10 +14,7 @@ import bafGeneratorService from "./baf-generator.service";
 // baf-generator.service.test.ts. Uses buildContent() (not generate()) so
 // nothing is written to disk.
 function readModFile(relativePath: string): string {
-  return fs.readFileSync(
-    path.resolve(process.cwd(), "mod", relativePath),
-    "utf-8",
-  );
+  return fs.readFileSync(path.resolve(process.cwd(), "mod", relativePath), "utf-8");
 }
 
 let ankheg: Creature;

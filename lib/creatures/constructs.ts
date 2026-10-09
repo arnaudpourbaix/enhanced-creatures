@@ -1,4 +1,4 @@
-import { SPELLS } from "../config/spells/spell-names";
+import { SPELLS } from "../config/spells/spell-database";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
 import {
@@ -69,7 +69,7 @@ class ConstructFamily extends CreatureFamily<Construct> {
         class: "FIGHTER",
         gender: "NIETHER",
         size: { value: "Medium", tall: true, long: false },
-        animation: "FIGHTER_MALE_HUMAN",
+        animation: "DOOM_GUARD",
         hairColor: 63,
         armorColor: 63,
         skinColor: 63,

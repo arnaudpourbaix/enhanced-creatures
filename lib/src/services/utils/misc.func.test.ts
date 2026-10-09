@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  getItemFilename,
-  getProjectileFilename,
-  getSpellFilename,
-} from "./misc.func";
+import { getItemFilename, getProjectileFilename, getSpellFilename } from "./misc.func";
 
 describe("getSpellFilename", () => {
   it("builds a jas<hex-num><type><hex-id> resref, defaulting to male", () => {

@@ -26,7 +26,6 @@ import {
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import creatureService from "../services/creature.service";
 import effectService from "../services/effects/effect.service";
-import spellService from "../services/spell.service";
 import { StringRefUtils } from "../services/utils/string-ref.utils";
 
 class EffectFactory {
@@ -343,16 +342,16 @@ class EffectFactory {
     saveBonus?: number;
     dispelResistance?: EffectDispelResistanceEnum;
   }) {
-    const effects: Effect[] = spellService.getGroupRessources("colorSpray").map((s) => ({
-      opcode: EffectTypeEnum.ProtectionFromSpell,
-      resource: s,
-      timing: EffectTimingEnum.InstantLimited,
-      duration: params.duration,
-      dispelResistance: params.dispelResistance,
-      saveTypes: params.saveType ? [params.saveType] : undefined,
-      saveBonus: params.saveBonus,
-    }));
-    effects.push(
+    const effects: Effect[] = [
+      {
+        opcode: EffectTypeEnum.ProtectionFromSpell,
+        resourceGroup: "colorSpray",
+        timing: EffectTimingEnum.InstantLimited,
+        duration: params.duration,
+        dispelResistance: params.dispelResistance,
+        saveTypes: params.saveType ? [params.saveType] : undefined,
+        saveBonus: params.saveBonus,
+      },
       {
         opcode: EffectTypeEnum.Blindness,
         timing: EffectTimingEnum.InstantLimited,
@@ -378,7 +377,7 @@ class EffectFactory {
         saveTypes: params.saveType ? [params.saveType] : undefined,
         saveBonus: params.saveBonus,
       },
-    );
+    ];
     return effectService.getEffects(effects);
   }
 

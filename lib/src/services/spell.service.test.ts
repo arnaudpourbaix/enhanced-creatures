@@ -1,7 +1,6 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
-import { SpellGroupName } from "../../config/spells/spell-group-name";
-import { SPELLS } from "../../config/spells/spell-names";
+import { SPELLS } from "../../config/spells/spell-database";
 import {
   EffectTargetEnum,
   ItemAbilityTypeEnum,
@@ -9,6 +8,7 @@ import {
 } from "../model/spell-item/effect.enums";
 import { Effect } from "../model/spell-item/effect";
 import { PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
+import { spellsByKeyword } from "../model/spell-item/spell-reference";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { State } from "../state";
 import spellService from "./spell.service";
@@ -142,15 +142,59 @@ describe("getSpell", () => {
   });
 });
 
-describe("getGroupRessources", () => {
-  it("throws when the group is not defined", () => {
-    expect(() => spellService.getGroupRessources("not-a-real-group" as SpellGroupName)).toThrow(
-      /Group not-a-real-group is not defined/,
+describe("getSpell keywords", () => {
+  it("merges the spell's and its ability's keywords, and hands the union back to the ability", () => {
+    const result = spellService.getSpell(
+      { name: SPELL_NAME, keywords: ["acid"], ability: { keywords: ["elf", "acid"] } },
+      "kwspl01",
     );
+    expect(result.keywords).toEqual(["acid", "elf"]);
+    expect(result.ability?.keywords).toEqual(["acid", "elf"]);
   });
 
-  it("returns the group's spell resrefs when the group is defined", () => {
-    expect(spellService.getGroupRessources("acidSpells")).toBeInstanceOf(Array);
+  it("leaves an ability without keywords untouched when the spell has none either", () => {
+    const result = spellService.getSpell({ name: SPELL_NAME, ability: {} }, "kwspl02");
+    expect(result.keywords).toEqual([]);
+    expect(result.ability?.keywords).toBeUndefined();
+  });
+});
+
+describe("getGroupResources", () => {
+  it("gathers SPELLS entries, the group's own spells and created spells by keyword, without duplicates", () => {
+    State.spells.push({ file: "GRPTEST1", keywords: ["colorSpray"] } as unknown as Spell);
+    State.spells.push({ file: "GRPTEST2", keywords: ["fire"] } as unknown as Spell);
+    const result = spellService.getGroupResources({
+      name: "colorSpray",
+      spells: ["EXTRA01", "grptest1"],
+    });
+    // SPELLS entries tagged with the keyword come first (e.g. Color Spray itself).
+    const tagged = spellsByKeyword(SPELLS, "colorSpray");
+    expect(tagged).toContain(SPELLS.Wizard.ColorSpray.file);
+    // grptest1 (group's own) and GRPTEST1 (created spell) are the same file: kept once.
+    expect(result).toEqual([...tagged, "EXTRA01", "grptest1"]);
+    expect(
+      spellService.getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] }),
+    ).toEqual(expect.arrayContaining([SPELLS.Wizard.Horror.file]));
+    expect(
+      spellService
+        .getGroupResources({ name: "fear", spells: [SPELLS.Wizard.Horror.file] })
+        .filter((f) => f === SPELLS.Wizard.Horror.file),
+    ).toHaveLength(1);
+    State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
+  });
+
+  it("includes a created spell through its ability preset's keywords", () => {
+    State.spells.push({
+      file: "GRPTEST3",
+      keywords: [],
+      ability: { preset: SPELLS.Wizard.Fireball.file },
+    } as unknown as Spell);
+    try {
+      expect(spellService.getGroupResources({ name: "fireball" })).toContain("GRPTEST3");
+      expect(spellService.getGroupResources({ name: "cold" })).not.toContain("GRPTEST3");
+    } finally {
+      State.spells = State.spells.filter((s) => !s.file.startsWith("GRPTEST"));
+    }
   });
 });
 
@@ -210,7 +254,7 @@ describe("useEffectFile (racial resistance skip-add dedup)", () => {
 });
 
 describe("getAllSpellNames", () => {
-  it("includes a named spell from the base spell-names list", () => {
+  it("includes a named spell from the base spell-database list", () => {
     const result = spellService.getAllSpellNames();
     expect(result).toContainEqual({ file: "SPWI118", name: "spell.ChromaticOrb.name" });
   });
@@ -372,6 +416,7 @@ describe("createSpellbooks", () => {
       type: "cleric",
     });
     expect(result).toEqual([
+      { mod: "AllSpellMods", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "FaithsAndPowers", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
     ]);

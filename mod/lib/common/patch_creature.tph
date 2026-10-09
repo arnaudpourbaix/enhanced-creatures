@@ -51,8 +51,7 @@ INT_VAR
   alignment=99          // alignment
   hideShadow=999        // Hide in Shadows value
   moveSilent=999        // Move Silently value
-  animation="-1"
-  modAnimation="-1"
+  animation="-1"        // animation (may be a generated fallback chain, see CreatureData.animation)
   metalColor="-1"
   minorColor="-1"
   majorColor="-1"
@@ -104,6 +103,7 @@ BEGIN
   READ_BYTE  0x235 oldLevel2
   READ_BYTE  0x236 oldLevel3
   READ_BYTE  0x237 oldGender
+  READ_BYTE  0x275 oldSex
   READ_BYTE  0x238 oldStrength
   READ_BYTE  0x239 oldExceptionalStrength
   READ_BYTE  0x23a oldIntelligence
@@ -221,7 +221,11 @@ BEGIN
   PATCH_IF oldLevel3 < level3 OR enforce = 1 BEGIN
     WRITE_BYTE 0x236 level3 // set new level (third class) value
   END
-  PATCH_IF gender != 999 BEGIN // AND (oldGender != gender OR enforce = 1)
+  // Summons already carry a specific sex (SUMMONED, SUMMONED_DEMON) that scripts rely on: keep it.
+  // It can be set on either byte only (e.g. DVDEATHK: 0x237=MALE, 0x275=SUMMONED_DEMON), so check both.
+  PATCH_IF gender != 999
+    AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldGender != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~)
+    AND oldSex != IDS_OF_SYMBOL (~gender~ ~SUMMONED~) AND oldSex != IDS_OF_SYMBOL (~gender~ ~SUMMONED_DEMON~) BEGIN
     WRITE_BYTE 0x237 gender
     WRITE_BYTE 0x275 gender
   END
@@ -279,9 +283,7 @@ BEGIN
   PATCH_IF moveSilent != 999 AND (oldMoveSilent < moveSilent OR enforce = 1) BEGIN
     WRITE_BYTE 0x68 moveSilent // set new Hide in Shadows value
   END
-  PATCH_IF modAnimation != "-1" BEGIN
-    WRITE_LONG 0x28 modAnimation
-  END ELSE PATCH_IF animation != "-1" BEGIN
+  PATCH_IF animation != "-1" BEGIN
     WRITE_LONG 0x28 animation
   END
   PATCH_IF metalColor != "-1" BEGIN

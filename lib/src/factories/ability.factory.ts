@@ -9,7 +9,7 @@ class AbilityFactory {
       name: "spell.PolymorphSelf.name",
       spell: {
         id: "WIZARD_POLYMORPH_SELF",
-        selfTarget: true,
+        castOnSelf: true,
       },
       triggers: payload.triggers,
       requireVocal: true,
@@ -45,7 +45,7 @@ class AbilityFactory {
         name: "spell.PolymorphSelf.name",
         spell: {
           resource,
-          selfTarget: true,
+          castOnSelf: true,
         },
         noRoundTimer: true,
         canUseWhenPolymorphed: true,

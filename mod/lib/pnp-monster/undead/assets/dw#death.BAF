@@ -1,0 +1,16 @@
+IF
+    Detect([PC])
+    NumberOfTimesTalkedTo(0)
+THEN
+    RESPONSE #100
+        StartDialogueNoSet(LastSeenBy(Myself))
+END
+
+IF
+    Detect([PC])
+    OpenState("Mirror",FALSE)
+    NumberOfTimesTalkedTo(1)
+THEN
+    RESPONSE #100
+        StartDialogueNoSet(LastSeenBy(Myself))
+END

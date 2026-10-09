@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { SPELLBOOK_MODS } from "../../../config/mods";
-import { getAllFnpSpells } from "../../../config/spells/fnp-spell-names";
-import { getAllSpells } from "../../../config/spells/spell-names";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { getAllSpells } from "../../model/spell-item/spell-reference";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
@@ -11,7 +12,8 @@ import { Variant } from "../../model/creature/variant";
 import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
-import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
+import { StringReference } from "../../model/final/stringref";
+import { ProficiencyTypeEnum, SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
@@ -73,10 +75,10 @@ const ABILITY_TAB_THRESHOLD = 9;
 
 // BG2's own resref convention: a vanilla spell's filename is SPWI/SPPR followed by a 3-digit code
 // whose first digit is the spell's level (e.g. SPWI305 = Wizard level 3, SPPR113 = Priest level
-// 1). getSpellLevel only falls back to this when the resource has no entry in State.spells at
-// all (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow the convention, but
-// does carry a real `level` in its own config entry, e.g. fnp-spell-names.ts) - in that genuinely
-// unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
+// 1). getSpellLevel only falls back to this when the resource has no entry in State.spells or in
+// a spell-reference config (a mod-introduced spell like Faiths & Powers' D5P1301 doesn't follow
+// the convention, but does carry a real `level` in its own config entry, e.g. fnp-spell-database.ts)
+// - in that genuinely unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
 const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 
 // One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
@@ -164,7 +166,13 @@ class DocumentationService {
       // like creature.attack are still unset - skip it here rather than crash the whole
       // documentation pass on one bad creature.
       if (!creature.valid) continue;
-      this.addCreature(creature);
+      logService.withSection(
+        creature,
+        `Documenting ${translationService.from(creature.name)}...`,
+        () => {
+          this.addCreature(creature);
+        },
+      );
       this.indexCreatureFiles(creature);
     }
   }
@@ -1047,6 +1055,27 @@ class DocumentationService {
   // nothing to diff against (the base creature never has one of its own), so every entry is
   // shown as new rather than filtered down to only "changed" ones the way getAdjustmentSpells
   // filters the plain `memorized` list.
+  // Renders the tab strip shared by getCreatureSpellbooks and getAdjustmentSpellbooks. Skipped
+  // down to just the one panel's spells, with no tab button/name, when only one mod-conditional
+  // spellbook survived filtering - with nothing to switch between, a lone tab labeled "Vanilla"
+  // or "Spell Revisions" only adds noise, not information.
+  private renderSpellbookTabs(tabs: { id: string; name: string; spells: string }[]): string {
+    if (tabs.length === 1) return tabs[0].spells;
+    const buttons = tabs
+      .map(
+        (tab, i) =>
+          `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
+      )
+      .join("");
+    const panels = tabs
+      .map(
+        (tab, i) =>
+          `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
+      )
+      .join("");
+    return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+  }
+
   private getAdjustmentSpellbooks(
     creature: Creature,
     effective: EffectiveAdjustment,
@@ -1075,22 +1104,14 @@ class DocumentationService {
       })
       .filter((tab) => tab.spells);
     if (!tabs.length) return "";
-    const buttons = tabs
-      .map(
-        (tab, i) =>
-          `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
-      )
-      .join("");
-    const panels = tabs
-      .map(
-        (tab, i) =>
-          `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
-      )
-      .join("");
-    return `<h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
+    return `<h4>Spellbooks</h4>${this.renderSpellbookTabs(tabs)}`;
   }
 
   private getFileName(creature: Creature, file: string): string | undefined {
+    // An adjustment's own `stringRef` is an explicit author override for that file's name and
+    // wins over both newFiles and the creatures.csv name - see getAdjustmentStringRef.
+    const adjustmentStringRef = this.getAdjustmentStringRef(creature, file);
+    if (adjustmentStringRef !== undefined) return translationService.from(adjustmentStringRef);
     // creature.newFiles has a class field-initializer default of [] on the real Creature class, but
     // documentation.service.test.ts fixtures built via `as unknown as Creature` casts can leave it
     // genuinely undefined at runtime - same defensive pattern already used in adjustment.service.ts.
@@ -1105,21 +1126,40 @@ class DocumentationService {
     return monsterFilesService.getName(file);
   }
 
+  // Later-defined adjustments win, mirroring adjustmentService's own "last one wins" fold - a
+  // file touched by several adjustments (e.g. a variant patch plus a hand-written setAdjustments
+  // tweak) takes the stringRef of the last one that set it.
+  private getAdjustmentStringRef(creature: Creature, file: string): StringReference | undefined {
+    let result: StringReference | undefined;
+    for (const adjustment of creature.adjustments) {
+      if (adjustment.stringRef === undefined) continue;
+      if (adjustment.files.some((f) => f.toUpperCase() === file.toUpperCase())) {
+        result = adjustment.stringRef;
+      }
+    }
+    return result;
+  }
+
   // Every card is titled by the creatures.csv / newFiles name its file(s) resolve to, but several
   // distinct files often resolve to the very same name (e.g. a carrion crawler's CARRIOSU and
   // BDCRAWMU are both "Mutated Crawler") - so the originating file(s) are always spelled out in
   // parentheses after a resolved name to keep otherwise-identical cards apart. Files sharing one
   // resolved name are grouped under it ("Skeleton Warrior (KRYSKEL1, KRYSKEL2)"); a file whose
   // name doesn't resolve, or resolves to the creature's own name, already *is* its own label and
-  // gets no parenthetical.
+  // gets no parenthetical - unless that name was an explicit adjustment `stringRef`, which is an
+  // author override and always earns its label (e.g. correcting a misleading creatures.csv name
+  // back to the base creature's own name).
   private getAdjustmentLabel(creature: Creature, files: string[]): string {
     const creatureName = translationService.from(creature.name).trim().toLowerCase();
     const filesByLabel = new Map<string, string[]>();
     const order: string[] = [];
     for (const file of files) {
+      const explicit = this.getAdjustmentStringRef(creature, file) !== undefined;
       const resolved = this.getFileName(creature, file);
       const name =
-        resolved && resolved.trim().toLowerCase() !== creatureName ? resolved : undefined;
+        resolved && (explicit || resolved.trim().toLowerCase() !== creatureName)
+          ? resolved
+          : undefined;
       const label = name ?? file;
       if (!filesByLabel.has(label)) {
         filesByLabel.set(label, []);
@@ -1258,15 +1298,20 @@ class DocumentationService {
     return `<div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
   }
 
-  // A mod-introduced spell (e.g. Faiths & Powers') is registered with a real `level` in its own
-  // spell-reference config (spell-names.ts/fnp-spell-names.ts) even though its resref doesn't
-  // follow the vanilla SPWI/SPPR naming convention SPELL_LEVEL_PATTERN parses - so that config is
-  // authoritative here. It's not State.spells: that only holds spells we generate ourselves via
-  // spellService.getSpell (fresh innate abilities), never the vanilla/mod catalogs we merely
-  // reference by file. The filename regex is only a fallback for a resource with no config entry
-  // at all.
+  // A spell we author ourselves (e.g. Death Knight's Fireball/Wall of Ice, added via addSpell with
+  // an explicit `type`/`level`) gets an auto-generated resref that matches neither the vanilla
+  // SPWI/SPPR convention nor any spell-reference config, but spellService.getSpell already resolved
+  // its real type/level into State.spells - that's authoritative here, and only a genuinely
+  // Innate-type entry (e.g. Fear Aura) falls through to the "Innate" catch-all. A mod-introduced
+  // spell we merely reference by file (e.g. Faiths & Powers') isn't in State.spells at all, but is
+  // registered with a real `level` in its own spell-reference config (spell-database.ts/
+  // fnp-spell-database.ts) even though its resref doesn't follow SPELL_LEVEL_PATTERN - so that config
+  // is checked next. The filename regex is only a last-resort fallback for a resource with no entry
+  // anywhere.
   private getSpellLevel(resource: string | undefined): number | undefined {
-    const configuredLevel = [...getAllSpells(), ...getAllFnpSpells()].find(
+    const ownSpell = State.spells.find((s) => s.file === resource);
+    if (ownSpell) return ownSpell.type === SpellTypeEnum.Innate ? undefined : ownSpell.level;
+    const configuredLevel = [...getAllSpells(SPELLS), ...getAllFnpSpells()].find(
       (s) => s.file === resource,
     )?.level;
     if (configuredLevel !== undefined) return configuredLevel;
@@ -1286,7 +1331,11 @@ class DocumentationService {
         const entries = abilities
           .map((ability, abilityIndex) => ({
             ability,
-            html: this.getCreatureSpell(ability, spellbook.memorized, `${idPrefix}-ability-${abilityIndex}`),
+            html: this.getCreatureSpell(
+              ability,
+              spellbook.memorized,
+              `${idPrefix}-ability-${abilityIndex}`,
+            ),
           }))
           .filter((entry) => entry.html);
         return {
@@ -1297,22 +1346,7 @@ class DocumentationService {
       })
       .filter((tab) => tab.spells);
 
-    let result = "";
-    if (tabs.length) {
-      const buttons = tabs
-        .map(
-          (tab, i) =>
-            `<button type="button" class="spellbook-tab-button${i === 0 ? " active" : ""}" data-tab="${tab.id}">${tab.name}</button>`,
-        )
-        .join("");
-      const panels = tabs
-        .map(
-          (tab, i) =>
-            `<div class="spellbook-tab-panel abilities${i === 0 ? " active" : ""}" id="${tab.id}">${tab.spells}</div>`,
-        )
-        .join("");
-      result = `<h4>Spellbooks</h4><div class="spellbook-tabs"><div class="spellbook-tab-buttons" role="tablist">${buttons}</div>${panels}</div>`;
-    }
+    const result = tabs.length ? `<h4>Spellbooks</h4>${this.renderSpellbookTabs(tabs)}` : "";
     this.replace(template, "spellbooks", result);
   }
 

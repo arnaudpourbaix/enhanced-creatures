@@ -217,7 +217,12 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       adjustments: [
         {
           files: ["CHIEF"],
-          data: { hp: 74, constitution: 19, class: "FIGHTER_MAGE", level1: { pnpValue: 9, type: "none", value: 9 } },
+          data: {
+            hp: 74,
+            constitution: 19,
+            class: "FIGHTER_MAGE",
+            level1: { pnpValue: 9, type: "none", value: 9 },
+          },
         },
       ],
     });
@@ -590,7 +595,9 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
 
     // ADD_MEMORIZED_SPELL is cumulative and the generator emits one per matching adjustment:
     // base 1 + delta 1 + delta 2 = 4.
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 4 }, changed: true }]);
+    expect(effective?.memorized).toEqual([
+      { spell: { file: "SPPR101", memorizedCount: 4 }, changed: true },
+    ]);
   });
 
   it("treats a memorizedCount:0 delta as a reset, with later deltas adding back on top", () => {
@@ -625,7 +632,9 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       .find((e) => e.files.includes("BDSOGR1"));
 
     // base 3 -> reset to 0 -> +2 = 2
-    expect(effective?.memorized).toEqual([{ spell: { file: "SPPR101", memorizedCount: 2 }, changed: true }]);
+    expect(effective?.memorized).toEqual([
+      { spell: { file: "SPPR101", memorizedCount: 2 }, changed: true },
+    ]);
   });
 
   it("overrides a same-type proficiency's value rather than adding a second entry, and keeps untouched types", () => {
@@ -656,6 +665,71 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
       expect.arrayContaining([
         { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5, changed: true },
         { type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 1, changed: false },
+      ]),
+    );
+    expect(effective?.proficiencies).toHaveLength(2);
+  });
+
+  it("only shows proficiencies from the last of several matching adjustments that define any, dropping earlier ones outright", () => {
+    // Reproduces skeletons-warrior.ts's HGSKL04: a level-15 adjustment grants both
+    // PROFICIENCYTWOHANDEDSWORD and PROFICIENCYFLAILMORNINGSTAR, then a later level-20 adjustment on
+    // the same file only re-states PROFICIENCYTWOHANDEDSWORD. FLAILMORNINGSTAR must not survive as a
+    // leftover from the earlier adjustment even though nothing later ever overrides or clears it.
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["HGSKL04"],
+          data: {
+            proficiencies: [
+              { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
+              { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },
+            ],
+          },
+        },
+        {
+          files: ["HGSKL04"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("HGSKL04"));
+
+    expect(effective?.proficiencies).toEqual([
+      { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5, changed: true },
+    ]);
+  });
+
+  it("still accumulates 2-star-cap fighting-style proficiencies from an earlier adjustment even once a later one defines other proficiencies", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        {
+          files: ["MULTI"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON, value: 2 }],
+          },
+        },
+        {
+          files: ["MULTI"],
+          data: {
+            proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 3 }],
+          },
+        },
+      ],
+    });
+
+    const effective = adjustmentService
+      .getEffectiveAdjustments(creature)
+      .find((e) => e.files.includes("MULTI"));
+
+    expect(effective?.proficiencies).toEqual(
+      expect.arrayContaining([
+        { type: ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON, value: 2, changed: true },
+        { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 3, changed: true },
       ]),
     );
     expect(effective?.proficiencies).toHaveLength(2);
@@ -714,9 +788,17 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     const barbarian = new Variant({} as Creature, "Barbarian", {}, ["BDOGRE06"], chieftain);
     const creature = fakeCreature({
       adjustments: [
-        { files: ["BDOGRE06"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["BDOGRE06"],
+          variant: chieftain,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
         { files: ["BDOGRE06"], variant: barbarian, data: { strength: 19 } },
-        { files: ["OTHERFIL"], variant: chieftain, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["OTHERFIL"],
+          variant: chieftain,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
       ],
     });
 
@@ -733,7 +815,11 @@ describe("adjustmentService.getEffectiveAdjustments", () => {
     const second = new Variant({} as Creature, "Second", {}, ["SHARED"]);
     const creature = fakeCreature({
       adjustments: [
-        { files: ["SHARED"], variant: first, data: { level1: { pnpValue: 7, type: "none", value: 7 } } },
+        {
+          files: ["SHARED"],
+          variant: first,
+          data: { level1: { pnpValue: 7, type: "none", value: 7 } },
+        },
         { files: ["SHARED"], variant: second, data: { strength: 19 } },
       ],
     });

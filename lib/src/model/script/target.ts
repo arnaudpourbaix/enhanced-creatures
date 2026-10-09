@@ -1,4 +1,5 @@
-import { TargetListName, TargetStatusName } from "../../../config/target-name";
+import { SpellKeyword } from "../../../config/spells/keyword";
+import { TargetListName, TargetStatusName } from "../../../config/target/target-name";
 import { Triggers } from "./triggers";
 
 export interface TargetList {
@@ -21,6 +22,10 @@ export interface TargetList {
   includeStatus?: TargetStatusName[];
   excludeStatus?: TargetStatusName[];
   triggers?: Triggers.Trigger[];
+  /**
+   * This tier's own SpellKeyword(s) (e.g. "elf"/"halfElf" to skip a race resistant to this spell) -
+   */
+  keywords?: SpellKeyword[];
 }
 
 export interface TargetStatus {
@@ -29,6 +34,12 @@ export interface TargetStatus {
   triggers: Triggers.Trigger[];
   canOnlyTargetPlayer: boolean;
   requireIntelligence: boolean;
+  /**
+   * A status preferred over the next ones only within bafConstants.preferRange (for a creature
+   * fighting in melee): a farther target falls through to the next statuses instead of making the
+   * creature cross the battlefield.
+   */
+  preferWithin?: boolean;
 }
 
 /**
