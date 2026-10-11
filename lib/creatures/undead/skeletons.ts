@@ -235,6 +235,7 @@ function greaterSkeletonVariant(base: Undead): Variant {
       "D9SKL02",
       "D9SKL08",
       "HGSKL02",
+      "SKELGRSU",
     ],
     adjust: [
       { files: ["CBUNDEAD"], data: { script: { location: "None" } } },

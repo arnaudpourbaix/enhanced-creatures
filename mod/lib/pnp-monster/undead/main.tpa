@@ -31,3 +31,5 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/53.tpa" // Spectre
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/54.tpa" // Wight
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/55.tpa" // Wraith
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/56.tpa" // Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Zombie Juju

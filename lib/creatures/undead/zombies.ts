@@ -96,125 +96,124 @@ export function zombie(family: UndeadFamily): Undead {
     name: "monster.undead.name.zombie",
     files: [],
     data: {
-      level1: 3,
-      bonusHp: 2,
-      strength: 17,
-      dexterity: 15,
+      level1: 2,
+      bonusHp: 0,
+      strength: 13,
+      dexterity: 6,
       constitution: 9,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 1,
-      ac: 5,
+      intelligence: 1,
+      wisdom: 6,
+      charisma: 5,
+      ac: 8,
       apr: 1,
-      xpv: 1400,
-      alignment: "LAWFUL_EVIL",
+      xpv: 65,
+      alignment: "NEUTRAL",
       morale: 15,
-      general: "MONSTER",
-      race: "SPIDER",
-      class: "SPIDER_WRAITH",
+      general: "UNDEAD",
+      race: "ZOMBIE",
+      class: "ZOMBIE_NORMAL",
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
-      movement: 12,
+      movement: 6,
+      items: {
+        remove: ["ring94", "b1-8", "immune1", "b3-12"],
+      },
     },
   });
   zombie.addTrait({
-    immunities: ["cold", "nonSilverNonMagicalWeapons"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 15,
-        type: EffectStatisticModifierEnum.Set,
-      },
-    ],
+    immunities: ["cold"],
   });
-  zombie.setBehavior({
-    dialog: ["C#Q04009", "ttspid"],
+  zombie.createClaws({
+    diceThrown: 1,
+    diceSize: 8,
   });
   return zombie;
 }
 
-export function zombieJuju(family: UndeadFamily): Undead {
-  const wraith = family.create({
-    monster: MonsterEnum.ZombieJuju,
-    name: "monster.undead.name.zombieJuju",
-    files: [],
-    data: {
-      level1: 3,
-      bonusHp: 2,
-      strength: 17,
-      dexterity: 15,
-      constitution: 9,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 1,
-      ac: 5,
-      apr: 1,
-      xpv: 1400,
-      alignment: "LAWFUL_EVIL",
-      morale: 15,
-      general: "MONSTER",
-      race: "SPIDER",
-      class: "SPIDER_WRAITH",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 12,
-    },
+export function zombieMonster(family: UndeadFamily): Undead {
+  const monster = family.createFrom({
+    name: "monster.undead.name.zombieMonster",
+    monster: MonsterEnum.ZombieMonster,
+    from: family.creature(MonsterEnum.Zombie),
   });
-  wraith.addTrait({
-    immunities: ["cold", "nonSilverNonMagicalWeapons"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 15,
-        type: EffectStatisticModifierEnum.Set,
-      },
+  monster.setData({
+    level1: 6,
+    movement: 9,
+    ac: 6,
+    xpv: 650,
+    size: { value: "Large", tall: true, long: false },
+  });
+  monster.createClaws({
+    diceThrown: 4,
+    diceSize: 4,
+  });
+  return monster;
+}
+
+export function zombieJuju(family: UndeadFamily): Undead {
+  const juju = family.createFrom({
+    name: "monster.undead.name.zombieJuju",
+    monster: MonsterEnum.ZombieJuju,
+    from: family.creature(MonsterEnum.Zombie),
+  });
+  juju.setData({
+    level1: { pnpValue: 3, value: 7, type: "turn" },
+    bonusHp: 12,
+    thac0: 15,
+    intelligence: 6,
+    strength: 20,
+    dexterity: 16,
+    movement: 9,
+    ac: 6,
+    xpv: 975,
+    alignment: "NEUTRAL_EVIL",
+  });
+  juju.addTrait({
+    immunities: [
+      "cold",
+      "nonMagicalWeapons",
+      "crushingDamageResistance",
+      "piercingDamageResistance",
+      "missileDamageResistance",
+      "fireResistance",
+      "lightning",
+      "magicMissile",
     ],
   });
-  wraith.setBehavior({
-    dialog: ["C#Q04009", "ttspid"],
+  juju.createClaws({
+    diceThrown: 3,
+    diceSize: 4,
   });
-  return wraith;
+  juju.setAdjustments([{ files: ["ZOMBJU01"], stringRef: "monster.undead.name.zombieJuju" }]);
+  return juju;
 }
 
 export function zombieSea(family: UndeadFamily): Undead {
-  const wraith = family.create({
-    monster: MonsterEnum.ZombieSea,
+  const sea = family.createFrom({
     name: "monster.undead.name.zombieSea",
-    files: [],
-    data: {
-      level1: 3,
-      bonusHp: 2,
-      strength: 17,
-      dexterity: 15,
-      constitution: 9,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 1,
-      ac: 5,
-      apr: 1,
-      xpv: 1400,
-      alignment: "LAWFUL_EVIL",
-      morale: 15,
-      general: "MONSTER",
-      race: "SPIDER",
-      class: "SPIDER_WRAITH",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 12,
-    },
+    monster: MonsterEnum.ZombieSea,
+    from: family.creature(MonsterEnum.Zombie),
   });
-  wraith.addTrait({
-    immunities: ["cold", "nonSilverNonMagicalWeapons"],
-    effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 15,
-        type: EffectStatisticModifierEnum.Set,
-      },
-    ],
+  sea.setData({
+    level1: 5,
+    intelligence: 6,
+    alignment: "CHAOTIC_EVIL",
+    ac: 7,
+    xpv: 420,
+    morale: 19,
+    size: { value: "Large", tall: true, long: false },
   });
-  wraith.setBehavior({
-    dialog: ["C#Q04009", "ttspid"],
+  sea.addTrait({
+    immunities: ["fireResistance", "turnUndead"],
+    effects: [...effectFactory.coldResistance(-100), ...effectFactory.lightningResistance(-100)],
   });
-  return wraith;
+  sea.createClaws({
+    diceThrown: 1,
+    diceSize: 10,
+    // 10% chance of causing a severe disease in the victim
+  });
+  //Their visage and the stench of decay surrounding them are so disgusting that anyone seeing a drowned one or coming within 20 feet of one must roll a saving throw vs. poison. A failed saving throw indicates that the character is nauseated, suffering a -1 penalty to his attack roll and a +1 penalty to his AC for 2d4 rounds
+  //
+  // There is a 50% chance that each drowned one encountered is a priest of level 1d4. These creatures are granted their spells directly from Nerull (or similar deity), receiving only baneful spells.
+  return sea;
 }

@@ -5,6 +5,7 @@ import type { Creature } from "../lib/src/model/creature/creature";
 import creatureService, { type CsvFinding } from "../lib/src/services/creature.service";
 import monsterFilesService from "../lib/src/services/monster-files.service";
 import { parseCsv, serializeCsv, withNameLast } from "./lib/csv";
+import { csvBool } from "../lib/src/csv";
 import {
   applyValidationColumns,
   rowKey,
@@ -69,9 +70,9 @@ const { header, rows } = applyValidationColumns({
   ownedKeys,
 });
 
-fs.writeFileSync(CSV_PATH, serializeCsv(withNameLast(header), rows), "utf-8");
+fs.writeFileSync(CSV_PATH, serializeCsv(withNameLast(header), rows, csv.delimiter), "utf-8");
 
 for (const col of VALIDATION_COLUMNS) {
-  const trueCount = rows.filter((r) => r[col] === "true").length;
+  const trueCount = rows.filter((r) => csvBool(r[col])).length;
   console.log(`${col}: ${trueCount} true / ${rows.length - trueCount} blank`);
 }

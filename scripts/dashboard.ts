@@ -3,6 +3,7 @@ import * as path from "path";
 import { familyFactories } from "../lib/creatures";
 import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
+import { csvBool } from "../lib/src/csv";
 import { CsvSummary, MonsterRowCount, renderDashboard } from "./lib/dashboard-html";
 import { diffMonsters } from "./lib/monster-status";
 import { readModVersion } from "../lib/src/services/doc/doc-version";
@@ -50,7 +51,7 @@ function summarizeCsv(rows: Record<string, string>[]): {
       summary.noMonsterId++;
       continue;
     }
-    const validated = row.ValidatedMonsterId.trim().toLowerCase() === "true";
+    const validated = csvBool(row.ValidatedMonsterId);
     if (validated) summary.validated++;
     else summary.unvalidated++;
     const count = byMonster.get(monster) ?? { monster, rows: 0, validated: 0 };

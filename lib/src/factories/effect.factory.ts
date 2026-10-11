@@ -512,6 +512,15 @@ class EffectFactory {
     }));
   }
 
+  lightningResistance(value: number): Effect[] {
+    const opcodes: StatisticModifierOpcode[] = [EffectTypeEnum.ElectricityResistanceModifier];
+    return opcodes.map((opcode): StatisticModifierEffect => ({
+      opcode,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    }));
+  }
+
   physicalResistance(value: number): Effect[] {
     const opcodes: StatisticModifierOpcode[] = [
       EffectTypeEnum.SlashingResistanceModifier,
