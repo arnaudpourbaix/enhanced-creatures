@@ -12,10 +12,10 @@ COPY_EXISTING ~jas0m58.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10422)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10423)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=5188352 duration=2 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10423) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10424) timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 duration=7200 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-2" duration=7200 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" duration=7200 probability1=100 END
@@ -112,7 +112,7 @@ BEGIN
 					xpv=420
 					hp=60
 					ac=7
-					thac0=15
+					thac0=0
 					apr=1
 					saveDeath=11
 					saveWand=13
@@ -121,7 +121,7 @@ BEGIN
 					saveSpell=14
 					level1=5
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
-					strength=13
+					strength=14
 					intelligence=6
 					wisdom=6
 					dexterity=6

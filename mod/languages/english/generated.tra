@@ -2284,8 +2284,11 @@ Immune to magic missiles spell~
 Melee damage: 3D4 (Slashing)
 Speed Factor: 5
 Range: 2 feet~
-@11084 = ~Strength: -3 for 6 turns~
-@11085 = ~Disease: -1 strength for an hour.
+@11084 = ~Strength: -3 for 6 turns
+Thac0: -3 for 6 turns
+Damage: -1 for 6 turns~
+@11085 = ~Disease: -1 strength for 3 turns.
+Disease: -1 strength for an hour.
 Disease: -1 strength for 2 hours.
 Disease: -1 strength for 3 hours.
 Disease: -1 strength for 4 hours.
@@ -2329,4 +2332,5 @@ Enchantment: 1
 Range: 3 feet
 
 Cast spell Disease (10%):
-Disease~
+The putrid water that drips from the drowned ones contains many bacteria, causing a severe disease in the victim.
+ The character's rotting skin and systemic infection cause constant agony. They suffer a -2 penalty to their Armor Class and a -2 penalty to all attack rolls due to extreme physical weakness.~

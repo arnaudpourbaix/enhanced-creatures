@@ -14,6 +14,8 @@ COPY_EXISTING ~jas0m8e.SPL~  ~override~
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=73 target=2 power=1 parameter1="-1" duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=360 probability1=100 STR_VAR resource="jas0m8e" END
 	
 // Strength Disease
@@ -26,24 +28,26 @@ COPY_EXISTING ~jas1m8e.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11085)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=300 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=600 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=900 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1200 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1500 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1800 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2100 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2700 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3000 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3300 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3600 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3900 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4200 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4500 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4800 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=5100 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=5100 probability1=100 STR_VAR resource="jas1m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=180 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=300 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=600 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=900 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1200 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1500 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1800 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2100 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2700 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3000 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3300 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3600 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3900 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4200 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4500 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4800 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=5100 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=5280 probability1=100 STR_VAR resource="jas1m8e" END
 OUTER_SET $f_AddSecType(jas1m8e.spl) = DiseaseSecType
 
 // Constitution Disease
@@ -70,11 +74,12 @@ COPY_EXISTING ~jas3m8e.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11087)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=9 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=5 timing=9 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=9 probability1=100 special=7 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" timing=9 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 timing=9 probability1=100 STR_VAR resource="jas3m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=1 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=5 timing=1 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=1 probability1=100 special=91 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 timing=1 probability1=100 STR_VAR resource="jas3m8e" END
 OUTER_SET $f_AddSecType(jas3m8e.spl) = DiseaseSecType
 
 // Nausea
@@ -111,7 +116,7 @@ COPY_EXISTING ~jas6m8e.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPPR329C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10428)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR329B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 savingthrow=4 STR_VAR resource="jas0m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 savingthrow=4 savebonus="-6" STR_VAR resource="jas5m8e" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 // Claws
@@ -170,7 +175,7 @@ BEGIN
 					xpv=650
 					hp=72
 					ac=6
-					thac0=15
+					thac0=0
 					apr=2
 					saveDeath=11
 					saveWand=13
@@ -179,10 +184,10 @@ BEGIN
 					saveSpell=14
 					level1=8
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
-					strength=13
+					strength=16
 					intelligence=9
 					wisdom=6
-					dexterity=6
+					dexterity=14
 					constitution=9
 					charisma=5
 					morale=9

@@ -3,7 +3,12 @@ import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
-import { BaseEffect, CastSpellEffect, Effect } from "../../src/model/spell-item/effect";
+import {
+  BaseEffect,
+  CastSpellEffect,
+  DiseaseEffect,
+  Effect,
+} from "../../src/model/spell-item/effect";
 import {
   DiseaseTypeEnum,
   EffectBonusToEnum,
@@ -11,11 +16,8 @@ import {
   EffectColorLocationEnum,
   EffectDispelResistanceEnum,
   EffectStatisticModifierEnum,
-  EffectTargetEnum,
   EffectTimingEnum,
-  EffectVisualEffectLocationEnum,
   ItemAbilityLocationEnum,
-  ItemAbilityPrimaryTypeEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
@@ -32,8 +34,8 @@ import { Undead } from "./undead-creature";
 function zombieDisease(cre: Undead) {
   const duration = Durations.day;
   return cre.addSpell({
-    description: "monster.undead.ability.zombieDisease.name",
     name: "monster.undead.ability.zombieDisease.name",
+    description: "monster.undead.ability.zombieDisease.description",
     id: Ids.ZombieDisease,
     secondaryType: "Disease",
     keywords: ["disease"],
@@ -52,7 +54,7 @@ function zombieDisease(cre: Undead) {
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.zombieDisease.description",
+            stringRef: "monster.undead.ability.zombieDisease.diseased",
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
           },
           {
@@ -164,6 +166,7 @@ function createOdorOfDeath(cre: Undead) {
     type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
     timing: EffectTimingEnum.InstantPermanent,
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+    saveBonus: -6, // TODO:
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
 
@@ -203,7 +206,7 @@ function createOdorOfDeath(cre: Undead) {
         effects: [
           {
             ...base,
-            resource: weakness.file,
+            resource: death.file,
           },
         ],
       },
@@ -250,6 +253,20 @@ function createOdorOfDeathWeakness(cre: Undead) {
             dispelResistance,
           },
           {
+            opcode: EffectTypeEnum.Thac0Bonus,
+            type: EffectStatisticModifierEnum.Increment,
+            value: -3,
+            duration,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.AttackDamageBonus,
+            type: EffectStatisticModifierEnum.Increment,
+            value: -1,
+            duration,
+            dispelResistance,
+          },
+          {
             opcode: EffectTypeEnum.ProtectionFromSpell,
             timing: EffectTimingEnum.InstantLimited,
             duration,
@@ -263,15 +280,26 @@ function createOdorOfDeathWeakness(cre: Undead) {
 
 function createOdorOfDeathStrDisease(cre: Undead) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
-  const diseaseEffects: Effect[] = Array.from(Array(17), (_e, i) => ({
+  const iterations = 17;
+  const initialDelay = 3 * Durations.turn;
+  const base: DiseaseEffect = {
     opcode: EffectTypeEnum.Disease,
     type: DiseaseTypeEnum.ReduceStrengthByAmount,
     amount: 1,
-    icon: PortraitIconEnum.Diseased,
+    icon: PortraitIconEnum.AbilityScoreDrained,
+    timing: EffectTimingEnum.DelayPermanent,
+    dispelResistance,
+  };
+  const diseaseEffects: Effect[] = Array.from(Array(iterations), (_e, i) => ({
+    ...base,
     timing: EffectTimingEnum.DelayPermanent,
     duration: (i + 1) * Durations.hour,
-    dispelResistance,
   }));
+  diseaseEffects.unshift({
+    ...base,
+    timing: EffectTimingEnum.DelayPermanent,
+    duration: initialDelay,
+  });
   return cre.addSpell({
     name: "monster.undead.ability.zombieOdorOfDeath.strengthDisease",
     secondaryType: "Disease",
@@ -281,11 +309,17 @@ function createOdorOfDeathStrDisease(cre: Undead) {
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.LivingActor,
         effects: [
+          {
+            opcode: EffectTypeEnum.DisplayPortraitIcon,
+            icon: PortraitIconEnum.Diseased,
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
           ...diseaseEffects,
           {
             opcode: EffectTypeEnum.ProtectionFromSpell,
             timing: EffectTimingEnum.InstantLimited,
-            duration: Durations.hour * 17,
+            duration: initialDelay + Durations.hour * iterations,
             dispelResistance,
           },
         ],
@@ -327,7 +361,7 @@ function createOdorOfDeathConDisease(cre: Undead) {
 
 function createOdorOfDeathContagion(cre: Undead) {
   const base: BaseEffect = {
-    timing: EffectTimingEnum.InstantPermanent,
+    timing: EffectTimingEnum.InstantPermanentUntilDeath,
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
   const diseaseEffects: Effect[] = [
@@ -338,7 +372,7 @@ function createOdorOfDeathContagion(cre: Undead) {
     opcode: EffectTypeEnum.Disease,
     type,
     amount: 2,
-    icon: PortraitIconEnum.Diseased,
+    icon: PortraitIconEnum.AbilityScoreDrained,
     ...base,
   }));
   return cre.addSpell({
@@ -350,6 +384,11 @@ function createOdorOfDeathContagion(cre: Undead) {
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.LivingActor,
         effects: [
+          {
+            opcode: EffectTypeEnum.DisplayPortraitIcon,
+            icon: PortraitIconEnum.Diseased,
+            ...base,
+          },
           ...diseaseEffects,
           {
             opcode: EffectTypeEnum.Thac0Bonus,
@@ -368,6 +407,7 @@ function createOdorOfDeathContagion(cre: Undead) {
 }
 
 function createOdorOfDeathNausea(cre: Undead) {
+  // Character unable to act for 1d4 rounds due to nausea and vomiting.
   const duration = Durations.round * 2;
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
@@ -378,7 +418,6 @@ function createOdorOfDeathNausea(cre: Undead) {
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.LivingActor,
         effects: [
-          // Character unable to act for 1d4 rounds due to nausea and vomiting.
           {
             opcode: EffectTypeEnum.Stun,
             timing: EffectTimingEnum.InstantLimited,
@@ -600,6 +639,7 @@ export function zombieLord(family: UndeadFamily): Undead {
     xpv: 650,
     morale: 9,
     apr: 2,
+    thac0: 0, // TODO:
   });
   createOdorOfDeath(lord);
   lord.createClaws({
@@ -635,6 +675,7 @@ export function seaZombie(family: UndeadFamily): Undead {
       remove: ["zomsea"],
     },
     size: { value: "Large", tall: true, long: false },
+    thac0: 0, // TODO:
   });
   sea.addTrait({
     immunities: ["fireResistance", "turnUndead"],
