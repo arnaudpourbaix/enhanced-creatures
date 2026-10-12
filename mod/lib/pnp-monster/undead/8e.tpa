@@ -1,0 +1,212 @@
+// Generated file (don't edit)
+
+// Zombie Lord
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam8e.baf~
+
+// Weakness
+CREATE SPL "jas0m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10429)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11084)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=360 probability1=100 STR_VAR resource="jas0m8e" END
+	
+// Strength Disease
+CREATE SPL "jas1m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas1m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10433)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11085)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=300 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=600 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=900 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1200 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1500 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=1800 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2100 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2400 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=2700 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3000 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3300 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3600 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=3900 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4200 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4500 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=4800 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=5100 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=5100 probability1=100 STR_VAR resource="jas1m8e" END
+OUTER_SET $f_AddSecType(jas1m8e.spl) = DiseaseSecType
+
+// Constitution Disease
+CREATE SPL "jas2m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas2m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10434)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11086)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=9 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7200 probability1=100 STR_VAR resource="jas2m8e" END
+OUTER_SET $f_AddSecType(jas2m8e.spl) = DiseaseSecType
+
+// Contagion
+CREATE SPL "jas3m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas3m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10430)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Disease
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11087)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=9 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=5 timing=9 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=9 timing=9 probability1=100 special=7 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" timing=9 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 timing=9 probability1=100 STR_VAR resource="jas3m8e" END
+OUTER_SET $f_AddSecType(jas3m8e.spl) = DiseaseSecType
+
+// Nausea
+CREATE SPL "jas4m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas4m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10431)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11088)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=45 target=2 power=1 duration=12 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=12 probability1=100 STR_VAR resource="jas4m8e" END
+	
+// Death
+CREATE SPL "jas5m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas5m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10432)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11089)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
+	
+// Odor of Death
+CREATE SPL "jas6m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas6m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10427)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR329C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10428)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR329B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 savingthrow=4 STR_VAR resource="jas0m8e" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Claws
+CREATE ITM "jai0m8e"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10373)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10373)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IGHOUL~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11090)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~jai0m8e.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IGHOUL~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 4
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+DEFINE_ACTION_FUNCTION jam8e_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~ZOMBLO01~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ring94~
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~b1-8~
+			REMOVE_CRE_ITEM ~immune1~
+			REMOVE_CRE_ITEM ~b3-12~
+			REMOVE_CRE_ITEM ~ghast1~
+			ADD_CRE_ITEM ~jai0m56~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jai0m8e~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_MEMORIZED_SPELL ~jas6m8e~ #0 ~innate~ (1) // Odor of Death
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=650
+					hp=72
+					ac=6
+					thac0=15
+					apr=2
+					saveDeath=11
+					saveWand=13
+					savePolymorph=12
+					saveBreath=13
+					saveSpell=14
+					level1=8
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=13
+					intelligence=9
+					wisdom=6
+					dexterity=6
+					constitution=9
+					charisma=5
+					morale=9
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~ZOMBIE~)
+					class=IDS_OF_SYMBOL (~class~ ~ZOMBIE_NORMAL~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					movement=5
+					enforce=1
+			END
+			// Assigning jam8e
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam8e END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"ZOMBLO01"
+	BEGIN
+		LAF jam8e_patch STR_VAR file END
+	END
+END

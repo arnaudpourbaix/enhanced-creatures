@@ -27,4 +27,7 @@ export enum Ids {
   WallOfIce,
   WightTouch,
   WraithTouch,
+  ZombieDisease,
+  ZombieOdorOfDeath,
+  ZombieStenchOfDecay,
 }

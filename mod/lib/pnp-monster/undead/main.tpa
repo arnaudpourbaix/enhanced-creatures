@@ -12,6 +12,9 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME ~DW#DEATH.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/dw#death.BAF~
 END
+ACTION_IF FILE_EXISTS_IN_GAME ~SAHAMB01.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/SAHAMB01.BAF~
+END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Banshee
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4c.tpa" // Ghoul
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4b.tpa" // Ghast
@@ -32,4 +35,6 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/54.tpa" // Wight
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/55.tpa" // Wraith
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/56.tpa" // Zombie
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Zombie Juju
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Ju-ju Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/8e.tpa" // Zombie Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/58.tpa" // Sea Zombie

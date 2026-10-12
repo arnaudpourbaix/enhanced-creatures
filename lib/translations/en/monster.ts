@@ -523,8 +523,10 @@ If successful, the charge causes double head-butt damage`,
       wraith: "Wraith",
       zombie: "Zombie",
       zombieMonster: "Zombie Monster",
-      zombieJuju: "Zombie Juju",
-      zombieSea: "Zombie Sea",
+      zombieJuju: "Ju-ju Zombie",
+      zombieSea: "Sea Zombie",
+      zombieLord: "Zombie Lord",
+      seaZombieLord: "Sea Zombie Lord",
     },
     weapon: { touch: "Touch", claws: "Claws", jaws: "Jaws" },
     ability: {
@@ -627,6 +629,27 @@ Priests above 6th level are immune to this effect, and all other humanoids above
       fireball: {
         name: "Unholy Fireball",
         description: `A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
+      },
+      zombieDisease: {
+        name: "Disease",
+        description: `The putrid water that drips from the drowned ones contains many bacteria, causing a severe disease in the victim.
+ The character's rotting skin and systemic infection cause constant agony. They suffer a -2 penalty to their Armor Class and a -2 penalty to all attack rolls due to extreme physical weakness.`,
+        diseased: "Stricken by zombie rot",
+      },
+      zombieStenchOfDecay: {
+        name: "Stench Of Decay",
+        description: `Their visage and the stench of decay surrounding them are so disgusting that anyone seeing a drowned one or coming within 20 feet of one must roll a saving throw vs. poison. 
+A failed saving throw indicates that the character is nauseated, suffering a -1 penalty to his attack roll and a +1 penalty to his AC for 5 rounds`,
+      },
+      zombieOdorOfDeath: {
+        name: "Odor of Death",
+        description: ``,
+        weakness: "Weakness",
+        contagion: "Contagion",
+        nausea: "Nausea",
+        death: "Death",
+        strengthDisease: "Strength Disease",
+        constitutionDisease: "Constitution Disease",
       },
     },
   },

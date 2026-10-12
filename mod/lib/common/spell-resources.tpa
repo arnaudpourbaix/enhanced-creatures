@@ -225,6 +225,7 @@ DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 		"jas1m4d"
 		"jas3m4e"
 		"jas3m4f"
+		"jas0m58"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
