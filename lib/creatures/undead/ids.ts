@@ -30,4 +30,5 @@ export enum Ids {
   ZombieDisease,
   ZombieOdorOfDeath,
   ZombieStenchOfDecay,
+  ZombieAnimateDead,
 }

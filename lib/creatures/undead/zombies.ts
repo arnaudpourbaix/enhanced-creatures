@@ -1,7 +1,10 @@
 import { NEW_CREATURES } from "../../config/creatures";
 import { SPELLS } from "../../config/spells/spell-database";
+import { CommonTargetLists } from "../../config/target/common";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
 import {
@@ -18,6 +21,7 @@ import {
   EffectDispelResistanceEnum,
   EffectStatisticModifierEnum,
   EffectTimingEnum,
+  ItemAbilityCastingAnimationEnum,
   ItemAbilityLocationEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
@@ -25,13 +29,11 @@ import {
   KillTargetDeathTypeEnum,
   PortraitIconEnum,
   SaveTypeEnum,
+  SpellTypeEnum,
   SummonCreatureModeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import {
-  SpellProtectionRelation,
-  SpellProtectionStat,
-} from "../../src/model/spell-item/spell-protection";
+import targetService from "../../src/services/baf/target.service";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
@@ -92,6 +94,66 @@ function zombieDisease(cre: Undead) {
         ],
       },
     ],
+  });
+}
+
+function createAnimateDead(cre: Undead) {
+  const base: BaseEffect = {
+    dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+    saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+    power: 5,
+  };
+  return cre.addSpell({
+    name: "monster.undead.ability.animateDead.name",
+    description: "monster.undead.ability.animateDead.description",
+    id: Ids.ZombieAnimateDead,
+    memorizedCount: 1,
+    keywords: ["death", "magicResistance"],
+    castingSound: "CAS_P07",
+    icon: SPELLS.Priest.AnimateDead.file,
+    type: SpellTypeEnum.Wizard,
+    level: 5,
+    castingAnimation: ItemAbilityCastingAnimationEnum.Necromancy,
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 10,
+        speed: Durations.round,
+        effects: [
+          {
+            opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+            type: "DEATH_IMMUNITY",
+          },
+          // Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner.
+          {
+            opcode: EffectTypeEnum.KillTarget,
+            type: KillTargetDeathTypeEnum.Normal,
+            displayText: true,
+            timing: EffectTimingEnum.InstantPermanent,
+            maxLevel: 5,
+            ...base,
+          },
+          // In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.
+          // For some reason, delaying summon doesn't work
+          {
+            opcode: EffectTypeEnum.SummonCreature,
+            mode: SummonCreatureModeEnum.PositionEffectAllegianceTargetOpposite,
+            resource: NEW_CREATURES.Zombie,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: 8 * Durations.hour,
+            maxLevel: 5,
+            ...base,
+          },
+        ],
+      },
+    ],
+    ability: {
+      targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
+        triggerFactory.levelLt(6),
+        { name: "General", params: [ScriptTarget.token, "UNDEAD"], negation: true },
+      ]),
+      spell: {},
+    },
   });
 }
 
@@ -172,10 +234,8 @@ function createOdorOfDeath(cre: Undead) {
     type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
     timing: EffectTimingEnum.InstantPermanent,
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
-    saveBonus: -8, // TODO:
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
-
   const weakness = createOdorOfDeathWeakness(cre);
   const strDisease = createOdorOfDeathStrDisease(cre);
   const conDisease = createOdorOfDeathConDisease(cre);
@@ -183,11 +243,11 @@ function createOdorOfDeath(cre: Undead) {
   const nausea = createOdorOfDeathNausea(cre);
   const death = createOdorOfDeathDeath(cre);
   const effects = [
-    // weakness.file,
-    // strDisease.file,
-    // conDisease.file,
-    // contagion.file,
-    // nausea.file,
+    weakness.file,
+    strDisease.file,
+    conDisease.file,
+    contagion.file,
+    nausea.file,
     death.file,
   ].map((resource, index): Effect => {
     return {
@@ -214,7 +274,15 @@ function createOdorOfDeath(cre: Undead) {
         range: 20,
         projectile: CommonProjectileFiles.AreaOfSightNonParty,
         speed: 1,
-        effects: effectFactory.splitProbabilities(effects),
+        effects: [
+          ...effectFactory.splitProbabilities(effects),
+          {
+            opcode: EffectTypeEnum.ProtectionFromSpell,
+            timing: EffectTimingEnum.InstantLimited,
+            dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            duration: Durations.hour,
+          },
+        ],
       },
     ],
     ability: {
@@ -522,6 +590,7 @@ export function wight(family: UndeadFamily): Undead {
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
+      immunities: ["undead"],
       items: {
         remove: ["wight", "bdwight", "ring95", "immune1"],
       },
@@ -560,7 +629,7 @@ export function zombie(family: UndeadFamily): Undead {
   const zombie = family.create({
     monster: MonsterEnum.Zombie,
     name: "monster.undead.name.zombie",
-    files: [],
+    files: [NEW_CREATURES.Zombie],
     newFiles: [
       {
         files: [NEW_CREATURES.Zombie],
@@ -588,6 +657,7 @@ export function zombie(family: UndeadFamily): Undead {
       gender: "NIETHER",
       size: { value: "Medium", tall: true, long: false },
       movement: 6,
+      immunities: ["undead"],
       items: {
         remove: ["ring94", "ring95", "b1-8", "immune1", "b3-12", "ghast1"],
       },
@@ -665,17 +735,13 @@ export function zombieLord(family: UndeadFamily): Undead {
     apr: 2,
   });
   createOdorOfDeath(lord);
+  createAnimateDead(lord);
   lord.createClaws({
     diceThrown: 2,
     diceSize: 4,
   });
-  // Once per day, the zombie lord can animate dead to transform dead creatures into zombies.
-  // This works as described in the Player's Handbook except that it can be used on the living.
-  // Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner.
-  // A target who fails a saving throw vs. death is slain.
-  // In 1d4 rounds, the slain creature rises as a zombie under the zombie lord's command.
   lord.setBehavior({
-    abilities: [family.ability(Ids.ZombieOdorOfDeath)],
+    abilities: [family.ability(Ids.ZombieOdorOfDeath), family.ability(Ids.ZombieAnimateDead)],
   });
   return lord;
 }
@@ -714,20 +780,27 @@ export function seaZombie(family: UndeadFamily): Undead {
     },
   });
   sea.setBehavior({
-    abilities: [family.ability(Ids.ZombieOdorOfDeath), family.ability(Ids.ZombieStenchOfDecay)],
+    abilities: [
+      family.ability(Ids.ZombieOdorOfDeath),
+      family.ability(Ids.ZombieStenchOfDecay),
+      family.ability(Ids.ZombieAnimateDead),
+    ],
   });
   // There is a 50% chance that each drowned one encountered is a priest of level 1d4. These creatures are granted their spells directly from Nerull (or similar deity), receiving only baneful spells.
-  seaZombieLordVariant(sea);
+  seaZombieLordVariant(sea, family);
   return sea;
 }
 
-function seaZombieLordVariant(base: Undead): Variant {
+function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
   const seaLord = base.variant("Sea Zombie Lord", {
     data: {
       level1: { pnpValue: 6, value: 8, type: "turn" },
       intelligence: 9,
       ac: 6,
       apr: 2,
+      spells: {
+        memorized: [{ file: family.spell(Ids.ZombieAnimateDead).file, memorizedCount: 1 }],
+      },
     },
     files: ["SAHZOM01"],
     adjust: [{ files: ["SAHZOM01"], data: { level1: 12, ac: -3, xpv: 2000, apr: 3 } }],

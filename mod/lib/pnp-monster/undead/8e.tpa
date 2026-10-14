@@ -10,7 +10,7 @@ COPY_EXISTING ~jas0m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10429)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11084)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11086)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
@@ -26,7 +26,7 @@ COPY_EXISTING ~jas1m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11085)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11087)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=180 probability1=100 special=91 END
@@ -58,7 +58,7 @@ COPY_EXISTING ~jas2m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11086)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11088)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=9 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7200 probability1=100 STR_VAR resource="jas2m8e" END
@@ -72,7 +72,7 @@ COPY_EXISTING ~jas3m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11087)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11089)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=1 probability1=100 special=91 END
@@ -89,7 +89,7 @@ COPY_EXISTING ~jas4m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10431)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11088)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11090)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=45 target=2 power=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=12 probability1=100 STR_VAR resource="jas4m8e" END
@@ -101,7 +101,7 @@ COPY_EXISTING ~jas5m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10432)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11089)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11091)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas5m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
@@ -118,8 +118,30 @@ COPY_EXISTING ~jas6m8e.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPPR329C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10428)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR329B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 probability2=0 savingthrow=4 savebonus="-8" STR_VAR resource="jas5m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=16 probability2=0 savingthrow=4 STR_VAR resource="jas0m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=32 probability2=17 savingthrow=4 STR_VAR resource="jas1m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=49 probability2=33 savingthrow=4 STR_VAR resource="jas2m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=66 probability2=50 savingthrow=4 STR_VAR resource="jas3m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=82 probability2=67 savingthrow=4 STR_VAR resource="jas4m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 probability2=83 savingthrow=4 STR_VAR resource="jas5m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 STR_VAR resource="jas6m8e" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Animate Dead
+CREATE SPL "jas7m8e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas7m8e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10435)
+	WRITE_ASCII 0x10 ~CAS_P07~ #8
+	WRITE_SHORT 0x1c 1
+	WRITE_SHORT 0x22 9
+	WRITE_LONG 0x34 5
+	WRITE_ASCII 0x3a ~SPPR301C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10436)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=5 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=5 savingthrow=4 STR_VAR resource="jazombie" END
 	
 // Claws
 CREATE ITM "jai0m8e"
@@ -132,7 +154,7 @@ CREATE ITM "jai0m8e"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10373)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11090)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11092)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai0m8e.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -169,8 +191,14 @@ BEGIN
 			REMOVE_CRE_ITEM ~b3-12~
 			REMOVE_CRE_ITEM ~ghast1~
 			ADD_CRE_ITEM ~jai0m56~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+			PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+				REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			END
 			REPLACE_CRE_ITEM ~jai0m8e~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			ADD_MEMORIZED_SPELL ~jas6m8e~ #0 ~innate~ (1) // Odor of Death
+			ADD_MEMORIZED_SPELL ~jas7m8e~ #4 ~wizard~ (1) // Animate Dead
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR

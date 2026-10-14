@@ -68,6 +68,14 @@ class TriggerFactory {
     return { name: "HPPercentLT", params: [ScriptTarget.token, value], negation };
   }
 
+  levelLt(value: number, negation = false): Triggers.Trigger {
+    return { name: "LevelLT", params: [ScriptTarget.token, value], negation };
+  }
+
+  levelGt(value: number, negation = false): Triggers.Trigger {
+    return { name: "LevelGT", params: [ScriptTarget.token, value], negation };
+  }
+
   range(value: number, negation = false): Triggers.Trigger {
     return { name: "Range", params: [ScriptTarget.token, value], negation };
   }

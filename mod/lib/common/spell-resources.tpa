@@ -211,6 +211,7 @@ DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 		"cdxvdth"
 		"jas2m72"
 		"jas1m49"
+		"jas7m8e"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

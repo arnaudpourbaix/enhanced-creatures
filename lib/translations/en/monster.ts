@@ -643,13 +643,26 @@ A failed saving throw indicates that the character is nauseated, suffering a -1 
       },
       zombieOdorOfDeath: {
         name: "Odor of Death",
-        description: ``,
+        description: `The odor of death surrounding the zombie lord is so potent it causes horrible effects in those who breathe it. On the first round a character comes within 30 yards, he must save vs. poison or be affected in some way. 
+The following results are possible:
+- Weakness (as the spell)
+- Cause disease (as the spell)
+- -1 point of Constitution
+- Contagion (as the spell)
+- Character unable to act for 1d4 rounds due to nausea and vomiting
+- Character dies instantly and becomes a zombie under control of the zombie lord`,
         weakness: "Weakness",
         contagion: "Contagion",
         nausea: "Nausea",
         death: "Death",
         strengthDisease: "Strength Disease",
         constitutionDisease: "Constitution Disease",
+      },
+      animateDead: {
+        name: "Animate Dead",
+        description: `Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner. 
+A target who fails a saving throw vs. death is slain. 
+In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.`,
       },
     },
   },

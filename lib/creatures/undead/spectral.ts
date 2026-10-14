@@ -581,6 +581,7 @@ export function wraith(family: UndeadFamily): Undead {
       animation: "SHADOW",
       size: { value: "Medium", tall: true, long: false },
       movement: 24, // 12, FI 24 (B)
+      immunities: ["undead"],
       items: {
         remove: ["wraith1", "ring95", "immune1", "immchs", "s1-8", "undtype", "dvwraith"],
       },
