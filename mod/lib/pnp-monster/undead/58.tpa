@@ -112,7 +112,7 @@ BEGIN
 					xpv=420
 					hp=60
 					ac=7
-					thac0=0
+					thac0=15
 					apr=1
 					saveDeath=11
 					saveWand=13

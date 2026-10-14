@@ -21,6 +21,11 @@ DEFINE_ACTION_MACRO load_splprot BEGIN
 	ACTION_IF (index >= 0) BEGIN
 		OUTER_SET CLERIC=index - 1
 	END
+	OUTER_SET value=IDS_OF_SYMBOL (~splstate~ ~DEATH_WARD~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x112 STR_VAR value relation="1" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET DEATH_IMMUNITY=index - 1
+	END
 	OUTER_SET value=IDS_OF_SYMBOL (~general~ ~HUMANOID~)
 	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x10b STR_VAR value relation="5" RET index END
 	OUTER_SET row1=index

@@ -534,6 +534,22 @@ class EffectFactory {
       type: EffectStatisticModifierEnum.Set,
     }));
   }
+
+  /**
+   * Split probabilities over a list of effect so each effect has an even chance to trigger
+   */
+  splitProbabilities(effects: Effect[]): Effect[] {
+    const step = 100 / effects.length;
+    return effects.map((effect, index): Effect => {
+      let probability1 = Math.round((index + 1) * step - 1);
+      if (probability1 > 90) probability1 = 100;
+      return {
+        ...effect,
+        probability1,
+        probability2: Math.round(index * step),
+      };
+    });
+  }
 }
 
 const effectFactory = new EffectFactory();

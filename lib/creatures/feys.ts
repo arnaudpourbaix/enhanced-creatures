@@ -409,7 +409,7 @@ class Fey extends Creature {
       effectFiles: [
         {
           opcode: EffectTypeEnum.SummonCreature,
-          mode: SummonCreatureModeEnum.MatchTarget0,
+          mode: SummonCreatureModeEnum.PositionEffectAllegianceMatchTarget,
           resource: NEW_CREATURES.GiantPoisonousSnake,
           duration,
         },

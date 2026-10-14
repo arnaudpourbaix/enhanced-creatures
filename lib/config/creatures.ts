@@ -19,6 +19,7 @@ export const NEW_CREATURES = {
   MustardJelly: "jajellmu",
   GreenSlime: "jagrnsli",
   OliveSlimeCreature: "jaolisli",
+  Zombie: "jazombie",
 };
 
 export const VAPOR_IMMUNE_CREATURES: [

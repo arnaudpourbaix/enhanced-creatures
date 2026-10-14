@@ -162,13 +162,13 @@ class Slime extends Creature {
             },
             {
               opcode: EffectTypeEnum.SummonCreature,
-              mode: SummonCreatureModeEnum.MatchTarget3,
+              mode: SummonCreatureModeEnum.PositionTargetAllegianceMatchTarget,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
               resource,
             },
             {
               opcode: EffectTypeEnum.SummonCreature,
-              mode: SummonCreatureModeEnum.MatchTarget3,
+              mode: SummonCreatureModeEnum.PositionTargetAllegianceMatchTarget,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
               resource,
             },

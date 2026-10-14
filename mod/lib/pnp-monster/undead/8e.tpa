@@ -103,7 +103,9 @@ COPY_EXISTING ~jas5m8e.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11089)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas5m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=2 power=1 parameter2=5 timing=9 probability1=100 STR_VAR resource="jazombie" END
 	
 // Odor of Death
 CREATE SPL "jas6m8e"
@@ -116,7 +118,7 @@ COPY_EXISTING ~jas6m8e.SPL~  ~override~
 	WRITE_ASCII 0x3a ~SPPR329C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10428)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR329B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 savingthrow=4 savebonus="-6" STR_VAR resource="jas5m8e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=100 probability2=0 savingthrow=4 savebonus="-8" STR_VAR resource="jas5m8e" END
 	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 // Claws
@@ -175,7 +177,7 @@ BEGIN
 					xpv=650
 					hp=72
 					ac=6
-					thac0=0
+					thac0=15
 					apr=2
 					saveDeath=11
 					saveWand=13

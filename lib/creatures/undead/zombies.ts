@@ -1,3 +1,4 @@
+import { NEW_CREATURES } from "../../config/creatures";
 import { SPELLS } from "../../config/spells/spell-database";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 import effectFactory from "../../src/factories/effect.factory";
@@ -24,8 +25,13 @@ import {
   KillTargetDeathTypeEnum,
   PortraitIconEnum,
   SaveTypeEnum,
+  SummonCreatureModeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import {
+  SpellProtectionRelation,
+  SpellProtectionStat,
+} from "../../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
 import { Ids } from "./ids";
@@ -166,7 +172,7 @@ function createOdorOfDeath(cre: Undead) {
     type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
     timing: EffectTimingEnum.InstantPermanent,
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
-    saveBonus: -6, // TODO:
+    saveBonus: -8, // TODO:
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
 
@@ -176,14 +182,19 @@ function createOdorOfDeath(cre: Undead) {
   const contagion = createOdorOfDeathContagion(cre);
   const nausea = createOdorOfDeathNausea(cre);
   const death = createOdorOfDeathDeath(cre);
-  const resources = [
-    weakness.file,
-    strDisease.file,
-    conDisease.file,
-    contagion.file,
-    nausea.file,
+  const effects = [
+    // weakness.file,
+    // strDisease.file,
+    // conDisease.file,
+    // contagion.file,
+    // nausea.file,
     death.file,
-  ];
+  ].map((resource, index): Effect => {
+    return {
+      ...base,
+      resource,
+    };
+  });
   return cre.addSpell({
     name: "monster.undead.ability.zombieOdorOfDeath.name",
     description: "monster.undead.ability.zombieOdorOfDeath.description",
@@ -203,12 +214,7 @@ function createOdorOfDeath(cre: Undead) {
         range: 20,
         projectile: CommonProjectileFiles.AreaOfSightNonParty,
         speed: 1,
-        effects: [
-          {
-            ...base,
-            resource: death.file,
-          },
-        ],
+        effects: effectFactory.splitProbabilities(effects),
       },
     ],
     ability: {
@@ -445,6 +451,10 @@ function createOdorOfDeathDeath(cre: Undead) {
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.LivingActor,
         effects: [
+          {
+            opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+            type: "DEATH_IMMUNITY",
+          },
           // Character dies instantly and becomes a zombie under control of the zombie lord.
           {
             opcode: EffectTypeEnum.KillTarget,
@@ -452,6 +462,13 @@ function createOdorOfDeathDeath(cre: Undead) {
             displayText: true,
             timing: EffectTimingEnum.InstantPermanent,
             dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+          },
+          {
+            opcode: EffectTypeEnum.SummonCreature,
+            mode: SummonCreatureModeEnum.PositionEffectAllegianceTargetOpposite,
+            timing: EffectTimingEnum.InstantPermanent,
+            dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            resource: NEW_CREATURES.Zombie,
           },
         ],
       },
@@ -544,6 +561,13 @@ export function zombie(family: UndeadFamily): Undead {
     monster: MonsterEnum.Zombie,
     name: "monster.undead.name.zombie",
     files: [],
+    newFiles: [
+      {
+        files: [NEW_CREATURES.Zombie],
+        copyFrom: NEW_CREATURES.Zombie,
+        stringRef: "monster.undead.name.zombie",
+      },
+    ],
     data: {
       level1: 2,
       bonusHp: 0,
@@ -639,7 +663,6 @@ export function zombieLord(family: UndeadFamily): Undead {
     xpv: 650,
     morale: 9,
     apr: 2,
-    thac0: 0, // TODO:
   });
   createOdorOfDeath(lord);
   lord.createClaws({
@@ -675,7 +698,6 @@ export function seaZombie(family: UndeadFamily): Undead {
       remove: ["zomsea"],
     },
     size: { value: "Large", tall: true, long: false },
-    thac0: 0, // TODO:
   });
   sea.addTrait({
     immunities: ["fireResistance", "turnUndead"],
