@@ -66,7 +66,7 @@ describe("variantFactory.add", () => {
       adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
     });
     expect(get()).toEqual([
-      { files: ["GRON", "CD41COR"], data: { level1: 6, strength: 18 } },
+      { files: ["GRON"], data: { level1: 6, strength: 18 } },
       { files: ["CD41COR"], data: { level1: 10, strength: 18 } },
     ]);
   });
@@ -86,13 +86,36 @@ describe("variantFactory.add", () => {
       ],
     });
     expect(get()).toEqual([
-      { files: ["AC#BOSS"], data: { strength: 18 } },
       {
         files: ["AC#BOSS"],
         data: { level1: 14, strength: 18 },
         noWeapon: true,
         stringRef: "monster.undead.name.ghast",
       },
+    ]);
+  });
+
+  it("does not apply the grouped entry on top of a file's own adjust entry (no doubled memorized spells)", () => {
+    const get = captureAdjustments();
+    const memorized = [{ file: "SPWI501", memorizedCount: 1 }];
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { spells: { memorized } },
+      files: ["CD41COR"],
+      adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
+    });
+    expect(get()).toEqual([{ files: ["CD41COR"], data: { level1: 10, spells: { memorized } } }]);
+  });
+
+  it("keeps the grouped entry for a file whose adjust entry is game-scoped", () => {
+    const get = captureAdjustments();
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { strength: 18 },
+      files: ["CD41COR"],
+      adjust: [{ files: ["CD41COR"], game: "bg1", data: { level1: 10 } }],
+    });
+    expect(get()).toEqual([
+      { files: ["CD41COR"], data: { strength: 18 } },
+      { files: ["CD41COR"], game: "bg1", data: { level1: 10, strength: 18 } },
     ]);
   });
 

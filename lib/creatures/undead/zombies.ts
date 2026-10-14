@@ -33,6 +33,7 @@ import {
   SummonCreatureModeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { PartialSpellHeader } from "../../src/model/spell-item/spell-item";
 import targetService from "../../src/services/baf/target.service";
 import { MonsterEnum } from "../monster";
 import type { UndeadFamily } from "./family";
@@ -103,6 +104,37 @@ function createAnimateDead(cre: Undead) {
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
     power: 5,
   };
+  const headers: PartialSpellHeader[] = [6, 7, 8, 9, 10, 11, 12].map((level) => ({
+    type: ItemAbilityTypeEnum.Melee,
+    range: 10,
+    speed: Durations.round,
+    effects: [
+      {
+        opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+        type: "DEATH_IMMUNITY",
+      },
+      // Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner.
+      {
+        opcode: EffectTypeEnum.KillTarget,
+        type: KillTargetDeathTypeEnum.Normal,
+        displayText: true,
+        timing: EffectTimingEnum.InstantPermanent,
+        maxLevel: level - 1,
+        ...base,
+      },
+      // In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.
+      // For some reason, delaying summon doesn't work
+      {
+        opcode: EffectTypeEnum.SummonCreature,
+        mode: SummonCreatureModeEnum.PositionEffectAllegianceTargetOpposite,
+        resource: NEW_CREATURES.Zombie,
+        timing: EffectTimingEnum.InstantLimited,
+        duration: 8 * Durations.hour,
+        maxLevel: level - 1,
+        ...base,
+      },
+    ],
+  }));
   return cre.addSpell({
     name: "monster.undead.ability.animateDead.name",
     description: "monster.undead.ability.animateDead.description",
@@ -114,39 +146,7 @@ function createAnimateDead(cre: Undead) {
     type: SpellTypeEnum.Wizard,
     level: 5,
     castingAnimation: ItemAbilityCastingAnimationEnum.Necromancy,
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        range: 10,
-        speed: Durations.round,
-        effects: [
-          {
-            opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
-            type: "DEATH_IMMUNITY",
-          },
-          // Any living creature with fewer Hit Dice than the zombie lord can be attacked in this manner.
-          {
-            opcode: EffectTypeEnum.KillTarget,
-            type: KillTargetDeathTypeEnum.Normal,
-            displayText: true,
-            timing: EffectTimingEnum.InstantPermanent,
-            maxLevel: 5,
-            ...base,
-          },
-          // In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.
-          // For some reason, delaying summon doesn't work
-          {
-            opcode: EffectTypeEnum.SummonCreature,
-            mode: SummonCreatureModeEnum.PositionEffectAllegianceTargetOpposite,
-            resource: NEW_CREATURES.Zombie,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: 8 * Durations.hour,
-            maxLevel: 5,
-            ...base,
-          },
-        ],
-      },
-    ],
+    headers,
     ability: {
       targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
         triggerFactory.levelLt(6),
@@ -292,7 +292,7 @@ function createOdorOfDeath(cre: Undead) {
         castOnSelf: true,
       },
       noRoundTimer: true,
-      timer: { name: "StenchOfDecay", value: 6 },
+      timer: { name: "OdorOfDeath", value: 6 },
     },
   });
 }
@@ -799,7 +799,10 @@ function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
       ac: 6,
       apr: 2,
       spells: {
-        memorized: [{ file: family.spell(Ids.ZombieAnimateDead).file, memorizedCount: 1 }],
+        memorized: [
+          { file: family.spell(Ids.ZombieAnimateDead).file, memorizedCount: 1 },
+          { file: family.spell(Ids.ZombieOdorOfDeath).file, memorizedCount: 1 },
+        ],
       },
     },
     files: ["SAHZOM01"],

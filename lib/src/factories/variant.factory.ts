@@ -39,9 +39,17 @@ function buildAdjustments(
   label: string,
 ): PartialCreatureAdjustment[] {
   const adjustments: PartialCreatureAdjustment[] = [];
-  if (input.files?.length && hasKeys(base)) {
-    adjustments.push({ files: input.files, data: base, autoGenerate: input.autoGenerate });
-  } else if (input.files?.length) {
+  // A file with an unscoped `adjust` entry is left out of the grouped entry: that entry already
+  // carries `base` forward (see below), and applying both would double every cumulative patch
+  // (ADD_MEMORIZED_SPELL, items.equipped, ...). Game-scoped entries keep the grouped fallback for
+  // the installs they don't cover.
+  const fullyAdjusted = new Set(
+    (input.adjust ?? []).filter((a) => !a.game).flatMap((a) => a.files.map((f) => f.toUpperCase())),
+  );
+  const groupedFiles = (input.files ?? []).filter((f) => !fullyAdjusted.has(f.toUpperCase()));
+  if (groupedFiles.length && hasKeys(base)) {
+    adjustments.push({ files: groupedFiles, data: base, autoGenerate: input.autoGenerate });
+  } else if (input.files?.length && !hasKeys(base)) {
     logService.warn(
       `variant "${label}" lists files but resolves to no data - those files get no adjustment`,
     );

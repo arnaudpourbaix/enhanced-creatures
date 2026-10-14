@@ -155,22 +155,6 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN SAHZOMB END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam58su END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SAHZOM01~) BEGIN 
-				WRITE_SHORT 0x24 72 // hp
-				WRITE_SHORT 0x26 72 // hp
-				WRITE_SHORT 0x46 6 // ac
-				WRITE_SHORT 0x48 6 // ac
-				WRITE_BYTE 0x52 15 // thac0
-				WRITE_BYTE 0x53 2 // apr
-				WRITE_BYTE 0x54 11 // saveDeath
-				WRITE_BYTE 0x55 13 // saveWand
-				WRITE_BYTE 0x56 12 // savePolymorph
-				WRITE_BYTE 0x57 13 // saveBreath
-				WRITE_BYTE 0x58 14 // saveSpell
-				WRITE_BYTE 0x234 8 // level1
-				WRITE_BYTE 0x23a 9 // intelligence
-				ADD_MEMORIZED_SPELL ~jas7m8e~ #4 ~wizard~ (1) // Animate Dead
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SAHZOM01~) BEGIN 
 				WRITE_LONG 0x14 2000 // xpv
 				WRITE_SHORT 0x24 144 // hp
 				WRITE_SHORT 0x26 144 // hp
@@ -186,6 +170,7 @@ BEGIN
 				WRITE_BYTE 0x234 12 // level1
 				WRITE_BYTE 0x23a 9 // intelligence
 				ADD_MEMORIZED_SPELL ~jas7m8e~ #4 ~wizard~ (1) // Animate Dead
+				ADD_MEMORIZED_SPELL ~jas6m8e~ #0 ~innate~ (1) // Odor of Death
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SAHZOMB~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
