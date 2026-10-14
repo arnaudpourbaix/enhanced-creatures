@@ -142,6 +142,30 @@ COPY_EXISTING ~jas7m8e.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=5 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=5 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=6 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=6 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=7 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=7 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=8 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=8 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=9 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=9 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=10 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=10 savingthrow=4 STR_VAR resource="jazombie" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=11 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=67 target=2 power=5 parameter2=5 resist_dispel=1 duration=2400 probability1=100 dicenumber=11 savingthrow=4 STR_VAR resource="jazombie" END
 	
 // Claws
 CREATE ITM "jai0m8e"

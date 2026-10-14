@@ -7,6 +7,7 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { Variant } from "../../src/model/creature/variant";
 import { Durations } from "../../src/model/game-data/durations";
+import { Triggers } from "../../src/model/script/triggers";
 import {
   BaseEffect,
   CastSpellEffect,
@@ -104,7 +105,8 @@ function createAnimateDead(cre: Undead) {
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
     power: 5,
   };
-  const headers: PartialSpellHeader[] = [6, 7, 8, 9, 10, 11, 12].map((level) => ({
+  const levels = [6, 7, 8, 9, 10, 11, 12];
+  const headers: PartialSpellHeader[] = levels.map((level) => ({
     type: ItemAbilityTypeEnum.Melee,
     range: 10,
     speed: Durations.round,
@@ -149,7 +151,16 @@ function createAnimateDead(cre: Undead) {
     headers,
     ability: {
       targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
-        triggerFactory.levelLt(6),
+        // Target level < caster level, i.e. for each k: target >= k implies caster > k.
+        // Matches the header picked from the caster level, which kills up to level - 1.
+        triggerFactory.levelLt(levels[levels.length - 1]),
+        ...levels.slice(0, -1).map((k): Triggers.Trigger => ({
+          name: "Or",
+          triggers: [
+            triggerFactory.levelLt(k),
+            { name: "LevelGT", params: [ScriptTarget.myself, k] },
+          ],
+        })),
         { name: "General", params: [ScriptTarget.token, "UNDEAD"], negation: true },
       ]),
       spell: {},
