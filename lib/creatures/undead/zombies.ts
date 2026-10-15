@@ -90,8 +90,8 @@ function zombieDisease(cre: Undead) {
           {
             opcode: EffectTypeEnum.ProtectionFromSpell,
             timing: EffectTimingEnum.InstantLimited,
-            duration,
             dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            duration,
           },
         ],
       },
@@ -148,7 +148,6 @@ function createAnimateDead(cre: Undead) {
     type: SpellTypeEnum.Wizard,
     level: 5,
     castingAnimation: ItemAbilityCastingAnimationEnum.Necromancy,
-    headers,
     ability: {
       targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
         // Target level < caster level, i.e. for each k: target >= k implies caster > k.
@@ -165,6 +164,7 @@ function createAnimateDead(cre: Undead) {
       ]),
       spell: {},
     },
+    headers,
   });
 }
 
@@ -260,7 +260,7 @@ function createOdorOfDeath(cre: Undead) {
     contagion.file,
     nausea.file,
     death.file,
-  ].map((resource, index): Effect => {
+  ].map((resource): Effect => {
     return {
       ...base,
       resource,
@@ -816,7 +816,7 @@ export function seaZombie(family: UndeadFamily): Undead {
 }
 
 function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
-  const seaLord = base.variant("Sea Zombie Lord", {
+  return base.variant("Sea Zombie Lord", {
     data: {
       level1: 6,
       intelligence: 9,
@@ -832,7 +832,6 @@ function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
     files: ["SAHZOM01"],
     adjust: [{ files: ["SAHZOM01"], data: { level1: 12, ac: -3, xpv: 2000, apr: 3 } }],
   });
-  return seaLord;
 }
 
 export function zombieMonster(family: UndeadFamily): Undead {

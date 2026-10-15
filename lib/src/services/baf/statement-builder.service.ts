@@ -383,7 +383,7 @@ class StatementBuilderService {
     });
   }
 
-  private help({ statements, creature, options }: HandlerParams): void {
+  private help({ statements, creature }: HandlerParams): void {
     if (!creature.behavior.help) return;
     statements.push({
       comment: "Help every 3 rounds",
@@ -781,15 +781,10 @@ class StatementBuilderService {
   ): void {
     const additionals = this.getAdditionals(creature, "attack");
     for (const status of statusNameList) {
-      const statusDetails = TARGET_STATUS.find((t) => t.status === status);
+      const statusDetails = this.getTargetStatusDetails(status, targetListName);
       const weaponAttackSlot =
         creature.attack.targetStatusWeaponSlot.find((t) => t.status.includes(status))?.slot ??
         creature.attack.defaultWeaponSlot;
-      if (!statusDetails) throw new Error(`Target status details ${status} not found!`);
-      if (statusDetails.targetTriggers.some((t) => "triggers" in t))
-        throw new Error(`OR triggers not handled currently: ${status}`);
-      if (statusDetails.canOnlyTargetPlayer && targetListName !== "Players")
-        throw new Error(`Status ${status} must target party`);
       const list = targetService.getList(targetListName);
       const targetTriggers = [
         ...statusDetails.targetTriggers,
@@ -834,6 +829,16 @@ class StatementBuilderService {
         inBetweenStatements: selectWeaponStatements,
       });
     }
+  }
+
+  private getTargetStatusDetails(status: TargetStatusName, targetListName: TargetListName) {
+    const statusDetails = TARGET_STATUS.find((t) => t.status === status);
+    if (!statusDetails) throw new Error(`Target status details ${status} not found!`);
+    if (statusDetails.targetTriggers.some((t) => "triggers" in t))
+      throw new Error(`OR triggers not handled currently: ${status}`);
+    if (statusDetails.canOnlyTargetPlayer && targetListName !== "Players")
+      throw new Error(`Status ${status} must target party`);
+    return statusDetails;
   }
 
   private selectWeaponMeleeRangeStatements(options: BuilderOptions): Statements {

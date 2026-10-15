@@ -692,7 +692,7 @@ describe("getCharm (private)", () => {
 
 describe("getLevelDrain (private)", () => {
   it("formats the drained amount", () => {
-    expect(service.getLevelDrain({ amount: 2 })).toEqual(["Drain 2 level from target."]);
+    expect(service.getLevelDrain({ amount: 2 })).toEqual(["Drain 2 levels from target."]);
   });
 
   it("appends save text", () => {
@@ -935,7 +935,7 @@ describe("getEffectDescription (private, dispatcher)", () => {
   it("routes LevelDrain to getLevelDrain", () => {
     expect(
       service.getEffectDescription({ opcode: EffectTypeEnum.LevelDrain, amount: 2 }, target),
-    ).toEqual(["Drain 2 level from target."]);
+    ).toEqual(["Drain 2 levels from target."]);
   });
 
   it("routes Sleep to getSleep", () => {

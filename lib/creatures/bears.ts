@@ -23,7 +23,6 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
-import targetService from "../src/services/baf/target.service";
 import { customCodes } from "./common";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 

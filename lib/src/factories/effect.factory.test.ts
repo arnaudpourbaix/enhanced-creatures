@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { Effect } from "../model/spell-item/effect";
-import { EffectIDSFileEnum, EffectTimingEnum, RegenerationTypeEnum } from "../model/spell-item/effect.enums";
+import {
+  EffectIDSFileEnum,
+  EffectTimingEnum,
+  PortraitIconEnum,
+  RegenerationTypeEnum,
+} from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import effectFactory from "./effect.factory";
 
@@ -41,7 +46,11 @@ describe("repeatEffect", () => {
     const result = effectFactory.repeatEffect(2, effects);
     expect(result).toEqual([
       { opcode: EffectTypeEnum.Regeneration, amount: 1, timing: EffectTimingEnum.InstantPermanent },
-      { opcode: EffectTypeEnum.PlaySound, resource: "EFF_M08", timing: EffectTimingEnum.InstantPermanent },
+      {
+        opcode: EffectTypeEnum.PlaySound,
+        resource: "EFF_M08",
+        timing: EffectTimingEnum.InstantPermanent,
+      },
       {
         opcode: EffectTypeEnum.Regeneration,
         amount: 1,
@@ -119,19 +128,22 @@ describe("regeneration", () => {
     [3, RegenerationTypeEnum.OneHPperAmountSeconds, 2],
     [0.5, RegenerationTypeEnum.OneHPperAmountSeconds, 12],
   ])("%d hp/round -> type %d, amount %d", (hpPerRound, type, amount) => {
-    expect(effectFactory.regeneration(hpPerRound)).toEqual([
-      { opcode: EffectTypeEnum.Regeneration, type, amount },
-    ]);
+    expect(effectFactory.regeneration(hpPerRound)).toEqual({
+      opcode: EffectTypeEnum.Regeneration,
+      type,
+      amount,
+      icon: PortraitIconEnum.Regenerate,
+    });
   });
 
   it("rounds rates the engine can't express exactly", () => {
     // 4 hp/round = 1 hp/1.5s -> 1 hp/2s (3 hp/round)
-    expect(effectFactory.regeneration(4)[0]).toMatchObject({
+    expect(effectFactory.regeneration(4)).toMatchObject({
       type: RegenerationTypeEnum.OneHPperAmountSeconds,
       amount: 2,
     });
     // 9 hp/round = 1.5 hp/s -> 2 hp/s
-    expect(effectFactory.regeneration(9)[0]).toMatchObject({
+    expect(effectFactory.regeneration(9)).toMatchObject({
       type: RegenerationTypeEnum.AmountHPperSecond,
       amount: 2,
     });
