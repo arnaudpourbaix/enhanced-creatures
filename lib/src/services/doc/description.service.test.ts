@@ -532,19 +532,30 @@ describe("getInvisibility (private)", () => {
 
 describe("getRegeneration (private)", () => {
   it.each([RegenerationTypeEnum.AmountHPperSecond, RegenerationTypeEnum.AmountHPperSecondBis])(
-    "formats hp/second for type %s",
+    "converts hp/second to hp/round for type %s",
     (type) => {
-      expect(service.getRegeneration({ type, amount: 2 })).toEqual(["Regeneration: 2 hp/second"]);
+      expect(service.getRegeneration({ type, amount: 2 })).toEqual(["Regeneration: 12 hp/round"]);
     },
   );
 
-  it("formats a percentage per second", () => {
+  it("converts a percentage per second to a percentage per round", () => {
     expect(
       service.getRegeneration({
         type: RegenerationTypeEnum.AmountHPpercentagePerSecond,
         amount: 5,
       }),
-    ).toEqual(["Regeneration: 5% hp/second"]);
+    ).toEqual(["Regeneration: 30% hp/round"]);
+  });
+
+  it.each([
+    [6, 1],
+    [3, 2],
+    [2, 3],
+    [1, 6],
+  ])("expresses 1 hp/%d seconds as %d hp/round", (amount, hp) => {
+    expect(
+      service.getRegeneration({ type: RegenerationTypeEnum.OneHPperAmountSeconds, amount }),
+    ).toEqual([`Regeneration: ${hp} hp/round`]);
   });
 
   it("special-cases an amount of exactly 6 seconds as 1 hp/round", () => {
@@ -1012,7 +1023,7 @@ describe("getEffectDescription (private, dispatcher)", () => {
         },
         target,
       ),
-    ).toEqual(["Regeneration: 2 hp/second"]);
+    ).toEqual(["Regeneration: 12 hp/round"]);
   });
 
   it("routes CastingTimeModifier to getCastingTimeModifier", () => {
@@ -1221,7 +1232,7 @@ describe("generateCreatureSpells (public)", () => {
     });
     descriptionService.generateCreatureSpells([spell]);
     expect(spell.description).toBeDefined();
-    expect(decode(spell.description as number)).toEqual(["Regeneration: 2 hp/second"]);
+    expect(decode(spell.description as number)).toEqual(["Regeneration: 12 hp/round"]);
   });
 
   it("skips a spell that already has a description", () => {
@@ -1354,7 +1365,7 @@ describe("generateCreatureItems (public)", () => {
     descriptionService.generateCreatureItems([item]);
     expect(decode(item.description as number)).toEqual([
       "Immune to poison",
-      "Regeneration: 1 hp/second",
+      "Regeneration: 6 hp/round",
     ]);
   });
 });

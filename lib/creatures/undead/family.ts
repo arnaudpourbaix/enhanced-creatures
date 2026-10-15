@@ -15,7 +15,8 @@ import {
 import { skeletonWarrior } from "./skeletons-warrior";
 import { banshee, ghost, greaterShadow, shadow, spectre, wraith } from "./spectral";
 import { Undead } from "./undead-creature";
-import { wight, zombie, jujuZombie, zombieLord, seaZombie } from "./zombies";
+import { fledglingVampire } from "./vampires";
+import { jujuZombie, seaZombie, wight, zombie, zombieLord } from "./zombies";
 
 export class UndeadFamily extends CreatureFamily<Undead> {
   constructor() {
@@ -46,6 +47,7 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => jujuZombie(this));
     this.addCreature(() => zombieLord(this));
     this.addCreature(() => seaZombie(this));
+    this.addCreature(() => fledglingVampire(this));
   }
   createCreature(id: MonsterEnum): Undead {
     return new Undead(id);

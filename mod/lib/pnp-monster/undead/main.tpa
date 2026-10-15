@@ -38,3 +38,4 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/56.tpa" // Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Ju-ju Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/8e.tpa" // Zombie Lord
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/58.tpa" // Sea Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/99.tpa" // Vampire

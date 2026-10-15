@@ -333,12 +333,13 @@ class DescriptionService {
         effect.type,
       )
     )
-      return [`Regeneration: ${effect.amount} hp/second`];
+      return [`Regeneration: ${effect.amount * Durations.round} hp/round`];
     else if (effect.type === RegenerationTypeEnum.AmountHPpercentagePerSecond)
-      return [`Regeneration: ${effect.amount}% hp/second`];
-    else if (effect.amount === 6) return [`Regeneration: 1 hp/round`];
-    const rounds = effect.amount / 6;
-    if (rounds > 1 && effect.amount % 6 === 0) return [`Regeneration: 1 hp/${rounds} rounds`];
+      return [`Regeneration: ${effect.amount * Durations.round}% hp/round`];
+    if (Durations.round % effect.amount === 0)
+      return [`Regeneration: ${Durations.round / effect.amount} hp/round`];
+    if (effect.amount % Durations.round === 0)
+      return [`Regeneration: 1 hp/${effect.amount / Durations.round} rounds`];
     return [`Regeneration: 1 hp/${effect.amount} seconds`];
   }
 
@@ -401,7 +402,9 @@ class DescriptionService {
 
   private getLevelDrain(effect: DrainEffect): string[] {
     const results: string[] = [];
-    results.push(`Drain ${effect.amount} level from target${this.getSaveText(effect)}.`);
+    results.push(
+      `Drain ${effect.amount} level${effect.amount > 1 ? "s" : ""} from target${this.getSaveText(effect)}.`,
+    );
     return results;
   }
 

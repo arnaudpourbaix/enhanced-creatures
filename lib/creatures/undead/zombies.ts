@@ -780,7 +780,7 @@ export function seaZombie(family: UndeadFamily): Undead {
     xpv: 420,
     morale: 19,
     items: {
-      remove: ["zomsea"],
+      remove: ["zomsea", "SAHZOM01"],
     },
     size: { value: "Large", tall: true, long: false },
   });

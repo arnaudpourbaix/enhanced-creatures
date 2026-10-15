@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Effect } from "../model/spell-item/effect";
-import { EffectIDSFileEnum, EffectTimingEnum } from "../model/spell-item/effect.enums";
+import { EffectIDSFileEnum, EffectTimingEnum, RegenerationTypeEnum } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import effectFactory from "./effect.factory";
 
@@ -107,5 +107,37 @@ describe("paralyze", () => {
         idsEntry: "ANYONE",
       }),
     );
+  });
+});
+
+describe("regeneration", () => {
+  it.each([
+    [6, RegenerationTypeEnum.AmountHPperSecond, 1],
+    [12, RegenerationTypeEnum.AmountHPperSecond, 2],
+    [1, RegenerationTypeEnum.OneHPperAmountSeconds, 6],
+    [2, RegenerationTypeEnum.OneHPperAmountSeconds, 3],
+    [3, RegenerationTypeEnum.OneHPperAmountSeconds, 2],
+    [0.5, RegenerationTypeEnum.OneHPperAmountSeconds, 12],
+  ])("%d hp/round -> type %d, amount %d", (hpPerRound, type, amount) => {
+    expect(effectFactory.regeneration(hpPerRound)).toEqual([
+      { opcode: EffectTypeEnum.Regeneration, type, amount },
+    ]);
+  });
+
+  it("rounds rates the engine can't express exactly", () => {
+    // 4 hp/round = 1 hp/1.5s -> 1 hp/2s (3 hp/round)
+    expect(effectFactory.regeneration(4)[0]).toMatchObject({
+      type: RegenerationTypeEnum.OneHPperAmountSeconds,
+      amount: 2,
+    });
+    // 9 hp/round = 1.5 hp/s -> 2 hp/s
+    expect(effectFactory.regeneration(9)[0]).toMatchObject({
+      type: RegenerationTypeEnum.AmountHPperSecond,
+      amount: 2,
+    });
+  });
+
+  it("rejects non-positive values", () => {
+    expect(() => effectFactory.regeneration(0)).toThrow();
   });
 });

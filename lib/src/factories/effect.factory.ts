@@ -1,9 +1,11 @@
 import { StringReference } from "../model/final/stringref";
+import { Durations } from "../model/game-data/durations";
 import { RaceIdentifier } from "../model/ids/race";
 import {
   BaseEffect,
   Effect,
   ModifierTypeEffect,
+  RegenerationEffect,
   StatisticModifierEffect,
   StatisticModifierOpcode,
 } from "../model/spell-item/effect";
@@ -21,6 +23,7 @@ import {
   LightingEffectEnum,
   LightingEffectTargetEnum,
   PortraitIconEnum,
+  RegenerationTypeEnum,
   SaveTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
@@ -451,7 +454,7 @@ class EffectFactory {
       stringRef = StringRefUtils.getStringId("Two Levels Drained");
     } else if (params.levels === 3) {
       stringRef = StringRefUtils.getStringId("Three Levels Drained");
-    }
+    } else if (params.levels > 3) throw new Error("string unhandled");
     const effects: Effect[] = [
       {
         opcode: EffectTypeEnum.LevelDrain,
@@ -474,6 +477,12 @@ class EffectFactory {
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         saveTypes: params.saveType ? [params.saveType] : undefined,
         saveBonus: params.saveBonus,
+      },
+      {
+        opcode: EffectTypeEnum.CreatureRGBColorFade,
+        color: { red: 60, green: 90, blue: 120 },
+        fadeSpeed: 25,
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
       },
     ];
     return effectService.getEffects(effects);
@@ -533,6 +542,32 @@ class EffectFactory {
       value,
       type: EffectStatisticModifierEnum.Set,
     }));
+  }
+
+  /**
+   * Regeneration in hp/round (a round is 6 seconds).
+   * 6+ hp/round is expressed as hp/second, slower rates as 1 hp every N seconds.
+   * The engine only takes integer amounts, so rates that don't divide evenly are rounded to the nearest one.
+   */
+  regeneration(hpPerRound: number): Effect {
+    if (hpPerRound <= 0) {
+      throw new Error(`Regeneration must be positive, got ${hpPerRound} hp/round`);
+    }
+    const effect: RegenerationEffect =
+      hpPerRound >= Durations.round
+        ? {
+            opcode: EffectTypeEnum.Regeneration,
+            amount: Math.round(hpPerRound / Durations.round),
+            type: RegenerationTypeEnum.AmountHPperSecond,
+            icon: PortraitIconEnum.Regenerate,
+          }
+        : {
+            opcode: EffectTypeEnum.Regeneration,
+            amount: Math.round(Durations.round / hpPerRound),
+            type: RegenerationTypeEnum.OneHPperAmountSeconds,
+            icon: PortraitIconEnum.Regenerate,
+          };
+    return effect;
   }
 
   /**

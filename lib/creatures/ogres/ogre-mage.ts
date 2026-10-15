@@ -1,4 +1,5 @@
 import { SPELLS } from "../../config/spells/spell-database";
+import effectFactory from "../../src/factories/effect.factory";
 import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum, RegenerationTypeEnum } from "../../src/model/spell-item/effect.enums";
@@ -78,13 +79,7 @@ export function ogreMage(family: OgreFamily): Ogre {
   ogreMage.createFly();
   ogreMage.createGaseousForm();
   ogreMage.addTrait({
-    effects: [
-      {
-        opcode: EffectTypeEnum.Regeneration,
-        type: RegenerationTypeEnum.OneHPperAmountSeconds,
-        amount: 6,
-      },
-    ],
+    effects: [effectFactory.regeneration(1)],
   });
   ogreMage.setBehavior({
     restHeal: true,
