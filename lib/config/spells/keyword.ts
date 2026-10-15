@@ -39,6 +39,10 @@ export type SpellKeyword =
   | "fireball"
   | "flameArrow"
   /**
+   * Gaze attack: blocked by gaze attack immunity (see the gazeAttacks immunity)
+   */
+  | "gaze"
+  /**
    * Means that the spell is friendly and we should not check for protections (see
    * SPELL_CHECK_SUPPRESSORS)
    */

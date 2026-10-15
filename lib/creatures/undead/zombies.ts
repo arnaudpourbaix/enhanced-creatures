@@ -692,7 +692,7 @@ export function jujuZombie(family: UndeadFamily): Undead {
     from: family.creature(MonsterEnum.Zombie),
   });
   juju.setData({
-    level1: { pnpValue: 3, value: 7, type: "turn" },
+    level1: 3,
     bonusHp: 12,
     thac0: 15,
     intelligence: 6,
@@ -733,6 +733,7 @@ export function jujuZombie(family: UndeadFamily): Undead {
     },
     { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2, xpv: 2250 } },
   ]);
+  juju.turnAs = "spectre";
   return juju;
 }
 
@@ -743,7 +744,7 @@ export function zombieLord(family: UndeadFamily): Undead {
     from: family.creature(MonsterEnum.Zombie),
   });
   lord.setData({
-    level1: { pnpValue: 6, value: 8, type: "turn" },
+    level1: 6,
     strength: 16,
     dexterity: 14,
     intelligence: 9,
@@ -762,6 +763,7 @@ export function zombieLord(family: UndeadFamily): Undead {
   lord.setBehavior({
     abilities: [family.ability(Ids.ZombieOdorOfDeath), family.ability(Ids.ZombieAnimateDead)],
   });
+  lord.turnAs = "vampire";
   return lord;
 }
 
@@ -816,7 +818,7 @@ export function seaZombie(family: UndeadFamily): Undead {
 function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
   const seaLord = base.variant("Sea Zombie Lord", {
     data: {
-      level1: { pnpValue: 6, value: 8, type: "turn" },
+      level1: 6,
       intelligence: 9,
       ac: 6,
       apr: 2,

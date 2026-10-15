@@ -671,6 +671,20 @@ The following results are possible:
 A target who fails a saving throw vs. death is slain. 
 In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.`,
       },
+      vampireDomination: {
+        gazeName: "Domination Gaze",
+        voiceName: "Dominating Voice",
+        willName: "Dominating Will",
+        gazeDescription: `The gaze of a vampire is one of its most powerful and dangerous weapons.
+Any person who looks into its eyes is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled, with a penalty that grows with the vampire's age (-2 for a fledgling or mature vampire, -3 for an old or very old one).
+The charm lasts 8 rounds. Blinded creatures and creatures immune to gaze attacks are unaffected.`,
+        voiceDescription: `An ancient or eminent vampire no longer needs to meet its victim's eyes: its voice alone is enough.
+Any person who hears it is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -4.
+The charm lasts 8 rounds, and blindness offers no protection, but a silenced vampire can't use its voice.`,
+        willDescription: `A vampire patriarch dominates others by sheer force of will, needing neither gaze nor voice.
+Any person it targets is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -5.
+The charm lasts 8 rounds, and blindness offers no protection.`,
+      },
     },
   },
   ettin: {

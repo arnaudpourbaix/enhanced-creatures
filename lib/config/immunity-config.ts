@@ -600,6 +600,19 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     ],
   },
   {
+    name: "plusThreeWeapons",
+    type: "immunity",
+    stringRef: "common.immunity.plusThreeWeapons",
+    immunities: ["plusTwoWeapons"],
+    effects: [
+      {
+        opcode: EffectTypeEnum.ProtectionFromWeapons,
+        type: ProtectionFromWeaponsTypeEnum.Enchanted,
+        enchantment: 3,
+      },
+    ],
+  },
+  {
     name: "backstab",
     type: "immunity",
     stringRef: "common.immunity.backstab",
@@ -643,6 +656,8 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     type: "immunity",
     stringRef: "common.immunity.gazeAttacks",
     immunities: ["petrification"],
+    spellGroups: ["gaze"],
+    displaySpellIneffective: true,
   },
 ];
 

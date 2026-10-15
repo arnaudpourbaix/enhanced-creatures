@@ -59,6 +59,14 @@ export abstract class CreatureFamily<T extends Creature>
 
   abstract createCreature(id: MonsterEnum): T;
 
+  /**
+   * Family-wide derivation run once a creature is fully built (data, variants and adjustments
+   * all declared), before validation.
+   */
+  protected afterBuild(_creature: T): void {
+    // nothing by default
+  }
+
   create(p: {
     name: TranslationKey;
     monster: MonsterEnum;
@@ -193,6 +201,7 @@ export abstract class CreatureFamily<T extends Creature>
     logService.beginCapture();
     try {
       creature = build();
+      this.afterBuild(creature);
       this.applyCsvSummonFiles(creature);
       creature.validate(this.id);
       const hasNothingToActOn =

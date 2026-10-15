@@ -521,6 +521,10 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
+	INNER_ACTION BEGIN
+		LAF get_gaze_resources RET_ARRAY spells=resources END
+	END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
 	LPF petrification_immunity INT_VAR resist_dispel duration END
 END
 
@@ -940,6 +944,15 @@ INT_VAR
 BEGIN
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=1 parameter2=0 END
 	LPF nonMagicalWeapons_immunity INT_VAR resist_dispel duration END
+END
+
+DEFINE_PATCH_FUNCTION plusThreeWeapons_immunity
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=120 parameter1=3 parameter2=0 END
+	LPF plusTwoWeapons_immunity INT_VAR resist_dispel duration END
 END
 
 DEFINE_PATCH_FUNCTION plusTwoWeapons_immunity

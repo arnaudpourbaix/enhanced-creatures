@@ -494,8 +494,9 @@ class CreatureService {
     // than the creature's own real Hit Dice would already give (e.g. a stale override left behind
     // after level1 grew past it).
     if (options?.level) level = Math.max(level, options.level);
-    if (!!data.bonusHp && data.bonusHp >= 3) {
-      level++;
+    const effectiveLevel = this.getEffectiveHitDice(level, data.bonusHp);
+    if (effectiveLevel !== level) {
+      level = effectiveLevel;
       logService.log(`${figureSet.arrowRight} calculating THAC0 as a level ${level} creature`);
     }
     const item = Thac0Table.find((t) => t.level === level);
@@ -507,6 +508,11 @@ class CreatureService {
         `level: ${level}, hp bonus: ${data.bonusHp ?? 0}, thac0: ${data.thac0}, calculated: ${item.thac0}`,
       );
     else data.thac0 = item.thac0;
+  }
+
+  /** PnP "+N" Hit Dice: +3 or more counts as the next Hit Die (e.g. a 4+3 HD wight fights as 5). */
+  getEffectiveHitDice(level: number, bonusHp = 0): number {
+    return bonusHp >= 3 ? level + 1 : level;
   }
 
   convertMovement(movement: number): number {

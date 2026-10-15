@@ -218,6 +218,10 @@ export const SPELL_GROUPS: SpellGroup[] = [
     spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", "SPWI888"],
   },
   {
+    name: "gaze",
+    spells: [],
+  },
+  {
     name: "fireball",
     spells: [
       "BDBLOWUP",

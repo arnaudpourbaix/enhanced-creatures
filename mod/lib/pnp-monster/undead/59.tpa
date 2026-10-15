@@ -47,7 +47,7 @@ BEGIN
 					savePolymorph=11
 					saveBreath=12
 					saveSpell=13
-					level1=8
+					level1=9
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
 					strength=6
 					intelligence=7

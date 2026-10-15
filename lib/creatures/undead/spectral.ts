@@ -238,7 +238,7 @@ export function banshee(family: UndeadFamily): Undead {
     name: "monster.undead.name.banshee",
     files: [],
     data: {
-      level1: { pnpValue: 7, value: 17, type: "turn" }, // to approximate their "turned as special undead" from PnP
+      level1: 7,
       strength: 9,
       dexterity: 14,
       constitution: 9,
@@ -280,6 +280,7 @@ export function banshee(family: UndeadFamily): Undead {
     restHeal: true,
     abilities: [family.ability(Ids.BansheeFearAura), family.ability(Ids.DeathWail)],
   });
+  banshee.turnAs = "special";
   return banshee;
 }
 

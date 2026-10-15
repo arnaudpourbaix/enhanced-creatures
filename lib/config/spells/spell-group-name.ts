@@ -27,6 +27,7 @@ type GroupKeyword =
   | "fireball"
   | "fire"
   | "flameArrow"
+  | "gaze"
   | "globeOfInvulnerability"
   | "ground"
   | "hold"

@@ -14,8 +14,17 @@ import {
 } from "./skeletons";
 import { skeletonWarrior } from "./skeletons-warrior";
 import { banshee, ghost, greaterShadow, shadow, spectre, wraith } from "./spectral";
+import { applyTurnLevel } from "./turn-level";
 import { Undead } from "./undead-creature";
-import { fledglingVampire } from "./vampires";
+import {
+  ancientVampire,
+  eminentVampire,
+  fledglingVampire,
+  matureVampire,
+  oldVampire,
+  patriarchVampire,
+  veryOldVampire,
+} from "./vampires";
 import { jujuZombie, seaZombie, wight, zombie, zombieLord } from "./zombies";
 
 export class UndeadFamily extends CreatureFamily<Undead> {
@@ -48,9 +57,19 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => zombieLord(this));
     this.addCreature(() => seaZombie(this));
     this.addCreature(() => fledglingVampire(this));
+    this.addCreature(() => matureVampire(this));
+    this.addCreature(() => oldVampire(this));
+    this.addCreature(() => veryOldVampire(this));
+    this.addCreature(() => ancientVampire(this));
+    this.addCreature(() => eminentVampire(this));
+    this.addCreature(() => patriarchVampire(this));
   }
   createCreature(id: MonsterEnum): Undead {
     return new Undead(id);
+  }
+
+  protected override afterBuild(creature: Undead): void {
+    applyTurnLevel(creature);
   }
 }
 

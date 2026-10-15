@@ -187,7 +187,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("HIDE_SHADOW","LOCALS",6)
-		DisplayStringHead(Myself,@10112)
+		DisplayStringHead(Myself,@10113)
 		Hide()
 		SetInterrupt(TRUE)
 END

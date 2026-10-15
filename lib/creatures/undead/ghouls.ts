@@ -416,6 +416,7 @@ export function ghast(family: UndeadFamily): Undead {
   });
   greaterGhastVariant(ghast);
   lacedonVariant(ghast);
+  ghast.turnAs = "ghast";
   return ghast;
 }
 
@@ -460,7 +461,7 @@ export function ghoulLord(family: UndeadFamily): Undead {
     name: "monster.undead.name.ghoulLord",
     files: [],
     data: {
-      level1: { pnpValue: 6, value: 7, type: "turn" },
+      level1: 6,
       strength: 18,
       dexterity: 17,
       constitution: 9,
@@ -513,5 +514,6 @@ export function ghoulLord(family: UndeadFamily): Undead {
     abilities: [family.ability(Ids.AuraOfEvil)],
   });
   lord.setAdjustments([]);
+  lord.turnAs = "mummy"; // PHB: turned as a 7 HD monster (the mummy row)
   return lord;
 }

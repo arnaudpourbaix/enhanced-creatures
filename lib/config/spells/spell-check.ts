@@ -140,6 +140,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   fatigue: [],
   fireball: [],
   flameArrow: [],
+  gaze: [],
   globeOfInvulnerability: [],
   ground: [],
   illusion: [],

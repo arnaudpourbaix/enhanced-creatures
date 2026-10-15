@@ -13,6 +13,7 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
+import type { TurnUndeadType } from "./turn-level";
 
 /**
  * Shared weapon primitives for every undead creature. Creature-specific spells
@@ -20,6 +21,9 @@ import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
  * (ghouls.ts, mummies.ts, skeletons.ts, spectral.ts, zombies.ts).
  */
 export class Undead extends Creature {
+  /** PnP "turned as" row, when harder to turn than the creature's own Hit Dice. */
+  turnAs?: TurnUndeadType;
+
   createTouch(p: {
     diceThrown: number;
     diceSize: number;

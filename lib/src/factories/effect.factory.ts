@@ -299,7 +299,13 @@ class EffectFactory {
       },
       {
         opcode: EffectTypeEnum.DisplayString,
-        stringRef: StringRefUtils.getStringId("Dire charmed"),
+        stringRef: StringRefUtils.getStringId(
+          [CharmTypeEnum.NeutralDireCharm, CharmTypeEnum.HostileDireCharm].includes(
+            payload.charmType,
+          )
+            ? "Dire charmed"
+            : "Charmed",
+        ),
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         dispelResistance: payload.dispelResistance,
         saveTypes: payload.saveType !== undefined ? [payload.saveType] : undefined,

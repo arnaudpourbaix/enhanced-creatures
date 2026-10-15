@@ -52,6 +52,7 @@ export default {
     nonSilverNonMagicalWeapons: "Immune to non-magical and non-silver weapons",
     plusOneWeapons: "Immune to all weapons of +1 or less enchantment",
     plusTwoWeapons: "Immune to all weapons of +2 or less enchantment",
+    plusThreeWeapons: "Immune to all weapons of +3 or less enchantment",
     backstab: "Immune to backstab",
     criticalHit: "Immune to critical hits",
     devourBrain: "Immune to devour brain ability",

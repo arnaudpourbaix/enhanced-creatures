@@ -7,10 +7,10 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jam8e.baf~
 CREATE SPL "jas0m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas0m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10430)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10437)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11087)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11101)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
@@ -22,11 +22,11 @@ COPY_EXISTING ~jas0m8e.SPL~  ~override~
 CREATE SPL "jas1m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas1m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10434)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10441)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11088)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11102)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=180 probability1=100 special=91 END
@@ -54,11 +54,11 @@ OUTER_SET $f_AddSecType(jas1m8e.spl) = DiseaseSecType
 CREATE SPL "jas2m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas2m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10435)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10442)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11089)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11103)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=9 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7200 probability1=100 STR_VAR resource="jas2m8e" END
@@ -68,11 +68,11 @@ OUTER_SET $f_AddSecType(jas2m8e.spl) = DiseaseSecType
 CREATE SPL "jas3m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas3m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10431)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10438)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11090)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11104)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=1 probability1=100 special=91 END
@@ -86,10 +86,10 @@ OUTER_SET $f_AddSecType(jas3m8e.spl) = DiseaseSecType
 CREATE SPL "jas4m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas4m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10432)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10439)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11091)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11105)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=45 target=2 power=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=12 probability1=100 STR_VAR resource="jas4m8e" END
@@ -98,10 +98,10 @@ COPY_EXISTING ~jas4m8e.SPL~  ~override~
 CREATE SPL "jas5m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas5m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10433)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10440)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11092)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11106)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas5m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
@@ -111,12 +111,12 @@ COPY_EXISTING ~jas5m8e.SPL~  ~override~
 CREATE SPL "jas6m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas6m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10428)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10435)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR329C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10429)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10436)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasight~)) + 1 STR_VAR icon="SPPR329B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=16 probability2=0 savingthrow=4 STR_VAR resource="jas0m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=9 probability1=32 probability2=17 savingthrow=4 STR_VAR resource="jas1m8e" END
@@ -131,13 +131,13 @@ COPY_EXISTING ~jas6m8e.SPL~  ~override~
 CREATE SPL "jas7m8e"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jas7m8e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10436)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10443)
 	WRITE_ASCII 0x10 ~CAS_P07~ #8
 	WRITE_SHORT 0x1c 1
 	WRITE_SHORT 0x22 9
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPPR301C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10437)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10444)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=10 speed=6 STR_VAR icon="SPPR301B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=5 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas7m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=5 parameter2=2 timing=9 resist_dispel=1 probability1=100 dicenumber=5 savingthrow=4 END
@@ -174,11 +174,11 @@ CREATE ITM "jai0m8e"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10374)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10374)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10381)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11093)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11107)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai0m8e.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -236,7 +236,7 @@ BEGIN
 					savePolymorph=12
 					saveBreath=13
 					saveSpell=14
-					level1=8
+					level1=9
 					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
 					strength=16
 					intelligence=9

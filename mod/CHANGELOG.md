@@ -9,7 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Current version in doc's header
-- Undead - Zombies
+- Zombies
+- Vampires
+
+### Changed
+
+- Undead are turned according to the PnP turning table: "+3" Hit Dice count as the next row (e.g. wights, wraiths, mummies, spectres are harder to turn), and creatures turned as a specific undead use that row (e.g. ju-ju zombies as spectres, zombie lords as vampires). Banshees are now easier to turn
 
 ### Fixed
 

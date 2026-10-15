@@ -1,0 +1,152 @@
+// Generated file (don't edit)
+
+// Ancient Vampire
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/jama4.baf~
+
+// Dominating Voice
+CREATE EFF "jas0ma4"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jas0ma4~ #8
+
+CREATE SPL "jas0ma4"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jas0ma4.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10449)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas0ma4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas0ma4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="EFF_E07" END
+	
+// Claws
+CREATE ITM "jai0ma4"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IGHOUL~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11124)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jai0ma4.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IGHOUL~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=216 target=2 parameter1=2 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=139 target=2 parameter1=25803 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=141 target=2 parameter2=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=61 target=2 parameter1=2019179520 parameter2=1638400 timing=1 probability1=100 END
+	END
+
+// Ancient Vampire traits
+CREATE ITM "jai1ma4"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11123)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11123)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11125)
+COPY_EXISTING ~jai1ma4.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=20 parameter2=1 timing=2 probability1=100 END
+	LPF plusTwoWeapons_immunity END
+	LPF coldResistance_resistance END
+	LPF lightningResistance_resistance END
+
+DEFINE_ACTION_FUNCTION jama4_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~D9MVER01~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~immune1~
+			REMOVE_CRE_ITEM ~immune2~
+			REMOVE_CRE_ITEM ~immune3~
+			REMOVE_CRE_ITEM ~vamp~
+			REMOVE_CRE_ITEM ~vampreg~
+			REPLACE_CRE_ITEM ~jai0ma4~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jai1ma4~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+			PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+				REPLACE_CRE_ITEM ~jai3~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			END
+			ADD_MEMORIZED_SPELL ~jas0ma4~ #0 ~innate~ (1) // Dominating Voice
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=14000
+					hp=192
+					ac=5
+					thac0=9
+					apr=1
+					saveDeath=7
+					saveWand=9
+					savePolymorph=8
+					saveBreath=8
+					saveSpell=10
+					level1=12
+					strength=19
+					intelligence=18
+					wisdom=15
+					dexterity=18
+					constitution=18
+					charisma=18
+					morale=16
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~VAMPIRE~)
+					class=IDS_OF_SYMBOL (~class~ ~VAMPIRE~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					moveSilent=100
+					movement=14
+					enforce=1
+			END
+			// Assigning jama4
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jama4 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"D9MVER01"
+	BEGIN
+		LAF jama4_patch STR_VAR file END
+	END
+END
