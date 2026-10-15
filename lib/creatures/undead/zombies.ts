@@ -724,6 +724,14 @@ export function jujuZombie(family: UndeadFamily): Undead {
       files: ["ZOMBJU01", "NEVM5", "BHGHOUL5", "D9MBJU01"],
       stringRef: "monster.undead.name.zombieJuju",
     },
+    {
+      files: ["L#RVZDOE"],
+      data: {
+        level1: 9,
+        apr: 2,
+      },
+    },
+    { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2, xpv: 2250 } },
   ]);
   return juju;
 }
@@ -799,6 +807,9 @@ export function seaZombie(family: UndeadFamily): Undead {
   });
   // There is a 50% chance that each drowned one encountered is a priest of level 1d4. These creatures are granted their spells directly from Nerull (or similar deity), receiving only baneful spells.
   seaZombieLordVariant(sea, family);
+  sea.setAdjustments([
+    { files: ["VA#ZOM01", "VA#ZOM02", "VA#ZOM03", "VA#ZOMGL"], data: { level1: 7 } },
+  ]);
   return sea;
 }
 

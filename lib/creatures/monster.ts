@@ -182,4 +182,7 @@ export enum MonsterEnum {
   Cambion = 155,
   Neothelid = 156,
   ZombieMonster = 157,
+  FireGiant = 158,
+  FireGiantMage = 159,
+  FrostGiant = 160,
 }
