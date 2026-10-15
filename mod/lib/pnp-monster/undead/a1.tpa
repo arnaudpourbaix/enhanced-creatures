@@ -21,7 +21,7 @@ COPY_EXISTING ~jas0ma1.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI506C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10448)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jas0ma1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jas0ma1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" END
@@ -29,6 +29,7 @@ COPY_EXISTING ~jas0ma1.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
 	
 // Claws
 CREATE ITM "jai0ma1"
@@ -85,7 +86,7 @@ BEGIN
 	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
 		COPY_EXISTING ~%file%.cre~ ~override~
 			LPF FJ_CRE_VALIDITY END
-			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~AC#W30V2~ BEGIN
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~VAMMAT01~ BEGIN
 				LPF REMOVE_MOST_CRE_EFFECTS END
 			END
 			REMOVE_KNOWN_SPELLS
@@ -95,7 +96,11 @@ BEGIN
 			REMOVE_CRE_ITEM ~immune2~
 			REMOVE_CRE_ITEM ~immune3~
 			REMOVE_CRE_ITEM ~vamp~
+			REMOVE_CRE_ITEM ~vamp2~
+			REMOVE_CRE_ITEM ~vamp3~
 			REMOVE_CRE_ITEM ~vampreg~
+			REMOVE_CRE_ITEM ~vampreg1~
+			REMOVE_CRE_ITEM ~vampreg2~
 			REPLACE_CRE_ITEM ~jai0ma1~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			ADD_CRE_ITEM ~jai1ma1~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_CRE_ITEM ~jai17~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
@@ -138,7 +143,7 @@ BEGIN
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
-			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY removeScripts BEGIN vampir01 ppvampir BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jama1 END
 		BUT_ONLY_IF_IT_CHANGES
 	END
@@ -146,7 +151,7 @@ END
 
 ACTION_IF GAME_IS ~bg2ee~ BEGIN
 	ACTION_FOR_EACH ~file~ IN
-		"AC#W30V2"
+		"VAMMAT01"
 	BEGIN
 		LAF jama1_patch STR_VAR file END
 	END

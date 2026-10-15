@@ -159,13 +159,12 @@ END
 // Dominating Voice
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -190,19 +189,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -227,19 +224,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -264,19 +259,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -301,19 +294,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -338,19 +329,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -375,19 +364,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -412,19 +399,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -449,19 +434,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -486,20 +469,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 // Dominating Voice
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -523,19 +504,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -559,19 +538,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -595,19 +572,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -631,19 +606,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -667,19 +640,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -703,19 +674,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -739,19 +708,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -775,19 +742,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -811,20 +776,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 // Dominating Voice
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -849,19 +812,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -886,19 +847,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -923,19 +882,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -960,19 +917,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -997,19 +952,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1034,19 +987,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1071,19 +1022,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1108,19 +1057,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1145,19 +1092,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1182,20 +1127,18 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 // Dominating Voice
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1219,19 +1162,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1255,19 +1196,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1291,19 +1230,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1327,19 +1264,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1363,19 +1298,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1399,19 +1332,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1435,19 +1366,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1471,19 +1400,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1507,19 +1434,17 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("VampireDomination","LOCALS")
 	HaveSpellRES("jas0ma4")
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
-	RandomNumGT(800,240)
+	RandomNumGT(800,400)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1543,8 +1468,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("VampireDomination","LOCALS",18)
-		SpellNoDecRES("jas0ma4",LastSeenBy(Myself))
+		ForceSpellRES("jas0ma4",LastSeenBy(Myself))
 END
 
 // Attack HeldNearby enemy

@@ -223,6 +223,8 @@ function domination(cre: Undead, domination: VampireAge["domination"]) {
     primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: texts.keywords,
+    // usable every round, like the original SPIN883 (removes itself, re-added 1 round later)
+    options: { renew: 1 },
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -230,6 +232,8 @@ function domination(cre: Undead, domination: VampireAge["domination"]) {
         target: ItemAbilityTargetEnum.LivingActor,
         range: 30,
         speed: 1,
+        // like the original SPIN883, so protections from gaze projectiles (e.g. blindness) apply
+        projectile: domination.mode === "gaze" ? "GAZE" : undefined,
         effects: effectFactory.charm({
           charmType: CharmTypeEnum.HostileDomination,
           duration: 8 * Durations.round,
@@ -243,13 +247,11 @@ function domination(cre: Undead, domination: VampireAge["domination"]) {
       preset: SPELLS.Wizard.CharmPerson.file,
       requireVocal: domination.mode === "voice",
       spell: {
-        type: "noDec",
+        type: "force",
         excludeStateChecks: domination.mode === "gaze" ? ["STATE_BLIND"] : undefined,
       },
-      timer: {
-        name: "VampireDomination",
-        value: 3 * Durations.round,
-      },
+      // not always the first thing a vampire does
+      probability: 50,
     },
   });
 }
@@ -282,7 +284,22 @@ function vampire(family: UndeadFamily, age: VampireAge): Undead {
       immunities: ["undead"],
       moveSilent: 100,
       items: {
-        remove: ["ring95", "immune1", "immune2", "immune3", "vamp", "vampreg"],
+        remove: [
+          "ring95",
+          "immune1",
+          "immune2",
+          "immune3",
+          "vamp",
+          "vamp1",
+          "vamp2",
+          "vamp3",
+          "vampreg",
+          "vampreg1",
+          "vampreg2",
+        ],
+      },
+      script: {
+        remove: ["vampir01", "ppvampir"],
       },
     },
   });
