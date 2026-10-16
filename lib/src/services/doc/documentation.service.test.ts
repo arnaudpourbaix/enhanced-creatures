@@ -2204,3 +2204,118 @@ describe("getCreatureHeader", () => {
     );
   });
 });
+
+describe("card omissions", () => {
+  const originalItems = State.items;
+  const originalImmunities = State.immunities;
+
+  afterEach(() => {
+    State.items = originalItems;
+    State.immunities = originalImmunities;
+  });
+
+  it("omits a stat whose key is omitted", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    documentationService.addCreature(creature, new Set(["stat:Morale=12"]));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).not.toContain("<dt>Morale</dt>");
+    expect(html).toContain("<dt>Armor Class</dt>");
+  });
+
+  it("lists only the scores that are not omitted", () => {
+    documentationService.addCreature(
+      fakeCreatureForAddCreature(false),
+      new Set(["score:CON=14", "score:WIS=10"]),
+    );
+    expect(service.monsters.at(-1)).toContain(
+      '<div class="stat stat-wide"><dt>Ability Scores</dt><dd>STR 18, DEX 12, INT 10, CHA 10</dd></div>',
+    );
+  });
+
+  it("omits the Ability Scores stat when every score is omitted", () => {
+    const omit = new Set(
+      ["STR=18", "DEX=12", "CON=14", "INT=10", "WIS=10", "CHA=10"].map((s) => `score:${s}`),
+    );
+    documentationService.addCreature(fakeCreatureForAddCreature(false), omit);
+    expect(service.monsters.at(-1)).not.toContain("Ability Scores");
+  });
+
+  it("renders the stat grid compactly with no omission", () => {
+    documentationService.addCreature(fakeCreatureForAddCreature(false));
+    expect(service.monsters.at(-1)).toContain('<div class="stat"><dt>Armor Class</dt><dd>');
+  });
+
+  it("renders only the enchantment when the weapon description is omitted", () => {
+    const desc = translationService.addCustomTranslation([
+      "Bite",
+      "",
+      "Melee damage: 1D6 (Piercing)",
+      "Enchantment: 3",
+    ]);
+    State.items = [
+      { file: "BITE01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
+    const creatureWithWeapon = fakeCreatureForAttacks([{ file: "BITE01", slot: "WEAPON1" }]);
+    creatureWithWeapon.attack.dualWielding = false;
+
+    const parts = documentationService.getCardParts(creatureWithWeapon);
+    expect(parts.weapons[0].descKey).toMatch(/^weaponDesc:0:/);
+    documentationService.addCreature(creatureWithWeapon, new Set([parts.weapons[0].descKey]));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toContain('<div class="weapon">Enchantment +3</div>');
+    expect(html).not.toContain("1D6");
+  });
+
+  it("renders no Attacks section when every weapon is omitted", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 1D6"]);
+    State.items = [
+      { file: "BITE01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
+    const creature = fakeCreatureForAttacks([{ file: "BITE01", slot: "WEAPON1" }]);
+    const parts = documentationService.getCardParts(creature);
+    documentationService.addCreature(creature, new Set([parts.weapons[0].key]));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).not.toContain("<h4>Attacks</h4>");
+    expect(html).not.toContain("By weapon");
+  });
+
+  it("renders no Traits section when the only trait is omitted", () => {
+    State.immunities = [
+      { name: "undead", type: "trait", stringRef: "common.traits.undead.name" },
+    ] as unknown as typeof State.immunities;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.immunities = ["undead"] as unknown as Creature["data"]["immunities"];
+
+    documentationService.addCreature(creature);
+    expect(service.monsters.at(-1)).toContain("<h4>Traits</h4>");
+
+    documentationService.addCreature(creature, new Set(["trait:undead"]));
+    expect(service.monsters.at(-1)).not.toContain("<h4>Traits</h4>");
+  });
+
+  it("renders no Abilities section when the only ability is omitted", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.behavior = { abilities: [fakeAbility("SPPR101")], customCodes: [] };
+    creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
+
+    const parts = documentationService.getCardParts(creature);
+    expect(parts.abilities[0].key).toMatch(/^ability:/);
+    expect(parts.abilities[0].key).not.toContain("m1-ability-0");
+
+    documentationService.addCreature(creature);
+    expect(service.monsters.at(-1)).toContain("<h4>Abilities</h4>");
+
+    documentationService.addCreature(creature, new Set([parts.abilities[0].key]));
+    expect(service.monsters.at(-1)).not.toContain("<h4>Abilities</h4>");
+  });
+
+  it("exposes the creature's 3e types as a data attribute", () => {
+    State.immunities = [
+      { name: "undead", type: "trait", stringRef: "common.traits.undead.name" },
+    ] as unknown as typeof State.immunities;
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.immunities = ["undead"] as unknown as Creature["data"]["immunities"];
+    documentationService.addCreature(creature);
+    expect(service.monsters.at(-1)).toContain('<div class="creature" id="m1" data-types="undead">');
+  });
+});

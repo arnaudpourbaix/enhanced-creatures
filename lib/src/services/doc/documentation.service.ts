@@ -17,6 +17,7 @@ import { ProficiencyTypeEnum, SpellTypeEnum } from "../../model/spell-item/effec
 import { Item } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import creatureService from "../creature.service";
+import creatureTypeService from "../creature-type.service";
 import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
 import logService from "../log.service";
@@ -24,6 +25,7 @@ import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
+import { CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
 import { readModVersion, stampVersion } from "./doc-version";
 
 // Standard AD&D 2e proficiency names, since the enum's own SCREAMING_CASE keys (e.g.
@@ -81,6 +83,13 @@ const ABILITY_TAB_THRESHOLD = 9;
 // the convention, but does carry a real `level` in its own config entry, e.g. fnp-spell-database.ts)
 // - in that genuinely unknown case, getAbilityLevelTabs groups it under a catch-all "Innate" tab.
 const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
+
+// Stat labels shared by the creature card, the panel's base card and the adjustment cards.
+const ARMOR_CLASS_LABEL = "Armor Class";
+const APR_LABEL = "Attacks per Round";
+
+// A stat or ability-score value as authored; unset renders empty.
+type StatValue = string | number | undefined;
 
 // One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
 // JSON blob the docs/monsters.js file-search box reads. `kind` isn't shown to the reader - it only
@@ -233,7 +242,7 @@ class DocumentationService {
     );
   }
 
-  addCreature(creature: Creature) {
+  addCreature(creature: Creature, omit: CardOmissions = new Set(), typeTags = "") {
     logService.log(`Generating documentation for ${translationService.from(creature.name)}`);
     let content: string;
     try {
@@ -244,50 +253,84 @@ class DocumentationService {
       });
     }
     const template = { text: content };
-    let str = `${creature.data.strength}`;
+    const parts = this.getCardParts(creature);
     this.replace(template, "id", `m${creature.id}`);
-    if (creature.data.exceptionalStrength) str += `/${creature.data.exceptionalStrength}`;
+    this.replace(template, "types", creatureTypeService.getCreatureTypes(creature).join(" "));
     this.getCreatureHeader(template, creature);
-    this.replace(template, "str", str);
-    this.replace(template, "dex", creature.data.dexterity);
-    this.replace(template, "con", creature.data.constitution);
-    this.replace(template, "int", creature.data.intelligence);
-    this.replace(template, "wis", creature.data.wisdom);
-    this.replace(template, "cha", creature.data.charisma);
-    this.replace(template, "align", this.formatEnumLabel(creature.data.alignment));
-    this.replace(template, "ac", creatureService.getFinalArmorClass(creature));
-    this.replace(template, "movement", creature.data.movement.pnpValue);
-    this.replace(
-      template,
-      "hitDice",
-      `${creature.data.level1.pnpValue} (${this.getDisplayHp(creature) ?? 0} hp)`,
-    );
-    this.replace(template, "thac0", creature.data.thac0);
-    this.replace(template, "apr", this.getEffectiveApr(creature));
-    this.replace(template, "size", creature.data.size.value);
-    this.addSpecial(template, creature);
-    this.replace(template, "morale", creature.data.morale);
-    // XP Value is omitted entirely when it's 0 (or unset) - a detected summon is folded in with
-    // xpv 0 and showing "XP Value 0" carries no documentation value.
-    this.replace(
-      template,
-      "xpStat",
-      creature.data.xpv
-        ? `<div class="stat"><dt>XP Value</dt><dd>${creature.data.xpv}</dd></div>`
-        : "",
-    );
-    this.replace(
-      template,
-      "kitStat",
-      creature.data.kit
-        ? `<div class="stat"><dt>Kit</dt><dd>${this.formatEnumLabel(creature.data.kit)}</dd></div>`
-        : "",
-    );
-    this.getCreatureAttacks(template, creature);
-    this.getCreatureTraits(template, creature);
-    this.getCreatureSpells(template, creature);
+    this.replace(template, "typeTags", typeTags);
+    this.replace(template, "stats", this.renderStats(parts, omit));
+    this.getCreatureAttacks(template, creature, omit, parts);
+    this.getCreatureTraits(template, creature, omit, parts);
+    this.getCreatureSpells(template, creature, omit, parts);
     this.getCreatureSpellbooks(template, creature);
     this.monsters.push(template.text);
+  }
+
+  // Everything a card shows, as keyed parts (see card-parts.ts): a caller can omit any of them
+  // by key, e.g. when a monster entry's "Common to all" box already shows it.
+  getCardParts(creature: Creature): CardParts {
+    return {
+      stats: this.getStatParts(creature),
+      scores: this.getScoreParts(creature),
+      weapons: this.getWeaponParts(creature),
+      ...this.getTraitParts(creature),
+      abilities: this.getAbilityParts(creature),
+    };
+  }
+
+  private getScoreParts(creature: Creature): CardPart[] {
+    const d = creature.data;
+    const str = d.exceptionalStrength ? `${d.strength}/${d.exceptionalStrength}` : `${d.strength}`;
+    const scores: [string, StatValue][] = [
+      ["STR", str],
+      ["DEX", d.dexterity],
+      ["CON", d.constitution],
+      ["INT", d.intelligence],
+      ["WIS", d.wisdom],
+      ["CHA", d.charisma],
+    ];
+    // An unset score renders empty, as the old per-token template replace did.
+    return scores.map(([k, v]) => ({ key: `score:${k}=${v ?? ""}`, html: `${k} ${v ?? ""}` }));
+  }
+
+  private getStatParts(creature: Creature): CardPart[] {
+    // An unset value renders empty, as the old per-token template replace did.
+    const stat = (label: string, value: StatValue, cls = "stat") => ({
+      key: `stat:${label}=${value ?? ""}`,
+      html: `<div class="${cls}"><dt>${label}</dt><dd>${value ?? ""}</dd></div>`,
+    });
+    const d = creature.data;
+    const parts = [
+      stat("Hit Dice", `${d.level1.pnpValue} (${this.getDisplayHp(creature) ?? 0} hp)`),
+      stat(ARMOR_CLASS_LABEL, creatureService.getFinalArmorClass(creature)),
+      stat("THAC0", d.thac0),
+      stat(APR_LABEL, this.getEffectiveApr(creature)),
+      stat("Movement", d.movement.pnpValue),
+      stat("Morale", d.morale),
+      stat("Alignment", this.formatEnumLabel(d.alignment)),
+      stat("Size", d.size.value),
+    ];
+    // XP Value is omitted entirely when it's 0 (or unset) - a detected summon is folded in with
+    // xpv 0 and showing "XP Value 0" carries no documentation value.
+    if (d.xpv) parts.push(stat("XP Value", d.xpv));
+    if (d.kit) parts.push(stat("Kit", this.formatEnumLabel(d.kit)));
+    const special = this.getSpecialText(creature);
+    if (special) parts.push(stat("Special", special, "stat stat-half"));
+    return parts;
+  }
+
+  renderStats(parts: Pick<CardParts, "stats" | "scores">, omit: CardOmissions): string {
+    const scores = parts.scores.filter((p) => !omit.has(p.key)).map((p) => p.html);
+    const scoreStat = scores.length
+      ? `<div class="stat stat-wide"><dt>Ability Scores</dt><dd>${scores.join(", ")}</dd></div>`
+      : "";
+    return (
+      scoreStat +
+      parts.stats
+        .filter((p) => !omit.has(p.key))
+        .map((p) => p.html)
+        .join("")
+    );
   }
 
   // creature.data.apr is the raw CRE-file stat, not the attacks the player actually sees: when a
@@ -307,20 +350,25 @@ class DocumentationService {
   }
 
   addSpecial(template: { text: string }, creature: Creature) {
-    let special = "";
-    if (creature.data.level1.type === "caster") {
-      special += `Cast spells as a level ${creature.data.level1.value} caster`;
-    } else if (creature.data.level1.type === "turn") {
-      special += `Turned as a level ${creature.data.level1.value} undead`;
-    }
-    if (special) {
-      special = `<div class="stat stat-half"><dt>Special</dt><dd>${special}</dd></div>`;
-    }
-    this.replace(template, "special", special);
+    const special = this.getSpecialText(creature);
+    this.replace(
+      template,
+      "special",
+      special ? `<div class="stat stat-half"><dt>Special</dt><dd>${special}</dd></div>` : "",
+    );
   }
 
-  getCreatureAttacks(template: { text: string }, creature: Creature) {
-    let attacks = "";
+  private getSpecialText(creature: Creature): string {
+    if (creature.data.level1.type === "caster") {
+      return `Cast spells as a level ${creature.data.level1.value} caster`;
+    } else if (creature.data.level1.type === "turn") {
+      return `Turned as a level ${creature.data.level1.value} undead`;
+    }
+    return "";
+  }
+
+  private getWeaponParts(creature: Creature): WeaponPart[] {
+    const parts: WeaponPart[] = [];
     let weaponIndex = 0;
     // When dual wielding, the SHIELD slot is always the off-hand weapon (see
     // creature.service.ts's hasOffhandWeapon) and gets exactly 1 attack; every other equipped
@@ -335,34 +383,73 @@ class DocumentationService {
         ? State.items.find((i) => i.file === equippedItem.file)
         : undefined;
       if (!weapon?.doc) continue;
-      const entries: { id: string; html: string }[] = [];
-      const text = this.getAttackDisplayText(
-        translationService.fromOptional(weapon.description),
-        entries,
-        `m${creature.id}-w${weaponIndex}`,
-      );
+      const description = translationService.fromOptional(weapon.description);
+      const idPrefix = `m${creature.id}-w${weaponIndex}`;
       const label = dualWielding ? this.getWeaponSlotLabel(equippedItem, mainHandAttacks) : "";
       const proficiency = this.getWeaponProficiencyLabel(
         weapon.proficiency,
         creature.data.proficiencies,
       );
-      attacks += attacks ? "<hr/>" : "";
-      attacks += `<div class="weapon">${label}${text}${proficiency}</div>`;
-      attacks += entries
-        .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
-        .join("");
+      const render = (desc: string): string => {
+        const entries: { id: string; html: string }[] = [];
+        const text = this.getAttackDisplayText(desc, entries, idPrefix);
+        const popovers = entries
+          .map((e) => `<div class="spell-popover-entry" id="${e.id}" hidden>${e.html}</div>`)
+          .join("");
+        return `<div class="weapon">${label}${text}${proficiency}</div>${popovers}`;
+      };
+      const html = render(description);
+      const descHtml = render(description.replace(/^Enchantment: \d+\r?\n?/m, ""));
+      const enchantment = /^Enchantment: (\d+)\r?$/m.exec(description)?.[1];
+      // The id prefix is per creature: drop it so the same weapon compares equal across creatures.
+      const unprefixed = (s: string) => s.split(idPrefix).join("");
+      parts.push({
+        html,
+        descHtml,
+        key: `weapon:${weaponIndex}:${unprefixed(html)}`,
+        descKey: `weaponDesc:${weaponIndex}:${unprefixed(descHtml)}`,
+        enchantHtml: `<div class="weapon">${label}${
+          enchantment ? `Enchantment +${enchantment}` : "No enchantment"
+        }</div>`,
+      });
       weaponIndex++;
     }
-    if (!attacks && creature.data.apr > 0) {
+    return parts;
+  }
+
+  renderWeapons(parts: Pick<CardParts, "weapons">, omit: CardOmissions): string {
+    return parts.weapons
+      .filter((w) => !omit.has(w.key))
+      .map((w) => (omit.has(w.descKey) ? w.enchantHtml : w.html))
+      .join("<hr/>");
+  }
+
+  // Renders the whole Attacks section (heading included). With no weapon known to the doc
+  // pipeline it falls back to "By weapon"/"None"; when every weapon part is omitted, the section
+  // is dropped entirely.
+  getCreatureAttacks(
+    template: { text: string },
+    creature: Creature,
+    omit: CardOmissions = new Set(),
+    parts: Pick<CardParts, "weapons"> = { weapons: this.getWeaponParts(creature) },
+  ) {
+    let attacks: string;
+    if (parts.weapons.length) {
+      attacks = this.renderWeapons(parts, omit);
+    } else if (creature.data.apr > 0) {
       // No equipped item is known to the doc pipeline (e.g. the half-ogre's own weapon comes
       // straight from its base CRE file rather than an addWeapon() call - see lib/creatures/
       // ogres.ts), so there's no per-weapon block to attach a proficiency line to. The creature's
       // proficiencies are still real information, so list them here instead of dropping them.
       attacks = `<div class="weapon">By weapon${this.getProficienciesFallback(creature.data.proficiencies)}</div>`;
-    } else if (!attacks) {
+    } else {
       attacks = `<div class="weapon">None</div>`;
     }
-    this.replace(template, "attacks", attacks);
+    this.replace(
+      template,
+      "attacks",
+      attacks ? `<div class="detail-section"><h4>Attacks</h4>${attacks}</div>` : "",
+    );
   }
 
   // The off-hand always gets exactly 1 attack (checkDualWielding in creature.service.ts grants
@@ -593,8 +680,16 @@ class DocumentationService {
     return html.join("");
   }
 
-  getCreatureTraits(template: { text: string }, creature: Creature) {
-    let result = "";
+  getCreatureTraits(
+    template: { text: string },
+    creature: Creature,
+    omit: CardOmissions = new Set(),
+    parts: Pick<CardParts, "traitLinks" | "traitLines"> = this.getTraitParts(creature),
+  ) {
+    this.replace(template, "traits", this.renderTraits(parts, omit));
+  }
+
+  private getTraitParts(creature: Creature): Pick<CardParts, "traitLinks" | "traitLines"> {
     const immunities = creature.data.immunities
       // Creature.autoImmunities defaults to [] via the class field initializer, but test
       // fixtures and other partial-object call sites construct Creature via `as unknown as
@@ -604,33 +699,44 @@ class DocumentationService {
       .filter((name) => !creature.autoImmunities?.includes(name))
       .map((name) => State.immunities.find((i) => i.name === name))
       .filter((i): i is ImmunityConfig => i !== undefined);
-    const traits: string[] = [];
-    for (const immunity of immunities.filter((i) => i.type === "trait")) {
-      traits.push(
-        `<a href="#${immunity.name}" class="trait-link">${translationService.fromOptional(
+    const traitLinks = immunities
+      .filter((i) => i.type === "trait")
+      .map((immunity) => ({
+        key: `trait:${immunity.name}`,
+        html: `<a href="#${immunity.name}" class="trait-link">${translationService.fromOptional(
           immunity.stringRef,
         )}</a>`,
-      );
-    }
-    if (traits.length) result += `<h5>${traits.join(", ")}</h5>`;
+      }));
+    const lines: string[] = [];
     for (const equippedItem of creature.data.items.equipped) {
       const item = State.items.find((i) => i.file === equippedItem.file);
-      if (item?.trait) {
-        result += this.getTraitItemHtml(item);
-      }
+      if (item?.trait) lines.push(...this.getTraitItemLines(item));
     }
     for (const immunity of immunities.filter((i) => i.type !== "trait")) {
-      let text = translationService.fromOptional(immunity.stringRef);
-      if (immunity.description) {
-        text = `<h5><a href="#${immunity.name}" class="trait-link">${text}</a></h5>`;
-      }
-      result += text;
+      const text = translationService.fromOptional(immunity.stringRef);
+      lines.push(
+        immunity.description
+          ? `<h5><a href="#${immunity.name}" class="trait-link">${text}</a></h5>`
+          : text,
+      );
     }
-    result += this.getHideInShadowsTrait(creature.data.hideShadow);
-    if (result) {
-      result = `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`;
-    }
-    this.replace(template, "traits", result);
+    lines.push(this.getHideInShadowsTrait(creature.data.hideShadow));
+    return {
+      traitLinks,
+      traitLines: lines.filter((html) => html).map((html) => ({ key: `traitLine:${html}`, html })),
+    };
+  }
+
+  renderTraits(parts: Pick<CardParts, "traitLinks" | "traitLines">, omit: CardOmissions): string {
+    const links = parts.traitLinks.filter((p) => !omit.has(p.key)).map((p) => p.html);
+    let result = links.length ? `<h5>${links.join(", ")}</h5>` : "";
+    result += parts.traitLines
+      .filter((p) => !omit.has(p.key))
+      .map((p) => p.html)
+      .join("");
+    return result
+      ? `<div class="detail-section"><h4>Traits</h4><div class="traits">${result}</div></div>`
+      : "";
   }
 
   // Hide in Shadows isn't backed by an ImmunityConfig (it's a raw thief-skill value on
@@ -706,12 +812,8 @@ class DocumentationService {
   // rewrite them (and the matching in-card `href="#..."`/`data-tab="..."`) to a `base-` prefix so
   // the panel copy is self-contained.
   private getBaseCard(creature: Creature): string {
-    // `{{attacks}}` is wrapped by monster.html; the other three sections carry their own wrapper.
-    const sub = {
-      text:
-        `<div class="detail-section"><h4>Attacks</h4>{{attacks}}</div>` +
-        `{{traits}}{{abilities}}{{spellbooks}}`,
-    };
+    // Each section builder emits its own detail-section wrapper.
+    const sub = { text: `{{attacks}}{{traits}}{{abilities}}{{spellbooks}}` };
     this.getCreatureAttacks(sub, creature);
     this.getCreatureTraits(sub, creature);
     this.getCreatureSpells(sub, creature);
@@ -739,9 +841,9 @@ class DocumentationService {
       `STR ${str}, DEX ${d.dexterity}, CON ${d.constitution}, INT ${d.intelligence}, ` +
       `WIS ${d.wisdom ?? "?"}, CHA ${d.charisma ?? "?"}</dd></div>` +
       cell("Hit Dice", `${d.level1.pnpValue} (${this.getDisplayHp(creature) ?? "?"} hp)`) +
-      cell("Armor Class", creatureService.getFinalArmorClass(creature)) +
+      cell(ARMOR_CLASS_LABEL, creatureService.getFinalArmorClass(creature)) +
       cell("THAC0", d.thac0 ?? "?") +
-      cell("Attacks per Round", this.getEffectiveApr(creature)) +
+      cell(APR_LABEL, this.getEffectiveApr(creature)) +
       cell("Movement", d.movement.pnpValue) +
       cell("Morale", d.morale ?? "?") +
       cell("Alignment", this.formatEnumLabel(d.alignment)) +
@@ -911,9 +1013,9 @@ class DocumentationService {
     return (
       row("Ability Scores", abilityScores, abilityParts.length > 0, true) +
       row("Hit Dice", `${effective.level.value} (${effective.hp.value} hp)`, hitDiceChanged) +
-      row("Armor Class", effective.ac.value, effective.ac.changed) +
+      row(ARMOR_CLASS_LABEL, effective.ac.value, effective.ac.changed) +
       row("THAC0", effective.thac0.value, effective.thac0.changed) +
-      row("Attacks per Round", effective.apr.value, effective.apr.changed) +
+      row(APR_LABEL, effective.apr.value, effective.apr.changed) +
       row("Movement", effective.movement.value, effective.movement.changed) +
       row("Morale", effective.morale.value, effective.morale.changed) +
       row(
@@ -1190,6 +1292,11 @@ class DocumentationService {
   // docs-only, by matching each plain-text description line back to the sub-immunity name it
   // came from.
   private getTraitItemHtml(item: Item, changed = false): string {
+    const html = this.getTraitItemLines(item).join("");
+    return changed ? `<div class="adjustment-changed">${html}</div>` : html;
+  }
+
+  private getTraitItemLines(item: Item): string[] {
     const traitLines = new Map<string, string>();
     for (const subName of item.immunities) {
       const sub = State.immunities.find((i) => i.name === subName);
@@ -1198,30 +1305,46 @@ class DocumentationService {
       }
     }
     const lines = translationService.fromOptional(item.description).split(/\r\n|\n/);
-    const html = lines
+    return lines
       .filter((line) => line !== "")
       .map((line) => {
         const traitName = traitLines.get(line);
         return traitName
           ? `<p><a href="#${traitName}" class="trait-link">${line}</a></p>`
           : `<p>${line}</p>`;
-      })
-      .join("");
-    return changed ? `<div class="adjustment-changed">${html}</div>` : html;
+      });
   }
 
-  getCreatureSpells(template: { text: string }, creature: Creature) {
-    const entries = this.getResourceAbilities(creature)
-      .map((ability, index) => ({
-        ability,
-        html: this.getCreatureSpell(
-          ability,
-          creature.data.spells.memorized,
-          `m${creature.id}-ability-${index}`,
-        ),
-      }))
-      .filter((entry) => entry.html);
-    this.replace(template, "abilities", this.renderAbilitiesSection(`m${creature.id}`, entries));
+  getCreatureSpells(
+    template: { text: string },
+    creature: Creature,
+    omit: CardOmissions = new Set(),
+    parts: Pick<CardParts, "abilities"> = { abilities: this.getAbilityParts(creature) },
+  ) {
+    this.replace(template, "abilities", this.renderAbilities(creature, parts, omit));
+  }
+
+  private getAbilityParts(creature: Creature): CardParts["abilities"] {
+    return this.getResourceAbilities(creature)
+      .map((ability, index) => {
+        const idPrefix = `m${creature.id}-ability-${index}`;
+        const html = this.getCreatureSpell(ability, creature.data.spells.memorized, idPrefix);
+        // The id prefix is per creature: drop it so the same ability compares equal across
+        // creatures.
+        return { ability, html, key: `ability:${html.split(idPrefix).join("")}` };
+      })
+      .filter((p) => p.html);
+  }
+
+  renderAbilities(
+    creature: Creature,
+    parts: Pick<CardParts, "abilities">,
+    omit: CardOmissions,
+  ): string {
+    return this.renderAbilitiesSection(
+      `m${creature.id}`,
+      parts.abilities.filter((p) => !omit.has(p.key)),
+    );
   }
 
   // Shared by getCreatureSpells and getAdjustmentSpells: past ABILITY_TAB_THRESHOLD entries, a flat
