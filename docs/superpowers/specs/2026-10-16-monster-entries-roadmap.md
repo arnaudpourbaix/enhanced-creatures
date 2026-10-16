@@ -56,18 +56,16 @@ Delivers the designed docs on today's code (families stay in code for now). Desi
   aberration, animal, dragon, monstrousHumanoid, outsider.
 - "Common to all" is computed from the model, field by field, over all members.
 
-### 2. ☐ Shared natural weapons & abilities
+### 2. ◐ Shared natural weapons
 
-Removes duplication and decouples type helpers from inheritance (a Wraith Spider can use undead
-helpers while staying a Spider).
+Design: [2026-10-17-shared-natural-weapons-design.md](2026-10-17-shared-natural-weapons-design.md).
 
-- `createJaws` exists in 7 classes (Basilisk, Bear, Cat, Dog, Snake, Spider, Undead) with nearly
-  identical cores; options (poison, grab, on-hit spells, slot) are layered on top.
-- Also `createClaws`, `createPaws`, `createFists` (Golem, Ogre), `createTouch`,
-  `createConeOfCold` (Golem, Ogre), `createCharge` (Golem, Minotaur), `createFearAura`
-  (death-knight, skeletons-warrior, spectral).
-- Verify with a byte-hash manifest of the pipeline output against a clean baseline (the golden test
-  has pre-existing failures). The generated output should be unchanged.
+- One `Creature.addNaturalWeapon(kind, options)` with a kind table (damage type, icon); the 18
+  family helpers become thin wrappers; output byte-identical.
+- Abilities dropped from scope: Cone of Cold and Fear Aura are already shared, the two Charges are
+  different mechanics.
+- Follow-up step: merge the per-family weapon name keys into shared keys once proven harmless
+  (renumbers every string).
 
 ### 3. ☐ Resource naming scheme
 
