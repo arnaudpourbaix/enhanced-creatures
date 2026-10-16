@@ -11,9 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Current version in doc's header
 - Zombies
 - Vampires
+- Docs: the monsters page groups the versions of a monster under one entry heading, with a "Common to all" box for what they share, and an A-Z sidebar
+- Docs: D&D 3e creature types are shown as tags on each monster, with a type filter
 
 ### Changed
 
+- Displacer Beast is now a Magical Beast (same immunities); its hit dice are d10, so it has more HP
+- Spectral Hound is now a Magical Beast (immune to infravision-type effects, like other magical beasts); its hit dice are d10, so it has more HP
+- Hell Hound and Moon Dog are now Outsiders with the extraplanar trait (immune to cure/cause wounds and death spells)
+- Dread Wolf and Vampiric Wolf are now Undead and gain the undead immunities
 - Undead are turned according to the PnP turning table: "+3" Hit Dice count as the next row (e.g. wights, wraiths, mummies, spectres are harder to turn), and creatures turned as a specific undead use that row (e.g. ju-ju zombies as spectres, zombie lords as vampires). Banshees are now easier to turn
 
 ### Fixed
