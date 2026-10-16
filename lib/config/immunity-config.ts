@@ -139,7 +139,8 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "charm",
     type: "immunity",
     stringRef: "common.immunity.charm",
-    preventEffects: [EffectTypeEnum.CharmCreature, EffectTypeEnum.CharmControlCreature],
+    // not CharmControlCreature (241): made to bypass charm immunity (control undead, vampires...)
+    preventEffects: [EffectTypeEnum.CharmCreature],
     preventIcons: [PortraitIconEnum.Charm, PortraitIconEnum.DireCharm, PortraitIconEnum.Domination],
     strings: StringRefUtils.getStringIds("charm"),
     animations: ["SPNWCHRM"],

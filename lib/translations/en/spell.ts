@@ -358,4 +358,5 @@ All creatures are afflicted with wracking pains shooting through their bodies, c
   NonDetection: { name: "Non Detection" },
   DetectEvil: { name: "Detect Evil" },
   Fireball: { name: "Fireball" },
+  ControlUndead: { name: "Control Undead" },
 };

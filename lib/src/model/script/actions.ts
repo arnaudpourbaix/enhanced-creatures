@@ -72,6 +72,7 @@ export namespace Actions {
     | "Hide"
     | "Panic"
     | "Turn"
+    | "AddExperienceParty"
     | "Rest"
     | "Shout"
     | "DestroySelf"
@@ -318,6 +319,11 @@ export namespace Actions {
     name: "Turn";
   }
 
+  export interface AddExperienceParty {
+    name: "AddExperienceParty";
+    params: [number];
+  }
+
   export interface Rest {
     name: "Rest";
   }
@@ -491,6 +497,7 @@ export namespace Actions {
     | Hide
     | Panic
     | Turn
+    | AddExperienceParty
     | Rest
     | Shout
     | DestroySelf
@@ -934,6 +941,13 @@ export namespace Actions {
       name: "Panic",
       parameters: "",
       description: "This action causes the active creature to move randomly around the screen.",
+      section: "Misc",
+    },
+    {
+      name: "AddExperienceParty",
+      parameters: "I:XP*",
+      description:
+        "This action adds the specified amount of experience to the party. The experience is divided among party members.",
       section: "Misc",
     },
     {

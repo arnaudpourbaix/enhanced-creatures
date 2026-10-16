@@ -1521,6 +1521,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1563,6 +1564,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1605,6 +1607,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1647,6 +1650,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1689,6 +1693,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1731,6 +1736,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1773,6 +1779,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1815,6 +1822,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1857,6 +1865,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1900,6 +1909,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1941,6 +1951,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -1982,6 +1993,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2023,6 +2035,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2064,6 +2077,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2105,6 +2119,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2146,6 +2161,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2187,6 +2203,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2228,6 +2245,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2270,6 +2288,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2312,6 +2331,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2354,6 +2374,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2396,6 +2417,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2438,6 +2460,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2480,6 +2503,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2522,6 +2546,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2564,6 +2589,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2606,6 +2632,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2648,6 +2675,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2691,6 +2719,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2732,6 +2761,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2773,6 +2803,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2814,6 +2845,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2855,6 +2887,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2896,6 +2929,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2937,6 +2971,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -2978,6 +3013,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -3019,6 +3055,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)
@@ -3060,6 +3097,7 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	HaveSpellRES("jas2f8")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	RandomNumGT(801,240)

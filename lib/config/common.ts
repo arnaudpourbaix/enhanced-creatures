@@ -3,6 +3,7 @@ export const SPELL_STATES = {
   grabbed: "JA_GRAPPLED",
   grabbing: "JA_GRAPPLING",
   gaseousForm: "JA_GASEOUSFORM",
+  animalForm: "JA_ANIMALFORM",
 } as const;
 
 /**

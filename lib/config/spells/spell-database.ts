@@ -158,6 +158,13 @@ const WIZARD_SPELLS = {
     name: "spell.Contagion.name",
     keywords: ["disease"],
   },
+  ControlUndead: {
+    file: "SPWI720",
+    id: "WIZARD_CONTROL_UNDEAD",
+    level: 7,
+    name: "spell.ControlUndead.name",
+    keywords: [], // don't put charm keyword because there are no immunities against it
+  },
   DancingLights: {
     file: "SPWI126",
     id: "WIZARD_DANCING_LIGHTS",

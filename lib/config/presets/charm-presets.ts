@@ -37,6 +37,7 @@ const CHARM_TARGET_LISTS: TargetList[] = [
 
 export const CHARM_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
   [
+    SPELLS.Wizard.ControlUndead,
     SPELLS.Wizard.Domination,
     SPELLS.Priest.MentalDomination,
     SPELLS.Wizard.DireCharm,

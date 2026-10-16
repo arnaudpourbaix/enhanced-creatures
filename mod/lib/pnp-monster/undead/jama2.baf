@@ -1,5 +1,23 @@
 // Old Vampire
 
+// Gaseous form: the party defeated the vampire
+IF
+	CheckSpellState(Myself,JA_GASEOUSFORM)
+	Global("JA_VAMPIRE_MIST","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("JA_VAMPIRE_MIST","LOCALS",1)
+		AddExperienceParty(11000)
+END
+
+// Gaseous form: flee to its sanctuary
+IF
+	CheckSpellState(Myself,JA_GASEOUSFORM)
+THEN
+	RESPONSE #100
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),90)
+END
+
 // Init
 IF
 	Global("JA_INIT","LOCALS",0)
@@ -156,15 +174,33 @@ THEN
 		NoAction()
 END
 
+// Bat Form
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	HaveSpellRES("jas4ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	Detect(NearestEnemyOf(Myself))
+	HPPercentLT(Myself,50)
+	RandomNumGT(800,400)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellNoDecRES("jas4ma2",Myself)
+END
+
 // Domination Gaze
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -194,12 +230,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -229,12 +268,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -264,12 +306,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -299,12 +344,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -334,12 +382,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -369,12 +420,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -404,12 +458,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -439,12 +496,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -475,12 +535,15 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -509,12 +572,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -543,12 +609,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -577,12 +646,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -611,12 +683,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -645,12 +720,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -679,12 +757,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -713,12 +794,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -747,12 +831,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -782,12 +869,15 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -817,12 +907,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -852,12 +945,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -887,12 +983,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -922,12 +1021,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -957,12 +1059,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -992,12 +1097,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1027,12 +1135,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1062,12 +1173,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1097,12 +1211,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1133,12 +1250,15 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1167,12 +1287,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1201,12 +1324,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1235,12 +1361,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1269,12 +1398,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1303,12 +1435,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1337,12 +1472,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1371,12 +1509,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1405,12 +1546,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1439,12 +1583,15 @@ END
 
 IF
 	HaveSpellRES("jas0ma2")
+	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
 	!HaveSpell(CLERIC_CHARM_PERSON)
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
-	RandomNumGT(800,400)
+	RandomNumGT(801,401)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -1469,6 +1616,820 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jas0ma2",LastSeenBy(Myself))
+END
+
+// Bat Swarm
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+// Bat Swarm
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+IF
+	HaveSpellRES("jas1ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(802,401)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas1ma2",LastSeenBy(Myself))
+		RemoveSpellRES("jas1ma2")
+END
+
+// Control Undead
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+IF
+	HaveSpellRES("jas2ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	General(LastSeenBy(Myself),UNDEAD)
+	LevelLT(LastSeenBy(Myself),13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),5)
+		LevelGT(Myself,9)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),6)
+		LevelGT(Myself,11)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),7)
+		LevelGT(Myself,13)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),8)
+		LevelGT(Myself,15)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),9)
+		LevelGT(Myself,17)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),10)
+		LevelGT(Myself,19)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),11)
+		LevelGT(Myself,21)
+	OR(2)
+		LevelLT(LastSeenBy(Myself),12)
+		LevelGT(Myself,23)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jas2ma2",LastSeenBy(Myself))
+END
+
+// Wolf Form
+IF
+	HaveSpellRES("jas3ma2")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	RandomNumGT(803,402)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	OR(2)
+		CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellNoDecRES("jas3ma2",Myself)
 END
 
 // Attack HeldNearby enemy

@@ -685,6 +685,36 @@ The charm lasts 8 rounds, and blindness offers no protection, but a silenced vam
 Any person it targets is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -5.
 The charm lasts 8 rounds, and blindness offers no protection.`,
       },
+      vampireBatSwarm: {
+        name: "Bat Swarm",
+        description: `Vampires have the natural ability to summon and control animals.
+Once per day, the vampire summons a swarm of bats covering an area roughly 20 feet in radius, for 5 rounds.
+The vampire's enemies caught within the swarm are blinded, suffer a -4 penalty to all attack rolls and Armor Class, and have their movement rates cut in half.`,
+      },
+      vampireControlUndead: {
+        name: "Control Undead",
+        description: `Vampires are able to control other undead of lesser Hit Die values.
+The vampire takes control of a single undead creature of up to half its own level, with no saving throw.
+The control lasts until it is dispelled.`,
+      },
+      vampireWolfForm: {
+        name: "Wolf Form",
+        description: `The vampire assumes the form of a wolf at will, for 3 rounds.
+In wolf form, its bite inflicts 3d12 damage but no longer drains levels, its base Armor Class is 2 and its movement rate is 18.
+While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
+      },
+      vampireBatForm: {
+        name: "Bat Form",
+        description: `The vampire assumes the form of a giant bat at will, for 3 rounds.
+In bat form, it flies at a movement rate of 18, its bite inflicts 2d6 damage but no longer drains levels, its base Armor Class is 2 and its erratic flight gives a -3 penalty to its opponents' attack rolls.
+While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
+      },
+      vampireMistForm: {
+        name: "Gaseous Form",
+        description: `A vampire reduced to 0 hit points isn't destroyed: it assumes the form of gaseous vapors and flees to its sanctuary.
+In gaseous form, it is immune to all damage, can't attack or cast spells, passes through creatures and its movement rate is 3 less than normal.
+After 2 rounds, it reaches its sanctuary and is gone for good.`,
+      },
     },
   },
   ettin: {

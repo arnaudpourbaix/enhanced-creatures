@@ -179,7 +179,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="5 241" prevent_icons="0 1 43" strings="26328 26206 14672 31787 14780 158915" animations="SPNWCHRM" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="5" prevent_icons="0 1 43" strings="26328 26206 14672 31787 14780 158915" animations="SPNWCHRM" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~CHARM_IMMUNITY~)) special=1 END
 END
 
