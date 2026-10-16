@@ -47,6 +47,7 @@ class WeiduFunctionService extends AbstractWeiduService {
     const lines = this.initLines();
     this.generateProtectionSpells(lines);
     for (const immunity of State.immunities) {
+      if (immunity.docOnly) continue;
       this.generateImmunityFunction(lines, immunity, 0);
     }
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);

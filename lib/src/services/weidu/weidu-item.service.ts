@@ -45,6 +45,7 @@ class WeiduItemService extends AbstractWeiduService {
       });
     }
     for (const name of item.immunities) {
+      if (State.immunities.find((i) => i.name === name)?.docOnly) continue;
       this.add(lines, `LPF ${utils.getImmunityFunctionName(name)} END`, 1);
     }
   }

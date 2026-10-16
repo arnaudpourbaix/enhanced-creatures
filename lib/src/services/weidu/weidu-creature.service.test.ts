@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
+import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
+import { State } from "../../state";
 import weiduCreatureService from "./weidu-creature.service";
 
 interface WeiduCreatureServicePrivate {
@@ -742,5 +744,25 @@ describe("handleAdjustment (private)", () => {
     const lines: CodeLine[] = [];
     service.handleAdjustment(lines, 0, creature, adjustment);
     expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+});
+
+describe("addImmunities (private)", () => {
+  const before = State.immunities;
+  afterEach(() => {
+    State.immunities = before;
+  });
+
+  it("emits no LPF call for a docOnly immunity", () => {
+    State.immunities = [
+      { name: "animal", type: "trait", docOnly: true, immunities: [], effects: [], overrides: [] },
+    ] as unknown as ImmunityConfig[];
+    const lines: CodeLine[] = [];
+    (
+      weiduCreatureService as unknown as {
+        addImmunities(l: CodeLine[], t: number, i: ImmunityName[], a: CreatureAdjustment[]): void;
+      }
+    ).addImmunities(lines, 0, ["animal"], []);
+    expect(lines).toEqual([]);
   });
 });

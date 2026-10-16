@@ -108,6 +108,11 @@ export interface ImmunityConfig {
   name: ImmunityName;
   type: "trait" | "immunity" | "resistance";
   doc: boolean;
+  /**
+   * Docs-only trait (e.g. a creature type with no in-game effect): generates no WeiDU function,
+   * no LPF call and no item effect.
+   */
+  docOnly: boolean;
   stringRef?: TranslationKey;
   description?: StringReference;
   immunities: ImmunityName[];

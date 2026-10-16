@@ -381,6 +381,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     for (const name of immunities) {
       const immunity = State.immunities.find((i) => i.name === name);
       if (!immunity) throw new Error(`Immunity ${name} not found !`);
+      if (immunity.docOnly) continue;
       if (!immunity.itemSlot) {
         const files = immunityService.getOverrides(name, adjustments);
         this.executeCodeWithExcludedFiles(

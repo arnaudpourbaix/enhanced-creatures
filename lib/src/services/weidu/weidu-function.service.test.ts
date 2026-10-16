@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SPELL_PROTECTIONS } from "../../../config/spells/spell-protection";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { CodeLine } from "../../model/misc";
 import { PortraitIconEnum } from "../../model/spell-item/effect.enums";
 import { SpellGroup } from "../../model/spell-item/spell-group";
 import { SpellProtection, SpellProtectionRelation } from "../../model/spell-item/spell-protection";
+import { State } from "../../state";
+import utils from "../utils/utils.service";
 import weiduFunctionService from "./weidu-function.service";
 
 interface WeiduFunctionServicePrivate {
@@ -17,6 +19,7 @@ function fakeImmunity(overrides: Partial<ImmunityConfig> = {}): ImmunityConfig {
     name: "poison",
     type: "immunity",
     doc: true,
+    docOnly: false,
     immunities: [],
     preventEffects: [],
     preventIcons: [],
@@ -93,5 +96,25 @@ describe("generateSpellResource (private)", () => {
       0,
     );
     expect(lines.some((l) => l.code.includes("ACTION_DEFINE_ARRAY spells"))).toBe(true);
+  });
+});
+
+describe("generateImmunities", () => {
+  const before = State.immunities;
+  afterEach(() => {
+    State.immunities = before;
+    vi.restoreAllMocks();
+  });
+
+  it("emits no patch function for a docOnly immunity", () => {
+    State.immunities = [
+      fakeImmunity({ name: "animal", type: "trait", docOnly: true }),
+    ] as typeof State.immunities;
+    const written: string[] = [];
+    vi.spyOn(utils, "writeFile").mockImplementation((_f, content) => {
+      written.push(content);
+    });
+    weiduFunctionService.generateImmunities();
+    expect(written.join("")).not.toContain("animal");
   });
 });
