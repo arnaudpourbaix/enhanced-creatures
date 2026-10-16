@@ -446,7 +446,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
     const trait = dread.addTrait({
       description: "monster.wolf.trait.dread",
       equippedSlot: "LRING",
-      immunities: ["coldSpells", "cold", "lightningResistance", "charm", "hold"],
+      immunities: ["undead", "coldSpells", "cold", "lightningResistance"],
       effects: [
         {
           opcode: EffectTypeEnum.Regeneration,
@@ -539,7 +539,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
       doc: false,
     });
     vampiric.addTrait({
-      immunities: ["sleep", "charm", "hold", "nonSilverNonMagicalWeapons"],
+      immunities: ["undead", "nonSilverNonMagicalWeapons"],
     });
     vampiric.setAttack({
       // A bite attack will cause a running or standing victim to fall if the victim fails a saving throw vs. paralysis.

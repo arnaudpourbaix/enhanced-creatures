@@ -328,6 +328,7 @@ class DogFamily extends CreatureFamily<Dog> {
           remove: ["FIGRING3", "IPSION", "BDSPIRIM", "DOGWAWP", "BDSHA01C"],
         },
         script: { remove: ["WARDOG"] },
+        immunities: ["magicalBeast"],
       },
     });
     const shiftEffect: BaseEffect = {
@@ -413,6 +414,7 @@ class DogFamily extends CreatureFamily<Dog> {
         movement: 30,
         items: { remove: ["MDOG1", "IMMUNE2", "P3-12M4"] },
         script: { remove: ["moondog", "teldog"] },
+        immunities: ["outsider", "extraplanar"],
         spells: {
           memorized: [
             { file: SPELLS.Innate.MoonDogHowl.file, memorizedCount: 1 },
@@ -494,6 +496,7 @@ class DogFamily extends CreatureFamily<Dog> {
           remove: ["P1-10", "HELLHO", "SEEINVIS"],
         },
         script: { remove: ["HELHOU01"] },
+        immunities: ["outsider", "extraplanar"],
       },
     });
     hellHound.addTrait({

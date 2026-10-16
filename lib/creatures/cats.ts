@@ -832,7 +832,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["BDDISPBE", "JY_01DB", "JY_02DB", "JY_03DB", "BOOT01", "MOBHA39A"],
         },
-        immunities: ["cat"],
+        immunities: ["magicalBeast", "backstab"],
       },
       autoGenerate: {
         savingThrows: {
