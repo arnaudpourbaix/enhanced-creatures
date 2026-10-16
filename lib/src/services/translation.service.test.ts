@@ -20,6 +20,11 @@ describe("stringRef", () => {
   it("returns the registered stringRef for a known key", () => {
     expect(translationService.stringRef(POTION_USE_KEY)).toBeTypeOf("number");
   });
+
+  it("does not number docs-only translations", () => {
+    expect(() => translationService.stringRef("doc.entry.vampire")).toThrow(/not registered/);
+    expect(translationService.from("doc.entry.vampire")).toBe("Vampire");
+  });
 });
 
 describe("fromOptional", () => {

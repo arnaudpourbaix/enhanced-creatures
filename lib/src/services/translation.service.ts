@@ -10,6 +10,10 @@ import { AbstractCodeService } from "./abstract-code.service";
 import { StringReference } from "../model/final/stringref";
 import utils from "./utils/utils.service";
 
+// Top-level translation sections that only feed the docs: never given a .tra string number, so
+// adding to them can't renumber the in-game strings.
+const DOC_ONLY_SECTIONS = ["doc"];
+
 class TranslationService extends AbstractCodeService {
   private availableStringRef = 10000;
   private translations: { key: TranslationKey; stringRef: number }[] = [];
@@ -86,6 +90,7 @@ class TranslationService extends AbstractCodeService {
 
   browseTranslations(obj: Record<string, unknown>, key: string) {
     for (const [k, v] of Object.entries(obj)) {
+      if (!key && DOC_ONLY_SECTIONS.includes(k)) continue;
       const newKey = [key, k].filter((k) => !!k).join(".");
       if (typeof v === "string" && !v.includes("{{")) {
         this.translations.push({
