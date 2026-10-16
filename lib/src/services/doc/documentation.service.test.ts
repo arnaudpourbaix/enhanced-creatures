@@ -1131,7 +1131,7 @@ describe("getCreatureTraits", () => {
     );
   });
 
-  it("renders a non-trait immunity without a description as bare text", () => {
+  it("renders a non-trait immunity without a description as a paragraph", () => {
     State.immunities = [
       {
         name: "poison",
@@ -1146,7 +1146,7 @@ describe("getCreatureTraits", () => {
 
     documentationService.getCreatureTraits(template, creature);
 
-    expect(template.text).not.toContain("<p>");
+    expect(template.text).toContain("<p>Construct</p>");
   });
 
   it("omits an immunity that was auto-added to satisfy an engine restriction (e.g. critical-hit needing a helmet)", () => {
@@ -1468,6 +1468,28 @@ describe("getCreatureSpells", () => {
 
     expect(template.text).toContain('<div class="abilities">');
     expect(template.text).not.toContain("spellbook-tabs");
+  });
+
+  it("renders ability tabs under the given id prefix so the shared box and a card never collide", () => {
+    const resources = Array.from({ length: 10 }, (_, i) => `SPWI10${i}`);
+    const creature = fakeCreatureForSpells(
+      { abilities: resources.map((r) => fakeAbility(r)) },
+      { memorized: resources.map((file) => ({ file, memorizedCount: 1 })) },
+    );
+    const svc = documentationService as unknown as {
+      getAbilityParts(c: Creature): { key: string }[];
+    };
+    const parts = { abilities: svc.getAbilityParts(creature) } as Parameters<
+      typeof documentationService.renderAbilities
+    >[1];
+    const none = new Set<string>();
+
+    const card = documentationService.renderAbilities(creature, parts, none);
+    const box = documentationService.renderAbilities(creature, parts, none, "e9-shared");
+
+    const ids = (html: string) => [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+    expect(box).toContain('id="e9-shared-abilitylevel-1"');
+    expect(ids(card).filter((id) => ids(box).includes(id))).toEqual([]);
   });
 
   it("groups abilities into one tab per spell level past the threshold, with spells that have no known level in a catch-all Innate tab", () => {

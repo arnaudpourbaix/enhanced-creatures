@@ -34,7 +34,9 @@
     // this container's own direct children keeps each tab group wired to only its own
     // buttons/panels instead of a deep querySelectorAll also matching the nested group's.
     document.querySelectorAll(".spellbook-tabs").forEach(function (tabs) {
-      var buttons = tabs.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button");
+      var buttons = tabs.querySelectorAll(
+        ":scope > .spellbook-tab-buttons > .spellbook-tab-button",
+      );
       buttons.forEach(function (button) {
         button.addEventListener("click", function () {
           var targetId = button.getAttribute("data-tab");
@@ -56,7 +58,8 @@
             panel.classList.toggle("active", isTarget);
             if (isTarget) targetPanel = panel;
           });
-          if (activeLevelLabel && targetPanel) selectNestedTabByLabel(targetPanel, activeLevelLabel);
+          if (activeLevelLabel && targetPanel)
+            selectNestedTabByLabel(targetPanel, activeLevelLabel);
         });
       });
     });
@@ -79,11 +82,11 @@
     var nested = getNestedSpellbookTabs(panel);
     if (!nested) return;
     var match = null;
-    nested.querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button").forEach(
-      function (button) {
+    nested
+      .querySelectorAll(":scope > .spellbook-tab-buttons > .spellbook-tab-button")
+      .forEach(function (button) {
         if (button.textContent === label) match = button;
-      },
-    );
+      });
     // No matching level in this mod's spellbook (e.g. it stops at level 5 while the one just left
     // goes to 7) - leave it on its own default rather than forcing a level it doesn't have.
     if (!match || match.classList.contains("active")) return;
@@ -443,6 +446,9 @@
       input.value = "";
       input.blur();
       if (!card) return;
+      // A card hidden by the type filter cannot be scrolled to: reset the filter first.
+      if (applyTypeFilter && (card.hidden || card.closest(".entry-block[hidden]")))
+        applyTypeFilter("");
       // For anything other than a plain replacement, the detail the reader wants is inside the
       // adjustments panel - open it via the same summary click initAdjustmentsPanel() listens for,
       // then scroll to the card that owns this file (its data-files carries the resref).
@@ -508,6 +514,8 @@
   // Type filter (toolbar chips + type tags on entry/card titles). One active type at a time; ""
   // shows everything. Cards and sidebar links carry data-types; an entry block or sidebar group is
   // hidden when none of its members match.
+  var applyTypeFilter = null;
+
   function initTypeFilter() {
     var has = function (el, type) {
       return (
@@ -544,6 +552,7 @@
         if (type && visible) group.querySelector("details").open = true;
       });
     }
+    applyTypeFilter = apply;
     document.querySelectorAll(".type-chip").forEach(function (chip) {
       chip.addEventListener("click", function () {
         apply(chip.getAttribute("data-type"));

@@ -173,7 +173,7 @@ class DocumentationService {
           ? translationService.from(ENTRY_NAMES[members[0].entry])
           : translationService.from(members[0].name),
     }));
-    entries.sort((a, b) => a.name.localeCompare(b.name));
+    entries.sort((a, b) => a.name.localeCompare(b.name, "en"));
     const typeCounts = new Map<ImmunityName, number>();
     for (const { members, name } of entries) {
       const types = members.map((m) => creatureTypeService.getCreatureTypes(m));
@@ -216,7 +216,7 @@ class DocumentationService {
       `<section class="entry-block" id="${entryId}" data-types="${allTypes.join(" ")}">` +
         `<div class="entry-header"><h2>${name}</h2>${this.getTypeTags(allTypes)}` +
         `<span class="entry-count">${members.length} members</span></div>` +
-        this.getSharedBox(members[0], parts[0], common),
+        this.getSharedBox(members[0], parts[0], common, entryId),
     );
     for (const member of members) {
       logService.withSection(
@@ -234,7 +234,12 @@ class DocumentationService {
   // ids are the first member's, which is safe: that member's card omits the same parts. A weapon
   // whose description (not its enchantment) is common shows that description here, and each card
   // keeps only its enchantment line (see renderWeapons).
-  private getSharedBox(first: Creature, parts: CardParts, common: ReadonlySet<string>): string {
+  private getSharedBox(
+    first: Creature,
+    parts: CardParts,
+    common: ReadonlySet<string>,
+    entryId: string,
+  ): string {
     if (!common.size) return "";
     const only = <T extends CardPart>(list: T[]) => list.filter((p) => common.has(p.key));
     const shared: CardParts = {
@@ -255,7 +260,7 @@ class DocumentationService {
       (stats ? `<dl class="stat-grid">${stats}</dl>` : "") +
       (weapons ? `<div class="detail-section"><h4>Attacks</h4>${weapons}</div>` : "") +
       this.renderTraits(shared, none) +
-      this.renderAbilities(first, shared, none) +
+      this.renderAbilities(first, shared, none, `${entryId}-shared`) +
       `</div>`
     );
   }
@@ -271,7 +276,7 @@ class DocumentationService {
   private getTypeFilter(counts: Map<ImmunityName, number>): string {
     const chips = TYPE_TRAITS.filter((t) => counts.has(t))
       .map((t) => ({ t, name: creatureTypeService.getTypeName(t) }))
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.name.localeCompare(b.name, "en"))
       .map(
         ({ t, name }) =>
           `<button type="button" class="type-chip" data-type="${t}">${name} <span>${counts.get(t) ?? 0}</span></button>`,
@@ -812,7 +817,7 @@ class DocumentationService {
       lines.push(
         immunity.description
           ? `<h5><a href="#${immunity.name}" class="trait-link">${text}</a></h5>`
-          : text,
+          : `<p>${text}</p>`,
       );
     }
     lines.push(this.getHideInShadowsTrait(creature.data.hideShadow));
@@ -1435,9 +1440,10 @@ class DocumentationService {
     creature: Creature,
     parts: Pick<CardParts, "abilities">,
     omit: CardOmissions,
+    idPrefix = `m${creature.id}`,
   ): string {
     return this.renderAbilitiesSection(
-      `m${creature.id}`,
+      idPrefix,
       parts.abilities.filter((p) => !omit.has(p.key)),
     );
   }
