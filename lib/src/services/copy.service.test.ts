@@ -139,4 +139,97 @@ describe("CopyService", () => {
 
     expect(fs.readFileSync(modPath(bg1Dir, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
   });
+
+  describe("filter", () => {
+    const lines = (...l: string[]) => [...l, ""].join("\r\n");
+    const include = (rel: string) => `INCLUDE "%MOD_FOLDER%/lib/pnp-monster/${rel}"`;
+    const FILTER_TP2 = lines(
+      "BEGIN @999",
+      include("common/common.tpa"),
+      include("ogre/main.tpa"),
+      include("undead/main.tpa"),
+      `// ${include("bear/main.tpa")}`,
+    );
+    const UNDEAD_MAIN = lines(
+      "LAM load_secondary_types",
+      include("undead/common.tpa"),
+      `${include("undead/4c.tpa")} // Ghoul`,
+      `${include("undead/99.tpa")} // Fledgling Vampire`,
+      `${include("undead/a6.tpa")} // Patriarch Vampire`,
+    );
+    const OGRE_MAIN = lines("LAM load_secondary_types", `${include("ogre/1a.tpa")} // Ogre`);
+
+    beforeEach(() => {
+      const modDir = path.join(repoDir, "mod");
+      fs.writeFileSync(path.join(modDir, TP2_FILE), FILTER_TP2);
+      for (const [family, content] of [
+        ["undead", UNDEAD_MAIN],
+        ["ogre", OGRE_MAIN],
+      ]) {
+        fs.mkdirSync(path.join(modDir, "lib", "pnp-monster", family), { recursive: true });
+        fs.writeFileSync(path.join(modDir, "lib", "pnp-monster", family, "main.tpa"), content);
+      }
+      writeConfig({ bg1: bg1Dir });
+    });
+
+    function readCopied(...segments: string[]): string {
+      return fs.readFileSync(modPath(bg1Dir, ...segments), "utf-8");
+    }
+
+    it("leaves files untouched when the filter is empty", async () => {
+      await copyService.copy({ bg1: true, bg2: false }, { families: [], monsters: [] });
+
+      expect(readCopied(TP2_FILE)).toBe(FILTER_TP2);
+    });
+
+    it("comments out the other families in the copied tp2 only", async () => {
+      await copyService.copy({ bg1: true, bg2: false }, { families: ["Undead"], monsters: [] });
+
+      expect(readCopied(TP2_FILE)).toBe(
+        lines(
+          "BEGIN @999",
+          include("common/common.tpa"),
+          `// ${include("ogre/main.tpa")}`,
+          include("undead/main.tpa"),
+          `// ${include("bear/main.tpa")}`,
+        ),
+      );
+      expect(readCopied("lib", "pnp-monster", "undead", "main.tpa")).toBe(UNDEAD_MAIN);
+      expect(fs.readFileSync(path.join(repoDir, "mod", TP2_FILE), "utf-8")).toBe(FILTER_TP2);
+    });
+
+    it("keeps only matching creatures and the families that contain them", async () => {
+      await copyService.copy({ bg1: true, bg2: false }, { families: [], monsters: ["VAMPIRE"] });
+
+      expect(readCopied("lib", "pnp-monster", "undead", "main.tpa")).toBe(
+        lines(
+          "LAM load_secondary_types",
+          include("undead/common.tpa"),
+          `// ${include("undead/4c.tpa")} // Ghoul`,
+          `${include("undead/99.tpa")} // Fledgling Vampire`,
+          `${include("undead/a6.tpa")} // Patriarch Vampire`,
+        ),
+      );
+      expect(readCopied(TP2_FILE)).toContain(`// ${include("ogre/main.tpa")}`);
+      expect(
+        fs.readFileSync(
+          path.join(repoDir, "mod", "lib", "pnp-monster", "undead", "main.tpa"),
+          "utf-8",
+        ),
+      ).toBe(UNDEAD_MAIN);
+    });
+
+    it("throws before copying when a family is unknown", async () => {
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, { families: ["bear"], monsters: [] }),
+      ).rejects.toThrow("Unknown family: bear. Available: ogre, undead");
+      expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(false);
+    });
+
+    it("throws when no creature matches within the selected families", async () => {
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, { families: ["ogre"], monsters: ["vampire"] }),
+      ).rejects.toThrow("No creature matches --monster vampire");
+    });
+  });
 });
