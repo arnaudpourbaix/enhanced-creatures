@@ -12,15 +12,26 @@ import { ImmunityName } from "../final/immunity";
 import { StringReference } from "../final/stringref";
 import { ClassIdentifier } from "../ids/class";
 import { Effect, EffectFile } from "../spell-item/effect";
-import { EffectTargetEnum, EffectTimingEnum, ItemCategoryEnum } from "../spell-item/effect.enums";
+import {
+  AbilityDamageTypeEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+  ItemCategoryEnum,
+  PnPPoisonType,
+} from "../spell-item/effect.enums";
 import {
   Item,
   PartialItem,
   PartialSpell,
   PartialWeapon,
   Spell,
+  Weapon,
   WeaponCastSpell,
 } from "../spell-item/spell-item";
+import { NATURAL_WEAPONS, NaturalWeaponKind } from "../../../config/natural-weapons";
+import poisonService from "../../services/effects/poison.service";
 import variantFactory from "../../factories/variant.factory";
 import { AbstractCreature } from "./abstract-creature";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "./adjustment";
@@ -34,6 +45,33 @@ import { CreatureGrabConfig } from "./grab";
 import { ItemSlot, JEWEL_SLOTS } from "./item";
 import { AbilityEntry } from "./ability";
 import { State } from "../../state";
+
+export interface NaturalWeaponOptions {
+  stringRef: StringReference;
+  diceThrown: number;
+  diceSize: number;
+  speed: number;
+  /** Default "WEAPON1"; null = not equipped. */
+  slot?: ItemSlot | null;
+  id?: number;
+  icon?: string;
+  damageType?: AbilityDamageTypeEnum;
+  damageBonus?: number;
+  effects?: Effect[];
+  range?: number;
+  projectile?: string;
+  animationSwing?: { overhand: number; backhand: number; thrust: number };
+  immunities?: ImmunityName[];
+  doc?: boolean;
+  castSpells?: WeaponCastSpell[];
+  poison?: { poisonType: PnPPoisonType; saveBonus?: number };
+  grab?: CreatureGrabConfig;
+}
+
+// Drops undefined-valued keys: an explicit undefined can override a default in itemService.getItem.
+function definedOnly<T extends object>(obj: T): T {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as T;
+}
 
 export interface BaseCreature {
   data: CreatureData;
@@ -201,6 +239,44 @@ export class Creature extends AbstractCreature implements BaseCreature {
     const result = super.addWeapon({ weapon, castSpells });
     if (grab) grabService.attachGrabToWeapon(this, result, grab);
     return result;
+  }
+
+  /**
+   * Adds a natural weapon (jaws, claws, fists...): kind defaults from NATURAL_WEAPONS, everything
+   * creature-specific from the options. Only defined options are set, so item defaults still apply.
+   */
+  addNaturalWeapon(kind: NaturalWeaponKind, o: NaturalWeaponOptions): Weapon {
+    const defaults = NATURAL_WEAPONS[kind];
+    const slot = o.slot === undefined ? "WEAPON1" : o.slot;
+    const castSpells = [
+      ...(o.poison ? [poisonService.getSpell(o.poison)] : []),
+      ...(o.castSpells ?? []),
+    ];
+    return this.addWeapon({
+      weapon: definedOnly<PartialWeapon>({
+        id: o.id,
+        stringRef: o.stringRef,
+        icon: o.icon ?? defaults.icon,
+        equippedSlot: slot === null ? [] : [slot],
+        immunities: o.immunities,
+        doc: o.doc,
+        header: definedOnly<PartialWeapon["header"]>({
+          type: ItemAbilityTypeEnum.Melee,
+          diceThrown: o.diceThrown,
+          diceSize: o.diceSize,
+          damageBonus: o.damageBonus,
+          damageType: o.damageType ?? defaults.damageType,
+          speed: o.speed,
+          range: o.range,
+          projectile: o.projectile,
+          animationSwing: o.animationSwing,
+          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+          effects: o.effects,
+        }),
+      }),
+      grab: o.grab,
+      castSpells,
+    });
   }
 
   addTrait(payload: {
