@@ -356,8 +356,7 @@ class DocumentationService {
     const parts = this.getCardParts(creature);
     this.replace(template, "id", `m${creature.id}`);
     this.replace(template, "types", creatureTypeService.getCreatureTypes(creature).join(" "));
-    this.getCreatureHeader(template, creature);
-    this.replace(template, "typeTags", typeTags);
+    this.getCreatureHeader(template, creature, typeTags);
     this.replace(template, "stats", this.renderStats(parts, omit));
     this.getCreatureAttacks(template, creature, omit, parts);
     this.getCreatureTraits(template, creature, omit, parts);
@@ -849,10 +848,11 @@ class DocumentationService {
     return `<h5>Hide in Shadows (${hideShadow}%)</h5>`;
   }
 
-  getCreatureHeader(template: { text: string }, creature: Creature) {
+  // typeTags sit in the title, right of the name (in the summary too when the card has adjustments).
+  getCreatureHeader(template: { text: string }, creature: Creature, typeTags = "") {
     const name = translationService.from(creature.name);
     const effectives = adjustmentService.getEffectiveAdjustments(creature);
-    let header = `<h3>${name}</h3>`;
+    let header = `<h3>${name}${typeTags}</h3>`;
     if (effectives.length) {
       // Keep each effective's index in the full sorted list so popover ids (m<id>-adj<index>-...)
       // stay stable regardless of how the cards are grouped for display.
@@ -898,7 +898,7 @@ class DocumentationService {
       // unique).
       header =
         `<details class="creature-adjustments" id="${baseId}" data-title="${name}">` +
-        `<summary><span>${name}</span><span class="adjustments-badge">${count} ${label}</span></summary>` +
+        `<summary><span>${name}${typeTags}</span><span class="adjustments-badge">${count} ${label}</span></summary>` +
         `<div class="adj-layout">${side}<div class="adj-content">${content}</div></div>` +
         `</details>`;
     }

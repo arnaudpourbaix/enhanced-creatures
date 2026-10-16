@@ -561,6 +561,8 @@
     document.querySelectorAll(".type-tag").forEach(function (tag) {
       tag.addEventListener("click", function (e) {
         e.preventDefault();
+        // A tag can sit inside an adjustments <summary>: don't let the click open that panel.
+        e.stopPropagation();
         apply(tag.getAttribute("data-type"));
         window.scrollTo(0, 0);
       });

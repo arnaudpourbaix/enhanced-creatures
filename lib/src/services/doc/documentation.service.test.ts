@@ -1658,6 +1658,39 @@ describe("getCreatureHeader", () => {
     expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
   });
 
+  it("puts the type tags in the h3, right of the name", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
+
+    expect(template.text).toBe(
+      `<h3>${translationService.from(creature.name)}<div class="type-tags">T</div></h3>`,
+    );
+  });
+
+  it("puts the type tags in the adjustments summary title, right of the name", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.adjustments = [
+      {
+        files: ["BDSOGR1"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { hp: 70 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
+
+    expect(template.text).toContain(
+      `<summary><span>${translationService.from(creature.name)}<div class="type-tags">T</div></span>`,
+    );
+  });
+
   it("renders a details/summary badge and one adjustment-card per effective group", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
     const creature = fakeCreatureForAddCreature(false);

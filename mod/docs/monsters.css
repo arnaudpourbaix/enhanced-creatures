@@ -919,6 +919,16 @@ body.adjustments-open {
   flex-wrap: wrap;
   gap: 0.3rem;
 }
+/* Inside a card title (h3, or the adjustments summary): right of the name, sized independently
+   of the heading font. */
+.creature h3 .type-tags,
+.creature-adjustments > summary .type-tags {
+  margin-left: 0.6rem;
+  vertical-align: middle;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: normal;
+}
 .type-tag {
   font-size: 0.8em;
   padding: 0.1rem 0.55rem;
