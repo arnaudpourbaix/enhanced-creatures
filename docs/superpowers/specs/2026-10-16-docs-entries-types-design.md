@@ -14,7 +14,7 @@ Make `docs/monsters.html` read like a monster book:
 
 The code keeps its families. This sub-project adds metadata and changes the docs. The generated mod
 (tpa/baf/resources) must not change, except for the INCLUDE reordering described in
-[Verification](#verification) and the five creatures in
+[Verification](#verification) and the six creatures in
 [Gameplay changes](#gameplay-changes-separate-commit).
 
 ## Entries
@@ -86,8 +86,8 @@ item like `undead` (`jai17`) is a later decision. If they do, they must respect 
 nest into an existing trait item rather than add a second item to a creature.
 
 The new type traits are added **directly on each creature**, not nested into a feature trait. For
-example, `animal` is not nested into `cat`, because the Displacer Beast has `cat` but is a Magical
-Beast.
+example, `animal` is not nested into `cat`, because a feature trait
+doesn't imply a type: the Displacer Beast had `cat` but is a Magical Beast.
 
 ### Per-creature types (to review)
 
@@ -111,7 +111,7 @@ appears under "All".
 | Black, Brown, Cave, Grizzly, Polar Bear                                             | Animal                | 3e                                        |
 | Cheetah, Giant Lynx, Jaguar, Leopard, Lion, Mountain Lion, Spotted Lion, Wild Tiger | Animal                | 3e (Giant Lynx confirmed)                 |
 | Wild Dog, War Dog, Wolf, Dire Wolf, Giant Poisonous Snake                           | Animal                | 3e                                        |
-| Displacer Beast                                                                     | Magical Beast         | 3e                                        |
+| Displacer Beast                                                                     | Magical Beast         | decided, see Gameplay changes             |
 | Hellcat                                                                             | Outsider              | 3e (already `extraplanar`)                |
 | Hell Hound, Moon Dog                                                                | Outsider              | decided, see Gameplay changes             |
 | Carrion Crawler, Ettercap                                                           | Aberration            | 3e                                        |
@@ -124,7 +124,7 @@ Adding a type trait to a creature is a one-line `immunities` change in its creat
 
 ### Gameplay changes (separate commit)
 
-Five creatures get **existing, mechanical** traits. This changes them in game (trait items and
+Six creatures get **existing, mechanical** traits. This changes them in game (trait items and
 immunities), so it is a separate commit with its own expected diff:
 
 | Creature       | Decided type                                    | Traits added              | Current immunities to reconcile                                                              |
@@ -135,9 +135,14 @@ immunities), so it is a separate commit with its own expected diff:
 | Hell Hound     | Outsider (Evil, Extraplanar, Fire)              | `outsider`, `extraplanar` | `fire`, `backstab`, `seeInvisible`: check against `extraplanar`                              |
 | Moon Dog       | Outsider (Extraplanar, Good, native of Elysium) | `outsider`, `extraplanar` | `backstab`, `infravision`, `plusOneWeapons`, `fear`: check against `extraplanar`             |
 
+Displacer Beast (Magical Beast, decided): **swap** `cat` for `magicalBeast` and add `backstab`
+directly. Adding `magicalBeast` next to `cat` would equip a second trait item that only grants
+infravision, which `cat` already gives. The swap keeps one item and the same immunities
+(infravision + backstab). The card shows "Magical Beast" instead of "Cat".
+
 - Remove the immunities the new trait already provides, so nothing is applied twice.
 - Check that each creature has a free slot for the new trait item (Spectral Hound, both wolves).
-- Expected diff: these 5 creatures' generated files only.
+- Expected diff: these 6 creatures' generated files only.
 - Dread/Vampiric Wolf get no turn level yet. Turn level is applied only by `UndeadFamily` until it
   becomes type-driven in sub-project 4.
 
@@ -193,7 +198,7 @@ nothing is common, there is no box.
     registers members contiguously (Ghoul Lord moves next to Ghoul, Zombie Lord next to Zombie).
     No undead creature uses another's resources, so install order doesn't matter there.
 
-  - the five creatures of [Gameplay changes](#gameplay-changes-separate-commit), in their own
+  - the six creatures of [Gameplay changes](#gameplay-changes-separate-commit), in their own
     commit.
 
   Anything else differing is a bug.
