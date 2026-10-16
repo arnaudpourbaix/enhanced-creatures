@@ -505,11 +505,61 @@
     });
   }
 
+  // Type filter (toolbar chips + type tags on entry/card titles). One active type at a time; ""
+  // shows everything. Cards and sidebar links carry data-types; an entry block or sidebar group is
+  // hidden when none of its members match.
+  function initTypeFilter() {
+    var has = function (el, type) {
+      return (
+        !type || (" " + (el.getAttribute("data-types") || "") + " ").indexOf(" " + type + " ") !== -1
+      );
+    };
+    function apply(type) {
+      document.querySelectorAll(".type-chip").forEach(function (chip) {
+        chip.classList.toggle("on", chip.getAttribute("data-type") === type);
+      });
+      document.querySelectorAll(".content .creature").forEach(function (card) {
+        card.hidden = !has(card, type);
+      });
+      document.querySelectorAll(".entry-block").forEach(function (block) {
+        block.hidden = !Array.prototype.some.call(block.querySelectorAll(".creature"), function (c) {
+          return !c.hidden;
+        });
+      });
+      document.querySelectorAll(".sidebar li[data-types]").forEach(function (li) {
+        li.hidden = !has(li, type);
+      });
+      document.querySelectorAll(".sidebar li.entry").forEach(function (group) {
+        var visible = Array.prototype.some.call(
+          group.querySelectorAll("li[data-types]"),
+          function (li) {
+            return !li.hidden;
+          },
+        );
+        group.hidden = !visible;
+        if (type && visible) group.querySelector("details").open = true;
+      });
+    }
+    document.querySelectorAll(".type-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        apply(chip.getAttribute("data-type"));
+      });
+    });
+    document.querySelectorAll(".type-tag").forEach(function (tag) {
+      tag.addEventListener("click", function (e) {
+        e.preventDefault();
+        apply(tag.getAttribute("data-type"));
+        window.scrollTo(0, 0);
+      });
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
     initSpellbookTabs();
     initTraitPopover();
     initAdjustmentsPanel();
     initFileSearch();
+    initTypeFilter();
   });
 })();
