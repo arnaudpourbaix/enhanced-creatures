@@ -1,30 +1,19 @@
 import { NEW_CREATURES } from "../config/creatures";
-import { MonsterItemIconEnum } from "../config/item";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
-import {
-  AbilityDamageTypeEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
-} from "../src/model/spell-item/effect.enums";
+import {} from "../src/model/spell-item/effect.enums";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Plant extends Creature {
   createBranch(diceThrown: number, diceSize: number, equip = false) {
-    return this.addItem({
+    return this.addNaturalWeapon("branch", {
+      diceThrown,
+      diceSize,
       stringRef: "monster.plant.weapon.branch",
-      icon: MonsterItemIconEnum.Golem,
-      equippedSlot: equip ? ["WEAPON1"] : undefined,
-      header: {
-        type: ItemAbilityTypeEnum.Melee,
-        diceThrown: diceThrown,
-        diceSize: diceSize,
-        damageType: AbilityDamageTypeEnum.Crushing,
-        range: 5,
-        speed: 8,
-        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-      },
+      speed: 8,
+      range: 5,
+      slot: equip ? "WEAPON1" : null,
     });
   }
 }

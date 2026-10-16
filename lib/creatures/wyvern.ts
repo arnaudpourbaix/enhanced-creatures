@@ -1,14 +1,7 @@
 import { EntryEnum } from "./entry";
-import { MonsterItemIconEnum } from "../config/item";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
-import {
-  AbilityDamageTypeEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
-  PnPPoisonType,
-} from "../src/model/spell-item/effect.enums";
-import poisonService from "../src/services/effects/poison.service";
+import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -23,41 +16,24 @@ class Wyvern extends Creature {
     poisonType: PnPPoisonType;
     saveBonus: number;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.wyvern.weapon.stinger",
-        id: Ids.Stinger,
-        icon: MonsterItemIconEnum.Wolf,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
-      castSpells: [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })],
+    return this.addNaturalWeapon("stinger", {
+      stringRef: "monster.wyvern.weapon.stinger",
+      id: Ids.Stinger,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
+      poison: { poisonType: p.poisonType, saveBonus: p.saveBonus },
     });
   }
 
   createJaws(p: { diceThrown: number; diceSize: number }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.wyvern.weapon.jaws",
-        id: Ids.Jaws,
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["SHIELD"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 2,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.wyvern.weapon.jaws",
+      id: Ids.Jaws,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 2,
+      slot: "SHIELD",
     });
   }
 }

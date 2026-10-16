@@ -62,38 +62,24 @@ class Cat extends Creature {
         amount: amount * 2,
       });
     }
-    return this.addItem({
-      id: p.id,
+    return this.addNaturalWeapon("claws", {
+      effects,
       stringRef: "monster.cat.weapon.claws",
-      icon: MonsterItemIconEnum.Wolf,
-      equippedSlot: p.id === undefined ? ["WEAPON1"] : undefined,
-      header: {
-        diceThrown: p.diceThrown * 2,
-        diceSize: p.diceSize,
-        type: ItemAbilityTypeEnum.Melee,
-        damageType: AbilityDamageTypeEnum.Slashing,
-        speed: 5,
-        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        effects,
-      },
+      id: p.id,
+      slot: p.id === undefined ? "WEAPON1" : null,
+      diceThrown: p.diceThrown * 2,
+      diceSize: p.diceSize,
+      speed: 5,
     });
   }
 
   createJaws(diceThrown: number, diceSize: number) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.cat.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["SHIELD"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: diceThrown,
-          diceSize: diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      diceThrown,
+      diceSize,
+      stringRef: "monster.cat.weapon.jaws",
+      speed: 3,
+      slot: "SHIELD",
     });
   }
 

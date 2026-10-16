@@ -1,4 +1,3 @@
-import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
@@ -8,7 +7,6 @@ import { CreatureGrabConfig } from "../src/model/creature/grab";
 import { Durations } from "../src/model/game-data/durations";
 import { BaseEffect } from "../src/model/spell-item/effect";
 import {
-  AbilityDamageTypeEnum,
   EffectColorLocationEnum,
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
@@ -17,7 +15,6 @@ import {
   EffectTargetEnum,
   EffectTeleportTypeEnum,
   EffectTimingEnum,
-  ItemAbilityFlagEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTypeEnum,
   SaveTypeEnum,
@@ -41,20 +38,11 @@ class Dog extends Creature {
     castSpell?: WeaponCastSpell;
     grab?: CreatureGrabConfig;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.dog.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.dog.weapon.jaws",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
       castSpells: p.castSpell ? [p.castSpell] : undefined,
       grab: p.grab,
     });

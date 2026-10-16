@@ -46,20 +46,12 @@ class Basilisk extends Creature {
     slot?: ItemSlot;
     castSpell?: WeaponCastSpell;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.spider.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: [p.slot ?? "WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 5,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.spider.weapon.jaws",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 5,
+      slot: p.slot ?? "WEAPON1",
       castSpells: p.castSpell ? [p.castSpell] : undefined,
     });
   }

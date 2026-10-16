@@ -1,14 +1,7 @@
 import { NEW_CREATURES } from "../config/creatures";
-import { MonsterItemIconEnum } from "../config/item";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
-import {
-  AbilityDamageTypeEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
-  PnPPoisonType,
-} from "../src/model/spell-item/effect.enums";
-import poisonService from "../src/services/effects/poison.service";
+import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Snake extends Creature {
@@ -18,23 +11,12 @@ class Snake extends Creature {
     poisonType?: PnPPoisonType;
     saveBonus?: number;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.snake.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
-      castSpells: p.poisonType
-        ? [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })]
-        : [],
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.snake.weapon.jaws",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
+      poison: p.poisonType ? { poisonType: p.poisonType, saveBonus: p.saveBonus } : undefined,
     });
   }
 }

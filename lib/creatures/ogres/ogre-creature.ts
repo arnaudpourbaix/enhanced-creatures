@@ -4,7 +4,7 @@
  * ogrillon.ts, half-ogre.ts, ogre-mage.ts, berserker.ts, shaman.ts).
  */
 import { SPELL_STATES } from "../../config/common";
-import { ITEMS, MonsterItemIconEnum } from "../../config/item";
+import { ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-database";
 import { createConeOfCold } from "../../spells/cone_of_cold";
 import effectFactory from "../../src/factories/effect.factory";
@@ -43,20 +43,13 @@ export class Ogre extends Creature {
    * Ogre Fists
    */
   createFists(p: { diceThrown: number; diceSize: number; id?: number; equipped?: boolean }) {
-    p.equipped ??= true;
-    return this.addItem({
-      id: p.id,
+    return this.addNaturalWeapon("fists", {
       stringRef: "monster.ogre.weapon.fists",
-      icon: MonsterItemIconEnum.Fist,
-      equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
-      header: {
-        diceThrown: p.diceThrown,
-        diceSize: p.diceSize,
-        type: ItemAbilityTypeEnum.Melee,
-        damageType: AbilityDamageTypeEnum.Crushing,
-        speed: 3,
-        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-      },
+      id: p.id,
+      slot: (p.equipped ?? true) ? "WEAPON1" : null,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
     });
   }
 

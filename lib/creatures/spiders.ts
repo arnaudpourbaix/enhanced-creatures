@@ -34,7 +34,6 @@ import {
   SpellProtectionStat,
 } from "../src/model/spell-item/spell-protection";
 import creatureService from "../src/services/creature.service";
-import poisonService from "../src/services/effects/poison.service";
 import { TranslationKey } from "../translations/i18n";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
@@ -61,29 +60,17 @@ class Spider extends Creature {
     doc?: boolean;
     castSpells?: WeaponCastSpell[];
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.spider.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        doc: p.doc ?? true,
-        equippedSlot: [p.slot ?? "WEAPON1"],
-        immunities: p.immunities,
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 2,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects: p.effects,
-        },
-      },
-      castSpells: [
-        ...(p.poisonType
-          ? [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })]
-          : []),
-        ...(p.castSpells ?? []),
-      ],
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.spider.weapon.jaws",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 2,
+      slot: p.slot ?? "WEAPON1",
+      doc: p.doc ?? true,
+      immunities: p.immunities,
+      effects: p.effects,
+      poison: p.poisonType ? { poisonType: p.poisonType, saveBonus: p.saveBonus } : undefined,
+      castSpells: p.castSpells,
     });
   }
 

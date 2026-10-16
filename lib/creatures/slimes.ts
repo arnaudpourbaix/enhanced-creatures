@@ -1,5 +1,4 @@
 import { NEW_CREATURES, VAPOR_IMMUNE_CREATURES } from "../config/creatures";
-import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { RawCreatureAbility } from "../src/model/creature/ability";
@@ -10,7 +9,6 @@ import { Durations } from "../src/model/game-data/durations";
 import { Triggers } from "../src/model/script/triggers";
 import { BaseEffect, Effect, IdsEffect } from "../src/model/spell-item/effect";
 import {
-  AbilityDamageTypeEnum,
   AttackModifierTypeEnum,
   CastingFailureTypeEnum,
   ColorEnum,
@@ -21,7 +19,6 @@ import {
   EffectStatisticModifierEnum,
   EffectTimingEnum,
   EffectVisualEffectLocationEnum,
-  ItemAbilityFlagEnum,
   ItemAbilityLocationEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
@@ -57,26 +54,17 @@ class Slime extends Creature {
     castSpell?: WeaponCastSpell;
     id?: number;
   }) {
-    return this.addWeapon({
-      weapon: {
-        id: p.id,
-        stringRef: "monster.slime.weapon.pseudopod",
-        icon: MonsterItemIconEnum.Jelly,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          effects: p.effects,
-          type: ItemAbilityTypeEnum.Melee,
-          damageType: AbilityDamageTypeEnum.Crushing,
-          speed: 4,
-          range: 5,
-          animationSwing: { backhand: 100, overhand: 0, thrust: 0 },
-          projectile: "ACIDBLMU",
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
-      castSpells: p.castSpell ? [p.castSpell] : [],
+    return this.addNaturalWeapon("pseudopod", {
+      stringRef: "monster.slime.weapon.pseudopod",
+      id: p.id,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 4,
+      range: 5,
+      animationSwing: { backhand: 100, overhand: 0, thrust: 0 },
+      projectile: "ACIDBLMU",
+      effects: p.effects,
+      castSpells: p.castSpell ? [p.castSpell] : undefined,
     });
   }
 

@@ -49,20 +49,12 @@ class Wolf extends Creature {
     castSpells?: WeaponCastSpell[];
     slot?: ItemSlot;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.wolf.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: [p.slot ?? "WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      stringRef: "monster.wolf.weapon.jaws",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
+      slot: p.slot ?? "WEAPON1",
       castSpells: p.castSpells,
     });
   }

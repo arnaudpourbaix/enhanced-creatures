@@ -1,4 +1,3 @@
-import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import actionFactory from "../src/factories/action.factory";
 import effectFactory from "../src/factories/effect.factory";
@@ -9,12 +8,10 @@ import { CreatureFamily } from "../src/model/creature/family";
 import { Durations } from "../src/model/game-data/durations";
 import { CustomCode } from "../src/model/script/script";
 import {
-  AbilityDamageTypeEnum,
   EffectDamageModeEnum,
   EffectDamageTypeEnum,
   EffectFlagsEnum,
   EffectTimingEnum,
-  ItemAbilityFlagEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
@@ -39,20 +36,11 @@ class Bear extends Creature {
       diceThrown: number;
     },
   ) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.bear.weapon.claws",
-        icon: MonsterItemIconEnum.Wolf,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          diceThrown,
-          diceSize,
-          type: ItemAbilityTypeEnum.Melee,
-          damageType: AbilityDamageTypeEnum.Slashing,
-          speed: 5,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("claws", {
+      diceThrown,
+      diceSize,
+      stringRef: "monster.bear.weapon.claws",
+      speed: 5,
       castSpells: [
         {
           probability1: 10,
@@ -80,20 +68,12 @@ class Bear extends Creature {
   }
 
   createJaws(diceThrown: number, diceSize: number) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.bear.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["SHIELD"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: diceThrown,
-          diceSize: diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      diceThrown,
+      diceSize,
+      stringRef: "monster.bear.weapon.jaws",
+      speed: 3,
+      slot: "SHIELD",
     });
   }
 }

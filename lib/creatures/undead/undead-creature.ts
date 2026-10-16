@@ -4,11 +4,8 @@ import { ItemSlot, WeaponSlot } from "../../src/model/creature/item";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect, Effect } from "../../src/model/spell-item/effect";
 import {
-  AbilityDamageTypeEnum,
   EffectDispelResistanceEnum,
   EffectStatisticModifierEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
   PortraitIconEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
@@ -31,22 +28,14 @@ export class Undead extends Creature {
     effects?: Effect[];
     slot?: ItemSlot;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.undead.weapon.touch",
-        icon: MonsterItemIconEnum.Fist,
-        equippedSlot: p.slot ? [p.slot] : [],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageBonus: p.damageBonus,
-          damageType: AbilityDamageTypeEnum.Crushing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects: p.effects,
-        },
-      },
+    return this.addNaturalWeapon("touch", {
+      stringRef: "monster.undead.weapon.touch",
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      damageBonus: p.damageBonus,
+      speed: 3,
+      effects: p.effects,
+      slot: p.slot ?? null,
     });
   }
 
@@ -58,23 +47,15 @@ export class Undead extends Creature {
     castSpell?: WeaponCastSpell;
     equipped?: boolean;
   }) {
-    const equipped = p.equipped ?? true;
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.undead.weapon.claws",
-        icon: MonsterItemIconEnum.Ghoul,
-        equippedSlot: equipped ? ["WEAPON1"] : [],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageBonus: p.damageBonus,
-          damageType: AbilityDamageTypeEnum.Slashing,
-          speed: 5,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects: p.effects,
-        },
-      },
+    return this.addNaturalWeapon("claws", {
+      stringRef: "monster.undead.weapon.claws",
+      icon: MonsterItemIconEnum.Ghoul,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      damageBonus: p.damageBonus,
+      speed: 5,
+      effects: p.effects,
+      slot: (p.equipped ?? true) ? "WEAPON1" : null,
       castSpells: p.castSpell ? [p.castSpell] : undefined,
     });
   }
@@ -118,21 +99,13 @@ export class Undead extends Creature {
     castSpells?: WeaponCastSpell[],
     slot: WeaponSlot = "SHIELD",
   ) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.undead.weapon.jaws",
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: [slot],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: diceThrown,
-          diceSize: diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      diceThrown,
+      diceSize,
+      slot,
       castSpells,
+      stringRef: "monster.undead.weapon.jaws",
+      speed: 3,
     });
   }
 }

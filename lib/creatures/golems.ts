@@ -59,21 +59,13 @@ class Golem extends Creature {
     castSpell?: WeaponCastSpell;
     effects?: Effect[];
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.golem.weapon.fists",
-        icon: MonsterItemIconEnum.Fist,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          diceThrown,
-          diceSize,
-          effects,
-          damageType: damageType ?? AbilityDamageTypeEnum.Crushing,
-          type: ItemAbilityTypeEnum.Melee,
-          speed: 4,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("fists", {
+      diceThrown,
+      diceSize,
+      damageType,
+      effects,
+      stringRef: "monster.golem.weapon.fists",
+      speed: 4,
       castSpells: castSpell ? [castSpell] : undefined,
     });
   }
