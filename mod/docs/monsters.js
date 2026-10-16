@@ -511,7 +511,8 @@
   function initTypeFilter() {
     var has = function (el, type) {
       return (
-        !type || (" " + (el.getAttribute("data-types") || "") + " ").indexOf(" " + type + " ") !== -1
+        !type ||
+        (" " + (el.getAttribute("data-types") || "") + " ").indexOf(" " + type + " ") !== -1
       );
     };
     function apply(type) {
@@ -522,9 +523,12 @@
         card.hidden = !has(card, type);
       });
       document.querySelectorAll(".entry-block").forEach(function (block) {
-        block.hidden = !Array.prototype.some.call(block.querySelectorAll(".creature"), function (c) {
-          return !c.hidden;
-        });
+        block.hidden = !Array.prototype.some.call(
+          block.querySelectorAll(".creature"),
+          function (c) {
+            return !c.hidden;
+          },
+        );
       });
       document.querySelectorAll(".sidebar li[data-types]").forEach(function (li) {
         li.hidden = !has(li, type);
