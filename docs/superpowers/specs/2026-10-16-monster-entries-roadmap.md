@@ -56,7 +56,7 @@ Delivers the designed docs on today's code (families stay in code for now). Desi
   aberration, animal, dragon, monstrousHumanoid, outsider.
 - "Common to all" is computed from the model, field by field, over all members.
 
-### 2. ◐ Shared natural weapons
+### 2. ✅ Shared natural weapons
 
 Design: [2026-10-17-shared-natural-weapons-design.md](2026-10-17-shared-natural-weapons-design.md).
 
