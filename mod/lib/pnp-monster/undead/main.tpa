@@ -17,8 +17,8 @@ ACTION_IF FILE_EXISTS_IN_GAME ~SAHAMB01.BCS~ BEGIN
 END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Banshee
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4c.tpa" // Ghoul
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4b.tpa" // Ghast
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4d.tpa" // Ghoul Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4b.tpa" // Ghast
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4e.tpa" // Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4f.tpa" // Greater Mummy
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/50.tpa" // Shadow
@@ -35,8 +35,8 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/54.tpa" // Wight
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/55.tpa" // Wraith
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/56.tpa" // Zombie
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Ju-ju Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/8e.tpa" // Zombie Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Ju-ju Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/58.tpa" // Sea Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/99.tpa" // Fledgling Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a1.tpa" // Mature Vampire

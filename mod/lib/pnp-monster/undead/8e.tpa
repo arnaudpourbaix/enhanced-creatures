@@ -10,7 +10,7 @@ COPY_EXISTING ~jas0m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10437)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11112)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11109)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
@@ -26,7 +26,7 @@ COPY_EXISTING ~jas1m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11113)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11110)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=180 probability1=100 special=91 END
@@ -58,7 +58,7 @@ COPY_EXISTING ~jas2m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11114)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11111)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=9 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7200 probability1=100 STR_VAR resource="jas2m8e" END
@@ -72,7 +72,7 @@ COPY_EXISTING ~jas3m8e.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11115)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11112)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=1 probability1=100 special=91 END
@@ -89,7 +89,7 @@ COPY_EXISTING ~jas4m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10439)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11116)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11113)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=45 target=2 power=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=12 probability1=100 STR_VAR resource="jas4m8e" END
@@ -101,7 +101,7 @@ COPY_EXISTING ~jas5m8e.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10440)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11117)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11114)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jas5m8e" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
@@ -178,7 +178,7 @@ CREATE ITM "jai0m8e"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10381)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11118)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11115)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jai0m8e.itm~ ~override~
 	READ_SHORT 0x68 abicount

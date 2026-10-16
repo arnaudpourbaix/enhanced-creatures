@@ -152,9 +152,7 @@ CREATE ITM "jai3m15"
 	WRITE_ASCII 0x3a ~IRING15~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11038)
 COPY_EXISTING ~jai3m15.itm~ ~override~
-	LPF sleep_immunity END
-	LPF charm_immunity END
-	LPF hold_immunity END
+	LPF undead_trait END
 	LPF nonSilverNonMagicalWeapons_immunity END
 
 DEFINE_ACTION_FUNCTION jam15_patch

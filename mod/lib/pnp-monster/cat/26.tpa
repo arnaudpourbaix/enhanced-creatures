@@ -69,12 +69,13 @@ BEGIN
 			REMOVE_CRE_ITEM ~MOBHA39A~
 			ADD_CRE_ITEM ~jai0m26~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			REPLACE_CRE_ITEM ~jai1m26~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
-			ADD_CRE_ITEM ~jai19~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jai12~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			LPF clear_proficiencies END
+			LPF backstab_immunity END
 			LPF patchCreature
 				INT_VAR
 					xpv=975
-					hp=60
+					hp=72
 					ac=7
 					thac0=15
 					apr=2
@@ -107,8 +108,8 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jam26 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~) BEGIN 
 				WRITE_LONG 0x14 1100 // xpv
-				WRITE_SHORT 0x24 117 // hp
-				WRITE_SHORT 0x26 117 // hp
+				WRITE_SHORT 0x24 135 // hp
+				WRITE_SHORT 0x26 135 // hp
 				WRITE_SHORT 0x46 2 // ac
 				WRITE_SHORT 0x48 2 // ac
 				WRITE_BYTE 0x52 11 // thac0
@@ -123,8 +124,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB1~) BEGIN 
 				WRITE_LONG 0x14 1200 // xpv
-				WRITE_SHORT 0x24 120 // hp
-				WRITE_SHORT 0x26 120 // hp
+				WRITE_SHORT 0x24 144 // hp
+				WRITE_SHORT 0x26 144 // hp
 				WRITE_BYTE 0x52 9 // thac0
 				WRITE_BYTE 0x54 5 // saveDeath
 				WRITE_BYTE 0x55 7 // saveWand
@@ -135,8 +136,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB~) BEGIN 
 				WRITE_LONG 0x14 3000 // xpv
-				WRITE_SHORT 0x24 140 // hp
-				WRITE_SHORT 0x26 140 // hp
+				WRITE_SHORT 0x24 168 // hp
+				WRITE_SHORT 0x26 168 // hp
 				WRITE_BYTE 0x52 7 // thac0
 				WRITE_BYTE 0x53 4 // apr
 				WRITE_BYTE 0x54 3 // saveDeath

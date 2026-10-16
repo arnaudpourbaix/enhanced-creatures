@@ -127,6 +127,7 @@ BEGIN
 			REPLACE_CRE_ITEM ~jai1m7b~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 			ADD_MEMORIZED_SPELL ~jas0m7b~ #0 ~innate~ (1) // Breath Fire
 			LPF clear_proficiencies END
+			LPF extraplanar_trait END
 			LPF patchCreature
 				INT_VAR
 					xpv=420

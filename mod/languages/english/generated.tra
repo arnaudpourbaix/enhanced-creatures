@@ -2053,9 +2053,7 @@ Enchantment: 2
 Range: 2 feet
 Heal: 10
 Sleep for 2 rounds (wake on damage) (saves vs poison/death)~
-@11038 = ~Immune to sleep
-Immune to charm
-Immune to hold
+@11038 = ~Undead
 Immune to non-magical and non-silver weapons~
 @11039 = ~Winter Wolf traits~
 @11040 = ~Immune to cold
@@ -2143,25 +2141,9 @@ Range: 2 feet
 
 Cast spell Ghoul's Touch:
 Their touch causes humanoids (excluding elves) to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.~
-@11060 = ~Claws
-
-Melee damage: 1D4 (Slashing)
-Speed Factor: 5
-Range: 2 feet
-
-Cast spell Ghast's Touch:
-Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.~
-@11061 = ~Jaws
-
-Melee damage: 1D8 (Piercing)
-Speed Factor: 3
-Range: 2 feet
-
-Cast spell Ghast's Touch:
-Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.~
-@11062 = ~Ghoul Lord traits~
-@11063 = ~Immune to non-magical and non-silver weapons~
-@11064 = ~Claws
+@11060 = ~Ghoul Lord traits~
+@11061 = ~Immune to non-magical and non-silver weapons~
+@11062 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
@@ -2170,7 +2152,7 @@ Range: 2 feet
 
 Cast spell Ghoul Lord's Touch:
 Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds.~
-@11065 = ~Jaws
+@11063 = ~Jaws
 
 Melee damage: 1D10 (Piercing)
 Speed Factor: 3
@@ -2182,6 +2164,22 @@ Their touch causes humanoids to become rigid unless a saving throw versus paraly
 
 Cast spell Rotting Disease (saves vs poison/death):
 Loose 10 hit points every 8 hours and 4 point of Constitution and Charisma.~
+@11064 = ~Claws
+
+Melee damage: 1D4 (Slashing)
+Speed Factor: 5
+Range: 2 feet
+
+Cast spell Ghast's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.~
+@11065 = ~Jaws
+
+Melee damage: 1D8 (Piercing)
+Speed Factor: 3
+Range: 2 feet
+
+Cast spell Ghast's Touch:
+Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.~
 @11066 = ~Mummy traits~
 @11067 = ~Paralyze target for 3 rounds (saves vs spell at +2).
 Panic for 3 rounds (saves vs spell at +2)~
@@ -2323,24 +2321,10 @@ Their touch drains one life energy level from the victim.~
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
 Range: 2 feet~
-@11109 = ~Ju-ju Zombie traits~
-@11110 = ~Immune to cold
-Immune to non-magical weapons
-Resistance to crushing damage (50%)
-Resistance to piercing damage (50%)
-Resistance to missile damage (50%)
-Resistance to fire (50%)
-Immune to lightning
-Immune to magic missiles spell~
-@11111 = ~Claws
-
-Melee damage: 3D4 (Slashing)
-Speed Factor: 5
-Range: 2 feet~
-@11112 = ~Strength: -3 for 6 turns
+@11109 = ~Strength: -3 for 6 turns
 Thac0: -3 for 6 turns
 Damage: -1 for 6 turns~
-@11113 = ~Disease: -1 strength for 3 turns.
+@11110 = ~Disease: -1 strength for 3 turns.
 Disease: -1 strength for an hour.
 Disease: -1 strength for 2 hours.
 Disease: -1 strength for 3 hours.
@@ -2358,18 +2342,32 @@ Disease: -1 strength for 14 hours.
 Disease: -1 strength for 15 hours.
 Disease: -1 strength for 16 hours.
 Disease: -1 strength for 17 hours.~
-@11114 = ~Disease: -1 constitution for .~
-@11115 = ~Disease: -2 strength for .
+@11111 = ~Disease: -1 constitution for .~
+@11112 = ~Disease: -2 strength for .
 Disease: -2 dexterity for .
 Disease: -2 charisma for .
 Thac0: -2~
-@11116 = ~~
-@11117 = ~Kill target.~
-@11118 = ~Claws
+@11113 = ~~
+@11114 = ~Kill target.~
+@11115 = ~Claws
 
 Melee damage: 2D4 (Slashing)
 Speed Factor: 5
 Enchantment: 1
+Range: 2 feet~
+@11116 = ~Ju-ju Zombie traits~
+@11117 = ~Immune to cold
+Immune to non-magical weapons
+Resistance to crushing damage (50%)
+Resistance to piercing damage (50%)
+Resistance to missile damage (50%)
+Resistance to fire (50%)
+Immune to lightning
+Immune to magic missiles spell~
+@11118 = ~Claws
+
+Melee damage: 3D4 (Slashing)
+Speed Factor: 5
 Range: 2 feet~
 @11119 = ~Sea Zombie traits~
 @11120 = ~Resistance to fire (50%)

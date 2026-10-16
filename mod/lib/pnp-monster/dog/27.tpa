@@ -67,11 +67,12 @@ BEGIN
 			REMOVE_CRE_ITEM ~DOGWAWP~
 			REMOVE_CRE_ITEM ~BDSHA01C~
 			REPLACE_CRE_ITEM ~jai0m27~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jai12~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
 					xpv=975
-					hp=40
+					hp=50
 					ac=0
 					thac0=15
 					apr=1

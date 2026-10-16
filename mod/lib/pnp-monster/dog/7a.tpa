@@ -81,6 +81,7 @@ BEGIN
 			ADD_MEMORIZED_SPELL ~SPWI126~ #0 ~wizard~ (10) 
 			ADD_MEMORIZED_SPELL ~SPPR104~ #0 ~priest~ (10) 
 			LPF clear_proficiencies END
+			LPF extraplanar_trait END
 			LPF patchCreature
 				INT_VAR
 					xpv=9000
