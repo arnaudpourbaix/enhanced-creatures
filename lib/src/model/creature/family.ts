@@ -1,4 +1,5 @@
 import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
 import translationService from "../../services/translation.service";
 import { Projectile } from "../spell-item/projectile";
@@ -221,6 +222,20 @@ export abstract class CreatureFamily<T extends Creature>
       if (e instanceof Error && e.stack) logService.log(e.stack);
       logService.commitCapture(creature);
       if (creature) creature.valid = false;
+    }
+  }
+
+  /**
+   * Registers the versions of one monster (an entry), in order: members are documented and
+   * installed in this order, so a base creature goes before variants that reuse its resources.
+   */
+  addEntry(id: EntryEnum, builders: (() => T)[]) {
+    for (const build of builders) {
+      const countBefore = this.creatures.length;
+      this.addCreature(build);
+      // addCreature keeps a creature whose build threw (valid = false) when create() ran, so
+      // stamp whatever it pushed.
+      for (const creature of this.creatures.slice(countBefore)) creature.entry = id;
     }
   }
 

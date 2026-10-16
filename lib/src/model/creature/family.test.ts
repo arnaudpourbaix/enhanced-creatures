@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
+import { EntryEnum } from "../../../creatures/entry";
 import { Item, Spell } from "../spell-item/spell-item";
 import { Projectile } from "../spell-item/projectile";
 import { CreatureFamily, collapseFilesByGame } from "./family";
@@ -468,5 +469,39 @@ describe("addCreature", () => {
     expect(family.creatures).toHaveLength(1);
     expect(family.creatures[0].valid).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("validate boom"));
+  });
+});
+
+describe("addEntry", () => {
+  it("registers each builder in order and stamps the entry, even on a failed build", () => {
+    const family = fakeFamily();
+    const a = { id: 1, entry: undefined } as unknown as Creature;
+    const b = { id: 2, entry: undefined } as unknown as Creature;
+    const addCreature = vi.spyOn(family, "addCreature").mockImplementation((build) => {
+      family.creatures.push(build());
+    });
+    family.addEntry(EntryEnum.Vampire, [() => a, () => b]);
+    expect(addCreature).toHaveBeenCalledTimes(2);
+    expect(family.creatures.map((c) => c.id)).toEqual([1, 2]);
+    expect(a.entry).toBe(EntryEnum.Vampire);
+    expect(b.entry).toBe(EntryEnum.Vampire);
+  });
+
+  it("stamps a creature whose builder threw after create(), using the real addCreature", () => {
+    const family = fakeFamily();
+    vi.spyOn(logService, "error").mockImplementation(() => {});
+    family.addEntry(EntryEnum.Vampire, [
+      () => {
+        family.create({
+          name: CREATURE_NAME_KEY,
+          monster: MonsterEnum.Ankheg,
+          data: {} as unknown as InputMainCreatureData,
+        });
+        throw new Error("boom");
+      },
+    ]);
+    expect(family.creatures).toHaveLength(1);
+    expect(family.creatures[0].valid).toBe(false);
+    expect(family.creatures[0].entry).toBe(EntryEnum.Vampire);
   });
 });

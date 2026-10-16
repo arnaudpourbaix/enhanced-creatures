@@ -1,5 +1,6 @@
 import { MonsterItemIconEnum } from "../../../config/item";
 import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureFactory from "../../factories/creature.factory";
 import targetService from "../../services/baf/target.service";
@@ -46,6 +47,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
   logging!: boolean;
   name!: TranslationKey;
   family!: MonsterFamilyEnum;
+  /** Monster entry this creature is a version of (docs grouping); unset = its own entry. */
+  entry?: EntryEnum;
   data!: MainCreatureData;
   behavior!: CreatureBehavior;
   attack!: CreatureAttack;
