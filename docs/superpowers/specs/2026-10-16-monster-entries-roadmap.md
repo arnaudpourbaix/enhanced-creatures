@@ -87,6 +87,10 @@ Game filenames are 8 characters, and ours must start with `ja`, which leaves 6. 
 - A generation-time check fails when an SPL and an ITM share a name, handwritten names included
   (`jasight`, `jaspain`, `jazombie`...). Only SPL/ITM collisions are a real risk: an effect
   referencing a resource can pick the wrong one.
+- Generation only writes files, it never deletes. Before regenerating with the new names, the
+  generated files under `mod/lib/pnp-monster` must be removed (keeping hand-written ones: each
+  family's `common.tpa` and `assets/`, and `common/`), or old hex-named `.tpa`/`.baf` files stay
+  next to the new ones. Consider making generation clean its own output.
 - Every generated resource is renamed: existing installs need a full reinstall, and saved games
   can lose items with old names. Acceptable pre-1.0, with a changelog note.
 - Readability: base-36 ids can't be read at a glance (vampire 153 is `49`). The docs or the file
