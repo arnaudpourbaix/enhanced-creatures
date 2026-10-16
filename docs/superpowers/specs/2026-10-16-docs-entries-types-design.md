@@ -54,9 +54,11 @@ Slime Creature, and every golem other than Clay and Stone.
 - **Member order = declaration order = registration order** (it drives the `main.tpa` INCLUDE
   order). A base creature whose resources its variants reuse is declared first: Clay Golem before
   Lesser/Greater Clay Golem (`golem/6d.tpa` uses resources created in `golem/18.tpa`).
-- Entry names: a new translation section `lib/translations/en/entry.ts`, registered in
-  `i18n.ts` as `entry` (key `entry.<camelCaseName>`, e.g. `entry.clayGolem` → "Clay Golem").
-  `EntryEnum` maps to its key through one `Record<EntryEnum, TranslationKey>`.
+- Entry names: a new **docs-only** translation section `lib/translations/en/doc.ts`, registered in
+  `i18n.ts` as `doc` (key `doc.entry.<camelCaseName>`, e.g. `doc.entry.clayGolem` → "Clay Golem").
+  `EntryEnum` maps to its key through one `Record<EntryEnum, TranslationKey>`. The `doc` section is
+  **excluded from `.tra` string numbering**: every numbered key shifts all later string numbers in
+  the whole mod, so docs-only texts must not be numbered.
 
 ## Types
 
@@ -79,8 +81,10 @@ A type is a trait listed in `TYPE_TRAITS`:
 ### New traits
 
 `aberration`, `animal`, `dragon`, `monstrousHumanoid`, `outsider`: each gets an immunity-config
-entry with `type: "trait"`, `stringRef`/`description` in `common.ts` `traits` (rules text in the
-style of the existing undead/construct descriptions), **no `itemSlot` and no immunities**. They are
+entry with `type: "trait"`, **`docOnly: true`**, `stringRef`/`description` in the docs-only `doc.types`
+section (rules text in the style of the existing undead/construct descriptions), **no `itemSlot` and
+no immunities**. `docOnly` skips all code generation: a trait without an item would otherwise still
+get a WeiDU function and an `LPF` call on every creature that has it. They are
 docs-only in this sub-project, so the game is unchanged. Whether they should give an in-game trait
 item like `undead` (`jai17`) is a later decision. If they do, they must respect the slot economy:
 nest into an existing trait item rather than add a second item to a creature.
