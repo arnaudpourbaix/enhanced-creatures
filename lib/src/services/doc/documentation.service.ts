@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
+import { ENTRY_NAMES } from "../../../creatures/entry";
+import { TYPE_TRAITS } from "../../../config/creature-types";
 import { SPELLBOOK_MODS } from "../../../config/mods";
 import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../../config/spells/spell-database";
@@ -11,7 +12,7 @@ import { MemorizedSpell } from "../../model/creature/data";
 import { Variant } from "../../model/creature/variant";
 import { Family } from "../../model/creature/family";
 import { EquippedItem } from "../../model/creature/item";
-import { ImmunityConfig } from "../../model/final/immunity";
+import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
 import { ProficiencyTypeEnum, SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import { Item } from "../../model/spell-item/spell-item";
@@ -27,6 +28,7 @@ import utils from "../utils/utils.service";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
 import { CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
 import { readModVersion, stampVersion } from "./doc-version";
+import { getCommonKeys } from "./entry-common";
 
 // Standard AD&D 2e proficiency names, since the enum's own SCREAMING_CASE keys (e.g.
 // PROFICIENCYFLAILMORNINGSTAR) aren't separable into words the way formatEnumLabel's
@@ -106,11 +108,14 @@ export interface FileIndexEntry {
 }
 
 class DocumentationService {
-  private families: string[] = [];
+  private collected: Creature[] = [];
+  private sidebar: string[] = [];
+  private typeFilter = "";
   private monsters: string[] = [];
   private fileIndex: FileIndexEntry[] = [];
 
   generate() {
+    this.renderEntries();
     let content: string;
     try {
       content = fs.readFileSync("lib/templates/index.html").toString();
@@ -121,7 +126,8 @@ class DocumentationService {
     }
     const template = { text: content };
     this.replace(template, "monsters", this.monsters.join(""));
-    this.replace(template, "families", this.families.join(""));
+    this.replace(template, "entries", this.sidebar.join(""));
+    this.replace(template, "typeFilter", this.typeFilter);
     this.replace(template, "traitEntries", this.getTraitEntries());
     // Raw (split/join, not String.replace) so `$` sequences in a resolved creature name can't be
     // read as replacement-pattern references and corrupt the JSON.
@@ -136,56 +142,145 @@ class DocumentationService {
     }
   }
 
-  // Ornamental section header dropped into the creature column before each family's cards, so the
-  // otherwise-continuous run of `.creature` blocks reads as grouped by family. The `id` gives the
-  // family its own scroll anchor (#family-Bear).
-  getFamilyDivider(family: Family): string {
-    const name = MonsterFamilyEnum[family.id];
-    return (
-      `<div class="family-divider" id="family-${name}">` +
-      `<span class="family-divider-rule"></span>` +
-      `<h2>${name}</h2>` +
-      `<span class="family-divider-rule"></span>` +
-      `</div>`
-    );
-  }
-
-  getFamilyMenu(family: Family): string {
-    const links = family.creatures
-      .filter((creature) => creature.valid)
-      .map(
-        (creature) =>
-          `<li><a href="#m${creature.id}">${translationService.from(creature.name)}</a></li>`,
-      )
-      .join("");
-    return `<li class="family"><details><summary>${
-      MonsterFamilyEnum[family.id]
-    }</summary><ul>${links}</ul></details></li>`;
-  }
-
   addFamily(family: Family) {
-    this.families.push(this.getFamilyMenu(family));
-    // Only emit the section header when the family actually contributes a card below it - an
-    // all-invalid (or empty) family like Elemental would otherwise leave a divider with nothing
-    // under it. Same valid=false skip rationale as the creature loop below.
-    if (family.creatures.some((creature) => creature.valid)) {
-      this.monsters.push(this.getFamilyDivider(family));
-    }
     for (const creature of family.creatures) {
       // A creature whose builder threw after create() (see CreatureFamily.addCreature()) is left
       // in family.creatures with valid=false and never reached Creature.validate(), so fields
       // like creature.attack are still unset - skip it here rather than crash the whole
       // documentation pass on one bad creature.
       if (!creature.valid) continue;
-      logService.withSection(
-        creature,
-        `Documenting ${translationService.from(creature.name)}...`,
-        () => {
-          this.addCreature(creature);
-        },
-      );
+      this.collected.push(creature);
       this.indexCreatureFiles(creature);
     }
+  }
+
+  // Groups the collected creatures into monster entries (a creature without entry is its own),
+  // sorted A-Z by name with members in declaration order, and renders the creature column, the
+  // sidebar menu and the type filter bar. An entry left with one valid member renders as a plain
+  // card named after that creature.
+  renderEntries() {
+    this.monsters = [];
+    this.sidebar = [];
+    const groups = new Map<string, Creature[]>();
+    for (const creature of this.collected) {
+      const key = creature.entry !== undefined ? `e${creature.entry}` : `m${creature.id}`;
+      groups.set(key, [...(groups.get(key) ?? []), creature]);
+    }
+    const entries = [...groups.values()].map((members) => ({
+      members,
+      name:
+        members.length > 1 && members[0].entry !== undefined
+          ? translationService.from(ENTRY_NAMES[members[0].entry])
+          : translationService.from(members[0].name),
+    }));
+    entries.sort((a, b) => a.name.localeCompare(b.name));
+    const typeCounts = new Map<ImmunityName, number>();
+    for (const { members, name } of entries) {
+      const types = members.map((m) => creatureTypeService.getCreatureTypes(m));
+      for (const t of types.flat()) typeCounts.set(t, (typeCounts.get(t) ?? 0) + 1);
+      if (members.length === 1) this.renderSingleEntry(members[0], types[0]);
+      else this.renderMultiEntry(name, members, types);
+      this.sidebar.push(this.getEntryMenu(name, members, types));
+    }
+    this.typeFilter = this.getTypeFilter(typeCounts);
+  }
+
+  private getTypeTags(types: ImmunityName[]): string {
+    if (!types.length) return "";
+    const tags = types
+      .map(
+        (t) =>
+          `<a href="#" class="type-tag" data-type="${t}">${creatureTypeService.getTypeName(t)}</a>`,
+      )
+      .join("");
+    return `<div class="type-tags">${tags}</div>`;
+  }
+
+  private renderSingleEntry(creature: Creature, types: ImmunityName[]) {
+    logService.withSection(
+      creature,
+      `Documenting ${translationService.from(creature.name)}...`,
+      () => {
+        this.addCreature(creature, new Set(), this.getTypeTags(types));
+      },
+    );
+  }
+
+  private renderMultiEntry(name: string, members: Creature[], types: ImmunityName[][]) {
+    const parts = members.map((m) => this.getCardParts(m));
+    const common = getCommonKeys(parts);
+    const allTypes = TYPE_TRAITS.filter((t) => types.some((ts) => ts.includes(t)));
+    // Only entry members group together, so members[0].entry is always set here.
+    const entryId = `e${members[0].entry ?? ""}`;
+    this.monsters.push(
+      `<section class="entry-block" id="${entryId}" data-types="${allTypes.join(" ")}">` +
+        `<div class="entry-header"><h2>${name}</h2>${this.getTypeTags(allTypes)}` +
+        `<span class="entry-count">${members.length} members</span></div>` +
+        this.getSharedBox(members[0], parts[0], common),
+    );
+    for (const member of members) {
+      logService.withSection(
+        member,
+        `Documenting ${translationService.from(member.name)}...`,
+        () => {
+          this.addCreature(member, common);
+        },
+      );
+    }
+    this.monsters.push(`</section>`);
+  }
+
+  // The "Common to all" box shows the first member's rendering of each common part. Its popover
+  // ids are the first member's, which is safe: that member's card omits the same parts. A weapon
+  // whose description (not its enchantment) is common shows that description here, and each card
+  // keeps only its enchantment line (see renderWeapons).
+  private getSharedBox(first: Creature, parts: CardParts, common: ReadonlySet<string>): string {
+    if (!common.size) return "";
+    const only = <T extends CardPart>(list: T[]) => list.filter((p) => common.has(p.key));
+    const shared: CardParts = {
+      stats: only(parts.stats),
+      scores: only(parts.scores),
+      traitLinks: only(parts.traitLinks),
+      traitLines: only(parts.traitLines),
+      abilities: only(parts.abilities),
+      weapons: parts.weapons
+        .filter((w) => common.has(w.descKey))
+        .map((w) => (common.has(w.key) ? w : { ...w, html: w.descHtml })),
+    };
+    const none = new Set<string>();
+    const stats = this.renderStats(shared, none);
+    const weapons = this.renderWeapons(shared, none);
+    return (
+      `<div class="entry-shared"><div class="entry-shared-label">Common to all</div>` +
+      (stats ? `<dl class="stat-grid">${stats}</dl>` : "") +
+      (weapons ? `<div class="detail-section"><h4>Attacks</h4>${weapons}</div>` : "") +
+      this.renderTraits(shared, none) +
+      this.renderAbilities(first, shared, none) +
+      `</div>`
+    );
+  }
+
+  private getEntryMenu(name: string, members: Creature[], types: ImmunityName[][]): string {
+    const item = (c: Creature, ts: ImmunityName[]) =>
+      `<li data-types="${ts.join(" ")}"><a href="#m${c.id}">${translationService.from(c.name)}</a></li>`;
+    if (members.length === 1) return item(members[0], types[0]);
+    const links = members.map((m, i) => item(m, types[i])).join("");
+    return `<li class="family entry"><details><summary>${name}</summary><ul>${links}</ul></details></li>`;
+  }
+
+  private getTypeFilter(counts: Map<ImmunityName, number>): string {
+    const chips = TYPE_TRAITS.filter((t) => counts.has(t))
+      .map((t) => ({ t, name: creatureTypeService.getTypeName(t) }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(
+        ({ t, name }) =>
+          `<button type="button" class="type-chip" data-type="${t}">${name} <span>${counts.get(t) ?? 0}</span></button>`,
+      )
+      .join("");
+    return (
+      `<div class="type-filter-bar"><span class="type-filter-label">Filter by type</span>` +
+      `<div class="type-chips"><button type="button" class="type-chip on" data-type="">All</button>${chips}</div></div>`
+    );
   }
 
   // Records every `.cre` resref this creature owns into the searchable file index (see

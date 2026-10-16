@@ -2,7 +2,8 @@
 // stringRef) recur because many independent test cases exercise the same template-replace
 // contract on different inputs - not copy-paste.
 /* eslint-disable sonarjs/no-duplicate-string */
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { EntryEnum } from "../../../creatures/entry";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
@@ -24,7 +25,10 @@ interface FileIndexEntry {
 
 interface DocumentationServicePrivate {
   monsters: string[];
-  families: string[];
+  collected: Creature[];
+  sidebar: string[];
+  typeFilter: string;
+  renderEntries(): void;
   fileIndex: FileIndexEntry[];
   replace(template: { text: string }, key: string, value: string | number | undefined): void;
 }
@@ -610,53 +614,11 @@ describe("getAttackDisplayText", () => {
   });
 });
 
-describe("getFamilyMenu", () => {
-  it("builds a collapsible family entry linking to every creature in the family", () => {
-    const family = {
-      id: MonsterFamilyEnum.Bear,
-      creatures: [
-        { id: 4, name: "monster.bear.name.black", valid: true },
-        { id: 5, name: "monster.bear.name.brown", valid: true },
-      ],
-    } as unknown as Family;
-
-    expect(documentationService.getFamilyMenu(family)).toBe(
-      '<li class="family"><details><summary>Bear</summary><ul>' +
-        '<li><a href="#m4">Black Bear</a></li>' +
-        '<li><a href="#m5">Brown Bear</a></li>' +
-        "</ul></details></li>",
-    );
-  });
-
-  it("omits invalid creatures from the family menu", () => {
-    const family = {
-      id: MonsterFamilyEnum.Bear,
-      creatures: [
-        { id: 4, name: "monster.bear.name.black", valid: true },
-        { id: 5, name: "monster.bear.name.brown", valid: false },
-      ],
-    } as unknown as Family;
-
-    expect(documentationService.getFamilyMenu(family)).toBe(
-      '<li class="family"><details><summary>Bear</summary><ul>' +
-        '<li><a href="#m4">Black Bear</a></li>' +
-        "</ul></details></li>",
-    );
-  });
-
-  it("produces an empty creature list for a family with no creatures", () => {
-    const family = {
-      id: MonsterFamilyEnum.Bear,
-      creatures: [],
-    } as unknown as Family;
-
-    expect(documentationService.getFamilyMenu(family)).toBe(
-      '<li class="family"><details><summary>Bear</summary><ul></ul></details></li>',
-    );
-  });
-});
-
 describe("addFamily", () => {
+  beforeEach(() => {
+    service.collected = [];
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -671,64 +633,346 @@ describe("addFamily", () => {
     const addCreatureSpy = vi
       .spyOn(documentationService, "addCreature")
       .mockImplementation(() => {});
-    const validCreature = { id: 4, name: "monster.bear.name.black", valid: true } as Creature;
-    const invalidCreature = { id: 5, name: "monster.bear.name.brown", valid: false } as Creature;
+    const validCreature = {
+      id: 4,
+      name: "monster.bear.name.black",
+      valid: true,
+      data: { immunities: [] },
+    } as unknown as Creature;
+    const invalidCreature = {
+      id: 5,
+      name: "monster.bear.name.brown",
+      valid: false,
+      data: { immunities: [] },
+    } as unknown as Creature;
     const family = {
       id: MonsterFamilyEnum.Bear,
       creatures: [validCreature, invalidCreature],
     } as unknown as Family;
 
     documentationService.addFamily(family);
+    service.renderEntries();
 
     expect(addCreatureSpy).toHaveBeenCalledTimes(1);
-    expect(addCreatureSpy).toHaveBeenCalledWith(validCreature);
+    expect(addCreatureSpy.mock.calls[0][0]).toBe(validCreature);
   });
 
-  it("omits an invalid creature from the pushed family menu", () => {
+  it("omits an invalid creature from the sidebar menu", () => {
     vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
     const family = {
       id: MonsterFamilyEnum.Bear,
       creatures: [
-        { id: 4, name: "monster.bear.name.black", valid: true },
-        { id: 5, name: "monster.bear.name.brown", valid: false },
+        { id: 4, name: "monster.bear.name.black", valid: true, data: { immunities: [] } },
+        { id: 5, name: "monster.bear.name.brown", valid: false, data: { immunities: [] } },
       ],
     } as unknown as Family;
 
     documentationService.addFamily(family);
+    service.renderEntries();
 
-    const menu = service.families.at(-1) ?? "";
+    const menu = service.sidebar.join("");
     expect(menu).toContain('<a href="#m4">Black Bear</a>');
     expect(menu).not.toContain("#m5");
   });
 
-  it("pushes a family divider before the family's creature cards", () => {
-    vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
-    const family = {
-      id: MonsterFamilyEnum.Bear,
-      creatures: [{ id: 4, name: "monster.bear.name.black", valid: true }],
-    } as unknown as Family;
-
-    const before = service.monsters.length;
-    documentationService.addFamily(family);
-
-    expect(service.monsters[before]).toBe(
-      '<div class="family-divider" id="family-Bear">' +
-        '<span class="family-divider-rule"></span><h2>Bear</h2>' +
-        '<span class="family-divider-rule"></span></div>',
-    );
-  });
-
-  it("does not push a family divider for a family with no valid creatures", () => {
+  it("renders nothing for a family with no valid creatures", () => {
     vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
     const family = {
       id: MonsterFamilyEnum.Elemental,
       creatures: [{ id: 5, name: "monster.bear.name.brown", valid: false }],
     } as unknown as Family;
 
-    const before = service.monsters.length;
     documentationService.addFamily(family);
+    service.renderEntries();
 
-    expect(service.monsters).toHaveLength(before);
+    expect(service.monsters).toHaveLength(0);
+    expect(service.sidebar).toHaveLength(0);
+  });
+});
+
+describe("entries", () => {
+  const originalImmunities = State.immunities;
+  const originalSpells = State.spells;
+  const originalItems = State.items;
+  const NAMES: Record<string, string> = {
+    "test.zombie": "Zombie",
+    "test.zombieLord": "Zombie Lord",
+    "test.jujuZombie": "Juju Zombie",
+    "test.ankheg": "Ankheg",
+    "test.mummy": "Mummy",
+    "doc.entry.zombie": "Zombie",
+    "doc.entry.vampire": "Vampire",
+  };
+
+  beforeEach(() => {
+    service.collected = [];
+    State.immunities = [
+      { name: "undead", type: "trait", stringRef: "test.undead" },
+      { name: "magicalBeast", type: "trait", stringRef: "test.magicalBeast" },
+    ] as unknown as typeof State.immunities;
+    const realFrom = translationService.from.bind(translationService);
+    const typeNames: Record<string, string> = {
+      "test.undead": "Undead",
+      "test.magicalBeast": "Magical Beast",
+    };
+    vi.spyOn(translationService, "from").mockImplementation((ref, lang) =>
+      typeof ref === "string" && (NAMES[ref] || typeNames[ref])
+        ? NAMES[ref] || typeNames[ref]
+        : realFrom(ref, lang),
+    );
+  });
+
+  afterEach(() => {
+    State.immunities = originalImmunities;
+    State.spells = originalSpells;
+    State.items = originalItems;
+    vi.restoreAllMocks();
+  });
+
+  function member(
+    id: number,
+    name: string,
+    options: {
+      entry?: EntryEnum;
+      morale?: number;
+      level?: number;
+      immunities?: string[];
+      valid?: boolean;
+    } = {},
+  ): Creature {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.id = id as Creature["id"];
+    creature.name = name as Creature["name"];
+    creature.entry = options.entry;
+    creature.valid = options.valid ?? true;
+    creature.data.morale = options.morale ?? 12;
+    creature.data.level1 = { ...creature.data.level1, pnpValue: options.level ?? 5 };
+    creature.data.immunities = (options.immunities ?? []) as Creature["data"]["immunities"];
+    return creature;
+  }
+
+  function family(creatures: Creature[]): Family {
+    return { id: MonsterFamilyEnum.Bear, creatures } as unknown as Family;
+  }
+
+  const undead = { entry: EntryEnum.Zombie, immunities: ["undead"] };
+
+  it("renders entries A-Z across families, members in declaration order", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, level: 2 }),
+        member(142, "test.zombieLord", { ...undead, level: 6 }),
+      ]),
+    );
+    documentationService.addFamily(family([member(1, "test.ankheg")]));
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    expect(html.indexOf('id="m1"')).toBeGreaterThanOrEqual(0);
+    expect(html.indexOf('id="m1"')).toBeLessThan(html.indexOf('id="e9"'));
+    expect(html.indexOf('id="m86"')).toBeLessThan(html.indexOf('id="m142"'));
+    expect(html.indexOf('id="e9"')).toBeLessThan(html.indexOf('id="m86"'));
+    const sidebar = service.sidebar.join("");
+    expect(sidebar.indexOf("#m1")).toBeLessThan(sidebar.indexOf("<summary>Zombie</summary>"));
+  });
+
+  it("puts common parts in the entry box and omits them from member cards", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, level: 2 }),
+        member(142, "test.zombieLord", { ...undead, level: 6 }),
+      ]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    const box = html.slice(html.indexOf('class="entry-shared"'), html.indexOf('class="creature"'));
+    expect(box).toContain("Common to all");
+    expect(box).toContain("<dt>Morale</dt>");
+    expect(box).not.toContain("<dt>Hit Dice</dt>");
+    const cards = html.slice(html.indexOf('class="creature"'));
+    expect(cards).not.toContain("<dt>Morale</dt>");
+    expect(cards.match(/<dt>Hit Dice<\/dt>/g)).toHaveLength(2);
+    expect(html).toContain('<span class="entry-count">2 members</span>');
+  });
+
+  it("skips invalid members: not rendered, not used for common parts", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, level: 2 }),
+        member(142, "test.zombieLord", { ...undead, level: 6 }),
+        member(143, "test.jujuZombie", { ...undead, morale: 5, valid: false }),
+      ]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    const box = html.slice(html.indexOf('class="entry-shared"'), html.indexOf('class="creature"'));
+    expect(box).toContain("<dt>Morale</dt>");
+    expect(html).not.toContain('id="m143"');
+    expect(service.sidebar.join("")).not.toContain("#m143");
+  });
+
+  it("renders each popover id once when members share an ability", () => {
+    const name = translationService.addCustomTranslation(["Test Spell"]);
+    const description = translationService.addCustomTranslation(["A test description."]);
+    State.spells = [
+      { file: "SPPR101", doc: true, name, description },
+    ] as unknown as typeof State.spells;
+    const withAbility = (creature: Creature) => {
+      creature.behavior = { abilities: [fakeAbility("SPPR101")], customCodes: [] };
+      creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
+      return creature;
+    };
+    documentationService.addFamily(
+      family([
+        withAbility(member(86, "test.zombie", { ...undead, level: 2 })),
+        withAbility(member(142, "test.zombieLord", { ...undead, level: 6 })),
+      ]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    expect(html.match(/id="m86-ability-0-desc"/g)?.length).toBe(1);
+    expect(html).not.toContain('id="m142-ability-0-desc"');
+  });
+
+  it("shows the weapon description in the box and only the enchantment on cards", () => {
+    const bite = (enchantment: number) =>
+      translationService.addCustomTranslation([
+        "Bite",
+        "",
+        "Melee damage: 1D6 (Piercing)",
+        `Enchantment: ${enchantment}`,
+      ]);
+    State.items = [
+      { file: "BITE03", doc: true, description: bite(3) },
+      { file: "BITE04", doc: true, description: bite(4) },
+    ] as unknown as typeof State.items;
+    const armed = (creature: Creature, file: string) => {
+      creature.data.items.equipped = [
+        { file, slot: "WEAPON1" },
+      ] as unknown as typeof creature.data.items.equipped;
+      return creature;
+    };
+    documentationService.addFamily(
+      family([
+        armed(member(86, "test.zombie", { ...undead, level: 2 }), "BITE03"),
+        armed(member(142, "test.zombieLord", { ...undead, level: 6 }), "BITE04"),
+      ]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    const box = html.slice(html.indexOf('class="entry-shared"'), html.indexOf('class="creature"'));
+    expect(box).toContain("<h4>Attacks</h4>");
+    expect(box).toContain("1D6");
+    expect(box).not.toContain("+3");
+    const cards = html.slice(html.indexOf('class="creature"'));
+    expect(cards).toContain('<div class="weapon">Enchantment +3</div>');
+    expect(cards).toContain('<div class="weapon">Enchantment +4</div>');
+    expect(cards).not.toContain("1D6");
+  });
+
+  it("shows a weapon identical on every member in the box only", () => {
+    const desc = translationService.addCustomTranslation(["Melee damage: 1D6"]);
+    State.items = [
+      { file: "BITE01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
+    const armed = (creature: Creature) => {
+      creature.data.items.equipped = [
+        { file: "BITE01", slot: "WEAPON1" },
+      ] as unknown as typeof creature.data.items.equipped;
+      return creature;
+    };
+    documentationService.addFamily(
+      family([
+        armed(member(86, "test.zombie", { ...undead, level: 2 })),
+        armed(member(142, "test.zombieLord", { ...undead, level: 6 })),
+      ]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    const box = html.slice(html.indexOf('class="entry-shared"'), html.indexOf('class="creature"'));
+    expect(box).toContain("1D6");
+    const cards = html.slice(html.indexOf('class="creature"'));
+    expect(cards).not.toContain("<h4>Attacks</h4>");
+  });
+
+  it("renders a single-member entry as a plain card with its type tags", () => {
+    documentationService.addFamily(
+      family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
+    );
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    expect(html).not.toContain('class="entry-block"');
+    expect(html).toContain(
+      '<a href="#" class="type-tag" data-type="magicalBeast">Magical Beast</a>',
+    );
+  });
+
+  it("renders an entry left with one valid member as a single-member entry named after it", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, valid: false }),
+        member(143, "test.jujuZombie", undead),
+      ]),
+    );
+    documentationService.addFamily(family([member(50, "test.mummy")]));
+    service.renderEntries();
+
+    const html = service.monsters.join("");
+    expect(html).not.toContain('class="entry-block"');
+    expect(html).not.toContain('id="e9"');
+    expect(html).toContain('<a href="#" class="type-tag" data-type="undead">Undead</a>');
+    // Sorted as "Juju Zombie" (before Mummy), not as the entry's "Zombie" (after it).
+    expect(html.indexOf('id="m143"')).toBeLessThan(html.indexOf('id="m50"'));
+    const sidebar = service.sidebar.join("");
+    expect(sidebar).toContain('<li data-types="undead"><a href="#m143">Juju Zombie</a></li>');
+    expect(sidebar).not.toContain("<summary>");
+  });
+
+  it("renders the type filter with All and one chip per present type", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, level: 2 }),
+        member(142, "test.zombieLord", { ...undead, level: 6 }),
+      ]),
+    );
+    documentationService.addFamily(
+      family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
+    );
+    service.renderEntries();
+
+    expect(service.typeFilter).toContain('data-type="">All');
+    expect(service.typeFilter).toContain(
+      '<button type="button" class="type-chip" data-type="undead">Undead <span>2</span></button>',
+    );
+    expect(service.typeFilter).toContain('data-type="magicalBeast">Magical Beast <span>1</span>');
+    expect(service.typeFilter.match(/class="type-chip[ "]/g)).toHaveLength(3);
+  });
+
+  it("groups a multi-member entry under a summary and lists a single one as a plain item", () => {
+    documentationService.addFamily(
+      family([
+        member(86, "test.zombie", { ...undead, level: 2 }),
+        member(142, "test.zombieLord", { ...undead, level: 6 }),
+      ]),
+    );
+    documentationService.addFamily(
+      family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
+    );
+    service.renderEntries();
+
+    expect(service.sidebar).toEqual([
+      '<li data-types="magicalBeast"><a href="#m1">Ankheg</a></li>',
+      '<li class="family entry"><details><summary>Zombie</summary><ul>' +
+        '<li data-types="undead"><a href="#m86">Zombie</a></li>' +
+        '<li data-types="undead"><a href="#m142">Zombie Lord</a></li>' +
+        "</ul></details></li>",
+    ]);
   });
 });
 
