@@ -45,7 +45,7 @@ Mockups (real generated cards) live in `.superpowers/brainstorm/` (gitignored): 
 
 ## Sub-projects
 
-### 1. ◐ Entries & types in the docs
+### 1. ✅ Entries & types in the docs
 
 Delivers the designed docs on today's code (families stay in code for now). Design:
 [2026-10-16-docs-entries-types-design.md](2026-10-16-docs-entries-types-design.md).
