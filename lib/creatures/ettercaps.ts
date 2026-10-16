@@ -48,7 +48,7 @@ class EttercapFamily extends CreatureFamily<Ettercap> {
         gender: "NIETHER",
         size: { value: "Medium", tall: true, long: false },
         movement: 12,
-        immunities: ["web"],
+        immunities: ["web", "aberration"],
         items: {
           remove: ["ETTERC1", "ETTERC2", "ANTIWEB"],
         },

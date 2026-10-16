@@ -135,6 +135,7 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
       name: "monster.minotaur.name.minotaur",
       files: [],
       data: {
+        immunities: ["monstrousHumanoid"],
         level1: 6,
         bonusHp: 3,
         strength: 18,

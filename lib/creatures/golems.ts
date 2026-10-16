@@ -1,3 +1,4 @@
+import { EntryEnum } from "./entry";
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import { createConeOfCold } from "../spells/cone_of_cold";
@@ -493,11 +494,12 @@ class GolemFamily extends CreatureFamily<Golem> {
     super(MonsterFamilyEnum.Golem);
     this.addCreature(() => this.flesh());
     this.addCreature(() => this.sand());
-    this.addCreature(() => this.clay());
-    this.addCreature(() => this.lesserClay());
-    this.addCreature(() => this.greaterClay());
-    this.addCreature(() => this.stone());
-    this.addCreature(() => this.lesserStone());
+    this.addEntry(EntryEnum.ClayGolem, [
+      () => this.clay(),
+      () => this.lesserClay(),
+      () => this.greaterClay(),
+    ]);
+    this.addEntry(EntryEnum.StoneGolem, [() => this.stone(), () => this.lesserStone()]);
     this.addCreature(() => this.iron());
     this.addCreature(() => this.bone());
     this.addCreature(() => this.juggernaut());

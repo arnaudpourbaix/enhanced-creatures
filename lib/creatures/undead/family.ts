@@ -1,3 +1,4 @@
+import { EntryEnum } from "../entry";
 import { CreatureFamily } from "../../src/model/creature/family";
 import { MonsterEnum, MonsterFamilyEnum } from "../monster";
 import { deathKnight } from "./death-knight";
@@ -31,13 +32,10 @@ export class UndeadFamily extends CreatureFamily<Undead> {
   constructor() {
     super(MonsterFamilyEnum.Undead);
     this.addCreature(() => banshee(this));
-    this.addCreature(() => ghoul(this));
+    this.addEntry(EntryEnum.Ghoul, [() => ghoul(this), () => ghoulLord(this)]);
     this.addCreature(() => ghast(this));
-    this.addCreature(() => ghoulLord(this));
-    this.addCreature(() => mummy(this));
-    this.addCreature(() => greaterMummy(this));
-    this.addCreature(() => shadow(this));
-    this.addCreature(() => greaterShadow(this));
+    this.addEntry(EntryEnum.Mummy, [() => mummy(this), () => greaterMummy(this)]);
+    this.addEntry(EntryEnum.Shadow, [() => shadow(this), () => greaterShadow(this)]);
     this.addCreature(() => baneguard(this));
     this.addCreature(() => bonebat(this));
     this.addCreature(() => skeleton(this));
@@ -52,17 +50,18 @@ export class UndeadFamily extends CreatureFamily<Undead> {
     this.addCreature(() => ghost(this));
     this.addCreature(() => wight(this));
     this.addCreature(() => wraith(this));
-    this.addCreature(() => zombie(this));
+    this.addEntry(EntryEnum.Zombie, [() => zombie(this), () => zombieLord(this)]);
     this.addCreature(() => jujuZombie(this));
-    this.addCreature(() => zombieLord(this));
     this.addCreature(() => seaZombie(this));
-    this.addCreature(() => fledglingVampire(this));
-    this.addCreature(() => matureVampire(this));
-    this.addCreature(() => oldVampire(this));
-    this.addCreature(() => veryOldVampire(this));
-    this.addCreature(() => ancientVampire(this));
-    this.addCreature(() => eminentVampire(this));
-    this.addCreature(() => patriarchVampire(this));
+    this.addEntry(EntryEnum.Vampire, [
+      () => fledglingVampire(this),
+      () => matureVampire(this),
+      () => oldVampire(this),
+      () => veryOldVampire(this),
+      () => ancientVampire(this),
+      () => eminentVampire(this),
+      () => patriarchVampire(this),
+    ]);
   }
   createCreature(id: MonsterEnum): Undead {
     return new Undead(id);

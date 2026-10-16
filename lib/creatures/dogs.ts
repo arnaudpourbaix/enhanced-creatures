@@ -172,6 +172,7 @@ class DogFamily extends CreatureFamily<Dog> {
       name: "monster.dog.name.wild",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 1,
         bonusHp: 1,
         strength: 12,
@@ -222,6 +223,7 @@ class DogFamily extends CreatureFamily<Dog> {
       name: "monster.dog.name.war",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 2,
         bonusHp: 2,
         strength: 12,

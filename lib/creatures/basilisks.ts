@@ -1,3 +1,4 @@
+import { EntryEnum } from "./entry";
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
@@ -69,8 +70,7 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
     super(MonsterFamilyEnum.Basilisk);
     this.createPetrificationProjectile();
     this.createPetrification2e();
-    this.addCreature(() => this.lesser());
-    this.addCreature(() => this.greater());
+    this.addEntry(EntryEnum.Basilisk, [() => this.lesser(), () => this.greater()]);
   }
 
   createCreature(id: MonsterEnum): Basilisk {

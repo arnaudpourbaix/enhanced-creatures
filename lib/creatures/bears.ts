@@ -122,6 +122,7 @@ class BearFamily extends CreatureFamily<Bear> {
       name: "monster.bear.name.black",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 3,
         bonusHp: 3,
         strength: 15,
@@ -168,6 +169,7 @@ class BearFamily extends CreatureFamily<Bear> {
       name: "monster.bear.name.brown",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 5,
         bonusHp: 5,
         specialBonusHp: 8,
@@ -218,6 +220,7 @@ class BearFamily extends CreatureFamily<Bear> {
       name: "monster.bear.name.cave",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 6,
         bonusHp: 6,
         specialBonusHp: 8,
@@ -304,7 +307,7 @@ class BearFamily extends CreatureFamily<Bear> {
         script: {
           remove: ["CBEAR", "BEAR", "kaldran", "gnsummm"],
         },
-        immunities: ["coldResistance"],
+        immunities: ["coldResistance", "animal"],
       },
     });
     polar.createPaws(1, 10, { diceThrown: 3, diceSize: 6 });
@@ -358,6 +361,7 @@ class BearFamily extends CreatureFamily<Bear> {
       name: "monster.bear.name.grizzly",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 10,
         bonusHp: 10,
         specialBonusHp: 12,

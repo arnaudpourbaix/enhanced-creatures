@@ -302,7 +302,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["P1-8"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     cheetah.createBurstOfSpeed();
@@ -359,7 +359,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["CATJAG", "S1-6", "P1-8"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -437,7 +437,7 @@ class CatFamily extends CreatureFamily<Cat> {
         script: {
           remove: ["CATJAGSU"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -492,7 +492,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["CATLIO", "P1-10"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -547,7 +547,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["P1-6"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -604,7 +604,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["CATLIS", "FIGLION", "IMMUNE1"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -660,7 +660,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["P1-10"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -716,7 +716,7 @@ class CatFamily extends CreatureFamily<Cat> {
         items: {
           remove: ["P1-6"],
         },
-        immunities: ["cat"],
+        immunities: ["cat", "animal"],
       },
     });
     const dices = {
@@ -750,6 +750,7 @@ class CatFamily extends CreatureFamily<Cat> {
       name: "monster.cat.name.hellcat",
       files: [],
       data: {
+        immunities: ["outsider"],
         level1: 7,
         bonusHp: 2,
         strength: 21,

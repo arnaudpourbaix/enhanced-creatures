@@ -317,6 +317,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
       name: "monster.wolf.name.wolf",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 3,
         strength: 12,
         dexterity: 15,
@@ -362,6 +363,7 @@ class WolfFamily extends CreatureFamily<Wolf> {
       name: "monster.wolf.name.dire",
       files: [],
       data: {
+        immunities: ["animal"],
         level1: 4,
         bonusHp: 4,
         strength: 17,

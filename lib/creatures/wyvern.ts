@@ -1,3 +1,4 @@
+import { EntryEnum } from "./entry";
 import { MonsterItemIconEnum } from "../config/item";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureFamily } from "../src/model/creature/family";
@@ -64,9 +65,7 @@ class Wyvern extends Creature {
 class WyvernFamily extends CreatureFamily<Wyvern> {
   constructor() {
     super(MonsterFamilyEnum.Wyvern);
-    this.addCreature(() => this.wyvern());
-    this.addCreature(() => this.baby());
-    this.addCreature(() => this.greater());
+    this.addEntry(EntryEnum.Wyvern, [() => this.wyvern(), () => this.baby(), () => this.greater()]);
   }
 
   createCreature(id: MonsterEnum): Wyvern {
@@ -101,6 +100,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
         gender: "NIETHER",
         size: { value: "Gargantuan", tall: false, long: true },
         movement: 24,
+        immunities: ["dragon"],
         items: {
           remove: ["RING97", "BDWYV01", "WYVERN1", "WYVERN2", "WYVERNSU"],
         },

@@ -84,7 +84,7 @@ class SnakeFamily extends CreatureFamily<Snake> {
         gender: "NIETHER",
         size: { value: "Medium", tall: false, long: true },
         movement: 15,
-        immunities: [],
+        immunities: ["animal"],
         items: {
           remove: ["P1-3P"],
         },

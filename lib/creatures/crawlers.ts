@@ -32,6 +32,7 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
       name: "monster.carrionCrawler.name",
       files: [],
       data: {
+        immunities: ["aberration"],
         level1: 3,
         bonusHp: 1,
         strength: 14,
