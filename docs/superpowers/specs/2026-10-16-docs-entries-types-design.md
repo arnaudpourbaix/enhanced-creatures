@@ -12,9 +12,10 @@ Make `docs/monsters.html` read like a monster book:
 - The sidebar lists entries A–Z instead of families.
 - Types (Undead, Animal...) are tags you can filter by.
 
-The code keeps its families. This sub-project only adds metadata and changes the docs. The
-generated mod (tpa/baf/resources) must not change, apart from the INCLUDE reordering described in
-[Verification](#verification).
+The code keeps its families. This sub-project adds metadata and changes the docs. The generated mod
+(tpa/baf/resources) must not change, except for the INCLUDE reordering described in
+[Verification](#verification) and the five creatures in
+[Gameplay changes](#gameplay-changes-separate-commit).
 
 ## Entries
 
@@ -71,8 +72,9 @@ A type is a trait listed in `TYPE_TRAITS`:
   `spider`, `airAffinity`, `earthAffinity`, `blindsight`... In 3e, `extraplanar` is a subtype: most
   outsiders are extraplanar, but a native outsider is not.
 - **Derived, not stored**: `creature.types` = the creature's traits plus the traits nested in their
-  `immunities` (transitively), filtered by `TYPE_TRAITS`, in `TYPE_TRAITS` order. Nesting matters:
-  the `spider` trait already includes `vermin`.
+  `immunities` (transitively), filtered by `TYPE_TRAITS`, in `TYPE_TRAITS` order. Nesting means
+  "is a": the `spider` trait includes `vermin` so that a spider carries one trait item instead of two
+  (creature item slots are scarce). A spider is therefore Vermin.
 
 ### New traits
 
@@ -80,39 +82,64 @@ A type is a trait listed in `TYPE_TRAITS`:
 entry with `type: "trait"`, `stringRef`/`description` in `common.ts` `traits` (rules text in the
 style of the existing undead/construct descriptions), **no `itemSlot` and no immunities**. They are
 docs-only in this sub-project, so the game is unchanged. Whether they should give an in-game trait
-item like `undead` (`jai17`) is a later decision.
+item like `undead` (`jai17`) is a later decision. If they do, they must respect the slot economy:
+nest into an existing trait item rather than add a second item to a creature.
+
+The new type traits are added **directly on each creature**, not nested into a feature trait. For
+example, `animal` is not nested into `cat`, because the Displacer Beast has `cat` but is a Magical
+Beast.
 
 ### Per-creature types (to review)
 
-Basis: **code** = the type is already a trait today (fact). **3e** = proposed from D&D 3e, to
-confirm. **?** = unknown, needs your call. A creature with no type shows no tag and only
+Types follow **D&D 3e only**. 5e types (Beast, Monstrosity...) are not mixed in, because 2e,
+the main source, has no creature types. Basis: **code** = the type is already a trait today (fact).
+**3e** = proposed from D&D 3e, to confirm. A creature with no type shows no tag and only
 appears under "All".
 
-| Creature                                                                 | Type(s)               | Basis                                                |
-| ------------------------------------------------------------------------ | --------------------- | ---------------------------------------------------- |
-| Ankheg, Lesser/Greater Basilisk, Blink Dog, Winter Wolf, Worg            | Magical Beast         | code                                                 |
-| Phase Spider                                                             | Magical Beast, Vermin | code (`spider` nests `vermin`): Vermin intended?     |
-| Gargantuan, Ghostwalk, Giant, Hairy, Huge, Sword, Vortex Spider          | Vermin                | code (`spider` nests `vermin`)                       |
-| Wraith Spider                                                            | Vermin, Undead        | code                                                 |
-| Helmed Horror, Battle Horror, Doom Sayer, Doom Guard, all golems         | Construct             | code                                                 |
-| Dryad, Hamadryad, Nymph, Sirine, Nereid                                  | Fey                   | code                                                 |
-| Ettin, Ogre, Ogrillon, Half Ogre, Ogre Mage, Ogre Berserker, Ogre Shaman | Giant                 | code                                                 |
-| All puddings, jellies, slimes, Gray Ooze, Slithering Tracker             | Ooze                  | code                                                 |
-| Treant                                                                   | Plant                 | code                                                 |
-| All 30 creatures of the Undead family                                    | Undead                | code                                                 |
-| Black, Brown, Cave, Grizzly, Polar Bear                                  | Animal                | 3e                                                   |
-| Cheetah, Jaguar, Leopard, Lion, Mountain Lion, Spotted Lion, Wild Tiger  | Animal                | 3e                                                   |
-| Wild Dog, War Dog, Wolf, Dire Wolf, Giant Poisonous Snake                | Animal                | 3e                                                   |
-| Displacer Beast                                                          | Magical Beast         | 3e                                                   |
-| Hellcat, Hell Hound                                                      | Outsider              | 3e (Hellcat already `extraplanar`; Hell Hound isn't) |
-| Moon Dog                                                                 | Outsider              | 3e, low confidence                                   |
-| Carrion Crawler, Ettercap                                                | Aberration            | 3e                                                   |
-| Minotaur                                                                 | Monstrous Humanoid    | 3e                                                   |
-| Wyvern, Baby Wyvern, Greater Wyvern                                      | Dragon                | 3e                                                   |
-| Giant Lynx                                                               | ?                     | Animal, or Magical Beast (intelligent in 2e)?        |
-| Spectral Hound, Dread Wolf, Vampiric Wolf                                | ?                     | Undead? Magical Beast? Outsider?                     |
+| Creature                                                                            | Type(s)               | Basis                                     |
+| ----------------------------------------------------------------------------------- | --------------------- | ----------------------------------------- |
+| Ankheg, Lesser/Greater Basilisk, Blink Dog, Winter Wolf, Worg                       | Magical Beast         | code                                      |
+| Phase Spider                                                                        | Magical Beast, Vermin | code (`spider` nests `vermin`), confirmed |
+| Gargantuan, Ghostwalk, Giant, Hairy, Huge, Sword, Vortex Spider                     | Vermin                | code (`spider` nests `vermin`)            |
+| Wraith Spider                                                                       | Vermin, Undead        | code                                      |
+| Helmed Horror, Battle Horror, Doom Sayer, Doom Guard, all golems                    | Construct             | code                                      |
+| Dryad, Hamadryad, Nymph, Sirine, Nereid                                             | Fey                   | code                                      |
+| Ettin, Ogre, Ogrillon, Half Ogre, Ogre Mage, Ogre Berserker, Ogre Shaman            | Giant                 | code                                      |
+| All puddings, jellies, slimes, Gray Ooze, Slithering Tracker                        | Ooze                  | code                                      |
+| Treant                                                                              | Plant                 | code                                      |
+| All 30 creatures of the Undead family                                               | Undead                | code                                      |
+| Black, Brown, Cave, Grizzly, Polar Bear                                             | Animal                | 3e                                        |
+| Cheetah, Giant Lynx, Jaguar, Leopard, Lion, Mountain Lion, Spotted Lion, Wild Tiger | Animal                | 3e (Giant Lynx confirmed)                 |
+| Wild Dog, War Dog, Wolf, Dire Wolf, Giant Poisonous Snake                           | Animal                | 3e                                        |
+| Displacer Beast                                                                     | Magical Beast         | 3e                                        |
+| Hellcat                                                                             | Outsider              | 3e (already `extraplanar`)                |
+| Hell Hound, Moon Dog                                                                | Outsider              | decided, see Gameplay changes             |
+| Carrion Crawler, Ettercap                                                           | Aberration            | 3e                                        |
+| Minotaur                                                                            | Monstrous Humanoid    | 3e                                        |
+| Wyvern, Baby Wyvern, Greater Wyvern                                                 | Dragon                | 3e                                        |
+| Spectral Hound                                                                      | Magical Beast         | decided, see Gameplay changes             |
+| Dread Wolf, Vampiric Wolf                                                           | Undead                | decided, see Gameplay changes             |
 
 Adding a type trait to a creature is a one-line `immunities` change in its creature file.
+
+### Gameplay changes (separate commit)
+
+Five creatures get **existing, mechanical** traits. This changes them in game (trait items and
+immunities), so it is a separate commit with its own expected diff:
+
+| Creature       | Decided type                                    | Traits added              | Current immunities to reconcile                                                              |
+| -------------- | ----------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------- |
+| Spectral Hound | Magical Beast (comes from the Astral Plane)     | `magicalBeast` (`jai12`)  | to check                                                                                     |
+| Dread Wolf     | Undead                                          | `undead` (`jai17`)        | `charm`, `hold` likely covered by `undead`. Keep `cold`, `coldSpells`, `lightningResistance` |
+| Vampiric Wolf  | Undead                                          | `undead` (`jai17`)        | `sleep`, `charm`, `hold` likely covered by `undead`. Keep `nonSilverNonMagicalWeapons`       |
+| Hell Hound     | Outsider (Evil, Extraplanar, Fire)              | `outsider`, `extraplanar` | `fire`, `backstab`, `seeInvisible`: check against `extraplanar`                              |
+| Moon Dog       | Outsider (Extraplanar, Good, native of Elysium) | `outsider`, `extraplanar` | `backstab`, `infravision`, `plusOneWeapons`, `fear`: check against `extraplanar`             |
+
+- Remove the immunities the new trait already provides, so nothing is applied twice.
+- Check that each creature has a free slot for the new trait item (Spectral Hound, both wolves).
+- Expected diff: these 5 creatures' generated files only.
+- Dread/Vampiric Wolf get no turn level yet. Turn level is applied only by `UndeadFamily` until it
+  becomes type-driven in sub-project 4.
 
 ## Shared section ("Common to all")
 
@@ -165,6 +192,9 @@ nothing is common, there is no box.
   - `lib/pnp-monster/undead/main.tpa`: INCLUDE lines reordered, same set, because `addEntry`
     registers members contiguously (Ghoul Lord moves next to Ghoul, Zombie Lord next to Zombie).
     No undead creature uses another's resources, so install order doesn't matter there.
+
+  - the five creatures of [Gameplay changes](#gameplay-changes-separate-commit), in their own
+    commit.
 
   Anything else differing is a bug.
 
