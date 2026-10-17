@@ -1,3 +1,3 @@
 export const NEW_SPELLS = {
-  WizardSymbolOfPain: "jaspain",
+  WizardSymbolOfPain: "jasc0000",
 };

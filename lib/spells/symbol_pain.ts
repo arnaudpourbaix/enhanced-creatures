@@ -48,12 +48,12 @@ export const SPELL_SYMBOL_PAIN: Spell = spellService.getSpell(
     primaryType: ItemAbilityPrimaryTypeEnum.Conjurer,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     level: 8,
-    icon: `${NEW_SPELLS.WizardSymbolOfPain}C`,
+    icon: "jaac0002",
     headers: [
       {
         type: ItemAbilityTypeEnum.Ranged,
         location: ItemAbilityLocationEnum.Spell,
-        icon: `${NEW_SPELLS.WizardSymbolOfPain}B`,
+        icon: "jaac0001",
         target: ItemAbilityTargetEnum.AnyPointWithinRange,
         range: 30,
         speed: 3,

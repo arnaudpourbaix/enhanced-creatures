@@ -4,22 +4,22 @@ import { RaceIdentifier } from "../src/model/ids/race";
 import { EffectIDSFileEnum } from "../src/model/spell-item/effect.enums";
 
 export const NEW_CREATURES = {
-  GiantPoisonousSnake: "jagpsnak",
-  Treant5hd: "jatrea1",
-  Treant7hd: "jatrea2",
-  Treant9hd: "jatrea3",
-  Treant11hd: "jatrea4",
-  DryadSummon: "jadryad",
-  HamadryadSummon: "jahama",
-  SplitMustardJelly: "jajelmu",
-  SplitBlackPudding: "jablpud",
-  SplitWhitePudding: "jawhpud",
-  WhitePudding: "japuddwh",
-  BlackPudding: "japuddbl",
-  MustardJelly: "jajellmu",
-  GreenSlime: "jagrnsli",
-  OliveSlimeCreature: "jaolisli",
-  Zombie: "jazombie",
+  GiantPoisonousSnake: "jacm3700",
+  Treant5hd: "jacm1900",
+  Treant7hd: "jacm1901",
+  Treant9hd: "jacm1902",
+  Treant11hd: "jacm1903",
+  DryadSummon: "jacm1500",
+  HamadryadSummon: "jacm1600",
+  SplitMustardJelly: "jacm1a01",
+  SplitBlackPudding: "jacm1b01",
+  SplitWhitePudding: "jacm1i01",
+  WhitePudding: "jacm1i00",
+  BlackPudding: "jacm1b00",
+  MustardJelly: "jacm1a00",
+  GreenSlime: "jacm1f00",
+  OliveSlimeCreature: "jacm1g00",
+  Zombie: "jacm2e00",
 };
 
 export const VAPOR_IMMUNE_CREATURES: [

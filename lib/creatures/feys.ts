@@ -235,7 +235,7 @@ class Fey extends Creature {
       id: Ids.DrowningKiss,
       memorizedCount: 1,
       castingSound: "NERED07",
-      icon: "jaenkis",
+      icon: "jaaf0800",
       options: {
         renew: 1,
       },
@@ -268,7 +268,7 @@ class Fey extends Creature {
             {
               opcode: EffectTypeEnum.PlayVisualEffect,
               playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
-              resource: "JASKISS",
+              resource: "javf0800",
               duration: 1,
               saveTypes,
               saveBonus,
@@ -1232,7 +1232,7 @@ class FeyFamily extends CreatureFamily<Fey> {
       name: "monster.fey.ability.speakWithPlants.name",
       id: Ids.SpeakWithPlants,
       description: "monster.fey.ability.speakWithPlants.description",
-      icon: "JAFSPKP",
+      icon: "jaaf0801",
       castingSound: "CAS_P02",
       type: SpellTypeEnum.Innate,
       castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
@@ -1245,7 +1245,7 @@ class FeyFamily extends CreatureFamily<Fey> {
           type: ItemAbilityTypeEnum.Melee,
           location: ItemAbilityLocationEnum.Ability,
           target: ItemAbilityTargetEnum.Caster,
-          icon: "JAFSPKP",
+          icon: "jaaf0801",
           range: 30,
           speed: 1,
           effects: [

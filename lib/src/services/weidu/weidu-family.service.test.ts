@@ -98,7 +98,7 @@ describe("createOrUpdateMainFile", () => {
     const familyFolder = setupTempFamilyFolder();
     const assets = path.join(familyFolder, "assets");
     fs.mkdirSync(assets);
-    for (const f of ["L#XZEANK.BAF", "ankhegb.baf", "jaicew.bam"])
+    for (const f of ["L#XZEANK.BAF", "ankhegb.baf", "jaaf0i00.bam"])
       fs.writeFileSync(path.join(assets, f), "");
     weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
     const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");

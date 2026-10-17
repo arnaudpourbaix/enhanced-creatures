@@ -44,22 +44,22 @@ class PlantFamily extends CreatureFamily<Plant> {
       newFiles: [
         {
           files: [NEW_CREATURES.Treant11hd],
-          copyFrom: "jatrean",
+          copyFrom: "jacm1904",
           stringRef: "monster.plant.name.treant11HD",
         },
         {
           files: [NEW_CREATURES.Treant9hd],
-          copyFrom: "jatrean",
+          copyFrom: "jacm1904",
           stringRef: "monster.plant.name.treant9HD",
         },
         {
           files: [NEW_CREATURES.Treant7hd],
-          copyFrom: "jatrean",
+          copyFrom: "jacm1904",
           stringRef: "monster.plant.name.treant7HD",
         },
         {
           files: [NEW_CREATURES.Treant5hd],
-          copyFrom: "jatrean",
+          copyFrom: "jacm1904",
           stringRef: "monster.plant.name.treant5HD",
         },
       ],

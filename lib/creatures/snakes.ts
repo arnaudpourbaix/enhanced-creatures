@@ -42,7 +42,7 @@ class SnakeFamily extends CreatureFamily<Snake> {
       newFiles: [
         {
           files: [NEW_CREATURES.GiantPoisonousSnake],
-          copyFrom: "jasnake",
+          copyFrom: "jacm3701",
           stringRef: "monster.snake.name.giantPoisonous",
         },
       ],
