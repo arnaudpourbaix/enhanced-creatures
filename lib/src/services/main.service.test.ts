@@ -178,7 +178,10 @@ describe("generateKinsAndEntries", () => {
       'INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dryad/main.tpa"',
       "",
     ]);
-    expect(JSON.parse(read("index.json"))).toEqual({ vampire: null, dryad: "fey" });
+    expect(JSON.parse(read("index.json"))).toEqual({
+      vampire: { kin: null, dependsOn: [] },
+      dryad: { kin: "fey", dependsOn: [] },
+    });
     const documented = addGroup.mock.calls.map(([group]) => group.id);
     expect(documented).toEqual([KinEnum.Fey, EntryEnum.Vampire, EntryEnum.Dryad]);
   });
@@ -212,12 +215,18 @@ describe("generateKinsAndEntries", () => {
       }),
     );
     expect(built).toHaveLength(entryFactories.length);
-    const index = JSON.parse(read("index.json")) as Record<string, string | null>;
+    const index = JSON.parse(read("index.json")) as Record<
+      string,
+      { kin: string | null; dependsOn: string[] }
+    >;
     expect(Object.keys(index).sort()).toEqual(built.map((e) => ENTRY_FOLDERS[e.id]).sort());
     for (const entry of built) {
       const kin = entry.kin === undefined ? null : KIN_FOLDERS[entry.kin.id];
-      expect(index[ENTRY_FOLDERS[entry.id]]).toBe(kin);
+      expect(index[ENTRY_FOLDERS[entry.id]]).toEqual({
+        kin,
+        dependsOn: entry.dependsOn.map((id) => ENTRY_FOLDERS[id]),
+      });
     }
-    expect(Object.values(index).filter((kin) => kin !== null).length).toBeGreaterThan(0);
+    expect(Object.values(index).filter((e) => e.kin !== null).length).toBeGreaterThan(0);
   }, 60000);
 });

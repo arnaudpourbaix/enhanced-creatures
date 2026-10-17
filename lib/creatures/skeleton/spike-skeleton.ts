@@ -43,5 +43,5 @@ export function createSpikeSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {
     EntryEnum.SpikeSkeleton,
     [(entry) => spikeSkeleton(entry, builtBefore(kin?.skeleton, "Skeleton"))],
     kin,
-  );
+  ).requires(EntryEnum.Skeleton);
 }

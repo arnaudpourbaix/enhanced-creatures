@@ -79,4 +79,6 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
 }
 
 export const createBattleHorrorEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new BattleHorrorEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined);
+  new BattleHorrorEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined).requires(
+    EntryEnum.HelmedHorror,
+  );

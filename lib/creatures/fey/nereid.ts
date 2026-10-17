@@ -95,4 +95,4 @@ class NereidEntry extends CreatureEntry<Fey> {
 }
 
 export const createNereidEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new NereidEntry(kins.get(KinEnum.Fey));
+  new NereidEntry(kins.get(KinEnum.Fey)).requires(EntryEnum.GiantPoisonousSnake);

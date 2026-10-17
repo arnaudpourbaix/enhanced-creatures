@@ -148,4 +148,4 @@ function greaterSkeletonWarriorVariant(base: Creature): Variant {
 }
 
 export const createSkeletonWarriorEntry = () =>
-  new UndeadEntry(EntryEnum.SkeletonWarrior, [skeletonWarrior]);
+  new UndeadEntry(EntryEnum.SkeletonWarrior, [skeletonWarrior]).requires(EntryEnum.Zombie);

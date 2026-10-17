@@ -54,5 +54,5 @@ export function createGiantSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {
     EntryEnum.GiantSkeleton,
     [(entry) => giantSkeleton(entry, builtBefore(kin?.skeleton, "Skeleton"))],
     kin,
-  );
+  ).requires(EntryEnum.Skeleton);
 }

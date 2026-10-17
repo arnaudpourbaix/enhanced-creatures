@@ -78,5 +78,5 @@ export function createSkeletonMonsterEntry(kins: Map<KinEnum, CreatureKin>) {
     EntryEnum.SkeletonMonster,
     [(entry) => skeletonMonster(entry, builtBefore(kin?.skeleton, "Skeleton"))],
     kin,
-  );
+  ).requires(EntryEnum.Skeleton);
 }

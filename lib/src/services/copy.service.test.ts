@@ -143,93 +143,155 @@ describe("CopyService", () => {
   describe("filter", () => {
     const lines = (...l: string[]) => [...l, ""].join("\r\n");
     const include = (rel: string) => `INCLUDE "%MOD_FOLDER%/lib/pnp-monster/${rel}"`;
-    const FILTER_TP2 = lines(
-      "BEGIN @999",
-      include("common/common.tpa"),
-      include("ogre/main.tpa"),
-      include("undead/main.tpa"),
-      `// ${include("bear/main.tpa")}`,
-    );
-    const UNDEAD_MAIN = lines(
+    const main = (rel: string) => include(`${rel}/main.tpa`);
+    const FOLDERS = [
+      "kin/construct",
+      "kin/fey",
+      "vampire",
+      "dryad",
+      "nereid",
+      "giant-poisonous-snake",
+      "helmed-horror",
+      "battle-horror",
+      "doom-sayer",
+    ];
+    const INDEX_TPA = lines(...FOLDERS.map(main));
+    const INDEX_JSON = JSON.stringify({
+      vampire: { kin: null, dependsOn: [] },
+      dryad: { kin: "fey", dependsOn: [] },
+      nereid: { kin: "fey", dependsOn: ["giant-poisonous-snake"] },
+      "giant-poisonous-snake": { kin: null, dependsOn: [] },
+      "helmed-horror": { kin: "construct", dependsOn: [] },
+      "battle-horror": { kin: "construct", dependsOn: ["helmed-horror"] },
+      "doom-sayer": { kin: "construct", dependsOn: ["battle-horror"] },
+    });
+    const VAMPIRE_MAIN = lines(
       "LAM load_secondary_types",
-      include("undead/common.tpa"),
-      `${include("undead/4c.tpa")} // Ghoul`,
-      `${include("undead/99.tpa")} // Fledgling Vampire`,
-      `${include("undead/a6.tpa")} // Patriarch Vampire`,
+      include("vampire/common.tpa"),
+      `${include("vampire/4c.tpa")} // Fledgling Vampire`,
+      `${include("vampire/99.tpa")} // Mature Vampire`,
+      `${include("vampire/a6.tpa")} // Patriarch Vampire`,
     );
-    const OGRE_MAIN = lines("LAM load_secondary_types", `${include("ogre/1a.tpa")} // Ogre`);
+    const SNAKE_MAIN = lines(`${include("giant-poisonous-snake/1a.tpa")} // Giant Poisonous Snake`);
+    const pnpDir = () => path.join(repoDir, "mod", "lib", "pnp-monster");
 
     beforeEach(() => {
-      const modDir = path.join(repoDir, "mod");
-      fs.writeFileSync(path.join(modDir, TP2_FILE), FILTER_TP2);
-      for (const [family, content] of [
-        ["undead", UNDEAD_MAIN],
-        ["ogre", OGRE_MAIN],
+      fs.mkdirSync(pnpDir(), { recursive: true });
+      fs.writeFileSync(path.join(pnpDir(), "index.tpa"), INDEX_TPA);
+      fs.writeFileSync(path.join(pnpDir(), "index.json"), INDEX_JSON);
+      for (const [folder, content] of [
+        ["vampire", VAMPIRE_MAIN],
+        ["giant-poisonous-snake", SNAKE_MAIN],
+        ["nereid", lines(`${include("nereid/2b.tpa")} // Nereid`)],
       ]) {
-        fs.mkdirSync(path.join(modDir, "lib", "pnp-monster", family), { recursive: true });
-        fs.writeFileSync(path.join(modDir, "lib", "pnp-monster", family, "main.tpa"), content);
+        fs.mkdirSync(path.join(pnpDir(), folder), { recursive: true });
+        fs.writeFileSync(path.join(pnpDir(), folder, "main.tpa"), content);
       }
       writeConfig({ bg1: bg1Dir });
     });
+
+    const empty = { entries: [], kins: [], monsters: [] };
+    const run = (filter: Partial<typeof empty>) =>
+      copyService.copy({ bg1: true, bg2: false }, { ...empty, ...filter });
 
     function readCopied(...segments: string[]): string {
       return fs.readFileSync(modPath(bg1Dir, ...segments), "utf-8");
     }
 
+    const readIndex = () => readCopied("lib", "pnp-monster", "index.tpa");
+
+    /** The index.tpa the copy should hold: only the given folders stay active. */
+    function indexKeeping(...kept: string[]): string {
+      return lines(
+        ...FOLDERS.map((folder) => (kept.includes(folder) ? main(folder) : `// ${main(folder)}`)),
+      );
+    }
+
     it("leaves files untouched when the filter is empty", async () => {
-      await copyService.copy({ bg1: true, bg2: false }, { families: [], monsters: [] });
+      await run({});
 
-      expect(readCopied(TP2_FILE)).toBe(FILTER_TP2);
+      expect(readIndex()).toBe(INDEX_TPA);
     });
 
-    it("comments out the other families in the copied tp2 only", async () => {
-      await copyService.copy({ bg1: true, bg2: false }, { families: ["Undead"], monsters: [] });
+    it("--entry keeps the entry and its kin only, in the copied index.tpa only", async () => {
+      await run({ entries: ["Dryad"] });
 
-      expect(readCopied(TP2_FILE)).toBe(
-        lines(
-          "BEGIN @999",
-          include("common/common.tpa"),
-          `// ${include("ogre/main.tpa")}`,
-          include("undead/main.tpa"),
-          `// ${include("bear/main.tpa")}`,
-        ),
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "dryad"));
+      expect(fs.readFileSync(path.join(pnpDir(), "index.tpa"), "utf-8")).toBe(INDEX_TPA);
+    });
+
+    it("--entry keeps the entries it depends on, transitively, and their kins", async () => {
+      await run({ entries: ["doom-sayer"] });
+
+      expect(readIndex()).toBe(
+        indexKeeping("kin/construct", "helmed-horror", "battle-horror", "doom-sayer"),
       );
-      expect(readCopied("lib", "pnp-monster", "undead", "main.tpa")).toBe(UNDEAD_MAIN);
-      expect(fs.readFileSync(path.join(repoDir, "mod", TP2_FILE), "utf-8")).toBe(FILTER_TP2);
     });
 
-    it("keeps only matching creatures and the families that contain them", async () => {
-      await copyService.copy({ bg1: true, bg2: false }, { families: [], monsters: ["VAMPIRE"] });
+    it("--entry keeps a dependency that has no kin", async () => {
+      await run({ entries: ["nereid"] });
 
-      expect(readCopied("lib", "pnp-monster", "undead", "main.tpa")).toBe(
-        lines(
-          "LAM load_secondary_types",
-          include("undead/common.tpa"),
-          `// ${include("undead/4c.tpa")} // Ghoul`,
-          `${include("undead/99.tpa")} // Fledgling Vampire`,
-          `${include("undead/a6.tpa")} // Patriarch Vampire`,
-        ),
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "nereid", "giant-poisonous-snake"));
+    });
+
+    it("--entry accepts several names", async () => {
+      await run({ entries: ["vampire", "dryad"] });
+
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "vampire", "dryad"));
+    });
+
+    it("--kin keeps the kin with all its entries and their dependencies", async () => {
+      await run({ kins: ["FEY"] });
+
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "dryad", "nereid", "giant-poisonous-snake"));
+    });
+
+    it("--monster alone keeps the matching creatures and the entries that contain them", async () => {
+      await run({ monsters: ["VAMPIRE"] });
+
+      expect(readIndex()).toBe(indexKeeping("vampire"));
+      expect(readCopied("lib", "pnp-monster", "vampire", "main.tpa")).toBe(VAMPIRE_MAIN);
+    });
+
+    it("--monster narrows the creatures of the --entry entries", async () => {
+      await run({ entries: ["vampire", "dryad"], monsters: ["patriarch"] });
+
+      expect(readIndex()).toBe(indexKeeping("vampire"));
+      const vampire = readCopied("lib", "pnp-monster", "vampire", "main.tpa");
+      expect(vampire).toContain(`${include("vampire/a6.tpa")} // Patriarch Vampire`);
+      expect(vampire).toContain(`// ${include("vampire/4c.tpa")} // Fledgling Vampire`);
+      expect(fs.readFileSync(path.join(pnpDir(), "vampire", "main.tpa"), "utf-8")).toBe(
+        VAMPIRE_MAIN,
       );
-      expect(readCopied(TP2_FILE)).toContain(`// ${include("ogre/main.tpa")}`);
-      expect(
-        fs.readFileSync(
-          path.join(repoDir, "mod", "lib", "pnp-monster", "undead", "main.tpa"),
-          "utf-8",
-        ),
-      ).toBe(UNDEAD_MAIN);
     });
 
-    it("throws before copying when a family is unknown", async () => {
-      await expect(
-        copyService.copy({ bg1: true, bg2: false }, { families: ["bear"], monsters: [] }),
-      ).rejects.toThrow("Unknown family: bear. Available: ogre, undead");
+    it("keeps a dependency's creatures whole even when --monster would drop them", async () => {
+      await run({ entries: ["nereid", "giant-poisonous-snake"], monsters: ["nereid", "snake"] });
+
+      expect(readCopied("lib", "pnp-monster", "giant-poisonous-snake", "main.tpa")).toBe(
+        SNAKE_MAIN,
+      );
+      await run({ entries: ["nereid"], monsters: ["nereid"] });
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "nereid", "giant-poisonous-snake"));
+    });
+
+    it("throws before copying when an entry is unknown, listing the valid ones", async () => {
+      await expect(run({ entries: ["bear"] })).rejects.toThrow(
+        "Unknown entry: bear. Available: battle-horror, doom-sayer, dryad, giant-poisonous-snake, helmed-horror, nereid, vampire",
+      );
       expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(false);
     });
 
-    it("throws when no creature matches within the selected families", async () => {
-      await expect(
-        copyService.copy({ bg1: true, bg2: false }, { families: ["ogre"], monsters: ["vampire"] }),
-      ).rejects.toThrow("No creature matches --monster vampire");
+    it("throws when a kin is unknown, listing the valid ones", async () => {
+      await expect(run({ kins: ["dog"] })).rejects.toThrow(
+        "Unknown kin: dog. Available: construct, fey",
+      );
+    });
+
+    it("throws when no creature matches", async () => {
+      await expect(run({ entries: ["dryad"], monsters: ["vampire"] })).rejects.toThrow(
+        "No creature matches --monster vampire",
+      );
     });
   });
 });

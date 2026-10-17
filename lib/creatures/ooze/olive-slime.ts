@@ -94,4 +94,4 @@ class OliveSlimeEntry extends CreatureEntry<Slime> {
 }
 
 export const createOliveSlimeEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new OliveSlimeEntry(kins.get(KinEnum.Ooze));
+  new OliveSlimeEntry(kins.get(KinEnum.Ooze)).requires(EntryEnum.OliveSlimeCreature);

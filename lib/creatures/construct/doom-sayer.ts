@@ -34,4 +34,6 @@ class DoomSayerEntry extends CreatureEntry<Construct> {
 }
 
 export const createDoomSayerEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new DoomSayerEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined);
+  new DoomSayerEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined).requires(
+    EntryEnum.BattleHorror,
+  );

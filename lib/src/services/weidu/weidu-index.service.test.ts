@@ -46,14 +46,22 @@ describe("weiduIndexService.generate", () => {
     );
   });
 
-  it("maps every entry folder to its kin folder or null, in the given order", () => {
+  it("maps every entry folder to its kin folder or null and its dependencies, in the given order", () => {
     weiduIndexService.generate(
       [KinEnum.Fey],
-      [{ id: EntryEnum.Vampire }, { id: EntryEnum.Dryad, kin: KinEnum.Fey }],
+      [
+        { id: EntryEnum.Vampire },
+        { id: EntryEnum.Dryad, kin: KinEnum.Fey },
+        { id: EntryEnum.DoomSayer, dependsOn: [EntryEnum.BattleHorror] },
+      ],
     );
-    const index = JSON.parse(read("index.json")) as Record<string, string | null>;
-    expect(index).toEqual({ vampire: null, dryad: "fey" });
-    expect(Object.keys(index)).toEqual(["vampire", "dryad"]);
+    const index = JSON.parse(read("index.json")) as Record<string, unknown>;
+    expect(index).toEqual({
+      vampire: { kin: null, dependsOn: [] },
+      dryad: { kin: "fey", dependsOn: [] },
+      "doom-sayer": { kin: null, dependsOn: ["battle-horror"] },
+    });
+    expect(Object.keys(index)).toEqual(["vampire", "dryad", "doom-sayer"]);
   });
 
   it("writes an empty index with empty registries", () => {

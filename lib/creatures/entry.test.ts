@@ -82,3 +82,46 @@ describe("ENTRY_MEMBERS against a full build", () => {
     }
   }, 60000);
 });
+
+// Cross-entry needs found during the migration; `copy` relies on them to keep a working subset.
+describe("entry dependencies", () => {
+  const expected: [EntryEnum, EntryEnum[]][] = [
+    // Build/install: derived from another entry's creature.
+    [EntryEnum.BattleHorror, [EntryEnum.HelmedHorror]],
+    [EntryEnum.DoomSayer, [EntryEnum.BattleHorror]],
+    [EntryEnum.OgreShaman, [EntryEnum.Ogre]],
+    [EntryEnum.SpikeSkeleton, [EntryEnum.Skeleton]],
+    [EntryEnum.ArcherSkeleton, [EntryEnum.Skeleton]],
+    [EntryEnum.GiantSkeleton, [EntryEnum.Skeleton]],
+    [EntryEnum.SkeletonMonster, [EntryEnum.Skeleton]],
+    // Runtime: summons or creates a creature file of another entry.
+    [EntryEnum.Nereid, [EntryEnum.GiantPoisonousSnake]],
+    [EntryEnum.OliveSlime, [EntryEnum.OliveSlimeCreature]],
+    // Shared asset: SAHAMB01.baf lives in the Zombie entry folder.
+    [EntryEnum.Ghast, [EntryEnum.Zombie]],
+    [EntryEnum.SkeletonWarrior, [EntryEnum.Zombie]],
+  ];
+
+  it("declares every known dependency", async () => {
+    await stateService.init();
+    mainService.checkPresets();
+    const kins = new Map<KinEnum, CreatureKin>();
+    for (const factory of kinFactories) {
+      const kin = factory();
+      kins.set(kin.id, kin);
+    }
+    const built = new Map<EntryEnum, EntryEnum[]>();
+    for (const factory of entryFactories) {
+      const entry = factory(kins);
+      built.set(entry.id, entry.dependsOn);
+    }
+    for (const [id, deps] of expected) {
+      expect(built.get(id), EntryEnum[id]).toEqual(expect.arrayContaining(deps));
+    }
+    // Nothing else is declared: a new dependency must be added to this list on purpose.
+    const declared = [...built].filter(([, deps]) => deps.length).map(([id]) => id);
+    expect(declared.sort((a, b) => a - b)).toEqual(
+      expected.map(([id]) => id).sort((a, b) => a - b),
+    );
+  }, 60000);
+});

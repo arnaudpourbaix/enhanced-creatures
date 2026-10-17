@@ -211,4 +211,5 @@ function greaterLacedonVariant(lacedon: Variant): Variant {
   });
 }
 
-export const createGhastEntry = () => new UndeadEntry(EntryEnum.Ghast, [ghast]);
+export const createGhastEntry = () =>
+  new UndeadEntry(EntryEnum.Ghast, [ghast]).requires(EntryEnum.Zombie);

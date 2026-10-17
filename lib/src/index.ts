@@ -30,17 +30,28 @@ program
 
 program
   .command("copy")
-  .description("Copy the mod's tp2/lib/languages into local BG1/BG2 folders for testing")
+  .description(
+    "Copy the mod's tp2/lib/languages into local BG1/BG2 folders for testing. " +
+      "Filters (all optional, names are pnp-monster folder names, case-insensitive) narrow the " +
+      "copied mod's install; whatever is kept also keeps its kin and the entries it depends on. " +
+      "The repo's mod/ is never modified.",
+  )
   .option("--bg1", "copy to the configured BG1 folder only")
   .option("--bg2", "copy to the configured BG2 folder only")
   .option(
-    "--family <names...>",
-    "only install these families (pnp-monster folder names, e.g. undead ogre)",
+    "--entry <names...>",
+    "only install these entries, plus their kin and dependencies (e.g. dryad,doom-sayer)",
+    collectList,
+  )
+  .option(
+    "--kin <names...>",
+    "only install these kins, with all their entries and dependencies (e.g. fey)",
     collectList,
   )
   .option(
     "--monster <names...>",
-    "only install creatures whose name contains one of these (e.g. vampire)",
+    "only install creatures whose name contains one of these (e.g. vampire); " +
+      "combined with --entry/--kin it narrows those, alone it keeps every entry with a match",
     collectList,
   )
   .action(async (opts: CopyOptions) => {
@@ -74,11 +85,12 @@ async function runGenerate(): Promise<void> {
 interface CopyOptions {
   bg1?: boolean;
   bg2?: boolean;
-  family?: string[];
+  entry?: string[];
+  kin?: string[];
   monster?: string[];
 }
 
-// Accepts both repeated/space-separated values and comma lists: --family undead,ogre
+// Accepts both repeated/space-separated values and comma lists: --entry dryad,ogre
 function collectList(value: string, previous: string[] = []): string[] {
   return [
     ...previous,
@@ -94,7 +106,11 @@ async function runCopy(opts: CopyOptions): Promise<void> {
   const bg2 = !!opts.bg2;
   const both = !bg1 && !bg2;
   const targets: CopyTargets = { bg1: bg1 || both, bg2: bg2 || both };
-  const filter: CopyFilter = { families: opts.family ?? [], monsters: opts.monster ?? [] };
+  const filter: CopyFilter = {
+    entries: opts.entry ?? [],
+    kins: opts.kin ?? [],
+    monsters: opts.monster ?? [],
+  };
   logService.filePath = path.join(process.cwd(), "copy.log");
   logService.init();
   const copiedCount = await copyService.copy(targets, filter);

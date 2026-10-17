@@ -87,7 +87,7 @@ class MainService {
     }
     weiduIndexService.generate(
       [...builtKins.keys()],
-      builtEntries.map((e) => ({ id: e.id, kin: e.kin?.id })),
+      builtEntries.map((e) => ({ id: e.id, kin: e.kin?.id, dependsOn: e.dependsOn })),
     );
   }
 

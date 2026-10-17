@@ -18,10 +18,22 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
   declare id: EntryEnum;
   kin?: CreatureKin;
 
+  /**
+   * Entries this one needs installed (build order, creature it summons, shared asset): `copy`
+   * keeps them whenever it keeps this entry. Written to index.json.
+   */
+  dependsOn: EntryEnum[] = [];
+
   constructor(id: EntryEnum, kin?: CreatureKin) {
     super(id);
     this.kin = kin;
     logService.header(`Creating entry ${EntryEnum[id]}...`);
+  }
+
+  /** Declares the entries this one depends on (see `dependsOn`). */
+  requires(...ids: EntryEnum[]): this {
+    this.dependsOn = ids;
+    return this;
   }
 
   /** Mod-relative folder of its generated main.tpa, creature files and assets/. */

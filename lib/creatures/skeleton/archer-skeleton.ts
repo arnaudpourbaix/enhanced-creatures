@@ -148,5 +148,5 @@ export function createArcherSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {
     EntryEnum.ArcherSkeleton,
     [(entry) => archerSkeleton(entry, builtBefore(kin?.skeleton, "Skeleton"))],
     kin,
-  );
+  ).requires(EntryEnum.Skeleton);
 }

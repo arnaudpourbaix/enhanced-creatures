@@ -77,4 +77,4 @@ class OgreShamanEntry extends CreatureEntry<Ogre> {
 }
 
 export const createOgreShamanEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new OgreShamanEntry(kins.get(KinEnum.Ogre));
+  new OgreShamanEntry(kins.get(KinEnum.Ogre)).requires(EntryEnum.Ogre);
