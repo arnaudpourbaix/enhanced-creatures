@@ -97,9 +97,6 @@ describe("entry dependencies", () => {
     // Runtime: summons or creates a creature file of another entry.
     [EntryEnum.Nereid, [EntryEnum.GiantPoisonousSnake]],
     [EntryEnum.OliveSlime, [EntryEnum.OliveSlimeCreature]],
-    // Shared asset: SAHAMB01.baf lives in the Zombie entry folder.
-    [EntryEnum.Ghast, [EntryEnum.Zombie]],
-    [EntryEnum.SkeletonWarrior, [EntryEnum.Zombie]],
   ];
 
   it("declares every known dependency", async () => {

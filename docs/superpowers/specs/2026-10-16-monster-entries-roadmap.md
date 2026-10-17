@@ -150,9 +150,8 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
   renamed `k` → `e`. Single-use methods of the shared creature classes moved to a subclass in their
   entry file (no output change). Detect Traps (Dryad's wilderness helper) and Flaming Sword
   (Helmed Horror, Battle Horror, Doom Sayer) are shared and stay.
-- ☐ Move `SAHAMB01.baf` (overrides scripts of Zombie, Ghast and Skeleton Warrior creatures) from the
-  Zombie entry to `pnp-monster/common/`, so `copy --entry ghast` no longer pulls the whole Zombie
-  entry.
+- ✅ Move `SAHAMB01.baf` from the Zombie entry to `pnp-monster/common/scripts/` (compiled by
+  `common.tpa`): Ghast and Skeleton Warrior no longer depend on the Zombie entry.
 - ☐ `ENTRY_MEMBERS` duplicates what the entry builders declare (kept in step only by a test):
   derive it or drop it.
 - ☐ `lib/creatures/undead/` is neither a kin nor a type (holds `ids.ts`, `undead-entry.ts`): move

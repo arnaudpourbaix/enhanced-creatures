@@ -1,7 +1,4 @@
 LAM load_secondary_types
-ACTION_IF FILE_EXISTS_IN_GAME ~SAHAMB01.BCS~ BEGIN
-	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/zombie/assets/SAHAMB01.BAF~
-END
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/2e.tpa" // Zombie
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/3y.tpa" // Zombie Lord
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/2f.tpa" // Ju-ju Zombie

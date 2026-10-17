@@ -212,4 +212,4 @@ function greaterLacedonVariant(lacedon: Variant): Variant {
 }
 
 export const createGhastEntry = () =>
-  new UndeadEntry(EntryEnum.Ghast, [ghast]).requires(EntryEnum.Zombie);
+  new UndeadEntry(EntryEnum.Ghast, [ghast]);

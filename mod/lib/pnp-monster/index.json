@@ -347,9 +347,7 @@
   },
   "ghast": {
     "kin": null,
-    "dependsOn": [
-      "zombie"
-    ]
+    "dependsOn": []
   },
   "mummy": {
     "kin": null,
@@ -397,9 +395,7 @@
   },
   "skeleton-warrior": {
     "kin": null,
-    "dependsOn": [
-      "zombie"
-    ]
+    "dependsOn": []
   },
   "death-knight": {
     "kin": null,

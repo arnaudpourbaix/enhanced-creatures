@@ -20,3 +20,8 @@ END
 
 // Wall of Fog
 COPY ~%MOD_FOLDER%/lib/pnp-monster/common/fog/rr#mmswf.vvc~ ~override~
+
+// Overrides the Sahuagin city script SAHAMB01 (game script, compiled only when present)
+ACTION_IF FILE_EXISTS_IN_GAME ~SAHAMB01.BCS~ BEGIN
+    COMPILE ~%MOD_FOLDER%/lib/pnp-monster/common/scripts/SAHAMB01.BAF~
+END
