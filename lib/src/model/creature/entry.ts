@@ -32,7 +32,7 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
 
   /** Declares the entries this one depends on (see `dependsOn`). */
   requires(...ids: EntryEnum[]): this {
-    this.dependsOn = ids;
+    this.dependsOn = [...new Set([...this.dependsOn, ...ids])];
     return this;
   }
 

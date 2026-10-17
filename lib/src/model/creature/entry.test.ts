@@ -26,6 +26,13 @@ afterEach(() => {
 });
 
 describe("CreatureEntry", () => {
+  it("accumulates and dedupes the entries it requires", () => {
+    const entry = new TestEntry(EntryEnum.Vampire)
+      .requires(EntryEnum.Basilisk)
+      .requires(EntryEnum.Ankheg, EntryEnum.Basilisk);
+    expect(entry.dependsOn).toEqual([EntryEnum.Basilisk, EntryEnum.Ankheg]);
+  });
+
   it("logs its own section header", () => {
     const header = vi.spyOn(logService, "header").mockImplementation(() => {});
     new TestEntry(EntryEnum.Vampire);

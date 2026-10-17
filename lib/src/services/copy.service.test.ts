@@ -169,8 +169,8 @@ describe("CopyService", () => {
       "LAM load_secondary_types",
       include("vampire/common.tpa"),
       `${include("vampire/4c.tpa")} // Fledgling Vampire`,
-      `${include("vampire/99.tpa")} // Mature Vampire`,
-      `${include("vampire/a6.tpa")} // Patriarch Vampire`,
+      `${include("vampire/4h.tpa")} // Mature Vampire`,
+      `${include("vampire/4m.tpa")} // Patriarch Vampire`,
     );
     const SNAKE_MAIN = lines(
       `${include("giant-poisonous-snake/1a.tpa")} // Giant Poisonous Snake`,
@@ -261,8 +261,9 @@ describe("CopyService", () => {
 
       expect(readIndex()).toBe(indexKeeping("vampire"));
       const vampire = readCopied("lib", "pnp-monster", "vampire", "main.tpa");
-      expect(vampire).toContain(`${include("vampire/a6.tpa")} // Patriarch Vampire`);
+      expect(vampire).toContain(`${include("vampire/4m.tpa")} // Patriarch Vampire`);
       expect(vampire).toContain(`// ${include("vampire/4c.tpa")} // Fledgling Vampire`);
+      expect(vampire).toContain(`// ${include("vampire/4h.tpa")} // Mature Vampire`);
       expect(fs.readFileSync(path.join(pnpDir(), "vampire", "main.tpa"), "utf-8")).toBe(
         VAMPIRE_MAIN,
       );

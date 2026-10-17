@@ -39,7 +39,7 @@ const INDEX_JSON_REL = path.join(PNP_FOLDER, "index.json");
 const GROUP_INCLUDE =
   /^([ \t]*)(INCLUDE "%MOD_FOLDER%\/lib\/pnp-monster\/((?:kin\/)?[^/"]+)\/main\.tpa"[^\r\n]*)$/gm;
 const CREATURE_INCLUDE =
-  /^(INCLUDE "%MOD_FOLDER%\/lib\/pnp-monster\/[^/"]+\/[0-9a-f]+\.tpa" \/\/ ([^\r\n]*))$/gm;
+  /^(INCLUDE "%MOD_FOLDER%\/lib\/pnp-monster\/[^/"]+\/[0-9a-z]+\.tpa" \/\/ ([^\r\n]*))$/gm;
 
 class CopyService {
   repoRoot = path.resolve(__dirname, "..", "..", "..");
