@@ -12,17 +12,17 @@ DEFINE_ACTION_FUNCTION create_spell_callWoodlandBeeings BEGIN
 		WRITE_LONG 0x50 RESOLVE_STR_REF(@10470)
 		LPF ADD_EFFECT INT_VAR opcode=324 target=1 global=1 power=1 parameter2=NOT_OUTDOOR_CHECK duration=1 probability1=100 STR_VAR resource="SPPR410" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=7 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jadryad" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jahama" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea1" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jacm1500" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jacm1600" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jacm1900" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=10 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jahama" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jatrea1" END
-		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea2" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jacm1600" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jacm1900" END
+		LPF ADD_EFFECT INT_VAR header=2 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jacm1901" END
 		LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=25 required_level=13 STR_VAR icon="SPPR410B" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jatrea2" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jatrea3" END
-		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jatrea4" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=55 STR_VAR resource="jacm1901" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=85 probability2=55 STR_VAR resource="jacm1902" END
+		LPF ADD_EFFECT INT_VAR header=3 opcode=177 target=1 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 resist_dispel=2 duration=120 probability1=100 probability2=85 STR_VAR resource="jacm1903" END
 END
 
 DEFINE_ACTION_FUNCTION create_spell_colorSpray BEGIN
@@ -552,9 +552,9 @@ END
 
 DEFINE_ACTION_FUNCTION create_spell_SymbolPain BEGIN
 	// Symbol of Pain
-	CREATE SPL "jaspain"
+	CREATE SPL "jasc0000"
 		WRITE_LONG 0x64 0x72
-	COPY_EXISTING ~jaspain.SPL~  ~override~
+	COPY_EXISTING ~jasc0000.SPL~  ~override~
 		WRITE_LONG 0x8 RESOLVE_STR_REF(@10623)
 		WRITE_ASCII 0x10 ~CAS_P03~ #8
 		WRITE_LONG 0x18 512
@@ -564,10 +564,10 @@ DEFINE_ACTION_FUNCTION create_spell_SymbolPain BEGIN
 		WRITE_BYTE 0x25 2
 		WRITE_BYTE 0x27 11
 		WRITE_LONG 0x34 8
-		WRITE_ASCII 0x3a ~jaspainC~ #8
+		WRITE_ASCII 0x3a ~jaac0002~ #8
 		WRITE_LONG 0x50 RESOLVE_STR_REF(@10624)
-		LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~TRAPGLPN~)) + 1 STR_VAR icon="jaspainB" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=8 parameter2=UNDEAD_OR_GOLEM probability1=100 STR_VAR resource="jaspain" END
+		LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~TRAPGLPN~)) + 1 STR_VAR icon="jaac0001" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=8 parameter2=UNDEAD_OR_GOLEM probability1=100 STR_VAR resource="jasc0000" END
 		LPF ADD_EFFECT INT_VAR header=1 opcode=15 target=2 power=8 parameter1="-2" resist_dispel=1 duration=660 probability1=100 END
 		LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=8 parameter1="-4" resist_dispel=1 duration=660 probability1=100 END
 		LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=8 parameter2=91 resist_dispel=1 duration=660 probability1=100 END
@@ -575,5 +575,5 @@ DEFINE_ACTION_FUNCTION create_spell_SymbolPain BEGIN
 		LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=8 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_P04" END
 		LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=8 parameter1=RESOLVE_STR_REF(@10625) timing=9 resist_dispel=1 probability1=100 END
 		LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=8 timing=4 resist_dispel=1 duration=660 probability1=100 STR_VAR resource="EFF_E05" END
-		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=8 resist_dispel=1 duration=660 probability1=100 STR_VAR resource="jaspain" END
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=8 resist_dispel=1 duration=660 probability1=100 STR_VAR resource="jasc0000" END
 END

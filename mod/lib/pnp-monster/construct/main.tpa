@@ -1,6 +1,6 @@
 LAM load_secondary_types
 // Flaming Greatsword
-CREATE ITM "jai0f6"
+CREATE ITM "jaif0600"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -14,7 +14,7 @@ CREATE ITM "jai0f6"
 	WRITE_BYTE 0x31 93
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10864)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~jai0f6.itm~ ~override~
+COPY_EXISTING ~jaif0600.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -38,7 +38,7 @@ COPY_EXISTING ~jai0f6.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=8 target=1 global=1 parameter2=20 timing=2 duration=3 probability1=100 END
 
 // Long Sword
-CREATE ITM "jai1f6"
+CREATE ITM "jaif0601"
 	WRITE_LONG 0x64 0x72
 	INSERT_BYTES 0x72 0x38
 	WRITE_SHORT 0x68 1
@@ -53,7 +53,7 @@ CREATE ITM "jai1f6"
 	WRITE_ASCII 0x3a ~ISW1H04~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10865)
 	WRITE_LONG 0x60 1
-COPY_EXISTING ~jai1f6.itm~ ~override~
+COPY_EXISTING ~jaif0601.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
 		WRITE_BYTE 0x74 1
@@ -73,32 +73,32 @@ COPY_EXISTING ~jai1f6.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=6 parameter2=16 timing=2 probability1=100 END
 
 // Plate Mail
-CREATE ITM "jai2f6"
+CREATE ITM "jaif0602"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10171)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10171)
 	WRITE_SHORT 0x1c 2
 	WRITE_ASCII 0x22 ~4A~ #2
 	WRITE_ASCII 0x3a ~IPLAT01~ #8
-COPY_EXISTING ~jai2f6.itm~ ~override~
+COPY_EXISTING ~jaif0602.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=98 parameter2=5 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=29 parameter2=4 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=87 timing=2 probability1=100 END
 
 // Helmet
-CREATE ITM "jai3f6"
+CREATE ITM "jaif0603"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10172)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10172)
 	WRITE_SHORT 0x1c 7
 	WRITE_ASCII 0x22 ~H5~ #2
 	WRITE_ASCII 0x3a ~ihelm10~ #8
-COPY_EXISTING ~jai3f6.itm~ ~override~
+COPY_EXISTING ~jaif0603.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=53 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=52 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=48 timing=2 probability1=100 END
 
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/f.tpa" // Helmed Horror
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/8.tpa" // Battle Horror
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/42.tpa" // Doom Sayer
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/10.tpa" // Doom Guard
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/0f.tpa" // Helmed Horror
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/08.tpa" // Battle Horror
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/1u.tpa" // Doom Sayer
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/0g.tpa" // Doom Guard

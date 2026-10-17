@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- All mod resources renamed to a new naming scheme (a monster's base-36 code, also shown in the docs as #code). **Uninstall the previous version before installing**; saved games may lose items created by the old version
 - Displacer Beast is now a Magical Beast (same immunities); its hit dice are d10, so it has more HP
 - Spectral Hound is now a Magical Beast (immune to infravision-type effects, like other magical beasts); its hit dice are d10, so it has more HP
 - Hell Hound and Moon Dog are now Outsiders with the extraplanar trait (immune to cure/cause wounds and death spells)

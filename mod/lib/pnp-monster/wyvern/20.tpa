@@ -1,0 +1,132 @@
+// Generated file (don't edit)
+
+// Greater Wyvern
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wyvern/jabm2000.baf~
+
+// Type E poison
+CREATE SPL "jasm2000"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm2000.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11052)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Poison
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11053)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=20 probability1=100 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=14 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=4 parameter2=2 duration=12 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=6 parameter2=2 duration=14 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=9 parameter2=2 duration=13 probability1=100 dicesize=7 dicenumber=8 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=11 parameter2=2 duration=13 probability1=100 dicesize=9 dicenumber=10 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=12 parameter2=2 duration=13 probability1=100 dicesize=11 dicenumber=15 savingthrow=4 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=18 parameter2=2 duration=13 probability1=100 dicesize=16 dicenumber=40 savingthrow=4 special=6 END
+OUTER_SET $f_AddSecType(jasm2000.spl) = PoisonSecType
+
+// Stinger
+CREATE ITM "jaim2000"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10343)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10343)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IWOLF~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11054)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim2000.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IWOLF~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm2000" END
+	END
+
+DEFINE_ACTION_FUNCTION jam20_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~BDWYVR03~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHBMENA8~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WYVERNBI~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WYVGRE01~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~RING97~
+			REMOVE_CRE_ITEM ~BDWYV01~
+			REMOVE_CRE_ITEM ~WYVERN1~
+			REMOVE_CRE_ITEM ~WYVERN2~
+			REMOVE_CRE_ITEM ~WYVERNSU~
+			REMOVE_CRE_ITEM ~BDWYV03~
+			ADD_CRE_ITEM ~jaim1y00~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jaim1y02~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ EQUIP
+			REPLACE_CRE_ITEM ~jaim2000~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ 
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=5000
+					hp=154
+					ac=1
+					thac0=5
+					apr=1
+					saveDeath=5
+					saveWand=7
+					savePolymorph=6
+					saveBreath=5
+					saveSpell=8
+					level1=14
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=21
+					intelligence=7
+					wisdom=12
+					dexterity=10
+					constitution=16
+					charisma=6
+					morale=16
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~WYVERN~)
+					class=IDS_OF_SYMBOL (~class~ ~WYVERN~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL_EVIL~)
+					movement=19
+					enforce=1
+					perfect2weapon=1
+			END
+			// Assigning jabm2000
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN WYVERN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm2000 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"BDWYVR03"
+		"WYVERNBI"
+	BEGIN
+		LAF jam20_patch STR_VAR file END
+	END
+END
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"OHBMENA8"
+		"WYVGRE01"
+	BEGIN
+		LAF jam20_patch STR_VAR file END
+	END
+END

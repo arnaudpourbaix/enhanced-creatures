@@ -1,13 +1,13 @@
 LAM load_secondary_types
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/17.tpa" // Flesh Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/18.tpa" // Clay Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/6d.tpa" // Lesser Clay Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/6e.tpa" // Greater Clay Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/19.tpa" // Stone Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/6f.tpa" // Lesser Stone Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/1a.tpa" // Iron Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/1b.tpa" // Bone Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/21.tpa" // Juggernaut Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/43.tpa" // Snow Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/6a.tpa" // Magic Golem
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/69.tpa" // Wax Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0n.tpa" // Flesh Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0o.tpa" // Clay Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/31.tpa" // Lesser Clay Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/32.tpa" // Greater Clay Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0p.tpa" // Stone Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/33.tpa" // Lesser Stone Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0q.tpa" // Iron Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0r.tpa" // Bone Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/0x.tpa" // Juggernaut Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/1v.tpa" // Snow Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/2y.tpa" // Magic Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/2x.tpa" // Wax Golem

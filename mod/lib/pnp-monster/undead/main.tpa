@@ -15,33 +15,33 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME ~SAHAMB01.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/SAHAMB01.BAF~
 END
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Banshee
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4c.tpa" // Ghoul
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4d.tpa" // Ghoul Lord
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4b.tpa" // Ghast
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4e.tpa" // Mummy
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4f.tpa" // Greater Mummy
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/50.tpa" // Shadow
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/59.tpa" // Greater Shadow
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5a.tpa" // Baneguard
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5b.tpa" // Bonebat
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/51.tpa" // Skeleton
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/94.tpa" // Archer Skeleton
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/98.tpa" // Skeleton Monster
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/52.tpa" // Skeleton Warrior
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4a.tpa" // Death Knight
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/53.tpa" // Spectre
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/5d.tpa" // Ghost
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/54.tpa" // Wight
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/55.tpa" // Wraith
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/56.tpa" // Zombie
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/8e.tpa" // Zombie Lord
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/57.tpa" // Ju-ju Zombie
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/58.tpa" // Sea Zombie
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/99.tpa" // Fledgling Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a1.tpa" // Mature Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a2.tpa" // Old Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a3.tpa" // Very Old Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a4.tpa" // Ancient Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a5.tpa" // Eminent Vampire
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/a6.tpa" // Patriarch Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/21.tpa" // Banshee
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/24.tpa" // Ghoul
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/25.tpa" // Ghoul Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/23.tpa" // Ghast
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/26.tpa" // Mummy
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/27.tpa" // Greater Mummy
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/28.tpa" // Shadow
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2h.tpa" // Greater Shadow
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2i.tpa" // Baneguard
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2j.tpa" // Bonebat
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/29.tpa" // Skeleton
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/44.tpa" // Archer Skeleton
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/48.tpa" // Skeleton Monster
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2a.tpa" // Skeleton Warrior
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/22.tpa" // Death Knight
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2b.tpa" // Spectre
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2l.tpa" // Ghost
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2c.tpa" // Wight
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2d.tpa" // Wraith
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2e.tpa" // Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/3y.tpa" // Zombie Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2f.tpa" // Ju-ju Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/2g.tpa" // Sea Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/49.tpa" // Fledgling Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4h.tpa" // Mature Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4i.tpa" // Old Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4j.tpa" // Very Old Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4k.tpa" // Ancient Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4l.tpa" // Eminent Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/4m.tpa" // Patriarch Vampire

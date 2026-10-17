@@ -2,9 +2,9 @@ LAM load_secondary_types
 ACTION_IF FILE_EXISTS_IN_GAME ~P#WOLFA.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/wolf/assets/P#WOLFA.BAF~
 END
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/11.tpa" // Wolf
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/13.tpa" // Dire Wolf
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/16.tpa" // Dread Wolf
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/15.tpa" // Vampiric Wolf
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/14.tpa" // Winter Wolf
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/12.tpa" // Worg
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0h.tpa" // Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0j.tpa" // Dire Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0m.tpa" // Dread Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0l.tpa" // Vampiric Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0k.tpa" // Winter Wolf
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/0i.tpa" // Worg

@@ -1,0 +1,295 @@
+// Generated file (don't edit)
+
+// Ankheg
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0100.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0101.baf~
+
+CREATE EFF "jasm0103"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x28 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jasm0103~ #8
+
+// Stream of acidic enzymes
+CREATE SPL "jasm0100"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0100.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10121)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 10
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI211C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10122)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~acidblob~)) + 1 STR_VAR icon="SPWI211B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 probability1=100 dicesize=4 dicenumber=8 savingthrow=4 special=256 END
+	
+// Digestive Enzymes
+CREATE SPL "jasm0101"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0101.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10119)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 10
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10120)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=102 duration=24 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=9 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=6 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=12 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=18 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=24 probability1=100 STR_VAR resource="jasm0101" END
+	
+// Grab
+CREATE SPL "jasm0103"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0103.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10467)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10806)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIMIC~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANKHEG~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELEMENTAL~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ETTIN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~GIANT~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~LIZARDMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~TREANT~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~BEAR_CAVE~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~BEAR_POLAR~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_PHASE~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_SWORD~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~)) duration=18 probability1=100 special=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10468) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=2 power=1 parameter2=1 duration=18 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=15 target=2 power=1 parameter1=8 parameter2=1 duration=18 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=18 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-4" duration=18 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=144 duration=18 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 STR_VAR resource="CRE_P01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="EFF_M22A" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=18 probability1=100 STR_VAR resource="rr#cnstr" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=18 probability1=100 STR_VAR resource="jasm0103" END
+	
+// Mandibles
+CREATE ITM "jaim0100"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10118)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10118)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IWOLF~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10807)
+	WRITE_LONG 0x60 2
+COPY_EXISTING ~jaim0100.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IWOLF~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 3
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 2
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm0101" END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 savebonus="-9" STR_VAR resource="jasm0103" END
+	END
+
+DEFINE_ACTION_FUNCTION jam01_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANS~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BPANKHE1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~L#NDC2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~L#MIMMI~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANK~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHDRANKH~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WIANKHE1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEG~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEG01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGF~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGG~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGQ~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKH01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKHEG~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKHSU~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDNEO~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ANKHEG1~
+			REMOVE_CRE_ITEM ~ANKHEG2~
+			REPLACE_CRE_ITEM ~jaim0100~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jaic000c~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_MEMORIZED_SPELL ~jasm0100~ #0 ~innate~ (1) // Stream of acidic enzymes
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=975
+					hp=80
+					ac=2
+					thac0=13
+					apr=1
+					saveDeath=10
+					saveWand=12
+					savePolymorph=11
+					saveBreath=12
+					saveSpell=13
+					level1=8
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=17
+					intelligence=1
+					wisdom=13
+					dexterity=11
+					constitution=13
+					charisma=6
+					morale=9
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~ANKHEG~)
+					class=IDS_OF_SYMBOL (~class~ ~ANKHEG~)
+					alignment=IDS_OF_SYMBOL (~align~ ~NEUTRAL~)
+					movement=5
+					enforce=1
+			END
+			// Assigning jabm0100
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN ANKHEG BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY skipFiles BEGIN BDANKHSU END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0100 END
+			// Assigning jabm0101
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN ANKHEG BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN BDANKHSU END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0101 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKH01~) BEGIN 
+				WRITE_SHORT 0x24 100 // hp
+				WRITE_SHORT 0x26 100 // hp
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 8 // saveDeath
+				WRITE_BYTE 0x55 10 // saveWand
+				WRITE_BYTE 0x56 9 // savePolymorph
+				WRITE_BYTE 0x57 9 // saveBreath
+				WRITE_BYTE 0x58 11 // saveSpell
+				WRITE_BYTE 0x234 10 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#MIMMI~) BEGIN 
+				WRITE_LONG 0x14 1200 // xpv
+				WRITE_SHORT 0x24 120 // hp
+				WRITE_SHORT 0x26 120 // hp
+				WRITE_BYTE 0x52 9 // thac0
+				WRITE_BYTE 0x54 7 // saveDeath
+				WRITE_BYTE 0x55 9 // saveWand
+				WRITE_BYTE 0x56 8 // savePolymorph
+				WRITE_BYTE 0x57 8 // saveBreath
+				WRITE_BYTE 0x58 10 // saveSpell
+				WRITE_BYTE 0x234 12 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHDRANKH~) BEGIN 
+				WRITE_LONG 0x14 1500 // xpv
+				WRITE_SHORT 0x24 150 // hp
+				WRITE_SHORT 0x26 150 // hp
+				WRITE_BYTE 0x52 5 // thac0
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#NDC2~) BEGIN 
+				WRITE_LONG 0x14 1500 // xpv
+				WRITE_SHORT 0x24 160 // hp
+				WRITE_SHORT 0x26 160 // hp
+				WRITE_BYTE 0x52 5 // thac0
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 16 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANS~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+				WRITE_SHORT 0x24 150 // hp
+				WRITE_SHORT 0x26 150 // hp
+				WRITE_BYTE 0x52 5 // thac0
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
+				ADD_CRE_ITEM ~jaic000h~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+				LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+				PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+					REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+				END
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANK~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+				WRITE_SHORT 0x24 150 // hp
+				WRITE_SHORT 0x26 150 // hp
+				WRITE_BYTE 0x52 5 // thac0
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
+				ADD_CRE_ITEM ~jaic000h~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+				LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+				PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+					REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+				END
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKHSU~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"BPANKHE1"
+		"L#MIMMI"
+		"WIANKHE1"
+		"ANKHEG"
+		"ANKHEGF"
+		"ANKHEGG"
+		"ANKHEGQ"
+		"BDANKH01"
+		"BDANKHEG"
+		"BDANKHSU"
+		"BDNEO"
+	BEGIN
+		LAF jam01_patch STR_VAR file END
+	END
+END
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"L#XZEANS"
+		"L#NDC2"
+		"L#XZEANK"
+		"OHDRANKH"
+		"ANKHEG01"
+	BEGIN
+		LAF jam01_patch STR_VAR file END
+	END
+END
