@@ -929,6 +929,14 @@ body.adjustments-open {
   font-size: 0.85rem;
   font-weight: normal;
 }
+/* The monster's code (#49), small and muted, right of the name inside a card title. */
+.creature-code {
+  margin-left: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--color-ink-soft);
+}
 .type-tag {
   font-size: 0.8em;
   padding: 0.1rem 0.55rem;

@@ -15,6 +15,7 @@ import { State } from "../../state";
 import documentationService from "./documentation.service";
 import translationService from "../translation.service";
 import monsterFilesService from "../monster-files.service";
+import { toCode } from "../utils/misc.func";
 
 interface FileIndexEntry {
   file: string;
@@ -1655,7 +1656,44 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
+    expect(template.text).toBe(
+      `<h3>${translationService.from(creature.name)}<span class="creature-code">#${toCode(creature.id)}</span></h3>`,
+    );
+  });
+
+  it("shows the base-36 code right after the name, before the type tags", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.id = 153 as Creature["id"];
+    creature.adjustments = [];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
+
+    expect(template.text).toBe(
+      `<h3>${translationService.from(creature.name)}<span class="creature-code">#49</span><div class="type-tags">T</div></h3>`,
+    );
+  });
+
+  it("shows the code right after the name in the adjustments summary title too", () => {
+    vi.spyOn(monsterFilesService, "getName").mockReturnValue(undefined);
+    const creature = fakeCreatureForAddCreature(false);
+    creature.id = 153 as Creature["id"];
+    creature.adjustments = [
+      {
+        files: ["BDSOGR1"],
+        noWeapon: false,
+        summon: false,
+        scriptName: false,
+        data: { hp: 70 },
+      },
+    ] as unknown as Creature["adjustments"];
+    const template = { text: "{{header}}" };
+
+    documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
+
+    expect(template.text).toContain(
+      `<summary><span>${translationService.from(creature.name)}<span class="creature-code">#49</span><div class="type-tags">T</div></span>`,
+    );
   });
 
   it("puts the type tags in the h3, right of the name", () => {
@@ -1666,7 +1704,7 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
 
     expect(template.text).toBe(
-      `<h3>${translationService.from(creature.name)}<div class="type-tags">T</div></h3>`,
+      `<h3>${translationService.from(creature.name)}<span class="creature-code">#${toCode(creature.id)}</span><div class="type-tags">T</div></h3>`,
     );
   });
 
@@ -1687,7 +1725,7 @@ describe("getCreatureHeader", () => {
     documentationService.getCreatureHeader(template, creature, '<div class="type-tags">T</div>');
 
     expect(template.text).toContain(
-      `<summary><span>${translationService.from(creature.name)}<div class="type-tags">T</div></span>`,
+      `<summary><span>${translationService.from(creature.name)}<span class="creature-code">#${toCode(creature.id)}</span><div class="type-tags">T</div></span>`,
     );
   });
 
@@ -1799,7 +1837,9 @@ describe("getCreatureHeader", () => {
 
     documentationService.getCreatureHeader(template, creature);
 
-    expect(template.text).toBe(`<h3>${translationService.from(creature.name)}</h3>`);
+    expect(template.text).toBe(
+      `<h3>${translationService.from(creature.name)}<span class="creature-code">#${toCode(creature.id)}</span></h3>`,
+    );
     expect(template.text).not.toContain("creature-adjustments");
   });
 

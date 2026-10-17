@@ -25,6 +25,7 @@ import logService from "../log.service";
 import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
+import { toCode } from "../utils/misc.func";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
 import { CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
 import { readModVersion, stampVersion } from "./doc-version";
@@ -852,7 +853,8 @@ class DocumentationService {
   getCreatureHeader(template: { text: string }, creature: Creature, typeTags = "") {
     const name = translationService.from(creature.name);
     const effectives = adjustmentService.getEffectiveAdjustments(creature);
-    let header = `<h3>${name}${typeTags}</h3>`;
+    const code = `<span class="creature-code">#${toCode(creature.id)}</span>`;
+    let header = `<h3>${name}${code}${typeTags}</h3>`;
     if (effectives.length) {
       // Keep each effective's index in the full sorted list so popover ids (m<id>-adj<index>-...)
       // stay stable regardless of how the cards are grouped for display.
@@ -898,7 +900,7 @@ class DocumentationService {
       // unique).
       header =
         `<details class="creature-adjustments" id="${baseId}" data-title="${name}">` +
-        `<summary><span>${name}${typeTags}</span><span class="adjustments-badge">${count} ${label}</span></summary>` +
+        `<summary><span>${name}${code}${typeTags}</span><span class="adjustments-badge">${count} ${label}</span></summary>` +
         `<div class="adj-layout">${side}<div class="adj-content">${content}</div></div>` +
         `</details>`;
     }
