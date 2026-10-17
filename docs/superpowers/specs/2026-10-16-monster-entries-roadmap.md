@@ -161,8 +161,8 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 - ✅ `pipeline.golden.test.ts` fails at setup: fixed (copies the tp2); the full suite is green and
   the test fails when the committed `mod/` is stale.
-- ☐ `pnp-spell/scribe_scrolls/main.tpa`: 16 `%MOD_FOLDER%` paths that don't resolve (untouched by
-  this work; check).
+- ✅ `pnp-spell/scribe_scrolls/`: an uninstalled component copied from another mod (missing its
+  files); deleted.
 - ☐ `jacm1500.cre` (Dryad summon) embeds stale `ja#1m41` / `ja#i5`; the generated tpa sets the
   scripts but doesn't remove the `ja#i5` item reference.
 - ☐ `pnp-spell/woodland_beings` (not installed) still uses old `ja#` names and summons the Dryad,
