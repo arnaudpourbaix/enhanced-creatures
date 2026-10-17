@@ -172,7 +172,10 @@ describe("CopyService", () => {
       `${include("vampire/99.tpa")} // Mature Vampire`,
       `${include("vampire/a6.tpa")} // Patriarch Vampire`,
     );
-    const SNAKE_MAIN = lines(`${include("giant-poisonous-snake/1a.tpa")} // Giant Poisonous Snake`);
+    const SNAKE_MAIN = lines(
+      `${include("giant-poisonous-snake/1a.tpa")} // Giant Poisonous Snake`,
+      `${include("giant-poisonous-snake/1b.tpa")} // Baby Snake`,
+    );
     const pnpDir = () => path.join(repoDir, "mod", "lib", "pnp-monster");
 
     beforeEach(() => {
@@ -265,14 +268,41 @@ describe("CopyService", () => {
       );
     });
 
-    it("keeps a dependency's creatures whole even when --monster would drop them", async () => {
-      await run({ entries: ["nereid", "giant-poisonous-snake"], monsters: ["nereid", "snake"] });
+    it("keeps a dependency's creatures whole even when --monster would narrow them", async () => {
+      // "giant" matches one snake line, so the snake entry would be narrowed on its own.
+      await run({ entries: ["nereid", "giant-poisonous-snake"], monsters: ["nereid", "giant"] });
 
       expect(readCopied("lib", "pnp-monster", "giant-poisonous-snake", "main.tpa")).toBe(
         SNAKE_MAIN,
       );
-      await run({ entries: ["nereid"], monsters: ["nereid"] });
       expect(readIndex()).toBe(indexKeeping("kin/fey", "nereid", "giant-poisonous-snake"));
+    });
+
+    it("narrows an entry nobody depends on", async () => {
+      await run({ entries: ["giant-poisonous-snake"], monsters: ["giant"] });
+
+      expect(readCopied("lib", "pnp-monster", "giant-poisonous-snake", "main.tpa")).toBe(
+        lines(
+          `${include("giant-poisonous-snake/1a.tpa")} // Giant Poisonous Snake`,
+          `// ${include("giant-poisonous-snake/1b.tpa")} // Baby Snake`,
+        ),
+      );
+    });
+
+    it("explains an old-format index.json", async () => {
+      fs.writeFileSync(path.join(pnpDir(), "index.json"), JSON.stringify({ dryad: "fey" }));
+
+      await expect(run({ entries: ["dryad"] })).rejects.toThrow(
+        "index.json is in the old format: run `npm run generate`",
+      );
+    });
+
+    it("explains an unreadable index.json", async () => {
+      fs.writeFileSync(path.join(pnpDir(), "index.json"), "{ nope");
+
+      await expect(run({ entries: ["dryad"] })).rejects.toThrow(
+        "index.json is in the old format: run `npm run generate`",
+      );
     });
 
     it("throws before copying when an entry is unknown, listing the valid ones", async () => {

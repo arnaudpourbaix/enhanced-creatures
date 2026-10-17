@@ -141,7 +141,28 @@ class CopyService {
     if (!fs.existsSync(indexPath)) {
       throw new Error(`Missing ${indexPath}: run \`npm run generate\` first.`);
     }
-    return JSON.parse(fs.readFileSync(indexPath, "utf-8")) as EntryIndex;
+    const oldFormat = new Error(`${indexPath} is in the old format: run \`npm run generate\``);
+    let index: unknown;
+    try {
+      index = JSON.parse(fs.readFileSync(indexPath, "utf-8"));
+    } catch (e: unknown) {
+      throw new Error(oldFormat.message, { cause: e });
+    }
+    if (!this.isEntryIndex(index)) throw oldFormat;
+    return index;
+  }
+
+  private isEntryIndex(index: unknown): index is EntryIndex {
+    if (typeof index !== "object" || index === null) return false;
+    return Object.values(index).every((e: unknown) => {
+      if (typeof e !== "object" || e === null) return false;
+      const { kin, dependsOn } = e as { kin?: unknown; dependsOn?: unknown };
+      return (
+        (kin === null || typeof kin === "string") &&
+        Array.isArray(dependsOn) &&
+        dependsOn.every((d) => typeof d === "string")
+      );
+    });
   }
 
   private checkNames(label: string, names: string[], available: string[]): void {
