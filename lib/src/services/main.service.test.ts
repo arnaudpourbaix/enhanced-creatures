@@ -191,6 +191,20 @@ describe("generateKinsAndEntries", () => {
     }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
   });
 
+  it("throws before touching a folder a family still generates into", () => {
+    const familyFile = path.join(tempDir, "lib/pnp-monster/vampire/01.tpa");
+    fs.mkdirSync(path.dirname(familyFile), { recursive: true });
+    fs.writeFileSync(familyFile, "x");
+    expect(() => {
+      mainService.generateKinsAndEntries(
+        [],
+        [() => new FakeEntry(EntryEnum.Vampire)],
+        ["lib/pnp-monster/vampire"],
+      );
+    }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
+    expect(fs.existsSync(familyFile)).toBe(true);
+  });
+
   it("writes an empty index with the real (empty) registries", () => {
     mainService.generateKinsAndEntries();
     expect(read("index.tpa")).toBe("");

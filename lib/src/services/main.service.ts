@@ -45,7 +45,11 @@ class MainService {
         this.generateFamily(factory, families);
       });
     }
-    this.generateKinsAndEntries();
+    this.generateKinsAndEntries(
+      kinFactories,
+      entryFactories,
+      families.map((f) => utils.getFamilyFolder(f)),
+    );
     documentationService.generate();
     homeService.generate();
   }
@@ -70,15 +74,18 @@ class MainService {
 
   /**
    * Builds and generates every kin, then every entry (each given the built kins), in registry
-   * order, then the pnp-monster index that installs them in that order.
+   * order, then the pnp-monster index that installs them in that order. `familyFolders`: the
+   * folders the families already generated into; a kin or entry claiming one is an error (it
+   * would clean the family's generated files away).
    */
   generateKinsAndEntries(
     kins: readonly (() => CreatureKin)[] = kinFactories,
     entries: readonly ((
       kins: Map<KinEnum, CreatureKin>,
     ) => CreatureEntry<Creature>)[] = entryFactories,
+    familyFolders: readonly string[] = [],
   ) {
-    const generated = new Set<string>();
+    const generated = new Set<string>(familyFolders);
     const claim = (folder: string) => {
       if (generated.has(folder)) throw new Error(`Folder '${folder}' already generated`);
       generated.add(folder);

@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
 import { KinEnum } from "../../../creatures/kin";
-import { MonsterEnum } from "../../../creatures/monster";
+import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
+import hitPointService from "../../services/hit-point.service";
 import logService from "../../services/log.service";
 import { Creature } from "./creature";
 import { InputMainCreatureData } from "./data-input";
@@ -89,5 +90,24 @@ describe("CreatureEntry", () => {
     expect(entry.spell(3)).toBe(own);
     expect(() => entry.spell(99)).toThrow(/No spell found with id 99/);
     expect(() => new TestEntry(EntryEnum.Ankheg).spell(1)).toThrow(/No spell found with id 1/);
+  });
+
+  // Tasks 3-7: a migrated entry keeps its members' old family until Task 8 moves hit dice and
+  // turn level to types, so HitDiceTable's familyId rows keep applying.
+  it("stamps members with its legacy family, validates them against it and keeps its hit dice", () => {
+    const entry = new TestEntry(EntryEnum.Dryad, undefined, MonsterFamilyEnum.Fey);
+    const validate = vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
+    entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
+    const dryad = entry.creature(MonsterEnum.Dryad);
+    expect(dryad.family).toBe(MonsterFamilyEnum.Fey);
+    expect(dryad.entry).toBe(EntryEnum.Dryad);
+    expect(dryad.folder).toBe("lib/pnp-monster/dryad");
+    // creatureFactory.validate warns and invalidates when creature.family !== this argument.
+    expect(validate).toHaveBeenCalledWith(MonsterFamilyEnum.Fey);
+    const hp = hitPointService.getHitPoints({
+      data: { level1: { pnpValue: 3, value: 3, type: "none" } },
+      creature: dryad,
+    });
+    expect(hp).toBe(18); // 3 * d6 (Fey family row)
   });
 });

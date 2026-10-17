@@ -1,4 +1,5 @@
 import { EntryEnum } from "../../../creatures/entry";
+import { MonsterFamilyEnum } from "../../../creatures/monster";
 import logService from "../../services/log.service";
 import { ResourceScope } from "../../services/utils/misc.func";
 import utils from "../../services/utils/utils.service";
@@ -17,10 +18,17 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
   fileType: ResourceScope = "e";
   declare id: EntryEnum;
   kin?: CreatureKin;
+  /**
+   * Transitional (Tasks 3-7, removed with families): the family the entry was migrated from.
+   * Its members keep `creature.family` = this value (and validate() checks it), so the
+   * family-keyed behaviors (HitDiceTable familyId rows) keep applying until they move to types.
+   */
+  readonly legacyFamily?: MonsterFamilyEnum;
 
-  constructor(id: EntryEnum, kin?: CreatureKin) {
+  constructor(id: EntryEnum, kin?: CreatureKin, legacyFamily?: MonsterFamilyEnum) {
     super(id);
     this.kin = kin;
+    this.legacyFamily = legacyFamily;
     logService.header(`Creating entry ${EntryEnum[id]}...`);
   }
 
@@ -32,11 +40,11 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
   protected adopt(creature: T): void {
     creature.entry = this.id;
     creature.folder = this.folder;
-    creature.family = undefined;
+    creature.family = this.legacyFamily;
   }
 
-  protected memberFamily(): undefined {
-    return undefined;
+  protected memberFamily(): MonsterFamilyEnum | undefined {
+    return this.legacyFamily;
   }
 
   override item(id: number): Item {
