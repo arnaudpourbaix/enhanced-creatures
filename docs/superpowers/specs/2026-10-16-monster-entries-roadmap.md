@@ -67,7 +67,11 @@ Design: [2026-10-17-shared-natural-weapons-design.md](2026-10-17-shared-natural-
 - Follow-up step: merge the per-family weapon name keys into shared keys once proven harmless
   (renumbers every string).
 
-### 3. ☐ Resource naming scheme
+### 3. ◐ Resource naming scheme
+
+Design: [2026-10-17-resource-naming-design.md](2026-10-17-resource-naming-design.md). Decided:
+counter on 2 characters (always 8), scripts as kind `b` with counters, base 36 for mod files too,
+handwritten resources brought into the scheme, generation cleans its own output.
 
 Game filenames are 8 characters, and ours must start with `ja`, which leaves 6. Today's scheme
 (`ja` + kind + counter in 1 hex + `m`/`f` + id in hex, e.g. `jas1m3`) breaks at monster id 256
