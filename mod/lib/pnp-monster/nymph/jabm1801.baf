@@ -160,7 +160,7 @@ END
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -172,13 +172,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -190,13 +190,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -208,13 +208,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -226,13 +226,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -244,13 +244,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -262,13 +262,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -280,13 +280,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -298,13 +298,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -316,13 +316,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -334,14 +334,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 // Blinding Beauty
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -352,13 +352,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -369,13 +369,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -386,13 +386,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -403,13 +403,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -420,13 +420,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -437,13 +437,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -454,13 +454,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -471,13 +471,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -488,13 +488,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 IF
 	!GlobalTimerNotExpired("blindingBeauty","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0508")
+	HaveSpellRES("jase1502")
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -505,7 +505,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("blindingBeauty","LOCALS",6)
-		ReallyForceSpellRES("jask0508",Myself)
+		ReallyForceSpellRES("jase1502",Myself)
 END
 
 // Dimension Door
@@ -513,7 +513,7 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jask0501")
+	HaveSpellRES("jase1500")
 	OR(2)
 		Range(NearestEnemyOf(Myself),10)
 		AttackedBy([ANYONE],DEFAULT)
@@ -522,8 +522,8 @@ THEN
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		CreateCreatureOffscreen("RR#TRAT",0)
-		ForceSpellRES("jask0501","RR#TRAT")
-		RemoveSpellRES("jask0501")
+		ForceSpellRES("jase1500","RR#TRAT")
+		RemoveSpellRES("jase1500")
 		Wait(1)
 		SetInterrupt(TRUE)
 END
@@ -5578,7 +5578,7 @@ END
 // Animal Friendship
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.ANIMAL]))
@@ -5592,13 +5592,13 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.ANIMAL]))
@@ -5612,13 +5612,13 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.ANIMAL]))
@@ -5632,13 +5632,13 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See([NEUTRAL.ANIMAL])
@@ -5652,13 +5652,13 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearest([NEUTRAL.ANIMAL]))
@@ -5672,13 +5672,13 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(807,242)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearest([NEUTRAL.ANIMAL]))
@@ -5692,7 +5692,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 

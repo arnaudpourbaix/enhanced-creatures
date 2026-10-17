@@ -1,29 +1,303 @@
 import { MonsterItemIconEnum } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-database";
+import { CommonProjectileFiles } from "../../spells/projectiles";
 import abilityFactory from "../../src/factories/ability.factory";
+import effectFactory from "../../src/factories/effect.factory";
 import { ScriptTarget } from "../../src/model/constants";
-import {
-  AbilityDamageTypeEnum,
-  EffectCastSpellTypeEnum,
-  EffectDispelResistanceEnum,
-  EffectStatisticModifierEnum,
-  EffectTimingEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
-  ProficiencyTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import { BaseEffect } from "../../src/model/spell-item/effect";
+import {
+  AbilityDamageTypeEnum,
+  CharmTypeEnum,
+  EffectCastSpellTypeEnum,
+  EffectColorLocationEnum,
+  EffectDispelResistanceEnum,
+  EffectIDSFileEnum,
+  EffectStatisticModifierEnum,
+  EffectTimingEnum,
+  EffectVisualEffectLocationEnum,
+  ItemAbilityCastingAnimationEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityPrimaryTypeEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  PortraitIconEnum,
+  ProficiencyTypeEnum,
+  SaveTypeEnum,
+  SpellFlagEnum,
+  SpellTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import {
+  SpellProtectionRelation,
+  SpellProtectionStat,
+} from "../../src/model/spell-item/spell-protection";
+import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Fey, FeyIds } from "./kin";
 
 class SirineEntry extends CreatureEntry<Fey> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.Sirine, kin);
+    this.createCharmSong();
+    this.createFogCloud();
+    this.createTouchOfTranquility();
     this.addCreature(() => this.sirine());
+  }
+
+  /**
+   * Charm Song
+   */
+  private createCharmSong() {
+    const technical = this.addSpell({
+      name: "monster.fey.ability.charmSong.name",
+      keywords: ["area"],
+      doc: false,
+      icon: SPELLS.Wizard.DireCharm.file,
+      castingSound: "SIRIN05",
+      flags: [SpellFlagEnum.BreakSanctuary],
+      type: SpellTypeEnum.Innate,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Enchantment,
+      primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      level: 1,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 30,
+          speed: 1,
+          effects: effectFactory.charm({
+            charmType: CharmTypeEnum.NeutralDireCharm,
+            duration: 3 * Durations.turn,
+            dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+            saveType: SaveTypeEnum.Spell,
+          }),
+        },
+      ],
+    });
+    return this.addSpell({
+      name: "monster.fey.ability.charmSong.name",
+      id: FeyIds.CharmSong,
+      description: "monster.fey.ability.charmSong.description",
+      icon: SPELLS.Wizard.DireCharm.file,
+      castingSound: "SIRIN05",
+      flags: [SpellFlagEnum.BreakSanctuary, SpellFlagEnum.IgnoreDead],
+      type: SpellTypeEnum.Innate,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Enchantment,
+      primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      options: {
+        removeInvisbilityOnCast: true,
+      },
+      keywords: ["charm", "area"],
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          projectile: CommonProjectileFiles.AreaOfSightNonParty,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 30,
+          speed: 1,
+          effects: [
+            {
+              opcode: EffectTypeEnum.UseEFFFile,
+              idsFile: EffectIDSFileEnum.GENERAL,
+              idsEntry: "HUMANOID",
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            },
+          ],
+        },
+      ],
+      effectFiles: [
+        {
+          opcode: EffectTypeEnum.CastSpell,
+          type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
+          resource: technical.file,
+          timing: EffectTimingEnum.InstantPermanentUntilDeath,
+        },
+      ],
+      ability: {
+        preset: SPELLS.Wizard.DireCharm.file,
+        spell: {
+          type: "force",
+          remove: true,
+        },
+        disableInterrupt: true,
+      },
+    });
+  }
+
+  /**
+   * Fog Cloud
+   */
+  private createFogCloud() {
+    return this.addSpell({
+      name: "monster.fey.ability.fogCloud.name",
+      id: FeyIds.FogCloud,
+      description: "monster.fey.ability.fogCloud.description",
+      icon: "SPWI204",
+      castingSound: "CAS_M08",
+      type: SpellTypeEnum.Innate,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
+      primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Battleground,
+      level: 1,
+      options: {
+        removeInvisbilityOnCast: true,
+      },
+      keywords: ["cloud", "blind", "area"],
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          projectile: "CLOUD",
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.AnyPointWithinRange,
+          range: 30,
+          speed: 1,
+          effects: effectFactory.blindness({
+            duration: 7,
+            dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+          }),
+        },
+      ],
+      ability: {
+        targets: [{ name: "NearestEnemies" }],
+        spell: {
+          excludeStateChecks: ["STATE_BLIND"],
+          type: "force",
+          remove: true,
+        },
+        requireVocal: true,
+        disableInterrupt: true,
+      },
+    });
+  }
+
+  /**
+   * Touch of Tranquility
+   */
+  private createTouchOfTranquility() {
+    const tranquilityBaseEffect = {
+      timing: EffectTimingEnum.InstantLimited,
+      duration: 5 * Durations.turn,
+      saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+    } satisfies BaseEffect;
+    return this.addSpell({
+      name: "monster.fey.ability.touchOfTranquility.name",
+      id: FeyIds.TouchOfTranquility,
+      // Only ever reached via the weapon's on-hit CastSpell effect (below) - it isn't a
+      // memorized/learnable ability, so it never gets its own Abilities entry (see
+      // documentation.service.ts's getCreatureSpell, which requires a `memorized` match). Without
+      // `doc: false` it falls into documentation.service.ts's "documented elsewhere" branch and
+      // the attack description drops the spell's description entirely, same mechanism ankheg's
+      // digestiveEnzyme relies on via addWeapon's castSpells (see attachSpellToWeapon).
+      doc: false,
+      description: "monster.fey.ability.touchOfTranquility.description",
+      // options: { renew: 1 },
+      castingSound: "EFF_P11",
+      flags: [SpellFlagEnum.Hostile, SpellFlagEnum.IgnoreDead],
+      type: SpellTypeEnum.Innate,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
+      primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Battleground,
+      icon: SPELLS.Wizard.Feeblemind.file,
+      keywords: ["confusion"],
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.LivingActor,
+          effects: [
+            {
+              opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+              type: {
+                stat: SpellProtectionStat.Splstate,
+                relation: SpellProtectionRelation.Equal,
+              },
+              value: "CHAOTIC_COMMANDS",
+              timing: EffectTimingEnum.InstantLimited,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+              duration: 1,
+            },
+            {
+              opcode: EffectTypeEnum.Feeblemindedness,
+              ...tranquilityBaseEffect,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Feebleminded,
+              ...tranquilityBaseEffect,
+            },
+            {
+              opcode: EffectTypeEnum.PlayVisualEffect,
+              playWhere: EffectVisualEffectLocationEnum.OverTargetAttached,
+              ...tranquilityBaseEffect,
+              duration: 2,
+              resource: "SPMINDAT",
+            },
+            {
+              opcode: EffectTypeEnum.CharacterColorPulse,
+              color: { red: 109, green: 73, blue: 0 },
+              location: EffectColorLocationEnum.ArmorGreyBeltAmulet,
+              cycleSpeed: 20,
+              ...tranquilityBaseEffect,
+              duration: 1,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayString,
+              stringRef: StringRefUtils.getStringId("Feebleminded"),
+              ...tranquilityBaseEffect,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            },
+            {
+              opcode: EffectTypeEnum.ProtectionFromSpell,
+              ...tranquilityBaseEffect,
+            },
+          ],
+        },
+      ],
+      ability: {
+        // touch is automatic for charmed individuals
+        spell: {
+          type: "force",
+          memorizedSpellCheck: false,
+        },
+        targets: [
+          {
+            name: "NearestAllies",
+            includeStatus: ["Able"],
+            triggers: [
+              {
+                name: "StateCheck",
+                params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
+              },
+              {
+                name: "See",
+                params: ["NearestEnemyOf"],
+                negation: true,
+              },
+            ],
+          },
+        ],
+        noRoundTimer: true,
+        actionsBefore: [
+          { name: "EquipMostDamagingMelee" },
+          {
+            name: "MoveToObjectNoInterrupt",
+            params: [ScriptTarget.lastSeen],
+          },
+        ],
+        disableInterrupt: true,
+      },
+    });
   }
 
   createCreature(id: MonsterEnum): Fey {

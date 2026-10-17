@@ -206,7 +206,7 @@ END
 
 // Improved stream of frost
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -220,11 +220,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -238,11 +238,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -256,12 +256,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 // Improved stream of frost
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -274,11 +274,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -291,11 +291,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 IF
-	HaveSpellRES("jask0100")
+	HaveSpellRES("jase0f00")
 	RandomNumGT(800,640)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -308,7 +308,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0100",Myself)
+		ForceSpellRES("jase0f00",Myself)
 END
 
 // Attack Wounded enemy

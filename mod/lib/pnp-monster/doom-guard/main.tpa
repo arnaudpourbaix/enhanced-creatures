@@ -1,2 +1,37 @@
 LAM load_secondary_types
+// Long Sword
+CREATE ITM "jaie0u00"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10170)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10170)
+	WRITE_LONG 0x18 64
+	WRITE_SHORT 0x1c 20
+	WRITE_ASCII 0x22 ~S1~ #2
+	WRITE_BYTE 0x31 90
+	WRITE_ASCII 0x3a ~ISW1H04~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10926)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~jaie0u00.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~ISW1H04~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 1
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 8
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 50
+	WRITE_SHORT 0xa0 50
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=21 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=94 parameter2=20 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=6 parameter2=16 timing=2 probability1=100 END
+
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/doom-guard/0g.tpa" // Doom Guard

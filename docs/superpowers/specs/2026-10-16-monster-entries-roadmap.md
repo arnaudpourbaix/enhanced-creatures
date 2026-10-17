@@ -144,8 +144,12 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 ### Structure
 
-- ☐ Move single-use material out of kins into their entry (Bear's Improved Stream of Frost → Polar
-  Bear; Wolf's frost and dread-wolf helpers; Nereid-only Fey methods). Renames those resources.
+- ✅ Move single-use material out of kins into their entry. Kin resources used by one entry moved
+  (Improved Stream of Frost → Polar Bear; Priest Dimension Door, Blinding Beauty → Nymph; Entangle
+  → Hamadryad; Charm Song, Fog Cloud, Touch of Tranquility → Sirine; Longsword → Doom Guard):
+  renamed `k` → `e`. Single-use methods of the shared creature classes moved to a subclass in their
+  entry file (no output change). Detect Traps (Dryad's wilderness helper) and Flaming Sword
+  (Helmed Horror, Battle Horror, Doom Sayer) are shared and stay.
 - ☐ Move `SAHAMB01.baf` (overrides scripts of Zombie, Ghast and Skeleton Warrior creatures) from the
   Zombie entry to `pnp-monster/common/`, so `copy --entry ghast` no longer pulls the whole Zombie
   entry.

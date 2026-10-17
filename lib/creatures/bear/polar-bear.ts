@@ -1,17 +1,105 @@
+import { SPELLS } from "../../config/spells/spell-database";
+import effectFactory from "../../src/factories/effect.factory";
 import { ScriptTarget } from "../../src/model/constants";
-import { CustomCode } from "../../src/model/script/script";
-import { customCodes } from "../common";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import { CustomCode } from "../../src/model/script/script";
+import {
+  EffectDamageModeEnum,
+  EffectDamageTypeEnum,
+  EffectFlagsEnum,
+  EffectTimingEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  LightingEffectEnum,
+  SaveTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
+import { customCodes } from "../common";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Bear, BearIds } from "./kin";
 
 class PolarBearEntry extends CreatureEntry<Bear> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.PolarBear, kin);
+    this.createImprovedStreamOfFrost();
     this.addCreature(() => this.polar());
+  }
+
+  /**
+   * Improved Stream Of Frost
+   */
+  private createImprovedStreamOfFrost() {
+    return this.addSpell({
+      name: "monster.bear.improvedStreamOfFrost.name",
+      description: "monster.bear.improvedStreamOfFrost.description",
+      id: BearIds.ImprovedStreamOfFrost,
+      options: { renew: 3 },
+      icon: SPELLS.Wizard.Fireburst.file,
+      secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
+      keywords: ["cold", "area"],
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          target: ItemAbilityTargetEnum.AnyPointWithinRange,
+          projectile: {
+            copyFromFile: "CONECOLD",
+            name: "Improved stream of frost",
+            areaEffectInfo: {
+              areaProjectileFlags: [
+                AreaProjectileEnum.AffectOnlyEnemies,
+                AreaProjectileEnum.UseSecondaryProjectile,
+              ],
+              triggerRadius: 180,
+              areaOfEffect: 180, // within 10 feet
+              coneWidth: 0,
+            },
+          },
+          range: 10,
+          effects: [
+            {
+              opcode: EffectTypeEnum.Damage,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              amount: 0,
+              damageMode: EffectDamageModeEnum.Normal,
+              type: EffectDamageTypeEnum.Cold,
+              diceThrown: 6,
+              diceSize: 4,
+              saveTypes: [SaveTypeEnum.Breath],
+              flags: [EffectFlagsEnum.SaveForHalf],
+            },
+            ...effectFactory.paralyze({
+              duration: 1 * Durations.turn,
+              saveType: SaveTypeEnum.ParalyzePoisonDeath,
+              saveBonus: -2,
+              startSound: "MISC_04A",
+              endSound: "EFF_E03",
+              pulse: { blue: 255, green: 213, red: 123, speed: 20 },
+              lightingEffect: LightingEffectEnum.AlterationWater,
+            }),
+          ],
+        },
+      ],
+      ability: {
+        targets: [
+          {
+            name: "NearestEnemies",
+            limit: 3,
+          },
+        ],
+        spell: {
+          type: "force",
+          castOnSelf: true,
+        },
+        range: 10,
+        probability: 20,
+      },
+    });
   }
 
   createCreature(id: MonsterEnum): Bear {

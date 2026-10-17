@@ -1,26 +1,157 @@
-import { NEW_CREATURES } from "../../config/creatures";
+import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../../config/creatures";
+import { SPELLS } from "../../config/spells/spell-database";
 import { BafExistingStringReference } from "../../config/stringRef";
 import actionFactory from "../../src/factories/action.factory";
 import responseFactory from "../../src/factories/response.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
-import { ConditionalStatement } from "../../src/model/script/script";
-import {
-  EffectStatisticModifierEnum,
-  ProficiencyTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { ConditionalStatement } from "../../src/model/script/script";
+import { BaseEffect, IdsEffect } from "../../src/model/spell-item/effect";
+import {
+  EffectBonusToEnum,
+  EffectDispelResistanceEnum,
+  EffectModifierTypeEnum,
+  EffectStatisticModifierEnum,
+  EffectTimingEnum,
+  ItemAbilityCastingAnimationEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityPrimaryTypeEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  PortraitIconEnum,
+  ProficiencyTypeEnum,
+  SaveTypeEnum,
+  SpellTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Fey, FeyIds, FeyKin } from "./kin";
 
 class HamadryadEntry extends CreatureEntry<Fey> {
   constructor(private readonly feyKin: FeyKin) {
     super(EntryEnum.Hamadryad, feyKin);
+    this.createEntangle();
     this.addCreature(() => this.hamadryad());
+  }
+
+  /**
+   * Entangle
+   */
+  private createEntangle() {
+    const entangleCommonEffect = {
+      timing: EffectTimingEnum.InstantLimited,
+      duration: 6,
+      dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+      saveTypes: [SaveTypeEnum.Spell],
+    } satisfies BaseEffect;
+    return this.addSpell({
+      name: "monster.fey.ability.entangle.name",
+      id: FeyIds.Entangle,
+      description: "monster.fey.ability.entangle.description",
+      icon: SPELLS.Priest.Entangle.file,
+      castingSound: "CAS_P08",
+      type: SpellTypeEnum.Innate,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
+      primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      level: 1,
+      options: {
+        renew: 3,
+      },
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          projectile: {
+            copyFromFile: "ENTANG2",
+            name: "Hamadryad Entangle",
+            areaEffectInfo: {
+              areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
+            },
+          },
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.AnyPointWithinRange,
+          range: 30,
+          speed: 1,
+          effects: [
+            ...[...GARGANTUAN_CREATURES, ...INCORPOREAL_CREATURES].map(
+              (c) =>
+                // no-unnecessary-type-assertion is wrong here (verified against tsc directly):
+                // without this cast, opcode/idsFile widen instead of narrowing to IdsEffect's
+                // literal types, which then breaks inference for the array literal's other
+                // (sibling) elements below too.
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+                ({
+                  opcode: EffectTypeEnum.UseEFFFile,
+                  idsFile: c[0],
+                  idsEntry: c[1],
+                  timing: EffectTimingEnum.InstantLimited,
+                  duration: 6,
+                }) as IdsEffect,
+            ),
+            {
+              opcode: EffectTypeEnum.MovementRateBonus,
+              type: EffectModifierTypeEnum.SetPercentOf,
+              value: 50,
+              ...entangleCommonEffect,
+              saveTypes: undefined,
+            },
+            {
+              opcode: EffectTypeEnum.MovementRateBonus,
+              type: EffectModifierTypeEnum.Set,
+              value: 0,
+              ...entangleCommonEffect,
+            },
+            {
+              opcode: EffectTypeEnum.Thac0Bonus,
+              type: EffectStatisticModifierEnum.Increment,
+              value: -2,
+              ...entangleCommonEffect,
+            },
+            {
+              opcode: EffectTypeEnum.ArmorClassBonus,
+              bonusTo: EffectBonusToEnum.AllWeapons,
+              value: -2,
+              ...entangleCommonEffect,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "CRE_P01",
+              ...entangleCommonEffect,
+              duration: 1,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "EFF_M22A",
+              ...entangleCommonEffect,
+              timing: EffectTimingEnum.DelayPermanent,
+            },
+            {
+              opcode: EffectTypeEnum.EntangleOverlay,
+              ...entangleCommonEffect,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Entangled,
+              ...entangleCommonEffect,
+            },
+          ],
+        },
+      ],
+      ability: {
+        preset: SPELLS.Priest.Entangle.file,
+        spell: {
+          type: "force",
+          remove: true,
+        },
+        disableInterrupt: true,
+      },
+    });
   }
 
   createCreature(id: MonsterEnum): Fey {

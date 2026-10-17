@@ -1,4 +1,5 @@
 import { Creature } from "../../src/model/creature/creature";
+import { CreatureKin } from "../../src/model/creature/kin";
 import {
   AbilityDamageTypeEnum,
   ColorEnum,
@@ -12,7 +13,6 @@ import {
   ProficiencyTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 
 export enum ConstructIds {
@@ -33,7 +33,6 @@ export class ConstructKin extends CreatureKin {
   constructor() {
     super(KinEnum.Construct);
     this.createFlamingSword();
-    this.createLongsword();
     this.createArmor();
     this.createHelmet();
   }
@@ -101,49 +100,6 @@ export class ConstructKin extends CreatureKin {
             color: { red: 0, green: 0, blue: 0 },
             location: EffectColorLocationEnum.WeaponRedGripStaffMinor,
             duration: 3,
-          },
-        ],
-      },
-    });
-  }
-
-  createLongsword() {
-    this.addWeapon({
-      weapon: {
-        stringRef: "monster.construct.weapon.longSword",
-        id: ConstructIds.Longsword,
-        equippedSlot: ["WEAPON1"],
-        flags: [ItemFlagEnum.Magical],
-        animation: ItemAnimationEnum.LongSword,
-        icon: "ISW1H04",
-        category: ItemCategoryEnum.LargeSwords,
-        proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
-        enchantment: 1,
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
-          range: 1,
-          diceThrown: 1,
-          diceSize: 8,
-          damageType: AbilityDamageTypeEnum.Slashing,
-          speed: 5,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-        effects: [
-          {
-            opcode: EffectTypeEnum.SetColor,
-            color: ColorEnum.Silver,
-            location: EffectColorLocationEnum.WeaponBlueHeadBladeMinor,
-          },
-          {
-            opcode: EffectTypeEnum.SetColor,
-            color: ColorEnum.Rhubarb,
-            location: EffectColorLocationEnum.WeaponRedGripStaffMinor,
-          },
-          {
-            opcode: EffectTypeEnum.SetColor,
-            color: ColorEnum.DarkSilver,
-            location: EffectColorLocationEnum.WeaponGreyHeadBladeStaffMajor,
           },
         ],
       },

@@ -2,4 +2,53 @@ LAM load_secondary_types
 ACTION_IF FILE_EXISTS_IN_GAME ~VAELASA.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/hamadryad/assets/VAELASA.BAF~
 END
+// Entangle
+CREATE EFF "jase1400"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase1400~ #8
+
+COPY_EXISTING "ENTANG2.pro" ~override/jase1400.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x200 64
+ADD_PROJECTILE ~override/jase1400.pro~ ~Hamadryad Entangle~
+
+CREATE SPL "jase1400"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase1400.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
+	WRITE_ASCII 0x10 ~CAS_P08~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR105C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10193)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jase1400~)) + 1 STR_VAR icon="SPPR105B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jase1400" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 resist_dispel=1 duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter2=1 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-2" resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 resist_dispel=1 duration=1 probability1=100 savingthrow=1 STR_VAR resource="CRE_P01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 resist_dispel=1 duration=6 probability1=100 savingthrow=1 STR_VAR resource="EFF_M22A" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=154 target=2 power=1 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=144 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/hamadryad/16.tpa" // Hamadryad

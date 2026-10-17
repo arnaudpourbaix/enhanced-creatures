@@ -1,2 +1,72 @@
 LAM load_secondary_types
+// Dimension Door
+CREATE SPL "jase1500"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase1500.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10473)
+	WRITE_ASCII 0x10 ~CAS_M08~ #8
+	WRITE_LONG 0x18 2048
+	WRITE_SHORT 0x1c 2
+	WRITE_LONG 0x1e 64
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI402C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10474)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=2 resist_dispel=1 duration=1 probability1=100 STR_VAR resource="SPDIMNDR" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=124 target=1 power=1 timing=4 resist_dispel=1 duration=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=20 target=1 power=1 resist_dispel=1 duration=1 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR     END
+	
+// Blinding Beauty
+CREATE SPL "jase1501"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase1501.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10200)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR704C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10981)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPPR704B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 resist_dispel=3 duration=7200 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 resist_dispel=3 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="EFF_P71B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=3 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPH1HI01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="jase1501" END
+	
+// Blinding Beauty
+CREATE EFF "jase1502"
+	WRITE_LONG 0x10 146
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x1c 0
+	WRITE_LONG 0x24 1
+	WRITE_LONG 0x20 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase1501~ #8
+
+CREATE SPL "jase1502"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase1502.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10200)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR704C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10201)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~japc0000~)) + 1 STR_VAR icon="SPPR704B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=1 duration=2 probability1=100 STR_VAR resource="ICCLKFR2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 timing=1 probability1=100 STR_VAR resource="jase1502" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/nymph/18.tpa" // Nymph

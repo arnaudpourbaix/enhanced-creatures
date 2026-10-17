@@ -28,11 +28,11 @@ IF
 	Global("ja_wilderness","LOCALS",0)
 	OR(2)
 		HaveSpellRES("jask0500")
-		HaveSpellRES("jask0506")
+		HaveSpellRES("jask0504")
 THEN
 	RESPONSE #100
 		RemoveSpellRES("jask0500")
-		RemoveSpellRES("jask0506")
+		RemoveSpellRES("jask0504")
 		SetGlobal("ja_wilderness","LOCALS",2)
 END
 
@@ -242,13 +242,13 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("speakWithPlants","LOCALS")
-	HaveSpellRES("jask0503")
+	HaveSpellRES("jask0502")
 	CheckStatGT(Myself,0,ENTANGLE)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0503",LastSeenBy(Myself))
+		ForceSpellRES("jask0502",LastSeenBy(Myself))
 		SetGlobalTimer("speakWithPlants","LOCALS",60)
 		SetInterrupt(TRUE)
 END
@@ -256,7 +256,7 @@ END
 // Entangle
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -283,14 +283,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -317,14 +317,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -351,14 +351,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -385,14 +385,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -419,14 +419,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -453,14 +453,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -487,14 +487,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -521,14 +521,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -555,14 +555,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -589,15 +589,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 // Entangle
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -620,14 +620,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -650,14 +650,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -680,14 +680,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -710,14 +710,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -740,14 +740,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -770,14 +770,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -800,14 +800,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -830,14 +830,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -860,14 +860,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -890,15 +890,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 // Entangle
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -924,14 +924,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -957,14 +957,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -990,14 +990,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -1023,14 +1023,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -1056,14 +1056,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -1089,14 +1089,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -1122,14 +1122,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -1155,14 +1155,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -1188,14 +1188,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -1221,15 +1221,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 // Entangle
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -1251,14 +1251,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -1280,14 +1280,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -1309,14 +1309,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -1338,14 +1338,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -1367,14 +1367,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -1396,14 +1396,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -1425,14 +1425,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -1454,14 +1454,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -1483,14 +1483,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0504")
+	HaveSpellRES("jase1400")
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -1512,15 +1512,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0504",LastSeenBy(Myself))
-		RemoveSpellRES("jask0504")
+		ForceSpellRES("jase1400",LastSeenBy(Myself))
+		RemoveSpellRES("jase1400")
 		SetInterrupt(TRUE)
 END
 
 // Dryad Charm
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1556,14 +1556,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1599,14 +1599,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1642,14 +1642,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1685,14 +1685,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1728,14 +1728,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1771,14 +1771,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1814,14 +1814,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1857,14 +1857,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1900,15 +1900,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 // Dryad Charm
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1943,14 +1943,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -1985,14 +1985,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2027,14 +2027,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2069,14 +2069,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2111,14 +2111,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2153,14 +2153,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2195,14 +2195,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2237,14 +2237,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2279,15 +2279,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 // Dryad Charm
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2323,14 +2323,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2366,14 +2366,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2409,14 +2409,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2452,14 +2452,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2495,14 +2495,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2538,14 +2538,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2581,14 +2581,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2624,14 +2624,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2667,14 +2667,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2710,15 +2710,15 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 // Dryad Charm
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2753,14 +2753,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2795,14 +2795,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2837,14 +2837,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2879,14 +2879,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2921,14 +2921,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -2963,14 +2963,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -3005,14 +3005,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -3047,14 +3047,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -3089,14 +3089,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 IF
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
@@ -3131,14 +3131,14 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		RemoveSpellRES("jask0502")
+		ForceSpellRES("jask0501",LastSeenBy(Myself))
+		RemoveSpellRES("jask0501")
 		SetInterrupt(TRUE)
 END
 
 // Animal Friendship
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOfType([0.ANIMAL]))
@@ -3152,12 +3152,12 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOfType([0.ANIMAL]))
@@ -3171,12 +3171,12 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOfType([0.ANIMAL]))
@@ -3190,12 +3190,12 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See([NEUTRAL.ANIMAL])
@@ -3209,12 +3209,12 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearest([NEUTRAL.ANIMAL]))
@@ -3228,12 +3228,12 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
 IF
-	HaveSpellRES("jask0505")
+	HaveSpellRES("jask0503")
 	RandomNumGT(802,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearest([NEUTRAL.ANIMAL]))
@@ -3247,7 +3247,7 @@ THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0505",LastSeenBy(Myself))
+		ForceSpellRES("jask0503",LastSeenBy(Myself))
 		SetInterrupt(TRUE)
 END
 
@@ -3255,13 +3255,13 @@ END
 IF
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jask0506")
+	HaveSpellRES("jask0504")
 	False()
 	RandomNumGT(803,241)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0506",Myself)
+		ForceSpellRES("jask0504",Myself)
 END
 
 // Attack HeldNearby enemy
@@ -3293,7 +3293,7 @@ IF
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(8)
 		!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -3417,7 +3417,7 @@ IF
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3460,7 +3460,7 @@ IF
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(8)
 		!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -3584,7 +3584,7 @@ IF
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_FEEBLEMINDED)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_SLEEPING)
 		StateCheck(ThirdNearestEnemyOf(Myself),STATE_HELPLESS)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3600,7 +3600,7 @@ END
 
 // Attack Wounded enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(15)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -3767,7 +3767,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -3790,7 +3790,7 @@ END
 
 // Attack Slowed enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(8)
 		!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -3887,7 +3887,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	StateCheck(LastSeenBy(Myself),STATE_SLOWED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -3903,7 +3903,7 @@ END
 
 // Attack Unprotected enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(16)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -4080,7 +4080,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -4104,7 +4104,7 @@ END
 
 // Attack Able enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(13)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -4251,7 +4251,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -4272,7 +4272,7 @@ END
 
 // Attack Held enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(7)
 		!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -4359,7 +4359,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4374,7 +4374,7 @@ END
 
 // Attack Stunned enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(7)
 		!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -4461,7 +4461,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4476,7 +4476,7 @@ END
 
 // Attack NoCheck enemy
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(6)
 		General(NearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
@@ -4553,7 +4553,7 @@ THEN
 END
 
 IF
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -4568,7 +4568,7 @@ END
 // Attack Sleep enemy
 IF
 	Allegiance(Myself,ENEMY)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	OR(6)
 		!StateCheck(Player1,STATE_SLEEPING)
 		CheckStatGT(Player1,0,SANCTUARY)
@@ -4618,7 +4618,7 @@ END
 
 IF
 	Allegiance(Myself,ENEMY)
-	!HaveSpellRES("jask0502")
+	!HaveSpellRES("jask0501")
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -4636,7 +4636,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player1)
 	Range(Player1,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player1,STATE_INVISIBLE)
 	!CheckStatGT(Player1,0,SANCTUARY)
@@ -4652,7 +4652,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player2)
 	Range(Player2,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player2,STATE_INVISIBLE)
 	!CheckStatGT(Player2,0,SANCTUARY)
@@ -4668,7 +4668,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player3)
 	Range(Player3,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player3,STATE_INVISIBLE)
 	!CheckStatGT(Player3,0,SANCTUARY)
@@ -4684,7 +4684,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player4)
 	Range(Player4,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player4,STATE_INVISIBLE)
 	!CheckStatGT(Player4,0,SANCTUARY)
@@ -4700,7 +4700,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player5)
 	Range(Player5,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player5,STATE_INVISIBLE)
 	!CheckStatGT(Player5,0,SANCTUARY)
@@ -4716,7 +4716,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player6)
 	Range(Player6,150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(Player6,STATE_INVISIBLE)
 	!CheckStatGT(Player6,0,SANCTUARY)
@@ -4733,7 +4733,7 @@ IF
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(LastSeenBy(Myself))
 	Range(LastSeenBy(Myself),150)
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
@@ -4762,7 +4762,7 @@ END
 // Flee from melee unless you have no spells
 IF
 	ActionListEmpty()
-	HaveSpellRES("jask0502")
+	HaveSpellRES("jask0501")
 THEN
 	RESPONSE #100
 		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),45)

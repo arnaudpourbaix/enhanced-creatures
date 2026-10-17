@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/hamadryad/jabm1601.baf~
 // Hamadryad traits
 CREATE ITM "jaim1600"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10979)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10979)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10977)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10977)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10980)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10978)
 COPY_EXISTING ~jaim1600.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=75 parameter2=1 timing=2 probability1=100 END
 	LPF entangle_immunity END
@@ -36,11 +36,11 @@ BEGIN
 			ADD_CRE_ITEM ~jaim1600~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_CRE_ITEM ~jaic0005~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_MEMORIZED_SPELL ~jask0500~ #0 ~innate~ (1) // Dimension Door
-			ADD_MEMORIZED_SPELL ~jask0503~ #0 ~innate~ (1) // Speak With Plants
-			ADD_MEMORIZED_SPELL ~jask0502~ #0 ~innate~ (3) // Dryad Charm
-			ADD_MEMORIZED_SPELL ~jask0504~ #0 ~innate~ (1) // Entangle
-			ADD_MEMORIZED_SPELL ~jask0505~ #0 ~innate~ (1) // Animal Friendship
-			ADD_MEMORIZED_SPELL ~jask0506~ #0 ~innate~ (1) // Detect snares and pits
+			ADD_MEMORIZED_SPELL ~jask0502~ #0 ~innate~ (1) // Speak With Plants
+			ADD_MEMORIZED_SPELL ~jask0501~ #0 ~innate~ (3) // Dryad Charm
+			ADD_MEMORIZED_SPELL ~jase1400~ #0 ~innate~ (1) // Entangle
+			ADD_MEMORIZED_SPELL ~jask0503~ #0 ~innate~ (1) // Animal Friendship
+			ADD_MEMORIZED_SPELL ~jask0504~ #0 ~innate~ (1) // Detect snares and pits
 			LPF clear_proficiencies END
 			SET_BG2_PROFICIENCY ~PROFICIENCYDAGGER~ 2
 			LPF patchCreature

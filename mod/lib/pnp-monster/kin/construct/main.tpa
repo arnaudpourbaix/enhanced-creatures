@@ -37,63 +37,28 @@ COPY_EXISTING ~jaik0300.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=8 target=1 global=1 parameter1=16384 parameter2=21 timing=2 duration=3 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=8 target=1 global=1 parameter2=20 timing=2 duration=3 probability1=100 END
 
-// Long Sword
-CREATE ITM "jaik0301"
-	WRITE_LONG 0x64 0x72
-	INSERT_BYTES 0x72 0x38
-	WRITE_SHORT 0x68 1
-	WRITE_SHORT 0x72 1
-	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10170)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10170)
-	WRITE_LONG 0x18 64
-	WRITE_SHORT 0x1c 20
-	WRITE_ASCII 0x22 ~S1~ #2
-	WRITE_BYTE 0x31 90
-	WRITE_ASCII 0x3a ~ISW1H04~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10807)
-	WRITE_LONG 0x60 1
-COPY_EXISTING ~jaik0301.itm~ ~override~
-	READ_SHORT 0x68 abicount
-	PATCH_IF (%abicount% > 0) BEGIN
-		WRITE_BYTE 0x74 1
-		WRITE_ASCII 0x76 ~ISW1H04~ #8
-		WRITE_BYTE 0x7e 1
-		WRITE_SHORT 0x80 1
-		WRITE_BYTE 0x84 5
-		WRITE_BYTE 0x88 8
-		WRITE_BYTE 0x8a 1
-		WRITE_SHORT 0x8e 3
-	WRITE_SHORT 0x9e 50
-	WRITE_SHORT 0xa0 50
-	WRITE_LONG 0x98 1
-	END
-	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=21 timing=2 probability1=100 END
-	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=94 parameter2=20 timing=2 probability1=100 END
-	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=6 parameter2=16 timing=2 probability1=100 END
-
 // Plate Mail
-CREATE ITM "jaik0302"
+CREATE ITM "jaik0301"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10171)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10171)
 	WRITE_SHORT 0x1c 2
 	WRITE_ASCII 0x22 ~4A~ #2
 	WRITE_ASCII 0x3a ~IPLAT01~ #8
-COPY_EXISTING ~jaik0302.itm~ ~override~
+COPY_EXISTING ~jaik0301.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=98 parameter2=5 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=29 parameter2=4 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=87 timing=2 probability1=100 END
 
 // Helmet
-CREATE ITM "jaik0303"
+CREATE ITM "jaik0302"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10172)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10172)
 	WRITE_SHORT 0x1c 7
 	WRITE_ASCII 0x22 ~H5~ #2
 	WRITE_ASCII 0x3a ~ihelm10~ #8
-COPY_EXISTING ~jaik0303.itm~ ~override~
+COPY_EXISTING ~jaik0302.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=53 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=52 timing=2 probability1=100 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=7 target=1 global=1 parameter1=27 parameter2=48 timing=2 probability1=100 END

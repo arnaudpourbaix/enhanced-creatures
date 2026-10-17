@@ -7,11 +7,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/nymph/jabm1801.baf~
 // Nymph traits
 CREATE ITM "jaim1800"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10981)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10981)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10979)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10979)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10982)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10980)
 COPY_EXISTING ~jaim1800.itm~ ~override~
 	LPF magicResistance_resistance END
 
@@ -34,9 +34,9 @@ BEGIN
 			REMOVE_CRE_ITEM ~HGNYMPH~
 			ADD_CRE_ITEM ~jaim1800~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			ADD_CRE_ITEM ~jaic0005~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			ADD_MEMORIZED_SPELL ~jask0501~ #0 ~priest~ (1) // Dimension Door
-			ADD_MEMORIZED_SPELL ~jask0505~ #0 ~innate~ (1) // Animal Friendship
-			ADD_MEMORIZED_SPELL ~jask0508~ #0 ~innate~ (1) // Blinding Beauty
+			ADD_MEMORIZED_SPELL ~jase1500~ #0 ~priest~ (1) // Dimension Door
+			ADD_MEMORIZED_SPELL ~jask0503~ #0 ~innate~ (1) // Animal Friendship
+			ADD_MEMORIZED_SPELL ~jase1502~ #0 ~innate~ (1) // Blinding Beauty
 			ADD_MEMORIZED_SPELL ~SPPR103~ #0 ~priest~ (1) 
 			ADD_MEMORIZED_SPELL ~SPPR101~ #0 ~priest~ (1) 
 			ADD_MEMORIZED_SPELL ~SPPR105~ #0 ~priest~ (1) 

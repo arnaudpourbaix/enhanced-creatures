@@ -52,8 +52,8 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"wand19.itm"
 		"wand19"
 		"wand19d"
-		"jask0508"
-		"jask050b"
+		"jase1502"
+		"jase1602"
 		"jasm3603"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -77,7 +77,7 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPIN162"
 		"SPIN833"
 		"WAND06"
-		"jask0100"
+		"jase0f00"
 		"jasm0k00"
 		"jasm1v00"
 		"jasm0w00"
@@ -103,8 +103,8 @@ DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 		"SPWI016"
 		"DW#TRPIN"
 		"dvckill"
-		"jask050b"
 		"jasm0q00"
+		"jase1602"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -133,7 +133,7 @@ DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 		"SPIN839"
 		"SPIN976"
 		"SPPR983"
-		"jask050c"
+		"jase1603"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -278,7 +278,7 @@ DEFINE_ACTION_FUNCTION get_entangle_resources RET_ARRAY resources BEGIN
 		"SPWM111"
 		"SPIN688"
 		"BDBOW06"
-		"jask0504"
+		"jase1400"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
