@@ -6,12 +6,13 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function wraithTouch(cre: Undead) {
+function wraithTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.wraithTouch.name",
     description: "monster.undead.ability.wraithTouch.description",
@@ -32,7 +33,7 @@ function wraithTouch(cre: Undead) {
   });
 }
 
-export function wraith(family: CreatureEntry<Undead>): Undead {
+export function wraith(family: CreatureEntry<Creature>): Creature {
   const wraith = family.create({
     monster: MonsterEnum.Wraith,
     name: "monster.undead.name.wraith",
@@ -68,7 +69,7 @@ export function wraith(family: CreatureEntry<Undead>): Undead {
     immunities: ["cold", "nonSilverNonMagicalWeapons"],
   });
   wraithTouch(wraith);
-  wraith.createClaws({
+  createClaws(wraith, {
     diceThrown: 1,
     diceSize: 6,
     castSpell: {
@@ -89,7 +90,7 @@ export function wraith(family: CreatureEntry<Undead>): Undead {
   return wraith;
 }
 
-function greaterWraithVariant(base: Undead): Variant {
+function greaterWraithVariant(base: Creature): Variant {
   return base.variant("Greater Wraith", {
     data: {
       level1: 9,

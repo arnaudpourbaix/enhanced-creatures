@@ -19,12 +19,13 @@ import {
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function ghostFearAura(cre: Undead) {
+function ghostFearAura(cre: Creature) {
   // causes any humanoid being to age 10 years and flee in panic for 8 turns unless a saving throw versus spell is made.
   // all humanoids above 8th level may add +2 to their saving throws.
   // Priests above 6th level are immune to this effect,
@@ -97,7 +98,7 @@ function ghostFearAura(cre: Undead) {
   });
 }
 
-function ghostTouch(cre: Undead) {
+function ghostTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.ghostTouch.name",
     description: "monster.undead.ability.ghostTouch.description",
@@ -125,7 +126,7 @@ function ghostTouch(cre: Undead) {
   });
 }
 
-export function ghost(family: CreatureEntry<Undead>): Undead {
+export function ghost(family: CreatureEntry<Creature>): Creature {
   const ghost = family.create({
     monster: MonsterEnum.Ghost,
     name: "monster.undead.name.ghost",
@@ -173,7 +174,7 @@ export function ghost(family: CreatureEntry<Undead>): Undead {
   });
   ghostFearAura(ghost);
   ghostTouch(ghost);
-  ghost.createClaws({
+  createClaws(ghost, {
     diceThrown: 0,
     diceSize: 0,
     castSpell: {

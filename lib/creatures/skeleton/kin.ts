@@ -1,6 +1,6 @@
 import { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 
 /**
  * The Skeleton and the skeletons derived from it (Spike, Archer and Giant Skeletons, Skeleton
@@ -8,7 +8,7 @@ import { Undead } from "../undead/undead-creature";
  */
 export class SkeletonKin extends CreatureKin {
   /** Set when the Skeleton entry builds: the other skeletons derive from it. */
-  skeleton?: Undead;
+  skeleton?: Creature;
 
   constructor() {
     super(KinEnum.Skeleton);
@@ -22,7 +22,7 @@ export function skeletonKin(kins: Map<KinEnum, CreatureKin>): SkeletonKin | unde
 }
 
 /** A creature another entry builds first and this entry derives from. */
-export function builtBefore(creature: Undead | undefined, name: string): Undead {
+export function builtBefore(creature: Creature | undefined, name: string): Creature {
   if (!creature) throw new Error(`The ${name} entry must build first`);
   return creature;
 }

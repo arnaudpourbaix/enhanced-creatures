@@ -1,9 +1,9 @@
 import { MonsterEnum } from "./monster";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 
 // Not registered (no entry yet), as in the former Undead family.
-export function deathShade(family: CreatureEntry<Undead>): Undead {
+export function deathShade(family: CreatureEntry<Creature>): Creature {
   const shade = family.create({
     monster: MonsterEnum.DeathShade,
     name: "monster.undead.name.deathShade",

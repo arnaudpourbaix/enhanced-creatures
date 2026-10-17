@@ -19,9 +19,9 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
   declare id: EntryEnum;
   kin?: CreatureKin;
   /**
-   * Transitional (Tasks 3-7, removed with families): the family the entry was migrated from.
-   * Its members keep `creature.family` = this value (and validate() checks it), so the
-   * family-keyed behaviors (HitDiceTable familyId rows) keep applying until they move to types.
+   * Transitional (removed with families): the family the entry was migrated from. Its members
+   * keep `creature.family` = this value (and validate() checks it); nothing else reads it (hit
+   * dice and turn level come from the creature's types).
    */
   readonly legacyFamily?: MonsterFamilyEnum;
 

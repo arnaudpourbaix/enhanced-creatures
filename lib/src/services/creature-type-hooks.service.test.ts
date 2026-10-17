@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { applyTurnLevel } from "../../creatures/types/turn-level";
 import { Creature } from "../model/creature/creature";
+import { CreatureData } from "../model/creature/data";
+import { ImmunityConfig, ImmunityName } from "../model/final/immunity";
+import { State } from "../state";
 import creatureTypeHooksService from "./creature-type-hooks.service";
 import creatureTypeService from "./creature-type.service";
 
@@ -7,15 +11,32 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const creature = {} as unknown as Creature;
+const creature = (
+  immunities: ImmunityName[] = [],
+  adjustments: Partial<CreatureData>[] = [],
+): Creature =>
+  ({
+    data: { immunities },
+    items: [],
+    adjustments: adjustments.map((data) => ({ data })),
+  }) as unknown as Creature;
 
-describe("creatureTypeHooksService.afterBuild", () => {
-  it("has no type module yet", () => {
-    expect(creatureTypeHooksService.modules).toEqual([]);
+describe("creatureTypeHooksService modules", () => {
+  it("registers the type modules with their hit dice", () => {
+    expect(
+      Object.fromEntries(creatureTypeHooksService.modules.map((m) => [m.type, m.hitDie])),
+    ).toEqual({ construct: 10, dragon: 12, fey: 6, magicalBeast: 10, ooze: 10, undead: 12 });
   });
 
-  it("runs the hook of each of the creature's types once, in the creature's type order", () => {
-    vi.spyOn(creatureTypeService, "getCreatureTypes").mockReturnValue(["undead", "ooze"]);
+  it("sets the turn level from the undead module", () => {
+    const undead = creatureTypeHooksService.modules.find((m) => m.type === "undead");
+    expect(undead?.afterBuild).toBe(applyTurnLevel);
+  });
+});
+
+describe("creatureTypeHooksService.afterBuild", () => {
+  it("runs the hook of each of the creature's types once, in TYPE_TRAITS order", () => {
+    vi.spyOn(creatureTypeService, "getCreatureTypes").mockReturnValue(["undead", "fey"]);
     const calls: string[] = [];
     const service = creatureTypeHooksService.withModules([
       { type: "ooze", afterBuild: () => calls.push("ooze") },
@@ -23,13 +44,51 @@ describe("creatureTypeHooksService.afterBuild", () => {
       { type: "undead", afterBuild: () => calls.push("undead") },
       { type: "undead" },
     ]);
-    service.afterBuild(creature);
-    expect(calls).toEqual(["undead", "ooze"]);
+    service.afterBuild(creature());
+    expect(calls).toEqual(["fey", "undead"]);
   });
 
-  it("does nothing without modules", () => {
-    const types = vi.spyOn(creatureTypeService, "getCreatureTypes");
-    creatureTypeHooksService.afterBuild(creature);
-    expect(types).not.toHaveBeenCalled();
+  it("runs once for a type both the creature and its adjustments have", () => {
+    const calls: string[] = [];
+    const service = creatureTypeHooksService.withModules([
+      { type: "undead", afterBuild: () => calls.push("undead") },
+    ]);
+    service.afterBuild(creature(["undead"], [{ immunities: ["undead"] }]));
+    expect(calls).toEqual(["undead"]);
+  });
+
+  it("runs the hook of a type only an adjustment adds", () => {
+    const calls: string[] = [];
+    const service = creatureTypeHooksService.withModules([
+      { type: "magicalBeast", afterBuild: () => calls.push("magicalBeast") },
+      { type: "undead", afterBuild: () => calls.push("undead") },
+    ]);
+    service.afterBuild(
+      creature(["magicalBeast"], [{ level1: undefined }, { immunities: ["undead"] }]),
+    );
+    expect(calls).toEqual(["magicalBeast", "undead"]);
+  });
+});
+
+describe("creatureTypeHooksService.getHitDie", () => {
+  const saved = State.immunities;
+  afterEach(() => {
+    State.immunities = saved;
+  });
+
+  it("is undefined for a creature without a type having a hit die", () => {
+    expect(creatureTypeHooksService.getHitDie(creature(["animal"]))).toBeUndefined();
+  });
+
+  it("takes the largest die among the creature's types (Wraith Spider: vermin + undead -> 12)", () => {
+    State.immunities = [{ name: "spider", immunities: ["vermin"] } as unknown as ImmunityConfig];
+    expect(creatureTypeHooksService.getHitDie(creature(["spider", "undead"]))).toBe(12);
+    expect(creatureTypeHooksService.getHitDie(creature(["fey", "ooze"]))).toBe(10);
+  });
+
+  it("ignores the types adjustments add (adjustments keep their base creature's die)", () => {
+    expect(
+      creatureTypeHooksService.getHitDie(creature(["magicalBeast"], [{ immunities: ["undead"] }])),
+    ).toBe(10);
   });
 });

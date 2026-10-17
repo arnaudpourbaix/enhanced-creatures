@@ -10,12 +10,12 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
 
-function blink(cre: Undead) {
+function blink(cre: Creature) {
   return cre.addSpell({
     icon: SPELLS.Wizard.TeleportField.file,
     options: { renew: 14 },
@@ -59,7 +59,7 @@ function blink(cre: Undead) {
   });
 }
 
-export function baneguard(family: CreatureEntry<Undead>): Undead {
+export function baneguard(family: CreatureEntry<Creature>): Creature {
   const baneguard = family.create({
     monster: MonsterEnum.Baneguard,
     name: "monster.undead.name.baneguard",

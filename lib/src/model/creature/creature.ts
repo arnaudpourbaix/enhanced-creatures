@@ -34,6 +34,7 @@ import {
 import { NATURAL_WEAPONS, NaturalWeaponKind } from "../../../config/natural-weapons";
 import poisonService from "../../services/effects/poison.service";
 import variantFactory from "../../factories/variant.factory";
+import type { TurnUndeadType } from "../../../creatures/types/turn-level";
 import { AbstractCreature } from "./abstract-creature";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "./adjustment";
 import type { Variant, VariantInput } from "./variant";
@@ -141,6 +142,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
    */
   noFiles?: boolean;
   pendingAbilityEntries?: AbilityEntry[];
+  /** Undead (or made undead by an adjustment): PnP "turned as" row, when harder to turn than its Hit Dice. */
+  turnAs?: TurnUndeadType;
 
   // Not actually useless: narrows the base class's plain `number` id parameter to MonsterEnum,
   // so `new Creature(id)` only accepts valid monster ids.

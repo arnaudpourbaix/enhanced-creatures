@@ -1,23 +1,17 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { MonsterEnum } from "../../../creatures/monster";
 import { ImmunityName } from "../final/immunity";
 import { CreatureSize } from "./sizes";
 
 /**
- * If no match in this table, default value is 8hd
+ * Per-monster hit dice, overriding the type-driven die. The type dice (fey d6, undead d12, dragon
+ * d12, ooze d10, construct d10, magical beast d10) are the `hitDie` of the type modules
+ * (`lib/creatures/types/`); with neither, a creature has d8.
  */
 export const HitDiceTable: {
-  monsterId?: MonsterEnum;
-  familyId?: MonsterFamilyEnum;
-  type?: ImmunityName;
+  monsterId: MonsterEnum;
   hd: number;
 }[] = [
   //   { monsterId: MonsterEnum.DeathKnight, hd: 10 },
-  { familyId: MonsterFamilyEnum.Fey, hd: 6 },
-  { familyId: MonsterFamilyEnum.Undead, hd: 12 },
-  { familyId: MonsterFamilyEnum.Dragon, hd: 12 },
-  { familyId: MonsterFamilyEnum.Ooze, hd: 10 },
-  { type: "construct", hd: 10 },
-  { type: "magicalBeast", hd: 10 },
 ];
 
 export const SizeBonusHitPointTable: {

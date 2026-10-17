@@ -1,5 +1,5 @@
 import { MonsterEnum } from "../monster";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
@@ -8,7 +8,7 @@ import { KinEnum } from "../kin";
 import { builtBefore, skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function spikeSkeleton(family: CreatureEntry<Undead>, base: Undead): Undead {
+export function spikeSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {
   const spike = family.createFrom({
     name: "monster.undead.name.spikeSkeleton",
     monster: MonsterEnum.SpikeSkeleton,

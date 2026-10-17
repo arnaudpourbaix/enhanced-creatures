@@ -1,7 +1,7 @@
 import { Variant } from "../../src/model/creature/variant";
 import spellService from "../../src/services/spell.service";
 import { MonsterEnum } from "../monster";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
@@ -10,7 +10,7 @@ import { KinEnum } from "../kin";
 import { builtBefore, skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function archerSkeleton(family: CreatureEntry<Undead>, base: Undead): Undead {
+export function archerSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {
   const archer = family.createFrom({
     name: "monster.undead.name.archerSkeleton",
     monster: MonsterEnum.ArcherSkeleton,
@@ -51,7 +51,7 @@ export function archerSkeleton(family: CreatureEntry<Undead>, base: Undead): Und
   return archer;
 }
 
-function greaterArcherSkeletonVariant(base: Undead): Variant {
+function greaterArcherSkeletonVariant(base: Creature): Variant {
   return base.variant("Greater Archer Skeleton", {
     data: {
       level1: 5,
@@ -103,7 +103,7 @@ function greaterArcherSkeletonVariant(base: Undead): Variant {
   });
 }
 
-function mageSkeletonVariant(base: Undead): Variant {
+function mageSkeletonVariant(base: Creature): Variant {
   return base.variant("Mage Skeleton", {
     data: {
       level1: 5,

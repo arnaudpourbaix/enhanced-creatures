@@ -2,7 +2,7 @@ import { SPELLS } from "../../config/spells/spell-database";
 import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { MonsterEnum } from "../monster";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
@@ -11,7 +11,7 @@ import { KinEnum } from "../kin";
 import { builtBefore, skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function giantSkeleton(family: CreatureEntry<Undead>, base: Undead): Undead {
+export function giantSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {
   const giant = family.createFrom({
     name: "monster.undead.name.giantSkeleton",
     monster: MonsterEnum.GiantSkeleton,

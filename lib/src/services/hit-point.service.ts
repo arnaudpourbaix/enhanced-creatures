@@ -6,6 +6,7 @@ import { ConstitutionTable } from "../model/game-data/constitution";
 import { HitDiceTable, SizeBonusHitPointTable } from "../model/game-data/hp";
 import { CreatureSize } from "../model/game-data/sizes";
 import { ClassIdentifier, PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
+import creatureTypeHooksService from "./creature-type-hooks.service";
 import logService from "./log.service";
 
 class HitPointService {
@@ -117,33 +118,15 @@ class HitPointService {
     return { value: item.hp, log };
   }
 
+  /** Per-monster row, else the largest die among the creature's types, else d8. */
   private getHitDiceSize(creature: Creature): number {
-    let result = 8;
-    const item = HitDiceTable.find(
-      (e) =>
-        this.matchesFamily(e, creature) ||
-        this.matchesMonster(e, creature) ||
-        this.matchesImmunityType(e, creature),
-    );
-    if (item) result = item.hd;
-    return result;
-  }
-
-  private matchesFamily(entry: (typeof HitDiceTable)[number], creature: Creature): boolean {
-    return "familyId" in entry && entry.familyId === creature.family;
-  }
-
-  private matchesMonster(entry: (typeof HitDiceTable)[number], creature: Creature): boolean {
-    // creature.id is typed as plain `number` (AbstractCreature.id is shared with
-    // CreatureFamily's own MonsterFamilyEnum-typed id) - widen monsterId to match.
-    // no-unnecessary-type-assertion disagrees the cast changes anything, but removing it
-    // brings back no-unsafe-enum-comparison - see family.ts's creature() for the same fix.
+    // creature.id is typed as plain `number` (AbstractCreature.id is shared with the groups'
+    // own enum-typed ids) - widen monsterId to match. no-unnecessary-type-assertion disagrees
+    // the cast changes anything, but removing it brings back no-unsafe-enum-comparison - see
+    // CreatureGroup.creature() for the same fix.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    return "monsterId" in entry && (entry.monsterId as number | undefined) === creature.id;
-  }
-
-  private matchesImmunityType(entry: (typeof HitDiceTable)[number], creature: Creature): boolean {
-    return "type" in entry && !!entry.type && creature.data.immunities.includes(entry.type);
+    const row = HitDiceTable.find((e) => (e.monsterId as number) === creature.id);
+    return row?.hd ?? creatureTypeHooksService.getHitDie(creature) ?? 8;
   }
 }
 

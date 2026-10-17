@@ -92,9 +92,8 @@ describe("CreatureEntry", () => {
     expect(() => new TestEntry(EntryEnum.Ankheg).spell(1)).toThrow(/No spell found with id 1/);
   });
 
-  // Tasks 3-7: a migrated entry keeps its members' old family until Task 8 moves hit dice and
-  // turn level to types, so HitDiceTable's familyId rows keep applying.
-  it("stamps members with its legacy family, validates them against it and keeps its hit dice", () => {
+  // Transitional until families go: a migrated entry keeps its members' old family.
+  it("stamps members with its legacy family and validates them against it", () => {
     const entry = new TestEntry(EntryEnum.Dryad, undefined, MonsterFamilyEnum.Fey);
     const validate = vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
     entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
@@ -104,10 +103,36 @@ describe("CreatureEntry", () => {
     expect(dryad.folder).toBe("lib/pnp-monster/dryad");
     // creatureFactory.validate warns and invalidates when creature.family !== this argument.
     expect(validate).toHaveBeenCalledWith(MonsterFamilyEnum.Fey);
+  });
+
+  it.each([
+    ["fey", 6],
+    ["ooze", 10],
+  ] as const)(
+    "gives its members their type's hit dice without a legacy family (%s -> d%i)",
+    (type, hd) => {
+      const entry = new TestEntry(EntryEnum.Dryad);
+      vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
+      entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
+      const creature = entry.creature(MonsterEnum.Dryad);
+      expect(creature.family).toBeUndefined();
+      creature.data.immunities = [type];
+      const hp = hitPointService.getHitPoints({
+        data: { level1: { pnpValue: 3, value: 3, type: "none" } },
+        creature,
+      });
+      expect(hp).toBe(3 * hd);
+    },
+  );
+
+  it("no longer takes hit dice from the legacy family (Fey family, no fey type -> d8)", () => {
+    const entry = new TestEntry(EntryEnum.Dryad, undefined, MonsterFamilyEnum.Fey);
+    vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
+    entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
     const hp = hitPointService.getHitPoints({
       data: { level1: { pnpValue: 3, value: 3, type: "none" } },
-      creature: dryad,
+      creature: entry.creature(MonsterEnum.Dryad),
     });
-    expect(hp).toBe(18); // 3 * d6 (Fey family row)
+    expect(hp).toBe(24);
   });
 });

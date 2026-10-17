@@ -56,11 +56,12 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { SpellKeyword } from "../config/spells/keyword";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import type { TurnUndeadType } from "./undead/turn-level";
-import { Undead } from "./undead/undead-creature";
+import type { TurnUndeadType } from "./types/turn-level";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
 /**
  * How a vampire dominates its victims: younger vampires must meet their eyes, ancient and eminent
@@ -259,7 +260,7 @@ const MIST_DURATION = 2 * Durations.round;
  * the vampire doesn't try it on blinded creatures. Voice and will don't have these limits, but a
  * silenced vampire can't use its voice.
  */
-function domination(cre: Undead, domination: VampireAge["domination"]) {
+function domination(cre: Creature, domination: VampireAge["domination"]) {
   const texts = DOMINATION_TEXTS[domination.mode];
   return cre.addSpell({
     name: texts.name,
@@ -317,7 +318,7 @@ const BAT_SWARM_PULSE = 15; // 1 second, in frames
  * the swarm ends its effects by the next round. They last one pulse longer than that protection,
  * so the strike renewing them lands before they wear off.
  */
-function batSwarm(cre: Undead) {
+function batSwarm(cre: Creature) {
   const base = {
     timing: EffectTimingEnum.InstantLimited,
     duration: Durations.round + 1,
@@ -394,7 +395,7 @@ const VAMPIRE_MAX_LEVEL = 25;
  * paralysis can't be told apart from them here, so none get one.
  * The book pools the Hit Dice of every controlled creature; each control is checked on its own.
  */
-function controlUndead(cre: Undead) {
+function controlUndead(cre: Creature) {
   // Highest undead level controlled by each header, from the youngest vampire to the strongest
   const minLevel = Math.floor(VAMPIRE_AGES[0].level1 / 2);
   const maxLevel = Math.floor(VAMPIRE_MAX_LEVEL / 2);
@@ -469,7 +470,7 @@ interface AnimalForm {
  * is a weapon in the magical weapon slot, so it replaces the level-draining claws. While
  * changing, the vampire suffers a +4 penalty to its Armor Class and -1 to all saving throws.
  */
-function animalForm(cre: Undead, form: AnimalForm) {
+function animalForm(cre: Creature, form: AnimalForm) {
   const item = cre.addWeapon({
     weapon: {
       id: form.id,
@@ -574,7 +575,7 @@ function animalFormMovement(age: VampireAge) {
 }
 
 /** Wolf form: Dmg 3d12, MV 18, SZ L. Used on an enemy its level drain can't harm. */
-function wolfForm(cre: Undead, age: VampireAge) {
+function wolfForm(cre: Creature, age: VampireAge) {
   return animalForm(cre, {
     id: Ids.VampireWolfForm,
     name: "monster.undead.ability.vampireWolfForm.name",
@@ -605,7 +606,7 @@ function wolfForm(cre: Undead, age: VampireAge) {
  * Bat form: Dmg 2d6, MV Fl 18, -3 to opponents' attack rolls, SZ M. Used when badly hurt.
  * Flying, it is unaffected by ground spells (hover) and flies over enemies and allies alike.
  */
-function batForm(cre: Undead, age: VampireAge) {
+function batForm(cre: Creature, age: VampireAge) {
   return animalForm(cre, {
     id: Ids.VampireBatForm,
     name: "monster.undead.ability.vampireBatForm.name",
@@ -637,7 +638,7 @@ function batForm(cre: Undead, age: VampireAge) {
  * given the experience for defeating it. Once it has reached its sanctuary it really dies (rather
  * than just leaving the area), so quests waiting for its death still go on.
  */
-function mistForm(cre: Undead, age: VampireAge, trait: Item): PartialCustomCode {
+function mistForm(cre: Creature, age: VampireAge, trait: Item): PartialCustomCode {
   const mist = cre.addItem({
     id: Ids.VampireMistForm,
     stringRef: "monster.undead.ability.vampireMistForm.name",
@@ -757,7 +758,7 @@ function mistForm(cre: Undead, age: VampireAge, trait: Item): PartialCustomCode 
   };
 }
 
-function vampire(family: CreatureEntry<Undead>, age: VampireAge): Undead {
+function vampire(family: CreatureEntry<Creature>, age: VampireAge): Creature {
   const cre = family.create({
     monster: age.monster,
     name: age.name,
@@ -804,7 +805,7 @@ function vampire(family: CreatureEntry<Undead>, age: VampireAge): Undead {
       },
     },
   });
-  cre.createClaws({
+  createClaws(cre, {
     diceThrown: 1,
     diceSize: 6,
     effects: effectFactory.levelDrain({ levels: 2 }),
@@ -842,19 +843,21 @@ function vampire(family: CreatureEntry<Undead>, age: VampireAge): Undead {
   return cre;
 }
 
-export const fledglingVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[0]);
+export const fledglingVampire = (family: CreatureEntry<Creature>) =>
+  vampire(family, VAMPIRE_AGES[0]);
 
-export const matureVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[1]);
+export const matureVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[1]);
 
-export const oldVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[2]);
+export const oldVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[2]);
 
-export const veryOldVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[3]);
+export const veryOldVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[3]);
 
-export const ancientVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[4]);
+export const ancientVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[4]);
 
-export const eminentVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[5]);
+export const eminentVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[5]);
 
-export const patriarchVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[6]);
+export const patriarchVampire = (family: CreatureEntry<Creature>) =>
+  vampire(family, VAMPIRE_AGES[6]);
 
 export const createVampireEntry = () =>
   new UndeadEntry(EntryEnum.Vampire, [

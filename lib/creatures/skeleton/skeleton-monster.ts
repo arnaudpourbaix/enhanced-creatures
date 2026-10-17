@@ -1,7 +1,7 @@
 import { Variant } from "../../src/model/creature/variant";
 import spellService from "../../src/services/spell.service";
 import { MonsterEnum } from "../monster";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
@@ -9,7 +9,7 @@ import type { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 import { builtBefore, skeletonKin } from "./kin";
 
-function clericSkeletonVariant(base: Undead): Variant {
+function clericSkeletonVariant(base: Creature): Variant {
   return base.variant("Cleric Skeleton", {
     data: {
       class: "CLERIC",
@@ -45,7 +45,7 @@ function clericSkeletonVariant(base: Undead): Variant {
 }
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function skeletonMonster(family: CreatureEntry<Undead>, base: Undead): Undead {
+export function skeletonMonster(family: CreatureEntry<Creature>, base: Creature): Creature {
   const monster = family.createFrom({
     name: "monster.undead.name.skeletonMonster",
     monster: MonsterEnum.SkeletonMonster,

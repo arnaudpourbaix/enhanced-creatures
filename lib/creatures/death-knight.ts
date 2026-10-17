@@ -31,12 +31,12 @@ import { ProjectileBehaviorEnum } from "../src/model/spell-item/projectile";
 import { ScriptTarget } from "../src/model/constants";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
 
-function fearAura(cre: Undead) {
+function fearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.DeathKnightFearAura,
@@ -54,7 +54,7 @@ function fearAura(cre: Undead) {
   );
 }
 
-function wallOfIce(cre: Undead) {
+function wallOfIce(cre: Creature) {
   const base: BaseEffect = {
     timing: EffectTimingEnum.InstantPermanentUntilDeath,
     saveTypes: [SaveTypeEnum.BypassMirrorImage],
@@ -119,7 +119,7 @@ function wallOfIce(cre: Undead) {
   });
 }
 
-function fireball(cre: Undead) {
+function fireball(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.fireball.name",
     description: "monster.undead.ability.fireball.description",
@@ -191,7 +191,7 @@ const summonRemovedSpells = [
   SPELLS.Wizard.SymbolFear,
 ];
 
-export function deathKnight(family: CreatureEntry<Undead>): Undead {
+export function deathKnight(family: CreatureEntry<Creature>): Creature {
   const knight = family.create({
     monster: MonsterEnum.DeathKnight,
     name: "monster.undead.name.deathKnight",

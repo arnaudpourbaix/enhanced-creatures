@@ -5,12 +5,13 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function specterTouch(cre: Undead) {
+function specterTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.specterTouch.name",
     description: "monster.undead.ability.specterTouch.description",
@@ -31,7 +32,7 @@ function specterTouch(cre: Undead) {
   });
 }
 
-export function spectre(family: CreatureEntry<Undead>): Undead {
+export function spectre(family: CreatureEntry<Creature>): Creature {
   const spectre = family.create({
     monster: MonsterEnum.Spectre,
     name: "monster.undead.name.spectre",
@@ -69,7 +70,7 @@ export function spectre(family: CreatureEntry<Undead>): Undead {
     immunities: ["cold", "incorporeal"],
   });
   specterTouch(spectre);
-  spectre.createClaws({
+  createClaws(spectre, {
     diceThrown: 1,
     diceSize: 8,
     castSpell: {

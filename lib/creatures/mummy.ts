@@ -1,7 +1,7 @@
 /**
  * Mummies: mummy, greater mummy.
  *
- * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
+ * Shared weapon primitives live in the undead type (types/undead.ts); ability ids in ids.ts.
  */
 import effectFactory from "../src/factories/effect.factory";
 import { SPELLS } from "../config/spells/spell-database";
@@ -28,14 +28,15 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { PartialSpell } from "../src/model/spell-item/spell-item";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import responseFactory from "../src/factories/response.factory";
 import spellService from "../src/services/spell.service";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function mummyRottingDisease(cre: Undead, greater: boolean) {
+function mummyRottingDisease(cre: Creature, greater: boolean) {
   // Mummy: PnP is 1-6 months, replaced by 6 days in the game
   // Greater Mummy: PnP is 1-6 days, replaced by 48 hours in the game
   const count = 6;
@@ -131,7 +132,7 @@ function mummyRottingDisease(cre: Undead, greater: boolean) {
   });
 }
 
-function mummyFearAura(cre: Undead, greater: boolean) {
+function mummyFearAura(cre: Creature, greater: boolean) {
   const humanBonus = greater ? -1 : 2;
   const othersBonus = greater ? -3 : 0;
   const description: StringReference = greater
@@ -189,7 +190,7 @@ function mummyFearAura(cre: Undead, greater: boolean) {
   });
 }
 
-function mummyFearAuraTechnical(cre: Undead, saveBonus: number, excludeHumans: boolean) {
+function mummyFearAuraTechnical(cre: Creature, saveBonus: number, excludeHumans: boolean) {
   const duration = 3 * Durations.round;
   const saveType = SaveTypeEnum.Spell;
   const effects: Effect[] = [
@@ -250,7 +251,7 @@ function mummyFearAuraTechnical(cre: Undead, saveBonus: number, excludeHumans: b
   return cre.addSpell(spell);
 }
 
-export function mummy(family: CreatureEntry<Undead>): Undead {
+export function mummy(family: CreatureEntry<Creature>): Creature {
   const mummy = family.create({
     monster: MonsterEnum.Mummy,
     name: "monster.undead.name.mummy",
@@ -291,7 +292,7 @@ export function mummy(family: CreatureEntry<Undead>): Undead {
   });
   mummyFearAura(mummy, false);
   mummyRottingDisease(mummy, false);
-  mummy.createClaws({
+  createClaws(mummy, {
     diceThrown: 1,
     diceSize: 12,
     castSpell: {
@@ -308,7 +309,7 @@ export function mummy(family: CreatureEntry<Undead>): Undead {
   return mummy;
 }
 
-export function greaterMummy(family: CreatureEntry<Undead>): Undead {
+export function greaterMummy(family: CreatureEntry<Creature>): Creature {
   // Age: 400-499
   const greater = family.create({
     monster: MonsterEnum.GreaterMummy,
@@ -383,7 +384,7 @@ export function greaterMummy(family: CreatureEntry<Undead>): Undead {
   });
   mummyFearAura(greater, true);
   mummyRottingDisease(greater, true);
-  greater.createClaws({
+  createClaws(greater, {
     diceThrown: 3,
     diceSize: 6,
     castSpell: {

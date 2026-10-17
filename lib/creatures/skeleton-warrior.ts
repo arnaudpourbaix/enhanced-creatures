@@ -9,12 +9,12 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
 
-function fearAura(cre: Undead) {
+function fearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.SkeletonWarriorFearAura,
@@ -25,7 +25,7 @@ function fearAura(cre: Undead) {
   );
 }
 
-export function skeletonWarrior(family: CreatureEntry<Undead>): Undead {
+export function skeletonWarrior(family: CreatureEntry<Creature>): Creature {
   const warrior = family.create({
     monster: MonsterEnum.SkeletonWarrior,
     name: "monster.undead.name.skeletonWarrior",
@@ -91,7 +91,7 @@ export function skeletonWarrior(family: CreatureEntry<Undead>): Undead {
   return warrior;
 }
 
-function greaterSkeletonWarriorVariant(base: Undead): Variant {
+function greaterSkeletonWarriorVariant(base: Creature): Variant {
   const proficiencies = [
     { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
     { type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 },

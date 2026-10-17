@@ -15,12 +15,13 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createTouch } from "./types/undead";
 
-function bansheeFearAura(cre: Undead) {
+function bansheeFearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.BansheeFearAura,
@@ -31,7 +32,7 @@ function bansheeFearAura(cre: Undead) {
   );
 }
 
-function deathWail(cre: Undead) {
+function deathWail(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.deathWail.name",
     description: "monster.undead.ability.deathWail.description",
@@ -80,7 +81,7 @@ function deathWail(cre: Undead) {
   });
 }
 
-export function banshee(family: CreatureEntry<Undead>): Undead {
+export function banshee(family: CreatureEntry<Creature>): Creature {
   const banshee = family.create({
     monster: MonsterEnum.Banshee,
     name: "monster.undead.name.banshee",
@@ -119,7 +120,7 @@ export function banshee(family: CreatureEntry<Undead>): Undead {
   banshee.addTrait({
     immunities: ["nonMagicalWeapons", "magicResistance", "incorporeal", "cold", "lightning"],
   });
-  banshee.createTouch({
+  createTouch(banshee, {
     diceThrown: 1,
     diceSize: 8,
     slot: "WEAPON1",

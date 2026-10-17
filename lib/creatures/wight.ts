@@ -5,12 +5,13 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function wightTouch(cre: Undead) {
+function wightTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.wightTouch.name",
     description: "monster.undead.ability.wightTouch.description",
@@ -31,7 +32,7 @@ function wightTouch(cre: Undead) {
   });
 }
 
-export function wight(family: CreatureEntry<Undead>): Undead {
+export function wight(family: CreatureEntry<Creature>): Creature {
   const wight = family.create({
     monster: MonsterEnum.Wight,
     name: "monster.undead.name.wight",
@@ -63,7 +64,7 @@ export function wight(family: CreatureEntry<Undead>): Undead {
     },
   });
   wightTouch(wight);
-  wight.createClaws({
+  createClaws(wight, {
     diceThrown: 1,
     diceSize: 4,
     castSpell: {

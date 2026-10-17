@@ -2,12 +2,13 @@ import { EXISTING_ITEMS } from "../config/item";
 import { JEWEL_SLOTS } from "../src/model/creature/item";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createShadowWeapon } from "./types/undead";
 
-export function shadow(family: CreatureEntry<Undead>): Undead {
+export function shadow(family: CreatureEntry<Creature>): Creature {
   const shadow = family.create({
     monster: MonsterEnum.Shadow,
     name: "monster.undead.name.shadow",
@@ -51,14 +52,14 @@ export function shadow(family: CreatureEntry<Undead>): Undead {
     },
   });
   shadow.addTrait({ immunities: ["cold", "incorporeal"] });
-  shadow.createShadowWeapon({
+  createShadowWeapon(shadow, {
     diceThrown: 1,
     diceSize: 4,
     damageBonus: 1,
     opcode: EffectTypeEnum.StrengthBonus,
     drainValue: -1,
   });
-  const mindWeapon = shadow.createShadowWeapon({
+  const mindWeapon = createShadowWeapon(shadow, {
     diceThrown: 1,
     diceSize: 4,
     damageBonus: 1,
@@ -90,7 +91,7 @@ export function shadow(family: CreatureEntry<Undead>): Undead {
   return shadow;
 }
 
-export function greaterShadow(family: CreatureEntry<Undead>): Undead {
+export function greaterShadow(family: CreatureEntry<Creature>): Creature {
   // The largest greater shadow, composed of eight undead shadows,
   // has 8+8 HD and THAC0 11.
   // Regardless of its size, the creature has AC 7.
@@ -115,7 +116,7 @@ export function greaterShadow(family: CreatureEntry<Undead>): Undead {
   return greaterShadow;
 }
 
-export function greaterShadow5e(family: CreatureEntry<Undead>): Undead {
+export function greaterShadow5e(family: CreatureEntry<Creature>): Creature {
   const greaterShadow = family.create({
     monster: MonsterEnum.GreaterShadow,
     name: "monster.undead.name.greaterShadow",
@@ -150,7 +151,7 @@ export function greaterShadow5e(family: CreatureEntry<Undead>): Undead {
     },
   });
   greaterShadow.addTrait({ immunities: ["cold", "incorporeal"] });
-  greaterShadow.createShadowWeapon({
+  createShadowWeapon(greaterShadow, {
     diceThrown: 2,
     diceSize: 6,
     damageBonus: 2,

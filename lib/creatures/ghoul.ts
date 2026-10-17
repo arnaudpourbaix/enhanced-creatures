@@ -22,12 +22,13 @@ import {
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws, createJaws } from "./types/undead";
 
-function ghoulTouch(cre: Undead) {
+function ghoulTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.ghoulTouch.name",
     description: "monster.undead.ability.ghoulTouch.description",
@@ -65,7 +66,7 @@ function ghoulTouch(cre: Undead) {
   });
 }
 
-function ghoulLordTouch(cre: Undead) {
+function ghoulLordTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.ghoulLordTouch.name",
     description: "monster.undead.ability.ghoulLordTouch.description",
@@ -95,7 +96,7 @@ function ghoulLordTouch(cre: Undead) {
   });
 }
 
-function ghoulRottingDisease(cre: Undead) {
+function ghoulRottingDisease(cre: Creature) {
   // PnP: Loose 10 hit points and 1 point from their Constitution and Charisma scores each day
   // Disease can be cured and thus, we can't reapply disease each day
   // Also, time is a bit different in game and I have replaced days by 8 hours (a rest)
@@ -145,7 +146,7 @@ function ghoulRottingDisease(cre: Undead) {
   });
 }
 
-function auraOfEvil(cre: Undead) {
+function auraOfEvil(cre: Creature) {
   // Ghoul lords do radiate an aura of evil. In fact, this effect is so potent that those of good alignment suffer a -4 on all attack rolls when within 30 feet of these creatures.
   // In addition, all persons who are forced to make a fear or horror check because of an encounter with a ghoul lord must do so with a -2 penalty.
   const base: BaseEffect = {
@@ -213,7 +214,7 @@ function auraOfEvil(cre: Undead) {
   });
 }
 
-export function ghoul(family: CreatureEntry<Undead>): Undead {
+export function ghoul(family: CreatureEntry<Creature>): Creature {
   const ghoul = family.create({
     monster: MonsterEnum.Ghoul,
     name: "monster.undead.name.ghoul",
@@ -247,14 +248,14 @@ export function ghoul(family: CreatureEntry<Undead>): Undead {
     },
   });
   ghoulTouch(ghoul);
-  ghoul.createClaws({
+  createClaws(ghoul, {
     diceThrown: 1,
     diceSize: 3,
     castSpell: {
       spell: family.spell(Ids.GhoulTouch).file,
     },
   });
-  ghoul.createJaws(1, 6, [
+  createJaws(ghoul, 1, 6, [
     {
       spell: family.spell(Ids.GhoulTouch).file,
     },
@@ -266,7 +267,7 @@ export function ghoul(family: CreatureEntry<Undead>): Undead {
   return ghoul;
 }
 
-export function ghoulLord(family: CreatureEntry<Undead>): Undead {
+export function ghoulLord(family: CreatureEntry<Creature>): Creature {
   const lord = family.create({
     monster: MonsterEnum.GhoulLord,
     name: "monster.undead.name.ghoulLord",
@@ -304,14 +305,14 @@ export function ghoulLord(family: CreatureEntry<Undead>): Undead {
   ghoulLordTouch(lord);
   ghoulRottingDisease(lord);
   auraOfEvil(lord);
-  lord.createClaws({
+  createClaws(lord, {
     diceThrown: 1,
     diceSize: 6,
     castSpell: {
       spell: family.spell(Ids.GhoulLordTouch).file,
     },
   });
-  lord.createJaws(1, 10, [
+  createJaws(lord, 1, 10, [
     {
       spell: family.spell(Ids.GhoulLordTouch).file,
     },

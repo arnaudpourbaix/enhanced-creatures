@@ -12,12 +12,13 @@ import {
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createJaws } from "./types/undead";
 
-function bonebatTouch(cre: Undead) {
+function bonebatTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.bonebatTouch.name",
     description: "monster.undead.ability.bonebatTouch.description",
@@ -47,7 +48,7 @@ function bonebatTouch(cre: Undead) {
   });
 }
 
-export function bonebat(family: CreatureEntry<Undead>): Undead {
+export function bonebat(family: CreatureEntry<Creature>): Creature {
   const bonebat = family.create({
     monster: MonsterEnum.Bonebat,
     name: "monster.undead.name.bonebat",
@@ -81,7 +82,8 @@ export function bonebat(family: CreatureEntry<Undead>): Undead {
     immunities: ["skeletal"],
   });
   bonebatTouch(bonebat);
-  bonebat.createJaws(
+  createJaws(
+    bonebat,
     2,
     4,
     [

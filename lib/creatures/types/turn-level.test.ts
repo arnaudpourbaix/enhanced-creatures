@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { CreatureAdjustment } from "../../src/model/creature/adjustment";
 import { CreatureData, Level } from "../../src/model/creature/data";
+import { Creature } from "../../src/model/creature/creature";
 import { ImmunityName } from "../../src/model/final/immunity";
 import { applyTurnLevel, TurnUndeadType } from "./turn-level";
-import { Undead } from "./undead-creature";
 
 const level = (pnpValue: number, type: Level["type"] = "none"): Level => ({
   pnpValue,
@@ -18,13 +18,13 @@ function fakeUndead(p: {
   immunities?: ImmunityName[];
   traitImmunities?: ImmunityName[];
   adjustments?: Partial<CreatureData>[];
-}): Undead {
+}): Creature {
   return {
     turnAs: p.turnAs,
-    data: { level1: p.level1, bonusHp: p.bonusHp, immunities: p.immunities ?? [] },
-    items: p.traitImmunities ? [{ immunities: p.traitImmunities }] : [],
+    data: { level1: p.level1, bonusHp: p.bonusHp, immunities: p.immunities ?? ["undead"] },
+    items: p.traitImmunities ? [{ trait: true, immunities: p.traitImmunities }] : [],
     adjustments: (p.adjustments ?? []).map((data) => ({ data }) as CreatureAdjustment),
-  } as unknown as Undead;
+  } as unknown as Creature;
 }
 
 describe("applyTurnLevel", () => {
@@ -78,7 +78,7 @@ describe("applyTurnLevel", () => {
   });
 
   it.each([
-    ["data", { immunities: ["turnUndead"] as ImmunityName[] }],
+    ["data", { immunities: ["undead", "turnUndead"] as ImmunityName[] }],
     ["trait", { traitImmunities: ["turnUndead"] as ImmunityName[] }],
   ])("skips creatures immune to turning (%s immunity)", (_, immunity) => {
     const undead = fakeUndead({ level1: level(6), turnAs: "vampire", ...immunity });
@@ -118,5 +118,57 @@ describe("applyTurnLevel", () => {
       { pnpValue: 4, value: 5, type: "turn" },
       undefined,
     ]);
+  });
+
+  it("leaves a creature without the undead type alone", () => {
+    const creature = fakeUndead({
+      level1: level(4),
+      bonusHp: 3,
+      immunities: ["magicalBeast"],
+      adjustments: [{ level1: level(10), bonusHp: 3 }],
+    });
+    applyTurnLevel(creature);
+    expect(creature.data.level1).toEqual(level(4));
+    expect(creature.adjustments[0].data.level1).toEqual(level(10));
+  });
+
+  it("gives a turn level to an adjustment adding the undead type to a non-undead creature", () => {
+    const ankheg = fakeUndead({
+      level1: level(8),
+      immunities: ["magicalBeast"],
+      adjustments: [
+        { level1: level(10) },
+        { level1: level(15), bonusHp: 3, immunities: ["undead"] },
+        { bonusHp: 3, immunities: ["undead"] },
+      ],
+    });
+    applyTurnLevel(ankheg);
+    expect(ankheg.data.level1).toEqual(level(8));
+    expect(ankheg.adjustments.map((a) => a.data.level1)).toEqual([
+      level(10),
+      { pnpValue: 15, value: 16, type: "turn" },
+      { pnpValue: 8, value: 9, type: "turn" },
+    ]);
+  });
+
+  it("uses the creature's turnAs row for an adjustment adding the undead type", () => {
+    const creature = fakeUndead({
+      level1: level(3),
+      turnAs: "wight",
+      immunities: ["animal"],
+      adjustments: [{ immunities: ["undead"] }],
+    });
+    applyTurnLevel(creature);
+    expect(creature.adjustments[0].data.level1).toEqual({ pnpValue: 3, value: 5, type: "turn" });
+  });
+
+  it("skips an adjustment adding the undead type to a creature immune to turning", () => {
+    const creature = fakeUndead({
+      level1: level(4),
+      immunities: ["animal", "turnUndead"],
+      adjustments: [{ bonusHp: 3, immunities: ["undead"] }],
+    });
+    applyTurnLevel(creature);
+    expect(creature.adjustments[0].data.level1).toBeUndefined();
   });
 });

@@ -20,12 +20,13 @@ import {
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws, createJaws } from "./types/undead";
 
-function ghastTouch(cre: Undead) {
+function ghastTouch(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.ghastTouch.name",
     description: "monster.undead.ability.ghastTouch.description",
@@ -55,7 +56,7 @@ function ghastTouch(cre: Undead) {
   });
 }
 
-function carrionStench(cre: Undead) {
+function carrionStench(cre: Creature) {
   const base: BaseEffect = {
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
     saveBonus: -2,
@@ -117,7 +118,7 @@ function carrionStench(cre: Undead) {
   });
 }
 
-export function ghast(family: CreatureEntry<Undead>): Undead {
+export function ghast(family: CreatureEntry<Creature>): Creature {
   const ghast = family.create({
     monster: MonsterEnum.Ghast,
     name: "monster.undead.name.ghast",
@@ -152,14 +153,14 @@ export function ghast(family: CreatureEntry<Undead>): Undead {
     },
   });
   ghastTouch(ghast);
-  ghast.createClaws({
+  createClaws(ghast, {
     diceThrown: 1,
     diceSize: 4,
     castSpell: {
       spell: family.spell(Ids.GhastTouch).file,
     },
   });
-  ghast.createJaws(1, 8, [
+  createJaws(ghast, 1, 8, [
     {
       spell: family.spell(Ids.GhastTouch).file,
     },
@@ -175,7 +176,7 @@ export function ghast(family: CreatureEntry<Undead>): Undead {
   return ghast;
 }
 
-function greaterGhastVariant(base: Undead): Variant {
+function greaterGhastVariant(base: Creature): Variant {
   return base.variant("Greater Ghast", {
     data: { level1: 8, strength: 18, exceptionalStrength: 100, xpv: 975 },
     files: ["CD41COR", "BDJUNIA2", "GRAEL", "GRON", "GMAYOR", "THESHAL", "GHASTGSU", "WICULT1"],
@@ -194,7 +195,7 @@ function greaterGhastVariant(base: Undead): Variant {
   });
 }
 
-function lacedonVariant(base: Undead): Variant {
+function lacedonVariant(base: Creature): Variant {
   const lacedon = base.variant("Lacedon", {
     data: { level1: 5, strength: 18 },
     files: ["AC#DTLAC", "LACEDO01", "SAHLACE"],

@@ -1,6 +1,7 @@
+import { Creature } from "../../src/model/creature/creature";
 import { Level } from "../../src/model/creature/data";
 import creatureService from "../../src/services/creature.service";
-import type { Undead } from "./undead-creature";
+import creatureTypeService from "../../src/services/creature-type.service";
 
 /** Named rows of the PHB turning table (Table 61), from easiest to hardest to turn. */
 export type TurnUndeadType =
@@ -42,18 +43,23 @@ const TURN_ROW_HIT_DICE: Record<TurnUndeadType, number> = {
 };
 
 /**
- * Sets the in-game level undead are turned at, for the creature and every adjustment that changes
- * its Hit Dice. The table rows read "type *or* Hit Dice", so the harder one wins: the `turnAs` row,
- * or the creature's own Hit Dice ("+3" or more rounding up, as a 4+3 HD wight is in the 5 HD row).
+ * Sets the in-game level undead are turned at, for an undead creature and every adjustment that
+ * changes its Hit Dice, or, for a creature that is not undead, for each adjustment making it
+ * undead (zombie ankhegs). The table rows read "type *or* Hit Dice", so the harder one wins: the
+ * `turnAs` row, or the Hit Dice ("+3" or more rounding up, as a 4+3 HD wight is in the 5 HD row).
  * Spellcasters keep their caster level, and creatures immune to turning are left alone.
  */
-export function applyTurnLevel(creature: Undead): void {
+export function applyTurnLevel(creature: Creature): void {
   if (isImmuneToTurning(creature)) return;
   const base = creature.data;
-  base.level1 = getTurnLevel(creature.turnAs, base.level1, base.bonusHp);
-  for (const adjustment of creature.adjustments) {
+  const undead = creatureTypeService.getCreatureTypes(creature).includes("undead");
+  if (undead) base.level1 = getTurnLevel(creature.turnAs, base.level1, base.bonusHp);
+  const turned = creature.adjustments.filter(
+    (a) => undead || creatureTypeService.getAdjustmentTypes(creature, a).includes("undead"),
+  );
+  for (const adjustment of turned) {
     const data = adjustment.data;
-    if (data.level1 === undefined && data.bonusHp === undefined) continue;
+    // Same as the base's level when neither level1 nor bonusHp changes: left unset then.
     const level1 = getTurnLevel(
       creature.turnAs,
       data.level1 ?? base.level1,
@@ -72,7 +78,7 @@ function getTurnLevel(turnAs: TurnUndeadType | undefined, level1: Level, bonusHp
   return { value, pnpValue: level1.pnpValue, type: value === level1.pnpValue ? "none" : "turn" };
 }
 
-function isImmuneToTurning(creature: Undead): boolean {
+function isImmuneToTurning(creature: Creature): boolean {
   return [...creature.data.immunities, ...creature.items.flatMap((i) => i.immunities)].includes(
     "turnUndead",
   );

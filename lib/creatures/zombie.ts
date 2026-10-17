@@ -33,12 +33,13 @@ import { PartialSpellHeader } from "../src/model/spell-item/spell-item";
 import targetService from "../src/services/baf/target.service";
 import { MonsterEnum } from "./monster";
 import { Ids } from "./undead/ids";
-import { Undead } from "./undead/undead-creature";
+import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
+import { createClaws } from "./types/undead";
 
-function zombieDisease(cre: Undead) {
+function zombieDisease(cre: Creature) {
   const duration = Durations.day;
   return cre.addSpell({
     name: "monster.undead.ability.zombieDisease.name",
@@ -96,7 +97,7 @@ function zombieDisease(cre: Undead) {
   });
 }
 
-function createAnimateDead(cre: Undead) {
+function createAnimateDead(cre: Creature) {
   const base: BaseEffect = {
     dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
     saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
@@ -165,7 +166,7 @@ function createAnimateDead(cre: Undead) {
   });
 }
 
-function createStenchOfDecay(cre: Undead) {
+function createStenchOfDecay(cre: Creature) {
   const duration = 5 * Durations.round;
   const saveTypes = [SaveTypeEnum.ParalyzePoisonDeath];
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
@@ -236,7 +237,7 @@ function createStenchOfDecay(cre: Undead) {
   });
 }
 
-function createOdorOfDeath(cre: Undead) {
+function createOdorOfDeath(cre: Creature) {
   const base: CastSpellEffect = {
     opcode: EffectTypeEnum.CastSpell,
     type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
@@ -305,7 +306,7 @@ function createOdorOfDeath(cre: Undead) {
   });
 }
 
-function createOdorOfDeathWeakness(cre: Undead) {
+function createOdorOfDeathWeakness(cre: Creature) {
   const duration = Durations.turn * 6;
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
@@ -360,7 +361,7 @@ function createOdorOfDeathWeakness(cre: Undead) {
   });
 }
 
-function createOdorOfDeathStrDisease(cre: Undead) {
+function createOdorOfDeathStrDisease(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   const iterations = 17;
   const initialDelay = 3 * Durations.turn;
@@ -410,7 +411,7 @@ function createOdorOfDeathStrDisease(cre: Undead) {
   });
 }
 
-function createOdorOfDeathConDisease(cre: Undead) {
+function createOdorOfDeathConDisease(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
     name: "monster.undead.ability.zombieOdorOfDeath.constitutionDisease",
@@ -441,7 +442,7 @@ function createOdorOfDeathConDisease(cre: Undead) {
   });
 }
 
-function createOdorOfDeathContagion(cre: Undead) {
+function createOdorOfDeathContagion(cre: Creature) {
   const base: BaseEffect = {
     timing: EffectTimingEnum.InstantPermanentUntilDeath,
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
@@ -488,7 +489,7 @@ function createOdorOfDeathContagion(cre: Undead) {
   });
 }
 
-function createOdorOfDeathNausea(cre: Undead) {
+function createOdorOfDeathNausea(cre: Creature) {
   // Character unable to act for 1d4 rounds due to nausea and vomiting.
   const duration = Durations.round * 2;
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
@@ -518,7 +519,7 @@ function createOdorOfDeathNausea(cre: Undead) {
   });
 }
 
-function createOdorOfDeathDeath(cre: Undead) {
+function createOdorOfDeathDeath(cre: Creature) {
   return cre.addSpell({
     name: "monster.undead.ability.zombieOdorOfDeath.death",
     headers: [
@@ -552,7 +553,7 @@ function createOdorOfDeathDeath(cre: Undead) {
   });
 }
 
-export function zombie(family: CreatureEntry<Undead>): Undead {
+export function zombie(family: CreatureEntry<Creature>): Creature {
   const zombie = family.create({
     monster: MonsterEnum.Zombie,
     name: "monster.undead.name.zombie",
@@ -593,7 +594,7 @@ export function zombie(family: CreatureEntry<Undead>): Undead {
   zombie.addTrait({
     immunities: ["cold"],
   });
-  zombie.createClaws({
+  createClaws(zombie, {
     diceThrown: 1,
     diceSize: 8,
   });
@@ -601,7 +602,7 @@ export function zombie(family: CreatureEntry<Undead>): Undead {
   return zombie;
 }
 
-export function jujuZombie(family: CreatureEntry<Undead>): Undead {
+export function jujuZombie(family: CreatureEntry<Creature>): Creature {
   const juju = family.createFrom({
     name: "monster.undead.name.zombieJuju",
     monster: MonsterEnum.ZombieJuju,
@@ -631,7 +632,7 @@ export function jujuZombie(family: CreatureEntry<Undead>): Undead {
       "magicMissile",
     ],
   });
-  juju.createClaws({
+  createClaws(juju, {
     diceThrown: 3,
     diceSize: 4,
   });
@@ -653,7 +654,7 @@ export function jujuZombie(family: CreatureEntry<Undead>): Undead {
   return juju;
 }
 
-export function zombieLord(family: CreatureEntry<Undead>): Undead {
+export function zombieLord(family: CreatureEntry<Creature>): Creature {
   const lord = family.createFrom({
     name: "monster.undead.name.zombieLord",
     monster: MonsterEnum.ZombieLord,
@@ -672,7 +673,7 @@ export function zombieLord(family: CreatureEntry<Undead>): Undead {
   });
   createOdorOfDeath(lord);
   createAnimateDead(lord);
-  lord.createClaws({
+  createClaws(lord, {
     diceThrown: 2,
     diceSize: 4,
   });
@@ -683,7 +684,7 @@ export function zombieLord(family: CreatureEntry<Undead>): Undead {
   return lord;
 }
 
-export function seaZombie(family: CreatureEntry<Undead>): Undead {
+export function seaZombie(family: CreatureEntry<Creature>): Creature {
   const sea = family.createFrom({
     name: "monster.undead.name.zombieSea",
     monster: MonsterEnum.ZombieSea,
@@ -708,7 +709,7 @@ export function seaZombie(family: CreatureEntry<Undead>): Undead {
   });
   zombieDisease(sea);
   createStenchOfDecay(sea);
-  sea.createClaws({
+  createClaws(sea, {
     diceThrown: 1,
     diceSize: 10,
     castSpell: {
@@ -731,7 +732,7 @@ export function seaZombie(family: CreatureEntry<Undead>): Undead {
   return sea;
 }
 
-function seaZombieLordVariant(base: Undead, family: CreatureEntry<Undead>): Variant {
+function seaZombieLordVariant(base: Creature, family: CreatureEntry<Creature>): Variant {
   return base.variant("Sea Zombie Lord", {
     data: {
       level1: 6,
@@ -750,7 +751,7 @@ function seaZombieLordVariant(base: Undead, family: CreatureEntry<Undead>): Vari
   });
 }
 
-export function zombieMonster(family: CreatureEntry<Undead>): Undead {
+export function zombieMonster(family: CreatureEntry<Creature>): Creature {
   const monster = family.createFrom({
     name: "monster.undead.name.zombieMonster",
     monster: MonsterEnum.ZombieMonster,
@@ -763,7 +764,7 @@ export function zombieMonster(family: CreatureEntry<Undead>): Undead {
     xpv: 650,
     size: { value: "Large", tall: true, long: false },
   });
-  monster.createClaws({
+  createClaws(monster, {
     diceThrown: 4,
     diceSize: 4,
   });

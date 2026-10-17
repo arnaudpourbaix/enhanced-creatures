@@ -1,6 +1,6 @@
 import { Variant } from "../../src/model/creature/variant";
 import { MonsterEnum } from "../monster";
-import { Undead } from "../undead/undead-creature";
+import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
@@ -8,7 +8,7 @@ import type { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
 
-export function skeleton(family: CreatureEntry<Undead>): Undead {
+export function skeleton(family: CreatureEntry<Creature>): Creature {
   const skeleton = family.create({
     monster: MonsterEnum.Skeleton,
     name: "monster.undead.name.skeleton",
@@ -124,7 +124,7 @@ export function skeleton(family: CreatureEntry<Undead>): Undead {
   return skeleton;
 }
 
-function greaterSkeletonVariant(base: Undead): Variant {
+function greaterSkeletonVariant(base: Creature): Variant {
   const greater = base.variant("Greater Skeleton", {
     data: {
       level1: 6,
