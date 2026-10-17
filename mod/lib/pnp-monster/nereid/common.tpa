@@ -1,0 +1,2 @@
+COPY ~%MOD_FOLDER%/lib/pnp-monster/nereid/assets/jaaf0800.bam~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-monster/nereid/assets/javf0800.vvc~ ~override~

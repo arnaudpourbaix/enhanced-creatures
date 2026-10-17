@@ -22,9 +22,6 @@ BEGIN @999
 DESIGNATED 999
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
@@ -98,7 +95,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/fey/main.tpa"
 
 // // Golems
 // BEGIN @1190
@@ -130,7 +127,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/ooze/main.tpa"
 
 // // Plants
 // BEGIN @1230
@@ -146,7 +143,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/spider/main.tpa"
 
 // // Undead
 // BEGIN @1250

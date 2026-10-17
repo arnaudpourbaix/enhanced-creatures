@@ -59,10 +59,38 @@ import { createHalfOgreEntry } from "./ogre/half-ogre";
 import { createOgreMageEntry } from "./ogre/ogre-mage";
 import { createOgreBerserkerEntry } from "./ogre/ogre-berserker";
 import { createOgreShamanEntry } from "./ogre/ogre-shaman";
+import { createDryadEntry } from "./fey/dryad";
+import { createHamadryadEntry } from "./fey/hamadryad";
+import { createNymphEntry } from "./fey/nymph";
+import { createSirineEntry } from "./fey/sirine";
+import { createNereidEntry } from "./fey/nereid";
+import { createBlackPuddingEntry } from "./ooze/black-pudding";
+import { createWhitePuddingEntry } from "./ooze/white-pudding";
+import { createMustardJellyEntry } from "./ooze/mustard-jelly";
+import { createFissionSlimeEntry } from "./ooze/fission-slime";
+import { createGrayOozeEntry } from "./ooze/gray-ooze";
+import { createOchreJellyEntry } from "./ooze/ochre-jelly";
+import { createGreenSlimeEntry } from "./ooze/green-slime";
+import { createOliveSlimeEntry } from "./ooze/olive-slime";
+import { createOliveSlimeCreatureEntry } from "./ooze/olive-slime-creature";
+import { createSlitheringTrackerEntry } from "./ooze/slithering-tracker";
+import { createGargantuanSpiderEntry } from "./spider/gargantuan-spider";
+import { createGhostwalkSpiderEntry } from "./spider/ghostwalk-spider";
+import { createGiantSpiderEntry } from "./spider/giant-spider";
+import { createHairySpiderEntry } from "./spider/hairy-spider";
+import { createHugeSpiderEntry } from "./spider/huge-spider";
+import { createHuntingSpiderEntry } from "./spider/hunting-spider";
+import { createPhaseSpiderEntry } from "./spider/phase-spider";
+import { createSwordSpiderEntry } from "./spider/sword-spider";
+import { createVortexSpiderEntry } from "./spider/vortex-spider";
+import { createWraithSpiderEntry } from "./spider/wraith-spider";
 
 /**
  * Entry factories, in install order. Each receives the built kins, to hand its own kin to the
  * entry (`kins.get(KinEnum.Fey)`).
+ *
+ * Load-bearing orders (a later entry reads what an earlier one built): Helmed Horror < Battle Horror <
+ * Doom Sayer; Ogre < Ogre Shaman.
  */
 export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry<Creature>)[] = [
   createAnkhegEntry,
@@ -122,4 +150,29 @@ export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry
   createOgreMageEntry,
   createOgreBerserkerEntry,
   createOgreShamanEntry,
+  createDryadEntry,
+  createHamadryadEntry,
+  createNymphEntry,
+  createSirineEntry,
+  createNereidEntry,
+  createBlackPuddingEntry,
+  createWhitePuddingEntry,
+  createMustardJellyEntry,
+  createFissionSlimeEntry,
+  createGrayOozeEntry,
+  createOchreJellyEntry,
+  createGreenSlimeEntry,
+  createOliveSlimeEntry,
+  createOliveSlimeCreatureEntry,
+  createSlitheringTrackerEntry,
+  createGargantuanSpiderEntry,
+  createGhostwalkSpiderEntry,
+  createGiantSpiderEntry,
+  createHairySpiderEntry,
+  createHugeSpiderEntry,
+  createHuntingSpiderEntry,
+  createPhaseSpiderEntry,
+  createSwordSpiderEntry,
+  createVortexSpiderEntry,
+  createWraithSpiderEntry,
 ];

@@ -1,28 +1,23 @@
-import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../config/common";
-import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../config/creatures";
-import { ITEMS, MonsterItemIconEnum } from "../config/item";
-import { SPELLS } from "../config/spells/spell-database";
-import { BafExistingStringReference } from "../config/stringRef";
-import { createDimensionDoor } from "../spells/dimension_door";
-import { CommonProjectileFiles } from "../spells/projectiles";
-import abilityFactory from "../src/factories/ability.factory";
-import actionFactory from "../src/factories/action.factory";
-import effectFactory from "../src/factories/effect.factory";
-import responseFactory from "../src/factories/response.factory";
-import triggerFactory from "../src/factories/trigger.factory";
-import { ScriptTarget } from "../src/model/constants";
-import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
-import { Durations } from "../src/model/game-data/durations";
+import { DEFAULT_SPELL_PROBABILITY, PRESET_NAMES } from "../../config/common";
+import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../../config/creatures";
+import { ITEMS } from "../../config/item";
+import { SPELLS } from "../../config/spells/spell-database";
+import { createDimensionDoor } from "../../spells/dimension_door";
+import { CommonProjectileFiles } from "../../spells/projectiles";
+import actionFactory from "../../src/factories/action.factory";
+import effectFactory from "../../src/factories/effect.factory";
+import responseFactory from "../../src/factories/response.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
+import { Creature } from "../../src/model/creature/creature";
+import { Durations } from "../../src/model/game-data/durations";
 import {
   AdditionalCode,
   ConditionalStatement,
   PartialCustomCode,
-} from "../src/model/script/script";
-import { BaseEffect, IdsEffect } from "../src/model/spell-item/effect";
+} from "../../src/model/script/script";
+import { BaseEffect, IdsEffect } from "../../src/model/spell-item/effect";
 import {
-  AbilityDamageTypeEnum,
-  CastSpellOnConditionTargetEnum,
   CharmTypeEnum,
   EffectBonusToEnum,
   EffectCastSpellTypeEnum,
@@ -36,7 +31,6 @@ import {
   EffectTimingEnum,
   EffectVisualEffectLocationEnum,
   ItemAbilityCastingAnimationEnum,
-  ItemAbilityFlagEnum,
   ItemAbilityLocationEnum,
   ItemAbilityPrimaryTypeEnum,
   ItemAbilitySecondaryTypeEnum,
@@ -45,22 +39,22 @@ import {
   LightingEffectEnum,
   LightingEffectTargetEnum,
   PortraitIconEnum,
-  ProficiencyTypeEnum,
   SaveTypeEnum,
   SpellFlagEnum,
   SpellTypeEnum,
   SummonCreatureModeEnum,
-} from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { AreaProjectileEnum } from "../src/model/spell-item/projectile";
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
 import {
   SpellProtectionRelation,
   SpellProtectionStat,
-} from "../src/model/spell-item/spell-protection";
-import { StringRefUtils } from "../src/services/utils/string-ref.utils";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+} from "../../src/model/spell-item/spell-protection";
+import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { KinEnum } from "../kin";
 
-enum Ids {
+export enum FeyIds {
   InnateDimensionDoor,
   PriestDimensionDoor,
   DryadCharm,
@@ -80,7 +74,7 @@ enum Ids {
   WateryFist,
 }
 
-class Fey extends Creature {
+export class Fey extends Creature {
   /**
    * Attack Evasion
    */
@@ -91,7 +85,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.attackEvasion.name",
       description: "monster.fey.ability.attackEvasion.description",
-      id: Ids.AttackEvasion,
+      id: FeyIds.AttackEvasion,
       castingSound: "NERED06",
       icon: SPELLS.Wizard.ReflectedImage.file,
       flags: [SpellFlagEnum.IgnoreDead, SpellFlagEnum.CastableWhenSilenced],
@@ -129,7 +123,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.venomSpit.name",
       description: "monster.fey.ability.venomSpit.description",
-      id: Ids.VenomSpit,
+      id: FeyIds.VenomSpit,
       memorizedCount: 1,
       castingSound: "NERED05",
       icon: SPELLS.Priest.Poison.file,
@@ -176,7 +170,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.wateryFist.name",
       description: "monster.fey.ability.wateryFist.description",
-      id: Ids.WateryFist,
+      id: FeyIds.WateryFist,
       memorizedCount: 1,
       castingSound: "CAS_M06",
       icon: SPELLS.Wizard.BigbyIcyGrasp.file,
@@ -232,7 +226,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.drowningKiss.name",
       description: "monster.fey.ability.drowningKiss.description",
-      id: Ids.DrowningKiss,
+      id: FeyIds.DrowningKiss,
       memorizedCount: 1,
       castingSound: "NERED07",
       icon: "jaaf0800",
@@ -319,7 +313,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.beguilingAura.name",
       description: "monster.fey.ability.beguilingAura.description",
-      id: Ids.BeguilingAura,
+      id: FeyIds.BeguilingAura,
       memorizedCount: 1,
       castingSound: "NERED07",
       primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
@@ -381,7 +375,7 @@ class Fey extends Creature {
     return this.addSpell({
       name: "monster.fey.ability.summonGiantPoisonousSnake.name",
       description: "monster.fey.ability.summonGiantPoisonousSnake.description",
-      id: Ids.SummonGiantPoisonousSnake,
+      id: FeyIds.SummonGiantPoisonousSnake,
       memorizedCount: 1,
       castingSound: "CAS_P03",
       icon: SPELLS.Class.SummonSpiritAnimal.file,
@@ -427,9 +421,9 @@ class Fey extends Creature {
   }
 }
 
-class FeyFamily extends CreatureFamily<Fey> {
+export class FeyKin extends CreatureKin {
   constructor() {
-    super(MonsterFamilyEnum.Fey);
+    super(KinEnum.Fey);
     this.createInnateDimensionDoor();
     this.createPriestDimensionDoor();
     this.createCharm();
@@ -441,704 +435,6 @@ class FeyFamily extends CreatureFamily<Fey> {
     this.createCharmSong();
     this.createFogCloud();
     this.createTouchOfTranquility();
-    this.addCreature(() => this.dryad());
-    this.addCreature(() => this.hamadryad());
-    this.addCreature(() => this.nymph());
-    this.addCreature(() => this.sirine());
-    this.addCreature(() => this.nereid());
-  }
-
-  createCreature(id: MonsterEnum): Fey {
-    return new Fey(id);
-  }
-
-  /**
-   * Dryad
-   */
-  private dryad() {
-    const dryad = this.create({
-      monster: MonsterEnum.Dryad,
-      name: "monster.fey.name.dryad",
-      files: [NEW_CREATURES.DryadSummon],
-      newFiles: [
-        {
-          files: [NEW_CREATURES.DryadSummon],
-          copyFrom: NEW_CREATURES.DryadSummon,
-          stringRef: "monster.fey.name.dryad",
-        },
-      ],
-      data: {
-        level1: 2,
-        strength: 10,
-        dexterity: 12,
-        constitution: 11,
-        intelligence: 14,
-        wisdom: 15,
-        charisma: 18,
-        ac: 9,
-        apr: 1,
-        xpv: 975,
-        alignment: "NEUTRAL",
-        morale: 12,
-        general: "HUMANOID",
-        race: "FAIRY",
-        class: "FAIRY_DRYAD",
-        gender: "FEMALE",
-        size: { value: "Medium", tall: true, long: false },
-        movement: 12,
-        immunities: ["fey"],
-        items: {
-          remove: ["ANTIWEB", "DAGG01", "DAGG02", "DAGG03"],
-        },
-        script: {
-          remove: ["DRYAD", "nymph"],
-        },
-        spells: {
-          memorized: [
-            {
-              file: this.spell(Ids.InnateDimensionDoor).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.SpeakWithPlants).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.DryadCharm).file,
-              memorizedCount: 3,
-            },
-          ],
-        },
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 2 }],
-      },
-    });
-    dryad.addTrait({ immunities: ["magicResistance"] });
-    dryad.setBehavior({
-      restHeal: true,
-      dialog: ["CDryad", "Ulene", "L#APEST"],
-      abilities: [
-        this.ability(Ids.InnateDimensionDoor),
-        this.ability(Ids.SpeakWithPlants),
-        this.ability(Ids.DryadCharm),
-      ],
-      additionalCodes: [this.dryadTrackTarget(), this.dryadMeleeCondition()],
-      customCodes: [
-        {
-          location: "init",
-          type: "insertBefore",
-          statements: [...this.dryadWildernessAbilities()],
-        },
-        this.noMeleeUntilForced(),
-      ],
-    });
-    dryad.setAdjustments([
-      {
-        files: [NEW_CREATURES.DryadSummon],
-        summon: true,
-      },
-      {
-        files: ["DRYAD", "L#APEST"],
-        data: { class: "INNOCENT" },
-      },
-      {
-        files: ["SUDRYAD", "OHDYARR"],
-        data: {
-          level1: 5,
-        },
-      },
-      {
-        files: ["OHDWNTRB", "OHDYARR"],
-        data: {
-          level1: 8,
-        },
-      },
-      {
-        files: ["VA#PANDA"],
-        data: {
-          level1: 10,
-        },
-      },
-    ]);
-    return dryad;
-  }
-
-  /**
-   * Hamadryad
-   */
-  private hamadryad() {
-    const hamadryad = this.create({
-      monster: MonsterEnum.Hamadryad,
-      name: "monster.fey.name.hamadryad",
-      files: [NEW_CREATURES.HamadryadSummon],
-      newFiles: [
-        {
-          files: [NEW_CREATURES.HamadryadSummon],
-          copyFrom: NEW_CREATURES.HamadryadSummon,
-          stringRef: "monster.fey.name.hamadryad",
-        },
-      ],
-      data: {
-        level1: 4,
-        strength: 10,
-        dexterity: 18,
-        constitution: 12,
-        intelligence: 14,
-        wisdom: 14,
-        charisma: 18,
-        ac: 6,
-        apr: 1,
-        xpv: 1400,
-        alignment: "NEUTRAL",
-        morale: 12,
-        general: "HUMANOID",
-        race: "FAIRY",
-        class: "FAIRY_DRYAD",
-        gender: "FEMALE",
-        size: { value: "Medium", tall: true, long: false },
-        movement: 15,
-        immunities: ["fey"],
-        items: { remove: ["ANTIWEB", "HAMASU", "AROW02"] },
-        script: { remove: ["HAMA", "HAMASU", "BDHAMADC", "wqxhama"] },
-        spells: {
-          memorized: [
-            {
-              file: this.spell(Ids.InnateDimensionDoor).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.SpeakWithPlants).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.DryadCharm).file,
-              memorizedCount: 3,
-            },
-            {
-              file: this.spell(Ids.Entangle).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.AnimalFriendship).file,
-              memorizedCount: 1,
-            },
-            {
-              file: this.spell(Ids.DetectTraps).file,
-              memorizedCount: 1,
-            },
-          ],
-        },
-        effects: {
-          remove: [EffectTypeEnum.CastingTimeModifier, EffectTypeEnum.ProtectionFromSpell],
-        },
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 2 }],
-      },
-    });
-    hamadryad.addTrait({
-      immunities: ["entangle"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 75,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
-    });
-    hamadryad.setBehavior({
-      restHeal: true,
-      dialog: ["VAELASA"],
-      abilities: [
-        this.ability(Ids.InnateDimensionDoor),
-        this.ability(Ids.SpeakWithPlants),
-        this.ability(Ids.Entangle),
-        this.ability(Ids.DryadCharm),
-        this.ability(Ids.AnimalFriendship),
-        this.ability(Ids.DetectTraps),
-      ],
-      additionalCodes: [this.dryadTrackTarget(), this.dryadMeleeCondition()],
-      customCodes: [
-        {
-          location: "init",
-          type: "insertBefore",
-          statements: [...this.dryadWildernessAbilities(), ...this.cloakwoodCode()],
-        },
-        this.noMeleeUntilForced(),
-      ],
-    });
-    hamadryad.setAdjustments([
-      {
-        files: [NEW_CREATURES.HamadryadSummon],
-        summon: true,
-      },
-      {
-        files: ["WIDRYAD1", "WIDRYAD2"],
-        data: { level1: 8 },
-      },
-      {
-        files: ["WQXHAMA"],
-        data: { level1: 12, ac: -2, xpv: 3650 },
-      },
-      {
-        files: ["VAELASA"],
-        data: { level1: 10 },
-      },
-      {
-        files: ["BDHAMADC"],
-        data: { alignment: "NEUTRAL_EVIL" },
-      },
-    ]);
-    return hamadryad;
-  }
-
-  /**
-   * Nymph
-   */
-  private nymph() {
-    const nymph = this.create({
-      monster: MonsterEnum.Nymph,
-      name: "monster.fey.name.nymph",
-      files: [],
-      data: {
-        level1: { pnpValue: 3, value: 7, type: "caster" }, // can employ druidical priest spells at 7th ability level
-        strength: 10,
-        dexterity: 17,
-        constitution: 12,
-        intelligence: 16,
-        wisdom: 12,
-        charisma: 19,
-        ac: 7,
-        apr: 0,
-        xpv: 1400,
-        alignment: "NEUTRAL_GOOD",
-        morale: 7,
-        general: "HUMANOID",
-        race: "FAIRY",
-        class: "DRUID", // FAIRY_NYMPH
-        gender: "FEMALE",
-        size: { value: "Medium", tall: true, long: false },
-        movement: 12,
-        immunities: ["fey"],
-        items: { remove: ["DAGG01", "B1-6", "DVNYMPH", "ANTIWEB", "DAGG02", "HGNYMPH"] },
-        script: { remove: ["BDNYMP01", "NYMPH", "DVNYMPH", "HGNYMPH"] },
-        spells: {
-          memorized: [
-            {
-              file: this.spell(Ids.PriestDimensionDoor).file,
-              memorizedCount: 1,
-            },
-            { file: this.spell(Ids.AnimalFriendship).file, memorizedCount: 1 },
-            { file: this.spell(Ids.BlindingBeauty).file, memorizedCount: 1 },
-            { file: SPELLS.Priest.CureLightWounds.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.Bless.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.Entangle.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.Barkskin.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.CharmPersonOrAnimal.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.CallLightning.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.SummonInsects.file, memorizedCount: 1 },
-            { file: SPELLS.Priest.CallWoodlandBeeings.file, memorizedCount: 1 },
-          ],
-        },
-        effects: {
-          remove: [EffectTypeEnum.ProtectionFromSpell],
-        },
-      },
-    });
-    nymph.addTrait({ immunities: ["magicResistance"] });
-    nymph.setAttack({ melee: false });
-    nymph.setBehavior({
-      abilities: [
-        this.ability(Ids.BlindingBeauty),
-        this.ability(Ids.PriestDimensionDoor),
-        {
-          preset: SPELLS.Priest.CallWoodlandBeeings.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.Bless.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.Barkskin.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.CallLightning.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.SummonInsects.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.Entangle.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        {
-          preset: SPELLS.Priest.CharmPersonOrAnimal.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-        this.ability(Ids.AnimalFriendship),
-        {
-          preset: SPELLS.Priest.CureLightWounds.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-        },
-      ],
-      additionalCodes: [this.nymphTrackTarget()],
-    });
-    nymph.setAdjustments([
-      {
-        files: ["BDNYMP02"],
-        data: { alignment: "NEUTRAL_EVIL" },
-      },
-      {
-        files: ["ABELA"],
-        data: { spells: { removeMemorized: true } },
-      },
-      {
-        files: ["OHDNYMPH"],
-        data: { level1: { pnpValue: 4, value: 7, type: "caster" } },
-      },
-    ]);
-    return nymph;
-  }
-
-  /**
-   * Sirine
-   */
-  private sirine() {
-    const sirine = this.create({
-      monster: MonsterEnum.Sirine,
-      name: "monster.fey.name.sirine",
-      files: [],
-      data: {
-        level1: { pnpValue: 5, value: 11, type: "caster" }, // level 11 caster
-        strength: 10,
-        dexterity: 18,
-        constitution: 11,
-        intelligence: 13,
-        wisdom: 16,
-        charisma: 17,
-        ac: 3,
-        apr: 1,
-        xpv: 3000,
-        alignment: "NEUTRAL",
-        morale: 12,
-        general: "HUMANOID",
-        race: "FAIRY",
-        class: "FAIRY_SIRINE",
-        gender: "FEMALE",
-        size: { value: "Medium", tall: true, long: false },
-        movement: 12,
-        immunities: ["fey"],
-        items: {
-          remove: ["COMPB05", "BOW01", "BOW05", "SIRINE1", "AROW01", "AROW05"],
-          equipped: [
-            { file: "BOW05", slot: "WEAPON2", undroppable: false },
-            {
-              file: "AROW10",
-              quantity: 10,
-              slot: "QUIVER1",
-              undroppable: false,
-              unstealable: true,
-            },
-            {
-              file: "AROW01",
-              quantity: 40,
-              slot: "QUIVER2",
-              undroppable: false,
-              unstealable: true,
-            },
-            {
-              file: "AROW01",
-              quantity: 40,
-              slot: "QUIVER3",
-              undroppable: false,
-              unstealable: true,
-            },
-          ],
-        },
-        script: {
-          remove: ["SIRSPELL", "SIL", "AC#DT30S"],
-          edits: [
-            {
-              files: ["AC#DTSIR"],
-              replaces: [['ReallyForceSpellRES("AC#DTSS",NearestEnemyOf(Myself))', "Continue()"]],
-            },
-          ],
-        },
-        spells: {
-          memorized: [
-            { file: this.spell(Ids.CharmSong).file, memorizedCount: 1 },
-            { file: this.spell(Ids.FogCloud).file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.PolymorphSelf.file, memorizedCount: 1 },
-            {
-              file: SPELLS.Wizard.ImprovedInvisibility.file,
-              memorizedCount: 1,
-            },
-          ],
-        },
-        proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYDAGGER, value: 2 }],
-      },
-      autoGenerate: {
-        savingThrows: {
-          level: 11,
-          classe: "MAGE",
-          bonus: { saveDeath: 2 },
-        },
-      },
-    });
-    sirine.addTrait({
-      immunities: ["cloudSpells"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 20,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
-    });
-    sirine.addWeapon({
-      weapon: {
-        stringRef: "monster.fey.weapon.sirineTouch",
-        equippedSlot: ["WEAPON1"],
-        icon: MonsterItemIconEnum.Fist,
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: 1,
-          diceSize: 3,
-          damageType: AbilityDamageTypeEnum.Crushing,
-          speed: 2,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-          effects: [
-            {
-              opcode: EffectTypeEnum.CastSpell,
-              type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-              castingLevel: 1,
-              timing: EffectTimingEnum.InstantPermanentUntilDeath,
-              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-              resource: this.spell(Ids.TouchOfTranquility).file,
-            },
-          ],
-        },
-      },
-    });
-    sirine.setAttack({ ranged: true });
-    sirine.setBehavior({
-      restHeal: true,
-      canPolymorph: true,
-      dialog: ["MEIALA", "NTSILUA", "SIL", "LARRIA"],
-      abilities: [
-        {
-          preset: SPELLS.Wizard.ImprovedInvisibility.file,
-          spell: {
-            type: "force",
-            remove: true,
-          },
-          disableInterrupt: true,
-        },
-        this.ability(Ids.CharmSong),
-        this.ability(Ids.TouchOfTranquility),
-        this.ability(Ids.FogCloud),
-        ...abilityFactory.polymorphSelf({
-          triggers: [
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(Ids.CharmSong).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(Ids.FogCloud).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Wizard.ImprovedInvisibility.file],
-              negation: true,
-            },
-          ],
-        }),
-      ],
-      customCodes: [
-        {
-          location: "attack",
-          type: "insertBefore",
-          statements: [
-            {
-              comment: "Don't break invisibility when charm is available",
-              triggers: [
-                {
-                  name: "StateCheck",
-                  params: [ScriptTarget.myself, "STATE_INVISIBLE"],
-                },
-                {
-                  name: "HaveSpellRES",
-                  params: [this.spell(Ids.CharmSong).file],
-                },
-              ],
-              responses: [
-                {
-                  weight: 100,
-                  actions: [{ name: "NoAction" }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    sirine.setAdjustments([
-      { files: ["SIL"], data: { level1: 7 } },
-      {
-        files: ["AC#DT20S"],
-        data: {
-          level1: 11,
-          xpv: 5000,
-          spells: {
-            memorized: [{ file: this.spell(Ids.CharmSong).file, memorizedCount: 2 }],
-          },
-        },
-      },
-      {
-        files: ["ISLSIR", "MEIALA", "CBLNIGHT"],
-        data: {
-          level1: 11,
-          ac: -4,
-          apr: 3,
-          xpv: 6000,
-          spells: {
-            memorized: [{ file: this.spell(Ids.CharmSong).file, memorizedCount: 2 }],
-          },
-        },
-      },
-      {
-        files: ["AC#DT30S"],
-        data: {
-          items: {
-            remove: ["COMPB05", "BOW01", "BOW05", "SIRINE1", "AROW01", "AROW05"],
-            equipped: [
-              {
-                file: "AC#DTAR2",
-                quantity: 10,
-                slot: "QUIVER1",
-                undroppable: false,
-                unstealable: true,
-              },
-              {
-                file: "AC#DTAR1",
-                quantity: 10,
-                slot: "QUIVER2",
-                undroppable: false,
-                unstealable: true,
-              },
-            ],
-          },
-          spells: {
-            memorized: [
-              { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 1 },
-              { file: SPELLS.Wizard.GreaterMalison.file, memorizedCount: 1 },
-            ],
-          },
-        },
-      },
-    ]);
-    return sirine;
-  }
-
-  /**
-   * Nereid
-   */
-  private nereid() {
-    const nereid = this.create({
-      monster: MonsterEnum.Nereid,
-      name: "monster.fey.name.nereid",
-      data: {
-        level1: 4,
-        strength: 9,
-        dexterity: 17,
-        constitution: 12,
-        intelligence: 12,
-        wisdom: 12,
-        charisma: 18,
-        ac: 10,
-        apr: 0,
-        xpv: 975,
-        alignment: "CHAOTIC_NEUTRAL",
-        morale: 11,
-        general: "HUMANOID",
-        race: "FAIRY",
-        class: "FAIRY_NEREID",
-        gender: "FEMALE",
-        size: { value: "Medium", tall: true, long: false },
-        movement: 12,
-        immunities: ["fey"],
-        items: {
-          remove: ["WALLPASS", "DAGG01"],
-        },
-        script: {
-          remove: ["BDNEREID", "ULENE"],
-        },
-      },
-    });
-    nereid.createAttackEvasion();
-    nereid.addTrait({
-      description: "monster.fey.trait.nereid",
-      immunities: ["magicResistance"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.CastSpellOnCondition,
-          condition: "AttackedBy([ANYONE])",
-          conditionTarget: CastSpellOnConditionTargetEnum.Myself,
-          resource: this.spell(Ids.AttackEvasion).file,
-          dispelResistance: EffectDispelResistanceEnum.NotDispelBypassResistance,
-        },
-      ],
-    });
-    nereid.createBeguilingAura();
-    nereid.createDrowningKiss();
-    nereid.createVenomSpit();
-    nereid.createSummonGiantPoisonousSnake();
-    nereid.createWateryFist();
-    nereid.setAttack({ melee: false });
-    nereid.setBehavior({
-      restHeal: true,
-      dialog: [],
-      abilities: [
-        this.ability(Ids.BeguilingAura),
-        this.ability(Ids.SummonGiantPoisonousSnake),
-        this.ability(Ids.VenomSpit),
-        this.ability(Ids.DrowningKiss),
-        this.ability(Ids.WateryFist),
-      ],
-    });
-    nereid.setAdjustments([
-      { files: ["BDPWATER"], data: { level1: 9, xpv: 3000 } },
-      { files: ["RE_MEKRN"], data: { level1: 5 }, stringRef: "monster.fey.name.nereid" },
-    ]);
-    return nereid;
   }
 
   /**
@@ -1151,7 +447,7 @@ class FeyFamily extends CreatureFamily<Fey> {
         spellType: SpellTypeEnum.Innate,
         renew: 1,
       }),
-      id: Ids.InnateDimensionDoor,
+      id: FeyIds.InnateDimensionDoor,
       ability: {
         preset: PRESET_NAMES.DimensionDoorOffscreen,
         spell: {
@@ -1162,13 +458,14 @@ class FeyFamily extends CreatureFamily<Fey> {
       },
     });
   }
+
   private createPriestDimensionDoor() {
     return this.addSpell({
       ...createDimensionDoor({
         spellLevel: 1,
         spellType: SpellTypeEnum.Priest,
       }),
-      id: Ids.PriestDimensionDoor,
+      id: FeyIds.PriestDimensionDoor,
       ability: {
         preset: PRESET_NAMES.DimensionDoorOffscreen,
         spell: {
@@ -1186,7 +483,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createCharm() {
     return this.addSpell({
       name: "monster.fey.ability.dryadDireCharm",
-      id: Ids.DryadCharm,
+      id: FeyIds.DryadCharm,
       icon: SPELLS.Wizard.DireCharm.file,
       castingSound: "CAS_M05",
       flags: [SpellFlagEnum.BreakSanctuary],
@@ -1230,7 +527,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createSpeakWithPlants() {
     return this.addSpell({
       name: "monster.fey.ability.speakWithPlants.name",
-      id: Ids.SpeakWithPlants,
+      id: FeyIds.SpeakWithPlants,
       description: "monster.fey.ability.speakWithPlants.description",
       icon: "jaaf0801",
       castingSound: "CAS_P02",
@@ -1300,7 +597,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.entangle.name",
-      id: Ids.Entangle,
+      id: FeyIds.Entangle,
       description: "monster.fey.ability.entangle.description",
       icon: SPELLS.Priest.Entangle.file,
       castingSound: "CAS_P08",
@@ -1414,7 +711,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.animalFriendship.name",
-      id: Ids.AnimalFriendship,
+      id: FeyIds.AnimalFriendship,
       description: "monster.fey.ability.animalFriendship.description",
       icon: SPELLS.Priest.CharmPersonOrAnimal.file,
       flags: [SpellFlagEnum.CastableWhenSilenced],
@@ -1490,7 +787,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createDetectTraps() {
     return this.addSpell({
       name: "monster.fey.ability.detectTraps.name",
-      id: Ids.DetectTraps,
+      id: FeyIds.DetectTraps,
       description: "monster.fey.ability.detectTraps.description",
       castingSound: "CAS_P04",
       flags: [SpellFlagEnum.OutdoorsOnly],
@@ -1603,7 +900,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
-      id: Ids.BlindingBeauty,
+      id: FeyIds.BlindingBeauty,
       description: "monster.fey.ability.blindingBeauty.description",
       type: SpellTypeEnum.Innate,
       icon: SPELLS.Priest.BlindingBeauty.file,
@@ -1706,7 +1003,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.charmSong.name",
-      id: Ids.CharmSong,
+      id: FeyIds.CharmSong,
       description: "monster.fey.ability.charmSong.description",
       icon: SPELLS.Wizard.DireCharm.file,
       castingSound: "SIRIN05",
@@ -1762,7 +1059,7 @@ class FeyFamily extends CreatureFamily<Fey> {
   private createFogCloud() {
     return this.addSpell({
       name: "monster.fey.ability.fogCloud.name",
-      id: Ids.FogCloud,
+      id: FeyIds.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
       icon: "SPWI204",
       castingSound: "CAS_M08",
@@ -1813,7 +1110,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.touchOfTranquility.name",
-      id: Ids.TouchOfTranquility,
+      id: FeyIds.TouchOfTranquility,
       // Only ever reached via the weapon's on-hit CastSpell effect (below) - it isn't a
       // memorized/learnable ability, so it never gets its own Abilities entry (see
       // documentation.service.ts's getCreatureSpell, which requires a `memorized` match). Without
@@ -1921,8 +1218,8 @@ class FeyFamily extends CreatureFamily<Fey> {
     });
   }
 
-  private dryadTrackTarget(): AdditionalCode {
-    const file = this.spell(Ids.DryadCharm).file;
+  dryadTrackTarget(): AdditionalCode {
+    const file = this.spell(FeyIds.DryadCharm).file;
     return {
       location: "trackTargets",
       triggers: [{ name: "HaveSpellRES", params: [file] }],
@@ -1930,33 +1227,7 @@ class FeyFamily extends CreatureFamily<Fey> {
     };
   }
 
-  private nymphTrackTarget(): AdditionalCode {
-    return {
-      location: "trackTargets",
-      triggers: [
-        {
-          name: "Or",
-          triggers: [
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Priest.CallLightning.file],
-            },
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Priest.CharmPersonOrAnimal.file],
-            },
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Priest.SummonInsects.file],
-            },
-          ],
-        },
-      ],
-      actions: [],
-    };
-  }
-
-  private dryadWildernessAbilities(): ConditionalStatement[] {
+  dryadWildernessAbilities(): ConditionalStatement[] {
     const globals = {
       Wilderness: "ja_wilderness",
     };
@@ -1979,11 +1250,11 @@ class FeyFamily extends CreatureFamily<Fey> {
             triggers: [
               {
                 name: "HaveSpellRES",
-                params: [this.spell(Ids.InnateDimensionDoor).file],
+                params: [this.spell(FeyIds.InnateDimensionDoor).file],
               },
               {
                 name: "HaveSpellRES",
-                params: [this.spell(Ids.DetectTraps).file],
+                params: [this.spell(FeyIds.DetectTraps).file],
               },
             ],
           },
@@ -1991,11 +1262,11 @@ class FeyFamily extends CreatureFamily<Fey> {
         responses: responseFactory.response([
           {
             name: "RemoveSpellRES",
-            params: [this.spell(Ids.InnateDimensionDoor).file],
+            params: [this.spell(FeyIds.InnateDimensionDoor).file],
           },
           {
             name: "RemoveSpellRES",
-            params: [this.spell(Ids.DetectTraps).file],
+            params: [this.spell(FeyIds.DetectTraps).file],
           },
           actionFactory.setGlobal(globals.Wilderness, 2),
         ]),
@@ -2003,39 +1274,15 @@ class FeyFamily extends CreatureFamily<Fey> {
     ];
   }
 
-  private cloakwoodCode(): ConditionalStatement[] {
-    const globals = {
-      CloakwoodHamadryad: "rr#hamat",
-    };
-    return [
-      {
-        comment: "Cloakwood Hamadryad",
-        triggers: [
-          triggerFactory.global("rr#chama", 1, "MYAREA"),
-          triggerFactory.global(globals.CloakwoodHamadryad, 0),
-          { name: "See", params: ["PC"] },
-        ],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(globals.CloakwoodHamadryad, 1),
-          { name: "FaceObject", params: ["PC"] },
-          {
-            name: "DisplayStringHead",
-            params: [ScriptTarget.myself, BafExistingStringReference.LeaveMyWood],
-          },
-        ]),
-      },
-    ];
-  }
-
-  private dryadMeleeCondition(): AdditionalCode {
+  dryadMeleeCondition(): AdditionalCode {
     return {
       location: "attack",
-      triggers: triggerFactory.haveSpellRES([this.spell(Ids.DryadCharm).file], true),
+      triggers: triggerFactory.haveSpellRES([this.spell(FeyIds.DryadCharm).file], true),
       actions: [],
     };
   }
 
-  private noMeleeUntilForced(): PartialCustomCode {
+  noMeleeUntilForced(): PartialCustomCode {
     return {
       location: "trackTargets",
       type: "insertAfter",
@@ -2044,7 +1291,7 @@ class FeyFamily extends CreatureFamily<Fey> {
           comment: "Flee from melee unless you have no spells",
           triggers: [
             { name: "ActionListEmpty" },
-            ...triggerFactory.haveSpellRES([this.spell(Ids.DryadCharm).file]),
+            ...triggerFactory.haveSpellRES([this.spell(FeyIds.DryadCharm).file]),
           ],
           responses: responseFactory.response([
             { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 45] },
@@ -2053,68 +1300,6 @@ class FeyFamily extends CreatureFamily<Fey> {
       ],
     };
   }
-
-  private whiteQueenHamadryad(): ConditionalStatement[] {
-    // IF
-    //     Global("HamaBehavior","GLOBAL",0)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         ApplySpell(Myself,WIZARD_IMPROVED_ALUCRITY)  // SPWI921.SPL (Improved Alacrity)
-    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
-    //         ApplySpell(Myself,WIZARD_TRUE_SIGHT)  // SPWI609.SPL (True Seeing)
-    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
-    //         ForceSpellPoint([1840.1625],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",1)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",1)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
-    //         ForceSpellPoint([1700.1800],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",2)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",2)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
-    //         ForceSpellPoint([2000.1500],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",3)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",3)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
-    //         ForceSpellPoint([1950.1750],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",4)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",4)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
-    //         ForceSpellPoint([2000.1935],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",5)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",5)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
-    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
-    //         ForceSpellPoint([2140.1665],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",6)
-    // END
-    return [];
-  }
 }
 
-export const createFeys = () => new FeyFamily();
+export const createFeyKin = () => new FeyKin();

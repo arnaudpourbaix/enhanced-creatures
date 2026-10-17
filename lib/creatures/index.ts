@@ -1,15 +1,7 @@
 import { Family } from "../src/model/creature/family";
-import { createFeys } from "./feys";
-import { createSlimes } from "./slimes";
-import { createSpiders } from "./spiders";
 import { createUndeads } from "./undead";
 
-export const familyFactories: (() => Family)[] = [
-  createFeys,
-  createSlimes,
-  createSpiders,
-  createUndeads,
-];
+export const familyFactories: (() => Family)[] = [createUndeads];
 
 /*
 "SHOAL", // Shoal the Nereid

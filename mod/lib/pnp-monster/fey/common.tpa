@@ -1,3 +1,0 @@
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaaf0800.bam~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaaf0801.bam~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/javf0800.vvc~ ~override~
