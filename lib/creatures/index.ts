@@ -1,27 +1,19 @@
 import { Family } from "../src/model/creature/family";
-import { createBears } from "./bears";
-import { createCats } from "./cats";
 import { createConstructs } from "./constructs";
-import { createDogs } from "./dogs";
 import { createFeys } from "./feys";
 import { createGolems } from "./golems";
 import { createOgres } from "./ogres";
 import { createSlimes } from "./slimes";
 import { createSpiders } from "./spiders";
 import { createUndeads } from "./undead";
-import { createWolves } from "./wolves";
 
 export const familyFactories: (() => Family)[] = [
-  createBears,
-  createCats,
   createConstructs,
-  createDogs,
   createFeys,
   createGolems,
   createOgres,
   createSlimes,
   createSpiders,
-  createWolves,
   createUndeads,
 ];
 

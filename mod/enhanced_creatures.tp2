@@ -22,16 +22,12 @@ BEGIN @999
 DESIGNATED 999
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
@@ -65,7 +61,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/bear/main.tpa"
 
 // // Carrion Crawlers
 // BEGIN @1140
@@ -81,7 +77,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/cat/main.tpa"
 
 // // Constructs (Helmed Horrors, Battle Horrors, Doom Sayer, Doom Guards)
 // BEGIN @1160
@@ -97,7 +93,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/dog/main.tpa"
 
 // // Feys (Dryad, Hamadryad, Sirene, Nymph)
 // BEGIN @1180
@@ -169,7 +165,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/wolf/main.tpa"
 
 // // Wyverns
 // BEGIN @1270
