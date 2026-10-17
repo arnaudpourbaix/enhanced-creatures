@@ -154,68 +154,6 @@ class HamadryadEntry extends CreatureEntry<Fey> {
     return hamadryad;
   }
 
-  private whiteQueenHamadryad(): ConditionalStatement[] {
-    // IF
-    //     Global("HamaBehavior","GLOBAL",0)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         ApplySpell(Myself,WIZARD_IMPROVED_ALUCRITY)  // SPWI921.SPL (Improved Alacrity)
-    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
-    //         ApplySpell(Myself,WIZARD_TRUE_SIGHT)  // SPWI609.SPL (True Seeing)
-    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
-    //         ForceSpellPoint([1840.1625],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",1)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",1)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),WIZARD_DIRE_CHARM)  // SPWI316.SPL (Dire Charm)
-    //         ForceSpellPoint([1700.1800],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",2)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",2)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
-    //         ForceSpellPoint([2000.1500],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",3)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",3)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
-    //         ForceSpellPoint([1950.1750],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",4)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",4)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_ENTANGLE)  // SPPR105.SPL (Entangle)
-    //         ForceSpellPoint([2000.1935],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",5)
-    // END
-    // IF
-    //     Global("HamaBehavior","GLOBAL",5)
-    //     See(NearestEnemyOf(Myself))
-    // THEN
-    //     RESPONSE #100
-    //         Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON)  // SPPR208.SPL (Hold Person)
-    //         ApplySpell(Myself,WIZARD_MIRROR_IMAGE)  // SPWI212.SPL (Mirror Image)
-    //         ForceSpellPoint([2140.1665],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
-    //         SetGlobal("HamaBehavior","GLOBAL",6)
-    // END
-    return [];
-  }
-
   private cloakwoodCode(): ConditionalStatement[] {
     const globals = {
       CloakwoodHamadryad: "rr#hamat",

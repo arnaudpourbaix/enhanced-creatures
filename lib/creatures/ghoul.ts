@@ -214,8 +214,8 @@ function auraOfEvil(cre: Creature) {
   });
 }
 
-export function ghoul(family: CreatureEntry<Creature>): Creature {
-  const ghoul = family.create({
+export function ghoul(entry: CreatureEntry<Creature>): Creature {
+  const ghoul = entry.create({
     monster: MonsterEnum.Ghoul,
     name: "monster.undead.name.ghoul",
     files: [],
@@ -252,12 +252,12 @@ export function ghoul(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 3,
     castSpell: {
-      spell: family.spell(Ids.GhoulTouch).file,
+      spell: entry.spell(Ids.GhoulTouch).file,
     },
   });
   createJaws(ghoul, 1, 6, [
     {
-      spell: family.spell(Ids.GhoulTouch).file,
+      spell: entry.spell(Ids.GhoulTouch).file,
     },
   ]);
   ghoul.setBehavior({
@@ -267,8 +267,8 @@ export function ghoul(family: CreatureEntry<Creature>): Creature {
   return ghoul;
 }
 
-export function ghoulLord(family: CreatureEntry<Creature>): Creature {
-  const lord = family.create({
+export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
+  const lord = entry.create({
     monster: MonsterEnum.GhoulLord,
     name: "monster.undead.name.ghoulLord",
     files: [],
@@ -309,21 +309,21 @@ export function ghoulLord(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 6,
     castSpell: {
-      spell: family.spell(Ids.GhoulLordTouch).file,
+      spell: entry.spell(Ids.GhoulLordTouch).file,
     },
   });
   createJaws(lord, 1, 10, [
     {
-      spell: family.spell(Ids.GhoulLordTouch).file,
+      spell: entry.spell(Ids.GhoulLordTouch).file,
     },
     {
-      spell: family.spell(Ids.GhoulRottingDisease).file,
+      spell: entry.spell(Ids.GhoulRottingDisease).file,
       saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
     },
   ]);
   lord.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.AuraOfEvil)],
+    abilities: [entry.ability(Ids.AuraOfEvil)],
   });
   lord.setAdjustments([]);
   lord.turnAs = "mummy"; // PHB: turned as a 7 HD monster (the mummy row)

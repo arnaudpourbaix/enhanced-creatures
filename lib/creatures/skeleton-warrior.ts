@@ -25,8 +25,8 @@ function fearAura(cre: Creature) {
   );
 }
 
-export function skeletonWarrior(family: CreatureEntry<Creature>): Creature {
-  const warrior = family.create({
+export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
+  const warrior = entry.create({
     monster: MonsterEnum.SkeletonWarrior,
     name: "monster.undead.name.skeletonWarrior",
     files: [],
@@ -81,7 +81,7 @@ export function skeletonWarrior(family: CreatureEntry<Creature>): Creature {
   fearAura(warrior);
   warrior.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.SkeletonWarriorFearAura)],
+    abilities: [entry.ability(Ids.SkeletonWarriorFearAura)],
   });
   warrior.setAttack({
     ranged: true,

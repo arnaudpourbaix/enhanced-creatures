@@ -6,8 +6,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ogre, OgreKin } from "./kin";
 
-function ogrillon(family: CreatureEntry<Ogre>): Ogre {
-  const ogrillon = family.create({
+function ogrillon(entry: CreatureEntry<Ogre>): Ogre {
+  const ogrillon = entry.create({
     monster: MonsterEnum.Ogrillon,
     name: "monster.ogre.name.ogrillon",
     files: [],

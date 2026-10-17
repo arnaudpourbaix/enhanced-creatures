@@ -72,7 +72,7 @@
   padding: 0;
 }
 
-.sidebar .family > details > summary {
+.sidebar .entry > details > summary {
   cursor: pointer;
   font-family: var(--font-heading);
   font-size: 0.85rem;
@@ -80,7 +80,7 @@
   color: var(--color-ink-soft);
 }
 
-.sidebar .family ul {
+.sidebar .entry ul {
   padding-left: 14px;
   border-left: 1px dashed var(--color-gold);
   margin: 2px 0 8px;
@@ -119,7 +119,7 @@
   border-color: var(--color-red);
 }
 
-/* Static (not absolutely positioned): the results push the family list down rather than
+/* Static (not absolutely positioned): the results push the entry list down rather than
    overlaying it, so the sidebar's own overflow-y: auto can't clip them. */
 .file-search-results {
   list-style: none;

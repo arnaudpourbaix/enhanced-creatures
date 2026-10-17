@@ -191,8 +191,8 @@ const summonRemovedSpells = [
   SPELLS.Wizard.SymbolFear,
 ];
 
-export function deathKnight(family: CreatureEntry<Creature>): Creature {
-  const knight = family.create({
+export function deathKnight(entry: CreatureEntry<Creature>): Creature {
+  const knight = entry.create({
     monster: MonsterEnum.DeathKnight,
     name: "monster.undead.name.deathKnight",
     files: [],
@@ -275,8 +275,8 @@ export function deathKnight(family: CreatureEntry<Creature>): Creature {
     restHeal: true,
     dialog: ["AC#DTDKN"],
     abilities: [
-      family.ability(Ids.DeathKnightFearAura),
-      family.preset(SPELLS.Wizard.DetectInvisibility.file),
+      entry.ability(Ids.DeathKnightFearAura),
+      entry.preset(SPELLS.Wizard.DetectInvisibility.file),
       {
         preset: SPELLS.Wizard.PowerWordKill.file,
         actionsAfter: actionFactory.removeSpell([
@@ -300,8 +300,8 @@ export function deathKnight(family: CreatureEntry<Creature>): Creature {
         ]),
         probability: 5,
       },
-      family.preset(SPELLS.Wizard.DispelMagic.file),
-      family.ability(Ids.Fireball),
+      entry.preset(SPELLS.Wizard.DispelMagic.file),
+      entry.ability(Ids.Fireball),
       {
         preset: NEW_SPELLS.WizardSymbolOfPain,
         actionsAfter: actionFactory.removeSpell([SPELLS.Wizard.SymbolFear]),
@@ -312,7 +312,7 @@ export function deathKnight(family: CreatureEntry<Creature>): Creature {
         actionsAfter: actionFactory.removeSpellRES([NEW_SPELLS.WizardSymbolOfPain]),
         probability: 15,
       },
-      family.ability(Ids.WallOfIce),
+      entry.ability(Ids.WallOfIce),
     ],
     customCodes: [
       {

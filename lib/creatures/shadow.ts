@@ -8,8 +8,8 @@ import { EntryEnum } from "./entry";
 import { UndeadEntry } from "./undead/undead-entry";
 import { createShadowWeapon } from "./types/undead";
 
-export function shadow(family: CreatureEntry<Creature>): Creature {
-  const shadow = family.create({
+export function shadow(entry: CreatureEntry<Creature>): Creature {
+  const shadow = entry.create({
     monster: MonsterEnum.Shadow,
     name: "monster.undead.name.shadow",
     files: [],
@@ -91,15 +91,15 @@ export function shadow(family: CreatureEntry<Creature>): Creature {
   return shadow;
 }
 
-export function greaterShadow(family: CreatureEntry<Creature>): Creature {
+export function greaterShadow(entry: CreatureEntry<Creature>): Creature {
   // The largest greater shadow, composed of eight undead shadows,
   // has 8+8 HD and THAC0 11.
   // Regardless of its size, the creature has AC 7.
   // It receives a number of attacks per round equal to; the number of incorporated shadows.
-  const greaterShadow = family.createFrom({
+  const greaterShadow = entry.createFrom({
     name: "monster.undead.name.greaterShadow",
     monster: MonsterEnum.GreaterShadow,
-    from: family.creature(MonsterEnum.Shadow),
+    from: entry.creature(MonsterEnum.Shadow),
   });
   greaterShadow.setData({
     level1: 8,
@@ -116,8 +116,8 @@ export function greaterShadow(family: CreatureEntry<Creature>): Creature {
   return greaterShadow;
 }
 
-export function greaterShadow5e(family: CreatureEntry<Creature>): Creature {
-  const greaterShadow = family.create({
+export function greaterShadow5e(entry: CreatureEntry<Creature>): Creature {
+  const greaterShadow = entry.create({
     monster: MonsterEnum.GreaterShadow,
     name: "monster.undead.name.greaterShadow",
     files: [],

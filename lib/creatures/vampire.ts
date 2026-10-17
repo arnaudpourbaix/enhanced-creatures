@@ -758,8 +758,8 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item): PartialCustomCod
   };
 }
 
-function vampire(family: CreatureEntry<Creature>, age: VampireAge): Creature {
-  const cre = family.create({
+function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
+  const cre = entry.create({
     monster: age.monster,
     name: age.name,
     files: [],
@@ -843,21 +843,19 @@ function vampire(family: CreatureEntry<Creature>, age: VampireAge): Creature {
   return cre;
 }
 
-export const fledglingVampire = (family: CreatureEntry<Creature>) =>
-  vampire(family, VAMPIRE_AGES[0]);
+export const fledglingVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[0]);
 
-export const matureVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[1]);
+export const matureVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[1]);
 
-export const oldVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[2]);
+export const oldVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[2]);
 
-export const veryOldVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[3]);
+export const veryOldVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[3]);
 
-export const ancientVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[4]);
+export const ancientVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[4]);
 
-export const eminentVampire = (family: CreatureEntry<Creature>) => vampire(family, VAMPIRE_AGES[5]);
+export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[5]);
 
-export const patriarchVampire = (family: CreatureEntry<Creature>) =>
-  vampire(family, VAMPIRE_AGES[6]);
+export const patriarchVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[6]);
 
 export const createVampireEntry = () =>
   new UndeadEntry(EntryEnum.Vampire, [

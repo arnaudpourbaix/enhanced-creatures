@@ -8,8 +8,8 @@ import type { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
 
-export function skeleton(family: CreatureEntry<Creature>): Creature {
-  const skeleton = family.create({
+export function skeleton(entry: CreatureEntry<Creature>): Creature {
+  const skeleton = entry.create({
     monster: MonsterEnum.Skeleton,
     name: "monster.undead.name.skeleton",
     files: [],

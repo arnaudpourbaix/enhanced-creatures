@@ -178,7 +178,7 @@ describe("getEffectiveApr", () => {
       expect(documentationService.getEffectiveApr(creature)).toBe(3);
     });
 
-    // Regression test: Tazok (lib/creatures/ogres.ts, half-ogre family) never gets an
+    // Regression test: Tazok (lib/creatures/ogres.ts, half-ogre entry) never gets an
     // equipItem()/addWeapon() call, so his weapon comes straight from the base .cre file and
     // items.equipped stays empty - there's no weapon known to the doc pipeline to key a
     // proficiency-type lookup off of. He should still get his specialization bonus, using his
@@ -968,7 +968,7 @@ describe("entries", () => {
 
     expect(service.sidebar).toEqual([
       '<li data-types="magicalBeast"><a href="#m1">Ankheg</a></li>',
-      '<li class="family entry"><details><summary>Zombie</summary><ul>' +
+      '<li class="entry"><details><summary>Zombie</summary><ul>' +
         '<li data-types="undead"><a href="#m86">Zombie</a></li>' +
         '<li data-types="undead"><a href="#m142">Zombie Lord</a></li>' +
         "</ul></details></li>",

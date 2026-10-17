@@ -10,8 +10,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ids, Ogre, OgreKin } from "./kin";
 
-function ogreMage(family: CreatureEntry<Ogre>): Ogre {
-  const ogreMage = family.create({
+function ogreMage(entry: CreatureEntry<Ogre>): Ogre {
+  const ogreMage = entry.create({
     monster: MonsterEnum.OgreMage,
     name: "monster.ogre.name.mage",
     files: [],
@@ -75,7 +75,7 @@ function ogreMage(family: CreatureEntry<Ogre>): Ogre {
     },
   });
   ogreMage.createNaginata();
-  ogreMage.data.movement.bindItem(family.item(Ids.Naginata).file);
+  ogreMage.data.movement.bindItem(entry.item(Ids.Naginata).file);
   ogreMage.createConeOfCold();
   ogreMage.createFly();
   ogreMage.createGaseousForm();
@@ -96,10 +96,10 @@ function ogreMage(family: CreatureEntry<Ogre>): Ogre {
           value: 12,
         },
       },
-      family.ability(Ids.Fly),
-      family.preset(SPELLS.Wizard.Domination.file),
-      family.ability(Ids.ConeOfCold),
-      family.preset(SPELLS.Wizard.DireCharm.file),
+      entry.ability(Ids.Fly),
+      entry.preset(SPELLS.Wizard.Domination.file),
+      entry.ability(Ids.ConeOfCold),
+      entry.preset(SPELLS.Wizard.DireCharm.file),
       {
         preset: SPELLS.Wizard.Darkness15Radius.file,
         spell: {
@@ -107,10 +107,10 @@ function ogreMage(family: CreatureEntry<Ogre>): Ogre {
         },
         timer: { name: "darkness", value: 60 },
       },
-      family.preset(SPELLS.Wizard.PowerWordSleep.file),
-      family.preset(SPELLS.Wizard.Sleep.file),
-      family.preset(SPELLS.Wizard.CharmPerson.file),
-      family.ability(Ids.GaseousForm),
+      entry.preset(SPELLS.Wizard.PowerWordSleep.file),
+      entry.preset(SPELLS.Wizard.Sleep.file),
+      entry.preset(SPELLS.Wizard.CharmPerson.file),
+      entry.ability(Ids.GaseousForm),
     ],
   });
   ogreMage.setAttack({
@@ -121,11 +121,11 @@ function ogreMage(family: CreatureEntry<Ogre>): Ogre {
       },
     ],
   });
-  chieftainVariant(family, ogreMage);
+  chieftainVariant(entry, ogreMage);
   return ogreMage;
 }
 
-function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
+function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
   // Shared profile for Krotan/Ntkrotan/Kahrk before their own level/proficiency bump.
   const krotanChief: InputCreatureData = {
     level1: 12,
@@ -137,7 +137,7 @@ function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
     spells: {
       memorized: [
         { file: SPELLS.Wizard.Domination.file, memorizedCount: 1 },
-        { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
+        { file: entry.spell(Ids.ConeOfCold).file, memorizedCount: 2 },
         { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 4 },
         { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 4 },
         { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 3 },
@@ -198,7 +198,7 @@ function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
           spells: {
             memorized: [
-              { file: family.spell(Ids.ConeOfCold).file, memorizedCount: 1 },
+              { file: entry.spell(Ids.ConeOfCold).file, memorizedCount: 1 },
               { file: SPELLS.Wizard.DireCharm.file, memorizedCount: 2 },
               { file: SPELLS.Wizard.PowerWordSleep.file, memorizedCount: 2 },
               { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 2 },

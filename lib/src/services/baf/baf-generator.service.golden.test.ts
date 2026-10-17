@@ -6,7 +6,7 @@ import { Creature } from "../../model/creature/creature";
 import stateService from "../state.service";
 import bafGeneratorService from "./baf-generator.service";
 
-// Golden test: builds the actual Ankheg creature (the smallest family — one
+// Golden test: builds the actual Ankheg creature (the smallest entry — one
 // creature, one summon variant) through the real model/factory layer and
 // compares the rendered BAF text against the already-committed .baf files in
 // the mod. This is a regression guard for the statement-builder/renderer

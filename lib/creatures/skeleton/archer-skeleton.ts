@@ -10,8 +10,8 @@ import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function archerSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {
-  const archer = family.createFrom({
+export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): Creature {
+  const archer = entry.createFrom({
     name: "monster.undead.name.archerSkeleton",
     monster: MonsterEnum.ArcherSkeleton,
     from: base,

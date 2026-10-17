@@ -33,8 +33,8 @@ function wraithTouch(cre: Creature) {
   });
 }
 
-export function wraith(family: CreatureEntry<Creature>): Creature {
-  const wraith = family.create({
+export function wraith(entry: CreatureEntry<Creature>): Creature {
+  const wraith = entry.create({
     monster: MonsterEnum.Wraith,
     name: "monster.undead.name.wraith",
     files: [],
@@ -73,7 +73,7 @@ export function wraith(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 6,
     castSpell: {
-      spell: family.spell(Ids.WraithTouch).file,
+      spell: entry.spell(Ids.WraithTouch).file,
     },
   });
   wraith.setAdjustments([

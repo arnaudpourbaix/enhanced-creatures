@@ -118,8 +118,8 @@ function carrionStench(cre: Creature) {
   });
 }
 
-export function ghast(family: CreatureEntry<Creature>): Creature {
-  const ghast = family.create({
+export function ghast(entry: CreatureEntry<Creature>): Creature {
+  const ghast = entry.create({
     monster: MonsterEnum.Ghast,
     name: "monster.undead.name.ghast",
     files: [],
@@ -157,18 +157,18 @@ export function ghast(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 4,
     castSpell: {
-      spell: family.spell(Ids.GhastTouch).file,
+      spell: entry.spell(Ids.GhastTouch).file,
     },
   });
   createJaws(ghast, 1, 8, [
     {
-      spell: family.spell(Ids.GhastTouch).file,
+      spell: entry.spell(Ids.GhastTouch).file,
     },
   ]);
   carrionStench(ghast);
   ghast.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.CarrionStench)],
+    abilities: [entry.ability(Ids.CarrionStench)],
   });
   greaterGhastVariant(ghast);
   lacedonVariant(ghast);

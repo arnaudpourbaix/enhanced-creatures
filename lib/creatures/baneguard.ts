@@ -59,8 +59,8 @@ function blink(cre: Creature) {
   });
 }
 
-export function baneguard(family: CreatureEntry<Creature>): Creature {
-  const baneguard = family.create({
+export function baneguard(entry: CreatureEntry<Creature>): Creature {
+  const baneguard = entry.create({
     monster: MonsterEnum.Baneguard,
     name: "monster.undead.name.baneguard",
     files: [],
@@ -112,7 +112,7 @@ export function baneguard(family: CreatureEntry<Creature>): Creature {
         requireVocal: false,
         timer: { name: "MagicMissiles", value: 18 },
       },
-      family.ability(Ids.Blink),
+      entry.ability(Ids.Blink),
     ],
   });
   baneguard.setAttack({

@@ -32,8 +32,8 @@ function specterTouch(cre: Creature) {
   });
 }
 
-export function spectre(family: CreatureEntry<Creature>): Creature {
-  const spectre = family.create({
+export function spectre(entry: CreatureEntry<Creature>): Creature {
+  const spectre = entry.create({
     monster: MonsterEnum.Spectre,
     name: "monster.undead.name.spectre",
     files: [],
@@ -74,7 +74,7 @@ export function spectre(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 8,
     castSpell: {
-      spell: family.spell(Ids.SpecterTouch).file,
+      spell: entry.spell(Ids.SpecterTouch).file,
     },
   });
   spectre.setAdjustments([

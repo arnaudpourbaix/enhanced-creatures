@@ -553,8 +553,8 @@ function createOdorOfDeathDeath(cre: Creature) {
   });
 }
 
-export function zombie(family: CreatureEntry<Creature>): Creature {
-  const zombie = family.create({
+export function zombie(entry: CreatureEntry<Creature>): Creature {
+  const zombie = entry.create({
     monster: MonsterEnum.Zombie,
     name: "monster.undead.name.zombie",
     files: [NEW_CREATURES.Zombie],
@@ -602,11 +602,11 @@ export function zombie(family: CreatureEntry<Creature>): Creature {
   return zombie;
 }
 
-export function jujuZombie(family: CreatureEntry<Creature>): Creature {
-  const juju = family.createFrom({
+export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
+  const juju = entry.createFrom({
     name: "monster.undead.name.zombieJuju",
     monster: MonsterEnum.ZombieJuju,
-    from: family.creature(MonsterEnum.Zombie),
+    from: entry.creature(MonsterEnum.Zombie),
   });
   juju.setData({
     level1: 3,
@@ -654,11 +654,11 @@ export function jujuZombie(family: CreatureEntry<Creature>): Creature {
   return juju;
 }
 
-export function zombieLord(family: CreatureEntry<Creature>): Creature {
-  const lord = family.createFrom({
+export function zombieLord(entry: CreatureEntry<Creature>): Creature {
+  const lord = entry.createFrom({
     name: "monster.undead.name.zombieLord",
     monster: MonsterEnum.ZombieLord,
-    from: family.creature(MonsterEnum.Zombie),
+    from: entry.creature(MonsterEnum.Zombie),
   });
   lord.setData({
     level1: 6,
@@ -678,17 +678,17 @@ export function zombieLord(family: CreatureEntry<Creature>): Creature {
     diceSize: 4,
   });
   lord.setBehavior({
-    abilities: [family.ability(Ids.ZombieOdorOfDeath), family.ability(Ids.ZombieAnimateDead)],
+    abilities: [entry.ability(Ids.ZombieOdorOfDeath), entry.ability(Ids.ZombieAnimateDead)],
   });
   lord.turnAs = "vampire";
   return lord;
 }
 
-export function seaZombie(family: CreatureEntry<Creature>): Creature {
-  const sea = family.createFrom({
+export function seaZombie(entry: CreatureEntry<Creature>): Creature {
+  const sea = entry.createFrom({
     name: "monster.undead.name.zombieSea",
     monster: MonsterEnum.ZombieSea,
-    from: family.creature(MonsterEnum.Zombie),
+    from: entry.creature(MonsterEnum.Zombie),
   });
   sea.setData({
     level1: 5,
@@ -714,25 +714,25 @@ export function seaZombie(family: CreatureEntry<Creature>): Creature {
     diceSize: 10,
     castSpell: {
       probability1: 10,
-      spell: family.spell(Ids.ZombieDisease).file,
+      spell: entry.spell(Ids.ZombieDisease).file,
     },
   });
   sea.setBehavior({
     abilities: [
-      family.ability(Ids.ZombieOdorOfDeath),
-      family.ability(Ids.ZombieStenchOfDecay),
-      family.ability(Ids.ZombieAnimateDead),
+      entry.ability(Ids.ZombieOdorOfDeath),
+      entry.ability(Ids.ZombieStenchOfDecay),
+      entry.ability(Ids.ZombieAnimateDead),
     ],
   });
   // There is a 50% chance that each drowned one encountered is a priest of level 1d4. These creatures are granted their spells directly from Nerull (or similar deity), receiving only baneful spells.
-  seaZombieLordVariant(sea, family);
+  seaZombieLordVariant(sea, entry);
   sea.setAdjustments([
     { files: ["VA#ZOM01", "VA#ZOM02", "VA#ZOM03", "VA#ZOMGL"], data: { level1: 7 } },
   ]);
   return sea;
 }
 
-function seaZombieLordVariant(base: Creature, family: CreatureEntry<Creature>): Variant {
+function seaZombieLordVariant(base: Creature, entry: CreatureEntry<Creature>): Variant {
   return base.variant("Sea Zombie Lord", {
     data: {
       level1: 6,
@@ -741,8 +741,8 @@ function seaZombieLordVariant(base: Creature, family: CreatureEntry<Creature>): 
       apr: 2,
       spells: {
         memorized: [
-          { file: family.spell(Ids.ZombieAnimateDead).file, memorizedCount: 1 },
-          { file: family.spell(Ids.ZombieOdorOfDeath).file, memorizedCount: 1 },
+          { file: entry.spell(Ids.ZombieAnimateDead).file, memorizedCount: 1 },
+          { file: entry.spell(Ids.ZombieOdorOfDeath).file, memorizedCount: 1 },
         ],
       },
     },
@@ -751,11 +751,11 @@ function seaZombieLordVariant(base: Creature, family: CreatureEntry<Creature>): 
   });
 }
 
-export function zombieMonster(family: CreatureEntry<Creature>): Creature {
-  const monster = family.createFrom({
+export function zombieMonster(entry: CreatureEntry<Creature>): Creature {
+  const monster = entry.createFrom({
     name: "monster.undead.name.zombieMonster",
     monster: MonsterEnum.ZombieMonster,
-    from: family.creature(MonsterEnum.Zombie),
+    from: entry.creature(MonsterEnum.Zombie),
   });
   monster.setData({
     level1: 6,

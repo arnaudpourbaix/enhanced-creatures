@@ -9,8 +9,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ids, Ogre, OgreKin } from "./kin";
 
-function halfOgre(family: CreatureEntry<Ogre>): Ogre {
-  const halfOgre = family.create({
+function halfOgre(entry: CreatureEntry<Ogre>): Ogre {
+  const halfOgre = entry.create({
     monster: MonsterEnum.HalfOgre,
     name: "monster.ogre.name.half",
     files: [],

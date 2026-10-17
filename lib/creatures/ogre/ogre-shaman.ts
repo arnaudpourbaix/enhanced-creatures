@@ -7,8 +7,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ogre, OgreKin } from "./kin";
 
-function shaman(family: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
-  const shaman = family.create({
+function shaman(entry: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
+  const shaman = entry.create({
     monster: MonsterEnum.OgreShaman,
     name: "monster.ogre.name.shaman",
     files: [],

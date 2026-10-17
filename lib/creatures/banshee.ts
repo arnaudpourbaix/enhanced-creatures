@@ -81,8 +81,8 @@ function deathWail(cre: Creature) {
   });
 }
 
-export function banshee(family: CreatureEntry<Creature>): Creature {
-  const banshee = family.create({
+export function banshee(entry: CreatureEntry<Creature>): Creature {
+  const banshee = entry.create({
     monster: MonsterEnum.Banshee,
     name: "monster.undead.name.banshee",
     files: [],
@@ -127,7 +127,7 @@ export function banshee(family: CreatureEntry<Creature>): Creature {
   });
   banshee.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.BansheeFearAura), family.ability(Ids.DeathWail)],
+    abilities: [entry.ability(Ids.BansheeFearAura), entry.ability(Ids.DeathWail)],
   });
   banshee.turnAs = "special";
   return banshee;

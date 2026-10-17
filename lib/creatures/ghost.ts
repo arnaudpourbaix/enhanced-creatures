@@ -126,8 +126,8 @@ function ghostTouch(cre: Creature) {
   });
 }
 
-export function ghost(family: CreatureEntry<Creature>): Creature {
-  const ghost = family.create({
+export function ghost(entry: CreatureEntry<Creature>): Creature {
+  const ghost = entry.create({
     monster: MonsterEnum.Ghost,
     name: "monster.undead.name.ghost",
     files: [],
@@ -178,11 +178,11 @@ export function ghost(family: CreatureEntry<Creature>): Creature {
     diceThrown: 0,
     diceSize: 0,
     castSpell: {
-      spell: family.spell(Ids.GhostTouch).file,
+      spell: entry.spell(Ids.GhostTouch).file,
     },
   });
   ghost.setBehavior({
-    abilities: [family.ability(Ids.GhostFearAura)],
+    abilities: [entry.ability(Ids.GhostFearAura)],
     spellcaster: {},
   });
   ghost.setAdjustments([]);

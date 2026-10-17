@@ -7,8 +7,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ogre, OgreKin } from "./kin";
 
-function berserker(family: CreatureEntry<Ogre>): Ogre {
-  const berserker = family.create({
+function berserker(entry: CreatureEntry<Ogre>): Ogre {
+  const berserker = entry.create({
     monster: MonsterEnum.OgreBerserker,
     name: "monster.ogre.name.berserker",
     files: [],
@@ -69,7 +69,7 @@ function berserker(family: CreatureEntry<Ogre>): Ogre {
       },
     ],
   });
-  chieftainVariant(family, berserker);
+  chieftainVariant(entry, berserker);
   return berserker;
 }
 

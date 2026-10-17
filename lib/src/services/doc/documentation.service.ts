@@ -272,7 +272,7 @@ class DocumentationService {
       `<li data-types="${ts.join(" ")}"><a href="#m${c.id}">${translationService.from(c.name)}</a></li>`;
     if (members.length === 1) return item(members[0], types[0]);
     const links = members.map((m, i) => item(m, types[i])).join("");
-    return `<li class="family entry"><details><summary>${name}</summary><ul>${links}</ul></details></li>`;
+    return `<li class="entry"><details><summary>${name}</summary><ul>${links}</ul></details></li>`;
   }
 
   private getTypeFilter(counts: Map<ImmunityName, number>): string {

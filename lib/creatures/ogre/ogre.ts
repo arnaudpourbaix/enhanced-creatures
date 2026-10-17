@@ -8,8 +8,8 @@ import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Ids, Ogre, OgreKin } from "./kin";
 
-function ogre(family: CreatureEntry<Ogre>): Ogre {
-  const ogre = family.create({
+function ogre(entry: CreatureEntry<Ogre>): Ogre {
+  const ogre = entry.create({
     monster: MonsterEnum.Ogre,
     name: "monster.ogre.name.ogre",
     files: [],
@@ -93,12 +93,12 @@ function ogre(family: CreatureEntry<Ogre>): Ogre {
       noWeapon: true,
     },
   ]);
-  leaderVariant(family, ogre);
-  chieftainVariant(family, ogre);
+  leaderVariant(entry, ogre);
+  chieftainVariant(entry, ogre);
   return ogre;
 }
 
-function leaderVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
+function leaderVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
   return base.variant("Leader", {
     // leader is a 7 Hit Dice monster with Armor Class 3, Strenth 18/50, XP 650
     // He inflicts 2d6 points of damage per attack.
@@ -108,7 +108,7 @@ function leaderVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
       ac: 3,
       xpv: 650,
       items: {
-        equipped: [{ file: family.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
+        equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },
     },
     adjust: [
@@ -124,7 +124,7 @@ function leaderVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
   });
 }
 
-function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
+function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
   const chieftain: InputCreatureData = {
     level1: 9,
     morale: 18,
@@ -159,7 +159,7 @@ function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
       ac: 2,
       xpv: 975,
       items: {
-        equipped: [{ file: family.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
+        equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },
     },
     adjust: [

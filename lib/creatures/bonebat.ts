@@ -48,8 +48,8 @@ function bonebatTouch(cre: Creature) {
   });
 }
 
-export function bonebat(family: CreatureEntry<Creature>): Creature {
-  const bonebat = family.create({
+export function bonebat(entry: CreatureEntry<Creature>): Creature {
+  const bonebat = entry.create({
     monster: MonsterEnum.Bonebat,
     name: "monster.undead.name.bonebat",
     files: [],
@@ -88,7 +88,7 @@ export function bonebat(family: CreatureEntry<Creature>): Creature {
     4,
     [
       {
-        spell: family.spell(Ids.BonebatTouch).file,
+        spell: entry.spell(Ids.BonebatTouch).file,
       },
     ],
     "WEAPON1",

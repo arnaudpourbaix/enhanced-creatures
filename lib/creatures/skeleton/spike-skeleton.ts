@@ -8,8 +8,8 @@ import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function spikeSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {
-  const spike = family.createFrom({
+export function spikeSkeleton(entry: CreatureEntry<Creature>, base: Creature): Creature {
+  const spike = entry.createFrom({
     name: "monster.undead.name.spikeSkeleton",
     monster: MonsterEnum.SpikeSkeleton,
     from: base,

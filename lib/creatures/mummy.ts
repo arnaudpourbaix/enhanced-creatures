@@ -251,8 +251,8 @@ function mummyFearAuraTechnical(cre: Creature, saveBonus: number, excludeHumans:
   return cre.addSpell(spell);
 }
 
-export function mummy(family: CreatureEntry<Creature>): Creature {
-  const mummy = family.create({
+export function mummy(entry: CreatureEntry<Creature>): Creature {
+  const mummy = entry.create({
     monster: MonsterEnum.Mummy,
     name: "monster.undead.name.mummy",
     files: [],
@@ -296,12 +296,12 @@ export function mummy(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 12,
     castSpell: {
-      spell: family.spell(Ids.MummyRottingDisease).file,
+      spell: entry.spell(Ids.MummyRottingDisease).file,
     },
   });
   mummy.setBehavior({
     restHeal: true,
-    abilities: [family.ability(Ids.MummyFearAura)],
+    abilities: [entry.ability(Ids.MummyFearAura)],
   });
   mummy.setAdjustments([
     { files: ["BDMUMMY"], data: { level1: 9, strength: 18, exceptionalStrength: 100 } },
@@ -309,9 +309,9 @@ export function mummy(family: CreatureEntry<Creature>): Creature {
   return mummy;
 }
 
-export function greaterMummy(family: CreatureEntry<Creature>): Creature {
+export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
   // Age: 400-499
-  const greater = family.create({
+  const greater = entry.create({
     monster: MonsterEnum.GreaterMummy,
     name: "monster.undead.name.greaterMummy",
     files: [],
@@ -388,7 +388,7 @@ export function greaterMummy(family: CreatureEntry<Creature>): Creature {
     diceThrown: 3,
     diceSize: 6,
     castSpell: {
-      spell: family.spell(Ids.GreaterMummyRottingDisease).file,
+      spell: entry.spell(Ids.GreaterMummyRottingDisease).file,
     },
   });
   greater.setBehavior({

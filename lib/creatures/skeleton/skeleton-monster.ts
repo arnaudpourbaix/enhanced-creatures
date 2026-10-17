@@ -45,8 +45,8 @@ function clericSkeletonVariant(base: Creature): Variant {
 }
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
-export function skeletonMonster(family: CreatureEntry<Creature>, base: Creature): Creature {
-  const monster = family.createFrom({
+export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature): Creature {
+  const monster = entry.createFrom({
     name: "monster.undead.name.skeletonMonster",
     monster: MonsterEnum.SkeletonMonster,
     from: base,

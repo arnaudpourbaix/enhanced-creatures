@@ -14,7 +14,7 @@ import { State } from "../state";
 // way to test the WeiDU/TPA output: string reference numbers embedded in
 // generated .tpa/.tra files come from a single global counter
 // (translationService.availableStringRef) that increments across the whole
-// run in family order, so any single creature/family's TPA output is only
+// run in entry order, so any single creature/entry's TPA output is only
 // reproducible by running the full pipeline, not in isolation.
 //
 // lib/pnp-monster is copied into the temp dir first because some families

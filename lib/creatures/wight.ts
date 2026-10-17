@@ -32,8 +32,8 @@ function wightTouch(cre: Creature) {
   });
 }
 
-export function wight(family: CreatureEntry<Creature>): Creature {
-  const wight = family.create({
+export function wight(entry: CreatureEntry<Creature>): Creature {
+  const wight = entry.create({
     monster: MonsterEnum.Wight,
     name: "monster.undead.name.wight",
     files: [],
@@ -68,7 +68,7 @@ export function wight(family: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 4,
     castSpell: {
-      spell: family.spell(Ids.WightTouch).file,
+      spell: entry.spell(Ids.WightTouch).file,
     },
   });
   wight.addTrait({
