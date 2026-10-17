@@ -1155,7 +1155,6 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     type: "trait",
     doc: false,
     stringRef: "common.traits.ghostVisual1",
-    itemSlot: { file: ITEMS.Vermin, slot: JEWEL_SLOTS },
     effects: [
       {
         opcode: EffectTypeEnum.SetColorGlowPulse,
