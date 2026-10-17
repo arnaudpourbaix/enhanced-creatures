@@ -1,7 +1,7 @@
 import { CreatureScriptEdit } from "../../src/model/creature/data";
 import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -10,7 +10,7 @@ import { Golem, GolemIds, BAF_CONTINUE } from "./kin";
 
 class SnowGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.SnowGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.SnowGolem, kin);
     this.addCreature(() => this.snow());
   }
 

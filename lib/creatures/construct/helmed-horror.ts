@@ -1,5 +1,5 @@
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Construct, ConstructIds, ConstructKin } from "./kin";
 
 class HelmedHorrorEntry extends CreatureEntry<Construct> {
   constructor(private readonly constructKin?: ConstructKin) {
-    super(EntryEnum.HelmedHorror, constructKin, MonsterFamilyEnum.Construct);
+    super(EntryEnum.HelmedHorror, constructKin);
     this.addCreature(() => {
       const creature = this.helmedHorror();
       if (this.constructKin) this.constructKin.helmedHorror = creature;

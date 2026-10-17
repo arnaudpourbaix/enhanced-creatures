@@ -8,13 +8,13 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import poisonService from "../src/services/effects/poison.service";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 class Ettercap extends Creature {}
 
 class EttercapEntry extends CreatureEntry<Ettercap> {
   constructor() {
-    super(EntryEnum.Ettercap, undefined, MonsterFamilyEnum.Ettercap);
+    super(EntryEnum.Ettercap);
     this.addCreature(() => this.ettercap());
   }
 

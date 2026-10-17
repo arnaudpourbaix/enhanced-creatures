@@ -8,7 +8,7 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import effectService from "../../src/services/effects/effect.service";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -17,7 +17,7 @@ import { Wolf, WolfIds } from "./kin";
 
 class DreadWolfEntry extends CreatureEntry<Wolf> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.DreadWolf, kin, MonsterFamilyEnum.Wolf);
+    super(EntryEnum.DreadWolf, kin);
     this.addCreature(() => this.dread());
   }
 

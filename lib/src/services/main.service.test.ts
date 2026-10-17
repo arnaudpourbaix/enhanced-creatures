@@ -2,8 +2,10 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { EntryEnum } from "../../creatures/entry";
-import { KinEnum } from "../../creatures/kin";
+import { entryFactories } from "../../creatures/entries";
+import { ENTRY_FOLDERS, EntryEnum } from "../../creatures/entry";
+import { KIN_FOLDERS, KinEnum } from "../../creatures/kin";
+import { kinFactories } from "../../creatures/kins";
 import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import { CreatureEntry } from "../model/creature/entry";
@@ -155,7 +157,7 @@ describe("generateKinsAndEntries", () => {
     fs.readFileSync(path.join(tempDir, "lib/pnp-monster", file), "utf-8");
 
   it("generates kins, then entries given the kins, then the index", () => {
-    const addFamily = vi.spyOn(documentationService, "addFamily").mockImplementation(() => {});
+    const addGroup = vi.spyOn(documentationService, "addGroup").mockImplementation(() => {});
     let received: Map<KinEnum, CreatureKin> | undefined;
     mainService.generateKinsAndEntries(
       [() => new FakeKin(KinEnum.Fey)],
@@ -177,8 +179,7 @@ describe("generateKinsAndEntries", () => {
       "",
     ]);
     expect(JSON.parse(read("index.json"))).toEqual({ vampire: null, dryad: "fey" });
-    // Entries' creatures are documented like families'.
-    const documented = addFamily.mock.calls.map(([group]) => group.id);
+    const documented = addGroup.mock.calls.map(([group]) => group.id);
     expect(documented).toEqual([KinEnum.Fey, EntryEnum.Vampire, EntryEnum.Dryad]);
   });
 
@@ -191,17 +192,32 @@ describe("generateKinsAndEntries", () => {
     }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
   });
 
-  it("throws before touching a folder a family still generates into", () => {
-    const familyFile = path.join(tempDir, "lib/pnp-monster/vampire/01.tpa");
-    fs.mkdirSync(path.dirname(familyFile), { recursive: true });
-    fs.writeFileSync(familyFile, "x");
-    expect(() => {
-      mainService.generateKinsAndEntries(
-        [],
-        [() => new FakeEntry(EntryEnum.Vampire)],
-        ["lib/pnp-monster/vampire"],
-      );
-    }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
-    expect(fs.existsSync(familyFile)).toBe(true);
-  });
+  // Smoke test with the real registries: the index maps exactly the registered entries' folders,
+  // each to its kin's folder or null. Building is real; generating each group's files is skipped.
+  it("writes an index.json of every registered entry with the real registries", async () => {
+    await stateService.init();
+    State.modFolder = tempDir; // init() points it back at the real mod folder
+    mainService.checkPresets();
+    vi.spyOn(
+      mainService as unknown as { generateGroup: () => void },
+      "generateGroup",
+    ).mockImplementation(() => {});
+    const built: CreatureEntry<Creature>[] = [];
+    mainService.generateKinsAndEntries(
+      kinFactories,
+      entryFactories.map((factory) => (kins: Map<KinEnum, CreatureKin>) => {
+        const entry = factory(kins);
+        built.push(entry);
+        return entry;
+      }),
+    );
+    expect(built).toHaveLength(entryFactories.length);
+    const index = JSON.parse(read("index.json")) as Record<string, string | null>;
+    expect(Object.keys(index).sort()).toEqual(built.map((e) => ENTRY_FOLDERS[e.id]).sort());
+    for (const entry of built) {
+      const kin = entry.kin === undefined ? null : KIN_FOLDERS[entry.kin.id];
+      expect(index[ENTRY_FOLDERS[entry.id]]).toBe(kin);
+    }
+    expect(Object.values(index).filter((kin) => kin !== null).length).toBeGreaterThan(0);
+  }, 60000);
 });

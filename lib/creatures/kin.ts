@@ -13,10 +13,8 @@ export enum KinEnum {
   Ooze,
   Spider,
   Wolf,
-  Ghoul,
-  Skeleton,
-  Spectral,
-  Zombie,
+  // 11 (Ghoul) was never used.
+  Skeleton = 12,
 }
 
 const kinIds = Object.values(KinEnum).filter((v): v is KinEnum => typeof v === "number");

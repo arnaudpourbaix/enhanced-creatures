@@ -3,7 +3,7 @@ import path from "path";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { CR, TAB } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
-import { Family } from "../../model/creature/family";
+import { GeneratedGroup } from "../../model/creature/creature-group";
 import { CodeLine } from "../../model/misc";
 import { State } from "../../state";
 import logService from "../log.service";
@@ -16,10 +16,10 @@ import weiduProjectileService from "./weidu-projectile.service";
 import weiduSpellService from "./weidu-spell.service";
 
 /**
- * Writes the main.tpa of a family, entry or kin folder (`folder`: mod-relative, e.g.
- * `lib/pnp-monster/ankheg`, `lib/pnp-monster/clay-golem`, `lib/pnp-monster/kin/fey`).
+ * Writes the main.tpa of an entry or kin folder (`folder`: mod-relative, e.g.
+ * `lib/pnp-monster/clay-golem`, `lib/pnp-monster/kin/fey`).
  */
-class WeiduFamilyService extends AbstractWeiduService {
+class WeiduGroupService extends AbstractWeiduService {
   createOrUpdateMainFile(folder: string, creature?: Creature) {
     const file = this.getMainFilename(folder);
     if (!creature) {
@@ -81,7 +81,10 @@ class WeiduFamilyService extends AbstractWeiduService {
       .join("");
   }
 
-  generateFamilyData(group: Pick<Family, "projectiles" | "spells" | "items">, folder: string) {
+  generateGroupData(
+    group: Pick<GeneratedGroup, "projectiles" | "spells" | "items">,
+    folder: string,
+  ) {
     const lines: CodeLine[] = [];
     weiduProjectileService.createProjectiles(lines, group.projectiles);
     // weiduEffectService.createEffectFiles(lines, creature.effectFiles);
@@ -97,7 +100,7 @@ class WeiduFamilyService extends AbstractWeiduService {
   }
 
   /** `group.creatures` is empty for a kin. */
-  generateFinalCode(group: Pick<Family, "spells" | "creatures">, folder: string) {
+  generateFinalCode(group: Pick<GeneratedGroup, "spells" | "creatures">, folder: string) {
     const lines: CodeLine[] = [];
     if (
       GLOBAL_CONFIG.enableSecondaryTypes &&
@@ -112,5 +115,5 @@ class WeiduFamilyService extends AbstractWeiduService {
   }
 }
 
-const weiduFamilyService = new WeiduFamilyService();
-export default weiduFamilyService;
+const weiduGroupService = new WeiduGroupService();
+export default weiduGroupService;

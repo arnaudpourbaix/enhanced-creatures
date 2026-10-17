@@ -19,7 +19,7 @@ import { State } from "../state";
 //
 // lib/pnp-monster is copied into the temp dir first because some families
 // (fey/undead/wolf/common) have a hand-authored companion `common.tpa` that
-// weiduFamilyService reads (not generates) when assembling main.tpa.
+// weiduGroupService reads (not generates) when assembling main.tpa.
 // lib/common, tra, and docs are never *read* by the pipeline (only specific
 // files within them are written), so they're compared by exact known path
 // instead of a full-tree copy+diff — those trees also contain large amounts

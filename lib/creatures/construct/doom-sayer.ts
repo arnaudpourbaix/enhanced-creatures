@@ -1,13 +1,13 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, builtBefore } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
-import { Construct, ConstructKin, builtBefore } from "./kin";
+import { Construct, ConstructKin } from "./kin";
 
 class DoomSayerEntry extends CreatureEntry<Construct> {
   constructor(private readonly constructKin?: ConstructKin) {
-    super(EntryEnum.DoomSayer, constructKin, MonsterFamilyEnum.Construct);
+    super(EntryEnum.DoomSayer, constructKin);
     this.addCreature(() => this.doomSayer());
   }
 

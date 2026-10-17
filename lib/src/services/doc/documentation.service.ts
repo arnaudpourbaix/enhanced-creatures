@@ -10,7 +10,7 @@ import { CR } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { MemorizedSpell } from "../../model/creature/data";
 import { Variant } from "../../model/creature/variant";
-import { Family } from "../../model/creature/family";
+import { GeneratedGroup } from "../../model/creature/creature-group";
 import { EquippedItem } from "../../model/creature/item";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
@@ -143,11 +143,11 @@ class DocumentationService {
     }
   }
 
-  /** The creatures of a family or entry (a kin has none). */
-  addFamily(family: Family) {
-    for (const creature of family.creatures) {
+  /** The creatures of an entry (a kin has none). */
+  addGroup(group: GeneratedGroup) {
+    for (const creature of group.creatures) {
       // A creature whose builder threw after create() (see CreatureGroup.addCreature()) is left
-      // in family.creatures with valid=false and never reached Creature.validate(), so fields
+      // in group.creatures with valid=false and never reached Creature.validate(), so fields
       // like creature.attack are still unset - skip it here rather than crash the whole
       // documentation pass on one bad creature.
       if (!creature.valid) continue;

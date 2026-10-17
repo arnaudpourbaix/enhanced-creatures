@@ -1,5 +1,5 @@
 import { Durations } from "../../src/model/game-data/durations";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Spider, SpiderIds } from "./kin";
 
 class GargantuanSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.GargantuanSpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.GargantuanSpider, kin);
     this.addCreature(() => this.gargantuan());
   }
 

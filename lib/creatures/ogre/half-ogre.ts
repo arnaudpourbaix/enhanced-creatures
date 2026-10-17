@@ -2,7 +2,7 @@ import { InputCreatureData } from "../../src/model/creature/data-input";
 import { QUICK_SLOTS } from "../../src/model/creature/item";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -167,7 +167,7 @@ function chieftainVariant(base: Ogre): Variant {
 
 class HalfOgreEntry extends CreatureEntry<Ogre> {
   constructor(kin?: OgreKin) {
-    super(EntryEnum.HalfOgre, kin, MonsterFamilyEnum.Ogre);
+    super(EntryEnum.HalfOgre, kin);
     this.addCreature(() => halfOgre(this));
   }
 

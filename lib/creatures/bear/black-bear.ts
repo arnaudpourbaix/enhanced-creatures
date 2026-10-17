@@ -2,7 +2,7 @@ import actionFactory from "../../src/factories/action.factory";
 import responseFactory from "../../src/factories/response.factory";
 import { CustomCode } from "../../src/model/script/script";
 import { customCodes } from "../common";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -11,7 +11,7 @@ import { Bear } from "./kin";
 
 class BlackBearEntry extends CreatureEntry<Bear> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.BlackBear, kin, MonsterFamilyEnum.Bear);
+    super(EntryEnum.BlackBear, kin);
     this.addCreature(() => this.black());
   }
 

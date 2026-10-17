@@ -6,7 +6,7 @@ import { NEW_CREATURES } from "../../config/creatures";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 
-const SCHEME = /^ja[sipbcav][mfekc][0-9a-z]{4}$/;
+const SCHEME = /^ja[sipbcav][mekc][0-9a-z]{4}$/;
 // Not resource names: "ja_wilderness" is a game area/state name, "jaws" is a natural weapon kind.
 const ALLOW = new Set(["ja_wilderness", "jaws"]);
 const REPO_ROOT = path.resolve(__dirname, "../../..");
@@ -21,13 +21,14 @@ function assetNames(dir: string): string[] {
   return out;
 }
 
-/** Only the `assets/` subfolders of each pnp-monster family (old generated files live beside them). */
-function monsterAssetNames(): string[] {
-  const root = path.join(REPO_ROOT, "mod/lib/pnp-monster");
-  return fs
-    .readdirSync(root, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && fs.existsSync(path.join(root, e.name, "assets")))
-    .flatMap((e) => assetNames(path.join(root, e.name, "assets")));
+/** Only the `assets/` subfolders of each pnp-monster entry and kin (generated files live beside them). */
+function monsterAssetNames(root = path.join(REPO_ROOT, "mod/lib/pnp-monster")): string[] {
+  return fs.readdirSync(root, { withFileTypes: true }).flatMap((e) => {
+    if (!e.isDirectory()) return [];
+    if (e.name === "kin") return monsterAssetNames(path.join(root, e.name));
+    const assets = path.join(root, e.name, "assets");
+    return fs.existsSync(assets) ? assetNames(assets) : [];
+  });
 }
 
 function sourceFiles(dir: string): string[] {

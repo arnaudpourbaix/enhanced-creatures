@@ -2,7 +2,7 @@ import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
 import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -11,7 +11,7 @@ import { Dog } from "./kin";
 
 class MoonDogEntry extends CreatureEntry<Dog> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.MoonDog, kin, MonsterFamilyEnum.Dog);
+    super(EntryEnum.MoonDog, kin);
     this.addCreature(() => this.moonDog());
   }
 

@@ -1,5 +1,5 @@
 import { customCodes } from "../common";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Dog } from "./kin";
 
 class WildDogEntry extends CreatureEntry<Dog> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.WildDog, kin, MonsterFamilyEnum.Dog);
+    super(EntryEnum.WildDog, kin);
     this.addCreature(() => this.wildDog());
   }
 

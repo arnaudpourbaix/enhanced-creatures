@@ -26,7 +26,7 @@ import { getResourceName, toCode } from "../utils/misc.func";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduEffectService from "./weidu-effect.service";
-import weiduFamilyService from "./weidu-family.service";
+import weiduGroupService from "./weidu-group.service";
 import weiduItemService from "./weidu-item.service";
 import weiduProjectileService from "./weidu-projectile.service";
 import weiduSpellService from "./weidu-spell.service";
@@ -51,7 +51,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.patchCreatures(lines, 0, creature);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
     utils.writeFile(`${utils.getCreatureFolder(creature)}/${toCode(creature.id)}.tpa`, content);
-    weiduFamilyService.createOrUpdateMainFile(utils.getCreatureFolder(creature), creature);
+    weiduGroupService.createOrUpdateMainFile(utils.getCreatureFolder(creature), creature);
   }
 
   private handleScriptEdits(lines: CodeLine[], creature: Creature) {

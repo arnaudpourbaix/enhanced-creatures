@@ -1,5 +1,5 @@
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Construct, ConstructIds, ConstructKin } from "./kin";
 
 class DoomGuardEntry extends CreatureEntry<Construct> {
   constructor(private readonly constructKin?: ConstructKin) {
-    super(EntryEnum.DoomGuard, constructKin, MonsterFamilyEnum.Construct);
+    super(EntryEnum.DoomGuard, constructKin);
     this.addCreature(() => this.doomGuard());
   }
 

@@ -4,11 +4,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
-import { Family } from "../../model/creature/family";
+import { GeneratedGroup } from "../../model/creature/creature-group";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { State } from "../../state";
@@ -615,7 +614,7 @@ describe("getAttackDisplayText", () => {
   });
 });
 
-describe("addFamily", () => {
+describe("addGroup", () => {
   beforeEach(() => {
     service.collected = [];
   });
@@ -624,12 +623,12 @@ describe("addFamily", () => {
     vi.restoreAllMocks();
   });
 
-  // Reproduces the CreatureFamily.addCreature() failure mode where a builder throws after
-  // create() already pushed the creature: the creature stays in family.creatures with
+  // Reproduces the CreatureGroup.addCreature() failure mode where a builder throws after
+  // create() already pushed the creature: the creature stays in group.creatures with
   // valid=false and never reached Creature.validate(), so creature.attack is still undefined.
-  // Before this test's fix, addFamily() passed every creature (valid or not) to addCreature(),
+  // Before this test's fix, addGroup() passed every creature (valid or not) to addCreature(),
   // which reads creature.attack.dualWielding via getEffectiveApr() and threw, aborting the whole
-  // documentation pass. addFamily() must skip invalid creatures instead.
+  // documentation pass. addGroup() must skip invalid creatures instead.
   it("does not pass an invalid creature to addCreature()", () => {
     const addCreatureSpy = vi
       .spyOn(documentationService, "addCreature")
@@ -647,11 +646,11 @@ describe("addFamily", () => {
       data: { immunities: [] },
     } as unknown as Creature;
     const family = {
-      id: MonsterFamilyEnum.Bear,
+      id: EntryEnum.BlackBear,
       creatures: [validCreature, invalidCreature],
-    } as unknown as Family;
+    } as unknown as GeneratedGroup;
 
-    documentationService.addFamily(family);
+    documentationService.addGroup(family);
     service.renderEntries();
 
     expect(addCreatureSpy).toHaveBeenCalledTimes(1);
@@ -661,14 +660,14 @@ describe("addFamily", () => {
   it("omits an invalid creature from the sidebar menu", () => {
     vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
     const family = {
-      id: MonsterFamilyEnum.Bear,
+      id: EntryEnum.BlackBear,
       creatures: [
         { id: 4, name: "monster.bear.name.black", valid: true, data: { immunities: [] } },
         { id: 5, name: "monster.bear.name.brown", valid: false, data: { immunities: [] } },
       ],
-    } as unknown as Family;
+    } as unknown as GeneratedGroup;
 
-    documentationService.addFamily(family);
+    documentationService.addGroup(family);
     service.renderEntries();
 
     const menu = service.sidebar.join("");
@@ -676,14 +675,14 @@ describe("addFamily", () => {
     expect(menu).not.toContain("#m5");
   });
 
-  it("renders nothing for a family with no valid creatures", () => {
+  it("renders nothing for a group with no valid creatures", () => {
     vi.spyOn(documentationService, "addCreature").mockImplementation(() => {});
     const family = {
-      id: MonsterFamilyEnum.Elemental,
+      id: EntryEnum.BrownBear,
       creatures: [{ id: 5, name: "monster.bear.name.brown", valid: false }],
-    } as unknown as Family;
+    } as unknown as GeneratedGroup;
 
-    documentationService.addFamily(family);
+    documentationService.addGroup(family);
     service.renderEntries();
 
     expect(service.monsters).toHaveLength(0);
@@ -752,20 +751,20 @@ describe("entries", () => {
     return creature;
   }
 
-  function family(creatures: Creature[]): Family {
-    return { id: MonsterFamilyEnum.Bear, creatures } as unknown as Family;
+  function family(creatures: Creature[]): GeneratedGroup {
+    return { id: EntryEnum.BlackBear, creatures } as unknown as GeneratedGroup;
   }
 
   const undead = { entry: EntryEnum.Zombie, immunities: ["undead"] };
 
   it("renders entries A-Z across families, members in declaration order", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, level: 2 }),
         member(142, "test.zombieLord", { ...undead, level: 6 }),
       ]),
     );
-    documentationService.addFamily(family([member(1, "test.ankheg")]));
+    documentationService.addGroup(family([member(1, "test.ankheg")]));
     service.renderEntries();
 
     const html = service.monsters.join("");
@@ -778,7 +777,7 @@ describe("entries", () => {
   });
 
   it("puts common parts in the entry box and omits them from member cards", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, level: 2 }),
         member(142, "test.zombieLord", { ...undead, level: 6 }),
@@ -798,7 +797,7 @@ describe("entries", () => {
   });
 
   it("skips invalid members: not rendered, not used for common parts", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, level: 2 }),
         member(142, "test.zombieLord", { ...undead, level: 6 }),
@@ -825,7 +824,7 @@ describe("entries", () => {
       creature.data.spells.memorized = [{ file: "SPPR101", memorizedCount: 1 }];
       return creature;
     };
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         withAbility(member(86, "test.zombie", { ...undead, level: 2 })),
         withAbility(member(142, "test.zombieLord", { ...undead, level: 6 })),
@@ -856,7 +855,7 @@ describe("entries", () => {
       ] as unknown as typeof creature.data.items.equipped;
       return creature;
     };
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         armed(member(86, "test.zombie", { ...undead, level: 2 }), "BITE03"),
         armed(member(142, "test.zombieLord", { ...undead, level: 6 }), "BITE04"),
@@ -886,7 +885,7 @@ describe("entries", () => {
       ] as unknown as typeof creature.data.items.equipped;
       return creature;
     };
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         armed(member(86, "test.zombie", { ...undead, level: 2 })),
         armed(member(142, "test.zombieLord", { ...undead, level: 6 })),
@@ -902,7 +901,7 @@ describe("entries", () => {
   });
 
   it("renders a single-member entry as a plain card with its type tags", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
     );
     service.renderEntries();
@@ -915,13 +914,13 @@ describe("entries", () => {
   });
 
   it("renders an entry left with one valid member as a single-member entry named after it", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, valid: false }),
         member(143, "test.jujuZombie", undead),
       ]),
     );
-    documentationService.addFamily(family([member(50, "test.mummy")]));
+    documentationService.addGroup(family([member(50, "test.mummy")]));
     service.renderEntries();
 
     const html = service.monsters.join("");
@@ -936,13 +935,13 @@ describe("entries", () => {
   });
 
   it("renders the type filter with All and one chip per present type", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, level: 2 }),
         member(142, "test.zombieLord", { ...undead, level: 6 }),
       ]),
     );
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
     );
     service.renderEntries();
@@ -956,13 +955,13 @@ describe("entries", () => {
   });
 
   it("groups a multi-member entry under a summary and lists a single one as a plain item", () => {
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([
         member(86, "test.zombie", { ...undead, level: 2 }),
         member(142, "test.zombieLord", { ...undead, level: 6 }),
       ]),
     );
-    documentationService.addFamily(
+    documentationService.addGroup(
       family([member(1, "test.ankheg", { immunities: ["magicalBeast"] })]),
     );
     service.renderEntries();

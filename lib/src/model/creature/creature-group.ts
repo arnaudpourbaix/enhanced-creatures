@@ -1,4 +1,4 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import abilityService from "../../services/baf/ability.service";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
@@ -34,8 +34,8 @@ export function collapseFilesByGame(files: CreatureFile[]): CreatureFile[] {
   });
 }
 
-/** What generation reads from a creature builder (family or entry). */
-export interface Family {
+/** What generation reads from a creature group (entry, or a kin with no creatures). */
+export interface GeneratedGroup {
   id: number;
   items: Item[];
   projectiles: Projectile[];
@@ -44,11 +44,14 @@ export interface Family {
 }
 
 /**
- * Builds creatures: the API shared by CreatureFamily and CreatureEntry (create, createFrom,
- * addCreature, member lookup, resource lookup falling back on the members' resources).
- * A subclass says how a member belongs to it (`adopt`) and which family validate() checks.
+ * Builds creatures: the API of CreatureEntry (create, createFrom, addCreature, member lookup,
+ * resource lookup falling back on the members' resources). A subclass says how a member
+ * belongs to it (`adopt`).
  */
-export abstract class CreatureGroup<T extends Creature> extends AbstractCreature implements Family {
+export abstract class CreatureGroup<T extends Creature>
+  extends AbstractCreature
+  implements GeneratedGroup
+{
   creatures: T[] = [];
   logging = false;
 
@@ -56,9 +59,6 @@ export abstract class CreatureGroup<T extends Creature> extends AbstractCreature
 
   /** Stamps a creature built by create() or createFrom() as a member of this group. */
   protected abstract adopt(creature: T): void;
-
-  /** The family validate() checks the member against; undefined for an entry. */
-  protected abstract memberFamily(): MonsterFamilyEnum | undefined;
 
   /**
    * Group-wide derivation run once a creature is fully built (data, variants and adjustments
@@ -206,7 +206,7 @@ export abstract class CreatureGroup<T extends Creature> extends AbstractCreature
       this.afterBuild(creature);
       creatureTypeHooksService.afterBuild(creature);
       this.applyCsvSummonFiles(creature);
-      creature.validate(this.memberFamily());
+      creature.validate();
       const hasNothingToActOn =
         !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
       if (hasNothingToActOn) logService.discardCapture();
@@ -229,7 +229,7 @@ export abstract class CreatureGroup<T extends Creature> extends AbstractCreature
 
   creature(id: MonsterEnum): T {
     // s.id is typed as plain `number` (AbstractCreature.id is shared with the groups' own
-    // MonsterFamilyEnum/EntryEnum-typed ids, so it can't be narrowed to MonsterEnum at the base
+    // EntryEnum/KinEnum-typed ids, so it can't be narrowed to MonsterEnum at the base
     // class) - widen id to number for the comparison rather than loosen a shared field.
     // no-unnecessary-type-assertion disagrees the cast changes anything (enums structurally
     // widen to number for comparison), but removing it brings back no-unsafe-enum-comparison -

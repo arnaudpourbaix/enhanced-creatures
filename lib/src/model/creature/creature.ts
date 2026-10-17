@@ -1,5 +1,5 @@
 import { MonsterItemIconEnum } from "../../../config/item";
-import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { MonsterEnum } from "../../../creatures/monster";
 import { EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureFactory from "../../factories/creature.factory";
@@ -86,16 +86,14 @@ export class Creature extends AbstractCreature implements BaseCreature {
    */
   logging!: boolean;
   name!: TranslationKey;
-  /** Set by the CreatureFamily that built it; unset for a creature built by a CreatureEntry. */
-  family?: MonsterFamilyEnum;
   /**
-   * Monster entry this creature is a version of (docs grouping); unset = its own entry. Set by
-   * CreatureFamily.addEntry, and by CreatureEntry for every member.
+   * Monster entry this creature is a version of (docs grouping), set by the CreatureEntry that
+   * built it.
    */
   entry?: EntryEnum;
   /**
    * Mod-relative folder its generated files go to (`lib/pnp-monster/<entry>`), set by the
-   * CreatureEntry that built it; unset = its family's folder (see utils.getCreatureFolder).
+   * CreatureEntry that built it (see utils.getCreatureFolder).
    */
   folder?: string;
   data!: MainCreatureData;
@@ -328,9 +326,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
     return item;
   }
 
-  /** `family`: the family that built it, undefined when built by a CreatureEntry. */
-  validate(family?: MonsterFamilyEnum) {
-    creatureFactory.validate(this, family);
+  validate() {
+    creatureFactory.validate(this);
   }
 }
 

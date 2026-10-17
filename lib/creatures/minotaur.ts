@@ -16,7 +16,7 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 enum Ids {
   Charge,
@@ -119,7 +119,7 @@ class Minotaur extends Creature {
 
 class MinotaurEntry extends CreatureEntry<Minotaur> {
   constructor() {
-    super(EntryEnum.Minotaur, undefined, MonsterFamilyEnum.Minotaur);
+    super(EntryEnum.Minotaur);
     this.addCreature(() => this.minotaur());
   }
 

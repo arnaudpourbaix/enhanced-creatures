@@ -1,4 +1,4 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -7,7 +7,7 @@ import { Dog, DogIds } from "./kin";
 
 class BlinkDogEntry extends CreatureEntry<Dog> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.BlinkDog, kin, MonsterFamilyEnum.Dog);
+    super(EntryEnum.BlinkDog, kin);
     this.addCreature(() => this.blinkDog());
   }
 

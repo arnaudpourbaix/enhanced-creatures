@@ -3,7 +3,6 @@ import path from "path";
 import { SpellGroupName } from "../../../config/spells/spell-group-name";
 import { ENTRY_FOLDERS, EntryEnum } from "../../../creatures/entry";
 import { KIN_FOLDERS, KinEnum } from "../../../creatures/kin";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
 import { Actions } from "../../model/script/actions";
@@ -167,10 +166,6 @@ class UtilsService {
     fs.writeFileSync(file, normalized);
   }
 
-  getFamilyFolder(family: MonsterFamilyEnum): string {
-    return `lib/pnp-monster/${MonsterFamilyEnum[family].toLowerCase()}`;
-  }
-
   getEntryFolder(entry: EntryEnum): string {
     return `lib/pnp-monster/${ENTRY_FOLDERS[entry]}`;
   }
@@ -179,11 +174,11 @@ class UtilsService {
     return `lib/pnp-monster/kin/${KIN_FOLDERS[kin]}`;
   }
 
-  /** Mod-relative folder a creature's generated files go to: its entry's, else its family's. */
-  getCreatureFolder(creature: { folder?: string; family?: MonsterFamilyEnum }): string {
-    if (creature.folder !== undefined) return creature.folder;
-    if (creature.family === undefined) throw new Error("Creature has neither folder nor family");
-    return this.getFamilyFolder(creature.family);
+  /** Mod-relative folder a creature's generated files go to: its entry's. */
+  getCreatureFolder(creature: { folder?: string }): string {
+    if (creature.folder === undefined)
+      throw new Error("Creature has no folder (not built by an entry)");
+    return creature.folder;
   }
 
   getIdsFileFromSpellProtectionStat(stat: SpellProtectionStat): string {

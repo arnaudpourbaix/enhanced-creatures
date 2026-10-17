@@ -2,7 +2,7 @@ import { NEW_CREATURES } from "../../config/creatures";
 import { Durations } from "../../src/model/game-data/durations";
 import { EffectDamageTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -11,7 +11,7 @@ import { Slime, SlimeIds } from "./kin";
 
 class GreenSlimeEntry extends CreatureEntry<Slime> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.GreenSlime, kin, MonsterFamilyEnum.Ooze);
+    super(EntryEnum.GreenSlime, kin);
     this.addCreature(() => this.greenSlime());
   }
 

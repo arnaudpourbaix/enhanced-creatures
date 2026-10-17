@@ -1,5 +1,5 @@
 import figureSet from "figures";
-import { MonsterEnum, MonsterFamilyEnum } from "../../creatures/monster";
+import { MonsterEnum } from "../../creatures/monster";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "../model/creature/adjustment";
 import {
   BEHAVIOR_DEFAULT,
@@ -150,14 +150,10 @@ class CreatureFactory {
       );
   }
 
-  validate(creature: Creature, family?: MonsterFamilyEnum) {
+  validate(creature: Creature) {
     let valid = true;
     if (State.creatures.some((c) => c.id === creature.id)) {
       throw new Error(`Monster '${MonsterEnum[creature.id]}' already declared`);
-    }
-    if (creature.family !== family) {
-      logService.warn(`Family doesn't match: ${String(creature.family)} <-> ${String(family)}`);
-      valid = false;
     }
     const hasFiles = creature.files.length > 0;
     if (!hasFiles) {

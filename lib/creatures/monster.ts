@@ -1,28 +1,3 @@
-export enum MonsterFamilyEnum {
-  Ankheg = 1,
-  Basilisk = 2,
-  Bear = 3,
-  Crawler = 4,
-  Cat = 5,
-  Construct = 6,
-  Dog = 7,
-  Fey = 8,
-  Golem = 9,
-  Ogre = 10,
-  Plant = 11,
-  Ooze = 12,
-  Spider = 13,
-  Wolf = 14,
-  Minotaur = 15,
-  Ettercap = 16,
-  Wyvern = 17,
-  Undead = 18,
-  Ettin = 19,
-  Dragon = 20,
-  Elemental = 21,
-  Snake = 22,
-}
-
 export enum MonsterEnum {
   Medusa = 0,
   Ankheg = 1,

@@ -3,7 +3,7 @@ import effectFactory from "../../src/factories/effect.factory";
 import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -232,7 +232,7 @@ function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
 
 class OgreMageEntry extends CreatureEntry<Ogre> {
   constructor(kin?: OgreKin) {
-    super(EntryEnum.OgreMage, kin, MonsterFamilyEnum.Ogre);
+    super(EntryEnum.OgreMage, kin);
     this.addCreature(() => ogreMage(this));
   }
 

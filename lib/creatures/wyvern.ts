@@ -2,7 +2,7 @@ import { Creature } from "../src/model/creature/creature";
 import { CreatureEntry } from "../src/model/creature/entry";
 import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 enum Ids {
   Stinger,
@@ -40,7 +40,7 @@ class Wyvern extends Creature {
 
 class WyvernEntry extends CreatureEntry<Wyvern> {
   constructor() {
-    super(EntryEnum.Wyvern, undefined, MonsterFamilyEnum.Wyvern);
+    super(EntryEnum.Wyvern);
     this.addCreature(() => this.wyvern());
     this.addCreature(() => this.baby());
     this.addCreature(() => this.greater());

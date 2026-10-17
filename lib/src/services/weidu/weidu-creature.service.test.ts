@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
@@ -430,14 +429,14 @@ describe("addResourceVariantAssignments (private)", () => {
 describe("compileScripts (private)", () => {
   it("omits EVALUATE_BUFFER when the creature has no resource variants", () => {
     const lines: CodeLine[] = [];
-    service.compileScripts(lines, fakeCreature({ family: MonsterFamilyEnum.Ankheg }), false);
+    service.compileScripts(lines, fakeCreature({ folder: "lib/pnp-monster/ankheg" }), false);
     expect(codes(lines)[0]).not.toContain("EVALUATE_BUFFER");
   });
 
   it("appends EVALUATE_BUFFER to every COMPILE line when a resource variant is present", () => {
     const lines: CodeLine[] = [];
     const creature = fakeCreature({
-      family: MonsterFamilyEnum.Ankheg,
+      folder: "lib/pnp-monster/ankheg",
       adjustments: [fakeAdjustment({ summon: true })],
     });
     service.compileScripts(lines, creature, true);

@@ -1,6 +1,6 @@
 import { ScriptTarget } from "../../src/model/constants";
 import { Durations } from "../../src/model/game-data/durations";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -9,7 +9,7 @@ import { Spider, SpiderIds } from "./kin";
 
 class GhostwalkSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.GhostwalkSpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.GhostwalkSpider, kin);
     this.addCreature(() => this.ghostwalk());
   }
 

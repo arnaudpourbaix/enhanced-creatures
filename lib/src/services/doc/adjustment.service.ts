@@ -596,7 +596,7 @@ class AdjustmentService {
     if (!shared) return undefined;
     // A member file the variant's own `adjust` entries never target still goes through the
     // ordinary per-file fold in getEffectiveDataForFile, which can pick up adjustments the variant
-    // knows nothing about - e.g. family.ts's applyCsvSummonFiles appending an xpv=0 patch to a
+    // knows nothing about - e.g. creature-group.ts's applyCsvSummonFiles appending an xpv=0 patch to a
     // creatures.csv-flagged summon after the variant was declared. Building the profile from that
     // same fold (for a file with no variant-owned deviation) keeps it identical to what such a
     // "vanilla" member actually renders as; hand-rolling it from `shared` alone drifted out of

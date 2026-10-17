@@ -180,7 +180,15 @@ function assasinVariant(base: Variant): Variant {
 
 export function createSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {
   const kin = skeletonKin(kins);
-  const entry = new UndeadEntry(EntryEnum.Skeleton, [skeleton], kin);
-  if (kin) kin.skeleton = entry.creature(MonsterEnum.Skeleton);
-  return entry;
+  return new UndeadEntry(
+    EntryEnum.Skeleton,
+    [
+      (entry) => {
+        const creature = skeleton(entry);
+        if (kin) kin.skeleton = creature;
+        return creature;
+      },
+    ],
+    kin,
+  );
 }

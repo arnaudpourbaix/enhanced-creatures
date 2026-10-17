@@ -28,7 +28,7 @@ import {
 import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
 import poisonService from "../src/services/effects/poison.service";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 enum Ids {
   Projectile,
@@ -59,7 +59,7 @@ class Basilisk extends Creature {
 
 class BasiliskEntry extends CreatureEntry<Basilisk> {
   constructor() {
-    super(EntryEnum.Basilisk, undefined, MonsterFamilyEnum.Basilisk);
+    super(EntryEnum.Basilisk);
     this.createPetrificationProjectile();
     this.createPetrification2e();
     this.addCreature(() => this.lesser());

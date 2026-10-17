@@ -3,7 +3,7 @@ import {
   EffectStatisticModifierEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -12,7 +12,7 @@ import { Golem, GolemIds } from "./kin";
 
 class BoneGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.BoneGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.BoneGolem, kin);
     this.addCreature(() => this.bone());
   }
 

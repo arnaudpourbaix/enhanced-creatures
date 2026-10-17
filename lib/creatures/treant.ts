@@ -3,7 +3,7 @@ import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 class Plant extends Creature {
   createBranch(diceThrown: number, diceSize: number, equip = false) {
@@ -20,7 +20,7 @@ class Plant extends Creature {
 
 class TreantEntry extends CreatureEntry<Plant> {
   constructor() {
-    super(EntryEnum.Treant, undefined, MonsterFamilyEnum.Plant);
+    super(EntryEnum.Treant);
     this.addCreature(() => this.treant());
   }
 

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
 import { KinEnum } from "../../../creatures/kin";
-import { MonsterEnum, MonsterFamilyEnum } from "../../../creatures/monster";
+import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import hitPointService from "../../services/hit-point.service";
 import logService from "../../services/log.service";
@@ -39,13 +39,12 @@ describe("CreatureEntry", () => {
     expect(new TestEntry(EntryEnum.Ankheg).addSpell({}).file).toBe("jase0a00");
   });
 
-  it("stamps its members with the entry and its folder, without family", () => {
+  it("stamps its members with the entry and its folder", () => {
     const entry = new TestEntry(EntryEnum.ClayGolem);
     const base = entry.create({ name: NAME, monster: MonsterEnum.ClayGolem, data: DATA });
-    // A bare stub as `from`, as in family.test.ts (create() with empty data has no movement).
+    // A bare stub as `from`, as in creature-group.test.ts (create() with empty data has no movement).
     const stub = {
       name: NAME,
-      family: 9,
       data: { movement: {} },
       attack: { dualWielding: false },
     } as unknown as Creature;
@@ -53,18 +52,17 @@ describe("CreatureEntry", () => {
     for (const c of [base, from]) {
       expect(c.entry).toBe(EntryEnum.ClayGolem);
       expect(c.folder).toBe("lib/pnp-monster/clay-golem");
-      expect(c.family).toBeUndefined();
     }
     expect(entry.creatures).toEqual([base, from]);
     expect(entry.folder).toBe("lib/pnp-monster/clay-golem");
   });
 
-  it("builds members through addCreature and validates them without family", () => {
+  it("builds members through addCreature and validates them", () => {
     const entry = new TestEntry(EntryEnum.Ankheg);
     const validate = vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
     entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Ankheg, data: DATA }));
     expect(entry.creature(MonsterEnum.Ankheg).entry).toBe(EntryEnum.Ankheg);
-    expect(validate).toHaveBeenCalledWith(undefined);
+    expect(validate).toHaveBeenCalledWith();
   });
 
   it("stamps a member whose builder threw after create()", () => {
@@ -92,41 +90,24 @@ describe("CreatureEntry", () => {
     expect(() => new TestEntry(EntryEnum.Ankheg).spell(1)).toThrow(/No spell found with id 1/);
   });
 
-  // Transitional until families go: a migrated entry keeps its members' old family.
-  it("stamps members with its legacy family and validates them against it", () => {
-    const entry = new TestEntry(EntryEnum.Dryad, undefined, MonsterFamilyEnum.Fey);
-    const validate = vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
-    entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
-    const dryad = entry.creature(MonsterEnum.Dryad);
-    expect(dryad.family).toBe(MonsterFamilyEnum.Fey);
-    expect(dryad.entry).toBe(EntryEnum.Dryad);
-    expect(dryad.folder).toBe("lib/pnp-monster/dryad");
-    // creatureFactory.validate warns and invalidates when creature.family !== this argument.
-    expect(validate).toHaveBeenCalledWith(MonsterFamilyEnum.Fey);
-  });
-
   it.each([
     ["fey", 6],
     ["ooze", 10],
-  ] as const)(
-    "gives its members their type's hit dice without a legacy family (%s -> d%i)",
-    (type, hd) => {
-      const entry = new TestEntry(EntryEnum.Dryad);
-      vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
-      entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
-      const creature = entry.creature(MonsterEnum.Dryad);
-      expect(creature.family).toBeUndefined();
-      creature.data.immunities = [type];
-      const hp = hitPointService.getHitPoints({
-        data: { level1: { pnpValue: 3, value: 3, type: "none" } },
-        creature,
-      });
-      expect(hp).toBe(3 * hd);
-    },
-  );
+  ] as const)("gives its members their type's hit dice (%s -> d%i)", (type, hd) => {
+    const entry = new TestEntry(EntryEnum.Dryad);
+    vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
+    entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
+    const creature = entry.creature(MonsterEnum.Dryad);
+    creature.data.immunities = [type];
+    const hp = hitPointService.getHitPoints({
+      data: { level1: { pnpValue: 3, value: 3, type: "none" } },
+      creature,
+    });
+    expect(hp).toBe(3 * hd);
+  });
 
-  it("no longer takes hit dice from the legacy family (Fey family, no fey type -> d8)", () => {
-    const entry = new TestEntry(EntryEnum.Dryad, undefined, MonsterFamilyEnum.Fey);
+  it("gives a member without a hit-dice type d8", () => {
+    const entry = new TestEntry(EntryEnum.Dryad);
     vi.spyOn(Creature.prototype, "validate").mockImplementation(() => {});
     entry.addCreature(() => entry.create({ name: NAME, monster: MonsterEnum.Dryad, data: DATA }));
     const hp = hitPointService.getHitPoints({

@@ -1,5 +1,5 @@
 import { SPELLS } from "../../config/spells/spell-database";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Spider } from "./kin";
 
 class HairySpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.HairySpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.HairySpider, kin);
     this.addCreature(() => this.hairy());
   }
 

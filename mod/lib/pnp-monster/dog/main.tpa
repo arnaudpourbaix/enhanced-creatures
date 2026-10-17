@@ -1,7 +1,0 @@
-LAM load_secondary_types
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/0c.tpa" // Wild Dog
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/0d.tpa" // War Dog
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/0e.tpa" // Blink Dog
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/13.tpa" // Spectral Hound
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/3e.tpa" // Moon Dog
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/3f.tpa" // Hell Hound

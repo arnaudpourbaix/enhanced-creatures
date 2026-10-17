@@ -1,5 +1,5 @@
 import effectFactory from "../../src/factories/effect.factory";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Golem, GolemIds } from "./kin";
 
 class IronGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.IronGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.IronGolem, kin);
     this.addCreature(() => this.iron());
   }
 

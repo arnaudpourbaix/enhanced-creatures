@@ -5,7 +5,6 @@ import mainService from "../src/services/main.service";
 import stateService from "../src/services/state.service";
 import { entryFactories } from "./entries";
 import { ENTRY_FOLDERS, ENTRY_MEMBERS, ENTRY_NAMES, EntryEnum } from "./entry";
-import { familyFactories } from ".";
 import { KIN_FOLDERS, KinEnum } from "./kin";
 import { kinFactories } from "./kins";
 import { MonsterEnum } from "./monster";
@@ -49,21 +48,20 @@ describe("EntryEnum", () => {
 describe("KIN_FOLDERS", () => {
   it("is the lowercase enum key", () => {
     expect(KIN_FOLDERS[KinEnum.Bear]).toBe("bear");
-    expect(KIN_FOLDERS[KinEnum.Spectral]).toBe("spectral");
+    expect(KIN_FOLDERS[KinEnum.Skeleton]).toBe("skeleton");
     expect(KinEnum.Bear).toBe(1);
-    expect(KinEnum.Zombie).toBe(14);
+    expect(KinEnum.Wolf).toBe(10);
+    expect(KinEnum.Skeleton).toBe(12);
   });
 });
 
-// Builds every family, kin and entry like the generator does: the creatures they build must be
-// exactly ENTRY_MEMBERS (each once, entry members in declared order), so that the families'
-// migration into entries can neither lose nor duplicate a creature.
+// Builds every kin and entry like the generator does: the creatures they build must be exactly
+// ENTRY_MEMBERS (each once, entry members in declared order, each stamped with its entry).
 describe("ENTRY_MEMBERS against a full build", () => {
-  it("matches every creature built by the families and entries", async () => {
+  it("matches every creature built by the entries", async () => {
     await stateService.init();
     mainService.checkPresets();
     const creatures: Creature[] = [];
-    for (const factory of familyFactories) creatures.push(...factory().creatures);
     const kins = new Map<KinEnum, CreatureKin>();
     for (const factory of kinFactories) {
       const kin = factory();
@@ -78,14 +76,9 @@ describe("ENTRY_MEMBERS against a full build", () => {
     for (const id of entryIds) {
       const members = creatures.filter((c) => ENTRY_MEMBERS[id].includes(c.id));
       expect(members.map((c) => c.id)).toEqual(ENTRY_MEMBERS[id]);
-      if (members.length > 1) {
-        for (const c of members) expect(c.entry).toBe(id);
-      } else {
-        // A single-member entry is named after its creature (no translation of its own).
-        expect(ENTRY_NAMES[id]).toBe(members[0].name);
-        // Unstamped while still built by a family, stamped once built by its CreatureEntry.
-        expect([undefined, id]).toContain(members[0].entry);
-      }
+      for (const c of members) expect(c.entry).toBe(id);
+      // A single-member entry is named after its creature (no translation of its own).
+      if (members.length === 1) expect(ENTRY_NAMES[id]).toBe(members[0].name);
     }
   }, 60000);
 });

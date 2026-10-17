@@ -1,5 +1,6 @@
-import { Family } from "../src/model/creature/family";
-export const familyFactories: (() => Family)[] = [];
+// Creatures are built by the entries (./entries.ts) and kins (./kins.ts). Notes on monsters
+// not implemented yet:
+export {};
 
 /*
 "SHOAL", // Shoal the Nereid

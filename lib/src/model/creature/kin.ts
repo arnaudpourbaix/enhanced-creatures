@@ -23,3 +23,12 @@ export abstract class CreatureKin extends AbstractCreature {
     return utils.getKinFolder(this.id);
   }
 }
+
+/**
+ * A creature another entry built first and handed over through their kin, for this entry to
+ * derive from; throws when that entry hasn't built (registry order or a failed build).
+ */
+export function builtBefore<T>(creature: T | undefined, name: string): T {
+  if (!creature) throw new Error(`The ${name} entry must build first`);
+  return creature;
+}

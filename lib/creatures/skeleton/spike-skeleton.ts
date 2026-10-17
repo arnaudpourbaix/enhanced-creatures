@@ -3,9 +3,9 @@ import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { UndeadEntry } from "../undead/undead-entry";
-import type { CreatureKin } from "../../src/model/creature/kin";
+import { builtBefore, type CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
-import { builtBefore, skeletonKin } from "./kin";
+import { skeletonKin } from "./kin";
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
 export function spikeSkeleton(family: CreatureEntry<Creature>, base: Creature): Creature {

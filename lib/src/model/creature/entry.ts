@@ -1,5 +1,4 @@
 import { EntryEnum } from "../../../creatures/entry";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import logService from "../../services/log.service";
 import { ResourceScope } from "../../services/utils/misc.func";
 import utils from "../../services/utils/utils.service";
@@ -11,24 +10,17 @@ import { CreatureKin } from "./kin";
 
 /**
  * One monster in several versions: builds its members (declaration order = install and docs
- * order) with the CreatureFamily API. Its own resources use scope `e` and the entry's code;
+ * order) with the CreatureGroup API. Its own resources use scope `e` and the entry's code;
  * resources shared with other entries belong to its kin.
  */
 export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T> {
   fileType: ResourceScope = "e";
   declare id: EntryEnum;
   kin?: CreatureKin;
-  /**
-   * Transitional (removed with families): the family the entry was migrated from. Its members
-   * keep `creature.family` = this value (and validate() checks it); nothing else reads it (hit
-   * dice and turn level come from the creature's types).
-   */
-  readonly legacyFamily?: MonsterFamilyEnum;
 
-  constructor(id: EntryEnum, kin?: CreatureKin, legacyFamily?: MonsterFamilyEnum) {
+  constructor(id: EntryEnum, kin?: CreatureKin) {
     super(id);
     this.kin = kin;
-    this.legacyFamily = legacyFamily;
     logService.header(`Creating entry ${EntryEnum[id]}...`);
   }
 
@@ -40,11 +32,6 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
   protected adopt(creature: T): void {
     creature.entry = this.id;
     creature.folder = this.folder;
-    creature.family = this.legacyFamily;
-  }
-
-  protected memberFamily(): MonsterFamilyEnum | undefined {
-    return this.legacyFamily;
   }
 
   override item(id: number): Item {

@@ -5,7 +5,7 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import creatureService from "../../src/services/creature.service";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -14,7 +14,7 @@ import { Spider } from "./kin";
 
 class WraithSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.WraithSpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.WraithSpider, kin);
     this.addCreature(() => this.wraith());
   }
 

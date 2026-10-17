@@ -1,6 +1,6 @@
 import { InvisibilityTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -9,7 +9,7 @@ import { Spider, SpiderIds } from "./kin";
 
 class PhaseSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.PhaseSpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.PhaseSpider, kin);
     this.addCreature(() => this.phase());
   }
 

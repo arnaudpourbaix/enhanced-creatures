@@ -13,13 +13,13 @@ describe("getSpellFilename", () => {
   });
 
   it("base-36 encodes num and creatureId", () => {
-    expect(getSpellFilename(16, 255, "f")).toBe("jasf730g");
+    expect(getSpellFilename(16, 255, "e")).toBe("jase730g");
   });
 
-  it("names creature and family resources with codes", () => {
+  it("names creature and entry resources with codes", () => {
     expect(getSpellFilename(0, 153)).toBe("jasm4900");
     expect(getItemFilename(1, 153)).toBe("jaim4901");
-    expect(getProjectileFilename(2, 8, "f")).toBe("japf0802");
+    expect(getProjectileFilename(2, 8, "e")).toBe("jape0802");
   });
 });
 
@@ -31,7 +31,7 @@ describe("getItemFilename", () => {
 
 describe("getProjectileFilename", () => {
   it("uses the 'p' file type prefix", () => {
-    expect(getProjectileFilename(1, 2, "f")).toBe("japf0201");
+    expect(getProjectileFilename(1, 2, "k")).toBe("japk0201");
   });
 });
 
@@ -56,7 +56,7 @@ describe("getResourceName", () => {
     expect(getResourceName("s", "m", 153, 0)).toBe("jasm4900");
     expect(getResourceName("i", "m", 153, 1)).toBe("jaim4901");
     expect(getResourceName("b", "m", 153, 1)).toBe("jabm4901");
-    expect(getResourceName("s", "f", 8, 3)).toBe("jasf0803");
+    expect(getResourceName("s", "e", 8, 3)).toBe("jase0803");
     expect(getResourceName("i", "c", 0, 19)).toBe("jaic000j");
     expect(getResourceName("s", "k", 5, 0)).toBe("jask0500");
     expect(getResourceName("p", "e", 1, 0)).toBe("jape0100");

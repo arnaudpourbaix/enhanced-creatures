@@ -1,5 +1,5 @@
 import { NEW_CREATURES } from "../../config/creatures";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -8,7 +8,7 @@ import { Slime, SlimeIds } from "./kin";
 
 class OliveSlimeCreatureEntry extends CreatureEntry<Slime> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.OliveSlimeCreature, kin, MonsterFamilyEnum.Ooze);
+    super(EntryEnum.OliveSlimeCreature, kin);
     this.addCreature(() => this.oliveSlimeCreature());
   }
 

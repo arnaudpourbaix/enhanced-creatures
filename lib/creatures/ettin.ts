@@ -11,7 +11,7 @@ import {
   ProficiencyTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 class Ettin extends Creature {
   /**
@@ -43,7 +43,7 @@ class Ettin extends Creature {
 
 class EttinEntry extends CreatureEntry<Ettin> {
   constructor() {
-    super(EntryEnum.Ettin, undefined, MonsterFamilyEnum.Ettin);
+    super(EntryEnum.Ettin);
     this.addCreature(() => this.ettin());
   }
   createCreature(id: MonsterEnum): Ettin {

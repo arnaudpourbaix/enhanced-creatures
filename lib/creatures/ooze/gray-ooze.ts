@@ -1,6 +1,6 @@
 import { EffectDamageTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -9,7 +9,7 @@ import { Slime } from "./kin";
 
 class GrayOozeEntry extends CreatureEntry<Slime> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.GrayOoze, kin, MonsterFamilyEnum.Ooze);
+    super(EntryEnum.GrayOoze, kin);
     this.addCreature(() => this.grayOoze());
   }
 

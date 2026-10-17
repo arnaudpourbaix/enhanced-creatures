@@ -21,10 +21,4 @@ export function skeletonKin(kins: Map<KinEnum, CreatureKin>): SkeletonKin | unde
   return kin instanceof SkeletonKin ? kin : undefined;
 }
 
-/** A creature another entry builds first and this entry derives from. */
-export function builtBefore(creature: Creature | undefined, name: string): Creature {
-  if (!creature) throw new Error(`The ${name} entry must build first`);
-  return creature;
-}
-
 export const createSkeletonKin = () => new SkeletonKin();

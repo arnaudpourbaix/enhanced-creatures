@@ -1,4 +1,4 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -7,7 +7,7 @@ import { Golem } from "./kin";
 
 class SandGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.SandGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.SandGolem, kin);
     this.addCreature(() => this.sand());
   }
 

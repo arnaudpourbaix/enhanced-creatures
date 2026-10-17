@@ -1,6 +1,6 @@
 import { SPELLS } from "../../config/spells/spell-database";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -67,7 +67,7 @@ function shaman(family: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
 
 class OgreShamanEntry extends CreatureEntry<Ogre> {
   constructor(kin?: OgreKin) {
-    super(EntryEnum.OgreShaman, kin, MonsterFamilyEnum.Ogre);
+    super(EntryEnum.OgreShaman, kin);
     this.addCreature(() => shaman(this, kin));
   }
 

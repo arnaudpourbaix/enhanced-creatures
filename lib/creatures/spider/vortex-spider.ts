@@ -2,7 +2,7 @@ import { SPELLS } from "../../config/spells/spell-database";
 import { Durations } from "../../src/model/game-data/durations";
 import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -11,7 +11,7 @@ import { Spider } from "./kin";
 
 class VortexSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.VortexSpider, kin, MonsterFamilyEnum.Spider);
+    super(EntryEnum.VortexSpider, kin);
     this.addCreature(() => this.vortex());
   }
 

@@ -207,10 +207,4 @@ export class ConstructKin extends CreatureKin {
   }
 }
 
-/** A creature another entry builds first and this entry derives from. */
-export function builtBefore(creature: Construct | undefined, name: string): Construct {
-  if (!creature) throw new Error(`The ${name} entry must build first`);
-  return creature;
-}
-
 export const createConstructKin = () => new ConstructKin();

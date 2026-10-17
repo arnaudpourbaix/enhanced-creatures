@@ -10,13 +10,13 @@ import {
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 class Crawler extends Creature {}
 
 class CarrionCrawlerEntry extends CreatureEntry<Crawler> {
   constructor() {
-    super(EntryEnum.CarrionCrawler, undefined, MonsterFamilyEnum.Crawler);
+    super(EntryEnum.CarrionCrawler);
     this.addCreature(() => this.carrionCrawler());
   }
 

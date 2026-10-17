@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
-import { EntryEnum } from "../../../creatures/entry";
 import { Item, Spell } from "../spell-item/spell-item";
 import { Projectile } from "../spell-item/projectile";
-import { CreatureFamily, collapseFilesByGame } from "./family";
+import { CreatureGroup, collapseFilesByGame } from "./creature-group";
+import { ResourceScope } from "../../services/utils/misc.func";
 import { Creature } from "./creature";
 import { TranslationKey } from "../../../translations/i18n";
 import { InputMainCreatureData } from "./data-input";
@@ -12,14 +12,20 @@ import monsterFilesService from "../../services/monster-files.service";
 import creatureFactory from "../../factories/creature.factory";
 import translationService from "../../services/translation.service";
 
-class TestFamily extends CreatureFamily<Creature> {
+class TestGroup extends CreatureGroup<Creature> {
+  fileType: ResourceScope = "e";
+
   createCreature(id: MonsterEnum): Creature {
     return new Creature(id);
   }
+
+  protected adopt(): void {
+    // no membership stamp
+  }
 }
 
-function fakeFamily(): TestFamily {
-  return new TestFamily(1);
+function fakeGroup(): TestGroup {
+  return new TestGroup(1);
 }
 
 const CREATURE_NAME_KEY: TranslationKey = "common.creatureTraits";
@@ -31,94 +37,94 @@ afterEach(() => {
 });
 
 describe("creature", () => {
-  it("throws when no creature in the family has the given id", () => {
-    const family = fakeFamily();
-    expect(() => family.creature(99)).toThrow(/No creature found with id 99/);
+  it("throws when no creature in the group has the given id", () => {
+    const group = fakeGroup();
+    expect(() => group.creature(99)).toThrow(/No creature found with id 99/);
   });
 
   it("returns the creature with the matching id", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const cre = new Creature(5);
-    family.creatures.push(cre);
-    expect(family.creature(5)).toBe(cre);
+    group.creatures.push(cre);
+    expect(group.creature(5)).toBe(cre);
   });
 });
 
 describe("sequencer", () => {
   it("delegates to abilityService.getSequencer", () => {
-    const family = fakeFamily();
-    const result = family.sequencer(["SPWI219", "SPWI219", "SPWI219"] as string[] & { length: 3 });
+    const group = fakeGroup();
+    const result = group.sequencer(["SPWI219", "SPWI219", "SPWI219"] as string[] & { length: 3 });
     expect(result).toBeDefined();
   });
 });
 
-describe("item (override, family-wide fallback)", () => {
+describe("item (override, group-wide fallback)", () => {
   // Same descriptions reused across item/spell/projectile describe blocks below for analogous
-  // family-wide-fallback behavior - a shared constant would hurt searchability in test output.
+  // group-wide-fallback behavior - a shared constant would hurt searchability in test output.
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  it("falls back to searching creatures in the family when not found directly", () => {
-    const family = fakeFamily();
+  it("falls back to searching creatures in the group when not found directly", () => {
+    const group = fakeGroup();
     const cre = new Creature(1);
     const item = { id: 7, file: "itm01" } as unknown as Item;
     cre.items.push(item);
-    family.creatures.push(cre);
-    expect(family.item(7)).toBe(item);
+    group.creatures.push(cre);
+    expect(group.item(7)).toBe(item);
   });
 
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  it("re-throws the original error when not found anywhere in the family", () => {
-    const family = fakeFamily();
-    expect(() => family.item(99)).toThrow(/No item found with id 99/);
+  it("re-throws the original error when not found anywhere in the group", () => {
+    const group = fakeGroup();
+    expect(() => group.item(99)).toThrow(/No item found with id 99/);
   });
 });
 
-describe("spell (override, family-wide fallback)", () => {
-  it("falls back to searching creatures in the family when not found directly", () => {
-    const family = fakeFamily();
+describe("spell (override, group-wide fallback)", () => {
+  it("falls back to searching creatures in the group when not found directly", () => {
+    const group = fakeGroup();
     const cre = new Creature(1);
     const spell = { id: 7, file: "spl01" } as unknown as Spell;
     cre.spells.push(spell);
-    family.creatures.push(cre);
-    expect(family.spell(7)).toBe(spell);
+    group.creatures.push(cre);
+    expect(group.spell(7)).toBe(spell);
   });
 
-  it("re-throws the original error when not found anywhere in the family", () => {
-    const family = fakeFamily();
-    expect(() => family.spell(99)).toThrow(/No spell found with id 99/);
+  it("re-throws the original error when not found anywhere in the group", () => {
+    const group = fakeGroup();
+    expect(() => group.spell(99)).toThrow(/No spell found with id 99/);
   });
 });
 
-describe("projectile (override, family-wide fallback)", () => {
-  it("falls back to searching creatures in the family when not found directly", () => {
-    const family = fakeFamily();
+describe("projectile (override, group-wide fallback)", () => {
+  it("falls back to searching creatures in the group when not found directly", () => {
+    const group = fakeGroup();
     const cre = new Creature(1);
     const proj = { id: 7, file: "pro01" } as unknown as Projectile;
     cre.projectiles.push(proj);
-    family.creatures.push(cre);
-    expect(family.projectile(7)).toBe(proj);
+    group.creatures.push(cre);
+    expect(group.projectile(7)).toBe(proj);
   });
 
   it("keeps checking later creatures when an earlier one doesn't have it", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const first = new Creature(1);
     const second = new Creature(2);
     const proj = { id: 7, file: "pro01" } as unknown as Projectile;
     second.projectiles.push(proj);
-    family.creatures.push(first, second);
-    expect(family.projectile(7)).toBe(proj);
+    group.creatures.push(first, second);
+    expect(group.projectile(7)).toBe(proj);
   });
 
-  it("re-throws the original error when not found anywhere in the family", () => {
-    const family = fakeFamily();
-    expect(() => family.projectile(99)).toThrow(/No projectile found with id 99/);
+  it("re-throws the original error when not found anywhere in the group", () => {
+    const group = fakeGroup();
+    expect(() => group.projectile(99)).toThrow(/No projectile found with id 99/);
   });
 });
 
 describe("create (files resolution)", () => {
   it("merges creatures.csv-validated files with the hand-authored backup list, deduped", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
 
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       files: ["ANKHEG", "SOME_BACKUP_FILE"],
@@ -132,9 +138,9 @@ describe("create (files resolution)", () => {
   });
 
   it("works with no backup files at all", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
 
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       data: {} as unknown as InputMainCreatureData,
@@ -144,9 +150,9 @@ describe("create (files resolution)", () => {
   });
 
   it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
 
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       files: ["some_backup_file"],
@@ -158,9 +164,9 @@ describe("create (files resolution)", () => {
   });
 
   it("uppercases notEnforceFiles entries", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
 
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       notEnforceFiles: ["some_backup_file"],
@@ -173,14 +179,14 @@ describe("create (files resolution)", () => {
 
 describe("createFrom (files resolution)", () => {
   it("merges creatures.csv-validated files with the hand-authored backup list, deduped", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const from = {
       name: CREATURE_NAME_KEY,
       data: { movement: {} },
       attack: { dualWielding: false },
     } as unknown as Creature;
 
-    const cre = family.createFrom({
+    const cre = group.createFrom({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       files: ["SOME_BACKUP_FILE"],
@@ -194,14 +200,14 @@ describe("createFrom (files resolution)", () => {
   });
 
   it("uppercases a lowercase backup file, since generated WeiDU comparisons against creature.files are case-sensitive", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const from = {
       name: CREATURE_NAME_KEY,
       data: { movement: {} },
       attack: { dualWielding: false },
     } as unknown as Creature;
 
-    const cre = family.createFrom({
+    const cre = group.createFrom({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       files: ["some_backup_file"],
@@ -216,12 +222,12 @@ describe("createFrom (files resolution)", () => {
 
 describe("create (game collapse)", () => {
   it("collapses a resref present in both games to an unconditional entry", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
       { name: "GORF", game: "bg1" },
       { name: "GORF", game: "bg2" },
     ]);
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       data: {} as unknown as InputMainCreatureData,
@@ -230,9 +236,9 @@ describe("create (game collapse)", () => {
   });
 
   it("keeps a single-game resref scoped to that game", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([{ name: "BG1ONLY", game: "bg1" }]);
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       data: {} as unknown as InputMainCreatureData,
@@ -241,12 +247,12 @@ describe("create (game collapse)", () => {
   });
 
   it("treats a game='' row as both games even when a single-game row for the same name exists", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
       { name: "MIX", game: "bg1" },
       { name: "MIX", game: undefined },
     ]);
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       data: {} as unknown as InputMainCreatureData,
@@ -255,9 +261,9 @@ describe("create (game collapse)", () => {
   });
 
   it("accepts and uppercases object backup entries with a game", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([]);
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       files: [{ name: "bar", game: "bg2" }, "foo"],
@@ -272,13 +278,13 @@ describe("create (game collapse)", () => {
   });
 
   it("preserves first-seen order of names", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
       { name: "SECOND", game: "bg1" },
       { name: "FIRST", game: "bg2" },
       { name: "SECOND", game: "bg2" },
     ]);
-    const cre = family.create({
+    const cre = group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.Ankheg,
       data: {} as unknown as InputMainCreatureData,
@@ -289,7 +295,7 @@ describe("create (game collapse)", () => {
 
 describe("applyCsvSummonFiles", () => {
   it("appends synthetic summon adjustments carrying the collapsed game scope", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
     vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
       { name: "BOTH", game: undefined },
@@ -301,15 +307,15 @@ describe("applyCsvSummonFiles", () => {
       { name: "BG1SUM", game: "bg1" },
     ]);
 
-    family.addCreature(() =>
-      family.create({
+    group.addCreature(() =>
+      group.create({
         name: CREATURE_NAME_KEY,
         monster: MonsterEnum.Ankheg,
         data: {} as unknown as InputMainCreatureData,
       }),
     );
 
-    const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
+    const summonAdjustments = group.creatures[0].adjustments.filter((a) => a.summon);
     // BOTH is a summon in both games -> collapses to no game tag. BG1SUM is a summon only in bg1
     // -> tagged bg1 so patchScripts assigns it the summon script only there.
     expect(summonAdjustments).toEqual([
@@ -319,15 +325,17 @@ describe("applyCsvSummonFiles", () => {
   });
 
   it("leaves hand-authored summon:true files alone (no duplicate synthetic entry)", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
-    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([{ name: "HANDSUM", game: undefined }]);
+    vi.spyOn(monsterFilesService, "getFiles").mockReturnValue([
+      { name: "HANDSUM", game: undefined },
+    ]);
     vi.spyOn(monsterFilesService, "getSummonFiles").mockReturnValue([
       { name: "HANDSUM", game: undefined },
     ]);
 
-    family.addCreature(() => {
-      const cre = family.create({
+    group.addCreature(() => {
+      const cre = group.create({
         name: CREATURE_NAME_KEY,
         monster: MonsterEnum.Ankheg,
         data: {} as unknown as InputMainCreatureData,
@@ -336,7 +344,7 @@ describe("applyCsvSummonFiles", () => {
       return cre;
     });
 
-    const summonAdjustments = family.creatures[0].adjustments.filter((a) => a.summon);
+    const summonAdjustments = group.creatures[0].adjustments.filter((a) => a.summon);
     expect(summonAdjustments).toHaveLength(1);
     expect(summonAdjustments[0].files).toEqual(["HANDSUM"]);
   });
@@ -362,10 +370,10 @@ describe("collapseFilesByGame", () => {
 
 describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => {
   it("warns with the monster's unvalidated creatures.csv guesses", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    family.create({
+    group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.AlbinoWyrm,
       data: {} as unknown as InputMainCreatureData,
@@ -375,12 +383,12 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
   });
 
   it("does not warn when the monster has no unvalidated guesses at all", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    // MutatedSpider is declared in MonsterEnum but never implemented in any creature family
+    // MutatedSpider is declared in MonsterEnum but never implemented in any creature group
     // definition, so monster-id-mapping can never assign it a MonsterId - guaranteed zero rows.
-    family.create({
+    group.create({
       name: CREATURE_NAME_KEY,
       monster: MonsterEnum.MutatedSpider,
       data: {} as unknown as InputMainCreatureData,
@@ -392,44 +400,44 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
 
 describe("addCreature", () => {
   it("builds, validates, and keeps the creature when nothing throws", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const validateSpy = vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
-    family.addCreature(() =>
-      family.create({
+    group.addCreature(() =>
+      group.create({
         name: CREATURE_NAME_KEY,
         monster: MonsterEnum.Ankheg,
         data: {} as unknown as InputMainCreatureData,
       }),
     );
 
-    expect(family.creatures).toHaveLength(1);
-    expect(validateSpy).toHaveBeenCalledWith(family.creatures[0], family.id);
+    expect(group.creatures).toHaveLength(1);
+    expect(validateSpy).toHaveBeenCalledWith(group.creatures[0]);
     expect(errorSpy).not.toHaveBeenCalled();
   });
 
   it("logs and continues, without adding a creature, when the builder throws before create()", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
     expect(() => {
-      family.addCreature(() => {
+      group.addCreature(() => {
         throw new Error("boom");
       });
     }).not.toThrow();
 
-    expect(family.creatures).toHaveLength(0);
+    expect(group.creatures).toHaveLength(0);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
   });
 
   it("logs, invalidates, and keeps the partially-built creature when the builder throws after create()", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
     expect(() => {
-      family.addCreature(() => {
-        family.create({
+      group.addCreature(() => {
+        group.create({
           name: CREATURE_NAME_KEY,
           monster: MonsterEnum.Ankheg,
           data: {} as unknown as InputMainCreatureData,
@@ -438,10 +446,10 @@ describe("addCreature", () => {
       });
     }).not.toThrow();
 
-    expect(family.creatures).toHaveLength(1);
-    expect(family.creatures[0].valid).toBe(false);
+    expect(group.creatures).toHaveLength(1);
+    expect(group.creatures[0].valid).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("boom"));
-    // The .at(-1) fallback (see family.ts's addCreature()) recovers the actual creature, so the
+    // The .at(-1) fallback (see creature-group.ts's addCreature()) recovers the actual creature, so the
     // log message names it - not the generic "creature" label used when the builder throws
     // before create() ever runs (see the previous test).
     expect(errorSpy).toHaveBeenCalledWith(
@@ -450,15 +458,15 @@ describe("addCreature", () => {
   });
 
   it("logs and invalidates the creature when validate() throws", () => {
-    const family = fakeFamily();
+    const group = fakeGroup();
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "validate").mockImplementation(() => {
       throw new Error("validate boom");
     });
 
     expect(() => {
-      family.addCreature(() =>
-        family.create({
+      group.addCreature(() =>
+        group.create({
           name: CREATURE_NAME_KEY,
           monster: MonsterEnum.Ankheg,
           data: {} as unknown as InputMainCreatureData,
@@ -466,42 +474,8 @@ describe("addCreature", () => {
       );
     }).not.toThrow();
 
-    expect(family.creatures).toHaveLength(1);
-    expect(family.creatures[0].valid).toBe(false);
+    expect(group.creatures).toHaveLength(1);
+    expect(group.creatures[0].valid).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("validate boom"));
-  });
-});
-
-describe("addEntry", () => {
-  it("registers each builder in order and stamps the entry, even on a failed build", () => {
-    const family = fakeFamily();
-    const a = { id: 1, entry: undefined } as unknown as Creature;
-    const b = { id: 2, entry: undefined } as unknown as Creature;
-    const addCreature = vi.spyOn(family, "addCreature").mockImplementation((build) => {
-      family.creatures.push(build());
-    });
-    family.addEntry(EntryEnum.Vampire, [() => a, () => b]);
-    expect(addCreature).toHaveBeenCalledTimes(2);
-    expect(family.creatures.map((c) => c.id)).toEqual([1, 2]);
-    expect(a.entry).toBe(EntryEnum.Vampire);
-    expect(b.entry).toBe(EntryEnum.Vampire);
-  });
-
-  it("stamps a creature whose builder threw after create(), using the real addCreature", () => {
-    const family = fakeFamily();
-    vi.spyOn(logService, "error").mockImplementation(() => {});
-    family.addEntry(EntryEnum.Vampire, [
-      () => {
-        family.create({
-          name: CREATURE_NAME_KEY,
-          monster: MonsterEnum.Ankheg,
-          data: {} as unknown as InputMainCreatureData,
-        });
-        throw new Error("boom");
-      },
-    ]);
-    expect(family.creatures).toHaveLength(1);
-    expect(family.creatures[0].valid).toBe(false);
-    expect(family.creatures[0].entry).toBe(EntryEnum.Vampire);
   });
 });

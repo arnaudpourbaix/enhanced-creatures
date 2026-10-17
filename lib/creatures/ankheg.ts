@@ -19,7 +19,7 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { EntryEnum } from "./entry";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { MonsterEnum } from "./monster";
 
 enum Ids {
   Stream,
@@ -72,7 +72,7 @@ class Ankheg extends Creature {
 
 class AnkhegEntry extends CreatureEntry<Ankheg> {
   constructor() {
-    super(EntryEnum.Ankheg, undefined, MonsterFamilyEnum.Ankheg);
+    super(EntryEnum.Ankheg);
     this.addCreature(() => this.ankheg());
   }
 

@@ -1,14 +1,14 @@
 import { SPELLS } from "../../config/spells/spell-database";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, builtBefore } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
-import { Construct, ConstructKin, builtBefore } from "./kin";
+import { Construct, ConstructKin } from "./kin";
 
 class BattleHorrorEntry extends CreatureEntry<Construct> {
   constructor(private readonly constructKin?: ConstructKin) {
-    super(EntryEnum.BattleHorror, constructKin, MonsterFamilyEnum.Construct);
+    super(EntryEnum.BattleHorror, constructKin);
     this.addCreature(() => {
       const creature = this.battleHorror();
       if (this.constructKin) this.constructKin.battleHorror = creature;

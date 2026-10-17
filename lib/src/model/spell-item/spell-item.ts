@@ -54,7 +54,7 @@ export type SpellSecondaryType = ItemAbilitySecondaryTypeEnum | "Fear" | "Diseas
 
 export interface Spell extends BaseSpell {
   /**
-   * Used for retrieving a spell inside family factories
+   * Used for retrieving a spell inside entry and kin factories
    */
   id?: number;
 
@@ -129,7 +129,7 @@ export interface Item {
    */
   copyFrom?: string;
   /**
-   * Used for retrieving an item inside family factories
+   * Used for retrieving an item inside entry and kin factories
    */
   id?: number;
   /**

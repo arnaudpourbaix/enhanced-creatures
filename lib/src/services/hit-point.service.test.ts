@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MonsterFamilyEnum, MonsterEnum } from "../../creatures/monster";
+import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import { ImmunityName } from "../model/final/immunity";
@@ -9,13 +9,11 @@ import hitPointService from "./hit-point.service";
 function fakeCreature(
   p: {
     id?: MonsterEnum;
-    family?: MonsterFamilyEnum;
     immunities?: ImmunityName[];
   } = {},
 ): Creature {
   return {
     id: p.id ?? MonsterEnum.WildDog,
-    family: p.family ?? MonsterFamilyEnum.Dog,
     data: { immunities: p.immunities ?? [] },
     items: [],
     adjustments: [],
@@ -52,7 +50,7 @@ describe("hitPointService.getHitPoints", () => {
     ["undead", 12],
     ["dragon", 12],
   ] as [ImmunityName, number][])(
-    "resolves hit dice from the creature's type, not its family (%s -> %i HD)",
+    "resolves hit dice from the creature's type (%s -> %i HD)",
     (type, hd) => {
       const value = hitPointService.getHitPoints({
         data: { level1: { pnpValue: 3, value: 3, type: "none" } },
@@ -62,10 +60,10 @@ describe("hitPointService.getHitPoints", () => {
     },
   );
 
-  it("ignores the creature's family (legacy Undead family without the undead type -> 8 HD)", () => {
+  it("gives a creature without a hit-dice type 8 HD", () => {
     const value = hitPointService.getHitPoints({
       data: { level1: { pnpValue: 3, value: 3, type: "none" } },
-      creature: fakeCreature({ family: MonsterFamilyEnum.Undead }),
+      creature: fakeCreature(),
     });
     expect(value).toBe(24); // 3 * 8
   });

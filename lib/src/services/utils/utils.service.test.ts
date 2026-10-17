@@ -4,7 +4,6 @@ import * as path from "path";
 import { describe, expect, it } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
 import { KinEnum } from "../../../creatures/kin";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { Spell } from "../../model/spell-item/spell-item";
 import { SpellGroup } from "../../model/spell-item/spell-group";
@@ -278,12 +277,6 @@ describe("getFile", () => {
   });
 });
 
-describe("getFamilyFolder", () => {
-  it("lowercases the family enum name into the pnp-monster path", () => {
-    expect(utils.getFamilyFolder(MonsterFamilyEnum.Bear)).toBe("lib/pnp-monster/bear");
-  });
-});
-
 describe("getIdsFileFromSpellProtectionStat", () => {
   it("maps each stat needing an ids lookup to its ids file name", () => {
     expect(utils.getIdsFileFromSpellProtectionStat(SpellProtectionStat.Race)).toBe("race");
@@ -480,11 +473,10 @@ describe("entry, kin and creature folders", () => {
     expect(utils.getKinFolder(KinEnum.Fey)).toBe("lib/pnp-monster/kin/fey");
   });
 
-  it("uses a creature's entry folder, else its family's", () => {
+  it("uses a creature's entry folder, and throws without one", () => {
     expect(utils.getCreatureFolder({ folder: "lib/pnp-monster/dryad" })).toBe(
       "lib/pnp-monster/dryad",
     );
-    expect(utils.getCreatureFolder({ family: MonsterFamilyEnum.Fey })).toBe("lib/pnp-monster/fey");
-    expect(() => utils.getCreatureFolder({})).toThrow(/neither folder nor family/);
+    expect(() => utils.getCreatureFolder({})).toThrow(/no folder/);
   });
 });

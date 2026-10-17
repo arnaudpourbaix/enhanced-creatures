@@ -1,7 +1,7 @@
 import { ScriptTarget } from "../../src/model/constants";
 import { CustomCode } from "../../src/model/script/script";
 import { customCodes } from "../common";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -10,7 +10,7 @@ import { Bear, BearIds } from "./kin";
 
 class PolarBearEntry extends CreatureEntry<Bear> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.PolarBear, kin, MonsterFamilyEnum.Bear);
+    super(EntryEnum.PolarBear, kin);
     this.addCreature(() => this.polar());
   }
 

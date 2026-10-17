@@ -10,7 +10,7 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -19,7 +19,7 @@ import { Dog } from "./kin";
 
 class SpectralHoundEntry extends CreatureEntry<Dog> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.SpectralHound, kin, MonsterFamilyEnum.Dog);
+    super(EntryEnum.SpectralHound, kin);
     this.addCreature(() => this.spectralHound());
   }
 

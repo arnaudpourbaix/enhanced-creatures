@@ -1,4 +1,4 @@
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -7,7 +7,7 @@ import { Golem, GolemIds, BAF_CONTINUE } from "./kin";
 
 class ClayGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.ClayGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.ClayGolem, kin);
     this.addCreature(() => this.clay());
     this.addCreature(() => this.lesserClay());
     this.addCreature(() => this.greaterClay());

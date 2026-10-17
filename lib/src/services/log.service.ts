@@ -38,7 +38,7 @@ class LogService {
 
   /**
    * Start buffering subsequent writes instead of appending them to the file. Used by
-   * CreatureFamily.addCreature() to hold a creature's whole log section until validation is
+   * CreatureGroup.addCreature() to hold a creature's whole log section until validation is
    * known, so it can discardCapture() the section entirely for creatures with nothing to fix
    * (e.g. no files at all) rather than logging noise about them on every run.
    */
@@ -69,8 +69,8 @@ class LogService {
 
   /**
    * Hold every write in memory until flushSections(), so a later pass can add lines to a section
-   * committed earlier (see withSection()). Used per family, so a creature's generation errors land
-   * in its own "Creating ..." section instead of under the family's last created creature.
+   * committed earlier (see withSection()). Used per entry and kin, so a creature's generation errors
+   * land in its own "Creating ..." section instead of under the group's last created creature.
    */
   beginDeferred(): void {
     this.deferring = true;

@@ -1,6 +1,6 @@
 import { NEW_CREATURES } from "../../config/creatures";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -9,7 +9,7 @@ import { Fey, FeyIds, FeyKin } from "./kin";
 
 class DryadEntry extends CreatureEntry<Fey> {
   constructor(private readonly feyKin: FeyKin) {
-    super(EntryEnum.Dryad, feyKin, MonsterFamilyEnum.Fey);
+    super(EntryEnum.Dryad, feyKin);
     this.addCreature(() => this.dryad());
   }
 

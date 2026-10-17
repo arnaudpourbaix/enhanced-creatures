@@ -1,6 +1,6 @@
 import effectFactory from "../../src/factories/effect.factory";
 import { SaveTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
@@ -9,7 +9,7 @@ import { Golem } from "./kin";
 
 class WaxGolemEntry extends CreatureEntry<Golem> {
   constructor(kin?: CreatureKin) {
-    super(EntryEnum.WaxGolem, kin, MonsterFamilyEnum.Golem);
+    super(EntryEnum.WaxGolem, kin);
     this.addCreature(() => this.wax());
   }
 
