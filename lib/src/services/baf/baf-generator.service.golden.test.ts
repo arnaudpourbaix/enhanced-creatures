@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { beforeAll, describe, expect, it } from "vitest";
-import { createAnkhegs } from "../../../creatures/ankhegs";
+import { createAnkhegEntry } from "../../../creatures/ankheg";
 import { Creature } from "../../model/creature/creature";
 import stateService from "../state.service";
 import bafGeneratorService from "./baf-generator.service";
@@ -21,7 +21,7 @@ let ankheg: Creature;
 
 beforeAll(async () => {
   await stateService.init();
-  ankheg = createAnkhegs().creatures[0];
+  ankheg = createAnkhegEntry().creatures[0];
 });
 
 describe("Ankheg creature generation", () => {

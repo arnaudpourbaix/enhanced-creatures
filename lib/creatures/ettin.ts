@@ -1,5 +1,5 @@
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { ItemSlot } from "../src/model/creature/item";
 import {
   AbilityDamageTypeEnum,
@@ -10,6 +10,7 @@ import {
   ItemFlagEnum,
   ProficiencyTypeEnum,
 } from "../src/model/spell-item/effect.enums";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Ettin extends Creature {
@@ -40,9 +41,9 @@ class Ettin extends Creature {
   }
 }
 
-class EttinFamily extends CreatureFamily<Ettin> {
+class EttinEntry extends CreatureEntry<Ettin> {
   constructor() {
-    super(MonsterFamilyEnum.Ettin);
+    super(EntryEnum.Ettin, undefined, MonsterFamilyEnum.Ettin);
     this.addCreature(() => this.ettin());
   }
   createCreature(id: MonsterEnum): Ettin {
@@ -101,4 +102,4 @@ class EttinFamily extends CreatureFamily<Ettin> {
   }
 }
 
-export const createEttins = () => new EttinFamily();
+export const createEttinEntry = () => new EttinEntry();

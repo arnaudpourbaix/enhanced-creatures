@@ -1,7 +1,7 @@
-import { EntryEnum } from "./entry";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -38,10 +38,12 @@ class Wyvern extends Creature {
   }
 }
 
-class WyvernFamily extends CreatureFamily<Wyvern> {
+class WyvernEntry extends CreatureEntry<Wyvern> {
   constructor() {
-    super(MonsterFamilyEnum.Wyvern);
-    this.addEntry(EntryEnum.Wyvern, [() => this.wyvern(), () => this.baby(), () => this.greater()]);
+    super(EntryEnum.Wyvern, undefined, MonsterFamilyEnum.Wyvern);
+    this.addCreature(() => this.wyvern());
+    this.addCreature(() => this.baby());
+    this.addCreature(() => this.greater());
   }
 
   createCreature(id: MonsterEnum): Wyvern {
@@ -221,4 +223,4 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
     return drake;
   }
 }
-export const createWyverns = () => new WyvernFamily();
+export const createWyvernEntry = () => new WyvernEntry();

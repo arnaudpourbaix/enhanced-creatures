@@ -4,7 +4,7 @@ import { CommonTargetLists } from "../config/target/common";
 import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { Durations } from "../src/model/game-data/durations";
 import {
   AbilityDamageTypeEnum,
@@ -18,6 +18,7 @@ import {
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -69,9 +70,9 @@ class Ankheg extends Creature {
   }
 }
 
-class AnkhegFamily extends CreatureFamily<Ankheg> {
+class AnkhegEntry extends CreatureEntry<Ankheg> {
   constructor() {
-    super(MonsterFamilyEnum.Ankheg);
+    super(EntryEnum.Ankheg, undefined, MonsterFamilyEnum.Ankheg);
     this.addCreature(() => this.ankheg());
   }
 
@@ -182,4 +183,4 @@ class AnkhegFamily extends CreatureFamily<Ankheg> {
   }
 }
 
-export const createAnkhegs = () => new AnkhegFamily();
+export const createAnkhegEntry = () => new AnkhegEntry();

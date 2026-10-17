@@ -204,10 +204,4 @@ describe("generateKinsAndEntries", () => {
     }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
     expect(fs.existsSync(familyFile)).toBe(true);
   });
-
-  it("writes an empty index with the real (empty) registries", () => {
-    mainService.generateKinsAndEntries();
-    expect(read("index.tpa")).toBe("");
-    expect(JSON.parse(read("index.json"))).toEqual({});
-  });
 });

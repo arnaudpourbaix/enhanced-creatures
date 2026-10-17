@@ -1,7 +1,8 @@
 import { NEW_CREATURES } from "../config/creatures";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Plant extends Creature {
@@ -17,9 +18,9 @@ class Plant extends Creature {
   }
 }
 
-class PlantFamily extends CreatureFamily<Plant> {
+class TreantEntry extends CreatureEntry<Plant> {
   constructor() {
-    super(MonsterFamilyEnum.Plant);
+    super(EntryEnum.Treant, undefined, MonsterFamilyEnum.Plant);
     this.addCreature(() => this.treant());
   }
 
@@ -139,4 +140,4 @@ class PlantFamily extends CreatureFamily<Plant> {
   }
 }
 
-export const createPlants = () => new PlantFamily();
+export const createTreantEntry = () => new TreantEntry();

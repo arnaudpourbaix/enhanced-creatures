@@ -1,9 +1,8 @@
-import { EntryEnum } from "./entry";
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { ItemSlot } from "../src/model/creature/item";
 import { Durations } from "../src/model/game-data/durations";
 import {
@@ -28,6 +27,7 @@ import {
 } from "../src/model/spell-item/projectile";
 import { WeaponCastSpell } from "../src/model/spell-item/spell-item";
 import poisonService from "../src/services/effects/poison.service";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -57,12 +57,13 @@ class Basilisk extends Creature {
   }
 }
 
-class BasiliskFamily extends CreatureFamily<Basilisk> {
+class BasiliskEntry extends CreatureEntry<Basilisk> {
   constructor() {
-    super(MonsterFamilyEnum.Basilisk);
+    super(EntryEnum.Basilisk, undefined, MonsterFamilyEnum.Basilisk);
     this.createPetrificationProjectile();
     this.createPetrification2e();
-    this.addEntry(EntryEnum.Basilisk, [() => this.lesser(), () => this.greater()]);
+    this.addCreature(() => this.lesser());
+    this.addCreature(() => this.greater());
   }
 
   createCreature(id: MonsterEnum): Basilisk {
@@ -441,4 +442,4 @@ class BasiliskFamily extends CreatureFamily<Basilisk> {
   }
 }
 
-export const createBasilisks = () => new BasiliskFamily();
+export const createBasiliskEntry = () => new BasiliskEntry();

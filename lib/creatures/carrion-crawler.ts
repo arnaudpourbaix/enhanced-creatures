@@ -1,7 +1,7 @@
 import { MonsterItemIconEnum } from "../config/item";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { Durations } from "../src/model/game-data/durations";
 import {
   AbilityDamageTypeEnum,
@@ -9,13 +9,14 @@ import {
   ItemAbilityTypeEnum,
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Crawler extends Creature {}
 
-class CrawlerFamily extends CreatureFamily<Crawler> {
+class CarrionCrawlerEntry extends CreatureEntry<Crawler> {
   constructor() {
-    super(MonsterFamilyEnum.Crawler);
+    super(EntryEnum.CarrionCrawler, undefined, MonsterFamilyEnum.Crawler);
     this.addCreature(() => this.carrionCrawler());
   }
 
@@ -91,4 +92,4 @@ class CrawlerFamily extends CreatureFamily<Crawler> {
   }
 }
 
-export const createCarrionCrawlers = () => new CrawlerFamily();
+export const createCarrionCrawlerEntry = () => new CarrionCrawlerEntry();

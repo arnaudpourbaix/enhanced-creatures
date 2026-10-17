@@ -1,7 +1,7 @@
 import { SPELLS } from "../config/spells/spell-database";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import {
   AbilityDamageTypeEnum,
   EffectTargetEnum,
@@ -15,6 +15,7 @@ import {
   WingBuffetDirectionEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 enum Ids {
@@ -116,9 +117,9 @@ class Minotaur extends Creature {
   }
 }
 
-class MinotaurFamily extends CreatureFamily<Minotaur> {
+class MinotaurEntry extends CreatureEntry<Minotaur> {
   constructor() {
-    super(MonsterFamilyEnum.Minotaur);
+    super(EntryEnum.Minotaur, undefined, MonsterFamilyEnum.Minotaur);
     this.addCreature(() => this.minotaur());
   }
 
@@ -276,4 +277,4 @@ class MinotaurFamily extends CreatureFamily<Minotaur> {
   }
 }
 
-export const createMinotaurs = () => new MinotaurFamily();
+export const createMinotaurEntry = () => new MinotaurEntry();

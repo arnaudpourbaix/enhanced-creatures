@@ -22,24 +22,16 @@ BEGIN @999
 DESIGNATED 999
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/basilisk/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/bear/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/cat/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/construct/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dog/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/fey/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/snake/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/golem/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ogre/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ooze/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/spider/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wolf/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
@@ -81,7 +73,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/crawler/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/carrion-crawler/main.tpa"
 
 // // Greater Cats
 // BEGIN @1150
@@ -153,7 +145,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/plant/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/treant/main.tpa"
 
 // // Spiders
 // BEGIN @1240
@@ -201,4 +193,4 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // GROUP @1
 // REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 // REQUIRE_COMPONENT ~enhanced_creatures.tp2~ 1000 @1001
-// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/snake/main.tpa"
+// INCLUDE "%MOD_FOLDER%/lib/pnp-monster/giant-poisonous-snake/main.tpa"

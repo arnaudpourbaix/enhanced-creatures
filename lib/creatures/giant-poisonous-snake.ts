@@ -1,7 +1,8 @@
 import { NEW_CREATURES } from "../config/creatures";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Snake extends Creature {
@@ -21,9 +22,9 @@ class Snake extends Creature {
   }
 }
 
-class SnakeFamily extends CreatureFamily<Snake> {
+class GiantPoisonousSnakeEntry extends CreatureEntry<Snake> {
   constructor() {
-    super(MonsterFamilyEnum.Snake);
+    super(EntryEnum.GiantPoisonousSnake, undefined, MonsterFamilyEnum.Snake);
     this.addCreature(() => this.giantPoisonous());
   }
 
@@ -87,4 +88,4 @@ class SnakeFamily extends CreatureFamily<Snake> {
   }
 }
 
-export const createSnakes = () => new SnakeFamily();
+export const createGiantPoisonousSnakeEntry = () => new GiantPoisonousSnakeEntry();

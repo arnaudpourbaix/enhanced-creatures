@@ -1,19 +1,20 @@
 import { MonsterItemIconEnum } from "../config/item";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
+import { CreatureEntry } from "../src/model/creature/entry";
 import {
   AbilityDamageTypeEnum,
   ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import poisonService from "../src/services/effects/poison.service";
+import { EntryEnum } from "./entry";
 import { MonsterEnum, MonsterFamilyEnum } from "./monster";
 
 class Ettercap extends Creature {}
 
-class EttercapFamily extends CreatureFamily<Ettercap> {
+class EttercapEntry extends CreatureEntry<Ettercap> {
   constructor() {
-    super(MonsterFamilyEnum.Ettercap);
+    super(EntryEnum.Ettercap, undefined, MonsterFamilyEnum.Ettercap);
     this.addCreature(() => this.ettercap());
   }
 
@@ -94,4 +95,4 @@ class EttercapFamily extends CreatureFamily<Ettercap> {
     return ettercap;
   }
 }
-export const createEttercaps = () => new EttercapFamily();
+export const createEttercapEntry = () => new EttercapEntry();
