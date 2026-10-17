@@ -98,7 +98,7 @@ Game filenames are 8 characters, and ours must start with `ja`, which leaves 6. 
 - Readability: base-36 ids can't be read at a glance (vampire 153 is `49`). The docs or the file
   search could show the base-36 id or resource names.
 
-### 4. ◐ Families → entries in code
+### 4. ✅ Families → entries in code
 
 Design: [2026-10-17-families-to-entries-design.md](2026-10-17-families-to-entries-design.md).
 Decided: full migration; kins own material shared by several entries (scope `k`); types own code
