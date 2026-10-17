@@ -84,13 +84,33 @@ import { createPhaseSpiderEntry } from "./spider/phase-spider";
 import { createSwordSpiderEntry } from "./spider/sword-spider";
 import { createVortexSpiderEntry } from "./spider/vortex-spider";
 import { createWraithSpiderEntry } from "./spider/wraith-spider";
+import { createBansheeEntry } from "./banshee";
+import { createGhoulEntry } from "./ghoul";
+import { createGhastEntry } from "./ghast";
+import { createMummyEntry } from "./mummy";
+import { createShadowEntry } from "./shadow";
+import { createBaneguardEntry } from "./baneguard";
+import { createBonebatEntry } from "./bonebat";
+import { createSkeletonEntry } from "./skeleton/skeleton";
+import { createSpikeSkeletonEntry } from "./skeleton/spike-skeleton";
+import { createArcherSkeletonEntry } from "./skeleton/archer-skeleton";
+import { createGiantSkeletonEntry } from "./skeleton/giant-skeleton";
+import { createSkeletonMonsterEntry } from "./skeleton/skeleton-monster";
+import { createSkeletonWarriorEntry } from "./skeleton-warrior";
+import { createDeathKnightEntry } from "./death-knight";
+import { createSpectreEntry } from "./spectre";
+import { createGhostEntry } from "./ghost";
+import { createWightEntry } from "./wight";
+import { createWraithEntry } from "./wraith";
+import { createZombieEntry } from "./zombie";
+import { createVampireEntry } from "./vampire";
 
 /**
  * Entry factories, in install order. Each receives the built kins, to hand its own kin to the
  * entry (`kins.get(KinEnum.Fey)`).
  *
  * Load-bearing orders (a later entry reads what an earlier one built): Helmed Horror < Battle Horror <
- * Doom Sayer; Ogre < Ogre Shaman.
+ * Doom Sayer; Ogre < Ogre Shaman; Skeleton < Spike, Archer and Giant Skeletons, Skeleton Monster.
  */
 export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry<Creature>)[] = [
   createAnkhegEntry,
@@ -175,4 +195,24 @@ export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry
   createSwordSpiderEntry,
   createVortexSpiderEntry,
   createWraithSpiderEntry,
+  createBansheeEntry,
+  createGhoulEntry,
+  createGhastEntry,
+  createMummyEntry,
+  createShadowEntry,
+  createBaneguardEntry,
+  createBonebatEntry,
+  createSkeletonEntry,
+  createSpikeSkeletonEntry,
+  createArcherSkeletonEntry,
+  createGiantSkeletonEntry,
+  createSkeletonMonsterEntry,
+  createSkeletonWarriorEntry,
+  createDeathKnightEntry,
+  createSpectreEntry,
+  createGhostEntry,
+  createWightEntry,
+  createWraithEntry,
+  createZombieEntry,
+  createVampireEntry,
 ];

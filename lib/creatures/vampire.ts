@@ -5,27 +5,27 @@
  * Every age is built from the same table row (see VAMPIRE_AGES), so a vampire's powers only
  * differ by what the table says.
  */
-import { SPELL_STATES } from "../../config/common";
-import { MonsterItemIconEnum } from "../../config/item";
-import { SPELLS } from "../../config/spells/spell-database";
-import actionFactory from "../../src/factories/action.factory";
-import effectFactory from "../../src/factories/effect.factory";
-import responseFactory from "../../src/factories/response.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
-import { ScriptTarget } from "../../src/model/constants";
-import { RawCreatureAbility } from "../../src/model/creature/ability";
-import { AnimationIdentifiers } from "../../src/model/ids/animate";
-import { PartialCustomCode } from "../../src/model/script/script";
-import { Triggers } from "../../src/model/script/triggers";
-import { AreaProjectileEnum, ParticleColorEnum } from "../../src/model/spell-item/projectile";
-import { Item, PartialSpellHeader } from "../../src/model/spell-item/spell-item";
-import targetService from "../../src/services/baf/target.service";
-import effectService from "../../src/services/effects/effect.service";
-import { TranslationKey } from "../../translations/i18n";
-import { ImmunityName } from "../../src/model/final/immunity";
-import { StringReference } from "../../src/model/final/stringref";
-import { Durations } from "../../src/model/game-data/durations";
-import { Effect } from "../../src/model/spell-item/effect";
+import { SPELL_STATES } from "../config/common";
+import { MonsterItemIconEnum } from "../config/item";
+import { SPELLS } from "../config/spells/spell-database";
+import actionFactory from "../src/factories/action.factory";
+import effectFactory from "../src/factories/effect.factory";
+import responseFactory from "../src/factories/response.factory";
+import triggerFactory from "../src/factories/trigger.factory";
+import { ScriptTarget } from "../src/model/constants";
+import { RawCreatureAbility } from "../src/model/creature/ability";
+import { AnimationIdentifiers } from "../src/model/ids/animate";
+import { PartialCustomCode } from "../src/model/script/script";
+import { Triggers } from "../src/model/script/triggers";
+import { AreaProjectileEnum, ParticleColorEnum } from "../src/model/spell-item/projectile";
+import { Item, PartialSpellHeader } from "../src/model/spell-item/spell-item";
+import targetService from "../src/services/baf/target.service";
+import effectService from "../src/services/effects/effect.service";
+import { TranslationKey } from "../translations/i18n";
+import { ImmunityName } from "../src/model/final/immunity";
+import { StringReference } from "../src/model/final/stringref";
+import { Durations } from "../src/model/game-data/durations";
+import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   AnimationChangeTypeEnum,
@@ -51,14 +51,16 @@ import {
   PortraitIconEnum,
   RemoveEffectsByResourceTypeEnum,
   SaveTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { SpellKeyword } from "../../config/spells/keyword";
-import { MonsterEnum } from "../monster";
-import type { UndeadFamily } from "./family";
-import { Ids } from "./ids";
-import type { TurnUndeadType } from "./turn-level";
-import { Undead } from "./undead-creature";
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { SpellKeyword } from "../config/spells/keyword";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import type { TurnUndeadType } from "./undead/turn-level";
+import { Undead } from "./undead/undead-creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
 
 /**
  * How a vampire dominates its victims: younger vampires must meet their eyes, ancient and eminent
@@ -304,6 +306,7 @@ function domination(cre: Undead, domination: VampireAge["domination"]) {
 
 /** Rounds a bat swarm stays, and how often it strikes the creatures caught in it. */
 const BAT_SWARM_ROUNDS = 5;
+
 const BAT_SWARM_PULSE = 15; // 1 second, in frames
 
 /**
@@ -754,7 +757,7 @@ function mistForm(cre: Undead, age: VampireAge, trait: Item): PartialCustomCode 
   };
 }
 
-function vampire(family: UndeadFamily, age: VampireAge): Undead {
+function vampire(family: CreatureEntry<Undead>, age: VampireAge): Undead {
   const cre = family.create({
     monster: age.monster,
     name: age.name,
@@ -839,10 +842,27 @@ function vampire(family: UndeadFamily, age: VampireAge): Undead {
   return cre;
 }
 
-export const fledglingVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[0]);
-export const matureVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[1]);
-export const oldVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[2]);
-export const veryOldVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[3]);
-export const ancientVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[4]);
-export const eminentVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[5]);
-export const patriarchVampire = (family: UndeadFamily) => vampire(family, VAMPIRE_AGES[6]);
+export const fledglingVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[0]);
+
+export const matureVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[1]);
+
+export const oldVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[2]);
+
+export const veryOldVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[3]);
+
+export const ancientVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[4]);
+
+export const eminentVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[5]);
+
+export const patriarchVampire = (family: CreatureEntry<Undead>) => vampire(family, VAMPIRE_AGES[6]);
+
+export const createVampireEntry = () =>
+  new UndeadEntry(EntryEnum.Vampire, [
+    fledglingVampire,
+    matureVampire,
+    oldVampire,
+    veryOldVampire,
+    ancientVampire,
+    eminentVampire,
+    patriarchVampire,
+  ]);

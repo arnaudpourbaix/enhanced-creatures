@@ -1,19 +1,14 @@
-import { NEW_CREATURES } from "../../config/creatures";
-import { SPELLS } from "../../config/spells/spell-database";
-import { CommonTargetLists } from "../../config/target/common";
-import { CommonProjectileFiles } from "../../spells/projectiles";
-import effectFactory from "../../src/factories/effect.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
-import { ScriptTarget } from "../../src/model/constants";
-import { Variant } from "../../src/model/creature/variant";
-import { Durations } from "../../src/model/game-data/durations";
-import { Triggers } from "../../src/model/script/triggers";
-import {
-  BaseEffect,
-  CastSpellEffect,
-  DiseaseEffect,
-  Effect,
-} from "../../src/model/spell-item/effect";
+import { NEW_CREATURES } from "../config/creatures";
+import { SPELLS } from "../config/spells/spell-database";
+import { CommonTargetLists } from "../config/target/common";
+import { CommonProjectileFiles } from "../spells/projectiles";
+import effectFactory from "../src/factories/effect.factory";
+import triggerFactory from "../src/factories/trigger.factory";
+import { ScriptTarget } from "../src/model/constants";
+import { Variant } from "../src/model/creature/variant";
+import { Durations } from "../src/model/game-data/durations";
+import { Triggers } from "../src/model/script/triggers";
+import { BaseEffect, CastSpellEffect, DiseaseEffect, Effect } from "../src/model/spell-item/effect";
 import {
   DiseaseTypeEnum,
   EffectBonusToEnum,
@@ -32,14 +27,16 @@ import {
   SaveTypeEnum,
   SpellTypeEnum,
   SummonCreatureModeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { PartialSpellHeader } from "../../src/model/spell-item/spell-item";
-import targetService from "../../src/services/baf/target.service";
-import { MonsterEnum } from "../monster";
-import type { UndeadFamily } from "./family";
-import { Ids } from "./ids";
-import { Undead } from "./undead-creature";
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { PartialSpellHeader } from "../src/model/spell-item/spell-item";
+import targetService from "../src/services/baf/target.service";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import { Undead } from "./undead/undead-creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
 
 function zombieDisease(cre: Undead) {
   const duration = Durations.day;
@@ -555,88 +552,7 @@ function createOdorOfDeathDeath(cre: Undead) {
   });
 }
 
-function wightTouch(cre: Undead) {
-  return cre.addSpell({
-    name: "monster.undead.ability.wightTouch.name",
-    description: "monster.undead.ability.wightTouch.description",
-    id: Ids.WightTouch,
-    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    keywords: ["levelDrain"],
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Melee,
-        range: 5,
-        effects: [
-          ...effectFactory.levelDrain({
-            levels: 1,
-          }),
-        ],
-      },
-    ],
-  });
-}
-
-export function wight(family: UndeadFamily): Undead {
-  const wight = family.create({
-    monster: MonsterEnum.Wight,
-    name: "monster.undead.name.wight",
-    files: [],
-    data: {
-      level1: 4,
-      bonusHp: 3,
-      strength: 15,
-      dexterity: 14,
-      constitution: 9,
-      intelligence: 9,
-      wisdom: 13,
-      charisma: 15,
-      ac: 5,
-      apr: 1,
-      xpv: 1400,
-      alignment: "LAWFUL_EVIL",
-      morale: 14,
-      general: "UNDEAD",
-      race: "ZOMBIE",
-      class: "WIGHT",
-      gender: "NIETHER",
-      size: { value: "Medium", tall: true, long: false },
-      movement: 12,
-      immunities: ["undead"],
-      items: {
-        remove: ["wight", "bdwight", "ring95", "immune1"],
-      },
-    },
-  });
-  wightTouch(wight);
-  wight.createClaws({
-    diceThrown: 1,
-    diceSize: 4,
-    castSpell: {
-      spell: family.spell(Ids.WightTouch).file,
-    },
-  });
-  wight.addTrait({
-    immunities: ["cold", "nonSilverNonMagicalWeapons"],
-  });
-  wight.setAdjustments([
-    {
-      files: ["BDWIGHT3"],
-      data: {
-        level1: 7,
-      },
-      noWeapon: true,
-    },
-    {
-      files: ["NEVM1"],
-      data: {
-        animation: "WIGHT_GRAY",
-      },
-    },
-  ]);
-  return wight;
-}
-
-export function zombie(family: UndeadFamily): Undead {
+export function zombie(family: CreatureEntry<Undead>): Undead {
   const zombie = family.create({
     monster: MonsterEnum.Zombie,
     name: "monster.undead.name.zombie",
@@ -685,7 +601,7 @@ export function zombie(family: UndeadFamily): Undead {
   return zombie;
 }
 
-export function jujuZombie(family: UndeadFamily): Undead {
+export function jujuZombie(family: CreatureEntry<Undead>): Undead {
   const juju = family.createFrom({
     name: "monster.undead.name.zombieJuju",
     monster: MonsterEnum.ZombieJuju,
@@ -737,7 +653,7 @@ export function jujuZombie(family: UndeadFamily): Undead {
   return juju;
 }
 
-export function zombieLord(family: UndeadFamily): Undead {
+export function zombieLord(family: CreatureEntry<Undead>): Undead {
   const lord = family.createFrom({
     name: "monster.undead.name.zombieLord",
     monster: MonsterEnum.ZombieLord,
@@ -767,7 +683,7 @@ export function zombieLord(family: UndeadFamily): Undead {
   return lord;
 }
 
-export function seaZombie(family: UndeadFamily): Undead {
+export function seaZombie(family: CreatureEntry<Undead>): Undead {
   const sea = family.createFrom({
     name: "monster.undead.name.zombieSea",
     monster: MonsterEnum.ZombieSea,
@@ -815,7 +731,7 @@ export function seaZombie(family: UndeadFamily): Undead {
   return sea;
 }
 
-function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
+function seaZombieLordVariant(base: Undead, family: CreatureEntry<Undead>): Variant {
   return base.variant("Sea Zombie Lord", {
     data: {
       level1: 6,
@@ -834,7 +750,7 @@ function seaZombieLordVariant(base: Undead, family: UndeadFamily): Variant {
   });
 }
 
-export function zombieMonster(family: UndeadFamily): Undead {
+export function zombieMonster(family: CreatureEntry<Undead>): Undead {
   const monster = family.createFrom({
     name: "monster.undead.name.zombieMonster",
     monster: MonsterEnum.ZombieMonster,
@@ -853,3 +769,6 @@ export function zombieMonster(family: UndeadFamily): Undead {
   });
   return monster;
 }
+
+export const createZombieEntry = () =>
+  new UndeadEntry(EntryEnum.Zombie, [zombie, zombieLord, jujuZombie, seaZombie]);

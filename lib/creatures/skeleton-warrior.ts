@@ -1,16 +1,18 @@
-import { createFearAura } from "../../spells/fear_aura";
-import { Variant } from "../../src/model/creature/variant";
-import { Durations } from "../../src/model/game-data/durations";
+import { createFearAura } from "../spells/fear_aura";
+import { Variant } from "../src/model/creature/variant";
+import { Durations } from "../src/model/game-data/durations";
 import {
   EffectStatisticModifierEnum,
   ProficiencyTypeEnum,
   SaveTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
-import type { UndeadFamily } from "./family";
-import { Ids } from "./ids";
-import { Undead } from "./undead-creature";
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import { Undead } from "./undead/undead-creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
 
 function fearAura(cre: Undead) {
   return cre.addSpell(
@@ -23,7 +25,7 @@ function fearAura(cre: Undead) {
   );
 }
 
-export function skeletonWarrior(family: UndeadFamily): Undead {
+export function skeletonWarrior(family: CreatureEntry<Undead>): Undead {
   const warrior = family.create({
     monster: MonsterEnum.SkeletonWarrior,
     name: "monster.undead.name.skeletonWarrior",
@@ -144,3 +146,6 @@ function greaterSkeletonWarriorVariant(base: Undead): Variant {
     ],
   });
 }
+
+export const createSkeletonWarriorEntry = () =>
+  new UndeadEntry(EntryEnum.SkeletonWarrior, [skeletonWarrior]);

@@ -1,7 +1,7 @@
 /**
- * Shared ability ids for the undead family. They live in one enum because
- * `family.spell(id)` / `family.ability(id)` search across every creature in the
- * family, so ids must stay unique family-wide.
+ * Ability ids of the undead entries, kept in the one enum of the former Undead family
+ * (`entry.spell(id)` / `entry.ability(id)` search across an entry's creatures, so ids must
+ * stay unique within an entry; one shared enum keeps them unique everywhere).
  */
 export enum Ids {
   AuraOfEvil,

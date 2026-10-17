@@ -1,7 +1,5 @@
 import { Family } from "../src/model/creature/family";
-import { createUndeads } from "./undead";
-
-export const familyFactories: (() => Family)[] = [createUndeads];
+export const familyFactories: (() => Family)[] = [];
 
 /*
 "SHOAL", // Shoal the Nereid

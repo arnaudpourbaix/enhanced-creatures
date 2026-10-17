@@ -14,8 +14,8 @@ import type { TurnUndeadType } from "./turn-level";
 
 /**
  * Shared weapon primitives for every undead creature. Creature-specific spells
- * and abilities live as plain functions in the per-sub-category files
- * (ghouls.ts, mummies.ts, skeletons.ts, spectral.ts, zombies.ts).
+ * and abilities live as plain functions in the undead entries' files
+ * (ghoul.ts, mummy.ts, skeleton/, ghost.ts, zombie.ts...).
  */
 export class Undead extends Creature {
   /** PnP "turned as" row, when harder to turn than the creature's own Hit Dice. */

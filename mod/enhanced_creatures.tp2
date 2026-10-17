@@ -22,7 +22,6 @@ BEGIN @999
 DESIGNATED 999
 REQUIRE_PREDICATE ENGINE_IS ~bgee bg2ee~ @100
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/common/common.tpa"
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
 

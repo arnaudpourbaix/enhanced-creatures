@@ -1,12 +1,12 @@
-import { SPELLS } from "../../config/spells/spell-database";
-import { NEW_SPELLS } from "../../config/spells/spells";
-import { createFearAura } from "../../spells/fear_aura";
-import { CommonProjectileFiles } from "../../spells/projectiles";
-import actionFactory from "../../src/factories/action.factory";
-import responseFactory from "../../src/factories/response.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
-import { Durations } from "../../src/model/game-data/durations";
-import { BaseEffect } from "../../src/model/spell-item/effect";
+import { SPELLS } from "../config/spells/spell-database";
+import { NEW_SPELLS } from "../config/spells/spells";
+import { createFearAura } from "../spells/fear_aura";
+import { CommonProjectileFiles } from "../spells/projectiles";
+import actionFactory from "../src/factories/action.factory";
+import responseFactory from "../src/factories/response.factory";
+import triggerFactory from "../src/factories/trigger.factory";
+import { Durations } from "../src/model/game-data/durations";
+import { BaseEffect } from "../src/model/spell-item/effect";
 import {
   EffectDamageTypeEnum,
   EffectDispelResistanceEnum,
@@ -25,14 +25,16 @@ import {
   SpellExclusionFlagEnum,
   SpellFlagEnum,
   SpellTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { ProjectileBehaviorEnum } from "../../src/model/spell-item/projectile";
-import { ScriptTarget } from "../../src/model/constants";
-import { MonsterEnum } from "../monster";
-import type { UndeadFamily } from "./family";
-import { Ids } from "./ids";
-import { Undead } from "./undead-creature";
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { ProjectileBehaviorEnum } from "../src/model/spell-item/projectile";
+import { ScriptTarget } from "../src/model/constants";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import { Undead } from "./undead/undead-creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
 
 function fearAura(cre: Undead) {
   return cre.addSpell(
@@ -189,7 +191,7 @@ const summonRemovedSpells = [
   SPELLS.Wizard.SymbolFear,
 ];
 
-export function deathKnight(family: UndeadFamily): Undead {
+export function deathKnight(family: CreatureEntry<Undead>): Undead {
   const knight = family.create({
     monster: MonsterEnum.DeathKnight,
     name: "monster.undead.name.deathKnight",
@@ -367,3 +369,5 @@ export function deathKnight(family: UndeadFamily): Undead {
   ]);
   return knight;
 }
+
+export const createDeathKnightEntry = () => new UndeadEntry(EntryEnum.DeathKnight, [deathKnight]);

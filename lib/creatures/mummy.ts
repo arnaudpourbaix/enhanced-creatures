@@ -3,12 +3,12 @@
  *
  * Shared weapon primitives live on `Undead` (undead-creature.ts); ability ids in ids.ts.
  */
-import effectFactory from "../../src/factories/effect.factory";
-import { SPELLS } from "../../config/spells/spell-database";
-import { CommonProjectileFiles } from "../../spells/projectiles";
-import { StringReference } from "../../src/model/final/stringref";
-import { Durations } from "../../src/model/game-data/durations";
-import { Effect } from "../../src/model/spell-item/effect";
+import effectFactory from "../src/factories/effect.factory";
+import { SPELLS } from "../config/spells/spell-database";
+import { CommonProjectileFiles } from "../spells/projectiles";
+import { StringReference } from "../src/model/final/stringref";
+import { Durations } from "../src/model/game-data/durations";
+import { Effect } from "../src/model/spell-item/effect";
 import {
   DiseaseTypeEnum,
   EffectCastSpellTypeEnum,
@@ -23,15 +23,17 @@ import {
   KillTargetDeathTypeEnum,
   PortraitIconEnum,
   SaveTypeEnum,
-} from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { PartialSpell } from "../../src/model/spell-item/spell-item";
-import { MonsterEnum } from "../monster";
-import { Ids } from "./ids";
-import type { UndeadFamily } from "./family";
-import { Undead } from "./undead-creature";
-import responseFactory from "../../src/factories/response.factory";
-import spellService from "../../src/services/spell.service";
+} from "../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { PartialSpell } from "../src/model/spell-item/spell-item";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import { Undead } from "./undead/undead-creature";
+import responseFactory from "../src/factories/response.factory";
+import spellService from "../src/services/spell.service";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
 
 function mummyRottingDisease(cre: Undead, greater: boolean) {
   // Mummy: PnP is 1-6 months, replaced by 6 days in the game
@@ -248,7 +250,7 @@ function mummyFearAuraTechnical(cre: Undead, saveBonus: number, excludeHumans: b
   return cre.addSpell(spell);
 }
 
-export function mummy(family: UndeadFamily): Undead {
+export function mummy(family: CreatureEntry<Undead>): Undead {
   const mummy = family.create({
     monster: MonsterEnum.Mummy,
     name: "monster.undead.name.mummy",
@@ -306,7 +308,7 @@ export function mummy(family: UndeadFamily): Undead {
   return mummy;
 }
 
-export function greaterMummy(family: UndeadFamily): Undead {
+export function greaterMummy(family: CreatureEntry<Undead>): Undead {
   // Age: 400-499
   const greater = family.create({
     monster: MonsterEnum.GreaterMummy,
@@ -432,3 +434,5 @@ export function greaterMummy(family: UndeadFamily): Undead {
   ]);
   return greater;
 }
+
+export const createMummyEntry = () => new UndeadEntry(EntryEnum.Mummy, [mummy, greaterMummy]);

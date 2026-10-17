@@ -1,3 +1,0 @@
-COPY ~%MOD_FOLDER%/lib/pnp-monster/undead/assets/jaaf0i00.bam~ ~override~  // Wall of Ice icon
-
-INCLUDE ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/main.tpa~

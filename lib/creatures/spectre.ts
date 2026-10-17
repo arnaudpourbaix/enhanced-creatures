@@ -1,0 +1,86 @@
+import effectFactory from "../src/factories/effect.factory";
+import {
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTypeEnum,
+} from "../src/model/spell-item/effect.enums";
+import { MonsterEnum } from "./monster";
+import { Ids } from "./undead/ids";
+import { Undead } from "./undead/undead-creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { EntryEnum } from "./entry";
+import { UndeadEntry } from "./undead/undead-entry";
+
+function specterTouch(cre: Undead) {
+  return cre.addSpell({
+    name: "monster.undead.ability.specterTouch.name",
+    description: "monster.undead.ability.specterTouch.description",
+    id: Ids.SpecterTouch,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 5,
+        effects: [
+          ...effectFactory.levelDrain({
+            levels: 2,
+          }),
+        ],
+      },
+    ],
+  });
+}
+
+export function spectre(family: CreatureEntry<Undead>): Undead {
+  const spectre = family.create({
+    monster: MonsterEnum.Spectre,
+    name: "monster.undead.name.spectre",
+    files: [],
+    data: {
+      level1: 7,
+      bonusHp: 3,
+      strength: 1,
+      dexterity: 14,
+      constitution: 9,
+      intelligence: 14,
+      wisdom: 10,
+      charisma: 11,
+      ac: 2,
+      apr: 1,
+      xpv: 3000,
+      alignment: "LAWFUL_EVIL",
+      morale: 15,
+      general: "UNDEAD",
+      race: "SPECTRE",
+      class: "SPECTRE",
+      gender: "NIETHER",
+      size: { value: "Medium", tall: true, long: false },
+      movement: 30, // 15, FI 30 (B)
+      immunities: ["undead"],
+      items: {
+        remove: ["RING95", "immune1", "SPECTR", "bdspirit", "GHOST"],
+      },
+      script: {
+        remove: ["DAO01"],
+      },
+    },
+  });
+  spectre.addTrait({
+    immunities: ["cold", "incorporeal"],
+  });
+  specterTouch(spectre);
+  spectre.createClaws({
+    diceThrown: 1,
+    diceSize: 8,
+    castSpell: {
+      spell: family.spell(Ids.SpecterTouch).file,
+    },
+  });
+  spectre.setAdjustments([
+    { files: ["SARSPIR", "L0MERCH", "L0SUMM5", "SPECTR01"], data: { level1: 10 } },
+    { files: ["SAHSPC01"], data: { level1: 10, xpv: 5000 } },
+  ]);
+  return spectre;
+}
+
+export const createSpectreEntry = () => new UndeadEntry(EntryEnum.Spectre, [spectre]);
