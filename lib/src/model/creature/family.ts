@@ -11,6 +11,7 @@ import { CreatureFile, Game } from "./game";
 import abilityService from "../../services/baf/ability.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
+import { toCode } from "../../services/utils/misc.func";
 
 /**
  * Collapse raw per-row creature file entries into one entry per (uppercased) name,
@@ -77,7 +78,7 @@ export abstract class CreatureFamily<T extends Creature>
     data: InputMainCreatureData;
     autoGenerate?: CreatureAutoGenerate;
   }): T {
-    logService.header(`Creating ${translationService.from(p.name)} (${p.monster.toString(16)})...`);
+    logService.header(`Creating ${translationService.from(p.name)} (${toCode(p.monster)})...`);
     const cre = this.createCreature(p.monster);
     cre.name = p.name;
     cre.family = this.id;
@@ -106,7 +107,7 @@ export abstract class CreatureFamily<T extends Creature>
     removeMemorized?: boolean;
   }): T {
     logService.header(
-      `Creating ${translationService.from(p.name)} (${p.monster.toString(16)}) from ${translationService.from(p.from.name)}...`,
+      `Creating ${translationService.from(p.name)} (${toCode(p.monster)}) from ${translationService.from(p.from.name)}...`,
     );
     const cre = structuredClone(p.from);
     Object.setPrototypeOf(cre, p.from);

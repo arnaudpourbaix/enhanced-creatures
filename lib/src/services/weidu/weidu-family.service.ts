@@ -8,6 +8,7 @@ import { Family } from "../../model/creature/family";
 import { CodeLine } from "../../model/misc";
 import { State } from "../../state";
 import translationService from "../translation.service";
+import { toCode } from "../utils/misc.func";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduItemService from "./weidu-item.service";
@@ -29,9 +30,7 @@ class WeiduFamilyService extends AbstractWeiduService {
     } else {
       fs.appendFileSync(
         file,
-        `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/${creature.id.toString(
-          16,
-        )}.tpa" // ${translationService.from(creature.name)}${CR}`,
+        `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/${toCode(creature.id)}.tpa" // ${translationService.from(creature.name)}${CR}`,
       );
     }
   }

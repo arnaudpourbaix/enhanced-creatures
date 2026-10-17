@@ -22,6 +22,7 @@ import immunityService from "../effects/immunity.service";
 import itemService from "../item.service";
 import logService from "../log.service";
 import translationService from "../translation.service";
+import { getResourceName, toCode } from "../utils/misc.func";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduEffectService from "./weidu-effect.service";
@@ -50,7 +51,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.patchCreatures(lines, 0, creature);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
     utils.writeFile(
-      `${utils.getFamilyFolder(creature.family)}/${creature.id.toString(16)}.tpa`,
+      `${utils.getFamilyFolder(creature.family)}/${toCode(creature.id)}.tpa`,
       content,
     );
     weiduFamilyService.createOrUpdateMainFile(creature.family, creature);
@@ -194,7 +195,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     // The whole per-file block (FILE_EXISTS_IN_GAME -> COPY_EXISTING -> body ->
     // BUT_ONLY_IF_IT_CHANGES) is emitted once as an action function; each per-game loop below just
     // calls it per file, rather than duplicating the ~200-line body once per game group.
-    const fn = `jam${creature.id.toString(16)}_patch`;
+    const fn = `jam${toCode(creature.id)}_patch`;
     this.add(lines, `DEFINE_ACTION_FUNCTION ${fn}`, tab);
     this.add(lines, `STR_VAR file = ~~`, tab);
     this.add(lines, `BEGIN`, tab);
@@ -843,7 +844,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const path = options.withPath ? `${utils.getFamilyFolder(creature.family)}/` : "";
     const ext = options.ext === true ? ".baf" : "";
-    const name = `jam${creature.id.toString(16)}${options.summon ? "su" : ""}${ext}`;
+    const name = `${getResourceName("b", "m", creature.id, options.summon ? 1 : 0)}${ext}`;
     return `${path}${name}`;
   }
 }

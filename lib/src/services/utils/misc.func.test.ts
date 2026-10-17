@@ -8,24 +8,30 @@ import {
 } from "./misc.func";
 
 describe("getSpellFilename", () => {
-  it("builds a jas<hex-num><type><hex-id> resref, defaulting to male", () => {
-    expect(getSpellFilename(4, 10)).toBe("jas4ma");
+  it("builds a jas<type><code-id><code-num> resref, defaulting to male", () => {
+    expect(getSpellFilename(4, 10)).toBe("jasm0a04");
   });
 
-  it("hex-encodes num and creatureId", () => {
-    expect(getSpellFilename(16, 255, "f")).toBe("jas10fff");
+  it("base-36 encodes num and creatureId", () => {
+    expect(getSpellFilename(16, 255, "f")).toBe("jasf730g");
+  });
+
+  it("names creature and family resources with codes", () => {
+    expect(getSpellFilename(0, 153)).toBe("jasm4900");
+    expect(getItemFilename(1, 153)).toBe("jaim4901");
+    expect(getProjectileFilename(2, 8, "f")).toBe("japf0802");
   });
 });
 
 describe("getItemFilename", () => {
   it("uses the 'i' file type prefix", () => {
-    expect(getItemFilename(1, 2)).toBe("jai1m2");
+    expect(getItemFilename(1, 2)).toBe("jaim0201");
   });
 });
 
 describe("getProjectileFilename", () => {
   it("uses the 'p' file type prefix", () => {
-    expect(getProjectileFilename(1, 2, "f")).toBe("jap1f2");
+    expect(getProjectileFilename(1, 2, "f")).toBe("japf0201");
   });
 });
 

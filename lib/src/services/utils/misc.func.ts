@@ -51,5 +51,5 @@ function getFilename(
   creatureType: "f" | "m",
   fileType: "s" | "i" | "p",
 ): string {
-  return `ja${fileType}${num.toString(16)}${creatureType}${creatureId.toString(16)}`;
+  return getResourceName(fileType, creatureType, creatureId, num);
 }

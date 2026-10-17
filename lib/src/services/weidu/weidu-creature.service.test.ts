@@ -57,7 +57,7 @@ function codes(lines: CodeLine[]): string[] {
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
 const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
 const END_ELSE_BEGIN = "END ELSE BEGIN";
-const SCRIPT_JAM1SU = "script=jam1su";
+const SCRIPT_JABM0101 = "script=jabm0101";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -569,7 +569,7 @@ describe("patchScripts (private)", () => {
     const lines: CodeLine[] = [];
     service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
     const out = codes(lines);
-    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(true);
     expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
   });
 
@@ -588,9 +588,9 @@ describe("patchScripts (private)", () => {
     expect(elseIdx).toBeGreaterThan(guardIdx);
     // summon script under the guard, normal script under ELSE
     const summonIdx = out.findIndex(
-      (c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU),
+      (c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JABM0101),
     );
-    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
+    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jabm0100 "));
     expect(summonIdx).toBeGreaterThan(guardIdx);
     expect(normalIdx).toBeGreaterThan(elseIdx);
   });
@@ -604,13 +604,13 @@ describe("patchScripts (private)", () => {
     ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
-    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(true);
     expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
     expect(out.some((c) => c === END_ELSE_BEGIN)).toBe(false);
-    // BDANKHSU is only ever skipped by the base jam1 assignment, never re-assigned jam1
+    // BDANKHSU is only ever skipped by the base jabm0100 assignment, never re-assigned jabm0100
     expect(out).toContain("PATCH_DEFINE_ARRAY skipFiles BEGIN BDANKHSU END");
-    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JAM1SU));
-    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jam1 "))).toBe(false);
+    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JABM0101));
+    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jabm0100 "))).toBe(false);
   });
 
   it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
