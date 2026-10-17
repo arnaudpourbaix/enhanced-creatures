@@ -7,8 +7,14 @@ import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
 import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
 import { familyFactories } from "../../creatures";
+import { entryFactories } from "../../creatures/entries";
+import { KinEnum } from "../../creatures/kin";
+import { kinFactories } from "../../creatures/kins";
 import { MonsterFamilyEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
+import { CreatureEntry } from "../model/creature/entry";
+import { Family } from "../model/creature/family";
+import { CreatureKin } from "../model/creature/kin";
 import { SpellBookModVariant, spellBookVariants } from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
@@ -25,6 +31,8 @@ import weiduCoreService from "./weidu/weidu-core.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
 import weiduFamilyService from "./weidu/weidu-family.service";
 import weiduFunctionService from "./weidu/weidu-function.service";
+import weiduIndexService from "./weidu/weidu-index.service";
+import utils from "./utils/utils.service";
 
 class MainService {
   generateCreatures() {
@@ -33,28 +41,80 @@ class MainService {
     for (const factory of familyFactories) {
       // Deferred per family so each creature's generation output (errors included) joins its own
       // "Creating ..." section, instead of trailing under the family's last created creature.
-      logService.beginDeferred();
-      try {
+      this.deferred(() => {
         this.generateFamily(factory, families);
-      } finally {
-        logService.flushSections();
-      }
+      });
     }
+    this.generateKinsAndEntries();
     documentationService.generate();
     homeService.generate();
   }
 
+  private deferred(generate: () => void) {
+    logService.beginDeferred();
+    try {
+      generate();
+    } finally {
+      logService.flushSections();
+    }
+  }
+
   private generateFamily(factory: (typeof familyFactories)[number], families: MonsterFamilyEnum[]) {
     const family = factory();
-    descriptionService.generateCreatureSpells(family.spells);
-    descriptionService.generateCreatureItems(family.items);
     if (families.includes(family.id)) {
       throw new Error(`Family '${MonsterFamilyEnum[family.id]}' already declared`);
     }
     families.push(family.id);
-    weiduFamilyService.createOrUpdateMainFile(family.id);
-    weiduFamilyService.generateFamilyData(family);
-    for (const creature of family.creatures) {
+    this.generateGroup(family, utils.getFamilyFolder(family.id));
+  }
+
+  /**
+   * Builds and generates every kin, then every entry (each given the built kins), in registry
+   * order, then the pnp-monster index that installs them in that order.
+   */
+  generateKinsAndEntries(
+    kins: readonly (() => CreatureKin)[] = kinFactories,
+    entries: readonly ((
+      kins: Map<KinEnum, CreatureKin>,
+    ) => CreatureEntry<Creature>)[] = entryFactories,
+  ) {
+    const generated = new Set<string>();
+    const claim = (folder: string) => {
+      if (generated.has(folder)) throw new Error(`Folder '${folder}' already generated`);
+      generated.add(folder);
+    };
+    const builtKins = new Map<KinEnum, CreatureKin>();
+    for (const factory of kins) {
+      this.deferred(() => {
+        const kin = factory();
+        claim(kin.folder);
+        builtKins.set(kin.id, kin);
+        const { id, items, spells, projectiles } = kin;
+        this.generateGroup({ id, items, spells, projectiles, creatures: [] }, kin.folder);
+      });
+    }
+    const builtEntries: CreatureEntry<Creature>[] = [];
+    for (const factory of entries) {
+      this.deferred(() => {
+        const entry = factory(builtKins);
+        claim(entry.folder);
+        builtEntries.push(entry);
+        this.generateGroup(entry, entry.folder);
+      });
+    }
+    weiduIndexService.generate(
+      [...builtKins.keys()],
+      builtEntries.map((e) => ({ id: e.id, kin: e.kin?.id })),
+    );
+  }
+
+  // One family, entry or kin: its own resources and main.tpa, then each creature's files.
+  private generateGroup(group: Family, folder: string) {
+    descriptionService.generateCreatureSpells(group.spells);
+    descriptionService.generateCreatureItems(group.items);
+    weiduFamilyService.createOrUpdateMainFile(folder);
+    weiduFamilyService.generateFamilyData(group, folder);
+    for (const creature of group.creatures) {
       logService.withSection(
         creature,
         `Generating ${translationService.from(creature.name)}...`,
@@ -63,8 +123,8 @@ class MainService {
         },
       );
     }
-    weiduFamilyService.generateFinalCode(family);
-    documentationService.addFamily(family);
+    weiduFamilyService.generateFinalCode(group, folder);
+    documentationService.addFamily(group);
   }
 
   generateCreature(creature: Creature) {

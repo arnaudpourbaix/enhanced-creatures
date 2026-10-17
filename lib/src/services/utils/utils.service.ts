@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import path from "path";
 import { SpellGroupName } from "../../../config/spells/spell-group-name";
+import { ENTRY_FOLDERS, EntryEnum } from "../../../creatures/entry";
+import { KIN_FOLDERS, KinEnum } from "../../../creatures/kin";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
@@ -167,6 +169,21 @@ class UtilsService {
 
   getFamilyFolder(family: MonsterFamilyEnum): string {
     return `lib/pnp-monster/${MonsterFamilyEnum[family].toLowerCase()}`;
+  }
+
+  getEntryFolder(entry: EntryEnum): string {
+    return `lib/pnp-monster/${ENTRY_FOLDERS[entry]}`;
+  }
+
+  getKinFolder(kin: KinEnum): string {
+    return `lib/pnp-monster/kin/${KIN_FOLDERS[kin]}`;
+  }
+
+  /** Mod-relative folder a creature's generated files go to: its entry's, else its family's. */
+  getCreatureFolder(creature: { folder?: string; family?: MonsterFamilyEnum }): string {
+    if (creature.folder !== undefined) return creature.folder;
+    if (creature.family === undefined) throw new Error("Creature has neither folder nor family");
+    return this.getFamilyFolder(creature.family);
   }
 
   getIdsFileFromSpellProtectionStat(stat: SpellProtectionStat): string {

@@ -21,7 +21,7 @@ import weiduCreatureService from "../weidu/weidu-creature.service";
 
 class BafGeneratorService {
   generate(creature: Creature): void {
-    const folder = utils.getFamilyFolder(creature.family);
+    const folder = utils.getCreatureFolder(creature);
     utils.writeFile(
       path.join(folder, weiduCreatureService.getScriptName(creature, { ext: true })),
       this.buildContent(creature, { summon: false }),

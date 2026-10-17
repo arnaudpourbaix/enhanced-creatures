@@ -6,7 +6,7 @@ import { NEW_CREATURES } from "../../config/creatures";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { CommonProjectileFiles } from "../../spells/projectiles";
 
-const SCHEME = /^ja[sipbcav][mfec][0-9a-z]{4}$/;
+const SCHEME = /^ja[sipbcav][mfekc][0-9a-z]{4}$/;
 // Not resource names: "ja_wilderness" is a game area/state name, "jaws" is a natural weapon kind.
 const ALLOW = new Set(["ja_wilderness", "jaws"]);
 const REPO_ROOT = path.resolve(__dirname, "../../..");

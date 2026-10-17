@@ -1,5 +1,15 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { EntryEnum } from "../../creatures/entry";
+import { KinEnum } from "../../creatures/kin";
+import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
+import { CreatureEntry } from "../model/creature/entry";
+import { CreatureKin } from "../model/creature/kin";
+import { State } from "../state";
+import documentationService from "./doc/documentation.service";
 import bafGeneratorService from "./baf/baf-generator.service";
 import logService from "./log.service";
 import mainService from "./main.service";
@@ -116,5 +126,74 @@ describe("generateAll", () => {
     vi.spyOn(logService, "hasErrors").mockReturnValue(true);
 
     await expect(mainService.generateAll()).rejects.toThrow(/finished with errors/);
+  });
+});
+
+describe("generateKinsAndEntries", () => {
+  class FakeKin extends CreatureKin {}
+  class FakeEntry extends CreatureEntry<Creature> {
+    createCreature(id: MonsterEnum): Creature {
+      return new Creature(id);
+    }
+  }
+  let tempDir: string;
+  let originalModFolder: string;
+
+  beforeEach(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "ec-main-"));
+    originalModFolder = State.modFolder;
+    State.modFolder = tempDir;
+    vi.spyOn(logService, "header").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    State.modFolder = originalModFolder;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  const read = (file: string) =>
+    fs.readFileSync(path.join(tempDir, "lib/pnp-monster", file), "utf-8");
+
+  it("generates kins, then entries given the kins, then the index", () => {
+    const addFamily = vi.spyOn(documentationService, "addFamily").mockImplementation(() => {});
+    let received: Map<KinEnum, CreatureKin> | undefined;
+    mainService.generateKinsAndEntries(
+      [() => new FakeKin(KinEnum.Fey)],
+      [
+        () => new FakeEntry(EntryEnum.Vampire),
+        (kins) => {
+          received = kins;
+          return new FakeEntry(EntryEnum.Dryad, kins.get(KinEnum.Fey));
+        },
+      ],
+    );
+    expect(received?.get(KinEnum.Fey)?.id).toBe(KinEnum.Fey);
+    for (const folder of ["kin/fey", "vampire", "dryad"])
+      expect(read(`${folder}/main.tpa`)).toBe("LAM load_secondary_types\r\n");
+    expect(read("index.tpa").split("\r\n")).toEqual([
+      'INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/fey/main.tpa"',
+      'INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/main.tpa"',
+      'INCLUDE "%MOD_FOLDER%/lib/pnp-monster/dryad/main.tpa"',
+      "",
+    ]);
+    expect(JSON.parse(read("index.json"))).toEqual({ vampire: null, dryad: "fey" });
+    // Entries' creatures are documented like families'.
+    const documented = addFamily.mock.calls.map(([group]) => group.id);
+    expect(documented).toEqual([KinEnum.Fey, EntryEnum.Vampire, EntryEnum.Dryad]);
+  });
+
+  it("throws on an entry declared twice", () => {
+    expect(() => {
+      mainService.generateKinsAndEntries(
+        [],
+        [() => new FakeEntry(EntryEnum.Vampire), () => new FakeEntry(EntryEnum.Vampire)],
+      );
+    }).toThrow(/lib\/pnp-monster\/vampire' already generated/);
+  });
+
+  it("writes an empty index with the real (empty) registries", () => {
+    mainService.generateKinsAndEntries();
+    expect(read("index.tpa")).toBe("");
+    expect(JSON.parse(read("index.json"))).toEqual({});
   });
 });

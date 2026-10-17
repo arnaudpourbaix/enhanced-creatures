@@ -150,13 +150,13 @@ class CreatureFactory {
       );
   }
 
-  validate(creature: Creature, family: MonsterFamilyEnum) {
+  validate(creature: Creature, family?: MonsterFamilyEnum) {
     let valid = true;
     if (State.creatures.some((c) => c.id === creature.id)) {
       throw new Error(`Monster '${MonsterEnum[creature.id]}' already declared`);
     }
     if (creature.family !== family) {
-      logService.warn(`Family doesn't match: ${creature.family} <-> ${family}`);
+      logService.warn(`Family doesn't match: ${String(creature.family)} <-> ${String(family)}`);
       valid = false;
     }
     const hasFiles = creature.files.length > 0;

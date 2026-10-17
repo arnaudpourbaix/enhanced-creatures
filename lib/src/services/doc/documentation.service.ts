@@ -143,9 +143,10 @@ class DocumentationService {
     }
   }
 
+  /** The creatures of a family or entry (a kin has none). */
   addFamily(family: Family) {
     for (const creature of family.creatures) {
-      // A creature whose builder threw after create() (see CreatureFamily.addCreature()) is left
+      // A creature whose builder threw after create() (see CreatureGroup.addCreature()) is left
       // in family.creatures with valid=false and never reached Creature.validate(), so fields
       // like creature.attack are still unset - skip it here rather than crash the whole
       // documentation pass on one bad creature.

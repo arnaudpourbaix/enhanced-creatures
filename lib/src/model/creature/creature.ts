@@ -7,6 +7,7 @@ import targetService from "../../services/baf/target.service";
 import grabService from "../../services/effects/grab.service";
 import translationService from "../../services/translation.service";
 import logService from "../../services/log.service";
+import { ResourceScope } from "../../services/utils/misc.func";
 import utils from "../../services/utils/utils.service";
 import { ImmunityName } from "../final/immunity";
 import { StringReference } from "../final/stringref";
@@ -78,15 +79,24 @@ export interface BaseCreature {
 }
 
 export class Creature extends AbstractCreature implements BaseCreature {
-  fileType: "m" | "f" = "m";
+  fileType: ResourceScope = "m";
   /**
    * Will produce usefull WEIDU logs (false by default)
    */
   logging!: boolean;
   name!: TranslationKey;
-  family!: MonsterFamilyEnum;
-  /** Monster entry this creature is a version of (docs grouping); unset = its own entry. */
+  /** Set by the CreatureFamily that built it; unset for a creature built by a CreatureEntry. */
+  family?: MonsterFamilyEnum;
+  /**
+   * Monster entry this creature is a version of (docs grouping); unset = its own entry. Set by
+   * CreatureFamily.addEntry, and by CreatureEntry for every member.
+   */
   entry?: EntryEnum;
+  /**
+   * Mod-relative folder its generated files go to (`lib/pnp-monster/<entry>`), set by the
+   * CreatureEntry that built it; unset = its family's folder (see utils.getCreatureFolder).
+   */
+  folder?: string;
   data!: MainCreatureData;
   behavior!: CreatureBehavior;
   attack!: CreatureAttack;
@@ -315,7 +325,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
     return item;
   }
 
-  validate(family: MonsterFamilyEnum) {
+  /** `family`: the family that built it, undefined when built by a CreatureEntry. */
+  validate(family?: MonsterFamilyEnum) {
     creatureFactory.validate(this, family);
   }
 }

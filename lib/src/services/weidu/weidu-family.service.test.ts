@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { EntryEnum } from "../../../creatures/entry";
+import { KinEnum } from "../../../creatures/kin";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { Creature } from "../../model/creature/creature";
@@ -9,7 +11,10 @@ import { Family } from "../../model/creature/family";
 import { Spell } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import logService from "../log.service";
+import utils from "../utils/utils.service";
 import weiduFamilyService from "./weidu-family.service";
+
+const ANKHEG = utils.getFamilyFolder(MonsterFamilyEnum.Ankheg);
 
 function fakeFamily(p: {
   spellHasSecondaryType?: boolean;
@@ -47,7 +52,7 @@ describe("generateFinalCode", () => {
 
   it("does not emit integrate_sectypes when enableIntegrateSectypes is disabled (default), even if a secondary type is present", () => {
     const file = setupTempFamilyFolder();
-    weiduFamilyService.generateFinalCode(fakeFamily({ spellHasSecondaryType: true }));
+    weiduFamilyService.generateFinalCode(fakeFamily({ spellHasSecondaryType: true }), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");
     expect(content).not.toContain("integrate_sectypes");
   });
@@ -55,7 +60,7 @@ describe("generateFinalCode", () => {
   it("emits integrate_sectypes when enableIntegrateSectypes is enabled and a family spell has a secondary type", () => {
     GLOBAL_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFamilyFolder();
-    weiduFamilyService.generateFinalCode(fakeFamily({ spellHasSecondaryType: true }));
+    weiduFamilyService.generateFinalCode(fakeFamily({ spellHasSecondaryType: true }), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");
     expect(content).toContain("LAF integrate_sectypes END");
   });
@@ -63,7 +68,10 @@ describe("generateFinalCode", () => {
   it("emits integrate_sectypes when enableIntegrateSectypes is enabled and a creature spell has a secondary type", () => {
     GLOBAL_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFamilyFolder();
-    weiduFamilyService.generateFinalCode(fakeFamily({ creatureSpellHasSecondaryType: true }));
+    weiduFamilyService.generateFinalCode(
+      fakeFamily({ creatureSpellHasSecondaryType: true }),
+      ANKHEG,
+    );
     const content = fs.readFileSync(file, "utf-8");
     expect(content).toContain("LAF integrate_sectypes END");
   });
@@ -71,7 +79,7 @@ describe("generateFinalCode", () => {
   it("does not emit integrate_sectypes when enabled but no spell has a secondary type", () => {
     GLOBAL_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFamilyFolder();
-    weiduFamilyService.generateFinalCode(fakeFamily({}));
+    weiduFamilyService.generateFinalCode(fakeFamily({}), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");
     expect(content).not.toContain("integrate_sectypes");
   });
@@ -101,7 +109,7 @@ describe("createOrUpdateMainFile", () => {
     fs.mkdirSync(assets);
     for (const f of ["L#XZEANK.BAF", "ankhegb.baf", "jaaf0i00.bam"])
       fs.writeFileSync(path.join(assets, f), "");
-    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    weiduFamilyService.createOrUpdateMainFile(ANKHEG);
     const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
     expect(content).toBe(
       [
@@ -119,7 +127,7 @@ describe("createOrUpdateMainFile", () => {
 
   it("emits no compile code without an assets folder", () => {
     const familyFolder = setupTempFamilyFolder();
-    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    weiduFamilyService.createOrUpdateMainFile(ANKHEG);
     const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
     expect(content).toBe("LAM load_secondary_types\r\n");
   });
@@ -141,7 +149,7 @@ describe("createOrUpdateMainFile", () => {
     fs.writeFileSync(path.join(commonFolder, "core.tpa"), "x");
 
     const info = vi.spyOn(logService, "info").mockImplementation(() => {});
-    weiduFamilyService.cleanFamilyFolder(MonsterFamilyEnum.Ankheg);
+    weiduFamilyService.cleanFolder(ANKHEG);
 
     expect(info).toHaveBeenCalledTimes(1);
     expect(info).toHaveBeenCalledWith("Cleaned 3 generated files in lib/pnp-monster/ankheg");
@@ -157,7 +165,25 @@ describe("createOrUpdateMainFile", () => {
   it("cleans the family folder when a family starts", () => {
     const familyFolder = setupTempFamilyFolder();
     fs.writeFileSync(path.join(familyFolder, "29.tpa"), "x");
-    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    weiduFamilyService.createOrUpdateMainFile(ANKHEG);
     expect(fs.readdirSync(familyFolder)).toEqual(["main.tpa"]);
+  });
+
+  it("works the same on an entry or kin folder: cleans it and includes its common.tpa", () => {
+    setupTempFamilyFolder();
+    for (const folder of [
+      utils.getEntryFolder(EntryEnum.ClayGolem),
+      utils.getKinFolder(KinEnum.Fey),
+    ]) {
+      const full = path.join(tempDir, folder);
+      fs.mkdirSync(full, { recursive: true });
+      fs.writeFileSync(path.join(full, "common.tpa"), "x");
+      fs.writeFileSync(path.join(full, "jabm1801.baf"), "x");
+      weiduFamilyService.createOrUpdateMainFile(folder);
+      expect(fs.readdirSync(full).sort()).toEqual(["common.tpa", "main.tpa"]);
+      expect(fs.readFileSync(path.join(full, "main.tpa"), "utf-8")).toBe(
+        `LAM load_secondary_types\r\nINCLUDE "%MOD_FOLDER%/${folder}/common.tpa"\r\n`,
+      );
+    }
   });
 });

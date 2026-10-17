@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { describe, expect, it } from "vitest";
+import { EntryEnum } from "../../../creatures/entry";
+import { KinEnum } from "../../../creatures/kin";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { Spell } from "../../model/spell-item/spell-item";
@@ -469,5 +471,20 @@ describe("writeFile", () => {
       State.modFolder = originalModFolder;
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
+  });
+});
+
+describe("entry, kin and creature folders", () => {
+  it("places entries under pnp-monster and kins under pnp-monster/kin", () => {
+    expect(utils.getEntryFolder(EntryEnum.ClayGolem)).toBe("lib/pnp-monster/clay-golem");
+    expect(utils.getKinFolder(KinEnum.Fey)).toBe("lib/pnp-monster/kin/fey");
+  });
+
+  it("uses a creature's entry folder, else its family's", () => {
+    expect(utils.getCreatureFolder({ folder: "lib/pnp-monster/dryad" })).toBe(
+      "lib/pnp-monster/dryad",
+    );
+    expect(utils.getCreatureFolder({ family: MonsterFamilyEnum.Fey })).toBe("lib/pnp-monster/fey");
+    expect(() => utils.getCreatureFolder({})).toThrow(/neither folder nor family/);
   });
 });

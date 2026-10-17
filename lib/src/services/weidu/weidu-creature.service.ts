@@ -50,11 +50,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     }
     this.patchCreatures(lines, 0, creature);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    utils.writeFile(
-      `${utils.getFamilyFolder(creature.family)}/${toCode(creature.id)}.tpa`,
-      content,
-    );
-    weiduFamilyService.createOrUpdateMainFile(creature.family, creature);
+    utils.writeFile(`${utils.getCreatureFolder(creature)}/${toCode(creature.id)}.tpa`, content);
+    weiduFamilyService.createOrUpdateMainFile(utils.getCreatureFolder(creature), creature);
   }
 
   private handleScriptEdits(lines: CodeLine[], creature: Creature) {
@@ -165,7 +162,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const copy = entry.copyFromExisting
       ? `COPY_EXISTING ~${entry.copyFromExisting}.cre~`
-      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/assets/${entry.copyFrom ?? ""}.cre~`;
+      : `COPY ~%MOD_FOLDER%/${utils.getCreatureFolder(creature)}/assets/${entry.copyFrom ?? ""}.cre~`;
     this.add(lines, `${copy} ~override/${file}.cre~`, tab);
     if (entry.stringRef) {
       this.writeName(lines, tab, entry.stringRef);
@@ -842,7 +839,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     creature: Creature,
     options: { withPath?: boolean; summon?: boolean; ext?: boolean },
   ) {
-    const path = options.withPath ? `${utils.getFamilyFolder(creature.family)}/` : "";
+    const path = options.withPath ? `${utils.getCreatureFolder(creature)}/` : "";
     const ext = options.ext === true ? ".baf" : "";
     const name = `${getResourceName("b", "m", creature.id, options.summon ? 1 : 0)}${ext}`;
     return `${path}${name}`;

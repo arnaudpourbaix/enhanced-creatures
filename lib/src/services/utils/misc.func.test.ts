@@ -58,6 +58,8 @@ describe("getResourceName", () => {
     expect(getResourceName("b", "m", 153, 1)).toBe("jabm4901");
     expect(getResourceName("s", "f", 8, 3)).toBe("jasf0803");
     expect(getResourceName("i", "c", 0, 19)).toBe("jaic000j");
+    expect(getResourceName("s", "k", 5, 0)).toBe("jask0500");
+    expect(getResourceName("p", "e", 1, 0)).toBe("jape0100");
   });
   it("throws when owner or counter exceeds zz", () => {
     expect(() => getResourceName("s", "m", 1296, 0)).toThrow();

@@ -1,5 +1,5 @@
 export type ResourceKind = "s" | "i" | "p" | "b" | "c" | "a" | "v";
-export type ResourceScope = "m" | "f" | "e" | "c";
+export type ResourceScope = "m" | "f" | "e" | "k" | "c";
 
 const MAX_CODE = 36 * 36 - 1;
 
@@ -24,7 +24,7 @@ export function getResourceName(
 export function getSpellFilename(
   num: number,
   creatureId: number,
-  creatureType: "f" | "m" = "m",
+  creatureType: ResourceScope = "m",
 ): string {
   return getFilename(num, creatureId, creatureType, "s");
 }
@@ -32,7 +32,7 @@ export function getSpellFilename(
 export function getItemFilename(
   num: number,
   creatureId: number,
-  creatureType: "f" | "m" = "m",
+  creatureType: ResourceScope = "m",
 ): string {
   return getFilename(num, creatureId, creatureType, "i");
 }
@@ -40,7 +40,7 @@ export function getItemFilename(
 export function getProjectileFilename(
   num: number,
   creatureId: number,
-  creatureType: "f" | "m" = "m",
+  creatureType: ResourceScope = "m",
 ): string {
   return getFilename(num, creatureId, creatureType, "p");
 }
@@ -48,7 +48,7 @@ export function getProjectileFilename(
 function getFilename(
   num: number,
   creatureId: number,
-  creatureType: "f" | "m",
+  creatureType: ResourceScope,
   fileType: "s" | "i" | "p",
 ): string {
   return getResourceName(fileType, creatureType, creatureId, num);

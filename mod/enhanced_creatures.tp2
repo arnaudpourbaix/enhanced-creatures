@@ -41,6 +41,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/minotaur/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ettercap/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/wyvern/main.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/undead/main.tpa"
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/index.tpa"
 // INCLUDE "%MOD_FOLDER%/lib/pnp-spell/woodland_beings/main.tpa"
 
 // Core monsters (required)

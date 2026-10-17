@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import path from "path";
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { CR, TAB } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
@@ -16,51 +15,54 @@ import weiduItemService from "./weidu-item.service";
 import weiduProjectileService from "./weidu-projectile.service";
 import weiduSpellService from "./weidu-spell.service";
 
+/**
+ * Writes the main.tpa of a family, entry or kin folder (`folder`: mod-relative, e.g.
+ * `lib/pnp-monster/ankheg`, `lib/pnp-monster/clay-golem`, `lib/pnp-monster/kin/fey`).
+ */
 class WeiduFamilyService extends AbstractWeiduService {
-  createOrUpdateMainFile(family: MonsterFamilyEnum, creature?: Creature) {
-    const file = this.getMainFilename(family);
+  createOrUpdateMainFile(folder: string, creature?: Creature) {
+    const file = this.getMainFilename(folder);
     if (!creature) {
-      this.cleanFamilyFolder(family);
+      this.cleanFolder(folder);
       let content = `LAM load_secondary_types${CR}`;
-      const commonFile = path.join(State.modFolder, `${utils.getFamilyFolder(family)}/common.tpa`);
+      const commonFile = path.join(State.modFolder, `${folder}/common.tpa`);
       if (fs.existsSync(commonFile)) {
-        content += `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/common.tpa"${CR}`;
+        content += `INCLUDE "%MOD_FOLDER%/${folder}/common.tpa"${CR}`;
       }
-      content += this.compileAssetScripts(family);
+      content += this.compileAssetScripts(folder);
       if (fs.existsSync(file)) fs.rmSync(file);
       utils.writeFile(file, content);
     } else {
       fs.appendFileSync(
         file,
-        `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/${toCode(creature.id)}.tpa" // ${translationService.from(creature.name)}${CR}`,
+        `INCLUDE "%MOD_FOLDER%/${folder}/${toCode(creature.id)}.tpa" // ${translationService.from(creature.name)}${CR}`,
       );
     }
   }
 
-  // Deletes what generation writes at the family folder root (creature .tpa, main.tpa,
-  // creature .baf), so renamed or removed creatures leave no stale file behind.
+  // Deletes what generation writes at the folder root (creature .tpa, main.tpa, creature .baf),
+  // so renamed or removed creatures leave no stale file behind.
   // Hand-written common.tpa and the assets/ subfolder are kept; not recursive.
-  cleanFamilyFolder(family: MonsterFamilyEnum) {
-    const folder = path.join(State.modFolder, utils.getFamilyFolder(family));
-    if (!fs.existsSync(folder)) return;
+  cleanFolder(folder: string) {
+    const fullPath = path.join(State.modFolder, folder);
+    if (!fs.existsSync(fullPath)) return;
     let removed = 0;
-    for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+    for (const entry of fs.readdirSync(fullPath, { withFileTypes: true })) {
       if (!entry.isFile()) continue;
       const name = entry.name.toLowerCase();
       const ext = path.extname(name);
       if (ext === ".baf" || (ext === ".tpa" && name !== "common.tpa")) {
-        fs.rmSync(path.join(folder, entry.name));
+        fs.rmSync(path.join(fullPath, entry.name));
         removed++;
       }
     }
-    if (removed > 0)
-      logService.info(`Cleaned ${removed} generated files in ${utils.getFamilyFolder(family)}`);
+    if (removed > 0) logService.info(`Cleaned ${removed} generated files in ${folder}`);
   }
 
-  // Every .baf in the family's assets folder overrides an existing game script:
+  // Every .baf in the folder's assets subfolder overrides an existing game script:
   // compile it only when that script is present in the game.
-  private compileAssetScripts(family: MonsterFamilyEnum): string {
-    const assetsFolder = `${utils.getFamilyFolder(family)}/assets`;
+  private compileAssetScripts(folder: string): string {
+    const assetsFolder = `${folder}/assets`;
     const assetsPath = path.join(State.modFolder, assetsFolder);
     if (!fs.existsSync(assetsPath)) return "";
     return fs
@@ -79,35 +81,34 @@ class WeiduFamilyService extends AbstractWeiduService {
       .join("");
   }
 
-  generateFamilyData(family: Family) {
+  generateFamilyData(group: Pick<Family, "projectiles" | "spells" | "items">, folder: string) {
     const lines: CodeLine[] = [];
-    weiduProjectileService.createProjectiles(lines, family.projectiles);
+    weiduProjectileService.createProjectiles(lines, group.projectiles);
     // weiduEffectService.createEffectFiles(lines, creature.effectFiles);
-    weiduSpellService.createSpells(lines, family.spells);
-    weiduItemService.createItems(lines, family.items);
+    weiduSpellService.createSpells(lines, group.spells);
+    weiduItemService.createItems(lines, group.items);
     this.add(lines, "", 0);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    const file = this.getMainFilename(family.id);
-    fs.appendFileSync(file, content);
+    fs.appendFileSync(this.getMainFilename(folder), content);
   }
 
-  getMainFilename(family: MonsterFamilyEnum) {
-    return path.join(State.modFolder, `${utils.getFamilyFolder(family)}/main.tpa`);
+  getMainFilename(folder: string) {
+    return path.join(State.modFolder, `${folder}/main.tpa`);
   }
 
-  generateFinalCode(family: Family) {
+  /** `group.creatures` is empty for a kin. */
+  generateFinalCode(group: Pick<Family, "spells" | "creatures">, folder: string) {
     const lines: CodeLine[] = [];
     if (
       GLOBAL_CONFIG.enableSecondaryTypes &&
-      (family.spells.some((s) => typeof s.secondaryType === "string") ||
-        family.creatures.some((c) => c.spells.some((s) => typeof s.secondaryType === "string")))
+      (group.spells.some((s) => typeof s.secondaryType === "string") ||
+        group.creatures.some((c) => c.spells.some((s) => typeof s.secondaryType === "string")))
     ) {
       this.add(lines, "LAF integrate_sectypes END", 0);
     }
     this.add(lines, "", 0);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    const file = this.getMainFilename(family.id);
-    fs.appendFileSync(file, content);
+    fs.appendFileSync(this.getMainFilename(folder), content);
   }
 }
 
