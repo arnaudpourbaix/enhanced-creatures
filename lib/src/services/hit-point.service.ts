@@ -3,7 +3,7 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import { ConstitutionTable } from "../model/game-data/constitution";
-import { HitDiceTable, SizeBonusHitPointTable } from "../model/game-data/hp";
+import { SizeBonusHitPointTable } from "../model/game-data/hp";
 import { CreatureSize } from "../model/game-data/sizes";
 import { ClassIdentifier, PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
 import creatureTypeHooksService from "./creature-type-hooks.service";
@@ -118,15 +118,9 @@ class HitPointService {
     return { value: item.hp, log };
   }
 
-  /** Per-monster row, else the largest die among the creature's types, else d8. */
+  /** The largest die among the creature's types (see lib/creatures/types/), else d8. */
   private getHitDiceSize(creature: Creature): number {
-    // creature.id is typed as plain `number` (AbstractCreature.id is shared with the groups'
-    // own enum-typed ids) - widen monsterId to match. no-unnecessary-type-assertion disagrees
-    // the cast changes anything, but removing it brings back no-unsafe-enum-comparison - see
-    // CreatureGroup.creature() for the same fix.
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const row = HitDiceTable.find((e) => (e.monsterId as number) === creature.id);
-    return row?.hd ?? creatureTypeHooksService.getHitDie(creature) ?? 8;
+    return creatureTypeHooksService.getHitDie(creature) ?? 8;
   }
 }
 

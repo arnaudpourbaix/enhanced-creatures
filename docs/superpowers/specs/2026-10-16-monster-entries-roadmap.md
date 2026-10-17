@@ -185,7 +185,7 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 - ☐ `addSpecial` is dead in production (kept for its tests).
 - ☐ `definedOnly` comment overstates (the risk is in `itemService.setHeader`'s header spread).
 - ☐ `NaturalWeaponOptions.icon` typed `string` → `MonsterItemIconEnum`.
-- ☐ `hp.ts` comment repeats the type dice values (drift risk): point to `lib/creatures/types/`.
+- ✅ `hp.ts` comment repeats the type dice values: `HitDiceTable` removed (empty, unused).
 - ☐ Unchecked `kins.get(KinEnum.X) as XKin` casts in fey entries.
 - ☐ Death Knight copies `jaae2q00.bam`, used only by a commented-out line.
 - ☐ Leftover "family" wording in some tests and comments (`log.service.test.ts`, `pipeline.golden.test.ts`).
