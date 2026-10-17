@@ -66,7 +66,8 @@ class SpellService {
     for (const header of spell.headers ?? []) {
       this.addHeader(header, result, file);
     }
-    if (result.icon && /\d{3}$/.test(result.icon)) {
+    // vanilla icons only (SPWI305 -> SPWI305C); mod names (ja...) are exact
+    if (result.icon && !/^ja/i.test(result.icon) && /\d{3}$/.test(result.icon)) {
       result.icon = `${result.icon}C`;
     }
     // result.type/result.level are typed as always-set (defaulted above), but the `...others`
@@ -125,7 +126,8 @@ class SpellService {
     // "throws when a header has no type", which bypasses the type with `{} as any`.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!result.type) throw new Error(`Header type is required!`);
-    if (!result.icon && spell.icon && /\d{3}$/.test(spell.icon)) {
+    // vanilla icons only (SPWI305 -> SPWI305B); mod names (ja...) are exact
+    if (!result.icon && spell.icon && !/^ja/i.test(spell.icon) && /\d{3}$/.test(spell.icon)) {
       result.icon = `${spell.icon}B`;
     }
     result.range ??= 0;

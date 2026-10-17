@@ -70,6 +70,28 @@ describe("getSpell", () => {
     expect(result.icon).toBe("SPL12A");
   });
 
+  it('a spell icon starting with "ja" and ending in 3 digits gets no C/B suffix', () => {
+    const result = spellService.getSpell(
+      {
+        name: SPELL_NAME,
+        icon: "jaac0002",
+        headers: [
+          { type: ItemAbilityTypeEnum.Magical, icon: "jaac0002" },
+          { type: ItemAbilityTypeEnum.Magical },
+        ],
+      },
+      "spl12",
+    );
+    expect(result.icon).toBe("jaac0002");
+    expect(result.headers[0].icon).toBe("jaac0002");
+    expect(result.headers[1].icon).toBeUndefined();
+  });
+
+  it("still appends C to a vanilla 3-digit icon (SPWI305 -> SPWI305C)", () => {
+    const result = spellService.getSpell({ name: SPELL_NAME, icon: "SPWI305" }, "spl13");
+    expect(result.icon).toBe("SPWI305C");
+  });
+
   it("throws when a header has no type", () => {
     expect(() =>
       spellService.getSpell(
