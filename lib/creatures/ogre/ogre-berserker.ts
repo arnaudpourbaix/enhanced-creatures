@@ -1,13 +1,49 @@
-import { Variant } from "../../src/model/creature/variant";
-import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Variant } from "../../src/model/creature/variant";
+import {
+  AbilityDamageTypeEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+  ItemAnimationEnum,
+  ItemCategoryEnum,
+  ItemFlagEnum,
+  ProficiencyTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Ogre, OgreKin } from "./kin";
 
-function berserker(entry: CreatureEntry<Ogre>): Ogre {
+class OgreBerserker extends Ogre {
+  /**
+   * Giant Flail
+   */
+  createGiantFlail() {
+    return this.addWeapon({
+      weapon: {
+        stringRef: "monster.ogre.weapon.giantFlail",
+        equippedSlot: ["WEAPON1"],
+        flags: [ItemFlagEnum.Displayable],
+        animation: ItemAnimationEnum.Flail,
+        category: ItemCategoryEnum.Flails,
+        icon: "IBLUN13",
+        proficiency: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR,
+        header: {
+          type: ItemAbilityTypeEnum.Melee,
+          animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
+          diceThrown: 2,
+          diceSize: 8,
+          damageType: AbilityDamageTypeEnum.Crushing,
+          speed: 8,
+          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+        },
+      },
+    });
+  }
+}
+
+function berserker(entry: CreatureEntry<OgreBerserker>): OgreBerserker {
   const berserker = entry.create({
     monster: MonsterEnum.OgreBerserker,
     name: "monster.ogre.name.berserker",
@@ -73,7 +109,7 @@ function berserker(entry: CreatureEntry<Ogre>): Ogre {
   return berserker;
 }
 
-function chieftainVariant(_family: CreatureEntry<Ogre>, base: Ogre): Variant {
+function chieftainVariant(_family: CreatureEntry<OgreBerserker>, base: Ogre): Variant {
   const variant = base.variant("Chieftain", {
     // chieftain
     files: [
@@ -154,14 +190,14 @@ function barbarianVariant(base: Variant): Variant {
   });
 }
 
-class OgreBerserkerEntry extends CreatureEntry<Ogre> {
+class OgreBerserkerEntry extends CreatureEntry<OgreBerserker> {
   constructor(kin?: OgreKin) {
     super(EntryEnum.OgreBerserker, kin);
     this.addCreature(() => berserker(this));
   }
 
-  createCreature(id: MonsterEnum): Ogre {
-    return new Ogre(id);
+  createCreature(id: MonsterEnum): OgreBerserker {
+    return new OgreBerserker(id);
   }
 }
 

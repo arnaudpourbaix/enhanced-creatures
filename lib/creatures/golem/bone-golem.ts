@@ -1,23 +1,69 @@
+import { SPELLS } from "../../config/spells/spell-database";
+import { CommonProjectileFiles } from "../../spells/projectiles";
+import effectFactory from "../../src/factories/effect.factory";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
 import {
   AbilityDamageTypeEnum,
   EffectStatisticModifierEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
-import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Golem, GolemIds } from "./kin";
 
-class BoneGolemEntry extends CreatureEntry<Golem> {
+class BoneGolem extends Golem {
+  /**
+   * Hideous Laugh
+   */
+  createHideousLaugh() {
+    return this.addSpell({
+      name: "monster.golem.ability.hideousLaugh",
+      id: GolemIds.HideousLaugh,
+      memorizedCount: 1,
+      icon: SPELLS.Priest.CloakOfFear.file,
+      secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+      options: { renew: 3 },
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.AnyPointWithinRange,
+          speed: 1,
+          projectile: CommonProjectileFiles.AreaOfSightNonParty,
+          range: 30,
+          effects: effectFactory.fear({
+            duration: 7 * Durations.round,
+            saveType: SaveTypeEnum.Spell,
+          }),
+        },
+      ],
+      ability: {
+        preset: SPELLS.Priest.CloakOfFear.file,
+        spell: {
+          type: "force",
+          remove: true,
+        },
+      },
+    });
+  }
+}
+
+class BoneGolemEntry extends CreatureEntry<BoneGolem> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.BoneGolem, kin);
     this.addCreature(() => this.bone());
   }
 
-  createCreature(id: MonsterEnum): Golem {
-    return new Golem(id);
+  createCreature(id: MonsterEnum): BoneGolem {
+    return new BoneGolem(id);
   }
 
   /**

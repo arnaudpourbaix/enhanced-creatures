@@ -1,18 +1,89 @@
-import { MonsterEnum } from "../monster";
+import { MonsterItemIconEnum } from "../../config/item";
 import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureGrabConfig } from "../../src/model/creature/grab";
+import { ItemSlot } from "../../src/model/creature/item";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import { Effect } from "../../src/model/spell-item/effect";
+import {
+  AbilityDamageTypeEnum,
+  EffectColorLocationEnum,
+  EffectModifierTypeEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+  SaveTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import creatureService from "../../src/services/creature.service";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Wolf } from "./kin";
 
-class VampiricWolfEntry extends CreatureEntry<Wolf> {
+class VampiricWolf extends Wolf {
+  createVampiricJaws(p: {
+    effects?: Effect[];
+    slot: ItemSlot;
+    grab?: CreatureGrabConfig;
+    bonusToHit?: number;
+    doc?: boolean;
+  }) {
+    return this.addWeapon({
+      weapon: {
+        stringRef: "monster.wolf.weapon.jaws",
+        icon: MonsterItemIconEnum.Jaws,
+        equippedSlot: [p.slot],
+        doc: p.doc,
+        header: {
+          type: ItemAbilityTypeEnum.Melee,
+          damageType: AbilityDamageTypeEnum.Piercing,
+          damageBonus: 8,
+          bonusToHit: p.bonusToHit,
+          speed: 3,
+          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+          effects: [
+            ...(p.effects ?? []),
+            {
+              opcode: EffectTypeEnum.CurrentHPbonus,
+              target: EffectTargetEnum.Self,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              value: 8 + creatureService.getStrengthBonus(this.data).damage,
+              type: EffectModifierTypeEnum.Increment,
+            },
+            {
+              opcode: EffectTypeEnum.CharacterColorPulse,
+              target: EffectTargetEnum.Self,
+              timing: EffectTimingEnum.InstantLimited,
+              color: { blue: 191, green: 125, red: 53 },
+              location: EffectColorLocationEnum.ArmorGreyBeltAmulet,
+              cycleSpeed: 20,
+              duration: 1,
+            },
+            {
+              opcode: EffectTypeEnum.Sleep,
+              wakeOnDamage: true,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 2 * Durations.round,
+              saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+            },
+          ],
+        },
+      },
+      grab: p.grab,
+    });
+  }
+}
+
+class VampiricWolfEntry extends CreatureEntry<VampiricWolf> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.VampiricWolf, kin);
     this.addCreature(() => this.vampiric());
   }
 
-  createCreature(id: MonsterEnum): Wolf {
-    return new Wolf(id);
+  createCreature(id: MonsterEnum): VampiricWolf {
+    return new VampiricWolf(id);
   }
 
   /**

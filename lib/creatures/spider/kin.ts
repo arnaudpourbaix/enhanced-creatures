@@ -1,24 +1,18 @@
-import { MonsterItemIconEnum } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { Creature } from "../../src/model/creature/creature";
 import { ItemSlot } from "../../src/model/creature/item";
+import { CreatureKin } from "../../src/model/creature/kin";
 import { ImmunityName } from "../../src/model/final/immunity";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect, DamageEffect, Effect } from "../../src/model/spell-item/effect";
 import {
-  AbilityDamageTypeEnum,
-  AttackModifierTypeEnum,
-  EffectDamageTypeEnum,
   EffectIDSFileEnum,
-  EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
   InvisibilityTypeEnum,
-  ItemAbilityFlagEnum,
   ItemAbilitySecondaryTypeEnum,
-  ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   PnPPoisonType,
   PortraitIconEnum,
@@ -33,7 +27,6 @@ import {
   SpellProtectionStat,
 } from "../../src/model/spell-item/spell-protection";
 import { TranslationKey } from "../../translations/i18n";
-import { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 
 export enum SpiderIds {
@@ -70,41 +63,6 @@ export class Spider extends Creature {
       effects: p.effects,
       poison: p.poisonType ? { poisonType: p.poisonType, saveBonus: p.saveBonus } : undefined,
       castSpells: p.castSpells,
-    });
-  }
-
-  createLegWeapon(p: { id: number; impale?: boolean; lightning?: boolean; equipped?: boolean }) {
-    const effects: Effect[] = [];
-    if (p.impale) {
-      effects.push({
-        opcode: EffectTypeEnum.Thac0Bonus,
-        type: EffectStatisticModifierEnum.Increment,
-        value: -4,
-        timing: EffectTimingEnum.InstantLimited,
-        duration: 2 * Durations.round,
-      });
-    }
-    if (p.lightning) {
-      effects.push({
-        opcode: EffectTypeEnum.Damage,
-        type: EffectDamageTypeEnum.Electricity,
-        amount: p.impale ? 8 : 2,
-      });
-    }
-    return this.addItem({
-      id: p.id,
-      stringRef: p.impale ? "monster.spider.ability.impale.name" : "monster.spider.weapon.leg",
-      icon: MonsterItemIconEnum.Wolf,
-      equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
-      header: {
-        type: ItemAbilityTypeEnum.Melee,
-        diceThrown: p.impale ? 8 : 2,
-        diceSize: 6,
-        damageType: AbilityDamageTypeEnum.Piercing,
-        speed: 1,
-        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        effects,
-      },
     });
   }
 
@@ -283,81 +241,6 @@ export class Spider extends Creature {
         },
         disableInterrupt: true,
         actionsAfter: [{ name: "AttackOneRound", params: [ScriptTarget.lastSeen] }],
-      },
-    });
-  }
-
-  /**
-   * Leap attack
-   */
-  createLeapImpalingSpell(p: { id: number; lightning?: boolean; memorizedCount?: number }) {
-    this.createLegWeapon({
-      id: p.id,
-      impale: true,
-      lightning: p.lightning,
-    });
-    return this.createLeapSpell({
-      id: p.id,
-      memorizedCount: p.memorizedCount,
-      effects: [
-        {
-          opcode: EffectTypeEnum.ModifyAttacksPerRound,
-          type: AttackModifierTypeEnum.Set,
-          value: 1,
-          target: EffectTargetEnum.Self,
-          timing: EffectTimingEnum.InstantLimited,
-          duration: Durations.round,
-        },
-        {
-          opcode: EffectTypeEnum.CreateWeapon,
-          amount: 1,
-          resource: this.item(p.id).file,
-          target: EffectTargetEnum.Self,
-          timing: EffectTimingEnum.InstantLimited,
-          duration: Durations.round,
-        },
-        {
-          opcode: EffectTypeEnum.DisplayString,
-          stringRef: "monster.spider.ability.impale.name",
-        },
-      ],
-    });
-  }
-
-  /**
-   * Phase out
-   */
-  createPhaseOut() {
-    const base: BaseEffect = {
-      target: EffectTargetEnum.Self,
-      timing: EffectTimingEnum.InstantPermanent,
-    };
-    return this.addSpell({
-      id: SpiderIds.PhaseOut,
-      name: "monster.spider.ability.phase.name",
-      description: "monster.spider.ability.phase.description",
-      memorizedCount: 1,
-      icon: SPELLS.Wizard.Invisibility.file,
-      options: { renew: 1 },
-      headers: [
-        {
-          target: ItemAbilityTargetEnum.Caster,
-          type: ItemAbilityTypeEnum.Melee,
-          effects: [
-            {
-              opcode: EffectTypeEnum.Invisibility,
-              type: InvisibilityTypeEnum.Normal,
-              ...base,
-            },
-          ],
-        },
-      ],
-      ability: {
-        preset: SPELLS.Wizard.Invisibility.file,
-        spell: {
-          type: "force",
-        },
-        requireVocal: false,
       },
     });
   }

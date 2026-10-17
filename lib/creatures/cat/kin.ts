@@ -1,7 +1,7 @@
 import { SPELLS } from "../../config/spells/spell-database";
-import effectFactory from "../../src/factories/effect.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { Creature } from "../../src/model/creature/creature";
+import { CreatureKin } from "../../src/model/creature/kin";
 import { Durations } from "../../src/model/game-data/durations";
 import { Effect } from "../../src/model/spell-item/effect";
 import {
@@ -9,15 +9,11 @@ import {
   EffectDamageTypeEnum,
   EffectTargetEnum,
   EffectTimingEnum,
-  ItemAbilityLocationEnum,
-  ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
-  PortraitIconEnum,
   WingBuffetDirectionEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import creatureService from "../../src/services/creature.service";
-import { CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 
 export enum CatIds {
@@ -164,68 +160,6 @@ export class Cat extends Creature {
           stringRef: "monster.cat.ability.leap.attack",
         },
       ],
-    });
-  }
-
-  /**
-   * Burst Of Speed
-   */
-  createBurstOfSpeed() {
-    const duration = 3 * Durations.round;
-    return this.addSpell({
-      name: "monster.cat.ability.burstOfSpeed.name",
-      description: "monster.cat.ability.burstOfSpeed.description",
-      id: CatIds.BurstOfSpeed,
-      memorizedCount: 1,
-      options: {
-        renew: 30,
-      },
-      castingSound: "CAS_P04",
-      icon: SPELLS.Wizard.Haste.file,
-      headers: [
-        {
-          type: ItemAbilityTypeEnum.Melee,
-          location: ItemAbilityLocationEnum.Ability,
-          target: ItemAbilityTargetEnum.Caster,
-          speed: 1,
-          effects: [
-            {
-              ...effectFactory.naturalMovementSpeed(45),
-              timing: EffectTimingEnum.InstantLimited,
-              duration,
-            },
-            {
-              opcode: EffectTypeEnum.DisplayPortraitIcon,
-              icon: PortraitIconEnum.Haste,
-              timing: EffectTimingEnum.InstantLimited,
-              duration,
-            },
-            {
-              opcode: EffectTypeEnum.DisplayString,
-              stringRef: "monster.cat.ability.burstOfSpeed.name",
-              timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            },
-            {
-              opcode: EffectTypeEnum.PlaySound,
-              timing: EffectTimingEnum.InstantPermanentUntilDeath,
-              resource: "EFF_M28",
-            },
-            {
-              opcode: EffectTypeEnum.PlaySound,
-              timing: EffectTimingEnum.DelayPermanent,
-              resource: "EFF_M29",
-              duration,
-            },
-          ],
-        },
-      ],
-      ability: {
-        spell: {
-          type: "reallyForce",
-          castOnSelf: true,
-          remove: true,
-        },
-      },
     });
   }
 }

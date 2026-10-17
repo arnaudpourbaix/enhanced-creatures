@@ -1,18 +1,106 @@
-import { MonsterEnum } from "../monster";
+import { MonsterItemIconEnum } from "../../config/item";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import { Effect } from "../../src/model/spell-item/effect";
+import {
+  AbilityDamageTypeEnum,
+  AttackModifierTypeEnum,
+  EffectDamageTypeEnum,
+  EffectStatisticModifierEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Spider, SpiderIds } from "./kin";
 
-class SwordSpiderEntry extends CreatureEntry<Spider> {
+class SwordSpider extends Spider {
+  createLegWeapon(p: { id: number; impale?: boolean; lightning?: boolean; equipped?: boolean }) {
+    const effects: Effect[] = [];
+    if (p.impale) {
+      effects.push({
+        opcode: EffectTypeEnum.Thac0Bonus,
+        type: EffectStatisticModifierEnum.Increment,
+        value: -4,
+        timing: EffectTimingEnum.InstantLimited,
+        duration: 2 * Durations.round,
+      });
+    }
+    if (p.lightning) {
+      effects.push({
+        opcode: EffectTypeEnum.Damage,
+        type: EffectDamageTypeEnum.Electricity,
+        amount: p.impale ? 8 : 2,
+      });
+    }
+    return this.addItem({
+      id: p.id,
+      stringRef: p.impale ? "monster.spider.ability.impale.name" : "monster.spider.weapon.leg",
+      icon: MonsterItemIconEnum.Wolf,
+      equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
+      header: {
+        type: ItemAbilityTypeEnum.Melee,
+        diceThrown: p.impale ? 8 : 2,
+        diceSize: 6,
+        damageType: AbilityDamageTypeEnum.Piercing,
+        speed: 1,
+        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+        effects,
+      },
+    });
+  }
+
+  /**
+   * Leap attack
+   */
+  createLeapImpalingSpell(p: { id: number; lightning?: boolean; memorizedCount?: number }) {
+    this.createLegWeapon({
+      id: p.id,
+      impale: true,
+      lightning: p.lightning,
+    });
+    return this.createLeapSpell({
+      id: p.id,
+      memorizedCount: p.memorizedCount,
+      effects: [
+        {
+          opcode: EffectTypeEnum.ModifyAttacksPerRound,
+          type: AttackModifierTypeEnum.Set,
+          value: 1,
+          target: EffectTargetEnum.Self,
+          timing: EffectTimingEnum.InstantLimited,
+          duration: Durations.round,
+        },
+        {
+          opcode: EffectTypeEnum.CreateWeapon,
+          amount: 1,
+          resource: this.item(p.id).file,
+          target: EffectTargetEnum.Self,
+          timing: EffectTimingEnum.InstantLimited,
+          duration: Durations.round,
+        },
+        {
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: "monster.spider.ability.impale.name",
+        },
+      ],
+    });
+  }
+}
+
+class SwordSpiderEntry extends CreatureEntry<SwordSpider> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.SwordSpider, kin);
     this.addCreature(() => this.sword());
   }
 
-  createCreature(id: MonsterEnum): Spider {
-    return new Spider(id);
+  createCreature(id: MonsterEnum): SwordSpider {
+    return new SwordSpider(id);
   }
 
   /**

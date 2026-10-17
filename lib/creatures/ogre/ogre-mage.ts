@@ -1,16 +1,292 @@
+import { SPELL_STATES } from "../../config/common";
+import { ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import { InputCreatureData } from "../../src/model/creature/data-input";
-import { Variant } from "../../src/model/creature/variant";
-import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Variant } from "../../src/model/creature/variant";
+import {
+  AbilityDamageTypeEnum,
+  AnimationChangeTypeEnum,
+  AttackModifierTypeEnum,
+  DisableButtonEnum,
+  DisableSpellcastingTypeEnum,
+  EffectStatisticModifierEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+  EffectVisualEffectLocationEnum,
+  ItemAbilityCastingAnimationEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityPrimaryTypeEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  ItemAnimationEnum,
+  ItemCategoryEnum,
+  ItemFlagEnum,
+  PortraitIconEnum,
+  ProficiencyTypeEnum,
+  SpellTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Ids, Ogre, OgreKin } from "./kin";
 
-function ogreMage(entry: CreatureEntry<Ogre>): Ogre {
+class OgreMage extends Ogre {
+  /**
+   * Naginata
+   */
+  createNaginata() {
+    return this.addWeapon({
+      weapon: {
+        id: Ids.Naginata,
+        stringRef: "monster.ogre.weapon.naginata.name",
+        description: "monster.ogre.weapon.naginata.description",
+        equippedSlot: ["WEAPON1"],
+        flags: [ItemFlagEnum.Displayable, ItemFlagEnum.TwoHanded],
+        animation: ItemAnimationEnum.LongSword,
+        category: ItemCategoryEnum.Halberds,
+        icon: "ISW1H44",
+        proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+        header: {
+          type: ItemAbilityTypeEnum.Melee,
+          animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
+          range: 2,
+          diceThrown: 1,
+          diceSize: 12,
+          damageType: AbilityDamageTypeEnum.Slashing,
+          speed: 8,
+          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+        },
+      },
+    });
+  }
+
+  /**
+   * Fly
+   */
+  createFly() {
+    const flyDuration = 72;
+    return this.addSpell({
+      id: Ids.Fly,
+      name: "monster.ogre.ability.fly.name",
+      description: "monster.ogre.ability.fly.description",
+      memorizedCount: 1,
+      icon: SPELLS.Wizard.Haste.file,
+      castingSound: "CAS_M08",
+      type: SpellTypeEnum.Wizard,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
+      primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
+      level: 3,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Spell,
+          target: ItemAbilityTargetEnum.Caster,
+          speed: 3,
+          effects: [
+            {
+              ...effectFactory.naturalMovementSpeed(18),
+              timing: EffectTimingEnum.InstantLimited,
+              duration: flyDuration,
+            },
+            {
+              opcode: EffectTypeEnum.CreateItemInSlot,
+              slot: "SLOT_BOOTS",
+              resource: ITEMS.Hover,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: flyDuration,
+            },
+            {
+              opcode: EffectTypeEnum.SetExtendedSpellState,
+              state: SPELL_STATES.flying,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: flyDuration,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Haste,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: flyDuration,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "EFF_M28",
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "EFF_M29",
+              timing: EffectTimingEnum.DelayPermanent,
+              duration: flyDuration,
+            },
+          ],
+        },
+      ],
+      ability: {
+        spell: {
+          type: "noDec",
+          excludeSpellStates: [SPELL_STATES.flying],
+          castOnSelf: true,
+        },
+        triggers: [
+          { name: "Detect", params: ["NearestEnemyOf"] },
+          {
+            name: "StateCheck",
+            params: [ScriptTarget.myself, "STATE_INVISIBLE"],
+          },
+        ],
+        probability: 90,
+      },
+    });
+  }
+
+  /**
+   * Gaseous Form
+   */
+  createGaseousForm() {
+    const gaseousFormDuration = 12;
+    this.createItemGaseousForm();
+    return this.addSpell({
+      name: "monster.ogre.ability.gaseousForm.name",
+      description: "monster.ogre.ability.gaseousForm.description",
+      memorizedCount: 1,
+      id: Ids.GaseousForm,
+      icon: SPELLS.Wizard.PolymorphSelf.file,
+      castingSound: "CAS_M08",
+      type: SpellTypeEnum.Wizard,
+      castingAnimation: ItemAbilityCastingAnimationEnum.Alteration,
+      primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+      secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
+      level: 4,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Spell,
+          target: ItemAbilityTargetEnum.Caster,
+          speed: 4,
+          effects: [
+            {
+              opcode: EffectTypeEnum.CreateWeapon,
+              amount: 1,
+              resource: this.item(Ids.GaseousForm).file,
+              target: EffectTargetEnum.Self,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: gaseousFormDuration,
+            },
+            {
+              opcode: EffectTypeEnum.PlayVisualEffect,
+              target: EffectTargetEnum.Self,
+              playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+              resource: "SPDISPM3",
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 3,
+            },
+            {
+              opcode: EffectTypeEnum.PlayVisualEffect,
+              target: EffectTargetEnum.Self,
+              playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+              resource: "SPDISPM3",
+              timing: EffectTimingEnum.DelayPermanent,
+              duration: gaseousFormDuration,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "MSTCHNG",
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              resource: "MSTCHNG",
+              timing: EffectTimingEnum.DelayPermanent,
+              duration: gaseousFormDuration,
+            },
+          ],
+        },
+      ],
+      ability: {
+        spell: {},
+        triggers: [
+          { name: "Detect", params: ["NearestEnemyOf"] },
+          {
+            name: "HaveSpellRES",
+            params: [this.spell(Ids.ConeOfCold).file],
+            negation: true,
+          },
+          {
+            name: "HaveSpellRES",
+            params: [SPELLS.Wizard.Sleep.file],
+            negation: true,
+          },
+          {
+            name: "HaveSpellRES",
+            params: [SPELLS.Wizard.CharmPerson.file],
+            negation: true,
+          },
+          { name: "HPPercentLT", params: [ScriptTarget.myself, 25] },
+        ],
+        probability: 80,
+      },
+    });
+  }
+
+  createItemGaseousForm() {
+    this.addItem({
+      id: Ids.GaseousForm,
+      stringRef: "monster.ogre.ability.gaseousForm.name",
+      description: "monster.ogre.ability.gaseousForm.description",
+      immunities: ["poison", "cold", "magicDamage", "physicalDamage"],
+      flags: [ItemFlagEnum.Displayable],
+      header: {
+        type: ItemAbilityTypeEnum.Melee,
+      },
+      effects: [
+        {
+          opcode: EffectTypeEnum.DisplayPortraitIcon,
+          icon: PortraitIconEnum.Invulnerable,
+        },
+        {
+          opcode: EffectTypeEnum.FireResistanceModifier,
+          value: 100,
+          type: EffectStatisticModifierEnum.Set,
+        },
+        { opcode: EffectTypeEnum.NoCollisionDetection, passWalls: true },
+        { opcode: EffectTypeEnum.ModifyCollisionBehavior },
+        {
+          ...effectFactory.naturalMovementSpeed(3),
+        },
+        {
+          opcode: EffectTypeEnum.ModifyAttacksPerRound,
+          type: AttackModifierTypeEnum.Final,
+          value: 0,
+        },
+        {
+          opcode: EffectTypeEnum.DisableSpellcasting,
+          type: DisableSpellcastingTypeEnum.Wizard,
+        },
+        {
+          opcode: EffectTypeEnum.DisableButton,
+          button: DisableButtonEnum.SpellSelect,
+        },
+        {
+          opcode: EffectTypeEnum.AnimationChange,
+          animationId: "BLOB_MIST_CREATURE",
+          animationType: AnimationChangeTypeEnum.TemporaryChange,
+        },
+        {
+          opcode: EffectTypeEnum.SetExtendedSpellState,
+          state: SPELL_STATES.gaseousForm,
+        },
+      ],
+    });
+  }
+}
+
+function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
   const ogreMage = entry.create({
     monster: MonsterEnum.OgreMage,
     name: "monster.ogre.name.mage",
@@ -125,7 +401,7 @@ function ogreMage(entry: CreatureEntry<Ogre>): Ogre {
   return ogreMage;
 }
 
-function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
+function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
   // Shared profile for Krotan/Ntkrotan/Kahrk before their own level/proficiency bump.
   const krotanChief: InputCreatureData = {
     level1: 12,
@@ -230,14 +506,14 @@ function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
   });
 }
 
-class OgreMageEntry extends CreatureEntry<Ogre> {
+class OgreMageEntry extends CreatureEntry<OgreMage> {
   constructor(kin?: OgreKin) {
     super(EntryEnum.OgreMage, kin);
     this.addCreature(() => ogreMage(this));
   }
 
-  createCreature(id: MonsterEnum): Ogre {
-    return new Ogre(id);
+  createCreature(id: MonsterEnum): OgreMage {
+    return new OgreMage(id);
   }
 }
 

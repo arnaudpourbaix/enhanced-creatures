@@ -1,18 +1,73 @@
-import { MonsterEnum } from "../monster";
+import { SPELLS } from "../../config/spells/spell-database";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import {
+  EffectDamageTypeEnum,
+  EffectFlagsEnum,
+  ItemAbilityTypeEnum,
+  SaveTypeEnum,
+  SpellFlagEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { PartialSpellHeader } from "../../src/model/spell-item/spell-item";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Dog, DogIds } from "./kin";
 
-class HellHoundEntry extends CreatureEntry<Dog> {
+class HellHound extends Dog {
+  /**
+   * Hell Hound Breath Fire
+   */
+  createBreathFire() {
+    const headers: PartialSpellHeader[] = [4, 5, 6, 7].map((level) => ({
+      type: ItemAbilityTypeEnum.Melee,
+      minLevel: level,
+      range: 10,
+      // projectile: "dvburnhd",
+      effects: [
+        {
+          opcode: EffectTypeEnum.Damage,
+          type: EffectDamageTypeEnum.Fire,
+          amount: level,
+          saveTypes: [SaveTypeEnum.Breath, SaveTypeEnum.BypassMirrorImage],
+          flags: [EffectFlagsEnum.SaveForHalf],
+        },
+      ],
+    }));
+    return this.addSpell({
+      name: "monster.dog.ability.breathFire.name",
+      description: "monster.dog.ability.breathFire.description",
+      id: DogIds.BreathFire,
+      memorizedCount: 1,
+      icon: SPELLS.Wizard.BurningHands.file,
+      options: {
+        renew: 1,
+      },
+      castingSound: "CAS_M08",
+      flags: [SpellFlagEnum.BreakSanctuary],
+      ability: {
+        targets: [{ name: "NearestEnemies", limit: 3 }],
+        spell: {
+          type: "force",
+          remove: true,
+        },
+        range: 10,
+      },
+      keywords: ["fire", "area"],
+      headers,
+    });
+  }
+}
+
+class HellHoundEntry extends CreatureEntry<HellHound> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.HellHound, kin);
     this.addCreature(() => this.hellHound());
   }
 
-  createCreature(id: MonsterEnum): Dog {
-    return new Dog(id);
+  createCreature(id: MonsterEnum): HellHound {
+    return new HellHound(id);
   }
 
   /**

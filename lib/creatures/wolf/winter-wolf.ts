@@ -1,19 +1,102 @@
 import effectFactory from "../../src/factories/effect.factory";
-import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import {
+  EffectColorLocationEnum,
+  EffectDamageModeEnum,
+  EffectDamageTypeEnum,
+  EffectFlagsEnum,
+  EffectTimingEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  SaveTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Wolf, WolfIds } from "./kin";
 
-class WinterWolfEntry extends CreatureEntry<Wolf> {
+class WinterWolf extends Wolf {
+  /**
+   * Stream of Frost
+   */
+  createStreamOfFrost() {
+    this.addSpell({
+      name: "monster.wolf.ability.streamOfFrost.name",
+      description: "monster.wolf.ability.streamOfFrost.description",
+      id: WolfIds.StreamOfFrost,
+      memorizedCount: 1,
+      secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
+      options: { renew: 10 },
+      keywords: ["cold", "area"],
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          target: ItemAbilityTargetEnum.AnyPointWithinRange,
+          projectile: {
+            copyFromFile: "CONECOLD",
+            name: "Stream of frost",
+            areaEffectInfo: {
+              areaProjectileFlags: [
+                AreaProjectileEnum.AffectOnlyEnemies,
+                AreaProjectileEnum.UseSecondaryProjectile,
+              ],
+              triggerRadius: 180,
+              areaOfEffect: 180, // within 10 feet
+              coneWidth: 0,
+            },
+          },
+          effects: [
+            {
+              opcode: EffectTypeEnum.Damage,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              amount: 0,
+              damageMode: EffectDamageModeEnum.Normal,
+              type: EffectDamageTypeEnum.Cold,
+              diceThrown: 6,
+              diceSize: 4,
+              saveTypes: [SaveTypeEnum.Breath],
+              flags: [EffectFlagsEnum.SaveForHalf],
+            },
+            {
+              opcode: EffectTypeEnum.CharacterColorPulse,
+              timing: EffectTimingEnum.InstantLimited,
+              color: { blue: 255, green: 213, red: 123 },
+              location: EffectColorLocationEnum.ArmorGreyBeltAmulet,
+              cycleSpeed: 20,
+            },
+          ],
+        },
+      ],
+      ability: {
+        targets: [
+          {
+            name: "NearestEnemies",
+            limit: 3,
+          },
+        ],
+        spell: {
+          type: "force",
+          castOnSelf: true,
+        },
+        range: 10,
+        probability: 20,
+      },
+    });
+  }
+}
+
+class WinterWolfEntry extends CreatureEntry<WinterWolf> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.WinterWolf, kin);
     this.addCreature(() => this.winter());
   }
 
-  createCreature(id: MonsterEnum): Wolf {
-    return new Wolf(id);
+  createCreature(id: MonsterEnum): WinterWolf {
+    return new WinterWolf(id);
   }
 
   /**

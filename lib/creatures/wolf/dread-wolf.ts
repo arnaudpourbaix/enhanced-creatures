@@ -1,28 +1,144 @@
+import effectFactory from "../../src/factories/effect.factory";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
 import {
   CastSpellOnConditionTargetEnum,
+  DiseaseTypeEnum,
+  EffectDispelResistanceEnum,
+  EffectModifierTypeEnum,
   EffectTargetEnum,
   EffectTimingEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  ItemCategoryEnum,
   PortraitIconEnum,
   RegenerationTypeEnum,
+  RemoveEffectsByResourceTypeEnum,
   SaveTypeEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import effectService from "../../src/services/effects/effect.service";
-import { MonsterEnum } from "../monster";
-import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Wolf, WolfIds } from "./kin";
 
-class DreadWolfEntry extends CreatureEntry<Wolf> {
+class DreadWolf extends Wolf {
+  /**
+   * Dread Wolf down state
+   */
+  createDreadWolfDownState() {
+    this.addItem({
+      stringRef: "monster.wolf.ability.dreadWolfDownState.name",
+      id: WolfIds.DreadWolfDownState,
+      description: "monster.wolf.ability.dreadWolfDownState.description",
+      immunities: ["poison", "disease", "cold", "lightning", "magicDamage", "physicalDamage"],
+      category: ItemCategoryEnum.Rings,
+      icon: "IRING01",
+    });
+    this.addSpell({
+      id: WolfIds.DreadWolfDownState,
+      name: "monster.wolf.ability.dreadWolfDownState.name",
+      headers: [
+        {
+          target: ItemAbilityTargetEnum.Caster,
+          type: ItemAbilityTypeEnum.Melee,
+          effects: [
+            {
+              opcode: EffectTypeEnum.RemoveItem,
+              resource: this.traitItem().file,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              target: EffectTargetEnum.Self,
+            },
+            ...effectFactory.cureAll(),
+            {
+              opcode: EffectTypeEnum.CreateItemInSlot,
+              resource: this.item(WolfIds.DreadWolfDownState).file,
+              slot: "SLOT_RING_LEFT",
+              duration: 2 * Durations.round,
+              timing: EffectTimingEnum.InstantLimited,
+              target: EffectTargetEnum.Self,
+            },
+            {
+              opcode: EffectTypeEnum.Sleep,
+              wakeOnDamage: false,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 2 * Durations.round,
+              target: EffectTargetEnum.Self,
+            },
+            {
+              opcode: EffectTypeEnum.CurrentHPbonus,
+              value: 1,
+              type: EffectModifierTypeEnum.Set,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              target: EffectTargetEnum.Self,
+            },
+            {
+              opcode: EffectTypeEnum.CreateItemInSlot,
+              resource: this.traitItem().file,
+              slot: "SLOT_RING_LEFT",
+              duration: 2 * Durations.round,
+              timing: EffectTimingEnum.DelayPermanent,
+              target: EffectTargetEnum.Self,
+            },
+            {
+              opcode: EffectTypeEnum.CurrentHPbonus,
+              value: 6,
+              type: EffectModifierTypeEnum.Set,
+              duration: 2 * Durations.round,
+              timing: EffectTimingEnum.DelayPermanent,
+              target: EffectTargetEnum.Self,
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  /**
+   * Dread Wolf Disease
+   */
+  createDreadWolfDisease() {
+    return this.addSpell({
+      name: "monster.wolf.ability.rottingDisease.name",
+      description: "monster.wolf.ability.rottingDisease.description",
+      id: WolfIds.DreadWolfDisease,
+      secondaryType: "Disease",
+      doc: false,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          range: 5,
+          effects: [
+            {
+              opcode: EffectTypeEnum.RemoveEffectsByResource,
+              type: RemoveEffectsByResourceTypeEnum.Default,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            },
+            {
+              opcode: EffectTypeEnum.Disease,
+              amount: 300,
+              type: DiseaseTypeEnum.OneDamagePerAmountSeconds,
+              duration: Durations.day * 30,
+              icon: PortraitIconEnum.Diseased,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            },
+          ],
+        },
+      ],
+    });
+  }
+}
+
+class DreadWolfEntry extends CreatureEntry<DreadWolf> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.DreadWolf, kin);
     this.addCreature(() => this.dread());
   }
 
-  createCreature(id: MonsterEnum): Wolf {
-    return new Wolf(id);
+  createCreature(id: MonsterEnum): DreadWolf {
+    return new DreadWolf(id);
   }
 
   /**

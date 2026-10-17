@@ -1,20 +1,68 @@
-import { InvisibilityTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
+import { SPELLS } from "../../config/spells/spell-database";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { BaseEffect } from "../../src/model/spell-item/effect";
+import {
+  EffectTargetEnum,
+  EffectTimingEnum,
+  InvisibilityTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Spider, SpiderIds } from "./kin";
 
-class PhaseSpiderEntry extends CreatureEntry<Spider> {
+class PhaseSpider extends Spider {
+  /**
+   * Phase out
+   */
+  createPhaseOut() {
+    const base: BaseEffect = {
+      target: EffectTargetEnum.Self,
+      timing: EffectTimingEnum.InstantPermanent,
+    };
+    return this.addSpell({
+      id: SpiderIds.PhaseOut,
+      name: "monster.spider.ability.phase.name",
+      description: "monster.spider.ability.phase.description",
+      memorizedCount: 1,
+      icon: SPELLS.Wizard.Invisibility.file,
+      options: { renew: 1 },
+      headers: [
+        {
+          target: ItemAbilityTargetEnum.Caster,
+          type: ItemAbilityTypeEnum.Melee,
+          effects: [
+            {
+              opcode: EffectTypeEnum.Invisibility,
+              type: InvisibilityTypeEnum.Normal,
+              ...base,
+            },
+          ],
+        },
+      ],
+      ability: {
+        preset: SPELLS.Wizard.Invisibility.file,
+        spell: {
+          type: "force",
+        },
+        requireVocal: false,
+      },
+    });
+  }
+}
+
+class PhaseSpiderEntry extends CreatureEntry<PhaseSpider> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.PhaseSpider, kin);
     this.addCreature(() => this.phase());
   }
 
-  createCreature(id: MonsterEnum): Spider {
-    return new Spider(id);
+  createCreature(id: MonsterEnum): PhaseSpider {
+    return new PhaseSpider(id);
   }
 
   /**

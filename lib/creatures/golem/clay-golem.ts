@@ -1,11 +1,110 @@
-import { MonsterEnum } from "../monster";
+import { SPELLS } from "../../config/spells/spell-database";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import {
+  EffectHasteTypeEnum,
+  EffectTimingEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  LightingEffectEnum,
+  LightingEffectTargetEnum,
+  PortraitIconEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
-import { Golem, GolemIds, BAF_CONTINUE } from "./kin";
+import { MonsterEnum } from "../monster";
+import { BAF_CONTINUE, Golem, GolemIds } from "./kin";
 
-class ClayGolemEntry extends CreatureEntry<Golem> {
+class ClayGolem extends Golem {
+  /**
+   * Haste
+   */
+  createHaste() {
+    return this.addSpell({
+      name: "monster.golem.ability.haste",
+      id: GolemIds.Haste,
+      memorizedCount: 1,
+      castingSound: "CAS_P04",
+      icon: SPELLS.Wizard.Haste.file,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.Caster,
+          speed: 1,
+          effects: [
+            {
+              opcode: EffectTypeEnum.RemoveSpellTypeProtections,
+              maximumLevel: 9,
+              type: "K1#SLOW",
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 3 * Durations.round,
+            },
+            {
+              opcode: EffectTypeEnum.Haste,
+              type: EffectHasteTypeEnum.NormalHaste,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 3 * Durations.round,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Haste,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: 3 * Durations.round,
+            },
+            {
+              opcode: EffectTypeEnum.LightingEffects,
+              effect: LightingEffectEnum.AlterationAir,
+              lightingTarget: LightingEffectTargetEnum.SpellTarget,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            },
+            {
+              opcode: EffectTypeEnum.CreatureRGBColorFade,
+              color: {
+                red: 60,
+                green: 60,
+                blue: 120,
+              },
+              fadeSpeed: 25,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayString,
+              stringRef: StringRefUtils.getStringId("Hasted"),
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              resource: "EFF_M28",
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              timing: EffectTimingEnum.DelayPermanent,
+              duration: 3 * Durations.round,
+              resource: "EFF_M29",
+            },
+          ],
+        },
+      ],
+      ability: {
+        spell: {
+          type: "reallyForce",
+          excludeStateChecks: ["STATE_HASTED"],
+          castOnSelf: true,
+          remove: true,
+        },
+        triggers: [{ name: "Delay", params: [6] }],
+      },
+    });
+  }
+}
+
+class ClayGolemEntry extends CreatureEntry<ClayGolem> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.ClayGolem, kin);
     this.addCreature(() => this.clay());
@@ -13,8 +112,8 @@ class ClayGolemEntry extends CreatureEntry<Golem> {
     this.addCreature(() => this.greaterClay());
   }
 
-  createCreature(id: MonsterEnum): Golem {
-    return new Golem(id);
+  createCreature(id: MonsterEnum): ClayGolem {
+    return new ClayGolem(id);
   }
 
   /**

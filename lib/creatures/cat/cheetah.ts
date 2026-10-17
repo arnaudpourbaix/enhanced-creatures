@@ -1,19 +1,94 @@
-import { customCodes } from "../common";
-import { MonsterEnum } from "../monster";
+import { SPELLS } from "../../config/spells/spell-database";
+import effectFactory from "../../src/factories/effect.factory";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
+import { Durations } from "../../src/model/game-data/durations";
+import {
+  EffectTimingEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  PortraitIconEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { customCodes } from "../common";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
 import { Cat, CatIds } from "./kin";
 
-class CheetahEntry extends CreatureEntry<Cat> {
+class Cheetah extends Cat {
+  /**
+   * Burst Of Speed
+   */
+  createBurstOfSpeed() {
+    const duration = 3 * Durations.round;
+    return this.addSpell({
+      name: "monster.cat.ability.burstOfSpeed.name",
+      description: "monster.cat.ability.burstOfSpeed.description",
+      id: CatIds.BurstOfSpeed,
+      memorizedCount: 1,
+      options: {
+        renew: 30,
+      },
+      castingSound: "CAS_P04",
+      icon: SPELLS.Wizard.Haste.file,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          location: ItemAbilityLocationEnum.Ability,
+          target: ItemAbilityTargetEnum.Caster,
+          speed: 1,
+          effects: [
+            {
+              ...effectFactory.naturalMovementSpeed(45),
+              timing: EffectTimingEnum.InstantLimited,
+              duration,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayPortraitIcon,
+              icon: PortraitIconEnum.Haste,
+              timing: EffectTimingEnum.InstantLimited,
+              duration,
+            },
+            {
+              opcode: EffectTypeEnum.DisplayString,
+              stringRef: "monster.cat.ability.burstOfSpeed.name",
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              timing: EffectTimingEnum.InstantPermanentUntilDeath,
+              resource: "EFF_M28",
+            },
+            {
+              opcode: EffectTypeEnum.PlaySound,
+              timing: EffectTimingEnum.DelayPermanent,
+              resource: "EFF_M29",
+              duration,
+            },
+          ],
+        },
+      ],
+      ability: {
+        spell: {
+          type: "reallyForce",
+          castOnSelf: true,
+          remove: true,
+        },
+      },
+    });
+  }
+}
+
+class CheetahEntry extends CreatureEntry<Cheetah> {
   constructor(kin?: CreatureKin) {
     super(EntryEnum.Cheetah, kin);
     this.addCreature(() => this.cheetah());
   }
 
-  createCreature(id: MonsterEnum): Cat {
-    return new Cat(id);
+  createCreature(id: MonsterEnum): Cheetah {
+    return new Cheetah(id);
   }
 
   /**
