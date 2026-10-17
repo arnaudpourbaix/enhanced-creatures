@@ -15,7 +15,11 @@ import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
+import resourceClashService from "./resource-clash.service";
 import stateService from "./state.service";
+import { State } from "../state";
+import { ITEMS } from "../../config/item";
+import { NEW_SPELLS } from "../../config/spells/spells";
 import translationService from "./translation.service";
 import weiduCoreService from "./weidu/weidu-core.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
@@ -192,6 +196,14 @@ class MainService {
     }
   }
 
+  /** Every SPL/ITM shipped (generated + handwritten common ones) must have a unique base name. */
+  checkResourceClashes() {
+    resourceClashService.check(
+      [...State.spells.map((s) => s.file), ...Object.values(NEW_SPELLS)],
+      [...State.items.map((i) => i.file), ...Object.values(ITEMS)],
+    );
+  }
+
   async generateAll(): Promise<void> {
     logService.init();
     await stateService.init();
@@ -200,6 +212,7 @@ class MainService {
     this.checkSpellbooks();
     this.generateCreatures();
     this.generateCommonCode();
+    this.checkResourceClashes();
     this.generateTranslations();
     logService.summary();
     if (logService.hasErrors()) {
