@@ -1,0 +1,5 @@
+LAM load_secondary_types
+ACTION_IF FILE_EXISTS_IN_GAME ~BDGHOST.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ghost/assets/BDGHOST.BAF~
+END
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ghost/2l.tpa" // Ghost

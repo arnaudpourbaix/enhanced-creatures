@@ -173,7 +173,7 @@ END
 
 // Petrifying Gaze
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -185,11 +185,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -201,11 +201,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -217,11 +217,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -233,11 +233,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -249,11 +249,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -265,11 +265,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -281,11 +281,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -297,11 +297,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -313,11 +313,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -329,12 +329,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 // Petrifying Gaze
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -345,11 +345,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -360,11 +360,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -375,11 +375,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -390,11 +390,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -405,11 +405,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -420,11 +420,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -435,11 +435,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -450,11 +450,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -465,11 +465,11 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasf0200")
+	HaveSpellRES("jase0100")
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -480,7 +480,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasf0200",LastSeenBy(Myself))
+		ForceSpellRES("jase0100",LastSeenBy(Myself))
 END
 
 // Attack Wounded enemy

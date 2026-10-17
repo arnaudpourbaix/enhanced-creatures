@@ -1,0 +1,3 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/mummy/26.tpa" // Mummy
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/mummy/27.tpa" // Greater Mummy

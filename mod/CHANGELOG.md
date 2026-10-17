@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampires
 - Docs: the monsters page groups the versions of a monster under one entry heading, with a "Common to all" box for what they share, and an A-Z sidebar
 - Docs: D&D 3e creature types are shown as tags on each monster, with a type filter
+- Ettin is now installed (it was generated but never included by the installer)
 
 ### Changed
 
@@ -22,6 +23,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Hell Hound and Moon Dog are now Outsiders with the extraplanar trait (immune to cure/cause wounds and death spells)
 - Dread Wolf and Vampiric Wolf are now Undead and gain the undead immunities
 - Undead are turned according to the PnP turning table: "+3" Hit Dice count as the next row (e.g. wights, wraiths, mummies, spectres are harder to turn), and creatures turned as a specific undead use that row (e.g. ju-ju zombies as spectres, zombie lords as vampires). Banshees are now easier to turn
+- Wyvern, Baby Wyvern and Greater Wyvern use dragon hit dice (d12), so they have more HP
+- Wraith Spider, Dread Wolf and Vampiric Wolf use undead hit dice (d12), so they have more HP
+- Dread Wolf and Vampiric Wolf have their undead turn level raised by one (harder to turn)
+- Mod files reorganised by monster (one folder per monster entry)
 
 ### Fixed
 

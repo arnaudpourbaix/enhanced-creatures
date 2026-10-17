@@ -1,0 +1,348 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/fey/common.tpa"
+// Dimension Door
+CREATE SPL "jask0500"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0500.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10473)
+	WRITE_ASCII 0x10 ~CAS_M08~ #8
+	WRITE_LONG 0x18 2048
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x1e 64
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI402C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10474)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=2 resist_dispel=1 duration=1 probability1=100 STR_VAR resource="SPDIMNDR" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=124 target=1 power=1 timing=4 resist_dispel=1 duration=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=20 target=1 power=1 resist_dispel=1 duration=1 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Dimension Door
+CREATE SPL "jask0501"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0501.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10473)
+	WRITE_ASCII 0x10 ~CAS_M08~ #8
+	WRITE_LONG 0x18 2048
+	WRITE_SHORT 0x1c 2
+	WRITE_LONG 0x1e 64
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI402C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10474)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=2 resist_dispel=1 duration=1 probability1=100 STR_VAR resource="SPDIMNDR" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=124 target=1 power=1 timing=4 resist_dispel=1 duration=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=20 target=1 power=1 resist_dispel=1 duration=1 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR     END
+	
+// Dryad Charm
+CREATE EFF "jask0502"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0502~ #8
+
+CREATE SPL "jask0502"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0502.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10191)
+	WRITE_ASCII 0x10 ~CAS_M05~ #8
+	WRITE_LONG 0x18 512
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 11
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI316C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10808)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~SPARKLGO~)) + 1 STR_VAR icon="SPWI316B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0502" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0502" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E07" END
+	
+// Speak With Plants
+CREATE SPL "jask0503"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0503.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10194)
+	WRITE_ASCII 0x10 ~CAS_P02~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~jaak0501~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10195)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=30 speed=1 STR_VAR icon="jaak0501" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=2 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_AMULET~) resist_dispel=3 duration=60 probability1=100 STR_VAR resource="jaic0004" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=1727219712 parameter2=1966080 resist_dispel=3 duration=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=3 duration=2 probability1=100 STR_VAR resource="SPRMCURS" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Entangle
+CREATE EFF "jask0504"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0504~ #8
+
+COPY_EXISTING "ENTANG2.pro" ~override/jask0504.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x200 64
+ADD_PROJECTILE ~override/jask0504.pro~ ~Hamadryad Entangle~
+
+CREATE SPL "jask0504"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0504.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
+	WRITE_ASCII 0x10 ~CAS_P08~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR105C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10193)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jask0504~)) + 1 STR_VAR icon="SPPR105B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jask0504" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 resist_dispel=1 duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter2=1 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-2" resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-2" resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 resist_dispel=1 duration=1 probability1=100 savingthrow=1 STR_VAR resource="CRE_P01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 resist_dispel=1 duration=6 probability1=100 savingthrow=1 STR_VAR resource="EFF_M22A" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=154 target=2 power=1 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=144 resist_dispel=1 duration=6 probability1=100 savingthrow=1 END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
+// Animal Friendship
+CREATE EFF "jask0505"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0505~ #8
+
+CREATE SPL "jask0505"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0505.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10196)
+	WRITE_ASCII 0x10 ~CORAN03~ #8
+	WRITE_LONG 0x18 33554432
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR204C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10197)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPPR204B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0505" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0505" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~general~ ~ANIMAL~) parameter2=113 resist_dispel=1 duration=120 probability1=100 savingthrow=1 STR_VAR resource="jask0505" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~ANIMAL~) resist_dispel=1 duration=120 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=509245440 parameter2=1638400 resist_dispel=1 duration=1 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPNWCHRM" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Detect snares and pits
+CREATE SPL "jask0506"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0506.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10198)
+	WRITE_ASCII 0x10 ~CAS_P04~ #8
+	WRITE_LONG 0x18 8192
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 16
+	WRITE_BYTE 0x25 3
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR205C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10199)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~INAREANS~)) + 1 STR_VAR icon="SPPR205B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=150 target=1 power=1 duration=120 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=1 power=1 parameter2=109 duration=120 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=30 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=1226851840 parameter2=1310720 duration=2 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR    renew=16 END
+	
+// Blinding Beauty
+CREATE SPL "jask0507"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0507.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10200)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR704C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10809)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPPR704B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 resist_dispel=3 duration=7200 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 resist_dispel=3 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="EFF_P71B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=3 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPH1HI01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=3 duration=7200 probability1=100 savingthrow=1 STR_VAR resource="jask0507" END
+	
+// Blinding Beauty
+CREATE EFF "jask0508"
+	WRITE_LONG 0x10 146
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x1c 0
+	WRITE_LONG 0x24 1
+	WRITE_LONG 0x20 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0507~ #8
+
+CREATE SPL "jask0508"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0508.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10200)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPPR704C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10201)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~japc0000~)) + 1 STR_VAR icon="SPPR704B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 parameter2=1 duration=2 probability1=100 STR_VAR resource="ICCLKFR2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 timing=1 probability1=100 STR_VAR resource="jask0508" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Charm Song
+CREATE EFF "jask0509"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0509~ #8
+
+CREATE SPL "jask0509"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0509.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10202)
+	WRITE_ASCII 0x10 ~SIRIN05~ #8
+	WRITE_LONG 0x18 512
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 11
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI316C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10810)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI316B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0509" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0509" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 STR_VAR resource="EFF_E07" END
+	
+// Charm Song
+CREATE EFF "jask050a"
+	WRITE_LONG 0x10 146
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x1c 0
+	WRITE_LONG 0x24 1
+	WRITE_LONG 0x20 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jask0509~ #8
+
+CREATE SPL "jask050a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask050a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10202)
+	WRITE_ASCII 0x10 ~SIRIN05~ #8
+	WRITE_LONG 0x18 16896
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 11
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI316C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10203)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~japc0000~)) + 1 STR_VAR icon="SPWI316B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=3 probability1=100 STR_VAR resource="jask050a" END
+	LPF CHANGE_SPELL INT_VAR   rinvs=1  END
+	
+// Fog Cloud
+CREATE SPL "jask050b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask050b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10204)
+	WRITE_ASCII 0x10 ~CAS_M08~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 9
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI204C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10205)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~CLOUD~)) + 1 STR_VAR icon="SPWI204B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 resist_dispel=1 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 resist_dispel=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 resist_dispel=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 resist_dispel=1 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR   rinvs=1  END
+	
+// Touch of Tranquility
+CREATE SPL "jask050c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask050c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10206)
+	WRITE_ASCII 0x10 ~EFF_P11~ #8
+	WRITE_LONG 0x18 17408
+	WRITE_SHORT 0x1c 4
+	WRITE_SHORT 0x22 10
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 9
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI509C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10207)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 STR_VAR icon="SPWI509B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~CHAOTIC_COMMANDS~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jask050c" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=76 target=2 power=1 duration=300 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=48 duration=300 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=2 probability1=100 savingthrow=4 STR_VAR resource="SPMINDAT" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=4812032 parameter2=1310720 duration=1 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=23744 timing=1 duration=300 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 savingthrow=4 STR_VAR resource="jask050c" END
+	

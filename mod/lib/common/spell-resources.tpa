@@ -52,8 +52,8 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"wand19.itm"
 		"wand19"
 		"wand19d"
-		"jasf0808"
-		"jasf080b"
+		"jask0508"
+		"jask050b"
 		"jasm3603"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -77,11 +77,11 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPIN162"
 		"SPIN833"
 		"WAND06"
-		"jasf0300"
-		"jasm3605"
+		"jask0100"
+		"jasm0k00"
 		"jasm1v00"
 		"jasm0w00"
-		"jasm0k00"
+		"jasm3605"
 		"jasm2201"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -103,7 +103,7 @@ DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 		"SPWI016"
 		"DW#TRPIN"
 		"dvckill"
-		"jasf080b"
+		"jask050b"
 		"jasm0q00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
@@ -133,7 +133,7 @@ DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 		"SPIN839"
 		"SPIN976"
 		"SPPR983"
-		"jasf080c"
+		"jask050c"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -278,7 +278,7 @@ DEFINE_ACTION_FUNCTION get_entangle_resources RET_ARRAY resources BEGIN
 		"SPWM111"
 		"SPIN688"
 		"BDBOW06"
-		"jasf0804"
+		"jask0504"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -558,7 +558,7 @@ DEFINE_ACTION_FUNCTION get_petrify_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI604"
 		"SPWI604D"
-		"jasf0200"
+		"jase0100"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -574,8 +574,11 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 		"dvckill"
 		"jasm0300"
 		"jasm1x00"
-		"jasm0q00"
 		"jasm3700"
+		"jasm1y00"
+		"jasm1z00"
+		"jasm2000"
+		"jasm0q00"
 		"jasm1s01"
 		"jasm1m01"
 		"jasm1k00"
@@ -585,9 +588,6 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 		"jasm1l01"
 		"jasm1r00"
 		"jasm1o00"
-		"jasm1y00"
-		"jasm1z00"
-		"jasm2000"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

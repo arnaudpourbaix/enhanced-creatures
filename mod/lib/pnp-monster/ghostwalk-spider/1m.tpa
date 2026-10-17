@@ -1,0 +1,203 @@
+// Generated file (don't edit)
+
+// Ghostwalk Spider
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ghostwalk-spider/jabm1m00.baf~
+
+// Web Tangle
+CREATE SPL "jasm1m00"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm1m00.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10311)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI215C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10313)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=5 projectile=(IDS_OF_SYMBOL (~projectl~ ~WEB1P~)) + 1 STR_VAR icon="SPWI215B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELEMENTAL~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SHADOW~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIST~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WRAITH~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~FREE_ACTION~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~RED_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~BLUE_FIRESHIELD~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=13 duration=1 probability1=100 STR_VAR resource="jasm1m00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=157 target=2 power=1 duration=18 probability1=100 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=109 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 duration=18 probability1=100 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=129 duration=18 probability1=100 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 savingthrow=4 savebonus="-2" STR_VAR resource="EFF_P27" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=20 target=2 power=1 duration=18 probability1=100 savingthrow=4 savebonus="-2" END
+	LPF CHANGE_SPELL INT_VAR    renew=2 END
+	
+// Type E poison
+CREATE SPL "jasm1m01"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm1m01.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11017)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 fl#Poison
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11018)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=20 probability1=100 special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=1 parameter2=2 duration=14 probability1=100 dicesize=1 dicenumber=2 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=4 parameter2=2 duration=12 probability1=100 dicesize=3 dicenumber=4 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=6 parameter2=2 duration=14 probability1=100 dicesize=5 dicenumber=6 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=9 parameter2=2 duration=13 probability1=100 dicesize=7 dicenumber=8 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=11 parameter2=2 duration=13 probability1=100 dicesize=9 dicenumber=10 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=12 parameter2=2 duration=13 probability1=100 dicesize=11 dicenumber=15 savingthrow=4 savebonus="-2" special=6 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=25 target=2 power=1 parameter1=18 parameter2=2 duration=13 probability1=100 dicesize=16 dicenumber=40 savingthrow=4 savebonus="-2" special=6 END
+OUTER_SET $f_AddSecType(jasm1m01.spl) = PoisonSecType
+
+// Ghostwalk Spider traits
+CREATE ITM "jaim1m00"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11016)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11016)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10303)
+COPY_EXISTING ~jaim1m00.itm~ ~override~
+	LPF seeInvisible_trait END
+
+// Jaws
+CREATE ITM "jaim1m01"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10301)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10301)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11019)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim1m01.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 2
+		WRITE_BYTE 0x88 10
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF incorporeal_trait END
+	LPF ghostVisual1_trait END
+
+// Jaws
+CREATE ITM "jaim1m02"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10301)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10301)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11020)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim1m02.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 2
+		WRITE_BYTE 0x88 10
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm1m01" END
+	END
+
+DEFINE_ACTION_FUNCTION jam1m_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~L#ULCSP~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~D9IDSM02~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SENSMSP~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SPIDSM02~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~C#LCCENS~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~SPIDPH1~
+			REMOVE_CRE_ITEM ~ANTIWEB~
+			REMOVE_CRE_ITEM ~GHOST2~
+			REMOVE_CRE_ITEM ~SPSPID3~
+			ADD_CRE_ITEM ~jaim1m00~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jaim1m01~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jaim1m02~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON2~ 
+			ADD_CRE_ITEM ~jaic000g~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_MEMORIZED_SPELL ~jasm1m00~ #0 ~innate~ (1) // Web Tangle
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=5000
+					hp=154
+					ac=10
+					thac0=7
+					apr=2
+					saveDeath=5
+					saveWand=7
+					savePolymorph=6
+					saveBreath=5
+					saveSpell=8
+					level1=14
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=15
+					intelligence=9
+					wisdom=14
+					dexterity=20
+					constitution=17
+					charisma=8
+					morale=13
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~SPIDER~)
+					class=IDS_OF_SYMBOL (~class~ ~SPIDER_WRAITH~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					animation=IDS_OF_SYMBOL (~animate~ ~SPIDER_WRAITH~)
+					movement=12
+					enforce=1
+			END
+			// Assigning jabm1m00
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN C#LCCENS PSPIDER L#ULCSP BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1m00 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"L#ULCSP"
+		"C#LCCENS"
+	BEGIN
+		LAF jam1m_patch STR_VAR file END
+	END
+END
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"D9IDSM02"
+		"SENSMSP"
+		"SPIDSM02"
+	BEGIN
+		LAF jam1m_patch STR_VAR file END
+	END
+END

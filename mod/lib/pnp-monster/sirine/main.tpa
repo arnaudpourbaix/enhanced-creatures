@@ -1,0 +1,8 @@
+LAM load_secondary_types
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSI2.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/sirine/assets/AC#DTSI2.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~AC#DTSIR.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/sirine/assets/AC#DTSIR.BAF~
+END
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/sirine/17.tpa" // Sirine

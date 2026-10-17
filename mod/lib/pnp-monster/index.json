@@ -1,1 +1,432 @@
-{}
+{
+  "ankheg": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "basilisk": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "carrion-crawler": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "ettercap": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "ettin": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "minotaur": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "treant": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "giant-poisonous-snake": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "wyvern": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "black-bear": {
+    "kin": "bear",
+    "dependsOn": []
+  },
+  "brown-bear": {
+    "kin": "bear",
+    "dependsOn": []
+  },
+  "cave-bear": {
+    "kin": "bear",
+    "dependsOn": []
+  },
+  "grizzly-bear": {
+    "kin": "bear",
+    "dependsOn": []
+  },
+  "polar-bear": {
+    "kin": "bear",
+    "dependsOn": []
+  },
+  "cheetah": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "giant-lynx": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "jaguar": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "leopard": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "lion": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "mountain-lion": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "spotted-lion": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "wild-tiger": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "hellcat": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "displacer-beast": {
+    "kin": "cat",
+    "dependsOn": []
+  },
+  "wild-dog": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "war-dog": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "blink-dog": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "spectral-hound": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "moon-dog": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "hell-hound": {
+    "kin": "dog",
+    "dependsOn": []
+  },
+  "wolf": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "dire-wolf": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "dread-wolf": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "vampiric-wolf": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "winter-wolf": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "worg": {
+    "kin": "wolf",
+    "dependsOn": []
+  },
+  "helmed-horror": {
+    "kin": "construct",
+    "dependsOn": []
+  },
+  "battle-horror": {
+    "kin": "construct",
+    "dependsOn": [
+      "helmed-horror"
+    ]
+  },
+  "doom-sayer": {
+    "kin": "construct",
+    "dependsOn": [
+      "battle-horror"
+    ]
+  },
+  "doom-guard": {
+    "kin": "construct",
+    "dependsOn": []
+  },
+  "flesh-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "sand-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "clay-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "stone-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "iron-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "bone-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "juggernaut-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "snow-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "magic-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "adamantite-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "wax-golem": {
+    "kin": "golem",
+    "dependsOn": []
+  },
+  "ogre": {
+    "kin": "ogre",
+    "dependsOn": []
+  },
+  "ogrillon": {
+    "kin": "ogre",
+    "dependsOn": []
+  },
+  "half-ogre": {
+    "kin": "ogre",
+    "dependsOn": []
+  },
+  "ogre-mage": {
+    "kin": "ogre",
+    "dependsOn": []
+  },
+  "ogre-berserker": {
+    "kin": "ogre",
+    "dependsOn": []
+  },
+  "ogre-shaman": {
+    "kin": "ogre",
+    "dependsOn": [
+      "ogre"
+    ]
+  },
+  "dryad": {
+    "kin": "fey",
+    "dependsOn": []
+  },
+  "hamadryad": {
+    "kin": "fey",
+    "dependsOn": []
+  },
+  "nymph": {
+    "kin": "fey",
+    "dependsOn": []
+  },
+  "sirine": {
+    "kin": "fey",
+    "dependsOn": []
+  },
+  "nereid": {
+    "kin": "fey",
+    "dependsOn": [
+      "giant-poisonous-snake"
+    ]
+  },
+  "black-pudding": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "white-pudding": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "mustard-jelly": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "fission-slime": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "gray-ooze": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "ochre-jelly": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "green-slime": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "olive-slime": {
+    "kin": "ooze",
+    "dependsOn": [
+      "olive-slime-creature"
+    ]
+  },
+  "olive-slime-creature": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "slithering-tracker": {
+    "kin": "ooze",
+    "dependsOn": []
+  },
+  "gargantuan-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "ghostwalk-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "giant-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "hairy-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "huge-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "hunting-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "phase-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "sword-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "vortex-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "wraith-spider": {
+    "kin": "spider",
+    "dependsOn": []
+  },
+  "banshee": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "ghoul": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "ghast": {
+    "kin": null,
+    "dependsOn": [
+      "zombie"
+    ]
+  },
+  "mummy": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "shadow": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "baneguard": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "bonebat": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "skeleton": {
+    "kin": "skeleton",
+    "dependsOn": []
+  },
+  "spike-skeleton": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
+  "archer-skeleton": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
+  "giant-skeleton": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
+  "skeleton-monster": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
+  "skeleton-warrior": {
+    "kin": null,
+    "dependsOn": [
+      "zombie"
+    ]
+  },
+  "death-knight": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "spectre": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "ghost": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "wight": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "wraith": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "zombie": {
+    "kin": null,
+    "dependsOn": []
+  },
+  "vampire": {
+    "kin": null,
+    "dependsOn": []
+  }
+}

@@ -1,0 +1,404 @@
+// Generated file (don't edit)
+
+// Ancient Vampire
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4k00.baf~
+
+// Dominating Voice
+CREATE EFF "jasm4k00"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jasm4k00~ #8
+
+CREATE SPL "jasm4k00"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k00.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10449)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jasm4k00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jasm4k00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Bat Swarm
+COPY_EXISTING "dvstink.pro" ~override/jasm4k01.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_SHORT 0x28 1
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 30
+ADD_PROJECTILE ~override/jasm4k01.pro~ ~Vampire bat swarm~
+
+CREATE SPL "jasm4k01"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k01.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10451)
+	WRITE_ASCII 0x10 ~CAS_P03~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPCL621C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10452)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm4k01~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="jasm4k01" END
+	
+// Control Undead
+CREATE SPL "jasm4k02"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k02.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10453)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 7
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI720C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10454)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=8 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=4 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=10 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=5 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=12 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=6 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=14 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=7 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=16 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=8 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=18 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=9 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=20 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=10 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=22 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=11 END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=24 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=12 END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Wolf Form
+CREATE SPL "jasm4k03"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k03.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10455)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI416C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10456)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPWI416B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaim4k02" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	
+// Bat Form
+CREATE SPL "jasm4k04"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k04.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10457)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI416C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10458)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPWI416B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaim4k03" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	
+// Gaseous Form
+CREATE SPL "jasm4k05"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4k05.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10459)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10460)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 power=1 probability1=100 STR_VAR resource="jasm4k03" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 power=1 probability1=100 STR_VAR resource="jasm4k04" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 timing=1 probability1=100 STR_VAR resource="jaim4k01" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=12 probability1=100 STR_VAR resource="jaim4k04" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=1 power=1 parameter1=1 parameter2=2 timing=4 duration=12 probability1=100 END
+	
+// Claws
+CREATE ITM "jaim4k00"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10381)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IGHOUL~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11135)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim4k00.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IGHOUL~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=216 target=2 parameter1=2 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=139 target=2 parameter1=25803 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=141 target=2 parameter2=1 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=61 target=2 parameter1=2019179520 parameter2=1638400 timing=1 probability1=100 END
+	END
+
+// Ancient Vampire traits
+CREATE ITM "jaim4k01"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11134)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11134)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11136)
+COPY_EXISTING ~jaim4k01.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=20 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=208 target=1 global=1 parameter1=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=19 timing=2 probability1=100 special=2 STR_VAR resource="jasm4k05" END
+	LPF plusTwoWeapons_immunity END
+	LPF coldResistance_resistance END
+	LPF lightningResistance_resistance END
+
+// Wolf Form
+CREATE ITM "jaim4k02"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10455)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10455)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IWOLF~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10456)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim4k02.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IWOLF~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 12
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~WOLF~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=176 target=1 global=1 parameter1=14 parameter2=1 timing=2 probability1=100 END
+
+// Bat Form
+CREATE ITM "jaim4k03"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10457)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10457)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10458)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim4k03.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~BAT_INSIDE~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=176 target=1 global=1 parameter1=14 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_FLYING~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=184 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=300 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF hover_trait END
+
+// Gaseous Form
+CREATE ITM "jaim4k04"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10459)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10459)
+	WRITE_LONG 0x18 64
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10460)
+	WRITE_LONG 0x60 4
+COPY_EXISTING ~jaim4k04.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=142 target=1 global=1 parameter2=23 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=184 target=1 global=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=300 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=176 target=1 global=1 parameter1=12 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=1 target=1 global=1 parameter2=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=145 target=1 global=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~BLOB_MIST_CREATURE~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GASEOUSFORM~)) timing=2 probability1=100 special=1 END
+	LPF poison_immunity END
+	LPF cold_immunity END
+	LPF fire_immunity END
+	LPF lightning_immunity END
+	LPF acid_immunity END
+	LPF magicDamage_immunity END
+	LPF physicalDamage_immunity END
+
+DEFINE_ACTION_FUNCTION jam4k_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~VAMVER01~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~immune1~
+			REMOVE_CRE_ITEM ~immune2~
+			REMOVE_CRE_ITEM ~immune3~
+			REMOVE_CRE_ITEM ~vamp~
+			REMOVE_CRE_ITEM ~vamp1~
+			REMOVE_CRE_ITEM ~vamp2~
+			REMOVE_CRE_ITEM ~vamp3~
+			REMOVE_CRE_ITEM ~vampreg~
+			REMOVE_CRE_ITEM ~vampreg1~
+			REMOVE_CRE_ITEM ~vampreg2~
+			REPLACE_CRE_ITEM ~jaim4k00~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jaim4k01~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			ADD_CRE_ITEM ~jaic000h~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+			PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+				REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			END
+			ADD_MEMORIZED_SPELL ~jasm4k00~ #0 ~innate~ (1) // Dominating Voice
+			ADD_MEMORIZED_SPELL ~jasm4k01~ #0 ~innate~ (1) // Bat Swarm
+			ADD_MEMORIZED_SPELL ~jasm4k02~ #0 ~innate~ (1) // Control Undead
+			ADD_MEMORIZED_SPELL ~jasm4k03~ #0 ~innate~ (1) // Wolf Form
+			ADD_MEMORIZED_SPELL ~jasm4k04~ #0 ~innate~ (1) // Bat Form
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=14000
+					hp=192
+					ac=5
+					thac0=9
+					apr=1
+					saveDeath=7
+					saveWand=9
+					savePolymorph=8
+					saveBreath=8
+					saveSpell=10
+					level1=12
+					strength=19
+					intelligence=18
+					wisdom=15
+					dexterity=18
+					constitution=18
+					charisma=18
+					morale=16
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~VAMPIRE~)
+					class=IDS_OF_SYMBOL (~class~ ~VAMPIRE~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					moveSilent=100
+					movement=14
+					enforce=1
+			END
+			// Assigning jabm4k00
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN vampir01 ppvampir BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4k00 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"VAMVER01"
+	BEGIN
+		LAF jam4k_patch STR_VAR file END
+	END
+END

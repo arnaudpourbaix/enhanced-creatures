@@ -1,0 +1,8 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/49.tpa" // Fledgling Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4h.tpa" // Mature Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4i.tpa" // Old Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4j.tpa" // Very Old Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4k.tpa" // Ancient Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4l.tpa" // Eminent Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4m.tpa" // Patriarch Vampire

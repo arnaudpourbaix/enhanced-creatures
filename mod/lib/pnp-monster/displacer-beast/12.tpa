@@ -1,0 +1,170 @@
+// Generated file (don't edit)
+
+// Displacer Beast
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/displacer-beast/jabm1200.baf~
+
+// Displacer Beast traits
+CREATE ITM "jaim1200"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10894)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10894)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10895)
+COPY_EXISTING ~jaim1200.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=65 target=1 global=1 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=159 target=1 global=1 parameter1=1 timing=2 resist_dispel=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=7 timing=2 resist_dispel=2 probability1=100 STR_VAR resource="BDDISPLC" END
+	LPF magic_immunity END
+	LPF fire_immunity END
+	LPF cold_immunity END
+
+// Tentacles
+CREATE ITM "jaim1201"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10164)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10164)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IJELLY~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10896)
+	WRITE_LONG 0x60 1
+COPY_EXISTING ~jaim1201.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IJELLY~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 5
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 4
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 6
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+DEFINE_ACTION_FUNCTION jam12_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBE~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB1~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~BDDISPBE~
+			REMOVE_CRE_ITEM ~JY_01DB~
+			REMOVE_CRE_ITEM ~JY_02DB~
+			REMOVE_CRE_ITEM ~JY_03DB~
+			REMOVE_CRE_ITEM ~BOOT01~
+			REMOVE_CRE_ITEM ~MOBHA39A~
+			ADD_CRE_ITEM ~jaim1200~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jaim1201~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jaic000c~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF clear_proficiencies END
+			LPF backstab_immunity END
+			LPF patchCreature
+				INT_VAR
+					xpv=975
+					hp=72
+					ac=7
+					thac0=15
+					apr=2
+					saveDeath=5
+					saveWand=7
+					savePolymorph=6
+					saveBreath=6
+					saveSpell=8
+					level1=6
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=18
+					intelligence=4
+					wisdom=12
+					dexterity=15
+					constitution=16
+					charisma=8
+					morale=14
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~CAT~)
+					class=IDS_OF_SYMBOL (~class~ ~CAT~)
+					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)
+					movement=12
+					enforce=1
+			END
+			// Assigning jabm1200
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1200 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~) BEGIN 
+				WRITE_LONG 0x14 1100 // xpv
+				WRITE_SHORT 0x24 135 // hp
+				WRITE_SHORT 0x26 135 // hp
+				WRITE_SHORT 0x46 2 // ac
+				WRITE_SHORT 0x48 2 // ac
+				WRITE_BYTE 0x52 11 // thac0
+				WRITE_BYTE 0x54 5 // saveDeath
+				WRITE_BYTE 0x55 7 // saveWand
+				WRITE_BYTE 0x56 6 // savePolymorph
+				WRITE_BYTE 0x57 6 // saveBreath
+				WRITE_BYTE 0x58 8 // saveSpell
+				WRITE_BYTE 0x234 9 // level1
+				WRITE_BYTE 0x238 19 // strength
+				WRITE_BYTE 0x23d 19 // constitution
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB1~) BEGIN 
+				WRITE_LONG 0x14 1200 // xpv
+				WRITE_SHORT 0x24 144 // hp
+				WRITE_SHORT 0x26 144 // hp
+				WRITE_BYTE 0x52 9 // thac0
+				WRITE_BYTE 0x54 5 // saveDeath
+				WRITE_BYTE 0x55 7 // saveWand
+				WRITE_BYTE 0x56 6 // savePolymorph
+				WRITE_BYTE 0x57 6 // saveBreath
+				WRITE_BYTE 0x58 8 // saveSpell
+				WRITE_BYTE 0x234 12 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB~) BEGIN 
+				WRITE_LONG 0x14 3000 // xpv
+				WRITE_SHORT 0x24 168 // hp
+				WRITE_SHORT 0x26 168 // hp
+				WRITE_BYTE 0x52 7 // thac0
+				WRITE_BYTE 0x53 4 // apr
+				WRITE_BYTE 0x54 3 // saveDeath
+				WRITE_BYTE 0x55 5 // saveWand
+				WRITE_BYTE 0x56 4 // savePolymorph
+				WRITE_BYTE 0x57 3 // saveBreath
+				WRITE_BYTE 0x58 6 // saveSpell
+				WRITE_BYTE 0x5d 50 // resistMagic
+				WRITE_BYTE 0x234 14 // level1
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"BDDISPBP"
+		"BDDISPBE"
+	BEGIN
+		LAF jam12_patch STR_VAR file END
+	END
+END
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"JY_00DB"
+		"JY_00DB1"
+	BEGIN
+		LAF jam12_patch STR_VAR file END
+	END
+END
