@@ -159,8 +159,8 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 ### Bugs and gaps found along the way
 
-- ☐ `pipeline.golden.test.ts` fails at setup (its temp dir lacks `enhanced_creatures.tp2`): fix the
-  setup so the golden test means something again.
+- ✅ `pipeline.golden.test.ts` fails at setup: fixed (copies the tp2); the full suite is green and
+  the test fails when the committed `mod/` is stale.
 - ☐ `pnp-spell/scribe_scrolls/main.tpa`: 16 `%MOD_FOLDER%` paths that don't resolve (untouched by
   this work; check).
 - ☐ `jacm1500.cre` (Dryad summon) embeds stale `ja#1m41` / `ja#i5`; the generated tpa sets the

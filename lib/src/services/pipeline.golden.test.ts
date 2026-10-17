@@ -87,6 +87,11 @@ beforeAll(async () => {
   const pnpMonsterSrc = path.join(MOD_ROOT, PNP_MONSTER_DIR);
   copyRecursive(pnpMonsterSrc, path.join(tempDir, PNP_MONSTER_DIR));
   fs.copyFileSync(path.join(MOD_ROOT, "CHANGELOG.md"), path.join(tempDir, "CHANGELOG.md"));
+  // The docs read the mod version from the tp2 (doc-version.ts).
+  fs.copyFileSync(
+    path.join(MOD_ROOT, "enhanced_creatures.tp2"),
+    path.join(tempDir, "enhanced_creatures.tp2"),
+  );
 
   await stateService.init();
   State.modFolder = tempDir;
