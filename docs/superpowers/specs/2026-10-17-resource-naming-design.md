@@ -72,9 +72,22 @@ a resource and stays).
 - The exact old → new table is fixed in the implementation plan. Values live in their existing
   constants (`ITEMS`, `CREATURES`, `config/spells`, the projectiles enum, `copyFrom`/`icon`
   literals), so most renames are one value each.
-- Asset files are renamed on disk (the 14 `ja` files under the families' `assets/` folders), and their
+- Asset files are renamed on disk (the 14 `ja` files under the families' `assets/` folders, plus the 3 Symbol of Pain icons
+  `jaspainA/B/C.BAM` in `pnp-spell/symbol_pain/`), and their
   references in the three hand-written tpa files: `common/core.tpa`, `fey/common.tpa`,
-  `undead/common.tpa`.
+  `undead/common.tpa`, `pnp-spell/symbol_pain/main.tpa`.
+- Symbol of Pain's icons are built today as `${spell}B` / `${spell}C` (`jaspainB`, `jaspainC`):
+  with an 8-character spell name that would give 9 characters, so its icons get their own names
+  (`jaac0000`–`jaac0002`) and `lib/spells/symbol_pain.ts` names them explicitly.
+- `woodland_beings` (not installed: commented out in the tp2) keeps its old `ja#` names.
+- `jadryad.cre` embeds two stale names (`ja#1m41`, `ja#i5`); the generated tpa overrides its
+  scripts and items at install, so they are left as they are.
+
+## Icon suffix rule
+
+`spell.service.ts` appends `C` (spell) / `B` (header) to an icon ending in 3 digits, for vanilla
+names (`SPWI305` → `SPWI305C`). New names often end in 3 digits (`jaac0000`), so the rule skips
+names starting with `ja`.
 
 ## Guards
 
