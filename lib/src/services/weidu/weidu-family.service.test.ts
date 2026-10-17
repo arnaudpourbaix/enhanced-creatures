@@ -122,4 +122,37 @@ describe("createOrUpdateMainFile", () => {
     const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
     expect(content).toBe("LAM load_secondary_types\r\n");
   });
+
+  it("removes generated tpa/baf files, keeping common.tpa and assets, and never touches common/", () => {
+    const familyFolder = setupTempFamilyFolder();
+    fs.mkdirSync(path.join(familyFolder, "assets"));
+    for (const f of [
+      "29.tpa",
+      "main.tpa",
+      "jam29.baf",
+      "common.tpa",
+      "assets/x.baf",
+      "assets/jaaf0800.bam",
+    ])
+      fs.writeFileSync(path.join(familyFolder, f), "x");
+    const commonFolder = path.join(tempDir, "lib/pnp-monster/common");
+    fs.mkdirSync(commonFolder);
+    fs.writeFileSync(path.join(commonFolder, "core.tpa"), "x");
+
+    weiduFamilyService.cleanFamilyFolder(MonsterFamilyEnum.Ankheg);
+
+    expect(fs.readdirSync(familyFolder).sort()).toEqual(["assets", "common.tpa"]);
+    expect(fs.readdirSync(path.join(familyFolder, "assets")).sort()).toEqual([
+      "jaaf0800.bam",
+      "x.baf",
+    ]);
+    expect(fs.readdirSync(commonFolder)).toEqual(["core.tpa"]);
+  });
+
+  it("cleans the family folder when a family starts", () => {
+    const familyFolder = setupTempFamilyFolder();
+    fs.writeFileSync(path.join(familyFolder, "29.tpa"), "x");
+    weiduFamilyService.createOrUpdateMainFile(MonsterFamilyEnum.Ankheg);
+    expect(fs.readdirSync(familyFolder)).toEqual(["main.tpa"]);
+  });
 });

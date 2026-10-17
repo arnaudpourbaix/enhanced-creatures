@@ -7,6 +7,7 @@ import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
 import { CodeLine } from "../../model/misc";
 import { State } from "../../state";
+import logService from "../log.service";
 import translationService from "../translation.service";
 import { toCode } from "../utils/misc.func";
 import utils from "../utils/utils.service";
@@ -19,6 +20,7 @@ class WeiduFamilyService extends AbstractWeiduService {
   createOrUpdateMainFile(family: MonsterFamilyEnum, creature?: Creature) {
     const file = this.getMainFilename(family);
     if (!creature) {
+      this.cleanFamilyFolder(family);
       let content = `LAM load_secondary_types${CR}`;
       const commonFile = path.join(State.modFolder, `${utils.getFamilyFolder(family)}/common.tpa`);
       if (fs.existsSync(commonFile)) {
@@ -32,6 +34,25 @@ class WeiduFamilyService extends AbstractWeiduService {
         file,
         `INCLUDE "%MOD_FOLDER%/${utils.getFamilyFolder(family)}/${toCode(creature.id)}.tpa" // ${translationService.from(creature.name)}${CR}`,
       );
+    }
+  }
+
+  // Deletes what generation writes at the family folder root (creature .tpa, main.tpa,
+  // creature .baf), so renamed or removed creatures leave no stale file behind.
+  // Hand-written common.tpa and the assets/ subfolder are kept; not recursive.
+  cleanFamilyFolder(family: MonsterFamilyEnum) {
+    const folder = path.join(State.modFolder, utils.getFamilyFolder(family));
+    if (!fs.existsSync(folder)) return;
+    for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+      if (!entry.isFile()) continue;
+      const name = entry.name.toLowerCase();
+      const ext = path.extname(name);
+      if (ext === ".baf" || (ext === ".tpa" && name !== "common.tpa")) {
+        fs.rmSync(path.join(folder, entry.name));
+        logService.info(
+          `Removed stale generated file ${utils.getFamilyFolder(family)}/${entry.name}`,
+        );
+      }
     }
   }
 
