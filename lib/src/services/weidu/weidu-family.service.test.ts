@@ -1,13 +1,14 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterFamilyEnum } from "../../../creatures/monster";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { Creature } from "../../model/creature/creature";
 import { Family } from "../../model/creature/family";
 import { Spell } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
+import logService from "../log.service";
 import weiduFamilyService from "./weidu-family.service";
 
 function fakeFamily(p: {
@@ -139,8 +140,12 @@ describe("createOrUpdateMainFile", () => {
     fs.mkdirSync(commonFolder);
     fs.writeFileSync(path.join(commonFolder, "core.tpa"), "x");
 
+    const info = vi.spyOn(logService, "info").mockImplementation(() => {});
     weiduFamilyService.cleanFamilyFolder(MonsterFamilyEnum.Ankheg);
 
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith("Cleaned 3 generated files in lib/pnp-monster/ankheg");
+    info.mockRestore();
     expect(fs.readdirSync(familyFolder).sort()).toEqual(["assets", "common.tpa"]);
     expect(fs.readdirSync(path.join(familyFolder, "assets")).sort()).toEqual([
       "jaaf0800.bam",

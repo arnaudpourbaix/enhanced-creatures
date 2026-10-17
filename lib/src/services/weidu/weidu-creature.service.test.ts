@@ -615,13 +615,13 @@ describe("patchScripts (private)", () => {
 
   it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
     const lines: CodeLine[] = [];
-    const creature = scriptCreature([summonAdj({ files: ["JADRYAD"] })]);
+    const creature = scriptCreature([summonAdj({ files: ["JACM1500"] })]);
     (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [
-      { files: ["JADRYAD"] },
+      { files: ["JACM1500"] },
     ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
-    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JADRYAD END");
+    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JACM1500 END");
     expect(out.some((c) => c.includes("STR_VAR") && c.includes("forceFiles"))).toBe(true);
   });
 

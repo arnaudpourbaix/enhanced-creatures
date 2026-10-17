@@ -43,17 +43,18 @@ class WeiduFamilyService extends AbstractWeiduService {
   cleanFamilyFolder(family: MonsterFamilyEnum) {
     const folder = path.join(State.modFolder, utils.getFamilyFolder(family));
     if (!fs.existsSync(folder)) return;
+    let removed = 0;
     for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
       if (!entry.isFile()) continue;
       const name = entry.name.toLowerCase();
       const ext = path.extname(name);
       if (ext === ".baf" || (ext === ".tpa" && name !== "common.tpa")) {
         fs.rmSync(path.join(folder, entry.name));
-        logService.info(
-          `Removed stale generated file ${utils.getFamilyFolder(family)}/${entry.name}`,
-        );
+        removed++;
       }
     }
+    if (removed > 0)
+      logService.info(`Cleaned ${removed} generated files in ${utils.getFamilyFolder(family)}`);
   }
 
   // Every .baf in the family's assets folder overrides an existing game script:
