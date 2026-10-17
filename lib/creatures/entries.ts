@@ -38,6 +38,27 @@ import { createDreadWolfEntry } from "./wolf/dread-wolf";
 import { createVampiricWolfEntry } from "./wolf/vampiric-wolf";
 import { createWinterWolfEntry } from "./wolf/winter-wolf";
 import { createWorgEntry } from "./wolf/worg";
+import { createHelmedHorrorEntry } from "./construct/helmed-horror";
+import { createBattleHorrorEntry } from "./construct/battle-horror";
+import { createDoomSayerEntry } from "./construct/doom-sayer";
+import { createDoomGuardEntry } from "./construct/doom-guard";
+import { createFleshGolemEntry } from "./golem/flesh-golem";
+import { createSandGolemEntry } from "./golem/sand-golem";
+import { createClayGolemEntry } from "./golem/clay-golem";
+import { createStoneGolemEntry } from "./golem/stone-golem";
+import { createIronGolemEntry } from "./golem/iron-golem";
+import { createBoneGolemEntry } from "./golem/bone-golem";
+import { createJuggernautGolemEntry } from "./golem/juggernaut-golem";
+import { createSnowGolemEntry } from "./golem/snow-golem";
+import { createMagicGolemEntry } from "./golem/magic-golem";
+import { createAdamantiteGolemEntry } from "./golem/adamantite-golem";
+import { createWaxGolemEntry } from "./golem/wax-golem";
+import { createOgreEntry } from "./ogre/ogre";
+import { createOgrillonEntry } from "./ogre/ogrillon";
+import { createHalfOgreEntry } from "./ogre/half-ogre";
+import { createOgreMageEntry } from "./ogre/ogre-mage";
+import { createOgreBerserkerEntry } from "./ogre/ogre-berserker";
+import { createOgreShamanEntry } from "./ogre/ogre-shaman";
 
 /**
  * Entry factories, in install order. Each receives the built kins, to hand its own kin to the
@@ -80,4 +101,25 @@ export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry
   createVampiricWolfEntry,
   createWinterWolfEntry,
   createWorgEntry,
+  createHelmedHorrorEntry,
+  createBattleHorrorEntry,
+  createDoomSayerEntry,
+  createDoomGuardEntry,
+  createFleshGolemEntry,
+  createSandGolemEntry,
+  createClayGolemEntry,
+  createStoneGolemEntry,
+  createIronGolemEntry,
+  createBoneGolemEntry,
+  createJuggernautGolemEntry,
+  createSnowGolemEntry,
+  createMagicGolemEntry,
+  createAdamantiteGolemEntry,
+  createWaxGolemEntry,
+  createOgreEntry,
+  createOgrillonEntry,
+  createHalfOgreEntry,
+  createOgreMageEntry,
+  createOgreBerserkerEntry,
+  createOgreShamanEntry,
 ];

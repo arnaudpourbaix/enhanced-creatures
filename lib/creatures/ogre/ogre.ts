@@ -1,12 +1,14 @@
 import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ids } from "./ids";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ids, Ogre, OgreKin } from "./kin";
 
-export function ogre(family: OgreFamily): Ogre {
+function ogre(family: CreatureEntry<Ogre>): Ogre {
   const ogre = family.create({
     monster: MonsterEnum.Ogre,
     name: "monster.ogre.name.ogre",
@@ -96,7 +98,7 @@ export function ogre(family: OgreFamily): Ogre {
   return ogre;
 }
 
-function leaderVariant(family: OgreFamily, base: Ogre): Variant {
+function leaderVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
   return base.variant("Leader", {
     // leader is a 7 Hit Dice monster with Armor Class 3, Strenth 18/50, XP 650
     // He inflicts 2d6 points of damage per attack.
@@ -122,7 +124,7 @@ function leaderVariant(family: OgreFamily, base: Ogre): Variant {
   });
 }
 
-function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
   const chieftain: InputCreatureData = {
     level1: 9,
     morale: 18,
@@ -202,3 +204,21 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
     ],
   });
 }
+
+class OgreEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.Ogre, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => {
+      const created = ogre(this);
+      if (kin) kin.ogreFists = created.item(Ids.Ogre);
+      return created;
+    });
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createOgreEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new OgreEntry(kins.get(KinEnum.Ogre));

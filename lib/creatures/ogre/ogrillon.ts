@@ -1,9 +1,12 @@
 import { Variant } from "../../src/model/creature/variant";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ogre, OgreKin } from "./kin";
 
-export function ogrillon(family: OgreFamily): Ogre {
+function ogrillon(family: CreatureEntry<Ogre>): Ogre {
   const ogrillon = family.create({
     monster: MonsterEnum.Ogrillon,
     name: "monster.ogre.name.ogrillon",
@@ -67,3 +70,17 @@ function veteranVariant(base: Ogre): Variant {
     files: ["GNARL", "HAIRTO"],
   });
 }
+
+class OgrillonEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.Ogrillon, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => ogrillon(this));
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createOgrillonEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new OgrillonEntry(kins.get(KinEnum.Ogre));

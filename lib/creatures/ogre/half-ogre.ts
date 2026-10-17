@@ -2,12 +2,14 @@ import { InputCreatureData } from "../../src/model/creature/data-input";
 import { QUICK_SLOTS } from "../../src/model/creature/item";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ids } from "./ids";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ids, Ogre, OgreKin } from "./kin";
 
-export function halfOgre(family: OgreFamily): Ogre {
+function halfOgre(family: CreatureEntry<Ogre>): Ogre {
   const halfOgre = family.create({
     monster: MonsterEnum.HalfOgre,
     name: "monster.ogre.name.half",
@@ -162,3 +164,17 @@ function chieftainVariant(base: Ogre): Variant {
     ],
   });
 }
+
+class HalfOgreEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.HalfOgre, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => halfOgre(this));
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createHalfOgreEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new HalfOgreEntry(kins.get(KinEnum.Ogre));

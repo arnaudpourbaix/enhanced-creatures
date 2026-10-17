@@ -1,11 +1,13 @@
 import { SPELLS } from "../../config/spells/spell-database";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ids } from "./ids";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ogre, OgreKin } from "./kin";
 
-export function shaman(family: OgreFamily): Ogre {
+function shaman(family: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
   const shaman = family.create({
     monster: MonsterEnum.OgreShaman,
     name: "monster.ogre.name.shaman",
@@ -45,7 +47,8 @@ export function shaman(family: OgreFamily): Ogre {
       },
     },
   });
-  shaman.equipItem(family.item(Ids.Ogre));
+  if (!kin?.ogreFists) throw new Error("The Ogre entry must build before the Ogre Shaman");
+  shaman.equipItem(kin.ogreFists);
   shaman.setBehavior({
     restHeal: true,
     usePotions: true,
@@ -61,3 +64,17 @@ export function shaman(family: OgreFamily): Ogre {
   });
   return shaman;
 }
+
+class OgreShamanEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.OgreShaman, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => shaman(this, kin));
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createOgreShamanEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new OgreShamanEntry(kins.get(KinEnum.Ogre));

@@ -1,10 +1,13 @@
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ogre, OgreKin } from "./kin";
 
-export function berserker(family: OgreFamily): Ogre {
+function berserker(family: CreatureEntry<Ogre>): Ogre {
   const berserker = family.create({
     monster: MonsterEnum.OgreBerserker,
     name: "monster.ogre.name.berserker",
@@ -70,7 +73,7 @@ export function berserker(family: OgreFamily): Ogre {
   return berserker;
 }
 
-function chieftainVariant(_family: OgreFamily, base: Ogre): Variant {
+function chieftainVariant(_family: CreatureEntry<Ogre>, base: Ogre): Variant {
   const variant = base.variant("Chieftain", {
     // chieftain
     files: [
@@ -150,3 +153,17 @@ function barbarianVariant(base: Variant): Variant {
     files: ["BDOGRE06", "D9OGRGA2"],
   });
 }
+
+class OgreBerserkerEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.OgreBerserker, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => berserker(this));
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createOgreBerserkerEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new OgreBerserkerEntry(kins.get(KinEnum.Ogre));

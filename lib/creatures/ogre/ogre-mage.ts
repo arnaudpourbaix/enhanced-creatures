@@ -3,12 +3,14 @@ import effectFactory from "../../src/factories/effect.factory";
 import { InputCreatureData } from "../../src/model/creature/data-input";
 import { Variant } from "../../src/model/creature/variant";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
-import { MonsterEnum } from "../monster";
-import type { OgreFamily } from "./family";
-import { Ids } from "./ids";
-import { Ogre } from "./ogre-creature";
+import { MonsterEnum, MonsterFamilyEnum } from "../monster";
+import { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { Ids, Ogre, OgreKin } from "./kin";
 
-export function ogreMage(family: OgreFamily): Ogre {
+function ogreMage(family: CreatureEntry<Ogre>): Ogre {
   const ogreMage = family.create({
     monster: MonsterEnum.OgreMage,
     name: "monster.ogre.name.mage",
@@ -123,7 +125,7 @@ export function ogreMage(family: OgreFamily): Ogre {
   return ogreMage;
 }
 
-function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
+function chieftainVariant(family: CreatureEntry<Ogre>, base: Ogre): Variant {
   // Shared profile for Krotan/Ntkrotan/Kahrk before their own level/proficiency bump.
   const krotanChief: InputCreatureData = {
     level1: 12,
@@ -227,3 +229,17 @@ function chieftainVariant(family: OgreFamily, base: Ogre): Variant {
     ],
   });
 }
+
+class OgreMageEntry extends CreatureEntry<Ogre> {
+  constructor(kin?: OgreKin) {
+    super(EntryEnum.OgreMage, kin, MonsterFamilyEnum.Ogre);
+    this.addCreature(() => ogreMage(this));
+  }
+
+  createCreature(id: MonsterEnum): Ogre {
+    return new Ogre(id);
+  }
+}
+
+export const createOgreMageEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new OgreMageEntry(kins.get(KinEnum.Ogre));

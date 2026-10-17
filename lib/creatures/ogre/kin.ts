@@ -36,7 +36,24 @@ import {
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
-import { Ids } from "./ids";
+import { Item } from "../../src/model/spell-item/spell-item";
+import { CreatureKin } from "../../src/model/creature/kin";
+import { KinEnum } from "../kin";
+
+/**
+ * Shared ability/item ids for the ogre kin. They live in one enum because
+ * `entry.item(id)` / `entry.spell(id)` search across every creature in the
+ * entry, so ids must stay unique kin-wide.
+ */
+export enum Ids {
+  ConeOfCold,
+  Fly,
+  GaseousForm,
+  Naginata,
+  HalfOgre,
+  Ogre,
+  OgreLeader,
+}
 
 export class Ogre extends Creature {
   /**
@@ -362,3 +379,16 @@ export class Ogre extends Creature {
     });
   }
 }
+
+export class OgreKin extends CreatureKin {
+  /**
+   * The Ogre's fists, set when the Ogre entry builds; the Ogre Shaman equips them too.
+   */
+  ogreFists?: Item;
+
+  constructor() {
+    super(KinEnum.Ogre);
+  }
+}
+
+export const createOgreKin = () => new OgreKin();
