@@ -124,4 +124,73 @@ Makes the code match the docs. Builds on 1 (metadata becomes structure), helped 
 ## Related, already done
 
 - `npm run copy -- --family <names> --monster <text>` (2026-10-16) installs only part of the mod
-  for testing. `--family` will need revisiting in sub-project 4.
+  for testing. Replaced in sub-project 4 by `--entry` / `--kin` / `--monster`.
+
+## Follow-ups
+
+Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open · ✅ done.
+
+### Needs a decision or an in-game check
+
+- ☐ **Ettin**: now installed for the first time (the old tp2 never included it). Confirm it is
+  finished, or exclude it from the index.
+- ☐ **Turn Undead**: Wraith Spider, Dread Wolf, Vampiric Wolf and the zombie-ankheg adjustments now
+  get a turn level, but the engine may only turn creatures whose CRE `General` is UNDEAD. Check in
+  game; if needed, set `General` for undead-typed creatures.
+- ☐ **Install test** of the reorganised mod (uninstall the previous version first).
+- ☐ **Docs page in a browser**: "Common to all" boxes, type filter (desktop and narrow window: the
+  sticky bar's 52px offset is a guess), type tags and `#code` in titles, popovers in the shared box,
+  a type tag clicked in an adjustments title must not open the panel.
+
+### Structure
+
+- ☐ Move single-use material out of kins into their entry (Bear's Improved Stream of Frost → Polar
+  Bear; Wolf's frost and dread-wolf helpers; Nereid-only Fey methods). Renames those resources.
+- ☐ Move `SAHAMB01.baf` (overrides scripts of Zombie, Ghast and Skeleton Warrior creatures) from the
+  Zombie entry to `pnp-monster/common/`, so `copy --entry ghast` no longer pulls the whole Zombie
+  entry.
+- ☐ `ENTRY_MEMBERS` duplicates what the entry builders declare (kept in step only by a test):
+  derive it or drop it.
+- ☐ `lib/creatures/undead/` is neither a kin nor a type (holds `ids.ts`, `undead-entry.ts`): move
+  `UndeadEntry` next to the undead type, or document the folder.
+- ☐ Merge the per-family weapon name keys (`monster.<family>.weapon.jaws`…) into shared keys
+  (renumbers every string; sub-project 2's planned second step).
+- ☐ A variant layer for natural weapons ("undead claws" today needs both the icon and the name key).
+
+### Bugs and gaps found along the way
+
+- ☐ `pipeline.golden.test.ts` fails at setup (its temp dir lacks `enhanced_creatures.tp2`): fix the
+  setup so the golden test means something again.
+- ☐ `pnp-spell/scribe_scrolls/main.tpa`: 16 `%MOD_FOLDER%` paths that don't resolve (untouched by
+  this work; check).
+- ☐ `jacm1500.cre` (Dryad summon) embeds stale `ja#1m41` / `ja#i5`; the generated tpa sets the
+  scripts but doesn't remove the `ja#i5` item reference.
+- ☐ `pnp-spell/woodland_beings` (not installed) still uses old `ja#` names and summons the Dryad,
+  Hamadryad and Treant entries' creatures: update when the component is plugged in.
+
+### Tests
+
+- ☐ docOnly function test: add a positive control (an immunity that does appear).
+- ☐ Translation test for a `doc.types.*` key (multi-line text).
+- ☐ Weapon "No enchantment" branch of the docs cards; pass-through of `id`, `range`, `projectile`,
+  `animationSwing`, `damageBonus`, `immunities`, `doc` in `addNaturalWeapon`.
+- ☐ `entry-common` tests never populate abilities / trait lines.
+- ☐ Cleaner: no test for a missing folder.
+- ☐ Undead type coming only from a trait item, through the type hook (Dread Wolf case).
+- ☐ Dependency closure: explicit cycle test.
+- ☐ Docs chip-count test regex is brittle.
+
+### Cosmetic
+
+- ☐ `addSpecial` is dead in production (kept for its tests).
+- ☐ `definedOnly` comment overstates (the risk is in `itemService.setHeader`'s header spread).
+- ☐ `NaturalWeaponOptions.icon` typed `string` → `MonsterItemIconEnum`.
+- ☐ `hp.ts` comment repeats the type dice values (drift risk): point to `lib/creatures/types/`.
+- ☐ Unchecked `kins.get(KinEnum.X) as XKin` casts in fey entries.
+- ☐ Death Knight copies `jaae2q00.bam`, used only by a commented-out line.
+- ☐ Leftover "family" wording in some tests and comments (`log.service.test.ts`, `pipeline.golden.test.ts`).
+- ☐ Malformed `index.json` reports "old format".
+- ☐ Sidebar groups opened by the type filter stay open after "All"; a global `[hidden]` guard as
+  insurance.
+- ☐ `getAdjustmentTypes` recomputes creature types per adjustment; services import content via a
+  lazy getter.
