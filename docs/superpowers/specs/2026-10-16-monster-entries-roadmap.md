@@ -133,9 +133,11 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 ### Needs a decision or an in-game check
 
 - ✅ **Ettin**: finished (confirmed 2026-10-18), stays installed.
-- ✅ **Turn Undead**: any undead can be turned unless immune to turning, whatever its CRE `General`
-  (confirmed 2026-10-18): no `General` change needed.
-- ☐ **Install test** of the reorganised mod (uninstall the previous version first).
+- ✅ **Turn Undead**: tested in game (2026-10-18): turning needs CRE `General=UNDEAD`. The undead
+  type hook now sets it (with the turn level) on every undead creature and on adjustments making
+  one undead: fixes Wraith Spider, Dread Wolf (was ANIMAL), zombie ankhegs, and Shadow / Greater
+  Shadow (were MONSTER, though the game's files are UNDEAD).
+- ✅ **Install test**: the reorganised mod installs fine (2026-10-18).
 - ☐ **Docs page in a browser**: "Common to all" boxes, type filter (desktop and narrow window: the
   sticky bar's 52px offset is a guess), type tags and `#code` in titles, popovers in the shared box,
   a type tag clicked in an adjustments title must not open the panel.

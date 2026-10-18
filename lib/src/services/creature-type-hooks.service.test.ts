@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { applyTurnLevel } from "../../creatures/types/turn-level";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import { ImmunityConfig, ImmunityName } from "../model/final/immunity";
@@ -28,9 +27,16 @@ describe("creatureTypeHooksService modules", () => {
     ).toEqual({ construct: 10, dragon: 12, fey: 6, magicalBeast: 10, ooze: 10, undead: 12 });
   });
 
-  it("sets the turn level from the undead module", () => {
+  // Checked by effect: importing types/undead here would load it before the registry (cycle).
+  it("registers the undead module's hook (General and turn level: types/undead.test.ts)", () => {
     const undead = creatureTypeHooksService.modules.find((m) => m.type === "undead");
-    expect(undead?.afterBuild).toBe(applyTurnLevel);
+    const spider = {
+      data: { general: "MONSTER", immunities: ["undead"], level1: { pnpValue: 2, value: 2 } },
+      items: [],
+      adjustments: [],
+    } as unknown as Creature;
+    undead?.afterBuild?.(spider);
+    expect(spider.data.general).toBe("UNDEAD");
   });
 });
 

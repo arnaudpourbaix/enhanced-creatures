@@ -11,18 +11,44 @@ import {
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
 import type { CreatureTypeModule } from "../../src/services/creature-type-hooks.service";
+import creatureTypeService from "../../src/services/creature-type.service";
 import { applyTurnLevel } from "./turn-level";
 
 /**
- * Undead type: d12 Hit Dice, and the turn level of every undead creature (and of adjustments
- * making a creature undead). The weapon helpers below are shared by every undead entry;
- * creature-specific spells and abilities live in the entries' files.
+ * Undead type: d12 Hit Dice, General UNDEAD and the turn level of every undead creature (and of
+ * adjustments making a creature undead). The weapon helpers below are shared by every undead
+ * entry; creature-specific spells and abilities live in the entries' files.
  */
 export const undeadType: CreatureTypeModule = {
   type: "undead",
   hitDie: 12,
-  afterBuild: applyTurnLevel,
+  afterBuild: (creature) => {
+    applyUndeadGeneral(creature);
+    applyTurnLevel(creature);
+  },
 };
+
+/**
+ * Turn Undead only affects creatures whose CRE General is UNDEAD (tested in game), and the mod
+ * writes General over the game's: an undead creature gets UNDEAD, so do its adjustments that set
+ * another General, and, for a creature that isn't undead, each adjustment making it undead
+ * (zombie ankhegs). Undead only by a type trait or trait item (Wraith Spider, Dread Wolf) counts.
+ */
+export function applyUndeadGeneral(creature: Creature): void {
+  const own = creatureTypeService.getCreatureTypes(creature);
+  if (own.includes("undead")) {
+    creature.data.general = "UNDEAD";
+    for (const { data } of creature.adjustments) {
+      if (data.general !== undefined) data.general = "UNDEAD";
+    }
+    return;
+  }
+  for (const adjustment of creature.adjustments) {
+    if (creatureTypeService.getAdjustmentTypes(creature, adjustment, own).includes("undead")) {
+      adjustment.data.general = "UNDEAD";
+    }
+  }
+}
 
 export function createTouch(
   creature: Creature,

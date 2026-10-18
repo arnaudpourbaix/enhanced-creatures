@@ -108,7 +108,7 @@ BEGIN
 					constitution=9
 					charisma=1
 					morale=15
-					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
 					race=IDS_OF_SYMBOL (~race~ ~SPIDER~)
 					class=IDS_OF_SYMBOL (~class~ ~SPIDER_WRAITH~)
 					alignment=IDS_OF_SYMBOL (~align~ ~LAWFUL_EVIL~)

@@ -126,7 +126,7 @@ BEGIN
 					constitution=9
 					charisma=8
 					morale=20
-					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
 					race=IDS_OF_SYMBOL (~race~ ~SHADOW~)
 					class=IDS_OF_SYMBOL (~class~ ~SHADOW~)
 					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
