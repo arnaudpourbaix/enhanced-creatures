@@ -1860,6 +1860,12 @@ const INNATE_SPELLS = {
     level: 6,
     keywords: ["fear", "magicResistance", "castOnSelf", "area"],
   },
+  ShapeshiftWolf: {
+    file: "SPIN110",
+    level: 1,
+    name: "spell.ShapeshiftWolf.name",
+    keywords: ["castOnSelf"],
+  },
   SpiderSingleTargetWeb: {
     file: "BDSPIDGA",
     name: "spell.SpiderSingleTargetWeb.name",

@@ -391,10 +391,6 @@ END
 
 DEFINE_ACTION_FUNCTION get_gaze_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"jasm4900"
-		"jasm4h00"
-		"jasm4i00"
-		"jasm4j00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

@@ -27,6 +27,7 @@ export const EXISTING_STRING_REFERENCES = [
   { id: [26328], str: "Dire Charm", group: "charm" },
   { id: [26206], str: "Dominated", group: "charm" },
   { id: [14672, 31787], str: "Charmed", group: "charm" },
+  { id: [61418], str: "Controlled", group: "control" },
   { id: [14780, 158915], str: "Dire charmed", group: "charm" },
   { id: [14007, 17427, 25818], str: "Panic", group: "panic" },
   { id: [20568], str: "Morale Failure: Panic", group: "panic" },

@@ -26,6 +26,7 @@ import {
 import { Item, PartialSpellHeader } from "../src/model/spell-item/spell-item";
 import targetService from "../src/services/baf/target.service";
 import effectService from "../src/services/effects/effect.service";
+import { StringRefUtils } from "../src/services/utils/string-ref.utils";
 import { TranslationKey } from "../translations/i18n";
 import { ImmunityName } from "../src/model/final/immunity";
 import { StringReference } from "../src/model/final/stringref";
@@ -430,6 +431,12 @@ function batSwarm(cre: Creature) {
   });
 }
 
+/**
+ * The charm visual (SPNWCHRM), copied under the vampire's own name: undead are immune to charm,
+ * which also blocks SPNWCHRM on them.
+ */
+const CONTROL_UNDEAD_VISUAL = "jave4900";
+
 /** Highest vampire level, for some bosses: the youngest vampire is the lowest one. */
 const VAMPIRE_MAX_LEVEL = 25;
 
@@ -445,24 +452,43 @@ function controlUndead(cre: Creature) {
   const minLevel = Math.floor(VAMPIRE_AGES[0].level1 / 2);
   const maxLevel = Math.floor(VAMPIRE_MAX_LEVEL / 2);
   const levels = Array.from({ length: maxLevel - minLevel + 1 }, (_, i) => minLevel + i);
-  const headers: PartialSpellHeader[] = levels.map((level) => ({
-    minLevel: 2 * level,
-    type: ItemAbilityTypeEnum.Melee,
-    location: ItemAbilityLocationEnum.Ability,
-    target: ItemAbilityTargetEnum.LivingActor,
-    range: 30,
-    speed: 1,
-    effects: [
-      {
-        opcode: EffectTypeEnum.CharmControlCreature,
-        generalType: "UNDEAD",
-        charmType: CharmTypeEnum.HostileDomination,
-        timing: EffectTimingEnum.InstantPermanent,
-        dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
-        maxLevel: level,
-      },
-    ],
-  }));
+  const headers: PartialSpellHeader[] = levels.map((level) => {
+    // feedback of the vanilla Control Undead, only shown when the control takes hold
+    const base = {
+      dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+      maxLevel: level,
+    };
+    const feedback = { ...base, timing: EffectTimingEnum.InstantPermanentUntilDeath };
+    return {
+      minLevel: 2 * level,
+      type: ItemAbilityTypeEnum.Melee,
+      location: ItemAbilityLocationEnum.Ability,
+      target: ItemAbilityTargetEnum.LivingActor,
+      range: 30,
+      speed: 1,
+      effects: [
+        {
+          opcode: EffectTypeEnum.CharmControlCreature,
+          generalType: "UNDEAD",
+          charmType: CharmTypeEnum.HostileDomination,
+          timing: EffectTimingEnum.InstantPermanent,
+          ...base,
+        },
+        {
+          opcode: EffectTypeEnum.PlayVisualEffect,
+          playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+          resource: CONTROL_UNDEAD_VISUAL,
+          ...feedback,
+        },
+        {
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: StringRefUtils.getStringId("Controlled"),
+          ...feedback,
+        },
+        { opcode: EffectTypeEnum.PlaySound, resource: "EFF_M15", ...feedback },
+      ],
+    };
+  });
   return cre.addSpell({
     name: "monster.undead.ability.vampireControlUndead.name",
     description: "monster.undead.ability.vampireControlUndead.description",
@@ -503,7 +529,7 @@ interface AnimalForm {
   name: TranslationKey;
   description: TranslationKey;
   animation: AnimationIdentifiers;
-  icon: string;
+  icon: string | string[];
   damage: { diceThrown: number; diceSize: number; type: AbilityDamageTypeEnum };
   effects: Effect[];
   immunities?: ImmunityName[];
@@ -558,16 +584,17 @@ function animalForm(cre: Creature, form: AnimalForm) {
     description: form.description,
     id: form.id,
     memorizedCount: 1,
-    icon: form.icon,
+    icon: Array.isArray(form.icon) ? form.icon[0] : form.icon,
     primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
     secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
-    options: { renew: 1 },
+    options: { renew: ANIMAL_FORM_DURATION / Durations.round },
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.Caster,
         speed: 1,
+        icon: Array.isArray(form.icon) ? form.icon[1] : undefined,
         effects: [
           {
             opcode: EffectTypeEnum.CreateWeapon,
@@ -608,7 +635,10 @@ function animalForm(cre: Creature, form: AnimalForm) {
     ability: {
       ...form.ability,
       triggers: [...NOT_SHAPECHANGED, ...(form.ability.triggers ?? [])],
-      spell: { type: "noDec", castOnSelf: true },
+      // The cast removes the copy, renew gives it back once the form ends: renew alone can't take
+      // it away (opcode 172 keeps memorized copies of an 8-character resource), so a cast that
+      // doesn't use it up (noDec) would pile up a new copy each time.
+      spell: { type: "force", remove: true, castOnSelf: true },
     },
   });
 }
@@ -628,7 +658,7 @@ function wolfForm(cre: Creature, age: VampireAge) {
     name: "monster.undead.ability.vampireWolfForm.name",
     description: "monster.undead.ability.vampireWolfForm.description",
     animation: "WOLF_VAMPIRIC",
-    icon: SPELLS.Class.DruidShapeshiftWolf.file,
+    icon: SPELLS.Innate.ShapeshiftWolf.file,
     damage: { diceThrown: 3, diceSize: 12, type: AbilityDamageTypeEnum.Piercing },
     effects: [animalFormMovement(age)],
     ability: {
@@ -659,7 +689,7 @@ function batForm(cre: Creature, age: VampireAge) {
     name: "monster.undead.ability.vampireBatForm.name",
     description: "monster.undead.ability.vampireBatForm.description",
     animation: "BAT_INSIDE",
-    icon: SPELLS.Class.AvengerShapeshiftBabyWyvern.file,
+    icon: ["PLYWYVNC", "PLYWYVNB"],
     damage: { diceThrown: 2, diceSize: 6, type: AbilityDamageTypeEnum.Piercing },
     effects: [
       animalFormMovement(age),

@@ -1,1 +1,2 @@
 COPY ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/jaae4900.bam~ ~override~
+COPY_EXISTING ~SPNWCHRM.VVC~ ~override/jave4900.vvc~
