@@ -190,15 +190,16 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 ### Cosmetic
 
-- ☐ `addSpecial` is dead in production (kept for its tests).
-- ☐ `definedOnly` comment overstates (the risk is in `itemService.setHeader`'s header spread).
-- ☐ `NaturalWeaponOptions.icon` typed `string` → `MonsterItemIconEnum`.
+- ✅ `addSpecial` is dead in production (kept for its tests).
+- ✅ `definedOnly` comment overstates (the risk is in `itemService.setHeader`'s header spread).
+- ✅ `NaturalWeaponOptions.icon` typed `string` → `MonsterItemIconEnum`.
 - ✅ `hp.ts` comment repeats the type dice values: `HitDiceTable` removed (empty, unused).
-- ☐ Unchecked `kins.get(KinEnum.X) as XKin` casts in fey entries.
-- ☐ Death Knight copies `jaae2q00.bam`, used only by a commented-out line.
-- ☐ Leftover "family" wording in some tests and comments (`log.service.test.ts`, `pipeline.golden.test.ts`).
-- ☐ Malformed `index.json` reports "old format".
-- ☐ Sidebar groups opened by the type filter stay open after "All"; a global `[hidden]` guard as
+- ✅ Unchecked `kins.get(KinEnum.X) as XKin` casts in fey entries.
+- ✅ Death Knight copies `jaae2q00.bam`, used only by a commented-out line.
+- ✅ Leftover "family" wording in some tests and comments (`log.service.test.ts`, `pipeline.golden.test.ts`).
+- ✅ Malformed `index.json` reports "old format".
+- ✅ Sidebar groups opened by the type filter stay open after "All"; a global `[hidden]` guard as
   insurance.
-- ☐ `getAdjustmentTypes` recomputes creature types per adjustment; services import content via a
-  lazy getter.
+- ✅ `getAdjustmentTypes` recomputes creature types per adjustment; services import content via a
+  lazy getter. (Types computed once per creature now; the lazy getter stays: it breaks the
+  import cycle between the type modules and the services they use.)

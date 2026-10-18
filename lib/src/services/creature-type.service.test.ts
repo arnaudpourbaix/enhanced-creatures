@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CreatureAdjustment } from "../model/creature/adjustment";
 import { Creature } from "../model/creature/creature";
 import { ImmunityConfig } from "../model/final/immunity";
 import { State } from "../state";
@@ -41,5 +42,32 @@ describe("getCreatureTypes", () => {
   it("returns no type when none is declared", () => {
     State.immunities = [cfg("cat", ["infravision"])];
     expect(creatureTypeService.getCreatureTypes(creature(["cat"]))).toEqual([]);
+  });
+});
+
+describe("getAdjustmentTypes", () => {
+  const saved = State.immunities;
+  afterEach(() => {
+    State.immunities = saved;
+    vi.restoreAllMocks();
+  });
+  const adjustment = (immunities: string[]) =>
+    ({ data: { immunities } }) as unknown as CreatureAdjustment;
+
+  it("returns the types an adjustment adds that the creature doesn't have (zombie ankheg)", () => {
+    State.immunities = [cfg("undead"), cfg("magicalBeast")];
+    const ankheg = creature(["magicalBeast"]);
+    expect(
+      creatureTypeService.getAdjustmentTypes(ankheg, adjustment(["magicalBeast", "undead"])),
+    ).toEqual(["undead"]);
+  });
+
+  it("uses the creature's types when given instead of recomputing them", () => {
+    State.immunities = [cfg("undead"), cfg("magicalBeast")];
+    const getCreatureTypes = vi.spyOn(creatureTypeService, "getCreatureTypes");
+    expect(
+      creatureTypeService.getAdjustmentTypes(creature([]), adjustment(["undead"]), ["undead"]),
+    ).toEqual([]);
+    expect(getCreatureTypes).not.toHaveBeenCalled();
   });
 });

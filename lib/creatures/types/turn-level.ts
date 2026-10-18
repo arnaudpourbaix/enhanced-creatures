@@ -52,10 +52,11 @@ const TURN_ROW_HIT_DICE: Record<TurnUndeadType, number> = {
 export function applyTurnLevel(creature: Creature): void {
   if (isImmuneToTurning(creature)) return;
   const base = creature.data;
-  const undead = creatureTypeService.getCreatureTypes(creature).includes("undead");
+  const own = creatureTypeService.getCreatureTypes(creature);
+  const undead = own.includes("undead");
   if (undead) base.level1 = getTurnLevel(creature.turnAs, base.level1, base.bonusHp);
   const turned = creature.adjustments.filter(
-    (a) => undead || creatureTypeService.getAdjustmentTypes(creature, a).includes("undead"),
+    (a) => undead || creatureTypeService.getAdjustmentTypes(creature, a, own).includes("undead"),
   );
   for (const adjustment of turned) {
     const data = adjustment.data;

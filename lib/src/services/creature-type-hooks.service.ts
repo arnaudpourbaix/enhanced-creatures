@@ -35,9 +35,10 @@ class CreatureTypeHooksService {
   }
 
   afterBuild(creature: Creature): void {
-    const types = new Set(creatureTypeService.getCreatureTypes(creature));
+    const own = creatureTypeService.getCreatureTypes(creature);
+    const types = new Set(own);
     for (const adjustment of creature.adjustments) {
-      for (const type of creatureTypeService.getAdjustmentTypes(creature, adjustment)) {
+      for (const type of creatureTypeService.getAdjustmentTypes(creature, adjustment, own)) {
         types.add(type);
       }
     }

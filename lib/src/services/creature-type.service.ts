@@ -19,9 +19,13 @@ class CreatureTypeService {
   /**
    * The types an adjustment gives a creature that does not have them (its immunities add to the
    * creature's: a zombie ankheg adjustment adds `undead` to a magical beast), in TYPE_TRAITS order.
+   * Callers looping over the adjustments pass the creature's types (`own`) computed once.
    */
-  getAdjustmentTypes(creature: Creature, adjustment: CreatureAdjustment): ImmunityName[] {
-    const own = this.getCreatureTypes(creature);
+  getAdjustmentTypes(
+    creature: Creature,
+    adjustment: CreatureAdjustment,
+    own: ImmunityName[] = this.getCreatureTypes(creature),
+  ): ImmunityName[] {
     // Test fixtures built with `as unknown as CreatureAdjustment` may omit immunities.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const found = this.collect(adjustment.data.immunities ?? []);
