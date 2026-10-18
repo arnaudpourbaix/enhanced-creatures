@@ -313,7 +313,7 @@ describe("CopyService", () => {
       fs.writeFileSync(path.join(pnpDir(), "index.json"), "{ nope");
 
       await expect(run({ entries: ["dryad"] })).rejects.toThrow(
-        "index.json is in the old format: run `npm run generate`",
+        "index.json is not valid JSON: run `npm run generate`",
       );
     });
 

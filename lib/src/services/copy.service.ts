@@ -141,14 +141,15 @@ class CopyService {
     if (!fs.existsSync(indexPath)) {
       throw new Error(`Missing ${indexPath}: run \`npm run generate\` first.`);
     }
-    const oldFormat = new Error(`${indexPath} is in the old format: run \`npm run generate\``);
     let index: unknown;
     try {
       index = JSON.parse(fs.readFileSync(indexPath, "utf-8"));
     } catch (e: unknown) {
-      throw new Error(oldFormat.message, { cause: e });
+      throw new Error(`${indexPath} is not valid JSON: run \`npm run generate\``, { cause: e });
     }
-    if (!this.isEntryIndex(index)) throw oldFormat;
+    if (!this.isEntryIndex(index)) {
+      throw new Error(`${indexPath} is in the old format: run \`npm run generate\``);
+    }
     return index;
   }
 
