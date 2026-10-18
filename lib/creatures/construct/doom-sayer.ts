@@ -1,6 +1,6 @@
 import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin, builtBefore } from "../../src/model/creature/kin";
+import { builtBefore, CreatureKin, kinOf } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Construct, ConstructKin } from "./kin";
@@ -34,6 +34,4 @@ class DoomSayerEntry extends CreatureEntry<Construct> {
 }
 
 export const createDoomSayerEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new DoomSayerEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined).requires(
-    EntryEnum.BattleHorror,
-  );
+  new DoomSayerEntry(kinOf(kins, KinEnum.Construct, ConstructKin)).requires(EntryEnum.BattleHorror);

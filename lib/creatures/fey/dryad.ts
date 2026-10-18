@@ -2,7 +2,7 @@ import { NEW_CREATURES } from "../../config/creatures";
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, kinOf } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Fey, FeyIds, FeyKin } from "./kin";
@@ -129,4 +129,4 @@ class DryadEntry extends CreatureEntry<Fey> {
 }
 
 export const createDryadEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new DryadEntry(kins.get(KinEnum.Fey) as FeyKin);
+  new DryadEntry(kinOf(kins, KinEnum.Fey, FeyKin));

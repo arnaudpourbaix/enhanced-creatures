@@ -32,3 +32,18 @@ export function builtBefore<T>(creature: T | undefined, name: string): T {
   if (!creature) throw new Error(`The ${name} entry must build first`);
   return creature;
 }
+
+/**
+ * The kin an entry factory needs, with its own class (for its shared material and hand-overs);
+ * throws when that kin isn't built or isn't of that class, instead of an unchecked cast.
+ */
+export function kinOf<T extends CreatureKin>(
+  kins: ReadonlyMap<KinEnum, CreatureKin>,
+  id: KinEnum,
+  type: abstract new (...args: never[]) => T,
+): T {
+  const kin = kins.get(id);
+  if (!kin) throw new Error(`Kin ${KinEnum[id]} is not built`);
+  if (!(kin instanceof type)) throw new Error(`Kin ${KinEnum[id]} is not a ${type.name}`);
+  return kin;
+}

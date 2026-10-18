@@ -1,7 +1,7 @@
 import { ProficiencyTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, kinOf } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Construct, ConstructIds, ConstructKin } from "./kin";
@@ -94,4 +94,4 @@ class HelmedHorrorEntry extends CreatureEntry<Construct> {
 }
 
 export const createHelmedHorrorEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new HelmedHorrorEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined);
+  new HelmedHorrorEntry(kinOf(kins, KinEnum.Construct, ConstructKin));

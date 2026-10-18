@@ -6,7 +6,7 @@ import responseFactory from "../../src/factories/response.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, kinOf } from "../../src/model/creature/kin";
 import { ConditionalStatement } from "../../src/model/script/script";
 import { BaseEffect, IdsEffect } from "../../src/model/spell-item/effect";
 import {
@@ -311,4 +311,4 @@ class HamadryadEntry extends CreatureEntry<Fey> {
 }
 
 export const createHamadryadEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new HamadryadEntry(kins.get(KinEnum.Fey) as FeyKin);
+  new HamadryadEntry(kinOf(kins, KinEnum.Fey, FeyKin));

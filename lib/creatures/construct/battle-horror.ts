@@ -1,7 +1,7 @@
 import { SPELLS } from "../../config/spells/spell-database";
 import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin, builtBefore } from "../../src/model/creature/kin";
+import { builtBefore, CreatureKin, kinOf } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Construct, ConstructKin } from "./kin";
@@ -79,6 +79,6 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
 }
 
 export const createBattleHorrorEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new BattleHorrorEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined).requires(
+  new BattleHorrorEntry(kinOf(kins, KinEnum.Construct, ConstructKin)).requires(
     EntryEnum.HelmedHorror,
   );

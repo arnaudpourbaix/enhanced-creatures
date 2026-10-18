@@ -1,5 +1,5 @@
 import { CreatureEntry } from "../../src/model/creature/entry";
-import { CreatureKin } from "../../src/model/creature/kin";
+import { CreatureKin, kinOf } from "../../src/model/creature/kin";
 import {
   AbilityDamageTypeEnum,
   ColorEnum,
@@ -135,4 +135,4 @@ class DoomGuardEntry extends CreatureEntry<Construct> {
 }
 
 export const createDoomGuardEntry = (kins: Map<KinEnum, CreatureKin>) =>
-  new DoomGuardEntry(kins.get(KinEnum.Construct) as ConstructKin | undefined);
+  new DoomGuardEntry(kinOf(kins, KinEnum.Construct, ConstructKin));
