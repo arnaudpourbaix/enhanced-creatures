@@ -67,6 +67,7 @@ import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+import monsterFilesService from "../src/services/monster-files.service";
 
 enum Ids {
   VampireFledglingDomination,
@@ -878,6 +879,15 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     ],
     customCodes: [mistForm(cre, age, trait)],
   });
+  // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
+  // (Salia...), vampire bats, child vampires and vampire mages keep their own
+  const renamed = cre.files
+    .map((f) => f.name)
+    .filter((file) => {
+      const name = monsterFilesService.getName(file) ?? "";
+      return /vamp[iy]re/i.test(name) && !/\b(bat|child|mage)\b/i.test(name);
+    });
+  if (renamed.length) cre.setAdjustments([{ files: renamed, stringRef: age.name }]);
   cre.turnAs = age.turnAs;
   return cre;
 }
@@ -894,7 +904,13 @@ export const ancientVampire = (entry: CreatureEntry<Creature>) => vampire(entry,
 
 export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[5]);
 
-export const patriarchVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[6]);
+export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[6]);
+  cre.setAdjustments([
+    { files: ["D9TANOV"], stringRef: "monster.undead.name.patriarchVampireMage" },
+  ]);
+  return cre;
+};
 
 export const createVampireEntry = () =>
   new SimpleEntry(EntryEnum.Vampire, [

@@ -12,7 +12,7 @@ COPY_EXISTING ~jasm2100.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR416C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10371)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10372)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 projectile=(IDS_OF_SYMBOL (~projectl~ ~japc0000~)) + 1 STR_VAR icon="SPPR416B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=24 target=2 power=1 duration=60 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=36 duration=60 probability1=100 savingthrow=1 END
@@ -25,11 +25,11 @@ COPY_EXISTING ~jasm2100.SPL~  ~override~
 CREATE SPL "jasm2101"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm2101.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10375)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10376)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI913C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10376)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10377)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~japc0000~)) + 1 STR_VAR icon="SPWI913B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=55 target=2 power=1 parameter1=IDS_OF_SYMBOL (~EA~ ~ANYONE~) parameter2=2 timing=1 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=39 timing=1 probability1=100 savingthrow=1 END
@@ -38,11 +38,11 @@ COPY_EXISTING ~jasm2101.SPL~  ~override~
 // Banshee traits
 CREATE ITM "jaim2100"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11042)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11042)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11043)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11043)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11043)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11044)
 COPY_EXISTING ~jaim2100.itm~ ~override~
 	LPF nonMagicalWeapons_immunity END
 	LPF magicResistance_resistance END
@@ -61,7 +61,7 @@ CREATE ITM "jaim2101"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10004)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IFIST~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11044)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11045)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jaim2101.itm~ ~override~
 	READ_SHORT 0x68 abicount
