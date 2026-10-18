@@ -49,7 +49,7 @@ class MoonDogEntry extends CreatureEntry<Dog> {
         movement: 30,
         items: { remove: ["MDOG1", "IMMUNE2", "P3-12M4"] },
         script: { remove: ["moondog", "teldog"] },
-        immunities: ["outsider", "extraplanar"],
+        immunities: ["outsider", "planarEssence"],
         spells: {
           memorized: [
             { file: SPELLS.Innate.MoonDogHowl.file, memorizedCount: 1 },

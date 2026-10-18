@@ -29,7 +29,7 @@ export interface BaseCreatureAbility {
    * mechanism doesn't use SpellKeyword/SPELL_CHECK_TRIGGERS at all. Spell Turning/Trap/Deflection
    * and Shield of the Archons, which ImmuneToSpellLevel misses, are excluded alongside it (see
    * triggerFactory.spellReflections), unless a keyword suppresses them (see
-   * SPELL_CHECK_SUPPRESSORS).
+   * suppressedSpellLevelChecks).
    * `null` means "not really a spell" (e.g. an addSpell-created ability with no explicit level):
    * no check, and no fallback to its preset's level either.
    */

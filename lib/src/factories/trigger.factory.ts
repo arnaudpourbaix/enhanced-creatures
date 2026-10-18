@@ -3,9 +3,9 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellKeyword } from "../../config/spells/keyword";
 import {
   SPELL_CHECK_GATE_KEYWORDS,
-  SPELL_CHECK_SUPPRESSORS,
   SPELL_CHECK_TRIGGERS,
   SpellLevelCheck,
+  suppressedSpellLevelChecks,
 } from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
 import { defaultAllySafe } from "../../config/target/ally-safe";
@@ -250,12 +250,10 @@ class TriggerFactory {
 
   /**
    * The level-driven checks (see SpellLevelCheck) excluding protected targets, minus those
-   * suppressed by one of `keywords` (see SPELL_CHECK_SUPPRESSORS).
+   * suppressed by `keywords` (see suppressedSpellLevelChecks).
    */
   spellLevelChecks(level: number, keywords: SpellKeyword[] = []): Triggers.Trigger[] {
-    const suppressed = new Set(
-      keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []),
-    );
+    const suppressed = suppressedSpellLevelChecks(keywords);
     const checks: Record<SpellLevelCheck, () => Triggers.Trigger[]> = {
       immuneToSpellLevel: () => [this.immuneToSpellLevel(level, true)],
       spellReflections: () => this.spellReflections(),

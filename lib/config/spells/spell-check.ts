@@ -26,12 +26,29 @@ export type SpellLevelCheck = "immuneToSpellLevel" | "spellReflections";
 
 /**
  * Keywords that turn level-driven checks off: a friendly spell is wanted by its target, and spell
- * reflections don't stop an area spell.
+ * reflections don't stop an area spell. A castOnSelf spell that isn't an area spell is also
+ * exempt from both (see suppressedSpellLevelChecks).
  */
 export const SPELL_CHECK_SUPPRESSORS: Partial<Record<SpellKeyword, SpellLevelCheck[]>> = {
   friendly: ["immuneToSpellLevel", "spellReflections"],
   area: ["spellReflections"],
 };
+
+/**
+ * The level-driven checks `keywords` turn off: those of SPELL_CHECK_SUPPRESSORS, plus both for a
+ * castOnSelf spell without the area keyword - it only lands on its caster, so a target list
+ * (e.g. the allies Protection from Evil 10' looks for) only gates when to cast, and that target's
+ * protections are irrelevant. A castOnSelf area spell (Cloak of Fear, ...) hits the targets of
+ * its list, so it keeps its checks.
+ */
+export function suppressedSpellLevelChecks(keywords: SpellKeyword[]): Set<SpellLevelCheck> {
+  const suppressed = new Set(keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []));
+  if (keywords.includes("castOnSelf") && !keywords.includes("area")) {
+    suppressed.add("immuneToSpellLevel");
+    suppressed.add("spellReflections");
+  }
+  return suppressed;
+}
 
 /**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
@@ -58,6 +75,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_IMMUNITY"], negation: true },
   ],
+  deathSpell: [],
   disease: [],
   electrical: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTELECTRICITY"] }],
   elf: [{ name: "Race", params: [ScriptTarget.token, "ELF"], negation: true }],

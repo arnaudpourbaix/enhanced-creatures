@@ -339,7 +339,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "causeWoundSpells",
     type: "immunity",
     stringRef: "common.immunity.causeWoundSpells",
-    effects: ["LIGHT", "SERIOUS", "CRITICAL", "HARM"].map((resource) => ({
+    effects: ["LIGHT", "MODERATE", "SERIOUS", "CRITICAL", "HARM"].map((resource) => ({
       opcode: EffectTypeEnum.ProtectionFromResource,
       type: "ANYONE",
       resource,
@@ -530,7 +530,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "deathSpell",
     type: "immunity",
     stringRef: "common.immunity.deathSpell",
-    spellGroups: ["death"],
+    spellGroups: ["deathSpell"],
     displaySpellIneffective: true,
   },
   {
@@ -977,10 +977,10 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     ],
   },
   {
-    name: "extraplanar",
+    name: "planarEssence",
     type: "trait",
-    stringRef: "common.traits.extraplanar.name",
-    description: "common.traits.extraplanar.desc",
+    stringRef: "common.traits.planarEssence.name",
+    description: "common.traits.planarEssence.desc",
     immunities: ["cureWoundSpells", "causeWoundSpells", "deathSpell"],
   },
   {

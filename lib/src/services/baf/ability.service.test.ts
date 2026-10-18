@@ -821,6 +821,8 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
       [IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
     ],
     ["the friendly keyword", { keywords: ["friendly"] }, []],
+    ["the castOnSelf keyword", { keywords: ["castOnSelf"] }, []],
+    ["the castOnSelf and area keywords", { keywords: ["castOnSelf", "area"] }, [IMMUNE_LEVEL_3]],
   ] as const)("keeps only the level checks not suppressed by %s", (_, override, expected) => {
     ABILITY_PRESETS.push({
       preset: "JA#TEST_SUPPRESSED_PRESET",

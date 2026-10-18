@@ -71,9 +71,6 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
     ],
   }),
   ...presetFactory.createSpells([SPELLS.Priest.DetectEvil, SPELLS.Priest.FindTraps], {
-    spell: {
-      castOnSelf: true,
-    },
     triggers: [{ name: "False" }], // leave it as a manual cast
   }),
 ];

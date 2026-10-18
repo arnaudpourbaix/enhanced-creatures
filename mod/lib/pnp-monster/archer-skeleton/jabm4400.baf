@@ -167,7 +167,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_STONE_SKIN)
+		Spell(Myself,WIZARD_STONE_SKIN)
 END
 
 // Minor Globe Of Invulnerability

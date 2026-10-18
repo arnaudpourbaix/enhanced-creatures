@@ -63,7 +63,7 @@ class HellcatEntry extends CreatureEntry<Cat> {
       },
     });
     hellcat.addTrait({
-      immunities: ["mindSpells", "nonMagicalWeapons", "extraplanar"],
+      immunities: ["mindSpells", "nonMagicalWeapons", "planarEssence"],
       effects: [
         {
           opcode: EffectTypeEnum.MagicResistanceModifier,

@@ -132,9 +132,9 @@ Darkvision out to 60 feet.`,
       name: "Skeletal",
       desc: "Skeletal undead suffer no damage from cold-based attacks. Due to their bony frames, edged and piercing weapons inflict only half damage.",
     },
-    extraplanar: {
-      name: "Extraplanar",
-      desc: "Extraplanar creatures are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.",
+    planarEssence: {
+      name: "Planar Essence",
+      desc: "Creatures with a planar essence are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.",
     },
     plant: {
       name: "Plant",

@@ -6,6 +6,7 @@ import { SPELLS } from "../spells/spell-database";
 const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
   [
     "LIGHT",
+    "MODERATE",
     "SERIOUS",
     "CRITICAL",
     "HARM",
@@ -38,8 +39,5 @@ export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells
   ],
   {
     triggers: [...WEAPON_ITEM_TRIGGERS],
-    spell: {
-      castOnSelf: true,
-    },
   },
 );

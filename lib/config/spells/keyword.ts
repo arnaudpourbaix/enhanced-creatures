@@ -10,11 +10,15 @@ export type SpellKeyword =
    */
   | "acid"
   /**
-   * Affects an area: spell reflections don't stop it (see SPELL_CHECK_SUPPRESSORS)
+   * Affects an area: spell reflections don't stop it (see suppressedSpellLevelChecks)
    */
   | "area"
   | "bleeding"
   | "blind"
+  /**
+   * Cast on its caster. Without the area keyword, it skips the level-driven checks on its target
+   * list, like a friendly spell (see suppressedSpellLevelChecks)
+   */
   | "castOnSelf"
   | "causeWounds"
   | "charm"
@@ -25,6 +29,11 @@ export type SpellKeyword =
   | "curePoison"
   | "cureWounds"
   | "death"
+  /**
+   * The Death Spell itself, not every death effect (see the deathSpell immunity). Under Spell
+   * Revisions, its file is Banishment, which also slays summons, so the immunity still fits
+   */
+  | "deathSpell"
   | "disease"
   | "earthquake"
   | "electrical"
@@ -43,8 +52,8 @@ export type SpellKeyword =
    */
   | "gaze"
   /**
-   * Means that the spell is friendly and we should not check for protections (see
-   * SPELL_CHECK_SUPPRESSORS)
+   * Means that the spell is wanted by its (allied) target and we should not check for protections
+   * (see suppressedSpellLevelChecks). Not needed on a castOnSelf spell
    */
   | "friendly"
   | "globeOfInvulnerability"

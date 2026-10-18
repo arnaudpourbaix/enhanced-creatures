@@ -108,8 +108,8 @@ Darkvision out to 60 feet.~
 @10094 = ~Creatures with this trait receive a -2 penalty to hit and damage when fighting airborne and waterborne opponents. They are also unaffected by the Earthquake spell.~
 @10095 = ~Skeletal~
 @10096 = ~Skeletal undead suffer no damage from cold-based attacks. Due to their bony frames, edged and piercing weapons inflict only half damage.~
-@10097 = ~Extraplanar~
-@10098 = ~Extraplanar creatures are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.~
+@10097 = ~Planar Essence~
+@10098 = ~Creatures with a planar essence are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.~
 @10099 = ~Plant~
 @10100 = ~Immunity to all mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects).
 Immunity to poison, sleep effects, paralysis, polymorph, and stunning.
@@ -1445,7 +1445,7 @@ Range: 2 feet~
 @10875 = ~Hellcat traits~
 @10876 = ~Immunity to mind-affecting spells and abilities (charms, compulsions, phantasms, patterns, and morale effects)
 Immune to non-magical weapons
-Extraplanar
+Planar Essence
 Magic Resistance: 20%
 Improved invisibility~
 @10877 = ~Paws

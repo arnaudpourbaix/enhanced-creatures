@@ -127,6 +127,12 @@ export const SPELL_GROUPS: SpellGroup[] = [
     ],
   },
   {
+    name: "deathSpell",
+    spells: [
+      "cdxvdth", // Death Spell (mod)
+    ],
+  },
+  {
     name: "disease",
     spells: [],
   },

@@ -101,7 +101,7 @@ class HellHoundEntry extends CreatureEntry<HellHound> {
           remove: ["P1-10", "HELLHO", "SEEINVIS"],
         },
         script: { remove: ["HELHOU01"] },
-        immunities: ["outsider", "extraplanar"],
+        immunities: ["outsider", "planarEssence"],
       },
     });
     hellHound.addTrait({

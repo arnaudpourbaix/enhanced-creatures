@@ -16,7 +16,7 @@ COPY_EXISTING ~jaim1100.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=20 target=1 global=1 parameter2=1 timing=2 probability1=100 END
 	LPF mindSpells_immunity END
 	LPF nonMagicalWeapons_immunity END
-	LPF extraplanar_trait END
+	LPF planarEssence_trait END
 
 // Paws
 CREATE ITM "jaim1101"

@@ -169,6 +169,7 @@ INT_VAR
 	duration=0
 BEGIN
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="LIGHT" END
+	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="MODERATE" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="SERIOUS" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="CRITICAL" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=318 parameter2=ANYONE STR_VAR resource="HARM" END
@@ -310,7 +311,7 @@ INT_VAR
 	duration=0
 BEGIN
 	INNER_ACTION BEGIN
-		LAF get_death_resources RET_ARRAY spells=resources END
+		LAF get_deathSpell_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR spells END
 END
@@ -421,16 +422,6 @@ BEGIN
 		LAF get_entangle_resources RET_ARRAY spells=resources END
 	END
 	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="154" prevent_icons="144" spells END
-END
-
-DEFINE_PATCH_FUNCTION extraplanar_trait
-INT_VAR
-	resist_dispel=0
-	duration=0
-BEGIN
-	LPF cureWoundSpells_immunity INT_VAR resist_dispel duration END
-	LPF causeWoundSpells_immunity INT_VAR resist_dispel duration END
-	LPF deathSpell_immunity INT_VAR resist_dispel duration END
 END
 
 DEFINE_PATCH_FUNCTION fatigue_immunity
@@ -914,6 +905,16 @@ INT_VAR
 	duration=0
 BEGIN
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=88 parameter1=50 parameter2=1 END
+END
+
+DEFINE_PATCH_FUNCTION planarEssence_trait
+INT_VAR
+	resist_dispel=0
+	duration=0
+BEGIN
+	LPF cureWoundSpells_immunity INT_VAR resist_dispel duration END
+	LPF causeWoundSpells_immunity INT_VAR resist_dispel duration END
+	LPF deathSpell_immunity INT_VAR resist_dispel duration END
 END
 
 DEFINE_PATCH_FUNCTION plant_trait

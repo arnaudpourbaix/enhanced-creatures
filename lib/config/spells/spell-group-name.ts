@@ -18,6 +18,7 @@ type GroupKeyword =
   | "causeWounds"
   | "cureWounds"
   | "death"
+  | "deathSpell"
   | "disease"
   | "earthquake"
   | "entangle"
