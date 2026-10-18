@@ -1,0 +1,2 @@
+// Bat swarm visuals, built by scripts/vampire-bat-swarm-assets.ts
+COPY ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/jaae4900.bam~ ~override~

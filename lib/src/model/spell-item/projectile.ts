@@ -68,6 +68,21 @@ export enum AreaProjectileEnum {
   SingleTarget = 15,
 }
 
+/** EE area extended flags (0x240), for the spread and ring animations */
+export enum AreaExtendedFlagsEnum {
+  RandomSpeed = 1,
+  StartScattered = 2,
+  PalettedCenter = 3,
+  RepeatScattering = 4,
+  /** Undocumented, but set along the two above by every persistent cloud of the game (0x54) */
+  Cloud = 6,
+  OrientedFireballPuffs = 9,
+  UseHitDiceLookup = 10,
+  BlendAreaRingAnimation = 13,
+  GlowAreaRingAnimation = 14,
+  HitPointLimit = 15,
+}
+
 export enum ProjectileTypeEnum {
   AreaOfEffect = 3,
   NoBAM = 1,
@@ -151,6 +166,12 @@ export enum BamProjectileFlagsEnum {
 
 export interface ProjectileInfo {
   bamProjectileFlags: BamProjectileFlagsEnum[];
+  /** BAM of the projectile while it travels */
+  travelingAnimation: string;
+  /** Its BAM cycle */
+  projectileNumber: number;
+  /** 1 = no facing, 5 = 5 cycles mirrored eastward, 9 = 9 cycles mirrored, 16 = all 16 directions */
+  faceTargetGranularity: number;
   projectileSmokeAnimation: ProjectileAnimationEnum;
   lightSpotIntensity: number;
   lightSpotWidth: number;
@@ -176,7 +197,17 @@ export interface ProjectileAreaEffectInfo {
   explosionEffect: ProjectileExplosionEffectEnum;
   explosionColor: number;
   explosionProjectile: number;
-  explosionAnimation: number;
+  /** VVC (VEF > VVC > BAM with DrawAnimation) */
+  explosionAnimation: string;
+  /** VEF/VVC/BAM played in rings out to the area of effect (EE, needs an explosion effect) */
+  spreadAnimation: string;
+  /** VEF/VVC/BAM expanding outward at the projectile speed (EE, needs an explosion effect) */
+  ringAnimation: string;
+  areaSound: string;
+  areaExtendedFlags: AreaExtendedFlagsEnum[];
+  /** Density of the ring and spread animations (EE) */
+  animationGranularity: number;
+  animationGranularityDivider: number;
   coneWidth: number;
 
   travelingProjectileAnimation: string;

@@ -17,7 +17,13 @@ import { RawCreatureAbility } from "../src/model/creature/ability";
 import { AnimationIdentifiers } from "../src/model/ids/animate";
 import { PartialCustomCode } from "../src/model/script/script";
 import { Triggers } from "../src/model/script/triggers";
-import { AreaProjectileEnum, ParticleColorEnum } from "../src/model/spell-item/projectile";
+import {
+  AreaExtendedFlagsEnum,
+  AreaProjectileEnum,
+  BamProjectileFlagsEnum,
+  ProjectileExplosionEffectEnum,
+  ProjectileExtendedFlagsEnum,
+} from "../src/model/spell-item/projectile";
 import { Item, PartialSpellHeader } from "../src/model/spell-item/spell-item";
 import targetService from "../src/services/baf/target.service";
 import effectService from "../src/services/effects/effect.service";
@@ -357,13 +363,32 @@ function batSwarm(cre: Creature) {
         projectile: {
           copyFromFile: "dvstink",
           name: "Vampire bat swarm",
-          particleColor: ParticleColorEnum.Black,
+          // Bats (jaae4900: the game's bat flight, see scripts/vampire-bat-swarm-assets.ts) instead
+          // of the stinking cloud, each one with a random direction (cycle) and wing beat (frame)
+          extendedFlags: [
+            ProjectileExtendedFlagsEnum.StartRandomFrame,
+            ProjectileExtendedFlagsEnum.StartRandomSequence,
+          ],
+          // a bat flies to the spot (no more colouring it green)
+          projectileInfo: {
+            bamProjectileFlags: [BamProjectileFlagsEnum.EnableAreaLightingUsage],
+            travelingAnimation: "jaae4900",
+            faceTargetGranularity: 5, // its 5 cycles, from south to north
+          },
           areaEffectInfo: {
             areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
             explosionDelay: BAT_SWARM_PULSE,
             triggerCount: (BAT_SWARM_ROUNDS * Durations.round * 15) / BAT_SWARM_PULSE,
             triggerRadius: 360,
             areaOfEffect: 360, // 20-foot radius
+            explosionEffect: ProjectileExplosionEffectEnum.CUSTOM,
+            // scattered all over the area for as long as it lasts, as the game's own clouds do
+            spreadAnimation: "jaae4900",
+            areaExtendedFlags: [
+              AreaExtendedFlagsEnum.StartScattered,
+              AreaExtendedFlagsEnum.RepeatScattering,
+              AreaExtendedFlagsEnum.Cloud,
+            ],
           },
         },
         effects: [

@@ -1,4 +1,5 @@
 LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/common.tpa"
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/49.tpa" // Fledgling Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4h.tpa" // Mature Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4i.tpa" // Old Vampire
