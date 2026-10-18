@@ -48,14 +48,10 @@
   {{typeFilter}}
   <div class="layout">
     <nav class="sidebar">
-      <div class="file-search">
-        <input type="search" class="file-search-input" autocomplete="off" spellcheck="false"
-          placeholder="Find a creature by .cre file…" aria-label="Find a creature by its file name" />
-        <ul class="file-search-results" hidden></ul>
-      </div>
       <ul>{{entries}}</ul>
     </nav>
     <main class="content">
+      <p class="no-match" hidden>No creature matches.</p>
       {{monsters}}
     </main>
   </div>

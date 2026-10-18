@@ -95,18 +95,11 @@ const APR_LABEL = "Attacks per Round";
 // A stat or ability-score value as authored; unset renders empty.
 type StatValue = string | number | undefined;
 
-// One searchable `.cre` resref -> the creature card it belongs to. Serialized into the page as a
-// JSON blob the docs/monsters.js file-search box reads. `kind` isn't shown to the reader - it only
-// tells the search box whether to scroll to the base card (`replaces`) or open the adjustments
-// panel (everything else), where the file-specific detail actually lives.
-export const FILE_INDEX_KINDS = ["replaces", "adjustment", "variant", "new"] as const;
-export type FileIndexKind = (typeof FILE_INDEX_KINDS)[number];
-
+// One `.cre` resref -> the creature card it belongs to. Serialized into the page as a JSON blob:
+// docs/monsters.js's search keeps a card when the query is exactly one of its files.
 export interface FileIndexEntry {
   file: string;
-  creature: string;
   anchor: string;
-  kind: FileIndexKind;
 }
 
 class DocumentationService {
@@ -291,48 +284,41 @@ class DocumentationService {
           `<button type="button" class="type-chip" data-type="${t}">${name} <span>${counts.get(t) ?? 0}</span></button>`,
       )
       .join("");
+    // The creature search sits in the same sticky bar (docs/monsters.js's initFilters).
+    const search =
+      `<input type="search" class="creature-search" autocomplete="off" spellcheck="false" ` +
+      `placeholder="Search a creature or .cre file…" aria-label="Search a creature by name or .cre file" />`;
     return (
-      `<div class="type-filter-bar"><span class="type-filter-label">Filter by type</span>` +
+      `<div class="type-filter-bar">${search}<span class="type-filter-label">Filter by type</span>` +
       `<div class="type-chips"><button type="button" class="type-chip on" data-type="">All</button>${chips}</div></div>`
     );
   }
 
-  // Records every `.cre` resref this creature owns into the searchable file index (see
-  // FileIndexEntry / docs/monsters.js's initFileSearch). `kind` is assigned by precedence - the
-  // later `set` call wins - so a file that is both a base replacement and an adjustment target
-  // (KORAX, MALKAL, ...) reports the more specific "adjustment"/"variant", and a brand-new file
-  // reports "new".
+  // Records every `.cre` resref this creature owns (base, adjustments, variants, new files) into
+  // the searchable file index, once each (see FileIndexEntry).
   indexCreatureFiles(creature: Creature) {
-    const kinds = new Map<string, FileIndexKind>();
-    const set = (file: string, kind: FileIndexKind) => {
-      const key = file.toUpperCase();
-      if (key) kinds.set(key, kind);
+    const files = new Set<string>();
+    const add = (file: string) => {
+      if (file) files.add(file.toUpperCase());
     };
     // creature.files / adjustments / variants / newFiles are all definite class fields, but doc
     // test fixtures built via `as unknown as Creature` casts leave them genuinely undefined -
     // same defensive pattern the rest of this service uses.
     /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-    for (const f of creature.files ?? []) set(f.name, "replaces");
-    for (const adjustment of creature.adjustments ?? []) {
-      for (const f of adjustment.files) set(f, "adjustment");
-    }
+    for (const f of creature.files ?? []) add(f.name);
+    for (const adjustment of creature.adjustments ?? []) adjustment.files.forEach(add);
     const walkVariants = (variants: Variant[]) => {
       for (const variant of variants) {
-        for (const f of variant.files) set(f, "variant");
+        variant.files.forEach(add);
         walkVariants(variant.children);
       }
     };
     walkVariants(creature.variants ?? []);
-    for (const newFile of creature.newFiles ?? []) {
-      for (const f of newFile.files) set(f, "new");
-    }
+    for (const newFile of creature.newFiles ?? []) newFile.files.forEach(add);
     /* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
-    const name = translationService.from(creature.name);
     const anchor = `m${creature.id}`;
-    for (const [file, kind] of kinds) {
-      this.fileIndex.push({ creature: name, file, anchor, kind });
-    }
+    for (const file of files) this.fileIndex.push({ file, anchor });
   }
 
   // The generated hp deliberately excludes the constitution bonus for PC-classed creatures (the

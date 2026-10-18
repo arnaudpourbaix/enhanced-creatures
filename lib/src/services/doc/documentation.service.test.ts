@@ -18,9 +18,7 @@ import { toCode } from "../utils/misc.func";
 
 interface FileIndexEntry {
   file: string;
-  creature: string;
   anchor: string;
-  kind: string;
 }
 
 interface DocumentationServicePrivate {
@@ -946,6 +944,10 @@ describe("entries", () => {
     );
     service.renderEntries();
 
+    expect(service.typeFilter).toContain(
+      '<input type="search" class="creature-search" autocomplete="off" spellcheck="false" ' +
+        'placeholder="Search a creature or .cre file…" aria-label="Search a creature by name or .cre file" />',
+    );
     expect(service.typeFilter).toContain('data-type="">All');
     expect(service.typeFilter).toContain(
       '<button type="button" class="type-chip" data-type="undead">Undead <span>2</span></button>',
@@ -995,12 +997,12 @@ describe("indexCreatureFiles", () => {
     documentationService.indexCreatureFiles(creature);
 
     expect(entriesFor("m42")).toEqual([
-      { file: "BLACKBEAR", creature: "Black Bear", anchor: "m42", kind: "replaces" },
-      { file: "CBEAR", creature: "Black Bear", anchor: "m42", kind: "replaces" },
+      { file: "BLACKBEAR", anchor: "m42" },
+      { file: "CBEAR", anchor: "m42" },
     ]);
   });
 
-  it("labels a file more specifically when it is also an adjustment / variant / new file target", () => {
+  it("indexes adjustment, variant and new files once each, upper-cased", () => {
     const creature = {
       id: 7,
       name: "monster.bear.name.black",
@@ -1012,14 +1014,13 @@ describe("indexCreatureFiles", () => {
 
     documentationService.indexCreatureFiles(creature);
 
-    const byFile = Object.fromEntries(entriesFor("m7").map((e) => [e.file, e.kind]));
-    expect(byFile).toEqual({
-      PLAIN: "replaces",
-      KORAX: "adjustment",
-      LACEDO01: "variant",
-      DEEP: "variant",
-      BRANDNEW: "new",
-    });
+    expect(entriesFor("m7").map((e) => e.file)).toEqual([
+      "PLAIN",
+      "KORAX",
+      "LACEDO01",
+      "DEEP",
+      "BRANDNEW",
+    ]);
   });
 
   it("tolerates a fixture creature with none of the file collections set", () => {

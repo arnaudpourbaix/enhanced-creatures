@@ -330,205 +330,71 @@
     });
   }
 
-  function initFileSearch() {
-    var input = document.querySelector(".file-search-input");
-    var results = document.querySelector(".file-search-results");
-    var dataEl = document.getElementById("file-search-index");
-    if (!input || !results || !dataEl) return;
-
-    var index;
-    try {
-      index = JSON.parse(dataEl.textContent || "[]");
-    } catch (e) {
-      return;
+  // Sticky offsets: the toolbar (.type-filter-bar) sticks under the mobile .topbar, the sidebar
+  // under both. Their heights change with the window width (the chips wrap), so they are measured
+  // into CSS variables instead of guessed.
+  function initStickyOffsets() {
+    var root = document.documentElement;
+    var topbar = document.querySelector(".topbar");
+    var bar = document.querySelector(".type-filter-bar");
+    function update() {
+      // A display: none topbar (desktop) has no offsetParent and takes no room.
+      var top = topbar && topbar.offsetParent !== null ? topbar.offsetHeight : 0;
+      root.style.setProperty("--topbar-height", top + "px");
+      root.style.setProperty("--sticky-offset", top + (bar ? bar.offsetHeight : 0) + "px");
     }
-    if (!Array.isArray(index) || !index.length) return;
-    index.sort(function (a, b) {
-      return a.file < b.file ? -1 : a.file > b.file ? 1 : 0;
-    });
-
-    var MAX_RESULTS = 12;
-    var activeIndex = -1;
-    var currentHits = [];
-
-    function hideResults() {
-      results.hidden = true;
-      results.innerHTML = "";
-      activeIndex = -1;
-      currentHits = [];
-    }
-
-    function score(entry, query) {
-      var i = entry.file.indexOf(query);
-      if (i === -1) return -1;
-      return i === 0 ? 0 : 1; // prefix matches rank above mid-string matches
-    }
-
-    function search(raw) {
-      var query = raw.trim().toUpperCase();
-      if (!query) {
-        hideResults();
-        return;
-      }
-      currentHits = index
-        .map(function (entry) {
-          return { entry: entry, rank: score(entry, query) };
-        })
-        .filter(function (hit) {
-          return hit.rank !== -1;
-        })
-        .sort(function (a, b) {
-          return a.rank - b.rank || (a.entry.file < b.entry.file ? -1 : 1);
-        })
-        .slice(0, MAX_RESULTS)
-        .map(function (hit) {
-          return hit.entry;
-        });
-      render();
-    }
-
-    function render() {
-      results.innerHTML = "";
-      activeIndex = -1;
-      if (!currentHits.length) {
-        var empty = document.createElement("li");
-        empty.className = "file-search-empty";
-        empty.textContent = "No matching file";
-        results.appendChild(empty);
-        results.hidden = false;
-        return;
-      }
-      currentHits.forEach(function (entry) {
-        var li = document.createElement("li");
-        var a = document.createElement("a");
-        a.className = "file-search-hit";
-        a.href = "#" + entry.anchor;
-        a.dataset.anchor = entry.anchor;
-        a.dataset.kind = entry.kind;
-        a.dataset.file = entry.file;
-        var file = document.createElement("span");
-        file.className = "file-search-file";
-        file.textContent = entry.file;
-        var meta = document.createElement("span");
-        meta.className = "file-search-meta";
-        meta.textContent = entry.creature;
-        a.appendChild(file);
-        a.appendChild(meta);
-        li.appendChild(a);
-        results.appendChild(li);
-      });
-      results.hidden = false;
-    }
-
-    function setActive(next) {
-      var hits = results.querySelectorAll(".file-search-hit");
-      if (!hits.length) return;
-      activeIndex = (next + hits.length) % hits.length;
-      hits.forEach(function (hit, i) {
-        hit.classList.toggle("active", i === activeIndex);
-      });
-      hits[activeIndex].scrollIntoView({ block: "nearest" });
-    }
-
-    function flash(el) {
-      el.classList.add("file-search-target");
-      window.setTimeout(function () {
-        el.classList.remove("file-search-target");
-      }, 1600);
-    }
-
-    function activate(hit) {
-      var anchor = hit.dataset.anchor;
-      var kind = hit.dataset.kind;
-      var file = hit.dataset.file;
-      var card = document.getElementById(anchor);
-      hideResults();
-      input.value = "";
-      input.blur();
-      if (!card) return;
-      // A card hidden by the type filter cannot be scrolled to: reset the filter first.
-      if (applyTypeFilter && (card.hidden || card.closest(".entry-block[hidden]")))
-        applyTypeFilter("");
-      // For anything other than a plain replacement, the detail the reader wants is inside the
-      // adjustments panel - open it via the same summary click initAdjustmentsPanel() listens for,
-      // then scroll to the card that owns this file (its data-files carries the resref).
-      var summary =
-        kind !== "replaces" ? card.querySelector(".creature-adjustments > summary") : null;
-      if (summary) {
-        summary.click();
-        var panel = document.querySelector(".adjustments-panel");
-        var target =
-          panel && file
-            ? panel.querySelector('[data-files~="' + file.replace(/["\\]/g, "\\$&") + '"]')
-            : null;
-        if (target) {
-          window.requestAnimationFrame(function () {
-            // "center" rather than "start" so the sticky .adj-tree at the top of the scroll
-            // container never covers the card we just jumped to.
-            target.scrollIntoView({ block: "center" });
-            flash(target);
-          });
-        }
-        return;
-      }
-      card.scrollIntoView({ behavior: "smooth", block: "start" });
-      flash(card);
-    }
-
-    input.addEventListener("input", function () {
-      search(input.value);
-    });
-
-    input.addEventListener("keydown", function (event) {
-      if (results.hidden) return;
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        setActive(activeIndex + 1);
-      } else if (event.key === "ArrowUp") {
-        event.preventDefault();
-        setActive(activeIndex - 1);
-      } else if (event.key === "Enter") {
-        var hits = results.querySelectorAll(".file-search-hit");
-        var target = activeIndex >= 0 ? hits[activeIndex] : hits[0];
-        if (target) {
-          event.preventDefault();
-          activate(target);
-        }
-      } else if (event.key === "Escape") {
-        hideResults();
-      }
-    });
-
-    results.addEventListener("click", function (event) {
-      var hit = event.target.closest ? event.target.closest(".file-search-hit") : null;
-      if (!hit) return;
-      event.preventDefault();
-      activate(hit);
-    });
-
-    document.addEventListener("click", function (event) {
-      if (!event.target.closest || !event.target.closest(".file-search")) hideResults();
-    });
+    update();
+    window.addEventListener("resize", update);
+    if (window.ResizeObserver && bar) new ResizeObserver(update).observe(bar);
   }
 
-  // Type filter (toolbar chips + type tags on entry/card titles). One active type at a time; ""
-  // shows everything. Cards and sidebar links carry data-types; an entry block or sidebar group is
-  // hidden when none of its members match.
-  var applyTypeFilter = null;
+  // Creature filters, combined: the type (toolbar chips + type tags on entry/card titles) and the
+  // search box. A card stays when it has the type and its name contains the search, or when the
+  // search is exactly one of its .cre files (base or adjustment). Entry blocks and sidebar items
+  // left without a visible card are hidden, and the sidebar groups the filters opened close again
+  // when they change.
+  function initFilters() {
+    var input = document.querySelector(".creature-search");
+    var noMatch = document.querySelector(".no-match");
+    var state = { type: "", query: "" };
 
-  function initTypeFilter() {
-    var has = function (el, type) {
+    // Card id -> lowercase creature name, read from its sidebar link (same text as the card).
+    var names = {};
+    document.querySelectorAll('.sidebar a[href^="#m"]').forEach(function (a) {
+      names[a.getAttribute("href").slice(1)] = a.textContent.toLowerCase();
+    });
+    // Card id -> its upper-case .cre files, from the page's file index.
+    var files = {};
+    var dataEl = document.getElementById("file-search-index");
+    try {
+      JSON.parse((dataEl && dataEl.textContent) || "[]").forEach(function (entry) {
+        (files[entry.anchor] = files[entry.anchor] || {})[entry.file] = true;
+      });
+    } catch (e) {
+      files = {};
+    }
+
+    function hasType(el, type) {
       return (
         !type ||
         (" " + (el.getAttribute("data-types") || "") + " ").indexOf(" " + type + " ") !== -1
       );
-    };
-    function apply(type) {
+    }
+    function matchesQuery(card, query) {
+      if (!query) return true;
+      if ((names[card.id] || "").indexOf(query.toLowerCase()) !== -1) return true;
+      return !!(files[card.id] && files[card.id][query.toUpperCase()]);
+    }
+
+    function apply() {
+      var filtering = !!(state.type || state.query);
+      var anyVisible = false;
       document.querySelectorAll(".type-chip").forEach(function (chip) {
-        chip.classList.toggle("on", chip.getAttribute("data-type") === type);
+        chip.classList.toggle("on", chip.getAttribute("data-type") === state.type);
       });
       document.querySelectorAll(".content .creature").forEach(function (card) {
-        card.hidden = !has(card, type);
+        card.hidden = !(hasType(card, state.type) && matchesQuery(card, state.query));
+        if (!card.hidden) anyVisible = true;
       });
       document.querySelectorAll(".entry-block").forEach(function (block) {
         block.hidden = !Array.prototype.some.call(
@@ -539,7 +405,9 @@
         );
       });
       document.querySelectorAll(".sidebar li[data-types]").forEach(function (li) {
-        li.hidden = !has(li, type);
+        var link = li.querySelector("a");
+        var card = link && document.getElementById(link.getAttribute("href").slice(1));
+        li.hidden = !card || card.hidden;
       });
       document.querySelectorAll(".sidebar li.entry").forEach(function (group) {
         var visible = Array.prototype.some.call(
@@ -549,23 +417,28 @@
           },
         );
         group.hidden = !visible;
-        // Open the matching groups while a type is active, and close again the ones it opened
-        // (not those the reader opened) when the filter changes or goes back to All.
+        // Open the matching groups while filtering, and close again the ones it opened (not
+        // those the reader opened) when the filters change or are cleared.
         var details = group.querySelector("details");
         if (details.hasAttribute("data-filter-opened")) {
           details.open = false;
           details.removeAttribute("data-filter-opened");
         }
-        if (type && visible && !details.open) {
+        if (filtering && visible && !details.open) {
           details.open = true;
           details.setAttribute("data-filter-opened", "");
         }
       });
+      if (noMatch) noMatch.hidden = anyVisible;
     }
-    applyTypeFilter = apply;
+
+    function setType(type) {
+      state.type = type || "";
+      apply();
+    }
     document.querySelectorAll(".type-chip").forEach(function (chip) {
       chip.addEventListener("click", function () {
-        apply(chip.getAttribute("data-type"));
+        setType(chip.getAttribute("data-type"));
       });
     });
     document.querySelectorAll(".type-tag").forEach(function (tag) {
@@ -573,10 +446,22 @@
         e.preventDefault();
         // A tag can sit inside an adjustments <summary>: don't let the click open that panel.
         e.stopPropagation();
-        apply(tag.getAttribute("data-type"));
+        setType(tag.getAttribute("data-type"));
         window.scrollTo(0, 0);
       });
     });
+    if (input) {
+      input.addEventListener("input", function () {
+        state.query = input.value.trim();
+        apply();
+      });
+      input.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape") return;
+        input.value = "";
+        state.query = "";
+        apply();
+      });
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -584,7 +469,7 @@
     initSpellbookTabs();
     initTraitPopover();
     initAdjustmentsPanel();
-    initFileSearch();
-    initTypeFilter();
+    initStickyOffsets();
+    initFilters();
   });
 })();
