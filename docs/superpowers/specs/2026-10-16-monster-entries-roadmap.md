@@ -160,7 +160,8 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 - ✅ Per-kin weapon name keys merged into `common.naturalWeapon.*` (jaws, claws, paws, fists, touch,
   stinger, pseudopod, branch); each kind defaults its name, so `addNaturalWeapon` calls only pass
   `paws`. Same texts, 13 fewer strings (1143 -> 1130), .tra renumbered.
-- ☐ A variant layer for natural weapons ("undead claws" today needs both the icon and the name key).
+- ✅ Natural weapon variant layer: not needed. Since the key merge, undead claws only override the icon
+  (Ghoul, in the undead `createClaws` helper); `addNaturalWeapon`'s optional `icon` covers it.
 
 ### Bugs and gaps found along the way
 
