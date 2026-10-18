@@ -132,11 +132,9 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 ### Needs a decision or an in-game check
 
-- ☐ **Ettin**: now installed for the first time (the old tp2 never included it). Confirm it is
-  finished, or exclude it from the index.
-- ☐ **Turn Undead**: Wraith Spider, Dread Wolf, Vampiric Wolf and the zombie-ankheg adjustments now
-  get a turn level, but the engine may only turn creatures whose CRE `General` is UNDEAD. Check in
-  game; if needed, set `General` for undead-typed creatures.
+- ✅ **Ettin**: finished (confirmed 2026-10-18), stays installed.
+- ✅ **Turn Undead**: any undead can be turned unless immune to turning, whatever its CRE `General`
+  (confirmed 2026-10-18): no `General` change needed.
 - ☐ **Install test** of the reorganised mod (uninstall the previous version first).
 - ☐ **Docs page in a browser**: "Common to all" boxes, type filter (desktop and narrow window: the
   sticky bar's 52px offset is a guess), type tags and `#code` in titles, popovers in the shared box,
