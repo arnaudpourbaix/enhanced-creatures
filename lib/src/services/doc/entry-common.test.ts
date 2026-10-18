@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { CreatureAbility } from "../../model/creature/ability";
 import { CardParts } from "./card-parts";
 import { getCommonKeys } from "./entry-common";
 
@@ -10,7 +11,11 @@ const parts = (
   scores: (p.scores ?? []).map((key) => ({ key, html: key })),
   traitLinks: (p.traitLinks ?? []).map((key) => ({ key, html: key })),
   traitLines: (p.traitLines ?? []).map((key) => ({ key, html: key })),
-  abilities: [],
+  abilities: (p.abilities ?? []).map((key) => ({
+    key,
+    html: key,
+    ability: {} as CreatureAbility,
+  })),
   weapons: weapons.map(([key, descKey]) => ({
     key,
     descKey,
@@ -50,6 +55,14 @@ describe("getCommonKeys", () => {
       parts({}),
     ]);
     expect(common.has("trait:undead")).toBe(false);
+  });
+
+  it("shares trait lines and abilities every member has", () => {
+    const common = getCommonKeys([
+      parts({ traitLines: ["line:regenerates"], abilities: ["ability:fear", "ability:drain"] }),
+      parts({ traitLines: ["line:regenerates"], abilities: ["ability:fear"] }),
+    ]);
+    expect([...common].sort()).toEqual(["ability:fear", "line:regenerates"]);
   });
 
   it("returns nothing for a single member", () => {
