@@ -1,5 +1,428 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/common.tpa"
+// Domination Gaze
+CREATE EFF "jase0700"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase0700~ #8
+
+CREATE SPL "jase0700"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0700.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10434)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10437)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0700" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0700" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Bat Swarm
+COPY_EXISTING "dvstink.pro" ~override/jase0701.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 30
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jase0701.pro~ ~Vampire bat swarm~
+
+CREATE SPL "jase0701"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0701.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10440)
+	WRITE_ASCII 0x10 ~CAS_P03~ #8
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPCL621C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10441)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jase0701~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=1 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	
+// Control Undead
+CREATE SPL "jase0702"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0702.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10442)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 7
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI720C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10443)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=8 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=4 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=4 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=10 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=5 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=5 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=5 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=5 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=12 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=6 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=6 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=6 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=6 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=14 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=7 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=7 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=7 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=7 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=16 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=8 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=8 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=8 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=8 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=18 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=9 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=9 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=9 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=9 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=20 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=10 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=10 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=10 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=10 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=22 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=11 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=11 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=11 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=11 STR_VAR resource="EFF_M15" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 required_level=24 speed=1 STR_VAR icon="SPWI720B" END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=241 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=12 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=215 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=12 STR_VAR resource="jave4900" END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=139 target=2 power=1 parameter1=61418 timing=1 resist_dispel=1 probability1=100 dicenumber=12 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=174 target=2 power=1 timing=1 resist_dispel=1 probability1=100 dicenumber=12 STR_VAR resource="EFF_M15" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Wolf Form
+CREATE SPL "jase0703"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0703.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10444)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPIN110C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10445)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPIN110B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0700" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
+// Bat Form
+CREATE SPL "jase0704"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0704.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~PLYWYVNC~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10447)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYWYVNB" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0701" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
+// Domination Gaze
+CREATE EFF "jase0705"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase0705~ #8
+
+CREATE SPL "jase0705"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0705.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10434)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10437)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0705" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0705" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Wolf Form
+CREATE SPL "jase0706"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0706.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10444)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPIN110C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10445)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPIN110B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0702" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
+// Bat Form
+CREATE SPL "jase0707"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0707.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 8
+	WRITE_BYTE 0x27 13
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~PLYWYVNC~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10447)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYWYVNB" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0703" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=325 target=1 power=1 parameter1="-1" duration=6 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=1 power=1 probability1=100 STR_VAR resource="SPDISPM3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="MSTCHNG" END
+	LPF CHANGE_SPELL INT_VAR    renew=3 END
+	
+// Dominating Voice
+CREATE EFF "jase0708"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase0708~ #8
+
+CREATE SPL "jase0708"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0708.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10435)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10438)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0708" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0708" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-4" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-4" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Dominating Will
+CREATE EFF "jase0709"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase0709~ #8
+
+CREATE SPL "jase0709"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0709.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10436)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10439)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0709" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0709" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-5" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-5" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-5" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-5" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-5" STR_VAR resource="EFF_E07" END
+	LPF CHANGE_SPELL INT_VAR    renew=1 END
+	
+// Wolf Form
+CREATE ITM "jaie0700"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10444)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10444)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10445)
+COPY_EXISTING ~jaie0700.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_BYTE 0x7e 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 12
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~WOLF_VAMPIRIC~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=176 target=1 global=1 parameter1=14 parameter2=1 timing=2 probability1=100 END
+
+// Bat Form
+CREATE ITM "jaie0701"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10446)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10447)
+COPY_EXISTING ~jaie0701.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_BYTE 0x7e 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~BAT_INSIDE~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=176 target=1 global=1 parameter1=14 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_FLYING~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=184 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=300 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF hover_trait END
+
+// Wolf Form
+CREATE ITM "jaie0702"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10444)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10444)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10445)
+COPY_EXISTING ~jaie0702.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_BYTE 0x7e 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 12
+		WRITE_BYTE 0x8a 3
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~WOLF_VAMPIRIC~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+
+// Bat Form
+CREATE ITM "jaie0703"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10446)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10446)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10447)
+COPY_EXISTING ~jaie0703.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_BYTE 0x7e 1
+		WRITE_BYTE 0x84 3
+		WRITE_BYTE 0x88 6
+		WRITE_BYTE 0x8a 2
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=2 parameter2=16 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=53 target=1 global=1 parameter1=IDS_OF_SYMBOL (~animate~ ~BAT_INSIDE~) timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_ANIMALFORM~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=144 target=1 global=1 parameter2=2 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=328 target=1 global=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_FLYING~)) timing=2 probability1=100 special=1 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=184 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=300 target=1 global=1 parameter2=1 timing=2 probability1=100 END
+	LPF hover_trait END
+
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/49.tpa" // Fledgling Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4h.tpa" // Mature Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4i.tpa" // Old Vampire

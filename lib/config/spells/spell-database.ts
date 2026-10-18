@@ -9,6 +9,8 @@ import { setFallback, SpellReference } from "../../src/model/spell-item/spell-re
 // Shared by RemoveMagic (wizard), DispelMagic (wizard), and DispelMagic (cleric) below - all
 // three display the same in-game name.
 const DISPEL_MAGIC_NAME = "spell.DispelMagic.name";
+// Shared by ShapeshiftWolf (wizard), ShapeshiftWolf (innate) and DruidShapeshiftWolf below.
+const SHAPESHIFT_WOLF_NAME = "spell.ShapeshiftWolf.name";
 
 const WIZARD_SPELLS = {
   AbiDalzimHorridWilting: {
@@ -756,7 +758,7 @@ const WIZARD_SPELLS = {
     file: "SPWI499",
     id: "WIZARD_POLYMORPH_WOLF",
     level: 1,
-    name: "spell.ShapeshiftWolf.name",
+    name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
   Shades: {
@@ -1863,7 +1865,7 @@ const INNATE_SPELLS = {
   ShapeshiftWolf: {
     file: "SPIN110",
     level: 1,
-    name: "spell.ShapeshiftWolf.name",
+    name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
   SpiderSingleTargetWeb: {
@@ -1921,7 +1923,7 @@ const CLASS_SPELLS = {
     file: "SPCL612",
     id: "DRUID_SHAPESHIFT_WOLF",
     level: 1,
-    name: "spell.ShapeshiftWolf.name",
+    name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
   DruidShapeshiftBlackBear: {

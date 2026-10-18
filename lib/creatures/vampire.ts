@@ -23,7 +23,7 @@ import {
   ProjectileExplosionEffectEnum,
   ProjectileExtendedFlagsEnum,
 } from "../src/model/spell-item/projectile";
-import { Item, PartialSpellHeader } from "../src/model/spell-item/spell-item";
+import { Item, PartialSpellHeader, Spell } from "../src/model/spell-item/spell-item";
 import targetService from "../src/services/baf/target.service";
 import effectService from "../src/services/effects/effect.service";
 import { StringRefUtils } from "../src/services/utils/string-ref.utils";
@@ -62,6 +62,7 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { SpellKeyword } from "../config/spells/keyword";
 import { MonsterEnum } from "./monster";
 import type { TurnUndeadType } from "./types/turn-level";
+import { AbstractCreature } from "../src/model/creature/abstract-creature";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
@@ -70,17 +71,16 @@ import { createClaws } from "./types/undead";
 import monsterFilesService from "../src/services/monster-files.service";
 
 enum Ids {
-  VampireFledglingDomination,
-  VampireMatureDomination,
-  VampireOldDomination,
-  VampireVeryOldDomination,
-  VampireAncientDomination,
-  VampireEminentDomination,
-  VampirePatriarchDomination,
+  VampireGazeDomination2,
+  VampireGazeDomination3,
+  VampireVoiceDomination,
+  VampireWillDomination,
   VampireBatSwarm,
   VampireControlUndead,
   VampireWolfForm,
+  VampireWolfFormOwnSpeed,
   VampireBatForm,
+  VampireBatFormOwnSpeed,
   VampireMistForm,
 }
 
@@ -125,7 +125,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 14,
     movement: 12,
     xpv: 8000,
-    domination: { id: Ids.VampireFledglingDomination, mode: "gaze", saveBonus: -2 },
+    domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
     magicResistance: 0,
@@ -143,7 +143,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 15,
     movement: 15,
     xpv: 9000,
-    domination: { id: Ids.VampireMatureDomination, mode: "gaze", saveBonus: -2 },
+    domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
     magicResistance: 5,
@@ -161,7 +161,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 16,
     movement: 15,
     xpv: 11000,
-    domination: { id: Ids.VampireOldDomination, mode: "gaze", saveBonus: -3 },
+    domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
     weaponImmunity: "plusOneWeapons",
     regeneration: 3,
     magicResistance: 10,
@@ -179,7 +179,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 17,
     movement: 18,
     xpv: 12000,
-    domination: { id: Ids.VampireVeryOldDomination, mode: "gaze", saveBonus: -3 },
+    domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
     weaponImmunity: "plusOneWeapons",
     regeneration: 4,
     magicResistance: 15,
@@ -196,7 +196,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 18,
     movement: 18,
     xpv: 14000,
-    domination: { id: Ids.VampireAncientDomination, mode: "voice", saveBonus: -4 },
+    domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
     magicResistance: 20,
@@ -213,7 +213,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 18,
     movement: 21,
     xpv: 15000,
-    domination: { id: Ids.VampireEminentDomination, mode: "voice", saveBonus: -4 },
+    domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
     magicResistance: 25,
@@ -230,7 +230,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     charisma: 19,
     movement: 24,
     xpv: 17000,
-    domination: { id: Ids.VampirePatriarchDomination, mode: "will", saveBonus: -5 },
+    domination: { id: Ids.VampireWillDomination, mode: "will", saveBonus: -5 },
     weaponImmunity: "plusThreeWeapons",
     regeneration: 5,
     magicResistance: 30,
@@ -281,9 +281,9 @@ const MIST_DURATION = 2 * Durations.round;
  * the vampire doesn't try it on blinded creatures. Voice and will don't have these limits, but a
  * silenced vampire can't use its voice.
  */
-function domination(cre: Creature, domination: VampireAge["domination"]) {
+function domination(group: AbstractCreature, domination: VampireAge["domination"]) {
   const texts = DOMINATION_TEXTS[domination.mode];
-  return cre.addSpell({
+  return group.addSpell({
     name: texts.name,
     description: texts.description,
     id: domination.id,
@@ -345,13 +345,13 @@ const BAT_FLIGHT_BAM = "jaae4900";
  * the swarm ends its effects by the next round. They last one pulse longer than that protection,
  * so the strike renewing them lands before they wear off.
  */
-function batSwarm(cre: Creature) {
+function batSwarm(group: AbstractCreature) {
   const base = {
     timing: EffectTimingEnum.InstantLimited,
     duration: Durations.round + 1,
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
-  return cre.addSpell({
+  return group.addSpell({
     name: "monster.undead.ability.vampireBatSwarm.name",
     description: "monster.undead.ability.vampireBatSwarm.description",
     id: Ids.VampireBatSwarm,
@@ -447,7 +447,7 @@ const VAMPIRE_MAX_LEVEL = 25;
  * paralysis can't be told apart from them here, so none get one.
  * The book pools the Hit Dice of every controlled creature; each control is checked on its own.
  */
-function controlUndead(cre: Creature) {
+function controlUndead(group: AbstractCreature) {
   // Highest undead level controlled by each header, from the youngest vampire to the strongest
   const minLevel = Math.floor(VAMPIRE_AGES[0].level1 / 2);
   const maxLevel = Math.floor(VAMPIRE_MAX_LEVEL / 2);
@@ -489,7 +489,7 @@ function controlUndead(cre: Creature) {
       ],
     };
   });
-  return cre.addSpell({
+  return group.addSpell({
     name: "monster.undead.ability.vampireControlUndead.name",
     description: "monster.undead.ability.vampireControlUndead.description",
     id: Ids.VampireControlUndead,
@@ -541,8 +541,8 @@ interface AnimalForm {
  * is a weapon in the magical weapon slot, so it replaces the level-draining claws. While
  * changing, the vampire suffers a +4 penalty to its Armor Class and -1 to all saving throws.
  */
-function animalForm(cre: Creature, form: AnimalForm) {
-  const item = cre.addWeapon({
+function animalForm(group: AbstractCreature, form: AnimalForm) {
+  const item = group.addWeapon({
     weapon: {
       id: form.id,
       stringRef: form.name,
@@ -579,7 +579,7 @@ function animalForm(cre: Creature, form: AnimalForm) {
     duration: Durations.round,
     target: EffectTargetEnum.Self,
   };
-  return cre.addSpell({
+  return group.addSpell({
     name: form.name,
     description: form.description,
     id: form.id,
@@ -644,23 +644,21 @@ function animalForm(cre: Creature, form: AnimalForm) {
 }
 
 /**
- * A form's movement rate, which never slows the vampire down: older vampires are faster than
- * the form's own 18.
+ * A form's movement rate never slows the vampire down: an older vampire, already as fast as the
+ * form's own 18 or faster, keeps its speed (the form's "own speed" variant).
  */
-function animalFormMovement(age: VampireAge) {
-  return effectFactory.naturalMovementSpeed(Math.max(18, age.movement));
-}
+const ANIMAL_FORM_MOVEMENT = effectFactory.naturalMovementSpeed(18);
 
 /** Wolf form: Dmg 3d12, MV 18, SZ L. Used on an enemy its level drain can't harm. */
-function wolfForm(cre: Creature, age: VampireAge) {
-  return animalForm(cre, {
-    id: Ids.VampireWolfForm,
+function wolfForm(group: AbstractCreature, ownSpeed: boolean) {
+  return animalForm(group, {
+    id: ownSpeed ? Ids.VampireWolfFormOwnSpeed : Ids.VampireWolfForm,
     name: "monster.undead.ability.vampireWolfForm.name",
     description: "monster.undead.ability.vampireWolfForm.description",
     animation: "WOLF_VAMPIRIC",
     icon: SPELLS.Innate.ShapeshiftWolf.file,
     damage: { diceThrown: 3, diceSize: 12, type: AbilityDamageTypeEnum.Piercing },
-    effects: [animalFormMovement(age)],
+    effects: ownSpeed ? [] : [ANIMAL_FORM_MOVEMENT],
     ability: {
       targets: [
         {
@@ -683,16 +681,16 @@ function wolfForm(cre: Creature, age: VampireAge) {
  * Bat form: Dmg 2d6, MV Fl 18, -3 to opponents' attack rolls, SZ M. Used when badly hurt.
  * Flying, it is unaffected by ground spells (hover) and flies over enemies and allies alike.
  */
-function batForm(cre: Creature, age: VampireAge) {
-  return animalForm(cre, {
-    id: Ids.VampireBatForm,
+function batForm(group: AbstractCreature, ownSpeed: boolean) {
+  return animalForm(group, {
+    id: ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
     name: "monster.undead.ability.vampireBatForm.name",
     description: "monster.undead.ability.vampireBatForm.description",
     animation: "BAT_INSIDE",
     icon: ["PLYWYVNC", "PLYWYVNB"],
     damage: { diceThrown: 2, diceSize: 6, type: AbilityDamageTypeEnum.Piercing },
     effects: [
-      animalFormMovement(age),
+      ...(ownSpeed ? [] : [ANIMAL_FORM_MOVEMENT]),
       { opcode: EffectTypeEnum.ArmorClassBonus, value: 3, bonusTo: EffectBonusToEnum.AllWeapons },
       { opcode: EffectTypeEnum.SetExtendedSpellState, state: SPELL_STATES.flying },
       { opcode: EffectTypeEnum.NoCollisionDetection, passWalls: false },
@@ -715,7 +713,7 @@ function batForm(cre: Creature, age: VampireAge) {
  * given the experience for defeating it. Once it has reached its sanctuary it really dies (rather
  * than just leaving the area), so quests waiting for its death still go on.
  */
-function mistForm(cre: Creature, age: VampireAge, trait: Item): PartialCustomCode {
+function mistForm(cre: Creature, age: VampireAge, trait: Item, forms: Spell[]): PartialCustomCode {
   const mist = cre.addItem({
     id: Ids.VampireMistForm,
     stringRef: "monster.undead.ability.vampireMistForm.name",
@@ -753,10 +751,10 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item): PartialCustomCod
         target: ItemAbilityTargetEnum.Caster,
         effects: [
           // back from a wolf or bat form first
-          ...[Ids.VampireWolfForm, Ids.VampireBatForm].map((id): Effect => ({
+          ...forms.map((form): Effect => ({
             opcode: EffectTypeEnum.RemoveEffectsByResource,
             type: RemoveEffectsByResourceTypeEnum.Default,
-            resource: cre.spell(id).file,
+            resource: form.file,
             ...self,
           })),
           // the trait holds its minimum hit points, and the trigger casting this spell
@@ -835,6 +833,21 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item): PartialCustomCod
   };
 }
 
+/**
+ * A power every age with the same one shares: created once, on the entry (its files are the
+ * entry's), then memorized by each of them.
+ */
+function sharedPower(
+  entry: CreatureEntry<Creature>,
+  cre: Creature,
+  id: Ids,
+  create: () => Spell,
+): Spell {
+  const spell = entry.spells.find((s) => s.id === id) ?? create();
+  cre.memorizeSpell(spell.file, 1);
+  return spell;
+}
+
 function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
   const cre = entry.create({
     monster: age.monster,
@@ -903,21 +916,31 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     immunities: [age.weaponImmunity, "coldResistance", "lightningResistance"],
     effects,
   });
-  domination(cre, age.domination);
-  batSwarm(cre);
-  controlUndead(cre);
-  wolfForm(cre, age);
-  batForm(cre, age);
+  const ownSpeed = age.movement >= 18;
+  const dominate = sharedPower(entry, cre, age.domination.id, () =>
+    domination(entry, age.domination),
+  );
+  const swarm = sharedPower(entry, cre, Ids.VampireBatSwarm, () => batSwarm(entry));
+  const control = sharedPower(entry, cre, Ids.VampireControlUndead, () => controlUndead(entry));
+  const wolf = sharedPower(
+    entry,
+    cre,
+    ownSpeed ? Ids.VampireWolfFormOwnSpeed : Ids.VampireWolfForm,
+    () => wolfForm(entry, ownSpeed),
+  );
+  const bat = sharedPower(
+    entry,
+    cre,
+    ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
+    () => batForm(entry, ownSpeed),
+  );
   cre.setBehavior({
     restHeal: true,
-    abilities: [
-      cre.ability(Ids.VampireBatForm),
-      cre.ability(age.domination.id),
-      cre.ability(Ids.VampireBatSwarm),
-      cre.ability(Ids.VampireControlUndead),
-      cre.ability(Ids.VampireWolfForm),
-    ],
-    customCodes: [mistForm(cre, age, trait)],
+    abilities: [bat, dominate, swarm, control, wolf].map((spell) => {
+      if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
+      return spell.ability;
+    }),
+    customCodes: [mistForm(cre, age, trait, [wolf, bat])],
   });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
   // (Salia...), vampire bats, child vampires and vampire mages keep their own
