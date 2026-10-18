@@ -2604,6 +2604,26 @@ describe("card omissions", () => {
     expect(html).not.toContain("1D6");
   });
 
+  it("renders No enchantment when the omitted description has no enchantment line", () => {
+    const desc = translationService.addCustomTranslation([
+      "Bite",
+      "",
+      "Melee damage: 1D6 (Piercing)",
+    ]);
+    State.items = [
+      { file: "BITE01", doc: true, description: desc },
+    ] as unknown as typeof State.items;
+    const creatureWithWeapon = fakeCreatureForAttacks([{ file: "BITE01", slot: "WEAPON1" }]);
+    creatureWithWeapon.attack.dualWielding = false;
+
+    const parts = documentationService.getCardParts(creatureWithWeapon);
+    expect(parts.weapons[0].enchantHtml).toBe('<div class="weapon">No enchantment</div>');
+    documentationService.addCreature(creatureWithWeapon, new Set([parts.weapons[0].descKey]));
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).toContain('<div class="weapon">No enchantment</div>');
+    expect(html).not.toContain("1D6");
+  });
+
   it("renders no Attacks section when every weapon is omitted", () => {
     const desc = translationService.addCustomTranslation(["Melee damage: 1D6"]);
     State.items = [

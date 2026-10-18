@@ -179,4 +179,28 @@ describe("addNaturalWeapon", () => {
     expect(Object.values(arg.weapon)).not.toContain(undefined);
     expect(Object.values(arg.weapon.header)).not.toContain(undefined);
   });
+
+  it("passes the creature-specific options through to the weapon and its header", () => {
+    const creature = fakeCreature();
+    const addWeapon = vi.spyOn(creature, "addWeapon").mockReturnValue({} as Weapon);
+    const animationSwing = { overhand: 10, backhand: 20, thrust: 70 };
+    creature.addNaturalWeapon("stinger", {
+      ...jaws,
+      id: 7,
+      range: 2,
+      projectile: "JAPROJ",
+      animationSwing,
+      damageBonus: 4,
+      immunities: ["poison"],
+      doc: false,
+    });
+    const { weapon } = addWeapon.mock.calls[0][0];
+    expect(weapon).toMatchObject({ id: 7, immunities: ["poison"], doc: false });
+    expect(weapon.header).toMatchObject({
+      range: 2,
+      projectile: "JAPROJ",
+      animationSwing,
+      damageBonus: 4,
+    });
+  });
 });
