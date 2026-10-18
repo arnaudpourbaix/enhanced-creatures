@@ -178,15 +178,15 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 
 ### Tests
 
-- ☐ docOnly function test: add a positive control (an immunity that does appear).
-- ☐ Translation test for a `doc.types.*` key (multi-line text).
-- ☐ Weapon "No enchantment" branch of the docs cards; pass-through of `id`, `range`, `projectile`,
+- ✅ docOnly function test: add a positive control (an immunity that does appear).
+- ✅ Translation test for a `doc.types.*` key (multi-line text).
+- ✅ Weapon "No enchantment" branch of the docs cards; pass-through of `id`, `range`, `projectile`,
   `animationSwing`, `damageBonus`, `immunities`, `doc` in `addNaturalWeapon`.
-- ☐ `entry-common` tests never populate abilities / trait lines.
-- ☐ Cleaner: no test for a missing folder.
-- ☐ Undead type coming only from a trait item, through the type hook (Dread Wolf case).
-- ☐ Dependency closure: explicit cycle test.
-- ☐ Docs chip-count test regex is brittle.
+- ✅ `entry-common` tests never populate abilities / trait lines.
+- ✅ Cleaner: no test for a missing folder.
+- ✅ Undead type coming only from a trait item, through the type hook (Dread Wolf case).
+- ✅ Dependency closure: explicit cycle test.
+- ✅ Docs chip-count test regex is brittle.
 
 ### Cosmetic
 

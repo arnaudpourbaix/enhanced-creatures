@@ -951,7 +951,11 @@ describe("entries", () => {
       '<button type="button" class="type-chip" data-type="undead">Undead <span>2</span></button>',
     );
     expect(service.typeFilter).toContain('data-type="magicalBeast">Magical Beast <span>1</span>');
-    expect(service.typeFilter.match(/class="type-chip[ "]/g)).toHaveLength(3);
+    // Exactly All plus the two present types, nothing else.
+    const chips = [...service.typeFilter.matchAll(/<button[^>]*data-type="([^"]*)"/g)].map(
+      (m) => m[1],
+    );
+    expect(chips).toEqual(["", "magicalBeast", "undead"]);
   });
 
   it("groups a multi-member entry under a summary and lists a single one as a plain item", () => {
