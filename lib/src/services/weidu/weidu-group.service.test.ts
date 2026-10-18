@@ -128,6 +128,16 @@ describe("createOrUpdateMainFile", () => {
     expect(content).toBe("LAM load_secondary_types\r\n");
   });
 
+  it("does nothing for a folder that doesn't exist yet (a new entry's first generation)", () => {
+    const familyFolder = setupTempFolder();
+    fs.rmSync(familyFolder, { recursive: true });
+    const info = vi.spyOn(logService, "info").mockImplementation(() => {});
+    expect(() => weiduGroupService.cleanFolder(ANKHEG)).not.toThrow();
+    expect(info).not.toHaveBeenCalled();
+    info.mockRestore();
+    expect(fs.existsSync(familyFolder)).toBe(false);
+  });
+
   it("removes generated tpa/baf files, keeping common.tpa and assets, and never touches common/", () => {
     const familyFolder = setupTempFolder();
     fs.mkdirSync(path.join(familyFolder, "assets"));
