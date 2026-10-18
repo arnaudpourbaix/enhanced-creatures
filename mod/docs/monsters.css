@@ -1,3 +1,9 @@
+/* An author `display` beats the UA `[hidden] { display: none }`: one guard for everything the
+   scripts hide (cards, entry blocks, sidebar items, popovers, the adjustments panel). */
+[hidden] {
+  display: none !important;
+}
+
 .topbar {
   display: none;
   position: sticky;
@@ -372,10 +378,6 @@
   box-shadow: 0 4px 14px rgba(59, 42, 23, 0.35);
 }
 
-.trait-popover[hidden] {
-  display: none;
-}
-
 .trait-popover-close {
   float: right;
   background: none;
@@ -672,12 +674,6 @@
   background: var(--color-bg);
   border-left: 1px solid var(--color-gold);
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
-}
-
-/* An author `display` beats the UA `[hidden] { display: none }`, so the panel needs its own
-   hidden guard (same pattern as .trait-popover). */
-.adjustments-panel[hidden] {
-  display: none;
 }
 
 .adjustments-panel-head {

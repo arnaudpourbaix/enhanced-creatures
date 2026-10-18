@@ -549,7 +549,17 @@
           },
         );
         group.hidden = !visible;
-        if (type && visible) group.querySelector("details").open = true;
+        // Open the matching groups while a type is active, and close again the ones it opened
+        // (not those the reader opened) when the filter changes or goes back to All.
+        var details = group.querySelector("details");
+        if (details.hasAttribute("data-filter-opened")) {
+          details.open = false;
+          details.removeAttribute("data-filter-opened");
+        }
+        if (type && visible && !details.open) {
+          details.open = true;
+          details.setAttribute("data-filter-opened", "");
+        }
       });
     }
     applyTypeFilter = apply;
