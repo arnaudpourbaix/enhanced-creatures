@@ -57,6 +57,21 @@ describe("creatureTypeHooksService.afterBuild", () => {
     expect(calls).toEqual(["undead"]);
   });
 
+  it("runs the hook of a type that only a trait item gives (Dread Wolf: undead via its trait)", () => {
+    const calls: string[] = [];
+    const service = creatureTypeHooksService.withModules([
+      { type: "undead", afterBuild: () => calls.push("undead") },
+    ]);
+    const dreadWolf = {
+      ...creature(["animal"]),
+      items: [{ trait: true, immunities: ["undead"] }],
+    } as unknown as Creature;
+    service.afterBuild(dreadWolf);
+    expect(calls).toEqual(["undead"]);
+    expect(service.getHitDie(dreadWolf)).toBeUndefined();
+    expect(creatureTypeHooksService.getHitDie(dreadWolf)).toBe(12);
+  });
+
   it("runs the hook of a type only an adjustment adds", () => {
     const calls: string[] = [];
     const service = creatureTypeHooksService.withModules([
