@@ -57,7 +57,7 @@ export interface NaturalWeaponOptions {
   /** Default "WEAPON1"; null = not equipped. */
   slot?: ItemSlot | null;
   id?: number;
-  icon?: string;
+  icon?: MonsterItemIconEnum;
   damageType?: AbilityDamageTypeEnum;
   damageBonus?: number;
   effects?: Effect[];
