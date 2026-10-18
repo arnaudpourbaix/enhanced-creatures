@@ -10,7 +10,7 @@ COPY_EXISTING ~jasm3y00.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10426)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11097)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11114)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=91 duration=360 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=44 target=2 power=1 parameter1="-3" duration=360 probability1=100 END
@@ -26,7 +26,7 @@ COPY_EXISTING ~jasm3y01.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11098)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11115)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=4 timing=4 duration=180 probability1=100 special=91 END
@@ -58,7 +58,7 @@ COPY_EXISTING ~jasm3y02.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11099)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11116)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=1 parameter2=6 timing=9 probability1=100 special=7 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=7200 probability1=100 STR_VAR resource="jasm3y02" END
@@ -72,7 +72,7 @@ COPY_EXISTING ~jasm3y03.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 fl#Disease
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11100)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11117)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=7 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=78 target=2 power=1 parameter1=2 parameter2=4 timing=1 probability1=100 special=91 END
@@ -89,7 +89,7 @@ COPY_EXISTING ~jasm3y04.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10428)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11101)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11118)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=45 target=2 power=1 duration=12 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=12 probability1=100 STR_VAR resource="jasm3y04" END
@@ -101,7 +101,7 @@ COPY_EXISTING ~jasm3y05.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10429)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11102)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11119)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=324 target=2 power=1 parameter2=DEATH_IMMUNITY probability1=100 STR_VAR resource="jasm3y05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=13 target=2 power=1 parameter2=2 timing=9 probability1=100 END
@@ -178,7 +178,7 @@ CREATE ITM "jaim3y00"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10001)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11103)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11120)
 	WRITE_LONG 0x60 1
 COPY_EXISTING ~jaim3y00.itm~ ~override~
 	READ_SHORT 0x68 abicount

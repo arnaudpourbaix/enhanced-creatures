@@ -6,7 +6,6 @@
  * differ by what the table says.
  */
 import { SPELL_STATES } from "../config/common";
-import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import actionFactory from "../src/factories/action.factory";
 import effectFactory from "../src/factories/effect.factory";
@@ -332,6 +331,12 @@ const BAT_SWARM_ROUNDS = 5;
 const BAT_SWARM_PULSE = 15; // 1 second, in frames
 
 /**
+ * The game's bat flight (BG2's bat creature animation ABATG1, kept to its first 5 cycles: one per
+ * direction, south to north), in the vampire's assets.
+ */
+const BAT_FLIGHT_BAM = "jaae4900";
+
+/**
  * Animal control: the vampire summons a swarm of bats covering a 20-foot radius. Those caught
  * within it are blinded, suffer a -4 penalty to attack rolls and Armor Class, and have their
  * movement rate cut in half. The bats are controlled by the vampire: they only harm its enemies.
@@ -364,8 +369,8 @@ function batSwarm(cre: Creature) {
         projectile: {
           copyFromFile: "dvstink",
           name: "Vampire bat swarm",
-          // Bats (jaae4900: the game's bat flight, see scripts/vampire-bat-swarm-assets.ts) instead
-          // of the stinking cloud, each one with a random direction (cycle) and wing beat (frame)
+          // Bats instead of the stinking cloud, each one with a random direction (cycle) and wing
+          // beat (frame)
           extendedFlags: [
             ProjectileExtendedFlagsEnum.StartRandomFrame,
             ProjectileExtendedFlagsEnum.StartRandomSequence,
@@ -373,7 +378,7 @@ function batSwarm(cre: Creature) {
           // a bat flies to the spot (no more colouring it green)
           projectileInfo: {
             bamProjectileFlags: [BamProjectileFlagsEnum.EnableAreaLightingUsage],
-            travelingAnimation: "jaae4900",
+            travelingAnimation: BAT_FLIGHT_BAM,
             faceTargetGranularity: 5, // its 5 cycles, from south to north
           },
           areaEffectInfo: {
@@ -384,7 +389,7 @@ function batSwarm(cre: Creature) {
             areaOfEffect: 360, // 20-foot radius
             explosionEffect: ProjectileExplosionEffectEnum.CUSTOM,
             // scattered all over the area for as long as it lasts, as the game's own clouds do
-            spreadAnimation: "jaae4900",
+            spreadAnimation: BAT_FLIGHT_BAM,
             areaExtendedFlags: [
               AreaExtendedFlagsEnum.StartScattered,
               AreaExtendedFlagsEnum.RepeatScattering,
@@ -498,7 +503,7 @@ interface AnimalForm {
   name: TranslationKey;
   description: TranslationKey;
   animation: AnimationIdentifiers;
-  icon: MonsterItemIconEnum;
+  icon: string;
   damage: { diceThrown: number; diceSize: number; type: AbilityDamageTypeEnum };
   effects: Effect[];
   immunities?: ImmunityName[];
@@ -516,7 +521,6 @@ function animalForm(cre: Creature, form: AnimalForm) {
       id: form.id,
       stringRef: form.name,
       description: form.description,
-      icon: form.icon,
       immunities: form.immunities,
       equippedSlot: [],
       header: {
@@ -544,15 +548,20 @@ function animalForm(cre: Creature, form: AnimalForm) {
       ],
     },
   });
-  const changing = { timing: EffectTimingEnum.InstantLimited, duration: Durations.round };
+  const changing = {
+    timing: EffectTimingEnum.InstantLimited,
+    duration: Durations.round,
+    target: EffectTargetEnum.Self,
+  };
   return cre.addSpell({
     name: form.name,
     description: form.description,
     id: form.id,
     memorizedCount: 1,
-    icon: SPELLS.Wizard.PolymorphSelf.file,
+    icon: form.icon,
     primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
     secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
+    options: { renew: 1 },
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -572,14 +581,12 @@ function animalForm(cre: Creature, form: AnimalForm) {
             opcode: EffectTypeEnum.ArmorClassBonus,
             value: -4,
             bonusTo: EffectBonusToEnum.AllWeapons,
-            target: EffectTargetEnum.Self,
             ...changing,
           },
           {
             opcode: EffectTypeEnum.AllSavingThrowsBonus,
             value: -1,
             type: EffectStatisticModifierEnum.Increment,
-            target: EffectTargetEnum.Self,
             ...changing,
           },
           {
@@ -620,8 +627,8 @@ function wolfForm(cre: Creature, age: VampireAge) {
     id: Ids.VampireWolfForm,
     name: "monster.undead.ability.vampireWolfForm.name",
     description: "monster.undead.ability.vampireWolfForm.description",
-    animation: "WOLF",
-    icon: MonsterItemIconEnum.Wolf,
+    animation: "WOLF_VAMPIRIC",
+    icon: SPELLS.Class.DruidShapeshiftWolf.file,
     damage: { diceThrown: 3, diceSize: 12, type: AbilityDamageTypeEnum.Piercing },
     effects: [animalFormMovement(age)],
     ability: {
@@ -652,7 +659,7 @@ function batForm(cre: Creature, age: VampireAge) {
     name: "monster.undead.ability.vampireBatForm.name",
     description: "monster.undead.ability.vampireBatForm.description",
     animation: "BAT_INSIDE",
-    icon: MonsterItemIconEnum.Jaws,
+    icon: SPELLS.Class.AvengerShapeshiftBabyWyvern.file,
     damage: { diceThrown: 2, diceSize: 6, type: AbilityDamageTypeEnum.Piercing },
     effects: [
       animalFormMovement(age),
@@ -838,6 +845,9 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
           "vampreg",
           "vampreg1",
           "vampreg2",
+          "dw#bldd",
+          "dw#vmwol",
+          "dw#vmbat",
         ],
       },
       script: {
