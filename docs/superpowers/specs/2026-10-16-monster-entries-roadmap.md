@@ -138,7 +138,7 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
   one undead: fixes Wraith Spider, Dread Wolf (was ANIMAL), zombie ankhegs, and Shadow / Greater
   Shadow (were MONSTER, though the game's files are UNDEAD).
 - ✅ **Install test**: the reorganised mod installs fine (2026-10-18).
-- ☐ **Docs page in a browser**: "Common to all" boxes, type filter (desktop and narrow window: the
+- ☐ **Docs page in a browser**: "Common to all" boxes (✅ 2026-10-18), type filter (desktop and narrow window: the
   sticky bar's 52px offset is a guess), type tags and `#code` in titles, popovers in the shared box,
   a type tag clicked in an adjustments title must not open the panel.
 
