@@ -4,7 +4,7 @@ import { CreatureKin } from "../src/model/creature/kin";
 import mainService from "../src/services/main.service";
 import stateService from "../src/services/state.service";
 import { entryFactories } from "./entries";
-import { ENTRY_FOLDERS, ENTRY_MEMBERS, ENTRY_NAMES, EntryEnum } from "./entry";
+import { ENTRY_FOLDERS, ENTRY_NAMES, EntryEnum } from "./entry";
 import { KIN_FOLDERS, KinEnum } from "./kin";
 import { kinFactories } from "./kins";
 import { MonsterEnum } from "./monster";
@@ -35,11 +35,6 @@ describe("EntryEnum", () => {
     expect(EntryEnum.Ankheg).toBe(10);
   });
 
-  it("maps every monster to at most one entry", () => {
-    const members = entryIds.flatMap((id) => ENTRY_MEMBERS[id]);
-    expect(new Set(members).size).toBe(members.length);
-  });
-
   it("keeps the doc.entry names of the multi-member entries", () => {
     expect(ENTRY_NAMES[EntryEnum.ClayGolem]).toBe("doc.entry.clayGolem");
   });
@@ -55,31 +50,34 @@ describe("KIN_FOLDERS", () => {
   });
 });
 
-// Builds every kin and entry like the generator does: the creatures they build must be exactly
-// ENTRY_MEMBERS (each once, entry members in declared order, each stamped with its entry).
-describe("ENTRY_MEMBERS against a full build", () => {
-  it("matches every creature built by the entries", async () => {
+// Builds every kin and entry like the generator does: each entry builds its own members.
+describe("entries against a full build", () => {
+  it("builds each monster once, stamped with its entry; names exactly the multi-member entries", async () => {
     await stateService.init();
     mainService.checkPresets();
-    const creatures: Creature[] = [];
     const kins = new Map<KinEnum, CreatureKin>();
     for (const factory of kinFactories) {
       const kin = factory();
       kins.set(kin.id, kin);
     }
-    for (const factory of entryFactories) creatures.push(...factory(kins).creatures);
-
-    const built = creatures.map((c) => c.id as MonsterEnum).sort((a, b) => a - b);
-    const mapped = entryIds.flatMap((id) => ENTRY_MEMBERS[id]).sort((a, b) => a - b);
-    expect(built).toEqual(mapped);
-
-    for (const id of entryIds) {
-      const members = creatures.filter((c) => ENTRY_MEMBERS[id].includes(c.id));
-      expect(members.map((c) => c.id)).toEqual(ENTRY_MEMBERS[id]);
-      for (const c of members) expect(c.entry).toBe(id);
-      // A single-member entry is named after its creature (no translation of its own).
-      if (members.length === 1) expect(ENTRY_NAMES[id]).toBe(members[0].name);
+    const built = new Map<EntryEnum, Creature[]>();
+    for (const factory of entryFactories) {
+      const entry = factory(kins);
+      built.set(entry.id, entry.creatures);
     }
+    expect([...built.keys()].sort((a, b) => a - b)).toEqual(entryIds);
+
+    const monsters = [...built.values()].flat().map((c) => c.id as MonsterEnum);
+    expect(new Set(monsters).size).toBe(monsters.length);
+    for (const [id, members] of built) {
+      expect(members.length, EntryEnum[id]).toBeGreaterThan(0);
+      for (const c of members) expect(c.entry).toBe(id);
+    }
+
+    // A single-member entry is named after its creature: only multi-member entries need a name.
+    const multi = [...built].filter(([, members]) => members.length > 1).map(([id]) => id);
+    const named = Object.keys(ENTRY_NAMES).map(Number);
+    expect(named.sort((a, b) => a - b)).toEqual(multi.sort((a, b) => a - b));
   }, 60000);
 });
 

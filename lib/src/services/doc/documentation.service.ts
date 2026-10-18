@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import { ENTRY_NAMES } from "../../../creatures/entry";
+import { ENTRY_NAMES, EntryEnum } from "../../../creatures/entry";
+import { TranslationKey } from "../../../translations/i18n";
 import { TYPE_TRAITS } from "../../../config/creature-types";
 import { SPELLBOOK_MODS } from "../../../config/mods";
 import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
@@ -160,6 +161,12 @@ class DocumentationService {
   // sorted A-Z by name with members in declaration order, and renders the creature column, the
   // sidebar menu and the type filter bar. An entry left with one valid member renders as a plain
   // card named after that creature.
+  private getEntryName(entry: EntryEnum): TranslationKey {
+    const name = ENTRY_NAMES[entry];
+    if (!name) throw new Error(`Entry ${EntryEnum[entry]} has several members but no ENTRY_NAMES`);
+    return name;
+  }
+
   renderEntries() {
     this.monsters = [];
     this.sidebar = [];
@@ -172,7 +179,7 @@ class DocumentationService {
       members,
       name:
         members.length > 1 && members[0].entry !== undefined
-          ? translationService.from(ENTRY_NAMES[members[0].entry])
+          ? translationService.from(this.getEntryName(members[0].entry))
           : translationService.from(members[0].name),
     }));
     entries.sort((a, b) => a.name.localeCompare(b.name, "en"));
