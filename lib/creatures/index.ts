@@ -1,6 +1,21 @@
+import { Creature } from "../src/model/creature/creature";
+import { CreatureKin } from "../src/model/creature/kin";
+import { entryFactories } from "./entries";
+import { KinEnum } from "./kin";
+import { kinFactories } from "./kins";
+
+/** Builds every kin, then every entry (given the built kins), and returns all their creatures. */
+export function buildAllCreatures(): Creature[] {
+  const kins = new Map<KinEnum, CreatureKin>();
+  for (const factory of kinFactories) {
+    const kin = factory();
+    kins.set(kin.id, kin);
+  }
+  return entryFactories.flatMap((factory) => factory(kins).creatures);
+}
+
 // Creatures are built by the entries (./entries.ts) and kins (./kins.ts). Notes on monsters
 // not implemented yet:
-export {};
 
 /*
 "SHOAL", // Shoal the Nereid
