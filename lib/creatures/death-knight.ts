@@ -71,7 +71,6 @@ function wallOfIce(cre: Creature) {
     description: "monster.undead.ability.iceWall.description",
     id: Ids.WallOfIce,
     memorizedCount: 30,
-    //icon: "jaae2q00",
     icon: SPELLS.Wizard.IceStorm.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
     secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
