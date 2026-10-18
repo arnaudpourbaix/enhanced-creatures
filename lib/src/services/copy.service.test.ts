@@ -231,6 +231,17 @@ describe("CopyService", () => {
       );
     });
 
+    it("--entry follows a dependency cycle once and stops", async () => {
+      const index = JSON.parse(INDEX_JSON) as Record<string, { dependsOn: string[] }>;
+      index.dryad.dependsOn = ["nereid"];
+      index.nereid.dependsOn = ["dryad", "giant-poisonous-snake"];
+      fs.writeFileSync(path.join(pnpDir(), "index.json"), JSON.stringify(index));
+
+      await run({ entries: ["dryad"] });
+
+      expect(readIndex()).toBe(indexKeeping("kin/fey", "dryad", "nereid", "giant-poisonous-snake"));
+    });
+
     it("--entry keeps a dependency that has no kin", async () => {
       await run({ entries: ["nereid"] });
 
