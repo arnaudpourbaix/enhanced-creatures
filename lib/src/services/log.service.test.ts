@@ -213,13 +213,13 @@ describe("LogService", () => {
     it("writes outside withSection keep their place instead of joining a keyed section", () => {
       logService.init();
       logService.beginDeferred();
-      logService.header("Creating Ogre family...");
+      logService.header("Creating kin Ogre...");
       captureCreature(ogre, CREATING_OGRE, "created");
-      logService.log("family code");
+      logService.log("kin code");
       logService.withSection(ogre, "unused", () => logService.log("generated"));
       logService.flushSections();
       expect(readLog()).toBe(
-        `\nCreating Ogre family...\n\n${CREATING_OGRE}\n    created\n    generated\n    family code\n`,
+        `\nCreating kin Ogre...\n\n${CREATING_OGRE}\n    created\n    generated\n    kin code\n`,
       );
     });
 

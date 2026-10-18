@@ -17,8 +17,8 @@ import { State } from "../state";
 // run in entry order, so any single creature/entry's TPA output is only
 // reproducible by running the full pipeline, not in isolation.
 //
-// lib/pnp-monster is copied into the temp dir first because some families
-// (fey/undead/wolf/common) have a hand-authored companion `common.tpa` that
+// lib/pnp-monster is copied into the temp dir first because some entry and kin
+// folders (death-knight, nereid, kin/cat, kin/fey) have a hand-authored companion `common.tpa` that
 // weiduGroupService reads (not generates) when assembling main.tpa.
 // lib/common, tra, and docs are never *read* by the pipeline (only specific
 // files within them are written), so they're compared by exact known path

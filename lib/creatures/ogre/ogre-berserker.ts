@@ -109,7 +109,7 @@ function berserker(entry: CreatureEntry<OgreBerserker>): OgreBerserker {
   return berserker;
 }
 
-function chieftainVariant(_family: CreatureEntry<OgreBerserker>, base: Ogre): Variant {
+function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Variant {
   const variant = base.variant("Chieftain", {
     // chieftain
     files: [

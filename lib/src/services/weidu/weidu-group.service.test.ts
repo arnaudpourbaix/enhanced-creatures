@@ -41,12 +41,12 @@ describe("generateFinalCode", () => {
   });
 
   function setupTempFolder(): string {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-family-"));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-entry-"));
     originalModFolder = State.modFolder;
     State.modFolder = tempDir;
-    const familyFolder = path.join(tempDir, "lib/pnp-monster/ankheg");
-    fs.mkdirSync(familyFolder, { recursive: true });
-    return path.join(familyFolder, "main.tpa");
+    const entryFolder = path.join(tempDir, "lib/pnp-monster/ankheg");
+    fs.mkdirSync(entryFolder, { recursive: true });
+    return path.join(entryFolder, "main.tpa");
   }
 
   it("does not emit integrate_sectypes when enableIntegrateSectypes is disabled (default), even if a secondary type is present", () => {
@@ -91,22 +91,22 @@ describe("createOrUpdateMainFile", () => {
   });
 
   function setupTempFolder(): string {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-family-"));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "atweaks-entry-"));
     originalModFolder = State.modFolder;
     State.modFolder = tempDir;
-    const familyFolder = path.join(tempDir, "lib/pnp-monster/ankheg");
-    fs.mkdirSync(familyFolder, { recursive: true });
-    return familyFolder;
+    const entryFolder = path.join(tempDir, "lib/pnp-monster/ankheg");
+    fs.mkdirSync(entryFolder, { recursive: true });
+    return entryFolder;
   }
 
   it("compiles every asset script, guarded by the script existing in game", () => {
-    const familyFolder = setupTempFolder();
-    const assets = path.join(familyFolder, "assets");
+    const entryFolder = setupTempFolder();
+    const assets = path.join(entryFolder, "assets");
     fs.mkdirSync(assets);
     for (const f of ["L#XZEANK.BAF", "ankhegb.baf", "jaae2q00.bam"])
       fs.writeFileSync(path.join(assets, f), "");
     weiduGroupService.createOrUpdateMainFile(ANKHEG);
-    const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
+    const content = fs.readFileSync(path.join(entryFolder, "main.tpa"), "utf-8");
     expect(content).toBe(
       [
         "LAM load_secondary_types",
@@ -122,25 +122,25 @@ describe("createOrUpdateMainFile", () => {
   });
 
   it("emits no compile code without an assets folder", () => {
-    const familyFolder = setupTempFolder();
+    const entryFolder = setupTempFolder();
     weiduGroupService.createOrUpdateMainFile(ANKHEG);
-    const content = fs.readFileSync(path.join(familyFolder, "main.tpa"), "utf-8");
+    const content = fs.readFileSync(path.join(entryFolder, "main.tpa"), "utf-8");
     expect(content).toBe("LAM load_secondary_types\r\n");
   });
 
   it("does nothing for a folder that doesn't exist yet (a new entry's first generation)", () => {
-    const familyFolder = setupTempFolder();
-    fs.rmSync(familyFolder, { recursive: true });
+    const entryFolder = setupTempFolder();
+    fs.rmSync(entryFolder, { recursive: true });
     const info = vi.spyOn(logService, "info").mockImplementation(() => {});
     expect(() => weiduGroupService.cleanFolder(ANKHEG)).not.toThrow();
     expect(info).not.toHaveBeenCalled();
     info.mockRestore();
-    expect(fs.existsSync(familyFolder)).toBe(false);
+    expect(fs.existsSync(entryFolder)).toBe(false);
   });
 
   it("removes generated tpa/baf files, keeping common.tpa and assets, and never touches common/", () => {
-    const familyFolder = setupTempFolder();
-    fs.mkdirSync(path.join(familyFolder, "assets"));
+    const entryFolder = setupTempFolder();
+    fs.mkdirSync(path.join(entryFolder, "assets"));
     for (const f of [
       "29.tpa",
       "main.tpa",
@@ -149,7 +149,7 @@ describe("createOrUpdateMainFile", () => {
       "assets/x.baf",
       "assets/jaae1700.bam",
     ])
-      fs.writeFileSync(path.join(familyFolder, f), "x");
+      fs.writeFileSync(path.join(entryFolder, f), "x");
     const commonFolder = path.join(tempDir, "lib/pnp-monster/common");
     fs.mkdirSync(commonFolder);
     fs.writeFileSync(path.join(commonFolder, "core.tpa"), "x");
@@ -160,8 +160,8 @@ describe("createOrUpdateMainFile", () => {
     expect(info).toHaveBeenCalledTimes(1);
     expect(info).toHaveBeenCalledWith("Cleaned 3 generated files in lib/pnp-monster/ankheg");
     info.mockRestore();
-    expect(fs.readdirSync(familyFolder).sort()).toEqual(["assets", "common.tpa"]);
-    expect(fs.readdirSync(path.join(familyFolder, "assets")).sort()).toEqual([
+    expect(fs.readdirSync(entryFolder).sort()).toEqual(["assets", "common.tpa"]);
+    expect(fs.readdirSync(path.join(entryFolder, "assets")).sort()).toEqual([
       "jaae1700.bam",
       "x.baf",
     ]);
@@ -169,10 +169,10 @@ describe("createOrUpdateMainFile", () => {
   });
 
   it("cleans the folder when its group starts", () => {
-    const familyFolder = setupTempFolder();
-    fs.writeFileSync(path.join(familyFolder, "29.tpa"), "x");
+    const entryFolder = setupTempFolder();
+    fs.writeFileSync(path.join(entryFolder, "29.tpa"), "x");
     weiduGroupService.createOrUpdateMainFile(ANKHEG);
-    expect(fs.readdirSync(familyFolder)).toEqual(["main.tpa"]);
+    expect(fs.readdirSync(entryFolder)).toEqual(["main.tpa"]);
   });
 
   it("works the same on an entry or kin folder: cleans it and includes its common.tpa", () => {
