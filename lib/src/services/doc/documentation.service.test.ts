@@ -1032,42 +1032,32 @@ describe("indexCreatureFiles", () => {
   });
 });
 
-describe("addSpecial", () => {
-  it("renders a caster special row as a stat-grid entry", () => {
+describe("Special stat", () => {
+  const specialOf = (level1: { type: string | undefined; value: number }) => {
+    const base = fakeCreatureForAddCreature(false);
     const creature = {
-      data: { level1: { type: "caster", value: 9 } },
+      ...base,
+      data: { ...base.data, level1: { ...level1, pnpValue: level1.value } },
     } as unknown as Creature;
-    const template = { text: "{{special}}" };
+    return documentationService
+      .getCardParts(creature)
+      .stats.find((s) => s.key.startsWith("stat:Special="))?.html;
+  };
 
-    documentationService.addSpecial(template, creature);
-
-    expect(template.text).toBe(
+  it("renders a caster special row as a stat-grid entry", () => {
+    expect(specialOf({ type: "caster", value: 9 })).toBe(
       '<div class="stat stat-half"><dt>Special</dt><dd>Cast spells as a level 9 caster</dd></div>',
     );
   });
 
   it("renders a turn-undead special row as a stat-grid entry", () => {
-    const creature = {
-      data: { level1: { type: "turn", value: 3 } },
-    } as unknown as Creature;
-    const template = { text: "{{special}}" };
-
-    documentationService.addSpecial(template, creature);
-
-    expect(template.text).toBe(
+    expect(specialOf({ type: "turn", value: 3 })).toBe(
       '<div class="stat stat-half"><dt>Special</dt><dd>Turned as a level 3 undead</dd></div>',
     );
   });
 
   it("renders nothing when the creature has no special casting/turning trait", () => {
-    const creature = {
-      data: { level1: { type: undefined, value: 0 } },
-    } as unknown as Creature;
-    const template = { text: "{{special}}" };
-
-    documentationService.addSpecial(template, creature);
-
-    expect(template.text).toBe("");
+    expect(specialOf({ type: undefined, value: 0 })).toBeUndefined();
   });
 });
 

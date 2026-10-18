@@ -457,15 +457,6 @@ class DocumentationService {
     return stored + (creature.attack.dualWielding ? 1 : 0) + fighterBonus;
   }
 
-  addSpecial(template: { text: string }, creature: Creature) {
-    const special = this.getSpecialText(creature);
-    this.replace(
-      template,
-      "special",
-      special ? `<div class="stat stat-half"><dt>Special</dt><dd>${special}</dd></div>` : "",
-    );
-  }
-
   private getSpecialText(creature: Creature): string {
     if (creature.data.level1.type === "caster") {
       return `Cast spells as a level ${creature.data.level1.value} caster`;
@@ -850,8 +841,8 @@ class DocumentationService {
   // Hide in Shadows isn't backed by an ImmunityConfig (it's a raw thief-skill value on
   // CreatureData, see statement-builder.service.ts's thievesAbilities), so it can't flow through
   // the immunity-driven trait loop above like everything else in this section - it's rendered
-  // directly from the value instead. Kit is shown separately (addSpecial/getAdjustmentStatGrid's
-  // "Special" row), not repeated here.
+  // directly from the value instead. Kit is shown separately (the "Kit" stat of getStatParts and
+  // getAdjustmentStatGrid), not repeated here.
   private getHideInShadowsTrait(hideShadow: number | undefined): string {
     if (hideShadow === undefined) return "";
     return `<h5>Hide in Shadows (${hideShadow}%)</h5>`;
