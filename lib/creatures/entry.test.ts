@@ -46,7 +46,7 @@ describe("KIN_FOLDERS", () => {
     expect(KIN_FOLDERS[KinEnum.Skeleton]).toBe("skeleton");
     expect(KinEnum.Bear).toBe(1);
     expect(KinEnum.Wolf).toBe(10);
-    expect(KinEnum.Skeleton).toBe(12);
+    expect(KinEnum.Skeleton).toBe(11);
   });
 });
 
