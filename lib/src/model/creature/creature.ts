@@ -71,8 +71,9 @@ export interface NaturalWeaponOptions {
   grab?: CreatureGrabConfig;
 }
 
-// Drops undefined-valued keys, so a natural weapon carries no explicit undefined: itemService.setHeader
-// spreads the header over its defaults (`{ effects: [], ...header }`), where one would replace a default.
+// Drops undefined-valued keys, so a natural weapon carries no explicit undefined:
+// itemService.setHeader spreads the header over its defaults (`{ effects: [], ...header }`),
+// where one would replace a default.
 function definedOnly<T extends object>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as T;
 }
