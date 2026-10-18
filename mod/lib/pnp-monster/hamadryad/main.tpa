@@ -21,7 +21,7 @@ ADD_PROJECTILE ~override/jase1400.pro~ ~Hamadryad Entangle~
 CREATE SPL "jase1400"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase1400.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10193)
 	WRITE_ASCII 0x10 ~CAS_P08~ #8
 	WRITE_SHORT 0x1c 4
 	WRITE_SHORT 0x22 10
@@ -29,7 +29,7 @@ COPY_EXISTING ~jase1400.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR105C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10193)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10194)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jase1400~)) + 1 STR_VAR icon="SPPR105B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=6 probability1=100 STR_VAR resource="jase1400" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=6 probability1=100 STR_VAR resource="jase1400" END

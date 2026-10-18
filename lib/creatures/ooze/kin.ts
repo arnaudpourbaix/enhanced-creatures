@@ -51,7 +51,6 @@ export class Slime extends Creature {
     id?: number;
   }) {
     return this.addNaturalWeapon("pseudopod", {
-      stringRef: "monster.slime.weapon.pseudopod",
       id: p.id,
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,

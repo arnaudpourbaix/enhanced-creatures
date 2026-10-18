@@ -13,7 +13,6 @@ class Snake extends Creature {
     saveBonus?: number;
   }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.snake.weapon.jaws",
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
       speed: 3,

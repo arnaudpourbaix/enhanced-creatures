@@ -17,7 +17,6 @@ export class Dog extends Creature {
     grab?: CreatureGrabConfig;
   }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.dog.weapon.jaws",
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
       speed: 3,

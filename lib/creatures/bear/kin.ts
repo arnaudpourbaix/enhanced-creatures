@@ -24,7 +24,7 @@ export class Bear extends Creature {
     return this.addNaturalWeapon("claws", {
       diceThrown,
       diceSize,
-      stringRef: "monster.bear.weapon.claws",
+      stringRef: "common.naturalWeapon.paws",
       speed: 5,
       castSpells: [
         {
@@ -56,7 +56,6 @@ export class Bear extends Creature {
     return this.addNaturalWeapon("jaws", {
       diceThrown,
       diceSize,
-      stringRef: "monster.bear.weapon.jaws",
       speed: 3,
       slot: "SHIELD",
     });

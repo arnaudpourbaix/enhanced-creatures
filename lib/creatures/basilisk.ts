@@ -47,7 +47,6 @@ class Basilisk extends Creature {
     castSpell?: WeaponCastSpell;
   }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.spider.weapon.jaws",
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
       speed: 5,
@@ -157,7 +156,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
     greater.memorizeSpell(this.spell(Ids.Petrification).file, 1);
     greater.addWeapon({
       weapon: {
-        stringRef: "monster.basilisk.weapon.claws",
+        stringRef: "common.naturalWeapon.claws",
         equippedSlot: ["WEAPON1"],
         icon: MonsterItemIconEnum.Wolf,
         header: {

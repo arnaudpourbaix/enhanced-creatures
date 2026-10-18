@@ -51,7 +51,7 @@ export class Cat extends Creature {
     }
     return this.addNaturalWeapon("claws", {
       effects,
-      stringRef: "monster.cat.weapon.claws",
+      stringRef: "common.naturalWeapon.paws",
       id: p.id,
       slot: p.id === undefined ? "WEAPON1" : null,
       diceThrown: p.diceThrown * 2,
@@ -64,7 +64,6 @@ export class Cat extends Creature {
     return this.addNaturalWeapon("jaws", {
       diceThrown,
       diceSize,
-      stringRef: "monster.cat.weapon.jaws",
       speed: 3,
       slot: "SHIELD",
     });

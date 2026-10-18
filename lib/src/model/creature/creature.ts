@@ -49,7 +49,8 @@ import { AbilityEntry } from "./ability";
 import { State } from "../../state";
 
 export interface NaturalWeaponOptions {
-  stringRef: StringReference;
+  /** Default: the kind's shared name (NATURAL_WEAPONS). */
+  stringRef?: StringReference;
   diceThrown: number;
   diceSize: number;
   speed: number;
@@ -266,7 +267,7 @@ export class Creature extends AbstractCreature implements BaseCreature {
     return this.addWeapon({
       weapon: definedOnly<PartialWeapon>({
         id: o.id,
-        stringRef: o.stringRef,
+        stringRef: o.stringRef ?? defaults.name,
         icon: o.icon ?? defaults.icon,
         equippedSlot: slot === null ? [] : [slot],
         immunities: o.immunities,

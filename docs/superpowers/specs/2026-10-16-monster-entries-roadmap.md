@@ -157,8 +157,9 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
 - ✅ `lib/creatures/undead/` removed: the shared `Ids` enum split into one per entry file (ids don't
   name resources), and `UndeadEntry`, which had nothing undead, became the generic
   `SimpleEntry` (`lib/src/model/creature/simple-entry.ts`).
-- ☐ Merge the per-family weapon name keys (`monster.<family>.weapon.jaws`…) into shared keys
-  (renumbers every string; sub-project 2's planned second step).
+- ✅ Per-kin weapon name keys merged into `common.naturalWeapon.*` (jaws, claws, paws, fists, touch,
+  stinger, pseudopod, branch); each kind defaults its name, so `addNaturalWeapon` calls only pass
+  `paws`. Same texts, 13 fewer strings (1143 -> 1130), .tra renumbered.
 - ☐ A variant layer for natural weapons ("undead claws" today needs both the icon and the name key).
 
 ### Bugs and gaps found along the way

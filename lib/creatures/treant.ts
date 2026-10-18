@@ -10,7 +10,6 @@ class Plant extends Creature {
     return this.addNaturalWeapon("branch", {
       diceThrown,
       diceSize,
-      stringRef: "monster.plant.weapon.branch",
       speed: 8,
       range: 5,
       slot: equip ? "WEAPON1" : null,

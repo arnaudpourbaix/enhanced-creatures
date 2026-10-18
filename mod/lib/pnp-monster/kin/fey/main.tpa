@@ -4,7 +4,7 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/kin/fey/common.tpa"
 CREATE SPL "jask0500"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jask0500.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10473)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10460)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
 	WRITE_SHORT 0x1c 4
@@ -14,7 +14,7 @@ COPY_EXISTING ~jask0500.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10474)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10461)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
@@ -34,7 +34,7 @@ CREATE EFF "jask0501"
 CREATE SPL "jask0501"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jask0501.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10191)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10192)
 	WRITE_ASCII 0x10 ~CAS_M05~ #8
 	WRITE_LONG 0x18 512
 	WRITE_SHORT 0x1c 4
@@ -43,7 +43,7 @@ COPY_EXISTING ~jask0501.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10807)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10794)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~SPARKLGO~)) + 1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0501" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0501" END
@@ -57,7 +57,7 @@ COPY_EXISTING ~jask0501.SPL~  ~override~
 CREATE SPL "jask0502"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jask0502.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10194)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10195)
 	WRITE_ASCII 0x10 ~CAS_P02~ #8
 	WRITE_SHORT 0x1c 4
 	WRITE_SHORT 0x22 10
@@ -65,7 +65,7 @@ COPY_EXISTING ~jask0502.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~jaak0501~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10195)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10196)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=30 speed=1 STR_VAR icon="jaak0501" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=143 target=2 power=1 parameter1=IDS_OF_SYMBOL (~slots~ ~SLOT_AMULET~) resist_dispel=3 duration=60 probability1=100 STR_VAR resource="jaic0004" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=1727219712 parameter2=1966080 resist_dispel=3 duration=1 probability1=100 END
@@ -83,7 +83,7 @@ CREATE EFF "jask0503"
 CREATE SPL "jask0503"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jask0503.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10196)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10197)
 	WRITE_ASCII 0x10 ~CORAN03~ #8
 	WRITE_LONG 0x18 33554432
 	WRITE_SHORT 0x1c 4
@@ -91,7 +91,7 @@ COPY_EXISTING ~jask0503.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR204C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10197)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10198)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPPR204B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0503" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0503" END
@@ -105,7 +105,7 @@ COPY_EXISTING ~jask0503.SPL~  ~override~
 CREATE SPL "jask0504"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jask0504.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10198)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10199)
 	WRITE_ASCII 0x10 ~CAS_P04~ #8
 	WRITE_LONG 0x18 8192
 	WRITE_SHORT 0x1c 4
@@ -114,7 +114,7 @@ COPY_EXISTING ~jask0504.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR205C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10199)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10200)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~INAREANS~)) + 1 STR_VAR icon="SPPR205B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=150 target=1 power=1 duration=120 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=1 power=1 parameter2=109 duration=120 probability1=100 END

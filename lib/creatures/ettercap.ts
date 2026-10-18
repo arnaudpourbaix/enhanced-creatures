@@ -60,7 +60,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
     });
     ettercap.addWeapon({
       weapon: {
-        stringRef: "monster.ettercap.weapon.claws",
+        stringRef: "common.naturalWeapon.claws",
         icon: MonsterItemIconEnum.Wolf,
         equippedSlot: ["WEAPON1"],
         header: {
@@ -75,7 +75,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
     });
     ettercap.addWeapon({
       weapon: {
-        stringRef: "monster.ettercap.weapon.jaws",
+        stringRef: "common.naturalWeapon.jaws",
         icon: MonsterItemIconEnum.Jaws,
         equippedSlot: ["SHIELD"],
         header: {

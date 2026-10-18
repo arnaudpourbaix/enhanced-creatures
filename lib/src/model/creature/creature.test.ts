@@ -104,7 +104,6 @@ describe("addItem (override)", () => {
 
 describe("addNaturalWeapon", () => {
   const jaws = {
-    stringRef: "monster.bear.weapon.jaws",
     diceThrown: 1,
     diceSize: 6,
     speed: 3,
@@ -123,6 +122,17 @@ describe("addNaturalWeapon", () => {
     expect(weapon.header.speed).toBe(3);
     expect(weapon.header.diceThrown).toBe(1);
     expect(weapon.header.diceSize).toBe(6);
+  });
+
+  it("names the weapon after its kind unless a name key is given", () => {
+    const creature = fakeCreature();
+    expect(creature.addNaturalWeapon("jaws", jaws).stringRef).toBe("common.naturalWeapon.jaws");
+    expect(creature.addNaturalWeapon("fists", jaws).stringRef).toBe("common.naturalWeapon.fists");
+    const paws = creature.addNaturalWeapon("claws", {
+      ...jaws,
+      stringRef: "common.naturalWeapon.paws",
+    });
+    expect(paws.stringRef).toBe("common.naturalWeapon.paws");
   });
 
   it("lets options override icon and damage type", () => {

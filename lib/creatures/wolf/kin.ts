@@ -18,7 +18,6 @@ export class Wolf extends Creature {
     slot?: ItemSlot;
   }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.wolf.weapon.jaws",
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
       speed: 3,

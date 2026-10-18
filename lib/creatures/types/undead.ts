@@ -35,7 +35,6 @@ export function createTouch(
   },
 ) {
   return creature.addNaturalWeapon("touch", {
-    stringRef: "monster.undead.weapon.touch",
     diceThrown: p.diceThrown,
     diceSize: p.diceSize,
     damageBonus: p.damageBonus,
@@ -57,7 +56,6 @@ export function createClaws(
   },
 ) {
   return creature.addNaturalWeapon("claws", {
-    stringRef: "monster.undead.weapon.claws",
     icon: MonsterItemIconEnum.Ghoul,
     diceThrown: p.diceThrown,
     diceSize: p.diceSize,
@@ -117,7 +115,6 @@ export function createJaws(
     diceSize,
     slot,
     castSpells,
-    stringRef: "monster.undead.weapon.jaws",
     speed: 3,
   });
 }

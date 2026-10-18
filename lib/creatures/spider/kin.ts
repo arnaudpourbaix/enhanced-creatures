@@ -53,7 +53,6 @@ export class Spider extends Creature {
     castSpells?: WeaponCastSpell[];
   }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.spider.weapon.jaws",
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
       speed: 2,

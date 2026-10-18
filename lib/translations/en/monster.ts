@@ -36,7 +36,6 @@ It must repeat the saving throw at the end of its next turn. On a success, the e
       lesser: "Lesser Basilisk",
       greater: "Greater Basilisk",
     },
-    weapon: { claws: "Claws", jaws: "Jaws" },
     ability: {
       petrifyingGaze: {
         name: "Petrifying Gaze",
@@ -64,7 +63,6 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       polar: "Polar Bear",
       grizzly: "Grizzly Bear",
     },
-    weapon: { claws: "Paws", jaws: "Jaws" },
     hug: { name: "Hug" },
     improvedStreamOfFrost: {
       name: "Improved stream of frost",
@@ -96,7 +94,7 @@ It must repeat the saving throw on the next round. On a success, the effect ends
         attack: "Leap Attack",
       },
     },
-    weapon: { claws: "Paws", jaws: "Jaws", tentacles: "Tentacles" },
+    weapon: { tentacles: "Tentacles" },
   },
   construct: {
     name: {
@@ -117,7 +115,6 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       hellHound: "Hell Hound",
       moon: "Moon Dog",
     },
-    weapon: { jaws: "Jaws" },
     ability: {
       blink: "Blink",
       astralPlaneShift: "Astral Plane Shift",
@@ -225,7 +222,7 @@ This ability has no effect on blinded characters.`,
       magic: "Magic Golem",
       sand: "Sand Golem",
     },
-    weapon: { fists: "Fists", magicalBlast: "Magical Blast" },
+    weapon: { magicalBlast: "Magical Blast" },
     ability: {
       haste: "Haste",
       hideousLaugh: "Hideous Laugh",
@@ -263,7 +260,6 @@ Stronger Snow Golems will do 15d4+15 cold damage`,
       ogrillon: "Ogrillon",
     },
     weapon: {
-      fists: "Fists",
       giantFlail: "Giant Flail",
       naginata: {
         name: "Naginata",
@@ -303,9 +299,6 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       treant7HD: "Treant (7 HD)",
       treant5HD: "Treant (5 HD)",
     },
-    weapon: {
-      branch: "Branch",
-    },
   },
   slime: {
     name: {
@@ -320,9 +313,6 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       olive: "Olive Slime",
       oliveCreature: "Olive Slime Creature",
       slitheringTracker: "Slithering Tracker",
-    },
-    weapon: {
-      pseudopod: "Pseudopod",
     },
     ability: {
       split: {
@@ -381,7 +371,7 @@ Magic Resistance: 10%`,
       vortex: "Vortex Spider",
       wraith: "Wraith Spider",
     },
-    weapon: { jaws: "Jaws", leg: "Leg" },
+    weapon: { leg: "Leg" },
     trait: {
       ghostwalk: `Can switch in a ghostly form and becomes incorporeal but can't poison its target while in this form.
 True sight`,
@@ -429,7 +419,6 @@ Characters in contact with the webs must also make a saving throw vs. paralyzati
       winter: "Winter Wolf",
       worg: "Worg",
     },
-    weapon: { jaws: "Jaws" },
     trait: {
       dread: `Undead
 Dread wolf regenerates like a troll, regaining 3 hp per round after the first combat round.
@@ -485,7 +474,6 @@ If successful, the charge causes double head-butt damage`,
     name: {
       ettercap: "Ettercap",
     },
-    weapon: { claws: "Claws", jaws: "Jaws" },
     ability: {},
   },
   wyvern: {
@@ -495,7 +483,6 @@ If successful, the charge causes double head-butt damage`,
       greater: "Greater Wyvern",
       redDrake: "Red Wyvern Drake",
     },
-    weapon: { stinger: "Stinger", jaws: "Jaws" },
     ability: {},
   },
   undead: {
@@ -536,7 +523,6 @@ If successful, the charge causes double head-butt damage`,
       zombieLord: "Zombie Lord",
       seaZombieLord: "Sea Zombie Lord",
     },
-    weapon: { touch: "Touch", claws: "Claws", jaws: "Jaws" },
     ability: {
       bansheeFearAura: {
         description: `The mere sight of one causes fear, unless a successful saving throw vs. spell is rolled.
@@ -733,7 +719,6 @@ After 2 rounds, it reaches its sanctuary and is gone for good.`,
     name: {
       giantPoisonous: "Giant Poisonous Snake",
     },
-    weapon: { jaws: "Jaws" },
     ability: {},
   },
 };

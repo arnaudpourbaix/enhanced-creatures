@@ -48,7 +48,6 @@ export class Golem extends Creature {
       diceSize,
       damageType,
       effects,
-      stringRef: "monster.golem.weapon.fists",
       speed: 4,
       castSpells: castSpell ? [castSpell] : undefined,
     });

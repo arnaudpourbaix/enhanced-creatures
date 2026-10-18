@@ -1,4 +1,15 @@
 export default {
+  // Names of the natural weapon kinds (lib/config/natural-weapons.ts), shared by every creature.
+  naturalWeapon: {
+    jaws: "Jaws",
+    claws: "Claws",
+    paws: "Paws",
+    fists: "Fists",
+    touch: "Touch",
+    stinger: "Stinger",
+    pseudopod: "Pseudopod",
+    branch: "Branch",
+  },
   immunity: {
     poison: "Immune to poison",
     disease: "Immune to all diseases",

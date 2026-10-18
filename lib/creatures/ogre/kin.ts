@@ -31,7 +31,6 @@ export class Ogre extends Creature {
    */
   createFists(p: { diceThrown: number; diceSize: number; id?: number; equipped?: boolean }) {
     return this.addNaturalWeapon("fists", {
-      stringRef: "monster.ogre.weapon.fists",
       id: p.id,
       slot: (p.equipped ?? true) ? "WEAPON1" : null,
       diceThrown: p.diceThrown,

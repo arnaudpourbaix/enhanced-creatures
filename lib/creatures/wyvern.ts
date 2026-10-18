@@ -17,7 +17,6 @@ class Wyvern extends Creature {
     saveBonus: number;
   }) {
     return this.addNaturalWeapon("stinger", {
-      stringRef: "monster.wyvern.weapon.stinger",
       id: Ids.Stinger,
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,
@@ -28,7 +27,6 @@ class Wyvern extends Creature {
 
   createJaws(p: { diceThrown: number; diceSize: number }) {
     return this.addNaturalWeapon("jaws", {
-      stringRef: "monster.wyvern.weapon.jaws",
       id: Ids.Jaws,
       diceThrown: p.diceThrown,
       diceSize: p.diceSize,

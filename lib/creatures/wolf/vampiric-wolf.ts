@@ -32,7 +32,7 @@ class VampiricWolf extends Wolf {
   }) {
     return this.addWeapon({
       weapon: {
-        stringRef: "monster.wolf.weapon.jaws",
+        stringRef: "common.naturalWeapon.jaws",
         icon: MonsterItemIconEnum.Jaws,
         equippedSlot: [p.slot],
         doc: p.doc,
