@@ -752,6 +752,19 @@ describe("addImmunities (private)", () => {
     State.immunities = before;
   });
 
+  it("emits an LPF call for a regular immunity", () => {
+    State.immunities = [
+      { name: "poison", type: "immunity", immunities: [], effects: [], overrides: [] },
+    ] as unknown as ImmunityConfig[];
+    const lines: CodeLine[] = [];
+    (
+      weiduCreatureService as unknown as {
+        addImmunities(l: CodeLine[], t: number, i: ImmunityName[], a: CreatureAdjustment[]): void;
+      }
+    ).addImmunities(lines, 0, ["poison"], []);
+    expect(lines.some((l) => l.code.startsWith("LPF "))).toBe(true);
+  });
+
   it("emits no LPF call for a docOnly immunity", () => {
     State.immunities = [
       { name: "animal", type: "trait", docOnly: true, immunities: [], effects: [], overrides: [] },

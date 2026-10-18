@@ -106,15 +106,18 @@ describe("generateImmunities", () => {
     vi.restoreAllMocks();
   });
 
-  it("emits no patch function for a docOnly immunity", () => {
-    State.immunities = [
-      fakeImmunity({ name: "animal", type: "trait", docOnly: true }),
-    ] as typeof State.immunities;
+  it("emits no patch function for a docOnly immunity, but does for the others", () => {
+    const docOnly = fakeImmunity({ name: "animal", type: "trait", docOnly: true });
+    const regular = fakeImmunity({ name: "poison" });
+    State.immunities = [docOnly, regular] as typeof State.immunities;
     const written: string[] = [];
     vi.spyOn(utils, "writeFile").mockImplementation((_f, content) => {
       written.push(content);
     });
     weiduFunctionService.generateImmunities();
-    expect(written.join("")).not.toContain("animal");
+    const content = written.join("");
+    expect(content).toContain(`DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(regular)}`);
+    expect(content).not.toContain(`DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(docOnly)}`);
+    expect(content).not.toContain("animal");
   });
 });
