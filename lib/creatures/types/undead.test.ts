@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { CreatureAdjustment } from "../../src/model/creature/adjustment";
 import { Creature } from "../../src/model/creature/creature";
 import { CreatureData } from "../../src/model/creature/data";
 import { ImmunityName } from "../../src/model/final/immunity";
+import logService from "../../src/services/log.service";
 import { applyTurnLevel } from "./turn-level";
 import { applyUndeadGeneral, undeadType } from "./undead";
 
@@ -15,12 +16,18 @@ function fake(p: {
   return {
     data: { general: p.general, immunities: p.immunities ?? [] },
     items: p.traitImmunities ? [{ trait: true, immunities: p.traitImmunities }] : [],
-    adjustments: (p.adjustments ?? []).map((data) => ({ data }) as CreatureAdjustment),
+    adjustments: (p.adjustments ?? []).map(
+      (data, i) => ({ files: [`ADJ${i}`], data }) as CreatureAdjustment,
+    ),
   } as unknown as Creature;
 }
 
 // Tested in game: Turn Undead only affects creatures whose CRE General is UNDEAD.
 describe("applyUndeadGeneral", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("makes an undead-typed creature UNDEAD (Wraith Spider: MONSTER)", () => {
     const spider = fake({ general: "MONSTER", immunities: ["undead"] });
     applyUndeadGeneral(spider);
@@ -44,14 +51,29 @@ describe("applyUndeadGeneral", () => {
     expect(ankheg.adjustments.map((a) => a.data.general)).toEqual([undefined, "UNDEAD"]);
   });
 
-  it("overrides an adjustment's own General on an undead creature, leaves the others unset", () => {
+  it("warns about an adjustment's own General on an undead creature instead of overwriting it", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
     const undead = fake({
       general: "UNDEAD",
       immunities: ["undead"],
-      adjustments: [{ general: "MONSTER" }, { level1: undefined }],
+      adjustments: [{ general: "MONSTER" }, { level1: undefined }, { general: "UNDEAD" }],
     });
     applyUndeadGeneral(undead);
-    expect(undead.adjustments.map((a) => a.data.general)).toEqual(["UNDEAD", undefined]);
+    expect(undead.adjustments.map((a) => a.data.general)).toEqual(["MONSTER", undefined, "UNDEAD"]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain("ADJ0");
+  });
+
+  it("warns about an adjustment making a creature undead that sets another General", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    const ankheg = fake({
+      general: "MONSTER",
+      immunities: ["magicalBeast"],
+      adjustments: [{ immunities: ["undead"], general: "MONSTER" }],
+    });
+    applyUndeadGeneral(ankheg);
+    expect(ankheg.adjustments[0].data.general).toBe("MONSTER");
+    expect(warn).toHaveBeenCalledTimes(1);
   });
 
   it("leaves a creature that isn't undead alone", () => {

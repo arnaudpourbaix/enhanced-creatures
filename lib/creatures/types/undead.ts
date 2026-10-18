@@ -12,6 +12,7 @@ import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
 import type { CreatureTypeModule } from "../../src/services/creature-type-hooks.service";
 import creatureTypeService from "../../src/services/creature-type.service";
+import logService from "../../src/services/log.service";
 import { applyTurnLevel } from "./turn-level";
 
 /**
@@ -30,22 +31,28 @@ export const undeadType: CreatureTypeModule = {
 
 /**
  * Turn Undead only affects creatures whose CRE General is UNDEAD (tested in game), and the mod
- * writes General over the game's: an undead creature gets UNDEAD, so do its adjustments that set
- * another General, and, for a creature that isn't undead, each adjustment making it undead
- * (zombie ankhegs). Undead only by a type trait or trait item (Wraith Spider, Dread Wolf) counts.
+ * writes General over the game's: an undead creature gets UNDEAD and, for a creature that isn't
+ * undead, so does each adjustment making it undead (zombie ankhegs). Undead only by a type trait or
+ * trait item (Wraith Spider, Dread Wolf) counts. Adjustments never set a General: one that sets
+ * another one on an undead is reported, not overwritten.
  */
 export function applyUndeadGeneral(creature: Creature): void {
   const own = creatureTypeService.getCreatureTypes(creature);
-  if (own.includes("undead")) {
-    creature.data.general = "UNDEAD";
-    for (const { data } of creature.adjustments) {
-      if (data.general !== undefined) data.general = "UNDEAD";
-    }
-    return;
-  }
+  const undead = own.includes("undead");
+  if (undead) creature.data.general = "UNDEAD";
   for (const adjustment of creature.adjustments) {
-    if (creatureTypeService.getAdjustmentTypes(creature, adjustment, own).includes("undead")) {
-      adjustment.data.general = "UNDEAD";
+    const data = adjustment.data;
+    const makesUndead =
+      !undead &&
+      creatureTypeService.getAdjustmentTypes(creature, adjustment, own).includes("undead");
+    if (!undead && !makesUndead) continue;
+    if (data.general === undefined) {
+      // An undead's adjustment inherits the creature's UNDEAD; a zombie ankheg's needs its own.
+      if (makesUndead) data.general = "UNDEAD";
+    } else if (data.general !== "UNDEAD") {
+      logService.warn(
+        `Undead adjustment ${adjustment.files.join(", ")} sets General ${data.general}: it can't be turned`,
+      );
     }
   }
 }
