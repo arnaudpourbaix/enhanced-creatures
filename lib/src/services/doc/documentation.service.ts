@@ -1460,7 +1460,7 @@ class DocumentationService {
 
   // Shared by getCreatureSpells and getAdjustmentSpells: past ABILITY_TAB_THRESHOLD entries, a flat
   // list stops being readable (a caster built from spellService.createSpellbook(), e.g. the Cleric
-  // Skeleton adjustment in lib/creatures/undead/skeletons.ts, can memorize several spells per level
+  // Skeleton variant in lib/creatures/skeleton/skeleton-monster.ts, can memorize several spells per level
   // across 7+ levels) - group into one tab per spell level instead.
   private renderAbilitiesSection(
     idPrefix: string,

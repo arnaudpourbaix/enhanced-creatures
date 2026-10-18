@@ -5,7 +5,7 @@ import { MonsterEnum } from "./monster";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createShadowWeapon } from "./types/undead";
 
 export function shadow(entry: CreatureEntry<Creature>): Creature {
@@ -165,4 +165,4 @@ export function greaterShadow5e(entry: CreatureEntry<Creature>): Creature {
   return greaterShadow;
 }
 
-export const createShadowEntry = () => new UndeadEntry(EntryEnum.Shadow, [shadow, greaterShadow]);
+export const createShadowEntry = () => new SimpleEntry(EntryEnum.Shadow, [shadow, greaterShadow]);

@@ -18,12 +18,16 @@ import {
   SpellProtectionStat,
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+
+enum Ids {
+  GhostFearAura,
+  GhostTouch,
+}
 
 function ghostFearAura(cre: Creature) {
   // causes any humanoid being to age 10 years and flee in panic for 8 turns unless a saving throw versus spell is made.
@@ -189,4 +193,4 @@ export function ghost(entry: CreatureEntry<Creature>): Creature {
   return ghost;
 }
 
-export const createGhostEntry = () => new UndeadEntry(EntryEnum.Ghost, [ghost]);
+export const createGhostEntry = () => new SimpleEntry(EntryEnum.Ghost, [ghost]);

@@ -32,12 +32,18 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { PartialSpellHeader } from "../src/model/spell-item/spell-item";
 import targetService from "../src/services/baf/target.service";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+
+enum Ids {
+  ZombieDisease,
+  ZombieOdorOfDeath,
+  ZombieStenchOfDecay,
+  ZombieAnimateDead,
+}
 
 function zombieDisease(cre: Creature) {
   const duration = Durations.day;
@@ -772,4 +778,4 @@ export function zombieMonster(entry: CreatureEntry<Creature>): Creature {
 }
 
 export const createZombieEntry = () =>
-  new UndeadEntry(EntryEnum.Zombie, [zombie, zombieLord, jujuZombie, seaZombie]);
+  new SimpleEntry(EntryEnum.Zombie, [zombie, zombieLord, jujuZombie, seaZombie]);

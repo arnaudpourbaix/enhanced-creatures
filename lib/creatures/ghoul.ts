@@ -21,12 +21,18 @@ import {
   SpellProtectionStat,
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws, createJaws } from "./types/undead";
+
+enum Ids {
+  AuraOfEvil,
+  GhoulTouch,
+  GhoulLordTouch,
+  GhoulRottingDisease,
+}
 
 function ghoulTouch(cre: Creature) {
   return cre.addSpell({
@@ -330,4 +336,4 @@ export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
   return lord;
 }
 
-export const createGhoulEntry = () => new UndeadEntry(EntryEnum.Ghoul, [ghoul, ghoulLord]);
+export const createGhoulEntry = () => new SimpleEntry(EntryEnum.Ghoul, [ghoul, ghoulLord]);

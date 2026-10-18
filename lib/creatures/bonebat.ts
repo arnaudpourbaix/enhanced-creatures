@@ -11,12 +11,15 @@ import {
   SpellProtectionStat,
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createJaws } from "./types/undead";
+
+enum Ids {
+  BonebatTouch,
+}
 
 function bonebatTouch(cre: Creature) {
   return cre.addSpell({
@@ -99,4 +102,4 @@ export function bonebat(entry: CreatureEntry<Creature>): Creature {
   return bonebat;
 }
 
-export const createBonebatEntry = () => new UndeadEntry(EntryEnum.Bonebat, [bonebat]);
+export const createBonebatEntry = () => new SimpleEntry(EntryEnum.Bonebat, [bonebat]);

@@ -4,7 +4,7 @@ import { MonsterEnum } from "../monster";
 import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
-import { UndeadEntry } from "../undead/undead-entry";
+import { SimpleEntry } from "../../src/model/creature/simple-entry";
 import { builtBefore, type CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
@@ -74,7 +74,7 @@ export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature):
 
 export function createSkeletonMonsterEntry(kins: Map<KinEnum, CreatureKin>) {
   const kin = skeletonKin(kins);
-  return new UndeadEntry(
+  return new SimpleEntry(
     EntryEnum.SkeletonMonster,
     [(entry) => skeletonMonster(entry, builtBefore(kin?.skeleton, "Skeleton"))],
     kin,

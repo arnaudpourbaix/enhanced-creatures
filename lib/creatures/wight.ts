@@ -4,12 +4,15 @@ import {
   ItemAbilityTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+
+enum Ids {
+  WightTouch,
+}
 
 function wightTouch(cre: Creature) {
   return cre.addSpell({
@@ -92,4 +95,4 @@ export function wight(entry: CreatureEntry<Creature>): Creature {
   return wight;
 }
 
-export const createWightEntry = () => new UndeadEntry(EntryEnum.Wight, [wight]);
+export const createWightEntry = () => new SimpleEntry(EntryEnum.Wight, [wight]);

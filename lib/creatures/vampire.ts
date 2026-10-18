@@ -55,13 +55,27 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { SpellKeyword } from "../config/spells/keyword";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import type { TurnUndeadType } from "./types/turn-level";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+
+enum Ids {
+  VampireFledglingDomination,
+  VampireMatureDomination,
+  VampireOldDomination,
+  VampireVeryOldDomination,
+  VampireAncientDomination,
+  VampireEminentDomination,
+  VampirePatriarchDomination,
+  VampireBatSwarm,
+  VampireControlUndead,
+  VampireWolfForm,
+  VampireBatForm,
+  VampireMistForm,
+}
 
 /**
  * How a vampire dominates its victims: younger vampires must meet their eyes, ancient and eminent
@@ -858,7 +872,7 @@ export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry,
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[6]);
 
 export const createVampireEntry = () =>
-  new UndeadEntry(EntryEnum.Vampire, [
+  new SimpleEntry(EntryEnum.Vampire, [
     fledglingVampire,
     matureVampire,
     oldVampire,

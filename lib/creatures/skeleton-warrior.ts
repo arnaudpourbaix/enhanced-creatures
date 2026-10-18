@@ -8,11 +8,14 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
+
+enum Ids {
+  SkeletonWarriorFearAura,
+}
 
 function fearAura(cre: Creature) {
   return cre.addSpell(
@@ -148,4 +151,4 @@ function greaterSkeletonWarriorVariant(base: Creature): Variant {
 }
 
 export const createSkeletonWarriorEntry = () =>
-  new UndeadEntry(EntryEnum.SkeletonWarrior, [skeletonWarrior]);
+  new SimpleEntry(EntryEnum.SkeletonWarrior, [skeletonWarrior]);

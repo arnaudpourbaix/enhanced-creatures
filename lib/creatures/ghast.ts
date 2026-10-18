@@ -19,12 +19,16 @@ import {
   SpellProtectionStat,
 } from "../src/model/spell-item/spell-protection";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws, createJaws } from "./types/undead";
+
+enum Ids {
+  CarrionStench,
+  GhastTouch,
+}
 
 function ghastTouch(cre: Creature) {
   return cre.addSpell({
@@ -211,5 +215,4 @@ function greaterLacedonVariant(lacedon: Variant): Variant {
   });
 }
 
-export const createGhastEntry = () =>
-  new UndeadEntry(EntryEnum.Ghast, [ghast]);
+export const createGhastEntry = () => new SimpleEntry(EntryEnum.Ghast, [ghast]);

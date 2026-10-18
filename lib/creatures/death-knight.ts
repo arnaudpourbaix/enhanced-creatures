@@ -30,11 +30,16 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { ProjectileBehaviorEnum } from "../src/model/spell-item/projectile";
 import { ScriptTarget } from "../src/model/constants";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
+
+enum Ids {
+  DeathKnightFearAura,
+  Fireball,
+  WallOfIce,
+}
 
 function fearAura(cre: Creature) {
   return cre.addSpell(
@@ -370,4 +375,4 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
   return knight;
 }
 
-export const createDeathKnightEntry = () => new UndeadEntry(EntryEnum.DeathKnight, [deathKnight]);
+export const createDeathKnightEntry = () => new SimpleEntry(EntryEnum.DeathKnight, [deathKnight]);

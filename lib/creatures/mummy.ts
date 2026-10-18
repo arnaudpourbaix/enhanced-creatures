@@ -27,14 +27,20 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { PartialSpell } from "../src/model/spell-item/spell-item";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import responseFactory from "../src/factories/response.factory";
 import spellService from "../src/services/spell.service";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
+
+enum Ids {
+  GreaterMummyRottingDisease,
+  GreaterMummyFearAura,
+  MummyFearAura,
+  MummyRottingDisease,
+}
 
 function mummyRottingDisease(cre: Creature, greater: boolean) {
   // Mummy: PnP is 1-6 months, replaced by 6 days in the game
@@ -436,4 +442,4 @@ export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
   return greater;
 }
 
-export const createMummyEntry = () => new UndeadEntry(EntryEnum.Mummy, [mummy, greaterMummy]);
+export const createMummyEntry = () => new SimpleEntry(EntryEnum.Mummy, [mummy, greaterMummy]);

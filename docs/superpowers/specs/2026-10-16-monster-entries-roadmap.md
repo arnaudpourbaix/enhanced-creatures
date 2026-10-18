@@ -154,8 +154,9 @@ Collected from the four sub-projects' reviews and rulings (2026-10-17). ☐ open
   `common.tpa`): Ghast and Skeleton Warrior no longer depend on the Zombie entry.
 - ✅ `ENTRY_MEMBERS` dropped (only tests read it): members are what each entry builds; `ENTRY_NAMES`
   keeps only the 9 multi-member entries' docs names.
-- ☐ `lib/creatures/undead/` is neither a kin nor a type (holds `ids.ts`, `undead-entry.ts`): move
-  `UndeadEntry` next to the undead type, or document the folder.
+- ✅ `lib/creatures/undead/` removed: the shared `Ids` enum split into one per entry file (ids don't
+  name resources), and `UndeadEntry`, which had nothing undead, became the generic
+  `SimpleEntry` (`lib/src/model/creature/simple-entry.ts`).
 - ☐ Merge the per-family weapon name keys (`monster.<family>.weapon.jaws`…) into shared keys
   (renumbers every string; sub-project 2's planned second step).
 - ☐ A variant layer for natural weapons ("undead claws" today needs both the icon and the name key).

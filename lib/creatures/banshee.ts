@@ -14,12 +14,16 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";
-import { Ids } from "./undead/ids";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
-import { UndeadEntry } from "./undead/undead-entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createTouch } from "./types/undead";
+
+enum Ids {
+  BansheeFearAura,
+  DeathWail,
+}
 
 function bansheeFearAura(cre: Creature) {
   return cre.addSpell(
@@ -133,4 +137,4 @@ export function banshee(entry: CreatureEntry<Creature>): Creature {
   return banshee;
 }
 
-export const createBansheeEntry = () => new UndeadEntry(EntryEnum.Banshee, [banshee]);
+export const createBansheeEntry = () => new SimpleEntry(EntryEnum.Banshee, [banshee]);
