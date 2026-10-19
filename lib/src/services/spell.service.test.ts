@@ -2,8 +2,10 @@ import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELLS } from "../../config/spells/spell-database";
 import {
+  EffectFlagsEnum,
   EffectTargetEnum,
   ItemAbilityTypeEnum,
+  SaveTypeEnum,
   SpellTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { Effect } from "../model/spell-item/effect";
@@ -178,6 +180,84 @@ describe("getSpell keywords", () => {
     const result = spellService.getSpell({ name: SPELL_NAME, ability: {} }, "kwspl02");
     expect(result.keywords).toEqual([]);
     expect(result.ability?.keywords).toBeUndefined();
+  });
+});
+
+describe("getSpell ability level", () => {
+  const preset = "SPWI104";
+
+  it("is null for a preset ability when the spell has no explicit level", () => {
+    const result = spellService.getSpell({ name: SPELL_NAME, ability: { preset } }, "lvspl01");
+    expect(result.ability?.level).toBeNull();
+  });
+
+  it("uses the spell's power over its level, which stays the SPL level", () => {
+    const result = spellService.getSpell(
+      { name: SPELL_NAME, level: 1, power: 5, ability: { preset } },
+      "lvspl02",
+    );
+    expect(result.level).toBe(1);
+    expect(result.ability?.level).toBe(5);
+  });
+});
+
+describe("getSpell ability saves", () => {
+  const spell = (file: string, effects: Partial<Effect>[], copyFrom?: string) =>
+    spellService.getSpell(
+      {
+        name: SPELL_NAME,
+        copyFrom,
+        headers: [{ type: ItemAbilityTypeEnum.Magical, effects: effects as Effect[] }],
+        ability: {},
+      },
+      file,
+    );
+
+  it("lists each distinct set of save types, leaving out effects without a save", () => {
+    const result = spell("svspl01", [
+      { opcode: EffectTypeEnum.CharmCreature, saveTypes: [SaveTypeEnum.Spell], saveBonus: -4 },
+      { opcode: EffectTypeEnum.DisplayString, saveTypes: [SaveTypeEnum.Spell], saveBonus: -2 },
+      { opcode: EffectTypeEnum.Paralyze, saveTypes: [SaveTypeEnum.Breath, SaveTypeEnum.Spell] },
+      { opcode: EffectTypeEnum.UseEFFFile },
+    ]);
+    // the same save types keep their lowest bonus: the target can fail them as soon as it fails it
+    expect(result.ability?.saves).toEqual([
+      { types: [SaveTypeEnum.Spell], bonus: -4 },
+      { types: [SaveTypeEnum.Spell, SaveTypeEnum.Breath] },
+    ]);
+  });
+
+  it("ignores save flags that aren't saving throws", () => {
+    const result = spell("svspl02", [
+      { opcode: EffectTypeEnum.Paralyze, saveTypes: [SaveTypeEnum.BypassMirrorImage] },
+    ]);
+    expect(result.ability?.saves).toEqual([]);
+  });
+
+  it("has no saves when damage can't be negated: no save, or only halved", () => {
+    const paralyze = { opcode: EffectTypeEnum.Paralyze, saveTypes: [SaveTypeEnum.Spell] };
+    expect(spell("svspl03", [paralyze, { opcode: EffectTypeEnum.Damage }]).ability?.saves).toEqual(
+      [],
+    );
+    const halved = {
+      opcode: EffectTypeEnum.Damage,
+      saveTypes: [SaveTypeEnum.Breath],
+      flags: [EffectFlagsEnum.SaveForHalf],
+    };
+    expect(spell("svspl04", [paralyze, halved]).ability?.saves).toEqual([]);
+    expect(spell("svspl05", [paralyze, { ...halved, flags: 2 ** 8 }]).ability?.saves).toEqual([]);
+  });
+
+  it("keeps damage negated by its save", () => {
+    const result = spell("svspl06", [
+      { opcode: EffectTypeEnum.Damage, saveTypes: [SaveTypeEnum.ParalyzePoisonDeath] },
+    ]);
+    expect(result.ability?.saves).toEqual([{ types: [SaveTypeEnum.ParalyzePoisonDeath] }]);
+  });
+
+  it("leaves a copyFrom spell's saves to its preset", () => {
+    const result = spell("svspl07", [], "SPWI104");
+    expect(result.ability?.saves).toBeUndefined();
   });
 });
 

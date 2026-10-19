@@ -3,6 +3,8 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { allySafe, defaultAllySafe } from "../../config/target/ally-safe";
 import { ScriptTarget } from "../model/constants";
+import { StatsIdentifier } from "../model/ids/stats";
+import { SaveTypeEnum } from "../model/spell-item/effect.enums";
 import { Triggers } from "../model/script/triggers";
 import triggerFactory from "./trigger.factory";
 
@@ -189,6 +191,65 @@ describe("spellChecks", () => {
     GLOBAL_CONFIG.spellChecks.spellProtections = false;
     GLOBAL_CONFIG.spellChecks.stats = false;
     expect(triggerFactory.spellChecks(["blind"])).toEqual([...SPELL_CHECK_TRIGGERS.blind]);
+  });
+});
+
+describe("saveChecks", () => {
+  const save = (stat: StatsIdentifier, threshold = 0) =>
+    triggerFactory.checkStatGT(threshold, stat);
+
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.stats = true;
+    GLOBAL_CONFIG.saveCheckMinFailChance = 0;
+  });
+
+  it("defaults to an empty list", () => {
+    expect(triggerFactory.saveChecks()).toEqual([]);
+  });
+
+  it("skips a target that can't fail the spell's save", () => {
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell] }])).toEqual([
+      save("SAVEVSSPELL"),
+    ]);
+  });
+
+  it("lowers the threshold by the save's penalty", () => {
+    // a save of 0 still fails 25% of the time at -6: kept until the save reaches -6
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell], bonus: -6 }])).toEqual([
+      save("SAVEVSSPELL", -6),
+    ]);
+  });
+
+  it("raises the threshold by 1 per 5% of the minimum fail chance", () => {
+    GLOBAL_CONFIG.saveCheckMinFailChance = 25;
+    // the save of 0 above, which fails 25% of the time, is still kept
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell], bonus: -6 }])).toEqual([
+      save("SAVEVSSPELL", -1),
+    ]);
+  });
+
+  it("needs every save type of one effect to be failable, the target rolling its best", () => {
+    expect(
+      triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell, SaveTypeEnum.RodStaffWand] }]),
+    ).toEqual([save("SAVEVSSPELL"), save("SAVEVSWANDS")]);
+  });
+
+  it("only skips a target that can't fail any effect", () => {
+    expect(
+      triggerFactory.saveChecks([
+        { types: [SaveTypeEnum.Spell] },
+        { types: [SaveTypeEnum.Breath], bonus: 2 },
+      ]),
+    ).toEqual([triggerFactory.or([save("SAVEVSSPELL"), save("SAVEVSBREATH", 2)])]);
+  });
+
+  it("ignores save flags that aren't saving throws", () => {
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.BypassMirrorImage] }])).toEqual([]);
+  });
+
+  it("checks nothing when stats checks are disabled", () => {
+    GLOBAL_CONFIG.spellChecks.stats = false;
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell] }])).toEqual([]);
   });
 });
 

@@ -22,6 +22,7 @@ class PresetFactory {
       };
       if (spell.keywords !== undefined) ability.keywords = spell.keywords;
       if (spell.level !== undefined) ability.level = spell.level;
+      if (spell.saves !== undefined) ability.saves = spell.saves;
       if (spell.range !== undefined) ability.range = spell.range;
       if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
       const presets = this.presetsForFiles(spell, deepmerge(ability, override));
@@ -49,6 +50,7 @@ class PresetFactory {
     };
     if (spell.keywords !== undefined) ability.keywords = spell.keywords;
     if (spell.level !== undefined) ability.level = spell.level;
+    if (spell.saves !== undefined) ability.saves = spell.saves;
     if (spell.range !== undefined) ability.range = spell.range;
     if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
     const mergedAbility = deepmerge(ability, override);

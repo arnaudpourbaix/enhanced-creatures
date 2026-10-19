@@ -23,9 +23,19 @@ import { StatsIdentifier } from "../model/ids/stats";
 import { ParamObject } from "../model/parameter";
 import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
-import { SpellReference } from "../model/spell-item/spell-reference";
+import { SaveTypeEnum } from "../model/spell-item/effect.enums";
+import { SpellReference, SpellSaves } from "../model/spell-item/spell-reference";
 import targetService from "../services/baf/target.service";
 import utils from "../services/utils/utils.service";
+
+/** The stat holding each saving throw (the other SaveTypeEnum values are flags, not saves). */
+export const SAVE_STATS: Partial<Record<SaveTypeEnum, StatsIdentifier>> = {
+  [SaveTypeEnum.Spell]: "SAVEVSSPELL",
+  [SaveTypeEnum.Breath]: "SAVEVSBREATH",
+  [SaveTypeEnum.ParalyzePoisonDeath]: "SAVEVSDEATH",
+  [SaveTypeEnum.RodStaffWand]: "SAVEVSWANDS",
+  [SaveTypeEnum.PetrifyPolymorph]: "SAVEVSPOLY",
+};
 
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
@@ -461,9 +471,40 @@ class TriggerFactory {
       .map((keyword) => SPELL_CHECK_TRIGGERS[keyword])
       // group tags (cloud, castOnSelf, ...) and effects with no known protection check nothing
       .filter((triggers) => triggers.length);
-    if (effects.length <= 1) return effects.flat();
+    return this.anyOf(effects);
+  }
+
+  /**
+   * Triggers skipping a target unlikely to fail the spell's saving throws: a target only escapes
+   * the spell by saving against all its effects, and it escapes an effect when any of its save
+   * types is too good. A save is good enough to keep the target when it's above the save's bonus
+   * plus 1 per 5% of GLOBAL_CONFIG.saveCheckMinFailChance (a d20): at 0%, the target only needs to
+   * be able to fail, like SCS (save above 0 without a bonus). Empty when
+   * GLOBAL_CONFIG.spellChecks.stats is off.
+   */
+  saveChecks(saves: SpellSaves = []): Triggers.Trigger[] {
+    if (!GLOBAL_CONFIG.spellChecks.stats) return [];
+    const margin = Math.round(GLOBAL_CONFIG.saveCheckMinFailChance / 5);
+    return this.anyOf(
+      saves
+        .map(({ types, bonus }) => ({
+          threshold: (bonus ?? 0) + margin,
+          stats: [...new Set(types.map((type) => SAVE_STATS[type]))].filter((s) => s !== undefined),
+        }))
+        .filter(({ stats }) => stats.length)
+        .map(({ threshold, stats }) => stats.map((stat) => this.checkStatGT(threshold, stat))),
+    );
+  }
+
+  /**
+   * "One of these groups passes", each group being the AND of its triggers. BAF has no AND inside
+   * OR, so that's distributed into OR clauses (one trigger per group each), dropping any clause
+   * implied by a smaller one.
+   */
+  private anyOf(groups: Triggers.Trigger[][]): Triggers.Trigger[] {
+    if (groups.length <= 1) return groups.flat();
     let clauses: Triggers.Trigger[][] = [[]];
-    for (const triggers of effects) {
+    for (const triggers of groups) {
       clauses = clauses.flatMap((clause) => triggers.map((t) => [...clause, t]));
     }
     const keyed = clauses.map((clause) => {

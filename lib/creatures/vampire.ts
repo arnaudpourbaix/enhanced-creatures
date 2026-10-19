@@ -241,17 +241,17 @@ const DOMINATION_TEXTS: Record<
   gaze: {
     name: "monster.undead.ability.vampireDomination.gazeName",
     description: "monster.undead.ability.vampireDomination.gazeDescription",
-    keywords: ["charm", "gaze"],
+    keywords: ["charm", "gaze", "magicResistance"],
   },
   voice: {
     name: "monster.undead.ability.vampireDomination.voiceName",
     description: "monster.undead.ability.vampireDomination.voiceDescription",
-    keywords: ["charm"],
+    keywords: ["charm", "magicResistance"],
   },
   will: {
     name: "monster.undead.ability.vampireDomination.willName",
     description: "monster.undead.ability.vampireDomination.willDescription",
-    keywords: ["charm"],
+    keywords: ["charm", "magicResistance"],
   },
 };
 
@@ -282,6 +282,8 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
     description: texts.description,
     id: domination.id,
     memorizedCount: 1,
+    // like the original SPIN883: a level 1 innate whose effects have power 5
+    power: 5,
     icon: SPELLS.Wizard.Domination.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -981,7 +983,14 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
   return cre;
 }
 
-export const fledglingVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[0]);
+export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[0]);
+  cre.setAdjustments([
+    { files: ["YSCHVAM"], data: { level1: 6, xpv: 3000, script: { location: "None" } } },
+    { files: ["L#2EDVAM"], noWeapon: true },
+  ]);
+  return cre;
+};
 
 export const matureVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[1]);
 
@@ -996,7 +1005,7 @@ export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry,
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[6]);
   cre.setAdjustments([
-    { files: ["D9TANOV"], stringRef: "monster.undead.name.patriarchVampireMage" },
+    // { files: ["D9TANOV"], stringRef: "monster.undead.name.patriarchVampireMage" },
   ]);
   return cre;
 };

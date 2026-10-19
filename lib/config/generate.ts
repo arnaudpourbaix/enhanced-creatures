@@ -16,6 +16,12 @@ const SPELL_CHECKS: SpellCheckConfig = {
 export const GLOBAL_CONFIG = {
   spellChecks: SPELL_CHECKS,
   /**
+   * Minimum chance (in %, by steps of 5: a d20) for a target to fail a spell's saving throw, below
+   * which the AI doesn't target it with that spell (see TriggerFactory.saveChecks). 0: the target
+   * only needs to be able to fail, like SCS. Needs spellChecks.stats.
+   */
+  saveCheckMinFailChance: 0,
+  /**
    * Add WeaponEffectiveVs/WeaponCanDamage (main hand) to attack target triggers, so a creature
    * doesn't attack a target its weapon can't hit or damage.
    */

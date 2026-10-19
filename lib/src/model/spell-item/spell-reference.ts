@@ -8,6 +8,70 @@ import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
 import type { AlliesCheck } from "../creature/ability";
+import { SaveTypeEnum } from "./effect.enums";
+import { EffectTypeEnum } from "./effect.type";
+
+/**
+ * The saving throw negating one effect of a spell: the save types it allows (the target rolls
+ * with its best one), and the bonus added to the target's roll (negative: a penalty).
+ */
+export interface SpellSave {
+  types: SaveTypeEnum[];
+  /** Default: 0 */
+  bonus?: number;
+}
+
+/**
+ * The saving throws that negate a spell, one per effect. A target escapes the spell only by
+ * saving against every effect, so the AI skips it only once it can't fail any of them (see
+ * TriggerFactory.saveChecks). Effects without a save, or whose save only halves damage, aren't
+ * listed.
+ */
+export type SpellSaves = SpellSave[];
+
+/**
+ * Adds `saves` up, an entry per distinct set of save types: a target can fail either of two
+ * entries with the same types as soon as it can fail the lowest bonus, so that one is kept.
+ */
+export function mergeSaves(saves: SpellSave[]): SpellSaves {
+  const merged = new Map<string, SpellSave>();
+  for (const save of saves) {
+    const key = save.types.join();
+    const bonus = Math.min(save.bonus ?? 0, merged.get(key)?.bonus ?? Infinity);
+    merged.set(key, bonus ? { types: save.types, bonus } : { types: save.types });
+  }
+  return [...merged.values()];
+}
+
+/** What negatingSaves needs to know about an effect. */
+export interface SaveEffect {
+  opcode: EffectTypeEnum;
+  saveTypes: SaveTypeEnum[];
+  saveBonus?: number;
+  /** Its save only halves the damage (save for half / fail for half) */
+  halved: boolean;
+  /** It only lands on the caster, not on the spell's target */
+  self?: boolean;
+}
+
+/**
+ * The saving throws negating a spell with these effects (see SpellSaves): one entry per distinct
+ * set of save types (see mergeSaves). Other effects without a save (visuals, strings, guards...)
+ * are left out, but damage a save can't negate (none, or only halved) means the spell can't be
+ * escaped at all: no saves then. Effects landing on the caster don't count. Shared by the spells
+ * this mod creates and the extraction of the game's own.
+ */
+export function negatingSaves(effects: SaveEffect[]): SpellSaves {
+  const saves: SpellSave[] = [];
+  for (const effect of effects.filter((e) => !e.self)) {
+    const types = [...new Set(effect.saveTypes)]
+      .filter((type) => type <= SaveTypeEnum.PetrifyPolymorph)
+      .sort((a, b) => a - b);
+    if (effect.opcode === EffectTypeEnum.Damage && (effect.halved || !types.length)) return [];
+    if (types.length && !effect.halved) saves.push({ types, bonus: effect.saveBonus });
+  }
+  return mergeSaves(saves);
+}
 
 /**
  * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
@@ -35,6 +99,8 @@ export interface SpellReference {
     | "mid" // several turns
     | "short"; // several rounds to one turn
   keywords?: SpellKeyword[];
+  /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
+  saves?: SpellSaves;
   /**
    * Max range for this spell
    */
@@ -253,15 +319,24 @@ export function rangeForFile(spells: SpellCollection, file: string): number | un
 }
 
 /**
+ * The `saves` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches or it has none. Mirrors
+ * levelForFile, backing the automatic resolution in AbilityService.applyPreset.
+ */
+export function savesForFile(spells: SpellCollection, file: string): SpellSaves | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.saves;
+}
+
+/**
  * The `alliesCheck` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
  * matches `file` (case-insensitive), or undefined when no entry matches or it has none. Mirrors
  * rangeForFile, backing the automatic resolution in AbilityService.applyPreset: an ability cast
  * through a standard spell's preset (e.g. a monster's stronger Fireball) inherits its allies check.
  */
-export function alliesCheckForFile(
-  spells: SpellCollection,
-  file: string,
-): AlliesCheck | undefined {
+export function alliesCheckForFile(spells: SpellCollection, file: string): AlliesCheck | undefined {
   const target = file.toUpperCase();
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),

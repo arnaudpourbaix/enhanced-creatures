@@ -1,7 +1,13 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
-import { getAllSpells, SpellReference, spellsByKeyword } from "../model/spell-item/spell-reference";
+import {
+  getAllSpells,
+  SpellReference,
+  negatingSaves,
+  SpellSaves,
+  spellsByKeyword,
+} from "../model/spell-item/spell-reference";
 import { SpellGroup } from "../model/spell-item/spell-group";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
@@ -14,7 +20,9 @@ import {
 } from "../model/game-data/spell-level";
 import { Effect } from "../model/spell-item/effect";
 import {
+  EffectFlagsEnum,
   EffectIDSFileEnum,
+  EffectTargetEnum,
   EffectTimingEnum,
   ItemAbilityLocationEnum,
   ItemAbilityTargetEnum,
@@ -84,8 +92,11 @@ class SpellService {
     // The ability casts this spell, not its preset's: the preset's level mustn't leak in (e.g. an
     // innate aura reusing Cloak of Fear's preset isn't a level 4 spell). Without an explicit
     // level it isn't really a spell at all, so no ImmuneToSpellLevel check (see
-    // BaseCreatureAbility.level).
-    if (result.ability?.preset) result.ability.level ??= spell.level ?? null;
+    // BaseCreatureAbility.level). An explicit power is what the protections actually test.
+    if (result.ability?.preset) result.ability.level ??= spell.power ?? spell.level ?? null;
+    // Its own effects say which saves negate it (a copyFrom spell's effects aren't known here, so
+    // its preset's are used instead).
+    if (result.ability && !result.copyFrom) result.ability.saves ??= this.getSaves(result);
     if (result.ability?.spell) {
       result.ability.spell.resource = file;
       result.ability.name ??= spell.name;
@@ -118,6 +129,25 @@ class SpellService {
       seen.add(key);
       return true;
     });
+  }
+
+  /** The saving throws negating the spell, from its headers' effects (see negatingSaves). */
+  private getSaves(spell: Spell): SpellSaves {
+    const halves = [EffectFlagsEnum.SaveForHalf, EffectFlagsEnum.FailForHalf];
+    return negatingSaves(
+      spell.headers
+        .flatMap((header) => header.effects)
+        .map(({ opcode, target, saveTypes, saveBonus, flags }) => ({
+          opcode,
+          saveBonus,
+          self: target === EffectTargetEnum.Self,
+          saveTypes: saveTypes ?? [],
+          halved:
+            typeof flags === "number"
+              ? halves.some((flag) => flags & (2 ** flag))
+              : halves.some((flag) => flags?.includes(flag)),
+        })),
+    );
   }
 
   private addHeader(header: PartialSpellHeader, spell: Spell, file: string): void {

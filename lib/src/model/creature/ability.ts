@@ -6,7 +6,7 @@ import { Actions } from "../script/actions";
 import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
-import { SpellReference, SpellVariant } from "../spell-item/spell-reference";
+import { SpellReference, SpellSaves, SpellVariant } from "../spell-item/spell-reference";
 import { SplStateIdentifier } from "../ids/splstate";
 import { SpellStateValue } from "../../../config/common";
 
@@ -34,6 +34,13 @@ export interface BaseCreatureAbility {
    * no check, and no fallback to its preset's level either.
    */
   level?: number | null;
+  /**
+   * The saving throws negating the spell (see SpellSaves) - ability.service.ts auto-appends
+   * TriggerFactory.saveChecks() to every target list, gated by GLOBAL_CONFIG.spellChecks.stats.
+   * Derived from the effects of a spell created with addSpell; falls back to its preset's SPELLS
+   * entry otherwise. An empty list means no save check, and no fallback either.
+   */
+  saves?: SpellSaves;
   /**
    * Ability maximum range (if applicable)
    */

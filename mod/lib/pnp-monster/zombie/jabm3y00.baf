@@ -164,6 +164,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("OdorOfDeath","LOCALS",6)
@@ -207,6 +208,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -256,6 +258,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -305,6 +308,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -354,6 +358,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -403,6 +408,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -452,6 +458,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -501,6 +508,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -550,6 +558,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -599,6 +608,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -648,6 +658,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -698,6 +709,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -740,6 +752,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -782,6 +795,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -824,6 +838,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -866,6 +881,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -908,6 +924,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -950,6 +967,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -992,6 +1010,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1034,6 +1053,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1076,6 +1096,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1115,6 +1136,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1153,6 +1175,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1191,6 +1214,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1229,6 +1253,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1267,6 +1292,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1305,6 +1331,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1343,6 +1370,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1381,6 +1409,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1419,6 +1448,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1457,6 +1487,7 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

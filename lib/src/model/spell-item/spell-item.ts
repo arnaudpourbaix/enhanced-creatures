@@ -34,6 +34,13 @@ export interface BaseSpell {
   file: string;
   type: SpellTypeEnum;
   level: number;
+  /**
+   * Power level written to every effect (default: `level`), which is what globes and Spell
+   * Turning/Deflection/Trap test - e.g. BG2's vampire domination: a level 1 innate whose effects
+   * have power 5. Also the level the AI checks those protections against (see
+   * BaseCreatureAbility.level).
+   */
+  power?: number;
   name?: StringReference;
   /** See SpellReference.keywords */
   keywords?: SpellKeyword[];

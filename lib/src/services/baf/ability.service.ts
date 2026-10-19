@@ -3,6 +3,7 @@ import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
+import { suppressedSpellLevelChecks } from "../../../config/spells/spell-check";
 import { SPELLS } from "../../../config/spells/spell-database";
 import {
   alliesCheckForFile,
@@ -13,6 +14,8 @@ import {
   keywordsForFile,
   levelForFile,
   rangeForFile,
+  savesForFile,
+  SpellSaves,
   SpellVariant,
 } from "../../model/spell-item/spell-reference";
 import actionFactory from "../../factories/action.factory";
@@ -74,7 +77,12 @@ class AbilityService {
       );
       if (!rawAb.spell) throw new Error(`Sequencer only supports spells`);
       ability.spells.push(rawAb.spell);
-      const targets = this.appendSpellCheckTriggers(rawAb.targets, rawAb.keywords, rawAb.level);
+      const targets = this.appendSpellCheckTriggers(
+        rawAb.targets,
+        rawAb.keywords,
+        rawAb.level,
+        rawAb.saves,
+      );
       if (targets) ability.targets?.push(...targets);
     }
     return ability;
@@ -94,17 +102,23 @@ class AbilityService {
    * against each other even when they were authored with different `keywords` (see
    * dedupeTargetLists). Finishes by deduping any target list that's become a full duplicate of an
    * earlier one - toggling a tier-only check off can otherwise leave two tiers identical. A no-op
-   * when there's nothing to add.
+   * when there's nothing to add. The saving throw checks (trigger.factory.saveChecks) are shared
+   * the same way, except for a spell that doesn't land on its target (the same exemption as
+   * ImmuneToSpellLevel, see suppressedSpellLevelChecks).
    */
   private appendSpellCheckTriggers(
     targets: TargetList[] | undefined,
     keywords: SpellKeyword[] | undefined,
     level: number | null | undefined,
+    saves?: SpellSaves,
   ): TargetList[] | undefined {
     if (!targets) return targets;
     const sharedChecks = triggerFactory.spellChecks(keywords);
     if (typeof level === "number" && GLOBAL_CONFIG.spellChecks.spellProtections) {
       sharedChecks.push(...triggerFactory.spellLevelChecks(level, keywords));
+    }
+    if (!suppressedSpellLevelChecks(keywords ?? []).has("immuneToSpellLevel")) {
+      sharedChecks.push(...triggerFactory.saveChecks(saves));
     }
     const withChecks = targets.map((t) => {
       const { keywords: ownKeywords, ...rest } = t;
@@ -164,7 +178,12 @@ class AbilityService {
     const triggers: Triggers.Trigger[] = ability.triggers ?? [];
     let targets = !ability.targets || Array.isArray(ability.targets) ? ability.targets : undefined;
     if (!!ability.targets && !Array.isArray(ability.targets)) targets = [ability.targets];
-    targets = this.appendSpellCheckTriggers(targets, ability.keywords, ability.level);
+    targets = this.appendSpellCheckTriggers(
+      targets,
+      ability.keywords,
+      ability.level,
+      ability.saves,
+    );
     const result: CreatureAbility = {
       infiniteUse: false,
       requireVocal: false,
@@ -367,6 +386,15 @@ class AbilityService {
     // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system. An explicit
     // `null` (not a real spell) is kept as is.
     if (result.level === undefined) result.level = levelForFile(SPELLS, presetName);
+    // Same fallback as level, but replacing rather than concatenating like deepmerge does: an own
+    // list (even empty) wins over the preset's. The spell actually cast (e.g. an innate cast
+    // through Slow's preset) knows its own saves better than the preset's spell.
+    const resource = result.spell?.resource;
+    const castSaves =
+      resource && resource !== presetName ? savesForFile(SPELLS, resource) : undefined;
+    const saves =
+      ability.saves ?? castSaves ?? preset.ability.saves ?? savesForFile(SPELLS, presetName);
+    if (saves !== undefined) result.saves = saves;
     // Same fallback as keywords/level above, for the Range() trigger mechanism (see
     // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
     result.range ??= rangeForFile(SPELLS, presetName);

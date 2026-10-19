@@ -181,6 +181,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -197,6 +198,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -213,6 +215,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -229,6 +232,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -245,6 +249,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -261,6 +266,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -277,6 +283,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -293,6 +300,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -309,6 +317,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -325,6 +334,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -342,6 +352,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -357,6 +368,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -372,6 +384,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -387,6 +400,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -402,6 +416,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -417,6 +432,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -432,6 +448,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -447,6 +464,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -462,6 +480,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -477,6 +496,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),PETRIFY_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-4,SAVEVSPOLY)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

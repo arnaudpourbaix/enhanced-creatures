@@ -88,7 +88,7 @@ class WeiduSpellService extends AbstractWeiduService {
         // undefined for a copyFrom spell - see weidu-spell.service.test.ts's "level: undefined"
         // cases.
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        power: spell.level ?? 0,
+        power: spell.power ?? spell.level ?? 0,
         type: "SPL",
         global: true,
       });
@@ -137,7 +137,7 @@ class WeiduSpellService extends AbstractWeiduService {
         effect,
         // same reasoning as createSpell()'s power fallback above.
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        power: spell.level ?? 0,
+        power: spell.power ?? spell.level ?? 0,
         header: index + 1,
         type: "SPL",
         global: false,

@@ -164,6 +164,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
@@ -179,6 +180,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
@@ -194,6 +196,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
@@ -210,6 +213,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
@@ -224,6 +228,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
@@ -238,6 +243,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100

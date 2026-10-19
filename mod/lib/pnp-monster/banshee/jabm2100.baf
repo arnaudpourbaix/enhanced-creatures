@@ -174,6 +174,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -208,6 +209,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -242,6 +244,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -276,6 +279,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -310,6 +314,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -344,6 +349,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -378,6 +384,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -412,6 +419,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -446,6 +454,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -480,6 +489,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -511,6 +521,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -541,6 +552,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -571,6 +583,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -601,6 +614,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -631,6 +645,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -661,6 +676,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -691,6 +707,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -721,6 +738,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -751,6 +769,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -781,6 +800,7 @@ IF
 	!CheckSpellState(LastSeenBy(Myself),RESIST_FEAR)
 	!CheckSpellState(LastSeenBy(Myself),EXALTATION)
 	!Kit(LastSeenBy(Myself),CAVALIER)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -815,6 +835,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -846,6 +867,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -877,6 +899,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -908,6 +931,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -939,6 +963,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -970,6 +995,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1001,6 +1027,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1032,6 +1059,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1063,6 +1091,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1094,6 +1123,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1126,6 +1156,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1150,6 +1181,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1174,6 +1206,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1198,6 +1231,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1222,6 +1256,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1246,6 +1281,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1270,6 +1306,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1294,6 +1331,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1318,6 +1356,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1342,6 +1381,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1363,6 +1403,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1383,6 +1424,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1403,6 +1445,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1423,6 +1466,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1443,6 +1487,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1463,6 +1508,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1483,6 +1529,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1503,6 +1550,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1523,6 +1571,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -1543,308 +1592,8 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-// Death Wail
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm2101",LastSeenBy(Myself))
-		RemoveSpellRES("jasm2101")
-END
-
-IF
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpellRES("jasm2101")
-	RandomNumGT(800,240)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
-	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1869,6 +1618,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1892,6 +1649,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1915,6 +1680,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1938,6 +1711,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1961,6 +1742,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1984,6 +1773,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2007,6 +1804,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2030,6 +1835,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2053,6 +1866,14 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2076,6 +1897,255 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+// Death Wail
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm2101",LastSeenBy(Myself))
+		RemoveSpellRES("jasm2101")
+END
+
+IF
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpellRES("jasm2101")
+	RandomNumGT(800,240)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
+	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2096,6 +2166,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2115,6 +2186,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2134,6 +2206,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2153,6 +2226,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2172,6 +2246,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2191,6 +2266,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2210,6 +2286,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2229,6 +2306,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2248,6 +2326,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2267,6 +2346,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

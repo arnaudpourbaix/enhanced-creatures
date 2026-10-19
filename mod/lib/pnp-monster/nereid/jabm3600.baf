@@ -304,6 +304,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -322,6 +323,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -340,6 +342,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -358,6 +361,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -376,6 +380,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -394,6 +399,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -412,6 +418,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -430,6 +437,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -448,6 +456,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -466,6 +475,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 	Range(LastSeenBy(Myself),20)
 THEN
 	RESPONSE #100
@@ -488,6 +498,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -511,6 +522,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -534,6 +546,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -557,6 +570,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -580,6 +594,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -603,6 +618,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
+	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSBREATH)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
