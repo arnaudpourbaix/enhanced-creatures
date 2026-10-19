@@ -953,6 +953,19 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     diceSize: 6,
     effects: effectFactory.levelDrain({ levels: 2 }),
   });
+  // Like SCS: the vampire goes for those its level drain works on first (not an undead hunter, a
+  // blackguard or anyone protected by an item), whatever their state, then for the others. Only
+  // with its own claws: a wolf (against those it can't drain) or a bat fights what's nearest.
+  cre.setAttack({
+    targetPriorities: [
+      {
+        targets: ["NearestEnemies"],
+        triggers: triggerFactory.spellChecks(["levelDrain"]),
+        conditions: NOT_SHAPECHANGED,
+        label: "drainable",
+      },
+    ],
+  });
   const effects: Effect[] = [
     effectFactory.regeneration(age.regeneration),
     {

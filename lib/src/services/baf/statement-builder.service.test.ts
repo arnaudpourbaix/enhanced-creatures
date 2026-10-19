@@ -16,7 +16,8 @@ import {
   PartialCustomCode,
   Statements,
 } from "../../model/script/script";
-import { TargetList } from "../../model/script/target";
+import { ScriptTarget } from "../../model/constants";
+import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 import stateService from "../state.service";
 import utils from "../utils/utils.service";
@@ -55,6 +56,7 @@ interface StatementBuilderServicePrivate {
     options: BuilderOptions,
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
+    filter?: Pick<TargetPriority, "triggers" | "conditions" | "label">,
   ): void;
   runAway(statements: Statements, options: BuilderOptions): void;
   reposition(statements: Statements, options: BuilderOptions): void;
@@ -724,6 +726,44 @@ describe("attackTargetWithStatuses (private)", () => {
     ]);
     expect(statements).toHaveLength(2);
     expect(statements[0].comment).toBe("Attack Able enemy");
+  });
+
+  it("only attacks targets passing a priority's triggers, labelled in the comment", () => {
+    const statements: Statements = [];
+    const drainable = {
+      name: "CheckSpellState",
+      params: [ScriptTarget.token, "ITEM_LEVELDRAIN"],
+      negation: true,
+    } as const;
+    service.attackTargetWithStatuses(
+      statements,
+      fakeCreature(),
+      options(),
+      "NearestEnemies",
+      ["Able"],
+      { triggers: [drainable], label: "drainable" },
+    );
+    expect(statements[0].comment).toBe("Attack Able drainable enemy");
+    expect(JSON.stringify(statements)).toContain("ITEM_LEVELDRAIN");
+  });
+
+  it("only attacks while a priority's conditions hold on the creature itself", () => {
+    const statements: Statements = [];
+    const notWolf = {
+      name: "CheckSpellState",
+      params: [ScriptTarget.myself, "JA_ANIMALFORM"],
+      negation: true,
+    } as const;
+    service.attackTargetWithStatuses(
+      statements,
+      fakeCreature(),
+      options(),
+      "NearestEnemies",
+      ["Able"],
+      { conditions: [notWolf] },
+    );
+    // the last statement is the attack itself, behind the per-target checks
+    expect(statements.at(-1)?.triggers).toContainEqual(notWolf);
   });
 
   describe("preferred statuses (preferWithin)", () => {

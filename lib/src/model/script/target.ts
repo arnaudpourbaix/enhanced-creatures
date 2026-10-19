@@ -51,4 +51,16 @@ export interface TargetStatus {
 export interface TargetPriority {
   targets: TargetListName[];
   status: TargetStatusName[];
+  /**
+   * Only targets passing these (ScriptTarget.token being the target), e.g. those a level drain
+   * works on. Such a priority doesn't cover its statuses: the default ones still follow.
+   */
+  triggers?: Triggers.Trigger[];
+  /**
+   * Only while these hold, on the creature itself (e.g. not shapechanged). Like `triggers`, such
+   * a priority doesn't cover its statuses.
+   */
+  conditions?: Triggers.Trigger[];
+  /** Tells such a priority apart in the script comments (e.g. "drainable") */
+  label?: string;
 }

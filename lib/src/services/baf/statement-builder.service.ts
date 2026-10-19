@@ -18,7 +18,7 @@ import { BuilderOptions } from "../../model/misc";
 import { MemorizedSpellType } from "../../model/spell-item/spell-item";
 import { Actions } from "../../model/script/actions";
 import { CustomCodeLocation, Statements } from "../../model/script/script";
-import { TargetList } from "../../model/script/target";
+import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
@@ -767,6 +767,7 @@ class StatementBuilderService {
           options,
           targetList,
           targetPriority.status,
+          targetPriority,
         );
       }
     }
@@ -778,6 +779,11 @@ class StatementBuilderService {
     options: BuilderOptions,
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
+    {
+      triggers: priorityTriggers = [],
+      conditions = [],
+      label,
+    }: Pick<TargetPriority, "triggers" | "conditions" | "label"> = {},
   ): void {
     const additionals = this.getAdditionals(creature, "attack");
     for (const status of statusNameList) {
@@ -788,6 +794,7 @@ class StatementBuilderService {
       const list = targetService.getList(targetListName);
       const targetTriggers = [
         ...statusDetails.targetTriggers,
+        ...priorityTriggers,
         ...triggerFactory.validAttackTarget({
           isTargetPlayer: statusDetails.canOnlyTargetPlayer,
           maxRange: creature.attack.maxRange,
@@ -800,7 +807,11 @@ class StatementBuilderService {
           params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
         });
       }
-      const triggers: Triggers.Trigger[] = [...statusDetails.triggers, ...additionals.triggers];
+      const triggers: Triggers.Trigger[] = [
+        ...statusDetails.triggers,
+        ...conditions,
+        ...additionals.triggers,
+      ];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {
@@ -824,7 +835,7 @@ class StatementBuilderService {
         triggers,
         targetTriggers,
         responses,
-        comment: `Attack ${statusDetails.status} enemy`,
+        comment: `Attack ${[statusDetails.status, label, "enemy"].filter(Boolean).join(" ")}`,
         targets: list.targets,
         inBetweenStatements: selectWeaponStatements,
       });
