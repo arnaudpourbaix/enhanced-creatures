@@ -139,6 +139,8 @@ export namespace Triggers {
     | "CanTurn"
     | "TurnedBy"
     | "AreaType"
+    | "TimeGT"
+    | "TimeLT"
     | "InMyArea"
     | "InMyGroup"
     | "InParty"
@@ -586,6 +588,12 @@ export namespace Triggers {
     params: [AreaTypeValue];
   }
 
+  /** The game hour (0-23) is above / below the given one. */
+  export interface Time extends BaseTrigger {
+    name: "TimeGT" | "TimeLT";
+    params: [number];
+  }
+
   export interface InMyArea extends BaseTrigger {
     name: "InMyArea";
     params: [ParamObject];
@@ -757,6 +765,7 @@ export namespace Triggers {
     | HasImmunityEffects
     | ImmuneToSpellLevel
     | AreaType
+    | Time
     | InMyArea
     | InParty
     | False
@@ -1564,6 +1573,18 @@ export namespace Triggers {
       parameters: "I:Number*AREATYPE",
       description:
         "Returns true only if the area in which the active CRE is, has the specified type flag set. Note that the value is OR'd. This trigger can cause a crash if it evaluates to true and is used as the first trigger in a dead NPCs dream script.",
+      section: "Party or area check",
+    },
+    {
+      name: "TimeGT",
+      parameters: "I:Time*Time",
+      description: "Returns true only if the current game hour is greater than the specified one.",
+      section: "Party or area check",
+    },
+    {
+      name: "TimeLT",
+      parameters: "I:Time*Time",
+      description: "Returns true only if the current game hour is less than the specified one.",
       section: "Party or area check",
     },
     {

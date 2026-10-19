@@ -24,6 +24,19 @@ THEN
 		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),90)
 END
 
+// Out of the sun: withstanding it starts over
+IF
+	Global("JA_SUNLIGHT","LOCALS",1)
+	OR(3)
+		!AreaType(OUTDOOR)
+		!TimeGT(5)
+		!TimeLT(22)
+THEN
+	RESPONSE #100
+		SetGlobal("JA_SUNLIGHT","LOCALS",0)
+		Continue()
+END
+
 // Disable spellcasting in some areas
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
@@ -156,6 +169,33 @@ IF
 THEN
 	RESPONSE #100
 		NoAction()
+END
+
+// Sunlight: starts withstanding it
+IF
+	Allegiance(Myself,EVILCUTOFF)
+	Global("JA_SUNLIGHT","LOCALS",0)
+	AreaType(OUTDOOR)
+	TimeGT(5)
+	TimeLT(22)
+THEN
+	RESPONSE #100
+		SetGlobal("JA_SUNLIGHT","LOCALS",1)
+		SetGlobalTimer("JA_SUNLIGHT_TIMER","LOCALS",0)
+		Continue()
+END
+
+// Sunlight: can't withstand it any longer
+IF
+	Allegiance(Myself,EVILCUTOFF)
+	Global("JA_SUNLIGHT","LOCALS",1)
+	AreaType(OUTDOOR)
+	TimeGT(5)
+	TimeLT(22)
+	!GlobalTimerNotExpired("JA_SUNLIGHT_TIMER","LOCALS")
+THEN
+	RESPONSE #100
+		ReallyForceSpellDead(Myself,VAMPIRE_BAT_FORM_CHANGE)
 END
 
 // Gaseous Form

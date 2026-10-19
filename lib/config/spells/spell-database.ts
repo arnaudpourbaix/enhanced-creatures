@@ -1935,6 +1935,13 @@ const INNATE_SPELLS = {
     name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
+  // replaced by a bat escaping the area (VAMPBAT): a vampire fleeing sunlight
+  VampireBatFormChange: {
+    file: "SPIN963",
+    id: "VAMPIRE_BAT_FORM_CHANGE",
+    level: 1,
+    keywords: ["castOnSelf"],
+  },
   VampireGasFormChange: {
     file: "SPIN964",
     id: "VAMPIRE_GAS_FORM_CHANGE",

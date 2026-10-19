@@ -9,6 +9,7 @@ import { SPELL_STATES } from "../config/common";
 import { SpellKeyword } from "../config/spells/keyword";
 import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
+import actionFactory from "../src/factories/action.factory";
 import responseFactory from "../src/factories/response.factory";
 import triggerFactory from "../src/factories/trigger.factory";
 import { CHARM_TARGET_LISTS } from "../config/presets/charm-presets";
@@ -109,6 +110,8 @@ interface VampireAge {
   weaponImmunity: ImmunityName;
   regeneration: number;
   magicResistance: number;
+  /** How long (seconds) the vampire withstands sunlight before fleeing it, undefined if immune */
+  sunlight?: number;
 }
 
 const VAMPIRE_AGES: VampireAge[] = [
@@ -129,6 +132,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
     magicResistance: 0,
+    sunlight: 0,
   },
   {
     monster: MonsterEnum.VampireMature,
@@ -147,6 +151,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
     magicResistance: 5,
+    sunlight: Durations.round,
   },
   {
     monster: MonsterEnum.VampireOld,
@@ -165,6 +170,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "plusOneWeapons",
     regeneration: 3,
     magicResistance: 10,
+    sunlight: 5 * Durations.round,
   },
   {
     monster: MonsterEnum.VampireVeryOld,
@@ -183,6 +189,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "plusOneWeapons",
     regeneration: 4,
     magicResistance: 15,
+    sunlight: 10 * Durations.round,
   },
   {
     monster: MonsterEnum.VampireAncient,
@@ -200,6 +207,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
     magicResistance: 20,
+    sunlight: 3 * Durations.turn,
   },
   {
     monster: MonsterEnum.VampireEminent,
@@ -217,6 +225,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
     magicResistance: 25,
+    sunlight: Durations.hour,
   },
   {
     monster: MonsterEnum.VampirePatriarch,
@@ -911,6 +920,82 @@ const BAT_FLEE: PartialCustomCode = {
   ],
 };
 
+/** Outdoors by day, from 6:00 to 21:59 like SCS (the hour as a number: TIME.IDS isn't vanilla) */
+const IN_SUNLIGHT: Triggers.Trigger[] = [
+  { name: "AreaType", params: ["OUTDOOR"] },
+  { name: "TimeGT", params: [5] },
+  { name: "TimeLT", params: [22] },
+];
+
+const SUNLIGHT = "JA_SUNLIGHT";
+const SUNLIGHT_TIMER = "JA_SUNLIGHT_TIMER";
+
+/**
+ * Sunlight: a hostile vampire in a fight withstands it for its age's time, then escapes it like
+ * SCS's do: replaced by a bat leaving the area (no kill). Getting out of the sun starts over. None
+ * for an age immune to it.
+ */
+function sunlightEscape(age: VampireAge): PartialCustomCode[] {
+  if (age.sunlight === undefined) return [];
+  const exposed = triggerFactory.global(SUNLIGHT, 1);
+  // already implied by being past "Do nothing if..." (noActionOutsideOfCombat), stated anyway
+  const hostile: Triggers.Trigger = {
+    name: "Allegiance",
+    params: [ScriptTarget.myself, "EVILCUTOFF"],
+  };
+  return [
+    {
+      // always, in or out of a fight
+      location: "init",
+      type: "insertAfter",
+      statements: [
+        {
+          comment: "Out of the sun: withstanding it starts over",
+          triggers: [
+            exposed,
+            { name: "Or", triggers: IN_SUNLIGHT.map((t) => ({ ...t, negation: true })) },
+          ],
+          responses: responseFactory.response([
+            actionFactory.setGlobal(SUNLIGHT, 0),
+            { name: "Continue" },
+          ]),
+        },
+      ],
+    },
+    {
+      // hostile and in a fight
+      location: "noActionOutsideOfCombat",
+      type: "insertAfter",
+      statements: [
+        {
+          comment: "Sunlight: starts withstanding it",
+          triggers: [hostile, triggerFactory.global(SUNLIGHT, 0), ...IN_SUNLIGHT],
+          responses: responseFactory.response([
+            actionFactory.setGlobal(SUNLIGHT, 1),
+            actionFactory.setGlobalTimer(SUNLIGHT_TIMER, age.sunlight),
+            { name: "Continue" },
+          ]),
+        },
+        {
+          comment: "Sunlight: can't withstand it any longer",
+          triggers: [
+            hostile,
+            exposed,
+            ...IN_SUNLIGHT,
+            triggerFactory.globalTimerExpired(SUNLIGHT_TIMER),
+          ],
+          responses: responseFactory.response([
+            {
+              name: "ReallyForceSpellDead",
+              params: [ScriptTarget.myself, SPELLS.Innate.VampireBatFormChange.id],
+            },
+          ]),
+        },
+      ],
+    },
+  ];
+}
+
 /**
  * A power every age with the same one shares: created once, on the entry (its files are the
  * entry's), then memorized by each of them.
@@ -1045,7 +1130,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
         return spell.ability;
       }),
     ],
-    customCodes: [mist.flee, BAT_FLEE],
+    customCodes: [mist.flee, BAT_FLEE, ...sunlightEscape(age)],
   });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
   const renamed = cre.files

@@ -261,6 +261,12 @@ export namespace Actions {
     params: [string, ParamObject];
   }
 
+  /** ReallyForceSpell, working even in the round the caster dies */
+  export interface ReallyForceSpellDead {
+    name: "ReallyForceSpellDead";
+    params: [ParamObject, SpellIdentifier];
+  }
+
   export interface ApplySpell {
     name: "ApplySpell";
     params: [ParamObject, SpellIdentifier];
@@ -489,6 +495,7 @@ export namespace Actions {
     | ForceSpellRES
     | ReallyForceSpell
     | ReallyForceSpellRES
+    | ReallyForceSpellDead
     | ApplySpell
     | ApplySpellRES
     | RemoveSpell
