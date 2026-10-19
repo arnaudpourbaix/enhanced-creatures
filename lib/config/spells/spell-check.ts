@@ -11,6 +11,7 @@ import { SpellKeyword } from "./keyword";
 export const SPELL_CHECK_GATE_KEYWORDS: ReadonlySet<SpellKeyword> = new Set<SpellKeyword>([
   "elf",
   "halfElf",
+  "humanoid",
   "magicResistance",
   "missile",
   "shield",
@@ -86,12 +87,11 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     // Permanent immunities: Blackguard, the mod's own fear immunity (see IMMUNITIES), ...
     { name: "CheckSpellState", params: [ScriptTarget.token, "RESIST_FEAR"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "EXALTATION"], negation: true },
-    // Kit ability not tied to any stat or spell state (opcode 101 against panic only)
-    { name: "Kit", params: [ScriptTarget.token, "CAVALIER"], negation: true },
   ],
   fire: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTFIRE"] }],
   friendly: [],
   halfElf: [{ name: "Race", params: [ScriptTarget.token, "HALF_ELF"], negation: true }],
+  humanoid: [{ name: "General", params: [ScriptTarget.token, "HUMANOID"] }],
   hold: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
@@ -169,3 +169,12 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   necromancyEffects: [],
   web: [],
 };
+
+/** Every spell state some keyword's checks test on the target (CheckSpellState). */
+export const CHECKED_SPELL_STATES: ReadonlySet<string> = new Set(
+  Object.values(SPELL_CHECK_TRIGGERS)
+    .flat()
+    .flatMap((trigger) =>
+      trigger.name === "CheckSpellState" && "params" in trigger ? [String(trigger.params[1])] : [],
+    ),
+);

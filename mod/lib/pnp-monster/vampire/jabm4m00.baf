@@ -224,7 +224,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -242,6 +241,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -268,7 +268,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -286,6 +285,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -312,7 +312,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -330,6 +329,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -356,7 +356,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -374,6 +373,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -400,7 +400,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -418,6 +417,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -444,7 +444,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -462,6 +461,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -488,7 +488,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -506,6 +505,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -532,7 +532,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -550,6 +549,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -576,7 +576,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -594,6 +593,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -621,7 +621,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -639,6 +638,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -664,7 +664,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -682,6 +681,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -707,7 +707,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -725,6 +724,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -750,7 +750,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -768,6 +767,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -793,7 +793,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -811,6 +810,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -836,7 +836,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -854,6 +853,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -879,7 +879,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -897,6 +896,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -922,7 +922,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -940,6 +939,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -965,7 +965,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -983,6 +982,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1009,7 +1009,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1027,6 +1026,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1053,7 +1053,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1071,6 +1070,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1097,7 +1097,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1115,6 +1114,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1141,7 +1141,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1159,6 +1158,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1185,7 +1185,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1203,6 +1202,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1229,7 +1229,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1247,6 +1246,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1273,7 +1273,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1291,6 +1290,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1317,7 +1317,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1335,6 +1334,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1361,7 +1361,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1379,6 +1378,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1405,7 +1405,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1423,6 +1422,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1450,7 +1450,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1468,6 +1467,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1493,7 +1493,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1511,6 +1510,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1536,7 +1536,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1554,6 +1553,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1579,7 +1579,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1597,6 +1596,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1622,7 +1622,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1640,6 +1639,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1665,7 +1665,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1683,6 +1682,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1708,7 +1708,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1726,6 +1725,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1751,7 +1751,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1769,6 +1768,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1794,7 +1794,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1812,6 +1811,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
@@ -1837,7 +1837,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_CONTROL_UNDEAD)
 	!HaveSpell(WIZARD_DOMINATION)
 	!HaveSpell(CLERIC_MENTAL_DOMINATION)
 	!HaveSpell(WIZARD_DIRE_CHARM)
@@ -1855,6 +1854,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	General(LastSeenBy(Myself),HUMANOID)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)

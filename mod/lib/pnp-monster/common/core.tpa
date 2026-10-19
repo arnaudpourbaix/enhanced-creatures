@@ -5,6 +5,17 @@ LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "JA_GRAPPLED" EN
 LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "JA_GRAPPLING" END
 LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "JA_GASEOUSFORM" END
 LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "JA_ANIMALFORM" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "ITEM_POISON" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "HOLD_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "STUN_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "ITEM_LEVELDRAIN" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "SLEEP_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "CHARM_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "CONFUSION_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "RESIST_FEAR" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "PANIC_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "PETRIFY_IMMUNITY" END
+LAF ADD_IDS_ENTRY STR_VAR idsFile = "splstate.ids" identifier = "DEATH_IMMUNITY" END
 
 COPY_EXISTING "INAREANP.pro" ~override/japc0000.pro~
 	READ_SHORT 0x08 type
@@ -189,3 +200,86 @@ CREATE ITM "jaic000i"
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10110)
 COPY_EXISTING ~jaic000i.itm~ ~override~
 	LPF vermin_trait END
+
+// Immunity spell states for the game's spells and items
+OUTER_SET state_HOLD_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~HOLD_IMMUNITY~)
+OUTER_SET state_STUN_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~STUN_IMMUNITY~)
+OUTER_SET state_ITEM_LEVELDRAIN = IDS_OF_SYMBOL (~splstate~ ~ITEM_LEVELDRAIN~)
+OUTER_SET state_SLEEP_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~SLEEP_IMMUNITY~)
+OUTER_SET state_CHARM_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~CHARM_IMMUNITY~)
+OUTER_SET state_CONFUSION_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~CONFUSION_IMMUNITY~)
+OUTER_SET state_RESIST_FEAR = IDS_OF_SYMBOL (~splstate~ ~RESIST_FEAR~)
+OUTER_SET state_PANIC_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~PANIC_IMMUNITY~)
+OUTER_SET state_PETRIFY_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~PETRIFY_IMMUNITY~)
+OUTER_SET state_DEATH_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~DEATH_IMMUNITY~)
+COPY_EXISTING_REGEXP GLOB ~^.+\.\(itm\|spl\)$~ ~override~
+	PATCH_IF (SOURCE_SIZE > 0x71) AND (~%SOURCE_RES%~ STRING_COMPARE_REGEXP ~^ja.*~) BEGIN
+		READ_ASCII 0 signature (8)
+		PATCH_IF (~%signature%~ STRING_EQUAL ~ITM V1  ~) OR (~%signature%~ STRING_EQUAL ~SPL V1  ~) BEGIN
+			SET immune_109 = 0
+			SET immune_45 = 0
+			SET immune_216 = 0
+			SET immune_39 = 0
+			SET immune_5 = 0
+			SET immune_128 = 0
+			SET immune_24 = 0
+			SET immune_134 = 0
+			SET immune_209 = 0
+			READ_LONG 0x6a fx_offset
+			FOR (offset = fx_offset; offset + 0x30 <= SOURCE_SIZE; offset += 0x30) BEGIN
+				PATCH_IF (SHORT_AT offset = 101) BEGIN
+					SET immune_to = LONG_AT (offset + 8)
+					PATCH_IF (immune_to = 109) BEGIN SET immune_109 = 1 END
+					PATCH_IF (immune_to = 45) BEGIN SET immune_45 = 1 END
+					PATCH_IF (immune_to = 216) BEGIN SET immune_216 = 1 END
+					PATCH_IF (immune_to = 39) BEGIN SET immune_39 = 1 END
+					PATCH_IF (immune_to = 5) BEGIN SET immune_5 = 1 END
+					PATCH_IF (immune_to = 128) BEGIN SET immune_128 = 1 END
+					PATCH_IF (immune_to = 24) BEGIN SET immune_24 = 1 END
+					PATCH_IF (immune_to = 134) BEGIN SET immune_134 = 1 END
+					PATCH_IF (immune_to = 209) BEGIN SET immune_209 = 1 END
+				END
+			END
+			PATCH_IF immune_109 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_HOLD_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=109 opcode=328 parameter1=0 parameter2=state_HOLD_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_45 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_STUN_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=45 opcode=328 parameter1=0 parameter2=state_STUN_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_216 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_ITEM_LEVELDRAIN END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=216 opcode=328 parameter1=0 parameter2=state_ITEM_LEVELDRAIN special=1 END
+			END
+			PATCH_IF immune_39 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_SLEEP_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=39 opcode=328 parameter1=0 parameter2=state_SLEEP_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_5 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_CHARM_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=5 opcode=328 parameter1=0 parameter2=state_CHARM_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_128 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_CONFUSION_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=128 opcode=328 parameter1=0 parameter2=state_CONFUSION_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_24 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_RESIST_FEAR END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=24 opcode=328 parameter1=0 parameter2=state_RESIST_FEAR special=1 END
+			END
+			PATCH_IF immune_24 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_PANIC_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=24 opcode=328 parameter1=0 parameter2=state_PANIC_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_134 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_PETRIFY_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=134 opcode=328 parameter1=0 parameter2=state_PETRIFY_IMMUNITY special=1 END
+			END
+			PATCH_IF immune_209 BEGIN
+				LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_DEATH_IMMUNITY END
+				LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=209 opcode=328 parameter1=0 parameter2=state_DEATH_IMMUNITY special=1 END
+			END
+		END
+	END
+BUT_ONLY

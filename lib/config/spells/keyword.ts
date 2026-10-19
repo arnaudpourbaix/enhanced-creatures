@@ -63,6 +63,11 @@ export type SpellKeyword =
    */
   | "halfElf"
   | "hold"
+  /**
+   * Only affects humanoids (e.g. a charm whose effect is restricted to GENERAL.IDS HUMANOID) -
+   * skip other targets
+   */
+  | "humanoid"
   | "illusion"
   | "insect"
   | "levelDrain"

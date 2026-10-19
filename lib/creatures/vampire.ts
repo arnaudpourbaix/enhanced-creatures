@@ -241,17 +241,17 @@ const DOMINATION_TEXTS: Record<
   gaze: {
     name: "monster.undead.ability.vampireDomination.gazeName",
     description: "monster.undead.ability.vampireDomination.gazeDescription",
-    keywords: ["charm", "gaze", "magicResistance"],
+    keywords: ["gaze"],
   },
   voice: {
     name: "monster.undead.ability.vampireDomination.voiceName",
     description: "monster.undead.ability.vampireDomination.voiceDescription",
-    keywords: ["charm", "magicResistance"],
+    keywords: [],
   },
   will: {
     name: "monster.undead.ability.vampireDomination.willName",
     description: "monster.undead.ability.vampireDomination.willDescription",
-    keywords: ["charm", "magicResistance"],
+    keywords: [],
   },
 };
 
@@ -287,7 +287,8 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
     icon: SPELLS.Wizard.Domination.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    keywords: texts.keywords,
+    // a charm, only for humanoids (like its effect), resisted by magic resistance
+    keywords: ["charm", ...texts.keywords, "humanoid", "magicResistance"],
     // usable every round, like the original SPIN883 (removes itself, re-added 1 round later)
     options: { renew: 1 },
     headers: [

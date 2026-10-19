@@ -77,6 +77,23 @@ export class ResourceReader {
     }
   }
 
+  /** Every resource of that type in the game: the BIFs', and the override's when read. */
+  names(type: number, extension: string): string[] {
+    const names = new Set<string>();
+    for (const key of this.locators.keys()) {
+      const [name, keyType] = key.split(".");
+      if (Number(keyType) === type) names.add(name);
+    }
+    if (this.useOverride) {
+      const suffix = `.${extension.toUpperCase()}`;
+      for (const file of fs.readdirSync(path.join(this.gameDir, "override"))) {
+        if (file.toUpperCase().endsWith(suffix))
+          names.add(file.slice(0, -suffix.length).toUpperCase());
+      }
+    }
+    return [...names].sort((a, b) => a.localeCompare(b));
+  }
+
   read(name: string, type: number, extension: string): Buffer | undefined {
     if (this.useOverride) {
       const file = path.join(this.gameDir, "override", `${name}.${extension}`);

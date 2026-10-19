@@ -149,6 +149,7 @@ class MainService {
     weiduFunctionService.generateSpellResources();
     weiduFunctionService.generateSpellFunctions();
     weiduFunctionService.generateImmunities();
+    weiduCoreService.generateImmunityStates();
     weiduCoreService.writeFile();
   }
 
