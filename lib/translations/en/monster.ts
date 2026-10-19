@@ -699,9 +699,9 @@ While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 pen
       },
       vampireMistForm: {
         name: "Gaseous Form",
-        description: `A vampire reduced to 0 hit points isn't destroyed: it assumes the form of gaseous vapors and flees to its sanctuary.
-In gaseous form, it is immune to all damage, can't attack or cast spells, passes through creatures and its movement rate is 3 less than normal.
-After 2 rounds, it reaches its sanctuary and is gone for good.`,
+        description: `The vampire assumes the form of gaseous vapors for 1 round, to break off and get away when badly hurt or surrounded. It can't do it again for 3 rounds.
+In gaseous form, it is immune to all damage except fire, to which it is vulnerable (+50%), and to ground effects such as web and entangle. It is very hard to hit (+10 AC bonus), can't attack or cast spells, passes through creatures and its movement rate is 3 less than normal.
+A vampire reduced to 0 hit points isn't destroyed either: it assumes gaseous form and flees to its sanctuary.`,
       },
     },
   },

@@ -120,7 +120,7 @@ class EffectService {
         effect.parameter2 = `${effect.type}`;
         break;
       case EffectTypeEnum.ReplaceCreature:
-        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveCreature}`;
+        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveSilently}`;
         break;
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:

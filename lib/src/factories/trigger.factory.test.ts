@@ -288,6 +288,30 @@ describe("enemyNearTarget", () => {
   });
 });
 
+describe("enemyCanHurtInMelee", () => {
+  it("checks the enemy's range, then its weapon against its nearest enemy", () => {
+    const enemy = "SecondNearestEnemyOf(Myself)";
+    const weapon = (name: "WeaponEffectiveVs" | "WeaponCanDamage") => ({
+      name: "TriggerOverride",
+      object: enemy,
+      trigger: { name, params: ["NearestEnemyOf(Myself)", "MAINHAND"] },
+      negation: false,
+    });
+    expect(triggerFactory.enemyCanHurtInMelee(enemy)).toEqual([
+      { name: "Range", params: [enemy, 4] },
+      weapon("WeaponEffectiveVs"),
+      weapon("WeaponCanDamage"),
+    ]);
+  });
+
+  it("takes a custom range", () => {
+    expect(triggerFactory.enemyCanHurtInMelee("NearestEnemyOf(Myself)", 8)[0]).toEqual({
+      name: "Range",
+      params: ["NearestEnemyOf(Myself)", 8],
+    });
+  });
+});
+
 describe("casterSafe", () => {
   it("checks the caster against any of safeIf", () => {
     expect(

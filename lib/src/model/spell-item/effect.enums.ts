@@ -1349,7 +1349,7 @@ export enum CriticalHitEffectAttackTypeEnum {
 }
 
 export enum ReplaceCreatureTypeEnum {
-  RemoveCreature = 0,
+  RemoveSilently = 0,
   ChunkingDeath = 1,
   NormalDeath = 2,
   SpawnAtTarget = 3,

@@ -541,6 +541,22 @@ class TriggerFactory {
   }
 
   /**
+   * Triggers checking that `enemy` (one of the active creature's enemies) stands within melee
+   * `range` and that its main hand weapon can hit and damage the active creature, which may be
+   * immune to it (+1 weapons...). WeaponEffectiveVs and WeaponCanDamage test the weapon of the
+   * creature running them, so they run through TriggerOverride(enemy, ...), where Myself is the
+   * enemy: the active creature, right next to it, is taken to be its nearest enemy.
+   */
+  enemyCanHurtInMelee(enemy: string, range = 4): Triggers.Trigger[] {
+    const self = `NearestEnemyOf(${ScriptTarget.myself})`;
+    return [
+      { name: "Range", params: [enemy, range] },
+      this.triggerOverride(enemy, { name: "WeaponEffectiveVs", params: [self, "MAINHAND"] }),
+      this.triggerOverride(enemy, { name: "WeaponCanDamage", params: [self, "MAINHAND"] }),
+    ];
+  }
+
+  /**
    * Trigger checking that the caster itself matches the alliesCheck's safeIf (any of them), or
    * undefined when there's no condition to match.
    */

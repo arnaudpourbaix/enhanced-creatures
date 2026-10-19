@@ -6,31 +6,23 @@
  * differ by what the table says.
  */
 import { SPELL_STATES } from "../config/common";
+import { SpellKeyword } from "../config/spells/keyword";
 import { SPELLS } from "../config/spells/spell-database";
-import actionFactory from "../src/factories/action.factory";
 import effectFactory from "../src/factories/effect.factory";
 import responseFactory from "../src/factories/response.factory";
 import triggerFactory from "../src/factories/trigger.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { RawCreatureAbility } from "../src/model/creature/ability";
-import { AnimationIdentifiers } from "../src/model/ids/animate";
-import { PartialCustomCode } from "../src/model/script/script";
-import { Triggers } from "../src/model/script/triggers";
-import {
-  AreaExtendedFlagsEnum,
-  AreaProjectileEnum,
-  BamProjectileFlagsEnum,
-  ProjectileExplosionEffectEnum,
-  ProjectileExtendedFlagsEnum,
-} from "../src/model/spell-item/projectile";
-import { Item, PartialSpellHeader, Spell } from "../src/model/spell-item/spell-item";
-import targetService from "../src/services/baf/target.service";
-import effectService from "../src/services/effects/effect.service";
-import { StringRefUtils } from "../src/services/utils/string-ref.utils";
-import { TranslationKey } from "../translations/i18n";
+import { AbstractCreature } from "../src/model/creature/abstract-creature";
+import { Creature } from "../src/model/creature/creature";
+import type { CreatureEntry } from "../src/model/creature/entry";
+import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { ImmunityName } from "../src/model/final/immunity";
 import { StringReference } from "../src/model/final/stringref";
 import { Durations } from "../src/model/game-data/durations";
+import { AnimationIdentifiers } from "../src/model/ids/animate";
+import { PartialCustomCode } from "../src/model/script/script";
+import { Triggers } from "../src/model/script/triggers";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
@@ -53,22 +45,27 @@ import {
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
-  KillTargetDeathTypeEnum,
   PortraitIconEnum,
   RemoveEffectsByResourceTypeEnum,
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { SpellKeyword } from "../config/spells/keyword";
+import {
+  AreaExtendedFlagsEnum,
+  AreaProjectileEnum,
+  BamProjectileFlagsEnum,
+  ProjectileExplosionEffectEnum,
+  ProjectileExtendedFlagsEnum,
+} from "../src/model/spell-item/projectile";
+import { PartialSpellHeader, Spell } from "../src/model/spell-item/spell-item";
+import targetService from "../src/services/baf/target.service";
+import monsterFilesService from "../src/services/monster-files.service";
+import { StringRefUtils } from "../src/services/utils/string-ref.utils";
+import { TranslationKey } from "../translations/i18n";
+import { EntryEnum } from "./entry";
 import { MonsterEnum } from "./monster";
 import type { TurnUndeadType } from "./types/turn-level";
-import { AbstractCreature } from "../src/model/creature/abstract-creature";
-import { Creature } from "../src/model/creature/creature";
-import type { CreatureEntry } from "../src/model/creature/entry";
-import { EntryEnum } from "./entry";
-import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { createClaws } from "./types/undead";
-import monsterFilesService from "../src/services/monster-files.service";
 
 enum Ids {
   VampireGazeDomination2,
@@ -270,9 +267,6 @@ const NOT_SHAPECHANGED: Triggers.Trigger[] = [
 
 /** How long a wolf or bat form lasts before the vampire takes back its own form. */
 const ANIMAL_FORM_DURATION = 3 * Durations.round;
-
-/** Rounds spent in gaseous form, once reduced to 0 hit points, before it reaches its sanctuary. */
-const MIST_DURATION = 2 * Durations.round;
 
 /**
  * Domination: any person dominated by the vampire is affected as if by a charm person spell, with
@@ -708,19 +702,36 @@ function batForm(group: AbstractCreature, ownSpeed: boolean) {
 }
 
 /**
- * Gaseous form at 0 hit points: the vampire can't die from damage. At 1 hit point it turns into a
- * vapor that is all but immune to attack (MV 3 less than normal) and flees, and the party is
- * given the experience for defeating it. Once it has reached its sanctuary it really dies (rather
- * than just leaving the area), so quests waiting for its death still go on.
+ * How long the gaseous form lasts: just the time to run away or reposition, since its fire
+ * vulnerability makes a longer one an easy kill for fire spells.
  */
-function mistForm(cre: Creature, age: VampireAge, trait: Item, forms: Spell[]): PartialCustomCode {
+const MIST_FORM_DURATION = Durations.round;
+
+/**
+ * Gaseous form: a vapor that only fire harms (MV 3 less than normal), flowing through creatures.
+ * In a fight, the vampire uses it to break off when badly hurt in melee, or when surrounded, and
+ * get away. (At 0 hit points, the game's own gaseous form makes it escape.)
+ */
+function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   const mist = cre.addItem({
     id: Ids.VampireMistForm,
     stringRef: "monster.undead.ability.vampireMistForm.name",
     description: "monster.undead.ability.vampireMistForm.description",
-    immunities: ["poison", "cold", "fire", "lightning", "acid", "magicDamage", "physicalDamage"],
+    // only fire harms a vapor: fire spells, and the fire damage of a weapon's hits (the weapon
+    // itself does nothing). Gas floats: no ground spells, web or entangle
+    immunities: ["poison", "cold", "lightning", "acid", "magicDamage", "physicalDamage", "hover"],
     header: { type: ItemAbilityTypeEnum.Melee },
     effects: [
+      {
+        opcode: EffectTypeEnum.FireResistanceModifier,
+        type: EffectStatisticModifierEnum.Set,
+        value: -50,
+      },
+      {
+        opcode: EffectTypeEnum.MagicalFireResistanceModifier,
+        type: EffectStatisticModifierEnum.Set,
+        value: -50,
+      },
       { opcode: EffectTypeEnum.DisplayPortraitIcon, icon: PortraitIconEnum.Invulnerable },
       { opcode: EffectTypeEnum.NoCollisionDetection, passWalls: true },
       { opcode: EffectTypeEnum.ModifyCollisionBehavior },
@@ -730,7 +741,14 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item, forms: Spell[]): 
         type: AttackModifierTypeEnum.Final,
         value: 0,
       },
+      // hard to land a blow on a mist (positive is a bonus, as bat form's 3)
+      {
+        opcode: EffectTypeEnum.ArmorClassBonus,
+        bonusTo: EffectBonusToEnum.AllWeapons,
+        value: 10,
+      },
       { opcode: EffectTypeEnum.DisableSpellcasting, type: DisableSpellcastingTypeEnum.Wizard },
+      { opcode: EffectTypeEnum.DisableSpellcasting, type: DisableSpellcastingTypeEnum.Innate },
       { opcode: EffectTypeEnum.DisableButton, button: DisableButtonEnum.SpellSelect },
       {
         opcode: EffectTypeEnum.AnimationChange,
@@ -740,88 +758,82 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item, forms: Spell[]): 
       { opcode: EffectTypeEnum.SetExtendedSpellState, state: SPELL_STATES.gaseousForm },
     ],
   });
-  const self = { target: EffectTargetEnum.Self };
   const spell = cre.addSpell({
     id: Ids.VampireMistForm,
     name: "monster.undead.ability.vampireMistForm.name",
     description: "monster.undead.ability.vampireMistForm.description",
+    memorizedCount: 1,
+    // it can't keep away for good by chaining forms
+    options: { renew: 4 },
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
         target: ItemAbilityTargetEnum.Caster,
+        icon: SPELLS.Wizard.ObscuringMist.file,
         effects: [
           // back from a wolf or bat form first
           ...forms.map((form): Effect => ({
             opcode: EffectTypeEnum.RemoveEffectsByResource,
             type: RemoveEffectsByResourceTypeEnum.Default,
             resource: form.file,
-            ...self,
+            target: EffectTargetEnum.Self,
           })),
-          // the trait holds its minimum hit points, and the trigger casting this spell
-          {
-            opcode: EffectTypeEnum.RemoveItem,
-            resource: trait.file,
-            timing: EffectTimingEnum.InstantPermanentUntilDeath,
-            ...self,
-          },
           {
             opcode: EffectTypeEnum.CreateWeapon,
             amount: 1,
             resource: mist.file,
             timing: EffectTimingEnum.InstantLimited,
-            duration: MIST_DURATION,
-            ...self,
+            duration: MIST_FORM_DURATION,
+            target: EffectTargetEnum.Self,
           },
           {
             opcode: EffectTypeEnum.PlayVisualEffect,
             playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
-            resource: "SPDISPM3",
-            ...self,
+            resource: "SPDISPMA",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            target: EffectTargetEnum.Self,
           },
-          { opcode: EffectTypeEnum.PlaySound, resource: "MSTCHNG" },
           {
-            opcode: EffectTypeEnum.KillTarget,
-            type: KillTargetDeathTypeEnum.Normal,
-            displayText: false,
-            timing: EffectTimingEnum.DelayPermanent,
-            duration: MIST_DURATION,
-            ...self,
+            opcode: EffectTypeEnum.PlaySound,
+            resource: "MSTCHNG",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            target: EffectTargetEnum.Self,
           },
         ],
       },
     ],
+    // badly hurt in melee
+    ability: {
+      triggers: [
+        ...NOT_SHAPECHANGED,
+        { name: "HPPercentLT", params: [ScriptTarget.myself, 35] },
+        ...triggerFactory.enemyCanHurtInMelee(`NearestEnemyOf(${ScriptTarget.myself})`),
+      ],
+      probability: 50,
+      // same as the animal forms: renew alone wouldn't take the copy away
+      spell: { type: "force", remove: true, castOnSelf: true },
+    },
   });
-  trait.effects.push(
-    effectService.getEffect({
-      opcode: EffectTypeEnum.CastSpellOnCondition,
-      conditionTarget: CastSpellOnConditionTargetEnum.Myself,
-      condition: "HPLT(Myself,Extra)",
-      special: 2,
-      timing: EffectTimingEnum.InstantWhileEquipped,
-      target: EffectTargetEnum.Self,
-      resource: spell.file,
-    }),
-  );
-  const inMist: Triggers.Trigger = {
-    name: "CheckSpellState",
-    params: [ScriptTarget.myself, SPELL_STATES.gaseousForm],
+  if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
+  // surrounded: BAF can't count the enemies that can hurt it, so its 3 nearest ones must
+  const surrounded: RawCreatureAbility = {
+    ...spell.ability,
+    triggers: [
+      ...NOT_SHAPECHANGED,
+      ...["NearestEnemyOf", "SecondNearestEnemyOf", "ThirdNearestEnemyOf"].flatMap((enemy) =>
+        triggerFactory.enemyCanHurtInMelee(`${enemy}(${ScriptTarget.myself})`),
+      ),
+    ],
   };
-  const xpGiven = "JA_VAMPIRE_MIST";
-  return {
+  const flee: PartialCustomCode = {
     location: "init",
     type: "insertBefore",
     statements: [
       {
-        comment: "Gaseous form: the party defeated the vampire",
-        triggers: [inMist, triggerFactory.global(xpGiven, 0)],
-        responses: responseFactory.response([
-          actionFactory.setGlobal(xpGiven, 1),
-          { name: "AddExperienceParty", params: [age.xpv] },
-        ]),
-      },
-      {
-        comment: "Gaseous form: flee to its sanctuary",
-        triggers: [inMist],
+        comment: "Gaseous form: get away from enemies",
+        triggers: [
+          { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.gaseousForm] },
+        ],
         responses: responseFactory.response([
           {
             name: "RunAwayFromNoLeaveArea",
@@ -831,6 +843,7 @@ function mistForm(cre: Creature, age: VampireAge, trait: Item, forms: Spell[]): 
       },
     ],
   };
+  return { abilities: [spell.ability, surrounded], flee };
 }
 
 /**
@@ -872,7 +885,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
       race: "VAMPIRE",
       class: "VAMPIRE",
       size: { value: "Medium", tall: true, long: false },
-      movement: age.movement, // Fl 18 in mist form
+      movement: age.movement,
       immunities: ["undead"],
       moveSilent: 100,
       items: {
@@ -903,7 +916,18 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     diceSize: 6,
     effects: effectFactory.levelDrain({ levels: 2 }),
   });
-  const effects: Effect[] = [effectFactory.regeneration(age.regeneration)];
+  const effects: Effect[] = [
+    effectFactory.regeneration(age.regeneration),
+    {
+      opcode: EffectTypeEnum.CastSpellOnCondition,
+      conditionTarget: CastSpellOnConditionTargetEnum.Myself,
+      condition: "Die()",
+      special: 2,
+      timing: EffectTimingEnum.InstantWhileEquipped,
+      target: EffectTargetEnum.Self,
+      resource: SPELLS.Innate.VampireGasFormChange.file,
+    },
+  ];
   if (age.magicResistance) {
     effects.push({
       opcode: EffectTypeEnum.MagicResistanceModifier,
@@ -911,8 +935,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
       value: age.magicResistance,
     });
   }
-  effects.push({ opcode: EffectTypeEnum.MinimumHP, value: 1 });
-  const trait = cre.addTrait({
+  cre.addTrait({
     immunities: [age.weaponImmunity, "coldResistance", "lightningResistance"],
     effects,
   });
@@ -934,16 +957,19 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
     () => batForm(entry, ownSpeed),
   );
+  const mist = mistForm(cre, age, [wolf, bat]);
   cre.setBehavior({
     restHeal: true,
-    abilities: [bat, dominate, swarm, control, wolf].map((spell) => {
-      if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
-      return spell.ability;
-    }),
-    customCodes: [mistForm(cre, age, trait, [wolf, bat])],
+    abilities: [
+      ...mist.abilities,
+      ...[bat, dominate, swarm, control, wolf].map((spell) => {
+        if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
+        return spell.ability;
+      }),
+    ],
+    customCodes: [mist.flee],
   });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
-  // (Salia...), vampire bats, child vampires and vampire mages keep their own
   const renamed = cre.files
     .map((f) => f.name)
     .filter((file) => {

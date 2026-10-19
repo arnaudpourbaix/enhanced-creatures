@@ -1868,6 +1868,13 @@ const INNATE_SPELLS = {
     name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
+  VampireGasFormChange: {
+    file: "SPIN964",
+    id: "VAMPIRE_GAS_FORM_CHANGE",
+    level: 1,
+    name: "spell.VampireGasFormChange.name",
+    keywords: ["castOnSelf"],
+  },
   SpiderSingleTargetWeb: {
     file: "BDSPIDGA",
     name: "spell.SpiderSingleTargetWeb.name",

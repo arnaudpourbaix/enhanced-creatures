@@ -351,6 +351,7 @@ All creatures are afflicted with wracking pains shooting through their bodies, c
   MoonDogSight: { name: "Moon Dog Sight" },
   MoonDogHowl: { name: "Moon Dog Howl" },
   MoonDogFear: { name: "Moon Dog Fear" },
+  VampireGasFormChange: { name: "Gaseous Form" },
 
   // Faiths & Powers only
   CauseDisease: { name: "Cause Disease" },
