@@ -5,7 +5,7 @@ import { TargetList } from "../../src/model/script/target";
 import { SPELLS } from "../spells/spell-database";
 import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
-const CHARM_TARGET_LISTS: TargetList[] = [
+export const CHARM_TARGET_LISTS: TargetList[] = [
   {
     name: "Fighters",
     includeStatus: ["Able"],

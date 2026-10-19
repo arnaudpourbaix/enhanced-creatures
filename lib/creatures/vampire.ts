@@ -11,6 +11,8 @@ import { SPELLS } from "../config/spells/spell-database";
 import effectFactory from "../src/factories/effect.factory";
 import responseFactory from "../src/factories/response.factory";
 import triggerFactory from "../src/factories/trigger.factory";
+import { CHARM_TARGET_LISTS } from "../config/presets/charm-presets";
+import { ExcludeUnwantedTargetsTriggers } from "../config/target/common";
 import { ScriptTarget } from "../src/model/constants";
 import { RawCreatureAbility } from "../src/model/creature/ability";
 import { AbstractCreature } from "../src/model/creature/abstract-creature";
@@ -22,6 +24,7 @@ import { StringReference } from "../src/model/final/stringref";
 import { Durations } from "../src/model/game-data/durations";
 import { AnimationIdentifiers } from "../src/model/ids/animate";
 import { PartialCustomCode } from "../src/model/script/script";
+import { TargetList } from "../src/model/script/target";
 import { Triggers } from "../src/model/script/triggers";
 import { Effect } from "../src/model/spell-item/effect";
 import {
@@ -255,6 +258,35 @@ const DOMINATION_TEXTS: Record<
   },
 };
 
+/** The game's weapons slaying undead on hit: maces of disruption, Azuredge. */
+const UNDEAD_SLAYING_WEAPONS = ["BLUN12", "BLUN25", "AX1H10"];
+
+/**
+ * Who a vampire dominates first, like SCS: the party's undead slayers - clerics, who turn undead,
+ * or anyone wielding an undead-slaying weapon - then turned against their friends.
+ */
+const UNDEAD_SLAYERS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    keywords: ["elf"],
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      {
+        name: "Or",
+        triggers: [
+          { name: "Class", params: [ScriptTarget.token, "CLERIC_ALL"] },
+          ...UNDEAD_SLAYING_WEAPONS.map((item): Triggers.Trigger => ({
+            name: "HasItem",
+            params: [item, ScriptTarget.token],
+          })),
+        ],
+      },
+    ],
+    randomOrder: true,
+  },
+];
+
 /** A vampire in wolf, bat or gaseous form can't use its other powers. */
 const NOT_SHAPECHANGED: Triggers.Trigger[] = [
   SPELL_STATES.animalForm,
@@ -311,6 +343,8 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
     ],
     ability: {
       preset: SPELLS.Wizard.CharmPerson.file,
+      // the undead slayers first, then the charms' usual targets
+      targets: [...UNDEAD_SLAYERS, ...CHARM_TARGET_LISTS],
       requireVocal: domination.mode === "voice",
       spell: {
         type: "force",

@@ -934,3 +934,35 @@ describe("getCustomCodes", () => {
     expect(customCode.abilities[0].name).toBe(DEFAULT_ABILITY_NAME);
   });
 });
+
+describe("getAbilities - preset targets", () => {
+  it("replaces the preset's target lists with the ability's own", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        preset: SPELLS.Wizard.CharmPerson.file,
+        spell: { resource: "JATEST" },
+        targets: [
+          { name: "Players", triggers: [{ name: "Class", params: ["$obj", "CLERIC_ALL"] }] },
+          { name: "NearestEnemies" },
+        ],
+      },
+    ]);
+    expect(ability.targets.map(({ name }) => name)).toEqual(["Players", "NearestEnemies"]);
+    // they still get the spell's checks
+    expect(ability.targets[0].triggers).toEqual(
+      expect.arrayContaining([...SPELL_CHECK_TRIGGERS.charm]),
+    );
+  });
+
+  it("keeps the preset's target lists without its own", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.CharmPerson.file, spell: { resource: "JATEST" } },
+    ]);
+    expect(ability.targets.map(({ name }) => name)).toEqual([
+      "Fighters",
+      "Fighters",
+      "NearestEnemies",
+      "NearestEnemies",
+    ]);
+  });
+});

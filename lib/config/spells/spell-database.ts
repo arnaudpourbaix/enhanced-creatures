@@ -100,7 +100,7 @@ const WIZARD_SPELLS = {
     level: 1,
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.CharmPerson.name",
-    keywords: ["charm"],
+    keywords: ["charm", "humanoid", "magicResistance"],
   },
   ChillTouch: {
     file: "SPWI117",
@@ -251,7 +251,7 @@ const WIZARD_SPELLS = {
     level: 3,
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.DireCharm.name",
-    keywords: ["charm", "magicResistance"],
+    keywords: ["charm", "humanoid", "magicResistance"],
   },
   DimensionDoor: {
     // Spell Revisions removes this from spellbooks (SPWI402's id becomes _DEPRECATED - a leftover
@@ -283,7 +283,7 @@ const WIZARD_SPELLS = {
     level: 5,
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -2 }],
     name: "spell.Domination.name",
-    keywords: ["charm", "magicResistance"],
+    keywords: ["charm", "humanoid", "magicResistance"],
   },
   DragonsBreath: {
     file: "SPWI922",
@@ -1222,7 +1222,7 @@ const PRIEST_SPELLS = {
     level: 2,
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.CharmPersonOrAnimal.name",
-    keywords: ["charm"],
+    keywords: ["charm", "humanoid"],
   },
   CircleOfBones: {
     file: "SPPR332",
@@ -1579,7 +1579,7 @@ const PRIEST_SPELLS = {
     level: 4,
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -2 }],
     name: "spell.MentalDomination.name",
-    keywords: ["charm", "magicResistance"],
+    keywords: ["charm", "humanoid", "magicResistance"],
   },
   MiscastMagic: {
     file: "SPPR310",

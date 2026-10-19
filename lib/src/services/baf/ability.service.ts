@@ -372,6 +372,22 @@ class AbilityService {
     return keywords.length ? [...new Set(keywords)] : undefined;
   }
 
+  /**
+   * Same fallback as level, but replacing rather than concatenating like deepmerge does: an own
+   * list (even empty) wins over the preset's. The spell actually cast (e.g. an innate cast through
+   * Slow's preset) knows its own saves better than the preset's spell.
+   */
+  private presetSaves(
+    ability: RawCreatureAbility,
+    presetAbility: RawCreatureAbility,
+    resource: string | undefined,
+    presetName: string,
+  ): SpellSaves | undefined {
+    const castSaves =
+      resource && resource !== presetName ? savesForFile(SPELLS, resource) : undefined;
+    return ability.saves ?? castSaves ?? presetAbility.saves ?? savesForFile(SPELLS, presetName);
+  }
+
   private applyPreset(ability: RawCreatureAbility, presetName: string): RawCreatureAbility {
     const preset = ABILITY_PRESETS.find((p) => p.preset === presetName);
     if (!preset) {
@@ -380,20 +396,17 @@ class AbilityService {
     if (Array.isArray(preset.ability.spell)) throw new Error(`Preset don't support spell arrays`);
     this.logCheckOverrides(preset.ability.spell, ability.spell, presetName);
     const result: RawCreatureAbility = deepmerge(preset.ability, ability, {});
+    // An ability's own target lists replace the preset's rather than being appended to them, so
+    // it can reorder or extend them (e.g. a vampire dominating undead slayers before the charms'
+    // usual targets).
+    if (ability.targets !== undefined) result.targets = ability.targets;
     // Recomputed explicitly rather than trusting deepmerge's concatenation (see mergeKeywords).
     result.keywords = this.mergeKeywords(ability.keywords, presetName);
     // Same fallback as keywords above, for the ImmuneToSpellLevel mechanism (see
     // BaseCreatureAbility.level) - independent of the keywords/SpellKeyword system. An explicit
     // `null` (not a real spell) is kept as is.
     if (result.level === undefined) result.level = levelForFile(SPELLS, presetName);
-    // Same fallback as level, but replacing rather than concatenating like deepmerge does: an own
-    // list (even empty) wins over the preset's. The spell actually cast (e.g. an innate cast
-    // through Slow's preset) knows its own saves better than the preset's spell.
-    const resource = result.spell?.resource;
-    const castSaves =
-      resource && resource !== presetName ? savesForFile(SPELLS, resource) : undefined;
-    const saves =
-      ability.saves ?? castSaves ?? preset.ability.saves ?? savesForFile(SPELLS, presetName);
+    const saves = this.presetSaves(ability, preset.ability, result.spell?.resource, presetName);
     if (saves !== undefined) result.saves = saves;
     // Same fallback as keywords/level above, for the Range() trigger mechanism (see
     // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
