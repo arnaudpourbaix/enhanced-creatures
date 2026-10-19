@@ -200,7 +200,13 @@ export class Creature extends AbstractCreature implements BaseCreature {
   }
 
   seeInvisible() {
-    return utils.hasImmunity(this.data.immunities, "seeInvisible");
+    return this.hasImmunity("seeInvisible");
+  }
+
+  /** Immune to `name`, through its own immunities or its trait's (see addTrait) */
+  hasImmunity(name: string): boolean {
+    const trait = this.items.find((item) => item.trait);
+    return utils.hasImmunity([...this.data.immunities, ...(trait?.immunities ?? [])], name);
   }
 
   override addSpell(spell: PartialSpell): Spell {

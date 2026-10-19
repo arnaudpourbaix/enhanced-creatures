@@ -39,6 +39,7 @@ export type PartialAdditionalCode = PartialBy<AdditionalCode, "triggers" | "acti
 
 export type CustomCodeLocation =
   | "attack"
+  | "avoidClouds"
   | "creatureAbilities"
   | "destroyUponDeath"
   | "detectCombat"

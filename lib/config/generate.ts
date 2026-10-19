@@ -27,6 +27,10 @@ export const GLOBAL_CONFIG = {
    */
   weaponCheck: true,
   /**
+   * Get out of hostile clouds (see CLOUDS): only with Stratagems, whose clouds shout to warn.
+   */
+  avoidClouds: true,
+  /**
    * Areas where creatures can't cast spells (innate abilities still work): entering one sets
    * bafConstants.disableSpellcasting, which every spellcasting block checks (see
    * BaseCreatureAbility.spellcasting).

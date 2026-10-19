@@ -1,4 +1,5 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { CLOUDS } from "../../../config/clouds";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
 import { TargetListName, TargetStatusName } from "../../../config/target-name";
@@ -35,6 +36,7 @@ interface StatementBuilderServicePrivate {
   processStatements(statements: Statements, newStatements: Statements): void;
   dialog(p: Pick<HandlerParams, "statements" | "creature">): void;
   handlePanic(p: Pick<HandlerParams, "statements" | "creature">): void;
+  avoidClouds(p: Pick<HandlerParams, "statements" | "creature">): void;
   destroyUponDeath(p: Pick<HandlerParams, "statements" | "options">): void;
   init(p: Pick<HandlerParams, "statements" | "options">): void;
   disableSpellcasting(p: Pick<HandlerParams, "statements">): void;
@@ -135,6 +137,9 @@ function fakeCreature(
     seeInvisible() {
       return utils.hasImmunity(data.immunities, "seeInvisible");
     },
+    hasImmunity(name: string) {
+      return utils.hasImmunity(data.immunities, name);
+    },
   } as unknown as Creature;
 }
 
@@ -213,6 +218,43 @@ describe("handlePanic (private)", () => {
       { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 15] },
     ]);
     expect(statements[1].responses[0].actions).toEqual([{ name: "RandomWalkContinuous" }]);
+  });
+});
+
+describe("avoidClouds (private)", () => {
+  const comments = (creature: Creature) => {
+    const statements: Statements = [];
+    service.avoidClouds({ statements, creature });
+    return statements.map(({ comment }) => comment ?? "");
+  };
+
+  afterEach(() => {
+    GLOBAL_CONFIG.avoidClouds = true;
+  });
+
+  it("runs away from each cloud, then stays put while seeing no enemy", () => {
+    const ranged = comments(fakeCreature({ attack: { melee: false, ranged: true } }));
+    expect(ranged).toHaveLength(CLOUDS.length + 1);
+    expect(ranged).toContain("Get out of Cloudkill");
+    expect(ranged.at(-1)).toMatch(/stay put/);
+  });
+
+  it("has a melee creature seeing an enemy close in on it instead", () => {
+    const melee = comments(fakeCreature());
+    expect(melee).toHaveLength(2 * CLOUDS.length + 1);
+    expect(melee).toContain("Get out of Cloudkill: close in on the enemies");
+  });
+
+  it("leaves out the clouds the creature's type is immune to", () => {
+    const undead = comments(fakeCreature({ data: { general: "UNDEAD" } }));
+    expect(undead.some((c) => /Cloudkill|Stinking|Suffocate/.test(c))).toBe(false);
+    expect(undead).toContain("Get out of Death Fog");
+  });
+
+  it("adds nothing for a creature immune to clouds, or when disabled", () => {
+    expect(comments(fakeCreature({ data: { immunities: ["cloudSpells"] } }))).toEqual([]);
+    GLOBAL_CONFIG.avoidClouds = false;
+    expect(comments(fakeCreature())).toEqual([]);
   });
 });
 

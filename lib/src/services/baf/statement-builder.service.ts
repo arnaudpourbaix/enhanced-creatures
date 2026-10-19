@@ -1,3 +1,4 @@
+import { CLOUD_STOP_SHOUTS, CLOUDS } from "../../../config/clouds";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
 import { SPELLS } from "../../../config/spells/spell-database";
@@ -67,6 +68,7 @@ class StatementBuilderService {
     this.execute(this.randomWalkNoCombat.bind(this), "randomWalkNoCombat", p);
     this.execute(this.noActionOutsideOfCombat.bind(this), "noActionOutsideOfCombat", p);
     this.execute(this.handlePanic.bind(this), "handlePanic", p);
+    this.execute(this.avoidClouds.bind(this), "avoidClouds", p);
     this.execute(this.thievesAbilities.bind(this), "thievesAbilities", p);
     this.execute(this.precastMidDurationSpells.bind(this), "precastMidDurationSpells", p);
     this.execute(this.creatureAbilities.bind(this), "creatureAbilities", p);
@@ -160,11 +162,98 @@ class StatementBuilderService {
     });
   }
 
+  /**
+   * Like SCS: a creature hearing a cloud it can be affected by (see CLOUDS) gets out of it. A melee
+   * creature seeing an enemy rather closes in, out of the cloud and among enemies the caster won't
+   * cloud, or keeps fighting if already close. Then, a creature seeing no enemy stays put rather
+   * than walk into the cloud.
+   */
+  private avoidClouds({ statements, creature }: Pick<HandlerParams, "statements" | "creature">) {
+    if (!GLOBAL_CONFIG.avoidClouds || creature.hasImmunity("cloudSpells")) {
+      return;
+    }
+    const enemy = `NearestEnemyOf(${ScriptTarget.myself})`;
+    const seeEnemy: Triggers.Trigger = { name: "See", params: [enemy] };
+    const melee = creature.attack.melee && !creature.attack.ranged;
+    const heard = (shouts: number[]): Triggers.Trigger[] => {
+      const triggers = shouts.map((shout): Triggers.Trigger => ({
+        name: "Heard",
+        params: ["[ANYONE]", shout],
+      }));
+      return triggers.length > 1 ? [{ name: "Or", triggers }] : triggers;
+    };
+    const runAway: Actions.Action = {
+      name: "RunAwayFromNoLeaveArea",
+      params: [`LastHeardBy(${ScriptTarget.myself})`, 30],
+    };
+    const { general, race } = creature.data;
+    const clouds = CLOUDS.filter(
+      ({ immune }) => !immune?.general?.includes(general) && !immune?.race?.includes(race),
+    );
+    for (const cloud of clouds) {
+      const triggers: Triggers.Trigger[] = [
+        ...heard(cloud.shouts),
+        { name: "Range", params: [`LastHeardBy(${ScriptTarget.myself})`, cloud.range] },
+        ...(cloud.immune?.general ?? []).map((value): Triggers.Trigger => ({
+          name: "General",
+          params: [ScriptTarget.myself, value],
+          negation: true,
+        })),
+        ...(cloud.immune?.race ?? []).map((value): Triggers.Trigger => ({
+          name: "Race",
+          params: [ScriptTarget.myself, value],
+          negation: true,
+        })),
+        ...(cloud.affected ?? []),
+      ];
+      // a resistant creature only bothers when no enemy is in sight
+      const resisting: Triggers.Trigger = {
+        name: "Or",
+        triggers: [
+          {
+            name: "CheckStatGT",
+            params: [ScriptTarget.myself, cloud.magicResistance ?? 80, "RESISTMAGIC"],
+            negation: true,
+          },
+          { ...seeEnemy, negation: true },
+        ],
+      };
+      if (!melee) {
+        statements.push({
+          comment: `Get out of ${cloud.name}`,
+          triggers: [...triggers, resisting],
+          responses: responseFactory.response([runAway]),
+        });
+        continue;
+      }
+      statements.push({
+        comment: `Get out of ${cloud.name}`,
+        triggers: [...triggers, { ...seeEnemy, negation: true }],
+        responses: responseFactory.response([runAway]),
+      });
+      statements.push({
+        comment: `Get out of ${cloud.name}: close in on the enemies`,
+        triggers: [
+          ...triggers,
+          resisting,
+          seeEnemy,
+          { name: "Range", params: [enemy, 8], negation: true },
+        ],
+        responses: responseFactory.response([{ name: "MoveToObject", params: [enemy] }]),
+      });
+    }
+    statements.push({
+      comment: "Cloud around, no enemy in sight: stay put rather than walk into it",
+      triggers: [{ ...seeEnemy, negation: true }, ...heard(CLOUD_STOP_SHOUTS)],
+      responses: responseFactory.response([{ name: "NoAction" }]),
+    });
+  }
+
   private handlePanic({
     statements,
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
-    if (utils.hasImmunity(creature.data.immunities, "fear")) return;
+    if (creature.hasImmunity("fear")) return;
     statements.push({
       comment: "Handle Panic state",
       triggers: [
