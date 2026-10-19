@@ -1382,6 +1382,33 @@ describe("execute (private, custom-code dispatch)", () => {
     expect(statements.map((s) => s.comment)).toEqual(["custom", "default"]);
   });
 
+  it("applies every custom code at a location, in order", () => {
+    const statements: Statements = [];
+    const custom = (type: "insertBefore" | "insertAfter", comment: string) => ({
+      location: "rest" as const,
+      type,
+      statements: [{ triggers: [], responses: [], comment }],
+      abilities: [],
+    });
+    const creature = fakeCreature({
+      behavior: {
+        customCodes: [
+          custom("insertBefore", "mist"),
+          custom("insertAfter", "after"),
+          custom("insertBefore", "bat"),
+        ],
+      },
+    });
+    service.execute(
+      function ({ statements: stmts }: HandlerParams) {
+        stmts.push({ triggers: [], responses: [], comment: "default" });
+      },
+      "rest",
+      { statements, creature, options: options() },
+    );
+    expect(statements.map((s) => s.comment)).toEqual(["mist", "bat", "default", "after"]);
+  });
+
   it("runs custom statements after the default function for 'insertAfter'", () => {
     const statements: Statements = [];
     const creature = fakeCreature({

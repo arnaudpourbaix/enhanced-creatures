@@ -79,25 +79,27 @@ class StatementBuilderService {
 
   private execute(fn: (p: HandlerParams) => void, location: CustomCodeLocation, p: HandlerParams) {
     const { statements, creature, options } = p;
-    const custom = creature.behavior.customCodes.find((c) => c.location === location);
+    // every custom code at this location, in order (e.g. a vampire's mist and bat form escapes)
+    const customs = creature.behavior.customCodes.filter((c) => c.location === location);
     // statements/abilities are required by CustomCode, and always filled in by
     // abilityService.getCustomCodes() in the real config-loading path - but defended anyway,
     // see statement-builder.service.test.ts's "defaults ... when omitted" tests, which call
     // execute() directly with a custom code that skips that normalization.
     /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-    if (custom?.type === "insertBefore") {
+    const insert = (custom: (typeof customs)[number]) => {
       this.processStatements(statements, custom.statements ?? []);
       this.parseAbilities(statements, creature, options, custom.abilities ?? []);
-    }
-    if (custom?.type !== "replace") {
+    };
+    customs.filter((c) => c.type === "insertBefore").forEach(insert);
+    const replacing = customs.filter((c) => c.type === "replace");
+    if (!replacing.length) {
       fn(p);
     } else {
-      this.parseAbilities(statements, creature, options, custom.abilities ?? []);
+      for (const custom of replacing) {
+        this.parseAbilities(statements, creature, options, custom.abilities ?? []);
+      }
     }
-    if (custom?.type === "insertAfter") {
-      this.processStatements(statements, custom.statements ?? []);
-      this.parseAbilities(statements, creature, options, custom.abilities ?? []);
-    }
+    customs.filter((c) => c.type === "insertAfter").forEach(insert);
     /* eslint-enable @typescript-eslint/no-unnecessary-condition */
   }
 

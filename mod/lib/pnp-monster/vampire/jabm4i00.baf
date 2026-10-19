@@ -8,6 +8,16 @@ THEN
 		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),90)
 END
 
+// Bat form: get away from enemies while hurt
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	HPPercentLT(Myself,65)
+THEN
+	RESPONSE #100
+		RunAwayFromNoLeaveArea(NearestEnemyOf(Myself),90)
+END
+
 // Init
 IF
 	Global("JA_INIT","LOCALS",0)

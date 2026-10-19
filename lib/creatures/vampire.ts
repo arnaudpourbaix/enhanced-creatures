@@ -883,6 +883,34 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   return { abilities: [spell.ability, surrounded], flee };
 }
 
+/** HP percentage under which a vampire in bat form flies away rather than fight. */
+const BAT_FLEE_HP = 65;
+
+/**
+ * Bat form is the badly hurt vampire's escape, like SCS: while still hurt it flies away from its
+ * enemies, regenerating, and comes back to the fight once the form ends.
+ */
+const BAT_FLEE: PartialCustomCode = {
+  location: "init",
+  type: "insertBefore",
+  statements: [
+    {
+      comment: "Bat form: get away from enemies while hurt",
+      triggers: [
+        { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.animalForm] },
+        { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.flying] },
+        { name: "HPPercentLT", params: [ScriptTarget.myself, BAT_FLEE_HP] },
+      ],
+      responses: responseFactory.response([
+        {
+          name: "RunAwayFromNoLeaveArea",
+          params: [`NearestEnemyOf(${ScriptTarget.myself})`, 90],
+        },
+      ]),
+    },
+  ],
+};
+
 /**
  * A power every age with the same one shares: created once, on the entry (its files are the
  * entry's), then memorized by each of them.
@@ -1017,7 +1045,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
         return spell.ability;
       }),
     ],
-    customCodes: [mist.flee],
+    customCodes: [mist.flee, BAT_FLEE],
   });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
   const renamed = cre.files
