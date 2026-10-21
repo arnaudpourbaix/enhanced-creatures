@@ -41,7 +41,7 @@ export function vampyre(entry: CreatureEntry<Creature>): Creature {
       size: { value: "Medium", tall: true, long: false },
       movement: 12,
       items: {
-        remove: ["vampreg"],
+        remove: ["vampreg", "immune2", "vampreg", "vamp1", "dw#bldd1", "dw#vmvol", "dw#vmbat"],
       },
       script: {
         remove: ["vampir01"],
