@@ -2,6 +2,7 @@
 // stringRef) recur because many independent test cases exercise the same template-replace
 // contract on different inputs - not copy-paste.
 /* eslint-disable sonarjs/no-duplicate-string */
+import { AT_WILL } from "../../../config/common";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
 import { CreatureAbility } from "../../model/creature/ability";
@@ -29,6 +30,7 @@ interface DocumentationServicePrivate {
   renderEntries(): void;
   fileIndex: FileIndexEntry[];
   replace(template: { text: string }, key: string, value: string | number | undefined): void;
+  getResourceAbilities(creature: Creature): CreatureAbility[];
 }
 const service = documentationService as unknown as DocumentationServicePrivate;
 
@@ -771,7 +773,7 @@ describe("entries", () => {
     expect(html.indexOf('id="m86"')).toBeLessThan(html.indexOf('id="m142"'));
     expect(html.indexOf('id="e9"')).toBeLessThan(html.indexOf('id="m86"'));
     const sidebar = service.sidebar.join("");
-    expect(sidebar.indexOf("#m1")).toBeLessThan(sidebar.indexOf("<summary>Zombie</summary>"));
+    expect(sidebar.indexOf("#m1")).toBeLessThan(sidebar.indexOf('href="#e9">Zombie'));
   });
 
   it("puts common parts in the entry box and omits them from member cards", () => {
@@ -960,7 +962,7 @@ describe("entries", () => {
     expect(chips).toEqual(["", "magicalBeast", "undead"]);
   });
 
-  it("groups a multi-member entry under a summary and lists a single one as a plain item", () => {
+  it("links a multi-member entry to its block, a single one to its card", () => {
     documentationService.addGroup(
       group([
         member(86, "test.zombie", { ...undead, level: 2 }),
@@ -974,10 +976,8 @@ describe("entries", () => {
 
     expect(service.sidebar).toEqual([
       '<li data-types="magicalBeast"><a href="#m1">Ankheg</a></li>',
-      '<li class="entry"><details><summary>Zombie</summary><ul>' +
-        '<li data-types="undead"><a href="#m86">Zombie</a></li>' +
-        '<li data-types="undead"><a href="#m142">Zombie Lord</a></li>' +
-        "</ul></details></li>",
+      // to the entry block, whose shared part comes before the members
+      '<li data-types="undead"><a href="#e9">Zombie</a></li>',
     ]);
   });
 });
@@ -1285,6 +1285,10 @@ describe("formatEnumLabel", () => {
 });
 
 describe("getSpellQuantity", () => {
+  it("shows the AT_WILL count as at will", () => {
+    expect(documentationService.getSpellQuantity(AT_WILL)).toBe("at will");
+  });
+
   it("returns 'unknown' when memorizedCount is 0 or undefined", () => {
     expect(documentationService.getSpellQuantity(undefined)).toBe("unknown");
     expect(documentationService.getSpellQuantity(0)).toBe("unknown");
@@ -1321,6 +1325,26 @@ function fakeCreatureForSpells(
     data: { spells: { memorized: [], ...spells } },
   } as unknown as Creature;
 }
+
+describe("getResourceAbilities (private)", () => {
+  it("lists a spell cast by several abilities once", () => {
+    const flee = fakeAbility("JABAT");
+    const dive = fakeAbility("JABAT");
+    const creature = fakeCreatureForSpells(
+      {
+        abilities: [flee, fakeAbility("JAWOLF"), dive],
+        customCodes: [
+          { abilities: [fakeAbility("JAWOLF")] } as Creature["behavior"]["customCodes"][number],
+        ],
+      },
+      {},
+    );
+    expect(service.getResourceAbilities(creature).map((a) => a.resource)).toEqual([
+      "JABAT",
+      "JAWOLF",
+    ]);
+  });
+});
 
 describe("getCreatureSpell", () => {
   const originalSpells = State.spells;

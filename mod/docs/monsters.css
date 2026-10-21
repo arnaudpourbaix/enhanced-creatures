@@ -80,20 +80,6 @@
   padding: 0;
 }
 
-.sidebar .entry > details > summary {
-  cursor: pointer;
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  padding: 4px 2px;
-  color: var(--color-ink-soft);
-}
-
-.sidebar .entry ul {
-  padding-left: 14px;
-  border-left: 1px dashed var(--color-gold);
-  margin: 2px 0 8px;
-}
-
 .sidebar a {
   display: block;
   padding: 2px 0;

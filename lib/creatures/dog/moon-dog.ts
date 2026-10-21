@@ -1,3 +1,4 @@
+import { AT_WILL } from "../../config/common";
 import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
 import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
@@ -56,13 +57,13 @@ class MoonDogEntry extends CreatureEntry<Dog> {
             { file: SPELLS.Innate.MoonDogSight.file, memorizedCount: 1 },
             { file: SPELLS.Innate.HealingLick.file, memorizedCount: 6 },
             { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 3 },
-            { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: 10 },
-            { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 10 },
-            { file: SPELLS.Wizard.ImprovedInvisibility.file, memorizedCount: 10 },
+            { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: AT_WILL },
+            { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: AT_WILL },
+            { file: SPELLS.Wizard.ImprovedInvisibility.file, memorizedCount: AT_WILL },
             { file: SPELLS.Wizard.NonDetection.file, memorizedCount: 1 },
-            { file: SPELLS.Wizard.Shades.file, memorizedCount: 10 },
-            { file: SPELLS.Wizard.DancingLights.file, memorizedCount: 10 },
-            { file: SPELLS.Priest.DetectEvil.file, memorizedCount: 10 },
+            { file: SPELLS.Wizard.Shades.file, memorizedCount: AT_WILL },
+            { file: SPELLS.Wizard.DancingLights.file, memorizedCount: AT_WILL },
+            { file: SPELLS.Priest.DetectEvil.file, memorizedCount: AT_WILL },
             // TODO: Wall of Fog
           ],
         },

@@ -1,3 +1,4 @@
+import { AT_WILL } from "../config/common";
 import { SPELLS } from "../config/spells/spell-database";
 import { NEW_SPELLS } from "../config/spells/spells";
 import { createFearAura } from "../spells/fear_aura";
@@ -70,7 +71,7 @@ function wallOfIce(cre: Creature) {
     name: "monster.undead.ability.iceWall.name",
     description: "monster.undead.ability.iceWall.description",
     id: Ids.WallOfIce,
-    memorizedCount: 30,
+    memorizedCount: AT_WILL,
     icon: SPELLS.Wizard.IceStorm.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Invoker,
     secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
@@ -249,7 +250,7 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       },
       spells: {
         memorized: [
-          { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: 20 },
+          { file: SPELLS.Wizard.DetectInvisibility.file, memorizedCount: AT_WILL },
           { file: SPELLS.Wizard.DispelMagic.file, memorizedCount: 2 },
           { file: SPELLS.Wizard.PowerWordBlind.file, memorizedCount: 1 },
           { file: SPELLS.Wizard.PowerWordKill.file, memorizedCount: 1 },

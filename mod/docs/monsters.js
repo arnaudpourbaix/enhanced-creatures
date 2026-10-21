@@ -351,17 +351,21 @@
   // Creature filters, combined: the type (toolbar chips + type tags on entry/card titles) and the
   // search box. A card stays when it has the type and its name contains the search, or when the
   // search is exactly one of its .cre files (base or adjustment). Entry blocks and sidebar items
-  // left without a visible card are hidden, and the sidebar groups the filters opened close again
-  // when they change.
+  // left without a visible card are hidden.
   function initFilters() {
     var input = document.querySelector(".creature-search");
     var noMatch = document.querySelector(".no-match");
     var state = { type: "", query: "" };
 
-    // Card id -> lowercase creature name, read from its sidebar link (same text as the card).
+    // Card id -> lowercase creature name, read from its title (without its creature code).
     var names = {};
-    document.querySelectorAll('.sidebar a[href^="#m"]').forEach(function (a) {
-      names[a.getAttribute("href").slice(1)] = a.textContent.toLowerCase();
+    document.querySelectorAll(".content .creature").forEach(function (card) {
+      var title = card.querySelector("h3");
+      if (!title) return;
+      var code = title.querySelector(".creature-code");
+      var text = title.textContent;
+      if (code) text = text.replace(code.textContent, "");
+      names[card.id] = text.trim().toLowerCase();
     });
     // Card id -> its upper-case .cre files, from the page's file index.
     var files = {};
@@ -387,7 +391,6 @@
     }
 
     function apply() {
-      var filtering = !!(state.type || state.query);
       var anyVisible = false;
       document.querySelectorAll(".type-chip").forEach(function (chip) {
         chip.classList.toggle("on", chip.getAttribute("data-type") === state.type);
@@ -404,30 +407,12 @@
           },
         );
       });
+      // a sidebar link leads to a card or, for a group, to its entry block (hidden above when
+      // none of its cards is left)
       document.querySelectorAll(".sidebar li[data-types]").forEach(function (li) {
         var link = li.querySelector("a");
-        var card = link && document.getElementById(link.getAttribute("href").slice(1));
-        li.hidden = !card || card.hidden;
-      });
-      document.querySelectorAll(".sidebar li.entry").forEach(function (group) {
-        var visible = Array.prototype.some.call(
-          group.querySelectorAll("li[data-types]"),
-          function (li) {
-            return !li.hidden;
-          },
-        );
-        group.hidden = !visible;
-        // Open the matching groups while filtering, and close again the ones it opened (not
-        // those the reader opened) when the filters change or are cleared.
-        var details = group.querySelector("details");
-        if (details.hasAttribute("data-filter-opened")) {
-          details.open = false;
-          details.removeAttribute("data-filter-opened");
-        }
-        if (filtering && visible && !details.open) {
-          details.open = true;
-          details.setAttribute("data-filter-opened", "");
-        }
+        var target = link && document.getElementById(link.getAttribute("href").slice(1));
+        li.hidden = !target || target.hidden;
       });
       if (noMatch) noMatch.hidden = anyVisible;
     }

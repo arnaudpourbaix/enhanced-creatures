@@ -396,6 +396,7 @@ END
 // Gaseous Form
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("JA_MIST_FORM","LOCALS")
 	HaveSpellRES("jasm4k00")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -409,11 +410,13 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm4k00",Myself)
 		RemoveSpellRES("jasm4k00")
+		SetGlobalTimer("JA_MIST_FORM","LOCALS",24)
 END
 
 // Gaseous Form
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("JA_MIST_FORM","LOCALS")
 	HaveSpellRES("jasm4k00")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -432,6 +435,208 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm4k00",Myself)
 		RemoveSpellRES("jasm4k00")
+		SetGlobalTimer("JA_MIST_FORM","LOCALS",24)
+END
+
+// Vampire Form
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
+END
+
+IF
+	HaveSpellRES("jasm4k01")
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	Range(LastSeenBy(Myself),4)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4k01",Myself)
+		RemoveSpellRES("jasm4k01")
 END
 
 // Bat Form
@@ -2466,6 +2671,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2485,6 +2691,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2504,6 +2711,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2523,6 +2731,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2542,6 +2751,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2561,6 +2771,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2580,6 +2791,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2599,6 +2811,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2618,6 +2831,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2637,6 +2851,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
 THEN
 	RESPONSE #100
@@ -2657,6 +2872,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2675,6 +2891,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2693,6 +2910,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2711,6 +2929,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2729,6 +2948,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2747,6 +2967,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2765,6 +2986,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2783,6 +3005,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2801,6 +3024,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2819,6 +3043,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),2)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2863,6 +3088,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2905,6 +3135,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2947,6 +3182,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -2989,6 +3229,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3031,6 +3276,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3073,6 +3323,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3115,6 +3370,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3157,6 +3417,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3199,6 +3464,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3241,6 +3511,11 @@ IF
 	OR(2)
 		LevelLT(LastSeenBy(Myself),12)
 		LevelGT(Myself,23)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),7)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3267,6 +3542,346 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jase0706",Myself)
 		RemoveSpellRES("jase0706")
+END
+
+// Bat Form
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+IF
+	HaveSpellRES("jase0707")
+	!CheckSpellState(Myself,JA_ANIMALFORM)
+	!CheckSpellState(Myself,JA_GASEOUSFORM)
+	!HPPercentLT(Myself,65)
+	OR(3)
+		!Range(NearestEnemyOf(Myself),4)
+		CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+		CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	RandomNumGT(806,403)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(LastSeenBy(Myself),ITEM_LEVELDRAIN)
+	!Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
+END
+
+// Bat form: fly over the enemies to a victim to drain
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(NearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(NearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(NearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(NearestEnemyOf(Myself))
+END
+
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(SecondNearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(SecondNearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(SecondNearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(SecondNearestEnemyOf(Myself))
+END
+
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(ThirdNearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(ThirdNearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(ThirdNearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(ThirdNearestEnemyOf(Myself))
+END
+
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(FourthNearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(FourthNearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(FourthNearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(FourthNearestEnemyOf(Myself))
+END
+
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(FifthNearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(FifthNearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(FifthNearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(FifthNearestEnemyOf(Myself))
+END
+
+IF
+	CheckSpellState(Myself,JA_ANIMALFORM)
+	CheckSpellState(Myself,JA_FLYING)
+	!HPPercentLT(Myself,65)
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(SixthNearestEnemyOf(Myself),0,LEVEL_DRAIN_IMMUNITY)
+	!CheckSpellState(SixthNearestEnemyOf(Myself),ITEM_LEVELDRAIN)
+	!Range(SixthNearestEnemyOf(Myself),4)
+THEN
+	RESPONSE #100
+		MoveToObject(SixthNearestEnemyOf(Myself))
 END
 
 // Attack HeldNearby drainable enemy

@@ -1,3 +1,4 @@
+import { AT_WILL } from "../../../config/common";
 import * as fs from "fs";
 import { ENTRY_NAMES, EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
@@ -267,12 +268,15 @@ class DocumentationService {
     );
   }
 
+  // One link per entry: a group's leads to its block, whose shared part comes before its members.
   private getEntryMenu(name: string, members: Creature[], types: ImmunityName[][]): string {
-    const item = (c: Creature, ts: ImmunityName[]) =>
-      `<li data-types="${ts.join(" ")}"><a href="#m${c.id}">${translationService.from(c.name)}</a></li>`;
-    if (members.length === 1) return item(members[0], types[0]);
-    const links = members.map((m, i) => item(m, types[i])).join("");
-    return `<li class="entry"><details><summary>${name}</summary><ul>${links}</ul></details></li>`;
+    const link = (href: string, text: string, ts: ImmunityName[]) =>
+      `<li data-types="${ts.join(" ")}"><a href="#${href}">${text}</a></li>`;
+    if (members.length === 1) {
+      return link(`m${members[0].id}`, translationService.from(members[0].name), types[0]);
+    }
+    const allTypes = TYPE_TRAITS.filter((t) => types.some((ts) => ts.includes(t)));
+    return link(`e${members[0].entry ?? ""}`, name, allTypes);
   }
 
   private getTypeFilter(counts: Map<ImmunityName, number>): string {
@@ -1563,11 +1567,16 @@ class DocumentationService {
     this.replace(template, "spellbooks", result);
   }
 
+  // One entry per spell: several abilities can cast the same one (e.g. a vampire's bat form, to
+  // flee or to dive on a victim).
   private getResourceAbilities(creature: Creature): CreatureAbility[] {
-    return [
+    const abilities = [
       ...creature.behavior.abilities,
       ...creature.behavior.customCodes.map((c) => c.abilities).flat(),
-    ].filter((a) => a.resource);
+    ];
+    return abilities.filter(
+      (a, i) => a.resource && abilities.findIndex((b) => b.resource === a.resource) === i,
+    );
   }
 
   getCreatureSpell(
@@ -1654,6 +1663,7 @@ class DocumentationService {
 
   getSpellQuantity(memorizedCount: number | undefined, renew?: number): string {
     if (!memorizedCount) return "unknown";
+    if (memorizedCount === AT_WILL) return "at will";
     if (!renew) return `${memorizedCount}/day`;
     if (renew <= 1) return "at will";
     return `every ${renew} rounds`;
