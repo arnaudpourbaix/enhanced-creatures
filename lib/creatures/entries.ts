@@ -104,6 +104,7 @@ import { createWightEntry } from "./wight";
 import { createWraithEntry } from "./wraith";
 import { createZombieEntry } from "./zombie";
 import { createVampireEntry } from "./vampire";
+import { createVampyreEntry } from "./vampyre";
 
 /**
  * Entry factories, in install order. Each receives the built kins, to hand its own kin to the
@@ -215,4 +216,5 @@ export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry
   createWraithEntry,
   createZombieEntry,
   createVampireEntry,
+  createVampyreEntry,
 ];

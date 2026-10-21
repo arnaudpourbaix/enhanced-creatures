@@ -1219,6 +1219,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
           "immune1",
           "immune2",
           "immune3",
+          "immchs",
           "vamp",
           "vamp1",
           "vamp2",
@@ -1227,13 +1228,16 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
           "vampreg1",
           "vampreg2",
           "dw#bldd",
+          "dw#bldd1",
           "dw#vmwol",
           "dw#vmbat",
         ],
       },
       script: {
-        remove: ["vampir01", "ppvampir", "d0qpvafl"],
-        edits: [{ files: ["RH#ISVMP", "rh#advmp"], removeBlocks: ["VAMPIRE_DOMINATION"] }],
+        remove: ["vampir01", "vampir02", "ppvampir", "d0qpvafl", "sarvam02", "bdvamp01"],
+        edits: [
+          { files: ["RH#ISVMP", "rh#advmp", "L#RVVAMP"], removeBlocks: ["VAMPIRE_DOMINATION"] },
+        ],
       },
     },
   });
@@ -1328,6 +1332,10 @@ export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
   cre.setAdjustments([
     { files: ["YSCHVAM"], data: { level1: 6, xpv: 3000, script: { location: "None" } } },
     { files: ["L#2EDVAM"], noWeapon: true },
+    {
+      files: ["X#CUTVA1", "X#CUTVA2", "X#CUTVA3", "X#CUTVA4"],
+      data: { spells: { removeMemorized: true } },
+    },
   ]);
   return cre;
 };

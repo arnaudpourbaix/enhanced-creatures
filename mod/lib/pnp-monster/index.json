@@ -424,5 +424,9 @@
   "vampire": {
     "kin": null,
     "dependsOn": []
+  },
+  "vampyre": {
+    "kin": null,
+    "dependsOn": []
   }
 }

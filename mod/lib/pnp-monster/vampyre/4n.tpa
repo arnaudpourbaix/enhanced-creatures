@@ -1,0 +1,181 @@
+// Generated file (don't edit)
+
+// Vampyre
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampyre/jabm4n00.baf~
+
+// Foul Toxin
+CREATE EFF "jasm4n00"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jasm4n00~ #8
+
+CREATE SPL "jasm4n00"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4n00.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10456)
+	WRITE_SHORT 0x1c 4
+	WRITE_BYTE 0x27 10
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10457)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jasm4n00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jasm4n00" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=1 parameter2=1048576 probability1=16 probability2=0 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=16 probability2=0 savingthrow=4 savebonus="-1" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=16 probability2=0 savingthrow=4 savebonus="-1" STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=2 parameter2=1048576 probability1=32 probability2=17 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=32 probability2=17 savingthrow=4 savebonus="-1" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=32 probability2=17 savingthrow=4 savebonus="-1" STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=3 parameter2=1048576 probability1=49 probability2=33 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=49 probability2=33 savingthrow=4 savebonus="-2" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=49 probability2=33 savingthrow=4 savebonus="-2" STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=4 parameter2=1048576 probability1=66 probability2=50 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=66 probability2=50 savingthrow=4 savebonus="-2" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=66 probability2=50 savingthrow=4 savebonus="-2" STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=5 parameter2=1048576 probability1=82 probability2=67 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=82 probability2=67 savingthrow=4 savebonus="-3" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=82 probability2=67 savingthrow=4 savebonus="-3" STR_VAR resource="EFF_E07" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=6 parameter2=1048576 probability1=100 probability2=83 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=100 probability2=83 savingthrow=4 savebonus="-3" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=100 probability2=83 savingthrow=4 savebonus="-3" STR_VAR resource="EFF_E07" END
+	
+// Claws
+CREATE ITM "jaim4n00"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10001)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10001)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IWOLF~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11154)
+	WRITE_LONG 0x60 3
+COPY_EXISTING ~jaim4n00.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IWOLF~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 5
+		WRITE_BYTE 0x88 4
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 3
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+// Jaws
+CREATE ITM "jaim4n01"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10000)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10000)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~SPPR416B~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11155)
+	WRITE_LONG 0x60 3
+COPY_EXISTING ~jaim4n01.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~SPPR416B~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 5
+		WRITE_SHORT 0x8e 1
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm4n00" END
+	END
+
+DEFINE_ACTION_FUNCTION jam4n_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~VAMPYF01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~VAMPYM01~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~vampreg~
+			REPLACE_CRE_ITEM ~jaim4n00~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			REPLACE_CRE_ITEM ~jaim4n01~ #0 #0 #0 ~UNDROPPABLE~ ~SHIELD~ 
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=2000
+					hp=67
+					ac=6
+					thac0=11
+					apr=2
+					saveDeath=10
+					saveWand=12
+					savePolymorph=11
+					saveBreath=12
+					saveSpell=13
+					level1=8
+					strength=15
+					intelligence=16
+					wisdom=14
+					dexterity=16
+					constitution=13
+					charisma=18
+					morale=12
+					general=IDS_OF_SYMBOL (~general~ ~MONSTER~)
+					race=IDS_OF_SYMBOL (~race~ ~VAMPYRE~)
+					class=IDS_OF_SYMBOL (~class~ ~VAMPYRE~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					movement=10
+					enforce=1
+					perfect2weapon=1
+			END
+			// Assigning jabm4n00
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN vampir01 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4n00 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"VAMPYF01"
+		"VAMPYM01"
+	BEGIN
+		LAF jam4n_patch STR_VAR file END
+	END
+END

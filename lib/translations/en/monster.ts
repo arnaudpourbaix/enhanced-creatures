@@ -1,4 +1,7 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
+
+import ability from "./ability";
+
 // has its own mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
@@ -725,5 +728,15 @@ A vampire reduced to 0 hit points isn't destroyed either: it assumes gaseous for
       giantPoisonous: "Giant Poisonous Snake",
     },
     ability: {},
+  },
+  vampyre: {
+    name: "Vampyre",
+    ability: {
+      bite: {
+        name: "Foul Toxin",
+        description: `The vampyre's bite inflicts 1d6 piercing damage, and its saliva carries a foul toxin.
+Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for every 2 points of damage done by the bite (rounded up).`,
+      },
+    },
   },
 };
