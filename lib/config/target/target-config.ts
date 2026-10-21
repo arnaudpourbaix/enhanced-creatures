@@ -364,6 +364,31 @@ export const TARGET_STATUS: TargetStatus[] = [
     ],
   },
   {
+    // A party member (or summon) the creature's side charmed: a free victim once no enemy is left
+    // to attack, so the party can't just kite the creature away until the charm expires.
+    status: "CharmedAlly",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: false,
+    targetsAllies: true,
+    triggers: [
+      {
+        name: "Allegiance",
+        params: [ScriptTarget.myself, "ENEMY"],
+      },
+    ],
+    targetTriggers: [
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.token, "STATE_CHARMED"],
+      },
+      // a stale LastSeenBy may be one of the creature's allies the party charmed: still an enemy
+      {
+        name: "Allegiance",
+        params: [ScriptTarget.token, "EVILCUTOFF"],
+      },
+    ],
+  },
+  {
     status: "NoCheck",
     canOnlyTargetPlayer: false,
     requireIntelligence: false,

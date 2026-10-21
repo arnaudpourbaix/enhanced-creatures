@@ -862,6 +862,9 @@ class StatementBuilderService {
         );
       }
     }
+    // Last attack, before tracking: with no enemy left to attack, a charmed ally is struck rather
+    // than chasing the party, so kiting the creature away doesn't keep the victim safe.
+    this.attackTargetWithStatuses(statements, creature, options, "NearestAllies", ["CharmedAlly"]);
   }
 
   private attackTargetWithStatuses(
@@ -926,9 +929,10 @@ class StatementBuilderService {
         triggers,
         targetTriggers,
         responses,
-        comment: `Attack ${[statusDetails.status, label, "enemy"].filter(Boolean).join(" ")}`,
+        comment: `Attack ${[statusDetails.status, label, statusDetails.targetsAllies ? "ally" : "enemy"].filter(Boolean).join(" ")}`,
         targets: list.targets,
         inBetweenStatements: selectWeaponStatements,
+        targetsAllies: statusDetails.targetsAllies,
       });
     }
   }

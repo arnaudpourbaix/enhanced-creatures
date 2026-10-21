@@ -407,6 +407,22 @@ describe("defaultAllySafe", () => {
   });
 });
 
+describe("lastSeenIsOpponent", () => {
+  it("rejects a LastSeenBy on the caster's own side, whichever side that is", () => {
+    const sideCheck = (cutoff: string): Triggers.Trigger => ({
+      name: "Or",
+      triggers: [
+        { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: true },
+      ],
+    });
+    expect(triggerFactory.lastSeenIsOpponent()).toEqual([
+      sideCheck("EVILCUTOFF"),
+      sideCheck("GOODCUTOFF"),
+    ]);
+  });
+});
+
 describe("inverseNegations", () => {
   it("flips negation on leaf triggers", () => {
     const result = triggerFactory.inverseNegations([

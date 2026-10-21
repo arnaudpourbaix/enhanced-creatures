@@ -245,6 +245,20 @@ describe("addOneBlockTargetList", () => {
     ).toEqual([ScriptTarget.lastSeen]);
   });
 
+  it("guards the final statement against a LastSeenBy on the caster's own side", () => {
+    const statements: Statements = [];
+    bafFactory.addOneBlockTargetList({
+      statements,
+      targets: [GOODCUTOFF],
+      targetTriggers: [],
+      responses: responseFactory.response([]),
+    });
+
+    const final = statements[statements.length - 1];
+    expect(final.triggers).toEqual(triggerFactory.lastSeenIsOpponent());
+    expect(statements[0].triggers).not.toContainEqual(triggerFactory.lastSeenIsOpponent()[0]);
+  });
+
   it("reverses target order when reverse is set", () => {
     const statements: Statements = [];
     bafFactory.addOneBlockTargetList({

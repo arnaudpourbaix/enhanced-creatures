@@ -20,6 +20,7 @@ import {
 import { ScriptTarget } from "../../model/constants";
 import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
+import triggerFactory from "../../factories/trigger.factory";
 import stateService from "../state.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -730,6 +731,45 @@ describe("attack (private)", () => {
     expect(statements.some((s: Statements[number]) => s.comment === "Attack Able enemy")).toBe(
       true,
     );
+  });
+
+  describe("charmed allies", () => {
+    const attackStatements = () => {
+      const statements: Statements = [];
+      service.attack({
+        statements,
+        creature: fakeCreature({
+          attack: {
+            targetPriorities: [{ targets: ["NearestEnemies"], status: ["NoCheck"] }],
+          },
+        }),
+        options: options(),
+      });
+      return statements;
+    };
+
+    it("attacks charmed allies last, once no enemy could be attacked", () => {
+      const statements = attackStatements();
+      const charmedIndex = statements.findIndex((s) => s.comment === "Attack CharmedAlly ally");
+      expect(charmedIndex).toBeGreaterThan(
+        statements.findIndex((s) => s.comment === "Attack NoCheck enemy"),
+      );
+      expect(charmedIndex).toBe(statements.length - 2);
+    });
+
+    it("only attacks a charmed LastSeenBy on its own side, as an enemy-side creature", () => {
+      const triggers = attackStatements().at(-1)?.triggers;
+      expect(triggers).toContainEqual({ name: "Allegiance", params: ["Myself", "ENEMY"] });
+      expect(triggers).toContainEqual({
+        name: "StateCheck",
+        params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
+      });
+      expect(triggers).toContainEqual({
+        name: "Allegiance",
+        params: [ScriptTarget.lastSeen, "EVILCUTOFF"],
+      });
+      expect(triggers).not.toContainEqual(triggerFactory.lastSeenIsOpponent()[0]);
+    });
   });
 });
 

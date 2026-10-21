@@ -413,6 +413,22 @@ class TriggerFactory {
     return results;
   }
 
+  /**
+   * LastSeenBy is on the other side from the caster: an evil caster won't target an evil
+   * LastSeenBy, a good one won't target a good one. LastSeenBy keeps its last value when no See()
+   * succeeds, so without this an attack aimed at it can land on an ally - typically a party
+   * member the caster just charmed, once no real enemy is left in sight.
+   */
+  lastSeenIsOpponent(): Triggers.Trigger[] {
+    return (["EVILCUTOFF", "GOODCUTOFF"] as const).map((cutoff) => ({
+      name: "Or",
+      triggers: [
+        { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: true },
+      ],
+    }));
+  }
+
   // this: void - doesn't use `this`, and is passed around unbound (e.g. baf.factory.ts's
   // `.map(triggerFactory.inverseNegation)`).
   inverseNegation(this: void, trigger: Triggers.Trigger): Triggers.Trigger {

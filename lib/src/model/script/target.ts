@@ -40,6 +40,8 @@ export interface TargetStatus {
    * creature cross the battlefield.
    */
   preferWithin?: boolean;
+  /** Targets the creature's own side (its target list holds allies), not its opponents. */
+  targetsAllies?: boolean;
 }
 
 /**

@@ -81,6 +81,8 @@ class BafFactory {
     reverse?: boolean;
     comment?: string;
     inBetweenStatements?: Statements;
+    /** The targets are the creature's allies: its targetTriggers check their side instead. */
+    targetsAllies?: boolean;
   }): void => {
     p.reverse = p.reverse ?? false;
     const targets = p.reverse ? [...p.targets].reverse() : [...p.targets];
@@ -104,7 +106,13 @@ class BafFactory {
     const responses = utils.replaceResponseTokens(p.responses, [
       { key: ScriptTarget.token, value: lastSeenBy },
     ]);
-    const finalTriggers = [...(p.triggers ?? []), ...p.targetTriggers];
+    // The final statement runs on its own (Continue doesn't gate it): when the Or block saw nobody,
+    // LastSeenBy is stale and may be an ally by now, hence the side check.
+    const finalTriggers = [
+      ...(p.triggers ?? []),
+      ...p.targetTriggers,
+      ...(p.targetsAllies ? [] : triggerFactory.lastSeenIsOpponent()),
+    ];
     p.statements.push({
       triggers: utils.replaceTriggerTokens(finalTriggers, [
         { key: ScriptTarget.token, value: lastSeenBy },

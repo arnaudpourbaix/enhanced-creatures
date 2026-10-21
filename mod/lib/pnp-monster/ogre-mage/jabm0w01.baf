@@ -11222,6 +11222,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -11407,6 +11413,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -11629,6 +11641,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -11760,6 +11778,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -11995,6 +12019,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -12191,6 +12221,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -12309,6 +12345,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -12427,6 +12469,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -12532,6 +12580,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -12852,6 +12906,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -13172,6 +13232,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -13634,6 +13700,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -13900,6 +13972,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -14390,6 +14468,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -14796,6 +14880,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -15034,6 +15124,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -15272,6 +15368,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -15482,6 +15584,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -15649,6 +15757,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -15816,6 +15930,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16006,6 +16126,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16119,6 +16245,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16320,6 +16452,12 @@ IF
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
 	Range(LastSeenBy(Myself),10)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16488,6 +16626,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16590,6 +16734,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16692,6 +16842,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16783,6 +16939,12 @@ IF
 	See(LastSeenBy(Myself))
 	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
 	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
 THEN
 	RESPONSE #100
 		AttackOneRound(LastSeenBy(Myself))
@@ -16843,6 +17005,91 @@ IF
 	ActionListEmpty()
 	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	See(LastSeenBy(Myself))
+	WeaponEffectiveVs(LastSeenBy(Myself),MAINHAND)
+	WeaponCanDamage(LastSeenBy(Myself),MAINHAND)
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		!Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		!Allegiance(LastSeenBy(Myself),GOODCUTOFF)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+// Attack CharmedAlly ally
+IF
+	ActionListEmpty()
+	Allegiance(Myself,ENEMY)
+	OR(8)
+		!StateCheck(NearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(NearestAllyOf(Myself),EVILCUTOFF)
+		General(NearestAllyOf(Myself),WEAPON)
+		CheckStatGT(NearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(NearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(NearestAllyOf(Myself))
+		!WeaponEffectiveVs(NearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(NearestAllyOf(Myself),MAINHAND)
+	OR(8)
+		!StateCheck(SecondNearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(SecondNearestAllyOf(Myself),EVILCUTOFF)
+		General(SecondNearestAllyOf(Myself),WEAPON)
+		CheckStatGT(SecondNearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(SecondNearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(SecondNearestAllyOf(Myself))
+		!WeaponEffectiveVs(SecondNearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(SecondNearestAllyOf(Myself),MAINHAND)
+	OR(8)
+		!StateCheck(ThirdNearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(ThirdNearestAllyOf(Myself),EVILCUTOFF)
+		General(ThirdNearestAllyOf(Myself),WEAPON)
+		CheckStatGT(ThirdNearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(ThirdNearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(ThirdNearestAllyOf(Myself))
+		!WeaponEffectiveVs(ThirdNearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(ThirdNearestAllyOf(Myself),MAINHAND)
+	OR(8)
+		!StateCheck(FourthNearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(FourthNearestAllyOf(Myself),EVILCUTOFF)
+		General(FourthNearestAllyOf(Myself),WEAPON)
+		CheckStatGT(FourthNearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(FourthNearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(FourthNearestAllyOf(Myself))
+		!WeaponEffectiveVs(FourthNearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(FourthNearestAllyOf(Myself),MAINHAND)
+	OR(8)
+		!StateCheck(FifthNearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(FifthNearestAllyOf(Myself),EVILCUTOFF)
+		General(FifthNearestAllyOf(Myself),WEAPON)
+		CheckStatGT(FifthNearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(FifthNearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(FifthNearestAllyOf(Myself))
+		!WeaponEffectiveVs(FifthNearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(FifthNearestAllyOf(Myself),MAINHAND)
+	OR(8)
+		!StateCheck(SixthNearestAllyOf(Myself),STATE_CHARMED)
+		!Allegiance(SixthNearestAllyOf(Myself),EVILCUTOFF)
+		General(SixthNearestAllyOf(Myself),WEAPON)
+		CheckStatGT(SixthNearestAllyOf(Myself),0,SANCTUARY)
+		StateCheck(SixthNearestAllyOf(Myself),STATE_REALLY_DEAD)
+		!See(SixthNearestAllyOf(Myself))
+		!WeaponEffectiveVs(SixthNearestAllyOf(Myself),MAINHAND)
+		!WeaponCanDamage(SixthNearestAllyOf(Myself),MAINHAND)
+THEN
+	RESPONSE #100
+		Continue()
+END
+
+IF
+	ActionListEmpty()
+	Allegiance(Myself,ENEMY)
+	StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	Allegiance(LastSeenBy(Myself),EVILCUTOFF)
+	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	See(LastSeenBy(Myself))
