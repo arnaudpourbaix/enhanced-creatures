@@ -39,6 +39,7 @@ class WeiduCoreService extends AbstractWeiduService {
    * This mod's own files (ja*) already set theirs.
    */
   generateImmunityStates() {
+    if (!GLOBAL_CONFIG.enableImmunityStates) return;
     const opcodes = [...new Set(CHECKED_IMMUNITY_STATES.map(({ opcode }) => opcode))];
     const add = (code: string, tab: number) => {
       this.add(this.lines, code, tab);

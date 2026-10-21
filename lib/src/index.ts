@@ -14,13 +14,14 @@ program
   .description("Generate WEIDU code and BAF files for IE games")
   .option(
     "--release-build",
-    "force on the release-only flags (random target order, secondary types) - used by release",
+    "force on the release-only flags (random target order, secondary types, immunity states) - used by release",
   )
   .action(async (opts: { releaseBuild?: boolean }) => {
     try {
       if (opts.releaseBuild) {
         GLOBAL_CONFIG.enableRandomTargetOrder = true;
         GLOBAL_CONFIG.enableSecondaryTypes = true;
+        GLOBAL_CONFIG.enableImmunityStates = true;
       }
       await runGenerate();
     } catch (e: unknown) {

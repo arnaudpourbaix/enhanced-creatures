@@ -100,9 +100,9 @@ class ReleaseService {
     }
   }
 
-  // enableRandomTargetOrder and enableSecondaryTypes are deliberately off in the committed tree:
-  // the first shuffles .baf target order (churning every committed file for no config change), the
-  // second slows installation. A release build is exactly when the *shipped* mod should carry both
+  // enableRandomTargetOrder, enableSecondaryTypes and enableImmunityStates are deliberately off in
+  // the committed tree: the first shuffles .baf target order (churning every committed file for no
+  // config change), the others slow installation. A release build is exactly when the *shipped* mod should carry both
   // - baked-in target variety and integrated secondary types. So regenerate once with both forced
   // on, build the zip from that output, then hard-reset the mod working tree so none of that churn
   // (which is also non-deterministic for the shuffle) reaches a commit. Runs for every resume

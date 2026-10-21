@@ -10,8 +10,9 @@ COPY_EXISTING ~jasm4l00.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10448)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~dvwi106c~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10449)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPWI106" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="dvwi106b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0702" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0703" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=6 probability1=100 STR_VAR resource="jaim4l02" END
@@ -28,9 +29,9 @@ COPY_EXISTING ~jasm4l01.SPL~  ~override~
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
-	WRITE_ASCII 0x3a ~SPWI416C~ #8
+	WRITE_ASCII 0x3a ~PLYMANB~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10451)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPWI416B" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYMAN" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0702" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0703" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaim4l02" END

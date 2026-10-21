@@ -841,11 +841,12 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
     memorizedCount: 1,
     // at will, but see MIST_FORM_TIMER for the AI
     options: { renew: 1 },
+    icon: "dvwi106c",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
         target: ItemAbilityTargetEnum.Caster,
-        icon: SPELLS.Wizard.ObscuringMist.file,
+        icon: "dvwi106b",
         effects: [
           // back from a wolf or bat form first, by removing its weapon: their spells, and so their
           // renewal, are left alone (like vampireForm)
@@ -1072,7 +1073,7 @@ function vampireForm(cre: Creature, forms: string[]) {
     name: "monster.undead.ability.vampireForm.name",
     description: "monster.undead.ability.vampireForm.description",
     memorizedCount: 1,
-    icon: SPELLS.Wizard.PolymorphSelf.file,
+    icon: "PLYMANB",
     primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
     secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
     options: { renew: 1 },
@@ -1082,6 +1083,7 @@ function vampireForm(cre: Creature, forms: string[]) {
         location: ItemAbilityLocationEnum.Ability,
         target: ItemAbilityTargetEnum.Caster,
         speed: 1,
+        icon: "PLYMAN",
         effects: [
           ...forms.map((resource): Effect => ({
             resource,

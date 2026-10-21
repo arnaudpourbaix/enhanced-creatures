@@ -57,6 +57,13 @@ export const GLOBAL_CONFIG = {
    */
   enableSecondaryTypes: false,
   /**
+   * Give the game's spells and items granting an immunity its spell state (see
+   * WeiduCoreService.generateImmunityStates), so the AI sees a party's protections. Keep disabled
+   * during development because it increases installation time (a pass over every spell and
+   * item). Enable once, right before a release build.
+   */
+  enableImmunityStates: false,
+  /**
    * Randomize the order additional spells are picked from when filling a spellbook
    * (see spell.service.ts's createSpellbook). Keep disabled during development: shuffling
    * would churn committed output with no real config change behind it.

@@ -777,6 +777,11 @@ body.adjustments-open {
 .entry-block {
   margin: 1.5rem 0;
 }
+/* A sidebar link scrolls its title just below the sticky bars, rather than under them. */
+.entry-block,
+.creature {
+  scroll-margin-top: calc(var(--sticky-offset, 0px) + 12px);
+}
 .entry-header {
   display: flex;
   align-items: baseline;

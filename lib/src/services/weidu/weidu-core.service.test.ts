@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { GLOBAL_CONFIG } from "../../../config/generate";
 import { JEWEL_SLOTS } from "../../model/creature/item";
 import weiduCoreService from "./weidu-core.service";
 
@@ -25,6 +26,20 @@ describe("getIcon", () => {
 describe("generateImmunityStates", () => {
   const codes = () =>
     (weiduCoreService as unknown as { lines: { code: string }[] }).lines.map((l) => l.code);
+
+  beforeEach(() => {
+    GLOBAL_CONFIG.enableImmunityStates = true;
+  });
+  afterEach(() => {
+    GLOBAL_CONFIG.enableImmunityStates = false;
+  });
+
+  it("emits nothing outside a release build (it slows installation)", () => {
+    GLOBAL_CONFIG.enableImmunityStates = false;
+    const before = codes().length;
+    weiduCoreService.generateImmunityStates();
+    expect(codes()).toHaveLength(before);
+  });
 
   it("scans the game's spells and items, except this mod's", () => {
     weiduCoreService.generateImmunityStates();
