@@ -5889,6 +5889,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
@@ -5910,6 +5915,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
@@ -5931,6 +5941,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
@@ -5952,6 +5967,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
@@ -5973,6 +5993,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100
@@ -5994,6 +6019,11 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),1)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 THEN
 	RESPONSE #100

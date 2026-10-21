@@ -191,6 +191,13 @@ describe("getSpell ability level", () => {
     expect(result.ability?.level).toBeNull();
   });
 
+  it("uses an explicit level without a preset too, but no level otherwise", () => {
+    const withLevel = spellService.getSpell({ name: SPELL_NAME, level: 3, ability: {} }, "lvspl03");
+    expect(withLevel.ability?.level).toBe(3);
+    const withoutLevel = spellService.getSpell({ name: SPELL_NAME, ability: {} }, "lvspl04");
+    expect(withoutLevel.ability?.level).toBeUndefined();
+  });
+
   it("uses the spell's power over its level, which stays the SPL level", () => {
     const result = spellService.getSpell(
       { name: SPELL_NAME, level: 1, power: 5, ability: { preset } },

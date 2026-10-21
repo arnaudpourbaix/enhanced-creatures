@@ -89,11 +89,7 @@ class SpellService {
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
     if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
-    // The ability casts this spell, not its preset's: the preset's level mustn't leak in (e.g. an
-    // innate aura reusing Cloak of Fear's preset isn't a level 4 spell). Without an explicit
-    // level it isn't really a spell at all, so no ImmuneToSpellLevel check (see
-    // BaseCreatureAbility.level). An explicit power is what the protections actually test.
-    if (result.ability?.preset) result.ability.level ??= spell.power ?? spell.level ?? null;
+    if (result.ability) result.ability.level ??= this.abilityLevel(spell, !!result.ability.preset);
     // Its own effects say which saves negate it (a copyFrom spell's effects aren't known here, so
     // its preset's are used instead).
     if (result.ability && !result.copyFrom) result.ability.saves ??= this.getSaves(result);
@@ -129,6 +125,18 @@ class SpellService {
       seen.add(key);
       return true;
     });
+  }
+
+  /**
+   * The level the ability's spell protections are checked against (see BaseCreatureAbility.level):
+   * the spell's explicit power (what the protections actually test) or level, with or without a
+   * preset. Without either it isn't really a spell at all: no check, and a preset's level mustn't
+   * leak in (e.g. an innate aura reusing Cloak of Fear's preset isn't a level 4 spell).
+   */
+  private abilityLevel(spell: PartialSpell, preset: boolean): number | null | undefined {
+    const level = spell.power ?? spell.level;
+    if (level !== undefined) return level;
+    return preset ? null : undefined;
   }
 
   /** The saving throws negating the spell, from its headers' effects (see negatingSaves). */

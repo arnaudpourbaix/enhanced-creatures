@@ -272,7 +272,9 @@ const UNDEAD_SLAYING_WEAPONS = ["BLUN12", "BLUN25", "AX1H10"];
 
 /**
  * Who a vampire dominates first, like SCS: the party's undead slayers - clerics, who turn undead,
- * or anyone wielding an undead-slaying weapon - then turned against their friends.
+ * undead hunters, whom its level drain can't touch, or anyone wielding an undead-slaying weapon -
+ * then turned against their friends. Other paladins turn undead too, but weakly: they'd rather
+ * fight in melee, and come with the fighters.
  */
 const UNDEAD_SLAYERS: TargetList[] = [
   {
@@ -285,6 +287,7 @@ const UNDEAD_SLAYERS: TargetList[] = [
         name: "Or",
         triggers: [
           { name: "Class", params: [ScriptTarget.token, "CLERIC_ALL"] },
+          { name: "Kit", params: [ScriptTarget.token, "UNDEADHUNTER"] },
           ...UNDEAD_SLAYING_WEAPONS.map((item): Triggers.Trigger => ({
             name: "HasItem",
             params: [item, ScriptTarget.token],
@@ -351,7 +354,6 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
       },
     ],
     ability: {
-      preset: SPELLS.Wizard.CharmPerson.file,
       // the undead slayers first, then the charms' usual targets
       targets: [...UNDEAD_SLAYERS, ...CHARM_TARGET_LISTS],
       requireVocal: domination.mode === "voice",

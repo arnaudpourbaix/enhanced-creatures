@@ -413,10 +413,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -430,8 +426,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -461,10 +458,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -478,8 +471,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -509,10 +503,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -526,8 +516,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -557,10 +548,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -574,8 +561,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -605,10 +593,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -622,8 +606,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -653,10 +638,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -670,8 +651,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -701,10 +683,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -718,8 +696,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -749,10 +728,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -766,8 +741,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -797,10 +773,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -814,8 +786,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -845,10 +818,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -862,8 +831,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -894,10 +864,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -938,10 +904,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -982,10 +944,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1026,10 +984,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1070,10 +1024,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1114,10 +1064,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1158,10 +1104,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1202,10 +1144,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1246,10 +1184,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1291,10 +1225,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1334,10 +1264,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1377,10 +1303,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1420,10 +1342,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1463,10 +1381,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1506,10 +1420,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1549,10 +1459,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1592,10 +1498,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1635,10 +1537,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1679,10 +1577,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1723,10 +1617,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1767,10 +1657,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1811,10 +1697,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1855,10 +1737,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1899,10 +1777,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1943,10 +1817,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -1987,10 +1857,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2031,10 +1897,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2075,10 +1937,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2120,10 +1978,6 @@ END
 // Dominating Will
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2163,10 +2017,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2206,10 +2056,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2249,10 +2095,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2292,10 +2134,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2335,10 +2173,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2378,10 +2212,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2421,10 +2251,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2464,10 +2290,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)
@@ -2507,10 +2329,6 @@ END
 
 IF
 	HaveSpellRES("jase0709")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(803,402)

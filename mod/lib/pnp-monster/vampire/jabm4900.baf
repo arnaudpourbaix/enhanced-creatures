@@ -453,10 +453,6 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -471,8 +467,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -502,10 +499,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -520,8 +513,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -551,10 +545,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -569,8 +559,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -600,10 +591,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -618,8 +605,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -649,10 +637,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -667,8 +651,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -698,10 +683,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -716,8 +697,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -747,10 +729,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -765,8 +743,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -796,10 +775,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -814,8 +789,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -845,10 +821,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -863,8 +835,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -894,10 +867,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -912,8 +881,9 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	OR(4)
+	OR(5)
 		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Kit(LastSeenBy(Myself),UNDEADHUNTER)
 		HasItem("BLUN12",LastSeenBy(Myself))
 		HasItem("BLUN25",LastSeenBy(Myself))
 		HasItem("AX1H10",LastSeenBy(Myself))
@@ -944,10 +914,6 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -989,10 +955,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1034,10 +996,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1079,10 +1037,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1124,10 +1078,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1169,10 +1119,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1214,10 +1160,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1259,10 +1201,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1304,10 +1242,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1350,10 +1284,6 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1394,10 +1324,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1438,10 +1364,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1482,10 +1404,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1526,10 +1444,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1570,10 +1484,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1614,10 +1524,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1658,10 +1564,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1702,10 +1604,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1747,10 +1645,6 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -1792,10 +1686,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -1837,10 +1727,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -1882,10 +1768,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -1927,10 +1809,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -1972,10 +1850,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2017,10 +1891,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -2062,10 +1932,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2107,10 +1973,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2152,10 +2014,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2198,10 +2056,6 @@ END
 // Domination Gaze
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -2242,10 +2096,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -2286,10 +2136,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -2330,10 +2176,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2374,10 +2216,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2418,10 +2256,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2462,10 +2296,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -2506,10 +2336,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2550,10 +2376,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2594,10 +2416,6 @@ END
 
 IF
 	HaveSpellRES("jase0700")
-	!HaveSpell(WIZARD_DOMINATION)
-	!HaveSpell(CLERIC_MENTAL_DOMINATION)
-	!HaveSpell(WIZARD_DIRE_CHARM)
-	!HaveSpell(CLERIC_CHARM_PERSON)
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
