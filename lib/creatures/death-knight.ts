@@ -30,6 +30,7 @@ import {
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { ProjectileBehaviorEnum } from "../src/model/spell-item/projectile";
 import { ScriptTarget } from "../src/model/constants";
+import { CommonTargetLists } from "../config/target/common";
 import { MonsterEnum } from "./monster";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
@@ -116,6 +117,8 @@ function wallOfIce(cre: Creature) {
       spell: {
         type: "noDec",
       },
+      // Punishes those keeping their distance: the casters first, then whoever stands farthest
+      targets: [...CommonTargetLists.Spellcasters, ...CommonTargetLists.FarthestEnemies],
       timer: {
         name: "WallOfIce",
         value: 3 * Durations.round,
@@ -291,6 +294,7 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       },
       {
         preset: SPELLS.Wizard.PowerWordStun.file,
+        targets: CommonTargetLists.PreferringStrong,
         actionsAfter: actionFactory.removeSpell([
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordBlind,
@@ -299,6 +303,7 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       },
       {
         preset: SPELLS.Wizard.PowerWordBlind.file,
+        targets: CommonTargetLists.PreferringStrong,
         actionsAfter: actionFactory.removeSpell([
           SPELLS.Wizard.PowerWordKill,
           SPELLS.Wizard.PowerWordStun,
