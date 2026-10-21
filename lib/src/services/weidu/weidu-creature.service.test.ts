@@ -507,6 +507,24 @@ describe("handleScriptEdit (private)", () => {
     const result = codes(lines);
     expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
   });
+
+  it("emits a block-deleting loop per removeBlocks entry, inside DECOMPILE_AND_PATCH", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, {
+      files: ["RH#ISVMP"],
+      removeBlocks: ["VAMPIRE_DOMINATION", "FOO"],
+    });
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
+    expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~VAMPIRE_DOMINATION~ 0)");
+    expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~FOO~ 0)");
+    expect(result.filter((c) => c === "DELETE_BYTES ec_start (ec_end + 3 - ec_start)")).toHaveLength(2);
+    const patchStart = result.indexOf("DECOMPILE_AND_PATCH BEGIN");
+    const butOnly = result.indexOf("BUT_ONLY");
+    const loop = result.indexOf("WHILE (ec_pos >= 0) BEGIN");
+    expect(loop).toBeGreaterThan(patchStart);
+    expect(loop).toBeLessThan(butOnly);
+  });
 });
 
 describe("patchScript (private)", () => {

@@ -1232,7 +1232,8 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
         ],
       },
       script: {
-        remove: ["vampir01", "ppvampir"],
+        remove: ["vampir01", "ppvampir", "d0qpvafl"],
+        edits: [{ files: ["RH#ISVMP", "rh#advmp"], removeBlocks: ["VAMPIRE_DOMINATION"] }],
       },
     },
   });

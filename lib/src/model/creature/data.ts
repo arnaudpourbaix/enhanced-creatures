@@ -137,7 +137,13 @@ export interface CreatureScriptEdit {
   /**
    * Will call REPLACE_TEXTUALLY
    */
-  replaces: [string, string][];
+  replaces?: [string, string][];
+  /**
+   * Removes every whole IF...END block whose decompiled text contains one of these strings
+   * (case-insensitive, exact match), e.g. a spell IDS name (`VAMPIRE_DOMINATION`) or a resref
+   * (`"RH#DOM"`, which also hits decompiled `// SPIN883.SPL` comments). Applied after `replaces`.
+   */
+  removeBlocks?: string[];
 }
 
 export class CreatureDataItems {

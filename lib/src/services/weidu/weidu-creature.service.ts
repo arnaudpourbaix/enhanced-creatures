@@ -68,14 +68,37 @@ class WeiduCreatureService extends AbstractWeiduService {
     this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, 1);
     this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, 2);
     this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, 3);
-    for (const replace of edit.replaces) {
+    for (const replace of edit.replaces ?? []) {
       this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, 4);
+    }
+    for (const text of edit.removeBlocks ?? []) {
+      this.removeBlocksContaining(lines, 4, text);
     }
     this.add(lines, `END`, 3);
     this.add(lines, `BUT_ONLY`, 2);
     this.add(lines, `END`, 1);
     this.add(lines, `END`, 0);
     this.add(lines, ``, 0);
+  }
+
+  /**
+   * Deletes each decompiled IF...END block containing `text`: from every match, walks back to the
+   * block's `IF` and forward to its `END` (both at column 0 in decompiled BAF, unlike the indented
+   * trigger/action lines), then searches again from where the deleted block started.
+   */
+  private removeBlocksContaining(lines: CodeLine[], tab: number, text: string) {
+    const find = (from: string) => `INDEX_BUFFER (EXACT_MATCH ~${text}~ ${from})`;
+    this.add(lines, `SET ec_pos = ${find("0")}`, tab);
+    this.add(lines, `WHILE (ec_pos >= 0) BEGIN`, tab);
+    this.add(lines, `SET ec_start = RINDEX_BUFFER (~^IF~ ec_pos)`, tab + 1);
+    this.add(lines, `SET ec_end = INDEX_BUFFER (~^END~ ec_pos)`, tab + 1);
+    this.add(lines, `PATCH_IF (ec_start >= 0 AND ec_end > ec_pos) BEGIN`, tab + 1);
+    this.add(lines, `DELETE_BYTES ec_start (ec_end + 3 - ec_start)`, tab + 2);
+    this.add(lines, `SET ec_pos = ${find("ec_start")}`, tab + 2);
+    this.add(lines, `END ELSE BEGIN`, tab + 1);
+    this.add(lines, `SET ec_pos = ${find("ec_pos + 1")}`, tab + 2);
+    this.add(lines, `END`, tab + 1);
+    this.add(lines, `END`, tab);
   }
 
   private compileScripts(lines: CodeLine[], creature: Creature, evaluateBuffer: boolean) {
