@@ -141,6 +141,11 @@
   font-weight: 600;
 }
 
+.stat dt abbr {
+  cursor: help;
+  text-decoration: underline dotted;
+}
+
 .stat dd {
   margin: 0;
   text-align: right;

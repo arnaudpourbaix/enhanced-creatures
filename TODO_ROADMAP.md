@@ -68,6 +68,12 @@ place to say so.
   design in `docs/superpowers/specs/2026-07-16-baneguard-blink-design.md`.
   Recasts via the engine's own `CHANGE_SPELL renew=14` mechanism rather than
   a script-side timer.
+- ☐ `vampire.ts` — mage vampires need a spellbook and a caster level.
+  DX#DALID (Dalina, Cowled Menace) is a Very Old vampire with class MAGE, but
+  her spells are not set up yet: she has 2 level 8 spells in game, so she
+  should cast as a level 17 wizard, while the vampire template's `level1` is
+  her 11 Hit Dice. NTHAEBAL (Haeball, `TODO: mage !`) and D9TANOV ("Vampire
+  Mage") are the same open case.
 - ☐ `undead.ts:1639` — spellbook should vary by installed mod/component (SR,
   Faiths & Powers, ...); currently one fixed spellbook. Needs a mod-detection/
   conditional-spellbook mechanism that doesn't exist yet in this generator.

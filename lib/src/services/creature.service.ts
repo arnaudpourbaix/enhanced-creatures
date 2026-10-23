@@ -392,6 +392,13 @@ class CreatureService {
     return item;
   }
 
+  // Melee THAC0 a player actually faces: the engine applies the strength to-hit bonus on top of
+  // the CRE value, but only for melee attacks.
+  getMeleeThac0(data: Partial<CreatureData>): number | undefined {
+    if (data.thac0 === undefined) return undefined;
+    return data.thac0 - this.getStrengthBonus(data).hit;
+  }
+
   getFinalArmorClass(base: BaseCreature) {
     if (base.data.dexterity === undefined || base.data.ac === undefined)
       throw new Error(`can't calculate final AC because of missing data`);

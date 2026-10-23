@@ -2540,6 +2540,9 @@ describe("getCreatureHeader", () => {
         '<dl class="stat-grid">' +
         '<div class="stat stat-wide"><dt>Ability Scores</dt>' +
         '<dd class="adjustment-changed">STR 18/100</dd></div>' +
+        // 18/100 strength (+3 to hit) only moves the melee THAC0: 15 -> 12
+        '<div class="stat"><dt><abbr title="Effective value: melee THAC0 including the Strength to-hit bonus">THAC0</abbr></dt>' +
+        '<dd class="adjustment-changed">15 (12 effective)</dd></div>' +
         '<div class="stat"><dt>XP Value</dt><dd class="adjustment-changed">975</dd></div></dl>' +
         '<p class="variant-applies-to">Applies to GRON</p>',
     );
@@ -2549,8 +2552,9 @@ describe("getCreatureHeader", () => {
     expect(template.text).toContain(
       '<div class="adjustment-card" data-files="GRAEL">' +
         '<h4 class="adjustment-card-title">GRAEL</h4>' +
-        '<dl class="stat-grid"><div class="stat"><dt>THAC0</dt>' +
-        '<dd class="adjustment-changed">10</dd></div></dl></div>',
+        '<dl class="stat-grid"><div class="stat">' +
+        '<dt><abbr title="Effective value: melee THAC0 including the Strength to-hit bonus">THAC0</abbr></dt>' +
+        '<dd class="adjustment-changed">10 (7 effective)</dd></div></dl></div>',
     );
     // sub-variant nested as a card inside its parent's card, badge naming the parent
     expect(template.text).toMatch(

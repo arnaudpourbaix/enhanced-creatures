@@ -93,6 +93,22 @@ const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 const ARMOR_CLASS_LABEL = "Armor Class";
 const APR_LABEL = "Attacks per Round";
 
+// THAC0 as stored on the CRE, followed by the melee THAC0 once the engine adds the strength
+// to-hit bonus (see creatureService.getMeleeThac0) - only when that bonus changes anything, with
+// a tooltip on the label explaining the second value.
+function thac0Stat(
+  thac0: number | undefined,
+  melee: number | undefined,
+): { dt: string; dd: string | undefined } {
+  if (thac0 === undefined || melee === undefined || melee === thac0) {
+    return { dt: "THAC0", dd: thac0?.toString() };
+  }
+  return {
+    dt: '<abbr title="Effective value: melee THAC0 including the Strength to-hit bonus">THAC0</abbr>',
+    dd: `${thac0} (${melee} effective)`,
+  };
+}
+
 // A stat or ability-score value as authored; unset renders empty.
 type StatValue = string | number | undefined;
 
@@ -393,15 +409,16 @@ class DocumentationService {
 
   private getStatParts(creature: Creature): CardPart[] {
     // An unset value renders empty, as the old per-token template replace did.
-    const stat = (label: string, value: StatValue, cls = "stat") => ({
+    const stat = (label: string, value: StatValue, cls = "stat", dt = label) => ({
       key: `stat:${label}=${value ?? ""}`,
-      html: `<div class="${cls}"><dt>${label}</dt><dd>${value ?? ""}</dd></div>`,
+      html: `<div class="${cls}"><dt>${dt}</dt><dd>${value ?? ""}</dd></div>`,
     });
     const d = creature.data;
+    const thac0 = thac0Stat(d.thac0, creatureService.getMeleeThac0(d));
     const parts = [
       stat("Hit Dice", `${d.level1.pnpValue} (${this.getDisplayHp(creature) ?? 0} hp)`),
       stat(ARMOR_CLASS_LABEL, creatureService.getFinalArmorClass(creature)),
-      stat("THAC0", d.thac0),
+      stat("THAC0", thac0.dd, "stat", thac0.dt),
       stat(APR_LABEL, this.getEffectiveApr(creature)),
       stat("Movement", d.movement.pnpValue),
       stat("Morale", d.morale),
@@ -925,6 +942,7 @@ class DocumentationService {
     const d = creature.data;
     const str =
       d.strength === 18 && d.exceptionalStrength ? `18/${d.exceptionalStrength}` : `${d.strength}`;
+    const thac0 = thac0Stat(d.thac0, creatureService.getMeleeThac0(d));
     const cell = (dt: string, dd: string | number): string =>
       `<div class="stat"><dt>${dt}</dt><dd>${dd}</dd></div>`;
     return (
@@ -933,7 +951,7 @@ class DocumentationService {
       `WIS ${d.wisdom ?? "?"}, CHA ${d.charisma ?? "?"}</dd></div>` +
       cell("Hit Dice", `${d.level1.pnpValue} (${this.getDisplayHp(creature) ?? "?"} hp)`) +
       cell(ARMOR_CLASS_LABEL, creatureService.getFinalArmorClass(creature)) +
-      cell("THAC0", d.thac0 ?? "?") +
+      cell(thac0.dt, thac0.dd ?? "?") +
       cell(APR_LABEL, this.getEffectiveApr(creature)) +
       cell("Movement", d.movement.pnpValue) +
       cell("Morale", d.morale ?? "?") +
@@ -1075,6 +1093,7 @@ class DocumentationService {
   }
 
   private getAdjustmentStatGrid(effective: EffectiveAdjustment): string {
+    const thac0 = thac0Stat(effective.thac0.value, effective.meleeThac0.value);
     let str = `${effective.strength.value}`;
     if (effective.strength.value === 18 && effective.exceptionalStrength.value) {
       str += `/${effective.exceptionalStrength.value}`;
@@ -1105,7 +1124,7 @@ class DocumentationService {
       row("Ability Scores", abilityScores, abilityParts.length > 0, true) +
       row("Hit Dice", `${effective.level.value} (${effective.hp.value} hp)`, hitDiceChanged) +
       row(ARMOR_CLASS_LABEL, effective.ac.value, effective.ac.changed) +
-      row("THAC0", effective.thac0.value, effective.thac0.changed) +
+      row(thac0.dt, thac0.dd ?? "", effective.thac0.changed || effective.meleeThac0.changed) +
       row(APR_LABEL, effective.apr.value, effective.apr.changed) +
       row("Movement", effective.movement.value, effective.movement.changed) +
       row("Morale", effective.morale.value, effective.morale.changed) +

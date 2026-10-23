@@ -481,6 +481,16 @@ describe("getStrengthBonus", () => {
   });
 });
 
+describe("getMeleeThac0", () => {
+  it("applies the strength to-hit bonus", () => {
+    expect(creatureService.getMeleeThac0({ thac0: 11, strength: 19 })).toBe(8);
+  });
+
+  it("returns undefined when thac0 is unset", () => {
+    expect(creatureService.getMeleeThac0({ strength: 19 })).toBeUndefined();
+  });
+});
+
 describe("getDexterityArmorClassBonus (private)", () => {
   const service = creatureService as unknown as CreatureServicePrivate;
 

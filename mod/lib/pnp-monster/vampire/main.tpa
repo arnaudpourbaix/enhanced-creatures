@@ -1,7 +1,22 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~PPJOYE.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/PPJOYE.BAF~
+END
 ACTION_IF FILE_EXISTS_IN_GAME ~RH#ADVMP.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/rh#advmp.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~VAMPAER.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VAMPAER.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~VAMPANO.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VAMPANO.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~VAMPJAH.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VAMPJAH.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~VAMPVIC.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VAMPVIC.BAF~
 END
 // Domination Gaze
 CREATE EFF "jase0700"

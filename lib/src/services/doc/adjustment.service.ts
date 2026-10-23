@@ -39,6 +39,7 @@ export interface EffectiveAdjustment {
   level: AdjustmentField<number>;
   hp: AdjustmentField<number>;
   thac0: AdjustmentField<number>;
+  meleeThac0: AdjustmentField<number>;
   ac: AdjustmentField<number>;
   apr: AdjustmentField<number>;
   movement: AdjustmentField<number>;
@@ -173,6 +174,7 @@ class AdjustmentService {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.thac0!,
       ),
+      meleeThac0: this.getMeleeThac0(matching, base),
       ac: this.getAc(matching, creature),
       apr: this.getApr(matching, creature, classValue, levelValue, equipped, proficiencies),
       movement: this.field(
@@ -318,6 +320,22 @@ class AdjustmentService {
     return (
       rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level })
     );
+  }
+
+  // Both sides go through getMeleeThac0 with their own effective strength, so a file that only
+  // changes strength still gets its melee THAC0 flagged as changed.
+  private getMeleeThac0(
+    matching: CreatureAdjustment[],
+    base: CreatureData,
+  ): AdjustmentField<number> {
+    const effective = creatureService.getMeleeThac0({
+      thac0: this.lastDefined(matching, (d) => d.thac0) ?? base.thac0,
+      strength: this.lastDefined(matching, (d) => d.strength) ?? base.strength,
+      exceptionalStrength:
+        this.lastDefined(matching, (d) => d.exceptionalStrength) ?? base.exceptionalStrength,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.field(effective, creatureService.getMeleeThac0(base)!);
   }
 
   // checkData already ran checkDexterityArmorClassBonus on every adjustment's own data using only
@@ -551,6 +569,7 @@ class AdjustmentService {
       effective.level.changed ||
       effective.hp.changed ||
       effective.thac0.changed ||
+      effective.meleeThac0.changed ||
       effective.ac.changed ||
       effective.apr.changed ||
       effective.movement.changed ||
@@ -629,6 +648,7 @@ class AdjustmentService {
       "level",
       "hp",
       "thac0",
+      "meleeThac0",
       "ac",
       "apr",
       "movement",

@@ -1197,7 +1197,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
       strength: age.strength,
       exceptionalStrength: age.exceptionalStrength,
       dexterity: age.dexterity,
-      constitution: 18,
+      constitution: 9,
       intelligence: age.intelligence,
       wisdom: 15,
       charisma: age.charisma,
@@ -1234,9 +1234,25 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
         ],
       },
       script: {
-        remove: ["vampir01", "vampir02", "ppvampir", "d0qpvafl", "sarvam02", "bdvamp01"],
+        remove: [
+          "bdvamp01",
+          "c6vampir",
+          "d0qpvafl",
+          "dw#vmmin",
+          "ohbvamp",
+          "ohbfig01",
+          "ppvampir",
+          "ppvamp",
+          "sarvam02",
+          "vampir01",
+          "vampir02",
+          "vvamp",
+        ],
         edits: [
-          { files: ["RH#ISVMP", "rh#advmp", "L#RVVAMP"], removeBlocks: ["VAMPIRE_DOMINATION"] },
+          {
+            files: ["RH#ISVMP", "rh#advmp", "L#RVVAMP", "AC#WVAMP", "OHHDRAGO"],
+            removeBlocks: ["VAMPIRE_DOMINATION"],
+          },
         ],
       },
     },
@@ -1320,7 +1336,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     .map((f) => f.name)
     .filter((file) => {
       const name = monsterFilesService.getName(file) ?? "";
-      return /vamp[iy]re/i.test(name) && !/\b(bat|child|mage)\b/i.test(name);
+      return /vamp[iy]re/i.test(name) && !/\b(child|mage)\b/i.test(name);
     });
   if (renamed.length) cre.setAdjustments([{ files: renamed, stringRef: age.name }]);
   cre.turnAs = age.turnAs;
@@ -1331,7 +1347,6 @@ export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[0]);
   cre.setAdjustments([
     { files: ["YSCHVAM"], data: { level1: 6, xpv: 3000, script: { location: "None" } } },
-    { files: ["L#2EDVAM"], noWeapon: true },
     {
       files: ["X#CUTVA1", "X#CUTVA2", "X#CUTVA3", "X#CUTVA4"],
       data: { spells: { removeMemorized: true } },
@@ -1342,13 +1357,41 @@ export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
 
 export const matureVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[1]);
 
-export const oldVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[2]);
+export const oldVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[2]);
+  cre.setAdjustments([]);
+  return cre;
+};
 
-export const veryOldVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[3]);
+export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[3]);
+  cre.setAdjustments([
+    { files: ["L#2EDVAM"], noWeapon: true },
+    { files: ["OHHDRAGO"], noWeapon: true },
+    { files: ["NTHAEBAL"], noWeapon: true, data: { script: { location: "None" } } }, // TODO: mage !
+    {
+      files: ["DX#DALID"],
+      data: {
+        // TODO: spellbook, caster level
+        class: "MAGE",
+        kit: "MAGESCHOOL_NECROMANCER",
+      },
+    },
+  ]);
+  return cre;
+};
 
 export const ancientVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[4]);
 
-export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[5]);
+export const eminentVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[5]);
+  cre.setAdjustments([
+    { files: ["PPJOYE2"], data: { script: { location: "None" } } },
+    // A vampire/vampyre hybrid: keeps the vampyre's 3 attacks on top of every vampire power
+    { files: ["NEVM4"], data: { apr: 3 } },
+  ]);
+  return cre;
+};
 
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[6]);

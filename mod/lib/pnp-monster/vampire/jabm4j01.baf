@@ -181,7 +181,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("JA_SUNLIGHT","LOCALS",1)
-		SetGlobalTimer("JA_SUNLIGHT_TIMER","LOCALS",0)
+		SetGlobalTimer("JA_SUNLIGHT_TIMER","LOCALS",60)
 		Continue()
 END
 
@@ -382,7 +382,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("JA_MIST_FORM","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jasm4900")
+	HaveSpellRES("jasm4j00")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	HPPercentLT(Myself,35)
@@ -393,8 +393,8 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4900",Myself)
-		RemoveSpellRES("jasm4900")
+		ForceSpellRES("jasm4j00",Myself)
+		RemoveSpellRES("jasm4j00")
 		SetGlobalTimer("JA_MIST_FORM","LOCALS",24)
 END
 
@@ -403,7 +403,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("JA_MIST_FORM","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jasm4900")
+	HaveSpellRES("jasm4j00")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	Range(NearestEnemyOf(Myself),4)
@@ -419,15 +419,15 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4900",Myself)
-		RemoveSpellRES("jasm4900")
+		ForceSpellRES("jasm4j00",Myself)
+		RemoveSpellRES("jasm4j00")
 		SetGlobalTimer("JA_MIST_FORM","LOCALS",24)
 END
 
 // Vampire Form
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -442,13 +442,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -463,13 +463,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -484,13 +484,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -505,13 +505,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -526,13 +526,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -547,13 +547,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -568,13 +568,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -589,13 +589,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -610,13 +610,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jasm4901")
+	HaveSpellRES("jasm4j01")
 	CheckSpellState(Myself,JA_ANIMALFORM)
 	CheckSpellState(Myself,JA_FLYING)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -631,15 +631,15 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4901",Myself)
-		RemoveSpellRES("jasm4901")
+		ForceSpellRES("jasm4j01",Myself)
+		RemoveSpellRES("jasm4j01")
 END
 
 // Bat Form
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	Detect(NearestEnemyOf(Myself))
@@ -648,14 +648,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 // Domination Gaze
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -685,7 +685,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -697,12 +697,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -732,7 +732,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -744,12 +744,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -779,7 +779,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -791,12 +791,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -826,7 +826,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -838,12 +838,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -873,7 +873,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -885,12 +885,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -920,7 +920,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -932,12 +932,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -967,7 +967,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -979,12 +979,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -1014,7 +1014,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1026,12 +1026,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -1061,7 +1061,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1073,12 +1073,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -1108,7 +1108,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1120,13 +1120,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 // Domination Gaze
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1150,7 +1150,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1163,12 +1163,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1192,7 +1192,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1205,12 +1205,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1234,7 +1234,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1247,12 +1247,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1276,7 +1276,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1289,12 +1289,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1318,7 +1318,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1331,12 +1331,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1360,7 +1360,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1373,12 +1373,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1402,7 +1402,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1415,12 +1415,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1444,7 +1444,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1457,12 +1457,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1486,7 +1486,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1499,13 +1499,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 // Domination Gaze
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1529,7 +1529,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1541,12 +1541,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1570,7 +1570,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1582,12 +1582,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.FIGHTER_ALL]),STATE_BLIND)
@@ -1611,7 +1611,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1623,12 +1623,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1652,7 +1652,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1664,12 +1664,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1693,7 +1693,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1705,12 +1705,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.RANGER_ALL]),STATE_BLIND)
@@ -1734,7 +1734,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1746,12 +1746,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1775,7 +1775,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1787,12 +1787,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1816,7 +1816,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1828,12 +1828,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOfType([0.0.0.PALADIN_ALL]),STATE_BLIND)
@@ -1857,7 +1857,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -1869,13 +1869,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 // Domination Gaze
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -1899,7 +1899,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1912,12 +1912,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -1941,7 +1941,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1954,12 +1954,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -1983,7 +1983,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1996,12 +1996,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2025,7 +2025,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2038,12 +2038,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2067,7 +2067,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2080,12 +2080,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2109,7 +2109,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2122,12 +2122,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -2151,7 +2151,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2164,12 +2164,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2193,7 +2193,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2206,12 +2206,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2235,7 +2235,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2248,12 +2248,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2277,7 +2277,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2290,13 +2290,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 // Domination Gaze
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NearestEnemyOf(Myself),STATE_BLIND)
@@ -2320,7 +2320,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2332,12 +2332,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SecondNearestEnemyOf(Myself),STATE_BLIND)
@@ -2361,7 +2361,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2373,12 +2373,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(ThirdNearestEnemyOf(Myself),STATE_BLIND)
@@ -2402,7 +2402,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2414,12 +2414,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FourthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2443,7 +2443,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2455,12 +2455,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(FifthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2484,7 +2484,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2496,12 +2496,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SixthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2525,7 +2525,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2537,12 +2537,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(SeventhNearestEnemyOf(Myself),STATE_BLIND)
@@ -2566,7 +2566,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2578,12 +2578,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(EighthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2607,7 +2607,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2619,12 +2619,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(NinthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2648,7 +2648,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2660,12 +2660,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0700")
+	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!StateCheck(TenthNearestEnemyOf(Myself),STATE_BLIND)
@@ -2689,7 +2689,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
+	CheckStatGT(LastSeenBy(Myself),-3,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
@@ -2701,7 +2701,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0700",LastSeenBy(Myself))
+		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
 // Bat Swarm
@@ -3600,7 +3600,7 @@ END
 // Wolf Form
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0703")
+	HaveSpellRES("jase0706")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	RandomNumGT(805,403)
@@ -3616,14 +3616,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0703",Myself)
-		RemoveSpellRES("jase0703")
+		ForceSpellRES("jase0706",Myself)
+		RemoveSpellRES("jase0706")
 END
 
 // Bat Form
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3644,13 +3644,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3671,13 +3671,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3698,13 +3698,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3725,13 +3725,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3752,13 +3752,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3779,13 +3779,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3806,13 +3806,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3833,13 +3833,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3860,13 +3860,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 IF
 	ActionListEmpty()
-	HaveSpellRES("jase0704")
+	HaveSpellRES("jase0707")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
 	!HPPercentLT(Myself,65)
@@ -3887,8 +3887,8 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jase0704",Myself)
-		RemoveSpellRES("jase0704")
+		ForceSpellRES("jase0707",Myself)
+		RemoveSpellRES("jase0707")
 END
 
 // Bat form: fly over the enemies to a victim to drain
