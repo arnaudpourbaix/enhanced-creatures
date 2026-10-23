@@ -32,8 +32,8 @@ enum Ids {
 
 function ghastTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.ghastTouch.name",
-    description: "monster.undead.ability.ghastTouch.description",
+    name: "monster.ghast.ability.touch.name",
+    description: "monster.ghast.ability.touch.description",
     id: Ids.GhastTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["hold"],
@@ -69,9 +69,9 @@ function carrionStench(cre: Creature) {
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
   return cre.addSpell({
-    name: "monster.undead.ability.carrionStench.name",
+    name: "monster.ghast.ability.carrionStench.name",
     keywords: ["area"],
-    description: "monster.undead.ability.carrionStench.description",
+    description: "monster.ghast.ability.carrionStench.description",
     id: Ids.CarrionStench,
     options: { renew: 1 },
     memorizedCount: 1,
@@ -100,7 +100,7 @@ function carrionStench(cre: Creature) {
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.carrionStench.message",
+            stringRef: "monster.ghast.ability.carrionStench.message",
             ...base,
           },
         ],
@@ -125,7 +125,7 @@ function carrionStench(cre: Creature) {
 export function ghast(entry: CreatureEntry<Creature>): Creature {
   const ghast = entry.create({
     monster: MonsterEnum.Ghast,
-    name: "monster.undead.name.ghast",
+    name: "monster.ghast.name",
     files: [],
     data: {
       level1: 4,

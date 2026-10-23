@@ -28,7 +28,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
   private ettercap() {
     const ettercap = this.create({
       monster: MonsterEnum.Ettercap,
-      name: "monster.ettercap.name.ettercap",
+      name: "monster.ettercap.name",
       files: [],
       data: {
         level1: 5,

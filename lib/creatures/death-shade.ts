@@ -6,7 +6,7 @@ import type { CreatureEntry } from "../src/model/creature/entry";
 export function deathShade(entry: CreatureEntry<Creature>): Creature {
   const shade = entry.create({
     monster: MonsterEnum.DeathShade,
-    name: "monster.undead.name.deathShade",
+    name: "monster.deathShade.name",
     files: [],
     data: {
       level1: 4,

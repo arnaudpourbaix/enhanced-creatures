@@ -25,7 +25,7 @@ class OliveSlimeEntry extends CreatureEntry<Slime> {
   private oliveSlime() {
     const olive = this.create({
       monster: MonsterEnum.OliveSlime,
-      name: "monster.slime.name.olive",
+      name: "monster.ooze.name.olive",
       files: [],
       data: {
         level1: 2,
@@ -63,7 +63,7 @@ class OliveSlimeEntry extends CreatureEntry<Slime> {
     });
     olive.createAttachToLivingFlesh({
       id: SlimeIds.AttachToLivingFleshOliveSlime,
-      description: "monster.slime.ability.attachToLivingFlesh.descriptionOlive",
+      description: "monster.ooze.ability.attachToLivingFlesh.descriptionOlive",
       delay: Durations.day,
       resource: NEW_CREATURES.OliveSlimeCreature,
     });
@@ -87,7 +87,7 @@ class OliveSlimeEntry extends CreatureEntry<Slime> {
       restHeal: true,
     });
     olive.setAdjustments([
-      { files: ["GORJELF2", "GORJELFU"], stringRef: "monster.slime.name.olive" },
+      { files: ["GORJELF2", "GORJELFU"], stringRef: "monster.ooze.name.olive" },
     ]);
     return olive;
   }

@@ -17,8 +17,8 @@ enum Ids {
 
 function wraithTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.wraithTouch.name",
-    description: "monster.undead.ability.wraithTouch.description",
+    name: "monster.wraith.ability.touch.name",
+    description: "monster.wraith.ability.touch.description",
     id: Ids.WraithTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["levelDrain"],
@@ -39,7 +39,7 @@ function wraithTouch(cre: Creature) {
 export function wraith(entry: CreatureEntry<Creature>): Creature {
   const wraith = entry.create({
     monster: MonsterEnum.Wraith,
-    name: "monster.undead.name.wraith",
+    name: "monster.wraith.name",
     files: [],
     data: {
       level1: 5,

@@ -133,7 +133,7 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
   private minotaur() {
     const minotaur = this.create({
       monster: MonsterEnum.Minotaur,
-      name: "monster.minotaur.name.minotaur",
+      name: "monster.minotaur.name",
       files: [],
       data: {
         immunities: ["monstrousHumanoid"],

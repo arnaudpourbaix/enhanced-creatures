@@ -48,8 +48,8 @@ function mummyRottingDisease(cre: Creature, greater: boolean) {
   const count = 6;
   const interval = greater ? Durations.eightHours : Durations.day;
   const description: StringReference = greater
-    ? "monster.undead.ability.mummyRottingDisease.greaterDescription"
-    : "monster.undead.ability.mummyRottingDisease.description";
+    ? "monster.mummy.ability.rottingDisease.greaterDescription"
+    : "monster.mummy.ability.rottingDisease.description";
   const disease: { type: DiseaseTypeEnum; amount: number }[] = [
     { type: DiseaseTypeEnum.ReduceCharismaByAmount, amount: 2 },
   ];
@@ -72,7 +72,7 @@ function mummyRottingDisease(cre: Creature, greater: boolean) {
   ).flat();
   return cre.addSpell({
     description,
-    name: "monster.undead.ability.mummyRottingDisease.name",
+    name: "monster.mummy.ability.rottingDisease.name",
     id: greater ? Ids.GreaterMummyRottingDisease : Ids.MummyRottingDisease,
     secondaryType: "Disease",
     keywords: ["disease"],
@@ -91,7 +91,7 @@ function mummyRottingDisease(cre: Creature, greater: boolean) {
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.mummyRottingDisease.diseased",
+            stringRef: "monster.mummy.ability.rottingDisease.diseased",
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
           },
           {
@@ -103,13 +103,13 @@ function mummyRottingDisease(cre: Creature, greater: boolean) {
           ...diseaseEffects,
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.mummyRottingDisease.warning",
+            stringRef: "monster.mummy.ability.rottingDisease.warning",
             timing: EffectTimingEnum.DelayPermanent,
             duration: (count - 1) * interval,
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.mummyRottingDisease.death",
+            stringRef: "monster.mummy.ability.rottingDisease.death",
             timing: EffectTimingEnum.DelayPermanent,
             duration: count * interval - 1,
           },
@@ -142,13 +142,13 @@ function mummyFearAura(cre: Creature, greater: boolean) {
   const humanBonus = greater ? -1 : 2;
   const othersBonus = greater ? -3 : 0;
   const description: StringReference = greater
-    ? "monster.undead.ability.mummyFearAura.greaterDescription"
-    : "monster.undead.ability.mummyFearAura.description";
+    ? "monster.mummy.ability.fearAura.greaterDescription"
+    : "monster.mummy.ability.fearAura.description";
   const humans = mummyFearAuraTechnical(cre, humanBonus, false);
   const others = mummyFearAuraTechnical(cre, othersBonus, true);
   return cre.addSpell({
     description,
-    name: "monster.undead.ability.mummyFearAura.name",
+    name: "monster.mummy.ability.fearAura.name",
     id: greater ? Ids.GreaterMummyFearAura : Ids.MummyFearAura,
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
@@ -220,7 +220,7 @@ function mummyFearAuraTechnical(cre: Creature, saveBonus: number, excludeHumans:
     }),
     {
       opcode: EffectTypeEnum.DisplayString,
-      stringRef: "monster.undead.ability.mummyFearAura.frightened",
+      stringRef: "monster.mummy.ability.fearAura.frightened",
       timing: EffectTimingEnum.InstantPermanentUntilDeath,
       saveTypes: [saveType],
       saveBonus,
@@ -232,7 +232,7 @@ function mummyFearAuraTechnical(cre: Creature, saveBonus: number, excludeHumans:
     },
   ];
   const spell: PartialSpell = {
-    name: "monster.undead.ability.mummyFearAura.name",
+    name: "monster.mummy.ability.fearAura.name",
     keywords: ["area"],
     secondaryType: "Fear",
     headers: [
@@ -260,7 +260,7 @@ function mummyFearAuraTechnical(cre: Creature, saveBonus: number, excludeHumans:
 export function mummy(entry: CreatureEntry<Creature>): Creature {
   const mummy = entry.create({
     monster: MonsterEnum.Mummy,
-    name: "monster.undead.name.mummy",
+    name: "monster.mummy.name.mummy",
     files: [],
     data: {
       level1: 6,
@@ -319,7 +319,7 @@ export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
   // Age: 400-499
   const greater = entry.create({
     monster: MonsterEnum.GreaterMummy,
-    name: "monster.undead.name.greaterMummy",
+    name: "monster.mummy.name.greater",
     files: [],
     data: {
       level1: { pnpValue: 12, value: 20, type: "caster" },

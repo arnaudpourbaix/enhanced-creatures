@@ -122,7 +122,7 @@ interface VampireAge {
 const VAMPIRE_AGES: VampireAge[] = [
   {
     monster: MonsterEnum.VampireFledgling,
-    name: "monster.undead.name.fledglingVampire",
+    name: "monster.vampire.name.fledgling",
     level1: 8,
     bonusHp: 3,
     turnAs: "vampire",
@@ -141,7 +141,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampireMature,
-    name: "monster.undead.name.matureVampire",
+    name: "monster.vampire.name.mature",
     level1: 9,
     bonusHp: 3,
     turnAs: "vampire",
@@ -160,7 +160,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampireOld,
-    name: "monster.undead.name.oldVampire",
+    name: "monster.vampire.name.old",
     level1: 10,
     bonusHp: 2,
     turnAs: "ghost",
@@ -179,7 +179,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampireVeryOld,
-    name: "monster.undead.name.veryOldVampire",
+    name: "monster.vampire.name.veryOld",
     level1: 11,
     bonusHp: 1,
     turnAs: "lich",
@@ -198,7 +198,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampireAncient,
-    name: "monster.undead.name.ancientVampire",
+    name: "monster.vampire.name.ancient",
     level1: 12,
     bonusHp: 0,
     turnAs: "lich",
@@ -216,7 +216,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampireEminent,
-    name: "monster.undead.name.eminentVampire",
+    name: "monster.vampire.name.eminent",
     level1: 13,
     bonusHp: 0,
     turnAs: "lich",
@@ -234,7 +234,7 @@ const VAMPIRE_AGES: VampireAge[] = [
   },
   {
     monster: MonsterEnum.VampirePatriarch,
-    name: "monster.undead.name.patriarchVampire",
+    name: "monster.vampire.name.patriarch",
     level1: 14,
     bonusHp: 0,
     turnAs: "lich",
@@ -256,18 +256,18 @@ const DOMINATION_TEXTS: Record<
   { name: StringReference; description: StringReference; keywords: SpellKeyword[] }
 > = {
   gaze: {
-    name: "monster.undead.ability.vampireDomination.gazeName",
-    description: "monster.undead.ability.vampireDomination.gazeDescription",
+    name: "monster.vampire.ability.domination.gazeName",
+    description: "monster.vampire.ability.domination.gazeDescription",
     keywords: ["gaze"],
   },
   voice: {
-    name: "monster.undead.ability.vampireDomination.voiceName",
-    description: "monster.undead.ability.vampireDomination.voiceDescription",
+    name: "monster.vampire.ability.domination.voiceName",
+    description: "monster.vampire.ability.domination.voiceDescription",
     keywords: [],
   },
   will: {
-    name: "monster.undead.ability.vampireDomination.willName",
-    description: "monster.undead.ability.vampireDomination.willDescription",
+    name: "monster.vampire.ability.domination.willName",
+    description: "monster.vampire.ability.domination.willDescription",
     keywords: [],
   },
 };
@@ -410,8 +410,8 @@ function batSwarm(group: AbstractCreature) {
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
   return group.addSpell({
-    name: "monster.undead.ability.vampireBatSwarm.name",
-    description: "monster.undead.ability.vampireBatSwarm.description",
+    name: "monster.vampire.ability.batSwarm.name",
+    description: "monster.vampire.ability.batSwarm.description",
     id: Ids.VampireBatSwarm,
     memorizedCount: 1,
     ...supernatural(2),
@@ -550,8 +550,8 @@ function controlUndead(group: AbstractCreature) {
     };
   });
   return group.addSpell({
-    name: "monster.undead.ability.vampireControlUndead.name",
-    description: "monster.undead.ability.vampireControlUndead.description",
+    name: "monster.vampire.ability.controlUndead.name",
+    description: "monster.vampire.ability.controlUndead.description",
     id: Ids.VampireControlUndead,
     memorizedCount: AT_WILL,
     ...supernatural(7),
@@ -717,8 +717,8 @@ const ANIMAL_FORM_MOVEMENT = effectFactory.naturalMovementSpeed(18);
 function wolfForm(group: AbstractCreature, ownSpeed: boolean) {
   return animalForm(group, {
     id: ownSpeed ? Ids.VampireWolfFormOwnSpeed : Ids.VampireWolfForm,
-    name: "monster.undead.ability.vampireWolfForm.name",
-    description: "monster.undead.ability.vampireWolfForm.description",
+    name: "monster.vampire.ability.wolfForm.name",
+    description: "monster.vampire.ability.wolfForm.description",
     animation: "WOLF_VAMPIRIC",
     icon: SPELLS.Innate.ShapeshiftWolf.file,
     damage: { diceThrown: 3, diceSize: 12, type: AbilityDamageTypeEnum.Piercing },
@@ -748,8 +748,8 @@ function wolfForm(group: AbstractCreature, ownSpeed: boolean) {
 function batForm(group: AbstractCreature, ownSpeed: boolean) {
   return animalForm(group, {
     id: ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
-    name: "monster.undead.ability.vampireBatForm.name",
-    description: "monster.undead.ability.vampireBatForm.description",
+    name: "monster.vampire.ability.batForm.name",
+    description: "monster.vampire.ability.batForm.description",
     animation: "BAT_INSIDE",
     icon: ["PLYWYVNC", "PLYWYVNB"],
     damage: { diceThrown: 2, diceSize: 6, type: AbilityDamageTypeEnum.Piercing },
@@ -791,8 +791,8 @@ const MIST_FORM_TIMER = 4 * Durations.round;
 function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   const mist = cre.addItem({
     id: Ids.VampireMistForm,
-    stringRef: "monster.undead.ability.vampireMistForm.name",
-    description: "monster.undead.ability.vampireMistForm.description",
+    stringRef: "monster.vampire.ability.mistForm.name",
+    description: "monster.vampire.ability.mistForm.description",
     // only fire harms a vapor: fire spells, and the fire damage of a weapon's hits (the weapon
     // itself does nothing). Gas floats: no ground spells, web or entangle
     immunities: ["poison", "cold", "lightning", "acid", "magicDamage", "physicalDamage", "hover"],
@@ -836,8 +836,8 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   });
   const spell = cre.addSpell({
     id: Ids.VampireMistForm,
-    name: "monster.undead.ability.vampireMistForm.name",
-    description: "monster.undead.ability.vampireMistForm.description",
+    name: "monster.vampire.ability.mistForm.name",
+    description: "monster.vampire.ability.mistForm.description",
     memorizedCount: 1,
     // at will, but see MIST_FORM_TIMER for the AI
     options: { renew: 1 },
@@ -1070,8 +1070,8 @@ function formItem(spell: Spell): string {
 function vampireForm(cre: Creature, forms: string[]) {
   return cre.addSpell({
     id: Ids.VampireForm,
-    name: "monster.undead.ability.vampireForm.name",
-    description: "monster.undead.ability.vampireForm.description",
+    name: "monster.vampire.ability.vampireForm.name",
+    description: "monster.vampire.ability.vampireForm.description",
     memorizedCount: 1,
     icon: "PLYMANB",
     primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
@@ -1353,7 +1353,7 @@ export const eminentVampire = (entry: CreatureEntry<Creature>) => vampire(entry,
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[6]);
   cre.setAdjustments([
-    // { files: ["D9TANOV"], stringRef: "monster.undead.name.patriarchVampireMage" },
+    // { files: ["D9TANOV"], stringRef: "monster.vampire.name.patriarchMage" },
   ]);
   return cre;
 };

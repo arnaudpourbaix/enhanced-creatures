@@ -36,8 +36,8 @@ enum Ids {
 
 function ghoulTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.ghoulTouch.name",
-    description: "monster.undead.ability.ghoulTouch.description",
+    name: "monster.ghoul.ability.touch.name",
+    description: "monster.ghoul.ability.touch.description",
     id: Ids.GhoulTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["hold"],
@@ -74,8 +74,8 @@ function ghoulTouch(cre: Creature) {
 
 function ghoulLordTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.ghoulLordTouch.name",
-    description: "monster.undead.ability.ghoulLordTouch.description",
+    name: "monster.ghoul.ability.lordTouch.name",
+    description: "monster.ghoul.ability.lordTouch.description",
     id: Ids.GhoulLordTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["hold"],
@@ -108,8 +108,8 @@ function ghoulRottingDisease(cre: Creature) {
   // Also, time is a bit different in game and I have replaced days by 8 hours (a rest)
   // Instead of gradually loosing con and cha, I have set a one time disease with -4
   return cre.addSpell({
-    name: "monster.undead.ability.ghoulRottingDisease.name",
-    description: "monster.undead.ability.ghoulRottingDisease.description",
+    name: "monster.ghoul.ability.rottingDisease.name",
+    description: "monster.ghoul.ability.rottingDisease.description",
     id: Ids.GhoulRottingDisease,
     secondaryType: "Disease",
     keywords: ["disease"],
@@ -161,9 +161,9 @@ function auraOfEvil(cre: Creature) {
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
   return cre.addSpell({
-    name: "monster.undead.ability.auraOfEvil.name",
+    name: "monster.ghoul.ability.auraOfEvil.name",
     keywords: ["area"],
-    description: "monster.undead.ability.auraOfEvil.description",
+    description: "monster.ghoul.ability.auraOfEvil.description",
     id: Ids.AuraOfEvil,
     options: { renew: 1 },
     memorizedCount: 1,
@@ -187,7 +187,7 @@ function auraOfEvil(cre: Creature) {
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.auraOfEvil.message",
+            stringRef: "monster.ghoul.ability.auraOfEvil.message",
             ...base,
           },
           {
@@ -223,7 +223,7 @@ function auraOfEvil(cre: Creature) {
 export function ghoul(entry: CreatureEntry<Creature>): Creature {
   const ghoul = entry.create({
     monster: MonsterEnum.Ghoul,
-    name: "monster.undead.name.ghoul",
+    name: "monster.ghoul.name.ghoul",
     files: [],
     data: {
       level1: 2,
@@ -276,7 +276,7 @@ export function ghoul(entry: CreatureEntry<Creature>): Creature {
 export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
   const lord = entry.create({
     monster: MonsterEnum.GhoulLord,
-    name: "monster.undead.name.ghoulLord",
+    name: "monster.ghoul.name.lord",
     files: [],
     data: {
       level1: 6,

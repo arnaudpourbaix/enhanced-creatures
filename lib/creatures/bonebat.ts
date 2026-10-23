@@ -23,8 +23,8 @@ enum Ids {
 
 function bonebatTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.bonebatTouch.name",
-    description: "monster.undead.ability.bonebatTouch.description",
+    name: "monster.bonebat.ability.touch.name",
+    description: "monster.bonebat.ability.touch.description",
     id: Ids.BonebatTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["hold"],
@@ -54,7 +54,7 @@ function bonebatTouch(cre: Creature) {
 export function bonebat(entry: CreatureEntry<Creature>): Creature {
   const bonebat = entry.create({
     monster: MonsterEnum.Bonebat,
-    name: "monster.undead.name.bonebat",
+    name: "monster.bonebat.name",
     files: [],
     data: {
       level1: 4,

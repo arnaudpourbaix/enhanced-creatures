@@ -37,13 +37,13 @@ class GiantPoisonousSnakeEntry extends CreatureEntry<Snake> {
   private giantPoisonous() {
     const giantPoisonous = this.create({
       monster: MonsterEnum.GiantPoisonousSnake,
-      name: "monster.snake.name.giantPoisonous",
+      name: "monster.giantPoisonousSnake.name",
       files: [NEW_CREATURES.GiantPoisonousSnake],
       newFiles: [
         {
           files: [NEW_CREATURES.GiantPoisonousSnake],
           copyFrom: "jacm3701",
-          stringRef: "monster.snake.name.giantPoisonous",
+          stringRef: "monster.giantPoisonousSnake.name",
         },
       ],
       data: {

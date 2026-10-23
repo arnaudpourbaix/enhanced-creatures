@@ -29,7 +29,7 @@ function bansheeFearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.BansheeFearAura,
-      description: "monster.undead.ability.bansheeFearAura.description",
+      description: "monster.banshee.ability.fearAura.description",
       duration: Durations.turn,
       saveType: SaveTypeEnum.Spell,
     }),
@@ -38,8 +38,8 @@ function bansheeFearAura(cre: Creature) {
 
 function deathWail(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.deathWail.name",
-    description: "monster.undead.ability.deathWail.description",
+    name: "monster.banshee.ability.deathWail.name",
+    description: "monster.banshee.ability.deathWail.description",
     id: Ids.DeathWail,
     memorizedCount: 1,
     icon: SPELLS.Wizard.WailOfTheBanshee.file,
@@ -88,7 +88,7 @@ function deathWail(cre: Creature) {
 export function banshee(entry: CreatureEntry<Creature>): Creature {
   const banshee = entry.create({
     monster: MonsterEnum.Banshee,
-    name: "monster.undead.name.banshee",
+    name: "monster.banshee.name",
     files: [],
     data: {
       level1: 7,

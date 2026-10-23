@@ -22,7 +22,7 @@ function blink(cre: Creature) {
   return cre.addSpell({
     icon: SPELLS.Wizard.TeleportField.file,
     options: { renew: 14 },
-    name: "monster.undead.ability.blink",
+    name: "monster.baneguard.ability.blink",
     id: Ids.Blink,
     memorizedCount: 1,
     headers: [
@@ -65,7 +65,7 @@ function blink(cre: Creature) {
 export function baneguard(entry: CreatureEntry<Creature>): Creature {
   const baneguard = entry.create({
     monster: MonsterEnum.Baneguard,
-    name: "monster.undead.name.baneguard",
+    name: "monster.baneguard.name",
     files: [],
     data: {
       level1: 4,

@@ -81,7 +81,7 @@ describe("variantFactory.add", () => {
           files: ["AC#BOSS"],
           data: { level1: 14 },
           noWeapon: true,
-          stringRef: "monster.undead.name.ghast",
+          stringRef: "monster.ghast.name",
         },
       ],
     });
@@ -90,7 +90,7 @@ describe("variantFactory.add", () => {
         files: ["AC#BOSS"],
         data: { level1: 14, strength: 18 },
         noWeapon: true,
-        stringRef: "monster.undead.name.ghast",
+        stringRef: "monster.ghast.name",
       },
     ]);
   });

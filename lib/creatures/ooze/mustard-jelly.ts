@@ -27,13 +27,13 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
   private mustardJelly() {
     const mustard = this.create({
       monster: MonsterEnum.MustardJelly,
-      name: "monster.slime.name.mustard",
+      name: "monster.ooze.name.mustard",
       files: [NEW_CREATURES.SplitMustardJelly],
       newFiles: [
         {
           files: [NEW_CREATURES.SplitMustardJelly],
           copyFrom: NEW_CREATURES.MustardJelly,
-          stringRef: "monster.slime.name.SmallerMustard",
+          stringRef: "monster.ooze.name.smallerMustard",
         },
       ],
       data: {
@@ -67,7 +67,7 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
       },
     });
     mustard.addTrait({
-      description: "monster.slime.trait.split.mustard",
+      description: "monster.ooze.trait.split.mustard",
       immunities: ["lightning", "nonMagicalWeapons", "magicMissile", "coldResistance"],
       // 5e: Immunity to magic damage
       effects: [
@@ -80,7 +80,7 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
     });
     mustard.createSplit({
       id: SlimeIds.MustardJellySplit,
-      description: "monster.slime.ability.split.mustardDesc",
+      description: "monster.ooze.ability.split.mustardDesc",
       resource: NEW_CREATURES.SplitMustardJelly,
       visualEffect: "TRGOOYAA",
       withTriggers: false,

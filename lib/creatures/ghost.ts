@@ -35,8 +35,8 @@ function ghostFearAura(cre: Creature) {
   // Priests above 6th level are immune to this effect,
   const saveType = SaveTypeEnum.Spell;
   return cre.addSpell({
-    name: "monster.undead.ability.ghostFearAura.name",
-    description: "monster.undead.ability.ghostFearAura.description",
+    name: "monster.ghost.ability.fearAura.name",
+    description: "monster.ghost.ability.fearAura.description",
     id: Ids.GhostFearAura,
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
@@ -75,14 +75,14 @@ function ghostFearAura(cre: Creature) {
             saveBonus: 0,
             minLevel: 1,
             maxLevel: 7,
-            stringRef: "monster.undead.ability.ghostFearAura.frightened",
+            stringRef: "monster.ghost.ability.fearAura.frightened",
           }),
           ...effectFactory.fear({
             saveType,
             duration: 8 * Durations.turn,
             saveBonus: 2,
             minLevel: 8,
-            stringRef: "monster.undead.ability.ghostFearAura.frightened",
+            stringRef: "monster.ghost.ability.fearAura.frightened",
           }),
           {
             opcode: EffectTypeEnum.ProtectionFromSpell,
@@ -104,8 +104,8 @@ function ghostFearAura(cre: Creature) {
 
 function ghostTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.ghostTouch.name",
-    description: "monster.undead.ability.ghostTouch.description",
+    name: "monster.ghost.ability.touch.name",
+    description: "monster.ghost.ability.touch.description",
     id: Ids.GhostTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["levelDrain", "magicDamage"],
@@ -133,7 +133,7 @@ function ghostTouch(cre: Creature) {
 export function ghost(entry: CreatureEntry<Creature>): Creature {
   const ghost = entry.create({
     monster: MonsterEnum.Ghost,
-    name: "monster.undead.name.ghost",
+    name: "monster.ghost.name",
     files: [],
     data: {
       level1: 10,

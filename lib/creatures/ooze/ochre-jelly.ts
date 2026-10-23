@@ -23,7 +23,7 @@ class OchreJellyEntry extends CreatureEntry<Slime> {
   private ochreJelly() {
     const ochre = this.create({
       monster: MonsterEnum.OchreJelly,
-      name: "monster.slime.name.ochre",
+      name: "monster.ooze.name.ochre",
       files: [],
       data: {
         level1: 6,

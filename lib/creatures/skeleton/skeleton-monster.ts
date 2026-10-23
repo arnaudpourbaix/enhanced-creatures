@@ -47,7 +47,7 @@ function clericSkeletonVariant(base: Creature): Variant {
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
 export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature): Creature {
   const monster = entry.createFrom({
-    name: "monster.undead.name.skeletonMonster",
+    name: "monster.skeleton.name.monster",
     monster: MonsterEnum.SkeletonMonster,
     from: base,
     removeAbilities: true,
@@ -65,7 +65,7 @@ export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature):
   monster.setAdjustments([
     {
       files: ["C0DESUM3"],
-      stringRef: "monster.undead.name.skeletonMonster",
+      stringRef: "monster.skeleton.name.monster",
       data: { level1: 7, class: "FIGHTER" },
     },
   ]);

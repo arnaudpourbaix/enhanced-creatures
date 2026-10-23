@@ -13,7 +13,7 @@ import { skeletonKin } from "./kin";
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
 export function giantSkeleton(entry: CreatureEntry<Creature>, base: Creature): Creature {
   const giant = entry.createFrom({
-    name: "monster.undead.name.giantSkeleton",
+    name: "monster.skeleton.name.giant",
     monster: MonsterEnum.GiantSkeleton,
     from: base,
     removeAbilities: true,

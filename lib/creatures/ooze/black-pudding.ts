@@ -27,7 +27,7 @@ class BlackPuddingEntry extends CreatureEntry<Slime> {
   private blackPudding() {
     const black = this.create({
       monster: MonsterEnum.BlackPudding,
-      name: "monster.slime.name.black",
+      name: "monster.ooze.name.black",
       files: [NEW_CREATURES.SplitBlackPudding],
       newFiles: [
         {
@@ -70,7 +70,7 @@ class BlackPuddingEntry extends CreatureEntry<Slime> {
     });
     black.createSplit({
       id: SlimeIds.BlackPuddingSplit,
-      description: "monster.slime.ability.split.puddingDesc",
+      description: "monster.ooze.ability.split.puddingDesc",
       resource: NEW_CREATURES.SplitBlackPudding,
       visualEffect: "BDGOOYAA",
       withTriggers: true,
@@ -79,8 +79,8 @@ class BlackPuddingEntry extends CreatureEntry<Slime> {
       // 5e: Damage Immunities: Lightning, Slashing
       // description overrides the auto-generated immunity bullets so the split trait (a
       // passive, always-on behavior that the doc generator otherwise has no way to list - see
-      // monster.ts's slime.trait.split comment) can be folded into the same trait entry.
-      description: "monster.slime.trait.split.pudding",
+      // monster.ts's ooze.trait.split comment) can be folded into the same trait entry.
+      description: "monster.ooze.trait.split.pudding",
       immunities: ["acid", "cold", "poison"],
       effects: [
         {

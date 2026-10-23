@@ -25,13 +25,13 @@ class GreenSlimeEntry extends CreatureEntry<Slime> {
   private greenSlime() {
     const green = this.create({
       monster: MonsterEnum.GreenSlime,
-      name: "monster.slime.name.green",
+      name: "monster.ooze.name.green",
       files: [NEW_CREATURES.GreenSlime],
       newFiles: [
         {
           files: [NEW_CREATURES.GreenSlime],
           copyFrom: NEW_CREATURES.GreenSlime,
-          stringRef: "monster.slime.name.green",
+          stringRef: "monster.ooze.name.green",
         },
       ],
       data: {
@@ -67,7 +67,7 @@ class GreenSlimeEntry extends CreatureEntry<Slime> {
     });
     green.createAttachToLivingFlesh({
       id: SlimeIds.AttachToLivingFleshGreenSlime,
-      description: "monster.slime.ability.attachToLivingFlesh.descriptionGreen",
+      description: "monster.ooze.ability.attachToLivingFlesh.descriptionGreen",
       delay: 4 * Durations.round,
       resource: NEW_CREATURES.GreenSlime,
     });

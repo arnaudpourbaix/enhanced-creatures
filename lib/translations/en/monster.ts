@@ -1,13 +1,12 @@
-// Same displayed ability name shared by the dread wolf, ghoul, and mummy variants below - each
+// One section per kin (shared names and abilities) or per kin-less entry.
 
-import ability from "./ability";
-
-// has its own mechanical description, but the in-game ability name is identical.
+// Same displayed ability name shared by the dread wolf, ghoul, and mummy below - each has its own
+// mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
 
-// Shared between slime.ability.split (the in-game spell/ability text) and slime.trait.split (the
-// docs-only trait entry, which also folds in the creature's immunity bullets - see
-// slimes.ts's addTrait calls) so the flavor text has one source of truth.
+// Shared between ooze.ability.split (the in-game spell/ability text) and ooze.trait.split (the
+// docs-only trait entry, which also folds in the creature's immunity bullets - see the puddings'
+// and mustard jelly's addTrait calls) so the flavor text has one source of truth.
 const SLIME_SPLIT_NAME = "Slime Split";
 const SLIME_SPLIT_PUDDING_DESC = `Lightning bolts and blows from weapons divide them into smaller puddings, each able to attack exactly as the original pudding. Smallest pudding does the same damage as the largest.`;
 const SLIME_SPLIT_MUSTARD_DESC = `This large creature can divide itself at will into two smaller, faster halves (movement rate 18). Each is capable of attacking, but has only half the hit points the creature had before dividing.`;
@@ -294,22 +293,22 @@ Furthermore, creatures with this ability can cross lava and acid pools without t
       },
     },
   },
-  plant: {
+  treant: {
     name: {
       treant: "Treant",
-      treant11HD: "Treant (11 HD)",
-      treant9HD: "Treant (9 HD)",
-      treant7HD: "Treant (7 HD)",
-      treant5HD: "Treant (5 HD)",
+      hd11: "Treant (11 HD)",
+      hd9: "Treant (9 HD)",
+      hd7: "Treant (7 HD)",
+      hd5: "Treant (5 HD)",
     },
   },
-  slime: {
+  ooze: {
     name: {
       black: "Black Pudding",
       white: "White Pudding",
       fission: "Fission Slime",
       mustard: "Mustard Jelly",
-      SmallerMustard: "Smaller Mustard Jelly",
+      smallerMustard: "Smaller Mustard Jelly",
       gray: "Gray Ooze",
       green: "Green Slime",
       ochre: "Ochre Jelly",
@@ -447,9 +446,7 @@ He loses 1 hp per hour until death.`,
     },
   },
   minotaur: {
-    name: {
-      minotaur: "Minotaur",
-    },
+    name: "Minotaur",
     weapon: {
       axe: {
         name: "Huge Axe",
@@ -474,10 +471,7 @@ If successful, the charge causes double head-butt damage`,
     },
   },
   ettercap: {
-    name: {
-      ettercap: "Ettercap",
-    },
-    ability: {},
+    name: "Ettercap",
   },
   wyvern: {
     name: {
@@ -486,100 +480,62 @@ If successful, the charge causes double head-butt damage`,
       greater: "Greater Wyvern",
       redDrake: "Red Wyvern Drake",
     },
-    ability: {},
   },
-  undead: {
-    name: {
-      baneguard: "Baneguard",
-      banshee: "Banshee",
-      bonebat: "Bonebat",
-      deathKnight: "Death Knight",
-      deathShade: "Death Shade",
-      ghast: "Ghast",
-      ghost: "Ghost",
-      ghoul: "Ghoul",
-      ghoulLord: "Ghoul Lord",
-      mummy: "Mummy",
-      greaterMummy: "Greater Mummy",
-      shadow: "Shadow",
-      greaterShadow: "Greater Shadow",
-      archerSkeleton: "Archer Skeleton",
-      skeletonMonster: "Skeleton Monster",
-      giantSkeleton: "Giant Skeleton",
-      spikeSkeleton: "Spike Skeleton",
-      skeleton: "Skeleton",
-      skeletonWarrior: "Skeleton Warrior",
-      spectre: "Spectre",
-      fledglingVampire: "Fledgling Vampire",
-      matureVampire: "Mature Vampire",
-      oldVampire: "Old Vampire",
-      veryOldVampire: "Very Old Vampire",
-      ancientVampire: "Ancient Vampire",
-      eminentVampire: "Eminent Vampire",
-      patriarchVampire: "Patriarch Vampire",
-      patriarchVampireMage: "Patriarch Vampire Mage",
-      wight: "Wight",
-      wraith: "Wraith",
-      zombie: "Zombie",
-      zombieMonster: "Zombie Monster",
-      zombieJuju: "Ju-ju Zombie",
-      zombieSea: "Sea Zombie",
-      zombieLord: "Zombie Lord",
-      seaZombieLord: "Sea Zombie Lord",
-    },
+  baneguard: {
+    name: "Baneguard",
     ability: {
-      bansheeFearAura: {
+      blink: "Blink",
+    },
+  },
+  banshee: {
+    name: "Banshee",
+    ability: {
+      fearAura: {
         description: `The mere sight of one causes fear, unless a successful saving throw vs. spell is rolled.
 Those who fail must flee in terror for 10 rounds and are 50% likely to drop any items they were carrying in their hands.`,
       },
-      skeletonWarriorFearAura: {
-        description: `The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.`,
-      },
-      deathKnightFearAura: {
-        description: `It constantly generates fear in a 5-foot radius.`,
-      },
-      blink: "Blink",
       deathWail: {
         name: "Death Wail",
         description: `Any creature within 30 feet of a groaning spirit when she keens must roll a saving throw vs. death magic.
 Those who fail die immediately, their faces contorted in horror.`,
+      },
+    },
+  },
+  bonebat: {
+    name: "Bonebat",
+    ability: {
+      touch: {
+        name: "Bonebat's Touch",
+        description: `A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, unless a successful saving throw vs. paralyzation is made.`,
+      },
+    },
+  },
+  deathKnight: {
+    name: "Death Knight",
+    ability: {
+      fearAura: {
+        description: `It constantly generates fear in a 5-foot radius.`,
       },
       iceWall: {
         name: "Wall of Ice",
         description: `This causes a horizontal sheet to fall upon opponents. The sheet covers a 10-foot-square area per caster level.
 The sheet has the same effect as an ice storm's hail stones—3d10 points of damage inflicted to creatures beneath it.`,
       },
-      ghoulTouch: {
-        name: "Ghoul's Touch",
-        description: `Their touch causes humanoids (excluding elves) to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.`,
+      fireball: {
+        name: "Unholy Fireball",
+        description: `A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
       },
-      ghastTouch: {
+    },
+  },
+  deathShade: {
+    name: "Death Shade",
+  },
+  ghast: {
+    name: "Ghast",
+    ability: {
+      touch: {
         name: "Ghast's Touch",
         description: `Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 7 rounds.`,
-      },
-      specterTouch: {
-        name: "Specter's Touch",
-        description: `Their touch drains two life energy levels from the victim.`,
-      },
-      wightTouch: {
-        name: "Wight's Touch",
-        description: `Their touch drains one life energy level from the victim.`,
-      },
-      wraithTouch: {
-        name: "Wraith's Touch",
-        description: `Their touch drains one life energy level from the victim.`,
-      },
-      ghostTouch: {
-        name: "Ghost's Touch",
-        description: `Their touch drains two life energy levels from the victim.`,
-      },
-      bonebatTouch: {
-        name: "Bonebat's Touch",
-        description: `A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, unless a successful saving throw vs. paralyzation is made.`,
-      },
-      ghoulLordTouch: {
-        name: "Ghoul Lord's Touch",
-        description: `Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds.`,
       },
       carrionStench: {
         name: "Carrion Stench",
@@ -587,11 +543,55 @@ The sheet has the same effect as an ice storm's hail stones—3d10 points of dam
 Those failing to make this save will attack at a penalty of -2.`,
         message: "Affected by Ghast's carrion stench",
       },
-      ghoulRottingDisease: {
+    },
+  },
+  ghost: {
+    name: "Ghost",
+    ability: {
+      touch: {
+        name: "Ghost's Touch",
+        description: `Their touch drains two life energy levels from the victim.`,
+      },
+      fearAura: {
+        name: "Fear Aura",
+        description: `The supernatural power of a ghost is such, however, that the mere sight of one causes any humanoid being to age 10 years and flee in panic for 8 turns unless a saving throw versus spell is made.
+Priests above 6th level are immune to this effect, and all other humanoids above 8th level may add +2 to their saving throws.`,
+        frightened: "Frightened",
+      },
+    },
+  },
+  ghoul: {
+    name: {
+      ghoul: "Ghoul",
+      lord: "Ghoul Lord",
+    },
+    ability: {
+      touch: {
+        name: "Ghoul's Touch",
+        description: `Their touch causes humanoids (excluding elves) to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 5 rounds.`,
+      },
+      lordTouch: {
+        name: "Ghoul Lord's Touch",
+        description: `Their touch causes humanoids to become rigid unless a saving throw versus paralyzation is successful. This paralysis lasts for 10 rounds.`,
+      },
+      rottingDisease: {
         name: ROTTING_DISEASE_NAME,
         description: `Loose 10 hit points every 8 hours and 4 point of Constitution and Charisma.`,
       },
-      mummyRottingDisease: {
+      auraOfEvil: {
+        name: "Aura of Evil",
+        description: `Ghoul lords do radiate an aura of evil. In fact, this effect is so potent that those of good alignment suffer a -4 on all attack rolls when within 30 feet of these creatures.`,
+        message: "Affected by Ghoul Lord's evil aura",
+      },
+    },
+  },
+  mummy: {
+    name: {
+      mummy: "Mummy",
+      greater: "Greater Mummy",
+    },
+    ability: {
+      rottingDisease: {
         name: ROTTING_DISEASE_NAME,
         description: `The scabrous touch infects the victim with a rotting disease which is fatal in 6 days.
 For each day the rot progresses, the victim permanently loses 2 points of Charisma.
@@ -605,7 +605,7 @@ Cure wounds spells have no effect on a person inflicted with mummy rot.`,
         warning: "Close to dying from mummy rot",
         death: "Succumbs to mummy rot",
       },
-      mummyFearAura: {
+      fearAura: {
         name: "Fear Aura",
         description: `The mere sight of a mummy causes such terror in any creature that a saving throw versus spell must be made or the victim becomes paralyzed with fright for 3 rounds.
 Humans save against mummies at an additional +2.`,
@@ -613,33 +613,141 @@ Humans save against mummies at an additional +2.`,
 Humans save against mummies at an additional +2.`,
         frightened: "Frightened",
       },
-      ghostFearAura: {
-        name: "Fear Aura",
-        description: `The supernatural power of a ghost is such, however, that the mere sight of one causes any humanoid being to age 10 years and flee in panic for 8 turns unless a saving throw versus spell is made.
-Priests above 6th level are immune to this effect, and all other humanoids above 8th level may add +2 to their saving throws.`,
-        frightened: "Frightened",
+    },
+  },
+  shadow: {
+    name: {
+      shadow: "Shadow",
+      greater: "Greater Shadow",
+    },
+  },
+  skeleton: {
+    name: {
+      skeleton: "Skeleton",
+      archer: "Archer Skeleton",
+      monster: "Skeleton Monster",
+      giant: "Giant Skeleton",
+      spike: "Spike Skeleton",
+    },
+  },
+  skeletonWarrior: {
+    name: "Skeleton Warrior",
+    ability: {
+      fearAura: {
+        description: `The mere sight of a skeleton warrior causes any creature with fewer than 5 Hit Dice to flee in panic.`,
       },
-      auraOfEvil: {
-        name: "Aura of Evil",
-        description: `Ghoul lords do radiate an aura of evil. In fact, this effect is so potent that those of good alignment suffer a -4 on all attack rolls when within 30 feet of these creatures.`,
-        message: "Affected by Ghoul Lord's evil aura",
+    },
+  },
+  spectre: {
+    name: "Spectre",
+    ability: {
+      touch: {
+        name: "Specter's Touch",
+        description: `Their touch drains two life energy levels from the victim.`,
       },
-      fireball: {
-        name: "Unholy Fireball",
-        description: `A fireball is an explosive burst of flame that detonates with a low roar, delivering 20d6 points of damage. The death knight points his finger and speaks the range (distance and height) at which the fireball is to burst. A streak flashes from the pointing digit and, unless it impacts upon a material body or solid barrier prior to attaining the prescribed range, blossoms into the fireball (an early impact results in an early detonation). Creatures who fail their saving throw vs. breath at -2 suffer full damage from the blast. Those who roll successful saving throws manage to dodge, fall flat, or roll aside, each receiving half damage.`,
+    },
+  },
+  vampire: {
+    name: {
+      fledgling: "Fledgling Vampire",
+      mature: "Mature Vampire",
+      old: "Old Vampire",
+      veryOld: "Very Old Vampire",
+      ancient: "Ancient Vampire",
+      eminent: "Eminent Vampire",
+      patriarch: "Patriarch Vampire",
+      patriarchMage: "Patriarch Vampire Mage",
+    },
+    ability: {
+      domination: {
+        gazeName: "Domination Gaze",
+        voiceName: "Dominating Voice",
+        willName: "Dominating Will",
+        gazeDescription: `The gaze of a vampire is one of its most powerful and dangerous weapons.
+Any person who looks into its eyes is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled, with a penalty that grows with the vampire's age (-2 for a fledgling or mature vampire, -3 for an old or very old one).
+The charm lasts 8 rounds. Blinded creatures and creatures immune to gaze attacks are unaffected.`,
+        voiceDescription: `An ancient or eminent vampire no longer needs to meet its victim's eyes: its voice alone is enough.
+Any person who hears it is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -4.
+The charm lasts 8 rounds, and blindness offers no protection, but a silenced vampire can't use its voice.`,
+        willDescription: `A vampire patriarch dominates others by sheer force of will, needing neither gaze nor voice.
+Any person it targets is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -5.
+The charm lasts 8 rounds, and blindness offers no protection.`,
       },
-      zombieDisease: {
+      batSwarm: {
+        name: "Bat Swarm",
+        description: `Vampires have the natural ability to summon and control animals.
+Once per day, the vampire summons a swarm of bats covering an area roughly 20 feet in radius, for 5 rounds.
+The vampire's enemies caught within the swarm are blinded, suffer a -4 penalty to all attack rolls and Armor Class, and have their movement rates cut in half.`,
+      },
+      controlUndead: {
+        name: "Control Undead",
+        description: `Vampires are able to control other undead of lesser Hit Die values.
+The vampire takes control of a single undead creature of up to half its own level, with no saving throw.
+The control lasts until it is dispelled.`,
+      },
+      wolfForm: {
+        name: "Wolf Form",
+        description: `The vampire assumes the form of a wolf at will, for 3 rounds.
+In wolf form, its bite inflicts 3d12 damage but no longer drains levels, its base Armor Class is 2 and its movement rate is 18.
+While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
+      },
+      batForm: {
+        name: "Bat Form",
+        description: `The vampire assumes the form of a giant bat at will, for 3 rounds.
+In bat form, it flies at a movement rate of 18, its bite inflicts 2d6 damage but no longer drains levels, its base Armor Class is 2 and its erratic flight gives a -3 penalty to its opponents' attack rolls.
+While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
+      },
+      mistForm: {
+        name: "Gaseous Form",
+        description: `The vampire assumes the form of gaseous vapors at will, for 1 round, to break off and get away when badly hurt or surrounded.
+In gaseous form, it is immune to all damage except fire, to which it is vulnerable (+50%), and to ground effects such as web and entangle. It is very hard to hit (+10 AC bonus), can't attack or cast spells, passes through creatures and its movement rate is 3 less than normal.
+A vampire reduced to 0 hit points isn't destroyed either: it assumes gaseous form and flees to its sanctuary.`,
+      },
+      vampireForm: {
+        name: "Vampire Form",
+        description: `The vampire takes back its own form at will, ending a wolf, bat or gaseous form early: for instance once a bat has flown over its foes to the victim it wants to drain.`,
+      },
+    },
+  },
+  wight: {
+    name: "Wight",
+    ability: {
+      touch: {
+        name: "Wight's Touch",
+        description: `Their touch drains one life energy level from the victim.`,
+      },
+    },
+  },
+  wraith: {
+    name: "Wraith",
+    ability: {
+      touch: {
+        name: "Wraith's Touch",
+        description: `Their touch drains one life energy level from the victim.`,
+      },
+    },
+  },
+  zombie: {
+    name: {
+      zombie: "Zombie",
+      monster: "Zombie Monster",
+      juju: "Ju-ju Zombie",
+      sea: "Sea Zombie",
+      lord: "Zombie Lord",
+    },
+    ability: {
+      disease: {
         name: "Disease",
         description: `The putrid water that drips from the drowned ones contains many bacteria, causing a severe disease in the victim.
  The character's rotting skin and systemic infection cause constant agony. They suffer a -2 penalty to their Armor Class and a -2 penalty to all attack rolls due to extreme physical weakness.`,
         diseased: "Stricken by zombie rot",
       },
-      zombieStenchOfDecay: {
+      stenchOfDecay: {
         name: "Stench Of Decay",
         description: `Their visage and the stench of decay surrounding them are so disgusting that anyone seeing a drowned one or coming within 20 feet of one must roll a saving throw vs. poison. 
 A failed saving throw indicates that the character is nauseated, suffering a -1 penalty to his attack roll and a +1 penalty to his AC for 5 rounds`,
       },
-      zombieOdorOfDeath: {
+      odorOfDeath: {
         name: "Odor of Death",
         description: `The odor of death surrounding the zombie lord is so potent it causes horrible effects in those who breathe it. On the first round a character comes within 30 yards, he must save vs. poison or be affected in some way. 
 The following results are possible:
@@ -662,72 +770,14 @@ The following results are possible:
 A target who fails a saving throw vs. death is slain. 
 In 2 rounds, the slain creature rises as a zombie under the zombie lord's command.`,
       },
-      vampireDomination: {
-        gazeName: "Domination Gaze",
-        voiceName: "Dominating Voice",
-        willName: "Dominating Will",
-        gazeDescription: `The gaze of a vampire is one of its most powerful and dangerous weapons.
-Any person who looks into its eyes is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled, with a penalty that grows with the vampire's age (-2 for a fledgling or mature vampire, -3 for an old or very old one).
-The charm lasts 8 rounds. Blinded creatures and creatures immune to gaze attacks are unaffected.`,
-        voiceDescription: `An ancient or eminent vampire no longer needs to meet its victim's eyes: its voice alone is enough.
-Any person who hears it is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -4.
-The charm lasts 8 rounds, and blindness offers no protection, but a silenced vampire can't use its voice.`,
-        willDescription: `A vampire patriarch dominates others by sheer force of will, needing neither gaze nor voice.
-Any person it targets is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -5.
-The charm lasts 8 rounds, and blindness offers no protection.`,
-      },
-      vampireBatSwarm: {
-        name: "Bat Swarm",
-        description: `Vampires have the natural ability to summon and control animals.
-Once per day, the vampire summons a swarm of bats covering an area roughly 20 feet in radius, for 5 rounds.
-The vampire's enemies caught within the swarm are blinded, suffer a -4 penalty to all attack rolls and Armor Class, and have their movement rates cut in half.`,
-      },
-      vampireControlUndead: {
-        name: "Control Undead",
-        description: `Vampires are able to control other undead of lesser Hit Die values.
-The vampire takes control of a single undead creature of up to half its own level, with no saving throw.
-The control lasts until it is dispelled.`,
-      },
-      vampireWolfForm: {
-        name: "Wolf Form",
-        description: `The vampire assumes the form of a wolf at will, for 3 rounds.
-In wolf form, its bite inflicts 3d12 damage but no longer drains levels, its base Armor Class is 2 and its movement rate is 18.
-While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
-      },
-      vampireBatForm: {
-        name: "Bat Form",
-        description: `The vampire assumes the form of a giant bat at will, for 3 rounds.
-In bat form, it flies at a movement rate of 18, its bite inflicts 2d6 damage but no longer drains levels, its base Armor Class is 2 and its erratic flight gives a -3 penalty to its opponents' attack rolls.
-While changing, the vampire suffers a +4 penalty to its Armor Class and a -1 penalty to all saving throws for 1 round.`,
-      },
-      vampireMistForm: {
-        name: "Gaseous Form",
-        description: `The vampire assumes the form of gaseous vapors at will, for 1 round, to break off and get away when badly hurt or surrounded.
-In gaseous form, it is immune to all damage except fire, to which it is vulnerable (+50%), and to ground effects such as web and entangle. It is very hard to hit (+10 AC bonus), can't attack or cast spells, passes through creatures and its movement rate is 3 less than normal.
-A vampire reduced to 0 hit points isn't destroyed either: it assumes gaseous form and flees to its sanctuary.`,
-      },
-      vampireForm: {
-        name: "Vampire Form",
-        description: `The vampire takes back its own form at will, ending a wolf, bat or gaseous form early: for instance once a bat has flown over its foes to the victim it wants to drain.`,
-      },
     },
   },
   ettin: {
-    name: {
-      ettin: "Ettin",
-    },
+    name: "Ettin",
     weapon: { largeSpikedClub: "Large Spiked Club" },
   },
-  elemental: {
-    name: {},
-    weapon: {},
-    ability: {},
-  },
-  snake: {
-    name: {
-      giantPoisonous: "Giant Poisonous Snake",
-    },
-    ability: {},
+  giantPoisonousSnake: {
+    name: "Giant Poisonous Snake",
   },
   vampyre: {
     name: "Vampyre",

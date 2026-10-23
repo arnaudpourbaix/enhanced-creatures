@@ -11,7 +11,7 @@ import { skeletonKin } from "./kin";
 export function skeleton(entry: CreatureEntry<Creature>): Creature {
   const skeleton = entry.create({
     monster: MonsterEnum.Skeleton,
-    name: "monster.undead.name.skeleton",
+    name: "monster.skeleton.name.skeleton",
     files: [],
     data: {
       level1: 1,
@@ -66,7 +66,7 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
     },
     {
       files: ["C0DESUM1", "C0DESUM2"],
-      stringRef: "monster.undead.name.skeleton",
+      stringRef: "monster.skeleton.name.skeleton",
       data: { level1: 3 },
     },
     {

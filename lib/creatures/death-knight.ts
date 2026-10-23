@@ -47,7 +47,7 @@ function fearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.DeathKnightFearAura,
-      description: "monster.undead.ability.deathKnightFearAura.description",
+      description: "monster.deathKnight.ability.fearAura.description",
       duration: 5 * Durations.round,
       projectile: {
         copyFromFile: CommonProjectileFiles.AreaOfSightNonParty,
@@ -69,8 +69,8 @@ function wallOfIce(cre: Creature) {
     dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
   };
   return cre.addSpell({
-    name: "monster.undead.ability.iceWall.name",
-    description: "monster.undead.ability.iceWall.description",
+    name: "monster.deathKnight.ability.iceWall.name",
+    description: "monster.deathKnight.ability.iceWall.description",
     id: Ids.WallOfIce,
     memorizedCount: AT_WILL,
     icon: SPELLS.Wizard.IceStorm.file,
@@ -129,8 +129,8 @@ function wallOfIce(cre: Creature) {
 
 function fireball(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.fireball.name",
-    description: "monster.undead.ability.fireball.description",
+    name: "monster.deathKnight.ability.fireball.name",
+    description: "monster.deathKnight.ability.fireball.description",
     id: Ids.Fireball,
     memorizedCount: 1,
     icon: SPELLS.Wizard.Fireball.file,
@@ -202,7 +202,7 @@ const summonRemovedSpells = [
 export function deathKnight(entry: CreatureEntry<Creature>): Creature {
   const knight = entry.create({
     monster: MonsterEnum.DeathKnight,
-    name: "monster.undead.name.deathKnight",
+    name: "monster.deathKnight.name",
     files: [],
     data: {
       level1: 9,

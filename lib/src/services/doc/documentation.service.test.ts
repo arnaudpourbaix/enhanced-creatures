@@ -2087,7 +2087,7 @@ describe("getCreatureHeader", () => {
   // this one for the csv/newFiles case it's meant for) must not swallow an explicit adjustment
   // stringRef that happens to match the base creature's name - that's the exact case a real
   // adjustment uses to correct a misleading creatures.csv name back to the base creature's own
-  // name (lib/creatures/skeleton/skeleton.ts's C0DESUM1-3 stringRef "monster.undead.name.skeleton",
+  // name (lib/creatures/skeleton/skeleton.ts's C0DESUM1-3 stringRef "monster.skeleton.name.skeleton",
   // overriding the csv's "Skeleton Warrior" back to plain "Skeleton").
   it("still shows an adjustment's own stringRef name even when it matches the creature's own name", () => {
     vi.spyOn(monsterFilesService, "getName").mockReturnValue("Some Csv Name");

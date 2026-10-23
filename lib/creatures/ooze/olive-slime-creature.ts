@@ -22,13 +22,13 @@ class OliveSlimeCreatureEntry extends CreatureEntry<Slime> {
   private oliveSlimeCreature() {
     const olive = this.create({
       monster: MonsterEnum.OliveSlimeCreature,
-      name: "monster.slime.name.oliveCreature",
+      name: "monster.ooze.name.oliveCreature",
       files: [NEW_CREATURES.OliveSlimeCreature],
       newFiles: [
         {
           files: [NEW_CREATURES.OliveSlimeCreature],
           copyFrom: NEW_CREATURES.OliveSlimeCreature,
-          stringRef: "monster.slime.name.oliveCreature",
+          stringRef: "monster.ooze.name.oliveCreature",
         },
       ],
       data: {

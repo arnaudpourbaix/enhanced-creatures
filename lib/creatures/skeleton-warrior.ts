@@ -21,7 +21,7 @@ function fearAura(cre: Creature) {
   return cre.addSpell(
     createFearAura({
       id: Ids.SkeletonWarriorFearAura,
-      description: "monster.undead.ability.skeletonWarriorFearAura.description",
+      description: "monster.skeletonWarrior.ability.fearAura.description",
       duration: Durations.turn,
       saveType: SaveTypeEnum.Spell,
     }),
@@ -31,7 +31,7 @@ function fearAura(cre: Creature) {
 export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
   const warrior = entry.create({
     monster: MonsterEnum.SkeletonWarrior,
-    name: "monster.undead.name.skeletonWarrior",
+    name: "monster.skeletonWarrior.name",
     files: [],
     data: {
       level1: 9,

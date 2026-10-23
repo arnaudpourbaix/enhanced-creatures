@@ -29,7 +29,7 @@ class SlitheringTrackerEntry extends CreatureEntry<Slime> {
   private slitheringTracker() {
     const tracker = this.create({
       monster: MonsterEnum.SlitheringTracker,
-      name: "monster.slime.name.slitheringTracker",
+      name: "monster.ooze.name.slitheringTracker",
       files: [],
       data: {
         level1: 5,
@@ -79,7 +79,7 @@ class SlitheringTrackerEntry extends CreatureEntry<Slime> {
       restHeal: true,
     });
     tracker.setAdjustments([
-      { files: ["JELOLI01"], stringRef: "monster.slime.name.slitheringTracker" },
+      { files: ["JELOLI01"], stringRef: "monster.ooze.name.slitheringTracker" },
     ]);
     return tracker;
   }

@@ -71,7 +71,7 @@ export class Slime extends Creature {
   }) {
     return this.addSpell({
       id: p.id,
-      name: "monster.slime.ability.attachToLivingFlesh.name",
+      name: "monster.ooze.ability.attachToLivingFlesh.name",
       description: p.description,
       secondaryType: "Disease",
       headers: [
@@ -130,7 +130,7 @@ export class Slime extends Creature {
     return this.addSpell({
       id,
       description,
-      name: "monster.slime.ability.split.name",
+      name: "monster.ooze.ability.split.name",
       icon: SPELLS.Wizard.MirrorImages.file,
       headers: [
         {
@@ -210,9 +210,9 @@ export class OozeKin extends CreatureKin {
     };
     return this.addSpell({
       id: SlimeIds.ToxicVapors,
-      name: "monster.slime.ability.toxicVapors.name",
+      name: "monster.ooze.ability.toxicVapors.name",
       keywords: ["area"],
-      description: "monster.slime.ability.toxicVapors.description",
+      description: "monster.ooze.ability.toxicVapors.description",
       icon: SPELLS.Wizard.StinkingCloud.file,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
       options: { renew: 1 },

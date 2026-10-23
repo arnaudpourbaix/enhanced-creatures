@@ -11,7 +11,7 @@ import { createShadowWeapon } from "./types/undead";
 export function shadow(entry: CreatureEntry<Creature>): Creature {
   const shadow = entry.create({
     monster: MonsterEnum.Shadow,
-    name: "monster.undead.name.shadow",
+    name: "monster.shadow.name.shadow",
     files: [],
     data: {
       level1: 3,
@@ -97,7 +97,7 @@ export function greaterShadow(entry: CreatureEntry<Creature>): Creature {
   // Regardless of its size, the creature has AC 7.
   // It receives a number of attacks per round equal to; the number of incorporated shadows.
   const greaterShadow = entry.createFrom({
-    name: "monster.undead.name.greaterShadow",
+    name: "monster.shadow.name.greater",
     monster: MonsterEnum.GreaterShadow,
     from: entry.creature(MonsterEnum.Shadow),
   });
@@ -119,7 +119,7 @@ export function greaterShadow(entry: CreatureEntry<Creature>): Creature {
 export function greaterShadow5e(entry: CreatureEntry<Creature>): Creature {
   const greaterShadow = entry.create({
     monster: MonsterEnum.GreaterShadow,
-    name: "monster.undead.name.greaterShadow",
+    name: "monster.shadow.name.greater",
     files: [],
     data: {
       level1: 8,

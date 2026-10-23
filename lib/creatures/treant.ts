@@ -33,7 +33,7 @@ class TreantEntry extends CreatureEntry<Plant> {
   private treant() {
     const treant = this.create({
       monster: MonsterEnum.Treant,
-      name: "monster.plant.name.treant",
+      name: "monster.treant.name.treant",
       files: [
         NEW_CREATURES.Treant11hd,
         NEW_CREATURES.Treant9hd,
@@ -44,22 +44,22 @@ class TreantEntry extends CreatureEntry<Plant> {
         {
           files: [NEW_CREATURES.Treant11hd],
           copyFrom: "jacm1904",
-          stringRef: "monster.plant.name.treant11HD",
+          stringRef: "monster.treant.name.hd11",
         },
         {
           files: [NEW_CREATURES.Treant9hd],
           copyFrom: "jacm1904",
-          stringRef: "monster.plant.name.treant9HD",
+          stringRef: "monster.treant.name.hd9",
         },
         {
           files: [NEW_CREATURES.Treant7hd],
           copyFrom: "jacm1904",
-          stringRef: "monster.plant.name.treant7HD",
+          stringRef: "monster.treant.name.hd7",
         },
         {
           files: [NEW_CREATURES.Treant5hd],
           copyFrom: "jacm1904",
-          stringRef: "monster.plant.name.treant5HD",
+          stringRef: "monster.treant.name.hd5",
         },
       ],
       data: {

@@ -27,7 +27,7 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
   private whitePudding() {
     const white = this.create({
       monster: MonsterEnum.WhitePudding,
-      name: "monster.slime.name.white",
+      name: "monster.ooze.name.white",
       files: [NEW_CREATURES.SplitWhitePudding],
       newFiles: [
         {
@@ -65,7 +65,7 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
     });
     white.addTrait({
       // 5e: Damage Immunities: Lightning, Slashing
-      description: "monster.slime.trait.split.pudding",
+      description: "monster.ooze.trait.split.pudding",
       immunities: ["acid", "cold", "poison"],
       effects: [
         {
@@ -77,7 +77,7 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
     });
     white.createSplit({
       id: SlimeIds.WhitePuddingSplit,
-      description: "monster.slime.ability.split.puddingDesc",
+      description: "monster.ooze.ability.split.puddingDesc",
       resource: NEW_CREATURES.SplitWhitePudding,
       visualEffect: "BDGOOYAA",
       withTriggers: true,

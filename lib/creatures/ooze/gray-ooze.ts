@@ -23,7 +23,7 @@ class GrayOozeEntry extends CreatureEntry<Slime> {
   private grayOoze() {
     const gray = this.create({
       monster: MonsterEnum.GrayOoze,
-      name: "monster.slime.name.gray",
+      name: "monster.ooze.name.gray",
       files: [],
       data: {
         level1: 3,

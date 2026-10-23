@@ -55,7 +55,7 @@ class EttinEntry extends CreatureEntry<Ettin> {
   private ettin() {
     const ettin = this.create({
       monster: MonsterEnum.Ettin,
-      name: "monster.ettin.name.ettin",
+      name: "monster.ettin.name",
       files: [],
       data: {
         level1: 10,

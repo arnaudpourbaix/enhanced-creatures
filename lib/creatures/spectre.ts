@@ -16,8 +16,8 @@ enum Ids {
 
 function specterTouch(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.specterTouch.name",
-    description: "monster.undead.ability.specterTouch.description",
+    name: "monster.spectre.ability.touch.name",
+    description: "monster.spectre.ability.touch.description",
     id: Ids.SpecterTouch,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["levelDrain"],
@@ -38,7 +38,7 @@ function specterTouch(cre: Creature) {
 export function spectre(entry: CreatureEntry<Creature>): Creature {
   const spectre = entry.create({
     monster: MonsterEnum.Spectre,
-    name: "monster.undead.name.spectre",
+    name: "monster.spectre.name",
     files: [],
     data: {
       level1: 7,

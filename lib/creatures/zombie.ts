@@ -48,8 +48,8 @@ enum Ids {
 function zombieDisease(cre: Creature) {
   const duration = Durations.day;
   return cre.addSpell({
-    name: "monster.undead.ability.zombieDisease.name",
-    description: "monster.undead.ability.zombieDisease.description",
+    name: "monster.zombie.ability.disease.name",
+    description: "monster.zombie.ability.disease.description",
     id: Ids.ZombieDisease,
     secondaryType: "Disease",
     keywords: ["disease"],
@@ -68,7 +68,7 @@ function zombieDisease(cre: Creature) {
           },
           {
             opcode: EffectTypeEnum.DisplayString,
-            stringRef: "monster.undead.ability.zombieDisease.diseased",
+            stringRef: "monster.zombie.ability.disease.diseased",
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
           },
           {
@@ -142,8 +142,8 @@ function createAnimateDead(cre: Creature) {
     ],
   }));
   return cre.addSpell({
-    name: "monster.undead.ability.animateDead.name",
-    description: "monster.undead.ability.animateDead.description",
+    name: "monster.zombie.ability.animateDead.name",
+    description: "monster.zombie.ability.animateDead.description",
     id: Ids.ZombieAnimateDead,
     memorizedCount: 1,
     keywords: ["death", "magicResistance"],
@@ -177,8 +177,8 @@ function createStenchOfDecay(cre: Creature) {
   const saveTypes = [SaveTypeEnum.ParalyzePoisonDeath];
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
-    name: "monster.undead.ability.zombieStenchOfDecay.name",
-    description: "monster.undead.ability.zombieStenchOfDecay.description",
+    name: "monster.zombie.ability.stenchOfDecay.name",
+    description: "monster.zombie.ability.stenchOfDecay.description",
     id: Ids.ZombieStenchOfDecay,
     memorizedCount: 1,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -271,8 +271,8 @@ function createOdorOfDeath(cre: Creature) {
     };
   });
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.name",
-    description: "monster.undead.ability.zombieOdorOfDeath.description",
+    name: "monster.zombie.ability.odorOfDeath.name",
+    description: "monster.zombie.ability.odorOfDeath.description",
     id: Ids.ZombieOdorOfDeath,
     memorizedCount: 1,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -316,7 +316,7 @@ function createOdorOfDeathWeakness(cre: Creature) {
   const duration = Durations.turn * 6;
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.weakness",
+    name: "monster.zombie.ability.odorOfDeath.weakness",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -390,7 +390,7 @@ function createOdorOfDeathStrDisease(cre: Creature) {
     duration: initialDelay,
   });
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.strengthDisease",
+    name: "monster.zombie.ability.odorOfDeath.strengthDisease",
     secondaryType: "Disease",
     headers: [
       {
@@ -420,7 +420,7 @@ function createOdorOfDeathStrDisease(cre: Creature) {
 function createOdorOfDeathConDisease(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.constitutionDisease",
+    name: "monster.zombie.ability.odorOfDeath.constitutionDisease",
     secondaryType: "Disease",
     headers: [
       {
@@ -465,7 +465,7 @@ function createOdorOfDeathContagion(cre: Creature) {
     ...base,
   }));
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.contagion",
+    name: "monster.zombie.ability.odorOfDeath.contagion",
     secondaryType: "Disease",
     headers: [
       {
@@ -500,7 +500,7 @@ function createOdorOfDeathNausea(cre: Creature) {
   const duration = Durations.round * 2;
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.nausea",
+    name: "monster.zombie.ability.odorOfDeath.nausea",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -527,7 +527,7 @@ function createOdorOfDeathNausea(cre: Creature) {
 
 function createOdorOfDeathDeath(cre: Creature) {
   return cre.addSpell({
-    name: "monster.undead.ability.zombieOdorOfDeath.death",
+    name: "monster.zombie.ability.odorOfDeath.death",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -562,13 +562,13 @@ function createOdorOfDeathDeath(cre: Creature) {
 export function zombie(entry: CreatureEntry<Creature>): Creature {
   const zombie = entry.create({
     monster: MonsterEnum.Zombie,
-    name: "monster.undead.name.zombie",
+    name: "monster.zombie.name.zombie",
     files: [NEW_CREATURES.Zombie],
     newFiles: [
       {
         files: [NEW_CREATURES.Zombie],
         copyFrom: NEW_CREATURES.Zombie,
-        stringRef: "monster.undead.name.zombie",
+        stringRef: "monster.zombie.name.zombie",
       },
     ],
     data: {
@@ -610,7 +610,7 @@ export function zombie(entry: CreatureEntry<Creature>): Creature {
 
 export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
   const juju = entry.createFrom({
-    name: "monster.undead.name.zombieJuju",
+    name: "monster.zombie.name.juju",
     monster: MonsterEnum.ZombieJuju,
     from: entry.creature(MonsterEnum.Zombie),
   });
@@ -645,7 +645,7 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
   juju.setAdjustments([
     {
       files: ["ZOMBJU01", "NEVM5", "BHGHOUL5", "D9MBJU01"],
-      stringRef: "monster.undead.name.zombieJuju",
+      stringRef: "monster.zombie.name.juju",
     },
     {
       files: ["L#RVZDOE"],
@@ -662,7 +662,7 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
 
 export function zombieLord(entry: CreatureEntry<Creature>): Creature {
   const lord = entry.createFrom({
-    name: "monster.undead.name.zombieLord",
+    name: "monster.zombie.name.lord",
     monster: MonsterEnum.ZombieLord,
     from: entry.creature(MonsterEnum.Zombie),
   });
@@ -692,7 +692,7 @@ export function zombieLord(entry: CreatureEntry<Creature>): Creature {
 
 export function seaZombie(entry: CreatureEntry<Creature>): Creature {
   const sea = entry.createFrom({
-    name: "monster.undead.name.zombieSea",
+    name: "monster.zombie.name.sea",
     monster: MonsterEnum.ZombieSea,
     from: entry.creature(MonsterEnum.Zombie),
   });
@@ -759,7 +759,7 @@ function seaZombieLordVariant(base: Creature, entry: CreatureEntry<Creature>): V
 
 export function zombieMonster(entry: CreatureEntry<Creature>): Creature {
   const monster = entry.createFrom({
-    name: "monster.undead.name.zombieMonster",
+    name: "monster.zombie.name.monster",
     monster: MonsterEnum.ZombieMonster,
     from: entry.creature(MonsterEnum.Zombie),
   });

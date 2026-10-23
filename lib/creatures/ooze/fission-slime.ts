@@ -26,7 +26,7 @@ class FissionSlimeEntry extends CreatureEntry<Slime> {
   private fissionSlime() {
     const fission = this.create({
       monster: MonsterEnum.FissionSlime,
-      name: "monster.slime.name.fission",
+      name: "monster.ooze.name.fission",
       files: [],
       data: {
         level1: 12,
@@ -61,7 +61,7 @@ class FissionSlimeEntry extends CreatureEntry<Slime> {
       },
     });
     fission.addTrait({
-      description: "monster.slime.trait.fission",
+      description: "monster.ooze.trait.fission",
       immunities: ["lightning", "nonMagicalWeapons", "magicMissile", "coldResistance"],
       // 5e: Immunity to magic damage
       effects: [
