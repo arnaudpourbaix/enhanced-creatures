@@ -15,7 +15,7 @@ COPY_EXISTING ~jasm2d00.SPL~  ~override~
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10389)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=216 target=2 power=1 parameter1=1 timing=1 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=25802 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_one_level_drained timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=1 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=61 target=2 power=1 parameter1=2019179520 parameter2=1638400 timing=1 probability1=100 END
 	

@@ -30,7 +30,7 @@ COPY_EXISTING ~jase1600.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase1600" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase1600" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_dire_charmed timing=1 resist_dispel=1 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 STR_VAR resource="EFF_E07" END
@@ -84,7 +84,7 @@ COPY_EXISTING ~jase1602.SPL~  ~override~
 	END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=74 target=2 power=1 resist_dispel=1 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=8 resist_dispel=1 duration=7 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14674 timing=1 resist_dispel=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_blinded timing=1 resist_dispel=1 probability1=100 END
 	LPF CHANGE_SPELL INT_VAR   rinvs=1  END
 	
 // Touch of Tranquility
@@ -107,7 +107,7 @@ COPY_EXISTING ~jase1603.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=48 duration=300 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=2 probability1=100 savingthrow=4 STR_VAR resource="SPMINDAT" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1=4812032 parameter2=1310720 duration=1 probability1=100 savingthrow=4 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=23744 timing=1 duration=300 probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_feebleminded timing=1 duration=300 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=300 probability1=100 savingthrow=4 STR_VAR resource="jase1603" END
 	
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/sirine/17.tpa" // Sirine

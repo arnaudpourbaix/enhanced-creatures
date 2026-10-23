@@ -23,7 +23,7 @@ COPY_EXISTING ~jasm0o00.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=38 duration=18 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=2 power=1 parameter2=4 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=61 target=2 power=1 parameter1=2017213440 parameter2=1638400 timing=1 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14023 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_hasted timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 STR_VAR resource="EFF_M28" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=4 duration=18 probability1=100 STR_VAR resource="EFF_M29" END
 	

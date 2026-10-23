@@ -139,6 +139,10 @@ describe("resolveStringRef", () => {
   it("falls back to the raw number when it can't be resolved to any translation", () => {
     expect(utils.resolveStringRef(999999999)).toBe("999999999");
   });
+
+  it("resolves an existing string to the variable holding the game's strref", () => {
+    expect(utils.resolveStringRef({ existing: "Controlled" })).toBe("ja_strref_controlled");
+  });
 });
 
 describe("getImmunityFunctionName", () => {

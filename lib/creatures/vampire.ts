@@ -542,7 +542,7 @@ function controlUndead(group: AbstractCreature) {
         },
         {
           opcode: EffectTypeEnum.DisplayString,
-          stringRef: StringRefUtils.getStringId("Controlled"),
+          stringRef: StringRefUtils.getString("Controlled"),
           ...feedback,
         },
         { opcode: EffectTypeEnum.PlaySound, resource: "EFF_M15", ...feedback },

@@ -144,6 +144,7 @@ class MainService {
 
   generateCommonCode() {
     logService.section("Generating common code");
+    weiduFunctionService.generateStringRefs();
     weiduCoreService.generateSpellStates();
     weiduCoreService.generateProjectiles();
     weiduFunctionService.generateSpellResources();

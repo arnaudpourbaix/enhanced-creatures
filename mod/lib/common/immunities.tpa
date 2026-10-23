@@ -54,7 +54,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="19 15 44 10" strings="14791 26184 23744" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="19 15 44 10" strings=EVALUATE_BUFFER "%ja_strrefs_rigid_thinking%" END
 END
 
 DEFINE_PATCH_FUNCTION acid_immunity
@@ -131,7 +131,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_bleeding_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR prevent_icons="137" strings="25137" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR prevent_icons="137" strings=EVALUATE_BUFFER "%ja_strrefs_bleed%" spells END
 END
 
 DEFINE_PATCH_FUNCTION blindness_immunity
@@ -180,7 +180,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="5" prevent_icons="0 1 43" strings="26328 26206 14672 31787 14780 158915" animations="SPNWCHRM" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="5" prevent_icons="0 1 43" strings=EVALUATE_BUFFER "%ja_strrefs_charm%" animations="SPNWCHRM" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~CHARM_IMMUNITY~)) special=1 END
 END
 
@@ -232,7 +232,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_confusion_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="128" prevent_icons="3" strings="14791 26184 23744 14782 25807" animations="SPCONFUS" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="128" prevent_icons="3" strings=EVALUATE_BUFFER "%ja_strrefs_rigid_thinking% %ja_strrefs_confusion%" animations="SPCONFUS" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~CONFUSION_IMMUNITY~)) special=1 END
 END
 
@@ -332,7 +332,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_disease_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="78" prevent_icons="7" strings="31238" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="78" prevent_icons="7" strings=EVALUATE_BUFFER "%ja_strrefs_disease%" spells END
 END
 
 DEFINE_PATCH_FUNCTION earthAffinity_trait
@@ -409,7 +409,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="216" strings="25802 25803 25804 25805 25806" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="216" strings=EVALUATE_BUFFER "%ja_strrefs_level_drain%" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~ITEM_LEVELDRAIN~)) special=1 END
 END
 
@@ -443,7 +443,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_fear_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="24 23 106" prevent_icons="36" strings="14007 17427 25818 20568" animations="CDHORROR" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="24 23 106" prevent_icons="36" strings=EVALUATE_BUFFER "%ja_strrefs_panic%" animations="CDHORROR" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~RESIST_FEAR~)) special=1 END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PANIC_IMMUNITY~)) special=1 END
 END
@@ -547,7 +547,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_hold_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="109 175" prevent_icons="13" strings="14650 14102 25866 25866 31799" animations="SPFLAYER SPMINDAT" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="109 175" prevent_icons="13" strings=EVALUATE_BUFFER "%ja_strrefs_held%" animations="SPFLAYER SPMINDAT" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~HOLD_IMMUNITY~)) special=1 END
 END
 
@@ -865,7 +865,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_petrify_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="134" strings="14665 25863" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR effects="134" strings=EVALUATE_BUFFER "%ja_strrefs_petrified%" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~PETRIFY_IMMUNITY~)) special=1 END
 END
 
@@ -973,7 +973,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_poison_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="25" prevent_icons="6" display_icons="30" strings="14017 26215 14662 25425" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="25" prevent_icons="6" display_icons="30" strings=EVALUATE_BUFFER "%ja_strrefs_poison%" spells END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=173 parameter1=100 END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~ITEM_POISON~)) special=1 END
 END
@@ -994,7 +994,7 @@ BEGIN
 	INNER_ACTION BEGIN
 		LAF get_polymorph_resources RET_ARRAY spells=resources END
 	END
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR prevent_icons="124" strings="14128 25124 31729 31732 31757" spells END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  displaySpellIneffective=1 STR_VAR prevent_icons="124" strings=EVALUATE_BUFFER "%ja_strrefs_polymorph%" spells END
 END
 
 DEFINE_PATCH_FUNCTION seeInvisible_trait
@@ -1038,7 +1038,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="39 217" prevent_icons="14 130" strings="12047 12958 13027 14001 17405 26040 26371 20438 25130" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="39 217" prevent_icons="14 130" strings=EVALUATE_BUFFER "%ja_strrefs_sleep%" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~SLEEP_IMMUNITY~)) special=1 END
 END
 
@@ -1057,7 +1057,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="45 210" prevent_icons="55" strings="14043 25862 26050" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="45 210" prevent_icons="55" strings=EVALUATE_BUFFER "%ja_strrefs_stun%" END
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=328 parameter2=(IDS_OF_SYMBOL (~splstate~ ~STUN_IMMUNITY~)) special=1 END
 END
 
@@ -1107,7 +1107,7 @@ INT_VAR
 	resist_dispel=0
 	duration=0
 BEGIN
-	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="13 55" strings="14026" END
+	LPF ADD_IMMUNITY_CRE_ITM_SPL INT_VAR resist_dispel duration  STR_VAR effects="13 55" strings=EVALUATE_BUFFER "%ja_strrefs_death%" END
 END
 
 DEFINE_PATCH_FUNCTION web_immunity

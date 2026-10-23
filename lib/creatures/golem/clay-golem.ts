@@ -74,7 +74,7 @@ class ClayGolem extends Golem {
             },
             {
               opcode: EffectTypeEnum.DisplayString,
-              stringRef: StringRefUtils.getStringId("Hasted"),
+              stringRef: StringRefUtils.getString("Hasted"),
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
             },
             {

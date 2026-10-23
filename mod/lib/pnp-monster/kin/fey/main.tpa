@@ -48,7 +48,7 @@ COPY_EXISTING ~jask0501.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jask0501" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jask0501" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=2 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14780 timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_dire_charmed timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 resist_dispel=1 duration=180 probability1=100 savingthrow=1 savebonus="-3" STR_VAR resource="EFF_E07" END

@@ -253,7 +253,7 @@ class SirineEntry extends CreatureEntry<Fey> {
             },
             {
               opcode: EffectTypeEnum.DisplayString,
-              stringRef: StringRefUtils.getStringId("Feebleminded"),
+              stringRef: StringRefUtils.getString("Feebleminded"),
               ...tranquilityBaseEffect,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
             },

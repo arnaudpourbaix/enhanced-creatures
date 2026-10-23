@@ -299,7 +299,7 @@ class EffectFactory {
       },
       {
         opcode: EffectTypeEnum.DisplayString,
-        stringRef: StringRefUtils.getStringId(
+        stringRef: StringRefUtils.getString(
           [CharmTypeEnum.NeutralDireCharm, CharmTypeEnum.HostileDireCharm].includes(
             payload.charmType,
           )
@@ -380,7 +380,7 @@ class EffectFactory {
       },
       {
         opcode: EffectTypeEnum.DisplayString,
-        stringRef: StringRefUtils.getStringId("Blinded"),
+        stringRef: StringRefUtils.getString("Blinded"),
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         dispelResistance: params.dispelResistance,
         saveTypes: params.saveType ? [params.saveType] : undefined,
@@ -455,11 +455,11 @@ class EffectFactory {
   }
 
   levelDrain(params: { levels: number; saveType?: SaveTypeEnum; saveBonus?: number }) {
-    let stringRef = StringRefUtils.getStringId("One Level Drained");
+    let stringRef = StringRefUtils.getString("One Level Drained");
     if (params.levels === 2) {
-      stringRef = StringRefUtils.getStringId("Two Levels Drained");
+      stringRef = StringRefUtils.getString("Two Levels Drained");
     } else if (params.levels === 3) {
-      stringRef = StringRefUtils.getStringId("Three Levels Drained");
+      stringRef = StringRefUtils.getString("Three Levels Drained");
     } else if (params.levels > 3) throw new Error("string unhandled");
     const effects: Effect[] = [
       {

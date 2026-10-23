@@ -57,7 +57,7 @@ COPY_EXISTING ~jaim1o01.itm~ ~override~
 	WRITE_LONG 0x98 1
 	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter1=1 parameter2=131072 probability1=100 dicesize=4 dicenumber=1 END
 	LPF ADD_EFFECT INT_VAR opcode=216 target=2 parameter1=1 timing=1 probability1=100 END
-	LPF ADD_EFFECT INT_VAR opcode=139 target=2 parameter1=25802 timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR opcode=139 target=2 parameter1=ja_strref_one_level_drained timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR opcode=141 target=2 parameter2=1 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR opcode=61 target=2 parameter1=2019179520 parameter2=1638400 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 savingthrow=4 STR_VAR resource="jasm1o00" END

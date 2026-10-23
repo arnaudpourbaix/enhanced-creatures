@@ -41,6 +41,7 @@ export const GLOBAL_CONFIG = {
     spellResources: "lib/common/spell-resources.tpa",
     spellFunctions: "lib/common/spell-functions.tpa",
     immunities: "lib/common/immunities.tpa",
+    stringRefs: "lib/common/string-refs.tpa",
   },
   constitutionAffectHitPoint: true,
   spellcasterPrecastMidDurationSpells: false,

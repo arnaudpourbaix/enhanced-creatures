@@ -35,6 +35,18 @@ function fakeImmunity(overrides: Partial<ImmunityConfig> = {}): ImmunityConfig {
 }
 
 describe("callImmunityFunction", () => {
+  it("evaluates the strings STR_VAR, which holds install-time variables", () => {
+    const lines: CodeLine[] = [];
+    weiduFunctionService.callImmunityFunction(
+      lines,
+      fakeImmunity({ strings: ["%ja_strrefs_poison%"] }),
+      0,
+    );
+    expect(lines.map((l) => l.code).join(" ")).toContain(
+      'strings=EVALUATE_BUFFER "%ja_strrefs_poison%"',
+    );
+  });
+
   it("emits a display_icons STR_VAR when the immunity config sets displayIcons", () => {
     const lines: CodeLine[] = [];
     weiduFunctionService.callImmunityFunction(
@@ -99,6 +111,27 @@ describe("generateSpellResource (private)", () => {
   });
 });
 
+describe("generateStringRefs", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("sets every existing string's variables to the strrefs of the game being installed", () => {
+    let content = "";
+    vi.spyOn(utils, "writeFile").mockImplementation((_f, c) => {
+      content = c;
+    });
+    weiduFunctionService.generateStringRefs();
+    const bg2Branch = content.indexOf("END ELSE BEGIN");
+    expect(content).toContain("ACTION_IF GAME_IS ~bgee~ BEGIN");
+    expect(content.indexOf("OUTER_SET ja_strref_two_levels_drained = 25803")).toBeLessThan(
+      bg2Branch,
+    );
+    expect(content.indexOf("OUTER_SET ja_strref_two_levels_drained = 40968")).toBeGreaterThan(
+      bg2Branch,
+    );
+    expect(content).toContain("OUTER_SPRINT ja_strrefs_bleed ~54335~");
+  });
+});
+
 describe("generateImmunities", () => {
   const before = State.immunities;
   afterEach(() => {
@@ -117,7 +150,9 @@ describe("generateImmunities", () => {
     weiduFunctionService.generateImmunities();
     const content = written.join("");
     expect(content).toContain(`DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(regular)}`);
-    expect(content).not.toContain(`DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(docOnly)}`);
+    expect(content).not.toContain(
+      `DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(docOnly)}`,
+    );
     expect(content).not.toContain("animal");
   });
 });

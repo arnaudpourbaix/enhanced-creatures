@@ -1,6 +1,6 @@
 import { SpellGroupName } from "../../../config/spells/spell-group-name";
 import { SpellProtectionName } from "../../../config/spells/spell-protection";
-import { StringReference } from "../final/stringref";
+import { ExistingString, StringReference } from "../final/stringref";
 import { AnimationIdentifiers } from "../ids/animate";
 import { GeneralIdentifier } from "../ids/general";
 import { SlotIdentifier } from "../ids/slot";
@@ -223,7 +223,7 @@ export type StringRefEffect = BaseEffect & {
     | EffectTypeEnum.DisplayString
     | EffectTypeEnum.ProtectionFromSpell
     | EffectTypeEnum.ProtectionFromDisplaySpecificString;
-  stringRef?: StringReference;
+  stringRef?: StringReference | ExistingString;
 };
 
 export type LightingEffectsEffect = BaseEffect & {

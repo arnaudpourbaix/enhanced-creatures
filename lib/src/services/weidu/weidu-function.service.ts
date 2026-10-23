@@ -22,6 +22,7 @@ import {
   SpellProtectionStat,
 } from "../../model/spell-item/spell-protection";
 import logService from "../log.service";
+import { StringRefUtils } from "../utils/string-ref.utils";
 
 class WeiduFunctionService extends AbstractWeiduService {
   generateSpellResources(): void {
@@ -41,6 +42,30 @@ class WeiduFunctionService extends AbstractWeiduService {
     }
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
     utils.writeFile(GLOBAL_CONFIG.files.spellFunctions, content);
+  }
+
+  /**
+   * Existing dialog.tlk strings' strrefs differ between BGEE and BG2EE/EET: the generated code reads
+   * these variables, set for the game being installed (see lib/config/stringRef.ts).
+   */
+  generateStringRefs(): void {
+    const lines = this.initLines();
+    const variables = StringRefUtils.stringRefVariables();
+    const branch = (game: "bg1" | "bg2") => {
+      for (const v of variables) {
+        const code = v.integer
+          ? `OUTER_SET ${v.name} = ${v[game]}`
+          : `OUTER_SPRINT ${v.name} ~${v[game]}~`;
+        this.add(lines, code, 1);
+      }
+    };
+    this.add(lines, `ACTION_IF GAME_IS ~bgee~ BEGIN`, 0);
+    branch("bg1");
+    this.add(lines, `END ELSE BEGIN // bg2ee, eet`, 0);
+    branch("bg2");
+    this.add(lines, `END`, 0);
+    const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
+    utils.writeFile(GLOBAL_CONFIG.files.stringRefs, content);
   }
 
   generateImmunities(): void {
@@ -226,7 +251,10 @@ class WeiduFunctionService extends AbstractWeiduService {
     const displayIcons = immunity.displayIcons.length
       ? ` display_icons="${immunity.displayIcons.join(" ")}"`
       : "";
-    const strings = immunity.strings.length ? ` strings="${immunity.strings.join(" ")}"` : "";
+    // install-time variables (StringRefUtils.getStringIds)
+    const strings = immunity.strings.length
+      ? ` strings=EVALUATE_BUFFER "${immunity.strings.join(" ")}"`
+      : "";
     const animations = immunity.animations.length
       ? ` animations="${immunity.animations.join(" ")}"`
       : "";

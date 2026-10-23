@@ -24,37 +24,37 @@ COPY_EXISTING ~jasm4n00.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jasm4n00" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=1 parameter2=1048576 probability1=16 probability2=0 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=16 probability2=0 savingthrow=4 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=16 probability2=0 savingthrow=4 savebonus="-1" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=16 probability2=0 savingthrow=4 savebonus="-1" STR_VAR resource="EFF_E07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=2 parameter2=1048576 probability1=32 probability2=17 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=32 probability2=17 savingthrow=4 savebonus="-1" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=32 probability2=17 savingthrow=4 savebonus="-1" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=32 probability2=17 savingthrow=4 savebonus="-1" STR_VAR resource="EFF_E07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=3 parameter2=1048576 probability1=49 probability2=33 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=49 probability2=33 savingthrow=4 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=49 probability2=33 savingthrow=4 savebonus="-2" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=49 probability2=33 savingthrow=4 savebonus="-2" STR_VAR resource="EFF_E07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=4 parameter2=1048576 probability1=66 probability2=50 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=66 probability2=50 savingthrow=4 savebonus="-2" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=66 probability2=50 savingthrow=4 savebonus="-2" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=66 probability2=50 savingthrow=4 savebonus="-2" STR_VAR resource="EFF_E07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=5 parameter2=1048576 probability1=82 probability2=67 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=82 probability2=67 savingthrow=4 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=82 probability2=67 savingthrow=4 savebonus="-3" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=82 probability2=67 savingthrow=4 savebonus="-3" STR_VAR resource="EFF_E07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=6 parameter2=1048576 probability1=100 probability2=83 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=1 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1 duration=60 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=14672 timing=1 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_charmed timing=1 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=1 parameter1="-1819214080" parameter2=1966080 duration=1 probability1=100 probability2=83 savingthrow=4 savebonus="-3" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=3 probability1=100 probability2=83 savingthrow=4 savebonus="-3" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=3 duration=60 probability1=100 probability2=83 savingthrow=4 savebonus="-3" STR_VAR resource="EFF_E07" END
