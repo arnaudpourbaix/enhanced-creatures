@@ -356,7 +356,7 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
   ogreMage.createFly();
   ogreMage.createGaseousForm();
   ogreMage.addTrait({
-    effects: [effectFactory.regeneration(1)],
+    effects: effectFactory.regeneration(1),
   });
   ogreMage.setBehavior({
     restHeal: true,

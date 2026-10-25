@@ -1368,4 +1368,28 @@ describe("generateCreatureItems (public)", () => {
       "Regeneration: 6 hp/round",
     ]);
   });
+
+  it("describes stacked regeneration effects as their total rate, in one line", () => {
+    const item = fakeItem({
+      trait: true,
+      effects: [
+        {
+          opcode: EffectTypeEnum.Regeneration,
+          type: RegenerationTypeEnum.OneHPperAmountSeconds,
+          amount: 2,
+        },
+        { opcode: EffectTypeEnum.InvisibilityDetection },
+        {
+          opcode: EffectTypeEnum.Regeneration,
+          type: RegenerationTypeEnum.OneHPperAmountSeconds,
+          amount: 6,
+        },
+      ],
+    });
+    descriptionService.generateCreatureItems([item]);
+    expect(decode(item.description as number)).toEqual([
+      "Regeneration: 4 hp/round",
+      "Can see invisible creatures.",
+    ]);
+  });
 });

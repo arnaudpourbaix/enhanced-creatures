@@ -1276,7 +1276,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     ],
   });
   const effects: Effect[] = [
-    effectFactory.regeneration(age.regeneration),
+    ...effectFactory.regeneration(age.regeneration),
     {
       opcode: EffectTypeEnum.CastSpellOnCondition,
       conditionTarget: CastSpellOnConditionTargetEnum.Myself,

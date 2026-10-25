@@ -31,6 +31,11 @@ import creatureService from "../services/creature.service";
 import effectService from "../services/effects/effect.service";
 import { StringRefUtils } from "../services/utils/string-ref.utils";
 
+// float tolerance on hp/round arithmetic
+const EPSILON = 1e-9;
+// cap on stacked "1 hp every N seconds" effects (3 covers every whole hp/round exactly)
+const MAX_REGENERATION_SLICES = 3;
+
 class EffectFactory {
   /**
    * Repeat the effects for the next rounds.
@@ -552,28 +557,33 @@ class EffectFactory {
 
   /**
    * Regeneration in hp/round (a round is 6 seconds).
-   * 6+ hp/round is expressed as hp/second, slower rates as 1 hp every N seconds.
-   * The engine only takes integer amounts, so rates that don't divide evenly are rounded to the nearest one.
+   * Whole hp/second go in one "amount hp per second" effect, the rest in "1 hp every N seconds"
+   * effects. Item/spell effects only take integer parameter1/2 (no frequency multiplier, which is
+   * EFF-only), so a rate no single effect expresses (e.g. 4 hp/round = 1 hp/1.5s) is split into
+   * stacked effects (1 hp/2s + 1 hp/6s). The split stops after MAX_REGENERATION_SLICES slow
+   * effects, dropping any leftover.
    */
-  regeneration(hpPerRound: number): Effect {
+  regeneration(hpPerRound: number): Effect[] {
     if (hpPerRound <= 0) {
       throw new Error(`Regeneration must be positive, got ${hpPerRound} hp/round`);
     }
-    const effect: RegenerationEffect =
-      hpPerRound >= Durations.round
-        ? {
-            opcode: EffectTypeEnum.Regeneration,
-            amount: Math.round(hpPerRound / Durations.round),
-            type: RegenerationTypeEnum.AmountHPperSecond,
-            icon: PortraitIconEnum.Regenerate,
-          }
-        : {
-            opcode: EffectTypeEnum.Regeneration,
-            amount: Math.round(Durations.round / hpPerRound),
-            type: RegenerationTypeEnum.OneHPperAmountSeconds,
-            icon: PortraitIconEnum.Regenerate,
-          };
-    return effect;
+    const effect = (type: RegenerationTypeEnum, amount: number): RegenerationEffect => ({
+      opcode: EffectTypeEnum.Regeneration,
+      amount,
+      type,
+      icon: PortraitIconEnum.Regenerate,
+    });
+    const effects: RegenerationEffect[] = [];
+    const perSecond = Math.floor(hpPerRound / Durations.round + EPSILON);
+    if (perSecond > 0) effects.push(effect(RegenerationTypeEnum.AmountHPperSecond, perSecond));
+    let rest = hpPerRound - perSecond * Durations.round;
+    for (let slice = 0; rest > EPSILON && slice < MAX_REGENERATION_SLICES; slice++) {
+      // greedy: the fastest "1 hp every N seconds" that doesn't overshoot what's left
+      const seconds = Math.ceil(Durations.round / rest - EPSILON);
+      effects.push(effect(RegenerationTypeEnum.OneHPperAmountSeconds, seconds));
+      rest -= Durations.round / seconds;
+    }
+    return effects;
   }
 
   /**

@@ -2446,7 +2446,7 @@ Drain 2 levels from target.~
 @11143 = ~Immune to all weapons of +1 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
-Regeneration: 3 hp/round
+Regeneration: 4 hp/round
 Magic Resistance: 15%~
 @11144 = ~Ancient Vampire traits~
 @11145 = ~Claws
@@ -2459,7 +2459,7 @@ Drain 2 levels from target.~
 @11146 = ~Immune to all weapons of +2 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
-Regeneration: 3 hp/round
+Regeneration: 4 hp/round
 Magic Resistance: 20%~
 @11147 = ~Eminent Vampire traits~
 @11148 = ~Claws
@@ -2472,7 +2472,7 @@ Drain 2 levels from target.~
 @11149 = ~Immune to all weapons of +2 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
-Regeneration: 3 hp/round
+Regeneration: 4 hp/round
 Magic Resistance: 25%~
 @11150 = ~Patriarch Vampire traits~
 @11151 = ~Claws
@@ -2485,7 +2485,7 @@ Drain 2 levels from target.~
 @11152 = ~Immune to all weapons of +3 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
-Regeneration: 6 hp/round
+Regeneration: 5 hp/round
 Magic Resistance: 30%~
 @11153 = ~Claws
 

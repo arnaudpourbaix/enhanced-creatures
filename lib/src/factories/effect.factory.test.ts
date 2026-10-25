@@ -128,25 +128,36 @@ describe("regeneration", () => {
     [3, RegenerationTypeEnum.OneHPperAmountSeconds, 2],
     [0.5, RegenerationTypeEnum.OneHPperAmountSeconds, 12],
   ])("%d hp/round -> type %d, amount %d", (hpPerRound, type, amount) => {
-    expect(effectFactory.regeneration(hpPerRound)).toEqual({
-      opcode: EffectTypeEnum.Regeneration,
-      type,
-      amount,
-      icon: PortraitIconEnum.Regenerate,
-    });
+    expect(effectFactory.regeneration(hpPerRound)).toEqual([
+      {
+        opcode: EffectTypeEnum.Regeneration,
+        type,
+        amount,
+        icon: PortraitIconEnum.Regenerate,
+      },
+    ]);
   });
 
-  it("rounds rates the engine can't express exactly", () => {
-    // 4 hp/round = 1 hp/1.5s -> 1 hp/2s (3 hp/round)
-    expect(effectFactory.regeneration(4)).toMatchObject({
-      type: RegenerationTypeEnum.OneHPperAmountSeconds,
-      amount: 2,
-    });
-    // 9 hp/round = 1.5 hp/s -> 2 hp/s
-    expect(effectFactory.regeneration(9)).toMatchObject({
-      type: RegenerationTypeEnum.AmountHPperSecond,
-      amount: 2,
-    });
+  const perSecond = (amount: number) => ({
+    type: RegenerationTypeEnum.AmountHPperSecond,
+    amount,
+  });
+  const oneEvery = (amount: number) => ({
+    type: RegenerationTypeEnum.OneHPperAmountSeconds,
+    amount,
+  });
+
+  it.each([
+    // 4 hp/round = 1 hp/2s (3) + 1 hp/6s (1)
+    [4, [oneEvery(2), oneEvery(6)]],
+    // 5 hp/round = 1 hp/2s (3) + 1 hp/3s (2)
+    [5, [oneEvery(2), oneEvery(3)]],
+    // 9 hp/round = 1 hp/s (6) + 1 hp/2s (3)
+    [9, [perSecond(1), oneEvery(2)]],
+    // 16 hp/round = 2 hp/s (12) + 1 hp/2s (3) + 1 hp/6s (1)
+    [16, [perSecond(2), oneEvery(2), oneEvery(6)]],
+  ])("stacks effects for %d hp/round, which no single effect expresses", (hpPerRound, expected) => {
+    expect(effectFactory.regeneration(hpPerRound)).toMatchObject(expected);
   });
 
   it("rejects non-positive values", () => {
