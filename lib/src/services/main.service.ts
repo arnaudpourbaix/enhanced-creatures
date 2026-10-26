@@ -35,6 +35,7 @@ class MainService {
   generateCreatures() {
     logService.section("Generating creatures");
     this.generateKinsAndEntries(kinFactories, entryFactories);
+    logService.section("Generating documentation");
     documentationService.generate();
     homeService.generate();
   }

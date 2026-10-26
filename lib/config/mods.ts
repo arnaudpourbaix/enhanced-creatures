@@ -65,6 +65,8 @@ export const SPELLBOOK_MODS: Record<SpellbookModName, SpellbookMod> = {
       `(${resolveNonEmptyWeiduCheck(STRATAGEMS_IWD_CHECK)}) AND ` +
       `(${resolveNonEmptyWeiduCheck(STRATAGEMS_NEW_SPELLS_CHECK)})`,
   },
+  // SCS's own Bodhi spells: used as they are, never copied (they belong to SCS)
+  ImprovedBodhi: { name: "SCS Improved Bodhi", weiduCheck: "FILE_EXISTS_IN_GAME ~ibodhi5.spl~" },
 };
 
 /**

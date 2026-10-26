@@ -1,3 +1,4 @@
+import { Game } from "./game";
 import weiduUtils from "../../services/utils/weidu.utils";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { ImmunityName } from "../final/immunity";
@@ -144,6 +145,8 @@ export interface CreatureScriptEdit {
    * (`"RH#DOM"`, which also hits decompiled `// SPIN883.SPL` comments). Applied after `replaces`.
    */
   removeBlocks?: string[];
+  /** Only on this game's installs (where its creatures get patched); every game if unset */
+  game?: Game;
 }
 
 export class CreatureDataItems {
@@ -237,7 +240,7 @@ export function getAnimationValue(
   );
 }
 
-export type ScriptLocation ="Override" | "Class" | "Race" | "General" | "Default" | "None";
+export type ScriptLocation = "Override" | "Class" | "Race" | "General" | "Default" | "None";
 
 export const DATA_DEFAULT: Partial<CreatureData> = {
   immunities: [],

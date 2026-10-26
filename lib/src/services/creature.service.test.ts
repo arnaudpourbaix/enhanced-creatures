@@ -1789,7 +1789,7 @@ describe("creatureService.checkAgainstCsv", () => {
     expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
   });
 
-  it("suppresses a file whose row has ValidatedItems=true", () => {
+  it("suppresses a file whose row has vitems=true", () => {
     const row = csvRow({
       file: "AAA",
       items: [{ slot: "helmet", file: "HELM01" }],

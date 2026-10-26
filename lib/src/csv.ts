@@ -72,6 +72,20 @@ export function readCsvRecords(raw: string): CsvRecords {
   return { delimiter, header, rows };
 }
 
+/**
+ * Throw unless every one of `columns` is in `header`. Readers index fields by header name, so a
+ * renamed or deleted column (easy to do by hand in Excel) would otherwise read as blank on every
+ * row and silently change the output.
+ */
+export function requireCsvColumns(header: string[], columns: readonly string[], source: string) {
+  const missing = columns.filter((col) => !header.includes(col));
+  if (missing.length) {
+    throw new Error(
+      `${source} is missing column(s): ${missing.join(", ")} (header: ${header.join(", ")})`,
+    );
+  }
+}
+
 /** Quote a field only when it needs it (contains the delimiter, a quote or a line break). */
 export function formatCsvField(value: string, delimiter: CsvDelimiter): string {
   return value.includes(delimiter) || /["\r\n]/.test(value)

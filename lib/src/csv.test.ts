@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { csvBool, detectCsvDelimiter, formatCsvField, readCsvRecords } from "./csv";
+import {
+  csvBool,
+  detectCsvDelimiter,
+  formatCsvField,
+  readCsvRecords,
+  requireCsvColumns,
+} from "./csv";
 
 describe("detectCsvDelimiter", () => {
   it("picks the delimiter used by the header", () => {
@@ -58,5 +64,19 @@ describe("csvBool", () => {
       false,
       false,
     ]);
+  });
+});
+
+describe("requireCsvColumns", () => {
+  it("passes when every column is present", () => {
+    expect(() =>
+      requireCsvColumns(["file", "game", "name"], ["game", "file"], "x.csv"),
+    ).not.toThrow();
+  });
+
+  it("names every missing column", () => {
+    expect(() =>
+      requireCsvColumns(["file", "vlvl"], ["file", "ValidatedLevel", "game"], "x.csv"),
+    ).toThrow("x.csv is missing column(s): ValidatedLevel, game");
   });
 });

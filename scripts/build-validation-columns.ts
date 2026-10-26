@@ -5,7 +5,7 @@ import type { Creature } from "../lib/src/model/creature/creature";
 import creatureService, { type CsvFinding } from "../lib/src/services/creature.service";
 import monsterFilesService from "../lib/src/services/monster-files.service";
 import { parseCsv, serializeCsv, withNameLast } from "./lib/csv";
-import { csvBool } from "../lib/src/csv";
+import { csvBool, requireCsvColumns } from "../lib/src/csv";
 import {
   applyValidationColumns,
   rowKey,
@@ -13,7 +13,7 @@ import {
   type ValidationColumn,
 } from "./lib/validation-columns";
 
-// One-shot: fills assets/creatures.csv's ValidatedLevel / ValidatedItems / ValidatedScript from a
+// One-shot: fills assets/creatures.csv's vlvl / vitems / vscript from a
 // baseline of the CURRENT state. For every source row a built creature references: `true` when
 // that check produces no finding for the row, blank when it does. Rows no built creature
 // references stay blank. An existing `true` is never downgraded. Safe to re-run.
@@ -25,21 +25,23 @@ import {
 const CSV_PATH = path.join(process.cwd(), "assets", "creatures.csv");
 
 const FINDERS: { col: ValidationColumn; find: (c: Creature) => CsvFinding[] }[] = [
-  { col: "ValidatedLevel", find: (c) => creatureService.findLevelGaps(c) },
-  { col: "ValidatedItems", find: (c) => creatureService.findPersistingItems(c) },
-  { col: "ValidatedScript", find: (c) => creatureService.findOriginalScripts(c) },
+  { col: "vlvl", find: (c) => creatureService.findLevelGaps(c) },
+  { col: "vitems", find: (c) => creatureService.findPersistingItems(c) },
+  { col: "vscript", find: (c) => creatureService.findOriginalScripts(c) },
 ];
 
 const csv = parseCsv(fs.readFileSync(CSV_PATH, "utf-8"));
+// The Validated* columns are inserted when absent, but the row keys must exist.
+requireCsvColumns(csv.header, ["file", "game"], "creatures.csv");
 // Deliberately no stateService.init() / checkPresets() / checkSpells(): the three finders only
 // read `files`, `adjustments` and `data`, all of which are populated when the entries are built.
 const creatures = buildAllCreatures();
 
 const ownedKeys = new Set<string>();
 const findingKeys: Record<ValidationColumn, Set<string>> = {
-  ValidatedLevel: new Set(),
-  ValidatedItems: new Set(),
-  ValidatedScript: new Set(),
+  vlvl: new Set(),
+  vitems: new Set(),
+  vscript: new Set(),
 };
 
 function collectFindingKeys(creature: Creature): void {

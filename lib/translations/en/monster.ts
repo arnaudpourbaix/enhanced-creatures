@@ -657,6 +657,7 @@ Humans save against mummies at an additional +2.`,
       eminent: "Eminent Vampire",
       patriarch: "Patriarch Vampire",
       patriarchMage: "Patriarch Vampire Mage",
+      abomination: "Abomination",
     },
     ability: {
       domination: {
@@ -673,10 +674,20 @@ The charm lasts 8 rounds, and blindness offers no protection, but a silenced vam
 Any person it targets is affected as if by a charm person spell, unless a successful saving throw vs. spell is rolled at -5.
 The charm lasts 8 rounds, and blindness offers no protection.`,
       },
+      drinkBlood: {
+        name: "Drink Blood",
+        description: `The vampire bites a creature it has charmed, which can't resist: it needs no attack roll, and the victim gets no saving throw.
+The victim's maximum hit points drop by 10 for 8 hours, and the vampire regains 10 hit points. The bite takes the place of one of the vampire's attacks that round.
+The vampire can bite in its own form or as a bat, but not as a wolf or a mist.`,
+      },
+      touchOfDeath: { name: "Touch of Death" },
+      sepulchralSleep: { name: "Sepulchral Sleep" },
+      chillOfTheGrave: { name: "Chill of the Grave" },
+      deathlyShroud: { name: "Deathly Shroud" },
       batSwarm: {
         name: "Bat Swarm",
         description: `Vampires have the natural ability to summon and control animals.
-Once per day, the vampire summons a swarm of bats covering an area roughly 20 feet in radius, for 5 rounds.
+Once per day, the vampire summons a swarm of bats covering an area roughly 20 feet in radius, for 1 round plus 1 round per 2 levels.
 The vampire's enemies caught within the swarm are blinded, suffer a -4 penalty to all attack rolls and Armor Class, and have their movement rates cut in half.`,
       },
       controlUndead: {

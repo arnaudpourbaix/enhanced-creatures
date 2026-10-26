@@ -8,6 +8,7 @@ import {
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import effectFactory from "./effect.factory";
+import { StringRefUtils } from "../services/utils/string-ref.utils";
 
 describe("repeatEffect", () => {
   it("returns each effect once, InstantPermanent, for a single round", () => {
@@ -162,5 +163,20 @@ describe("regeneration", () => {
 
   it("rejects non-positive values", () => {
     expect(() => effectFactory.regeneration(0)).toThrow();
+  });
+});
+
+describe("levelDrain", () => {
+  it.each([
+    [4, "Four Levels Drained"],
+    [5, "Five Levels Drained"],
+  ])("drains %i levels and says so", (levels, text) => {
+    const effects = effectFactory.levelDrain({ levels });
+    expect(effects.find((e) => e.opcode === EffectTypeEnum.LevelDrain)).toMatchObject({
+      amount: levels,
+    });
+    expect(effects.find((e) => e.opcode === EffectTypeEnum.DisplayString)).toMatchObject({
+      stringRef: StringRefUtils.getString(text),
+    });
   });
 });

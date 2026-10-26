@@ -5,31 +5,30 @@
  * Every age is built from the same table row (see VAMPIRE_AGES), so a vampire's powers only
  * differ by what the table says.
  */
-import { AT_WILL, SPELL_STATES } from "../config/common";
-import { SpellKeyword } from "../config/spells/keyword";
-import { SPELLS } from "../config/spells/spell-database";
-import effectFactory from "../src/factories/effect.factory";
-import actionFactory from "../src/factories/action.factory";
-import responseFactory from "../src/factories/response.factory";
-import triggerFactory from "../src/factories/trigger.factory";
-import { GLOBAL_CONFIG } from "../config/generate";
-import { CHARM_TARGET_LISTS } from "../config/presets/charm-presets";
-import { ExcludeUnwantedTargetsTriggers } from "../config/target/common";
-import { Counts } from "../config/target/target-config";
-import { ScriptTarget } from "../src/model/constants";
-import { RawCreatureAbility } from "../src/model/creature/ability";
-import { AbstractCreature } from "../src/model/creature/abstract-creature";
-import { Creature } from "../src/model/creature/creature";
-import type { CreatureEntry } from "../src/model/creature/entry";
-import { SimpleEntry } from "../src/model/creature/simple-entry";
-import { ImmunityName } from "../src/model/final/immunity";
-import { StringReference } from "../src/model/final/stringref";
-import { Durations } from "../src/model/game-data/durations";
-import { AnimationIdentifiers } from "../src/model/ids/animate";
-import { PartialCustomCode } from "../src/model/script/script";
-import { TargetList } from "../src/model/script/target";
-import { Triggers } from "../src/model/script/triggers";
-import { Effect } from "../src/model/spell-item/effect";
+import { AT_WILL, SPELL_STATES } from "../../config/common";
+import { GLOBAL_CONFIG } from "../../config/generate";
+import { CHARM_TARGET_LISTS } from "../../config/presets/charm-presets";
+import { SpellKeyword } from "../../config/spells/keyword";
+import { SPELLS } from "../../config/spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../../config/target/common";
+import { Counts } from "../../config/target/target-config";
+import actionFactory from "../../src/factories/action.factory";
+import effectFactory from "../../src/factories/effect.factory";
+import responseFactory from "../../src/factories/response.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
+import { RawCreatureAbility } from "../../src/model/creature/ability";
+import { AbstractCreature } from "../../src/model/creature/abstract-creature";
+import { Creature } from "../../src/model/creature/creature";
+import type { CreatureEntry } from "../../src/model/creature/entry";
+import { ImmunityName } from "../../src/model/final/immunity";
+import { StringReference } from "../../src/model/final/stringref";
+import { Durations } from "../../src/model/game-data/durations";
+import { AnimationIdentifiers } from "../../src/model/ids/animate";
+import { PartialCustomCode } from "../../src/model/script/script";
+import { TargetList } from "../../src/model/script/target";
+import { Triggers } from "../../src/model/script/triggers";
+import { Effect } from "../../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
   AnimationChangeTypeEnum,
@@ -51,31 +50,36 @@ import {
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
+  LightingEffectEnum,
+  LightingEffectTargetEnum,
   PortraitIconEnum,
   SaveTypeEnum,
   SpellFlagEnum,
   SpellTypeEnum,
-} from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import {
   AreaExtendedFlagsEnum,
   AreaProjectileEnum,
   BamProjectileFlagsEnum,
   ProjectileExplosionEffectEnum,
   ProjectileExtendedFlagsEnum,
-} from "../src/model/spell-item/projectile";
-import { PartialSpellHeader, Spell } from "../src/model/spell-item/spell-item";
-import targetService from "../src/services/baf/target.service";
-import monsterFilesService from "../src/services/monster-files.service";
-import { StringRefUtils } from "../src/services/utils/string-ref.utils";
-import utils from "../src/services/utils/utils.service";
-import { TranslationKey } from "../translations/i18n";
-import { EntryEnum } from "./entry";
-import { MonsterEnum } from "./monster";
-import type { TurnUndeadType } from "./types/turn-level";
-import { createClaws } from "./types/undead";
+} from "../../src/model/spell-item/projectile";
+import { PartialSpellHeader, Spell } from "../../src/model/spell-item/spell-item";
+import {
+  SpellProtectionRelation,
+  SpellProtectionStat,
+} from "../../src/model/spell-item/spell-protection";
+import targetService from "../../src/services/baf/target.service";
+import monsterFilesService from "../../src/services/monster-files.service";
+import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
+import utils from "../../src/services/utils/utils.service";
+import { TranslationKey } from "../../translations/i18n";
+import { MonsterEnum } from "../monster";
+import type { TurnUndeadType } from "../types/turn-level";
+import { createClaws } from "../types/undead";
 
-enum Ids {
+export enum Ids {
   VampireGazeDomination2,
   VampireGazeDomination3,
   VampireVoiceDomination,
@@ -88,15 +92,17 @@ enum Ids {
   VampireBatFormOwnSpeed,
   VampireMistForm,
   VampireForm,
+  VampireWillDominationAbomination,
+  VampireDrinkBlood,
 }
 
 /**
  * How a vampire dominates its victims: younger vampires must meet their eyes, ancient and eminent
  * ones only need to be heard, and a patriarch needs neither.
  */
-type DominationMode = "gaze" | "voice" | "will";
+export type DominationMode = "gaze" | "voice" | "will";
 
-interface VampireAge {
+export interface VampireAge {
   monster: MonsterEnum;
   name: TranslationKey;
   level1: number;
@@ -117,6 +123,18 @@ interface VampireAge {
   magicResistance: number;
   /** How long (seconds) the vampire withstands sunlight before fleeing it, undefined if immune */
   sunlight?: number;
+  /** Armor Class, 1 (PnP) if unset */
+  ac?: number;
+  /** Attacks per round, 1 (PnP) if unset */
+  apr?: number;
+  /** Levels drained by the claws, 2 if unset */
+  drainLevels?: number;
+  /** Trait immunities on top of the weapon immunity and cold/lightning resistances */
+  extraImmunities?: ImmunityName[];
+  /** Trait effects on top of regeneration, magic resistance and the death contingency */
+  extraEffects?: Effect[];
+  /** Abilities of its own, right after the mist escape (built lazily) */
+  abilities?: () => RawCreatureAbility[];
 }
 
 const VAMPIRE_AGES: VampireAge[] = [
@@ -305,7 +323,7 @@ const UNDEAD_SLAYERS: TargetList[] = [
 ];
 
 /** A vampire in wolf, bat or gaseous form can't use its other powers. */
-const NOT_SHAPECHANGED: Triggers.Trigger[] = [
+export const NOT_SHAPECHANGED: Triggers.Trigger[] = [
   SPELL_STATES.animalForm,
   SPELL_STATES.gaseousForm,
 ].map((state) => ({
@@ -384,10 +402,11 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
   });
 }
 
-/** Rounds a bat swarm stays, and how often it strikes the creatures caught in it. */
-const BAT_SWARM_ROUNDS = 5;
-
+/** How often a bat swarm strikes the creatures caught in it. */
 const BAT_SWARM_PULSE = 15; // 1 second, in frames
+
+/** Rounds a bat swarm stays: 1, plus 1 per 2 caster levels (5 for a fledgling, 13 at level 25). */
+const batSwarmRounds = (level: number) => 1 + Math.floor(level / 2);
 
 /**
  * The game's bat flight (BG2's bat creature animation ABATG1, kept to its first 5 cycles: one per
@@ -402,6 +421,8 @@ const BAT_FLIGHT_BAM = "jaae4900";
  * The swarm strikes every second, and each creature is affected at most once per round: leaving
  * the swarm ends its effects by the next round. They last one pulse longer than that protection,
  * so the strike renewing them lands before they wear off.
+ * It stays 1 round plus 1 per 2 caster levels. The swarm's lifetime is its projectile's trigger
+ * count, so each duration is a projectile of its own, used by one header per 2 levels.
  */
 function batSwarm(group: AbstractCreature) {
   const base = {
@@ -409,6 +430,77 @@ function batSwarm(group: AbstractCreature) {
     duration: Durations.round + 1,
     dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
   };
+  const effects: Effect[] = [
+    ...effectFactory.blindness(base),
+    {
+      opcode: EffectTypeEnum.Thac0Bonus,
+      type: EffectStatisticModifierEnum.Increment,
+      value: -4,
+      ...base,
+    },
+    {
+      opcode: EffectTypeEnum.ArmorClassBonus,
+      bonusTo: EffectBonusToEnum.AllWeapons,
+      value: -4,
+      ...base,
+    },
+    {
+      opcode: EffectTypeEnum.MovementRateBonus,
+      type: EffectModifierTypeEnum.SetPercentOf,
+      value: 50,
+      ...base,
+    },
+    { opcode: EffectTypeEnum.ProtectionFromSpell, ...base, duration: Durations.round },
+  ];
+  // one header per 2 levels, from the youngest vampire's level (lower ones use the first)
+  const levels: number[] = [];
+  for (let level = VAMPIRE_AGES[0].level1; level <= VAMPIRE_MAX_LEVEL; level += 2) {
+    levels.push(level);
+  }
+  const headers: PartialSpellHeader[] = levels.map((level) => {
+    const rounds = batSwarmRounds(level);
+    const projectile = group.addProjectile({
+      copyFromFile: "dvstink",
+      name: `Vampire bat swarm (${rounds} rounds)`,
+      // Bats instead of the stinking cloud, each one with a random direction (cycle) and wing
+      // beat (frame)
+      extendedFlags: [
+        ProjectileExtendedFlagsEnum.StartRandomFrame,
+        ProjectileExtendedFlagsEnum.StartRandomSequence,
+      ],
+      // a bat flies to the spot (no more colouring it green)
+      projectileInfo: {
+        bamProjectileFlags: [BamProjectileFlagsEnum.EnableAreaLightingUsage],
+        travelingAnimation: BAT_FLIGHT_BAM,
+        faceTargetGranularity: 5, // its 5 cycles, from south to north
+      },
+      areaEffectInfo: {
+        areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
+        explosionDelay: BAT_SWARM_PULSE,
+        triggerCount: (rounds * Durations.round * 15) / BAT_SWARM_PULSE,
+        triggerRadius: 360,
+        areaOfEffect: 360, // 20-foot radius
+        explosionEffect: ProjectileExplosionEffectEnum.CUSTOM,
+        // scattered all over the area for as long as it lasts, as the game's own clouds do
+        spreadAnimation: BAT_FLIGHT_BAM,
+        areaExtendedFlags: [
+          AreaExtendedFlagsEnum.StartScattered,
+          AreaExtendedFlagsEnum.RepeatScattering,
+          AreaExtendedFlagsEnum.Cloud,
+        ],
+      },
+    });
+    return {
+      minLevel: level,
+      type: ItemAbilityTypeEnum.Ranged,
+      location: ItemAbilityLocationEnum.Spell,
+      target: ItemAbilityTargetEnum.AnyPointWithinRange,
+      range: 30,
+      speed: 1,
+      projectile: projectile.file,
+      effects: effects.map((effect) => ({ ...effect })),
+    };
+  });
   return group.addSpell({
     name: "monster.vampire.ability.batSwarm.name",
     description: "monster.vampire.ability.batSwarm.description",
@@ -419,68 +511,7 @@ function batSwarm(group: AbstractCreature) {
     castingSound: "CAS_P03",
     icon: SPELLS.Class.SummonSpiritAnimal.file,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Ranged,
-        location: ItemAbilityLocationEnum.Spell,
-        target: ItemAbilityTargetEnum.AnyPointWithinRange,
-        range: 30,
-        speed: 1,
-        projectile: {
-          copyFromFile: "dvstink",
-          name: "Vampire bat swarm",
-          // Bats instead of the stinking cloud, each one with a random direction (cycle) and wing
-          // beat (frame)
-          extendedFlags: [
-            ProjectileExtendedFlagsEnum.StartRandomFrame,
-            ProjectileExtendedFlagsEnum.StartRandomSequence,
-          ],
-          // a bat flies to the spot (no more colouring it green)
-          projectileInfo: {
-            bamProjectileFlags: [BamProjectileFlagsEnum.EnableAreaLightingUsage],
-            travelingAnimation: BAT_FLIGHT_BAM,
-            faceTargetGranularity: 5, // its 5 cycles, from south to north
-          },
-          areaEffectInfo: {
-            areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
-            explosionDelay: BAT_SWARM_PULSE,
-            triggerCount: (BAT_SWARM_ROUNDS * Durations.round * 15) / BAT_SWARM_PULSE,
-            triggerRadius: 360,
-            areaOfEffect: 360, // 20-foot radius
-            explosionEffect: ProjectileExplosionEffectEnum.CUSTOM,
-            // scattered all over the area for as long as it lasts, as the game's own clouds do
-            spreadAnimation: BAT_FLIGHT_BAM,
-            areaExtendedFlags: [
-              AreaExtendedFlagsEnum.StartScattered,
-              AreaExtendedFlagsEnum.RepeatScattering,
-              AreaExtendedFlagsEnum.Cloud,
-            ],
-          },
-        },
-        effects: [
-          ...effectFactory.blindness(base),
-          {
-            opcode: EffectTypeEnum.Thac0Bonus,
-            type: EffectStatisticModifierEnum.Increment,
-            value: -4,
-            ...base,
-          },
-          {
-            opcode: EffectTypeEnum.ArmorClassBonus,
-            bonusTo: EffectBonusToEnum.AllWeapons,
-            value: -4,
-            ...base,
-          },
-          {
-            opcode: EffectTypeEnum.MovementRateBonus,
-            type: EffectModifierTypeEnum.SetPercentOf,
-            value: 50,
-            ...base,
-          },
-          { opcode: EffectTypeEnum.ProtectionFromSpell, ...base, duration: Durations.round },
-        ],
-      },
-    ],
+    headers,
     ability: {
       targets: [{ name: "NearestEnemies" }],
       triggers: NOT_SHAPECHANGED,
@@ -1172,6 +1203,141 @@ function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCust
 }
 
 /**
+ * Drink Blood, the 5e vampire's bite on a victim it controls: a creature it has charmed (the only
+ * kind its PnP powers make helpless). A spell rather than an attack: no roll against a willing
+ * victim, no weapon to swap. It takes 10 maximum HP for 8 hours (no damage protection or healing
+ * gets them back), heals the vampire 10, and costs it one attack that round, the bite taking the
+ * place of one (5e: only one of a vampire's attacks can be a bite).
+ * Not given to any vampire for now (2026-10-26): 5e vampires bite instead of draining levels, and
+ * ours follow 2e, whose claws drain levels. Kept in case; to restore it, add to vampire()
+ * `sharedPower(entry, cre, Ids.VampireDrinkBlood, () => drinkBlood(entry))` and its ability.
+ */
+export function drinkBlood(group: AbstractCreature): Spell {
+  const duration = Durations.eightHours;
+  const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
+  return group.addSpell({
+    name: "monster.vampire.ability.drinkBlood.name",
+    description: "monster.vampire.ability.drinkBlood.description",
+    id: Ids.VampireDrinkBlood,
+    memorizedCount: AT_WILL,
+    level: 1,
+    type: SpellTypeEnum.Innate,
+    flags: [SpellFlagEnum.IgnoreDead, SpellFlagEnum.CastableWhenSilenced],
+    icon: SPELLS.Wizard.VampiricTouch.file,
+    secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        location: ItemAbilityLocationEnum.Spell,
+        target: ItemAbilityTargetEnum.LivingActor,
+        range: 5,
+        speed: 1,
+        effects: [
+          // only a charmed victim: the spell does nothing on anyone else
+          {
+            opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+            type: {
+              stat: SpellProtectionStat.State,
+              relation: SpellProtectionRelation.BinaryNotMatch,
+            },
+            value: "STATE_CHARMED",
+          },
+          {
+            opcode: EffectTypeEnum.MaximumHPModifier,
+            value: -10,
+            type: EffectStatisticModifierEnum.Increment,
+            timing: EffectTimingEnum.InstantLimited,
+            duration,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.DisplayPortraitIcon,
+            icon: PortraitIconEnum.AbilityScoreDrained,
+            timing: EffectTimingEnum.InstantLimited,
+            duration,
+            dispelResistance,
+          },
+          // shown like the game's Vampiric Touch: a necromantic flash on the victim...
+          {
+            opcode: EffectTypeEnum.LightingEffects,
+            effect: LightingEffectEnum.NecromancyEarth,
+            lightingTarget: LightingEffectTargetEnum.SpellTarget,
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+            resource: "SPHANDAT",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          // ...and a healing glow on the vampire
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetAttached,
+            resource: "SPHEALIN",
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: 3,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.CurrentHPbonus,
+            value: 10,
+            type: EffectModifierTypeEnum.Increment,
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.ModifyAttacksPerRound,
+            value: -1,
+            type: AttackModifierTypeEnum.Increment,
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: Durations.round,
+            dispelResistance,
+          },
+        ],
+      },
+    ],
+    // cast at a charmed ally, in its own form or as a bat, not as a wolf or as mist; a bite, not
+    // a spell: no globe check
+    ability: {
+      level: null,
+      targets: [
+        {
+          name: "NearestAllies",
+          triggers: [{ name: "StateCheck", params: [ScriptTarget.token, "STATE_CHARMED"] }],
+        },
+      ],
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.myself, SPELL_STATES.gaseousForm],
+          negation: true,
+        },
+        {
+          name: "Or",
+          triggers: [
+            {
+              name: "CheckSpellState",
+              params: [ScriptTarget.myself, SPELL_STATES.animalForm],
+              negation: true,
+            },
+            { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.flying] },
+          ],
+        },
+      ],
+      spell: { type: "force" },
+      spellcasting: false,
+      canUseWhenPolymorphed: true,
+    },
+  });
+}
+
+/**
  * A power every age with the same one shares: created once, on the entry (its files are the
  * entry's), then memorized by each of them.
  */
@@ -1186,7 +1352,45 @@ function sharedPower(
   return spell;
 }
 
-function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
+/** The vampire's traits: weapon immunity, resistances, regeneration and the mist form on death */
+export function vampireTrait(
+  age: Pick<
+    VampireAge,
+    "weaponImmunity" | "regeneration" | "magicResistance" | "extraImmunities" | "extraEffects"
+  >,
+): { immunities: ImmunityName[]; effects: Effect[] } {
+  const effects: Effect[] = [
+    ...effectFactory.regeneration(age.regeneration),
+    {
+      opcode: EffectTypeEnum.CastSpellOnCondition,
+      conditionTarget: CastSpellOnConditionTargetEnum.Myself,
+      condition: "Die()",
+      special: 2,
+      timing: EffectTimingEnum.InstantWhileEquipped,
+      target: EffectTargetEnum.Self,
+      resource: SPELLS.Innate.VampireGasFormChange.file,
+    },
+  ];
+  if (age.magicResistance) {
+    effects.push({
+      opcode: EffectTypeEnum.MagicResistanceModifier,
+      type: EffectStatisticModifierEnum.Set,
+      value: age.magicResistance,
+    });
+  }
+  effects.push(...(age.extraEffects ?? []));
+  return {
+    immunities: [
+      age.weaponImmunity,
+      "coldResistance",
+      "lightningResistance",
+      ...(age.extraImmunities ?? []),
+    ],
+    effects,
+  };
+}
+
+export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
   const cre = entry.create({
     monster: age.monster,
     name: age.name,
@@ -1201,8 +1405,8 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
       intelligence: age.intelligence,
       wisdom: 15,
       charisma: age.charisma,
-      ac: 1,
-      apr: 1,
+      ac: age.ac ?? 1,
+      apr: age.apr ?? 1,
       xpv: age.xpv,
       alignment: "CHAOTIC_EVIL",
       morale: 16,
@@ -1229,8 +1433,12 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
           "vampreg2",
           "dw#bldd",
           "dw#bldd1",
+          "dw#bldd2",
           "dw#vmwol",
           "dw#vmbat",
+          "dagg24",
+          "helmnoan",
+          "boot01",
         ],
       },
       script: {
@@ -1241,11 +1449,15 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
           "dw#vmmin",
           "ohbvamp",
           "ohbfig01",
+          "ohbmag04",
+          "ohbthief",
           "ppvampir",
           "ppvamp",
           "sarvam02",
           "vampir01",
           "vampir02",
+          "VAMEMI01",
+          "vampat01",
           "vvamp",
         ],
         edits: [
@@ -1260,7 +1472,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
   createClaws(cre, {
     diceThrown: 1,
     diceSize: 6,
-    effects: effectFactory.levelDrain({ levels: 2 }),
+    effects: effectFactory.levelDrain({ levels: age.drainLevels ?? 2 }),
   });
   // Like SCS: the vampire goes for those its level drain works on first (not an undead hunter, a
   // blackguard or anyone protected by an item), whatever their state, then for the others. Only
@@ -1275,29 +1487,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
       },
     ],
   });
-  const effects: Effect[] = [
-    ...effectFactory.regeneration(age.regeneration),
-    {
-      opcode: EffectTypeEnum.CastSpellOnCondition,
-      conditionTarget: CastSpellOnConditionTargetEnum.Myself,
-      condition: "Die()",
-      special: 2,
-      timing: EffectTimingEnum.InstantWhileEquipped,
-      target: EffectTargetEnum.Self,
-      resource: SPELLS.Innate.VampireGasFormChange.file,
-    },
-  ];
-  if (age.magicResistance) {
-    effects.push({
-      opcode: EffectTypeEnum.MagicResistanceModifier,
-      type: EffectStatisticModifierEnum.Set,
-      value: age.magicResistance,
-    });
-  }
-  cre.addTrait({
-    immunities: [age.weaponImmunity, "coldResistance", "lightningResistance"],
-    effects,
-  });
+  cre.addTrait(vampireTrait(age));
   const ownSpeed = age.movement >= 18;
   const dominate = sharedPower(entry, cre, age.domination.id, () =>
     domination(entry, age.domination),
@@ -1323,6 +1513,7 @@ function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
     restHeal: true,
     abilities: [
       ...mist.abilities,
+      ...(age.abilities?.() ?? []),
       ...[ownForm, bat, dominate, swarm, control, wolf].map((spell) => {
         if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
         return spell.ability;
@@ -1372,6 +1563,7 @@ export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
     {
       files: ["DX#DALID"],
       data: {
+        level1: 16,
         // TODO: spellbook, caster level
         class: "MAGE",
         kit: "MAGESCHOOL_NECROMANCER",
@@ -1396,18 +1588,10 @@ export const eminentVampire = (entry: CreatureEntry<Creature>) => {
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[6]);
   cre.setAdjustments([
-    // { files: ["D9TANOV"], stringRef: "monster.vampire.name.patriarchMage" },
+    //{ files: ["D9TANOV"], stringRef: "monster.vampire.name.patriarchMage" },
+    { files: ["OHBVMP01"], data: { level1: 18, class: "MAGE", kit: "MAGESCHOOL_NECROMANCER" } }, //TODO:
+    { files: ["OHBVMP02"], data: { level1: 18 } },
+    { files: ["OHBVMP03"], data: { level1: 21 } },
   ]);
   return cre;
 };
-
-export const createVampireEntry = () =>
-  new SimpleEntry(EntryEnum.Vampire, [
-    fledglingVampire,
-    matureVampire,
-    oldVampire,
-    veryOldVampire,
-    ancientVampire,
-    eminentVampire,
-    patriarchVampire,
-  ]);

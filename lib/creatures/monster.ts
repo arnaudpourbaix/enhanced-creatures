@@ -167,4 +167,5 @@ export enum MonsterEnum {
   VampireEminent = 165,
   VampirePatriarch = 166,
   Vampyre = 167,
+  VampireAbomination = 168,
 }

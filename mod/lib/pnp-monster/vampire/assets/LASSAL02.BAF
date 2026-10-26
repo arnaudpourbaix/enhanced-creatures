@@ -1,0 +1,57 @@
+IF
+    Die()
+THEN
+    RESPONSE #100
+        ReallyForceSpellDead(Myself,LASSAL_MIST_CHANGE)  // SPIN904.SPL (No such index)
+END
+
+IF
+    OR(4)
+        Global("Move","LOCALS",0)
+        Global("Move","LOCALS",2)
+        Global("Move","LOCALS",4)
+        Global("Move","LOCALS",6)
+    Detect([PC])
+THEN
+    RESPONSE #100
+        IncrementGlobal("Move","LOCALS",1)
+        StartDialogueNoSet(LastSeenBy(Myself))
+END
+
+IF
+    Global("Move","LOCALS",1)
+THEN
+    RESPONSE #100
+        DialogInterrupt(FALSE)
+        SetGlobal("Seen","LOCALS",2)
+        ForceSpellPoint([1413.621],WIZARD_DIMENSION_DOOR_DEPRECATED)  // SPWI402.SPL (Dimension Jump)
+        Wait(3)
+        IncrementGlobal("Move","LOCALS",1)
+        DialogInterrupt(TRUE)
+END
+
+IF
+    Global("Move","LOCALS",3)
+THEN
+    RESPONSE #100
+        DialogInterrupt(FALSE)
+        SetGlobal("Seen","LOCALS",2)
+        IncrementGlobal("Move","LOCALS",1)
+        OpenDoor("DOOR01")
+        DialogInterrupt(TRUE)
+        EscapeAreaMove("AR0803",1703,195,SW)  // Bodhi's Lair (sided with Aran)
+END
+
+IF
+    Global("Move","LOCALS",5)
+THEN
+    RESPONSE #100
+        StartCutSceneMode()
+        SetGlobal("Seen","LOCALS",2)
+        IncrementGlobal("Move","LOCALS",1)
+        ReallyForceSpell(Myself,ZOMBIE_SICKNESS)  // SPIN899.SPL (No such index)
+        Wait(1)
+        DestroyItem("MINHP1")  // Necklace
+        EndCutSceneMode()
+        MoveBetweenAreas("AR0801",[3326.312],SW)  // Bodhi's Hideout (sided with Aran)
+END

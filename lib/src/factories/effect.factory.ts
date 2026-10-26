@@ -460,12 +460,15 @@ class EffectFactory {
   }
 
   levelDrain(params: { levels: number; saveType?: SaveTypeEnum; saveBonus?: number }) {
-    let stringRef = StringRefUtils.getString("One Level Drained");
-    if (params.levels === 2) {
-      stringRef = StringRefUtils.getString("Two Levels Drained");
-    } else if (params.levels === 3) {
-      stringRef = StringRefUtils.getString("Three Levels Drained");
-    } else if (params.levels > 3) throw new Error("string unhandled");
+    const texts = [
+      "One Level Drained",
+      "Two Levels Drained",
+      "Three Levels Drained",
+      "Four Levels Drained",
+      "Five Levels Drained",
+    ] as const;
+    if (params.levels > texts.length) throw new Error("string unhandled");
+    const stringRef = StringRefUtils.getString(texts[Math.max(params.levels, 1) - 1]);
     const effects: Effect[] = [
       {
         opcode: EffectTypeEnum.LevelDrain,

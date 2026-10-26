@@ -1,0 +1,15 @@
+IF
+    Die()
+THEN
+    RESPONSE #100
+        ReallyForceSpellDead(Myself,VAMPIRE_GAS_FORM_CHANGE)  // SPIN964.SPL (No such index)
+END
+
+IF
+    Detect([PC])
+    Global("SpeakOnce","LOCALS",0)
+THEN
+    RESPONSE #100
+        StartDialogueNoSet(LastSeenBy(Myself))
+        SetGlobal("SpeakOnce","LOCALS",1)
+END

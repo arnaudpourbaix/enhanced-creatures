@@ -89,6 +89,12 @@ place to say so.
 
 ---
 
+## Bodhi
+
+Moved to [BODHI.md](BODHI.md) (scripts, abilities, CRE review and progression).
+
+---
+
 ## 🔵 Needs investigation (unclear without more context)
 
 - 🔵 `spell-group.ts:54` — `// TODO: check these:` above 4 "SpellPack b6" and 3

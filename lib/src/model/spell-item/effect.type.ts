@@ -106,6 +106,7 @@ export enum EffectTypeEnum {
   ProtectionFromBackstab = 292,
   ProtectionFromDisplaySpecificString = 267,
   ProtectionFromOpcode = 101,
+  ProtectionFromSpellLevels = 102,
   ProtectionFromProjectile = 83,
   ProtectionFromSpell = 206,
   ProtectionFromResource = 318,

@@ -262,6 +262,12 @@ export type ProtectionFromOpcodeEffect = BaseEffect & {
   type: EffectTypeEnum;
 };
 
+/** Opcode 102: immunity to every spell of `level` */
+export type ProtectionFromSpellLevelsEffect = BaseEffect & {
+  opcode: EffectTypeEnum.ProtectionFromSpellLevels;
+  level: number;
+};
+
 export type PoisonEffect = BaseEffect & {
   opcode: EffectTypeEnum.Poison;
   amount: number;
@@ -598,6 +604,7 @@ export type Effect =
   | PolymorphIntoSpecificEffect
   | ProficiencyModifierEffect
   | ProtectionFromOpcodeEffect
+  | ProtectionFromSpellLevelsEffect
   | ProtectionFromProjectileEffect
   | ProtectionFromResourceEffect
   | ProtectionFromWeaponsEffect

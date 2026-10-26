@@ -198,6 +198,15 @@ describe("getSpell ability level", () => {
     expect(withoutLevel.ability?.level).toBeUndefined();
   });
 
+  it("keeps an ability's explicit null level: no spell-level check, whatever the SPL level", () => {
+    const result = spellService.getSpell(
+      { name: SPELL_NAME, level: 1, ability: { level: null } },
+      "lvspl05",
+    );
+    expect(result.level).toBe(1);
+    expect(result.ability?.level).toBeNull();
+  });
+
   it("uses the spell's power over its level, which stays the SPL level", () => {
     const result = spellService.getSpell(
       { name: SPELL_NAME, level: 1, power: 5, ability: { preset } },

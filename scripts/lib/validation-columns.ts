@@ -1,6 +1,6 @@
 import { csvBool } from "../../lib/src/csv";
 
-export const VALIDATION_COLUMNS = ["ValidatedLevel", "ValidatedItems", "ValidatedScript"] as const;
+export const VALIDATION_COLUMNS = ["vlvl", "vitems", "vscript"] as const;
 export type ValidationColumn = (typeof VALIDATION_COLUMNS)[number];
 
 /**

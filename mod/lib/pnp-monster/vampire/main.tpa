@@ -1,5 +1,14 @@
 LAM load_secondary_types
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~CBSHDWKY.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/CBSHDWKY.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~LASSAL.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/LASSAL.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~LASSAL02.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/LASSAL02.BAF~
+END
 ACTION_IF FILE_EXISTS_IN_GAME ~PPJOYE.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/PPJOYE.BAF~
 END
@@ -18,36 +27,13 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME ~VAMPVIC.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VAMPVIC.BAF~
 END
-// Domination Gaze
-CREATE EFF "jase0700"
-	WRITE_LONG 0x10 206
-	WRITE_LONG 0x14 2
-	WRITE_LONG 0x24 1
-	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~jase0700~ #8
-
-CREATE SPL "jase0700"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jase0700.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10407)
-	WRITE_LONG 0x18 33570816
-	WRITE_SHORT 0x1c 1
-	WRITE_BYTE 0x25 4
-	WRITE_BYTE 0x27 11
-	WRITE_LONG 0x34 5
-	WRITE_ASCII 0x3a ~SPWI506C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10410)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0700" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0700" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=5 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=5 parameter1=ja_strref_charmed timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=5 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-2" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=5 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="SPNWCHRM" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=5 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="EFF_E07" END
-	
-// Bat Swarm
-COPY_EXISTING "dvstink.pro" ~override/jase0701.pro~
+ACTION_IF FILE_EXISTS_IN_GAME ~VVPARIS.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VVPARIS.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~VVSALIA.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/assets/VVSALIA.BAF~
+END
+COPY_EXISTING "dvstink.pro" ~override/jape0700.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
@@ -64,20 +50,201 @@ COPY_EXISTING "dvstink.pro" ~override/jase0701.pro~
 	WRITE_BYTE 0x217 254
 	WRITE_ASCII 0x228 ~jaae4900~ #8
 	WRITE_LONG 0x240 84
-ADD_PROJECTILE ~override/jase0701.pro~ ~Vampire bat swarm~
+ADD_PROJECTILE ~override/jape0700.pro~ ~Vampire bat swarm (5 rounds)~
 
+COPY_EXISTING "dvstink.pro" ~override/jape0701.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 36
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0701.pro~ ~Vampire bat swarm (6 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0702.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 42
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0702.pro~ ~Vampire bat swarm (7 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0703.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 48
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0703.pro~ ~Vampire bat swarm (8 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0704.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 54
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0704.pro~ ~Vampire bat swarm (9 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0705.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 60
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0705.pro~ ~Vampire bat swarm (10 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0706.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 66
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0706.pro~ ~Vampire bat swarm (11 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0707.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 72
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0707.pro~ ~Vampire bat swarm (12 rounds)~
+
+COPY_EXISTING "dvstink.pro" ~override/jape0708.pro~
+	READ_SHORT 0x08 type
+	PATCH_IF (%type% = 1) BEGIN
+		INSERT_BYTES 0x100 0x100
+	END
+	WRITE_LONG 0x2c 4194368
+	WRITE_LONG 0x100 8
+	WRITE_ASCII 0x104 ~jaae4900~ #8
+	WRITE_BYTE 0x133 5
+	WRITE_LONG 0x200 64
+	WRITE_SHORT 0x204 360
+	WRITE_SHORT 0x206 360
+	WRITE_SHORT 0x210 15
+	WRITE_BYTE 0x216 78
+	WRITE_BYTE 0x217 254
+	WRITE_ASCII 0x228 ~jaae4900~ #8
+	WRITE_LONG 0x240 84
+ADD_PROJECTILE ~override/jape0708.pro~ ~Vampire bat swarm (13 rounds)~
+
+// Domination Gaze
+CREATE EFF "jase0700"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase0700~ #8
+
+CREATE SPL "jase0700"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase0700.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10408)
+	WRITE_LONG 0x18 33570816
+	WRITE_SHORT 0x1c 1
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 5
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10411)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0700" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0700" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=5 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=5 parameter1=ja_strref_charmed timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=5 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-2" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=5 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=5 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-2" STR_VAR resource="EFF_E07" END
+	
+// Bat Swarm
 CREATE SPL "jase0701"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0701.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10413)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10420)
 	WRITE_ASCII 0x10 ~CAS_P03~ #8
 	WRITE_LONG 0x18 33570816
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 2
 	WRITE_ASCII 0x3a ~SPCL621C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10414)
-	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jase0701~)) + 1 STR_VAR icon="SPCL621B" END
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10421)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=8 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0700~)) + 1 STR_VAR icon="SPCL621B" END
 	INNER_ACTION BEGIN
 		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
 	END
@@ -91,19 +258,131 @@ COPY_EXISTING ~jase0701.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=10 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0701~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=2 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=2 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=12 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0702~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=3 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=3 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=14 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0703~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=4 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=4 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=16 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0704~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=5 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=5 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=18 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0705~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=6 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=6 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=20 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0706~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=7 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=7 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=22 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0707~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=8 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=8 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=2 target=4 range=30 required_level=24 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jape0708~)) + 1 STR_VAR icon="SPCL621B" END
+	INNER_ACTION BEGIN
+		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END
+	END
+	PATCH_PHP_EACH colorSpray_resources AS _ => resource BEGIN
+		LPF ADD_EFFECT INT_VAR header=9 opcode=206 target=2 power=2 duration=7 probability1=100 STR_VAR resource=EVALUATE_BUFFER "%resource%" END
+	END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=74 target=2 power=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=142 target=2 power=2 parameter2=8 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=139 target=2 power=2 parameter1=ja_strref_blinded timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=278 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=0 target=2 power=2 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=126 target=2 power=2 parameter1=50 parameter2=2 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=9 opcode=206 target=2 power=2 duration=6 probability1=100 STR_VAR resource="jase0701" END
 	
 // Control Undead
 CREATE SPL "jase0702"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0702.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10415)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10422)
 	WRITE_LONG 0x18 33570816
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x25 7
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 7
 	WRITE_ASCII 0x3a ~SPWI720C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10416)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10423)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 required_level=8 speed=1 STR_VAR icon="SPWI720B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=241 target=2 power=7 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~UNDEAD~) parameter2=1003 timing=9 resist_dispel=1 probability1=100 dicenumber=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=7 timing=1 resist_dispel=1 probability1=100 dicenumber=4 STR_VAR resource="jave4900" END
@@ -154,13 +433,13 @@ COPY_EXISTING ~jase0702.SPL~  ~override~
 CREATE SPL "jase0703"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0703.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10417)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10424)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPIN110C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10418)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10425)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPIN110B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0700" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
@@ -174,13 +453,13 @@ COPY_EXISTING ~jase0703.SPL~  ~override~
 CREATE SPL "jase0704"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0704.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10419)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10426)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~PLYWYVNC~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10420)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10427)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYWYVNB" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0701" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
@@ -201,14 +480,14 @@ CREATE EFF "jase0705"
 CREATE SPL "jase0705"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0705.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10407)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10408)
 	WRITE_LONG 0x18 33570816
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x25 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPWI506C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10410)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10411)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~GAZE~)) + 1 STR_VAR icon="SPWI506B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0705" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0705" END
@@ -222,13 +501,13 @@ COPY_EXISTING ~jase0705.SPL~  ~override~
 CREATE SPL "jase0706"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0706.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10417)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10424)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPIN110C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10418)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10425)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="SPIN110B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0702" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
@@ -242,13 +521,13 @@ COPY_EXISTING ~jase0706.SPL~  ~override~
 CREATE SPL "jase0707"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0707.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10419)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10426)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~PLYWYVNC~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10420)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10427)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYWYVNB" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=18 probability1=100 STR_VAR resource="jaie0703" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=1 power=1 parameter1="-4" duration=6 probability1=100 END
@@ -269,14 +548,14 @@ CREATE EFF "jase0708"
 CREATE SPL "jase0708"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0708.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10408)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10409)
 	WRITE_LONG 0x18 16384
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x25 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPWI506C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10411)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10412)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0708" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0708" END
@@ -297,14 +576,14 @@ CREATE EFF "jase0709"
 CREATE SPL "jase0709"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase0709.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10409)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10410)
 	WRITE_LONG 0x18 33570816
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x25 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPWI506C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10412)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10413)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase0709" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase0709" END
@@ -314,6 +593,34 @@ COPY_EXISTING ~jase0709.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=5 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-5" STR_VAR resource="SPNWCHRM" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=5 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-5" STR_VAR resource="EFF_E07" END
 	
+// Dominating Will
+CREATE EFF "jase070a"
+	WRITE_LONG 0x10 206
+	WRITE_LONG 0x14 2
+	WRITE_LONG 0x24 1
+	WRITE_SHORT 0x2c 100
+	WRITE_ASCII 0x30 ~jase070a~ #8
+
+CREATE SPL "jase070a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jase070a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10410)
+	WRITE_LONG 0x18 33570816
+	WRITE_SHORT 0x1c 1
+	WRITE_BYTE 0x25 4
+	WRITE_BYTE 0x27 11
+	WRITE_LONG 0x34 5
+	WRITE_ASCII 0x3a ~SPWI506C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10413)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase070a" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase070a" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=5 target=2 power=5 parameter1=IDS_OF_SYMBOL (~GENERAL~ ~HUMANOID~) parameter2=1003 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-6" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=5 parameter1=ja_strref_charmed timing=1 resist_dispel=1 probability1=100 savingthrow=1 savebonus="-6" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=50 target=2 power=5 parameter1="-1819214080" parameter2=1966080 resist_dispel=1 duration=1 probability1=100 savingthrow=1 savebonus="-6" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=5 parameter2=1 resist_dispel=1 duration=3 probability1=100 savingthrow=1 savebonus="-6" STR_VAR resource="SPNWCHRM" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=5 timing=3 resist_dispel=1 duration=48 probability1=100 savingthrow=1 savebonus="-6" STR_VAR resource="EFF_E07" END
+	
 // Wolf Form
 CREATE ITM "jaie0700"
 	WRITE_LONG 0x64 0x72
@@ -321,9 +628,9 @@ CREATE ITM "jaie0700"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10417)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10417)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10418)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10424)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10424)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10425)
 COPY_EXISTING ~jaie0700.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
@@ -352,9 +659,9 @@ CREATE ITM "jaie0701"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10419)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10419)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10420)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10426)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10426)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10427)
 COPY_EXISTING ~jaie0701.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
@@ -388,9 +695,9 @@ CREATE ITM "jaie0702"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10417)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10417)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10418)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10424)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10424)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10425)
 COPY_EXISTING ~jaie0702.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
@@ -418,9 +725,9 @@ CREATE ITM "jaie0703"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10419)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10419)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10420)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10426)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10426)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10427)
 COPY_EXISTING ~jaie0703.itm~ ~override~
 	READ_SHORT 0x68 abicount
 	PATCH_IF (%abicount% > 0) BEGIN
@@ -453,3 +760,4 @@ INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4j.tpa" // Very Old Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4k.tpa" // Ancient Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4l.tpa" // Eminent Vampire
 INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4m.tpa" // Patriarch Vampire
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/vampire/4o.tpa" // Abomination

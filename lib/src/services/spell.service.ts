@@ -89,7 +89,9 @@ class SpellService {
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
     if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
-    if (result.ability) result.ability.level ??= this.abilityLevel(spell, !!result.ability.preset);
+    // an explicit null means "not really a spell" (no spell-level check): only fill in undefined
+    if (result.ability?.level === undefined && result.ability)
+      result.ability.level = this.abilityLevel(spell, !!result.ability.preset);
     // Its own effects say which saves negate it (a copyFrom spell's effects aren't known here, so
     // its preset's are used instead).
     if (result.ability && !result.copyFrom) result.ability.saves ??= this.getSaves(result);

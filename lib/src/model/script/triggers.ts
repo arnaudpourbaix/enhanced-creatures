@@ -48,6 +48,7 @@ export namespace Triggers {
     | "HasItemSlot"
     | "CheckItemSlot"
     | "CurrentAmmo"
+    | "Difficulty"
     | "Global"
     | "GlobalGT"
     | "GlobalLT"
@@ -220,6 +221,17 @@ export namespace Triggers {
   export interface HasItem extends BaseTrigger {
     name: "HasItem";
     params: [string, ParamObject];
+  }
+
+  export interface HasItemEquiped extends BaseTrigger {
+    name: "HasItemEquiped";
+    params: [string, ParamObject];
+  }
+
+  /** The game difficulty, a DIFFLEV.IDS symbol: EASIEST, EASY, NORMAL, HARD or HARDEST */
+  export interface Difficulty extends BaseTrigger {
+    name: "Difficulty";
+    params: [string];
   }
 
   export interface HasItemSlot extends BaseTrigger {
@@ -691,6 +703,8 @@ export namespace Triggers {
     | HaveKnownSpellRES
     | HasWeaponEquiped
     | HasItem
+    | HasItemEquiped
+    | Difficulty
     | HasItemSlot
     | CurrentAmmo
     | Gender
@@ -932,6 +946,12 @@ export namespace Triggers {
       description:
         "Returns true only if the party has a total number of items of the type specified less than the 2nd parameter.",
       section: "Item",
+    },
+    {
+      name: "Difficulty",
+      parameters: "I:Difficulty*DIFFLEV",
+      description: "Returns true only if the current game difficulty is the one specified.",
+      section: "Misc.",
     },
     {
       name: "HasItemEquiped",

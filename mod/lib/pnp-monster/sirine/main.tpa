@@ -25,7 +25,7 @@ COPY_EXISTING ~jase1600.SPL~  ~override~
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI316C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10995)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11002)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI316B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jase1600" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jase1600" END

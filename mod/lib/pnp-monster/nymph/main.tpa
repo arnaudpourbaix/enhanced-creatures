@@ -3,7 +3,7 @@ LAM load_secondary_types
 CREATE SPL "jase1500"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jase1500.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10465)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10472)
 	WRITE_ASCII 0x10 ~CAS_M08~ #8
 	WRITE_LONG 0x18 2048
 	WRITE_SHORT 0x1c 2
@@ -13,7 +13,7 @@ COPY_EXISTING ~jase1500.SPL~  ~override~
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10466)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10473)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=2 target=4 range=900 speed=1 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=141 target=1 power=1 parameter2=38 timing=1 resist_dispel=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=1 power=1 timing=1 resist_dispel=1 probability1=100 STR_VAR resource="EFF_M09" END
@@ -30,7 +30,7 @@ COPY_EXISTING ~jase1501.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPPR704C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10991)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10998)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="SPPR704B" END
 	INNER_ACTION BEGIN
 		LAF get_colorSpray_resources RET_ARRAY colorSpray_resources=resources END

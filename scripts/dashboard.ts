@@ -3,7 +3,7 @@ import * as path from "path";
 import { buildAllCreatures } from "../lib/creatures";
 import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
-import { csvBool } from "../lib/src/csv";
+import { csvBool, requireCsvColumns } from "../lib/src/csv";
 import { CsvSummary, MonsterRowCount, renderDashboard } from "./lib/dashboard-html";
 import { diffMonsters } from "./lib/monster-status";
 import { readModVersion } from "../lib/src/services/doc/doc-version";
@@ -68,6 +68,7 @@ async function main() {
   const creatures = buildAllCreatures();
 
   const csv = parseCsv(fs.readFileSync(path.join(assetsDir, "creatures.csv"), "utf-8"));
+  requireCsvColumns(csv.header, ["MonsterId", "ValidatedMonsterId"], "creatures.csv");
   const { summary, byMonster } = summarizeCsv(csv.rows);
   const counts = (monster: string): MonsterRowCount =>
     byMonster.get(monster) ?? { monster, rows: 0, validated: 0 };

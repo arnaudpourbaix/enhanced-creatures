@@ -62,22 +62,26 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit) {
-    this.add(lines, "ACTION_FOR_EACH ~file~ IN");
-    for (const file of edit.files) this.add(lines, `"${file}"`, 1);
-    this.add(lines, "BEGIN", 0);
-    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, 1);
-    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, 2);
-    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, 3);
+    // scoped to a game: only where that game's creatures get patched too
+    const t = edit.game ? 1 : 0;
+    if (edit.game) this.add(lines, `ACTION_IF ${GAME_IS_CONDITION[edit.game]} BEGIN`, 0);
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN", t);
+    for (const file of edit.files) this.add(lines, `"${file}"`, t + 1);
+    this.add(lines, "BEGIN", t);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, t + 1);
+    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, t + 2);
+    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, t + 3);
     for (const replace of edit.replaces ?? []) {
-      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, 4);
+      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, t + 4);
     }
     for (const text of edit.removeBlocks ?? []) {
-      this.removeBlocksContaining(lines, 4, text);
+      this.removeBlocksContaining(lines, t + 4, text);
     }
-    this.add(lines, `END`, 3);
-    this.add(lines, `BUT_ONLY`, 2);
-    this.add(lines, `END`, 1);
-    this.add(lines, `END`, 0);
+    this.add(lines, `END`, t + 3);
+    this.add(lines, `BUT_ONLY`, t + 2);
+    this.add(lines, `END`, t + 1);
+    this.add(lines, `END`, t);
+    if (edit.game) this.add(lines, `END`, 0);
     this.add(lines, ``, 0);
   }
 

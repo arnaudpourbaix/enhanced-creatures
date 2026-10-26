@@ -518,12 +518,31 @@ describe("handleScriptEdit (private)", () => {
     expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
     expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~VAMPIRE_DOMINATION~ 0)");
     expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~FOO~ 0)");
-    expect(result.filter((c) => c === "DELETE_BYTES ec_start (ec_end + 3 - ec_start)")).toHaveLength(2);
+    expect(
+      result.filter((c) => c === "DELETE_BYTES ec_start (ec_end + 3 - ec_start)"),
+    ).toHaveLength(2);
     const patchStart = result.indexOf("DECOMPILE_AND_PATCH BEGIN");
     const butOnly = result.indexOf("BUT_ONLY");
     const loop = result.indexOf("WHILE (ec_pos >= 0) BEGIN");
     expect(loop).toBeGreaterThan(patchStart);
     expect(loop).toBeLessThan(butOnly);
+  });
+});
+
+describe("handleScriptEdit game scope (private)", () => {
+  it("wraps the edit in the game's condition when it has one", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["C6BWEAK"], replaces: [["A", "B"]], game: "bg2" });
+    const result = codes(lines);
+    expect(result[0]).toBe("ACTION_IF GAME_IS ~bg2ee~ BEGIN");
+    expect(result[1]).toBe(ACTION_FOR_EACH_FILE);
+    expect(result.filter((c) => c === "END")).toHaveLength(4);
+  });
+
+  it("leaves an edit without a game unwrapped", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["JAM01"], replaces: [["A", "B"]] });
+    expect(codes(lines)[0]).toBe(ACTION_FOR_EACH_FILE);
   });
 });
 
