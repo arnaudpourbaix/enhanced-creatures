@@ -38,10 +38,13 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
     [
       SPELLS.Wizard.MonsterSummoning8,
       SPELLS.Priest.Gate,
+      SPELLS.Wizard.SummonFiend,
       SPELLS.Priest.SummonDeathKnight,
+      SPELLS.Wizard.SummonDeathKnight,
       SPELLS.Priest.AnimalSummoning7,
       SPELLS.Wizard.MonsterSummoning7,
       SPELLS.Priest.AnimateSkeletonWarrior,
+      SPELLS.Wizard.AnimateSkeletonWarrior,
       FNP_SPELLS.Priest.Shades,
       SPELLS.Wizard.Shades,
       FNP_SPELLS.Priest.SummonShadows,

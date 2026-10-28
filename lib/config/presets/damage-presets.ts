@@ -10,16 +10,18 @@ import { CommonTargetLists } from "../target/common";
 export const DAMAGE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [
-      SPELLS.Priest.DolorousDecay,
-      SPELLS.Priest.Poison,
       SPELLS.Wizard.BigbyIcyGrasp,
+      SPELLS.Priest.DolorousDecay,
       SPELLS.Priest.BoltOfGlory,
+      SPELLS.Wizard.ShroudOfFlame,
       SPELLS.Priest.FlameStrike,
+      SPELLS.Priest.Poison,
       SPELLS.Wizard.FlameArrow,
       SPELLS.Wizard.VampiricTouch,
-      SPELLS.Wizard.ShroudOfFlame,
       SPELLS.Wizard.Combust,
+      SPELLS.Wizard.BatteringRam,
       SPELLS.Wizard.ChromaticOrb,
+      SPELLS.Wizard.LarlochMinorDrain,
     ],
     {
       targets: CommonTargetLists.Enemies,

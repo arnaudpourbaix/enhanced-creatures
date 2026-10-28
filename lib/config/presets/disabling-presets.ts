@@ -15,6 +15,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.PowerWordStun,
       SPELLS.Priest.SymbolStunning,
       SPELLS.Wizard.StinkingCloud,
+      SPELLS.Wizard.SoundBurst,
       SPELLS.Wizard.Emotion,
       FNP_SPELLS.Priest.Emotion,
       SPELLS.Priest.SymbolHopelessness,

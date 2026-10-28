@@ -11,6 +11,7 @@ import { CommonTargetLists } from "../target/common";
 export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [
+      SPELLS.Wizard.AbiDalzimHorridWilting,
       SPELLS.Wizard.Cloudkill,
       SPELLS.Wizard.ChainLightning,
       SPELLS.Wizard.Fireburst,

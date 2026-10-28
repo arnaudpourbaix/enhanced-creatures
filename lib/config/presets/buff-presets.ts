@@ -4,6 +4,7 @@ import { AbilityPreset } from "../../src/model/misc";
 import { PRESET_NAMES } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
+import targetService from "../../src/services/baf/target.service";
 import { CommonTargetLists } from "../target/common";
 
 export const BUFF_PRESETS: AbilityPreset[] = [
@@ -43,8 +44,9 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.GreaterDivineProtection,
       SPELLS.Priest.HolyPower,
       SPELLS.Priest.Ironskin,
-      SPELLS.Wizard.MirrorImages,
+      SPELLS.Wizard.GlobeOfInvulnerability,
       SPELLS.Wizard.MinorGlobeOfInvulnerability,
+      SPELLS.Wizard.MirrorImages,
       SPELLS.Wizard.NahalRecklessDweomer,
       SPELLS.Priest.PhysicalMirror,
       SPELLS.Priest.ProtectionFromLightning,
@@ -58,17 +60,34 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       FNP_SPELLS.Priest.Shield,
       SPELLS.Priest.ShieldOfTheArchons,
       SPELLS.Wizard.Stoneskin,
+      SPELLS.Wizard.ProtectionFromEnergy,
+      SPELLS.Wizard.ProtectionFromTheElements,
+      SPELLS.Wizard.PrismaticMantle,
+      SPELLS.Wizard.MomentOfPrescience,
+      SPELLS.Wizard.AbsoluteImmunity,
     ],
     {},
   ),
+  // It doubles its target's attacks per round: allies with several of them gain the most
+  ...presetFactory.createSpell(SPELLS.Wizard.ImprovedHaste, {
+    targets: [
+      ...targetService.combineListWithTriggers(CommonTargetLists.MyselfOrAllies, [
+        triggerFactory.checkStatGT(1, "NUMBEROFATTACKS"),
+      ]),
+      ...CommonTargetLists.MyselfOrAllies,
+    ],
+  }),
   ...presetFactory.createSpell(SPELLS.Wizard.Vocalize, {
     triggers: [triggerFactory.stateCheck("STATE_SILENCED")],
     requireVocal: false,
     probability: 100,
   }),
-  ...presetFactory.createSpells([SPELLS.Wizard.MinorSpellDeflection], {
-    triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
-  }),
+  ...presetFactory.createSpells(
+    [SPELLS.Wizard.GreaterSpellDeflection, SPELLS.Wizard.MinorSpellDeflection],
+    {
+      triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
+    },
+  ),
   ...presetFactory.createSpell(SPELLS.Wizard.ShadowDoor, {
     triggers: [triggerFactory.detect("NearestEnemyOf"), triggerFactory.hplt(75)],
   }),

@@ -24,7 +24,9 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.EnergyDrain,
       SPELLS.Priest.SymbolWeakness,
       FNP_SPELLS.Priest.WavesOfFatigue,
+      SPELLS.Wizard.WavesOfFatigue,
       SPELLS.Priest.Contagion,
+      SPELLS.Wizard.Contagion,
       SPELLS.Wizard.Glitterdust,
       SPELLS.Priest.Curse,
       SPELLS.Priest.Doom,
@@ -41,4 +43,7 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
     },
     [NEW_SPELLS.WizardSymbolOfPain],
   ),
+  ...presetFactory.createSpell(SPELLS.Wizard.RayOfEnfeeblement, {
+    targets: CommonTargetLists.PreferringStrong,
+  }),
 ];

@@ -54,22 +54,25 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
       targets: DISPEL_TARGET_LISTS,
     },
   ),
-  ...presetFactory.createOrderedSpells([SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust], {
-    targets: [
-      {
-        name: "Spellcasters",
-        includeStatus: ["Able"],
-        randomOrder: true,
-        triggers: [
-          ...ExcludeUnwantedTargetsTriggers,
-          triggerFactory.or([
-            triggerFactory.hasBounceEffects(),
-            triggerFactory.hasImmunityEffects(),
-          ]),
-        ],
-      },
-    ],
-  }),
+  ...presetFactory.createOrderedSpells(
+    [SPELLS.Wizard.KhelbensWardingWhip, SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust],
+    {
+      targets: [
+        {
+          name: "Spellcasters",
+          includeStatus: ["Able"],
+          randomOrder: true,
+          triggers: [
+            ...ExcludeUnwantedTargetsTriggers,
+            triggerFactory.or([
+              triggerFactory.hasBounceEffects(),
+              triggerFactory.hasImmunityEffects(),
+            ]),
+          ],
+        },
+      ],
+    },
+  ),
   ...presetFactory.createSpells([SPELLS.Priest.DetectEvil, SPELLS.Priest.FindTraps], {
     triggers: [{ name: "False" }], // leave it as a manual cast
   }),

@@ -72,6 +72,7 @@ import {
 } from "../../src/model/spell-item/spell-protection";
 import targetService from "../../src/services/baf/target.service";
 import monsterFilesService from "../../src/services/monster-files.service";
+import spellService from "../../src/services/spell.service";
 import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
 import utils from "../../src/services/utils/utils.service";
 import { TranslationKey } from "../../translations/i18n";
@@ -1581,9 +1582,15 @@ export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
       files: ["DX#DALID"],
       data: {
         level1: 16,
-        // TODO: spellbook, caster level
         class: "MAGE",
         kit: "MAGESCHOOL_NECROMANCER",
+        spells: {
+          spellbooks: spellService.createSpellbooks({
+            name: "VampireNecromancerSpellbook",
+            casterLevel: 16,
+            type: "mage",
+          }),
+        },
       },
     },
   ]);
@@ -1612,18 +1619,31 @@ export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
       files: ["D9BGUARD"],
       data: {
         level1: 14,
-        // TODO: spellbook, caster level
         class: "MAGE",
         kit: "MAGESCHOOL_NECROMANCER",
+        spells: {
+          spellbooks: spellService.createSpellbooks({
+            name: "VampireNecromancerSpellbook",
+            casterLevel: 14,
+            type: "mage",
+          }),
+        },
       },
     },
     {
       files: ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"],
       data: {
         level1: 16,
-        // TODO: spellbook, caster level, check script D0QPTAN1 and D0QPTAN2
+        // TODO: check script D0QPTAN1 and D0QPTAN2
         class: "MAGE",
         kit: "MAGESCHOOL_NECROMANCER",
+        spells: {
+          spellbooks: spellService.createSpellbooks({
+            name: "VampireNecromancerSpellbook",
+            casterLevel: 16,
+            type: "mage",
+          }),
+        },
       },
       // stringRef: "monster.vampire.name.patriarchMage" },
     },

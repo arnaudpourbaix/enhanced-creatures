@@ -21,6 +21,15 @@ const WIZARD_SPELLS = {
     name: "spell.AbiDalzimHorridWilting.name",
     keywords: ["magicDamage", "necromancyEffects", "area"],
   },
+  AbsoluteImmunity: {
+    file: "SPWI907",
+    id: "WIZARD_ABSOLUTE_IMMUNITY",
+    level: 9,
+    duration: "short",
+    name: "spell.AbsoluteImmunity.name",
+    keywords: ["castOnSelf"],
+    excludeStatsChecks: ["WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"],
+  },
   AcidFog: {
     file: "SPWI614",
     id: "WIZARD_ACID_FOG",
@@ -42,6 +51,26 @@ const WIZARD_SPELLS = {
     level: 2,
     name: "spell.AgannazarScorcher.name",
     keywords: ["fire", "magicResistance"],
+  },
+  AnimateSkeletonWarrior: {
+    // Spell Revisions repurposes Carrion Summons (SPWI623) into this.
+    file: "SPWI623",
+    id: "WIZARD_ANIMATE_SKELETON_WARRIOR",
+    level: 6,
+    duration: "long",
+    name: "spell.AnimateSkeletonWarrior.name",
+    requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
+  },
+  BatteringRam: {
+    // Spell Revisions repurposes Knock (SPWI207) into this: 2d6 crushing, then knocked unconscious
+    // for 1 round (opcode 39) unless the target saves vs. breath.
+    file: "SPWI207",
+    id: "WIZARD_BATTERING_RAM",
+    level: 2,
+    name: "spell.BatteringRam.name",
+    keywords: ["sleep", "magicResistance"],
+    requiresMod: "AllSpellMods",
   },
   BeltynsBurningBlood: {
     file: "SPWI427",
@@ -101,6 +130,17 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.CharmPerson.name",
     keywords: ["charm", "humanoid", "magicResistance"],
+  },
+  Chaos: {
+    // Spell Revisions repurposes Sphere of Chaos (SPWI711) into this, a 1-turn zone hitting enemies
+    // only. Vanilla's own Chaos (SPWI508) becomes Waves of Fatigue there.
+    file: "SPWI711",
+    id: "WIZARD_CHAOS",
+    level: 7,
+    saves: [{ types: [SaveTypeEnum.Spell], bonus: -4 }],
+    name: "spell.Chaos.name",
+    keywords: ["confusion", "area"],
+    requiresMod: "AllSpellMods",
   },
   ChillTouch: {
     file: "SPWI117",
@@ -266,6 +306,13 @@ const WIZARD_SPELLS = {
     keywords: ["friendly"],
     excludeStateChecks: ["STATE_BLIND"],
   },
+  Disintegrate: {
+    file: "SPWI616",
+    id: "WIZARD_DISINTEGRATE",
+    level: 6,
+    name: "spell.Disintegrate.name",
+    keywords: ["magicDamage", "magicResistance"],
+  },
   DispelMagic: {
     file: "SPWI326",
     id: "WIZARD_TRUE_DISPEL_MAGIC",
@@ -308,6 +355,13 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -4 }],
     name: "spell.Feeblemind.name",
     keywords: ["confusion", "magicResistance"],
+  },
+  FingerOfDeath: {
+    file: "SPWI713",
+    id: "WIZARD_FINGER_OF_DEATH",
+    level: 7,
+    name: "spell.FingerOfDeath.name",
+    keywords: ["death", "magicResistance"],
   },
   Fireburst: {
     file: "SPWI523",
@@ -381,6 +435,17 @@ const WIZARD_SPELLS = {
     level: 4,
     name: "spell.GreaterMalison.name",
   },
+  GreaterSpellDeflection: {
+    // Spell Revisions repurposes Spell Turning (SPWI701) into this.
+    file: "SPWI701",
+    id: "WIZARD_GREATER_SPELL_DEFLECTION",
+    level: 7,
+    duration: "mid",
+    name: "spell.GreaterSpellDeflection.name",
+    requiresMod: "AllSpellMods",
+    keywords: ["castOnSelf"],
+    excludeStatsChecks: ["WIZARD_SPELL_DEFLECTION"],
+  },
   Haste: {
     file: "SPWI305",
     id: "WIZARD_HASTE",
@@ -429,6 +494,15 @@ const WIZARD_SPELLS = {
     keywords: ["cold", "area"],
     alliesCheck: { range: 15 }, // 30' radius
   },
+  ImprovedHaste: {
+    file: "SPWI613",
+    id: "WIZARD_IMPROVED_HASTE",
+    level: 6,
+    duration: "short",
+    name: "spell.ImprovedHaste.name",
+    keywords: ["friendly"],
+    excludeStateChecks: ["STATE_HASTED"],
+  },
   ImprovedInvisibility: {
     file: "SPWI405",
     id: "WIZARD_IMPROVED_INVISIBILITY",
@@ -452,6 +526,12 @@ const WIZARD_SPELLS = {
     name: "spell.Invisibility.name",
     keywords: ["friendly"],
     excludeStateChecks: ["STATE_INVISIBLE"],
+  },
+  KhelbensWardingWhip: {
+    file: "SPWI705",
+    id: "WIZARD_WARDING_WHIP",
+    level: 7,
+    name: "spell.KhelbensWardingWhip.name",
   },
   LarlochEnergyDrain: {
     file: "SPWI914",
@@ -534,6 +614,17 @@ const WIZARD_SPELLS = {
     name: "spell.MirrorImages.name",
     keywords: ["castOnSelf"],
     excludeStateChecks: ["STATE_MIRRORIMAGE"],
+  },
+  MomentOfPrescience: {
+    // Spell Revisions repurposes Improved Mantle (SPWI808) into this.
+    file: "SPWI808",
+    id: "WIZARD_MOMENT_OF_PRESCIENCE",
+    level: 8,
+    duration: "short",
+    name: "spell.MomentOfPrescience.name",
+    requiresMod: "AllSpellMods",
+    keywords: ["castOnSelf"],
+    excludeStatsChecks: ["WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"],
   },
   MonsterSummoning1: {
     file: "SPWI107",
@@ -680,6 +771,17 @@ const WIZARD_SPELLS = {
     name: "spell.PowerWordStun.name",
     keywords: ["stun", "magicResistance"],
   },
+  PrismaticMantle: {
+    // Spell Revisions repurposes Mantle (SPWI708) into this, keeping the WIZARD_MANTLE constant.
+    file: "SPWI708",
+    id: "WIZARD_MANTLE",
+    level: 7,
+    duration: "short",
+    name: "spell.PrismaticMantle.name",
+    requiresMod: "AllSpellMods",
+    keywords: ["castOnSelf"],
+    excludeStatsChecks: ["WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"],
+  },
   PrismaticSpray: {
     file: "SPWI714",
     id: "WIZARD_PRISMATIC_SPRAY",
@@ -687,6 +789,24 @@ const WIZARD_SPELLS = {
     name: "spell.PrismaticSpray.name",
     keywords: ["blind", "area"],
     range: 10,
+  },
+  ProtectionFromEnergy: {
+    file: "SPWI803",
+    id: "WIZARD_PROTECTION_FROM_ENERGY",
+    level: 8,
+    duration: "mid",
+    name: "spell.ProtectionFromEnergy.name",
+    keywords: ["castOnSelf"],
+  },
+  ProtectionFromTheElements: {
+    file: "SPWI702",
+    id: "WIZARD_PROTECTION_FROM_THE_ELEMENTS",
+    level: 7,
+    duration: "mid",
+    name: "spell.ProtectionFromTheElements.name",
+    keywords: ["castOnSelf"],
+    // Protection from Energy covers the same elements, and more
+    excludeStatsChecks: ["WIZARD_PROTECTION_FROM_ENERGY"],
   },
   ProtectionFromMissiles: {
     file: "SPWI311",
@@ -900,6 +1020,24 @@ const WIZARD_SPELLS = {
     name: "spell.Stoneskin.name",
     excludeStatsChecks: ["STONESKINS"],
     keywords: ["castOnSelf"],
+  },
+  SummonDeathKnight: {
+    // Spell Revisions repurposes Cacofiend (SPWI707) into this.
+    file: "SPWI707",
+    id: "WIZARD_SUMMON_DEATH_KNIGHT",
+    level: 7,
+    duration: "mid",
+    name: "spell.SummonDeathKnight.name",
+    requiresMod: "AllSpellMods",
+    keywords: ["friendly"],
+  },
+  SummonFiend: {
+    file: "SPWI807",
+    id: "WIZARD_SUMMON_FIEND",
+    level: 8,
+    duration: "mid",
+    name: "spell.SummonFiend.name",
+    keywords: ["friendly"],
   },
   SummonShadow: {
     file: "SPWI501",
@@ -2118,3 +2256,9 @@ setFallback(PRIEST_SPELLS.Banishment, PRIEST_SPELLS.BoltOfGlory);
 setFallback(PRIEST_SPELLS.SummonDeathKnight, PRIEST_SPELLS.Gate);
 setFallback(PRIEST_SPELLS.Destruction, PRIEST_SPELLS.SymbolDeath);
 setFallback(PRIEST_SPELLS.Wither, PRIEST_SPELLS.FingerOfDeath);
+setFallback(WIZARD_SPELLS.WavesOfFatigue, WIZARD_SPELLS.Cloudkill);
+setFallback(WIZARD_SPELLS.AnimateSkeletonWarrior, WIZARD_SPELLS.GlobeOfInvulnerability);
+setFallback(WIZARD_SPELLS.OtilukesFreezingSphere, WIZARD_SPELLS.ChainLightning);
+setFallback(WIZARD_SPELLS.SummonDeathKnight, WIZARD_SPELLS.FingerOfDeath);
+setFallback(WIZARD_SPELLS.GreaterSpellDeflection, WIZARD_SPELLS.ProtectionFromTheElements);
+setFallback(WIZARD_SPELLS.MomentOfPrescience, WIZARD_SPELLS.Maze);

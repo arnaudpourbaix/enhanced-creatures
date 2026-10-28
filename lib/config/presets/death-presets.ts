@@ -11,8 +11,10 @@ export const DEATH_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.WailOfTheBanshee,
       SPELLS.Priest.Destruction,
       SPELLS.Priest.FingerOfDeath,
+      SPELLS.Wizard.FingerOfDeath,
       SPELLS.Priest.SymbolDeath,
       SPELLS.Wizard.SymbolDeath,
+      SPELLS.Wizard.Disintegrate,
     ],
     {
       targets: CommonTargetLists.Enemies,
