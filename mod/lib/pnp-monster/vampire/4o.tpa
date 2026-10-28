@@ -1,6 +1,6 @@
 // Generated file (don't edit)
 
-// Abomination
+// Abomination Vampire
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4o00.baf~
 
 // Gaseous Form
@@ -73,7 +73,7 @@ COPY_EXISTING ~jaim4o00.itm~ ~override~
 	LPF ADD_EFFECT INT_VAR opcode=61 target=2 parameter1=2019179520 parameter2=1638400 timing=1 probability1=100 END
 	END
 
-// Abomination traits
+// Abomination Vampire traits
 CREATE ITM "jaim4o01"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11160)
@@ -142,7 +142,7 @@ COPY_EXISTING ~jaim4o02.itm~ ~override~
 	LPF physicalDamage_immunity END
 	LPF hover_trait END
 
-// Abomination traits
+// Abomination Vampire traits
 CREATE ITM "jaim4o03"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11160)
@@ -157,7 +157,7 @@ COPY_EXISTING ~jaim4o03.itm~ ~override~
 	LPF coldResistance_resistance END
 	LPF lightningResistance_resistance END
 
-// Abomination traits
+// Abomination Vampire traits
 CREATE ITM "jaim4o04"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11160)
@@ -182,7 +182,7 @@ COPY_EXISTING ~jaim4o04.itm~ ~override~
 	LPF turnUndead_immunity END
 	LPF seeInvisible_trait END
 
-// Abomination traits
+// Abomination Vampire traits
 CREATE ITM "jaim4o05"
 	WRITE_LONG 0x64 0x72
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11160)
@@ -498,6 +498,7 @@ BEGIN
 			REMOVE_CRE_ITEM ~dw#bldd~
 			REMOVE_CRE_ITEM ~dw#bldd1~
 			REMOVE_CRE_ITEM ~dw#bldd2~
+			REMOVE_CRE_ITEM ~dw#bldd3~
 			REMOVE_CRE_ITEM ~dw#vmwol~
 			REMOVE_CRE_ITEM ~dw#vmbat~
 			REMOVE_CRE_ITEM ~dagg24~
@@ -552,7 +553,7 @@ BEGIN
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
-			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam01 sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o00 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BODHI2~) BEGIN 
 				PATCH_IF FILE_EXISTS_IN_GAME ~ibodhi5.spl~ BEGIN

@@ -657,7 +657,7 @@ Humans save against mummies at an additional +2.`,
       eminent: "Eminent Vampire",
       patriarch: "Patriarch Vampire",
       patriarchMage: "Patriarch Vampire Mage",
-      abomination: "Abomination",
+      abomination: "Abomination Vampire",
     },
     ability: {
       domination: {

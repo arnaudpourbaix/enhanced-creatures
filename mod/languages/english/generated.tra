@@ -523,7 +523,7 @@ Humans save against mummies at an additional +2.~
 @10404 = ~Eminent Vampire~
 @10405 = ~Patriarch Vampire~
 @10406 = ~Patriarch Vampire Mage~
-@10407 = ~Abomination~
+@10407 = ~Abomination Vampire~
 @10408 = ~Domination Gaze~
 @10409 = ~Dominating Voice~
 @10410 = ~Dominating Will~
@@ -2496,7 +2496,7 @@ Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 5 hp/round
 Magic Resistance: 30%~
-@11160 = ~Abomination traits~
+@11160 = ~Abomination Vampire traits~
 @11161 = ~Claws
 
 Melee damage: 1D6 (Slashing)

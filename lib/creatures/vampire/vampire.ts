@@ -1437,6 +1437,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
           "dw#bldd",
           "dw#bldd1",
           "dw#bldd2",
+          "dw#bldd3",
           "dw#vmwol",
           "dw#vmbat",
           "dagg24",
@@ -1449,6 +1450,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
           "bdvamp01",
           "c6vampir",
           "d0qpvafl",
+          "D0QPTAN3",
           "dw#vmmin",
           "ohbvamp",
           "ohbfig01",
@@ -1456,6 +1458,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
           "ohbthief",
           "ppvampir",
           "ppvamp",
+          "sarvam01",
           "sarvam02",
           "vampir01",
           "vampir02",
@@ -1602,10 +1605,28 @@ export const eminentVampire = (entry: CreatureEntry<Creature>) => {
 export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[6]);
   cre.setAdjustments([
-    //{ files: ["D9TANOV"], stringRef: "monster.vampire.name.patriarchMage" },
     { files: ["OHBVMP01"], data: { level1: 18, class: "MAGE", kit: "MAGESCHOOL_NECROMANCER" } }, //TODO:
-    { files: ["OHBVMP02"], data: { level1: 18 } },
+    { files: ["OHBVMP02", "VAMPAT01"], data: { level1: 18 } },
     { files: ["OHBVMP03"], data: { level1: 21 } },
+    {
+      files: ["D9BGUARD"],
+      data: {
+        level1: 14,
+        // TODO: spellbook, caster level
+        class: "MAGE",
+        kit: "MAGESCHOOL_NECROMANCER",
+      },
+    },
+    {
+      files: ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"],
+      data: {
+        level1: 16,
+        // TODO: spellbook, caster level, check script D0QPTAN1 and D0QPTAN2
+        class: "MAGE",
+        kit: "MAGESCHOOL_NECROMANCER",
+      },
+      // stringRef: "monster.vampire.name.patriarchMage" },
+    },
   ]);
   return cre;
 };
