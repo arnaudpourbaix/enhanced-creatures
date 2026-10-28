@@ -554,19 +554,25 @@ BEGIN
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o00 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BODHI2~) BEGIN 
+				PATCH_IF FILE_EXISTS_IN_GAME ~ibodhi5.spl~ BEGIN
+					ADD_MEMORIZED_SPELL ~ibodhi5~ #0 ~innate~ (90) 
+					ADD_MEMORIZED_SPELL ~ibodhi6~ #0 ~innate~ (90) 
+				END
+			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~PPBODHI3~) BEGIN 
-				WRITE_SHORT 0x24 168 // hp
-				WRITE_SHORT 0x26 168 // hp
+				WRITE_SHORT 0x24 180 // hp
+				WRITE_SHORT 0x26 180 // hp
 				WRITE_SHORT 0x46 "-1" // ac
 				WRITE_SHORT 0x48 "-1" // ac
-				WRITE_BYTE 0x52 6 // thac0
+				WRITE_BYTE 0x52 5 // thac0
 				WRITE_BYTE 0x53 8 // apr
-				WRITE_BYTE 0x54 5 // saveDeath
-				WRITE_BYTE 0x55 7 // saveWand
-				WRITE_BYTE 0x56 6 // savePolymorph
-				WRITE_BYTE 0x57 5 // saveBreath
-				WRITE_BYTE 0x58 8 // saveSpell
-				WRITE_BYTE 0x234 14 // level1
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
 				WRITE_BYTE 0x238 21 // strength
 				WRITE_BYTE 0x23c 20 // dexterity
 				REMOVE_CRE_ITEM ~jaim4o01~
@@ -574,47 +580,41 @@ BEGIN
 				ADD_CRE_ITEM ~jaim4o03~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~PPBODHI4~) BEGIN 
-				WRITE_SHORT 0x24 168 // hp
-				WRITE_SHORT 0x26 168 // hp
+				WRITE_SHORT 0x24 180 // hp
+				WRITE_SHORT 0x26 180 // hp
 				WRITE_SHORT 0x46 "-1" // ac
 				WRITE_SHORT 0x48 "-1" // ac
 				WRITE_BYTE 0x52 5 // thac0
 				WRITE_BYTE 0x53 8 // apr
-				WRITE_BYTE 0x54 5 // saveDeath
-				WRITE_BYTE 0x55 7 // saveWand
-				WRITE_BYTE 0x56 6 // savePolymorph
-				WRITE_BYTE 0x57 5 // saveBreath
-				WRITE_BYTE 0x58 8 // saveSpell
-				WRITE_BYTE 0x234 14 // level1
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
 				WRITE_BYTE 0x238 22 // strength
 				WRITE_BYTE 0x23c 21 // dexterity
 				REMOVE_CRE_ITEM ~jaim4o01~
 				ADD_CRE_ITEM ~jaim4o03~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~VVBODHI~) BEGIN 
-				WRITE_SHORT 0x24 168 // hp
-				WRITE_SHORT 0x26 168 // hp
+				WRITE_SHORT 0x24 180 // hp
+				WRITE_SHORT 0x26 180 // hp
 				WRITE_SHORT 0x46 "-1" // ac
 				WRITE_SHORT 0x48 "-1" // ac
 				WRITE_BYTE 0x52 5 // thac0
 				WRITE_BYTE 0x53 8 // apr
-				WRITE_BYTE 0x54 5 // saveDeath
-				WRITE_BYTE 0x55 7 // saveWand
-				WRITE_BYTE 0x56 6 // savePolymorph
-				WRITE_BYTE 0x57 5 // saveBreath
-				WRITE_BYTE 0x58 8 // saveSpell
-				WRITE_BYTE 0x234 14 // level1
+				WRITE_BYTE 0x54 4 // saveDeath
+				WRITE_BYTE 0x55 6 // saveWand
+				WRITE_BYTE 0x56 5 // savePolymorph
+				WRITE_BYTE 0x57 4 // saveBreath
+				WRITE_BYTE 0x58 7 // saveSpell
+				WRITE_BYTE 0x234 15 // level1
 				WRITE_BYTE 0x238 22 // strength
 				WRITE_BYTE 0x23c 21 // dexterity
 				REMOVE_CRE_ITEM ~jaim4o01~
 				REPLACE_CRE_ITEM ~jaim4o06~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 				ADD_CRE_ITEM ~jaim4o03~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BODHI2~) BEGIN 
-				PATCH_IF FILE_EXISTS_IN_GAME ~ibodhi5.spl~ BEGIN
-					ADD_MEMORIZED_SPELL ~ibodhi5~ #0 ~innate~ (90) 
-					ADD_MEMORIZED_SPELL ~ibodhi6~ #0 ~innate~ (90) 
-				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C6BODHI~) BEGIN 
 				WRITE_LONG 0x14 91000 // xpv

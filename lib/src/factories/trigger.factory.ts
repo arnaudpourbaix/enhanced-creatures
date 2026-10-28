@@ -37,6 +37,9 @@ export const SAVE_STATS: Partial<Record<SaveTypeEnum, StatsIdentifier>> = {
   [SaveTypeEnum.PetrifyPolymorph]: "SAVEVSPOLY",
 };
 
+/** Target objects picked among the party, whatever the caster's side */
+const PARTY_OBJECTS = ["WorstAC"];
+
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
     return { name: "Or", triggers };
@@ -414,19 +417,42 @@ class TriggerFactory {
   }
 
   /**
-   * LastSeenBy is on the other side from the caster: an evil caster won't target an evil
-   * LastSeenBy, a good one won't target a good one. LastSeenBy keeps its last value when no See()
+   * LastSeenBy is an enemy of the caster now: an evil caster won't target an evil LastSeenBy, a
+   * good one a good one, charm swapping these. LastSeenBy keeps its last value when no See()
    * succeeds, so without this an attack aimed at it can land on an ally - typically a party
    * member the caster just charmed, once no real enemy is left in sight.
    */
   lastSeenIsOpponent(): Triggers.Trigger[] {
-    return (["EVILCUTOFF", "GOODCUTOFF"] as const).map((cutoff) => ({
-      name: "Or",
-      triggers: [
-        { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
-        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: true },
-      ],
-    }));
+    // Charm swaps sides (the engine's Enemy/Ally objects follow it) but never Allegiance: an enemy
+    // now is on the other side and not charmed, or on the caster's own side and charmed by the party
+    const target = ScriptTarget.lastSeen;
+    return [false, true].flatMap((charmed) =>
+      (["EVILCUTOFF", "GOODCUTOFF"] as const).map(
+        (cutoff): Triggers.Trigger => ({
+          name: "Or",
+          triggers: [
+            { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+            { name: "Allegiance", params: [target, cutoff], negation: !charmed },
+            { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: charmed },
+          ],
+        }),
+      ),
+    );
+  }
+
+  /**
+   * A party target object (WorstAC: the party member with the worst AC) is an enemy only to a
+   * hostile caster, and only while not charmed (then on the caster's side). Nothing for the other
+   * objects, which are enemies by definition.
+   */
+  sideCheck(target: string): Triggers.Trigger[] {
+    if (!PARTY_OBJECTS.includes(target)) return [];
+    // Allegiance never changes through effects: a charmed target is told by its state (a charmed
+    // caster runs no script)
+    return [
+      { name: "Allegiance", params: [ScriptTarget.myself, "EVILCUTOFF"] },
+      { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: true },
+    ];
   }
 
   // this: void - doesn't use `this`, and is passed around unbound (e.g. baf.factory.ts's

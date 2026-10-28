@@ -32,6 +32,22 @@ describe("addStatementsFromTargetList", () => {
     });
   });
 
+  it("checks the side of a target that can be on either side (WorstAC)", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [triggerFactory.range(30)],
+      targets: ["WorstAC", GOODCUTOFF],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([
+      { ...triggerFactory.range(30), params: ["WorstAC", 30] },
+      ...triggerFactory.sideCheck("WorstAC"),
+    ]);
+    expect(statements[1].triggers).toHaveLength(1);
+  });
+
   it("only puts the comment on the first generated statement", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
@@ -197,6 +213,30 @@ describe("addOneBlockTargetList", () => {
       {
         name: "Or",
         triggers: [{ ...triggerFactory.range(30), params: [EVILCUTOFF, 30], negation: true }],
+      },
+    ]);
+  });
+
+  it("skips a party target (WorstAC) on the caster's side in its own Or", () => {
+    const statements: Statements = [];
+    bafFactory.addOneBlockTargetList({
+      statements,
+      targets: ["WorstAC", GOODCUTOFF],
+      targetTriggers: [triggerFactory.range(30)],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([
+      {
+        name: "Or",
+        triggers: [
+          { ...triggerFactory.range(30), params: ["WorstAC", 30], negation: true },
+          ...triggerFactory.sideCheck("WorstAC").map(triggerFactory.inverseNegation),
+        ],
+      },
+      {
+        name: "Or",
+        triggers: [{ ...triggerFactory.range(30), params: [GOODCUTOFF, 30], negation: true }],
       },
     ]);
   });

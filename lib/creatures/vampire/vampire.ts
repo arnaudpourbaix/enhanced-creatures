@@ -1149,6 +1149,7 @@ function vampireForm(cre: Creature, forms: string[]) {
  * Like SCS, a healthy vampire flies over the front line to a victim it can drain: it takes bat
  * form when the nearest enemy is out of reach or undrainable while a drainable one is in sight
  * further away (half the time), flies to it, and lands with its own form (see vampireForm).
+ * The victim is the weakest first (worst AC, then mages, thieves...), then the nearest.
  */
 function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCustomCode } {
   if (!bat.ability) throw new Error(`No ability for ${bat.file}`);
@@ -1165,28 +1166,29 @@ function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCust
   const takeOff: RawCreatureAbility = {
     ...bat.ability,
     triggers: [...NOT_SHAPECHANGED, HEALTHY, nearestUnsuitable],
-    targets: [
-      {
-        name: "NearestEnemies",
-        triggers: [
-          ...DRAINABLE,
-          {
-            name: "Range",
-            params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
-            negation: true,
-          },
-        ],
-      },
-    ],
+    targets: (["PreferringWeak", "NearestEnemies"] as const).map((name) => ({
+      name,
+      triggers: [
+        ...DRAINABLE,
+        {
+          name: "Range",
+          params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
+          negation: true,
+        },
+      ],
+    })),
     probability: 50,
   };
+  const victims = [
+    ...targetService.getList("PreferringWeak").targets,
+    ...Counts.slice(0, 6).map((count) => `${count}NearestEnemyOf(${ScriptTarget.myself})`),
+  ];
   const flight: PartialCustomCode = {
     location: "attack",
     type: "insertBefore",
-    statements: Counts.slice(0, 6).map((count) => {
-      const victim = `${count}NearestEnemyOf(${ScriptTarget.myself})`;
+    statements: victims.map((victim, index) => {
       return {
-        comment: count ? undefined : "Bat form: fly over the enemies to a victim to drain",
+        comment: index ? undefined : "Bat form: fly over the enemies to a victim to drain",
         triggers: [
           ...IN_BAT_FORM,
           HEALTHY,
@@ -1194,6 +1196,7 @@ function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCust
           ...utils.replaceTriggerTokens(DISTANT_VICTIM, [
             { key: ScriptTarget.token, value: victim },
           ]),
+          ...triggerFactory.sideCheck(victim),
         ],
         responses: responseFactory.response([{ name: "MoveToObject", params: [victim] }]),
       };
@@ -1474,16 +1477,27 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
     diceSize: 6,
     effects: effectFactory.levelDrain({ levels: age.drainLevels ?? 2 }),
   });
-  // Like SCS: the vampire goes for those its level drain works on first (not an undead hunter, a
-  // blackguard or anyone protected by an item), whatever their state, then for the others. Only
-  // with its own claws: a wolf (against those it can't drain) or a bat fights what's nearest.
+  // Like SCS: the vampire goes for those its level drain works on first (anyone not immune nor
+  // protected by an item), whatever their state, then for the others. Among the able ones, the
+  // weakest first (worst AC, then mages, thieves...), before the nearest. Only with its own claws:
+  // a wolf (against those it can't drain) or a bat fights what's nearest.
+  const drainable = {
+    triggers: DRAINABLE,
+    conditions: NOT_SHAPECHANGED,
+    label: "drainable",
+  };
   cre.setAttack({
     targetPriorities: [
       {
         targets: ["NearestEnemies"],
-        triggers: triggerFactory.spellChecks(["levelDrain"]),
-        conditions: NOT_SHAPECHANGED,
-        label: "drainable",
+        status: ["HeldNearby", "StunnedNearby", "Wounded", "Slowed", "Unprotected"],
+        ...drainable,
+      },
+      { targets: ["PreferringWeak"], status: ["Able"], ...drainable },
+      {
+        targets: ["NearestEnemies"],
+        status: ["Able", "Held", "Stunned", "NoCheck"],
+        ...drainable,
       },
     ],
   });

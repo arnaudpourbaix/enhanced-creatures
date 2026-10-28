@@ -757,16 +757,17 @@ describe("attack (private)", () => {
       expect(charmedIndex).toBe(statements.length - 2);
     });
 
-    it("only attacks a charmed LastSeenBy on its own side, as an enemy-side creature", () => {
+    it("only attacks a charmed LastSeenBy from the party's side, as an enemy-side creature", () => {
       const triggers = attackStatements().at(-1)?.triggers;
       expect(triggers).toContainEqual({ name: "Allegiance", params: ["Myself", "ENEMY"] });
       expect(triggers).toContainEqual({
         name: "StateCheck",
         params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
       });
+      // charm never changes Allegiance: a charmed party member stays GOODCUTOFF
       expect(triggers).toContainEqual({
         name: "Allegiance",
-        params: [ScriptTarget.lastSeen, "EVILCUTOFF"],
+        params: [ScriptTarget.lastSeen, "GOODCUTOFF"],
       });
       expect(triggers).not.toContainEqual(triggerFactory.lastSeenIsOpponent()[0]);
     });

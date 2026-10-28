@@ -408,18 +408,40 @@ describe("defaultAllySafe", () => {
 });
 
 describe("lastSeenIsOpponent", () => {
-  it("rejects a LastSeenBy on the caster's own side, whichever side that is", () => {
-    const sideCheck = (cutoff: string): Triggers.Trigger => ({
+  it("keeps a LastSeenBy that is an enemy now: charm swaps sides, Allegiance stays", () => {
+    const charmed = (negation: boolean): Triggers.Trigger => ({
+      name: "StateCheck",
+      params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
+      negation,
+    });
+    // not charmed: on the other side; charmed: on the caster's own side (the party charmed it)
+    const sideCheck = (cutoff: string, charm: boolean): Triggers.Trigger => ({
       name: "Or",
       triggers: [
         { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
-        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: true },
+        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: !charm },
+        charmed(charm),
       ],
     });
     expect(triggerFactory.lastSeenIsOpponent()).toEqual([
-      sideCheck("EVILCUTOFF"),
-      sideCheck("GOODCUTOFF"),
+      sideCheck("EVILCUTOFF", false),
+      sideCheck("GOODCUTOFF", false),
+      sideCheck("EVILCUTOFF", true),
+      sideCheck("GOODCUTOFF", true),
     ]);
+  });
+});
+
+describe("sideCheck", () => {
+  it("keeps WorstAC, a party member, for a hostile caster, unless it is charmed", () => {
+    expect(triggerFactory.sideCheck("WorstAC")).toEqual([
+      { name: "Allegiance", params: [ScriptTarget.myself, "EVILCUTOFF"] },
+      { name: "StateCheck", params: ["WorstAC", "STATE_CHARMED"], negation: true },
+    ]);
+  });
+
+  it("adds nothing for an object that is always an enemy", () => {
+    expect(triggerFactory.sideCheck("NearestEnemyOf(Myself)")).toEqual([]);
   });
 });
 

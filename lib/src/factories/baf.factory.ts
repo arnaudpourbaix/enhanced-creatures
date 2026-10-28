@@ -25,7 +25,10 @@ class BafFactory {
       const isMyself = target === ScriptTarget.myself;
       const triggers = isMyself
         ? this.selfTriggers(p.triggers)
-        : utils.replaceTriggerTokens(p.triggers, [{ key: ScriptTarget.token, value: target }]);
+        : [
+            ...utils.replaceTriggerTokens(p.triggers, [{ key: ScriptTarget.token, value: target }]),
+            ...triggerFactory.sideCheck(target),
+          ];
       // Actions built for a target list (e.g. AbilityService's Spell(LastSeenBy, ...)) aim at
       // LastSeenBy directly, which for Myself would render as LastSeenBy(Myself).
       const responseTokens = isMyself
@@ -90,9 +93,12 @@ class BafFactory {
     for (const target of targets) {
       const orTrigger: Triggers.Trigger = {
         name: "Or",
-        triggers: utils
-          .replaceTriggerTokens(p.targetTriggers, [{ key: ScriptTarget.token, value: target }])
-          .map(triggerFactory.inverseNegation),
+        triggers: [
+          ...utils.replaceTriggerTokens(p.targetTriggers, [
+            { key: ScriptTarget.token, value: target },
+          ]),
+          ...(p.targetsAllies ? [] : triggerFactory.sideCheck(target)),
+        ].map(triggerFactory.inverseNegation),
       };
       triggers.push(orTrigger);
     }

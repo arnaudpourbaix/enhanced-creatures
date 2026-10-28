@@ -310,21 +310,21 @@ function chapter3Encounter(): PartialCreatureAdjustment[] {
 }
 
 /**
- * Spellhold: level 14, as she must hunt the party without winning, but never below each file's
- * own values (AC is a final value: the file's natural -1 plus its DEX bonus; THAC0 is the file's)
+ * Spellhold: level 15, as she must hunt the party without winning, but never below each file's
+ * own values (AC is a final value: the file's natural -1 plus its DEX bonus; level 15 gives THAC0 5,
+ * no worse than the files' 6 and 5)
  */
 function chapter4Encounter({ claws, trait, drain5, spellholdTrait }: BodhiItems) {
   const spellhold = (
     file: string,
-    p: { strength: number; dexterity: number; thac0: number; ac: number; drain5: boolean },
+    p: { strength: number; dexterity: number; ac: number; drain5: boolean },
   ): PartialCreatureAdjustment => ({
     files: [file],
     data: {
       ac: p.ac,
       strength: p.strength,
       dexterity: p.dexterity,
-      thac0: p.thac0,
-      level1: 14,
+      level1: 15,
       apr: 2.5, // the game's 8
       items: {
         remove: [trait.file],
@@ -336,9 +336,9 @@ function chapter4Encounter({ claws, trait, drain5, spellholdTrait }: BodhiItems)
     },
   });
   return [
-    spellhold("PPBODHI3", { strength: 21, dexterity: 20, thac0: 6, ac: -5, drain5: true }),
-    spellhold("PPBODHI4", { strength: 22, dexterity: 21, thac0: 5, ac: -6, drain5: false }),
-    spellhold("VVBODHI", { strength: 22, dexterity: 21, thac0: 5, ac: -6, drain5: true }),
+    spellhold("PPBODHI3", { strength: 21, dexterity: 20, ac: -5, drain5: true }),
+    spellhold("PPBODHI4", { strength: 22, dexterity: 21, ac: -6, drain5: false }),
+    spellhold("VVBODHI", { strength: 22, dexterity: 21, ac: -6, drain5: true }),
   ];
 }
 

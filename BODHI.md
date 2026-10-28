@@ -24,7 +24,7 @@ and [the plan](docs/superpowers/plans/2026-10-26-bodhi-abomination.md):
   the party, even though its "attack whoever hit me" block takes over from
   ours once she's hit.
 - **Saving throws (2026-10-26):** the fighter table, like every vampire (3/5/4/4/6 at
-  level 25, 5/7/6/5/8 in Spellhold). Her files' better saves come from their
+  level 25, 4/6/5/4/7 in Spellhold at level 15). Her files' better saves come from their
   Fighter/Thief class, which isn't true to a vampire.
 - **Not tested in game yet.**
 
@@ -75,7 +75,7 @@ mod hasn't been identified.
   she isn't meant to be attacked, let alone defeated, so she's at full
   strength (at level 14 the party could kill her). In Spellhold she hunts the
   party and tries to kill them but isn't meant to succeed. At level 25 she
-  probably would, so she's level 14 there (MR 0, 50% cold resistance).
+  probably would, so her files have her at level 14 there (MR 0, 50% cold resistance). Ours use level 15: see the tier table.
 - **Drain jumps around:** 2 levels in Ch2, 3 in Ch3, 5 in Spellhold, 3 again
   in the maze hunt, then 5.
 - **STR is all over the place:** 20, 22, 24, and 21 in Black Pits 2. HP
@@ -104,7 +104,7 @@ Rules:
 | Tier | CREs | Lvl | HP (auto) | STR | DEX | AC | APR | MR | Phys res | Cold/Elec | Drain | Regen / round | Extras |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Ch2–3 | BODHI, BODHIAMB, CUBODHI, BODHI2 | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 3 | 12 | 50% magic damage resistance, immune to Death, see invisible (from BODHI2) |
-| Spellhold | PPBODHI3, PPBODHI4, VVBODHI | 14 | 168 | 21–22 | 20–21 | −1 | 5/2 | 30 | 0 | 50 | 3–5 (her own weapon) | 12 | between Patriarch and Abomination: template + each file's own values, never below them (STR 22 / DEX 21 on PPBODHI4 and VVBODHI) |
+| Spellhold | PPBODHI3, PPBODHI4, VVBODHI | 15 | 180 | 21–22 | 20–21 | −1 | 5/2 | 30 | 0 | 50 | 3–5 (her own weapon) | 12 | between Patriarch and Abomination: template + each file's own values, never below them. Level 15 rather than 14: the table gives THAC0 5, no worse than her files' 6 and 5, with no hand-set value (2026-10-26) (STR 22 / DEX 21 on PPBODHI4 and VVBODHI) |
 | Ch6 | C6BODHI, CBBODH66 | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 5 (+4 magic) | 24 | same + the BODHI weapon's magic damage |
 | ToB | CHEVIL08, FINBODH, DRBOD | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 5 (+4 magic) | 24 | same as Ch6; CHEVIL08 keeps her equipment |
 | BP2 | OHB3BODH | 25 | 300 | 21 | 20 | −4 | 3 | 75 | 25 | 50 | 5 | 60 | own campaign: her CRE + template; keeps immunity to level 1–2 spells |
@@ -302,18 +302,31 @@ What this means for us:
   scroll. `jabm4m00` has nothing for `SCROLL_OF_PROTECTION_FROM_UNDEAD`.
   At minimum, skip such targets in melee and target them with domination or
   Bat Swarm instead.
-- ☐ **Attack only what the weapon can hurt.** Her melee blocks check
-  `WeaponEffectiveVs`/`WeaponCanDamage` (refreshed by a `seedefences`
-  timer), and a `LastTargetedBy` block cancels an attack on a target the
-  weapon can't hurt (`ClearActions`). We already check
-  `WeaponCanDamage`/`WeaponEffectiveVs` on targets. The cancel-on-retarget
-  part is missing.
-- ☐ **Drain-victim filter.** Her bat dive skips `Kit(Blackguard)` on top of
-  `UNDEADHUNTER` / `LEVEL_DRAIN_IMMUNITY` / `ITEM_LEVELDRAIN`. Check whether
-  EE Blackguards are immune to level drain, and if so add it to `DRAINABLE`.
-- ☐ **Victim priority.** Her bat dive prefers WorstAC, then mages, thieves,
-  bards, clerics, then any PC. Ours dives toward the nearest drainable enemy.
-  Consider WorstAC/class ordering for the dive target.
+- ☑ **Attack only what the weapon can hurt** — not needed (2026-10-26). Her
+  `LastTargetedBy` block cancels an attack (`ClearActions`) on a target the
+  weapon can't hurt. It's dead code: it needs `validtarget` = 1, which
+  nothing sets (nor her `seedefences` timer, so the attack blocks requiring
+  it never run either). Ours checks `WeaponEffectiveVs`/`WeaponCanDamage` before every
+  `AttackOneRound` and never uses a long `Attack()`, so there's nothing to
+  cancel.
+- ☑ **Drain-victim filter** — not needed (2026-10-26). Her bat dive skips
+  `Kit(Blackguard)`, but EE Blackguards aren't immune: their kit spells
+  (SPCL351, SPCL234, SPCL235) only toggle buttons (op 144). `DRAINABLE`
+  checks the effects (`LEVEL_DRAIN_IMMUNITY`, `ITEM_LEVELDRAIN`), not kits,
+  so it covers any real immunity, whatever its source.
+- ☑ **Victim priority** — done (2026-10-28), for every vampire. Hers (the
+  route that runs; her bat-form route needs a `victimroute` nothing sets):
+  every 5 rounds, walk to and attack WorstAC, then mages, thieves, bards,
+  clerics, then any PC. Ours: `PreferringWeak` now starts with `WorstAC`
+  (global: summon spells and the ankheg use it too). Vampires attack it
+  among able drainable enemies, after the helpless/wounded/unprotected
+  ones and before the nearest; the bat dive flies to it first. `WorstAC` is
+  the party member with the worst AC, and Allegiance never changes through
+  effects, so `triggerFactory.sideCheck` keeps it only for a hostile caster
+  (`Allegiance(Myself,EVILCUTOFF)`) and while the PC isn't charmed
+  (`STATE_CHARMED`; a charmed caster runs no script), in each statement and inside its own `Or` of the one-block attacks (the
+  next target is tried). To test in game: kiting, since she now walks past
+  fighters to reach a mage.
 - ☐ **Bat retreat.** Below 50% HP: bat form, run 60, then stay out of 20 range
   (random walk). Ours has bat flee at 65% and gaseous form at 35%. Probably
   covered; compare the distances.
