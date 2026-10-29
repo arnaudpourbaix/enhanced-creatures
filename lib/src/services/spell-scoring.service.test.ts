@@ -1,0 +1,138 @@
+import { beforeEach, describe, expect, it } from "vitest";
+import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { SPELLS } from "../../config/spells/spell-database";
+import { Creature } from "../model/creature/creature";
+import { SaveTypeEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
+import spellComboService from "./spell-combo.service";
+import spellProfileService, { SpellProfile } from "./spell-profile.service";
+import spellScoringService, { CasterReference } from "./spell-scoring.service";
+
+const noCreature = { spells: [] } as unknown as Creature;
+
+function wizard(key: keyof typeof SPELLS.Wizard): SpellProfile {
+  const profile = spellProfileService.profileOf(SPELLS.Wizard[key].file, noCreature);
+  if (!profile) throw new Error(`no profile for ${key}`);
+  return profile;
+}
+
+function profile(p: Partial<SpellProfile>): SpellProfile {
+  return {
+    file: "TEST",
+    level: 1,
+    type: SpellTypeEnum.Wizard,
+    role: "damage",
+    secondaryRoles: [],
+    castingTime: 5,
+    keywords: [],
+    tier: "decent",
+    spellCount: 1,
+    ...p,
+  };
+}
+
+const best = (level: number): CasterReference => ({ wizard: level, overall: level });
+const score = (p: SpellProfile, caster: CasterReference) => spellScoringService.score(p, caster);
+
+describe("score", () => {
+  beforeEach(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+  });
+
+  it("prefers Finger of Death to Fireball for a level 15 wizard", () => {
+    expect(score(wizard("FingerOfDeath"), best(7))).toBeGreaterThan(
+      score(wizard("Fireball"), best(7)),
+    );
+  });
+
+  it("prefers Abi-Dalzim's Horrid Wilting to Finger of Death once level 8 is in reach", () => {
+    expect(score(wizard("AbiDalzimHorridWilting"), best(8))).toBeGreaterThan(
+      score(wizard("FingerOfDeath"), best(8)),
+    );
+  });
+
+  it("weighs Minor Globe and Fireball about the same for a level 7 wizard", () => {
+    const globe = score(wizard("MinorGlobeOfInvulnerability"), best(4));
+    expect(Math.abs(globe - score(wizard("Fireball"), best(4)))).toBeLessThanOrEqual(2);
+  });
+
+  it("puts a level 4 summon above level 1-2 offensive spells, below Fireball, for a level 7 wizard", () => {
+    const summon = score(profile({ role: "summon", level: 4, castingTime: 9 }), best(4));
+    for (const key of ["MagicMissiles", "MelfAcidArrow", "ChromaticOrb"] as const) {
+      expect(summon).toBeGreaterThan(score(wizard(key), best(4)));
+    }
+    expect(summon).toBeLessThan(score(wizard("Fireball"), best(4)));
+  });
+
+  it("weighs a vampire's Domination close to Abi-Dalzim's, unlike the wizard spell", () => {
+    const vampireDomination = profile({
+      type: SpellTypeEnum.Innate,
+      level: 5,
+      role: "disable",
+      keywords: ["charm"],
+      saves: [{ types: [SaveTypeEnum.Spell], bonus: -6 }],
+      castingTime: 1,
+    });
+    const abi = score(wizard("AbiDalzimHorridWilting"), best(8));
+    expect(Math.abs(score(vampireDomination, best(8)) - abi)).toBeLessThanOrEqual(2);
+    expect(abi - score(wizard("Domination"), best(8))).toBeGreaterThan(4);
+  });
+
+  it("adds 3 for a great spell and 1.5 for a good one", () => {
+    const decent = score(profile({ level: 5 }), best(5));
+    expect(score(profile({ level: 5, tier: "great" }), best(5)) - decent).toBe(3);
+    expect(score(profile({ level: 5, tier: "good" }), best(5)) - decent).toBe(1.5);
+  });
+
+  it("counts Mirror Image as great up to a best level of 5, as good from 6", () => {
+    const image = wizard("MirrorImages");
+    const asDecent = { ...image, tier: "decent" as const };
+    expect(score(image, best(5)) - score(asDecent, best(5))).toBe(3);
+    expect(score(image, best(6)) - score(asDecent, best(6))).toBe(1.5);
+  });
+
+  it("values a good level 7 protection above Mirror Image, Mirror Image above a level 2 attack", () => {
+    const image = score(wizard("MirrorImages"), best(7));
+    expect(score(wizard("ProtectionFromTheElements"), best(7))).toBeGreaterThan(image);
+    expect(image).toBeGreaterThan(score(wizard("MelfAcidArrow"), best(7)));
+  });
+
+  it("scores an innate against the creature's highest level overall", () => {
+    const innate = profile({ type: SpellTypeEnum.Innate, level: 3 });
+    expect(() => score(innate, { overall: 3 })).not.toThrow();
+  });
+});
+
+describe("probability", () => {
+  it("rarely opens with Magic Missile for a level 15 wizard, often with Finger of Death", () => {
+    const missiles = wizard("MagicMissiles");
+    const finger = wizard("FingerOfDeath");
+    expect(spellScoringService.probability(missiles, score(missiles, best(7)))).toBeLessThan(50);
+    expect(spellScoringService.probability(finger, score(finger, best(7)))).toBeGreaterThanOrEqual(
+      85,
+    );
+  });
+
+  it("always casts a reactive spell", () => {
+    expect(spellScoringService.probability(profile({ role: "reactive" }), -20)).toBe(100);
+  });
+});
+
+describe("casterReference", () => {
+  it("takes the highest level per class, and overall", () => {
+    const profiles = [
+      profile({ type: SpellTypeEnum.Wizard, level: 7 }),
+      profile({ type: SpellTypeEnum.Priest, level: 4 }),
+      profile({ type: SpellTypeEnum.Innate, level: 5 }),
+    ];
+    expect(spellScoringService.casterReference(profiles)).toEqual({
+      wizard: 7,
+      priest: 4,
+      overall: 7,
+    });
+  });
+
+  it("works from innates alone", () => {
+    const profiles = [profile({ type: SpellTypeEnum.Innate, level: 3 })];
+    expect(spellScoringService.casterReference(profiles)).toEqual({ overall: 3 });
+  });
+});
