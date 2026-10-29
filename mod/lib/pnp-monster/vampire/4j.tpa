@@ -308,6 +308,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI707~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Double Magic Missiles)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -336,6 +337,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI713~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Double Magic Missiles)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0PMVM2F~) BEGIN 

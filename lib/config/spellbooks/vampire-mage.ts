@@ -1,4 +1,5 @@
 import { SpellBook } from "../../src/model/spell-item/spellbook";
+import { SEQUENCERS } from "../spells/spell-combos";
 import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Wizard;
@@ -62,4 +63,6 @@ export const VampireNecromancerSpellbook: SpellBook = {
       repeat: [s.LarlochEnergyDrain],
     },
   ],
+  sequencers: [SEQUENCERS.DoubleMagicMissiles],
+  contingencies: [],
 };

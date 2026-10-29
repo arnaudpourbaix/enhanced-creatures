@@ -29,7 +29,7 @@ describe("SPELL_PRIORITY_ORDER", () => {
     }
   });
 
-  it("casts Double Magic Missiles right after Magic Missiles, in every mod", () => {
+  it("casts Double Magic Missiles right before Magic Missiles, in every mod", () => {
     const files = [
       ...new Set(
         MOD_LAYER_ORDER.map((mod) =>
@@ -38,6 +38,6 @@ describe("SPELL_PRIORITY_ORDER", () => {
       ),
     ];
     const index = SPELL_PRIORITY_ORDER.indexOf(SPELLS.Wizard.MagicMissiles.file);
-    expect(SPELL_PRIORITY_ORDER.slice(index + 1, index + 1 + files.length)).toEqual(files);
+    expect(SPELL_PRIORITY_ORDER.slice(index - files.length, index)).toEqual(files);
   });
 });
