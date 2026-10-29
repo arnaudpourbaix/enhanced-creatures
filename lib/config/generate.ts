@@ -76,8 +76,6 @@ export const GLOBAL_CONFIG = {
     initGlobal: "JA_INIT",
     precastLongDurationSpells: "JA_PRECAST_LONG",
     precastMidDurationSpells: "JA_PRECAST_MID",
-    minorSequencer: "JA_MINOR_SEQUENCER",
-    sequencer: "JA_SEQUENCER",
     restTimer: "JA_REST",
     shoutTimer: "JA_SHOUT",
     helpTimer: "JA_HELP",

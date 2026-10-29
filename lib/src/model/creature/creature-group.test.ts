@@ -50,14 +50,6 @@ describe("creature", () => {
   });
 });
 
-describe("sequencer", () => {
-  it("delegates to abilityService.getSequencer", () => {
-    const group = fakeGroup();
-    const result = group.sequencer(["SPWI219", "SPWI219", "SPWI219"] as string[] & { length: 3 });
-    expect(result).toBeDefined();
-  });
-});
-
 describe("item (override, group-wide fallback)", () => {
   // Same descriptions reused across item/spell/projectile describe blocks below for analogous
   // group-wide-fallback behavior - a shared constant would hurt searchability in test output.

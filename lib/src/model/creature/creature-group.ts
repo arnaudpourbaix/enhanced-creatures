@@ -1,6 +1,5 @@
 import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
-import abilityService from "../../services/baf/ability.service";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
@@ -244,14 +243,6 @@ export abstract class CreatureGroup<T extends Creature>
     return {
       preset: name,
     };
-  }
-
-  minorSequencer(presets: string[] & { length: 2 }) {
-    return abilityService.getMinorSequencer(presets);
-  }
-
-  sequencer(presets: string[] & { length: 3 }) {
-    return abilityService.getSequencer(presets);
   }
 
   override item(id: number): Item {

@@ -18,7 +18,6 @@ import {
   SpellSaves,
   SpellVariant,
 } from "../../model/spell-item/spell-reference";
-import actionFactory from "../../factories/action.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import logService from "../log.service";
 import { ScriptTarget } from "../../model/constants";
@@ -26,9 +25,7 @@ import {
   CreatureAbility,
   CreatureAbilitySpell,
   RawCreatureAbility,
-  RawCreatureSequencerAbility,
 } from "../../model/creature/ability";
-import { StringReference } from "../../model/final/stringref";
 import { Actions } from "../../model/script/actions";
 import { CustomCode, PartialCustomCode } from "../../model/script/script";
 import { TargetList } from "../../model/script/target";
@@ -42,50 +39,6 @@ class AbilityService {
       this.getAbility(abil, randomGenerator),
     );
     return results;
-  }
-
-  getMinorSequencer(presets: string[] & { length: 2 }): RawCreatureSequencerAbility {
-    return this.generateSequencer(presets, "ability.MinorSequencer");
-  }
-
-  getSequencer(presets: string[] & { length: 3 }): RawCreatureSequencerAbility {
-    return this.generateSequencer(presets, "ability.Sequencer");
-  }
-
-  private generateSequencer(
-    presets: string[] & { length: 2 | 3 },
-    name: StringReference,
-  ): RawCreatureSequencerAbility {
-    const ability: RawCreatureSequencerAbility = {
-      name,
-      requireVocal: false,
-      targets: [],
-      triggers: [triggerFactory.global(GLOBAL_CONFIG.bafConstants.minorSequencer, 0)],
-      actionsAfter: [actionFactory.setGlobal(GLOBAL_CONFIG.bafConstants.minorSequencer, 1)],
-      probability: 70,
-      spells: [],
-    };
-    for (const preset of presets) {
-      const rawAb = this.applyPreset(
-        {
-          spell: {
-            type: "force",
-            memorizedSpellCheck: false,
-          },
-        },
-        preset,
-      );
-      if (!rawAb.spell) throw new Error(`Sequencer only supports spells`);
-      ability.spells.push(rawAb.spell);
-      const targets = this.appendSpellCheckTriggers(
-        rawAb.targets,
-        rawAb.keywords,
-        rawAb.level,
-        rawAb.saves,
-      );
-      if (targets) ability.targets?.push(...targets);
-    }
-    return ability;
   }
 
   /**
@@ -168,7 +121,7 @@ class AbilityService {
   }
 
   private getAbility(
-    abil: RawCreatureAbility | RawCreatureSequencerAbility,
+    abil: RawCreatureAbility,
     randomGenerator: Generator<number, void>,
   ): CreatureAbility {
     let ability = structuredClone(abil);
@@ -203,8 +156,6 @@ class AbilityService {
     }
     if ("spell" in ability && ability.spell) {
       this.parseAbilitySpell(result, ability, ability.spell);
-    } else if ("spells" in ability) {
-      this.parseAbilitySpells(result, ability, ability.spells);
     }
     result.actions.push(...(ability.actionsAfter ?? []));
     if (!!ability.probability && ability.probability < 100) {
@@ -296,34 +247,6 @@ class AbilityService {
         negation: true,
       });
     }
-  }
-
-  private parseAbilitySpells(
-    result: CreatureAbility,
-    ability: RawCreatureAbility,
-    spells: CreatureAbilitySpell[],
-  ): CreatureAbility {
-    const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
-    // See parseAbilitySpell's identical line - applied before the same-target check below so a
-    // keyword-driven default is validated exactly like an explicit one.
-    for (const spell of spells) {
-      spell.castOnSelf ??= ability.keywords?.includes("castOnSelf");
-    }
-    if (spells.some((s) => s.castOnSelf) && !spells.every((s) => s.castOnSelf)) {
-      throw new Error(
-        `Every spells must have the same target in ability ${ability.name ?? "unknown"}`,
-      );
-    }
-    result.isSpell = true;
-    result.infiniteUse = false;
-    // result.resource = spell.resource ?? ability.preset;
-    for (const spell of spells) {
-      this.addExclusionTriggers(result, target, spell);
-      let spellTarget: string = spell.castOnSelf ? ScriptTarget.myself : ScriptTarget.lastSeen;
-      if (spell.targetName) spellTarget = spell.targetName;
-      result.actions.push(this.getSpellAction(spell, spellTarget));
-    }
-    return result;
   }
 
   /**

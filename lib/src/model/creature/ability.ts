@@ -141,22 +141,6 @@ export type RawCreatureAbility = Partial<BaseCreatureAbility> & {
   probability?: number;
 };
 
-export type RawCreatureSequencerAbility = Partial<BaseCreatureAbility> & {
-  spells: CreatureAbilitySpell[];
-  /**
-   * Actions before casting a spell
-   */
-  actionsBefore?: Actions.Action[];
-  /**
-   * Actions after casting a spell
-   */
-  actionsAfter?: Actions.Action[];
-  /**
-   * Probability (0-100)
-   */
-  probability?: number;
-};
-
 export type SpellCastType = "normal" | "noDec" | "force" | "reallyForce";
 
 export interface CreatureAbilitySpell {

@@ -265,81 +265,6 @@ describe("getAbilities - single spell", () => {
   });
 });
 
-describe("getAbilities - multi-spell (spells array)", () => {
-  it("marks isSpell true and emits one Spell action per spell", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        spells: [
-          { id: SPWI001, type: "normal" },
-          { id: SPWI002, type: "normal" },
-        ],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.isSpell).toBe(true);
-    expect(ability.infiniteUse).toBe(false);
-    expect(ability.actions).toEqual([
-      { name: "Spell", params: ["LastSeenBy", "SPWI001"] },
-      { name: "Spell", params: ["LastSeenBy", "SPWI002"] },
-    ]);
-  });
-
-  it("throws when spells mix castOnSelf true and false", () => {
-    expect(() =>
-      abilityService.getAbilities([
-        {
-          name: DEFAULT_ABILITY_NAME,
-          spells: [
-            { id: SPWI001, castOnSelf: true },
-            { id: SPWI002, castOnSelf: false },
-          ],
-        } as unknown as RawCreatureAbility,
-      ]),
-    ).toThrow(/Every spells must have the same target in ability ability.unknown/);
-  });
-
-  it("targets Myself for every spell when ability.keywords includes castOnSelf", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        keywords: ["castOnSelf"],
-        spells: [
-          { id: SPWI001, type: "normal" },
-          { id: SPWI002, type: "normal" },
-        ],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.actions).toEqual([
-      { name: "Spell", params: ["Myself", "SPWI001"] },
-      { name: "Spell", params: ["Myself", "SPWI002"] },
-    ]);
-  });
-
-  it("casts an individual spell at its explicit targetName instead of the default target", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        spells: [{ id: SPWI001, type: "normal", targetName: "RR#TRAT" }],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.actions).toContainEqual({
-      name: "Spell",
-      params: ["RR#TRAT", "SPWI001"],
-    });
-  });
-
-  it("throws for an unrecognized spell.id/type combination (unlike the single-spell path, the spells array never defaults a missing type to 'normal')", () => {
-    expect(() =>
-      abilityService.getAbilities([
-        {
-          name: DEFAULT_ABILITY_NAME,
-          spells: [{ id: SPWI001 }],
-        } as unknown as RawCreatureAbility,
-      ]),
-    ).toThrow(/getSpellAction: unexpected combination/);
-  });
-});
-
 describe("getAbilities - preset id/resource conflict resolution (applyPreset)", () => {
   it("drops the preset's spell.id when the override supplies spell.resource, so the have-spell trigger matches the resource actually cast", () => {
     const [ability] = abilityService.getAbilities([
@@ -844,60 +769,7 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
   });
 });
 
-describe("getMinorSequencer / getSequencer", () => {
-  it("builds a 2-spell sequencer with the MinorSequencer name and the standard probability/triggers", () => {
-    const ability = abilityService.getMinorSequencer([
-      "SPWI219", // Vocalize
-      "SPWI206", // Invisibility
-    ] as [string, string]);
-    expect(ability.name).toBe("ability.MinorSequencer");
-    expect(ability.requireVocal).toBe(false);
-    expect(ability.probability).toBe(70);
-    expect(ability.spells).toHaveLength(2);
-  });
-
-  it("throws for an unknown preset name", () => {
-    expect(() =>
-      abilityService.getMinorSequencer(["not_a_real_preset", "x"] as [string, string]),
-    ).toThrow(/Unknown preset not_a_real_preset/);
-  });
-
-  it("throws when a preset resolves without a spell (documented guard; no real preset currently triggers this)", () => {
-    const spy = vi.spyOn(service, "applyPreset").mockReturnValueOnce({});
-    try {
-      expect(() => abilityService.getMinorSequencer(["x", "y"] as [string, string])).toThrow(
-        /Sequencer only supports spells/,
-      );
-    } finally {
-      spy.mockRestore();
-    }
-  });
-
-  it("appends the keyword's SPELL_CHECK_TRIGGERS to a sequenced preset's target list too", () => {
-    const presetName = "JA#TEST_SEQUENCER_KEYWORDS_PRESET";
-    ABILITY_PRESETS.push({
-      preset: presetName,
-      ability: {
-        name: DEFAULT_ABILITY_NAME,
-        keywords: ["acid"],
-        targets: [{ name: "Players" }],
-        spell: { id: SPWI001 },
-      },
-    });
-    try {
-      const ability = abilityService.getMinorSequencer([presetName, presetName] as [
-        string,
-        string,
-      ]);
-      expect(ability.targets).toEqual([
-        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
-        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
-      ]);
-    } finally {
-      ABILITY_PRESETS.pop();
-    }
-  });
-
+describe("preset spell arrays", () => {
   it("throws when a preset's spell is an array (presets don't support spell arrays)", () => {
     ABILITY_PRESETS.push({
       preset: "JA#TEST_ARRAY_SPELL_PRESET",
