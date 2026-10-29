@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { JEWEL_SLOTS } from "../../model/creature/item";
 import spellComboService from "../spell-combo.service";
+// builds the combo SPLs (see SpellComboService.useSpellBuilder), and loads the presets they need
+import "../spell.service";
 import weiduCoreService from "./weidu-core.service";
 
 describe("getIcon", () => {

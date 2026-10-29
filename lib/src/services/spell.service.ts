@@ -36,7 +36,12 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
-import { COMBO_RULES, contingencyMaxLevel, SpellCombo, SpellComboKind } from "../model/spell-item/spell-combo";
+import {
+  COMBO_RULES,
+  contingencyMaxLevel,
+  SpellCombo,
+  SpellComboKind,
+} from "../model/spell-item/spell-combo";
 import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
 import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { State } from "../state";
@@ -424,4 +429,5 @@ class SpellService {
 }
 
 const spellService = new SpellService();
+spellComboService.useSpellBuilder(spellService);
 export default spellService;

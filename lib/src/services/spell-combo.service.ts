@@ -13,10 +13,11 @@ import {
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { ContingencyTrigger, SpellCombo, SpellComboKind } from "../model/spell-item/spell-combo";
-import { PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
+import { PartialSpell, PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
 import { resolveForMod, SpellReference } from "../model/spell-item/spell-reference";
 import { StringReference } from "../model/final/stringref";
-import spellService from "./spell.service";
+import { AbilityPreset } from "../model/misc";
+import logService from "./log.service";
 import { getResourceName } from "./utils/misc.func";
 
 /** Owner code of the combo SPLs in the common scope (`jasc01xx`). */
@@ -25,8 +26,8 @@ const COMBO_OWNER = 1;
 /** Range of an enemy combo's header when none of its spells sets one. */
 const DEFAULT_RANGE = 30;
 
-/** The name of each kind's SPLs. */
-const KIND_NAMES: Record<SpellComboKind, StringReference> = {
+/** The name of each kind's SPLs (and of the abilities casting them). */
+export const KIND_NAMES: Record<SpellComboKind, StringReference> = {
   minorSequencer: "ability.MinorSequencer",
   spellSequencer: "ability.Sequencer",
   contingency: "ability.Contingency",
@@ -44,7 +45,12 @@ export const CONTINGENCY_CONDITIONS: Record<ContingencyTrigger, CastSpellOnCondi
   poisoned: "StateCheck(Myself,STATE_POISONED)",
 };
 
-const isContingency = (combo: SpellCombo): boolean =>
+/** What builds the SPLs: SpellService, see useSpellBuilder. */
+interface SpellBuilder {
+  getSpell(spell: PartialSpell, file: string): Spell;
+}
+
+export const isContingency = (combo: SpellCombo): boolean =>
   combo.kind === "contingency" || combo.kind === "chainContingency";
 
 /** One combo with its spells resolved for some mods: one generated SPL (two for a self contingency). */
@@ -69,6 +75,9 @@ class SpellComboService {
   private entries = new Map<string, ComboEntry>();
   private counter = 0;
   private registryAllocated = false;
+  private spellBuilder?: SpellBuilder;
+  /** The spells' presets (without the combos' own), see usePresets. */
+  private presets?: AbilityPreset[];
 
   /**
    * The SPL a caster memorizes for this combo under `mod`: mods resolving the combo's spells to the
@@ -81,13 +90,56 @@ class SpellComboService {
     return this.allocate(combo, resolve(combo, mod)).file;
   }
 
+  /** The combo's spells for `mod` (see comboFile), undefined when one isn't available there. */
+  spellsFor(combo: SpellCombo, mod: SpellbookModName): SpellReference[] | undefined {
+    return tryResolve(combo, mod);
+  }
+
+  /**
+   * Given by spell.service.ts: importing it here would close an import cycle through
+   * ability-presets.ts, which builds the combos' presets at load.
+   */
+  useSpellBuilder(builder: SpellBuilder): void {
+    this.spellBuilder = builder;
+  }
+
+  /**
+   * The presets of the spells combos hold (ABILITY_PRESETS can't be imported here: it holds the
+   * combos' own presets, built from isSelf), given by ability-presets.ts before building those.
+   */
+  usePresets(presets: AbilityPreset[]): void {
+    this.presets = presets;
+  }
+
   /**
    * Whether the combo's spells are cast on the caster (a self contingency is a real engine
-   * contingency, an enemy one is fired by the script). A stub until presets are available here.
+   * contingency, an enemy one is fired by the script): each of them is when its preset has no
+   * targets, is cast on self, or only targets lists named `Myself...` (e.g. MyselfAndNearestAllies).
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/no-unused-function-argument -- stub: the real check needs presets
   isSelf(combo: SpellCombo): boolean {
-    return false;
+    return combo.spells.every((spell) => this.spellIsSelf(combo, spell));
+  }
+
+  /**
+   * Throws when the combo mixes self and enemy spells (see isSelf). Warns when an enemy combo's
+   * spells target different lists: the combo is cast at the first one's targets.
+   */
+  checkTargets(combo: SpellCombo): void {
+    const selves = combo.spells.map((spell) => this.spellIsSelf(combo, spell));
+    if (selves.some(Boolean) && !selves.every(Boolean)) {
+      throw new Error(`Spell combo ${combo.key} mixes self and enemy spells`);
+    }
+    if (selves.some(Boolean)) return;
+    const lists = new Set(
+      combo.spells.map((spell) =>
+        (this.presetOf(combo, spell).ability.targets ?? []).map((t) => t.name).join(),
+      ),
+    );
+    if (lists.size > 1) {
+      logService.warn(
+        `Spell combo ${combo.key}: its spells have different preset target lists, the first one's are used`,
+      );
+    }
   }
 
   /** Every generated SPL, for writing: each built once, in allocation order. */
@@ -98,15 +150,34 @@ class SpellComboService {
 
   /** The combo whose memorized SPL is `file` (case-insensitive), if any. */
   comboOfFile(file: string): SpellCombo | undefined {
+    this.allocateRegistry();
     const target = file.toLowerCase();
     return [...this.entries.values()].find((e) => e.file.toLowerCase() === target)?.combo;
   }
 
-  /** Forgets every name and SPL, for tests. */
+  /** Forgets every name and SPL (not the presets), for tests. */
   reset(): void {
     this.entries.clear();
     this.counter = 0;
     this.registryAllocated = false;
+  }
+
+  private spellIsSelf(combo: SpellCombo, spell: SpellReference): boolean {
+    const { ability } = this.presetOf(combo, spell);
+    const keywords = ability.keywords ?? spell.keywords ?? [];
+    return (
+      !ability.targets?.length ||
+      !!ability.spell?.castOnSelf ||
+      keywords.includes("castOnSelf") ||
+      ability.targets.every((t) => t.name.startsWith("Myself"))
+    );
+  }
+
+  private presetOf(combo: SpellCombo, spell: SpellReference): AbilityPreset {
+    if (!this.presets) throw new Error(`Spell combo ${combo.key}: usePresets was never called`);
+    const preset = this.presets.find((p) => p.preset === spell.file);
+    if (!preset) throw new Error(`Spell combo ${combo.key}: no preset for spell ${spell.file}`);
+    return preset;
   }
 
   private allocateRegistry(): void {
@@ -194,7 +265,8 @@ class SpellComboService {
   }
 
   private spell(combo: SpellCombo, file: string, header: PartialSpellHeader): Spell {
-    return spellService.getSpell(
+    if (!this.spellBuilder) throw new Error("Spell combos: useSpellBuilder was never called");
+    return this.spellBuilder.getSpell(
       { name: KIND_NAMES[combo.kind], level: 1, headers: [header] },
       file,
     );

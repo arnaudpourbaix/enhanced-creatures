@@ -3,6 +3,7 @@ import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../c
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
+import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
 import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
@@ -190,6 +191,12 @@ class MainService {
     return variant ? variant.id : spell.id;
   }
 
+  /** Checks each sequencer and contingency holds spells cast at the same kind of targets. */
+  checkSpellCombos() {
+    logService.section("Checking spell combos");
+    for (const combo of SPELL_COMBOS) spellComboService.checkTargets(combo);
+  }
+
   checkSpells() {
     logService.section("Checking spells");
     // Two entries may share a file only when their requiresMod/obsoletedBy availability ranges
@@ -260,6 +267,7 @@ class MainService {
     logService.init();
     await stateService.init();
     this.checkPresets();
+    this.checkSpellCombos();
     this.checkSpells();
     this.checkSpellbooks();
     this.generateCreatures();

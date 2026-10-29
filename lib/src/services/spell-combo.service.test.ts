@@ -1,11 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SEQUENCERS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { ItemAbilityTargetEnum } from "../model/spell-item/effect.enums";
-import { SpellCombo } from "../model/spell-item/spell-combo";
+import { minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
 import { Spell } from "../model/spell-item/spell-item";
+import logService from "./log.service";
 import spellComboService from "./spell-combo.service";
+// builds the combo SPLs (see SpellComboService.useSpellBuilder)
+import "./spell.service";
 
 const w = SPELLS.Wizard;
 
@@ -24,6 +28,7 @@ const castResources = (spell: Spell) =>
 
 beforeEach(() => {
   spellComboService.reset();
+  spellComboService.usePresets(ABILITY_PRESETS);
 });
 afterEach(() => {
   vi.restoreAllMocks();
@@ -89,7 +94,7 @@ describe("generated SPLs", () => {
       kind: "minorSequencer",
       spells: [
         { ...w.MagicMissiles, range: 40 },
-        { ...w.MagicMissiles, file: "SPWX001", range: 25 },
+        { ...w.Sleep, range: 25 },
       ],
     };
     expect(splOf(spellComboService.comboFile(combo, "Vanilla")).headers[0].range).toBe(25);
@@ -162,5 +167,59 @@ describe("comboOfFile", () => {
     const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
     expect(spellComboService.comboOfFile(file.toUpperCase())).toBe(SEQUENCERS.DoubleMagicMissiles);
     expect(spellComboService.comboOfFile("SPWI112")).toBeUndefined();
+  });
+
+  it("names the registry first", () => {
+    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    spellComboService.reset();
+    expect(spellComboService.comboOfFile(file)).toBe(SEQUENCERS.DoubleMagicMissiles);
+  });
+});
+
+const comboOf = (spells: SpellCombo["spells"]): SpellCombo => ({
+  key: "TestTargets",
+  kind: "spellSequencer",
+  spells,
+});
+
+describe("isSelf", () => {
+  it.each([
+    ["targets only the caster and its allies", w.ImprovedInvisibility],
+    ["has no targets", w.Stoneskin],
+  ])("is true when the spell %s", (_, spell) => {
+    expect(spellComboService.isSelf(comboOf([spell]))).toBe(true);
+  });
+
+  it.each([w.MagicMissiles, w.Horror])("is false for an enemy spell", (spell) => {
+    expect(spellComboService.isSelf(comboOf([spell]))).toBe(false);
+  });
+
+  it("throws for a spell without preset", () => {
+    expect(() => spellComboService.isSelf(comboOf([{ file: "SPWX001" }]))).toThrow(
+      "Spell combo TestTargets: no preset for spell SPWX001",
+    );
+  });
+});
+
+describe("checkTargets", () => {
+  it("throws when a combo mixes self and enemy spells", () => {
+    const combo = { key: "TestMixed", ...minorSequencer([w.Shield, w.Horror]) };
+    expect(() => spellComboService.checkTargets(combo)).toThrow(
+      "Spell combo TestMixed mixes self and enemy spells",
+    );
+  });
+
+  it("warns when enemy spells have different target lists", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const combo = { key: "TestLists", ...spellSequencer([w.Slow, w.Contagion, w.Horror]) };
+    spellComboService.checkTargets(combo);
+    expect(warn).toHaveBeenCalledOnce();
+    expect(warn.mock.calls[0][0]).toContain("TestLists");
+  });
+
+  it("stays silent for a repeated spell", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets(SEQUENCERS.DoubleMagicMissiles);
+    expect(warn).not.toHaveBeenCalled();
   });
 });
