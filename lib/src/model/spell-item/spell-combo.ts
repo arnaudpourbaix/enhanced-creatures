@@ -69,10 +69,9 @@ export const COMBO_RULES: Record<SpellComboKind, {
   maxContainedLevel: number;
 }> = {
   minorSequencer: { spellLevel: 4, minCasterLevel: firstCasterLevel(4, 1), count: [2, 2], maxContainedLevel: 2 },
-  // Needs two level 6 slots: one for the sequencer and one for a spell to hold.
-  spellSequencer: { spellLevel: 6, minCasterLevel: firstCasterLevel(6, 2), count: [3, 3], maxContainedLevel: 4 },
+  spellSequencer: { spellLevel: 7, minCasterLevel: firstCasterLevel(7, 1), count: [3, 3], maxContainedLevel: 4 },
   contingency: { spellLevel: 6, minCasterLevel: firstCasterLevel(6, 1), count: [1, 1], maxContainedLevel: 8 },
-  chainContingency: { spellLevel: 9, minCasterLevel: firstCasterLevel(9, 1), count: [3, 3], maxContainedLevel: 8 },
+  chainContingency: { spellLevel: 9, minCasterLevel: firstCasterLevel(9, 1), count: [1, 3], maxContainedLevel: 8 },
 };
 
 const CONDITIONS: ContingencyTrigger[] = ["hit", "seeEnemy", "hp50", "hp25", "hp10", "helpless", "poisoned"];

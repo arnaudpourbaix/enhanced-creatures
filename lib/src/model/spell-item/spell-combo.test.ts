@@ -25,7 +25,7 @@ describe("COMBO_RULES", () => {
     );
     expect(levels).toEqual({
       minorSequencer: 7,
-      spellSequencer: 13,
+      spellSequencer: 14,
       contingency: 12,
       chainContingency: 18,
     });
@@ -41,6 +41,14 @@ describe("contingencyMaxLevel", () => {
 describe("validateCombo", () => {
   it("accepts a double Magic Missile minor sequencer", () => {
     expect(() => validateCombo(combo(minorSequencer([MM, MM])))).not.toThrow();
+  });
+
+  it("accepts a chain contingency of 1 spell", () => {
+    expect(() => validateCombo(combo(chainContingency("hit", [MM])))).not.toThrow();
+  });
+
+  it("rejects a chain contingency of 0 spells", () => {
+    expect(() => validateCombo(combo(chainContingency("hit", [])))).toThrow(/Test/);
   });
 
   it.each([
