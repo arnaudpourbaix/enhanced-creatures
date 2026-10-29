@@ -41,6 +41,8 @@ export interface BaseSpell {
   secondaryRoles?: SpellRole[];
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
+  /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */
+  hitsAllies?: boolean;
   /**
    * Casting speed of a spell from another mod (Faiths and Powers), read from the game by
    * scripts/extract-spell-profile.ts; a spell this mod creates uses its headers' speed

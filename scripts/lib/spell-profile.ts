@@ -340,3 +340,27 @@ export function classifyTier(
   if (on(GREAT_PROTECTION) || on(GOOD_PROTECTION)) return "good";
   return undefined;
 }
+
+/** A projectile with an area of effect (PRO type 3) */
+const AREA_PROJECTILE = 3;
+/** Area flag: affects only the caster's enemies */
+const ONLY_ENEMIES = 0x40;
+
+/** PROJECTL.IDS: each projectile number (an SPL header's, minus 1) to its PRO file. */
+export function parseProjectileIds(ids: string): Map<number, string> {
+  const projectiles = new Map<number, string>();
+  for (const line of ids.split(/\r?\n/)) {
+    const match = /^\s*(0x[0-9a-f]+|\d+)\s+(\S+)/i.exec(line);
+    if (match) projectiles.set(Number(match[1]), match[2]);
+  }
+  return projectiles;
+}
+
+/**
+ * Whether an area projectile also hits the caster's allies, or undefined when the projectile has
+ * no area: an area sparing allies can be cast into a melee, one hitting them can't.
+ */
+export function areaHitsAllies(pro: Buffer): boolean | undefined {
+  if (pro.readUInt16LE(0x08) !== AREA_PROJECTILE || pro.length < 0x204) return undefined;
+  return (pro.readUInt32LE(0x200) & ONLY_ENEMIES) === 0;
+}

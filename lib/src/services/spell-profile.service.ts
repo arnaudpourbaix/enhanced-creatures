@@ -19,6 +19,8 @@ export interface SpellProfile {
   keywords: SpellKeyword[];
   saves?: SpellSaves;
   tier: SpellTier;
+  /** An area spell hitting the caster's allies too: it needs them out of the way */
+  hitsAllies: boolean;
   /** How many spells it casts at once: more than 1 for a sequencer */
   spellCount: number;
 }
@@ -32,6 +34,7 @@ interface ProfileSource {
   saves?: SpellSaves;
   tier?: SpellTier;
   castingTime?: number;
+  hitsAllies?: boolean;
 }
 
 /** The type of a SPELLS category's spells */
@@ -122,6 +125,7 @@ class SpellProfileService {
       keywords: spell.keywords ?? [],
       saves: spell.saves,
       tier: spell.tier ?? "decent",
+      hitsAllies: spell.hitsAllies ?? false,
       spellCount: 1,
     };
   }

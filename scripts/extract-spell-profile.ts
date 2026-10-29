@@ -13,6 +13,8 @@ import { addFieldToDatabase } from "./lib/spell-database-writer";
 import {
   classifyRole,
   classifyTier,
+  areaHitsAllies,
+  parseProjectileIds,
   casterLevelSource,
   minCasterLevel,
   readSplCastingTimes,
@@ -41,6 +43,8 @@ const DATABASE = path.join("lib", "config", "spells", "spell-database.ts");
 const FNP_DATABASE = path.join("lib", "config", "spells", "fnp-spell-database.ts");
 const REPORT = path.join("assets", "spells", "spell-profile-report.md");
 const SPL_TYPE = 0x3ee;
+const PRO_TYPE = 0x3fd;
+const IDS_TYPE = 0x3f0;
 /** Roles whose duration is worth precasting (see SpellReference.duration) */
 const PRECAST_ROLES: SpellRole[] = ["protection", "buff", "summon"];
 
@@ -58,6 +62,20 @@ interface Profile {
   evidence: string[];
   castingTimes: number[];
   duration?: SpellDurationClass;
+  /** Its area also hits the caster's allies; undefined without an area projectile */
+  hitsAllies?: boolean;
+}
+
+/** Whether the first header's projectile is an area hitting allies too (see areaHitsAllies). */
+function hitsAllies(
+  reader: ResourceReader,
+  spl: Buffer,
+  projectiles: Map<number, string>,
+): boolean | undefined {
+  const projectile = spl.readUInt16LE(spl.readUInt32LE(0x64) + 0x26);
+  const name = projectiles.get(projectile - 1);
+  const pro = name === undefined ? undefined : reader.read(name, PRO_TYPE, "PRO");
+  return pro && areaHitsAllies(pro);
 }
 
 function profile(
@@ -65,6 +83,7 @@ function profile(
   source: EffectSource,
   file: string,
   keywords: Parameters<typeof classifyRole>[1],
+  projectiles: Map<number, string>,
 ): Profile | undefined {
   const spl = reader.read(file, SPL_TYPE, "SPL");
   const effects = spl && spellEffects(source, file);
@@ -76,6 +95,7 @@ function profile(
     ...classifyRole(effects, keywords),
     castingTimes: readSplCastingTimes(spl),
     duration: spellDuration(lowest),
+    hitsAllies: hitsAllies(reader, spl, projectiles),
   };
 }
 
@@ -92,6 +112,7 @@ interface Row {
     castingTime?: number;
     duration?: SpellDurationClass;
     tier?: SpellTier;
+    hitsAllies?: boolean;
   };
 }
 
@@ -106,6 +127,7 @@ interface Entry {
   castingTime?: number;
   duration?: SpellDurationClass;
   tier?: SpellTier;
+  hitsAllies?: boolean;
 }
 
 /** The tier --write adds: a protection's guess, decent ones left unwritten. */
@@ -213,6 +235,8 @@ function writeReport(rows: Row[]) {
 }
 
 interface Readers {
+  /** PROJECTL.IDS of the modded game */
+  projectiles: Map<number, string>;
   vanillaReader: ResourceReader;
   moddedReader: ResourceReader;
   vanilla: EffectSource;
@@ -226,8 +250,21 @@ function collect(database: string, entries: Entry[], readers: Readers) {
   for (const spell of entries) {
     const file = spell.file.toUpperCase();
     const keywords = spell.keywords ?? [];
-    const moddedProfile = profile(readers.moddedReader, readers.modded, file, keywords);
-    const vanillaProfile = profile(readers.vanillaReader, readers.vanilla, file, keywords);
+    const { projectiles } = readers;
+    const moddedProfile = profile(
+      readers.moddedReader,
+      readers.modded,
+      file,
+      keywords,
+      projectiles,
+    );
+    const vanillaProfile = profile(
+      readers.vanillaReader,
+      readers.vanilla,
+      file,
+      keywords,
+      projectiles,
+    );
     // a spell a mod repurposes (Blindness becoming Obscuring Mist) only exists unmodded
     const own = spell.obsoletedBy ? vanillaProfile : moddedProfile;
     if (!own) {
@@ -246,6 +283,7 @@ function collect(database: string, entries: Entry[], readers: Readers) {
         castingTime: spell.castingTime,
         duration: spell.duration,
         tier: spell.tier,
+        hitsAllies: spell.hitsAllies,
       },
     });
   }
@@ -291,6 +329,14 @@ function writeDatabase(databasePath: string, rows: Row[], durations: boolean) {
     }),
     "role",
   );
+  database = addFieldToDatabase(
+    database,
+    "hitsAllies",
+    values((r) =>
+      r.profile.hitsAllies && r.declared.hitsAllies === undefined ? "true" : undefined,
+    ),
+    "keywords",
+  );
   if (durations) {
     database = addFieldToDatabase(
       database,
@@ -309,9 +355,12 @@ function main() {
   const { gameDir, write } = parseArgs();
   const vanillaReader = new ResourceReader(gameDir, false);
   const moddedReader = new ResourceReader(gameDir, true);
+  const ids = moddedReader.read("PROJECTL", IDS_TYPE, "IDS");
+  if (!ids) throw new Error("PROJECTL.IDS not found");
   const readers: Readers = {
     vanillaReader,
     moddedReader,
+    projectiles: parseProjectileIds(ids.toString("latin1")),
     vanilla: readerSource(vanillaReader),
     modded: readerSource(moddedReader),
   };

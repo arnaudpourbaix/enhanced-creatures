@@ -44,6 +44,7 @@ const WIZARD_SPELLS = {
     castingTime: 6,
     name: "spell.AcidFog.name",
     keywords: ["acid", "cloud", "area"],
+    hitsAllies: true,
   },
   AcidStorm: {
     file: "SPWI724",
@@ -53,6 +54,7 @@ const WIZARD_SPELLS = {
     castingTime: 7,
     name: "spell.AcidStorm.name",
     keywords: ["acid", "magicResistance", "area"],
+    hitsAllies: true,
     requiresMod: "AllSpellMods",
   },
   AgannazarScorcher: {
@@ -150,6 +152,7 @@ const WIZARD_SPELLS = {
     castingTime: 1,
     name: "spell.BurningHands.name",
     keywords: ["fire", "magicResistance", "area"],
+    hitsAllies: true,
     range: 10,
   },
   ChainLightning: {
@@ -212,6 +215,7 @@ const WIZARD_SPELLS = {
     castingTime: 5,
     name: "spell.Cloudkill.name",
     keywords: ["poison", "cloud", "area"],
+    hitsAllies: true,
   },
   ColorSpray: {
     file: "SPWI105",
@@ -222,6 +226,7 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.colorSpray.name",
     keywords: ["blind", "slow", "confusion", "colorSpray", "area"],
+    hitsAllies: true,
     range: 10,
     excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
   },
@@ -245,6 +250,7 @@ const WIZARD_SPELLS = {
     castingTime: 1,
     name: "spell.coneOfCold.name",
     keywords: ["cold", "area"],
+    hitsAllies: true,
   },
   Confusion: {
     file: "SPWI401",
@@ -345,6 +351,7 @@ const WIZARD_SPELLS = {
     castingTime: 7,
     name: "spell.DelayedBlastFireball.name",
     keywords: ["fire", "area"],
+    hitsAllies: true,
   },
   DemiShadowMonsters: {
     file: "SPWI527",
@@ -406,6 +413,7 @@ const WIZARD_SPELLS = {
     file: "SPWI326",
     id: "WIZARD_TRUE_DISPEL_MAGIC",
     keywords: ["area"],
+    hitsAllies: true,
     level: 3,
     role: "reactive",
     secondaryRoles: ["disable"],
@@ -485,6 +493,7 @@ const WIZARD_SPELLS = {
     castingTime: 3,
     name: "spell.Fireball.name",
     keywords: ["fire", "fireball", "area"],
+    hitsAllies: true,
     alliesCheck: { range: 15 }, // 30' radius
   },
   FireShield: {
@@ -550,6 +559,7 @@ const WIZARD_SPELLS = {
     ],
     name: "spell.Grease.name",
     keywords: ["movement", "ground", "area"],
+    hitsAllies: true,
   },
   GreaterMalison: {
     file: "SPWI412",
@@ -635,6 +645,7 @@ const WIZARD_SPELLS = {
     castingTime: 4,
     name: "spell.IceStorm.name",
     keywords: ["cold", "area"],
+    hitsAllies: true,
     alliesCheck: { range: 15 }, // 30' radius
   },
   ImprovedHaste: {
@@ -669,6 +680,7 @@ const WIZARD_SPELLS = {
     castingTime: 8,
     name: "spell.IncendiaryCloud.name",
     keywords: ["fire", "cloud", "area"],
+    hitsAllies: true,
   },
   Invisibility: {
     file: "SPWI206",
@@ -754,6 +766,7 @@ const WIZARD_SPELLS = {
     castingTime: 9,
     name: "spell.MeteorSwarm.name",
     keywords: ["fire", "area"],
+    hitsAllies: true,
   },
   MinorGlobeOfInvulnerability: {
     file: "SPWI406",
@@ -938,6 +951,7 @@ const WIZARD_SPELLS = {
     name: "spell.ObscuringMist.name",
     requiresMod: "AllSpellMods",
     keywords: ["illusion", "area"],
+    hitsAllies: true,
   },
   OtilukesFreezingSphere: {
     file: "SPWI626",
@@ -1028,6 +1042,7 @@ const WIZARD_SPELLS = {
     castingTime: 1,
     name: "spell.PrismaticSpray.name",
     keywords: ["blind", "area"],
+    hitsAllies: true,
     range: 10,
   },
   ProtectionFromEnergy: {
@@ -1248,6 +1263,7 @@ const WIZARD_SPELLS = {
     castingTime: 3,
     name: "spell.SkullTrap.name",
     keywords: ["magicDamage", "necromancyEffects", "area"],
+    hitsAllies: true,
     alliesCheck: { range: 8 },
   },
   Sleep: {
@@ -1286,6 +1302,7 @@ const WIZARD_SPELLS = {
     castingTime: 2,
     name: "spell.SnillocsSnowballSwarm.name",
     keywords: ["cold", "magicResistance", "area"],
+    hitsAllies: true,
     requiresMod: "AllSpellMods",
   },
   SpellThrust: {
@@ -1315,6 +1332,7 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.ParalyzePoisonDeath] }],
     name: "spell.StinkingCloud.name",
     keywords: ["cloud", "area"],
+    hitsAllies: true,
   },
   Stoneskin: {
     file: "SPWI408",
@@ -1410,6 +1428,7 @@ const WIZARD_SPELLS = {
     castingTime: 4,
     name: "spell.VitriolicSphere.name",
     keywords: ["acid", "area"],
+    hitsAllies: true,
     alliesCheck: { range: 5 }, // 10' radius
     requiresMod: "AllSpellMods",
   },
@@ -1457,6 +1476,7 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -2 }, { types: [SaveTypeEnum.Breath] }],
     name: "spell.Web.name",
     keywords: ["hold", "movement", "web", "area"],
+    hitsAllies: true,
   },
 } satisfies Record<string, SpellReference>;
 
@@ -1729,6 +1749,7 @@ const PRIEST_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Breath] }],
     name: "spell.CloudOfPestilence.name",
     keywords: ["magicDamage", "blind", "cloud", "magicResistance", "area"],
+    hitsAllies: true,
     requiresMod: "AllSpellMods",
   },
   Chant: {
@@ -1976,6 +1997,7 @@ const PRIEST_SPELLS = {
     castingTime: 9,
     name: "spell.Earthquake.name",
     keywords: ["death", "sleep", "ground", "earthquake", "area"],
+    hitsAllies: true,
   },
   EnergyDrain: {
     file: "SPPR714",
@@ -1996,6 +2018,7 @@ const PRIEST_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell], bonus: 3 }, { types: [SaveTypeEnum.Breath] }],
     name: "spell.Entangle.name",
     keywords: ["movement", "entangle", "area"],
+    hitsAllies: true,
   },
   EntropyShield: {
     file: "SPPR620",
@@ -2036,6 +2059,7 @@ const PRIEST_SPELLS = {
     castingTime: 9,
     name: "spell.FireStorm.name",
     keywords: ["fire", "area"],
+    hitsAllies: true,
   },
   FlameStrike: {
     file: "SPPR503",
@@ -2284,6 +2308,7 @@ const PRIEST_SPELLS = {
     castingTime: 7,
     name: "spell.ProduceFire.name",
     keywords: ["fire", "magicResistance"],
+    hitsAllies: true,
     requiresMod: "AllSpellMods",
   },
   ProtectionFromEvil: {
@@ -2659,6 +2684,7 @@ const INNATE_SPELLS = {
     name: "spell.MephitColorSpray.name",
     range: 10,
     keywords: ["blind", "slow", "confusion", "colorSpray"],
+    hitsAllies: true,
   },
   HealingLick: {
     file: "SPIN699",
@@ -2689,6 +2715,7 @@ const INNATE_SPELLS = {
     castingTime: 2,
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -2 }],
     keywords: ["fear", "magicResistance", "castOnSelf", "area"],
+    hitsAllies: true,
   },
   ShapeshiftWolf: {
     file: "SPIN110",

@@ -113,6 +113,8 @@ export interface SpellReference {
   secondaryRoles?: SpellRole[];
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
+  /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */
+  hitsAllies?: boolean;
   keywords?: SpellKeyword[];
   /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
   saves?: SpellSaves;

@@ -24,6 +24,8 @@ export const SPELL_SCORING = {
   bigSummon: { level: 6, bonus: 2 },
   offensive: {
     area: 2.5,
+    /** Instead of `area` when it hits the caster's allies too: they must keep out of it */
+    areaHittingAllies: 1.5,
     /** The spell does nothing on a successful save */
     saveNegates: -1,
     /** Times the save bonus (negative: a penalty to the target, so a bonus here) */

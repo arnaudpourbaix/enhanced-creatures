@@ -26,6 +26,7 @@ function profile(file: string, p: Partial<SpellProfile>): SpellProfile {
     castingTime: 5,
     keywords: [],
     tier: "decent",
+    hitsAllies: false,
     spellCount: 1,
     ...p,
   };

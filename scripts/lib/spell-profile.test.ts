@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { type EffectSource, type RawEffect } from "./spell-saves";
 import {
+  areaHitsAllies,
   classifyRole,
   classifyTier,
   durationClass,
   casterLevelSource,
   minCasterLevel,
+  parseProjectileIds,
   readSplCastingTimes,
   spellDuration,
   spellEffects,
@@ -421,5 +423,35 @@ describe("classifyTier", () => {
 
   it("only guesses protections", () => {
     expect(classifyTier([self(218)], "damage")).toBeUndefined();
+  });
+});
+
+describe("parseProjectileIds", () => {
+  it("maps each projectile number to its PRO file", () => {
+    const ids = parseProjectileIds("IDS V1.0\r\n37 FIREBALL\r\n0x29 SLEEP\r\n");
+    expect(ids.get(37)).toBe("FIREBALL");
+    expect(ids.get(41)).toBe("SLEEP");
+  });
+});
+
+describe("areaHitsAllies", () => {
+  const pro = (type: number, areaFlags: number) => {
+    const buffer = Buffer.alloc(0x300);
+    buffer.write("PRO V1.0", 0, "latin1");
+    buffer.writeUInt16LE(type, 0x08);
+    buffer.writeUInt32LE(areaFlags, 0x200);
+    return buffer;
+  };
+
+  it("hits allies with an area projectile affecting everyone (Fireball)", () => {
+    expect(areaHitsAllies(pro(3, 0))).toBe(true);
+  });
+
+  it("spares allies with an area projectile affecting only enemies (Horror)", () => {
+    expect(areaHitsAllies(pro(3, 0x50))).toBe(false);
+  });
+
+  it("says nothing of a projectile without an area", () => {
+    expect(areaHitsAllies(pro(2, 0))).toBeUndefined();
   });
 });

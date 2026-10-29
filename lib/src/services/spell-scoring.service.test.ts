@@ -25,6 +25,7 @@ function profile(p: Partial<SpellProfile>): SpellProfile {
     castingTime: 5,
     keywords: [],
     tier: "decent",
+    hitsAllies: false,
     spellCount: 1,
     ...p,
   };
@@ -50,9 +51,11 @@ describe("score", () => {
     );
   });
 
-  it("weighs Minor Globe and Fireball about the same for a level 7 wizard", () => {
+  it("puts Minor Globe first for a level 7 wizard, Fireball close behind to surprise now and then", () => {
     const globe = score(wizard("MinorGlobeOfInvulnerability"), best(4));
-    expect(Math.abs(globe - score(wizard("Fireball"), best(4)))).toBeLessThanOrEqual(2);
+    const fireball = score(wizard("Fireball"), best(4));
+    expect(globe).toBeGreaterThan(fireball);
+    expect(globe - fireball).toBeLessThanOrEqual(3);
   });
 
   it("puts a level 4 summon above level 1-2 offensive spells, below Fireball, for a level 7 wizard", () => {
@@ -75,6 +78,12 @@ describe("score", () => {
     const abi = score(wizard("AbiDalzimHorridWilting"), best(8));
     expect(Math.abs(score(vampireDomination, best(8)) - abi)).toBeLessThanOrEqual(2);
     expect(abi - score(wizard("Domination"), best(8))).toBeGreaterThan(4);
+  });
+
+  it("values an area sparing allies above one hitting them (Horror, Sleep-like)", () => {
+    const spares = score(profile({ level: 5, keywords: ["area"] }), best(5));
+    const hits = score(profile({ level: 5, keywords: ["area"], hitsAllies: true }), best(5));
+    expect(spares - hits).toBe(1);
   });
 
   it("adds 3 for a great spell and 1.5 for a good one", () => {

@@ -64,7 +64,8 @@ class SpellScoringService {
   /** An area spell hits more, a save the target can't make cheaply spares it less, a charm turns it. */
   private attack(profile: SpellProfile): number {
     const o = SPELL_SCORING.offensive;
-    let score = profile.keywords.includes("area") ? o.area : 0;
+    const area = profile.hitsAllies ? o.areaHittingAllies : o.area;
+    let score = profile.keywords.includes("area") ? area : 0;
     if (profile.saves?.length) {
       const bonus = Math.min(...profile.saves.map((save) => save.bonus ?? 0));
       score += o.saveNegates + bonus * o.saveBonusFactor;
