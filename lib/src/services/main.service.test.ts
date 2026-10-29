@@ -12,6 +12,7 @@ import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { Creature } from "../model/creature/creature";
+import { SpellReference } from "../model/spell-item/spell-reference";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
 import { State } from "../state";
@@ -81,6 +82,48 @@ describe("checkSpellCombos", () => {
   });
 });
 
+describe("checkSpellPriorities", () => {
+  beforeEach(() => {
+    vi.spyOn(logService, "section").mockImplementation(() => {});
+  });
+
+  it("accepts spells that all have a priority", () => {
+    const file = SPELL_PRIORITY_ORDER[0];
+    expect(() => mainService.checkSpellPriorities([{ id: "TestOrdered", file }])).not.toThrow();
+  });
+
+  it("throws listing every spell file missing from SPELL_PRIORITY_ORDER, variants included", () => {
+    const spells = [
+      { id: "TestUnordered", file: "TESTNO1" },
+      { id: "TestVariant", file: SPELL_PRIORITY_ORDER[0], variants: [{ file: "TESTNO2" }] },
+    ] as SpellReference[];
+    expect(() => mainService.checkSpellPriorities(spells)).toThrow(
+      "Spells missing from SPELL_PRIORITY_ORDER (2):\n  - TESTNO1 (TestUnordered)\n  - TESTNO2 (TestVariant)",
+    );
+  });
+});
+
+describe("checkSpellProfiles", () => {
+  beforeEach(() => {
+    vi.spyOn(logService, "section").mockImplementation(() => {});
+  });
+
+  it("accepts the database", () => {
+    expect(() => mainService.checkSpellProfiles()).not.toThrow();
+  });
+
+  it("lists every spell missing a role or casting time, one per line, naming what's missing", () => {
+    const spells: SpellReference[] = [
+      { id: "TestComplete", file: "TESTOK", role: "damage", castingTime: 1 },
+      { id: "TestNoRole", file: "TESTNO1", castingTime: 3 },
+      { file: "TESTNO2" },
+    ];
+    expect(() => mainService.checkSpellProfiles(spells)).toThrow(
+      "Spells missing role/castingTime (2):\n  - TESTNO1 (TestNoRole): role\n  - TESTNO2: role, castingTime",
+    );
+  });
+});
+
 describe("generateCreature", () => {
   it("skips baf/weidu generation for an invalid creature", () => {
     vi.spyOn(logService, "warn").mockImplementation(() => {});
@@ -136,6 +179,8 @@ describe("generateAll", () => {
     vi.spyOn(stateService, "init").mockResolvedValue(undefined);
     vi.spyOn(mainService, "checkPresets").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpells").mockImplementation(() => {});
+    vi.spyOn(mainService, "checkSpellPriorities").mockImplementation(() => {});
+    vi.spyOn(mainService, "checkSpellProfiles").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpellbooks").mockImplementation(() => {});
     vi.spyOn(mainService, "generateCreatures").mockImplementation(() => {});
     vi.spyOn(mainService, "generateCommonCode").mockImplementation(() => {});

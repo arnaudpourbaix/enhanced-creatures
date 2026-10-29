@@ -210,6 +210,51 @@ class MainService {
     }
   }
 
+  /**
+   * Every spell file of the database (variants included) needs a priority, so creatures never
+   * have to deal with an unordered memorized spell. All missing files are reported at once.
+   */
+  checkSpellPriorities(spells: SpellReference[] = getAllSpells(SPELLS)) {
+    logService.section("Checking spell priorities");
+    const missing = [
+      ...new Set(
+        spells.flatMap((s) =>
+          spellFiles(s)
+            .filter((file) => !SPELL_PRIORITY_ORDER.includes(file))
+            .map((file) => (s.id === undefined ? file : `${file} (${s.id})`)),
+        ),
+      ),
+    ];
+    if (missing.length > 0) {
+      throw new Error(
+        `Spells missing from SPELL_PRIORITY_ORDER (${missing.length}):\n` +
+          missing.map((m) => "  - " + m).join("\n"),
+      );
+    }
+  }
+
+  /**
+   * Every spell of the database needs the data the cast order rules use: a role and a casting time
+   * (see scripts/extract-spell-profile.ts). All incomplete spells are reported at once.
+   */
+  checkSpellProfiles(spells: SpellReference[] = getAllSpells(SPELLS)) {
+    logService.section("Checking spell profiles");
+    const incomplete = spells.flatMap((spell) => {
+      const missing = [
+        ...(spell.role === undefined ? ["role"] : []),
+        ...(spell.castingTime === undefined ? ["castingTime"] : []),
+      ];
+      if (!missing.length) return [];
+      const name = spell.id === undefined ? spell.file : `${spell.file} (${spell.id})`;
+      return [`  - ${name}: ${missing.join(", ")}`];
+    });
+    if (incomplete.length > 0) {
+      throw new Error(
+        `Spells missing role/castingTime (${incomplete.length}):\n${incomplete.join("\n")}`,
+      );
+    }
+  }
+
   checkSpells() {
     logService.section("Checking spells");
     // Two entries may share a file only when their requiresMod/obsoletedBy availability ranges
@@ -282,6 +327,8 @@ class MainService {
     this.checkPresets();
     this.checkSpellCombos();
     this.checkSpells();
+    this.checkSpellPriorities();
+    this.checkSpellProfiles();
     this.checkSpellbooks();
     this.generateCreatures();
     this.generateCommonCode();

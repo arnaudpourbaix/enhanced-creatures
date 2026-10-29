@@ -1,5 +1,6 @@
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellDurationClass, SpellRole } from "../../../config/spells/spell-role";
 import { isAvailableInMod } from "../../../config/mods";
 import { SpellIdentifier } from "../ids/spell";
 import { StateIdentifier } from "../ids/state";
@@ -94,10 +95,22 @@ export interface SpellReference {
   /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
   name?: StringReference;
   level?: number;
-  duration?:
-    | "long" // several hours
-    | "mid" // several turns
-    | "short"; // several rounds to one turn
+  /**
+   * Drives precasting (see StatementBuilderService.precastSpells), so it is only set on
+   * protection, buff and summon spells - also used by the cast order rules.
+   */
+  duration?: SpellDurationClass;
+  /**
+   * Never precast, however long it lasts: Invisibility would break too much, creatures starting
+   * invisible wear a ring for it instead.
+   */
+  noPrecast?: boolean;
+  /** SPL casting speed: lower is faster, and less likely to be interrupted */
+  castingTime?: number;
+  /** See SpellRole - auto-classified by scripts/extract-spell-profile.ts, reviewed by hand */
+  role?: SpellRole;
+  /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
+  secondaryRoles?: SpellRole[];
   keywords?: SpellKeyword[];
   /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
   saves?: SpellSaves;

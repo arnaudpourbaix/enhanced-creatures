@@ -23,6 +23,8 @@ const effect = (fx: Partial<RawEffect>): RawEffect => ({
   saveType: 0,
   saveBonus: 0,
   special: 0,
+  timingMode: 0,
+  duration: 0,
   ...fx,
 });
 
@@ -179,6 +181,8 @@ describe("readSplEffects", () => {
     spl.writeUInt32LE(BREATH, fx(2) + 0x24);
     spl.writeInt32LE(-4, fx(2) + 0x28);
     spl.writeUInt32LE(1 << 8, fx(2) + 0x2c);
+    spl.writeUInt8(1, fx(2) + 0x0c);
+    spl.writeUInt32LE(60, fx(2) + 0x0e);
     const effects = readSplEffects(spl);
     expect(effects).toHaveLength(3);
     expect(effects[2]).toEqual({
@@ -189,6 +193,8 @@ describe("readSplEffects", () => {
       saveType: BREATH,
       saveBonus: -4,
       special: 1 << 8,
+      timingMode: 1,
+      duration: 60,
     });
   });
 
@@ -206,6 +212,8 @@ describe("readEffEffect", () => {
     eff.write("SPWI003", 0x30, "latin1");
     eff.writeUInt32LE(SPELL, 0x40);
     eff.writeInt32LE(-2, 0x44);
+    eff.writeUInt32LE(3, 0x24);
+    eff.writeUInt32LE(18, 0x28);
     expect(readEffEffect(eff)).toEqual({
       opcode: 24,
       target: 2,
@@ -214,6 +222,8 @@ describe("readEffEffect", () => {
       saveType: SPELL,
       saveBonus: -2,
       special: 0,
+      timingMode: 3,
+      duration: 18,
     });
   });
 });

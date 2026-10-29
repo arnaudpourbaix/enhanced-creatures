@@ -1101,7 +1101,7 @@ class StatementBuilderService {
   ): void {
     let precast = 0;
     for (const spell of getAllSpells(SPELLS)) {
-      const durationMatch = "duration" in spell && spell.duration === duration;
+      const durationMatch = "duration" in spell && spell.duration === duration && !spell.noPrecast;
       const hasSpell =
         creature.data.spells.memorized.some((m) => m.file === spell.file) ||
         creature.adjustments.some((a) =>

@@ -7,10 +7,13 @@ import {
   type SpellSaves,
 } from "../../lib/src/model/spell-item/spell-reference";
 import { SaveTypeEnum } from "../../lib/src/model/spell-item/effect.enums";
+import { addFieldToDatabase } from "./spell-database-writer";
 
 const SPL_TYPE = 0x3ee;
 const EFF_TYPE = 0x3f8;
 const SELF_TARGET = 1;
+/** The target picked when casting: for a spell cast on the caster, the caster */
+const PRESET_TARGET = 2;
 const DAMAGE = 12;
 const SAVE_FOR_HALF = 1 << 8;
 const FAIL_FOR_HALF = 1 << 9;
@@ -43,6 +46,10 @@ export interface RawEffect {
   /** Added to the target's roll (negative: a penalty) */
   saveBonus: number;
   special: number;
+  /** 0: lasts `duration`, 1: permanent, 3: delayed by `duration`... */
+  timingMode: number;
+  /** In seconds */
+  duration: number;
 }
 
 /** Reads game resources the way the engine does: override first, then the BIFs of chitin.key. */
@@ -129,14 +136,19 @@ export class ResourceReader {
 const resref = (buffer: Buffer, offset: number) =>
   cString(buffer.toString("latin1", offset, offset + 8)).toUpperCase();
 
-/** The effects of every extended header of an SPL V1 (casting effects, on the caster, aren't). */
-export function readSplEffects(spl: Buffer): RawEffect[] {
+/**
+ * The effects of every extended header of an SPL V1, or only of the one a caster of `casterLevel`
+ * casts (casting effects, on the caster, aren't).
+ */
+export function readSplEffects(spl: Buffer, casterLevel?: number): RawEffect[] {
   if (spl.toString("latin1", 0, 8) !== "SPL V1  ") throw new Error("Not a SPL V1 file");
   const headerOffset = spl.readUInt32LE(0x64);
   const headerCount = spl.readUInt16LE(0x68);
   const effectOffset = spl.readUInt32LE(0x6a);
   const effects: RawEffect[] = [];
+  const picked = casterLevel === undefined ? undefined : pickHeader(spl, casterLevel);
   for (let h = 0; h < headerCount; h++) {
+    if (picked !== undefined && h !== picked) continue;
     const header = headerOffset + h * 0x28;
     const count = spl.readUInt16LE(header + 0x1e);
     const first = spl.readUInt16LE(header + 0x20);
@@ -150,6 +162,8 @@ export function readSplEffects(spl: Buffer): RawEffect[] {
         saveType: spl.readUInt32LE(fx + 0x24),
         saveBonus: spl.readInt32LE(fx + 0x28),
         special: spl.readUInt32LE(fx + 0x2c),
+        timingMode: spl.readUInt8(fx + 0x0c),
+        duration: spl.readUInt32LE(fx + 0x0e),
       });
     }
   }
@@ -167,6 +181,8 @@ export function readEffEffect(eff: Buffer): RawEffect {
     saveType: eff.readUInt32LE(0x40),
     saveBonus: eff.readInt32LE(0x44),
     special: eff.readUInt32LE(0x48),
+    timingMode: eff.readUInt32LE(0x24),
+    duration: eff.readUInt32LE(0x28),
   };
 }
 
@@ -187,11 +203,28 @@ export interface EffectSource {
   eff(name: string): RawEffect | undefined;
 }
 
-export function readerSource(reader: ResourceReader): EffectSource {
+/** The header a caster of `casterLevel` casts: the last one whose minimum level it reaches. */
+function pickHeader(spl: Buffer, casterLevel: number): number {
+  const headerOffset = spl.readUInt32LE(0x64);
+  let picked = 0;
+  for (let h = 0; h < spl.readUInt16LE(0x68); h++) {
+    if (spl.readUInt16LE(headerOffset + h * 0x28 + 0x10) <= casterLevel) picked = h;
+  }
+  return picked;
+}
+
+/**
+ * Reads spells and EFF files from `reader`: every header of a spell, or only the one a caster of
+ * `casterLevel` casts.
+ */
+export function readerSource(
+  reader: Pick<ResourceReader, "read">,
+  casterLevel?: number,
+): EffectSource {
   return {
     spl: (name) => {
       const spl = reader.read(name, SPL_TYPE, "SPL");
-      return spl && readSplEffects(spl);
+      return spl && readSplEffects(spl, casterLevel);
     },
     eff: (name) => {
       const eff = reader.read(name, EFF_TYPE, "EFF");
@@ -201,43 +234,68 @@ export function readerSource(reader: ResourceReader): EffectSource {
 }
 
 /**
- * The effects that decide whether the spell's target escapes it (see negatingSaves). An effect
- * relaying to another spell or an EFF file without a save of its own is replaced by what it
- * relays (its payload only lands if the target fails the relay's own save, so a relay with a save
- * is that save). Relayed spells are followed once each, so a cycle can't loop. An EFF relay
- * filtered by GENDER.IDS only affects summoned or illusory creatures (e.g. Dispel Magic slaying
- * illusions), so it says nothing about the spell's target in general: it's left out.
+ * `effects` with each relay to another spell or an EFF file without a save of its own replaced by
+ * what it relays (its payload only lands if the target fails the relay's own save, so a relay
+ * with a save is kept as is). With `all`, every relay is followed, saved or cast on the caster:
+ * what the spell does, rather than what decides whether its target escapes it. Relayed spells are
+ * followed once each, so a cycle can't loop. An EFF relay filtered by GENDER.IDS only affects
+ * summoned or illusory creatures (e.g. Dispel Magic slaying illusions), so it says nothing about
+ * the spell's target in general: it's left out.
  */
+export function followRelays(
+  source: EffectSource,
+  effects: RawEffect[],
+  seen = new Set<string>(),
+  all = false,
+): RawEffect[] {
+  return effects.flatMap((effect): RawEffect[] => {
+    if (effect.opcode === EFF_RELAY && effect.parameter2 === GENDER_FILTER) return [];
+    const kept = !all && (saveTypes(effect.saveType).length > 0 || effect.target === SELF_TARGET);
+    const relayed = kept ? undefined : relayedEffects(source, effect, seen);
+    return relayed ? followRelays(source, relayed, seen, all) : [effect];
+  });
+}
+
+/** What `effect` relays to, when it's a relay not followed yet (marked as followed). */
+function relayedEffects(
+  source: EffectSource,
+  effect: RawEffect,
+  seen: Set<string>,
+): RawEffect[] | undefined {
+  if (!effect.resource) return undefined;
+  // keyed by type: an EFF file is often named after the spell relaying to it
+  if (SPELL_RELAYS.has(effect.opcode) && !seen.has(effect.resource)) {
+    seen.add(effect.resource);
+    const relayed = source.spl(effect.resource);
+    // cast on the caster, the spell's preset target is the caster
+    if (effect.target !== SELF_TARGET) return relayed;
+    return relayed?.map((fx) =>
+      fx.target === PRESET_TARGET ? { ...fx, target: SELF_TARGET } : fx,
+    );
+  }
+  if (effect.opcode === EFF_RELAY && !seen.has(`EFF:${effect.resource}`)) {
+    seen.add(`EFF:${effect.resource}`);
+    const relayed = source.eff(effect.resource);
+    // the engine applies an EFF file to the relay's own target, for the relay's own duration
+    const { target, timingMode, duration } = effect;
+    return relayed && [{ ...relayed, target, timingMode, duration }];
+  }
+  return undefined;
+}
+
+/** The effects that decide whether the spell's target escapes it (see negatingSaves). */
 export function saveEffects(
   source: EffectSource,
   effects: RawEffect[],
   seen = new Set<string>(),
 ): SaveEffect[] {
-  return effects.flatMap((effect): SaveEffect[] => {
-    if (effect.opcode === EFF_RELAY && effect.parameter2 === GENDER_FILTER) return [];
-    const types = saveTypes(effect.saveType);
-    const self = effect.target === SELF_TARGET;
-    if (!types.length && !self && effect.resource && !seen.has(effect.resource)) {
-      if (SPELL_RELAYS.has(effect.opcode)) {
-        seen.add(effect.resource);
-        const relayed = source.spl(effect.resource);
-        if (relayed) return saveEffects(source, relayed, seen);
-      } else if (effect.opcode === EFF_RELAY) {
-        seen.add(effect.resource);
-        const relayed = source.eff(effect.resource);
-        if (relayed) return saveEffects(source, [relayed], seen);
-      }
-    }
-    return [
-      {
-        opcode: effect.opcode,
-        saveTypes: types,
-        saveBonus: effect.saveBonus,
-        halved: effect.opcode === DAMAGE && !!(effect.special & (SAVE_FOR_HALF | FAIL_FOR_HALF)),
-        self,
-      },
-    ];
-  });
+  return followRelays(source, effects, seen).map((effect) => ({
+    opcode: effect.opcode,
+    saveTypes: saveTypes(effect.saveType),
+    saveBonus: effect.saveBonus,
+    halved: effect.opcode === DAMAGE && !!(effect.special & (SAVE_FOR_HALF | FAIL_FOR_HALF)),
+    self: effect.target === SELF_TARGET,
+  }));
 }
 
 /** The saving throws negating a spell of the game, or undefined when the game doesn't have it. */
@@ -274,24 +332,8 @@ export function savesSource(saves: SpellSaves): string {
   return `[${entries.join(", ")}]`;
 }
 
-/**
- * Adds a `saves` field to the spell-database.ts entries of `saves` (by the entry's own `file`),
- * right after their `level`, or last. An entry that already declares its saves is left alone, so
- * hand-made decisions (e.g. Dispel Magic's none) are kept. Throws on a file no entry, or several
- * entries, own: the field would be added blindly.
- */
+/** Adds `saves` to the database entries that don't declare any (see addFieldToDatabase). */
 export function addSavesToDatabase(database: string, saves: Map<string, SpellSaves>): string {
-  const lines = database.split("\n");
-  for (const [file, spellSaves] of saves) {
-    const fileLines = lines.flatMap((line, i) => (line === `    file: "${file}",` ? [i] : []));
-    if (fileLines.length !== 1) throw new Error(`${file}: ${fileLines.length} entries own it`);
-    let start = fileLines[0];
-    while (start > 0 && !/^ {2}\w+: \{$/.test(lines[start])) start--;
-    const end = lines.findIndex((line, i) => i > start && line === "  },");
-    const entry = lines.slice(start, end);
-    if (entry.some((line) => line.startsWith("    saves:"))) continue;
-    const level = entry.findIndex((line) => line.startsWith("    level:"));
-    lines.splice(level < 0 ? end : start + level + 1, 0, `    saves: ${savesSource(spellSaves)},`);
-  }
-  return lines.join("\n");
+  const values = [...saves].map(([file, value]) => ({ file, value: savesSource(value) }));
+  return addFieldToDatabase(database, "saves", values);
 }

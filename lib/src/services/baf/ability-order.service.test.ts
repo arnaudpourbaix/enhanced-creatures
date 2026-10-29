@@ -229,19 +229,15 @@ describe("resolve", () => {
     ]);
   });
 
-  it("warns and casts last a memorized spell missing from SPELL_PRIORITY_ORDER, rather than dropping it", () => {
+  it("throws for a memorized spell outside the spell database", () => {
     SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_FIRST);
     try {
       const creature = fakeCreature({
         memorized: [{ file: NOT_IN_PRIORITY_ORDER }, { file: TEST_PRIORITY_FIRST }],
       });
-      const warnSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
-      expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: TEST_PRIORITY_FIRST },
-        { preset: NOT_IN_PRIORITY_ORDER },
-      ]);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining(NOT_IN_PRIORITY_ORDER));
-      warnSpy.mockRestore();
+      expect(() => abilityOrderService.resolve(creature)).toThrow(
+        `Memorized spell '${NOT_IN_PRIORITY_ORDER}' is not in the spell database`,
+      );
     } finally {
       SPELL_PRIORITY_ORDER.pop();
     }

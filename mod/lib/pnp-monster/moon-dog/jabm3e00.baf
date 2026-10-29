@@ -34,6 +34,25 @@ THEN
 		Rest()
 END
 
+// Precast NonDetection
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	HaveSpellRES("SPWI310")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("SPWI310",Myself)
+		RemoveSpellRES("SPWI310")
+		Continue()
+END
+
+IF
+	Global("JA_PRECAST_LONG","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("JA_PRECAST_LONG","LOCALS",1)
+END
+
 // Turn hostile if attacked
 IF
 	Allegiance(Myself,NEUTRAL)

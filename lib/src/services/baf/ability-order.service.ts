@@ -35,21 +35,9 @@ class AbilityOrderService {
       (file) => !explicitFiles.has(file) && !spellComboService.isSelfContingencyFile(file),
     );
 
-    // A memorized spell missing from SPELL_PRIORITY_ORDER isn't an error - it just casts
-    // last, after everything explicitly ordered (Infinity sorts after every real index).
-    // Still worth a warning: silently deprioritizing something is easy to miss otherwise.
     // Enemy contingencies come first: they only fire once their condition happens.
     const ordered: OrderedAbility[] = autoFiles
-      .map((file) => {
-        if (spellComboService.isEnemyContingencyFile(file)) return { identity: file, index: -1 };
-        const index = SPELL_PRIORITY_ORDER.indexOf(file);
-        if (index === -1) {
-          logService.warn(
-            `${translationService.from(creature.name)}: spell '${file}' is memorized but is missing from SPELL_PRIORITY_ORDER - casting last by default. Add it there to give it a real priority.`,
-          );
-        }
-        return { identity: file, index: index === -1 ? Infinity : index };
-      })
+      .map((file) => ({ identity: file, index: this.memorizedPriority(file) }))
       .sort((a, b) => a.index - b.index)
       .map(({ identity }): OrderedAbility => ({ identity, ability: { preset: identity } }));
 
@@ -87,6 +75,17 @@ class AbilityOrderService {
       .map((ability) => ({ ability, index: this.priorityIndex(ability) }))
       .sort((a, b) => a.index - b.index)
       .map(({ ability }) => ability);
+  }
+
+  // Database spells are checked upfront (MainService.checkSpellPriorities), so a miss here is a
+  // memorized spell that isn't in the database at all.
+  private memorizedPriority(file: string): number {
+    if (spellComboService.isEnemyContingencyFile(file)) return -1;
+    const index = SPELL_PRIORITY_ORDER.indexOf(file);
+    if (index === -1) {
+      throw new Error(`Memorized spell '${file}' is not in the spell database`);
+    }
+    return index;
   }
 
   private priorityIndex(ability: RawCreatureAbility): number {

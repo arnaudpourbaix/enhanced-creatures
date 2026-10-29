@@ -14,14 +14,17 @@ Magic's none) is a decision, kept as is.
 | Spell | File | Vanilla / modded, per file | Extracted | Database |
 |---|---|---|---|---|
 
-## All entries (259)
+## All entries (275)
 
 | Spell | File | Vanilla / modded, per file | Extracted | Database |
 |---|---|---|---|---|
 | AbiDalzimHorridWilting | SPWI812 | - / - | - | (none) |
+| AbsoluteImmunity | SPWI907 | - / - | - | (none) |
 | AcidFog | SPWI614 | - / - | - | (none) |
 | AcidStorm | SPWI724 | (missing) / - | - | (none) |
 | AgannazarScorcher | SPWI217 | - / - | - | (none) |
+| AnimateSkeletonWarrior | SPWI623 | - / - | - | (none) |
+| BatteringRam | SPWI207 | - / - | - | (none) |
 | BeltynsBurningBlood | SPWI427 | (missing) / - | - | (none) |
 | BigbyIcyGrasp | SPWI818 | - / - | - | (none) |
 | Blindness | SPWI106 | Spell / - | - | (none) |
@@ -30,6 +33,7 @@ Magic's none) is a decision, kept as is.
 | BurningHands | SPWI103 | - / - | - | (none) |
 | ChainLightning | SPWI615 | - / - | - | (none) |
 | CharmPerson | SPWI104 | Spell +3 / Spell | Spell | Spell |
+| Chaos | SPWI711 | Spell / Spell -4 | Spell -4 | Spell -4 |
 | ChillTouch | SPWI117 | - / - | - | (none) |
 | ChromaticOrb | SPWI118 | - / - | - | (none) |
 | Cloudkill | SPWI502 | - / - | - | (none) |
@@ -49,11 +53,13 @@ Magic's none) is a decision, kept as is.
 | DetectInvisibility | SPWI203 | - / - | - | (none) |
 | DireCharm | SPWI316 | Spell / Spell | Spell | Spell |
 | DimensionDoor | SPWI402 | SPWI402: - / -<br>SPWI127: (missing) / - | - | (none) |
+| Disintegrate | SPWI616 | Spell / - | - | (none) |
 | DispelMagic | SPWI326 | - / - | - | - |
 | Domination | SPWI506 | Spell -2 / Spell -2 | Spell -2 | Spell -2 |
 | DragonsBreath | SPWI922 | - / - | - | (none) |
 | Emotion | SPWI411 | Spell / Spell | Spell | Spell |
 | Feeblemind | SPWI509 | Spell -2 / Spell -4 | Spell -4 | Spell -4 |
+| FingerOfDeath | SPWI713 | - / - | - | (none) |
 | Fireburst | SPWI523 | - / - | - | (none) |
 | Fireball | SPWI304 | - / - | - | (none) |
 | FireShield | SPWI418 | - / - | - | (none) |
@@ -63,15 +69,18 @@ Magic's none) is a decision, kept as is.
 | GlobeOfInvulnerability | SPWI602 | - / - | - | (none) |
 | Grease | SPWI101 | Spell +2 / Breath +2 | Spell +2 + Breath +2 | Spell +2 + Breath +2 |
 | GreaterMalison | SPWI412 | - / - | - | (none) |
+| GreaterSpellDeflection | SPWI701 | - / - | - | (none) |
 | Haste | SPWI305 | - / - | - | (none) |
 | HoldMonster | SPWI507 | Spell -2 / Spell -2 | Spell -2 | Spell -2 |
 | HoldPerson | SPWI306 | Spell -1 / Spell -2 | Spell -2 | Spell -2 |
 | Horror | SPWI205 | Spell / Spell | Spell | Spell |
 | IceLance | SPWI323 | (missing) / - | - | (none) |
 | IceStorm | SPWI404 | - / - | - | (none) |
+| ImprovedHaste | SPWI613 | - / - | - | (none) |
 | ImprovedInvisibility | SPWI405 | - / - | - | (none) |
 | IncendiaryCloud | SPWI810 | - / - | - | (none) |
 | Invisibility | SPWI206 | - / - | - | (none) |
+| KhelbensWardingWhip | SPWI705 | - / - | - | (none) |
 | LarlochEnergyDrain | SPWI914 | - / - | - | (none) |
 | LarlochMinorDrain | SPWI119 | - / - | - | (none) |
 | LightningBolt | SPWI308 | - / - | - | (none) |
@@ -83,6 +92,7 @@ Magic's none) is a decision, kept as is.
 | MinorLightningBolt | SPWI230 | (missing) / - | - | (none) |
 | MinorSpellDeflection | SPWI318 | - / - | - | (none) |
 | MirrorImages | SPWI212 | - / - | - | (none) |
+| MomentOfPrescience | SPWI808 | - / - | - | (none) |
 | MonsterSummoning1 | SPWI107 | - / - | - | (none) |
 | MonsterSummoning2 | SPWI226 | (missing) / - | - | (none) |
 | MonsterSummoning3 | SPWI309 | - / - | - | (none) |
@@ -102,7 +112,10 @@ Magic's none) is a decision, kept as is.
 | PowerWordBlind | SPWI815 | - / - | - | (none) |
 | PowerWordKill | SPWI912 | - / Spell | - | (none) |
 | PowerWordStun | SPWI715 | - / - | - | (none) |
+| PrismaticMantle | SPWI708 | - / - | - | (none) |
 | PrismaticSpray | SPWI714 | - / - | - | (none) |
+| ProtectionFromEnergy | SPWI803 | - / - | - | (none) |
+| ProtectionFromTheElements | SPWI702 | - / - | - | (none) |
 | ProtectionFromMissiles | SPWI311 | - / - | - | (none) |
 | ProtectionFromMagicalWeapons | SPWI611 | - / - | - | (none) |
 | RayOfEnfeeblement | SPWI221 | Spell / Spell -2 | Spell -2 | Spell -2 |
@@ -129,6 +142,8 @@ Magic's none) is a decision, kept as is.
 | Spook | SPWI125 | Spell -6 / Spell -4 | Spell -6 | Spell -6 |
 | StinkingCloud | SPWI213 | ParalyzePoisonDeath +2 / ParalyzePoisonDeath | ParalyzePoisonDeath | ParalyzePoisonDeath |
 | Stoneskin | SPWI408 | - / - | - | (none) |
+| SummonDeathKnight | SPWI707 | - / - | - | (none) |
+| SummonFiend | SPWI807 | - / - | - | (none) |
 | SummonShadow | SPWI501 | - / - | - | (none) |
 | SymbolDeath | SPWI817 | ParalyzePoisonDeath / ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 |
 | SymbolFear | SPWI899 | Spell -4 / Spell -6 | Spell -6 | Spell -6 |
@@ -274,6 +289,7 @@ Magic's none) is a decision, kept as is.
 | MoonDogSight | SPIN696 | - / - | - | (none) |
 | MoonDogHowl | SPIN891 | Spell -2 / Spell -2 | Spell -2 | Spell -2 |
 | ShapeshiftWolf | SPIN110 | - / - | - | (none) |
+| VampireBatFormChange | SPIN963 | - / - | - | (none) |
 | VampireGasFormChange | SPIN964 | - / - | - | (none) |
 | SpiderSingleTargetWeb | BDSPIDGA | (missing) / (missing) | - | (none) |
 | VortexWeb | SPIN575 | Spell -4 / Spell -4 | Spell -4 | Spell -4 |

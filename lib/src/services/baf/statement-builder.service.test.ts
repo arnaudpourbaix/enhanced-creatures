@@ -1048,6 +1048,14 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     );
   });
 
+  it("never precasts a noPrecast spell, however long it lasts (Invisibility)", () => {
+    expect(SPELLS.Wizard.Invisibility.duration).toBe("long");
+    const statements: Statements = [];
+    const creature = fakeCreature({ data: { spells: { memorized: [{ file: "SPWI206" }] } } });
+    service.precastLongDurationSpells({ statements, creature, options: options() });
+    expect(statements).toEqual([]);
+  });
+
   it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
     expect(GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells).toBe(false);
     const statements: Statements = [];
