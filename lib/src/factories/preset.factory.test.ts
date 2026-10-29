@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { MOD_LAYER_ORDER } from "../../config/mods";
 import { SPELLS } from "../../config/spells/spell-database";
@@ -7,6 +7,10 @@ import { SpellCombo } from "../model/spell-item/spell-combo";
 import { mergeSaves, SpellReference } from "../model/spell-item/spell-reference";
 import spellComboService from "../services/spell-combo.service";
 import presetFactory from "./preset.factory";
+import logService from "../services/log.service";
+import { RawCreatureAbility } from "../model/creature/ability";
+import { AbilityPreset } from "../model/misc";
+import { Triggers } from "../model/script/triggers";
 
 const DEFAULT_ABILITY_NAME = "ability.unknown";
 
@@ -148,6 +152,126 @@ describe("createCombos", () => {
       spells: [w.Horror],
     });
     expect(ability.triggers).toEqual([{ name: "HPPercentLT", params: [ScriptTarget.myself, 25] }]);
+  });
+
+  it.each([
+    ["hit", { name: "HitBy", params: ["[ANYONE]", "CRUSHING"] }],
+    ["seeEnemy", { name: "See", params: ["NearestEnemyOf(Myself)"] }],
+    ["hp50", { name: "HPPercentLT", params: [ScriptTarget.myself, 50] }],
+    ["hp25", { name: "HPPercentLT", params: [ScriptTarget.myself, 25] }],
+    ["hp10", { name: "HPPercentLT", params: [ScriptTarget.myself, 10] }],
+    ["helpless", { name: "StateCheck", params: [ScriptTarget.myself, "STATE_HELPLESS"] }],
+    ["poisoned", { name: "StateCheck", params: [ScriptTarget.myself, "STATE_POISONED"] }],
+  ] as const)("fires an enemy contingency on %s", (condition, trigger) => {
+    const ability = comboPreset({
+      key: `TestCondition_${condition}`,
+      kind: "contingency",
+      condition,
+      spells: [w.Horror],
+    });
+    expect(ability.triggers?.[0]).toMatchObject(trigger);
+  });
+
+  describe("contained spells' checks", () => {
+    const enemyTargets = [{ name: "NearestEnemyOf" }];
+    const fake = (file: string): SpellReference => ({ file, level: 1, name: "ability.unknown" });
+    const a = fake("TESTCK1");
+    const b = fake("TESTCK2");
+    const presetsWith = (
+      abilityA: Partial<RawCreatureAbility>,
+      abilityB: Partial<RawCreatureAbility>,
+    ): AbilityPreset[] => [
+      ...ABILITY_PRESETS,
+      { preset: a.file, ability: { targets: enemyTargets, triggers: [], ...abilityA } },
+      { preset: b.file, ability: { targets: enemyTargets, triggers: [], ...abilityB } },
+    ];
+    const build = (key: string, presets: AbilityPreset[], self = false) => {
+      spellComboService.usePresets(presets);
+      const combo: SpellCombo = { key, kind: "minorSequencer", spells: [a, b] };
+      if (self) vi.spyOn(spellComboService, "isSelf").mockReturnValue(true);
+      const [preset] = presetFactory.createCombos([combo], presets);
+      vi.restoreAllMocks();
+      return preset.ability;
+    };
+
+    it.each([false, true])("unions their spell checks (self: %s)", (self) => {
+      const ability = build(
+        `TestChecks${String(self)}`,
+        presetsWith(
+          {
+            spell: {
+              includeStateChecks: ["STATE_BLESS"],
+              excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED"],
+              excludeSpellStates: ["DEAF"],
+            },
+          },
+          {
+            spell: {
+              excludeStateChecks: ["STATE_SLOWED", "STATE_SILENCED"],
+              excludeStatsChecks: ["STONESKINS"],
+            },
+          },
+        ),
+        self,
+      );
+      expect(ability.spell).toMatchObject({
+        includeStateChecks: ["STATE_BLESS"],
+        excludeStateChecks: ["STATE_BLIND", "STATE_SLOWED", "STATE_SILENCED"],
+        excludeSpellStates: ["DEAF"],
+        excludeStatsChecks: ["STONESKINS"],
+      });
+    });
+
+    it("appends their preset triggers once, after the condition, without memorization ones", () => {
+      const hp = { name: "HPPercentLT", params: [ScriptTarget.myself, 75] } as Triggers.Trigger;
+      const silenced: Triggers.Trigger = {
+        name: "StateCheck",
+        params: [ScriptTarget.myself, "STATE_SILENCED"],
+        negation: true,
+      };
+      const presets = presetsWith(
+        { triggers: [hp, { name: "HaveSpellRES", params: ["SPWI112"], negation: true }] },
+        {},
+      );
+      spellComboService.usePresets(presets);
+      const combo: SpellCombo = {
+        key: "TestTriggersUnion",
+        kind: "contingency",
+        condition: "hp50",
+        spells: [a],
+      };
+      const [preset] = presetFactory.createCombos([combo], presets);
+      expect(preset.ability.triggers).toEqual([
+        { name: "HPPercentLT", params: [ScriptTarget.myself, 50] },
+        hp,
+      ]);
+      const sequencer = build(
+        "TestTriggersSequencer",
+        presetsWith({ triggers: [hp] }, { triggers: [hp, silenced] }),
+      );
+      expect(sequencer.triggers).toEqual([hp, silenced]);
+    });
+
+    it.each([
+      ["a False trigger", [{ name: "False" }], []],
+      [
+        "a trigger and its negation",
+        [{ name: "StateCheck", params: [ScriptTarget.myself, "STATE_SILENCED"] }],
+        [{ name: "StateCheck", params: [ScriptTarget.myself, "STATE_SILENCED"], negation: true }],
+      ],
+    ])("leaves the preset triggers out, with a warning, when they hold %s", (_, ta, tb) => {
+      const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+      const presets = presetsWith(
+        { triggers: ta as Triggers.Trigger[] },
+        { triggers: tb as Triggers.Trigger[] },
+      );
+      spellComboService.usePresets(presets);
+      const combo: SpellCombo = { key: "TestNeverHold", kind: "minorSequencer", spells: [a, b] };
+      const [preset] = presetFactory.createCombos([combo], presets);
+      expect(preset.ability.triggers).toEqual([]);
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("TestNeverHold"));
+      warn.mockRestore();
+    });
   });
 
   it("gives no preset to a self contingency", () => {

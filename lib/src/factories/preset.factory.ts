@@ -12,6 +12,7 @@ import spellComboService, {
   isContingency,
   KIND_NAMES,
 } from "../services/spell-combo.service";
+import logService from "../services/log.service";
 import triggerFactory from "./trigger.factory";
 
 /** When the script fires an enemy contingency (see CONTINGENCY_CONDITIONS for self ones). */
@@ -25,6 +26,33 @@ const CONTINGENCY_TRIGGERS: Record<ContingencyTrigger, Triggers.Trigger> = {
   helpless: { name: "StateCheck", params: [ScriptTarget.myself, "STATE_HELPLESS"] },
   poisoned: { name: "StateCheck", params: [ScriptTarget.myself, "STATE_POISONED"] },
 };
+
+/** A combo's contained spell with its preset's ability. */
+interface ContainedAbility {
+  spell: SpellReference;
+  ability: RawCreatureAbility;
+}
+
+/** The CreatureAbilitySpell checks a combo takes from all its contained spells. */
+type ComboSpellCheck =
+  | "includeStateChecks"
+  | "excludeStateChecks"
+  | "excludeSpellStates"
+  | "excludeStatsChecks";
+
+/** Triggers about the caster's memorized spells: a combo's contained spells aren't memorized. */
+const MEMORIZATION_TRIGGERS = new Set(["HaveSpell", "HaveSpellRES", "HaveAnySpells"]);
+
+/** Whether a list of (ANDed) triggers can never all be true: a `False`, or a trigger and its negation. */
+function neverHold(triggers: Triggers.Trigger[]): boolean {
+  const keys = new Set<string>();
+  for (const trigger of triggers) {
+    if ("name" in trigger && trigger.name === "False" && !trigger.negation) return true;
+    const negation = "negation" in trigger && !!trigger.negation;
+    keys.add(`${String(negation)}|${JSON.stringify({ ...trigger, negation: undefined })}`);
+  }
+  return [...keys].some((k) => k.startsWith("true|") && keys.has(`false|${k.slice(5)}`));
+}
 
 class PresetFactory {
   /**
@@ -107,8 +135,10 @@ class PresetFactory {
           spellcasting: true,
           probability: DEFAULT_SPELL_PROBABILITY,
         };
+        const contained = this.containedAbilities(combo, spells, presets);
         if (self) ability.spell = { ...ability.spell, castOnSelf: true };
-        else this.addComboChecks(ability, combo, spells, presets);
+        else this.addComboChecks(ability, spells, contained);
+        this.addContainedChecks(ability, combo, contained);
         return { preset: file, ability };
       });
     });
@@ -123,18 +153,61 @@ class PresetFactory {
     });
   }
 
-  /** The first spell's targets and the SPL's range, with every spell's checks (see createCombos). */
-  private addComboChecks(
-    ability: RawCreatureAbility,
+  /** Each contained spell with its preset's ability. */
+  private containedAbilities(
     combo: SpellCombo,
     spells: SpellReference[],
     presets: AbilityPreset[],
-  ): void {
-    const abilities = spells.map((spell) => {
+  ): ContainedAbility[] {
+    return spells.map((spell) => {
       const preset = presets.find((p) => p.preset === spell.file);
       if (!preset) throw new Error(`Spell combo ${combo.key}: no preset for spell ${spell.file}`);
       return { spell, ability: preset.ability };
     });
+  }
+
+  /**
+   * Every contained spell's state, spell state and stat checks, and its preset's triggers (both
+   * unions, self and enemy combos alike). Left out: the memorization triggers (HaveSpell...,
+   * about the contained spells' own slots, which a combo doesn't use), and every preset trigger
+   * when together they can never hold (a `False`, or a trigger and its negation): the combo is
+   * then fired by its targets and checks alone, with a warning.
+   */
+  private addContainedChecks(
+    ability: RawCreatureAbility,
+    combo: SpellCombo,
+    contained: ContainedAbility[],
+  ): void {
+    const union = <K extends ComboSpellCheck>(key: K): void => {
+      const values = [...new Set(contained.flatMap((c) => c.ability.spell?.[key] ?? []))];
+      if (values.length) ability.spell = { ...ability.spell, [key]: values };
+    };
+    union("includeStateChecks");
+    union("excludeStateChecks");
+    union("excludeSpellStates");
+    union("excludeStatsChecks");
+
+    const triggers = new Map<string, Triggers.Trigger>();
+    for (const trigger of contained.flatMap((c) => c.ability.triggers ?? [])) {
+      if ("name" in trigger && MEMORIZATION_TRIGGERS.has(trigger.name)) continue;
+      triggers.set(JSON.stringify(trigger), structuredClone(trigger));
+    }
+    if (!triggers.size) return;
+    if (neverHold([...triggers.values()])) {
+      logService.warn(
+        `Spell combo ${combo.key}: its spells' preset triggers can never all hold, they are left out`,
+      );
+      return;
+    }
+    ability.triggers = [...(ability.triggers ?? []), ...triggers.values()];
+  }
+
+  /** The first spell's targets and the SPL's range, with every spell's checks (see createCombos). */
+  private addComboChecks(
+    ability: RawCreatureAbility,
+    spells: SpellReference[],
+    abilities: ContainedAbility[],
+  ): void {
     ability.targets = structuredClone(abilities[0].ability.targets);
     // the generated SPL's range, see SpellComboService
     ability.range = comboRange(spells);
