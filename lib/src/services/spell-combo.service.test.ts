@@ -142,6 +142,11 @@ describe("generated SPLs", () => {
     expect(setUp.headers[0].target).toBe(ItemAbilityTargetEnum.Caster);
     const conditions = effectsOf(setUp, EffectTypeEnum.CastSpellOnCondition);
     expect(conditions).toHaveLength(1);
+    // a recast replaces a still pending contingency: its first effect removes the previous ones
+    const first = setUp.headers[0].effects[0];
+    expect(first.opcode).toBe(EffectTypeEnum.RemoveEffectsByResource);
+    expect(first.resource).toBe(setUp.file);
+    expect(setUp.headers[0].effects[1]).toBe(conditions[0]);
     expect(conditions[0].parameter2).toBe("3");
     expect(effectsOf(setUp, EffectTypeEnum.CastSpell)).toHaveLength(0);
     const wrapper = splOf(conditions[0].resource ?? "");
@@ -162,6 +167,27 @@ describe("generated SPLs", () => {
     expect(castResources(spell)).toEqual(["SPWI112", "SPWI112"]);
     expect(effectsOf(spell, EffectTypeEnum.CastSpellOnCondition)).toHaveLength(0);
     expect(spellComboService.allSpells().filter((s) => s.file !== file)).toHaveLength(1);
+  });
+});
+
+describe("spell protections", () => {
+  it.each([
+    ["a sequencer", SEQUENCERS.DoubleMagicMissiles, false],
+    [
+      "a self contingency",
+      { key: "TestPower", kind: "contingency", condition: "hit", spells: [w.Stoneskin] } as SpellCombo,
+      true,
+    ],
+  ])("makes %s an innate level 1 SPL of power 0", (_, combo, self) => {
+    vi.spyOn(spellComboService, "isSelf").mockReturnValue(self);
+    spellComboService.comboFile(combo, "Vanilla");
+    for (const spell of spellComboService.allSpells()) {
+      expect(spell.level).toBe(1);
+      expect(spell.power).toBe(0);
+      for (const effect of spell.headers.flatMap((h) => h.effects)) {
+        expect(effect.power ?? 0).toBe(0);
+      }
+    }
   });
 });
 

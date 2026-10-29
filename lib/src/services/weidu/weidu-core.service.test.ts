@@ -85,4 +85,11 @@ describe("generateSpellCombos", () => {
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) expect(codes()).toContain(`CREATE SPL "${file}"`);
   });
+
+  it("writes their effects with power 0, so spell protections ignore the combo itself", () => {
+    weiduCoreService.generateSpellCombos();
+    const effects = codes().filter((c) => c.includes("opcode=146"));
+    expect(effects.length).toBeGreaterThan(0);
+    for (const effect of effects) expect(effect).not.toMatch(/power=[1-9]/);
+  });
 });

@@ -10,6 +10,7 @@ import {
   EffectTimingEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
+  RemoveEffectsByResourceTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { ContingencyTrigger, SpellCombo, SpellComboKind } from "../model/spell-item/spell-combo";
@@ -255,6 +256,13 @@ class SpellComboService {
       type: ItemAbilityTypeEnum.Magical,
       target: ItemAbilityTargetEnum.Caster,
       effects: [
+        // a recast (after rest) replaces a still pending contingency instead of adding a second one
+        {
+          opcode: EffectTypeEnum.RemoveEffectsByResource,
+          target: EffectTargetEnum.Self,
+          type: RemoveEffectsByResourceTypeEnum.Default,
+          resource: file,
+        },
         {
           opcode: EffectTypeEnum.CastSpellOnCondition,
           target: EffectTargetEnum.Self,
@@ -298,10 +306,15 @@ class SpellComboService {
     });
   }
 
+  /**
+   * An innate level 1 SPL (the level only picks the memorization slot) of power 0: spell
+   * protections (globes, Spell Turning...) don't act on the combo itself, only on the spells it
+   * casts, which keep their own levels.
+   */
   private spell(combo: SpellCombo, file: string, header: PartialSpellHeader): Spell {
     if (!this.spellBuilder) throw new Error("Spell combos: useSpellBuilder was never called");
     return this.spellBuilder.getSpell(
-      { name: KIND_NAMES[combo.kind], level: 1, headers: [header] },
+      { name: KIND_NAMES[combo.kind], level: 1, power: 0, headers: [header] },
       file,
     );
   }
