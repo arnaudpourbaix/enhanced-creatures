@@ -902,6 +902,17 @@ describe("checkSpellAbilities", () => {
     warnSpy.mockRestore();
   });
 
+  it("expects no ability for a useless spell: it is never cast", () => {
+    const creature = fakeSpellCreature({
+      memorized: [{ file: SPELLS.Priest.FindTraps.file }],
+      abilities: [],
+    });
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    creatureService.checkSpellAbilities(creature);
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+  });
+
   it("expects no ability for a self contingency: it is precast", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const file = spellComboService.comboFile(

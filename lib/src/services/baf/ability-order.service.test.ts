@@ -3,32 +3,26 @@ import { Creature } from "../../model/creature/creature";
 import { MainCreatureData } from "../../model/creature/data";
 import { AbilityEntry, CreatureAbility, RawCreatureAbility } from "../../model/creature/ability";
 import abilityOrderService from "./ability-order.service";
-import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
 import logService from "../log.service";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { SPELLS } from "../../../config/spells/spell-database";
 import presetFactory from "../../factories/preset.factory";
 import { ScriptTarget } from "../../model/constants";
 import { SpellCombo } from "../../model/spell-item/spell-combo";
+import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import spellComboService from "../spell-combo.service";
 import { SEQUENCERS } from "../../../config/spells/spell-combos";
 
-const TEST_PRIORITY_A = "test-priority-a";
-const TEST_PRIORITY_B = "test-priority-b";
-const TEST_PRIORITY_C = "test-priority-c";
-const TEST_PRIORITY_D = "test-priority-d";
-const TEST_PRIORITY_E = "test-priority-e";
-const TEST_PRIORITY_H = "test-priority-h";
-const TEST_PRIORITY_FIRST = "test-priority-first";
-const NOT_IN_PRIORITY_ORDER = "not-in-priority-order";
-const TEST_PRIORITY_LEFTOVER = "test-priority-leftover";
+const FIREBALL = SPELLS.Wizard.Fireball.file;
+const MAGIC_MISSILES = SPELLS.Wizard.MagicMissiles.file;
+const NOT_PROFILED = "not-profiled";
 const CUSTOM_ABILITY_PRESET = "custom-ability-preset";
 
 function fakeCreature(
   p: {
     memorized?: { file: string }[];
     entries?: AbilityEntry[];
-    customSpells?: { id: number; file: string; ability: RawCreatureAbility }[];
+    customSpells?: { id: number; file: string; ability: RawCreatureAbility; spell?: object }[];
     behaviorAbilities?: CreatureAbility[];
     customCodeAbilities?: CreatureAbility[][];
   } = {},
@@ -42,6 +36,7 @@ function fakeCreature(
     id: s.id,
     file: s.file,
     ability: s.ability,
+    ...s.spell,
   })) as unknown as Creature["spells"];
   creature.behavior = {
     abilities: p.behaviorAbilities ?? [],
@@ -49,6 +44,9 @@ function fakeCreature(
   } as unknown as Creature["behavior"];
   return creature;
 }
+
+/** The presets, in order: abilities also carry their planned probability */
+const presetsOf = (abilities: RawCreatureAbility[]) => abilities.map((a) => a.preset);
 
 function fakeAbility(resource: string): CreatureAbility {
   return { resource, actions: [], triggers: [], targets: [] } as unknown as CreatureAbility;
@@ -64,10 +62,9 @@ describe("resolve", () => {
       spells: [SPELLS.Wizard.Horror],
     };
     const file = spellComboService.comboFile(combo, "Vanilla");
-    const first = SPELL_PRIORITY_ORDER[0];
-    const creature = fakeCreature({ memorized: [{ file: first }, { file }] });
+    const creature = fakeCreature({ memorized: [{ file: FIREBALL }, { file }] });
     const resolved = abilityOrderService.resolve(creature);
-    expect(resolved).toEqual([{ preset: file }, { preset: first }]);
+    expect(presetsOf(resolved)).toEqual([file, FIREBALL]);
     const preset = presetFactory
       .createCombos([combo], ABILITY_PRESETS)
       .find((p) => p.preset === resolved[0].preset);
@@ -94,25 +91,49 @@ describe("resolve", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const creature = fakeCreature();
     creature.data.spells.combos = [SEQUENCERS.DoubleMagicMissiles];
-    expect(abilityOrderService.resolve(creature)).toEqual(
-      spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles).map((preset) => ({ preset })),
+    expect(presetsOf(abilityOrderService.resolve(creature))).toEqual(
+      spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles),
     );
   });
 
-  it("orders memorized spells by their SPELL_PRIORITY_ORDER index", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_A, TEST_PRIORITY_B);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: TEST_PRIORITY_B }, { file: TEST_PRIORITY_A }],
-      });
-      expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: TEST_PRIORITY_A },
-        { preset: TEST_PRIORITY_B },
-      ]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-      SPELL_PRIORITY_ORDER.pop();
-    }
+  it("orders memorized spells by the cast order plan, each with its planned probability", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [
+        { file: FIREBALL },
+        { file: SPELLS.Wizard.Stoneskin.file },
+        { file: SPELLS.Priest.CureLightWounds.file },
+        { file: SPELLS.Priest.FindTraps.file },
+      ],
+    });
+    const resolved = abilityOrderService.resolve(creature);
+    // healing is reactive, Stoneskin a great protection opening the fight, Find Traps useless
+    expect(presetsOf(resolved)).toEqual([
+      SPELLS.Priest.CureLightWounds.file,
+      SPELLS.Wizard.Stoneskin.file,
+      FIREBALL,
+    ]);
+    expect(resolved[0].probability).toBe(100);
+    expect(resolved[2].probability).toBeGreaterThan(30);
+  });
+
+  it("inserts an at-will power without a position by its score", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: MAGIC_MISSILES }],
+      customSpells: [
+        {
+          id: 3,
+          file: "domination",
+          ability: { preset: CUSTOM_ABILITY_PRESET },
+          spell: { level: 3, type: SpellTypeEnum.Innate, role: "disable", headers: [{ speed: 1 }] },
+        },
+      ],
+      entries: [{ abilityId: 3 }],
+    });
+    const resolved = abilityOrderService.resolve(creature);
+    expect(presetsOf(resolved)).toEqual([FIREBALL, CUSTOM_ABILITY_PRESET, MAGIC_MISSILES]);
+    expect(resolved[1].probability).toBeGreaterThan(30);
   });
 
   it("returns an empty array when nothing is memorized", () => {
@@ -121,20 +142,11 @@ describe("resolve", () => {
   });
 
   it("excludes a spell-exception's file from the auto block and inserts it via its own directive", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_C, TEST_PRIORITY_D);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: TEST_PRIORITY_C }, { file: TEST_PRIORITY_D }],
-        entries: [{ spell: { file: TEST_PRIORITY_D }, insertFirst: true }],
-      });
-      expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: TEST_PRIORITY_D },
-        { preset: TEST_PRIORITY_C },
-      ]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-      SPELL_PRIORITY_ORDER.pop();
-    }
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: MAGIC_MISSILES }],
+      entries: [{ spell: { file: MAGIC_MISSILES }, insertFirst: true }],
+    });
+    expect(presetsOf(abilityOrderService.resolve(creature))).toEqual([MAGIC_MISSILES, FIREBALL]);
   });
 
   it("appends a custom abilityId entry at the end with insertLast", () => {
@@ -168,48 +180,38 @@ describe("resolve", () => {
   });
 
   it("inserts a custom abilityId entry before a memorized spell via insertBefore", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_E);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: TEST_PRIORITY_E }],
-        customSpells: [
-          { id: 9, file: "custom-spell-file-2", ability: { preset: CUSTOM_ABILITY_PRESET } },
-        ],
-        entries: [{ abilityId: 9, insertBefore: TEST_PRIORITY_E }],
-      });
-      expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: CUSTOM_ABILITY_PRESET },
-        { preset: TEST_PRIORITY_E },
-      ]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-    }
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }],
+      customSpells: [
+        { id: 9, file: "custom-spell-file-2", ability: { preset: CUSTOM_ABILITY_PRESET } },
+      ],
+      entries: [{ abilityId: 9, insertBefore: FIREBALL }],
+    });
+    expect(presetsOf(abilityOrderService.resolve(creature))).toEqual([
+      CUSTOM_ABILITY_PRESET,
+      FIREBALL,
+    ]);
   });
 
   it("resolves an insertAfter anchor pointing at a custom abilityId entry by its own spell file, not its ability's preset field", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_H);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: TEST_PRIORITY_H }],
-        customSpells: [
-          // this custom ability's own generated file differs from what it actually casts
-          // (preset borrows another spell's config) - the GreaterMummyFearAura pattern.
-          { id: 13, file: "custom-spell-file-a", ability: { preset: "unrelated-borrowed-preset" } },
-          { id: 14, file: "custom-spell-file-b", ability: { preset: "second-custom-preset" } },
-        ],
-        entries: [
-          { abilityId: 13, insertFirst: true },
-          { abilityId: 14, insertAfter: 13 },
-        ],
-      });
-      expect(abilityOrderService.resolve(creature)).toEqual([
-        { preset: "unrelated-borrowed-preset" },
-        { preset: "second-custom-preset" },
-        { preset: TEST_PRIORITY_H },
-      ]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-    }
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }],
+      customSpells: [
+        // this custom ability's own generated file differs from what it actually casts
+        // (preset borrows another spell's config) - the GreaterMummyFearAura pattern.
+        { id: 13, file: "custom-spell-file-a", ability: { preset: "unrelated-borrowed-preset" } },
+        { id: 14, file: "custom-spell-file-b", ability: { preset: "second-custom-preset" } },
+      ],
+      entries: [
+        { abilityId: 13, insertFirst: true },
+        { abilityId: 14, insertAfter: 13 },
+      ],
+    });
+    expect(presetsOf(abilityOrderService.resolve(creature))).toEqual([
+      "unrelated-borrowed-preset",
+      "second-custom-preset",
+      FIREBALL,
+    ]);
   });
 
   it("resolves an anchor value of 0 correctly instead of treating it as unset", () => {
@@ -229,18 +231,11 @@ describe("resolve", () => {
     ]);
   });
 
-  it("throws for a memorized spell outside the spell database", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_FIRST);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: NOT_IN_PRIORITY_ORDER }, { file: TEST_PRIORITY_FIRST }],
-      });
-      expect(() => abilityOrderService.resolve(creature)).toThrow(
-        `Memorized spell '${NOT_IN_PRIORITY_ORDER}' is not in the spell database`,
-      );
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-    }
+  it("throws for a memorized spell no profile covers", () => {
+    const creature = fakeCreature({ memorized: [{ file: NOT_PROFILED }, { file: FIREBALL }] });
+    expect(() => abilityOrderService.resolve(creature)).toThrow(
+      `Memorized spell '${NOT_PROFILED}' has no spell profile`,
+    );
   });
 
   it("errors and appends at the end when an insertBefore anchor doesn't resolve", () => {
@@ -300,42 +295,10 @@ describe("resolve", () => {
   });
 
   it("auto-derives only the leftover memorized spell when another is already covered by a plain-array ability", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_LEFTOVER);
-    try {
-      const creature = fakeCreature({
-        memorized: [{ file: TEST_PRIORITY_LEFTOVER }, { file: "test-priority-covered-2" }],
-        behaviorAbilities: [fakeAbility("test-priority-covered-2")],
-      });
-      expect(abilityOrderService.resolve(creature)).toEqual([{ preset: TEST_PRIORITY_LEFTOVER }]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-    }
-  });
-});
-
-describe("sortByPriority", () => {
-  it("reorders a hand-written preset list by SPELL_PRIORITY_ORDER, regardless of input order", () => {
-    SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_A, TEST_PRIORITY_B);
-    try {
-      expect(
-        abilityOrderService.sortByPriority([
-          { preset: TEST_PRIORITY_B },
-          { preset: TEST_PRIORITY_A },
-        ]),
-      ).toEqual([{ preset: TEST_PRIORITY_A }, { preset: TEST_PRIORITY_B }]);
-    } finally {
-      SPELL_PRIORITY_ORDER.pop();
-      SPELL_PRIORITY_ORDER.pop();
-    }
-  });
-
-  it("throws when a preset is missing from SPELL_PRIORITY_ORDER", () => {
-    expect(() => abilityOrderService.sortByPriority([{ preset: NOT_IN_PRIORITY_ORDER }])).toThrow(
-      NOT_IN_PRIORITY_ORDER,
-    );
-  });
-
-  it("throws when an ability has no preset to sort by", () => {
-    expect(() => abilityOrderService.sortByPriority([{}])).toThrow(/no preset/);
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: "test-priority-covered-2" }],
+      behaviorAbilities: [fakeAbility("test-priority-covered-2")],
+    });
+    expect(presetsOf(abilityOrderService.resolve(creature))).toEqual([FIREBALL]);
   });
 });

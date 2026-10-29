@@ -34,6 +34,7 @@ import monsterFilesService, { type CreatureCsvRow } from "./monster-files.servic
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
+import spellProfileService from "./spell-profile.service";
 import spellComboService from "./spell-combo.service";
 import { SpellCombo } from "../model/spell-item/spell-combo";
 import { WithRequired } from "../model/utility-types";
@@ -149,6 +150,14 @@ class CreatureService {
     return [...new Set(this.getSpellGroups(creature).flatMap((g) => g.files))];
   }
 
+  /** A self contingency is precast and a useless spell never cast: neither has an ability. */
+  private needsNoAbility(file: string, creature: Creature): boolean {
+    return (
+      spellComboService.isSelfContingencyFile(file) ||
+      spellProfileService.profileOf(file, creature)?.role === "useless"
+    );
+  }
+
   checkSpellAbilities(creature: Creature): void {
     const groups = this.getSpellGroups(creature);
     const allAbilities = [
@@ -159,8 +168,7 @@ class CreatureService {
     const memorizedFiles = new Set(groups.flatMap((g) => g.files));
     for (const group of groups) {
       for (const file of group.files) {
-        // a self contingency is precast, it has no ability
-        if (abilityResources.has(file) || spellComboService.isSelfContingencyFile(file)) continue;
+        if (abilityResources.has(file) || this.needsNoAbility(file, creature)) continue;
         const spellName = spellService.getSpellName(file);
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(

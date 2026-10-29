@@ -1,9 +1,11 @@
-import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
 import { Creature } from "../../model/creature/creature";
 import creatureService from "../creature.service";
 import logService from "../log.service";
 import spellComboService from "../spell-combo.service";
+import spellProfileService, { SpellProfile } from "../spell-profile.service";
+import spellService from "../spell.service";
+import castOrderService, { PlannedCast } from "./cast-order.service";
 import translationService from "../translation.service";
 
 interface OrderedAbility {
@@ -36,12 +38,36 @@ class AbilityOrderService {
     );
 
     // Enemy contingencies come first: they only fire once their condition happens.
-    const ordered: OrderedAbility[] = autoFiles
-      .map((file) => ({ identity: file, index: this.memorizedPriority(file) }))
-      .sort((a, b) => a.index - b.index)
-      .map(({ identity }): OrderedAbility => ({ identity, ability: { preset: identity } }));
+    const contingencies = autoFiles.filter((file) =>
+      spellComboService.isEnemyContingencyFile(file),
+    );
+    const profiles = autoFiles
+      .filter((file) => !contingencies.includes(file))
+      .map((file) => this.profile(file, creature));
+    // an entry without a position (an at-will power) takes its place by score, when it has one
+    const scoredEntries = new Map<string, AbilityEntry>();
+    for (const entry of entries) {
+      const profile = this.unplacedProfile(entry, creature);
+      if (!profile) continue;
+      profiles.push(profile);
+      scoredEntries.set(profile.file, entry);
+    }
+    const plan = castOrderService.plan(profiles);
+    this.logPlan(plan);
+    const ordered: OrderedAbility[] = [
+      ...contingencies.map((file) => ({ identity: file, ability: { preset: file } })),
+      ...plan.map((cast): OrderedAbility => {
+        const entry = scoredEntries.get(cast.file);
+        const ability =
+          entry?.abilityId === undefined
+            ? { preset: cast.file }
+            : creature.ability(entry.abilityId);
+        return { identity: cast.file, ability: { ...ability, probability: cast.probability } };
+      }),
+    ];
 
     for (const entry of entries) {
+      if ([...scoredEntries.values()].includes(entry)) continue;
       let identity: string;
       let ability: RawCreatureAbility;
       if (entry.spell) {
@@ -60,43 +86,25 @@ class AbilityOrderService {
     return ordered.map((o) => o.ability);
   }
 
-  /**
-   * Orders a plain, hand-written list of preset abilities by SPELL_PRIORITY_ORDER - for a
-   * creature whose abilities aren't derived from memorized spells, so `resolve()`'s
-   * entries mechanism doesn't apply, but should still cast in the same priority order as
-   * everything else. Unlike `resolve()`, a preset missing from SPELL_PRIORITY_ORDER throws
-   * instead of casting last: this list is hand-curated, so a missing entry is a mistake to
-   * fix, not something to silently deprioritize.
-   */
-  sortByPriority(abilities: RawCreatureAbility[]): RawCreatureAbility[] {
-    // Compute every index upfront rather than inside the comparator: Array.sort never calls
-    // the comparator for a 0- or 1-length array, which would let an invalid entry slip through.
-    return abilities
-      .map((ability) => ({ ability, index: this.priorityIndex(ability) }))
-      .sort((a, b) => a.index - b.index)
-      .map(({ ability }) => ability);
+  private profile(file: string, creature: Creature): SpellProfile {
+    const profile = spellProfileService.profileOf(file, creature);
+    if (!profile) throw new Error(`Memorized spell '${file}' has no spell profile`);
+    return profile;
   }
 
-  // Database spells are checked upfront (MainService.checkSpellPriorities), so a miss here is a
-  // memorized spell that isn't in the database at all.
-  private memorizedPriority(file: string): number {
-    if (spellComboService.isEnemyContingencyFile(file)) return -1;
-    const index = SPELL_PRIORITY_ORDER.indexOf(file);
-    if (index === -1) {
-      throw new Error(`Memorized spell '${file}' is not in the spell database`);
-    }
-    return index;
+  /** The profile of an entry without a position (an at-will power), placed by its score. */
+  private unplacedProfile(entry: AbilityEntry, creature: Creature): SpellProfile | undefined {
+    const positions = [entry.insertBefore, entry.insertAfter, entry.insertFirst, entry.insertLast];
+    if (entry.abilityId === undefined || positions.some((p) => p !== undefined)) return undefined;
+    return spellProfileService.profileOf(creature.spell(entry.abilityId).file, creature);
   }
 
-  private priorityIndex(ability: RawCreatureAbility): number {
-    if (!ability.preset) {
-      throw new Error(`Ability has no preset to sort by priority: ${JSON.stringify(ability)}`);
+  /** The creature's cast order, under its log section, for review. */
+  private logPlan(plan: PlannedCast[]): void {
+    for (const cast of plan) {
+      const name = spellService.getSpellName(cast.file) ?? "";
+      logService.log(`Cast order: ${cast.file} ${name} ${cast.score} ${cast.probability}%`);
     }
-    const index = SPELL_PRIORITY_ORDER.indexOf(ability.preset);
-    if (index === -1) {
-      throw new Error(`'${ability.preset}' is missing from SPELL_PRIORITY_ORDER`);
-    }
-    return index;
   }
 
   private validateEntries(entries: AbilityEntry[]): void {
