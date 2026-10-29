@@ -601,6 +601,17 @@ describe("pickCombos", () => {
     ]);
   });
 
+  it("warns once per book, caster level and kind, whatever the mod", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellService.pickCombos([minor], 14, "Vanilla", "OnceBook");
+    spellService.pickCombos([minor], 14, "AllSpellMods", "OnceBook");
+    spellService.pickCombos([minor], 14, "Vanilla", "OnceBook");
+    expect(warn.mock.calls.map((c) => c[0])).toEqual([
+      "OnceBook: caster level 14 allows a spellSequencer but none fits",
+      "OnceBook: caster level 14 allows a contingency but none fits",
+    ]);
+  });
+
   describe("in createSpellbooks", () => {
     const addBook = (extra: Partial<SpellBook>) => {
       const base = Spellbooks.find((b) => b.name === "EvilUndeadMage");

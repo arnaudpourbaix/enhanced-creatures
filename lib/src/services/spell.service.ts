@@ -53,6 +53,9 @@ import translationService from "./translation.service";
 import utils from "./utils/utils.service";
 
 class SpellService {
+  /** The "none fits" warnings already given (book, caster level, kind), see pickCombos. */
+  private comboWarnings = new Set<string>();
+
   getSpell(spell: PartialSpell, file: string): Spell {
     // headers/effectFiles are pulled out only to exclude them from the `...others` spread below
     // (each is built up separately below via addHeader()/the effectFiles loop); the destructured
@@ -384,7 +387,8 @@ class SpellService {
 
   /**
    * For each kind of combo whose spell the caster level has, memorizes the first combo of that kind
-   * that fits (a contingency's spell can't be above `contingencyMaxLevel`), warning when none does.
+   * that fits (a contingency's spell can't be above `contingencyMaxLevel`), warning when none does:
+   * once per book, caster level and kind, not once per mod variant.
    */
   pickCombos(
     combos: SpellCombo[],
@@ -402,6 +406,9 @@ class SpellService {
       if (combo) {
         picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
       } else {
+        const key = `${bookName}|${casterLevel}|${kind}`;
+        if (this.comboWarnings.has(key)) continue;
+        this.comboWarnings.add(key);
         logService.warn(`${bookName}: caster level ${casterLevel} allows a ${kind} but none fits`);
       }
     }
