@@ -271,4 +271,27 @@ describe("checkTargets", () => {
     spellComboService.checkTargets(SEQUENCERS.DoubleMagicMissiles);
     expect(warn).not.toHaveBeenCalled();
   });
+
+  it("warns for an enemy contingency on helpless: it can never fire", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets({
+      key: "TestHelpless",
+      kind: "contingency",
+      condition: "helpless",
+      spells: [w.Horror],
+    });
+    expect(warn).toHaveBeenCalledOnce();
+    expect(warn.mock.calls[0][0]).toMatch(/TestHelpless.*helpless/);
+  });
+
+  it("stays silent for a self contingency on helpless: the engine fires it", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets({
+      key: "TestSelfHelpless",
+      kind: "contingency",
+      condition: "helpless",
+      spells: [w.Stoneskin],
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
 });
