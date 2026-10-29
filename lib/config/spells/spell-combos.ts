@@ -1,9 +1,9 @@
 import {
-  ContingencyKind,
-  minorSequencer,
-  SequencerKind,
-  registerCombos,
   checkDuplicates,
+  minorSequencer,
+  registerContingencies,
+  registerSequencers,
+  SpellCombo,
 } from "../../src/model/spell-item/spell-combo";
 import { SPELLS } from "./spell-database";
 import { FNP_SPELLS } from "./fnp-spell-database";
@@ -18,7 +18,7 @@ const COMBO_SPELLS = [
 ];
 
 /** Wizard sequencers, by key. */
-export const SEQUENCERS = registerCombos<SequencerKind>(
+export const SEQUENCERS = registerSequencers(
   {
     DoubleMagicMissiles: minorSequencer([s.MagicMissiles, s.MagicMissiles]),
   },
@@ -26,8 +26,11 @@ export const SEQUENCERS = registerCombos<SequencerKind>(
 );
 
 /** Wizard contingencies and chain contingencies, by key. */
-export const CONTINGENCIES = registerCombos<ContingencyKind>({}, COMBO_SPELLS);
+export const CONTINGENCIES = registerContingencies({}, COMBO_SPELLS);
 
 /** Every combo, the list later stages iterate. */
-export const SPELL_COMBOS = [...Object.values(SEQUENCERS), ...Object.values(CONTINGENCIES)];
+export const SPELL_COMBOS: SpellCombo[] = [
+  ...Object.values<SpellCombo>(SEQUENCERS),
+  ...Object.values<SpellCombo>(CONTINGENCIES),
+];
 checkDuplicates(SPELL_COMBOS);

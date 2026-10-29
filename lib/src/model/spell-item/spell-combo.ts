@@ -171,18 +171,36 @@ export function checkDuplicates(combos: SpellCombo[]): void {
   }
 }
 
+/** A registry: each entry keeps its own key and kind, so `SEQUENCERS.` completes in editors. */
+export type ComboRegistry<T extends Record<string, ComboEntry>> = {
+  [P in keyof T]: SpellCombo<T[P]["kind"]>;
+};
+
 /**
  * Sets each combo's `key` from its registry key, then validates them (`spells`: every wizard and
  * priest spell a combo may hold, see validateCombo) and checks for duplicates.
  */
-export function registerCombos<K extends SpellComboKind>(
-  entries: Record<string, ComboEntry<K>>,
+export function registerCombos<T extends Record<string, ComboEntry>>(
+  entries: T,
   spells: SpellReference[],
-): Record<string, SpellCombo<K>> {
-  const combos: Record<string, SpellCombo<K>> = Object.fromEntries(
+): ComboRegistry<T> {
+  const combos = Object.fromEntries(
     Object.entries(entries).map(([key, entry]) => [key, { ...entry, key }]),
-  );
-  for (const combo of Object.values(combos)) validateCombo(combo, spells);
-  checkDuplicates(Object.values(combos));
+  ) as ComboRegistry<T>;
+  const list = Object.values<SpellCombo>(combos);
+  for (const combo of list) validateCombo(combo, spells);
+  checkDuplicates(list);
   return combos;
 }
+
+/** registerCombos for minor and spell sequencers only. */
+export const registerSequencers = <T extends Record<string, ComboEntry<SequencerKind>>>(
+  entries: T,
+  spells: SpellReference[],
+): ComboRegistry<T> => registerCombos(entries, spells);
+
+/** registerCombos for contingencies and chain contingencies only. */
+export const registerContingencies = <T extends Record<string, ComboEntry<ContingencyKind>>>(
+  entries: T,
+  spells: SpellReference[],
+): ComboRegistry<T> => registerCombos(entries, spells);
