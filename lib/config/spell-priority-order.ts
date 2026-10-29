@@ -2,19 +2,8 @@ import { SPELLS } from "./spells/spell-database";
 import { FNP_SPELLS } from "./spells/fnp-spell-database";
 import { spellFiles } from "../src/model/spell-item/spell-reference";
 import { NEW_SPELLS } from "./spells/spells";
-import { MOD_LAYER_ORDER } from "./mods";
 import { SEQUENCERS } from "./spells/spell-combos";
 import spellComboService from "../src/services/spell-combo.service";
-import { SpellCombo } from "../src/model/spell-item/spell-combo";
-
-/** The files a caster memorizes for the combo, one per MOD_LAYER_ORDER mod having it (deduped). */
-const comboFiles = (combo: SpellCombo): string[] => [
-  ...new Set(
-    MOD_LAYER_ORDER.flatMap((mod) =>
-      spellComboService.spellsFor(combo, mod) ? [spellComboService.comboFile(combo, mod)] : [],
-    ),
-  ),
-];
 
 /**
  * Spell cast-priority order (earlier entry = cast sooner) for AbilityOrderService - see
@@ -222,7 +211,7 @@ export const SPELL_PRIORITY_ORDER: string[] = [
   SPELLS.Wizard.MelfAcidArrow.file,
   SPELLS.Wizard.BurningHands.file,
   SPELLS.Wizard.MagicMissiles.file,
-  ...comboFiles(SEQUENCERS.DoubleMagicMissiles),
+  ...spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles),
   SPELLS.Wizard.Sleep.file,
   FNP_SPELLS.Priest.Doom.file,
   SPELLS.Priest.Command.file,

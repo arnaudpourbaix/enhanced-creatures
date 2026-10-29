@@ -90,6 +90,20 @@ class SpellComboService {
     return this.allocate(combo, resolve(combo, mod)).file;
   }
 
+  /**
+   * Every SPL a caster may memorize for this combo: one per MOD_LAYER_ORDER mod having all its
+   * spells (see comboFile), deduped, in mod order.
+   */
+  filesOf(combo: SpellCombo): string[] {
+    return [
+      ...new Set(
+        MOD_LAYER_ORDER.flatMap((mod) =>
+          this.spellsFor(combo, mod) ? [this.comboFile(combo, mod)] : [],
+        ),
+      ),
+    ];
+  }
+
   /** The combo's spells for `mod` (see comboFile), undefined when one isn't available there. */
   spellsFor(combo: SpellCombo, mod: SpellbookModName): SpellReference[] | undefined {
     return tryResolve(combo, mod);
@@ -150,9 +164,12 @@ class SpellComboService {
 
   /** The combo whose memorized SPL is `file` (case-insensitive), if any. */
   comboOfFile(file: string): SpellCombo | undefined {
-    this.allocateRegistry();
-    const target = file.toLowerCase();
-    return [...this.entries.values()].find((e) => e.file.toLowerCase() === target)?.combo;
+    return this.entryOfFile(file)?.combo;
+  }
+
+  /** The spells (resolved for its mods) cast by the combo SPL `file`, see comboOfFile. */
+  spellsOfFile(file: string): SpellReference[] | undefined {
+    return this.entryOfFile(file)?.spells;
   }
 
   /** Whether `file` is a self contingency's memorized SPL: precast, then the engine fires it. */
@@ -172,6 +189,12 @@ class SpellComboService {
     this.entries.clear();
     this.counter = 0;
     this.registryAllocated = false;
+  }
+
+  private entryOfFile(file: string): ComboEntry | undefined {
+    this.allocateRegistry();
+    const target = file.toLowerCase();
+    return [...this.entries.values()].find((e) => e.file.toLowerCase() === target);
   }
 
   private spellIsSelf(combo: SpellCombo, spell: SpellReference): boolean {

@@ -35,6 +35,7 @@ import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
 import spellComboService from "./spell-combo.service";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 import { WithRequired } from "../model/utility-types";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
@@ -309,9 +310,15 @@ class CreatureService {
       const files = [...new Set(variant.memorized.map((s) => s.file))];
       if (files.length) groups.push({ label: variant.mod, files });
     }
+    const comboFiles = this.declaredComboFiles(creature.data.spells.combos);
+    if (comboFiles.length) groups.push({ label: "combos", files: comboFiles });
     creature.adjustments.forEach((adjustment, index) => {
       const files = [...new Set(adjustment.data.spells.memorized.map((s) => s.file))];
       if (files.length) groups.push({ label: `adjustment #${index}`, files });
+      const adjustmentCombos = this.declaredComboFiles(adjustment.data.spells.combos);
+      if (adjustmentCombos.length) {
+        groups.push({ label: `adjustment #${index} (combos)`, files: adjustmentCombos });
+      }
       for (const variant of adjustment.data.spells.spellbooks ?? []) {
         const variantFiles = [...new Set(variant.memorized.map((s) => s.file))];
         if (variantFiles.length) {
@@ -320,6 +327,11 @@ class CreatureService {
       }
     });
     return groups;
+  }
+
+  /** The SPLs memorized for combos declared on the creature's data (every mod variant's). */
+  private declaredComboFiles(combos: SpellCombo[] | undefined): string[] {
+    return [...new Set((combos ?? []).flatMap((c) => spellComboService.filesOf(c)))];
   }
 
   getAttacksPerRound(value: number): {

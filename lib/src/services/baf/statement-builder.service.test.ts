@@ -1125,6 +1125,15 @@ describe("precastContingencies (private)", () => {
     expect(statements).toEqual([precast(file)]);
   });
 
+  it("sets up a self contingency declared on the creature's data, without a spellbook", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [], combos: [stoneskinOnHit] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual(spellComboService.filesOf(stoneskinOnHit).map(precast));
+  });
+
   it("skips spells that aren't self contingencies", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: "SPWI408" }] } } as Partial<CreatureData>,

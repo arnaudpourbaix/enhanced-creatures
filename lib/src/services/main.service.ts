@@ -202,9 +202,7 @@ class MainService {
     for (const combo of combos) {
       spellComboService.checkTargets(combo);
       if (isContingency(combo)) continue;
-      for (const mod of MOD_LAYER_ORDER) {
-        if (!spellComboService.spellsFor(combo, mod)) continue;
-        const file = spellComboService.comboFile(combo, mod);
+      for (const file of spellComboService.filesOf(combo)) {
         if (!SPELL_PRIORITY_ORDER.includes(file)) {
           throw new Error(`Spell combo ${combo.key}: ${file} is missing from SPELL_PRIORITY_ORDER`);
         }

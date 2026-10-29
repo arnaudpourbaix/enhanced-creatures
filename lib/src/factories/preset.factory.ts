@@ -1,6 +1,5 @@
 import deepmerge from "deepmerge";
 import { DEFAULT_SPELL_PROBABILITY } from "../../config/common";
-import { MOD_LAYER_ORDER } from "../../config/mods";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { ScriptTarget } from "../model/constants";
 import { CreatureAbilitySpell, RawCreatureAbility } from "../model/creature/ability";
@@ -117,12 +116,11 @@ class PresetFactory {
 
   /** Each SPL generated for the combo, with its spells, once (mods can share one). */
   private comboFiles(combo: SpellCombo): { file: string; spells: SpellReference[] }[] {
-    const results = new Map<string, SpellReference[]>();
-    for (const mod of MOD_LAYER_ORDER) {
-      const spells = spellComboService.spellsFor(combo, mod);
-      if (spells) results.set(spellComboService.comboFile(combo, mod), spells);
-    }
-    return [...results].map(([file, spells]) => ({ file, spells }));
+    return spellComboService.filesOf(combo).map((file) => {
+      const spells = spellComboService.spellsOfFile(file);
+      if (!spells) throw new Error(`Spell combo ${combo.key}: unknown file ${file}`);
+      return { file, spells };
+    });
   }
 
   /** The first spell's targets and the SPL's range, with every spell's checks (see createCombos). */

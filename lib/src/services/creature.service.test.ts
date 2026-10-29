@@ -18,6 +18,7 @@ import monsterFilesService from "./monster-files.service";
 import spellComboService from "./spell-combo.service";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SPELLS } from "../../config/spells/spell-database";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -860,6 +861,8 @@ function fakeSpellCreature(p: {
   memorized?: MemorizedSpell[];
   spellbooks?: SpellbookVariant[];
   adjustmentsMemorized?: MemorizedSpell[][];
+  combos?: SpellCombo[];
+  adjustmentsCombos?: SpellCombo[][];
   abilities?: CreatureAbility[];
   customCodeAbilities?: CreatureAbility[][];
 }): Creature {
@@ -869,11 +872,14 @@ function fakeSpellCreature(p: {
       spells: {
         memorized: p.memorized ?? [],
         spellbooks: p.spellbooks,
+        combos: p.combos,
       },
     },
-    adjustments: (p.adjustmentsMemorized ?? []).map((memorized) => ({
-      data: { spells: { memorized } },
-    })),
+    adjustments: (p.adjustmentsMemorized ?? p.adjustmentsCombos?.map(() => []) ?? []).map(
+      (memorized, index) => ({
+        data: { spells: { memorized, combos: p.adjustmentsCombos?.[index] } },
+      }),
+    ),
     behavior: {
       abilities: p.abilities ?? [],
       customCodes: (p.customCodeAbilities ?? []).map((abilities) => ({ abilities })),
@@ -912,6 +918,55 @@ describe("checkSpellAbilities", () => {
     creatureService.checkSpellAbilities(creature);
     expect(errorSpy).not.toHaveBeenCalled();
     errorSpy.mockRestore();
+  });
+
+  describe("combos declared on the creature's data (no spellbook)", () => {
+    const missiles: SpellCombo = {
+      key: "TestDeclaredMissiles",
+      kind: "minorSequencer",
+      spells: [SPELLS.Wizard.MagicMissiles, SPELLS.Wizard.MagicMissiles],
+    };
+    const stoneskin: SpellCombo = {
+      key: "TestDeclaredStoneskinOnHit",
+      kind: "contingency",
+      condition: "hit",
+      spells: [SPELLS.Wizard.Stoneskin],
+    };
+
+    it("counts them as memorized, in every mod variant", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [missiles] });
+      expect(creatureService.memorizedSpellFiles(creature)).toEqual(
+        spellComboService.filesOf(missiles),
+      );
+    });
+
+    it("counts an adjustment's ones as memorized", () => {
+      const creature = fakeSpellCreature({ adjustmentsCombos: [[missiles]] });
+      expect(creatureService.memorizedSpellFiles(creature)).toEqual(
+        spellComboService.filesOf(missiles),
+      );
+    });
+
+    it("errors when a declared sequencer has no ability", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [missiles] });
+      const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+      creatureService.checkSpellAbilities(creature);
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(spellComboService.filesOf(missiles)[0]),
+      );
+      errorSpy.mockRestore();
+    });
+
+    it("expects no ability for a declared self contingency", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [stoneskin] });
+      const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+      creatureService.checkSpellAbilities(creature);
+      expect(errorSpy).not.toHaveBeenCalled();
+      errorSpy.mockRestore();
+    });
   });
 
   it("errors when a spell in the default memorized list has no matching ability", () => {

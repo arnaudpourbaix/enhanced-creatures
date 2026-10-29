@@ -11,6 +11,7 @@ import presetFactory from "../../factories/preset.factory";
 import { ScriptTarget } from "../../model/constants";
 import { SpellCombo } from "../../model/spell-item/spell-combo";
 import spellComboService from "../spell-combo.service";
+import { SEQUENCERS } from "../../../config/spells/spell-combos";
 
 const TEST_PRIORITY_A = "test-priority-a";
 const TEST_PRIORITY_B = "test-priority-b";
@@ -87,6 +88,15 @@ describe("resolve", () => {
     const file = spellComboService.comboFile(combo, "Vanilla");
     const creature = fakeCreature({ memorized: [{ file }] });
     expect(abilityOrderService.resolve(creature)).toEqual([]);
+  });
+
+  it("gives an ability to a sequencer declared on the creature's data, without a spellbook", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature();
+    creature.data.spells.combos = [SEQUENCERS.DoubleMagicMissiles];
+    expect(abilityOrderService.resolve(creature)).toEqual(
+      spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles).map((preset) => ({ preset })),
+    );
   });
 
   it("orders memorized spells by their SPELL_PRIORITY_ORDER index", () => {
