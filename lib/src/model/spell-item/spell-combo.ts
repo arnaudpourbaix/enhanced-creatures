@@ -5,33 +5,34 @@ import type { SpellReference } from "./spell-reference";
 export type ContingencyTrigger =
   "hit" | "seeEnemy" | "hp50" | "hp25" | "hp10" | "helpless" | "poisoned";
 
-export type SpellComboKind =
-  "minorSequencer" | "spellSequencer" | "contingency" | "chainContingency";
+export type SequencerKind = "minorSequencer" | "spellSequencer";
+export type ContingencyKind = "contingency" | "chainContingency";
+export type SpellComboKind = SequencerKind | ContingencyKind;
 
 /**
  * A sequencer or contingency: a wizard spell that holds other spells and casts them together
  * (sequencers, on the caster's command) or when `condition` happens (contingencies).
  */
-export interface SpellCombo {
+export interface SpellCombo<K extends SpellComboKind = SpellComboKind> {
   /** The registry key, filled in by `registerCombos`. */
   key: string;
-  kind: SpellComboKind;
+  kind: K;
   /** The contained spells, cast in this order. */
   spells: SpellReference[];
   /** Contingencies only. */
   condition?: ContingencyTrigger;
 }
 
-type ComboEntry = Omit<SpellCombo, "key">;
+type ComboEntry<K extends SpellComboKind = SpellComboKind> = Omit<SpellCombo<K>, "key">;
 
 /** Level 4 spell: triggers 2 spells of level 1-2. */
-export const minorSequencer = (spells: SpellReference[]): ComboEntry => ({
+export const minorSequencer = (spells: SpellReference[]): ComboEntry<"minorSequencer"> => ({
   kind: "minorSequencer",
   spells,
 });
 
 /** Triggers 3 spells of level 1-4. */
-export const spellSequencer = (spells: SpellReference[]): ComboEntry => ({
+export const spellSequencer = (spells: SpellReference[]): ComboEntry<"spellSequencer"> => ({
   kind: "spellSequencer",
   spells,
 });
@@ -51,13 +52,13 @@ export const spellSequencer = (spells: SpellReference[]): ComboEntry => ({
 export const contingency = (
   condition: ContingencyTrigger,
   spells: SpellReference[],
-): ComboEntry => ({ kind: "contingency", spells, condition });
+): ComboEntry<"contingency"> => ({ kind: "contingency", spells, condition });
 
 /** Level 9 spell: casts 3 spells of level 1-8 when `condition` happens. */
 export const chainContingency = (
   condition: ContingencyTrigger,
   spells: SpellReference[],
-): ComboEntry => ({ kind: "chainContingency", spells, condition });
+): ComboEntry<"chainContingency"> => ({ kind: "chainContingency", spells, condition });
 
 /** The first mage caster level with at least `slots` spell slots of `spellLevel`. */
 function firstCasterLevel(spellLevel: number, slots: number): number {
@@ -174,11 +175,11 @@ export function checkDuplicates(combos: SpellCombo[]): void {
  * Sets each combo's `key` from its registry key, then validates them (`spells`: every wizard and
  * priest spell a combo may hold, see validateCombo) and checks for duplicates.
  */
-export function registerCombos(
-  entries: Record<string, ComboEntry>,
+export function registerCombos<K extends SpellComboKind>(
+  entries: Record<string, ComboEntry<K>>,
   spells: SpellReference[],
-): Record<string, SpellCombo> {
-  const combos = Object.fromEntries(
+): Record<string, SpellCombo<K>> {
+  const combos: Record<string, SpellCombo<K>> = Object.fromEntries(
     Object.entries(entries).map(([key, entry]) => [key, { ...entry, key }]),
   );
   for (const combo of Object.values(combos)) validateCombo(combo, spells);

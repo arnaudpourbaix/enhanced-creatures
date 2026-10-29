@@ -146,9 +146,10 @@ class SpellComboService {
   }
 
   /**
-   * Throws when the combo mixes self and enemy spells (see isSelf). Warns when an enemy combo's
-   * spells target different lists (the combo is cast at the first one's targets), and when an
-   * enemy contingency waits for `helpless`: the script fires it, and a helpless creature runs none.
+   * Throws when the combo mixes self and enemy spells (see isSelf), and when an enemy contingency
+   * waits for `helpless`: the script fires it and picks its target, and a helpless creature can do
+   * neither (a self one is fine, the engine fires it). Warns when an enemy combo's spells target
+   * different lists (the combo is cast at the first one's targets).
    */
   checkTargets(combo: SpellCombo): void {
     const selves = combo.spells.map((spell) => this.spellIsSelf(combo, spell));
@@ -157,8 +158,8 @@ class SpellComboService {
     }
     if (selves.some(Boolean)) return;
     if (combo.condition === "helpless") {
-      logService.warn(
-        `Spell combo ${combo.key}: an enemy contingency on "helpless" never fires, a helpless creature runs no script`,
+      throw new Error(
+        `Spell combo ${combo.key}: an enemy contingency can't wait for "helpless", a helpless creature can't pick a target`,
       );
     }
     const lists = new Set(

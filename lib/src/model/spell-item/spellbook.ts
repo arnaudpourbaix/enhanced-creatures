@@ -1,7 +1,7 @@
 import { MOD_LAYER_ORDER } from "../../../config/mods";
 import { SpellBookName } from "../../../config/spellbooks/spellbook-name";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
-import type { SpellCombo } from "./spell-combo";
+import type { ContingencyKind, SequencerKind, SpellCombo } from "./spell-combo";
 import { resolveForMod, SpellReference } from "./spell-reference";
 
 export interface SpellBookSpells {
@@ -57,9 +57,9 @@ export interface SpellBook {
   values: SpellBookSpells[];
   variants?: SpellBookModVariant[];
   /** Mage books: minor and spell sequencers by preference, the caster memorizes the first that fits. */
-  sequencers?: SpellCombo[];
+  sequencers?: SpellCombo<SequencerKind>[];
   /** Mage books: contingencies and chain contingencies by preference, the first of each kind that fits. */
-  contingencies?: SpellCombo[];
+  contingencies?: SpellCombo<ContingencyKind>[];
 }
 
 /** Every mod's spell set for `book`: one derived per MOD_LAYER_ORDER entry (richest-first, see
