@@ -64,6 +64,15 @@ spell-database.ts (and FNP / NEW_SPELLS where they take part in ordering):
   vampire bat/gas forms), usually losing its spellcasting for a new attack and sometimes abilities.
   Never a buff, never precast: great for attacking, but phase 2 needs its own rule for when a
   caster should shift (e.g. once its spells are spent or when melee pays off). (User.)
+- **`tier`**: `great`, `good` or `decent` (default): how valuable the spell is within its role,
+  independent of its level (Mirror Image is a great protection even for a level 15 wizard). Guessed
+  for protections from their effects (Stoneskin, Mirror Image, Globes, Mantles, Spell Turning and
+  Deflection great), set by hand elsewhere (Haste good, Berserker Rage great). The tier adds to
+  every spell's score, and a great spell counts as good once the caster has clearly outgrown it
+  (Mirror Image stays good, never less). Protections lose value more slowly with level than
+  offensive spells. The opening protections (the user's "critical protections") are the great and
+  good ones scoring high enough, by score: a good high-level protection can open before Mirror
+  Image. (User.)
 - **`secondaryRoles`** (optional): what else the spell really does, adding to its value - Battering
   Ram is a damage spell that also puts its target to sleep. The `role` decides which group the spell
   competes in, decided per spell on review; secondary roles only add value in the scoring. (User.)
