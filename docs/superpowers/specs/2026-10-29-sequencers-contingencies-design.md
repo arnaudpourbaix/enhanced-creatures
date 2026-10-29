@@ -18,9 +18,9 @@ ability no creature uses.
 | Kind              | Caster needs           | Contains                                | Itself a spell of level |
 |-------------------|------------------------|-----------------------------------------|-------------------------|
 | Minor sequencer   | wizard level 4 (CL 7)  | 2 spells of level 1–2                   | 4 |
-| Spell sequencer   | wizard level 7 (CL 13) | 3 spells of level 1–4                   | 7 |
+| Spell sequencer   | wizard level 7 (CL 14) | 3 spells of level 1–4                   | 7 |
 | Contingency       | wizard level 6 (CL 12) | 1 spell of level ≤ floor(CL ÷ 3)        | 6 |
-| Chain contingency | wizard level 9 (CL 18) | 3 spells of level 1–8                   | 9 |
+| Chain contingency | wizard level 9 (CL 18) | 1–3 spells of level 1–8                 | 9 |
 
 "CL" is caster level. "Wizard level N" means the caster can cast wizard spells of level N, i.e.
 the first caster level with a slot of that level in `MageSpellTable`.
