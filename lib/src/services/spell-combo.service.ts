@@ -78,7 +78,7 @@ interface ComboEntry {
 
 /**
  * The SPLs generated for sequencers and contingencies (see SpellCombo). Names are computed without
- * presets, so creatures and SPELL_PRIORITY_ORDER can ask for them at module load; the SPLs
+ * presets, so creatures can ask for them at module load; the SPLs
  * themselves (whose shape depends on isSelf) are only built by allSpells(), at write time.
  */
 class SpellComboService {

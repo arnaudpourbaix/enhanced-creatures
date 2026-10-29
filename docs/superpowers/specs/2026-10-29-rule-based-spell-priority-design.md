@@ -208,6 +208,9 @@ timer, attack otherwise); that stays as is.
 
 ## What it replaces
 
+Done in phase 2 (`docs/superpowers/plans/2026-10-29-spell-scoring.md`): `SPELL_PRIORITY_ORDER` and its
+checks are gone; `AbilityOrderService.resolve()` follows `CastOrderService.plan()`.
+
 - `SPELL_PRIORITY_ORDER` and its uses: `AbilityOrderService.resolve()` and `sortByPriority()`,
   `MainService.checkSpellCombos` (sequencer files need a priority), `checkSpellPriorities`.
 - The list also holds FNP_SPELLS, NEW_SPELLS (Symbol of Pain) and sequencer files

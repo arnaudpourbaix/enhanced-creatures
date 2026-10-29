@@ -3,7 +3,6 @@ import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../c
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
-import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
@@ -23,7 +22,7 @@ import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
 import resourceClashService from "./resource-clash.service";
-import spellComboService, { isContingency } from "./spell-combo.service";
+import spellComboService from "./spell-combo.service";
 import stateService from "./state.service";
 import { State } from "../state";
 import { ITEMS } from "../../config/item";
@@ -203,44 +202,10 @@ class MainService {
     return variant ? variant.id : spell.id;
   }
 
-  /**
-   * Checks each sequencer and contingency holds spells cast at the same kind of targets, and each
-   * sequencer's files have a priority (contingencies don't need one, see AbilityOrderService).
-   */
+  /** Checks each sequencer and contingency holds spells cast at the same kind of targets. */
   checkSpellCombos(combos: SpellCombo[] = SPELL_COMBOS) {
     logService.section("Checking spell combos");
-    for (const combo of combos) {
-      spellComboService.checkTargets(combo);
-      if (isContingency(combo)) continue;
-      for (const file of spellComboService.filesOf(combo)) {
-        if (!SPELL_PRIORITY_ORDER.includes(file)) {
-          throw new Error(`Spell combo ${combo.key}: ${file} is missing from SPELL_PRIORITY_ORDER`);
-        }
-      }
-    }
-  }
-
-  /**
-   * Every spell file of the database (variants included) needs a priority, so creatures never
-   * have to deal with an unordered memorized spell. All missing files are reported at once.
-   */
-  checkSpellPriorities(spells: SpellReference[] = getAllSpells(SPELLS)) {
-    logService.section("Checking spell priorities");
-    const missing = [
-      ...new Set(
-        spells.flatMap((s) =>
-          spellFiles(s)
-            .filter((file) => !SPELL_PRIORITY_ORDER.includes(file))
-            .map((file) => (s.id === undefined ? file : `${file} (${s.id})`)),
-        ),
-      ),
-    ];
-    if (missing.length > 0) {
-      throw new Error(
-        `Spells missing from SPELL_PRIORITY_ORDER (${missing.length}):\n` +
-          missing.map((m) => "  - " + m).join("\n"),
-      );
-    }
+    for (const combo of combos) spellComboService.checkTargets(combo);
   }
 
   /**
@@ -346,7 +311,6 @@ class MainService {
     this.checkPresets();
     this.checkSpellCombos();
     this.checkSpells();
-    this.checkSpellPriorities();
     this.checkSpellProfiles();
     this.checkSpellbooks();
     this.generateCreatures();

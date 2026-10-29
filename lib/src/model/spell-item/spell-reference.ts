@@ -252,7 +252,7 @@ export function resolveForMod(spell: SpellReference, mod: SpellbookModName): Spe
 
 /**
  * Every file a spell could resolve to across mods - its base `file` plus each `variants` entry's
- * file. For a static resource list (SPELL_GROUPS, SPELL_PRIORITY_ORDER) this is all that's needed:
+ * file. For a static resource list (SPELL_GROUPS) this is all that's needed:
  * unlike a compiled ability, listing a file that doesn't exist under some install is harmless there
  * (see spell-group.ts), so there's no need to pick the "right" one at generation time.
  */

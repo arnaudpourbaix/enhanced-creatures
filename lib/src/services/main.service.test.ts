@@ -8,7 +8,6 @@ import { KIN_FOLDERS, KinEnum } from "../../creatures/kin";
 import { kinFactories } from "../../creatures/kins";
 import { MonsterEnum } from "../../creatures/monster";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
-import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { Creature } from "../model/creature/creature";
@@ -69,39 +68,6 @@ describe("checkSpellCombos", () => {
     expect(() => mainService.checkSpellCombos()).not.toThrow();
   });
 
-  it("throws for a sequencer whose file is missing from SPELL_PRIORITY_ORDER", () => {
-    const combo = {
-      key: "TestUnorderedSequencer",
-      kind: "minorSequencer" as const,
-      spells: [SPELLS.Wizard.Shield, SPELLS.Wizard.Blur],
-    };
-    const file = spellComboService.comboFile(combo, "Vanilla");
-    expect(SPELL_PRIORITY_ORDER).not.toContain(file);
-    expect(() => mainService.checkSpellCombos([...SPELL_COMBOS, combo])).toThrow(
-      `${combo.key}: ${file} is missing from SPELL_PRIORITY_ORDER`,
-    );
-  });
-});
-
-describe("checkSpellPriorities", () => {
-  beforeEach(() => {
-    vi.spyOn(logService, "section").mockImplementation(() => {});
-  });
-
-  it("accepts spells that all have a priority", () => {
-    const file = SPELL_PRIORITY_ORDER[0];
-    expect(() => mainService.checkSpellPriorities([{ id: "TestOrdered", file }])).not.toThrow();
-  });
-
-  it("throws listing every spell file missing from SPELL_PRIORITY_ORDER, variants included", () => {
-    const spells = [
-      { id: "TestUnordered", file: "TESTNO1" },
-      { id: "TestVariant", file: SPELL_PRIORITY_ORDER[0], variants: [{ file: "TESTNO2" }] },
-    ] as SpellReference[];
-    expect(() => mainService.checkSpellPriorities(spells)).toThrow(
-      "Spells missing from SPELL_PRIORITY_ORDER (2):\n  - TESTNO1 (TestUnordered)\n  - TESTNO2 (TestVariant)",
-    );
-  });
 });
 
 describe("checkSpellProfiles", () => {
@@ -193,7 +159,6 @@ describe("generateAll", () => {
     vi.spyOn(stateService, "init").mockResolvedValue(undefined);
     vi.spyOn(mainService, "checkPresets").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpells").mockImplementation(() => {});
-    vi.spyOn(mainService, "checkSpellPriorities").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpellProfiles").mockImplementation(() => {});
     vi.spyOn(mainService, "checkSpellbooks").mockImplementation(() => {});
     vi.spyOn(mainService, "generateCreatures").mockImplementation(() => {});

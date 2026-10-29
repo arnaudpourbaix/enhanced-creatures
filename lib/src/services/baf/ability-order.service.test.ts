@@ -165,7 +165,7 @@ describe("resolve", () => {
     // even for custom addSpell-created abilities - so a custom ability's own generated
     // file can legitimately appear in memorizedSpellFiles(). It must not be double-processed
     // (once via its entries position, once via auto-derivation, which would also spuriously
-    // error since custom files are never registered in SPELL_PRIORITY_ORDER).
+    // error since custom files have no spell profile).
     const creature = fakeCreature({
       memorized: [{ file: "custom-spell-file-x" }],
       customSpells: [
