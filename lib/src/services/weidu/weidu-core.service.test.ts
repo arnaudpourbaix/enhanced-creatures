@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { JEWEL_SLOTS } from "../../model/creature/item";
+import spellComboService from "../spell-combo.service";
 import weiduCoreService from "./weidu-core.service";
 
 describe("getIcon", () => {
@@ -69,5 +70,17 @@ describe("generateImmunityStates", () => {
       "LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_CHARM_IMMUNITY END",
       "LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=5 opcode=328 parameter1=0 parameter2=state_CHARM_IMMUNITY special=1 END",
     ]);
+  });
+});
+
+describe("generateSpellCombos", () => {
+  const codes = () =>
+    (weiduCoreService as unknown as { lines: { code: string }[] }).lines.map((l) => l.code);
+
+  it("creates every combo SPL", () => {
+    weiduCoreService.generateSpellCombos();
+    const files = spellComboService.allSpells().map((s) => s.file);
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) expect(codes()).toContain(`CREATE SPL "${file}"`);
   });
 });

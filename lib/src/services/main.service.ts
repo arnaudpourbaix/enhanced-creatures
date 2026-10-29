@@ -20,6 +20,7 @@ import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
 import resourceClashService from "./resource-clash.service";
+import spellComboService from "./spell-combo.service";
 import stateService from "./state.service";
 import { State } from "../state";
 import { ITEMS } from "../../config/item";
@@ -152,6 +153,7 @@ class MainService {
     weiduFunctionService.generateSpellFunctions();
     weiduFunctionService.generateImmunities();
     weiduCoreService.generateImmunityStates();
+    weiduCoreService.generateSpellCombos();
     weiduCoreService.writeFile();
   }
 
@@ -245,7 +247,11 @@ class MainService {
   /** Every SPL/ITM shipped (generated + handwritten common ones) must have a unique base name. */
   checkResourceClashes() {
     resourceClashService.check(
-      [...State.spells.map((s) => s.file), ...Object.values(NEW_SPELLS)],
+      [
+        ...State.spells.map((s) => s.file),
+        ...spellComboService.allSpells().map((s) => s.file),
+        ...Object.values(NEW_SPELLS),
+      ],
       [...State.items.map((i) => i.file), ...Object.values(ITEMS)],
     );
   }

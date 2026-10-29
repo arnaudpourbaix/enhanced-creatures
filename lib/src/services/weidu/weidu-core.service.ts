@@ -6,9 +6,11 @@ import { CR, TAB } from "../../model/constants";
 import { EquippedItem, JEWEL_SLOTS } from "../../model/creature/item";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { ItemFlagEnum } from "../../model/spell-item/effect.enums";
+import spellComboService from "../spell-combo.service";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduProjectileService from "./weidu-projectile.service";
+import weiduSpellService from "./weidu-spell.service";
 
 class WeiduCoreService extends AbstractWeiduService {
   private lines = this.initLines();
@@ -82,6 +84,14 @@ class WeiduCoreService extends AbstractWeiduService {
     add(`END`, 1);
     add(`BUT_ONLY`, 0);
     add(``, 0);
+  }
+
+  /** The sequencer and contingency SPLs (see SpellComboService), shared by every caster. */
+  generateSpellCombos() {
+    for (const spell of spellComboService.allSpells()) {
+      weiduSpellService.createSpell(this.lines, spell, 0);
+      this.add(this.lines, "", 0);
+    }
   }
 
   generateProjectiles() {
