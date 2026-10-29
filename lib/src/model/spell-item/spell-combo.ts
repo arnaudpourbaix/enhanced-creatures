@@ -81,8 +81,11 @@ export function contingencyMaxLevel(casterLevel: number): number {
   return Math.min(8, Math.floor(casterLevel / 3));
 }
 
-/** Throws (naming the combo) when the combo breaks the rules of its kind. */
-export function validateCombo(combo: SpellCombo): void {
+/**
+ * Throws (naming the combo) when the combo breaks the rules of its kind, or holds a spell missing
+ * from `spells` (the wizard and priest spells, when given).
+ */
+export function validateCombo(combo: SpellCombo, spells?: SpellReference[]): void {
   const rule = COMBO_RULES[combo.kind];
   const fail = (why: string): never => {
     throw new Error(`Spell combo ${combo.key} (${combo.kind}): ${why}`);
@@ -92,7 +95,11 @@ export function validateCombo(combo: SpellCombo): void {
     const expected = min === max ? String(min) : `${min}-${max}`;
     fail(`holds ${combo.spells.length} spells, expected ${expected}`);
   }
+  const known = spells && new Set(spells.map((s) => s.file.toUpperCase()));
   for (const spell of combo.spells) {
+    if (known && !known.has(spell.file.toUpperCase())) {
+      fail(`spell ${spell.file} isn't a wizard or priest spell`);
+    }
     if (spell.level === undefined) fail(`spell ${spell.file} has no level`);
     else if (spell.level > rule.maxContainedLevel) {
       fail(`spell ${spell.file} is level ${spell.level}, above the maximum ${rule.maxContainedLevel}`);
@@ -118,12 +125,18 @@ export function checkDuplicates(combos: SpellCombo[]): void {
   }
 }
 
-/** Sets each combo's `key` from its registry key, then validates them and checks for duplicates. */
-export function registerCombos(entries: Record<string, ComboEntry>): Record<string, SpellCombo> {
+/**
+ * Sets each combo's `key` from its registry key, then validates them (`spells`: every wizard and
+ * priest spell a combo may hold, see validateCombo) and checks for duplicates.
+ */
+export function registerCombos(
+  entries: Record<string, ComboEntry>,
+  spells: SpellReference[],
+): Record<string, SpellCombo> {
   const combos = Object.fromEntries(
     Object.entries(entries).map(([key, entry]) => [key, { ...entry, key }]),
   );
-  Object.values(combos).forEach(validateCombo);
+  Object.values(combos).forEach((combo) => validateCombo(combo, spells));
   checkDuplicates(Object.values(combos));
   return combos;
 }

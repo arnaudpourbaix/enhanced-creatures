@@ -14,6 +14,7 @@ import {
 
 const W = SPELLS.Wizard;
 const MM = W.MagicMissiles;
+const KNOWN = [...Object.values(W), ...Object.values(SPELLS.Priest)];
 
 /** Wraps a helper's result as a combo, as registerCombos would. */
 const combo = (entry: Omit<SpellCombo, "key">): SpellCombo => ({ key: "Test", ...entry });
@@ -67,11 +68,11 @@ describe("validateCombo", () => {
 
 describe("registerCombos", () => {
   it("sets the key from the registry key", () => {
-    expect(registerCombos({ A: minorSequencer([MM, MM]) }).A.key).toBe("A");
+    expect(registerCombos({ A: minorSequencer([MM, MM]) }, KNOWN).A.key).toBe("A");
   });
 
   it("throws on the same kind, spells and condition under two keys", () => {
-    expect(() => registerCombos({ A: minorSequencer([MM, MM]), B: minorSequencer([MM, MM]) }))
+    expect(() => registerCombos({ A: minorSequencer([MM, MM]), B: minorSequencer([MM, MM]) }, KNOWN))
       .toThrow(/A.*B/);
   });
 
@@ -81,6 +82,19 @@ describe("registerCombos", () => {
       B: spellSequencer([MM, MM, MM]),
       C: contingency("hit", [MM]),
       D: contingency("hp50", [MM]),
-    })).not.toThrow();
+    }, KNOWN)).not.toThrow();
+  });
+
+  it.each([
+    ["a class spell", Object.values(SPELLS.Class)[0]],
+    ["an innate spell", Object.values(SPELLS.Innate)[0]],
+  ])("throws for %s, naming the combo", (_, spell) => {
+    expect(() => registerCombos({ Bad: minorSequencer([MM, { ...spell, level: 1 }]) }, KNOWN))
+      .toThrow(/Bad.*isn't a wizard or priest spell/);
+  });
+
+  it("accepts priest spells", () => {
+    const bless = SPELLS.Priest.Bless;
+    expect(() => registerCombos({ A: minorSequencer([bless, bless]) }, KNOWN)).not.toThrow();
   });
 });
