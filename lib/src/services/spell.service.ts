@@ -406,13 +406,18 @@ class SpellService {
       if (combo) {
         picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
       } else {
-        const key = `${bookName}|${casterLevel}|${kind}`;
-        if (this.comboWarnings.has(key)) continue;
-        this.comboWarnings.add(key);
-        logService.warn(`${bookName}: caster level ${casterLevel} allows a ${kind} but none fits`);
+        this.warnNoCombo(bookName, casterLevel, kind);
       }
     }
     return picks;
+  }
+
+  /** Warns (once per book, caster level and kind) that no combo of `kind` fits, see pickCombos. */
+  private warnNoCombo(bookName: string, casterLevel: number, kind: SpellComboKind): void {
+    const key = `${bookName}|${casterLevel}|${kind}`;
+    if (this.comboWarnings.has(key)) return;
+    this.comboWarnings.add(key);
+    logService.warn(`${bookName}: caster level ${casterLevel} allows a ${kind} but none fits`);
   }
 
   private pickSpellsForLevel(spells: SpellBookSpells, slots: number): MemorizedSpell[] {

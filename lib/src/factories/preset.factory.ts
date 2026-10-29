@@ -175,8 +175,8 @@ class PresetFactory {
     combo: SpellCombo,
     contained: ContainedAbility[],
   ): void {
-    const union = <K extends ComboSpellCheck>(key: K): void => {
-      const values = [...new Set(contained.flatMap((c) => c.ability.spell?.[key] ?? []))];
+    const union = (key: ComboSpellCheck): void => {
+      const values = [...new Set<unknown>(contained.flatMap((c) => c.ability.spell?.[key] ?? []))];
       if (values.length) ability.spell = { ...ability.spell, [key]: values };
     };
     union("includeStateChecks");

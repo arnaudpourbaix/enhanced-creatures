@@ -181,7 +181,7 @@ export function registerCombos(
   const combos = Object.fromEntries(
     Object.entries(entries).map(([key, entry]) => [key, { ...entry, key }]),
   );
-  Object.values(combos).forEach((combo) => validateCombo(combo, spells));
+  for (const combo of Object.values(combos)) validateCombo(combo, spells);
   checkDuplicates(Object.values(combos));
   return combos;
 }

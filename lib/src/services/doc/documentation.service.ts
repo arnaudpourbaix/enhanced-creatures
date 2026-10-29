@@ -1599,6 +1599,12 @@ class DocumentationService {
     );
   }
 
+  /** The ability's name, or its combo's label for a sequencer or contingency. */
+  private abilityName(ability: CreatureAbility): string {
+    const label = ability.resource ? spellComboService.labelOf(ability.resource) : undefined;
+    return label ?? translationService.from(ability.name);
+  }
+
   getCreatureSpell(
     ability: CreatureAbility,
     memorizedList: MemorizedSpell[],
@@ -1637,10 +1643,7 @@ class DocumentationService {
       const quantity = ability.infiniteUse
         ? this.getSpellQuantity(1, infiniteUseRounds)
         : this.getSpellQuantity(memorized.memorizedCount);
-      const name =
-        (ability.resource && spellComboService.labelOf(ability.resource)) ??
-        translationService.from(ability.name);
-      result = `<h5>${name} (${quantity})</h5>`;
+      result = `<h5>${this.abilityName(ability)} (${quantity})</h5>`;
     }
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
