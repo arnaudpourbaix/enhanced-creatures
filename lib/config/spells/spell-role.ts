@@ -24,3 +24,10 @@ export type SpellDurationClass =
   | "long" // several hours
   | "mid" // several turns
   | "short"; // several rounds to one turn
+
+/**
+ * How valuable a spell is within its role, independent of its level (Mirror Image is a great
+ * protection even for a high-level caster). `decent` is the default, never written. Guessed for
+ * protections by scripts/extract-spell-profile.ts, set by hand elsewhere.
+ */
+export type SpellTier = "great" | "good" | "decent";

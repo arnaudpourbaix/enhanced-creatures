@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { type EffectSource, type RawEffect } from "./spell-saves";
 import {
   classifyRole,
+  classifyTier,
   durationClass,
   casterLevelSource,
   minCasterLevel,
@@ -393,5 +394,32 @@ describe("classifyRole", () => {
 
   it("leaves a spell with only cosmetic effects unclassified", () => {
     expect(classifyRole([enemy(215), enemy(174)], []).role).toBeUndefined();
+  });
+});
+
+describe("classifyTier", () => {
+  const self = (opcode: number) => effect({ opcode, target: 1 });
+
+  it("rates the strongest protections great (Stoneskin, Globes)", () => {
+    expect(classifyTier([self(218)], "protection")).toBe("great");
+    expect(classifyTier([self(102)], "protection")).toBe("great");
+    // Mirror Image, through either of its opcodes
+    expect(classifyTier([self(159)], "protection")).toBe("great");
+  });
+
+  it("rates Blur good", () => {
+    expect(classifyTier([self(65), self(0)], "protection")).toBe("good");
+  });
+
+  it("leaves an AC-only protection decent: no tier written (Shield)", () => {
+    expect(classifyTier([self(0)], "protection")).toBeUndefined();
+  });
+
+  it("never rates Sanctuary great, the protected phase decides it", () => {
+    expect(classifyTier([self(153), self(218)], "protection")).not.toBe("great");
+  });
+
+  it("only guesses protections", () => {
+    expect(classifyTier([self(218)], "damage")).toBeUndefined();
   });
 });

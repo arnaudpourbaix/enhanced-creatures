@@ -1,34 +1,44 @@
 import * as fs from "fs";
 import * as path from "path";
+import { getAllFnpSpells } from "../lib/config/spells/fnp-spell-database";
+import { type SpellKeyword } from "../lib/config/spells/keyword";
 import { SPELLS } from "../lib/config/spells/spell-database";
-import { type SpellDurationClass, type SpellRole } from "../lib/config/spells/spell-role";
+import {
+  type SpellDurationClass,
+  type SpellRole,
+  type SpellTier,
+} from "../lib/config/spells/spell-role";
 import { getAllSpells } from "../lib/src/model/spell-item/spell-reference";
 import { addFieldToDatabase } from "./lib/spell-database-writer";
 import {
   classifyRole,
+  classifyTier,
   casterLevelSource,
   minCasterLevel,
   readSplCastingTimes,
   spellDuration,
   spellEffects,
 } from "./lib/spell-profile";
-import { type EffectSource, readerSource, ResourceReader } from "./lib/spell-saves";
+import { type EffectSource, type RawEffect, readerSource, ResourceReader } from "./lib/spell-saves";
 
-// Extracts each SPELLS entry's (lib/config/spells/spell-database.ts) casting time, role and
-// duration from a game install, for the cast order rules - see
+// Extracts each SPELLS entry's (lib/config/spells/spell-database.ts) and Faiths and Powers spell's
+// (lib/config/spells/fnp-spell-database.ts) casting time, role, tier and duration from a game
+// install, for the cast order rules - see
 // docs/superpowers/specs/2026-10-29-rule-based-spell-priority-design.md. The role is a guess from
 // the spell's effects (see classifyRole), meant to be reviewed by hand. Reads the entry's own file
 // as shipped (the BIFs alone) and with the install's mods (override first); the modded state wins,
 // except for an entry a mod obsoletes.
 //
-// Writes assets/spells/spell-profile-report.md. With --write, also adds castingTime and role to
-// the entries that don't declare them, and duration to the protection, buff and summon ones (it
+// Writes assets/spells/spell-profile-report.md. With --write, also adds castingTime, role,
+// secondary roles and a protection's tier (see classifyTier) to the entries that don't declare
+// them, and duration to the protection, buff and summon ones (it
 // drives precasting, see StatementBuilderService.precastSpells). A declared value is never changed.
 //
 // Run: ts-node scripts/extract-spell-profile.ts [--write] [--game <dir>]
 
 const DEFAULT_GAME = "C:/Games/BG2EETest";
 const DATABASE = path.join("lib", "config", "spells", "spell-database.ts");
+const FNP_DATABASE = path.join("lib", "config", "spells", "fnp-spell-database.ts");
 const REPORT = path.join("assets", "spells", "spell-profile-report.md");
 const SPL_TYPE = 0x3ee;
 /** Roles whose duration is worth precasting (see SpellReference.duration) */
@@ -41,6 +51,8 @@ function parseArgs(): { gameDir: string; write: boolean } {
 }
 
 interface Profile {
+  /** What the spell does, to guess its tier once its role is known */
+  effects: RawEffect[];
   role?: SpellRole;
   secondaryRoles: SpellRole[];
   evidence: string[];
@@ -60,6 +72,7 @@ function profile(
   // the duration at the lowest level casting the spell, what a precast spell gets at worst
   const lowest = spellEffects(casterLevelSource(reader, minCasterLevel(spl)), file) ?? [];
   return {
+    effects,
     ...classifyRole(effects, keywords),
     castingTimes: readSplCastingTimes(spl),
     duration: spellDuration(lowest),
@@ -67,6 +80,8 @@ function profile(
 }
 
 interface Row {
+  /** The database it comes from, as the report names it */
+  database: string;
   key: string;
   file: string;
   profile: Profile;
@@ -76,7 +91,27 @@ interface Row {
     secondaryRoles?: SpellRole[];
     castingTime?: number;
     duration?: SpellDurationClass;
+    tier?: SpellTier;
   };
+}
+
+/** A database entry, from SPELLS or FNP_SPELLS */
+interface Entry {
+  key: string;
+  file: string;
+  keywords?: SpellKeyword[];
+  obsoletedBy?: unknown;
+  role?: SpellRole;
+  secondaryRoles?: SpellRole[];
+  castingTime?: number;
+  duration?: SpellDurationClass;
+  tier?: SpellTier;
+}
+
+/** The tier --write adds: a protection's guess, decent ones left unwritten. */
+function newTier(row: Row): SpellTier | undefined {
+  if (row.declared.tier) return undefined;
+  return classifyTier(row.profile.effects, row.declared.role ?? row.profile.role);
 }
 
 const cell = (value: string | number | undefined) => (value === undefined ? "-" : String(value));
@@ -84,11 +119,11 @@ const castingTime = (p: Profile) => p.castingTimes.at(0);
 
 function table(rows: Row[]): string[] {
   return [
-    "| Spell | File | Role | Secondary roles | Evidence | Casting time | Extracted duration | Declared duration |",
-    "|---|---|---|---|---|---|---|---|",
+    "| Spell | File | Role | Secondary roles | Tier | Evidence | Casting time | Extracted duration | Declared duration |",
+    "|---|---|---|---|---|---|---|---|---|",
     ...rows.map(
       (r) =>
-        `| ${r.key} | ${r.file} | ${cell(r.declared.role ?? r.profile.role)} | ${(r.declared.secondaryRoles ?? secondaryRoles(r)).join(", ")} | ${r.profile.evidence.join("<br>")} | ${cell(castingTime(r.profile))} | ${cell(r.profile.duration)} | ${cell(r.declared.duration)} |`,
+        `| ${r.key} | ${r.file} | ${cell(r.declared.role ?? r.profile.role)} | ${(r.declared.secondaryRoles ?? secondaryRoles(r)).join(", ")} | ${r.declared.tier ?? newTier(r) ?? "decent"} | ${r.profile.evidence.join("<br>")} | ${cell(castingTime(r.profile))} | ${cell(r.profile.duration)} | ${cell(r.declared.duration)} |`,
     ),
   ];
 }
@@ -162,25 +197,37 @@ function writeReport(rows: Row[]) {
           "them (mid ones only with spellcasterPrecastMidDurationSpells).",
         precast,
       ),
-      ...section("All entries", "", rows),
+      ...section(
+        "All entries",
+        "",
+        rows.filter((r) => r.database === "SPELLS"),
+      ),
+      ...section(
+        "Faiths and Powers",
+        "Spells of the Faiths and Powers mod (lib/config/spells/fnp-spell-database.ts).",
+        rows.filter((r) => r.database !== "SPELLS"),
+      ),
     ].join("\n"),
   );
   return { unclassified: unclassified.length, disagree: disagree.length };
 }
 
-function main() {
-  const { gameDir, write } = parseArgs();
-  const vanillaReader = new ResourceReader(gameDir, false);
-  const moddedReader = new ResourceReader(gameDir, true);
-  const vanilla = readerSource(vanillaReader);
-  const modded = readerSource(moddedReader);
+interface Readers {
+  vanillaReader: ResourceReader;
+  moddedReader: ResourceReader;
+  vanilla: EffectSource;
+  modded: EffectSource;
+}
+
+/** Each entry's profile, from the modded game - from the vanilla one for an entry a mod obsoletes. */
+function collect(database: string, entries: Entry[], readers: Readers) {
   const rows: Row[] = [];
   const missing: string[] = [];
-  for (const spell of getAllSpells(SPELLS)) {
+  for (const spell of entries) {
     const file = spell.file.toUpperCase();
     const keywords = spell.keywords ?? [];
-    const moddedProfile = profile(moddedReader, modded, file, keywords);
-    const vanillaProfile = profile(vanillaReader, vanilla, file, keywords);
+    const moddedProfile = profile(readers.moddedReader, readers.modded, file, keywords);
+    const vanillaProfile = profile(readers.vanillaReader, readers.vanilla, file, keywords);
     // a spell a mod repurposes (Blindness becoming Obscuring Mist) only exists unmodded
     const own = spell.obsoletedBy ? vanillaProfile : moddedProfile;
     if (!own) {
@@ -188,6 +235,7 @@ function main() {
       continue;
     }
     rows.push({
+      database,
       file,
       key: spell.key,
       profile: own,
@@ -197,22 +245,21 @@ function main() {
         secondaryRoles: spell.secondaryRoles,
         castingTime: spell.castingTime,
         duration: spell.duration,
+        tier: spell.tier,
       },
     });
   }
-  const counts = writeReport(rows);
-  console.log(
-    `${rows.length} entries, ${counts.unclassified} unclassified, ${counts.disagree} differing ` +
-      `between states (see ${REPORT})`,
-  );
-  if (missing.length) console.log(`not in the game: ${missing.join(", ")}`);
-  if (!write) return;
+  return { rows, missing };
+}
+
+/** Adds the missing fields to `databasePath`; `durations` only where the entries have one. */
+function writeDatabase(databasePath: string, rows: Row[], durations: boolean) {
   const values = (pick: (row: Row) => string | undefined) =>
     rows.flatMap((row) => {
       const value = pick(row);
       return value === undefined ? [] : [{ file: row.file, key: row.key, value }];
     });
-  let database = fs.readFileSync(DATABASE, "utf-8");
+  let database = fs.readFileSync(databasePath, "utf-8");
   database = addFieldToDatabase(
     database,
     "castingTime",
@@ -237,14 +284,50 @@ function main() {
   );
   database = addFieldToDatabase(
     database,
-    "duration",
+    "tier",
     values((r) => {
-      const duration = newDuration(r);
-      return duration && `"${duration}"`;
+      const tier = newTier(r);
+      return tier && `"${tier}"`;
     }),
+    "role",
   );
-  fs.writeFileSync(DATABASE, database);
-  console.log(`updated ${DATABASE}: format it with prettier`);
+  if (durations) {
+    database = addFieldToDatabase(
+      database,
+      "duration",
+      values((r) => {
+        const duration = newDuration(r);
+        return duration && `"${duration}"`;
+      }),
+    );
+  }
+  fs.writeFileSync(databasePath, database);
+  console.log(`updated ${databasePath}: format it with prettier`);
+}
+
+function main() {
+  const { gameDir, write } = parseArgs();
+  const vanillaReader = new ResourceReader(gameDir, false);
+  const moddedReader = new ResourceReader(gameDir, true);
+  const readers: Readers = {
+    vanillaReader,
+    moddedReader,
+    vanilla: readerSource(vanillaReader),
+    modded: readerSource(moddedReader),
+  };
+  const spells = collect("SPELLS", getAllSpells(SPELLS), readers);
+  const fnp = collect("Faiths and Powers", getAllFnpSpells(), readers);
+  const rows = [...spells.rows, ...fnp.rows];
+  const counts = writeReport(rows);
+  console.log(
+    `${rows.length} entries, ${counts.unclassified} unclassified, ${counts.disagree} differing ` +
+      `between states (see ${REPORT})`,
+  );
+  const missing = [...spells.missing, ...fnp.missing];
+  if (missing.length) console.log(`not in the game: ${missing.join(", ")}`);
+  if (!write) return;
+  writeDatabase(DATABASE, spells.rows, true);
+  writeDatabase(FNP_DATABASE, fnp.rows, false);
 }
 
 main();

@@ -12,6 +12,7 @@ import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { Creature } from "../model/creature/creature";
+import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellReference } from "../model/spell-item/spell-reference";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
@@ -120,6 +121,19 @@ describe("checkSpellProfiles", () => {
     ];
     expect(() => mainService.checkSpellProfiles(spells)).toThrow(
       "Spells missing role/castingTime (2):\n  - TESTNO1 (TestNoRole): role\n  - TESTNO2: role, castingTime",
+    );
+  });
+
+  it("checks Faiths and Powers spells the same way", () => {
+    const fnp = [{ file: "D5PTEST", type: SpellTypeEnum.Priest, level: 1 }];
+    expect(() => mainService.checkSpellProfiles([], fnp)).toThrow(
+      "Spells missing role/castingTime (1):\n  - D5PTEST: role, castingTime",
+    );
+  });
+
+  it("needs a profile for every spell this mod creates and casters memorize", () => {
+    expect(() => mainService.checkSpellProfiles([], [], ["jasc9999"])).toThrow(
+      "Spells missing role/castingTime (1):\n  - jasc9999: no NEW_SPELL_PROFILES entry",
     );
   });
 });

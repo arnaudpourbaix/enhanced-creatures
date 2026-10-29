@@ -364,6 +364,7 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
     id: domination.id,
     memorizedCount: AT_WILL,
     ...supernatural(5, domination.mode === "voice"),
+    role: "disable",
     icon: SPELLS.Wizard.Domination.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,

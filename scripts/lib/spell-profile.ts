@@ -1,5 +1,9 @@
 import { type SpellKeyword } from "../../lib/config/spells/keyword";
-import { type SpellDurationClass, type SpellRole } from "../../lib/config/spells/spell-role";
+import {
+  type SpellDurationClass,
+  type SpellRole,
+  type SpellTier,
+} from "../../lib/config/spells/spell-role";
 import { EffectTypeEnum as E } from "../../lib/src/model/spell-item/effect.type";
 import {
   type EffectSource,
@@ -143,6 +147,7 @@ const PROTECTION = new Set<number>([
   E.SpellDeflection,
   E.Stoneskin,
   E.MirrorImage,
+  E.MirrorImageEffect,
   E.Blur,
   E.Invisibility,
   E.Sanctuary,
@@ -288,4 +293,50 @@ export function classifyRole(
   ];
   const secondaryRoles = also.filter(([r, does]) => does && r !== role).map(([r]) => r);
   return { role, secondaryRoles, evidence };
+}
+
+/** The strongest protections: Stoneskin, Mirror Image, Globes, Mantles, Spell Turning/Deflection */
+const GREAT_PROTECTION = new Set<number>([
+  E.Stoneskin,
+  E.MirrorImage,
+  E.MirrorImageEffect,
+  E.ProtectionFromSpellLevels,
+  E.ProtectionFromWeapons,
+  E.SpellTurning,
+  E.SpellDeflection,
+]);
+/** Useful protections: Blur, missile immunity, resistances, opcode immunities (Free Action) */
+const GOOD_PROTECTION = new Set<number>([
+  E.Blur,
+  E.ProtectionFromProjectile,
+  E.ProtectionFromOpcode,
+  E.MagicResistanceModifier,
+  E.AcidResistanceModifier,
+  E.ColdResistanceModifier,
+  E.ElectricityResistanceModifier,
+  E.FireResistanceModifier,
+  E.MagicDamageResistanceModifier,
+  E.MagicalFireResistanceModifier,
+  E.MagicalColdResistanceModifier,
+  E.SlashingResistanceModifier,
+  E.CrushingResistanceModifier,
+  E.PiercingResistanceModifier,
+  E.MissilesResistanceModifier,
+]);
+/** The protected phase's covers decide their own use: never guessed great */
+const COVER = new Set<number>([E.Sanctuary, E.Invisibility]);
+
+/**
+ * How valuable a protection is (see SpellTier), guessed from its effects on the caster; undefined
+ * for `decent` (never written) and for every other role, whose tier is set by hand.
+ */
+export function classifyTier(
+  effects: RawEffect[],
+  role: SpellRole | undefined,
+): SpellTier | undefined {
+  if (role !== "protection") return undefined;
+  const on = (set: Set<number>) => effects.some((e) => set.has(e.opcode));
+  if (on(GREAT_PROTECTION) && !on(COVER)) return "great";
+  if (on(GREAT_PROTECTION) || on(GOOD_PROTECTION)) return "good";
+  return undefined;
 }

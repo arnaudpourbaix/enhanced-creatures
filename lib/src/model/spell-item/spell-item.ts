@@ -1,4 +1,5 @@
 import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellRole, SpellTier } from "../../../config/spells/spell-role";
 import { RawCreatureAbility } from "../creature/ability";
 import { ItemSlot } from "../creature/item";
 import { ImmunityName } from "../final/immunity";
@@ -34,6 +35,17 @@ export interface BaseSpell {
   file: string;
   type: SpellTypeEnum;
   level: number;
+  /** See SpellRole: how the cast order rules treat it (at-will powers declare it) */
+  role?: SpellRole;
+  /** What else the spell does, adding to its value */
+  secondaryRoles?: SpellRole[];
+  /** See SpellTier - decent when unset */
+  tier?: SpellTier;
+  /**
+   * Casting speed of a spell from another mod (Faiths and Powers), read from the game by
+   * scripts/extract-spell-profile.ts; a spell this mod creates uses its headers' speed
+   */
+  castingTime?: number;
   /**
    * Power level written to every effect (default: `level`), which is what globes and Spell
    * Turning/Deflection/Trap test - e.g. BG2's vampire domination: a level 1 innate whose effects

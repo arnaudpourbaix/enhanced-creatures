@@ -1,6 +1,6 @@
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { SpellKeyword } from "../../../config/spells/keyword";
-import { SpellDurationClass, SpellRole } from "../../../config/spells/spell-role";
+import { SpellDurationClass, SpellRole, SpellTier } from "../../../config/spells/spell-role";
 import { isAvailableInMod } from "../../../config/mods";
 import { SpellIdentifier } from "../ids/spell";
 import { StateIdentifier } from "../ids/state";
@@ -111,6 +111,8 @@ export interface SpellReference {
   role?: SpellRole;
   /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
   secondaryRoles?: SpellRole[];
+  /** See SpellTier - decent when unset */
+  tier?: SpellTier;
   keywords?: SpellKeyword[];
   /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
   saves?: SpellSaves;

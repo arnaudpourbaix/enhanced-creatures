@@ -28,12 +28,22 @@ import stateService from "./state.service";
 import { State } from "../state";
 import { ITEMS } from "../../config/item";
 import { NEW_SPELLS } from "../../config/spells/spells";
+import { NEW_SPELL_PROFILES } from "../../config/spells/new-spell-profiles";
+import { SpellRole } from "../../config/spells/spell-role";
 import translationService from "./translation.service";
 import weiduCoreService from "./weidu/weidu-core.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
 import weiduGroupService from "./weidu/weidu-group.service";
 import weiduFunctionService from "./weidu/weidu-function.service";
 import weiduIndexService from "./weidu/weidu-index.service";
+
+/** A database spell, as far as checkSpellProfiles is concerned */
+interface ProfiledSpell {
+  file: string;
+  id?: string;
+  role?: SpellRole;
+  castingTime?: number;
+}
 
 class MainService {
   generateCreatures() {
@@ -234,12 +244,17 @@ class MainService {
   }
 
   /**
-   * Every spell of the database needs the data the cast order rules use: a role and a casting time
-   * (see scripts/extract-spell-profile.ts). All incomplete spells are reported at once.
+   * Every spell of the databases (SPELLS, Faiths and Powers) needs the data the cast order rules
+   * use: a role and a casting time (see scripts/extract-spell-profile.ts), and every spell this mod
+   * creates a NEW_SPELL_PROFILES entry. All incomplete spells are reported at once.
    */
-  checkSpellProfiles(spells: SpellReference[] = getAllSpells(SPELLS)) {
+  checkSpellProfiles(
+    spells: SpellReference[] = getAllSpells(SPELLS),
+    fnpSpells: ProfiledSpell[] = getAllFnpSpells(),
+    newSpells: string[] = Object.values(NEW_SPELLS),
+  ) {
     logService.section("Checking spell profiles");
-    const incomplete = spells.flatMap((spell) => {
+    const incomplete = [...spells, ...fnpSpells].flatMap((spell: ProfiledSpell) => {
       const missing = [
         ...(spell.role === undefined ? ["role"] : []),
         ...(spell.castingTime === undefined ? ["castingTime"] : []),
@@ -248,6 +263,10 @@ class MainService {
       const name = spell.id === undefined ? spell.file : `${spell.file} (${spell.id})`;
       return [`  - ${name}: ${missing.join(", ")}`];
     });
+    for (const file of newSpells) {
+      if (!(file in NEW_SPELL_PROFILES))
+        incomplete.push(`  - ${file}: no NEW_SPELL_PROFILES entry`);
+    }
     if (incomplete.length > 0) {
       throw new Error(
         `Spells missing role/castingTime (${incomplete.length}):\n${incomplete.join("\n")}`,
