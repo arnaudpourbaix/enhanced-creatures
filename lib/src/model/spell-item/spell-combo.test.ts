@@ -50,12 +50,8 @@ describe("validateCombo", () => {
     expect(() => validateCombo(combo(minorSequencer([MM, MM])))).not.toThrow();
   });
 
-  it("accepts a chain contingency of 1 spell", () => {
-    expect(() => validateCombo(combo(chainContingency("hit", [MM])))).not.toThrow();
-  });
-
-  it("rejects a chain contingency of 0 spells", () => {
-    expect(() => validateCombo(combo(chainContingency("hit", [])))).toThrow(/Test/);
+  it("accepts a chain contingency of 3 spells", () => {
+    expect(() => validateCombo(combo(chainContingency("hit", [MM, MM, MM])))).not.toThrow();
   });
 
   it.each([
@@ -64,6 +60,7 @@ describe("validateCombo", () => {
     ["a spell sequencer holding a level 5 spell", spellSequencer([MM, MM, W.Cloudkill])],
     ["a contingency of 2 spells", contingency("hit", [MM, MM])],
     ["a contingency holding a level 9 spell", contingency("hit", [W.PowerWordKill])],
+    ["a chain contingency of 2 spells", chainContingency("hit", [MM, MM])],
     ["a chain contingency of 4 spells", chainContingency("hit", [MM, MM, MM, MM])],
     ["a contingency without condition", { kind: "contingency" as const, spells: [MM] }],
     ["a sequencer with a condition", { ...minorSequencer([MM, MM]), condition: "hit" as const }],

@@ -103,7 +103,7 @@ export const COMBO_RULES: Record<
   chainContingency: {
     spellLevel: 9,
     minCasterLevel: firstCasterLevel(9, 1),
-    count: [1, 3],
+    count: [3, 3],
     maxContainedLevel: 8,
   },
 };

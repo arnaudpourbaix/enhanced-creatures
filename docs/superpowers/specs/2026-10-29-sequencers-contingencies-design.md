@@ -20,7 +20,7 @@ ability no creature uses.
 | Minor sequencer   | wizard level 4 (CL 7)  | 2 spells of level 1–2            | 4                       |
 | Spell sequencer   | wizard level 7 (CL 14) | 3 spells of level 1–4            | 7                       |
 | Contingency       | wizard level 6 (CL 12) | 1 spell of level ≤ floor(CL ÷ 3) | 6                       |
-| Chain contingency | wizard level 9 (CL 18) | 1–3 spells of level 1–8          | 9                       |
+| Chain contingency | wizard level 9 (CL 18) | 3 spells of level 1–8            | 9                       |
 
 "CL" is caster level. "Wizard level N" means the caster can cast wizard spells of level N, i.e.
 the first caster level with a slot of that level in `MageSpellTable`.
@@ -176,7 +176,7 @@ Errors:
 - mixed self and enemy spells in one entry;
 - a contained spell over the kind's limit: minor 2, sequencer 4, chain 8, and 8 for a
   contingency, which is the most any caster can reach;
-- the wrong number of spells: minor 2, sequencer 3, contingency 1, chain contingency 1–3;
+- the wrong number of spells: minor 2, sequencer 3, contingency 1, chain contingency 3;
 - a contained spell unknown to the spell registry, or not a wizard/priest spell;
 - duplicate registry entries (same kind, same contents and condition);
 - a contingency condition outside the 7;
