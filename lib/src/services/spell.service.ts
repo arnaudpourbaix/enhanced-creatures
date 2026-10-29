@@ -281,7 +281,7 @@ class SpellService {
 
   getSpellName(file: string): string | null {
     const spell = State.spells.find((s) => s.file === file);
-    if (!spell?.name) return this.getExistingSpellName(file);
+    if (!spell?.name) return spellComboService.labelOf(file) ?? this.getExistingSpellName(file);
     return translationService.from(spell.name);
   }
 

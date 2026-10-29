@@ -526,7 +526,10 @@ class WeiduCreatureService extends AbstractWeiduService {
       const infos = utils.getSpellInfos(m.file);
       const level = m.level ?? infos.level - 1;
       const spell = State.spells.find((s) => s.file === m.file);
-      const comment = spell ? `// ${translationService.from(spell.name)}` : "";
+      const label = spell
+        ? translationService.from(spell.name)
+        : spellComboService.labelOf(m.file);
+      const comment = label ? `// ${label}` : "";
       let code = `ADD_MEMORIZED_SPELL ~${m.file}~ #${level} ~${infos.type}~ (${m.memorizedCount ?? 1}) ${comment}`;
       if (m.memorizedCount === 0) code = `REMOVE_MEMORIZED_SPELL ~${m.file}~`;
       this.add(lines, code, tab);

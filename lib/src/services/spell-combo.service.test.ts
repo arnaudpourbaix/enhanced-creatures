@@ -211,6 +211,30 @@ describe("allSpells", () => {
   });
 });
 
+describe("labelOf", () => {
+  it("names a combo SPL by its kind and key", () => {
+    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    expect(spellComboService.labelOf(file.toUpperCase())).toBe(
+      "Minor Sequencer (Double Magic Missiles)",
+    );
+    expect(spellComboService.labelOf("SPWI112")).toBeUndefined();
+  });
+
+  it("names a self contingency's wrapper too", () => {
+    vi.spyOn(spellComboService, "isSelf").mockReturnValue(true);
+    const combo: SpellCombo = {
+      key: "TestStoneskinOnHit",
+      kind: "chainContingency",
+      condition: "hit",
+      spells: [w.Stoneskin],
+    };
+    const setUp = splOf(spellComboService.comboFile(combo, "Vanilla"));
+    const wrapper = effectsOf(setUp, EffectTypeEnum.CastSpellOnCondition)[0].resource ?? "";
+    expect(spellComboService.labelOf(setUp.file)).toBe("Chain Contingency (Test Stoneskin On Hit)");
+    expect(spellComboService.labelOf(wrapper)).toBe("Chain Contingency (Test Stoneskin On Hit)");
+  });
+});
+
 describe("comboOfFile", () => {
   it("finds the combo a memorized SPL belongs to", () => {
     const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");

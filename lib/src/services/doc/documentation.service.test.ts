@@ -16,6 +16,8 @@ import documentationService from "./documentation.service";
 import translationService from "../translation.service";
 import monsterFilesService from "../monster-files.service";
 import { toCode } from "../utils/misc.func";
+import spellComboService from "../spell-combo.service";
+import { SEQUENCERS } from "../../../config/spells/spell-combos";
 
 interface FileIndexEntry {
   file: string;
@@ -1369,6 +1371,16 @@ describe("getCreatureSpell", () => {
       "m1-ability-0",
     );
     expect(html).toMatch(/^<div class="ability-entry">.*<\/div>$/);
+  });
+
+  it("names a combo SPL by its kind and key", () => {
+    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const html = documentationService.getCreatureSpell(
+      fakeAbility(file),
+      [{ file, memorizedCount: 1 }],
+      "m1-ability-0",
+    );
+    expect(html).toContain("<h5>Minor Sequencer (Double Magic Missiles) (1/day)</h5>");
   });
 
   it("renders nothing when the resource isn't in the given list", () => {

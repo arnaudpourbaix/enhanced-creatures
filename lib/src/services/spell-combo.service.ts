@@ -19,6 +19,7 @@ import { resolveForMod, SpellReference } from "../model/spell-item/spell-referen
 import { StringReference } from "../model/final/stringref";
 import { AbilityPreset } from "../model/misc";
 import logService from "./log.service";
+import translationService from "./translation.service";
 import { getResourceName } from "./utils/misc.func";
 
 /** Owner code of the combo SPLs in the common scope (`jasc01xx`). */
@@ -172,6 +173,21 @@ class SpellComboService {
   /** The combo whose memorized SPL is `file` (case-insensitive), if any. */
   comboOfFile(file: string): SpellCombo | undefined {
     return this.entryOfFile(file)?.combo;
+  }
+
+  /**
+   * A readable name for the combo SPL `file` (a memorized one or a self contingency's wrapper),
+   * for docs and comments: its kind and its key, e.g. "Minor Sequencer (Double Magic Missiles)".
+   */
+  labelOf(file: string): string | undefined {
+    this.allocateRegistry();
+    const target = file.toLowerCase();
+    const entry = [...this.entries.values()].find(
+      (e) => e.file.toLowerCase() === target || e.wrapper?.toLowerCase() === target,
+    );
+    if (!entry) return undefined;
+    const key = entry.combo.key.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+    return `${translationService.from(KIND_NAMES[entry.combo.kind])} (${key})`;
   }
 
   /** The spells (resolved for its mods) cast by the combo SPL `file`, see comboOfFile. */

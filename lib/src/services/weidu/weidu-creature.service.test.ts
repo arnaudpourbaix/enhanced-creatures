@@ -7,6 +7,8 @@ import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { State } from "../../state";
 import weiduCreatureService from "./weidu-creature.service";
+import spellComboService from "../spell-combo.service";
+import { SEQUENCERS } from "../../../config/spells/spell-combos";
 
 interface WeiduCreatureServicePrivate {
   removeEffects(lines: CodeLine[], tab: number, creature: Creature): void;
@@ -230,6 +232,16 @@ describe("addMemorizedSpells (private)", () => {
       spells: { memorized: [{ file: "SPWI001", memorizedCount: 1 }] },
     });
     expect(codes(lines)[0]).toContain("ADD_MEMORIZED_SPELL");
+  });
+
+  it("labels a combo SPL by its kind and key", () => {
+    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const lines: CodeLine[] = [];
+    service.addMemorizedSpells(lines, 0, {
+      spells: { memorized: [{ file, memorizedCount: 1 }] },
+    });
+    expect(codes(lines)[0]).toMatch(new RegExp(`^ADD_MEMORIZED_SPELL ~${file}~`));
+    expect(codes(lines)[0]).toMatch(/\/\/ Minor Sequencer \(Double Magic Missiles\)$/);
   });
 
   it("wraps a single conditional spellbook variant in PATCH_IF, then always adds memorized after", () => {

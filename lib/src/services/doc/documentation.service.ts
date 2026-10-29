@@ -26,6 +26,7 @@ import itemService from "../item.service";
 import logService from "../log.service";
 import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
+import spellComboService from "../spell-combo.service";
 import utils from "../utils/utils.service";
 import { toCode } from "../utils/misc.func";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
@@ -1636,7 +1637,10 @@ class DocumentationService {
       const quantity = ability.infiniteUse
         ? this.getSpellQuantity(1, infiniteUseRounds)
         : this.getSpellQuantity(memorized.memorizedCount);
-      result = `<h5>${translationService.from(ability.name)} (${quantity})</h5>`;
+      const name =
+        (ability.resource && spellComboService.labelOf(ability.resource)) ??
+        translationService.from(ability.name);
+      result = `<h5>${name} (${quantity})</h5>`;
     }
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each
