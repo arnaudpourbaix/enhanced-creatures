@@ -1,0 +1,72 @@
+import { SPELL_SCORING } from "../../../config/spell-scoring";
+import { SpellRole } from "../../../config/spells/spell-role";
+import { SpellProfile } from "../spell-profile.service";
+import spellScoringService from "../spell-scoring.service";
+
+/** A spell's place in the cast order: tried in order, cast if its own roll succeeds. */
+export interface PlannedCast {
+  file: string;
+  score: number;
+  probability: number;
+}
+
+const DEFENSIVE: SpellRole[] = ["protection", "buff"];
+
+class CastOrderService {
+  /**
+   * The order a creature tries its spells in: reactive ones first, then the opening protections
+   * (great or good ones scoring enough), then the rest alternating - never two defensive spells
+   * in a row while attacks remain, so the caster stays useful - and shapeshifts last. Useless
+   * spells are never cast. Equal scores go by file, so the order never changes between runs.
+   */
+  plan(profiles: SpellProfile[]): PlannedCast[] {
+    const caster = spellScoringService.casterReference(profiles);
+    const scored = profiles
+      .filter((profile) => profile.role !== "useless")
+      .map((profile) => {
+        const score = spellScoringService.score(profile, caster);
+        return { profile, score, probability: spellScoringService.probability(profile, score) };
+      })
+      .sort((a, b) => b.score - a.score || a.profile.file.localeCompare(b.profile.file));
+    const take = (keep: (profile: SpellProfile) => boolean) => {
+      const taken = scored.filter((s) => keep(s.profile));
+      for (const s of taken) scored.splice(scored.indexOf(s), 1);
+      return taken;
+    };
+    const reactive = take((p) => p.role === "reactive");
+    const opening = take(
+      (p) =>
+        p.role === "protection" &&
+        p.tier !== "decent" &&
+        spellScoringService.score(p, caster) >= SPELL_SCORING.openingProtection,
+    );
+    const shapeshifts = take((p) => p.role === "shapeshift");
+    const ordered = [...reactive, ...opening, ...this.alternate(scored), ...shapeshifts];
+    return ordered.map(({ profile, score, probability }) => ({
+      file: profile.file,
+      score,
+      probability,
+    }));
+  }
+
+  /** Highest score first, but never two defensive spells in a row while attacks remain. */
+  private alternate<T extends { profile: SpellProfile }>(sorted: T[]): T[] {
+    const defensive = sorted.filter((s) => DEFENSIVE.includes(s.profile.role));
+    const offensive = sorted.filter((s) => !DEFENSIVE.includes(s.profile.role));
+    const result: T[] = [];
+    let lastDefensive = false;
+    while (defensive.length || offensive.length) {
+      const pickDefensive: boolean =
+        defensive.length > 0 &&
+        (!offensive.length ||
+          (!lastDefensive && sorted.indexOf(defensive[0]) < sorted.indexOf(offensive[0])));
+      const next = pickDefensive ? defensive.shift() : offensive.shift();
+      if (next) result.push(next);
+      lastDefensive = pickDefensive;
+    }
+    return result;
+  }
+}
+
+const castOrderService = new CastOrderService();
+export default castOrderService;
