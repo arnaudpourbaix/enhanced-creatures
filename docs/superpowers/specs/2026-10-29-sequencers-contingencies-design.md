@@ -15,12 +15,12 @@ ability no creature uses.
 
 ## The four kinds (rules to respect)
 
-| Kind              | Caster needs           | Contains                                | Itself a spell of level |
-|-------------------|------------------------|-----------------------------------------|-------------------------|
-| Minor sequencer   | wizard level 4 (CL 7)  | 2 spells of level 1–2                   | 4 |
-| Spell sequencer   | wizard level 7 (CL 14) | 3 spells of level 1–4                   | 7 |
-| Contingency       | wizard level 6 (CL 12) | 1 spell of level ≤ floor(CL ÷ 3)        | 6 |
-| Chain contingency | wizard level 9 (CL 18) | 1–3 spells of level 1–8                 | 9 |
+| Kind              | Caster needs           | Contains                         | Itself a spell of level |
+| ----------------- | ---------------------- | -------------------------------- | ----------------------- |
+| Minor sequencer   | wizard level 4 (CL 7)  | 2 spells of level 1–2            | 4                       |
+| Spell sequencer   | wizard level 7 (CL 14) | 3 spells of level 1–4            | 7                       |
+| Contingency       | wizard level 6 (CL 12) | 1 spell of level ≤ floor(CL ÷ 3) | 6                       |
+| Chain contingency | wizard level 9 (CL 18) | 1–3 spells of level 1–8          | 9                       |
 
 "CL" is caster level. "Wizard level N" means the caster can cast wizard spells of level N, i.e.
 the first caster level with a slot of that level in `MageSpellTable`.
@@ -73,7 +73,7 @@ A spellbook only lists references to registry entries, ordered by preference:
 ```ts
 export const VampireNecromancerSpellbook: SpellBook = {
   name: "VampireNecromancerSpellbook",
-  values: [ /* unchanged */ ],
+  values: [/* unchanged */],
   sequencers: [SEQUENCERS.NecroOpening, SEQUENCERS.DoubleMagicMissiles],
   contingencies: [CONTINGENCIES.LastStand, CONTINGENCIES.EscapeInvisible],
 };
@@ -95,13 +95,13 @@ Each time, for each of the 4 kinds, the generator picks the first referenced ent
 
 Picking also runs per mod variant, the same way spellbooks already do (see
 `spellBookVariants`). A contained spell resolves through its fallback chain. An entry whose
-spells resolve to different files gets one generated SPL per distinct content. *(My call.)*
+spells resolve to different files gets one generated SPL per distinct content. _(My call.)_
 
 **Warning** (in generator.log, under the creature) when a caster qualifies for a kind but no
 referenced entry fits. This applies to every mage spellbook, including today's books that have no
 references yet, so the warnings will appear right away. Adding references to existing books is
-content work outside this project. *(My call: the user accepted the warnings showing up
-immediately.)*
+content work outside this project. _(My call: the user accepted the warnings showing up
+immediately.)_
 
 ## Spell slots and rest
 
@@ -163,7 +163,7 @@ The spells inside an entry are never memorized.
 
 - A spell counts as **self** when its preset casts on the caster (`castOnSelf`, or the
   `castOnSelf` keyword). Presets such as Improved Invisibility, which target "myself or allies",
-  count as self when used inside an entry. *(My call.)*
+  count as self when used inside an entry. _(My call.)_
 - An entry that mixes self spells and enemy spells is an **error**.
 - An enemy entry whose spells have different preset target lists is a **warning**: the combined
   checks may make it rarely or never fire. It could become an error later. An entry repeating the

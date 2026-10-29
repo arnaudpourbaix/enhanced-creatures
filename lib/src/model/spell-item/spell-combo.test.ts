@@ -34,7 +34,13 @@ describe("COMBO_RULES", () => {
 });
 
 describe("contingencyMaxLevel", () => {
-  it.each([[12, 4], [14, 4], [15, 5], [18, 6], [30, 8]])("caster level %i -> %i", (cl, max) => {
+  it.each([
+    [12, 4],
+    [14, 4],
+    [15, 5],
+    [18, 6],
+    [30, 8],
+  ])("caster level %i -> %i", (cl, max) => {
     expect(contingencyMaxLevel(cl)).toBe(max);
   });
 });
@@ -72,25 +78,32 @@ describe("registerCombos", () => {
   });
 
   it("throws on the same kind, spells and condition under two keys", () => {
-    expect(() => registerCombos({ A: minorSequencer([MM, MM]), B: minorSequencer([MM, MM]) }, KNOWN))
-      .toThrow(/A.*B/);
+    expect(() =>
+      registerCombos({ A: minorSequencer([MM, MM]), B: minorSequencer([MM, MM]) }, KNOWN),
+    ).toThrow(/A.*B/);
   });
 
   it("accepts the same spells with another kind or condition", () => {
-    expect(() => registerCombos({
-      A: minorSequencer([MM, MM]),
-      B: spellSequencer([MM, MM, MM]),
-      C: contingency("hit", [MM]),
-      D: contingency("hp50", [MM]),
-    }, KNOWN)).not.toThrow();
+    expect(() =>
+      registerCombos(
+        {
+          A: minorSequencer([MM, MM]),
+          B: spellSequencer([MM, MM, MM]),
+          C: contingency("hit", [MM]),
+          D: contingency("hp50", [MM]),
+        },
+        KNOWN,
+      ),
+    ).not.toThrow();
   });
 
   it.each([
     ["a class spell", Object.values(SPELLS.Class)[0]],
     ["an innate spell", Object.values(SPELLS.Innate)[0]],
   ])("throws for %s, naming the combo", (_, spell) => {
-    expect(() => registerCombos({ Bad: minorSequencer([MM, { ...spell, level: 1 }]) }, KNOWN))
-      .toThrow(/Bad.*isn't a wizard or priest spell/);
+    expect(() =>
+      registerCombos({ Bad: minorSequencer([MM, { ...spell, level: 1 }]) }, KNOWN),
+    ).toThrow(/Bad.*isn't a wizard or priest spell/);
   });
 
   it("accepts priest spells", () => {

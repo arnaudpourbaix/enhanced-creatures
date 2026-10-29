@@ -35,10 +35,7 @@ interface ContainedAbility {
 
 /** The CreatureAbilitySpell checks a combo takes from all its contained spells. */
 type ComboSpellCheck =
-  | "includeStateChecks"
-  | "excludeStateChecks"
-  | "excludeSpellStates"
-  | "excludeStatsChecks";
+  "includeStateChecks" | "excludeStateChecks" | "excludeSpellStates" | "excludeStatsChecks";
 
 /** Triggers about the caster's memorized spells: a combo's contained spells aren't memorized. */
 const MEMORIZATION_TRIGGERS = new Set(["HaveSpell", "HaveSpellRES", "HaveAnySpells"]);

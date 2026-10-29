@@ -1,5 +1,10 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { MOD_LAYER_ORDER, resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
+import {
+  MOD_LAYER_ORDER,
+  resolveWeiduCheck,
+  resourcePlaceholderToken,
+  SPELLBOOK_MODS,
+} from "../../../config/mods";
 import { SpellVariant } from "../../model/spell-item/spell-reference";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
@@ -477,7 +482,9 @@ class WeiduCreatureService extends AbstractWeiduService {
     const combos = data.spells.combos ?? [];
     // declared combos go in every mod variant (named per mod), so they need variants even when
     // the creature has no spellbook
-    const base = data.spells.spellbooks ?? (combos.length ? MOD_LAYER_ORDER.map((mod) => ({ mod, memorized: [] })) : undefined);
+    const base =
+      data.spells.spellbooks ??
+      (combos.length ? MOD_LAYER_ORDER.map((mod) => ({ mod, memorized: [] })) : undefined);
     const spellbooks = base?.map((sb) => ({
       ...sb,
       memorized: [
@@ -526,9 +533,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       const infos = utils.getSpellInfos(m.file);
       const level = m.level ?? infos.level - 1;
       const spell = State.spells.find((s) => s.file === m.file);
-      const label = spell
-        ? translationService.from(spell.name)
-        : spellComboService.labelOf(m.file);
+      const label = spell ? translationService.from(spell.name) : spellComboService.labelOf(m.file);
       const comment = label ? `// ${label}` : "";
       let code = `ADD_MEMORIZED_SPELL ~${m.file}~ #${level} ~${infos.type}~ (${m.memorizedCount ?? 1}) ${comment}`;
       if (m.memorizedCount === 0) code = `REMOVE_MEMORIZED_SPELL ~${m.file}~`;

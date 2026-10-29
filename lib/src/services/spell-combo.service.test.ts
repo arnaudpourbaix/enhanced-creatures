@@ -82,20 +82,33 @@ describe("filesOf", () => {
       ...w.MagicMissiles,
       variants: [{ mod: "AllSpellMods" as const, file: "SPWX112" }],
     };
-    const combo: SpellCombo = { key: "TestFilesOf", kind: "minorSequencer", spells: [missile, missile] };
+    const combo: SpellCombo = {
+      key: "TestFilesOf",
+      kind: "minorSequencer",
+      spells: [missile, missile],
+    };
     const files = spellComboService.filesOf(combo);
     expect(files).toEqual([
       spellComboService.comboFile(combo, "Vanilla"),
       spellComboService.comboFile(combo, "AllSpellMods"),
     ]);
-    expect(spellComboService.spellsOfFile(files[1])?.map((s) => s.file)).toEqual(["SPWX112", "SPWX112"]);
+    expect(spellComboService.spellsOfFile(files[1])?.map((s) => s.file)).toEqual([
+      "SPWX112",
+      "SPWX112",
+    ]);
     expect(spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles)).toHaveLength(1);
   });
 
   it("skips mods where a contained spell isn't available", () => {
     const missile = { ...w.MagicMissiles, requiresMod: "AllSpellMods" as const };
-    const combo: SpellCombo = { key: "TestFilesOfMod", kind: "minorSequencer", spells: [missile, missile] };
-    expect(spellComboService.filesOf(combo)).toEqual([spellComboService.comboFile(combo, "AllSpellMods")]);
+    const combo: SpellCombo = {
+      key: "TestFilesOfMod",
+      kind: "minorSequencer",
+      spells: [missile, missile],
+    };
+    expect(spellComboService.filesOf(combo)).toEqual([
+      spellComboService.comboFile(combo, "AllSpellMods"),
+    ]);
   });
 });
 
@@ -175,7 +188,12 @@ describe("spell protections", () => {
     ["a sequencer", SEQUENCERS.DoubleMagicMissiles, false],
     [
       "a self contingency",
-      { key: "TestPower", kind: "contingency", condition: "hit", spells: [w.Stoneskin] } as SpellCombo,
+      {
+        key: "TestPower",
+        kind: "contingency",
+        condition: "hit",
+        spells: [w.Stoneskin],
+      } as SpellCombo,
       true,
     ],
   ])("makes %s an innate level 1 SPL of power 0", (_, combo, self) => {

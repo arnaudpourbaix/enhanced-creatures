@@ -1,4 +1,8 @@
-import { minorSequencer, registerCombos, checkDuplicates } from "../../src/model/spell-item/spell-combo";
+import {
+  minorSequencer,
+  registerCombos,
+  checkDuplicates,
+} from "../../src/model/spell-item/spell-combo";
 import { SPELLS } from "./spell-database";
 import { FNP_SPELLS } from "./fnp-spell-database";
 
@@ -12,9 +16,12 @@ const COMBO_SPELLS = [
 ];
 
 /** Wizard sequencers, by key. */
-export const SEQUENCERS = registerCombos({
-  DoubleMagicMissiles: minorSequencer([s.MagicMissiles, s.MagicMissiles]),
-}, COMBO_SPELLS);
+export const SEQUENCERS = registerCombos(
+  {
+    DoubleMagicMissiles: minorSequencer([s.MagicMissiles, s.MagicMissiles]),
+  },
+  COMBO_SPELLS,
+);
 
 /** Wizard contingencies and chain contingencies, by key. */
 export const CONTINGENCIES = registerCombos({}, COMBO_SPELLS);

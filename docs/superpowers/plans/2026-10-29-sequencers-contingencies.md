@@ -6,6 +6,7 @@
 caster level allows, picked from a shared registry. In game these are generated SPLs.
 
 **Architecture:**
+
 - A registry (`SPELL_COMBOS`) of named entries, each one of 4 kinds.
 - Picking happens inside `spellService.buildMemorized`. Each pick adds one memorized innate SPL
   per entry (on top of the caster's slots), per mod variant.
@@ -71,11 +72,13 @@ caster level allows, picked from a shared registry. In game these are generated 
 ### Task 1: Registry model, helpers and static validation
 
 **Files:**
+
 - Create: `lib/src/model/spell-item/spell-combo.ts`
 - Create: `lib/config/spells/spell-combos.ts`
 - Test: `lib/src/model/spell-item/spell-combo.test.ts`
 
 **Interfaces:**
+
 - Produces, in `spell-combo.ts`:
   - `type SpellComboKind = "minorSequencer" | "spellSequencer" | "contingency" | "chainContingency"`
   - `interface SpellCombo { key: string; kind: SpellComboKind; spells: SpellReference[]; condition?: ContingencyTrigger }`.
@@ -125,6 +128,7 @@ caster level allows, picked from a shared registry. In game these are generated 
 ### Task 2: Generated combo SPLs
 
 **Files:**
+
 - Create: `lib/src/services/spell-combo.service.ts`
 - Modify: `lib/src/services/weidu/weidu-core.service.ts` (new `generateSpellCombos()`)
 - Modify: `lib/src/services/main.service.ts` (call it in `generateCommonCode` before `writeFile`)
@@ -132,6 +136,7 @@ caster level allows, picked from a shared registry. In game these are generated 
 - Test: `lib/src/services/spell-combo.service.test.ts`
 
 **Interfaces:**
+
 - Consumes: `SpellCombo`, `SPELL_COMBOS` (Task 1); `resolveForMod`, `MOD_LAYER_ORDER`;
   `spellService.getSpell`; `getResourceName`.
 - Produces: `spellComboService` with:
@@ -169,14 +174,15 @@ caster level allows, picked from a shared registry. In game these are generated 
   - `allSpells()` contains each generated SPL once.
 - [ ] **Step 2: Run** `npx vitest run lib/src/services/spell-combo.service.test.ts`. Expected: FAIL.
 - [ ] **Step 3: Implement** `spellComboService`, `weiduCoreService.generateSpellCombos()` (one
-  `weiduSpellService.createSpell(lines, spell, 0)` per `allSpells()` entry) and the 2 translation
-  keys.
+      `weiduSpellService.createSpell(lines, spell, 0)` per `allSpells()` entry) and the 2 translation
+      keys.
 - [ ] **Step 4: Run** the test file and `npx vitest run lib/src/services/weidu`. Expected: PASS.
 - [ ] **Step 5: Commit** `feat(combos): generate sequencer and contingency spells`.
 
 ### Task 3: Picking in spellbooks and on creatures
 
 **Files:**
+
 - Modify: `lib/src/model/spell-item/spellbook.ts` (`SpellBook.sequencers?: SpellCombo[]` and
   `SpellBook.contingencies?: SpellCombo[]`, each ordered by preference; `pickCombos` receives
   their concatenation)
@@ -186,6 +192,7 @@ caster level allows, picked from a shared registry. In game these are generated 
 - Test: `lib/src/services/spell.service.test.ts`
 
 **Interfaces:**
+
 - Consumes: `COMBO_RULES`, `contingencyMaxLevel` (Task 1); `spellComboService.comboFile` (Task 2).
 - Produces: `spellService.pickCombos(combos: SpellCombo[], casterLevel: number, mod: SpellbookModName, bookName: string): MemorizedSpell[]`.
   - It returns at most one `{ file, memorizedCount: 1 }` per kind: the first entry of that kind that
@@ -212,13 +219,14 @@ caster level allows, picked from a shared registry. In game these are generated 
     slot (compare against the same book without combos).
 - [ ] **Step 2: Run** `npx vitest run lib/src/services/spell.service.test.ts`. Expected: FAIL.
 - [ ] **Step 3: Implement** `pickCombos`, the `buildMemorized` wiring, `SpellBook.combos`, and the
-  creature `combos` emission.
+      creature `combos` emission.
 - [ ] **Step 4: Run** the test file. Expected: PASS.
 - [ ] **Step 5: Commit** `feat(combos): pick sequencers and contingencies by caster level`.
 
 ### Task 4: Target classification, combo presets and target validation
 
 **Files:**
+
 - Modify: `lib/src/services/spell-combo.service.ts` (real `isSelf`, `checkTargets`)
 - Modify: `lib/src/factories/preset.factory.ts` (`createCombos`)
 - Modify: `lib/config/ability-presets.ts` (append combo presets)
@@ -227,6 +235,7 @@ caster level allows, picked from a shared registry. In game these are generated 
 - Test: `lib/src/services/spell-combo.service.test.ts`, `lib/src/factories/preset.factory.test.ts`
 
 **Interfaces:**
+
 - Consumes: the other preset arrays (not `ABILITY_PRESETS` itself, to avoid a cycle).
 - Produces:
   - `spellComboService.isSelf(combo, presets)`. A spell is **self** when its preset has no
@@ -256,13 +265,14 @@ caster level allows, picked from a shared registry. In game these are generated 
     spell's keywords.
 - [ ] **Step 2: Run** the 2 test files. Expected: FAIL.
 - [ ] **Step 3: Implement** them, wire the presets into `ABILITY_PRESETS`, and add
-  `checkSpellCombos()`, which runs `checkTargets` over `SPELL_COMBOS`.
+      `checkSpellCombos()`, which runs `checkTargets` over `SPELL_COMBOS`.
 - [ ] **Step 4: Run** the 2 test files. Expected: PASS.
 - [ ] **Step 5: Commit** `feat(combos): combo presets and target validation`.
 
 ### Task 5: Script: precast self contingencies, condition-gated enemy contingencies, priority errors
 
 **Files:**
+
 - Modify: `lib/src/services/baf/statement-builder.service.ts` (new handler `precastContingencies`,
   registered right before `precastLongDurationSpells`)
 - Modify: `lib/src/services/baf/ability-order.service.ts`
@@ -271,6 +281,7 @@ caster level allows, picked from a shared registry. In game these are generated 
   `lib/src/services/baf/ability-order.service.test.ts`
 
 **Interfaces:**
+
 - Consumes: `spellComboService.comboOfFile`, `isSelf`, `comboFile` (Tasks 2 and 4).
 - Produces:
   - **`precastContingencies`:** for each self-contingency file memorized by the creature or any
@@ -296,14 +307,15 @@ caster level allows, picked from a shared registry. In game these are generated 
   - `checkSpellCombos` throws for a sequencer file missing from `SPELL_PRIORITY_ORDER`.
 - [ ] **Step 2: Run** the 2 test files. Expected: FAIL.
 - [ ] **Step 3: Implement** them, and add the `DoubleMagicMissiles` file(s) to
-  `SPELL_PRIORITY_ORDER` right after `SPELLS.Wizard.MagicMissiles.file`, through
-  `spellComboService.comboFile` for each mod in `MOD_LAYER_ORDER`.
+      `SPELL_PRIORITY_ORDER` right after `SPELLS.Wizard.MagicMissiles.file`, through
+      `spellComboService.comboFile` for each mod in `MOD_LAYER_ORDER`.
 - [ ] **Step 4: Run** `npm test`. Expected: PASS, except the golden test, which is handled in Task 6.
 - [ ] **Step 5: Commit** `feat(combos): script contingencies and sequencer priority`.
 
 ### Task 6: Remove old code, generate, verify
 
 **Files:**
+
 - Delete: `lib/src/model/creature/spellcaster.ts`, and `behavior.spellcaster` in `behavior.ts`
 - Modify: `lib/src/services/baf/ability.service.ts` (remove `getMinorSequencer`, `getSequencer`,
   `generateSequencer`, their tests in `ability.service.test.ts`, and `RawCreatureSequencerAbility`
@@ -317,10 +329,10 @@ caster level allows, picked from a shared registry. In game these are generated 
   - `core.tpa` contains the `DoubleMagicMissiles` SPL.
   - No creature memorizes it, since no book references it yet.
 - [ ] **Step 3:** Run `npm test`. The golden test changes only by `core.tpa`'s new SPL. Inspect the
-  diff, and update the golden only if that's the sole difference.
+      diff, and update the golden only if that's the sole difference.
 - [ ] **Step 4:** Temporarily add `sequencers: [SEQUENCERS.DoubleMagicMissiles]` to
-  `VampireNecromancerSpellbook`, then generate. Check that DX#DALID (CL 16) memorizes the
-  `jasc01..` file as innate and that its script has the sequencer block, ordered right after Magic
-  Missile. Revert the change. This is a manual end-to-end check; adding references to books is
-  out of scope.
+      `VampireNecromancerSpellbook`, then generate. Check that DX#DALID (CL 16) memorizes the
+      `jasc01..` file as innate and that its script has the sequencer block, ordered right after Magic
+      Missile. Revert the change. This is a manual end-to-end check; adding references to books is
+      out of scope.
 - [ ] **Step 5: Commit** `refactor(combos): drop the old sequencer helpers`.

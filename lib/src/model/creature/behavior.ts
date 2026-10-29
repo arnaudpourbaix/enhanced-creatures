@@ -1,8 +1,4 @@
-import {
-  AdditionalCode,
-  CustomCode,
-  PartialCustomCode,
-} from "../script/script";
+import { AdditionalCode, CustomCode, PartialCustomCode } from "../script/script";
 import { AbilityEntry, CreatureAbility, RawCreatureAbility } from "./ability";
 
 export interface CreatureBehavior {

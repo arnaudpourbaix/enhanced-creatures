@@ -5,7 +5,8 @@ import type { SpellReference } from "./spell-reference";
 export type ContingencyTrigger =
   "hit" | "seeEnemy" | "hp50" | "hp25" | "hp10" | "helpless" | "poisoned";
 
-export type SpellComboKind = "minorSequencer" | "spellSequencer" | "contingency" | "chainContingency";
+export type SpellComboKind =
+  "minorSequencer" | "spellSequencer" | "contingency" | "chainContingency";
 
 /**
  * A sequencer or contingency: a wizard spell that holds other spells and casts them together
@@ -24,12 +25,16 @@ export interface SpellCombo {
 type ComboEntry = Omit<SpellCombo, "key">;
 
 /** Level 4 spell: triggers 2 spells of level 1-2. */
-export const minorSequencer = (spells: SpellReference[]): ComboEntry =>
-  ({ kind: "minorSequencer", spells });
+export const minorSequencer = (spells: SpellReference[]): ComboEntry => ({
+  kind: "minorSequencer",
+  spells,
+});
 
 /** Triggers 3 spells of level 1-4. */
-export const spellSequencer = (spells: SpellReference[]): ComboEntry =>
-  ({ kind: "spellSequencer", spells });
+export const spellSequencer = (spells: SpellReference[]): ComboEntry => ({
+  kind: "spellSequencer",
+  spells,
+});
 
 /**
  * Level 6 spell: casts 1 spell when `condition` happens. The contained spell's level can't exceed
@@ -43,16 +48,22 @@ export const spellSequencer = (spells: SpellReference[]): ComboEntry =>
  * | 21-23        | 7         |
  * | 24+          | 8         |
  */
-export const contingency = (condition: ContingencyTrigger, spells: SpellReference[]): ComboEntry =>
-  ({ kind: "contingency", spells, condition });
+export const contingency = (
+  condition: ContingencyTrigger,
+  spells: SpellReference[],
+): ComboEntry => ({ kind: "contingency", spells, condition });
 
 /** Level 9 spell: casts 3 spells of level 1-8 when `condition` happens. */
-export const chainContingency = (condition: ContingencyTrigger, spells: SpellReference[]): ComboEntry =>
-  ({ kind: "chainContingency", spells, condition });
+export const chainContingency = (
+  condition: ContingencyTrigger,
+  spells: SpellReference[],
+): ComboEntry => ({ kind: "chainContingency", spells, condition });
 
 /** The first mage caster level with at least `slots` spell slots of `spellLevel`. */
 function firstCasterLevel(spellLevel: number, slots: number): number {
-  const row = MageSpellTable.find((r) => r.spells.some((s) => s.level === spellLevel && s.count >= slots));
+  const row = MageSpellTable.find((r) =>
+    r.spells.some((s) => s.level === spellLevel && s.count >= slots),
+  );
   if (!row) throw new Error(`No mage caster level has ${slots} slot(s) of level ${spellLevel}`);
   return row.level;
 }
@@ -62,19 +73,50 @@ function firstCasterLevel(spellLevel: number, slots: number): number {
  * spells it holds ([min, max]) and the highest level of a held spell. For contingencies that last
  * value is the absolute cap, `contingencyMaxLevel` gives the one for a given caster level.
  */
-export const COMBO_RULES: Record<SpellComboKind, {
-  spellLevel: number;
-  minCasterLevel: number;
-  count: [number, number];
-  maxContainedLevel: number;
-}> = {
-  minorSequencer: { spellLevel: 4, minCasterLevel: firstCasterLevel(4, 1), count: [2, 2], maxContainedLevel: 2 },
-  spellSequencer: { spellLevel: 7, minCasterLevel: firstCasterLevel(7, 1), count: [3, 3], maxContainedLevel: 4 },
-  contingency: { spellLevel: 6, minCasterLevel: firstCasterLevel(6, 1), count: [1, 1], maxContainedLevel: 8 },
-  chainContingency: { spellLevel: 9, minCasterLevel: firstCasterLevel(9, 1), count: [1, 3], maxContainedLevel: 8 },
+export const COMBO_RULES: Record<
+  SpellComboKind,
+  {
+    spellLevel: number;
+    minCasterLevel: number;
+    count: [number, number];
+    maxContainedLevel: number;
+  }
+> = {
+  minorSequencer: {
+    spellLevel: 4,
+    minCasterLevel: firstCasterLevel(4, 1),
+    count: [2, 2],
+    maxContainedLevel: 2,
+  },
+  spellSequencer: {
+    spellLevel: 7,
+    minCasterLevel: firstCasterLevel(7, 1),
+    count: [3, 3],
+    maxContainedLevel: 4,
+  },
+  contingency: {
+    spellLevel: 6,
+    minCasterLevel: firstCasterLevel(6, 1),
+    count: [1, 1],
+    maxContainedLevel: 8,
+  },
+  chainContingency: {
+    spellLevel: 9,
+    minCasterLevel: firstCasterLevel(9, 1),
+    count: [1, 3],
+    maxContainedLevel: 8,
+  },
 };
 
-const CONDITIONS: ContingencyTrigger[] = ["hit", "seeEnemy", "hp50", "hp25", "hp10", "helpless", "poisoned"];
+const CONDITIONS: ContingencyTrigger[] = [
+  "hit",
+  "seeEnemy",
+  "hp50",
+  "hp25",
+  "hp10",
+  "helpless",
+  "poisoned",
+];
 
 /** The highest level of spell a contingency can hold at `casterLevel`. */
 export function contingencyMaxLevel(casterLevel: number): number {
@@ -102,7 +144,9 @@ export function validateCombo(combo: SpellCombo, spells?: SpellReference[]): voi
     }
     if (spell.level === undefined) fail(`spell ${spell.file} has no level`);
     else if (spell.level > rule.maxContainedLevel) {
-      fail(`spell ${spell.file} is level ${spell.level}, above the maximum ${rule.maxContainedLevel}`);
+      fail(
+        `spell ${spell.file} is level ${spell.level}, above the maximum ${rule.maxContainedLevel}`,
+      );
     }
   }
   const isContingency = combo.kind === "contingency" || combo.kind === "chainContingency";
@@ -120,7 +164,8 @@ export function checkDuplicates(combos: SpellCombo[]): void {
   const seen = new Map<string, string>();
   for (const combo of combos) {
     const other = seen.get(signature(combo));
-    if (other !== undefined) throw new Error(`Spell combos ${other} and ${combo.key} are identical`);
+    if (other !== undefined)
+      throw new Error(`Spell combos ${other} and ${combo.key} are identical`);
     seen.set(signature(combo), combo.key);
   }
 }

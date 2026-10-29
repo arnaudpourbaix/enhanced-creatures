@@ -14,7 +14,12 @@ import { spellsByKeyword } from "../model/spell-item/spell-reference";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { State } from "../state";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
-import { contingency, minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
+import {
+  contingency,
+  minorSequencer,
+  SpellCombo,
+  spellSequencer,
+} from "../model/spell-item/spell-combo";
 import { SpellBook } from "../model/spell-item/spellbook";
 import logService from "./log.service";
 import spellComboService from "./spell-combo.service";
@@ -560,7 +565,10 @@ describe("pickCombos", () => {
   const stoneskin = { ...contingency("hp50", [w.Stoneskin]), key: "TestStoneskin" };
   const heavy = { ...contingency("hp50", [level5]), key: "TestLevel5" };
   const minor = { ...minorSequencer([w.MagicMissiles, w.MagicMissiles]), key: "TestMinor" };
-  const sequencer = { ...spellSequencer([w.MagicMissiles, w.MagicMissiles, w.Stoneskin]), key: "TestSeq" };
+  const sequencer = {
+    ...spellSequencer([w.MagicMissiles, w.MagicMissiles, w.Stoneskin]),
+    key: "TestSeq",
+  };
 
   it("picks the first contingency whose spell fits the caster level", () => {
     const at12 = spellService.pickCombos([heavy, stoneskin], 12, mod, "B").map((m) => m.file);
@@ -619,7 +627,8 @@ describe("pickCombos", () => {
       Spellbooks.push({ ...base, name: "TestMage" as never, ...extra });
     };
     const create = (casterLevel: number) =>
-      spellService.createSpellbooks({ name: "TestMage" as never, casterLevel, type: "mage" })[0].memorized;
+      spellService.createSpellbooks({ name: "TestMage" as never, casterLevel, type: "mage" })[0]
+        .memorized;
 
     it("follows each caster level", () => {
       vi.spyOn(logService, "warn").mockImplementation(() => undefined);
