@@ -85,6 +85,23 @@ describe("plan", () => {
     expect(order).toEqual(["BUFF1", "HIT1", "BUFF2", "HIT2"]);
   });
 
+  it("attacks right after the opening protections, before a better buff", () => {
+    const order = files([
+      profile("GLOBE", { role: "protection", tier: "great" }),
+      profile("HASTE", { role: "buff", castingTime: 1, tier: "great" }),
+      profile("HIT", {}),
+    ]);
+    expect(order).toEqual(["GLOBE", "HIT", "HASTE"]);
+  });
+
+  it("orders equal scores by file code units, whatever the machine's locale", () => {
+    expect(files([profile("B_X", {}), profile("B#X", {}), profile("BAX", {})])).toEqual([
+      "B#X",
+      "BAX",
+      "B_X",
+    ]);
+  });
+
   it("lists defensive spells by score when there's nothing else", () => {
     const order = files([
       profile("BUFF1", { role: "buff" }),

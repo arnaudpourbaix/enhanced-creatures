@@ -1211,7 +1211,8 @@ const WIZARD_SPELLS = {
     id: "WIZARD_SHADOW_DOOR",
     level: 5,
     duration: "short",
-    role: "protection",
+    // role: hand-picked, an escape, cast when needed
+    role: "reactive",
     castingTime: 1,
     name: "spell.ShadowDoor.name",
     keywords: ["castOnSelf"],
@@ -1416,8 +1417,8 @@ const WIZARD_SPELLS = {
     file: "SPWI219",
     id: "WIZARD_VOCALIZE",
     level: 2,
-    role: "protection",
-    tier: "good",
+    // role: hand-picked, only worth casting when silenced
+    role: "reactive",
     castingTime: 2,
     duration: "short",
     name: "spell.Vocalize.name",
@@ -2352,7 +2353,8 @@ const PRIEST_SPELLS = {
     id: "CLERIC_REGENERATE_LIGHT_WOUNDS",
     level: 1,
     duration: "short",
-    role: "protection",
+    // role: hand-picked, healing, cast when wounded
+    role: "reactive",
     castingTime: 1,
     name: "spell.RegenerateLightWounds.name",
     requiresMod: "AllSpellMods",
@@ -2363,7 +2365,8 @@ const PRIEST_SPELLS = {
     id: "CLERIC_REGENERATE_MODERATE_WOUNDS",
     level: 2,
     duration: "short",
-    role: "protection",
+    // role: hand-picked, healing, cast when wounded
+    role: "reactive",
     castingTime: 2,
     name: "spell.RegenerateModerateWounds.name",
     requiresMod: "AllSpellMods",
@@ -2374,7 +2377,8 @@ const PRIEST_SPELLS = {
     id: "CLERIC_REGENERATE_SERIOUS_WOUNDS",
     level: 3,
     duration: "mid",
-    role: "protection",
+    // role: hand-picked, healing, cast when wounded
+    role: "reactive",
     castingTime: 3,
     name: "spell.RegenerateSeriousWounds.name",
     requiresMod: "AllSpellMods",
@@ -2385,7 +2389,8 @@ const PRIEST_SPELLS = {
     id: "CLERIC_REGENERATE_CRITICAL_WOUNDS",
     level: 4,
     duration: "mid",
-    role: "protection",
+    // role: hand-picked, healing, cast when wounded
+    role: "reactive",
     castingTime: 4,
     name: "spell.RegenerateCriticalWounds.name",
     requiresMod: "AllSpellMods",
@@ -2396,7 +2401,8 @@ const PRIEST_SPELLS = {
     id: "CLERIC_REGENERATE",
     level: 7,
     duration: "mid",
-    role: "protection",
+    // role: hand-picked, healing, cast when wounded
+    role: "reactive",
     castingTime: 7,
     name: "spell.Regeneration.name",
     keywords: ["friendly"],

@@ -12,6 +12,9 @@ export interface PlannedCast {
 
 const DEFENSIVE: SpellRole[] = ["protection", "buff"];
 
+/** Plain byte order: the same on every machine, unlike localeCompare */
+const byCodeUnits = (a: string, b: string) => Buffer.compare(Buffer.from(a), Buffer.from(b));
+
 class CastOrderService {
   /**
    * The order a creature tries its spells in: reactive ones first, then the opening protections
@@ -27,7 +30,7 @@ class CastOrderService {
         const score = spellScoringService.score(profile, caster);
         return { profile, score, probability: spellScoringService.probability(profile, score) };
       })
-      .sort((a, b) => b.score - a.score || a.profile.file.localeCompare(b.profile.file));
+      .sort((a, b) => b.score - a.score || byCodeUnits(a.profile.file, b.profile.file));
     const take = (keep: (profile: SpellProfile) => boolean) => {
       const taken = scored.filter((s) => keep(s.profile));
       for (const s of taken) scored.splice(scored.indexOf(s), 1);
@@ -41,7 +44,9 @@ class CastOrderService {
         spellScoringService.score(p, caster) >= SPELL_SCORING.openingProtection,
     );
     const shapeshifts = take((p) => p.role === "shapeshift");
-    const ordered = [...reactive, ...opening, ...this.alternate(scored), ...shapeshifts];
+    // the opening protections are defensive casts already: an attack comes next
+    const rest = this.alternate(scored, opening.length > 0);
+    const ordered = [...reactive, ...opening, ...rest, ...shapeshifts];
     return ordered.map(({ profile, score, probability }) => ({
       file: profile.file,
       score,
@@ -50,11 +55,14 @@ class CastOrderService {
   }
 
   /** Highest score first, but never two defensive spells in a row while attacks remain. */
-  private alternate<T extends { profile: SpellProfile }>(sorted: T[]): T[] {
+  private alternate<T extends { profile: SpellProfile }>(
+    sorted: T[],
+    afterDefensive: boolean,
+  ): T[] {
     const defensive = sorted.filter((s) => DEFENSIVE.includes(s.profile.role));
     const offensive = sorted.filter((s) => !DEFENSIVE.includes(s.profile.role));
     const result: T[] = [];
-    let lastDefensive = false;
+    let lastDefensive = afterDefensive;
     while (defensive.length || offensive.length) {
       const pickDefensive: boolean =
         defensive.length > 0 &&
