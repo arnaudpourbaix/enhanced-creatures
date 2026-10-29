@@ -209,5 +209,6 @@ COPY_EXISTING ~jasc0100.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=1 parameter1=RESOLVE_STR_REF(@10809) probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI112" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI112" END

@@ -3,7 +3,7 @@ import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SEQUENCERS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
-import { ItemAbilityTargetEnum } from "../model/spell-item/effect.enums";
+import { EffectTargetEnum, ItemAbilityTargetEnum } from "../model/spell-item/effect.enums";
 import { minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
 import { Spell } from "../model/spell-item/spell-item";
 import logService from "./log.service";
@@ -165,6 +165,12 @@ describe("generated SPLs", () => {
     const wrapper = splOf(conditions[0].resource ?? "");
     expect(wrapper.file).not.toBe(setUp.file);
     expect(castResources(wrapper)).toEqual(["SPWI408"]);
+    // no visual: both the set-up and the release show the kind's name over the caster
+    for (const spl of [setUp, wrapper]) {
+      const [display] = effectsOf(spl, EffectTypeEnum.DisplayString);
+      expect(display.stringRef).toBe("ability.Contingency");
+      expect(display.target).toBe(EffectTargetEnum.Self);
+    }
   });
 
   it("makes an enemy contingency a single casting SPL", () => {

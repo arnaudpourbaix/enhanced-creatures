@@ -36,6 +36,15 @@ export const KIND_NAMES: Record<SpellComboKind, StringReference> = {
   chainContingency: "ability.ChainContingency",
 };
 
+/** Shows the kind's name over the caster: combos have no visual of their own. */
+function displayName(combo: SpellCombo): Effect {
+  return {
+    opcode: EffectTypeEnum.DisplayString,
+    target: EffectTargetEnum.Self,
+    stringRef: KIND_NAMES[combo.kind],
+  };
+}
+
 /** The engine condition (CastSpellOnCondition, Global Constraints) of each contingency trigger. */
 export const CONTINGENCY_CONDITIONS: Record<ContingencyTrigger, CastSpellOnConditionType> = {
   hit: "HitBy([ANYONE])",
@@ -294,9 +303,9 @@ class SpellComboService {
           timing: EffectTimingEnum.InstantPermanentUntilDeath,
           resource: wrapper,
         },
+        displayName(combo),
       ],
     });
-    // TODO: the game's Contingency set-up visual (no reference to it in this repo yet)
     return [setUp, this.castingSpell(combo, spells, wrapper, true)];
   }
 
@@ -310,12 +319,14 @@ class SpellComboService {
     file: string,
     self: boolean,
   ): Spell {
-    const effects: Effect[] = spells.map((s) => ({
-      opcode: EffectTypeEnum.CastSpell,
-      type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-      resource: s.file,
-    }));
-    // TODO: the game's sequencer release visual (no reference to it in this repo yet)
+    const effects: Effect[] = [
+      displayName(combo),
+      ...spells.map((s) => ({
+        opcode: EffectTypeEnum.CastSpell as const,
+        type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
+        resource: s.file,
+      })),
+    ];
     return this.spell(combo, file, {
       type: ItemAbilityTypeEnum.Magical,
       ...(self
