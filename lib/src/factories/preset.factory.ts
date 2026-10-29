@@ -8,7 +8,11 @@ import { AbilityPreset } from "../model/misc";
 import { Triggers } from "../model/script/triggers";
 import { ContingencyTrigger, SpellCombo } from "../model/spell-item/spell-combo";
 import { mergeSaves, SpellReference, spellFiles } from "../model/spell-item/spell-reference";
-import spellComboService, { isContingency, KIND_NAMES } from "../services/spell-combo.service";
+import spellComboService, {
+  comboRange,
+  isContingency,
+  KIND_NAMES,
+} from "../services/spell-combo.service";
 import triggerFactory from "./trigger.factory";
 
 /** When the script fires an enemy contingency (see CONTINGENCY_CONDITIONS for self ones). */
@@ -121,7 +125,7 @@ class PresetFactory {
     return [...results].map(([file, spells]) => ({ file, spells }));
   }
 
-  /** The first spell's targets, with the checks of every spell (see createCombos). */
+  /** The first spell's targets and the SPL's range, with every spell's checks (see createCombos). */
   private addComboChecks(
     ability: RawCreatureAbility,
     combo: SpellCombo,
@@ -134,6 +138,8 @@ class PresetFactory {
       return { spell, ability: preset.ability };
     });
     ability.targets = structuredClone(abilities[0].ability.targets);
+    // the generated SPL's range, see SpellComboService
+    ability.range = comboRange(spells);
     const keywords = new Set<SpellKeyword>(
       abilities.flatMap((a) => a.ability.keywords ?? a.spell.keywords ?? []),
     );

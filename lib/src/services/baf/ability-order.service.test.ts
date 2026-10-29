@@ -5,6 +5,12 @@ import { AbilityEntry, CreatureAbility, RawCreatureAbility } from "../../model/c
 import abilityOrderService from "./ability-order.service";
 import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
 import logService from "../log.service";
+import { ABILITY_PRESETS } from "../../../config/ability-presets";
+import { SPELLS } from "../../../config/spells/spell-database";
+import presetFactory from "../../factories/preset.factory";
+import { ScriptTarget } from "../../model/constants";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
+import spellComboService from "../spell-combo.service";
 
 const TEST_PRIORITY_A = "test-priority-a";
 const TEST_PRIORITY_B = "test-priority-b";
@@ -48,6 +54,41 @@ function fakeAbility(resource: string): CreatureAbility {
 }
 
 describe("resolve", () => {
+  it("casts an enemy contingency before everything else, on its condition", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const combo: SpellCombo = {
+      key: "TestHorrorAtHp25",
+      kind: "contingency",
+      condition: "hp25",
+      spells: [SPELLS.Wizard.Horror],
+    };
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    const first = SPELL_PRIORITY_ORDER[0];
+    const creature = fakeCreature({ memorized: [{ file: first }, { file }] });
+    const resolved = abilityOrderService.resolve(creature);
+    expect(resolved).toEqual([{ preset: file }, { preset: first }]);
+    const preset = presetFactory
+      .createCombos([combo], ABILITY_PRESETS)
+      .find((p) => p.preset === resolved[0].preset);
+    expect(preset?.ability.triggers).toContainEqual({
+      name: "HPPercentLT",
+      params: [ScriptTarget.myself, 25],
+    });
+  });
+
+  it("leaves a self contingency out: it is precast, not cast as an ability", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const combo: SpellCombo = {
+      key: "TestStoneskinAtHit",
+      kind: "contingency",
+      condition: "hit",
+      spells: [SPELLS.Wizard.Stoneskin],
+    };
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    const creature = fakeCreature({ memorized: [{ file }] });
+    expect(abilityOrderService.resolve(creature)).toEqual([]);
+  });
+
   it("orders memorized spells by their SPELL_PRIORITY_ORDER index", () => {
     SPELL_PRIORITY_ORDER.push(TEST_PRIORITY_A, TEST_PRIORITY_B);
     try {

@@ -115,6 +115,21 @@ describe("createCombos", () => {
     expect(ability.requireVocal).toBe(false);
   });
 
+  it("gives an enemy combo its SPL's range: its spells' smallest one, 30 when none sets one", () => {
+    const ranged = comboPreset({
+      key: "TestBurningSpray",
+      kind: "minorSequencer",
+      spells: [w.BurningHands, w.ColorSpray],
+    });
+    expect(ranged.range).toBe(10);
+    const unranged = comboPreset({
+      key: "TestHorrorHorror",
+      kind: "minorSequencer",
+      spells: [w.Horror, w.Horror],
+    });
+    expect(unranged.range).toBe(30);
+  });
+
   it("casts a self sequencer at the caster", () => {
     const ability = comboPreset({
       key: "TestSelfSequencer",

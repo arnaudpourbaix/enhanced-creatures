@@ -155,6 +155,18 @@ class SpellComboService {
     return [...this.entries.values()].find((e) => e.file.toLowerCase() === target)?.combo;
   }
 
+  /** Whether `file` is a self contingency's memorized SPL: precast, then the engine fires it. */
+  isSelfContingencyFile(file: string): boolean {
+    const combo = this.comboOfFile(file);
+    return !!combo && isContingency(combo) && this.isSelf(combo);
+  }
+
+  /** Whether `file` is an enemy contingency's memorized SPL: the script fires it on its condition. */
+  isEnemyContingencyFile(file: string): boolean {
+    const combo = this.comboOfFile(file);
+    return !!combo && isContingency(combo) && !this.isSelf(combo);
+  }
+
   /** Forgets every name and SPL (not the presets), for tests. */
   reset(): void {
     this.entries.clear();
@@ -245,7 +257,6 @@ class SpellComboService {
     file: string,
     self: boolean,
   ): Spell {
-    const ranges = spells.flatMap((s) => (s.range === undefined ? [] : [s.range]));
     const effects: Effect[] = spells.map((s) => ({
       opcode: EffectTypeEnum.CastSpell,
       type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
@@ -258,7 +269,7 @@ class SpellComboService {
         ? { target: ItemAbilityTargetEnum.Caster }
         : {
             target: ItemAbilityTargetEnum.LivingActor,
-            range: ranges.length ? Math.min(...ranges) : DEFAULT_RANGE,
+            range: comboRange(spells),
           }),
       effects,
     });
@@ -271,6 +282,12 @@ class SpellComboService {
       file,
     );
   }
+}
+
+/** The range of an enemy combo (SPL header and preset): the smallest of its spells' ranges. */
+export function comboRange(spells: SpellReference[]): number {
+  const ranges = spells.flatMap((s) => (s.range === undefined ? [] : [s.range]));
+  return ranges.length ? Math.min(...ranges) : DEFAULT_RANGE;
 }
 
 /** The combo's spells for `mod`, through their fallbacks (see resolveForMod). */

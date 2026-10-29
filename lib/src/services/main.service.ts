@@ -3,9 +3,11 @@ import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../c
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
+import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
 import { entryFactories } from "../../creatures/entries";
 import { KinEnum } from "../../creatures/kin";
@@ -21,7 +23,7 @@ import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
 import resourceClashService from "./resource-clash.service";
-import spellComboService from "./spell-combo.service";
+import spellComboService, { isContingency } from "./spell-combo.service";
 import stateService from "./state.service";
 import { State } from "../state";
 import { ITEMS } from "../../config/item";
@@ -191,10 +193,23 @@ class MainService {
     return variant ? variant.id : spell.id;
   }
 
-  /** Checks each sequencer and contingency holds spells cast at the same kind of targets. */
-  checkSpellCombos() {
+  /**
+   * Checks each sequencer and contingency holds spells cast at the same kind of targets, and each
+   * sequencer's files have a priority (contingencies don't need one, see AbilityOrderService).
+   */
+  checkSpellCombos(combos: SpellCombo[] = SPELL_COMBOS) {
     logService.section("Checking spell combos");
-    for (const combo of SPELL_COMBOS) spellComboService.checkTargets(combo);
+    for (const combo of combos) {
+      spellComboService.checkTargets(combo);
+      if (isContingency(combo)) continue;
+      for (const mod of MOD_LAYER_ORDER) {
+        if (!spellComboService.spellsFor(combo, mod)) continue;
+        const file = spellComboService.comboFile(combo, mod);
+        if (!SPELL_PRIORITY_ORDER.includes(file)) {
+          throw new Error(`Spell combo ${combo.key}: ${file} is missing from SPELL_PRIORITY_ORDER`);
+        }
+      }
+    }
   }
 
   checkSpells() {

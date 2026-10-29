@@ -34,6 +34,7 @@ import monsterFilesService, { type CreatureCsvRow } from "./monster-files.servic
 import translationService from "./translation.service";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
+import spellComboService from "./spell-combo.service";
 import { WithRequired } from "../model/utility-types";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
@@ -157,7 +158,8 @@ class CreatureService {
     const memorizedFiles = new Set(groups.flatMap((g) => g.files));
     for (const group of groups) {
       for (const file of group.files) {
-        if (abilityResources.has(file)) continue;
+        // a self contingency is precast, it has no ability
+        if (abilityResources.has(file) || spellComboService.isSelfContingencyFile(file)) continue;
         const spellName = spellService.getSpellName(file);
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(

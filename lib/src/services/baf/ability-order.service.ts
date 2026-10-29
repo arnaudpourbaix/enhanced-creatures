@@ -3,6 +3,7 @@ import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/cre
 import { Creature } from "../../model/creature/creature";
 import creatureService from "../creature.service";
 import logService from "../log.service";
+import spellComboService from "../spell-combo.service";
 import translationService from "../translation.service";
 
 interface OrderedAbility {
@@ -29,13 +30,18 @@ class AbilityOrderService {
         .filter((f) => f !== undefined),
     ]);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
-    const autoFiles = memorizedFiles.filter((file) => !explicitFiles.has(file));
+    // self contingencies have no ability: they are precast (see StatementBuilderService)
+    const autoFiles = memorizedFiles.filter(
+      (file) => !explicitFiles.has(file) && !spellComboService.isSelfContingencyFile(file),
+    );
 
     // A memorized spell missing from SPELL_PRIORITY_ORDER isn't an error - it just casts
     // last, after everything explicitly ordered (Infinity sorts after every real index).
     // Still worth a warning: silently deprioritizing something is easy to miss otherwise.
+    // Enemy contingencies come first: they only fire once their condition happens.
     const ordered: OrderedAbility[] = autoFiles
       .map((file) => {
+        if (spellComboService.isEnemyContingencyFile(file)) return { identity: file, index: -1 };
         const index = SPELL_PRIORITY_ORDER.indexOf(file);
         if (index === -1) {
           logService.warn(

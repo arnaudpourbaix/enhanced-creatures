@@ -52,6 +52,7 @@ export type CustomCodeLocation =
   | "kitAbilities"
   | "noActionOutsideOfCombat"
   | "potions"
+  | "precastContingencies"
   | "precastLongDurationSpells"
   | "precastMidDurationSpells"
   | "randomWalkNoCombat"

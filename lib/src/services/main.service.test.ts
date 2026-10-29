@@ -7,6 +7,10 @@ import { ENTRY_FOLDERS, EntryEnum } from "../../creatures/entry";
 import { KIN_FOLDERS, KinEnum } from "../../creatures/kin";
 import { kinFactories } from "../../creatures/kins";
 import { MonsterEnum } from "../../creatures/monster";
+import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { SPELL_PRIORITY_ORDER } from "../../config/spell-priority-order";
+import { SPELL_COMBOS } from "../../config/spells/spell-combos";
+import { SPELLS } from "../../config/spells/spell-database";
 import { Creature } from "../model/creature/creature";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
@@ -14,6 +18,7 @@ import { State } from "../state";
 import documentationService from "./doc/documentation.service";
 import bafGeneratorService from "./baf/baf-generator.service";
 import logService from "./log.service";
+import spellComboService from "./spell-combo.service";
 import mainService from "./main.service";
 import stateService from "./state.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
@@ -49,6 +54,30 @@ describe("isCreatureValid", () => {
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
     expect(mainService.isCreatureValid(fakeCreature(true))).toBe(true);
     expect(logSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("checkSpellCombos", () => {
+  beforeEach(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    vi.spyOn(logService, "section").mockImplementation(() => {});
+  });
+
+  it("accepts the registry", () => {
+    expect(() => mainService.checkSpellCombos()).not.toThrow();
+  });
+
+  it("throws for a sequencer whose file is missing from SPELL_PRIORITY_ORDER", () => {
+    const combo = {
+      key: "TestUnorderedSequencer",
+      kind: "minorSequencer" as const,
+      spells: [SPELLS.Wizard.Shield, SPELLS.Wizard.Blur],
+    };
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    expect(SPELL_PRIORITY_ORDER).not.toContain(file);
+    expect(() => mainService.checkSpellCombos([...SPELL_COMBOS, combo])).toThrow(
+      `${combo.key}: ${file} is missing from SPELL_PRIORITY_ORDER`,
+    );
   });
 });
 

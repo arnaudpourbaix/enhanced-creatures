@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { SPELL_PRIORITY_ORDER } from "./spell-priority-order";
+import { MOD_LAYER_ORDER } from "./mods";
+import { SEQUENCERS } from "./spells/spell-combos";
 import { SPELLS } from "./spells/spell-database";
+import spellComboService from "../src/services/spell-combo.service";
 
 describe("SPELL_PRIORITY_ORDER", () => {
   it("is a non-empty list containing spells seeded from the ability presets", () => {
@@ -24,5 +27,17 @@ describe("SPELL_PRIORITY_ORDER", () => {
     for (const variant of SPELLS.Wizard.DimensionDoor.variants) {
       expect(SPELL_PRIORITY_ORDER).toContain(variant.file);
     }
+  });
+
+  it("casts Double Magic Missiles right after Magic Missiles, in every mod", () => {
+    const files = [
+      ...new Set(
+        MOD_LAYER_ORDER.map((mod) =>
+          spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, mod),
+        ),
+      ),
+    ];
+    const index = SPELL_PRIORITY_ORDER.indexOf(SPELLS.Wizard.MagicMissiles.file);
+    expect(SPELL_PRIORITY_ORDER.slice(index + 1, index + 1 + files.length)).toEqual(files);
   });
 });

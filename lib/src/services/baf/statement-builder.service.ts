@@ -21,6 +21,8 @@ import { Actions } from "../../model/script/actions";
 import { CustomCodeLocation, Statements } from "../../model/script/script";
 import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
+import creatureService from "../creature.service";
+import spellComboService from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -59,6 +61,7 @@ class StatementBuilderService {
     this.execute(this.init.bind(this), "init", p);
     this.execute(this.disableSpellcasting.bind(this), "disableSpellcasting", p);
     this.execute(this.rest.bind(this), "rest", p);
+    this.execute(this.precastContingencies.bind(this), "precastContingencies", p);
     this.execute(this.precastLongDurationSpells.bind(this), "precastLongDurationSpells", p);
     this.execute(this.turnHostile.bind(this), "turnHostile", p);
     this.execute(this.detectCombat.bind(this), "detectCombat", p);
@@ -1039,6 +1042,32 @@ class StatementBuilderService {
           responses: responseFactory.response(actions),
         });
       }
+    }
+  }
+
+  /**
+   * Sets up every self contingency the creature (or any adjustment, any spellbook variant)
+   * memorizes. No precast global: the SPL is gone once cast, so a pending contingency isn't recast
+   * until rest.
+   */
+  private precastContingencies({
+    statements,
+    creature,
+  }: Pick<HandlerParams, "statements" | "creature">): void {
+    for (const file of creatureService.memorizedSpellFiles(creature)) {
+      if (!spellComboService.isSelfContingencyFile(file)) continue;
+      statements.push({
+        comment: `Precast ${spellComboService.comboOfFile(file)?.key ?? file}`,
+        triggers: [
+          triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+          { name: "HaveSpellRES", params: [file] },
+        ],
+        responses: responseFactory.response([
+          { name: "ReallyForceSpellRES", params: [file, ScriptTarget.myself] },
+          { name: "RemoveSpellRES", params: [file] },
+          { name: "Continue" },
+        ]),
+      });
     }
   }
 

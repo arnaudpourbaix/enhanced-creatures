@@ -15,6 +15,9 @@ import { CreatureAbility } from "../model/creature/ability";
 import creatureService from "./creature.service";
 import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
+import spellComboService from "./spell-combo.service";
+import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { SPELLS } from "../../config/spells/spell-database";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -891,6 +894,24 @@ describe("checkSpellAbilities", () => {
     expect(warnSpy).not.toHaveBeenCalled();
     errorSpy.mockRestore();
     warnSpy.mockRestore();
+  });
+
+  it("expects no ability for a self contingency: it is precast", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const file = spellComboService.comboFile(
+      {
+        key: "TestCheckStoneskinOnHit",
+        kind: "contingency",
+        condition: "hit",
+        spells: [SPELLS.Wizard.Stoneskin],
+      },
+      "Vanilla",
+    );
+    const creature = fakeSpellCreature({ memorized: [{ file }], abilities: [] });
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    creatureService.checkSpellAbilities(creature);
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 
   it("errors when a spell in the default memorized list has no matching ability", () => {

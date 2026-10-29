@@ -1,7 +1,9 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { CLOUDS } from "../../../config/clouds";
 import { GLOBAL_CONFIG } from "../../../config/generate";
+import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { POTIONS } from "../../../config/potion";
+import { SPELLS } from "../../../config/spells/spell-database";
 import { TargetListName, TargetStatusName } from "../../../config/target-name";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CreatureAttack } from "../../model/creature/attack";
@@ -20,7 +22,9 @@ import {
 import { ScriptTarget } from "../../model/constants";
 import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
 import triggerFactory from "../../factories/trigger.factory";
+import spellComboService from "../spell-combo.service";
 import stateService from "../state.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -72,6 +76,7 @@ interface StatementBuilderServicePrivate {
   potions(p: HandlerParams): void;
   precastLongDurationSpells(p: Pick<HandlerParams, "statements" | "options">): void;
   precastMidDurationSpells(p: Pick<HandlerParams, "statements" | "options">): void;
+  precastContingencies(p: Pick<HandlerParams, "statements" | "creature">): void;
   creatureAbilities(p: HandlerParams): void;
   parseAbilities(
     statements: Statements,
@@ -1062,6 +1067,71 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     } finally {
       GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = false;
     }
+  });
+});
+
+describe("precastContingencies (private)", () => {
+  const stoneskinOnHit: SpellCombo = {
+    key: "TestStoneskinOnHit",
+    kind: "contingency",
+    condition: "hit",
+    spells: [SPELLS.Wizard.Stoneskin],
+  };
+  const precast = (file: string): Statements[number] => ({
+    comment: "Precast TestStoneskinOnHit",
+    triggers: [
+      triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+      { name: "HaveSpellRES", params: [file] },
+    ],
+    responses: [
+      {
+        weight: 100,
+        actions: [
+          { name: "ReallyForceSpellRES", params: [file, ScriptTarget.myself] },
+          { name: "RemoveSpellRES", params: [file] },
+          { name: "Continue" },
+        ],
+      },
+    ],
+  });
+
+  beforeAll(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+  });
+
+  it("sets up a memorized self contingency before the long-duration precasts", () => {
+    const file = spellComboService.comboFile(stoneskinOnHit, "Vanilla");
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file }, { file: "SPWI408" }] } } as Partial<CreatureData>,
+    });
+    const result = statementBuilderService.buildStatements(creature, options());
+    const index = result.findIndex((s) => s.comment === "Precast TestStoneskinOnHit");
+    expect(result[index]).toEqual(precast(file));
+    expect(index).toBeLessThan(result.findIndex((s) => s.comment === "Precast Stoneskin"));
+  });
+
+  it("finds a self contingency memorized by an adjustment's spellbook variant", () => {
+    const file = spellComboService.comboFile(stoneskinOnHit, "AllSpellMods");
+    const creature = fakeCreature();
+    creature.adjustments = [
+      {
+        data: {
+          spells: { memorized: [], spellbooks: [{ mod: "AllSpellMods", memorized: [{ file }] }] },
+        },
+      },
+    ] as unknown as Creature["adjustments"];
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual([precast(file)]);
+  });
+
+  it("skips spells that aren't self contingencies", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI408" }] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual([]);
   });
 });
 
