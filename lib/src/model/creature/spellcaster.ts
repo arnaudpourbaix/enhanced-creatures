@@ -1,3 +1,5 @@
+import type { ContingencyTrigger } from "../spell-item/spell-combo";
+
 export interface SpellCaster {
   /**
    * Level 4 spell, can trigger 2 spells of level 1-2
@@ -28,5 +30,4 @@ export interface SpellCaster {
   };
 }
 
-export type ContingencyTrigger =
-  "hit" | "seeEnemy" | "hp50" | "hp25" | "hp10" | "helpless" | "poisoned";
+export type { ContingencyTrigger };
