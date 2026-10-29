@@ -36,11 +36,14 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
+import { COMBO_RULES, contingencyMaxLevel, SpellCombo, SpellComboKind } from "../model/spell-item/spell-combo";
 import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
+import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { State } from "../state";
 import abilityService from "./baf/ability.service";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
+import spellComboService from "./spell-combo.service";
 import translationService from "./translation.service";
 import utils from "./utils/utils.service";
 
@@ -312,7 +315,7 @@ class SpellService {
   }): MemorizedSpell[] {
     const book = this.getSpellbook(params.name);
     const [variant] = spellBookVariants(book);
-    return this.buildMemorized(params.name, variant.values, params);
+    return this.buildMemorized(params.name, variant.values, params, book, variant.mod);
   }
 
   /**
@@ -329,7 +332,7 @@ class SpellService {
     const book = this.getSpellbook(params.name);
     return spellBookVariants(book).map((variant) => ({
       mod: variant.mod,
-      memorized: this.buildMemorized(params.name, variant.values, params),
+      memorized: this.buildMemorized(params.name, variant.values, params, book, variant.mod),
     }));
   }
 
@@ -343,6 +346,8 @@ class SpellService {
     name: SpellBookName,
     values: SpellBookSpells[],
     params: { casterLevel: number; type: "mage" | "cleric"; wisdom?: number },
+    book: SpellBook,
+    mod: SpellbookModName,
   ): MemorizedSpell[] {
     const table = params.type === "cleric" ? ClericSpellTable : MageSpellTable;
     const levelEntry = table.find((t) => t.level === params.casterLevel) ?? table.at(-1);
@@ -365,7 +370,37 @@ class SpellService {
       }
       memorized.push(...this.pickSpellsForLevel(bookLevel, slots));
     }
+    if (params.type === "mage") {
+      const combos = [...(book.sequencers ?? []), ...(book.contingencies ?? [])];
+      memorized.push(...this.pickCombos(combos, params.casterLevel, mod, name));
+    }
     return memorized;
+  }
+
+  /**
+   * For each kind of combo whose spell the caster level has, memorizes the first combo of that kind
+   * that fits (a contingency's spell can't be above `contingencyMaxLevel`), warning when none does.
+   */
+  pickCombos(
+    combos: SpellCombo[],
+    casterLevel: number,
+    mod: SpellbookModName,
+    bookName: string,
+  ): MemorizedSpell[] {
+    const picks: MemorizedSpell[] = [];
+    for (const kind of Object.keys(COMBO_RULES) as SpellComboKind[]) {
+      if (casterLevel < COMBO_RULES[kind].minCasterLevel) continue;
+      const maxLevel = kind === "contingency" ? contingencyMaxLevel(casterLevel) : Infinity;
+      const fits = (combo: SpellCombo) =>
+        combo.kind === kind && combo.spells.every((s) => (s.level ?? 0) <= maxLevel);
+      const combo = combos.find(fits);
+      if (combo) {
+        picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
+      } else {
+        logService.warn(`${bookName}: caster level ${casterLevel} allows a ${kind} but none fits`);
+      }
+    }
+    return picks;
   }
 
   private pickSpellsForLevel(spells: SpellBookSpells, slots: number): MemorizedSpell[] {

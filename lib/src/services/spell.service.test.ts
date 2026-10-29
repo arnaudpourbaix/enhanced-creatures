@@ -13,6 +13,11 @@ import { PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
 import { spellsByKeyword } from "../model/spell-item/spell-reference";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import { State } from "../state";
+import { Spellbooks } from "../../config/spellbooks/spellbook";
+import { contingency, minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
+import { SpellBook } from "../model/spell-item/spellbook";
+import logService from "./log.service";
+import spellComboService from "./spell-combo.service";
 import spellService from "./spell.service";
 import translationService from "./translation.service";
 import utils from "./utils/utils.service";
@@ -538,5 +543,92 @@ describe("createSpellbooks", () => {
       { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
       { mod: "FaithsAndPowers", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
     ]);
+  });
+});
+
+describe("pickCombos", () => {
+  const w = SPELLS.Wizard;
+  const level5 = w.Cloudkill;
+  const mod = "Vanilla";
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    Spellbooks.length = 4;
+  });
+
+  const file = (c: SpellCombo) => spellComboService.comboFile(c, mod);
+  const stoneskin = { ...contingency("hp50", [w.Stoneskin]), key: "TestStoneskin" };
+  const heavy = { ...contingency("hp50", [level5]), key: "TestLevel5" };
+  const minor = { ...minorSequencer([w.MagicMissiles, w.MagicMissiles]), key: "TestMinor" };
+  const sequencer = { ...spellSequencer([w.MagicMissiles, w.MagicMissiles, w.Stoneskin]), key: "TestSeq" };
+
+  it("picks the first contingency whose spell fits the caster level", () => {
+    const at12 = spellService.pickCombos([heavy, stoneskin], 12, mod, "B").map((m) => m.file);
+    const at15 = spellService.pickCombos([heavy, stoneskin], 15, mod, "B").map((m) => m.file);
+    expect(at12).toContain(file(stoneskin));
+    expect(at12).not.toContain(file(heavy));
+    expect(at15).toContain(file(heavy));
+    expect(at15).not.toContain(file(stoneskin));
+  });
+
+  it("picks nothing and doesn't warn below the first caster level", () => {
+    const warn = vi.spyOn(logService, "warn");
+    expect(spellService.pickCombos([minor], 6, mod, "B")).toEqual([]);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("picks one minor sequencer and one sequencer at caster level 14", () => {
+    vi.spyOn(logService, "warn");
+    const result = spellService.pickCombos([minor, sequencer], 14, mod, "B");
+    expect(result.filter((m) => m.file === file(minor))).toHaveLength(1);
+    expect(result.filter((m) => m.file === file(sequencer))).toHaveLength(1);
+    expect(result.every((m) => m.memorizedCount === 1)).toBe(true);
+  });
+
+  it("warns for each kind the caster level allows but none fits", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    expect(spellService.pickCombos([], 14, mod, "Book")).toEqual([]);
+    expect(warn.mock.calls.map((c) => c[0])).toEqual([
+      "Book: caster level 14 allows a minorSequencer but none fits",
+      "Book: caster level 14 allows a spellSequencer but none fits",
+      "Book: caster level 14 allows a contingency but none fits",
+    ]);
+    warn.mockClear();
+    spellService.pickCombos([], 13, mod, "Book");
+    expect(warn.mock.calls.map((c) => c[0])).toEqual([
+      "Book: caster level 13 allows a minorSequencer but none fits",
+      "Book: caster level 13 allows a contingency but none fits",
+    ]);
+  });
+
+  describe("in createSpellbooks", () => {
+    const addBook = (extra: Partial<SpellBook>) => {
+      const base = Spellbooks.find((b) => b.name === "EvilUndeadMage");
+      if (!base) throw new Error("no EvilUndeadMage");
+      Spellbooks.push({ ...base, name: "TestMage" as never, ...extra });
+    };
+    const create = (casterLevel: number) =>
+      spellService.createSpellbooks({ name: "TestMage" as never, casterLevel, type: "mage" })[0].memorized;
+
+    it("follows each caster level", () => {
+      vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+      addBook({ contingencies: [heavy] });
+      expect(create(14).map((m) => m.file)).not.toContain(file(heavy));
+      expect(create(16).map((m) => m.file)).toContain(file(heavy));
+    });
+
+    it("adds combos without changing normal slots", () => {
+      vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+      addBook({});
+      const without = create(16);
+      Spellbooks.pop();
+      addBook({ sequencers: [minor, sequencer], contingencies: [heavy] });
+      const withCombos = create(16);
+      const comboFiles = [file(minor), file(sequencer), file(heavy)];
+      expect(withCombos.filter((m) => comboFiles.includes(m.file))).toEqual(
+        comboFiles.map((f) => ({ file: f, memorizedCount: 1 })),
+      );
+      expect(withCombos.filter((m) => !comboFiles.includes(m.file))).toEqual(without);
+    });
   });
 });

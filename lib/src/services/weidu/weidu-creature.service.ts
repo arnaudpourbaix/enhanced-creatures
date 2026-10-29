@@ -1,5 +1,5 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
+import { MOD_LAYER_ORDER, resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
 import { SpellVariant } from "../../model/spell-item/spell-reference";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
@@ -17,6 +17,7 @@ import { StringReference } from "../../model/final/stringref";
 import { CodeLine } from "../../model/misc";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import spellComboService from "../spell-combo.service";
 import { State } from "../../state";
 import immunityService from "../effects/immunity.service";
 import itemService from "../item.service";
@@ -473,7 +474,17 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private addMemorizedSpells(lines: CodeLine[], tab: number, data: CreatureData) {
-    const spellbooks = data.spells.spellbooks;
+    const combos = data.spells.combos ?? [];
+    // declared combos go in every mod variant (named per mod), so they need variants even when
+    // the creature has no spellbook
+    const base = data.spells.spellbooks ?? (combos.length ? MOD_LAYER_ORDER.map((mod) => ({ mod, memorized: [] })) : undefined);
+    const spellbooks = base?.map((sb) => ({
+      ...sb,
+      memorized: [
+        ...sb.memorized,
+        ...combos.map((c) => ({ file: spellComboService.comboFile(c, sb.mod), memorizedCount: 1 })),
+      ],
+    }));
     if (spellbooks?.length) {
       // A spellbook variant with no weiduCheck (e.g. Vanilla) is the mutually-exclusive fallback
       // of the chain below - used only when none of the mod-gated variants match - not an extra
