@@ -1,4 +1,5 @@
 import { SPELL_SCORING } from "../../../config/spell-scoring";
+import { COVER_SPELLS } from "../../../config/spells/cover-spells";
 import { SpellRole } from "../../../config/spells/spell-role";
 import { SpellProfile } from "../spell-profile.service";
 import spellScoringService from "../spell-scoring.service";
@@ -11,6 +12,8 @@ export interface PlannedCast {
 }
 
 const DEFENSIVE: SpellRole[] = ["protection", "buff"];
+/** Under cover, at an equal score: the longer first, the shortest last */
+const DURATIONS = ["mid", "short", undefined];
 
 /** Plain byte order: the same on every machine, unlike localeCompare */
 const byCodeUnits = (a: string, b: string) => Buffer.compare(Buffer.from(a), Buffer.from(b));
@@ -52,6 +55,33 @@ class CastOrderService {
       score,
       probability,
     }));
+  }
+
+  /**
+   * The covered phase's order (see COVER_SPELLS): its protections and buffs, the long ones aside
+   * (precast) and the cover spells themselves, most valuable first - at an equal score, mid before
+   * short, so short buffs land last and are still active when the fight resumes.
+   */
+  coveredPlan(profiles: SpellProfile[]): PlannedCast[] {
+    const caster = spellScoringService.casterReference(profiles);
+    return profiles
+      .filter(
+        (p) =>
+          DEFENSIVE.includes(p.role) &&
+          p.duration !== "long" &&
+          !COVER_SPELLS.includes(p.file.toUpperCase()),
+      )
+      .map((profile) => {
+        const score = spellScoringService.score(profile, caster);
+        return { profile, score, probability: spellScoringService.probability(profile, score) };
+      })
+      .sort(
+        (a, b) =>
+          b.score - a.score ||
+          DURATIONS.indexOf(a.profile.duration) - DURATIONS.indexOf(b.profile.duration) ||
+          byCodeUnits(a.profile.file, b.profile.file),
+      )
+      .map(({ profile, score, probability }) => ({ file: profile.file, score, probability }));
   }
 
   /** Highest score first, but never two defensive spells in a row while attacks remain. */

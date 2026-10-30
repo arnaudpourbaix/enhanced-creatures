@@ -32,6 +32,12 @@ describe("profileOf", () => {
     });
   });
 
+  it("reads a duration when there is one", () => {
+    expect(
+      spellProfileService.profileOf(SPELLS.Wizard.Stoneskin.file, creatureWith())?.duration,
+    ).toBe("long");
+  });
+
   it("reads a tier when there is one", () => {
     expect(spellProfileService.profileOf(SPELLS.Wizard.Stoneskin.file, creatureWith())?.tier).toBe(
       "great",

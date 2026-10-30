@@ -145,3 +145,34 @@ describe("plan", () => {
     expect(files(profiles)).toEqual(files([...profiles].reverse()));
   });
 });
+
+describe("coveredPlan", () => {
+  const covered = (profiles: SpellProfile[]) =>
+    castOrderService.coveredPlan(profiles).map((c) => c.file);
+
+  it("keeps protections and buffs, not attacks nor long ones (precast)", () => {
+    expect(
+      covered([
+        profile("SHIELD", { role: "protection", duration: "short" }),
+        profile("HASTE", { role: "buff", duration: "short" }),
+        profile("HIT", {}),
+        profile("STONESKIN", { role: "protection", duration: "long" }),
+      ]),
+    ).toEqual(["SHIELD", "HASTE"]);
+  });
+
+  it("leaves the cover spell itself out: casting it again while covered is pointless", () => {
+    const invisibility = { ...wizard("Invisibility"), duration: "mid" as const };
+    expect(covered([invisibility, profile("SHIELD", { role: "protection" })])).toEqual(["SHIELD"]);
+  });
+
+  it("casts the most valuable first, and at an equal value mid before short", () => {
+    expect(
+      covered([
+        profile("SHORTBUFF", { role: "buff", duration: "short" }),
+        profile("MIDBUFF", { role: "buff", duration: "mid" }),
+        profile("GREAT", { role: "protection", tier: "great", duration: "short" }),
+      ]),
+    ).toEqual(["GREAT", "MIDBUFF", "SHORTBUFF"]);
+  });
+});

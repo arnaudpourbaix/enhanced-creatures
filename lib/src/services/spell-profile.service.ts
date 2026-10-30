@@ -2,7 +2,7 @@ import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { NEW_SPELL_PROFILES } from "../../config/spells/new-spell-profiles";
 import { SPELLS } from "../../config/spells/spell-database";
-import { SpellRole, SpellTier } from "../../config/spells/spell-role";
+import { SpellDurationClass, SpellRole, SpellTier } from "../../config/spells/spell-role";
 import { Creature } from "../model/creature/creature";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { Spell } from "../model/spell-item/spell-item";
@@ -25,6 +25,8 @@ export interface SpellProfile {
   hitsAllies: boolean;
   /** How many spells it casts at once: more than 1 for a sequencer */
   spellCount: number;
+  /** How long it lasts: long ones are precast, short ones cast last under cover */
+  duration?: SpellDurationClass;
   /** A sequencer's kind: it's profiled after its strongest spell, but scored as its kind */
   combo?: SequencerKind;
 }
@@ -39,6 +41,7 @@ interface ProfileSource {
   tier?: SpellTier;
   castingTime?: number;
   hitsAllies?: boolean;
+  duration?: SpellDurationClass;
 }
 
 /** The type of a SPELLS category's spells */
@@ -141,6 +144,7 @@ class SpellProfileService {
       saves: spell.saves,
       tier: spell.tier ?? "decent",
       hitsAllies: spell.hitsAllies ?? false,
+      duration: spell.duration,
       spellCount: 1,
     };
   }
