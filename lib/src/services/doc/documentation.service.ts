@@ -1286,7 +1286,6 @@ class DocumentationService {
       addedCombos.map((m) => m.spell),
       declared,
       "Vanilla",
-      `m${creature.id}-adj${cardIndex}`,
       "adjustment-changed",
     );
     return this.renderAbilitiesSection(`m${creature.id}-adj${cardIndex}`, [...entries, ...combos]);
@@ -1343,7 +1342,6 @@ class DocumentationService {
             spellbook.memorized,
             effective.combos,
             spellbook.mod,
-            idPrefix,
             "adjustment-changed",
           ),
         ];
@@ -1489,19 +1487,18 @@ class DocumentationService {
   private getBaseComboParts(creature: Creature): AbilityPart[] {
     const { spells } = creature.data;
     const declared = spells.spellbooks?.length ? undefined : spells.combos;
-    return this.getComboParts(spells.memorized, declared, "Vanilla", `m${creature.id}`);
+    return this.getComboParts(spells.memorized, declared, "Vanilla");
   }
 
   /**
    * One entry per sequencer or contingency in `memorized` or `declared` (resolved for `mod`): its
-   * kind's name, with a popover giving a contingency's condition, then the spells in casting order.
+   * kind's name, then a contingency's condition and the spells in casting order.
    * No count: a caster never holds more than one.
    */
   private getComboParts(
     memorized: MemorizedSpell[],
     declared: SpellCombo[] | undefined,
     mod: SpellbookModName,
-    idPrefix: string,
     extraClass = "",
   ): AbilityPart[] {
     const files = [
@@ -1510,11 +1507,10 @@ class DocumentationService {
         .filter((combo) => spellComboService.spellsFor(combo, mod))
         .map((combo) => spellComboService.comboFile(combo, mod)),
     ];
-    const cls = extraClass ? `ability-entry ${extraClass}` : "ability-entry";
-    return [...new Set(files)].map((file, index) => {
+    const cls = extraClass ? `ability-entry combo ${extraClass}` : "ability-entry combo";
+    return [...new Set(files)].map((file) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const combo = spellComboService.comboOfFile(file)!;
-      const id = `${idPrefix}-combo-${index}`;
       const name = translationService.from(KIND_NAMES[combo.kind]);
       const condition = combo.condition
         ? `<p class="combo-condition">${COMBO_CONDITIONS[combo.condition]}</p>`
@@ -1522,10 +1518,8 @@ class DocumentationService {
       const spells = (spellComboService.spellsOfFile(file) ?? [])
         .map((spell) => `<li>${spell.name ? translationService.from(spell.name) : spell.file}</li>`)
         .join("");
-      const html =
-        `<div class="${cls}"><h5><a href="#${id}" class="trait-link">${name}</a></h5></div>` +
-        `<div class="spell-popover-entry" id="${id}" hidden>${condition}<ul class="combo-spells">${spells}</ul></div>`;
-      return { html, key: `combo:${html.split(idPrefix).join("")}` };
+      const html = `<div class="${cls}"><h5>${name}</h5>${condition}<ul class="combo-spells">${spells}</ul></div>`;
+      return { html, key: `combo:${html}` };
     });
   }
 
@@ -1661,12 +1655,7 @@ class DocumentationService {
               ),
             }))
             .filter((entry) => entry.html),
-          ...this.getComboParts(
-            spellbook.memorized,
-            creature.data.spells.combos,
-            spellbook.mod,
-            idPrefix,
-          ),
+          ...this.getComboParts(spellbook.memorized, creature.data.spells.combos, spellbook.mod),
         ];
         return {
           id: `spellbook-m${creature.id}-${index}`,

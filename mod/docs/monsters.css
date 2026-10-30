@@ -315,16 +315,21 @@
   margin: 2px 0;
 }
 
-/* A sequencer's or contingency's spells, in casting order */
-.trait-popover-body ul.combo-spells {
-  list-style: none;
-  padding-left: 0;
+/* A sequencer or contingency: its condition, then its spells in casting order, below its name */
+.ability-entry.combo .combo-condition,
+.ability-entry.combo .combo-spells {
+  margin: 0 0 4px 12px;
+  font-size: 0.85rem;
 }
 
-.combo-condition {
-  margin: 0 0 4px;
+.ability-entry.combo .combo-condition {
   font-style: italic;
   color: var(--color-red);
+}
+
+.ability-entry.combo .combo-spells {
+  list-style: none;
+  padding-left: 0;
 }
 
 @media (max-width: 860px) {
