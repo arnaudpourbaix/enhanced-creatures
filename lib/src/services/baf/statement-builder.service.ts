@@ -1070,7 +1070,7 @@ class StatementBuilderService {
           { name: "HaveSpellRES", params: [file] },
         ],
         responses: responseFactory.response([
-          { name: "ReallyForceSpellRES", params: [file, ScriptTarget.myself] },
+          { name: "ApplySpellRES", params: [file, ScriptTarget.myself] },
           { name: "RemoveSpellRES", params: [file] },
           { name: "Continue" },
         ]),

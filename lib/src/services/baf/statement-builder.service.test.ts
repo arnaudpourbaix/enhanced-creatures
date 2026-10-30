@@ -1098,7 +1098,7 @@ describe("precastContingencies (private)", () => {
       {
         weight: 100,
         actions: [
-          { name: "ReallyForceSpellRES", params: [file, ScriptTarget.myself] },
+          { name: "ApplySpellRES", params: [file, ScriptTarget.myself] },
           { name: "RemoveSpellRES", params: [file] },
           { name: "Continue" },
         ],

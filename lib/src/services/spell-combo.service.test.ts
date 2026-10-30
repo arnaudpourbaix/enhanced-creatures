@@ -169,6 +169,11 @@ describe("generated SPLs", () => {
     const wrapper = splOf(conditions[0].resource ?? "");
     expect(wrapper.file).not.toBe(setUp.file);
     expect(castResources(wrapper)).toEqual(["SPWI408"]);
+    // the engine keeps the trigger after it fires: the release removes it, so it fires once
+    const [release] = wrapper.headers[0].effects;
+    expect(release.opcode).toBe(EffectTypeEnum.RemoveEffectsByResource);
+    expect(release.resource).toBe(setUp.file);
+    expect(release.target).toBe(EffectTargetEnum.Self);
     // silent: its spells' names show when it fires
     expect(effectsOf(setUp, EffectTypeEnum.DisplayString)).toHaveLength(0);
     expect(effectsOf(wrapper, EffectTypeEnum.DisplayString)).toHaveLength(0);
@@ -190,6 +195,7 @@ describe("generated SPLs", () => {
     expect(condition.parameter1).toBe(String(CastSpellOnConditionTargetEnum.NearestEnemy));
     const wrapper = splOf(condition.resource ?? "");
     expect(wrapper.headers[0].target).toBe(ItemAbilityTargetEnum.LivingActor);
+    expect(effectsOf(wrapper, EffectTypeEnum.RemoveEffectsByResource)[0].resource).toBe(setUp.file);
     expect(castResources(wrapper)).toEqual(["SPWI112", "SPWI112"]);
   });
 });

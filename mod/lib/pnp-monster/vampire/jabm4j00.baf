@@ -7,7 +7,7 @@ IF
 	HaveSpellRES("jasc0104")
 THEN
 	RESPONSE #100
-		ReallyForceSpellRES("jasc0104",Myself)
+		ApplySpellRES("jasc0104",Myself)
 		RemoveSpellRES("jasc0104")
 		Continue()
 END
@@ -19,7 +19,7 @@ IF
 	HaveSpellRES("jasc0106")
 THEN
 	RESPONSE #100
-		ReallyForceSpellRES("jasc0106",Myself)
+		ApplySpellRES("jasc0106",Myself)
 		RemoveSpellRES("jasc0106")
 		Continue()
 END

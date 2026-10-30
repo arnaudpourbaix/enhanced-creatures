@@ -146,7 +146,7 @@ _(Revised 2026-10-30: enemy contingencies used to be fired by the script.)_
   `nearestEnemy`. When the condition holds, the engine casts a second SPL
   that casts the contained spell(s), whose names show as they land. No script fires it.
 - The set-up shows nothing. It is cast along with the script's init block (`HaveSpellRES` →
-  `ReallyForceSpellRES` → `RemoveSpellRES`). Rest resets init and restores the SPL, re-arming it.
+  `ApplySpellRES` → `RemoveSpellRES`, applied so no spell name is announced). Rest resets init and restores the SPL, re-arming it.
 - `nearestEnemy` on a hostile caster works: tested in game with a chain contingency.
 - The fired spells get no target checks: the engine doesn't make them.
 

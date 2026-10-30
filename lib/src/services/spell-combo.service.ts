@@ -53,6 +53,16 @@ function displayName(combo: SpellCombo): Effect {
   };
 }
 
+/** Removes the trigger of the contingency set up by the SPL `file`. */
+function removeContingency(file: string): Effect {
+  return {
+    opcode: EffectTypeEnum.RemoveEffectsByResource,
+    target: EffectTargetEnum.Self,
+    type: RemoveEffectsByResourceTypeEnum.Default,
+    resource: file,
+  };
+}
+
 /** The engine condition (CastSpellOnCondition, Global Constraints) of each contingency trigger. */
 export const CONTINGENCY_CONDITIONS: Record<ContingencyTrigger, CastSpellOnConditionType> = {
   hit: "HitBy([ANYONE])",
@@ -312,12 +322,7 @@ class SpellComboService {
       target: ItemAbilityTargetEnum.Caster,
       effects: [
         // a recast (after rest) replaces a still pending contingency instead of adding a second one
-        {
-          opcode: EffectTypeEnum.RemoveEffectsByResource,
-          target: EffectTargetEnum.Self,
-          type: RemoveEffectsByResourceTypeEnum.Default,
-          resource: file,
-        },
+        removeContingency(file),
         {
           opcode: EffectTypeEnum.CastSpellOnCondition,
           target: EffectTargetEnum.Self,
@@ -329,7 +334,9 @@ class SpellComboService {
         },
       ],
     });
-    return [setUp, this.castingSpell(combo, spells, wrapper, target === "self")];
+    // the engine keeps the trigger after it fires: removed here, or it would fire again
+    const removal = removeContingency(file);
+    return [setUp, this.castingSpell(combo, spells, wrapper, target === "self", [removal])];
   }
 
   /**
@@ -341,8 +348,10 @@ class SpellComboService {
     spells: SpellReference[],
     file: string,
     self: boolean,
+    first: Effect[] = [],
   ): Spell {
     const effects: Effect[] = [
+      ...first,
       ...(isContingency(combo) ? [] : [displayName(combo)]),
       ...spells.map((s) => ({
         opcode: EffectTypeEnum.CastSpell as const,
