@@ -440,9 +440,11 @@ export function proposeKeywords(
   const keywords = new Set<SpellKeyword>();
   const onCaster = CASTER_TARGETS.has(spell.headerTarget);
   if (onCaster) keywords.add("castOnSelf");
-  // aimed at a creature without being hostile: a buff, a protection or a heal, for allies
-  const forAllies = !spell.hostile && spell.headerTarget === CREATURE_TARGET;
-  if (!onCaster && forAllies) keywords.add("friendly");
+  // aimed at a creature, or an area around the caster, without being hostile: a buff, a
+  // protection or a heal, for allies
+  const aimed = spell.headerTarget === CREATURE_TARGET || (onCaster && spell.area);
+  const forAllies = !spell.hostile && aimed;
+  if (forAllies) keywords.add("friendly");
   if (spell.area) keywords.add("area");
   if (!forAllies) {
     for (const e of effects.filter((fx) => fx.target !== SELF_TARGET)) {
@@ -465,4 +467,19 @@ function effectKeywords(effect: RawEffect): SpellKeyword[] {
     keywords.push("magicResistance");
   }
   return keywords;
+}
+
+/** Explosion size (PRO area extension) per script Range() unit: Fireball's 256 is its range 15 */
+const EXPLOSION_PER_RANGE = 17;
+/** Above the widest real area (Cone of Cold, 18) */
+const MAX_ALLIES_RANGE = 20;
+
+/**
+ * The radius an AI checks for allies before casting an area hitting them (AlliesCheck.range), from
+ * the projectile's explosion size; undefined for a projectile without an area.
+ */
+export function alliesCheckRange(pro: Buffer): number | undefined {
+  if (pro.readUInt16LE(0x08) !== AREA_PROJECTILE || pro.length < 0x208) return undefined;
+  // a line's explosion size is its length, not a radius around the target (Lance of Disruption)
+  return Math.min(MAX_ALLIES_RANGE, Math.round(pro.readUInt16LE(0x206) / EXPLOSION_PER_RANGE));
 }

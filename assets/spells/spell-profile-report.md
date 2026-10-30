@@ -39,7 +39,7 @@ Vanilla and modded spells differ in role or casting time; the modded one is used
 | GhoulTouch | SPWI218 | damage |  | decent | opcode 111 CreateWeapon (self) | 2 | short | - |
 | Imprisonment | SPWI910 | kill | disable | decent | opcode 213 Maze (enemy)<br>opcode 13 KillTarget (enemy)<br>opcode 212 (enemy) | 9 | short | - |
 | ImprovedChaosShield | SPWI723 | protection |  | decent | opcode 281 (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 206 ProtectionFromSpell (self) | 7 | mid | - |
-| InvisibilitySphere | SPWI307 | disable |  | decent | opcode 20 Invisibility (enemy) | 1 | short | - |
+| InvisibilitySphere | SPWI307 | protection |  | decent | opcode 20 Invisibility (self) | 1 | short | - |
 | MestilsAcidSheath | SPWI403 | protection |  | good | opcode 206 ProtectionFromSpell (self)<br>opcode 27 AcidResistanceModifier (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 233 ProficiencyModifier (self)<br>opcode 232 CastSpellOnCondition (self) | 5 | mid | - |
 | MindBlank | SPWI802 | protection |  | good | opcode 101 ProtectionFromOpcode (self)<br>opcode 296 ProtectionFromAnimation (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 169 PreventPortraitIcon (self)<br>opcode 106 MoraleBreakModifier (self)<br>opcode 161 RemoveFear (self)<br>opcode 23 MoraleModifier (self)<br>opcode 206 ProtectionFromSpell (self) | 1 | - | - |
 | MonsterSummoningII | SPWI407 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self) | 9 | mid | - |
@@ -126,7 +126,7 @@ Vanilla and modded spells differ in role or casting time; the modded one is used
 | InvisibilityPurge | SPPR309 | reactive |  | decent | opcode 116 RemoveInvisibility (self)<br>opcode 146 CastSpell (self)<br>opcode 206 ProtectionFromSpell (self) | 3 | short | - |
 | LesserRestoration | SPPR417 | buff |  | decent | opcode 221 RemoveSpellTypeProtections (self)<br>opcode 224 (self)<br>opcode 73 AttackDamageBonus (self)<br>opcode 0 ArmorClassBonus (self)<br>opcode 189 CastingTimeModifier (self)<br>opcode 54 (self) | 4 | short | - |
 | NegativePlaneProtection | SPPR413 | protection |  | good | opcode 101 ProtectionFromOpcode (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 282 ScriptingStateModifier (self) | 5 | mid | - |
-| PixieDust | SPPR516 | disable |  | decent | opcode 20 Invisibility (enemy) | 5 | short | - |
+| PixieDust | SPPR516 | protection |  | decent | opcode 20 Invisibility (self) | 5 | short | - |
 | ProtectionFromFire | SPPR306 | protection |  | good | opcode 30 FireResistanceModifier (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
 | RemoveParalysis | SPPR308 | disable |  | decent | opcode 46 CureStun (enemy)<br>opcode 162 RemoveParalysis (enemy)<br>opcode 163 (enemy) | 3 | - | - |
 | ResistElements | SPPR210 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 30 FireResistanceModifier (self)<br>opcode 28 ColdResistanceModifier (self)<br>opcode 29 ElectricityResistanceModifier (self)<br>opcode 27 AcidResistanceModifier (self)<br>opcode 328 SetExtendedSpellState (self) | 2 | short | - |
@@ -172,7 +172,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | ProtectionFromEvil | SPPR107 | buff |  | decent | opcode 219 (self)<br>opcode 233 ProficiencyModifier (self) | 1 | mid | short |
 | ProtectionFromGood | SPPR125 | buff |  | decent | opcode 219 (self)<br>opcode 233 ProficiencyModifier (self) | 1 | mid | short |
 
-## Newly precast (63)
+## Newly precast (65)
 
 `--write` gives these a long or mid duration: creatures memorizing them will precast them (mid ones only with spellcasterPrecastMidDurationSpells).
 
@@ -226,6 +226,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | ElementalSwarm | SPPR723 | summon |  | decent | opcode 67 SummonCreature (self) | 9 | mid | - |
 | GiantInsect | SPPR430 | summon |  | decent | opcode 331 SummonCreatureFrom2DA (self) | 7 | long | - |
 | ImperviousSanctityOfMind | SPPR736 | protection |  | good | opcode 206 ProtectionFromSpell (self)<br>opcode 101 ProtectionFromOpcode (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 169 PreventPortraitIcon (self)<br>opcode 318 ProtectionFromResource (self)<br>opcode 296 ProtectionFromAnimation (self)<br>opcode 106 MoraleBreakModifier (self)<br>opcode 321 RemoveEffectsByResource (self)<br>opcode 161 RemoveFear (self)<br>opcode 23 MoraleModifier (self)<br>opcode 282 ScriptingStateModifier (self) | 9 | long | - |
+| MassRegenerate | SPPR523 | protection |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 98 Regeneration (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
 | NegativePlaneProtection | SPPR413 | protection |  | good | opcode 101 ProtectionFromOpcode (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 282 ScriptingStateModifier (self) | 5 | mid | - |
 | ProtectionFromAcid | SPPR519 | protection |  | good | opcode 27 AcidResistanceModifier (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
 | ProtectionFromCold | SPPR520 | protection |  | good | opcode 28 ColdResistanceModifier (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
@@ -238,6 +239,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | SummonFallenDeva | SPPR727 | summon |  | decent | opcode 67 SummonCreature (self) | 9 | mid | - |
 | AnimateDead | SPCL106 | summon |  | decent | opcode 67 SummonCreature (self) | 5 | long | - |
 | ProtectionFromEvil | SPCL213 | buff |  | decent | opcode 219 (self)<br>opcode 233 ProficiencyModifier (self) | 1 | mid | - |
+| ProtectionFromEvil10Radius | SPCL233 | buff |  | decent | opcode 233 ProficiencyModifier (self)<br>opcode 100 (self)<br>opcode 219 (self) | 7 | mid | - |
 | AnimateDead | D5P1301 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self)<br>opcode 148 (self) | 9 | long | - |
 | Shield | D5P2114 | protection |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 0 ArmorClassBonus (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 282 ScriptingStateModifier (self)<br>opcode 206 ProtectionFromSpell (self) | 1 | mid | - |
 | SummonShadows | D5PP422 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self)<br>opcode 148 (self) | 9 | mid | - |
@@ -310,7 +312,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | Imprisonment | SPWI910 | kill | disable | decent | opcode 213 Maze (enemy)<br>opcode 13 KillTarget (enemy)<br>opcode 212 (enemy) | 9 | short | - |
 | ImprovedAlacrity | SPWI921 | buff |  | decent | opcode 282 ScriptingStateModifier (self)<br>opcode 188 (self) | 9 | short | - |
 | ImprovedChaosShield | SPWI723 | protection |  | decent | opcode 281 (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 206 ProtectionFromSpell (self) | 7 | mid | - |
-| InvisibilitySphere | SPWI307 | disable |  | decent | opcode 20 Invisibility (enemy) | 1 | short | - |
+| InvisibilitySphere | SPWI307 | protection |  | decent | opcode 20 Invisibility (self) | 1 | short | - |
 | InvisibleStalker | SPWI601 | summon |  | decent | opcode 67 SummonCreature (self) | 9 | long | - |
 | IronBody | SPWI820 | damage |  | decent | opcode 111 CreateWeapon (self) | 8 | mid | - |
 | LanceOfDisruption | SPWI327 | damage | disable | decent | opcode 318 ProtectionFromResource (enemy)<br>opcode 12 Damage (enemy) | 3 | - | - |
@@ -505,7 +507,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | Aid | SPPR201 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 129 (self)<br>opcode 18 MaximumHPModifier (self) | 5 | mid | mid |
 | AerialServant | SPPR601 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self) | 9 | mid | mid |
 | AlicornLance | SPPR222 | damage | disable | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 12 Damage (enemy)<br>opcode 8 SetColorGlowSolid (enemy)<br>opcode 0 ArmorClassBonus (enemy) | 5 | short | - |
-| AnimalGrowth | SPPR524 | disable |  | decent | opcode 143 CreateItemInSlot (enemy)<br>opcode 177 UseEFFFile (enemy) | 0 | short | - |
+| AnimalGrowth | SPPR524 | buff |  | decent | opcode 143 CreateItemInSlot (self)<br>opcode 177 UseEFFFile (self) | 0 | short | - |
 | AnimalRage | SPPR529 | buff |  | decent | opcode 324 ProtectionFromResourceAndMessage (self)<br>opcode 321 RemoveEffectsByResource (self)<br>opcode 333 (self)<br>opcode 3 Berserk (self)<br>opcode 325 AllSavingThrowsBonus (self)<br>opcode 18 MaximumHPModifier (self)<br>opcode 44 StrengthBonus (self)<br>opcode 176 MovementRateBonus2 (self)<br>opcode 145 DisableSpellcasting (self)<br>opcode 60 CastingFailure (self) | 8 | short | - |
 | AnimalSummoning1 | SPPR122 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self)<br>opcode 143 CreateItemInSlot (self)<br>opcode 326 (self) | 9 | mid | mid |
 | AnimalSummoning2 | SPPR221 | summon |  | decent | opcode 67 SummonCreature (self)<br>opcode 177 UseEFFFile (self)<br>opcode 143 CreateItemInSlot (self)<br>opcode 326 (self) | 9 | mid | mid |
@@ -560,7 +562,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | CureSeriousWounds | SPPR401 | reactive |  | decent | opcode 17 CurrentHPbonus (self)<br>opcode 164 (self)<br>keyword cureWounds | 4 | - | - |
 | Curse | SPPR124 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 54 (enemy)<br>opcode 23 MoraleModifier (enemy)<br>opcode 325 AllSavingThrowsBonus (enemy) | 9 | short | - |
 | DeathWard | SPPR409 | protection |  | good | opcode 101 ProtectionFromOpcode (self)<br>opcode 282 ScriptingStateModifier (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
-| DefensiveHarmony | SPPR406 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 0 ArmorClassBonus (enemy)<br>opcode 233 ProficiencyModifier (enemy) | 1 | short | - |
+| DefensiveHarmony | SPPR406 | protection |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 0 ArmorClassBonus (self)<br>opcode 233 ProficiencyModifier (self) | 1 | short | - |
 | Destruction | SPPR737 | kill | damage | decent | opcode 324 ProtectionFromResourceAndMessage (enemy)<br>opcode 13 KillTarget (enemy)<br>opcode 12 Damage (enemy) | 9 | short | - |
 | DetectEvil | SPPR104 | useless |  | decent | opcode 115 DetectAlignment (enemy) | 1 | - | - |
 | DispelMagic | SPPR303 | reactive |  | decent | opcode 221 RemoveSpellTypeProtections (enemy)<br>opcode 58 DispelEffects (enemy) | 3 | - | - |
@@ -613,15 +615,15 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | Implosion | SPPR728 | damage | disable | decent | opcode 206 ProtectionFromSpell (enemy)<br>opcode 177 UseEFFFile (enemy)<br>opcode 269 (enemy)<br>opcode 185 HoldCreatureSpell (enemy)<br>opcode 12 Damage (enemy) | 7 | short | - |
 | InvisibilityPurge | SPPR309 | reactive |  | decent | opcode 116 RemoveInvisibility (self)<br>opcode 146 CastSpell (self)<br>opcode 206 ProtectionFromSpell (self) | 3 | short | - |
 | LesserRestoration | SPPR417 | buff |  | decent | opcode 221 RemoveSpellTypeProtections (self)<br>opcode 224 (self)<br>opcode 73 AttackDamageBonus (self)<br>opcode 0 ArmorClassBonus (self)<br>opcode 189 CastingTimeModifier (self)<br>opcode 54 (self) | 4 | short | - |
-| MagicFang | SPPR325 | disable |  | decent | opcode 143 CreateItemInSlot (enemy)<br>opcode 177 UseEFFFile (enemy) | 0 | short | - |
-| MassRegenerate | SPPR523 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 98 Regeneration (enemy)<br>opcode 206 ProtectionFromSpell (enemy) | 5 | mid | - |
+| MagicFang | SPPR325 | buff |  | decent | opcode 143 CreateItemInSlot (self)<br>opcode 177 UseEFFFile (self) | 0 | short | - |
+| MassRegenerate | SPPR523 | protection |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 98 Regeneration (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
 | Misfire | SPPR532 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 167 (enemy)<br>opcode 177 UseEFFFile (enemy) | 1 | short | - |
 | MoldTouch | SPPR334 | disable |  | decent | opcode 324 ProtectionFromResourceAndMessage (enemy)<br>opcode 78 Disease (enemy)<br>opcode 328 SetExtendedSpellState (enemy)<br>opcode 206 ProtectionFromSpell (enemy)<br>opcode 318 ProtectionFromResource (enemy) | 6 | short | - |
 | Moonblade | SPPR331 | damage |  | decent | opcode 111 CreateWeapon (self) | 6 | mid | - |
 | NaturesWrath | SPPR624 | shapeshift |  | decent | opcode 172 RemoveSpell (self)<br>opcode 135 PolymorphIntoSpecific (self)<br>opcode 111 CreateWeapon (self)<br>opcode 171 GiveAbility (self)<br>opcode 144 DisableButton (self) | 6 | short | - |
 | NegativePlaneProtection | SPPR413 | protection |  | good | opcode 101 ProtectionFromOpcode (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 282 ScriptingStateModifier (self) | 5 | mid | - |
 | ObscuringMist | SPPR123 | disable |  | decent | opcode 206 ProtectionFromSpell (enemy)<br>opcode 177 UseEFFFile (enemy)<br>opcode 262 (enemy)<br>opcode 54 (enemy)<br>opcode 0 ArmorClassBonus (enemy) | 5 | short | - |
-| PixieDust | SPPR516 | disable |  | decent | opcode 20 Invisibility (enemy) | 5 | short | - |
+| PixieDust | SPPR516 | protection |  | decent | opcode 20 Invisibility (self) | 5 | short | - |
 | PolymorphOther | SPPR518 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 111 CreateWeapon (enemy) | 5 | - | - |
 | Prayer | SPPR328 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 54 (self)<br>opcode 73 AttackDamageBonus (self)<br>opcode 325 AllSavingThrowsBonus (self) | 6 | short | - |
 | ProtectionFromAcid | SPPR519 | protection |  | good | opcode 27 AcidResistanceModifier (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | mid | - |
@@ -635,7 +637,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | RemoveParalysis | SPPR308 | disable |  | decent | opcode 46 CureStun (enemy)<br>opcode 162 RemoveParalysis (enemy)<br>opcode 163 (enemy) | 3 | - | - |
 | ResistAcidAndCorrosion | SPPR224 | buff |  | decent | opcode 27 AcidResistanceModifier (self) | 5 | short | - |
 | ResistElements | SPPR210 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 30 FireResistanceModifier (self)<br>opcode 28 ColdResistanceModifier (self)<br>opcode 29 ElectricityResistanceModifier (self)<br>opcode 27 AcidResistanceModifier (self)<br>opcode 328 SetExtendedSpellState (self) | 2 | short | - |
-| RighteousWrathOfTheFaithful | SPPR525 | disable |  | decent | opcode 318 ProtectionFromResource (enemy)<br>opcode 321 RemoveEffectsByResource (enemy)<br>opcode 206 ProtectionFromSpell (enemy)<br>opcode 267 ProtectionFromDisplaySpecificString (enemy)<br>opcode 169 PreventPortraitIcon (enemy)<br>opcode 296 ProtectionFromAnimation (enemy)<br>opcode 54 (enemy)<br>opcode 1 ModifyAttacksPerRound (enemy)<br>opcode 325 AllSavingThrowsBonus (enemy)<br>opcode 101 ProtectionFromOpcode (enemy)<br>opcode 8 SetColorGlowSolid (enemy)<br>opcode 18 MaximumHPModifier (enemy)<br>opcode 93 FatigueBonus (enemy) | 8 | short | - |
+| RighteousWrathOfTheFaithful | SPPR525 | buff |  | decent | opcode 318 ProtectionFromResource (self)<br>opcode 321 RemoveEffectsByResource (self)<br>opcode 206 ProtectionFromSpell (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 169 PreventPortraitIcon (self)<br>opcode 296 ProtectionFromAnimation (self)<br>opcode 54 (self)<br>opcode 1 ModifyAttacksPerRound (self)<br>opcode 325 AllSavingThrowsBonus (self)<br>opcode 101 ProtectionFromOpcode (self)<br>opcode 8 SetColorGlowSolid (self)<br>opcode 18 MaximumHPModifier (self)<br>opcode 93 FatigueBonus (self) | 8 | short | - |
 | Shillelagh | SPPR110 | damage |  | decent | opcode 111 CreateWeapon (self)<br>opcode 233 ProficiencyModifier (self) | 5 | mid | - |
 | SlowPoison | SPPR212 | buff |  | decent | opcode 11 CurePoison (self)<br>opcode 164 (self) | 1 | - | - |
 | SmashingWave | SPPR427 | damage | disable | decent | opcode 318 ProtectionFromResource (enemy)<br>opcode 12 Damage (enemy)<br>opcode 45 Stun (enemy)<br>opcode 39 Sleep (enemy) | 9 | short | - |
@@ -652,7 +654,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | StormOfVengeance | SPPR722 | damage | disable | decent | opcode 12 Damage (enemy)<br>opcode 25 Poison (enemy) | 9 | short | - |
 | StormShell | SPPR335 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 28 ColdResistanceModifier (self)<br>opcode 29 ElectricityResistanceModifier (self)<br>opcode 30 FireResistanceModifier (self) | 6 | short | - |
 | StormShield | SPPR323 | protection |  | good | opcode 36 SaveVsBreathModifier (self)<br>opcode 0 ArmorClassBonus (self)<br>opcode 83 ProtectionFromProjectile (self)<br>opcode 206 ProtectionFromSpell (self) | 5 | short | - |
-| StrengthOfOne | SPPR312 | disable |  | decent | opcode 44 StrengthBonus (enemy)<br>opcode 97 (enemy)<br>opcode 282 ScriptingStateModifier (enemy)<br>opcode 328 SetExtendedSpellState (enemy)<br>opcode 206 ProtectionFromSpell (enemy) | 3 | short | - |
+| StrengthOfOne | SPPR312 | buff |  | decent | opcode 44 StrengthBonus (self)<br>opcode 97 (self)<br>opcode 282 ScriptingStateModifier (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 206 ProtectionFromSpell (self) | 3 | short | - |
 | StrengthOfStone | SPPR117 | buff |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 44 StrengthBonus (self)<br>opcode 97 (self)<br>opcode 101 ProtectionFromOpcode (self)<br>opcode 206 ProtectionFromSpell (self)<br>opcode 176 MovementRateBonus2 (self) | 1 | mid | - |
 | SummonDeva | SPPR726 | summon |  | decent | opcode 67 SummonCreature (self) | 9 | mid | - |
 | SummonFallenDeva | SPPR727 | summon |  | decent | opcode 67 SummonCreature (self) | 9 | mid | - |
@@ -730,7 +732,7 @@ The extracted duration differs from the declared one: calibrates the thresholds.
 | DruidShapeshiftWolf | SPCL612 | shapeshift |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 172 RemoveSpell (self)<br>opcode 111 CreateWeapon (self)<br>opcode 171 GiveAbility (self) | 0 | - | - |
 | DruidShapeshiftBlackBear | SPCL613 | shapeshift |  | decent | opcode 321 RemoveEffectsByResource (self)<br>opcode 172 RemoveSpell (self)<br>opcode 111 CreateWeapon (self)<br>opcode 171 GiveAbility (self) | 0 | - | - |
 | ProtectionFromEvil | SPCL213 | buff |  | decent | opcode 219 (self)<br>opcode 233 ProficiencyModifier (self) | 1 | mid | - |
-| ProtectionFromEvil10Radius | SPCL233 | disable |  | decent | opcode 233 ProficiencyModifier (enemy)<br>opcode 100 (enemy)<br>opcode 219 (enemy) | 7 | mid | - |
+| ProtectionFromEvil10Radius | SPCL233 | buff |  | decent | opcode 233 ProficiencyModifier (self)<br>opcode 100 (self)<br>opcode 219 (self) | 7 | mid | - |
 | QuiveringPalm | SPCL820 | buff |  | decent | opcode 248 (self)<br>opcode 282 ScriptingStateModifier (self) | 0 | short | - |
 | RemoveFear | SPCL222 | disable |  | decent | opcode 321 RemoveEffectsByResource (enemy)<br>opcode 296 ProtectionFromAnimation (enemy)<br>opcode 23 MoraleModifier (enemy)<br>opcode 161 RemoveFear (enemy)<br>opcode 101 ProtectionFromOpcode (enemy)<br>opcode 328 SetExtendedSpellState (enemy)<br>opcode 282 ScriptingStateModifier (enemy)<br>opcode 267 ProtectionFromDisplaySpecificString (enemy)<br>opcode 169 PreventPortraitIcon (enemy)<br>opcode 106 MoraleBreakModifier (enemy) | 1 | mid | - |
 | ResistFear | SPCL104 | protection |  | good | opcode 321 RemoveEffectsByResource (self)<br>opcode 296 ProtectionFromAnimation (self)<br>opcode 106 MoraleBreakModifier (self)<br>opcode 161 RemoveFear (self)<br>opcode 23 MoraleModifier (self)<br>opcode 328 SetExtendedSpellState (self)<br>opcode 101 ProtectionFromOpcode (self)<br>opcode 267 ProtectionFromDisplaySpecificString (self)<br>opcode 169 PreventPortraitIcon (self) | 1 | - | - |

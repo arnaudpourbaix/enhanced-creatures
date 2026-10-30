@@ -16,6 +16,7 @@ import {
   proposeKeywords,
   readSplHeaderTarget,
   readSplHostile,
+  alliesCheckRange,
   areaHitsAllies,
   parseProjectileIds,
   casterLevelSource,
@@ -67,20 +68,23 @@ interface Profile {
   duration?: SpellDurationClass;
   /** Its area also hits the caster's allies; undefined without an area projectile */
   hitsAllies?: boolean;
+  /** The radius to check for allies before casting it (see alliesCheckRange) */
+  alliesRange?: number;
   /** For an entry declaring no keywords: what its game data supports (see proposeKeywords) */
   proposedKeywords?: SpellKeyword[];
 }
 
 /** Whether the first header's projectile is an area hitting allies too (see areaHitsAllies). */
-function hitsAllies(
+function area(
   reader: ResourceReader,
   spl: Buffer,
   projectiles: Map<number, string>,
-): boolean | undefined {
+): { hitsAllies?: boolean; alliesRange?: number } {
   const projectile = spl.readUInt16LE(spl.readUInt32LE(0x64) + 0x26);
   const name = projectiles.get(projectile - 1);
   const pro = name === undefined ? undefined : reader.read(name, PRO_TYPE, "PRO");
-  return pro && areaHitsAllies(pro);
+  if (!pro) return {};
+  return { hitsAllies: areaHitsAllies(pro), alliesRange: alliesCheckRange(pro) };
 }
 
 function profile(
@@ -95,7 +99,7 @@ function profile(
   if (!spl || !effects) return undefined;
   // the duration at the lowest level casting the spell, what a precast spell gets at worst
   const lowest = spellEffects(casterLevelSource(reader, minCasterLevel(spl)), file) ?? [];
-  const allies = hitsAllies(reader, spl, projectiles);
+  const { hitsAllies: allies, alliesRange } = area(reader, spl, projectiles);
   const proposedKeywords = declaredKeywords?.length
     ? undefined
     : proposeKeywords(effects, {
@@ -112,6 +116,7 @@ function profile(
     castingTimes: readSplCastingTimes(spl),
     duration: spellDuration(lowest),
     hitsAllies: allies,
+    alliesRange,
     proposedKeywords,
   };
 }
@@ -130,6 +135,7 @@ interface Row {
     duration?: SpellDurationClass;
     tier?: SpellTier;
     hitsAllies?: boolean;
+    alliesCheck?: unknown;
   };
 }
 
@@ -145,6 +151,24 @@ interface Entry {
   duration?: SpellDurationClass;
   tier?: SpellTier;
   hitsAllies?: boolean;
+  alliesCheck?: unknown;
+}
+
+/** Roles whose area hitting allies needs checking for them before casting it */
+const ATTACKS: SpellRole[] = ["damage", "kill", "disable"];
+
+/**
+ * The alliesCheck range --write adds: an attack whose area also hits allies, without one yet, so
+ * the AI doesn't cast it into its own group.
+ */
+function newAlliesCheck(row: Row): number | undefined {
+  const role = row.declared.role ?? row.profile.role;
+  const hits = row.declared.hitsAllies ?? row.profile.hitsAllies;
+  if (row.declared.alliesCheck !== undefined || !hits || !role || !ATTACKS.includes(role)) {
+    return undefined;
+  }
+  const range = row.profile.alliesRange;
+  return range !== undefined && range > 0 ? range : undefined;
 }
 
 /** The tier --write adds: a protection's guess, decent ones left unwritten. */
@@ -301,6 +325,7 @@ function collect(database: string, entries: Entry[], readers: Readers) {
         duration: spell.duration,
         tier: spell.tier,
         hitsAllies: spell.hitsAllies,
+        alliesCheck: spell.alliesCheck,
       },
     });
   }
@@ -361,6 +386,15 @@ function writeDatabase(databasePath: string, rows: Row[], durations: boolean) {
       r.profile.hitsAllies && r.declared.hitsAllies === undefined ? "true" : undefined,
     ),
     "keywords",
+  );
+  database = addFieldToDatabase(
+    database,
+    "alliesCheck",
+    values((r) => {
+      const range = newAlliesCheck(r);
+      return range === undefined ? undefined : `{ range: ${range} }`;
+    }),
+    "hitsAllies",
   );
   if (durations) {
     database = addFieldToDatabase(

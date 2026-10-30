@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { type EffectSource, type RawEffect } from "./spell-saves";
 import {
+  alliesCheckRange,
   areaHitsAllies,
   classifyRole,
   classifyTier,
@@ -454,6 +455,20 @@ describe("areaHitsAllies", () => {
     expect(areaHitsAllies(pro(3, 0x50))).toBe(false);
   });
 
+  it("turns the explosion size into an alliesCheck range, as Fireball's 15", () => {
+    const fireball = pro(3, 0);
+    fireball.writeUInt16LE(256, 0x206);
+    expect(alliesCheckRange(fireball)).toBe(15);
+    const small = pro(3, 0);
+    small.writeUInt16LE(110, 0x206);
+    expect(alliesCheckRange(small)).toBe(6);
+    // a line's length isn't a radius around the target (Lance of Disruption)
+    const line = pro(3, 0);
+    line.writeUInt16LE(855, 0x206);
+    expect(alliesCheckRange(line)).toBe(20);
+    expect(alliesCheckRange(pro(2, 0))).toBeUndefined();
+  });
+
   it("says nothing of a projectile without an area", () => {
     expect(areaHitsAllies(pro(2, 0))).toBeUndefined();
   });
@@ -507,5 +522,13 @@ describe("proposeKeywords", () => {
     expect(propose([enemy(17, { resistance: 1 })], { hostile: false })).toEqual(["friendly"]);
     // a hostile one stays aimed at enemies, whatever it does
     expect(propose([enemy(58)])).toEqual([]);
+  });
+
+  it("casts a non-hostile area around its caster for its allies too (Invisibility Sphere)", () => {
+    expect(propose([enemy(20)], { hostile: false, headerTarget: 5, area: true })).toEqual([
+      "area",
+      "castOnSelf",
+      "friendly",
+    ]);
   });
 });
