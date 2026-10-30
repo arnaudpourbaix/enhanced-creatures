@@ -151,6 +151,7 @@ describe("resolveAbilities", () => {
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
       .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
+    vi.spyOn(abilityOrderService, "resolveCovered").mockReturnValue([]);
     creatureFactory.resolveAbilities(creature);
     expect(resolveSpy).toHaveBeenCalledWith(creature);
     expect(creature.behavior.abilities).toHaveLength(1);
@@ -163,6 +164,7 @@ describe("resolveAbilities", () => {
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
       .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
+    vi.spyOn(abilityOrderService, "resolveCovered").mockReturnValue([]);
     creatureFactory.resolveAbilities(creature);
     expect(creature.pendingAbilityEntries).toBeUndefined();
     expect(resolveSpy).toHaveBeenCalledWith(creature);

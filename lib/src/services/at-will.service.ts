@@ -29,6 +29,7 @@ class AtWillService {
       .some((file) => !atWill.has(file.toUpperCase()) && spellProfileService.isCatalogued(file));
     const abilities = [
       ...creature.behavior.abilities,
+      ...creature.behavior.coveredAbilities,
       ...creature.behavior.customCodes.flatMap((c) => c.abilities),
     ];
     for (const ability of abilities) {

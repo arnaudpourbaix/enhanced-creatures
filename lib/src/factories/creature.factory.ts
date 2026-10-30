@@ -142,6 +142,9 @@ class CreatureFactory {
 
   resolveAbilities(cre: Creature): void {
     cre.behavior.abilities.push(...abilityService.getAbilities(abilityOrderService.resolve(cre)));
+    cre.behavior.coveredAbilities = abilityService.getAbilities(
+      abilityOrderService.resolveCovered(cre),
+    );
   }
 
   checkValidation(creature: Creature) {

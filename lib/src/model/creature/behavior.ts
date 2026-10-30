@@ -52,6 +52,11 @@ export interface CreatureBehavior {
    */
   dialog: string[];
   abilities: CreatureAbility[];
+  /**
+   * Under Sanctuary or Invisibility, cast before anything else, without attacking in between (see
+   * AbilityOrderService.resolveCovered)
+   */
+  coveredAbilities: CreatureAbility[];
   customCodes: CustomCode[];
   additionalCodes: AdditionalCode[];
 }
@@ -78,4 +83,5 @@ export const BEHAVIOR_DEFAULT: CreatureBehavior = {
   customCodes: [],
   additionalCodes: [],
   abilities: [],
+  coveredAbilities: [],
 };

@@ -332,3 +332,29 @@ describe("resolve", () => {
     expect(presetsOf(abilityOrderService.resolve(creature))).toEqual([FIREBALL]);
   });
 });
+
+describe("resolveCovered", () => {
+  const SANCTUARY = SPELLS.Priest.Sanctuary.file;
+  const BLESS = SPELLS.Priest.Bless.file;
+  const HOLY_MIGHT = SPELLS.Priest.DrawUponHolyMight.file;
+
+  it("gives a creature with a cover spell its protections and buffs, without the cover itself", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: SANCTUARY }, { file: BLESS }, { file: HOLY_MIGHT }, { file: FIREBALL }],
+    });
+    const covered = abilityOrderService.resolveCovered(creature);
+    expect(presetsOf(covered).sort()).toEqual([BLESS, HOLY_MIGHT].sort());
+    expect(covered.every((a) => a.probability !== undefined)).toBe(true);
+  });
+
+  it("gives nothing without a cover spell", () => {
+    const creature = fakeCreature({ memorized: [{ file: BLESS }, { file: HOLY_MIGHT }] });
+    expect(abilityOrderService.resolveCovered(creature)).toEqual([]);
+  });
+
+  it("gives nothing with a cover spell but nothing protective", () => {
+    const creature = fakeCreature({ memorized: [{ file: SANCTUARY }, { file: FIREBALL }] });
+    expect(abilityOrderService.resolveCovered(creature)).toEqual([]);
+  });
+});

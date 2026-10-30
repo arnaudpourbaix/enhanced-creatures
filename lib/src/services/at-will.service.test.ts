@@ -53,6 +53,7 @@ function fakeCreature(p: {
     abilities: p.powers.map(
       (power) => ({ resource: power.file, timer: power.timer }) as unknown as CreatureAbility,
     ),
+    coveredAbilities: [],
     customCodes: [],
   } as unknown as Creature["behavior"];
   return creature;

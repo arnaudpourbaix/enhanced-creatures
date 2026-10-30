@@ -2,6 +2,7 @@ import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/cre
 import { Creature } from "../../model/creature/creature";
 import creatureService from "../creature.service";
 import logService from "../log.service";
+import { COVER_SPELLS } from "../../../config/spells/cover-spells";
 import spellComboService from "../spell-combo.service";
 import spellProfileService, { SpellProfile } from "../spell-profile.service";
 import spellService from "../spell.service";
@@ -63,6 +64,31 @@ class AbilityOrderService {
     }
 
     return ordered.map((o) => o.ability);
+  }
+
+  /**
+   * The covered phase's abilities (see CastOrderService.coveredPlan) of a creature memorizing a
+   * cover spell (COVER_SPELLS): its protections and buffs, each with its planned probability.
+   * Only spells the databases know, cast by their presets.
+   */
+  resolveCovered(creature: Creature): RawCreatureAbility[] {
+    const files = creatureService.memorizedSpellFiles(creature);
+    if (!files.some((file) => COVER_SPELLS.includes(file.toUpperCase()))) return [];
+    const profiles = files
+      .filter((file) => spellProfileService.isCatalogued(file))
+      .filter((file) => !spellComboService.comboOfFile(file) || !this.contingency(file))
+      .map((file) => spellProfileService.profileOf(file, creature))
+      .filter((profile): profile is SpellProfile => profile !== undefined);
+    return castOrderService
+      .coveredPlan(profiles)
+      .map((cast) => ({ preset: cast.file, probability: cast.probability }));
+  }
+
+  private contingency(file: string): boolean {
+    return (
+      spellComboService.isSelfContingencyFile(file) ||
+      spellComboService.isEnemyContingencyFile(file)
+    );
   }
 
   private profile(file: string, creature: Creature): SpellProfile {
