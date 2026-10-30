@@ -7,6 +7,7 @@ import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
 import { SpellReference, SpellSaves, SpellVariant } from "../spell-item/spell-reference";
+import type { Spell } from "../spell-item/spell-item";
 import { SplStateIdentifier } from "../ids/splstate";
 import { SpellStateValue } from "../../../config/common";
 
@@ -185,14 +186,20 @@ export type AbilityAnchor = SpellReference | number | string;
 export interface AbilityEntry {
   /**
    * A registry (SPELLS/FNP_SPELLS) spell: overrides its auto-derived position and/or config.
-   * Exactly one of `spell`/`abilityId` must be set.
+   * Exactly one of `spell`/`abilityId`/`power` must be set.
    */
   spell?: SpellReference;
   /**
    * A local Ids enum value for a custom addSpell-created ability, resolved via
-   * creature.spell(id)/creature.ability(id). Exactly one of `spell`/`abilityId` must be set.
+   * creature.spell(id)/creature.ability(id). Exactly one of `spell`/`abilityId`/`power` must be set.
    */
   abilityId?: number;
+  /**
+   * A power shared on the creature's family (created on its entry, like a vampire's Domination),
+   * cast by its own ability: out of creature.spell()'s reach. Without a position, it's placed by
+   * its score. Exactly one of `spell`/`abilityId`/`power` must be set.
+   */
+  power?: Spell;
   insertBefore?: AbilityAnchor;
   insertAfter?: AbilityAnchor;
   insertFirst?: true;

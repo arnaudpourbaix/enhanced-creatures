@@ -23,13 +23,7 @@ class AbilityOrderService {
     ].flatMap((a) => creatureService.getAbilityCastFiles(a));
     const explicitFiles = new Set([
       ...alreadyCastFiles,
-      ...entries
-        .map((e) => {
-          if (e.spell) return e.spell.file;
-          if (e.abilityId !== undefined) return creature.spell(e.abilityId).file;
-          return undefined;
-        })
-        .filter((f) => f !== undefined),
+      ...entries.map((e) => this.cast(e, creature).identity),
     ]);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
     // self contingencies have no ability: they are precast (see StatementBuilderService)
@@ -58,29 +52,14 @@ class AbilityOrderService {
       ...contingencies.map((file) => ({ identity: file, ability: { preset: file } })),
       ...plan.map((cast): OrderedAbility => {
         const entry = scoredEntries.get(cast.file);
-        const ability =
-          entry?.abilityId === undefined
-            ? { preset: cast.file }
-            : creature.ability(entry.abilityId);
+        const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
         return { identity: cast.file, ability: { ...ability, probability: cast.probability } };
       }),
     ];
 
     for (const entry of entries) {
       if ([...scoredEntries.values()].includes(entry)) continue;
-      let identity: string;
-      let ability: RawCreatureAbility;
-      if (entry.spell) {
-        identity = entry.spell.file;
-        ability = { preset: entry.spell.file };
-      } else {
-        if (entry.abilityId === undefined) {
-          throw new Error("AbilityEntry must set exactly one of spell/abilityId");
-        }
-        identity = creature.spell(entry.abilityId).file;
-        ability = creature.ability(entry.abilityId);
-      }
-      this.splice(ordered, { identity, ability }, entry, creature);
+      this.splice(ordered, this.cast(entry, creature), entry, creature);
     }
 
     return ordered.map((o) => o.ability);
@@ -95,8 +74,26 @@ class AbilityOrderService {
   /** The profile of an entry without a position (an at-will power), placed by its score. */
   private unplacedProfile(entry: AbilityEntry, creature: Creature): SpellProfile | undefined {
     const positions = [entry.insertBefore, entry.insertAfter, entry.insertFirst, entry.insertLast];
-    if (entry.abilityId === undefined || positions.some((p) => p !== undefined)) return undefined;
+    if (positions.some((p) => p !== undefined)) return undefined;
+    if (entry.power) return spellProfileService.profileOfSpell(entry.power);
+    if (entry.abilityId === undefined) return undefined;
     return spellProfileService.profileOf(creature.spell(entry.abilityId).file, creature);
+  }
+
+  /** What an entry casts (its file) and the ability casting it. */
+  private cast(entry: AbilityEntry, creature: Creature): OrderedAbility {
+    if (entry.spell) return { identity: entry.spell.file, ability: { preset: entry.spell.file } };
+    if (entry.power) {
+      if (!entry.power.ability) throw new Error(`Power ${entry.power.file} has no ability`);
+      return { identity: entry.power.file, ability: entry.power.ability };
+    }
+    if (entry.abilityId === undefined) {
+      throw new Error("AbilityEntry must set exactly one of spell/abilityId/power");
+    }
+    return {
+      identity: creature.spell(entry.abilityId).file,
+      ability: creature.ability(entry.abilityId),
+    };
   }
 
   /** The creature's cast order, under its log section, for review. */
@@ -109,9 +106,10 @@ class AbilityOrderService {
 
   private validateEntries(entries: AbilityEntry[]): void {
     for (const entry of entries) {
-      if ((entry.spell !== undefined) === (entry.abilityId !== undefined)) {
+      const kinds = [entry.spell, entry.abilityId, entry.power].filter((k) => k !== undefined);
+      if (kinds.length !== 1) {
         throw new Error(
-          `Ability entry must set exactly one of 'spell' or 'abilityId': ${JSON.stringify(entry)}`,
+          `Ability entry must set exactly one of 'spell', 'abilityId' or 'power': ${JSON.stringify(entry)}`,
         );
       }
       const positions = [

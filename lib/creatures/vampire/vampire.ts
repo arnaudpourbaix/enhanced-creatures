@@ -398,8 +398,6 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
         excludeStateChecks: domination.mode === "gaze" ? ["STATE_BLIND"] : undefined,
       },
       triggers: NOT_SHAPECHANGED,
-      // not always the first thing a vampire does
-      probability: 50,
     },
   });
 }
@@ -588,6 +586,8 @@ function controlUndead(group: AbstractCreature) {
     id: Ids.VampireControlUndead,
     memorizedCount: AT_WILL,
     ...supernatural(7),
+    // it turns undead against their side, like a charm
+    role: "disable",
     icon: SPELLS.Wizard.ControlUndead.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Necromancer,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -1533,7 +1533,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
     abilities: [
       ...mist.abilities,
       ...(age.abilities?.() ?? []),
-      ...[ownForm, bat, dominate, swarm, control, wolf].map((spell) => {
+      ...[ownForm, bat, swarm, wolf].map((spell) => {
         if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
         return spell.ability;
       }),
@@ -1541,6 +1541,8 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
     ],
     customCodes: [mist.flee, BAT_FLEE, dive.flight, ...sunlightEscape(age)],
   });
+  // at-will powers take their place among its spells by score (see AbilityOrderService)
+  cre.setBehavior({ abilities: { entries: [{ power: dominate }, { power: control }] } });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
   const renamed = cre.files
     .map((f) => f.name)

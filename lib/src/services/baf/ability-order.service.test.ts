@@ -9,6 +9,7 @@ import { SPELLS } from "../../../config/spells/spell-database";
 import presetFactory from "../../factories/preset.factory";
 import { ScriptTarget } from "../../model/constants";
 import { SpellCombo } from "../../model/spell-item/spell-combo";
+import { Spell } from "../../model/spell-item/spell-item";
 import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import spellComboService from "../spell-combo.service";
 import { SEQUENCERS } from "../../../config/spells/spell-combos";
@@ -248,6 +249,35 @@ describe("resolve", () => {
     expect(abilityOrderService.resolve(creature)).toEqual([{ preset: "custom-preset" }]);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("does-not-exist"));
     errorSpy.mockRestore();
+  });
+
+  it("places a power shared on the creature's family by its score, cast by its own ability", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const domination = {
+      file: "shared-domination",
+      level: 3,
+      type: SpellTypeEnum.Innate,
+      role: "disable",
+      headers: [{ speed: 1 }],
+      ability: { name: "domination-ability" },
+    } as unknown as Spell;
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: MAGIC_MISSILES }],
+      entries: [{ power: domination }],
+    });
+    const resolved = abilityOrderService.resolve(creature);
+    expect(resolved.map((a) => a.preset ?? a.name)).toEqual([
+      FIREBALL,
+      "domination-ability",
+      MAGIC_MISSILES,
+    ]);
+  });
+
+  it("throws when an entry sets both a power and a spell", () => {
+    const creature = fakeCreature({
+      entries: [{ spell: { file: "x" }, power: { file: "y" } as unknown as Spell }],
+    });
+    expect(() => abilityOrderService.resolve(creature)).toThrow(/exactly one/);
   });
 
   it("throws when an entry sets neither spell nor abilityId", () => {

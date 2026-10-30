@@ -5,6 +5,7 @@ import { SPELLS } from "../../config/spells/spell-database";
 import { SpellRole, SpellTier } from "../../config/spells/spell-role";
 import { Creature } from "../model/creature/creature";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { Spell } from "../model/spell-item/spell-item";
 import { spellFiles, SpellReference, SpellSaves } from "../model/spell-item/spell-reference";
 import spellComboService from "./spell-combo.service";
 
@@ -157,7 +158,12 @@ class SpellProfileService {
 
   private ownProfile(file: string, creature: Creature): SpellProfile | undefined {
     const spell = creature.spells.find((s) => s.file.toUpperCase() === file);
-    if (spell?.role === undefined) return undefined;
+    return spell && this.profileOfSpell(spell);
+  }
+
+  /** The profile of a spell this mod creates (a creature's power), undefined without a role. */
+  profileOfSpell(spell: Spell): SpellProfile | undefined {
+    if (spell.role === undefined) return undefined;
     const castingTime = spell.castingTime ?? spell.headers[0]?.speed ?? 0;
     return this.profile(spell.file, spell, spell.type, castingTime);
   }
