@@ -5,6 +5,7 @@ import { CreatureAbility } from "../model/creature/ability";
 import { Creature } from "../model/creature/creature";
 import { MainCreatureData } from "../model/creature/data";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { State } from "../state";
 import atWillService from "./at-will.service";
 
 interface Power {
@@ -79,6 +80,21 @@ describe("applyCooldowns", () => {
     });
     atWillService.applyCooldowns(creature);
     expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
+  });
+
+  it("reads a power shared on the creature's family from the created spells (a vampire's)", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "SHARED", level: 5, speed: 1 }],
+      spells: [SPELLS.Wizard.Fireball.file],
+    });
+    State.spells.push(...creature.spells);
+    creature.spells = [];
+    try {
+      atWillService.applyCooldowns(creature);
+      expect(timers(creature)).toEqual([{ name: "ATWILL_SHARED", value: 24 }]);
+    } finally {
+      State.spells.splice(-1, 1);
+    }
   });
 
   it("finds a spellbook in an adjustment's spellbook variants (a mage vampire's)", () => {

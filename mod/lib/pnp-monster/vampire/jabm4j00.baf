@@ -700,7 +700,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -748,7 +748,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -796,7 +796,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -844,7 +844,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -892,7 +892,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -940,7 +940,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -988,7 +988,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1036,7 +1036,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1084,7 +1084,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1132,7 +1132,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1176,7 +1176,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1219,7 +1219,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1262,7 +1262,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1305,7 +1305,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1348,7 +1348,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1391,7 +1391,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1434,7 +1434,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1477,7 +1477,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1520,7 +1520,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1563,7 +1563,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1605,7 +1605,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1647,7 +1647,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1689,7 +1689,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1731,7 +1731,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1773,7 +1773,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1815,7 +1815,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1857,7 +1857,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1899,7 +1899,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1943,7 +1943,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -1986,7 +1986,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2029,7 +2029,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2072,7 +2072,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2115,7 +2115,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2158,7 +2158,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2201,7 +2201,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2244,7 +2244,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2287,7 +2287,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2330,7 +2330,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2373,7 +2373,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2415,7 +2415,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2457,7 +2457,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2499,7 +2499,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2541,7 +2541,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2583,7 +2583,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2625,7 +2625,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2667,7 +2667,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2709,7 +2709,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -2751,7 +2751,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0705","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0705","LOCALS",24)
 		ForceSpellRES("jase0705",LastSeenBy(Myself))
 END
 
@@ -3193,7 +3193,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3242,7 +3242,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3291,7 +3291,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3340,7 +3340,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3389,7 +3389,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3438,7 +3438,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3487,7 +3487,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3536,7 +3536,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3585,7 +3585,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
@@ -3634,7 +3634,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",30)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 

@@ -4,6 +4,7 @@ import { Creature } from "../model/creature/creature";
 import { MemorizedSpell } from "../model/creature/data";
 import creatureService from "./creature.service";
 import spellProfileService from "./spell-profile.service";
+import { State } from "../state";
 
 /** Seconds per round, as timers count */
 const ROUND = 6;
@@ -52,11 +53,12 @@ class AtWillService {
     return base + Math.ceil(level * perLevel);
   }
 
-  /** A power's level and casting time: the database's, or the creature's own spell's. */
+  /** A power's level and casting time: the database's, or the created spell's. */
   private power(file: string, creature: Creature): { level: number; castingTime: number } {
     const profile = spellProfileService.profileOf(file, creature);
     if (profile) return profile;
-    const spell = creature.spells.find((s) => s.file.toUpperCase() === file);
+    // its own spell, or one shared on its family (a vampire's Domination): every created spell
+    const spell = [...creature.spells, ...State.spells].find((s) => s.file.toUpperCase() === file);
     return { level: spell?.level ?? 1, castingTime: spell?.headers[0]?.speed ?? 0 };
   }
 
