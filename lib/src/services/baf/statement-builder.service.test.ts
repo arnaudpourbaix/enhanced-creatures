@@ -1088,8 +1088,9 @@ describe("precastContingencies (private)", () => {
     spells: [SPELLS.Wizard.Stoneskin],
   };
   const precast = (file: string): Statements[number] => ({
-    comment: "Precast TestStoneskinOnHit",
+    comment: 'Precast contingency "TestStoneskinOnHit"',
     triggers: [
+      triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0),
       triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
       { name: "HaveSpellRES", params: [file] },
     ],
@@ -1109,15 +1110,15 @@ describe("precastContingencies (private)", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
   });
 
-  it("sets up a memorized self contingency before the long-duration precasts", () => {
+  it("sets up a memorized contingency along with init, which rest resets", () => {
     const file = spellComboService.comboFile(stoneskinOnHit, "Vanilla");
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file }, { file: "SPWI408" }] } } as Partial<CreatureData>,
     });
     const result = statementBuilderService.buildStatements(creature, options());
-    const index = result.findIndex((s) => s.comment === "Precast TestStoneskinOnHit");
+    const index = result.findIndex((s) => s.comment === 'Precast contingency "TestStoneskinOnHit"');
     expect(result[index]).toEqual(precast(file));
-    expect(index).toBeLessThan(result.findIndex((s) => s.comment === "Precast Stoneskin"));
+    expect(index).toBeLessThan(result.findIndex((s) => s.comment === "Init"));
   });
 
   it("finds a self contingency memorized by an adjustment's spellbook variant", () => {
@@ -1144,7 +1145,23 @@ describe("precastContingencies (private)", () => {
     expect(statements).toEqual(spellComboService.filesOf(stoneskinOnHit).map(precast));
   });
 
-  it("skips spells that aren't self contingencies", () => {
+  it("names a chain contingency's kind", () => {
+    const chain: SpellCombo = {
+      key: "TestChainOnHit",
+      kind: "chainContingency",
+      condition: "hit",
+      spells: [SPELLS.Wizard.Stoneskin, SPELLS.Wizard.Stoneskin, SPELLS.Wizard.Stoneskin],
+    };
+    const file = spellComboService.comboFile(chain, "Vanilla");
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file }] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements[0].comment).toBe('Precast chain contingency "TestChainOnHit"');
+  });
+
+  it("skips spells that aren't contingencies", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: "SPWI408" }] } } as Partial<CreatureData>,
     });

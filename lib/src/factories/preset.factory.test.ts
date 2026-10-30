@@ -144,34 +144,6 @@ describe("createCombos", () => {
     expect(ability.spell).toMatchObject({ castOnSelf: true, type: "force", remove: true });
   });
 
-  it("fires an enemy contingency on its condition", () => {
-    const ability = comboPreset({
-      key: "TestHp25",
-      kind: "contingency",
-      condition: "hp25",
-      spells: [w.Horror],
-    });
-    expect(ability.triggers).toEqual([{ name: "HPPercentLT", params: [ScriptTarget.myself, 25] }]);
-  });
-
-  it.each([
-    ["hit", { name: "HitBy", params: ["[ANYONE]", "CRUSHING"] }],
-    ["seeEnemy", { name: "See", params: ["NearestEnemyOf(Myself)"] }],
-    ["hp50", { name: "HPPercentLT", params: [ScriptTarget.myself, 50] }],
-    ["hp25", { name: "HPPercentLT", params: [ScriptTarget.myself, 25] }],
-    ["hp10", { name: "HPPercentLT", params: [ScriptTarget.myself, 10] }],
-    ["helpless", { name: "StateCheck", params: [ScriptTarget.myself, "STATE_HELPLESS"] }],
-    ["poisoned", { name: "StateCheck", params: [ScriptTarget.myself, "STATE_POISONED"] }],
-  ] as const)("fires an enemy contingency on %s", (condition, trigger) => {
-    const ability = comboPreset({
-      key: `TestCondition_${condition}`,
-      kind: "contingency",
-      condition,
-      spells: [w.Horror],
-    });
-    expect(ability.triggers?.[0]).toMatchObject(trigger);
-  });
-
   describe("contained spells' checks", () => {
     const enemyTargets = [{ name: "NearestEnemyOf" }];
     const fake = (file: string): SpellReference => ({ file, level: 1, name: "ability.unknown" });
@@ -222,29 +194,21 @@ describe("createCombos", () => {
       });
     });
 
-    it("appends their preset triggers once, after the condition, without memorization ones", () => {
+    it("appends their preset triggers once, without memorization ones", () => {
       const hp = { name: "HPPercentLT", params: [ScriptTarget.myself, 75] } as Triggers.Trigger;
       const silenced: Triggers.Trigger = {
         name: "StateCheck",
         params: [ScriptTarget.myself, "STATE_SILENCED"],
         negation: true,
       };
-      const presets = presetsWith(
-        { triggers: [hp, { name: "HaveSpellRES", params: ["SPWI112"], negation: true }] },
-        {},
+      const memorization = build(
+        "TestTriggersMemorization",
+        presetsWith(
+          { triggers: [hp, { name: "HaveSpellRES", params: ["SPWI112"], negation: true }] },
+          {},
+        ),
       );
-      spellComboService.usePresets(presets);
-      const combo: SpellCombo = {
-        key: "TestTriggersUnion",
-        kind: "contingency",
-        condition: "hp50",
-        spells: [a],
-      };
-      const [preset] = presetFactory.createCombos([combo], presets);
-      expect(preset.ability.triggers).toEqual([
-        { name: "HPPercentLT", params: [ScriptTarget.myself, 50] },
-        hp,
-      ]);
+      expect(memorization.triggers).toEqual([hp]);
       const sequencer = build(
         "TestTriggersSequencer",
         presetsWith({ triggers: [hp] }, { triggers: [hp, silenced] }),
@@ -272,6 +236,17 @@ describe("createCombos", () => {
       expect(warn).toHaveBeenCalledWith(expect.stringContaining("TestNeverHold"));
       warn.mockRestore();
     });
+  });
+
+  it("gives no preset to an enemy contingency: the engine fires it", () => {
+    const combo: SpellCombo = {
+      key: "TestEnemyContingency",
+      kind: "chainContingency",
+      condition: "hp25",
+      target: "nearestEnemy",
+      spells: [w.Horror],
+    };
+    expect(presetFactory.createCombos([combo], ABILITY_PRESETS)).toEqual([]);
   });
 
   it("gives no preset to a self contingency", () => {

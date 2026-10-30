@@ -5,6 +5,9 @@ import type { SpellReference } from "./spell-reference";
 export type ContingencyTrigger =
   "hit" | "seeEnemy" | "hp50" | "hp25" | "hp10" | "helpless" | "poisoned";
 
+/** Who a chain contingency's spells are cast at when it fires: one target for all of them. */
+export type ContingencyTarget = "self" | "lastHitter" | "nearestEnemy";
+
 export type SequencerKind = "minorSequencer" | "spellSequencer";
 export type ContingencyKind = "contingency" | "chainContingency";
 export type SpellComboKind = SequencerKind | ContingencyKind;
@@ -21,6 +24,8 @@ export interface SpellCombo<K extends SpellComboKind = SpellComboKind> {
   spells: SpellReference[];
   /** Contingencies only. */
   condition?: ContingencyTrigger;
+  /** Chain contingencies only (a contingency casts on the caster), the caster by default. */
+  target?: ContingencyTarget;
 }
 
 type ComboEntry<K extends SpellComboKind = SpellComboKind> = Omit<SpellCombo<K>, "key">;
@@ -58,7 +63,8 @@ export const contingency = (
 export const chainContingency = (
   condition: ContingencyTrigger,
   spells: SpellReference[],
-): ComboEntry<"chainContingency"> => ({ kind: "chainContingency", spells, condition });
+  target: ContingencyTarget = "self",
+): ComboEntry<"chainContingency"> => ({ kind: "chainContingency", spells, condition, target });
 
 /** The first mage caster level with at least `slots` spell slots of `spellLevel`. */
 function firstCasterLevel(spellLevel: number, slots: number): number {
@@ -152,15 +158,21 @@ export function validateCombo(combo: SpellCombo, spells?: SpellReference[]): voi
   }
   const isContingency = combo.kind === "contingency" || combo.kind === "chainContingency";
   if (!isContingency && combo.condition !== undefined) fail("a sequencer can't have a condition");
+  if (!isContingency && combo.target !== undefined) fail("a sequencer can't have a target");
   if (isContingency && (combo.condition === undefined || !CONDITIONS.includes(combo.condition))) {
     fail(`missing or unknown condition ${String(combo.condition)}`);
   }
 }
 
 const signature = (combo: SpellCombo): string =>
-  [combo.kind, combo.condition ?? "", ...combo.spells.map((s) => s.file)].join("|");
+  [
+    combo.kind,
+    combo.condition ?? "",
+    combo.target ?? "self",
+    ...combo.spells.map((s) => s.file),
+  ].join("|");
 
-/** Throws when two combos have the same kind, spell files (in order) and condition. */
+/** Throws when two combos have the same kind, spell files (in order), condition and target. */
 export function checkDuplicates(combos: SpellCombo[]): void {
   const seen = new Map<string, string>();
   for (const combo of combos) {

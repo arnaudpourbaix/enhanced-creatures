@@ -8,6 +8,11 @@ import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
 
 export const DISABLING_PRESETS: AbilityPreset[] = [
+  ...presetFactory.createSpell(SPELLS.Wizard.Maze, {
+    // removing the only enemy just delays the fight: another one must be left to deal with
+    triggers: [triggerFactory.detect("SecondNearestEnemyOf")],
+    targets: CommonTargetLists.AbleEnemies,
+  }),
   ...presetFactory.createSpells(
     [
       SPELLS.Priest.RigidThinking,
@@ -16,7 +21,7 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.SymbolStunning,
       SPELLS.Wizard.StinkingCloud,
       SPELLS.Wizard.SoundBurst,
-      SPELLS.Wizard.Emotion,
+      SPELLS.Wizard.EmotionHopelessness,
       FNP_SPELLS.Priest.Emotion,
       SPELLS.Priest.SymbolHopelessness,
       SPELLS.Wizard.TeleportField,

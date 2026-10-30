@@ -13,7 +13,12 @@ import {
   RemoveEffectsByResourceTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
-import { ContingencyTrigger, SpellCombo, SpellComboKind } from "../model/spell-item/spell-combo";
+import {
+  ContingencyTarget,
+  ContingencyTrigger,
+  SpellCombo,
+  SpellComboKind,
+} from "../model/spell-item/spell-combo";
 import { PartialSpell, PartialSpellHeader, Spell } from "../model/spell-item/spell-item";
 import { resolveForMod, SpellReference } from "../model/spell-item/spell-reference";
 import { StringReference } from "../model/final/stringref";
@@ -36,7 +41,10 @@ export const KIND_NAMES: Record<SpellComboKind, StringReference> = {
   chainContingency: "ability.ChainContingency",
 };
 
-/** Shows the kind's name over the caster: combos have no visual of their own. */
+/**
+ * Shows the kind's name over the caster: a sequencer has no visual of its own. A contingency doesn't
+ * need it: its spells' names show when it fires.
+ */
 function displayName(combo: SpellCombo): Effect {
   return {
     opcode: EffectTypeEnum.DisplayString,
@@ -56,6 +64,13 @@ export const CONTINGENCY_CONDITIONS: Record<ContingencyTrigger, CastSpellOnCondi
   poisoned: "StateCheck(Myself,STATE_POISONED)",
 };
 
+/** The engine target (CastSpellOnCondition) of each contingency target. */
+const CONTINGENCY_TARGETS: Record<ContingencyTarget, CastSpellOnConditionTargetEnum> = {
+  self: CastSpellOnConditionTargetEnum.Myself,
+  lastHitter: CastSpellOnConditionTargetEnum.LastHitter,
+  nearestEnemy: CastSpellOnConditionTargetEnum.NearestEnemy,
+};
+
 /** What builds the SPLs: SpellService, see useSpellBuilder. */
 interface SpellBuilder {
   getSpell(spell: PartialSpell, file: string): Spell;
@@ -64,13 +79,13 @@ interface SpellBuilder {
 export const isContingency = (combo: SpellCombo): boolean =>
   combo.kind === "contingency" || combo.kind === "chainContingency";
 
-/** One combo with its spells resolved for some mods: one generated SPL (two for a self contingency). */
+/** One combo with its spells resolved for some mods: one generated SPL (two for a contingency). */
 interface ComboEntry {
   combo: SpellCombo;
   spells: SpellReference[];
   /** The SPL a caster memorizes. */
   file: string;
-  /** Contingencies only: the SPL a self contingency's set-up casts (unused for enemy ones). */
+  /** Contingencies only: the SPL its set-up casts when it fires. */
   wrapper?: string;
   /** Built on demand by allSpells(). */
   built?: Spell[];
@@ -137,8 +152,7 @@ class SpellComboService {
   }
 
   /**
-   * Whether the combo's spells are cast on the caster (a self contingency is a real engine
-   * contingency, an enemy one is fired by the script): each of them is when its preset has no
+   * Whether the combo's spells are cast on the caster: each of them is when its preset has no
    * targets, is cast on self, or only targets lists named `Myself...` (e.g. MyselfAndNearestAllies).
    */
   isSelf(combo: SpellCombo): boolean {
@@ -146,22 +160,21 @@ class SpellComboService {
   }
 
   /**
-   * Throws when the combo mixes self and enemy spells (see isSelf), and when an enemy contingency
-   * waits for `helpless`: the script fires it and picks its target, and a helpless creature can do
-   * neither (a self one is fine, the engine fires it). Warns when an enemy combo's spells target
-   * different lists (the combo is cast at the first one's targets).
+   * Throws when the combo mixes self and enemy spells (see isSelf), when a plain contingency aims at
+   * anyone but the caster, and when a chain contingency's target doesn't suit its spells. Warns when a contingency aims at its last hitter on another condition
+   * than `hit` (nobody may have hit it), and when an enemy sequencer's spells target different lists
+   * (it is cast at the first one's targets).
    */
   checkTargets(combo: SpellCombo): void {
     const selves = combo.spells.map((spell) => this.spellIsSelf(combo, spell));
     if (selves.some(Boolean) && !selves.every(Boolean)) {
       throw new Error(`Spell combo ${combo.key} mixes self and enemy spells`);
     }
-    if (selves.some(Boolean)) return;
-    if (combo.condition === "helpless") {
-      throw new Error(
-        `Spell combo ${combo.key}: an enemy contingency can't wait for "helpless", a helpless creature can't pick a target`,
-      );
+    if (isContingency(combo)) {
+      this.checkContingencyTarget(combo, selves.every(Boolean));
+      return;
     }
+    if (selves.some(Boolean)) return;
     const lists = new Set(
       combo.spells.map((spell) =>
         (this.presetOf(combo, spell).ability.targets ?? []).map((t) => t.name).join(),
@@ -170,6 +183,23 @@ class SpellComboService {
     if (lists.size > 1) {
       logService.warn(
         `Spell combo ${combo.key}: its spells have different preset target lists, the first one's are used`,
+      );
+    }
+  }
+
+  private checkContingencyTarget(combo: SpellCombo, selfSpells: boolean): void {
+    const target = combo.target ?? "self";
+    if (combo.kind === "contingency" && target !== "self") {
+      throw new Error(`Spell combo ${combo.key}: a contingency can only target the caster`);
+    }
+    if (selfSpells !== (target === "self")) {
+      throw new Error(
+        `Spell combo ${combo.key}: its target ${target} doesn't suit its ${selfSpells ? "self" : "enemy"} spells`,
+      );
+    }
+    if (target === "lastHitter" && combo.condition !== "hit") {
+      logService.warn(
+        `Spell combo ${combo.key}: aimed at its last hitter on "${String(combo.condition)}": nobody may have hit it`,
       );
     }
   }
@@ -205,16 +235,10 @@ class SpellComboService {
     return this.entryOfFile(file)?.spells;
   }
 
-  /** Whether `file` is a self contingency's memorized SPL: precast, then the engine fires it. */
-  isSelfContingencyFile(file: string): boolean {
+  /** Whether `file` is a contingency's memorized SPL: set up at init, then the engine fires it. */
+  isContingencyFile(file: string): boolean {
     const combo = this.comboOfFile(file);
-    return !!combo && isContingency(combo) && this.isSelf(combo);
-  }
-
-  /** Whether `file` is an enemy contingency's memorized SPL: the script fires it on its condition. */
-  isEnemyContingencyFile(file: string): boolean {
-    const combo = this.comboOfFile(file);
-    return !!combo && isContingency(combo) && !this.isSelf(combo);
+    return !!combo && isContingency(combo);
   }
 
   /** Forgets every name and SPL (not the presets), for tests. */
@@ -265,7 +289,6 @@ class SpellComboService {
     let entry = this.entries.get(key);
     if (!entry) {
       entry = { combo, spells, file: this.nextName() };
-      // every contingency reserves its wrapper's name, so naming never depends on isSelf
       if (isContingency(combo)) entry.wrapper = this.nextName();
       this.entries.set(key, entry);
     }
@@ -280,10 +303,10 @@ class SpellComboService {
 
   private build(entry: ComboEntry): Spell[] {
     const { combo, spells, file, wrapper } = entry;
-    const self = this.isSelf(combo);
-    if (!isContingency(combo) || !self) return [this.castingSpell(combo, spells, file, self)];
+    if (!isContingency(combo)) return [this.castingSpell(combo, spells, file, this.isSelf(combo))];
     if (!wrapper || !combo.condition)
       throw new Error(`Spell combo ${combo.key}: not a contingency`);
+    const target = combo.target ?? "self";
     const setUp = this.spell(combo, file, {
       type: ItemAbilityTypeEnum.Magical,
       target: ItemAbilityTargetEnum.Caster,
@@ -298,16 +321,15 @@ class SpellComboService {
         {
           opcode: EffectTypeEnum.CastSpellOnCondition,
           target: EffectTargetEnum.Self,
-          conditionTarget: CastSpellOnConditionTargetEnum.Myself,
+          conditionTarget: CONTINGENCY_TARGETS[target],
           condition: CONTINGENCY_CONDITIONS[combo.condition],
           // stays until its condition fires
           timing: EffectTimingEnum.InstantPermanentUntilDeath,
           resource: wrapper,
         },
-        displayName(combo),
       ],
     });
-    return [setUp, this.castingSpell(combo, spells, wrapper, true)];
+    return [setUp, this.castingSpell(combo, spells, wrapper, target === "self")];
   }
 
   /**
@@ -321,7 +343,7 @@ class SpellComboService {
     self: boolean,
   ): Spell {
     const effects: Effect[] = [
-      displayName(combo),
+      ...(isContingency(combo) ? [] : [displayName(combo)]),
       ...spells.map((s) => ({
         opcode: EffectTypeEnum.CastSpell as const,
         type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,

@@ -1594,6 +1594,18 @@ describe("sequencers and contingencies", () => {
     );
   });
 
+  it("names a contingency's target after its condition, unless it's the caster", () => {
+    const file = fileOf({
+      key: "DocTestEnemyContingency",
+      kind: "chainContingency",
+      condition: "hp50",
+      target: "nearestEnemy",
+      spells: [w.Horror],
+    });
+    const creature = fakeCreatureForSpells({}, { memorized: [{ file, memorizedCount: 1 }] });
+    expect(abilities(creature)).toContain("When its HP drops below 50%, on the nearest enemy</p>");
+  });
+
   it("lists combos after every other ability", () => {
     const file = fileOf(sequencer);
     const creature = fakeCreatureForSpells(

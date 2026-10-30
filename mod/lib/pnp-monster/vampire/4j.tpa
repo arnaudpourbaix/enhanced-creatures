@@ -51,7 +51,7 @@ CREATE ITM "jaim4j00"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10001)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11162)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11361)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jaim4j00.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -77,11 +77,11 @@ COPY_EXISTING ~jaim4j00.itm~ ~override~
 // Very Old Vampire traits
 CREATE ITM "jaim4j01"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11161)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11161)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11360)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11360)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11163)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11362)
 COPY_EXISTING ~jaim4j01.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=6 parameter2=3 timing=2 probability1=100 special=42 END
@@ -269,15 +269,15 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~NTHAEBAL~) BEGIN 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DX#DALID~) BEGIN 
-				WRITE_SHORT 0x24 193 // hp
-				WRITE_SHORT 0x26 193 // hp
-				WRITE_BYTE 0x52 5 // thac0
+				WRITE_SHORT 0x24 217 // hp
+				WRITE_SHORT 0x26 217 // hp
+				WRITE_BYTE 0x52 3 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 5 // saveWand
 				WRITE_BYTE 0x56 7 // savePolymorph
 				WRITE_BYTE 0x57 9 // saveBreath
 				WRITE_BYTE 0x58 6 // saveSpell
-				WRITE_BYTE 0x234 16 // level1
+				WRITE_BYTE 0x234 18 // level1
 				WRITE_BYTE 0x273 IDS_OF_SYMBOL (~class~ ~MAGE~) // class
 				WRITE_SHORT 0x246 IDS_OF_SYMBOL (~kit~ ~MAGESCHOOL_NECROMANCER~) // kit
 				PATCH_IF (MOD_IS_INSTALLED spell_rev.tp2 0) AND (MOD_IS_INSTALLED STRATAGEMS.TP2 1500 OR MOD_IS_INSTALLED STRATAGEMS.TP2 1510) AND (MOD_IS_INSTALLED STRATAGEMS.TP2 2000 OR MOD_IS_INSTALLED STRATAGEMS.TP2 2500 OR MOD_IS_INSTALLED STRATAGEMS.TP2 2510) BEGIN
@@ -307,8 +307,13 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI613~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI707~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI701~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Double Magic Missiles)
+					ADD_MEMORIZED_SPELL ~SPWI813~ #7 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI913~ #8 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
+					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Chain Contingency (Abi Dalzim Horrid Wilting)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -336,8 +341,13 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI613~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI713~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI702~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Double Magic Missiles)
+					ADD_MEMORIZED_SPELL ~SPWI813~ #7 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI913~ #8 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
+					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Chain Contingency (Abi Dalzim Horrid Wilting)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0PMVM2F~) BEGIN 

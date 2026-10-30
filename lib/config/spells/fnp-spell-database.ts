@@ -66,7 +66,7 @@ const FNP_PRIEST_SPELLS = {
     role: "disable",
     castingTime: 4,
     type: SpellTypeEnum.Priest,
-    name: "spell.Emotion.name",
+    name: "spell.EmotionHopelessness.name",
   },
   GreaterMalison: {
     file: "D5P2412",

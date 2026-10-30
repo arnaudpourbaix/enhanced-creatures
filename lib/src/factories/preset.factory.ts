@@ -1,11 +1,10 @@
 import deepmerge from "deepmerge";
 import { DEFAULT_SPELL_PROBABILITY } from "../../config/common";
 import { SpellKeyword } from "../../config/spells/keyword";
-import { ScriptTarget } from "../model/constants";
 import { CreatureAbilitySpell, RawCreatureAbility } from "../model/creature/ability";
 import { AbilityPreset } from "../model/misc";
 import { Triggers } from "../model/script/triggers";
-import { ContingencyTrigger, SpellCombo } from "../model/spell-item/spell-combo";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 import { mergeSaves, SpellReference, spellFiles } from "../model/spell-item/spell-reference";
 import spellComboService, {
   comboRange,
@@ -14,18 +13,6 @@ import spellComboService, {
 } from "../services/spell-combo.service";
 import logService from "../services/log.service";
 import triggerFactory from "./trigger.factory";
-
-/** When the script fires an enemy contingency (see CONTINGENCY_CONDITIONS for self ones). */
-const CONTINGENCY_TRIGGERS: Record<ContingencyTrigger, Triggers.Trigger> = {
-  // CRUSHING stands for any damage type
-  hit: { name: "HitBy", params: ["[ANYONE]", "CRUSHING"] },
-  seeEnemy: triggerFactory.see("NearestEnemyOf(Myself)"),
-  hp50: { name: "HPPercentLT", params: [ScriptTarget.myself, 50] },
-  hp25: { name: "HPPercentLT", params: [ScriptTarget.myself, 25] },
-  hp10: { name: "HPPercentLT", params: [ScriptTarget.myself, 10] },
-  helpless: { name: "StateCheck", params: [ScriptTarget.myself, "STATE_HELPLESS"] },
-  poisoned: { name: "StateCheck", params: [ScriptTarget.myself, "STATE_POISONED"] },
-};
 
 /** A combo's contained spell with its preset's ability. */
 interface ContainedAbility {
@@ -116,18 +103,18 @@ class PresetFactory {
   /**
    * One preset per SPL a caster memorizes for these combos (see SpellComboService.comboFile), for
    * every mod. A self combo is cast at the caster; an enemy one at its first spell's targets, with
-   * every spell's checks. Self contingencies have none: they are precast, the engine fires them.
+   * every spell's checks. Contingencies have none: they are set up at init, the engine fires them.
    * `presets` are the contained spells' ones (by file).
    */
   createCombos(combos: SpellCombo[], presets: AbilityPreset[]): AbilityPreset[] {
     return combos.flatMap((combo) => {
+      if (isContingency(combo)) return [];
       const self = spellComboService.isSelf(combo);
-      if (self && isContingency(combo)) return [];
       return this.comboFiles(combo).map(({ file, spells }) => {
         const ability: RawCreatureAbility = {
           name: KIND_NAMES[combo.kind],
           spell: { resource: file, type: "force", remove: true },
-          triggers: combo.condition ? [structuredClone(CONTINGENCY_TRIGGERS[combo.condition])] : [],
+          triggers: [],
           requireVocal: false,
           spellcasting: true,
           probability: DEFAULT_SPELL_PROBABILITY,

@@ -235,13 +235,13 @@ describe("addMemorizedSpells (private)", () => {
   });
 
   it("labels a combo SPL by its kind and key", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     const lines: CodeLine[] = [];
     service.addMemorizedSpells(lines, 0, {
       spells: { memorized: [{ file, memorizedCount: 1 }] },
     });
     expect(codes(lines)[0]).toMatch(new RegExp(`^ADD_MEMORIZED_SPELL ~${file}~`));
-    expect(codes(lines)[0]).toMatch(/\/\/ Minor Sequencer \(Double Magic Missiles\)$/);
+    expect(codes(lines)[0]).toMatch(/\/\/ Minor Sequencer \(Magic Missiles\)$/);
   });
 
   it("wraps a single conditional spellbook variant in PATCH_IF, then always adds memorized after", () => {

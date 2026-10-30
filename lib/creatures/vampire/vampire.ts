@@ -1584,13 +1584,13 @@ export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
     {
       files: ["DX#DALID"],
       data: {
-        level1: 16,
+        level1: 18, // should be 16
         class: "MAGE",
         kit: "MAGESCHOOL_NECROMANCER",
         spells: {
           spellbooks: spellService.createSpellbooks({
             name: "VampireNecromancerSpellbook",
-            casterLevel: 16,
+            casterLevel: 18,
             type: "mage",
           }),
         },

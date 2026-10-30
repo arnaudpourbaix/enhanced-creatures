@@ -150,10 +150,10 @@ class CreatureService {
     return [...new Set(this.getSpellGroups(creature).flatMap((g) => g.files))];
   }
 
-  /** A self contingency is precast and a useless spell never cast: neither has an ability. */
+  /** A contingency is set up at init and a useless spell never cast: neither has an ability. */
   private needsNoAbility(file: string, creature: Creature): boolean {
     return (
-      spellComboService.isSelfContingencyFile(file) ||
+      spellComboService.isContingencyFile(file) ||
       spellProfileService.profileOf(file, creature)?.role === "useless"
     );
   }

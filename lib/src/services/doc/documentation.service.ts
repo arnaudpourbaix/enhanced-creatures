@@ -31,7 +31,7 @@ import utils from "../utils/utils.service";
 import { toCode } from "../utils/misc.func";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
 import { AbilityPart, CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
-import { ContingencyTrigger, SpellCombo } from "../../model/spell-item/spell-combo";
+import { ContingencyTarget, ContingencyTrigger, SpellCombo } from "../../model/spell-item/spell-combo";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { readModVersion, stampVersion } from "./doc-version";
 import { getCommonKeys } from "./entry-common";
@@ -45,6 +45,13 @@ const COMBO_CONDITIONS: Record<ContingencyTrigger, string> = {
   hp10: "When its HP drops below 10%",
   helpless: "When it is helpless",
   poisoned: "When it is poisoned",
+};
+
+/** A contingency's target, after its condition: the caster goes without saying. */
+const COMBO_TARGETS: Record<ContingencyTarget, string> = {
+  self: "",
+  lastHitter: ", on its last attacker",
+  nearestEnemy: ", on the nearest enemy",
 };
 
 /** The ability tabs not named after a spell level. */
@@ -1513,10 +1520,10 @@ class DocumentationService {
       const combo = spellComboService.comboOfFile(file)!;
       const name = translationService.from(KIND_NAMES[combo.kind]);
       const condition = combo.condition
-        ? `<p class="combo-condition">${COMBO_CONDITIONS[combo.condition]}</p>`
+        ? `<p class="combo-condition">${COMBO_CONDITIONS[combo.condition]}${COMBO_TARGETS[combo.target ?? "self"]}</p>`
         : "";
       const spells = (spellComboService.spellsOfFile(file) ?? [])
-        .map((spell) => `<li>${spell.name ? translationService.from(spell.name) : spell.file}</li>`)
+        .map((spell) => `<li>${translationService.from(spell.name)}</li>`)
         .join("");
       const html = `<div class="${cls}"><h5>${name}</h5>${condition}<ul class="combo-spells">${spells}</ul></div>`;
       return { html, key: `combo:${html}` };

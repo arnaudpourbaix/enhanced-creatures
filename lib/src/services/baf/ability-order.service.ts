@@ -20,18 +20,11 @@ class AbilityOrderService {
     this.validateEntries(entries);
     const explicitFiles = this.explicitFiles(creature, entries);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
-    // self contingencies have no ability: they are precast (see StatementBuilderService)
+    // contingencies have no ability: they are set up at init (see StatementBuilderService)
     const autoFiles = memorizedFiles.filter(
-      (file) => !explicitFiles.has(file) && !spellComboService.isSelfContingencyFile(file),
+      (file) => !explicitFiles.has(file) && !spellComboService.isContingencyFile(file),
     );
-
-    // Enemy contingencies come first: they only fire once their condition happens.
-    const contingencies = autoFiles.filter((file) =>
-      spellComboService.isEnemyContingencyFile(file),
-    );
-    const profiles = autoFiles
-      .filter((file) => !contingencies.includes(file))
-      .map((file) => this.profile(file, creature));
+    const profiles = autoFiles.map((file) => this.profile(file, creature));
     // an entry without a position (an at-will power) takes its place by score, when it has one
     const scoredEntries = new Map<string, AbilityEntry>();
     for (const entry of entries) {
@@ -42,14 +35,11 @@ class AbilityOrderService {
     }
     const plan = castOrderService.plan(profiles);
     this.logPlan(plan);
-    const ordered: OrderedAbility[] = [
-      ...contingencies.map((file) => ({ identity: file, ability: { preset: file } })),
-      ...plan.map((cast): OrderedAbility => {
-        const entry = scoredEntries.get(cast.file);
-        const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
-        return { identity: cast.file, ability: { ...ability, probability: cast.probability } };
-      }),
-    ];
+    const ordered = plan.map((cast): OrderedAbility => {
+      const entry = scoredEntries.get(cast.file);
+      const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
+      return { identity: cast.file, ability: { ...ability, probability: cast.probability } };
+    });
 
     for (const entry of entries) {
       if ([...scoredEntries.values()].includes(entry)) continue;
@@ -89,10 +79,7 @@ class AbilityOrderService {
   }
 
   private contingency(file: string): boolean {
-    return (
-      spellComboService.isSelfContingencyFile(file) ||
-      spellComboService.isEnemyContingencyFile(file)
-    );
+    return spellComboService.isContingencyFile(file);
   }
 
   private profile(file: string, creature: Creature): SpellProfile {

@@ -136,28 +136,19 @@ The spells inside an entry are never memorized.
 - A registry sequencer missing from `SPELL_PRIORITY_ORDER` is a generation **error**, not today's
   "cast last" warning.
 
-### Contingencies whose spells target self
+### Contingencies
 
-- The SPL sets up a real engine contingency: `CastSpellOnCondition` (`effect.type.ts`) with the
-  defined condition and target Myself. When the condition holds, it casts a generated SPL that
-  casts the contained spell(s).
-- It is cast during combat preparation, like the existing precast blocks (`precastSpells` in
-  `statement-builder.service.ts`: `HaveSpellRES` → `ReallyForceSpellRES` → `RemoveSpellRES`).
-- It's never applied at spawn. The rules apply: the caster has to cast it.
+_(Revised 2026-10-30: enemy contingencies used to be fired by the script.)_
 
-### Contingencies whose spells target an enemy
-
-- These don't use `CastSpellOnCondition`. Its targets can't aim properly: LastHitter,
-  NearestEnemyOf (which only works from the player's side), and Nearest (anyone).
-- Instead the script watches the condition itself:
-  - `HitBy` / attacked
-  - `See` an enemy
-  - `HPPercentLT(Myself, 50/25/10)`
-  - helpless states
-  - `StateCheck` poisoned
-- When the condition holds, the script force-casts the memorized SPL at a target chosen by the
-  usual targeting and spell-check triggers, then removes it. This is the same shape as the precast
-  blocks, gated by `HaveSpellRES`.
+- Every contingency is two SPLs. The memorized one sets up a real engine contingency:
+  `CastSpellOnCondition` (`effect.type.ts`) with the defined condition and a single target. A plain
+  contingency only casts on the caster; a chain contingency picks `self` (default), `lastHitter` or
+  `nearestEnemy`. When the condition holds, the engine casts a second SPL
+  that casts the contained spell(s), whose names show as they land. No script fires it.
+- The set-up shows nothing. It is cast along with the script's init block (`HaveSpellRES` →
+  `ReallyForceSpellRES` → `RemoveSpellRES`). Rest resets init and restores the SPL, re-arming it.
+- `nearestEnemy` on a hostile caster works: tested in game with a chain contingency.
+- The fired spells get no target checks: the engine doesn't make them.
 
 ## Targets
 

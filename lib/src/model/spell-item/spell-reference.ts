@@ -93,7 +93,7 @@ export interface SpellReference {
   file: string;
   id?: SpellIdentifier;
   /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
-  name?: StringReference;
+  name: StringReference;
   level?: number;
   /**
    * Drives precasting (see StatementBuilderService.precastSpells), so it is only set on

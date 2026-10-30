@@ -6,8 +6,6 @@ import abilityOrderService from "./ability-order.service";
 import logService from "../log.service";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { SPELLS } from "../../../config/spells/spell-database";
-import presetFactory from "../../factories/preset.factory";
-import { ScriptTarget } from "../../model/constants";
 import { SpellCombo } from "../../model/spell-item/spell-combo";
 import { Spell } from "../../model/spell-item/spell-item";
 import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
@@ -54,25 +52,19 @@ function fakeAbility(resource: string): CreatureAbility {
 }
 
 describe("resolve", () => {
-  it("casts an enemy contingency before everything else, on its condition", () => {
+  it("leaves an enemy contingency out too: the engine fires it", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const combo: SpellCombo = {
       key: "TestHorrorAtHp25",
-      kind: "contingency",
+      kind: "chainContingency",
       condition: "hp25",
+      target: "nearestEnemy",
       spells: [SPELLS.Wizard.Horror],
     };
     const file = spellComboService.comboFile(combo, "Vanilla");
     const creature = fakeCreature({ memorized: [{ file: FIREBALL }, { file }] });
     const resolved = abilityOrderService.resolve(creature);
-    expect(presetsOf(resolved)).toEqual([file, FIREBALL]);
-    const preset = presetFactory
-      .createCombos([combo], ABILITY_PRESETS)
-      .find((p) => p.preset === resolved[0].preset);
-    expect(preset?.ability.triggers).toContainEqual({
-      name: "HPPercentLT",
-      params: [ScriptTarget.myself, 25],
-    });
+    expect(presetsOf(resolved)).toEqual([FIREBALL]);
   });
 
   it("leaves a self contingency out: it is precast, not cast as an ability", () => {
@@ -91,9 +83,9 @@ describe("resolve", () => {
   it("gives an ability to a sequencer declared on the creature's data, without a spellbook", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const creature = fakeCreature();
-    creature.data.spells.combos = [SEQUENCERS.DoubleMagicMissiles];
+    creature.data.spells.combos = [SEQUENCERS.MagicMissiles];
     expect(presetsOf(abilityOrderService.resolve(creature))).toEqual(
-      spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles),
+      spellComboService.filesOf(SEQUENCERS.MagicMissiles),
     );
   });
 

@@ -23,7 +23,7 @@ import { CustomCodeLocation, Statements } from "../../model/script/script";
 import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 import creatureService from "../creature.service";
-import spellComboService from "../spell-combo.service";
+import spellComboService, { isContingency, KIND_NAMES } from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -59,11 +59,12 @@ class StatementBuilderService {
     // otherwise indistinguishable, to the type checker, from one that will be called detached.
     this.execute(this.destroyUponDeath.bind(this), "destroyUponDeath", p);
     this.execute(this.dialog.bind(this), "dialog", p);
+    // before init, which turns its global off
+    this.execute(this.precastContingencies.bind(this), "precastContingencies", p);
     this.execute(this.init.bind(this), "init", p);
     this.execute(this.spellbookCheck.bind(this), "spellbookCheck", p);
     this.execute(this.disableSpellcasting.bind(this), "disableSpellcasting", p);
     this.execute(this.rest.bind(this), "rest", p);
-    this.execute(this.precastContingencies.bind(this), "precastContingencies", p);
     this.execute(this.precastLongDurationSpells.bind(this), "precastLongDurationSpells", p);
     this.execute(this.turnHostile.bind(this), "turnHostile", p);
     this.execute(this.detectCombat.bind(this), "detectCombat", p);
@@ -1049,19 +1050,22 @@ class StatementBuilderService {
   }
 
   /**
-   * Sets up every self contingency the creature (or any adjustment, any spellbook variant)
-   * memorizes. No precast global: the SPL is gone once cast, so a pending contingency isn't recast
-   * until rest.
+   * Sets up every contingency the creature (or any adjustment, any spellbook variant) memorizes,
+   * along with init: rest resets it and restores the SPL, so a contingency is armed again. The SPL
+   * is gone once cast, which is what keeps a summon (no init) from recasting it.
    */
   private precastContingencies({
     statements,
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
     for (const file of creatureService.memorizedSpellFiles(creature)) {
-      if (!spellComboService.isSelfContingencyFile(file)) continue;
+      const combo = spellComboService.comboOfFile(file);
+      if (!combo || !isContingency(combo)) continue;
+      const kind = translationService.from(KIND_NAMES[combo.kind]).toLowerCase();
       statements.push({
-        comment: `Precast ${spellComboService.comboOfFile(file)?.key ?? file}`,
+        comment: `Precast ${kind} "${combo.key}"`,
         triggers: [
+          triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0),
           triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
           { name: "HaveSpellRES", params: [file] },
         ],

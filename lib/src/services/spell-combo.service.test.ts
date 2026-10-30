@@ -3,7 +3,11 @@ import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SEQUENCERS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
-import { EffectTargetEnum, ItemAbilityTargetEnum } from "../model/spell-item/effect.enums";
+import {
+  CastSpellOnConditionTargetEnum,
+  EffectTargetEnum,
+  ItemAbilityTargetEnum,
+} from "../model/spell-item/effect.enums";
 import { minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
 import { Spell } from "../model/spell-item/spell-item";
 import logService from "./log.service";
@@ -36,9 +40,9 @@ afterEach(() => {
 
 describe("comboFile", () => {
   it("names a registry combo in the common scope, shared by mods with the same content", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     expect(file).toMatch(/^jasc01[0-9a-z]{2}$/);
-    expect(spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "AllSpellMods")).toBe(file);
+    expect(spellComboService.comboFile(SEQUENCERS.MagicMissiles, "AllSpellMods")).toBe(file);
   });
 
   it("gives one SPL per distinct resolved content", () => {
@@ -96,7 +100,7 @@ describe("filesOf", () => {
       "SPWX112",
       "SPWX112",
     ]);
-    expect(spellComboService.filesOf(SEQUENCERS.DoubleMagicMissiles)).toHaveLength(1);
+    expect(spellComboService.filesOf(SEQUENCERS.MagicMissiles)).toHaveLength(1);
   });
 
   it("skips mods where a contained spell isn't available", () => {
@@ -114,7 +118,7 @@ describe("filesOf", () => {
 
 describe("generated SPLs", () => {
   it("casts a sequencer's spells instantly, in order, at its smallest range", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     const spell = splOf(file);
     expect(spell.name).toBe("ability.MinorSequencer");
     expect(spell.level).toBe(1);
@@ -138,7 +142,7 @@ describe("generated SPLs", () => {
 
   it("targets the caster when the combo is self-targeted", () => {
     vi.spyOn(spellComboService, "isSelf").mockReturnValue(true);
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     expect(splOf(file).headers[0].target).toBe(ItemAbilityTargetEnum.Caster);
   });
 
@@ -165,33 +169,34 @@ describe("generated SPLs", () => {
     const wrapper = splOf(conditions[0].resource ?? "");
     expect(wrapper.file).not.toBe(setUp.file);
     expect(castResources(wrapper)).toEqual(["SPWI408"]);
-    // no visual: both the set-up and the release show the kind's name over the caster
-    for (const spl of [setUp, wrapper]) {
-      const [display] = effectsOf(spl, EffectTypeEnum.DisplayString);
-      expect(display.stringRef).toBe("ability.Contingency");
-      expect(display.target).toBe(EffectTargetEnum.Self);
-    }
+    // silent: its spells' names show when it fires
+    expect(effectsOf(setUp, EffectTypeEnum.DisplayString)).toHaveLength(0);
+    expect(effectsOf(wrapper, EffectTypeEnum.DisplayString)).toHaveLength(0);
   });
 
-  it("makes an enemy contingency a single casting SPL", () => {
+  it("sets up an enemy contingency the same way, aimed at its target", () => {
     const combo: SpellCombo = {
       key: "TestChain",
       kind: "chainContingency",
       condition: "seeEnemy",
+      target: "nearestEnemy",
       spells: [w.MagicMissiles, w.MagicMissiles],
     };
-    const file = spellComboService.comboFile(combo, "Vanilla");
-    const spell = splOf(file);
-    expect(spell.name).toBe("ability.ChainContingency");
-    expect(castResources(spell)).toEqual(["SPWI112", "SPWI112"]);
-    expect(effectsOf(spell, EffectTypeEnum.CastSpellOnCondition)).toHaveLength(0);
-    expect(spellComboService.allSpells().filter((s) => s.file !== file)).toHaveLength(1);
+    const setUp = splOf(spellComboService.comboFile(combo, "Vanilla"));
+    expect(setUp.name).toBe("ability.ChainContingency");
+    expect(setUp.headers[0].target).toBe(ItemAbilityTargetEnum.Caster);
+    expect(castResources(setUp)).toEqual([]);
+    const [condition] = effectsOf(setUp, EffectTypeEnum.CastSpellOnCondition);
+    expect(condition.parameter1).toBe(String(CastSpellOnConditionTargetEnum.NearestEnemy));
+    const wrapper = splOf(condition.resource ?? "");
+    expect(wrapper.headers[0].target).toBe(ItemAbilityTargetEnum.LivingActor);
+    expect(castResources(wrapper)).toEqual(["SPWI112", "SPWI112"]);
   });
 });
 
 describe("spell protections", () => {
   it.each([
-    ["a sequencer", SEQUENCERS.DoubleMagicMissiles, false],
+    ["a sequencer", SEQUENCERS.MagicMissiles, false],
     [
       "a self contingency",
       {
@@ -223,24 +228,22 @@ describe("allSpells", () => {
       condition: "hit",
       spells: [w.Stoneskin],
     };
-    vi.spyOn(spellComboService, "isSelf").mockReturnValue(true);
+    const registry = spellComboService.allSpells().length;
     spellComboService.comboFile(combo, "Vanilla");
     spellComboService.comboFile(combo, "AllSpellMods");
-    spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     const files = spellComboService.allSpells().map((s) => s.file);
     expect(new Set(files).size).toBe(files.length);
-    // the registry's sequencer + the set-up and wrapper of the test contingency
-    expect(files).toHaveLength(3);
+    // the registry's + the set-up and wrapper of the test contingency
+    expect(files).toHaveLength(registry + 2);
     expect(spellComboService.allSpells()[0]).toBe(spellComboService.allSpells()[0]);
   });
 });
 
 describe("labelOf", () => {
   it("names a combo SPL by its kind and key", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
-    expect(spellComboService.labelOf(file.toUpperCase())).toBe(
-      "Minor Sequencer (Double Magic Missiles)",
-    );
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    expect(spellComboService.labelOf(file.toUpperCase())).toBe("Minor Sequencer (Magic Missiles)");
     expect(spellComboService.labelOf("SPWI112")).toBeUndefined();
   });
 
@@ -261,15 +264,15 @@ describe("labelOf", () => {
 
 describe("comboOfFile", () => {
   it("finds the combo a memorized SPL belongs to", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
-    expect(spellComboService.comboOfFile(file.toUpperCase())).toBe(SEQUENCERS.DoubleMagicMissiles);
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    expect(spellComboService.comboOfFile(file.toUpperCase())).toBe(SEQUENCERS.MagicMissiles);
     expect(spellComboService.comboOfFile("SPWI112")).toBeUndefined();
   });
 
   it("names the registry first", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
     spellComboService.reset();
-    expect(spellComboService.comboOfFile(file)).toBe(SEQUENCERS.DoubleMagicMissiles);
+    expect(spellComboService.comboOfFile(file)).toBe(SEQUENCERS.MagicMissiles);
   });
 });
 
@@ -316,19 +319,71 @@ describe("checkTargets", () => {
 
   it("stays silent for a repeated spell", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
-    spellComboService.checkTargets(SEQUENCERS.DoubleMagicMissiles);
+    spellComboService.checkTargets(SEQUENCERS.MagicMissiles);
     expect(warn).not.toHaveBeenCalled();
   });
 
-  it("throws for an enemy contingency on helpless: it can't pick a target", () => {
+  it("accepts an enemy contingency on helpless: the engine fires it", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets({
+      key: "TestHelpless",
+      kind: "chainContingency",
+      condition: "helpless",
+      target: "nearestEnemy",
+      spells: [w.Horror],
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("throws for enemy spells in a contingency aimed at the caster", () => {
     expect(() =>
       spellComboService.checkTargets({
-        key: "TestHelpless",
+        key: "TestEnemyAtSelf",
         kind: "contingency",
-        condition: "helpless",
+        condition: "hit",
         spells: [w.Horror],
       }),
-    ).toThrow(/TestHelpless.*helpless/);
+    ).toThrow(/TestEnemyAtSelf.*self.*enemy/);
+  });
+
+  it("throws for a plain contingency aimed at an enemy: only a chain can be", () => {
+    expect(() =>
+      spellComboService.checkTargets({
+        key: "TestPlainAtEnemy",
+        kind: "contingency",
+        condition: "hit",
+        target: "nearestEnemy",
+        spells: [w.Horror],
+      }),
+    ).toThrow(/TestPlainAtEnemy.*only target the caster/);
+  });
+
+  it("throws for self spells in a chain contingency aimed at an enemy", () => {
+    expect(() =>
+      spellComboService.checkTargets({
+        key: "TestSelfAtEnemy",
+        kind: "chainContingency",
+        condition: "hit",
+        target: "nearestEnemy",
+        spells: [w.Stoneskin],
+      }),
+    ).toThrow(/TestSelfAtEnemy.*nearestEnemy.*self/);
+  });
+
+  it("warns for a last hitter on another condition than hit: nobody may have hit it", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const combo: SpellCombo = {
+      key: "TestLastHitter",
+      kind: "chainContingency",
+      condition: "hp50",
+      target: "lastHitter",
+      spells: [w.Horror],
+    };
+    spellComboService.checkTargets(combo);
+    expect(warn).toHaveBeenCalledOnce();
+    warn.mockClear();
+    spellComboService.checkTargets({ ...combo, condition: "hit" });
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it("stays silent for a self contingency on helpless: the engine fires it", () => {
