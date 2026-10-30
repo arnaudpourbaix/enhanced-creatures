@@ -131,6 +131,12 @@ class CreatureFactory {
       ...others,
     };
     if (abilities && !Array.isArray(abilities)) {
+      // one script per creature: its entries are declared once, in its own code
+      if (cre.pendingAbilityEntries) {
+        throw new Error(
+          `Creature ${translationService.from(cre.name)}: ability entries are already declared, declare them all at once`,
+        );
+      }
       cre.pendingAbilityEntries = abilities.entries;
     } else {
       cre.behavior.abilities.push(...abilityService.getAbilities(abilities));

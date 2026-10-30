@@ -122,6 +122,19 @@ describe("setBehavior", () => {
     expect(creature.behavior.abilities).toEqual([]);
   });
 
+  it("refuses a second entries list: one creature, one script, declared once", () => {
+    const creature = fakeCreature();
+    creature.name = "common.potion.use";
+    creatureFactory.setBehavior(creature, {
+      abilities: { entries: [{ spell: { file: "sppr101" } }] },
+    });
+    expect(() =>
+      creatureFactory.setBehavior(creature, {
+        abilities: { entries: [{ spell: { file: "sppr101" } }] },
+      }),
+    ).toThrow(/entries/);
+  });
+
   it("still resolves a plain array eagerly, unchanged from today", () => {
     const creature = fakeCreature();
     creatureFactory.setBehavior(creature, {
