@@ -340,6 +340,7 @@ class SpellService {
     const book = this.getSpellbook(params.name);
     return spellBookVariants(book).map((variant) => ({
       mod: variant.mod,
+      spellbook: params.name,
       memorized: this.buildMemorized(params.name, variant.values, params, book, variant.mod),
     }));
   }

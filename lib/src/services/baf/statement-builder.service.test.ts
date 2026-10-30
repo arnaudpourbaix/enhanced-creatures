@@ -1522,6 +1522,16 @@ describe("spellbookCheck (private)", () => {
     expect(JSON.stringify(statements[0].responses)).toContain("JA_SPELLBOOK");
   });
 
+  it("checks a single spellbook spell without an Or (Bodhi's Abomination)", () => {
+    const statements: Statements = [];
+    service.spellbookCheck({
+      statements,
+      creature: fakeCreature({ behavior: { spellbookFiles: ["IBODHI7"] } }),
+      options: options(),
+    });
+    expect(statements[0].triggers).toEqual([{ name: "HaveSpellRES", params: ["IBODHI7"] }]);
+  });
+
   it("writes nothing without spellbook files to check", () => {
     const statements: Statements = [];
     service.spellbookCheck({ statements, creature: fakeCreature(), options: options() });

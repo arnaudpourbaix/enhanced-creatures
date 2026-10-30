@@ -21,6 +21,8 @@ function fakeCreature(p: {
   spells?: string[];
   /** Its own powers with a few uses, not at will (a vampire's Bat Swarm) */
   ownPowers?: string[];
+  /** Its spellbook: the spells of a `spellbooks` variant */
+  spellbook?: string[];
   melee?: boolean;
   ranged?: boolean;
 }): Creature {
@@ -34,6 +36,13 @@ function fakeCreature(p: {
           file,
           memorizedCount: 1,
         })),
+      ],
+      spellbooks: p.spellbook && [
+        {
+          mod: "Vanilla",
+          spellbook: "VampireNecromancerSpellbook",
+          memorized: p.spellbook.map((file) => ({ file, memorizedCount: 1 })),
+        },
       ],
     },
   } as unknown as MainCreatureData;
@@ -77,16 +86,26 @@ describe("applyCooldowns", () => {
   it("cools any power down next to a spellbook: it takes the round's spell", () => {
     const creature = fakeCreature({
       powers: [{ file: "DOMINATE", level: 5, speed: 1 }],
-      spells: [SPELLS.Wizard.Fireball.file],
+      spellbook: [SPELLS.Wizard.Fireball.file],
     });
     atWillService.applyCooldowns(creature);
     expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
+    expect(creature.behavior.spellbookFiles).toBeUndefined();
+  });
+
+  it("takes only declared spellbooks for one, not other memorized spells (moon dog Howl)", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "DOMINATE", level: 5, speed: 1 }],
+      spells: [SPELLS.Wizard.Fireball.file, SPELLS.Innate.MoonDogHowl.file],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
   });
 
   it("reads a power shared on the creature's family from the created spells (a vampire's)", () => {
     const creature = fakeCreature({
       powers: [{ file: "SHARED", level: 5, speed: 1 }],
-      spells: [SPELLS.Wizard.Fireball.file],
+      spellbook: [SPELLS.Wizard.Fireball.file],
     });
     State.spells.push(...creature.spells);
     creature.spells = [];
@@ -105,7 +124,13 @@ describe("applyCooldowns", () => {
         data: {
           spells: {
             memorized: [],
-            spellbooks: [{ mod: "Vanilla", memorized: [{ file: SPELLS.Wizard.Fireball.file }] }],
+            spellbooks: [
+              {
+                mod: "Vanilla",
+                spellbook: "VampireNecromancerSpellbook",
+                memorized: [{ file: SPELLS.Wizard.Fireball.file }],
+              },
+            ],
           },
         },
       },
@@ -116,6 +141,23 @@ describe("applyCooldowns", () => {
       { name: "ATWILL_DOMINATE", value: 24, unlessGlobalUnset: "JA_SPELLBOOK" },
     ]);
     expect(creature.behavior.spellbookFiles).toEqual([SPELLS.Wizard.Fireball.file]);
+  });
+
+  it("takes only spellbooks built from a SpellBook, not hand-made variants (Improved Bodhi)", () => {
+    const creature = fakeCreature({ powers: [{ file: "DOMINATE", level: 5, speed: 1 }] });
+    creature.adjustments = [
+      {
+        data: {
+          spells: {
+            memorized: [],
+            spellbooks: [{ mod: "ImprovedBodhi", memorized: [{ file: "IBODHI7" }] }],
+          },
+        },
+      },
+    ] as unknown as Creature["adjustments"];
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+    expect(creature.behavior.spellbookFiles).toBeUndefined();
   });
 
   it("doesn't take a creature's own few-use powers for a spellbook (vampire Bat Swarm)", () => {

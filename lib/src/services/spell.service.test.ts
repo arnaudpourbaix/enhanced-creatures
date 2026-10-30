@@ -544,9 +544,21 @@ describe("createSpellbooks", () => {
       type: "cleric",
     });
     expect(result).toEqual([
-      { mod: "AllSpellMods", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
-      { mod: "Vanilla", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
-      { mod: "FaithsAndPowers", memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }] },
+      {
+        mod: "AllSpellMods",
+        spellbook: "EvilUndeadCleric",
+        memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
+      },
+      {
+        mod: "Vanilla",
+        spellbook: "EvilUndeadCleric",
+        memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
+      },
+      {
+        mod: "FaithsAndPowers",
+        spellbook: "EvilUndeadCleric",
+        memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
+      },
     ]);
   });
 });

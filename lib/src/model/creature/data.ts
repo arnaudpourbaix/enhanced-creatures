@@ -1,5 +1,6 @@
 import { Game } from "./game";
 import weiduUtils from "../../services/utils/weidu.utils";
+import type { SpellBookName } from "../../../config/spellbooks/spellbook-name";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { ImmunityName } from "../final/immunity";
 import { CreatureSize } from "../game-data/sizes";
@@ -181,6 +182,9 @@ export class CreatureDataSpells {
 export interface SpellbookVariant {
   /** Key into SPELLBOOK_MODS (lib/config/mods.ts), which resolves the actual WeiDU check. */
   mod: SpellbookModName;
+  /** The SpellBook it was built from (spellService.createSpellbooks): a caster's spellbook, unlike
+   * a variant listing a creature's own powers (Improved Bodhi's) */
+  spellbook?: SpellBookName;
   memorized: MemorizedSpell[];
 }
 

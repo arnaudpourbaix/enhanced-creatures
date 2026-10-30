@@ -1144,11 +1144,13 @@ class StatementBuilderService {
   private spellbookCheck({ statements, creature }: HandlerParams): void {
     const files = creature.behavior.spellbookFiles;
     if (!files?.length) return;
+    const checks: Triggers.Trigger[] = files.map((file) => ({
+      name: "HaveSpellRES",
+      params: [file],
+    }));
     statements.push({
       comment: "Spellbook: its at-will powers are braked",
-      triggers: [
-        { name: "Or", triggers: files.map((file) => ({ name: "HaveSpellRES", params: [file] })) },
-      ],
+      triggers: checks.length > 1 ? [{ name: "Or", triggers: checks }] : checks,
       responses: responseFactory.response([
         actionFactory.setGlobal(SPELLBOOK_GLOBAL, 1),
         { name: "Continue" },

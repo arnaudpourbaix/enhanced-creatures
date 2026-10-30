@@ -993,7 +993,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!GlobalTimerNotExpired("ATWILL_SPWI203","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DETECT_INVISIBILITY)
 	Detect([PC])
@@ -1004,7 +1003,6 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(Myself,WIZARD_DETECT_INVISIBILITY)
-		SetGlobalTimer("ATWILL_SPWI203","LOCALS",12)
 END
 
 // Power Word Kill

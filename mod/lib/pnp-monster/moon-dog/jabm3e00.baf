@@ -460,7 +460,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!GlobalTimerNotExpired("ATWILL_SPWI203","LOCALS")
 	HaveSpell(WIZARD_DETECT_INVISIBILITY)
 	Detect([PC])
 	!See([PC])
@@ -469,7 +468,6 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(Myself,WIZARD_DETECT_INVISIBILITY)
-		SetGlobalTimer("ATWILL_SPWI203","LOCALS",12)
 END
 
 // Healing Lick
@@ -2730,7 +2728,6 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2752,14 +2749,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2781,14 +2776,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2810,14 +2803,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2839,14 +2830,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2868,14 +2857,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2897,7 +2884,6 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
@@ -2905,7 +2891,6 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2926,14 +2911,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2954,14 +2937,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2982,14 +2963,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3010,14 +2989,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3038,14 +3015,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	!GlobalTimerNotExpired("ATWILL_SPWI228","LOCALS")
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(804,241)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3066,7 +3041,6 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SetGlobalTimer("ATWILL_SPWI228","LOCALS",12)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 

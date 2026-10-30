@@ -1,8 +1,7 @@
 import { AT_WILL } from "../../config/common";
 import { SPELL_SCORING } from "../../config/spell-scoring";
 import { Creature } from "../model/creature/creature";
-import { MemorizedSpell } from "../model/creature/data";
-import creatureService from "./creature.service";
+import { CreatureData, MemorizedSpell } from "../model/creature/data";
 import spellProfileService from "./spell-profile.service";
 import { State } from "../state";
 
@@ -15,9 +14,8 @@ const ROUND = 6;
 class AtWillService {
   /**
    * Gives every ability casting an at-will power a cooldown when using it costs the creature
-   * something better: the round's spell when it has a spellbook (mage abilities, not its own
-   * few-use powers), or its attacks when the power
-   * takes longer to cast than its fighting affords (Wall of Ice for a Death Knight, not Domination
+   * something better: the round's spell when it has a spellbook (built from a SpellBook, not other
+   * memorized spells), or its attacks when the power takes longer to cast than its fighting affords (Wall of Ice for a Death Knight, not Domination
    * for a vampire). An ability declaring its own timer keeps it.
    */
   applyCooldowns(creature: Creature): void {
@@ -26,14 +24,13 @@ class AtWillService {
       memorized.filter((m) => (m.memorizedCount ?? 1) >= AT_WILL).map((m) => m.file.toUpperCase()),
     );
     if (!atWill.size) return;
-    // mage abilities: memorized spells of the databases, not its own few-use powers (Bat Swarm)
-    const book = (files: string[]) =>
-      files.filter((f) => !atWill.has(f.toUpperCase()) && spellProfileService.isCatalogued(f));
-    const allBook = [...new Set(book(creatureService.memorizedSpellFiles(creature)))];
     // a spellbook in the base data is in every file the script runs for; one only some files
     // have (an adjustment's, Tanova among patriarchs) is checked in game
-    const everyFile = book(this.baseFiles(creature)).length > 0;
-    if (!everyFile && allBook.length) creature.behavior.spellbookFiles = allBook;
+    const everyFile = this.spellbookFiles(creature.data, atWill).length > 0;
+    const adjusted = [
+      ...new Set(creature.adjustments.flatMap((a) => this.spellbookFiles(a.data, atWill))),
+    ];
+    if (!everyFile && adjusted.length) creature.behavior.spellbookFiles = adjusted;
     const abilities = [
       ...creature.behavior.abilities,
       ...creature.behavior.coveredAbilities,
@@ -45,7 +42,7 @@ class AtWillService {
       const power = this.power(file, creature);
       const timer = { name: `ATWILL_${file}`, value: this.cooldown(power.level) * ROUND };
       if (everyFile || power.castingTime > this.afforded(creature)) ability.timer = timer;
-      else if (allBook.length) ability.timer = { ...timer, unlessGlobalUnset: SPELLBOOK_GLOBAL };
+      else if (adjusted.length) ability.timer = { ...timer, unlessGlobalUnset: SPELLBOOK_GLOBAL };
     }
   }
 
@@ -76,12 +73,12 @@ class AtWillService {
     );
   }
 
-  /** The spells every file of the creature memorizes: its base data's, spellbook variants too. */
-  private baseFiles(creature: Creature): string[] {
-    const { spells } = creature.data;
-    return [...spells.memorized, ...(spells.spellbooks ?? []).flatMap((b) => b.memorized)].map(
-      (m) => m.file,
-    );
+  /** The spells of `data`'s spellbooks (built from a SpellBook), its at-will powers aside. */
+  private spellbookFiles({ spells }: CreatureData, atWill: Set<string>): string[] {
+    return (spells.spellbooks ?? [])
+      .filter((book) => book.spellbook)
+      .flatMap((book) => book.memorized.map((m) => m.file))
+      .filter((file) => !atWill.has(file.toUpperCase()));
   }
 
   /** Every memorized spell with its count: base data's and adjustments', spellbook variants too. */
