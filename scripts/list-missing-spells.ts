@@ -64,12 +64,7 @@ function main() {
         },
       ];
     })
-    .sort(
-      (a, b) =>
-        a.type.localeCompare(b.type) ||
-        Number(a.level) - Number(b.level) ||
-        (a.file < b.file ? -1 : 1),
-    );
+    .sort((a, b) => (a.file < b.file ? -1 : 1));
   fs.writeFileSync(OUTPUT, serializeCsv(["file", "type", "level", "name", "description"], rows));
   const count = (type: string) => rows.filter((r) => r.type === type).length;
   console.log(
