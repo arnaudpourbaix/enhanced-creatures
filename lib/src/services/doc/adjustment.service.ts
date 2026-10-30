@@ -8,6 +8,7 @@ import { ClassIdentifier } from "../../model/ids/class";
 import { KitIdentifier } from "../../model/ids/kit";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
 import creatureService from "../creature.service";
 import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
@@ -66,6 +67,8 @@ export interface EffectiveAdjustment {
    * than something to merge across adjustments. `undefined` when nothing in the fold sets it.
    */
   spellbooks?: SpellbookVariant[];
+  /** The sequencers and contingencies the folded adjustments declare (`spells.combos`). */
+  combos: SpellCombo[];
   proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
   /**
    * The variant that owns every adjustment folded into this effective, if they all share one.
@@ -244,6 +247,8 @@ class AdjustmentService {
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       spellbooks: this.lastDefined(matching, (d) => d.spells?.spellbooks),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      combos: [...new Set(matching.flatMap((a) => a.data.spells?.combos ?? []))],
       variant: this.commonVariant(matching),
       game,
       equipped,
@@ -593,6 +598,7 @@ class AdjustmentService {
       effective.immunities.some((i) => i.changed) ||
       effective.memorized.some((m) => m.changed) ||
       !!effective.spellbooks?.length ||
+      effective.combos.length > 0 ||
       effective.proficiencies.some((p) => p.changed)
     );
   }

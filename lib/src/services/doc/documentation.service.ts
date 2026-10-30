@@ -26,13 +26,29 @@ import itemService from "../item.service";
 import logService from "../log.service";
 import monsterFilesService from "../monster-files.service";
 import translationService from "../translation.service";
-import spellComboService from "../spell-combo.service";
+import spellComboService, { KIND_NAMES } from "../spell-combo.service";
 import utils from "../utils/utils.service";
 import { toCode } from "../utils/misc.func";
 import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
-import { CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
+import { AbilityPart, CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
+import { ContingencyTrigger, SpellCombo } from "../../model/spell-item/spell-combo";
+import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { readModVersion, stampVersion } from "./doc-version";
 import { getCommonKeys } from "./entry-common";
+
+/** A contingency's condition, as its popover gives it. */
+const COMBO_CONDITIONS: Record<ContingencyTrigger, string> = {
+  hit: "When it is hit",
+  seeEnemy: "When it sees an enemy",
+  hp50: "When its HP drops below 50%",
+  hp25: "When its HP drops below 25%",
+  hp10: "When its HP drops below 10%",
+  helpless: "When it is helpless",
+  poisoned: "When it is poisoned",
+};
+
+/** The ability tabs not named after a spell level. */
+const LEVEL_TAB_NAMES: Record<string, string> = { innate: "Innate", special: "Special" };
 
 // Standard AD&D 2e proficiency names, since the enum's own SCREAMING_CASE keys (e.g.
 // PROFICIENCYFLAILMORNINGSTAR) aren't separable into words the way formatEnumLabel's
@@ -389,7 +405,7 @@ class DocumentationService {
       scores: this.getScoreParts(creature),
       weapons: this.getWeaponParts(creature),
       ...this.getTraitParts(creature),
-      abilities: this.getAbilityParts(creature),
+      abilities: [...this.getAbilityParts(creature), ...this.getBaseComboParts(creature)],
     };
   }
 
@@ -1250,7 +1266,7 @@ class DocumentationService {
     cardIndex: number,
   ): string {
     const memorizedList = effective.memorized.map((entry) => entry.spell);
-    const entries: { ability: CreatureAbility; html: string }[] = [];
+    const entries: { ability?: CreatureAbility; html: string }[] = [];
     this.getResourceAbilities(creature).forEach((ability, index) => {
       const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
       if (!entry?.changed) return;
@@ -1262,7 +1278,18 @@ class DocumentationService {
       );
       if (html) entries.push({ ability, html });
     });
-    return this.renderAbilitiesSection(`m${creature.id}-adj${cardIndex}`, entries);
+    const addedCombos = effective.memorized.filter(
+      (m) => m.changed && spellComboService.comboOfFile(m.spell.file),
+    );
+    const declared = effective.spellbooks?.length ? undefined : effective.combos;
+    const combos = this.getComboParts(
+      addedCombos.map((m) => m.spell),
+      declared,
+      "Vanilla",
+      `m${creature.id}-adj${cardIndex}`,
+      "adjustment-changed",
+    );
+    return this.renderAbilitiesSection(`m${creature.id}-adj${cardIndex}`, [...entries, ...combos]);
   }
 
   // Mirrors getCreatureSpellbooks's mod-tabbed layout, scoped to this one adjustment/variant -
@@ -1300,17 +1327,26 @@ class DocumentationService {
     const tabs = (effective.spellbooks ?? [])
       .map((spellbook, index) => {
         const idPrefix = `m${creature.id}-adj${cardIndex}-sb${index}`;
-        const entries = abilities
-          .map((ability, abilityIndex) => ({
-            ability,
-            html: this.getCreatureSpell(
+        const entries = [
+          ...abilities
+            .map((ability, abilityIndex) => ({
               ability,
-              spellbook.memorized,
-              `${idPrefix}-ability-${abilityIndex}`,
-              "adjustment-changed",
-            ),
-          }))
-          .filter((entry) => entry.html);
+              html: this.getCreatureSpell(
+                ability,
+                spellbook.memorized,
+                `${idPrefix}-ability-${abilityIndex}`,
+                "adjustment-changed",
+              ),
+            }))
+            .filter((entry) => entry.html),
+          ...this.getComboParts(
+            spellbook.memorized,
+            effective.combos,
+            spellbook.mod,
+            idPrefix,
+            "adjustment-changed",
+          ),
+        ];
         return {
           id: `spellbook-m${creature.id}-adj${cardIndex}-${index}`,
           name: SPELLBOOK_MODS[spellbook.mod].name,
@@ -1430,7 +1466,9 @@ class DocumentationService {
     template: { text: string },
     creature: Creature,
     omit: CardOmissions = new Set(),
-    parts: Pick<CardParts, "abilities"> = { abilities: this.getAbilityParts(creature) },
+    parts: Pick<CardParts, "abilities"> = {
+      abilities: [...this.getAbilityParts(creature), ...this.getBaseComboParts(creature)],
+    },
   ) {
     this.replace(template, "abilities", this.renderAbilities(creature, parts, omit));
   }
@@ -1445,6 +1483,50 @@ class DocumentationService {
         return { ability, html, key: `ability:${html.split(idPrefix).join("")}` };
       })
       .filter((p) => p.html);
+  }
+
+  /** The base list's combos: the declared ones go in the spellbooks instead when it has some. */
+  private getBaseComboParts(creature: Creature): AbilityPart[] {
+    const { spells } = creature.data;
+    const declared = spells.spellbooks?.length ? undefined : spells.combos;
+    return this.getComboParts(spells.memorized, declared, "Vanilla", `m${creature.id}`);
+  }
+
+  /**
+   * One entry per sequencer or contingency in `memorized` or `declared` (resolved for `mod`): its
+   * kind's name, with a popover giving a contingency's condition, then the spells in casting order.
+   * No count: a caster never holds more than one.
+   */
+  private getComboParts(
+    memorized: MemorizedSpell[],
+    declared: SpellCombo[] | undefined,
+    mod: SpellbookModName,
+    idPrefix: string,
+    extraClass = "",
+  ): AbilityPart[] {
+    const files = [
+      ...memorized.map((m) => m.file).filter((file) => spellComboService.comboOfFile(file)),
+      ...(declared ?? [])
+        .filter((combo) => spellComboService.spellsFor(combo, mod))
+        .map((combo) => spellComboService.comboFile(combo, mod)),
+    ];
+    const cls = extraClass ? `ability-entry ${extraClass}` : "ability-entry";
+    return [...new Set(files)].map((file, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const combo = spellComboService.comboOfFile(file)!;
+      const id = `${idPrefix}-combo-${index}`;
+      const name = translationService.from(KIND_NAMES[combo.kind]);
+      const condition = combo.condition
+        ? `<p class="combo-condition">${COMBO_CONDITIONS[combo.condition]}</p>`
+        : "";
+      const spells = (spellComboService.spellsOfFile(file) ?? [])
+        .map((spell) => `<li>${spell.name ? translationService.from(spell.name) : spell.file}</li>`)
+        .join("");
+      const html =
+        `<div class="${cls}"><h5><a href="#${id}" class="trait-link">${name}</a></h5></div>` +
+        `<div class="spell-popover-entry" id="${id}" hidden>${condition}<ul class="combo-spells">${spells}</ul></div>`;
+      return { html, key: `combo:${html.split(idPrefix).join("")}` };
+    });
   }
 
   renderAbilities(
@@ -1465,7 +1547,7 @@ class DocumentationService {
   // across 7+ levels) - group into one tab per spell level instead.
   private renderAbilitiesSection(
     idPrefix: string,
-    entries: { ability: CreatureAbility; html: string }[],
+    entries: { ability?: CreatureAbility; html: string }[],
   ): string {
     if (!entries.length) return "";
     return `<h4>Abilities</h4>${this.renderAbilityEntries(idPrefix, entries)}`;
@@ -1480,12 +1562,14 @@ class DocumentationService {
   // two levels of tabs).
   private renderAbilityEntries(
     idPrefix: string,
-    entries: { ability: CreatureAbility; html: string }[],
+    entries: { ability?: CreatureAbility; html: string }[],
   ): string {
     if (!entries.length) return "";
-    return entries.length > ABILITY_TAB_THRESHOLD
-      ? this.getAbilityLevelTabs(idPrefix, entries)
-      : `<div class="abilities">${entries.map((entry) => entry.html).join("")}</div>`;
+    // sequencers and contingencies (no ability) after every other entry
+    const ordered = [...entries.filter((e) => e.ability), ...entries.filter((e) => !e.ability)];
+    return ordered.length > ABILITY_TAB_THRESHOLD
+      ? this.getAbilityLevelTabs(idPrefix, ordered)
+      : `<div class="abilities">${ordered.map((entry) => entry.html).join("")}</div>`;
   }
 
   // Groups a long abilities list into one tab per spell level (see SPELL_LEVEL_PATTERN), reusing
@@ -1495,25 +1579,26 @@ class DocumentationService {
   // `m<creatureId>`), so this still works unprefixed inside the adjustments panel's base card copy.
   private getAbilityLevelTabs(
     idPrefix: string,
-    entries: { ability: CreatureAbility; html: string }[],
+    entries: { ability?: CreatureAbility; html: string }[],
   ): string {
-    const byLevel = new Map<number | "innate", string[]>();
+    const byLevel = new Map<number | "innate" | "special", string[]>();
     for (const { ability, html } of entries) {
-      const level = this.getSpellLevel(ability.resource) ?? "innate";
+      // sequencers and contingencies get their own last tab
+      const level = ability ? (this.getSpellLevel(ability.resource) ?? "innate") : "special";
       const group = byLevel.get(level);
       if (group) group.push(html);
       else byLevel.set(level, [html]);
     }
-    const levels = [...byLevel.keys()].sort((a, b) => {
-      if (a === "innate") return 1;
-      if (b === "innate") return -1;
-      return a - b;
-    });
+    const rank = (level: number | "innate" | "special") =>
+      level === "special" ? 2 : level === "innate" ? 1 : 0;
+    const levels = [...byLevel.keys()].sort(
+      (a, b) => rank(a) - rank(b) || (a as number) - (b as number),
+    );
     const tabs = levels.map((level, i) => {
       const html = byLevel.get(level);
       return {
         id: `${idPrefix}-abilitylevel-${level}`,
-        name: level === "innate" ? "Innate" : `Level ${level}`,
+        name: LEVEL_TAB_NAMES[level as string] ?? `Level ${level}`,
         // levels only ever come from byLevel's own keys, so a lookup here always hits.
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         spells: html!.join(""),
@@ -1565,16 +1650,24 @@ class DocumentationService {
     const tabs = (creature.data.spells.spellbooks ?? [])
       .map((spellbook, index) => {
         const idPrefix = `m${creature.id}-sb${index}`;
-        const entries = abilities
-          .map((ability, abilityIndex) => ({
-            ability,
-            html: this.getCreatureSpell(
+        const entries = [
+          ...abilities
+            .map((ability, abilityIndex) => ({
               ability,
-              spellbook.memorized,
-              `${idPrefix}-ability-${abilityIndex}`,
-            ),
-          }))
-          .filter((entry) => entry.html);
+              html: this.getCreatureSpell(
+                ability,
+                spellbook.memorized,
+                `${idPrefix}-ability-${abilityIndex}`,
+              ),
+            }))
+            .filter((entry) => entry.html),
+          ...this.getComboParts(
+            spellbook.memorized,
+            creature.data.spells.combos,
+            spellbook.mod,
+            idPrefix,
+          ),
+        ];
         return {
           id: `spellbook-m${creature.id}-${index}`,
           name: SPELLBOOK_MODS[spellbook.mod].name,
@@ -1594,15 +1687,13 @@ class DocumentationService {
       ...creature.behavior.abilities,
       ...creature.behavior.customCodes.map((c) => c.abilities).flat(),
     ];
+    // sequencers and contingencies are listed apart (see getComboParts)
     return abilities.filter(
-      (a, i) => a.resource && abilities.findIndex((b) => b.resource === a.resource) === i,
+      (a, i) =>
+        a.resource &&
+        !spellComboService.comboOfFile(a.resource) &&
+        abilities.findIndex((b) => b.resource === a.resource) === i,
     );
-  }
-
-  /** The ability's name, or its combo's label for a sequencer or contingency. */
-  private abilityName(ability: CreatureAbility): string {
-    const label = ability.resource ? spellComboService.labelOf(ability.resource) : undefined;
-    return label ?? translationService.from(ability.name);
   }
 
   getCreatureSpell(
@@ -1643,7 +1734,7 @@ class DocumentationService {
       const quantity = ability.infiniteUse
         ? this.getSpellQuantity(1, infiniteUseRounds)
         : this.getSpellQuantity(memorized.memorizedCount);
-      result = `<h5>${this.abilityName(ability)} (${quantity})</h5>`;
+      result = `<h5>${translationService.from(ability.name)} (${quantity})</h5>`;
     }
     if (!result) return "";
     // Wrapped so a multi-column layout (see .spellbook-tab-panel in monsters.css) can keep each

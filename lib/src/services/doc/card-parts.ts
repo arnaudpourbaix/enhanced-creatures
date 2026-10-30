@@ -29,8 +29,13 @@ export interface CardParts {
   traitLinks: CardPart[];
   /** key `traitLine:<html>`: trait item lines, immunity entries, hide in shadows */
   traitLines: CardPart[];
-  /** key `ability:<html with id prefix removed>` */
-  abilities: (CardPart & { ability: CreatureAbility })[];
+  /**
+   * key `ability:<html with id prefix removed>`; a sequencer or contingency has no ability (key
+   * `combo:...`) and is listed after the others
+   */
+  abilities: AbilityPart[];
 }
+
+export type AbilityPart = CardPart & { ability?: CreatureAbility };
 
 export type CardOmissions = ReadonlySet<string>;

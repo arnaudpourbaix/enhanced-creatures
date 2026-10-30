@@ -17,7 +17,8 @@ import translationService from "../translation.service";
 import monsterFilesService from "../monster-files.service";
 import { toCode } from "../utils/misc.func";
 import spellComboService from "../spell-combo.service";
-import { SEQUENCERS } from "../../../config/spells/spell-combos";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
 
 interface FileIndexEntry {
   file: string;
@@ -1373,16 +1374,6 @@ describe("getCreatureSpell", () => {
     expect(html).toMatch(/^<div class="ability-entry">.*<\/div>$/);
   });
 
-  it("names a combo SPL by its kind and key", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.DoubleMagicMissiles, "Vanilla");
-    const html = documentationService.getCreatureSpell(
-      fakeAbility(file),
-      [{ file, memorizedCount: 1 }],
-      "m1-ability-0",
-    );
-    expect(html).toContain("<h5>Minor Sequencer (Double Magic Missiles) (1/day)</h5>");
-  });
-
   it("renders nothing when the resource isn't in the given list", () => {
     const html = documentationService.getCreatureSpell(fakeAbility("SPPR101"), [], "m1-ability-0");
     expect(html).toBe("");
@@ -1557,6 +1548,111 @@ describe("getCreatureSpells", () => {
         template.text,
       )?.[1] ?? "";
     expect(level2Panel.match(/ability-entry/g)).toHaveLength(3);
+  });
+});
+
+describe("sequencers and contingencies", () => {
+  const w = SPELLS.Wizard;
+  const sequencer: SpellCombo = {
+    key: "DocTestSequencer",
+    kind: "minorSequencer",
+    spells: [w.MagicMissiles, w.MagicMissiles],
+  };
+  const contingency: SpellCombo = {
+    key: "DocTestContingency",
+    kind: "chainContingency",
+    condition: "hp25",
+    spells: [w.Stoneskin, w.MirrorImages, w.MagicMissiles],
+  };
+  const fileOf = (combo: SpellCombo) => spellComboService.comboFile(combo, "Vanilla");
+  const abilities = (creature: Creature) => {
+    const template = { text: "{{abilities}}" };
+    documentationService.getCreatureSpells(template, creature);
+    return template.text;
+  };
+
+  it("lists a memorized combo by its kind, without a count, its spells in a popover", () => {
+    const file = fileOf(sequencer);
+    const creature = fakeCreatureForSpells(
+      { abilities: [fakeAbility(file)] },
+      { memorized: [{ file, memorizedCount: 1 }] },
+    );
+    const html = abilities(creature);
+    expect(html).toContain(
+      '<h5><a href="#m79-combo-0" class="trait-link">Minor Sequencer</a></h5>',
+    );
+    expect(html).not.toContain("1/day");
+    expect(html).toContain(
+      '<div class="spell-popover-entry" id="m79-combo-0" hidden><ul class="combo-spells"><li>Magic Missiles</li><li>Magic Missiles</li></ul></div>',
+    );
+  });
+
+  it("gives a contingency's condition first, and lists one with no ability (precast)", () => {
+    const file = fileOf(contingency);
+    const creature = fakeCreatureForSpells({}, { memorized: [{ file, memorizedCount: 1 }] });
+    const html = abilities(creature);
+    expect(html).toContain(">Chain Contingency</a>");
+    expect(html).toContain(
+      '<p class="combo-condition">When its HP drops below 25%</p><ul class="combo-spells"><li>Stoneskin</li>',
+    );
+  });
+
+  it("lists combos after every other ability", () => {
+    const file = fileOf(sequencer);
+    const creature = fakeCreatureForSpells(
+      { abilities: [fakeAbility(file), fakeAbility("SPPR101")] },
+      {
+        memorized: [
+          { file, memorizedCount: 1 },
+          { file: "SPPR101", memorizedCount: 2 },
+        ],
+      },
+    );
+    const html = abilities(creature);
+    expect(html.indexOf("2/day")).toBeLessThan(html.indexOf("Minor Sequencer"));
+  });
+
+  it("lists a combo declared on the creature", () => {
+    const creature = fakeCreatureForSpells({}, { combos: [sequencer] });
+    expect(abilities(creature)).toContain(">Minor Sequencer</a>");
+  });
+
+  it("puts combos in a Special tab after the level tabs", () => {
+    const resources = Array.from({ length: 10 }, (_, i) => `SPWI10${i}`);
+    const file = fileOf(sequencer);
+    const creature = fakeCreatureForSpells(
+      { abilities: resources.map((r) => fakeAbility(r)) },
+      {
+        memorized: [
+          ...resources.map((r) => ({ file: r, memorizedCount: 1 })),
+          { file, memorizedCount: 1 },
+        ],
+      },
+    );
+    const html = abilities(creature);
+    expect(html).toContain('data-tab="m79-abilitylevel-special">Special</button>');
+    const special = html.slice(html.indexOf('id="m79-abilitylevel-special"'));
+    expect(special).toContain(">Minor Sequencer</a>");
+    expect(html.indexOf(">Minor Sequencer</a>")).toBe(
+      html.indexOf(">Minor Sequencer</a>", html.indexOf('id="m79-abilitylevel-special"')),
+    );
+  });
+
+  it("lists each spellbook variant's combos, with the declared ones, in its own tab", () => {
+    const file = fileOf(contingency);
+    const creature = fakeCreatureForSpells(
+      {},
+      {
+        combos: [sequencer],
+        spellbooks: [{ mod: "Vanilla", memorized: [{ file, memorizedCount: 1 }] }],
+      },
+    );
+    const template = { text: "{{spellbooks}}" };
+    documentationService.getCreatureSpellbooks(template, creature);
+    expect(template.text).toContain(">Chain Contingency</a>");
+    expect(template.text).toContain(">Minor Sequencer</a>");
+    // declared combos go in the spellbooks, not in the base list too
+    expect(abilities(creature)).toBe("");
   });
 });
 
