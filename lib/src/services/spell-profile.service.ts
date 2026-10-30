@@ -6,6 +6,7 @@ import { SpellRole, SpellTier } from "../../config/spells/spell-role";
 import { Creature } from "../model/creature/creature";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { Spell } from "../model/spell-item/spell-item";
+import { SequencerKind } from "../model/spell-item/spell-combo";
 import { spellFiles, SpellReference, SpellSaves } from "../model/spell-item/spell-reference";
 import spellComboService from "./spell-combo.service";
 
@@ -24,6 +25,8 @@ export interface SpellProfile {
   hitsAllies: boolean;
   /** How many spells it casts at once: more than 1 for a sequencer */
   spellCount: number;
+  /** A sequencer's kind: it's profiled after its strongest spell, but scored as its kind */
+  combo?: SequencerKind;
 }
 
 /** What a database entry, a NEW_SPELL_PROFILES entry or a creature's spell gives a profile */
@@ -153,7 +156,9 @@ class SpellProfileService {
     const best = [...scorable].sort(
       (a, b) => b.level - a.level || ROLE_STRENGTH.indexOf(a.role) - ROLE_STRENGTH.indexOf(b.role),
     )[0];
-    return { ...best, file, spellCount: scorable.length };
+    const kind = spellComboService.comboOfFile(file)?.kind;
+    const combo = kind === "minorSequencer" || kind === "spellSequencer" ? kind : undefined;
+    return { ...best, file, combo, spellCount: scorable.length };
   }
 
   private ownProfile(file: string, creature: Creature): SpellProfile | undefined {

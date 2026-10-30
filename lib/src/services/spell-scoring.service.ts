@@ -31,8 +31,9 @@ class SpellScoringService {
    * caster's best of its class (overall for innates), its role, what makes an attack reliable,
    * its casting time, what else it does and its tier.
    */
-  score(profile: SpellProfile, caster: CasterReference): number {
+  score(spell: SpellProfile, caster: CasterReference): number {
     const s = SPELL_SCORING;
+    const profile = this.asCast(spell);
     const best = this.best(profile, caster);
     const offensive = OFFENSIVE.includes(profile.role);
     const penalty = offensive ? s.levelPenalty.offensive : s.levelPenalty.other;
@@ -44,8 +45,15 @@ class SpellScoringService {
     if (profile.keywords.includes("friendly") && profile.keywords.includes("area")) {
       score += s.partyBuff;
     }
-    score += (profile.spellCount - 1) * s.extraSpell;
     return score + s.tier[this.tier(profile, best)];
+  }
+
+  /** A sequencer as the spell it's worth, from its spells (see SPELL_SCORING.sequencer). */
+  private asCast(profile: SpellProfile): SpellProfile {
+    if (!profile.combo) return profile;
+    const { castingTime, levelPerExtraSpell } = SPELL_SCORING.sequencer;
+    const level = profile.level + (profile.spellCount - 1) * levelPerExtraSpell;
+    return { ...profile, castingTime, level };
   }
 
   /** The chance to cast the spell when its turn comes, in percent. */

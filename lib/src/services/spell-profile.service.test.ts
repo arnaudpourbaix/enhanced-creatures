@@ -91,6 +91,7 @@ describe("profileOf", () => {
       level: 1,
       type: SpellTypeEnum.Wizard,
       spellCount: 2,
+      combo: "minorSequencer",
     });
   });
 

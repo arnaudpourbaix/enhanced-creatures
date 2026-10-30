@@ -86,6 +86,27 @@ describe("score", () => {
     expect(spares - hits).toBe(1);
   });
 
+  it("scores two Magic Missiles at once as a level 3 spell, a little below Fireball", () => {
+    const missiles = {
+      ...wizard("MagicMissiles"),
+      combo: "minorSequencer" as const,
+      spellCount: 2,
+    };
+    const sequencer = score(missiles, best(8));
+    expect(sequencer).toBeLessThan(score(wizard("Fireball"), best(8)));
+    expect(sequencer - score(wizard("MagicMissiles"), best(8))).toBeGreaterThan(2);
+  });
+
+  it("scores two Mirror Images at once as a strong defensive spell, at least Blur", () => {
+    const images = { ...wizard("MirrorImages"), combo: "minorSequencer" as const, spellCount: 2 };
+    expect(score(images, best(8))).toBeGreaterThanOrEqual(score(wizard("Blur"), best(8)));
+  });
+
+  it("scores three Fireballs at once as a level 7 spell, above Cone of Cold", () => {
+    const fireballs = { ...wizard("Fireball"), combo: "spellSequencer" as const, spellCount: 3 };
+    expect(score(fireballs, best(8))).toBeGreaterThan(score(wizard("ConeOfCold"), best(8)));
+  });
+
   it("adds 3 for a great spell and 1.5 for a good one", () => {
     const decent = score(profile({ level: 5 }), best(5));
     expect(score(profile({ level: 5, tier: "great" }), best(5)) - decent).toBe(3);

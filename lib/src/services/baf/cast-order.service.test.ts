@@ -68,6 +68,22 @@ describe("plan", () => {
     ]);
   });
 
+  it("opens with a defensive spell sequencer (Stoneskin, Minor Globe, Mirror Image) first", () => {
+    const sequencer = {
+      ...wizard("Stoneskin"),
+      file: "DEFSEQ",
+      combo: "spellSequencer" as const,
+      spellCount: 3,
+    };
+    const order = files([
+      wizard("ProtectionFromMagicalWeapons"),
+      wizard("Stoneskin"),
+      wizard("AbiDalzimHorridWilting"),
+      sequencer,
+    ]);
+    expect(order[0]).toBe("DEFSEQ");
+  });
+
   it("never opens with a decent protection: a better attack goes first", () => {
     const hit = profile("HIT", { role: "kill", castingTime: 1, keywords: ["area"] });
     expect(files([profile("SHIELD", { role: "protection" }), hit])).toEqual(["HIT", "SHIELD"]);
