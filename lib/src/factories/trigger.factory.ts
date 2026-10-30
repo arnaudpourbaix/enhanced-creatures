@@ -188,6 +188,17 @@ class TriggerFactory {
     };
   }
 
+  /** The creature is covered: invisible, or under Sanctuary (its own or an ally's) */
+  covered(): Triggers.Trigger {
+    return {
+      name: "Or",
+      triggers: [
+        { name: "StateCheck", params: [ScriptTarget.myself, "STATE_INVISIBLE"] },
+        { name: "CheckStatGT", params: [ScriptTarget.myself, 0, "SANCTUARY"] },
+      ],
+    };
+  }
+
   globalRoundTimerExpired(): Triggers.Trigger {
     return {
       name: "GlobalTimerNotExpired",
@@ -427,16 +438,14 @@ class TriggerFactory {
     // now is on the other side and not charmed, or on the caster's own side and charmed by the party
     const target = ScriptTarget.lastSeen;
     return [false, true].flatMap((charmed) =>
-      (["EVILCUTOFF", "GOODCUTOFF"] as const).map(
-        (cutoff): Triggers.Trigger => ({
-          name: "Or",
-          triggers: [
-            { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
-            { name: "Allegiance", params: [target, cutoff], negation: !charmed },
-            { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: charmed },
-          ],
-        }),
-      ),
+      (["EVILCUTOFF", "GOODCUTOFF"] as const).map((cutoff): Triggers.Trigger => ({
+        name: "Or",
+        triggers: [
+          { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+          { name: "Allegiance", params: [target, cutoff], negation: !charmed },
+          { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: charmed },
+        ],
+      })),
     );
   }
 

@@ -74,6 +74,7 @@ class StatementBuilderService {
     this.execute(this.avoidClouds.bind(this), "avoidClouds", p);
     this.execute(this.thievesAbilities.bind(this), "thievesAbilities", p);
     this.execute(this.precastMidDurationSpells.bind(this), "precastMidDurationSpells", p);
+    this.execute(this.coveredAbilities.bind(this), "coveredAbilities", p);
     this.execute(this.creatureAbilities.bind(this), "creatureAbilities", p);
     this.execute(this.potions.bind(this), "potions", p);
     this.execute(this.attack.bind(this), "attack", p);
@@ -1132,6 +1133,28 @@ class StatementBuilderService {
         responses: responseFactory.response([actionFactory.setGlobal(variable, 1)]),
       });
     }
+  }
+
+  /**
+   * Under cover (Sanctuary, Invisibility): the creature's protections and buffs first, then a hold
+   * so it doesn't attack - breaking the cover - between them. Once none is left, it acts as usual.
+   */
+  private coveredAbilities({ statements, creature, options }: HandlerParams): void {
+    const abilities = creature.behavior.coveredAbilities;
+    if (!abilities.length) return;
+    const covered = triggerFactory.covered();
+    this.parseAbilities(
+      statements,
+      creature,
+      options,
+      abilities.map((ability) => ({ ...ability, triggers: [covered, ...ability.triggers] })),
+    );
+    const roundRunning = { ...triggerFactory.globalRoundTimerExpired(), negation: false };
+    statements.push({
+      comment: "Covered: no attack between protections",
+      triggers: [covered, roundRunning],
+      responses: responseFactory.response([{ name: "NoAction" }]),
+    });
   }
 
   private creatureAbilities({ statements, creature, options }: HandlerParams): void {

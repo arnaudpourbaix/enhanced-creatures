@@ -78,6 +78,7 @@ interface StatementBuilderServicePrivate {
   precastMidDurationSpells(p: Pick<HandlerParams, "statements" | "options">): void;
   precastContingencies(p: Pick<HandlerParams, "statements" | "creature">): void;
   creatureAbilities(p: HandlerParams): void;
+  coveredAbilities(p: HandlerParams): void;
   parseAbilities(
     statements: Statements,
     creature: Creature,
@@ -1464,6 +1465,40 @@ describe("parseAbilities / creatureAbilities (private)", () => {
       options: options(),
     });
     expect(statements).toHaveLength(1);
+  });
+});
+
+describe("coveredAbilities (private)", () => {
+  const covered = {
+    name: "Or",
+    triggers: [
+      { name: "StateCheck", params: [ScriptTarget.myself, "STATE_INVISIBLE"] },
+      { name: "CheckStatGT", params: [ScriptTarget.myself, 0, "SANCTUARY"] },
+    ],
+  };
+
+  it("casts each covered ability only while covered, then holds while the round goes on", () => {
+    const statements: Statements = [];
+    service.coveredAbilities({
+      statements,
+      creature: fakeCreature({ behavior: { coveredAbilities: [fakeAbility(), fakeAbility()] } }),
+      options: options(),
+    });
+    expect(statements).toHaveLength(3);
+    for (const statement of statements) expect(statement.triggers).toContainEqual(covered);
+    const hold = statements[2];
+    expect(hold.triggers).toContainEqual({
+      name: "GlobalTimerNotExpired",
+      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      negation: false,
+    });
+    expect(JSON.stringify(hold.responses)).toContain("NoAction");
+  });
+
+  it("writes nothing without covered abilities", () => {
+    const statements: Statements = [];
+    service.coveredAbilities({ statements, creature: fakeCreature(), options: options() });
+    expect(statements).toEqual([]);
   });
 });
 
