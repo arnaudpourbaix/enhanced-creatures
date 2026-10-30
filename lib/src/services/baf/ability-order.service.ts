@@ -18,14 +18,7 @@ class AbilityOrderService {
   resolve(creature: Creature): RawCreatureAbility[] {
     const entries = creature.pendingAbilityEntries ?? [];
     this.validateEntries(entries);
-    const alreadyCastFiles = [
-      ...creature.behavior.abilities,
-      ...creature.behavior.customCodes.flatMap((c) => c.abilities),
-    ].flatMap((a) => creatureService.getAbilityCastFiles(a));
-    const explicitFiles = new Set([
-      ...alreadyCastFiles,
-      ...entries.map((e) => this.cast(e, creature).identity),
-    ]);
+    const explicitFiles = this.explicitFiles(creature, entries);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
     // self contingencies have no ability: they are precast (see StatementBuilderService)
     const autoFiles = memorizedFiles.filter(
@@ -74,14 +67,25 @@ class AbilityOrderService {
   resolveCovered(creature: Creature): RawCreatureAbility[] {
     const files = creatureService.memorizedSpellFiles(creature);
     if (!files.some((file) => COVER_SPELLS.includes(file.toUpperCase()))) return [];
+    // a spell cast through the creature's own ability keeps its own configuration
+    const explicitFiles = this.explicitFiles(creature, creature.pendingAbilityEntries ?? []);
     const profiles = files
-      .filter((file) => spellProfileService.isCatalogued(file))
+      .filter((file) => !explicitFiles.has(file) && spellProfileService.isCatalogued(file))
       .filter((file) => !spellComboService.comboOfFile(file) || !this.contingency(file))
       .map((file) => spellProfileService.profileOf(file, creature))
       .filter((profile): profile is SpellProfile => profile !== undefined);
     return castOrderService
       .coveredPlan(profiles)
       .map((cast) => ({ preset: cast.file, probability: cast.probability }));
+  }
+
+  /** Files cast by the creature's hand-written abilities or placed by its entries. */
+  private explicitFiles(creature: Creature, entries: AbilityEntry[]): Set<string> {
+    const alreadyCastFiles = [
+      ...creature.behavior.abilities,
+      ...creature.behavior.customCodes.flatMap((c) => c.abilities),
+    ].flatMap((a) => creatureService.getAbilityCastFiles(a));
+    return new Set([...alreadyCastFiles, ...entries.map((e) => this.cast(e, creature).identity)]);
   }
 
   private contingency(file: string): boolean {

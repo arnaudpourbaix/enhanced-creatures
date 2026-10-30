@@ -50,6 +50,7 @@ export type CustomCodeLocation =
   | "handlePanic"
   | "help"
   | "init"
+  | "spellbookCheck"
   | "kitAbilities"
   | "noActionOutsideOfCombat"
   | "potions"

@@ -7,6 +7,7 @@ import { TARGET_STATUS } from "../../../config/target/target-config";
 import { TargetListName, TargetStatusName } from "../../../config/target/target-name";
 import actionFactory from "../../factories/action.factory";
 import bafFactory from "../../factories/baf.factory";
+import { SPELLBOOK_GLOBAL } from "../at-will.service";
 import responseFactory from "../../factories/response.factory";
 import triggerFactory from "../../factories/trigger.factory";
 import { ScriptTarget } from "../../model/constants";
@@ -59,6 +60,7 @@ class StatementBuilderService {
     this.execute(this.destroyUponDeath.bind(this), "destroyUponDeath", p);
     this.execute(this.dialog.bind(this), "dialog", p);
     this.execute(this.init.bind(this), "init", p);
+    this.execute(this.spellbookCheck.bind(this), "spellbookCheck", p);
     this.execute(this.disableSpellcasting.bind(this), "disableSpellcasting", p);
     this.execute(this.rest.bind(this), "rest", p);
     this.execute(this.precastContingencies.bind(this), "precastContingencies", p);
@@ -1136,6 +1138,35 @@ class StatementBuilderService {
   }
 
   /**
+   * Sets JA_SPELLBOOK while the creature memorizes a spell of a spellbook only some of its files
+   * have: their at-will powers are braked then only (see AtWillService).
+   */
+  private spellbookCheck({ statements, creature }: HandlerParams): void {
+    const files = creature.behavior.spellbookFiles;
+    if (!files?.length) return;
+    statements.push({
+      comment: "Spellbook: its at-will powers are braked",
+      triggers: [
+        { name: "Or", triggers: files.map((file) => ({ name: "HaveSpellRES", params: [file] })) },
+      ],
+      responses: responseFactory.response([
+        actionFactory.setGlobal(SPELLBOOK_GLOBAL, 1),
+        { name: "Continue" },
+      ]),
+    });
+  }
+
+  /** An ability's timer, skipped while its unlessGlobalUnset global isn't set. */
+  private timerExpired(timer: NonNullable<CreatureAbility["timer"]>): Triggers.Trigger {
+    const expired = triggerFactory.globalTimerExpired(timer.name);
+    if (!timer.unlessGlobalUnset) return expired;
+    return {
+      name: "Or",
+      triggers: [expired, { name: "Global", params: [timer.unlessGlobalUnset, "LOCALS", 0] }],
+    };
+  }
+
+  /**
    * Under cover (Sanctuary, Invisibility): the creature's protections and buffs first, then a hold
    * so it doesn't attack - breaking the cover - between them. Once none is left, it acts as usual.
    */
@@ -1293,7 +1324,7 @@ class StatementBuilderService {
     }
     const actions: Actions.Action[] = [...ability.actions];
     if (ability.timer) {
-      triggers.unshift(triggerFactory.globalTimerExpired(ability.timer.name));
+      triggers.unshift(this.timerExpired(ability.timer));
       actions.unshift(actionFactory.setGlobalTimer(ability.timer.name, ability.timer.value));
     }
     if (!ability.noRoundTimer) {
@@ -1362,7 +1393,7 @@ class StatementBuilderService {
     if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
     const actions: Actions.Action[] = [...ability.actions];
     if (ability.timer) {
-      triggers.unshift(triggerFactory.globalTimerExpired(ability.timer.name));
+      triggers.unshift(this.timerExpired(ability.timer));
       actions.push(actionFactory.setGlobalTimer(ability.timer.name, ability.timer.value));
     }
     if (!ability.noRoundTimer) {

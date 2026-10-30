@@ -4069,7 +4069,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(WIZARD_MIRROR_IMAGE)
 	!StateCheck(Myself,STATE_MIRRORIMAGE)
-	RandomNumGT(800,80)
+	RandomNumGT(800,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

@@ -40,12 +40,15 @@ class CastOrderService {
       return taken;
     };
     const reactive = take((p) => p.role === "reactive");
-    const opening = take(
-      (p) =>
-        p.role === "protection" &&
-        p.tier !== "decent" &&
-        spellScoringService.score(p, caster) >= SPELL_SCORING.openingProtection,
+    const { minScore, max, maxProbability } = SPELL_SCORING.opening;
+    const candidates = scored.filter(
+      (s) => s.profile.role === "protection" && s.profile.tier !== "decent" && s.score >= minScore,
     );
+    const openers = new Set(candidates.slice(0, max).map((s) => s.profile));
+    const opening = take((p) => openers.has(p)).map((s) => ({
+      ...s,
+      probability: Math.min(s.probability, maxProbability),
+    }));
     const shapeshifts = take((p) => p.role === "shapeshift");
     // the opening protections are defensive casts already: an attack comes next
     const rest = this.alternate(scored, opening.length > 0);
@@ -58,13 +61,16 @@ class CastOrderService {
   }
 
   /**
-   * The covered phase's order (see COVER_SPELLS): its protections and buffs, the long ones aside
-   * (precast) and the cover spells themselves, most valuable first - at an equal score, mid before
-   * short, so short buffs land last and are still active when the fight resumes.
+   * The covered phase's order (see COVER_SPELLS): its reactive spells first, then its protections
+   * and buffs, the long ones (precast) and the cover spells themselves aside, most valuable first -
+   * at an equal score, mid before short, so short buffs land last and are still active when the
+   * fight resumes.
    */
   coveredPlan(profiles: SpellProfile[]): PlannedCast[] {
     const caster = spellScoringService.casterReference(profiles);
-    return profiles
+    // reactive spells keep coming first: a wounded caster heals before buffing
+    const reactive = this.plan(profiles.filter((p) => p.role === "reactive"));
+    const protective = profiles
       .filter(
         (p) =>
           DEFENSIVE.includes(p.role) &&
@@ -82,6 +88,7 @@ class CastOrderService {
           byCodeUnits(a.profile.file, b.profile.file),
       )
       .map(({ profile, score, probability }) => ({ file: profile.file, score, probability }));
+    return [...reactive, ...protective];
   }
 
   /** Highest score first, but never two defensive spells in a row while attacks remain. */

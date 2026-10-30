@@ -141,10 +141,11 @@ class CreatureFactory {
   }
 
   resolveAbilities(cre: Creature): void {
-    cre.behavior.abilities.push(...abilityService.getAbilities(abilityOrderService.resolve(cre)));
+    // first, while the creature's abilities are only its hand-written ones (see resolveCovered)
     cre.behavior.coveredAbilities = abilityService.getAbilities(
       abilityOrderService.resolveCovered(cre),
     );
+    cre.behavior.abilities.push(...abilityService.getAbilities(abilityOrderService.resolve(cre)));
   }
 
   checkValidation(creature: Creature) {

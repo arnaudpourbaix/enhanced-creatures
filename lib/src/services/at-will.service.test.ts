@@ -111,7 +111,11 @@ describe("applyCooldowns", () => {
       },
     ] as unknown as Creature["adjustments"];
     atWillService.applyCooldowns(creature);
-    expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
+    // only some of its files have that spellbook: the script checks in game (JA_SPELLBOOK)
+    expect(timers(creature)).toEqual([
+      { name: "ATWILL_DOMINATE", value: 24, unlessGlobalUnset: "JA_SPELLBOOK" },
+    ]);
+    expect(creature.behavior.spellbookFiles).toEqual([SPELLS.Wizard.Fireball.file]);
   });
 
   it("doesn't take a creature's own few-use powers for a spellbook (vampire Bat Swarm)", () => {

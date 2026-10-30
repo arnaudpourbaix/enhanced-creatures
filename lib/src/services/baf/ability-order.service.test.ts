@@ -348,6 +348,15 @@ describe("resolveCovered", () => {
     expect(covered.every((a) => a.probability !== undefined)).toBe(true);
   });
 
+  it("leaves out a spell the creature casts through its own ability, as the normal order does", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: SANCTUARY }, { file: BLESS }, { file: HOLY_MIGHT }],
+      behaviorAbilities: [fakeAbility(BLESS)],
+    });
+    expect(presetsOf(abilityOrderService.resolveCovered(creature))).toEqual([HOLY_MIGHT]);
+  });
+
   it("gives nothing without a cover spell", () => {
     const creature = fakeCreature({ memorized: [{ file: BLESS }, { file: HOLY_MIGHT }] });
     expect(abilityOrderService.resolveCovered(creature)).toEqual([]);

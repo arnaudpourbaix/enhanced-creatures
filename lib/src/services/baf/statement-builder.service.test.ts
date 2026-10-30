@@ -79,6 +79,7 @@ interface StatementBuilderServicePrivate {
   precastContingencies(p: Pick<HandlerParams, "statements" | "creature">): void;
   creatureAbilities(p: HandlerParams): void;
   coveredAbilities(p: HandlerParams): void;
+  spellbookCheck(p: HandlerParams): void;
   parseAbilities(
     statements: Statements,
     creature: Creature,
@@ -1499,6 +1500,51 @@ describe("coveredAbilities (private)", () => {
     const statements: Statements = [];
     service.coveredAbilities({ statements, creature: fakeCreature(), options: options() });
     expect(statements).toEqual([]);
+  });
+});
+
+describe("spellbookCheck (private)", () => {
+  it("flags a creature still memorizing one of its spellbook's spells", () => {
+    const statements: Statements = [];
+    service.spellbookCheck({
+      statements,
+      creature: fakeCreature({ behavior: { spellbookFiles: ["SPWI304", "SPWI112"] } }),
+      options: options(),
+    });
+    expect(statements).toHaveLength(1);
+    expect(statements[0].triggers).toContainEqual({
+      name: "Or",
+      triggers: [
+        { name: "HaveSpellRES", params: ["SPWI304"] },
+        { name: "HaveSpellRES", params: ["SPWI112"] },
+      ],
+    });
+    expect(JSON.stringify(statements[0].responses)).toContain("JA_SPELLBOOK");
+  });
+
+  it("writes nothing without spellbook files to check", () => {
+    const statements: Statements = [];
+    service.spellbookCheck({ statements, creature: fakeCreature(), options: options() });
+    expect(statements).toEqual([]);
+  });
+
+  it("lets an at-will power skip its cooldown when the creature has no spellbook", () => {
+    const statements: Statements = [];
+    const ability = fakeAbility({
+      timer: { name: "ATWILL_X", value: 24, unlessGlobalUnset: "JA_SPELLBOOK" },
+    });
+    service.creatureAbilities({
+      statements,
+      creature: fakeCreature({ behavior: { abilities: [ability] } }),
+      options: options(),
+    });
+    expect(statements[0].triggers).toContainEqual({
+      name: "Or",
+      triggers: [
+        { name: "GlobalTimerNotExpired", params: ["ATWILL_X", "LOCALS"], negation: true },
+        { name: "Global", params: ["JA_SPELLBOOK", "LOCALS", 0] },
+      ],
+    });
   });
 });
 

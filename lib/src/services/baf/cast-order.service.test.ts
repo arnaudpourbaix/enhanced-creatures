@@ -55,6 +55,24 @@ describe("plan", () => {
     expect(order).toEqual(["GLOBE", "BIGHIT"]);
   });
 
+  it("keeps the opening short: at most 2 protections, the others go to the alternation", () => {
+    const order = files([
+      profile("GLOBE1", { role: "protection", tier: "great" }),
+      profile("GLOBE2", { role: "protection", tier: "great" }),
+      profile("GLOBE3", { role: "protection", tier: "great" }),
+      profile("HIT", {}),
+    ]);
+    expect(order).toEqual(["GLOBE1", "GLOBE2", "HIT", "GLOBE3"]);
+  });
+
+  it("lets an attack open the fight now and then: opening protections at most 60%", () => {
+    const planned = castOrderService.plan([
+      profile("GLOBE", { role: "protection", tier: "great", castingTime: 1 }),
+      profile("HIT", {}),
+    ]);
+    expect(planned[0]).toMatchObject({ file: "GLOBE", probability: 60 });
+  });
+
   it("opens with a good high-level protection before Mirror Image, Mirror Image before attacks", () => {
     const order = files([
       wizard("FingerOfDeath"),
@@ -164,6 +182,15 @@ describe("coveredPlan", () => {
   it("leaves the cover spell itself out: casting it again while covered is pointless", () => {
     const invisibility = { ...wizard("Invisibility"), duration: "mid" as const };
     expect(covered([invisibility, profile("SHIELD", { role: "protection" })])).toEqual(["SHIELD"]);
+  });
+
+  it("keeps reactive spells first under cover: a wounded caster heals before buffing", () => {
+    const planned = castOrderService.coveredPlan([
+      profile("BUFF", { role: "buff", tier: "great", duration: "short" }),
+      profile("HEAL", { role: "reactive" }),
+    ]);
+    expect(planned.map((c) => c.file)).toEqual(["HEAL", "BUFF"]);
+    expect(planned[0].probability).toBe(100);
   });
 
   it("casts the most valuable first, and at an equal value mid before short", () => {

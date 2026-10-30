@@ -47,8 +47,12 @@ export const SPELL_SCORING = {
   /** A great spell counts as good once the caster's best level is this far above its own */
   tierDecayGap: 4,
   probability: { base: 40, perPoint: 5, min: 30, max: 90 },
-  /** A great or good protection scoring this much opens the fight, before the alternation */
-  openingProtection: 8,
+  /**
+   * The opening, before the alternation: at most `max` great or good protections scoring at least
+   * `minScore`, each cast at most `maxProbability`% - short, and an attack can still come first
+   * now and then. (User.)
+   */
+  opening: { minScore: 8, max: 2, maxProbability: 60 },
   /**
    * An at-will power costing the creature something better gets a cooldown of base + level x
    * perLevel rounds (see AtWillService): its spellbook, or its attacks when it takes longer to cast
