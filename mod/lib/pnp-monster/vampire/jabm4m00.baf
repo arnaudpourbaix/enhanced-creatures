@@ -617,6 +617,7 @@ END
 
 // Dominating Will
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -658,10 +659,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -703,10 +706,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -748,10 +753,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -793,10 +800,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -838,10 +847,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -883,10 +894,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -928,10 +941,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -973,10 +988,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1018,10 +1035,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1063,11 +1082,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 // Dominating Will
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1104,10 +1125,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1144,10 +1167,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1184,10 +1209,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1224,10 +1251,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1264,10 +1293,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1304,10 +1335,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1344,10 +1377,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1384,10 +1419,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1424,11 +1461,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 // Dominating Will
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1464,10 +1503,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1503,10 +1544,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1542,10 +1585,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1581,10 +1626,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1620,10 +1667,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1659,10 +1708,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1698,10 +1749,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1737,10 +1790,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1776,11 +1831,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 // Dominating Will
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1817,10 +1874,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1857,10 +1916,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1897,10 +1958,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1937,10 +2000,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -1977,10 +2042,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2017,10 +2084,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2057,10 +2126,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2097,10 +2168,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2137,10 +2210,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2177,11 +2252,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 // Dominating Will
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2217,10 +2294,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2256,10 +2335,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2295,10 +2376,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2334,10 +2417,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2373,10 +2458,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2412,10 +2499,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2451,10 +2540,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2490,10 +2581,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2529,10 +2622,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0709","LOCALS")
 	HaveSpellRES("jase0709")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -2568,6 +2663,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0709","LOCALS",12)
 		ForceSpellRES("jase0709",LastSeenBy(Myself))
 END
 
@@ -2965,6 +3061,7 @@ END
 
 // Control Undead
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3008,10 +3105,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3055,10 +3154,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3102,10 +3203,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3149,10 +3252,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3196,10 +3301,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3243,10 +3350,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3290,10 +3399,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3337,10 +3448,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3384,10 +3497,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -3431,6 +3546,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("ATWILL_JASE0702","LOCALS",12)
 		ForceSpellRES("jase0702",LastSeenBy(Myself))
 END
 

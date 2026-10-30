@@ -108,3 +108,19 @@ describe("profileOf", () => {
     expect(spellProfileService.profileOf("NOSUCH01", creatureWith())).toBeUndefined();
   });
 });
+
+describe("isCatalogued", () => {
+  beforeEach(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+  });
+
+  it("knows database, Faiths and Powers and mod-created spells", () => {
+    expect(spellProfileService.isCatalogued(SPELLS.Wizard.Fireball.file)).toBe(true);
+    expect(spellProfileService.isCatalogued(FNP_SPELLS.Priest.AnimateDead.file)).toBe(true);
+    expect(spellProfileService.isCatalogued(NEW_SPELLS.WizardSymbolOfPain)).toBe(true);
+  });
+
+  it("doesn't know a creature's own power", () => {
+    expect(spellProfileService.isCatalogued("jase0701")).toBe(false);
+  });
+});

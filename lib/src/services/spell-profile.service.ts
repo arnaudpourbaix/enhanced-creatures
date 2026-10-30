@@ -73,6 +73,17 @@ class SpellProfileService {
     );
   }
 
+  /**
+   * Whether `file` is a spell the databases know (SPELLS, Faiths and Powers, NEW_SPELL_PROFILES) or
+   * a combo: what a caster memorizes from a spellbook, unlike a creature's own powers.
+   */
+  isCatalogued(file: string): boolean {
+    return (
+      this.databaseProfiles().has(file.toUpperCase()) ||
+      spellComboService.spellsOfFile(file) !== undefined
+    );
+  }
+
   private databaseProfiles(): Map<string, SpellProfile> {
     if (this.database) return this.database;
     const profiles = new Map<string, SpellProfile>();

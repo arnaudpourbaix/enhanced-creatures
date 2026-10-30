@@ -1,3 +1,4 @@
+import atWillService from "../services/at-will.service";
 import figureSet from "figures";
 import { MonsterEnum } from "../../creatures/monster";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "../model/creature/adjustment";
@@ -187,6 +188,7 @@ class CreatureFactory {
     if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
     this.resolveAbilities(creature);
+    atWillService.applyCooldowns(creature);
     creatureService.checkSpellAbilities(creature);
     creatureService.checkDuplicateAbilities(creature);
     const dialogValid = creatureService.checkDialog(creature);

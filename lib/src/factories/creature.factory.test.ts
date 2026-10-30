@@ -1,3 +1,4 @@
+import atWillService from "../services/at-will.service";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Creature } from "../model/creature/creature";
 import { EquippedItem } from "../model/creature/item";
@@ -182,6 +183,7 @@ describe("validate", () => {
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
@@ -202,6 +204,7 @@ describe("validate", () => {
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
@@ -221,6 +224,7 @@ describe("validate", () => {
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
@@ -235,6 +239,7 @@ describe("validate", () => {
   it("allows the same resref on two creatures when their games don't overlap", () => {
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
@@ -261,6 +266,7 @@ describe("validate", () => {
   it("still flags the same resref when one side is both-games", () => {
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
@@ -291,6 +297,7 @@ describe("validate", () => {
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
@@ -312,6 +319,7 @@ describe("validate", () => {
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);

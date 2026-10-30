@@ -45,4 +45,10 @@ export const SPELL_SCORING = {
   probability: { base: 40, perPoint: 5, min: 30, max: 90 },
   /** A great or good protection scoring this much opens the fight, before the alternation */
   openingProtection: 8,
+  /**
+   * An at-will power costing the creature something better gets a cooldown of base + level x
+   * perLevel rounds (see AtWillService): its spellbook, or its attacks when it takes longer to cast
+   * than its fighting affords (speed 1-2 barely slows a melee creature)
+   */
+  atWillCooldown: { base: 1, perLevel: 0.5, affordedCastingTime: { melee: 2, ranged: 4 } },
 };
