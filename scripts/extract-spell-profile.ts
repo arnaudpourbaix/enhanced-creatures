@@ -13,6 +13,9 @@ import { addFieldToDatabase } from "./lib/spell-database-writer";
 import {
   classifyRole,
   classifyTier,
+  proposeKeywords,
+  readSplHeaderTarget,
+  readSplHostile,
   areaHitsAllies,
   parseProjectileIds,
   casterLevelSource,
@@ -64,6 +67,8 @@ interface Profile {
   duration?: SpellDurationClass;
   /** Its area also hits the caster's allies; undefined without an area projectile */
   hitsAllies?: boolean;
+  /** For an entry declaring no keywords: what its game data supports (see proposeKeywords) */
+  proposedKeywords?: SpellKeyword[];
 }
 
 /** Whether the first header's projectile is an area hitting allies too (see areaHitsAllies). */
@@ -82,7 +87,7 @@ function profile(
   reader: ResourceReader,
   source: EffectSource,
   file: string,
-  keywords: Parameters<typeof classifyRole>[1],
+  declaredKeywords: SpellKeyword[] | undefined,
   projectiles: Map<number, string>,
 ): Profile | undefined {
   const spl = reader.read(file, SPL_TYPE, "SPL");
@@ -90,12 +95,24 @@ function profile(
   if (!spl || !effects) return undefined;
   // the duration at the lowest level casting the spell, what a precast spell gets at worst
   const lowest = spellEffects(casterLevelSource(reader, minCasterLevel(spl)), file) ?? [];
+  const allies = hitsAllies(reader, spl, projectiles);
+  const proposedKeywords = declaredKeywords?.length
+    ? undefined
+    : proposeKeywords(effects, {
+        hostile: readSplHostile(spl),
+        area: allies !== undefined,
+        headerTarget: readSplHeaderTarget(spl),
+      });
   return {
     effects,
-    ...classifyRole(effects, keywords),
+    ...classifyRole(
+      effects,
+      declaredKeywords?.length ? declaredKeywords : (proposedKeywords ?? []),
+    ),
     castingTimes: readSplCastingTimes(spl),
     duration: spellDuration(lowest),
-    hitsAllies: hitsAllies(reader, spl, projectiles),
+    hitsAllies: allies,
+    proposedKeywords,
   };
 }
 
@@ -249,7 +266,7 @@ function collect(database: string, entries: Entry[], readers: Readers) {
   const missing: string[] = [];
   for (const spell of entries) {
     const file = spell.file.toUpperCase();
-    const keywords = spell.keywords ?? [];
+    const keywords = spell.keywords;
     const { projectiles } = readers;
     const moddedProfile = profile(
       readers.moddedReader,
@@ -328,6 +345,14 @@ function writeDatabase(databasePath: string, rows: Row[], durations: boolean) {
       return tier && `"${tier}"`;
     }),
     "role",
+  );
+  database = addFieldToDatabase(
+    database,
+    "keywords",
+    values((r) => {
+      const proposed = r.profile.proposedKeywords;
+      return proposed?.length ? JSON.stringify(proposed).replace(/,/g, ", ") : undefined;
+    }),
   );
   database = addFieldToDatabase(
     database,

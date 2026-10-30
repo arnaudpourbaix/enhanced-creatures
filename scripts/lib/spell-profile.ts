@@ -364,3 +364,105 @@ export function areaHitsAllies(pro: Buffer): boolean | undefined {
   if (pro.readUInt16LE(0x08) !== AREA_PROJECTILE || pro.length < 0x204) return undefined;
   return (pro.readUInt32LE(0x200) & ONLY_ENEMIES) === 0;
 }
+
+/** The first header's target: 5 or 7 for the caster itself, 1 for a creature, 4 for an area */
+export function readSplHeaderTarget(spl: Buffer): number {
+  return spl.readUInt8(spl.readUInt32LE(0x64) + 0x0c);
+}
+
+/** SPL header flags of a hostile spell (0x400) or one like charms and dispels (0x200) */
+const HOSTILE_FLAGS = 0x600;
+
+/** Whether the spell is aimed at enemies: buffs, protections and heals have neither flag */
+export function readSplHostile(spl: Buffer): boolean {
+  return (spl.readUInt32LE(0x18) & HOSTILE_FLAGS) !== 0;
+}
+
+/** Header targets meaning the caster itself */
+const CASTER_TARGETS = new Set([5, 7]);
+/** Header target of a creature */
+const CREATURE_TARGET = 1;
+/** Magic resistance stops the effect (EffectDispelResistanceEnum.DispelNotBypassResistance) */
+const RESISTED = 1;
+/** Damage type flags (parameter2 high word) to keywords */
+const DAMAGE_TYPES: [number, SpellKeyword][] = [
+  [1, "acid"],
+  [2, "cold"],
+  [1024, "cold"],
+  [4, "electrical"],
+  [8, "fire"],
+  [512, "fire"],
+  [64, "magicDamage"],
+  [32, "poison"],
+];
+/** What an effect on an enemy does, as a keyword */
+const EFFECT_KEYWORDS = new Map<number, SpellKeyword>([
+  [E.CharmCreature, "charm"],
+  [E.CharmControlCreature, "charm"],
+  [E.Sleep, "sleep"],
+  [E.Sleep20HP, "sleep"],
+  [E.Hold, "hold"],
+  [E.HoldCreatureSpell, "hold"],
+  [E.Paralyze, "hold"],
+  [E.Confusion, "confusion"],
+  [E.Panic, "fear"],
+  [E.Stun, "stun"],
+  [E.Stun90HP, "stun"],
+  [E.Slow, "slow"],
+  [E.Blindness, "blind"],
+  [E.Silence, "silence"],
+  [E.Petrification, "petrify"],
+  [E.Poison, "poison"],
+  [E.Disease, "disease"],
+  [E.LevelDrain, "levelDrain"],
+  [E.KillTarget, "death"],
+  [E.DeathKill60HP, "death"],
+  [E.Slay, "death"],
+  [E.Maze, "maze"],
+  [E.Web, "web"],
+  [E.EntangleOverlay, "entangle"],
+]);
+/** Hit point damage, typed by its parameter2's high word */
+const DAMAGING = new Set<number>([E.Damage]);
+
+/**
+ * The keywords a spell's game data supports (see SpellKeyword), sorted, for an entry declaring
+ * none: whom it's cast at (castOnSelf, friendly), its area, its damage types, what its effects do
+ * and whether magic resistance stops it. A proposal, reviewed by hand like the role.
+ *
+ * `hostile`: the SPL's flags mark it hostile (see readSplHostile) - it breaks invisibility and
+ * sanctuary, so it's aimed at enemies.
+ */
+export function proposeKeywords(
+  effects: RawEffect[],
+  spell: { hostile: boolean; area: boolean; headerTarget: number },
+): SpellKeyword[] {
+  const keywords = new Set<SpellKeyword>();
+  const onCaster = CASTER_TARGETS.has(spell.headerTarget);
+  if (onCaster) keywords.add("castOnSelf");
+  // aimed at a creature without being hostile: a buff, a protection or a heal, for allies
+  const forAllies = !spell.hostile && spell.headerTarget === CREATURE_TARGET;
+  if (!onCaster && forAllies) keywords.add("friendly");
+  if (spell.area) keywords.add("area");
+  if (!forAllies) {
+    for (const e of effects.filter((fx) => fx.target !== SELF_TARGET)) {
+      for (const keyword of effectKeywords(e)) keywords.add(keyword);
+    }
+  }
+  return [...keywords].sort((a, b) => a.localeCompare(b));
+}
+
+/** What an effect on an enemy says of its spell: damage types, effect, magic resistance */
+function effectKeywords(effect: RawEffect): SpellKeyword[] {
+  const keywords: SpellKeyword[] = [];
+  if (DAMAGING.has(effect.opcode)) {
+    const types = effect.parameter2 >>> 16;
+    keywords.push(...DAMAGE_TYPES.filter(([flag]) => types & flag).map(([, k]) => k));
+  }
+  const keyword = EFFECT_KEYWORDS.get(effect.opcode);
+  if (keyword) keywords.push(keyword);
+  if (effect.resistance === RESISTED && !COSMETIC.has(effect.opcode)) {
+    keywords.push("magicResistance");
+  }
+  return keywords;
+}

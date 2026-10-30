@@ -50,6 +50,8 @@ export interface RawEffect {
   timingMode: number;
   /** In seconds */
   duration: number;
+  /** Dispel/resistance: 1 when magic resistance stops it (see EffectDispelResistanceEnum) */
+  resistance: number;
 }
 
 /** Reads game resources the way the engine does: override first, then the BIFs of chitin.key. */
@@ -164,6 +166,7 @@ export function readSplEffects(spl: Buffer, casterLevel?: number): RawEffect[] {
         special: spl.readUInt32LE(fx + 0x2c),
         timingMode: spl.readUInt8(fx + 0x0c),
         duration: spl.readUInt32LE(fx + 0x0e),
+        resistance: spl.readUInt8(fx + 0x0d),
       });
     }
   }
@@ -183,6 +186,8 @@ export function readEffEffect(eff: Buffer): RawEffect {
     special: eff.readUInt32LE(0x48),
     timingMode: eff.readUInt32LE(0x24),
     duration: eff.readUInt32LE(0x28),
+    // an EFF file applies with the relay's own resistance, see relayedEffects
+    resistance: 0,
   };
 }
 
@@ -277,8 +282,8 @@ function relayedEffects(
     seen.add(`EFF:${effect.resource}`);
     const relayed = source.eff(effect.resource);
     // the engine applies an EFF file to the relay's own target, for the relay's own duration
-    const { target, timingMode, duration } = effect;
-    return relayed && [{ ...relayed, target, timingMode, duration }];
+    const { target, timingMode, duration, resistance } = effect;
+    return relayed && [{ ...relayed, target, timingMode, duration, resistance }];
   }
   return undefined;
 }

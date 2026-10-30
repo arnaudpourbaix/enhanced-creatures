@@ -6,6 +6,7 @@ DEFINE_ACTION_FUNCTION get_acid_resources RET_ARRAY resources BEGIN
 		"SPWI724"
 		"SPWI211"
 		"SPWI426"
+		"SPPR722"
 		"SPIN994"
 		"SPIN596"
 		"SPIN691"
@@ -35,6 +36,7 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"SPPR424"
 		"SPPR707"
 		"SPPR118"
+		"SPCL239"
 		"SPIN937"
 		"spdr101"
 		"spin595"
@@ -69,6 +71,9 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPWI404"
 		"SPWI626"
 		"SPWI227"
+		"SPPR418"
+		"SPPR327"
+		"SPPR250"
 		"d1#wi503"
 		"DVCONEC"
 		"SPCRYO01"
@@ -199,6 +204,8 @@ END
 
 DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI819"
+		"SPWI910"
 		"SPWI605"
 		"SPWI713"
 		"SPWI912"
@@ -210,6 +217,7 @@ DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 		"SPPR715"
 		"SPPR511"
 		"SPPR719"
+		"SPPR621"
 		"cdxvdth"
 		"jasm3602"
 		"jasm2101"
@@ -231,8 +239,10 @@ END
 DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI409"
+		"SPWI811"
 		"SPPR329"
 		"SPPR320"
+		"SPPR334"
 		"SPPR706"
 		"jasm2501"
 		"jasm2603"
@@ -259,10 +269,13 @@ DEFINE_ACTION_FUNCTION get_electrical_resources RET_ARRAY resources BEGIN
 		"SPWI615"
 		"SPWI308"
 		"SPWI230"
+		"SPWI904"
 		"SPPR302"
+		"SPPR333"
+		"SPPR722"
 		"SPPR421"
-		"CDSTAF12"
 		"SPCL722"
+		"CDSTAF12"
 		"SPIN579"
 		"SPIN714"
 		"SPIN932"
@@ -285,6 +298,7 @@ END
 
 DEFINE_ACTION_FUNCTION get_entangle_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPPR623"
 		"SPPR105"
 		"SPWM111"
 		"SPIN688"
@@ -305,10 +319,12 @@ END
 
 DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI430"
 		"SPWI205"
 		"SPWI125"
 		"SPWI899"
 		"SPPR416"
+		"SPCL103"
 		"SPIN891"
 		"SPIN203"
 		"SPIN536"
@@ -351,10 +367,13 @@ DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 		"SPWI810"
 		"SPWI911"
 		"SPWI525"
+		"SPPR217"
 		"SPPR705"
 		"SPPR503"
 		"SPPR420"
 		"SPPR118"
+		"SPCL239"
+		"SPCL236"
 		"SPIN131"
 		"SPIN160"
 		"SPIN561"
@@ -447,11 +466,17 @@ END
 DEFINE_ACTION_FUNCTION get_hold_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI818"
+		"SPWI324"
+		"SPWI413"
+		"SPWI853"
 		"SPWI507"
 		"SPWI306"
 		"SPWI215"
 		"SPPR208"
 		"SPPR305"
+		"SPPR327"
+		"SPPR728"
+		"SPCL742"
 		"jasm1s00"
 		"jasm1m00"
 		"jasm2400"
@@ -527,7 +552,9 @@ END
 
 DEFINE_ACTION_FUNCTION get_maze_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI910"
 		"SPWI813"
+		"SPPR750"
 		"SPIN774"
 		"BDZHADRO"
 	END
@@ -576,6 +603,7 @@ END
 DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI502"
+		"SPPR722"
 		"SPPR411"
 		"SPWI016"
 		"SPIN979"

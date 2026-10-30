@@ -17,6 +17,7 @@ const FNP_PRIEST_SPELLS = {
   CauseDisease: {
     file: "D5P1329",
     level: 1,
+    keywords: ["disease", "magicResistance"],
     role: "disable",
     castingTime: 9,
     type: SpellTypeEnum.Priest,
@@ -25,6 +26,7 @@ const FNP_PRIEST_SPELLS = {
   CircleOfBones: {
     file: "SPPR332",
     level: 3,
+    keywords: ["castOnSelf"],
     role: "protection",
     tier: "good",
     castingTime: 3,
@@ -51,6 +53,7 @@ const FNP_PRIEST_SPELLS = {
   Doom: {
     file: "SPPR113",
     level: 1,
+    keywords: ["magicResistance"],
     role: "disable",
     castingTime: 1,
     type: SpellTypeEnum.Priest,
@@ -59,6 +62,7 @@ const FNP_PRIEST_SPELLS = {
   Emotion: {
     file: "D5P2411",
     level: 4,
+    keywords: ["area", "magicResistance", "stun"],
     role: "disable",
     castingTime: 4,
     type: SpellTypeEnum.Priest,
@@ -76,6 +80,7 @@ const FNP_PRIEST_SPELLS = {
   Forbiddance: {
     file: "B_C201",
     level: 2,
+    keywords: ["magicResistance"],
     role: "disable",
     castingTime: 1,
     type: SpellTypeEnum.Priest,
@@ -84,6 +89,7 @@ const FNP_PRIEST_SPELLS = {
   MiscastMagic: {
     file: "D5P1310",
     level: 2,
+    keywords: ["magicResistance"],
     role: "disable",
     castingTime: 3,
     type: SpellTypeEnum.Priest,
@@ -102,6 +108,7 @@ const FNP_PRIEST_SPELLS = {
   RigidThinking: {
     file: "D5P1311",
     level: 2,
+    keywords: ["confusion", "magicResistance"],
     role: "disable",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
@@ -110,6 +117,7 @@ const FNP_PRIEST_SPELLS = {
   Shatter: {
     file: "B_PR201",
     level: 2,
+    keywords: ["friendly"],
     role: "damage",
     secondaryRoles: ["disable"],
     castingTime: 9,
@@ -119,6 +127,7 @@ const FNP_PRIEST_SPELLS = {
   Shield: {
     file: "D5P2114",
     level: 2,
+    keywords: ["castOnSelf"],
     role: "protection",
     castingTime: 1,
     type: SpellTypeEnum.Priest,
@@ -210,6 +219,7 @@ const FNP_PRIEST_SPELLS = {
   DolorousDecay: {
     file: "D5F1610",
     level: 6,
+    keywords: ["disease"],
     role: "disable",
     castingTime: 6,
     type: SpellTypeEnum.Priest,
@@ -218,6 +228,7 @@ const FNP_PRIEST_SPELLS = {
   Harm: {
     file: "D5F1608",
     level: 6,
+    keywords: ["castOnSelf"],
     role: "damage",
     castingTime: 6,
     type: SpellTypeEnum.Priest,
@@ -226,6 +237,7 @@ const FNP_PRIEST_SPELLS = {
   MagicResistance: {
     file: "D5F1509",
     level: 6,
+    keywords: ["friendly"],
     role: "disable",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
@@ -242,6 +254,7 @@ const FNP_PRIEST_SPELLS = {
   TrueSeeing: {
     file: "D5F1505",
     level: 6,
+    keywords: ["castOnSelf"],
     role: "reactive",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
@@ -250,6 +263,7 @@ const FNP_PRIEST_SPELLS = {
   FingerOfDeath: {
     file: "D5F1708",
     level: 7,
+    keywords: ["death", "magicDamage", "magicResistance"],
     role: "kill",
     secondaryRoles: ["damage"],
     castingTime: 5,
@@ -259,6 +273,7 @@ const FNP_PRIEST_SPELLS = {
   Wither: {
     file: "D5F1740",
     level: 7,
+    keywords: ["magicResistance"],
     role: "disable",
     castingTime: 7,
     type: SpellTypeEnum.Priest,

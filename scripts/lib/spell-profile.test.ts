@@ -8,6 +8,8 @@ import {
   casterLevelSource,
   minCasterLevel,
   parseProjectileIds,
+  proposeKeywords,
+  readSplHeaderTarget,
   readSplCastingTimes,
   spellDuration,
   spellEffects,
@@ -23,6 +25,7 @@ const effect = (fx: Partial<RawEffect>): RawEffect => ({
   special: 0,
   timingMode: 0,
   duration: 0,
+  resistance: 0,
   ...fx,
 });
 
@@ -453,5 +456,56 @@ describe("areaHitsAllies", () => {
 
   it("says nothing of a projectile without an area", () => {
     expect(areaHitsAllies(pro(2, 0))).toBeUndefined();
+  });
+});
+
+describe("readSplHeaderTarget", () => {
+  it("reads the first header's target", () => {
+    const spl = Buffer.alloc(0x72 + 0x28);
+    spl.write("SPL V1  ", 0, "latin1");
+    spl.writeUInt32LE(0x72, 0x64);
+    spl.writeUInt16LE(1, 0x68);
+    spl.writeUInt8(5, 0x72 + 0x0c);
+    expect(readSplHeaderTarget(spl)).toBe(5);
+  });
+});
+
+describe("proposeKeywords", () => {
+  const enemy = (opcode: number, fx: Partial<RawEffect> = {}) =>
+    effect({ opcode, target: 2, ...fx });
+  const propose = (effects: RawEffect[], p: Partial<Parameters<typeof proposeKeywords>[1]> = {}) =>
+    proposeKeywords(effects, { hostile: true, area: false, headerTarget: 1, ...p });
+
+  it("reads the damage type of a damaging spell (fire, magic fire)", () => {
+    expect(propose([enemy(12, { parameter2: 8 << 16 })])).toEqual(["fire"]);
+    expect(propose([enemy(12, { parameter2: 512 << 16 })])).toEqual(["fire"]);
+    expect(propose([enemy(12, { parameter2: (1 | 2) << 16 })])).toEqual(["acid", "cold"]);
+  });
+
+  it("names what a disabling spell does", () => {
+    expect(propose([enemy(5), enemy(39), enemy(128)])).toEqual(["charm", "confusion", "sleep"]);
+  });
+
+  it("marks an area projectile", () => {
+    expect(propose([enemy(12)], { area: true })).toEqual(["area"]);
+  });
+
+  it("marks a spell magic resistance stops", () => {
+    expect(propose([enemy(24, { resistance: 1 })])).toEqual(["fear", "magicResistance"]);
+    // one bypassing it or natural isn't
+    expect(propose([enemy(24, { resistance: 3 })])).toEqual(["fear"]);
+  });
+
+  it("casts a spell targeting its caster on itself", () => {
+    expect(
+      propose([effect({ opcode: 218, target: 1 })], { hostile: false, headerTarget: 5 }),
+    ).toEqual(["castOnSelf"]);
+  });
+
+  it("casts a spell neither hostile nor targeting its caster on allies (Cat's Grace, Cure)", () => {
+    expect(propose([enemy(278)], { hostile: false })).toEqual(["friendly"]);
+    expect(propose([enemy(17, { resistance: 1 })], { hostile: false })).toEqual(["friendly"]);
+    // a hostile one stays aimed at enemies, whatever it does
+    expect(propose([enemy(58)])).toEqual([]);
   });
 });

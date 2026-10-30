@@ -25,6 +25,7 @@ const effect = (fx: Partial<RawEffect>): RawEffect => ({
   special: 0,
   timingMode: 0,
   duration: 0,
+  resistance: 0,
   ...fx,
 });
 
@@ -182,6 +183,7 @@ describe("readSplEffects", () => {
     spl.writeInt32LE(-4, fx(2) + 0x28);
     spl.writeUInt32LE(1 << 8, fx(2) + 0x2c);
     spl.writeUInt8(1, fx(2) + 0x0c);
+    spl.writeUInt8(1, fx(2) + 0x0d);
     spl.writeUInt32LE(60, fx(2) + 0x0e);
     const effects = readSplEffects(spl);
     expect(effects).toHaveLength(3);
@@ -195,6 +197,7 @@ describe("readSplEffects", () => {
       special: 1 << 8,
       timingMode: 1,
       duration: 60,
+      resistance: 1,
     });
   });
 
@@ -224,6 +227,7 @@ describe("readEffEffect", () => {
       special: 0,
       timingMode: 3,
       duration: 18,
+      resistance: 0,
     });
   });
 });
