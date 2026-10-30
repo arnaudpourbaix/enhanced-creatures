@@ -3,7 +3,7 @@ import { AT_WILL } from "../../config/common";
 import { SPELLS } from "../../config/spells/spell-database";
 import { CreatureAbility } from "../model/creature/ability";
 import { Creature } from "../model/creature/creature";
-import { MainCreatureData } from "../model/creature/data";
+import { MainCreatureData, MemorizedSpell } from "../model/creature/data";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { State } from "../state";
 import atWillService from "./at-will.service";
@@ -203,5 +203,81 @@ describe("applyCooldowns", () => {
       { name: "ATWILL_FIRESTORM", value: 24 },
       own,
     ]);
+  });
+});
+
+describe("checkDuplicates", () => {
+  const dominate = { file: "DOMINATE", memorizedCount: AT_WILL };
+  /** A creature with files A and B, `memorized` as its base list */
+  function withAdjustments(memorized: object[], adjustments: object[] = []): Creature {
+    const creature = fakeCreature({ powers: [] });
+    creature.files = [{ name: "A" }, { name: "B" }] as Creature["files"];
+    creature.data.spells.memorized = memorized as MemorizedSpell[];
+    creature.adjustments = adjustments as Creature["adjustments"];
+    return creature;
+  }
+  const adjustment = (files: string[], spells: object) => ({
+    files,
+    data: { spells: { memorized: [], ...spells } },
+  });
+
+  it("refuses an at-will spell listed twice", () => {
+    const creature = withAdjustments([dominate, dominate]);
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*A/);
+  });
+
+  it("refuses an adjustment adding an at-will spell its file already has", () => {
+    const creature = withAdjustments([dominate], [adjustment(["B"], { memorized: [dominate] })]);
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*B/);
+  });
+
+  it("refuses two adjustments adding it to the same file", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], { memorized: [dominate] }),
+        adjustment(["A", "B"], { memorized: [dominate] }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*A/);
+  });
+
+  it("accepts adjustments adding it to different files (Bodhi's encounters)", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], { spellbooks: [{ mod: "ImprovedBodhi", memorized: [dominate] }] }),
+        adjustment(["B"], { spellbooks: [{ mod: "ImprovedBodhi", memorized: [dominate] }] }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts a replacing adjustment listing it again: the earlier count is wiped", () => {
+    const creature = withAdjustments(
+      [dominate],
+      [adjustment(["A"], { memorized: [dominate], cumulative: false })],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts it in each spellbook variant: only one of them is used", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], {
+          spellbooks: [
+            { mod: "Vanilla", memorized: [dominate] },
+            { mod: "AllSpellMods", memorized: [dominate] },
+          ],
+        }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts a few-use spell listed twice: only at-will ones are checked", () => {
+    const creature = withAdjustments([{ file: "BATSWARM" }, { file: "BATSWARM" }]);
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
   });
 });

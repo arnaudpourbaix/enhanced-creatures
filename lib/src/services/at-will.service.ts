@@ -3,7 +3,9 @@ import { SPELL_SCORING } from "../../config/spell-scoring";
 import { Creature } from "../model/creature/creature";
 import { CreatureData, MemorizedSpell } from "../model/creature/data";
 import spellProfileService from "./spell-profile.service";
+import { gamesOverlap } from "../model/creature/game";
 import { State } from "../state";
+import translationService from "./translation.service";
 
 /** Set by the script while the creature memorizes a spell of its spellbook */
 export const SPELLBOOK_GLOBAL = "JA_SPELLBOOK";
@@ -44,6 +46,53 @@ class AtWillService {
       if (everyFile || power.castingTime > this.afforded(creature)) ability.timer = timer;
       else if (adjusted.length) ability.timer = { ...timer, unlessGlobalUnset: SPELLBOOK_GLOBAL };
     }
+  }
+
+  /**
+   * Refuses an at-will spell added more than once to a creature file: the base data and the
+   * adjustments patching that file stack their counts (unless one replaces them, see
+   * `cumulative`), so its count would exceed AT_WILL. Spellbook variants are alternatives: one
+   * of them is used.
+   */
+  checkDuplicates(creature: Creature): void {
+    const errors: string[] = [];
+    for (const file of creature.files) {
+      const counts = new Map<string, number>();
+      const patches = creature.adjustments.filter(
+        (a) => a.files.includes(file.name) && gamesOverlap(a.game, file.game),
+      );
+      for (const data of [creature.data, ...patches.map((a) => a.data)]) {
+        if (data.spells.cumulative === false) counts.clear();
+        for (const [spell, declared] of this.atWillDeclarations(data)) {
+          counts.set(spell, (counts.get(spell) ?? 0) + declared);
+        }
+      }
+      for (const [spell, count] of counts) {
+        if (count > 1) errors.push(`${spell} added ${count} times to ${file.name}`);
+      }
+    }
+    if (errors.length) {
+      throw new Error(
+        `${translationService.from(creature.name)}: at-will spells added several times: ${errors.join(", ")}`,
+      );
+    }
+  }
+
+  /** How many times `data` adds each at-will spell: its most in one list (variants exclude each other). */
+  private atWillDeclarations({ spells }: CreatureData): Map<string, number> {
+    const declarations = new Map<string, number>();
+    for (const list of [spells.memorized, ...(spells.spellbooks ?? []).map((b) => b.memorized)]) {
+      const inList = new Map<string, number>();
+      for (const m of list) {
+        if ((m.memorizedCount ?? 1) < AT_WILL) continue;
+        const file = m.file.toUpperCase();
+        inList.set(file, (inList.get(file) ?? 0) + 1);
+      }
+      for (const [file, count] of inList) {
+        declarations.set(file, Math.max(declarations.get(file) ?? 0, count));
+      }
+    }
+    return declarations;
   }
 
   /** The casting time the creature's fighting affords: none when it doesn't fight. */

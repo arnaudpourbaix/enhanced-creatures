@@ -198,6 +198,7 @@ class CreatureFactory {
     if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
     this.resolveAbilities(creature);
+    atWillService.checkDuplicates(creature);
     atWillService.applyCooldowns(creature);
     creatureService.checkSpellAbilities(creature);
     creatureService.checkDuplicateAbilities(creature);
