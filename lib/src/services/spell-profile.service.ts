@@ -174,7 +174,9 @@ class SpellProfileService {
   profileOfSpell(spell: Spell): SpellProfile | undefined {
     if (spell.role === undefined) return undefined;
     const castingTime = spell.castingTime ?? spell.headers[0]?.speed ?? 0;
-    return this.profile(spell.file, spell, spell.type, castingTime);
+    // its saves are worked out from its effects, on its ability (see SpellService)
+    const source = { ...spell, saves: spell.ability?.saves };
+    return this.profile(spell.file, source, spell.type, castingTime);
   }
 }
 

@@ -4,7 +4,7 @@ import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { Creature } from "../model/creature/creature";
-import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { SaveTypeEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellCombo } from "../model/spell-item/spell-combo";
 import spellComboService from "./spell-combo.service";
 import spellProfileService from "./spell-profile.service";
@@ -73,6 +73,19 @@ describe("profileOf", () => {
       role: "disable",
       castingTime: 1,
     });
+  });
+
+  it("reads a creature's own spell's saves from its ability: worked out from its effects", () => {
+    const saves = [{ types: [SaveTypeEnum.Spell], bonus: -3 }];
+    const spell = {
+      file: "OWNSAVE",
+      level: 5,
+      role: "disable",
+      type: SpellTypeEnum.Innate,
+      headers: [{ speed: 1 }],
+      ability: { saves },
+    };
+    expect(spellProfileService.profileOf("OWNSAVE", creatureWith([spell]))?.saves).toEqual(saves);
   });
 
   it("has no profile for a creature's own spell without a role", () => {
