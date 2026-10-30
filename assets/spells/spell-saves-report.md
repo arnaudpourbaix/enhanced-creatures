@@ -6,15 +6,27 @@ the target's roll, the lowest across caster levels). `-`: the spell can't be esc
 save check), `(missing)`: the spell doesn't exist in that state, `(none)`: the database
 entry doesn't declare saves (none checked).
 
-## Database differing from the game (0)
+## Database differing from the game (12)
 
 Run the script with `--write` to add the missing ones; a declared value (e.g. Dispel
 Magic's none) is a decision, kept as is.
 
 | Spell | File | Vanilla / modded, per file | Extracted | Database |
 |---|---|---|---|---|
+| EmotionFear | SPWI430 | (missing) / Spell | Spell | (none) |
+| HaltUndead | SPWI324 | Spell / Spell -2 | Spell -2 | (none) |
+| OtilukesResilientSphere | SPWI413 | Spell / Breath -4 | Spell + Breath -4 | (none) |
+| SymbolOfStunning | SPWI816 | Spell -4 / Spell -4 | Spell -4 | (none) |
+| SymbolOfWeakness | SPWI811 | Spell -4 / Spell -4 | Spell -4 | (none) |
+| Telekinesis | SPWI528 | (missing) / Spell -2 | Spell -2 | (none) |
+| FaerieFire | SPPR116 | (missing) / Spell | Spell | (none) |
+| MoldTouch | SPPR334 | (missing) / Spell | Spell | (none) |
+| PolymorphOther | SPPR518 | (missing) / PetrifyPolymorph -4 | PetrifyPolymorph -4 | (none) |
+| SpiritualLock | SPPR650 | Spell -2 / Spell -2 | Spell -2 | (none) |
+| CharmAnimal | SPCL311 | Spell / Spell | Spell | (none) |
+| HoldUndead | SPCL742 | Spell / Spell | Spell | (none) |
 
-## All entries (275)
+## All entries (513)
 
 | Spell | File | Vanilla / modded, per file | Extracted | Database |
 |---|---|---|---|---|
@@ -24,28 +36,116 @@ Magic's none) is a decision, kept as is.
 | AcidStorm | SPWI724 | (missing) / - | - | (none) |
 | AgannazarScorcher | SPWI217 | - / - | - | (none) |
 | AnimateSkeletonWarrior | SPWI623 | - / - | - | (none) |
+| AntimagicShell | SPWI630 | (missing) / - | - | (none) |
 | BatteringRam | SPWI207 | - / - | - | (none) |
 | BeltynsBurningBlood | SPWI427 | (missing) / - | - | (none) |
 | BigbyIcyGrasp | SPWI818 | - / - | - | (none) |
+| BigbysCrushingHand | SPWI918 | - / - | - | (none) |
+| BlackBladeOfDisaster | SPWI915 | - / - | - | (none) |
 | Blindness | SPWI106 | Spell / - | - | (none) |
 | Blur | SPWI201 | - / - | - | (none) |
 | Breach | SPWI513 | - / - | - | (none) |
+| BreakEnchantment | SPWI410 | - / - | - | (none) |
 | BurningHands | SPWI103 | - / - | - | (none) |
+| CatsGrace | SPWI229 | (missing) / - | - | (none) |
 | ChainLightning | SPWI615 | - / - | - | (none) |
+| ChaosShield | SPWI222 | - / - | - | (none) |
 | CharmPerson | SPWI104 | Spell +3 / Spell | Spell | Spell |
 | Chaos | SPWI711 | Spell / Spell -4 | Spell -4 | Spell -4 |
 | ChillTouch | SPWI117 | - / - | - | (none) |
 | ChromaticOrb | SPWI118 | - / - | - | (none) |
+| Clairvoyance | SPWI301 | - / - | - | (none) |
 | Cloudkill | SPWI502 | - / - | - | (none) |
 | ColorSpray | SPWI105 | Spell / Spell | Spell | Spell |
 | Combust | SPWI231 | (missing) / - | - | (none) |
+| Comet | SPWI925 | - / - | - | (none) |
 | ConeOfCold | SPWI503 | - / - | - | (none) |
 | Confusion | SPWI401 | Spell -2 / Spell -2 | Spell -2 | Spell -2 |
+| ConjureAirElemental | SPWI621 | - / - | - | (none) |
+| ConjureEarthElemental | SPWI622 | - / - | - | (none) |
+| ConjureFireElemental | SPWI620 | - / - | - | (none) |
+| ConjureLesserAirElemental | SPWI520 | - / - | - | (none) |
+| ConjureLesserEarthElemental | SPWI521 | - / - | - | (none) |
+| ConjureLesserFireElemental | SPWI516 | - / - | - | (none) |
+| ConjureLesserWaterElemental | SPWI526 | (missing) / - | - | (none) |
+| ConjureWaterElemental | SPWI633 | (missing) / - | - | (none) |
 | Contagion | SPWI409 | Spell / ParalyzePoisonDeath -2 | Spell + ParalyzePoisonDeath -2 | Spell + ParalyzePoisonDeath -2 |
 | ControlUndead | SPWI720 | Spell / Spell -6 | Spell -6 | Spell -6 |
+| CreateBoneguard | SPWI966 | (missing) / - | - | (none) |
 | DancingLights | SPWI126 | (missing) / - | - | (none) |
 | Darkness15Radius | SPWI228 | (missing) / - | - | (none) |
+| DartsOfBone | SPWI627 | (missing) / - | - | (none) |
 | Deafness | SPWI223 | Spell / - | - | (none) |
+| DetectIllusion | SPWI322 | - / - | - | (none) |
+| DispellingScreen | SPWI510 | - / - | - | (none) |
+| EmotionCourage | SPWI428 | (missing) / - | - | (none) |
+| EmotionFear | SPWI430 | (missing) / Spell | Spell | (none) |
+| EmotionHope | SPWI429 | (missing) / - | - | (none) |
+| EnergyBlades | SPWI920 | - / - | - | (none) |
+| Gate | SPWI905 | - / - | - | (none) |
+| GhostArmor | SPWI317 | - / - | - | (none) |
+| Ghostform | SPWI801 | (missing) / - | - | (none) |
+| GhoulTouch | SPWI218 | - / - | - | (none) |
+| GreatShout | SPWI819 | (missing) / - | - | (none) |
+| HaltUndead | SPWI324 | Spell / Spell -2 | Spell -2 | (none) |
+| IceKnife | SPWI130 | (missing) / - | - | (none) |
+| Imprisonment | SPWI910 | - / - | - | (none) |
+| ImprovedAlacrity | SPWI921 | - / - | - | (none) |
+| ImprovedChaosShield | SPWI723 | - / - | - | (none) |
+| InvisibilitySphere | SPWI307 | - / - | - | (none) |
+| InvisibleStalker | SPWI601 | - / - | - | (none) |
+| IronBody | SPWI820 | (missing) / - | - | (none) |
+| LanceOfDisruption | SPWI327 | (missing) / - | - | (none) |
+| LichTouch | SPWI631 | (missing) / - | - | (none) |
+| LowerResistance | SPWI514 | - / - | - | (none) |
+| Luck | SPWI209 | - / - | - | (none) |
+| MageArmor | SPWI102 | - / - | - | (none) |
+| MalavonsRage | SPWI727 | (missing) / - | - | (none) |
+| MassInvisibility | SPWI721 | - / - | - | (none) |
+| MelfsMinuteMeteors | SPWI325 | - / - | - | (none) |
+| MestilsAcidSheath | SPWI403 | - / - | - | (none) |
+| MestilsAcidSheathSPWI524 | SPWI524 | (missing) / - | - | (none) |
+| MindBlank | SPWI802 | - / - | - | (none) |
+| MonsterSummoningII | SPWI407 | - / - | - | (none) |
+| MonsterSummoningVII | SPWI901 | (missing) / - | - | (none) |
+| MordenkainensForceBlade | SPWI726 | (missing) / - | - | (none) |
+| MordenkainensSword | SPWI716 | - / - | - | (none) |
+| Oracle | SPWI515 | - / - | - | (none) |
+| OtilukesResilientSphere | SPWI413 | Spell / Breath -4 | Spell + Breath -4 | (none) |
+| OtilukesResilientSphereSPWI853 | SPWI853 | - / - | - | (none) |
+| PhantomBlade | SPWI518 | - / - | - | (none) |
+| PierceMagic | SPWI608 | - / - | - | (none) |
+| PierceShield | SPWI805 | - / - | - | (none) |
+| PowerWordSilence | SPWI612 | - / - | - | (none) |
+| ProtectionFromAcid | SPWI517 | - / - | - | (none) |
+| ProtectionFromCold | SPWI320 | - / - | - | (none) |
+| ProtectionFromElectricity | SPWI512 | - / - | - | (none) |
+| ProtectionFromElementalEnergy | SPWI422 | (missing) / - | - | (none) |
+| ProtectionFromEvil | SPWI113 | - / - | - | (none) |
+| ProtectionFromFire | SPWI319 | - / - | - | (none) |
+| ProtectionFromMagicEnergy | SPWI606 | - / - | - | (none) |
+| ProtectionFromNormalWeapons | SPWI511 | - / - | - | (none) |
+| ProtectionFromPetrification | SPWI108 | - / - | - | (none) |
+| ResistElements | SPWI225 | (missing) / - | - | (none) |
+| ResistFear | SPWI210 | - / - | - | (none) |
+| RubyRayOfReversal | SPWI704 | - / - | - | (none) |
+| SecretWord | SPWI419 | - / - | - | (none) |
+| SevenEyes | SPWI728 | (missing) / - | - | (none) |
+| Shapechange | SPWI916 | - / - | - | (none) |
+| ShapechangeEarthElemental | SPWI971 | (missing) / - | - | (none) |
+| ShapechangeFireElemental | SPWI972 | (missing) / - | - | (none) |
+| ShapechangeGreaterWolfwere | SPWI976 | (missing) / - | - | (none) |
+| ShapechangeIronGolem | SPWI973 | (missing) / - | - | (none) |
+| ShapechangeMindFlayer | SPWI974 | (missing) / - | - | (none) |
+| ShapechangeSpiritTroll | SPWI975 | (missing) / - | - | (none) |
+| ShapeshiftFlindSPWI461 | SPWI461 | (missing) / - | - | (none) |
+| ShapeshiftMustardJellySPWI463 | SPWI463 | (missing) / - | - | (none) |
+| ShapeshiftOgreSPWI462 | SPWI462 | (missing) / - | - | (none) |
+| ShapeshiftSpiderSPWI464 | SPWI464 | (missing) / - | - | (none) |
+| ShapeshiftsWinterWolf | SPWI465 | (missing) / - | - | (none) |
+| ShockingGrasp | SPWI115 | - / - | - | (none) |
+| Shout | SPWI432 | (missing) / - | - | (none) |
+| SoulEater | SPWI628 | (missing) / - | - | (none) |
 | SoundBurst | SPWI223 | Spell / - | - | (none) |
 | DeathSpell | SPWI605 | - / - | - | (none) |
 | DelayedBlastFireball | SPWI712 | - / - | - | (none) |
@@ -138,24 +238,57 @@ Magic's none) is a decision, kept as is.
 | Sleep | SPWI116 | ParalyzePoisonDeath -3 / Spell | ParalyzePoisonDeath -3 + Spell | ParalyzePoisonDeath -3 + Spell |
 | Slow | SPWI312 | Spell -4 / PetrifyPolymorph -2 | Spell -4 + PetrifyPolymorph -2 | Spell -4 + PetrifyPolymorph -2 |
 | SnillocsSnowballSwarm | SPWI227 | (missing) / - | - | (none) |
+| SpellDeflection | SPWI522 | - / - | - | (none) |
+| SpellDeflectionSPWI618 | SPWI618 | - / - | - | (none) |
+| SpellShield | SPWI519 | - / - | - | (none) |
 | SpellThrust | SPWI321 | - / - | - | (none) |
+| SpellTrap | SPWI902 | - / - | - | (none) |
+| Spellstrike | SPWI903 | - / - | - | (none) |
+| SpiritArmor | SPWI414 | - / Spell | - | (none) |
 | Spook | SPWI125 | Spell -6 / Spell -4 | Spell -6 | Spell -6 |
 | StinkingCloud | SPWI213 | ParalyzePoisonDeath +2 / ParalyzePoisonDeath | ParalyzePoisonDeath | ParalyzePoisonDeath |
+| Stonefist | SPWI129 | (missing) / - | - | (none) |
 | Stoneskin | SPWI408 | - / - | - | (none) |
+| Stormbolts | SPWI904 | (missing) / - | - | (none) |
+| Strength | SPWI214 | - / - | - | (none) |
+| Suffocate | SPWI725 | (missing) / - | - | (none) |
+| SummonDarkPlanetar | SPWI924 | - / - | - | (none) |
 | SummonDeathKnight | SPWI707 | - / - | - | (none) |
+| SummonDjinni | SPWI718 | - / - | - | (none) |
+| SummonEfreeti | SPWI717 | - / - | - | (none) |
 | SummonFiend | SPWI807 | - / - | - | (none) |
+| SummonNishruu | SPWI624 | - / - | - | (none) |
+| SummonNishruuSPWI719 | SPWI719 | - / - | - | (none) |
+| SummonPlanetar | SPWI923 | - / - | - | (none) |
 | SummonShadow | SPWI501 | - / - | - | (none) |
 | SymbolDeath | SPWI817 | ParalyzePoisonDeath / ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 |
 | SymbolFear | SPWI899 | Spell -4 / Spell -6 | Spell -6 | Spell -6 |
+| SymbolOfStunning | SPWI816 | Spell -4 / Spell -4 | Spell -4 | (none) |
+| SymbolOfWeakness | SPWI811 | Spell -4 / Spell -4 | Spell -4 | (none) |
+| Telekinesis | SPWI528 | (missing) / Spell -2 | Spell -2 | (none) |
+| TelekineticStorm | SPWI821 | (missing) / - | - | (none) |
 | TeleportField | SPWI421 | - / Spell -4 | - | (none) |
+| TeleportWithoutError | SPWI931 | - / - | - | (none) |
+| TensersTransformation | SPWI603 | - / - | - | (none) |
+| TimeStop | SPWI909 | - / - | - | (none) |
+| TrollishFortitude | SPWI629 | (missing) / - | - | (none) |
+| TrueSeeing | SPWI609 | - / - | - | (none) |
+| TrueStrike | SPWI111 | - / - | - | (none) |
+| TurnPebbleToBoulder | SPWI328 | (missing) / - | - | (none) |
 | VampiricTouch | SPWI314 | - / - | - | (none) |
+| VeridonsIcyRay | SPWI906 | (missing) / - | - | (none) |
 | VitriolicSphere | SPWI426 | (missing) / - | - | (none) |
 | Vocalize | SPWI219 | - / - | - | (none) |
 | WailOfTheBanshee | SPWI913 | ParalyzePoisonDeath / ParalyzePoisonDeath -2 | ParalyzePoisonDeath -2 | ParalyzePoisonDeath -2 |
 | WavesOfFatigue | SPWI508 | Spell -4 / - | - | (none) |
 | Web | SPWI215 | Spell -2 / Breath | Spell -2 + Breath | Spell -2 + Breath |
+| Wraithform | SPWI315 | - / - | - | (none) |
+| WyvernCall | SPWI619 | - / - | - | (none) |
 | Aid | SPPR201 | - / - | - | (none) |
 | AerialServant | SPPR601 | - / - | - | (none) |
+| AlicornLance | SPPR222 | (missing) / - | - | (none) |
+| AnimalGrowth | SPPR524 | (missing) / - | - | (none) |
+| AnimalRage | SPPR529 | (missing) / - | - | (none) |
 | AnimalSummoning1 | SPPR122 | (missing) / - | - | (none) |
 | AnimalSummoning2 | SPPR221 | (missing) / - | - | (none) |
 | AnimalSummoning3 | SPPR321 | (missing) / - | - | (none) |
@@ -166,38 +299,71 @@ Magic's none) is a decision, kept as is.
 | AnimateDead | SPPR301 | - / - | - | (none) |
 | AnimateSkeletonWarrior | SPPR619 | (missing) / - | - | (none) |
 | ArmorOfFaith | SPPR111 | - / - | - | (none) |
+| AssassinVines | SPPR623 | (missing) / - | - | (none) |
+| AuraOfFlamingDeath | SPPR730 | - / - | - | (none) |
 | Banishment | SPPR616 | (missing) / - | - | (none) |
 | Barkskin | SPPR202 | - / - | - | (none) |
+| BeastClaw | SPPR223 | (missing) / - | - | (none) |
 | BladeBarrier | SPPR603 | - / - | - | (none) |
 | Bless | SPPR101 | - / - | - | (none) |
 | BlindingBeauty | SPPR704 | Spell +3 / - | - | (none) |
+| BloodRage | SPPR423 | (missing) / - | - | (none) |
 | BoltOfGlory | SPPR612 | - / - | - | (none) |
+| BreakEnchantment | SPPR307 | - / - | - | (none) |
 | CallLightning | SPPR302 | - / - | - | (none) |
 | CauseDisease | SPPR329 | (missing) / Spell | Spell | Spell |
 | CauseCriticalWounds | SPPR414 | - / - | - | (none) |
 | CauseLightWounds | SPPR121 | (missing) / - | - | (none) |
+| CauseMortalWounds | SPPR510 | - / - | - | (none) |
 | CauseSeriousWounds | SPPR322 | (missing) / - | - | (none) |
 | CauseModerateWounds | SPPR220 | (missing) / - | - | (none) |
 | CallWoodlandBeeings | SPPR410 | - / - | - | (none) |
+| ChampionsStrength | SPPR507 | - / - | - | (none) |
+| ChaoticCommands | SPPR508 | - / - | - | (none) |
 | CloudOfPestilence | SPPR424 | (missing) / Breath | Breath | Breath |
 | Chant | SPPR203 | - / - | - | (none) |
 | Chaos | SPPR709 | Spell -2 / Spell -4 | Spell -4 | Spell -4 |
 | CharmPersonOrAnimal | SPPR204 | Spell / Spell | Spell | Spell |
 | CircleOfBones | SPPR332 | (missing) / - | - | (none) |
 | CloakOfFear | SPPR416 | Spell / - | - | (none) |
+| Cloudburst | SPPR333 | (missing) / - | - | (none) |
 | Command | SPPR102 | Spell / Spell -4 | Spell -4 | Spell -4 |
+| ConjureAirElemental | SPPR617 | (missing) / - | - | (none) |
+| ConjureAnimals | SPPR604 | - / - | - | (none) |
+| ConjureEarthElemental | SPPR618 | (missing) / - | - | (none) |
+| ConjureFireElemental | SPPR605 | - / - | - | (none) |
 | Contagion | SPPR320 | (missing) / ParalyzePoisonDeath -2 | ParalyzePoisonDeath -2 | ParalyzePoisonDeath -2 |
 | CreepingDoom | SPPR717 | Spell -2 / - | - | (none) |
 | CureCriticalWounds | SPPR502 | - / - | - | (none) |
+| CureDisease | SPPR317 | - / - | - | (none) |
 | CureLightWounds | SPPR103 | - / - | - | (none) |
 | CureMediumWounds | SPPR315 | - / - | - | (none) |
 | CureModerateWounds | SPPR216 | (missing) / - | - | (none) |
 | CureSeriousWounds | SPPR401 | - / - | - | (none) |
 | Curse | SPPR124 | (missing) / - | - | (none) |
+| DeathWard | SPPR409 | - / - | - | (none) |
+| DefensiveHarmony | SPPR406 | - / - | - | (none) |
 | Destruction | SPPR737 | (missing) / - | - | (none) |
 | DetectEvil | SPPR104 | - / - | - | (none) |
 | DispelMagic | SPPR303 | - / - | - | - |
 | DivineProtection | SPPR527 | (missing) / - | - | (none) |
+| EarthElementalTransformation | SPPR732 | - / - | - | (none) |
+| ElementalPrinceCall | SPPR724 | - / - | - | (none) |
+| ElementalSwarm | SPPR723 | - / - | - | (none) |
+| EnergyBlades | SPPR721 | - / - | - | (none) |
+| EtherGate | SPPR750 | - / - | - | (none) |
+| EtherealRetribution | SPPR751 | - / - | - | (none) |
+| Exaltation | SPPR330 | (missing) / - | - | (none) |
+| FaerieFire | SPPR116 | (missing) / Spell | Spell | (none) |
+| FalseDawn | SPPR609 | - / - | - | (none) |
+| FavorOfTheMartyr | SPPR336 | (missing) / - | - | (none) |
+| FiendishWarding | SPPR741 | (missing) / - | - | (none) |
+| FireElementalTransformation | SPPR731 | - / - | - | (none) |
+| FireSeeds | SPPR606 | - / - | - | (none) |
+| FireTrap | SPPR217 | (missing) / - | - | (none) |
+| FlameBlade | SPPR206 | - / - | - | (none) |
+| GiantInsect | SPPR430 | (missing) / - | - | (none) |
+| GlobeOfBlades | SPPR725 | - / - | - | (none) |
 | GreaterDivineProtection | SPPR738 | (missing) / - | - | (none) |
 | DolorousDecay | SPPR610 | ParalyzePoisonDeath -2 / ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 |
 | Doom | SPPR113 | - / Spell -4 | - | (none) |
@@ -214,13 +380,67 @@ Magic's none) is a decision, kept as is.
 | Gate | SPPR703 | - / - | - | (none) |
 | GlyphOfWarding | SPPR304 | Spell / - | - | (none) |
 | GreaterCommand | SPPR512 | Spell / Spell -4 | Spell -4 | Spell -4 |
+| GreaterRestoration | SPPR713 | - / - | - | (none) |
 | Harm | SPPR608 | - / - | - | (none) |
 | Heal | SPPR607 | - / - | - | (none) |
+| HealingMist | SPPR739 | (missing) / - | - | (none) |
 | HoldPerson | SPPR208 | Spell / Spell | Spell | Spell |
 | HoldPersonOrAnimal | SPPR305 | Spell / Spell -2 | Spell -2 | Spell -2 |
 | HolyPower | SPPR412 | - / - | - | (none) |
 | HolySmite | SPPR313 | - / - | - | (none) |
 | HolyWord | SPPR710 | - / - | - | (none) |
+| IceStorm | SPPR418 | (missing) / - | - | (none) |
+| Icelance | SPPR327 | (missing) / - | - | (none) |
+| ImperviousSanctityOfMind | SPPR736 | (missing) / - | - | (none) |
+| Implosion | SPPR728 | - / - | - | (none) |
+| InvisibilityPurge | SPPR309 | - / - | - | (none) |
+| LesserRestoration | SPPR417 | - / - | - | (none) |
+| MagicFang | SPPR325 | (missing) / - | - | (none) |
+| MassRegenerate | SPPR523 | (missing) / - | - | (none) |
+| Misfire | SPPR532 | (missing) / - | - | (none) |
+| MoldTouch | SPPR334 | (missing) / Spell | Spell | (none) |
+| Moonblade | SPPR331 | (missing) / - | - | (none) |
+| NaturesWrath | SPPR624 | (missing) / - | - | (none) |
+| NegativePlaneProtection | SPPR413 | - / - | - | (none) |
+| ObscuringMist | SPPR123 | (missing) / - | - | (none) |
+| PixieDust | SPPR516 | - / - | - | (none) |
+| PolymorphOther | SPPR518 | (missing) / PetrifyPolymorph -4 | PetrifyPolymorph -4 | (none) |
+| Prayer | SPPR328 | (missing) / - | - | (none) |
+| ProtectionFromAcid | SPPR519 | (missing) / - | - | (none) |
+| ProtectionFromCold | SPPR520 | (missing) / - | - | (none) |
+| ProtectionFromFire | SPPR306 | - / - | - | (none) |
+| ProtectionFromFireSPPR522 | SPPR522 | (missing) / - | - | (none) |
+| RaiseDead | SPPR504 | - / - | - | (none) |
+| RecallSpirit | SPPR550 | - / - | - | (none) |
+| Recitation | SPPR422 | (missing) / - | - | (none) |
+| RegenerationSPPR615 | SPPR615 | (missing) / - | - | (none) |
+| RemoveParalysis | SPPR308 | - / - | - | (none) |
+| ResistAcidAndCorrosion | SPPR224 | (missing) / - | - | (none) |
+| ResistElements | SPPR210 | - / - | - | (none) |
+| RighteousWrathOfTheFaithful | SPPR525 | (missing) / - | - | (none) |
+| Shillelagh | SPPR110 | - / - | - | (none) |
+| SlowPoison | SPPR212 | - / - | - | (none) |
+| SmashingWave | SPPR427 | (missing) / - | - | (none) |
+| SolsSearingOrb | SPPR614 | - / - | - | (none) |
+| SpikeGrowth | SPPR326 | (missing) / - | - | (none) |
+| SpikeStones | SPPR526 | (missing) / - | - | (none) |
+| SpiritFire | SPPR450 | - / - | - | (none) |
+| SpiritWard | SPPR150 | - / - | - | (none) |
+| SpiritualClarity | SPPR350 | - / - | - | (none) |
+| SpiritualLock | SPPR650 | Spell -2 / Spell -2 | Spell -2 | (none) |
+| SpiritualWrath | SPPR622 | (missing) / - | - | (none) |
+| Stalker | SPPR702 | - / - | - | (none) |
+| StarMetalCudgel | SPPR426 | (missing) / - | - | (none) |
+| StormOfVengeance | SPPR722 | - / - | - | (none) |
+| StormShell | SPPR335 | (missing) / - | - | (none) |
+| StormShield | SPPR323 | (missing) / - | - | (none) |
+| StrengthOfOne | SPPR312 | - / - | - | (none) |
+| StrengthOfStone | SPPR117 | (missing) / - | - | (none) |
+| SummonDeva | SPPR726 | - / - | - | (none) |
+| SummonFallenDeva | SPPR727 | - / - | - | (none) |
+| ThornSpray | SPPR428 | (missing) / - | - | (none) |
+| UndeadWard | SPPR528 | (missing) / - | - | (none) |
+| UnfailingEndurance | SPPR425 | (missing) / - | - | (none) |
 | UnholyWord | SPPR715 | - / - | - | (none) |
 | InsectPlague | SPPR517 | Breath / - | - | (none) |
 | Ironskin | SPPR506 | - / - | - | (none) |
@@ -264,15 +484,41 @@ Magic's none) is a decision, kept as is.
 | SymbolWeakness | SPPR706 | Spell -4 / Spell -4 | Spell -4 | Spell -4 |
 | TrueSeeing | SPPR505 | - / - | - | (none) |
 | UnholyBlight | SPPR314 | - / - | - | (none) |
+| WallOfMoonlight | SPPR429 | (missing) / - | - | (none) |
 | WavesOfAgony | SPPR533 | (missing) / - | - | (none) |
+| Whirlwind | SPPR621 | (missing) / - | - | (none) |
 | Wither | SPPR740 | (missing) / ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 | ParalyzePoisonDeath -4 |
+| WrithingFog | SPPR250 | - / - | - | (none) |
+| AbsorbHealth | SPCL102 | - / - | - | (none) |
+| AnimateDead | SPCL106 | - / - | - | (none) |
+| AuraOfDespair | SPCL103 | - / - | - | (none) |
 | BerserkerRage | SPCL321 | - / - | - | (none) |
 | BarbarianRage | SPCL152 | - / - | - | (none) |
+| BoonOfLathander | SPCL741 | - / - | - | (none) |
+| CalledShot | SPCL121 | - / - | - | (none) |
+| CharmAnimal | SPCL311 | Spell / Spell | Spell | (none) |
+| DefensiveSpin | SPCL522 | - / - | - | (none) |
+| DispelMagic | SPCL231 | - / - | - | (none) |
+| FlamingFists | SPCL238 | - / - | - | (none) |
+| GreaterSun | SPCL237 | - / - | - | (none) |
+| HoldUndead | SPCL742 | Spell / Spell | Spell | (none) |
+| Kai | SPCL144 | - / - | - | (none) |
+| LayOnHands | SPCL211 | - / - | - | (none) |
+| LayOnHandsSPCL815 | SPCL815 | - / - | - | (none) |
+| LightningBolt | SPCL722 | - / - | - | (none) |
 | OffensiveSpin | SPCL521 | - / - | - | (none) |
 | PoisonWeapon | SPCL423 | - / - | - | (none) |
 | DruidShapeshiftBrownBear | SPCL611 | - / - | - | (none) |
 | DruidShapeshiftWolf | SPCL612 | - / - | - | (none) |
 | DruidShapeshiftBlackBear | SPCL613 | - / - | - | (none) |
+| ProtectionFromEvil | SPCL213 | - / - | - | (none) |
+| ProtectionFromEvil10Radius | SPCL233 | - / - | - | (none) |
+| QuiveringPalm | SPCL820 | - / - | - | (none) |
+| RemoveFear | SPCL222 | - / - | - | (none) |
+| ResistFear | SPCL104 | - / - | - | (none) |
+| SeekingSword | SPCL731 | - / - | - | (none) |
+| StormShield | SPCL721 | - / - | - | (none) |
+| StunningBlow | SPCL811 | - / - | - | (none) |
 | SummonSpiritAnimal | SPCL621 | - / - | - | (none) |
 | SpiritSnake | SPCL622 | - / - | - | (none) |
 | SpiritBear | SPCL623 | - / - | - | (none) |
@@ -284,6 +530,10 @@ Magic's none) is a decision, kept as is.
 | AvengerCharmPersonOrMammal | SPCL641 | - / - | - | (none) |
 | ShapeshifterShapeshiftWerewolf | SPCL643 | - / - | - | (none) |
 | ShapeshifterShapeshiftGreaterWerewolf | SPCL644 | - / - | - | (none) |
+| SunSoulbeam | SPCL239 | - / - | - | (none) |
+| SunSoulray | SPCL236 | - / - | - | (none) |
+| TrueSight | SPCL232 | - / - | - | (none) |
+| TrueSightSPCL732 | SPCL732 | - / - | - | (none) |
 | MephitColorSpray | SPIN937 | Spell / Spell | Spell | Spell |
 | HealingLick | SPIN699 | - / - | - | (none) |
 | MoonDogSight | SPIN696 | - / - | - | (none) |
