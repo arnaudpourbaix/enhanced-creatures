@@ -111,6 +111,11 @@ export interface SpellReference {
   role?: SpellRole;
   /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
   secondaryRoles?: SpellRole[];
+  /**
+   * A summon's worth in a fight, as a spell level, when its creatures are worth more than its own
+   * level says (Call Woodland Beeings' charm): rated by hand, a spell's data can't tell
+   */
+  worthLevel?: number;
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
   /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */

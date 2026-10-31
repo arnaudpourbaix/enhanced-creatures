@@ -1,5 +1,5 @@
 import { SPELL_SCORING } from "../../config/spell-scoring";
-import { SpellRole, SpellTier } from "../../config/spells/spell-role";
+import { SpellTier } from "../../config/spells/spell-role";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellProfile } from "./spell-profile.service";
 
@@ -9,8 +9,6 @@ export interface CasterReference {
   priest?: number;
   overall: number;
 }
-
-const OFFENSIVE: SpellRole[] = ["kill", "damage", "disable", "summon"];
 
 class SpellScoringService {
   casterReference(profiles: SpellProfile[]): CasterReference {
@@ -29,16 +27,20 @@ class SpellScoringService {
   /**
    * How good a choice the spell is for this caster (see SPELL_SCORING): its level against the
    * caster's best of its class (overall for innates), its role, what makes an attack reliable,
-   * its casting time, what else it does and its tier.
+   * its casting time, what else it does and its tier. A summon rated by hand counts as that level,
+   * above the caster's best too (Call Woodland Beeings beats what a druid can otherwise cast).
    */
   score(spell: SpellProfile, caster: CasterReference): number {
     const s = SPELL_SCORING;
     const profile = this.asCast(spell);
     const best = this.best(profile, caster);
-    const offensive = OFFENSIVE.includes(profile.role);
+    const offensive = s.offensiveRoles.includes(profile.role);
     const penalty = offensive ? s.levelPenalty.offensive : s.levelPenalty.other;
-    let score = s.base - penalty * Math.max(0, best - profile.level) + s.role[profile.role];
-    if (profile.role === "summon" && profile.level >= s.bigSummon.level) score += s.bigSummon.bonus;
+    const levels =
+      profile.worthLevel !== undefined
+        ? best - profile.worthLevel
+        : Math.max(0, best - profile.level);
+    let score = s.base - penalty * levels + s.role[profile.role];
     if (offensive && profile.role !== "summon") score += this.attack(profile);
     score += (s.castingTime.center - profile.castingTime) * s.castingTime.factor;
     score += profile.secondaryRoles.length * s.secondaryRole;
@@ -53,14 +55,15 @@ class SpellScoringService {
     if (!profile.combo) return profile;
     const { castingTime, levelPerExtraSpell } = SPELL_SCORING.sequencer;
     const level = profile.level + (profile.spellCount - 1) * levelPerExtraSpell;
-    return { ...profile, castingTime, level };
+    return { ...profile, castingTime, level, worthLevel: undefined };
   }
 
   /** The chance to cast the spell when its turn comes, in percent. */
   probability(profile: SpellProfile, score: number): number {
-    if (profile.role === "reactive") return 100;
     const p = SPELL_SCORING.probability;
-    return Math.round(Math.min(p.max, Math.max(p.min, p.base + score * p.perPoint)));
+    if (profile.role === "reactive") return p.reactive;
+    const max = profile.role === "summon" ? SPELL_SCORING.summon.maxProbability : p.max;
+    return Math.round(Math.min(max, Math.max(p.min, p.base + score * p.perPoint)));
   }
 
   private best(profile: SpellProfile, caster: CasterReference): number {
@@ -73,7 +76,10 @@ class SpellScoringService {
   private attack(profile: SpellProfile): number {
     const o = SPELL_SCORING.offensive;
     const area = profile.hitsAllies ? o.areaHittingAllies : o.area;
-    let score = profile.keywords.includes("area") ? area : 0;
+    let score = 0;
+    if (profile.keywords.includes("area")) {
+      score += area + (profile.role === "disable" ? o.areaDisable : 0);
+    }
     if (profile.saves?.length) {
       const bonus = Math.min(...profile.saves.map((save) => save.bonus ?? 0));
       score += o.saveNegates + bonus * o.saveBonusFactor;

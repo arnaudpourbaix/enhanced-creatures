@@ -1,13 +1,18 @@
+import { AT_WILL } from "../../../config/common";
+import { SPELL_SCORING } from "../../../config/spell-scoring";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
 import { Creature } from "../../model/creature/creature";
+import atWillService, { ROUND } from "../at-will.service";
 import creatureService from "../creature.service";
 import logService from "../log.service";
 import { COVER_SPELLS } from "../../../config/spells/cover-spells";
 import spellComboService from "../spell-combo.service";
 import spellProfileService, { SpellProfile } from "../spell-profile.service";
-import spellService from "../spell.service";
 import castOrderService, { PlannedCast } from "./cast-order.service";
 import translationService from "../translation.service";
+
+/** The timer shared by a creature's summons, keeping them from coming in a row */
+const SUMMON_WAIT = "SUMMON_WAIT";
 
 interface OrderedAbility {
   identity: string;
@@ -34,11 +39,16 @@ class AbilityOrderService {
       scoredEntries.set(profile.file, entry);
     }
     const plan = castOrderService.plan(profiles);
-    this.logPlan(plan);
+    const spaced = this.summonsToSpace(plan, creature);
+    const wait = { name: SUMMON_WAIT, value: SPELL_SCORING.summon.waitRounds * ROUND };
     const ordered = plan.map((cast): OrderedAbility => {
       const entry = scoredEntries.get(cast.file);
       const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
-      return { identity: cast.file, ability: { ...ability, probability: cast.probability } };
+      const timer = spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
+      return {
+        identity: cast.file,
+        ability: { ...ability, ...timer, probability: cast.probability },
+      };
     });
 
     for (const entry of entries) {
@@ -47,6 +57,22 @@ class AbilityOrderService {
     }
 
     return ordered.map((o) => o.ability);
+  }
+
+  /**
+   * The planned summons sharing a wait (see SPELL_SCORING.summon): only with at least two casts to
+   * space out, copies of one summon included. An at-will one has its cooldown instead.
+   */
+  private summonsToSpace(plan: PlannedCast[], creature: Creature): Set<string> {
+    const summons = new Set(plan.filter((c) => c.role === "summon").map((c) => c.file));
+    const counts = new Map<string, number>();
+    for (const m of atWillService.memorized(creature)) {
+      const file = [...summons].find((s) => s.toUpperCase() === m.file.toUpperCase());
+      if (file) counts.set(file, Math.max(counts.get(file) ?? 0, m.memorizedCount ?? 1));
+    }
+    const spaced = [...summons].filter((file) => (counts.get(file) ?? 1) < AT_WILL);
+    const casts = spaced.reduce((sum, file) => sum + (counts.get(file) ?? 1), 0);
+    return new Set(casts > 1 ? spaced : []);
   }
 
   /**
@@ -114,13 +140,6 @@ class AbilityOrderService {
   }
 
   /** The creature's cast order, under its log section, for review. */
-  private logPlan(plan: PlannedCast[]): void {
-    for (const cast of plan) {
-      const name = spellService.getSpellName(cast.file) ?? "";
-      logService.log(`Cast order: ${cast.file} ${name} ${cast.score} ${cast.probability}%`);
-    }
-  }
-
   private validateEntries(entries: AbilityEntry[]): void {
     for (const entry of entries) {
       const kinds = [entry.spell, entry.abilityId, entry.power].filter((k) => k !== undefined);

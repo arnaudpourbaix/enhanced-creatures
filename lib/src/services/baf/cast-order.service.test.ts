@@ -129,6 +129,35 @@ describe("plan", () => {
     expect(order).toEqual(["GLOBE", "HIT", "HASTE"]);
   });
 
+  it("puts the best party buff right after the first summon, then attacks", () => {
+    const order = files([
+      profile("SUMMON", { role: "summon" }),
+      profile("HASTE", { role: "buff", keywords: ["friendly", "area"], castingTime: 9 }),
+      profile("HIT", {}),
+    ]);
+    expect(order).toEqual(["SUMMON", "HASTE", "HIT"]);
+  });
+
+  it("leaves party buffs to the alternation without a summon", () => {
+    const order = files([
+      profile("HASTE", { role: "buff", keywords: ["friendly", "area"], castingTime: 9 }),
+      profile("HIT", {}),
+    ]);
+    expect(order).toEqual(["HIT", "HASTE"]);
+  });
+
+  it("orders a slow summon, an area disable, an area attack, a single disable, a single attack", () => {
+    const negated = [{ types: [] }];
+    const order = files([
+      profile("AREA", { keywords: ["area"] }),
+      profile("HOLD", { role: "disable", saves: negated }),
+      profile("MASSHOLD", { role: "disable", keywords: ["area"], saves: negated }),
+      profile("SUMMON", { role: "summon", castingTime: 9 }),
+      profile("SINGLE", { castingTime: 7 }),
+    ]);
+    expect(order).toEqual(["SUMMON", "MASSHOLD", "AREA", "HOLD", "SINGLE"]);
+  });
+
   it("orders equal scores by file code units, whatever the machine's locale", () => {
     expect(files([profile("B_X", {}), profile("B#X", {}), profile("BAX", {})])).toEqual([
       "B#X",

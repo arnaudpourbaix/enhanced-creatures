@@ -1,3 +1,4 @@
+import { AT_WILL } from "../../../config/common";
 import { describe, expect, it, vi } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { MainCreatureData } from "../../model/creature/data";
@@ -125,8 +126,23 @@ describe("resolve", () => {
       entries: [{ abilityId: 3 }],
     });
     const resolved = abilityOrderService.resolve(creature);
-    expect(presetsOf(resolved)).toEqual([FIREBALL, CUSTOM_ABILITY_PRESET, MAGIC_MISSILES]);
-    expect(resolved[1].probability).toBeGreaterThan(30);
+    expect(presetsOf(resolved)).toEqual([CUSTOM_ABILITY_PRESET, FIREBALL, MAGIC_MISSILES]);
+    expect(resolved[0].probability).toBeGreaterThan(30);
+  });
+
+  it("makes summons wait for each other, only with several casts to space out", () => {
+    const wait = { name: "SUMMON_WAIT", value: 12 };
+    const timers = (memorized: { file: string; memorizedCount?: number }[]) =>
+      abilityOrderService.resolve(fakeCreature({ memorized })).map((a) => a.timer);
+    expect(timers([{ file: "SPWI423" }])).toEqual([undefined]);
+    expect(timers([{ file: "SPWI423", memorizedCount: 2 }])).toEqual([wait]);
+    expect(timers([{ file: "SPWI423" }, { file: "SPWI504" }])).toEqual([wait, wait]);
+  });
+
+  it("gives an at-will summon its own cooldown, not the wait", () => {
+    const memorized = [{ file: "SPWI423", memorizedCount: AT_WILL }, { file: "SPWI504" }];
+    const resolved = abilityOrderService.resolve(fakeCreature({ memorized }));
+    expect(resolved.every((a) => a.timer === undefined)).toBe(true);
   });
 
   it("returns an empty array when nothing is memorized", () => {
@@ -259,8 +275,8 @@ describe("resolve", () => {
     });
     const resolved = abilityOrderService.resolve(creature);
     expect(resolved.map((a) => a.preset ?? a.name)).toEqual([
-      FIREBALL,
       "domination-ability",
+      FIREBALL,
       MAGIC_MISSILES,
     ]);
   });

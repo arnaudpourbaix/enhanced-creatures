@@ -41,18 +41,6 @@ export const KIND_NAMES: Record<SpellComboKind, StringReference> = {
   chainContingency: "ability.ChainContingency",
 };
 
-/**
- * Shows the kind's name over the caster: a sequencer has no visual of its own. A contingency doesn't
- * need it: its spells' names show when it fires.
- */
-function displayName(combo: SpellCombo): Effect {
-  return {
-    opcode: EffectTypeEnum.DisplayString,
-    target: EffectTargetEnum.Self,
-    stringRef: KIND_NAMES[combo.kind],
-  };
-}
-
 /** Removes the trigger of the contingency set up by the SPL `file`. */
 function removeContingency(file: string): Effect {
   return {
@@ -352,7 +340,6 @@ class SpellComboService {
   ): Spell {
     const effects: Effect[] = [
       ...first,
-      ...(isContingency(combo) ? [] : [displayName(combo)]),
       ...spells.map((s) => ({
         opcode: EffectTypeEnum.CastSpell as const,
         type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,

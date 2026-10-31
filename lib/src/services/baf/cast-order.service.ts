@@ -7,13 +7,16 @@ import spellScoringService from "../spell-scoring.service";
 /** A spell's place in the cast order: tried in order, cast if its own roll succeeds. */
 export interface PlannedCast {
   file: string;
+  role: SpellRole;
   score: number;
   probability: number;
 }
 
-const DEFENSIVE: SpellRole[] = ["protection", "buff"];
-/** Under cover, at an equal score: the longer first, the shortest last */
-const DURATIONS = ["mid", "short", undefined];
+/** A buff for every ally around: worth more once there are summons to benefit from it */
+const isPartyBuff = (profile: SpellProfile) =>
+  profile.role === "buff" &&
+  profile.keywords.includes("friendly") &&
+  profile.keywords.includes("area");
 
 /** Plain byte order: the same on every machine, unlike localeCompare */
 const byCodeUnits = (a: string, b: string) => Buffer.compare(Buffer.from(a), Buffer.from(b));
@@ -22,8 +25,9 @@ class CastOrderService {
   /**
    * The order a creature tries its spells in: reactive ones first, then the opening protections
    * (great or good ones scoring enough), then the rest alternating - never two defensive spells
-   * in a row while attacks remain, so the caster stays useful - and shapeshifts last. Useless
-   * spells are never cast. Equal scores go by file, so the order never changes between runs.
+   * in a row while attacks remain, so the caster stays useful - and shapeshifts last. The best
+   * party buff comes right after the first summon, which it makes more dangerous. Useless spells
+   * are never cast. Equal scores go by file, so the order never changes between runs.
    */
   plan(profiles: SpellProfile[]): PlannedCast[] {
     const caster = spellScoringService.casterReference(profiles);
@@ -51,10 +55,15 @@ class CastOrderService {
     }));
     const shapeshifts = take((p) => p.role === "shapeshift");
     // the opening protections are defensive casts already: an attack comes next
-    const rest = this.alternate(scored, opening.length > 0);
+    const partyBuff = scored.some((s) => s.profile.role === "summon")
+      ? scored.find((s) => isPartyBuff(s.profile))
+      : undefined;
+    if (partyBuff) scored.splice(scored.indexOf(partyBuff), 1);
+    const rest = this.alternate(scored, opening.length > 0, partyBuff);
     const ordered = [...reactive, ...opening, ...rest, ...shapeshifts];
     return ordered.map(({ profile, score, probability }) => ({
       file: profile.file,
+      role: profile.role,
       score,
       probability,
     }));
@@ -68,12 +77,13 @@ class CastOrderService {
    */
   coveredPlan(profiles: SpellProfile[]): PlannedCast[] {
     const caster = spellScoringService.casterReference(profiles);
+    const durations = SPELL_SCORING.coveredDurationOrder;
     // reactive spells keep coming first: a wounded caster heals before buffing
     const reactive = this.plan(profiles.filter((p) => p.role === "reactive"));
     const protective = profiles
       .filter(
         (p) =>
-          DEFENSIVE.includes(p.role) &&
+          SPELL_SCORING.defensiveRoles.includes(p.role) &&
           p.duration !== "long" &&
           !COVER_SPELLS.includes(p.file.toUpperCase()),
       )
@@ -84,20 +94,30 @@ class CastOrderService {
       .sort(
         (a, b) =>
           b.score - a.score ||
-          DURATIONS.indexOf(a.profile.duration) - DURATIONS.indexOf(b.profile.duration) ||
+          durations.indexOf(a.profile.duration) - durations.indexOf(b.profile.duration) ||
           byCodeUnits(a.profile.file, b.profile.file),
       )
-      .map(({ profile, score, probability }) => ({ file: profile.file, score, probability }));
+      .map(({ profile, score, probability }) => ({
+        file: profile.file,
+        role: profile.role,
+        score,
+        probability,
+      }));
     return [...reactive, ...protective];
   }
 
-  /** Highest score first, but never two defensive spells in a row while attacks remain. */
+  /**
+   * Highest score first, but never two defensive spells in a row while attacks remain, and
+   * `partyBuff` right after the first summon.
+   */
   private alternate<T extends { profile: SpellProfile }>(
     sorted: T[],
     afterDefensive: boolean,
+    partyBuff?: T,
   ): T[] {
-    const defensive = sorted.filter((s) => DEFENSIVE.includes(s.profile.role));
-    const offensive = sorted.filter((s) => !DEFENSIVE.includes(s.profile.role));
+    const defensiveRoles = SPELL_SCORING.defensiveRoles;
+    const defensive = sorted.filter((s) => defensiveRoles.includes(s.profile.role));
+    const offensive = sorted.filter((s) => !defensiveRoles.includes(s.profile.role));
     const result: T[] = [];
     let lastDefensive = afterDefensive;
     while (defensive.length || offensive.length) {
@@ -108,6 +128,11 @@ class CastOrderService {
       const next = pickDefensive ? defensive.shift() : offensive.shift();
       if (next) result.push(next);
       lastDefensive = pickDefensive;
+      if (partyBuff && next?.profile.role === "summon") {
+        result.push(partyBuff);
+        partyBuff = undefined;
+        lastDefensive = true;
+      }
     }
     return result;
   }

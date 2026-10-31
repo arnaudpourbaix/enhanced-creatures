@@ -11,7 +11,7 @@ import translationService from "./translation.service";
 export const SPELLBOOK_GLOBAL = "JA_SPELLBOOK";
 
 /** Seconds per round, as timers count */
-const ROUND = 6;
+export const ROUND = 6;
 
 class AtWillService {
   /**
@@ -131,7 +131,7 @@ class AtWillService {
   }
 
   /** Every memorized spell with its count: base data's and adjustments', spellbook variants too. */
-  private memorized(creature: Creature): MemorizedSpell[] {
+  memorized(creature: Creature): MemorizedSpell[] {
     return [creature.data, ...creature.adjustments.map((a) => a.data)].flatMap(({ spells }) => [
       ...spells.memorized,
       ...(spells.spellbooks ?? []).flatMap((book) => book.memorized),

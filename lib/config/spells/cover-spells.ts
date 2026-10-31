@@ -9,5 +9,4 @@ export const COVER_SPELLS: string[] = [
   SPELLS.Priest.Sanctuary,
   SPELLS.Wizard.Invisibility,
   SPELLS.Wizard.InvisibilitySphere,
-  SPELLS.Wizard.MassInvisibility,
 ].flatMap((spell) => spellFiles(spell).map((file) => file.toUpperCase()));

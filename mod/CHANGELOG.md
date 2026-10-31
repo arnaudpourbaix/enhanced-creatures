@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Docs: the monsters page groups the versions of a monster under one entry heading, with a "Common to all" box for what they share, and an A-Z sidebar
 - Docs: D&D 3e creature types are shown as tags on each monster, with a type filter
 - Ettin is now installed (it was generated but never included by the installer)
+- AI: rework how summons and disables are valued
 
 ### Changed
 

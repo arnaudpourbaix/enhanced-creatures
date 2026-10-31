@@ -1,4 +1,4 @@
-import { SpellRole } from "./spells/spell-role";
+import { SpellDurationClass, SpellRole } from "./spells/spell-role";
 
 /**
  * Every weight of the cast order rules (see SpellScoringService and CastOrderService), tuned here
@@ -7,25 +7,38 @@ import { SpellRole } from "./spells/spell-role";
  */
 export const SPELL_SCORING = {
   base: 10,
+  /** The roles attacking the enemy: level penalty, attack bonuses */
+  offensiveRoles: ["kill", "damage", "disable", "summon"] as SpellRole[],
+  /** The roles alternating with attacks, and cast under cover */
+  defensiveRoles: ["protection", "buff"] as SpellRole[],
+  /** Under cover, at an equal score: the longer first, the shortest last */
+  coveredDurationOrder: ["mid", "short", undefined] as (SpellDurationClass | undefined)[],
   /** Lost per level below the caster's best for the spell's type */
   levelPenalty: { offensive: 2, other: 1 },
   role: {
     kill: 1.5,
     damage: 0,
-    disable: 0,
-    summon: 0,
+    disable: 1,
+    summon: 6,
     protection: 0,
     buff: -1,
     reactive: 0,
     shapeshift: 0,
     useless: 0,
   } satisfies Record<SpellRole, number>,
-  /** Summons of this level and up can turn a battle */
-  bigSummon: { level: 6, bonus: 2 },
+  /**
+   * A summon fights on even if its caster is interrupted or killed, so it comes early, but not
+   * always (`maxProbability`) and not in a row: a finished cast starts a wait of `waitRounds` rounds
+   * before the next one - the first needs time to be a threat and a caster chaining them is
+   * predictable. (User.)
+   */
+  summon: { maxProbability: 75, waitRounds: 2 },
   offensive: {
     area: 2.5,
     /** Instead of `area` when it hits the caster's allies too: they must keep out of it */
     areaHittingAllies: 1.5,
+    /** On top of the area bonus: disabling several enemies is worth more than damaging them */
+    areaDisable: 1,
     /** The spell does nothing on a successful save */
     saveNegates: -1,
     /** Times the save bonus (negative: a penalty to the target, so a bonus here) */
@@ -43,10 +56,10 @@ export const SPELL_SCORING = {
    * its release. (User.)
    */
   sequencer: { castingTime: 1, levelPerExtraSpell: 2 },
-  tier: { great: 3, good: 1.5, decent: 0 },
+  tier: { top: 6, great: 3, good: 1.5, decent: 0 },
   /** A great spell counts as good once the caster's best level is this far above its own */
   tierDecayGap: 4,
-  probability: { base: 40, perPoint: 5, min: 30, max: 90 },
+  probability: { base: 40, perPoint: 5, min: 30, max: 90, reactive: 100 },
   /**
    * The opening, before the alternation: at most `max` great or good protections scoring at least
    * `minScore`, each cast at most `maxProbability`% - short, and an attack can still come first

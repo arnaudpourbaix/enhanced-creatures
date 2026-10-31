@@ -126,6 +126,8 @@ describe("generated SPLs", () => {
     expect(castResources(spell)).toEqual(["SPWI112", "SPWI112"]);
     expect(spell.headers[0].target).toBe(ItemAbilityTargetEnum.LivingActor);
     expect(spell.headers[0].range).toBe(30);
+    // silent: the spell's name shows when it is cast
+    expect(effectsOf(spell, EffectTypeEnum.DisplayString)).toHaveLength(0);
   });
 
   it("uses the smallest range among the contained spells", () => {

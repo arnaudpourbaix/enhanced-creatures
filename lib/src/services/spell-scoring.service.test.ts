@@ -58,12 +58,24 @@ describe("score", () => {
     expect(globe - fireball).toBeLessThanOrEqual(3);
   });
 
-  it("puts a level 4 summon above level 1-2 offensive spells, below Fireball, for a level 7 wizard", () => {
+  it("puts a level 4 summon above single-target spells and Fireball for a level 7 wizard", () => {
     const summon = score(profile({ role: "summon", level: 4, castingTime: 9 }), best(4));
-    for (const key of ["MagicMissiles", "MelfAcidArrow", "ChromaticOrb"] as const) {
+    for (const key of ["MagicMissiles", "MelfAcidArrow", "ChromaticOrb", "Fireball"] as const) {
       expect(summon).toBeGreaterThan(score(wizard(key), best(4)));
     }
-    expect(summon).toBeLessThan(score(wizard("Fireball"), best(4)));
+  });
+
+  it("puts Maze and Imprisonment above a level 9 summon for a level 18 wizard", () => {
+    const gate = score(wizard("Gate"), best(9));
+    expect(score(wizard("Maze"), best(9))).toBeGreaterThan(gate);
+    expect(score(wizard("Imprisonment"), best(9))).toBeGreaterThan(gate);
+  });
+
+  it("counts a summon rated by hand at its worth, above the caster's best too", () => {
+    const plain = profile({ role: "summon", level: 4, castingTime: 9 });
+    const rated = { ...plain, worthLevel: 6 };
+    expect(score(rated, best(4)) - score(plain, best(4))).toBe(4);
+    expect(score(rated, best(6)) - score(plain, best(6))).toBe(4);
   });
 
   it("weighs a vampire's Domination close to Abi-Dalzim's, unlike the wizard spell", () => {
@@ -140,6 +152,10 @@ describe("probability", () => {
     expect(spellScoringService.probability(finger, score(finger, best(7)))).toBeGreaterThanOrEqual(
       85,
     );
+  });
+
+  it("caps a summon's chance, so another spell regularly slips in", () => {
+    expect(spellScoringService.probability(profile({ role: "summon" }), 30)).toBe(75);
   });
 
   it("always casts a reactive spell", () => {

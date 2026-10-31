@@ -14,6 +14,8 @@ import spellComboService from "./spell-combo.service";
 export interface SpellProfile {
   file: string;
   level: number;
+  /** See SpellReference.worthLevel */
+  worthLevel?: number;
   type: SpellTypeEnum;
   role: SpellRole;
   secondaryRoles: SpellRole[];
@@ -34,6 +36,7 @@ export interface SpellProfile {
 /** What a database entry, a NEW_SPELL_PROFILES entry or a creature's spell gives a profile */
 interface ProfileSource {
   level?: number;
+  worthLevel?: number;
   role?: SpellRole;
   secondaryRoles?: SpellRole[];
   keywords?: SpellKeyword[];
@@ -138,6 +141,7 @@ class SpellProfileService {
       type,
       castingTime,
       level: spell.level ?? 1,
+      worthLevel: spell.worthLevel,
       role: spell.role,
       secondaryRoles: spell.secondaryRoles ?? [],
       keywords: spell.keywords ?? [],
