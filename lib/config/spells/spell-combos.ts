@@ -26,7 +26,7 @@ export const SEQUENCERS = registerSequencers(
   {
     LarlochMinorDrain: minorSequencer([s.LarlochMinorDrain, s.LarlochMinorDrain]),
     MagicMissiles: minorSequencer([s.MagicMissiles, s.MagicMissiles]),
-    Lifedrain: spellSequencer([s.LarlochMinorDrain, s.LarlochMinorDrain, s.VampiricTouch]),
+    Lifedrain: spellSequencer([s.VampiricTouch, s.LarlochMinorDrain, s.LarlochMinorDrain]),
     EmotionSlow: spellSequencer([s.EmotionHopelessness, s.EmotionHopelessness, s.Slow]),
   },
   COMBO_SPELLS,
@@ -35,10 +35,18 @@ export const SEQUENCERS = registerSequencers(
 /** Wizard contingencies and chain contingencies, by key. */
 export const CONTINGENCIES = registerContingencies(
   {
+    OtilukesResilientSphere: contingency("helpless", [s.OtilukesResilientSphere]),
     Stoneskin: contingency("hp50", [s.Stoneskin]),
-    AbiDalzimHorridWilting: chainContingency(
+    ImprovedHaste: contingency("hit", [s.ImprovedHaste]),
+    TrueSeeing: contingency("seeEnemy", [s.TrueSeeing]),
+    ProtectionFromMagicalWeapons: contingency("hit", [s.ProtectionFromMagicalWeapons]),
+    ProtectionFromMagicEnergy: contingency("seeEnemy", [s.ProtectionFromMagicEnergy]),
+    MassInvisibility: contingency("seeEnemy", [s.MassInvisibility]),
+    PrismaticMantle: contingency("hit", [s.PrismaticMantle]),
+    MomentOfPrescience: contingency("hit", [s.MomentOfPrescience]),
+    ProtectAndSummon: chainContingency(
       "hit",
-      [s.AbiDalzimHorridWilting, s.AbiDalzimHorridWilting, s.AbiDalzimHorridWilting],
+      [s.MomentOfPrescience, s.ProtectionFromEnergy, s.MonsterSummoning8],
       "lastHitter",
     ),
   },

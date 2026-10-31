@@ -19,7 +19,7 @@ The stats report tab shows the differences between before and after install, but
 ## Install
 
 - Install nodejs: https://nodejs.org/en/download. It is quick and easy.
-- Install dependencies with `npm i` shell command in root folder.
+- Install dependencies with `npm i` shell command in root folder. This also activates the git hook in `.githooks`, which adds every commit to the `[Unreleased]` section of `mod/CHANGELOG.md`, except `wip:` and `feat: wip` ones and commits that edit the changelog themselves.
 
 I highly recommend [Visual Studio Code](https://code.visualstudio.com/) with these extensions:
 

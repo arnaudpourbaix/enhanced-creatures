@@ -6,7 +6,7 @@ THEN
 		DestroySelf()
 END
 
-// Precast contingency "Stoneskin"
+// Precast contingency "MirrorImages"
 IF
 	Global("JA_INIT","LOCALS",0)
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
@@ -15,18 +15,6 @@ THEN
 	RESPONSE #100
 		ApplySpellRES("jasc0104",Myself)
 		RemoveSpellRES("jasc0104")
-		Continue()
-END
-
-// Precast chain contingency "AbiDalzimHorridWilting"
-IF
-	Global("JA_INIT","LOCALS",0)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0106")
-THEN
-	RESPONSE #100
-		ApplySpellRES("jasc0106",Myself)
-		RemoveSpellRES("jasc0106")
 		Continue()
 END
 
@@ -63,7 +51,7 @@ END
 
 // Spellbook: its at-will powers are braked
 IF
-	OR(39)
+	OR(38)
 		HaveSpellRES("SPWI114")
 		HaveSpellRES("SPWI119")
 		HaveSpellRES("SPWI112")
@@ -96,7 +84,6 @@ IF
 		HaveSpellRES("SPWI913")
 		HaveSpellRES("jasc0101")
 		HaveSpellRES("jasc0104")
-		HaveSpellRES("jasc0106")
 		HaveSpellRES("SPWI401")
 		HaveSpellRES("SPWI504")
 		HaveSpellRES("SPWI502")
@@ -3943,7 +3930,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3979,7 +3965,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4015,7 +4000,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4051,7 +4035,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4087,7 +4070,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4123,7 +4105,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4159,7 +4140,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4195,7 +4175,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4231,7 +4210,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4267,7 +4245,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4300,7 +4277,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4332,7 +4308,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4364,7 +4339,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4396,7 +4370,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4428,7 +4401,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4460,7 +4432,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4492,7 +4463,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4524,7 +4494,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4556,7 +4525,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -4588,7 +4556,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24751,7 +24718,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24794,7 +24760,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24837,7 +24802,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24880,7 +24844,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24923,7 +24886,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -24966,7 +24928,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -25009,7 +24970,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -25052,7 +25012,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -25095,7 +25054,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -25138,7 +25096,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

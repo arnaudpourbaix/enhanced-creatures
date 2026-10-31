@@ -63,6 +63,11 @@ export const VampireNecromancerSpellbook: SpellBook = {
       repeat: [s.LarlochEnergyDrain],
     },
   ],
-  sequencers: [SEQUENCERS.MagicMissiles],
-  contingencies: [CONTINGENCIES.AbiDalzimHorridWilting, CONTINGENCIES.Stoneskin],
+  sequencers: [SEQUENCERS.Lifedrain, SEQUENCERS.LarlochMinorDrain],
+  contingencies: [
+    CONTINGENCIES.MomentOfPrescience,
+    CONTINGENCIES.PrismaticMantle,
+    CONTINGENCIES.ImprovedHaste,
+    CONTINGENCIES.Stoneskin,
+  ],
 };

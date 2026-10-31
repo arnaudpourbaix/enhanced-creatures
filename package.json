@@ -21,7 +21,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "local": "sudo npm i -g && generate",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "repository": {
     "type": "git",

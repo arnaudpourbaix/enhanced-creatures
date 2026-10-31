@@ -1,0 +1,28 @@
+#!/bin/sh
+# Adds the commit's subject to mod/CHANGELOG.md's [Unreleased] section and amends it into the commit.
+# See scripts/changelog-entry.ts for what is left out (wip) and which section an entry goes to.
+[ -n "$CHANGELOG_HOOK" ] && exit 0
+unset GIT_INDEX_FILE
+
+# Only brand new commits: not amends, merges, rebases, cherry-picks or reverts.
+case "$(git reflog -1 --format=%gs)" in
+  "commit: "* | "commit (initial): "*) ;;
+  *) exit 0 ;;
+esac
+
+file=mod/CHANGELOG.md
+# A commit that edits the changelog itself (a hand-written entry, a release) already says what it wants.
+[ -n "$(git diff-tree --no-commit-id --name-only -r HEAD -- "$file")" ] && exit 0
+
+git diff --quiet HEAD -- "$file"
+dirty=$?
+
+node --experimental-strip-types --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
+  scripts/changelog-entry.ts "$(git log -1 --format=%s)" "$file" || exit 0
+
+if [ "$dirty" -ne 0 ]; then
+  echo "$file has uncommitted edits: entry added to the file but not to the commit."
+  exit 0
+fi
+git diff --quiet HEAD -- "$file" && exit 0
+CHANGELOG_HOOK=1 git commit --amend --no-edit --no-verify --only --quiet -- "$file"

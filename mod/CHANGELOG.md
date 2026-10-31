@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Ettin is now installed (it was generated but never included by the installer)
 - AI: rework how summons and disables are valued
 - AI: gate touch and short range spells on hostile targets
+- AI: new vampire necromancer combos, changelog commit hook
 
 ### Changed
 
