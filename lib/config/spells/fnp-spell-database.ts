@@ -17,6 +17,7 @@ const FNP_PRIEST_SPELLS = {
   CauseDisease: {
     file: "D5P1329",
     level: 1,
+    range: 10,
     keywords: ["disease", "magicResistance"],
     role: "disable",
     castingTime: 9,
@@ -99,6 +100,7 @@ const FNP_PRIEST_SPELLS = {
     file: "D5P1411",
     level: 4,
     // hand-picked, missing from the install profiled: as its vanilla counterpart
+    range: 10,
     role: "damage",
     secondaryRoles: ["disable"],
     castingTime: 4,
@@ -200,6 +202,7 @@ const FNP_PRIEST_SPELLS = {
     file: "D5P1511",
     level: 5,
     // hand-picked, missing from the install profiled: as its vanilla counterpart
+    range: 10,
     role: "kill",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
@@ -237,6 +240,7 @@ const FNP_PRIEST_SPELLS = {
   MagicResistance: {
     file: "D5F1509",
     level: 6,
+    range: 10,
     keywords: ["friendly"],
     role: "disable",
     castingTime: 5,
@@ -273,6 +277,7 @@ const FNP_PRIEST_SPELLS = {
   Wither: {
     file: "D5F1740",
     level: 7,
+    range: 10,
     keywords: ["magicResistance"],
     role: "disable",
     castingTime: 7,

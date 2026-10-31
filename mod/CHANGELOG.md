@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Docs: D&D 3e creature types are shown as tags on each monster, with a type filter
 - Ettin is now installed (it was generated but never included by the installer)
 - AI: rework how summons and disables are valued
+- AI: gate touch and short range spells on hostile targets
 
 ### Changed
 

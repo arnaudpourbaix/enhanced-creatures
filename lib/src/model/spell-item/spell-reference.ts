@@ -124,7 +124,12 @@ export interface SpellReference {
   /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
   saves?: SpellSaves;
   /**
-   * Max range for this spell
+   * Only cast when the target is within this script Range() distance, not the SPL's own range: a
+   * touch or short range spell on enemies declares 10, so its caster doesn't cross the battlefield
+   * to deliver it. A longer range spell declares nothing, nor does a spell on allies: nothing else
+   * would bring its caster closer to them. On a castOnSelf spell, it's the distance to the enemy the
+   * spell is meant for. Must stay above `alliesCheck.range`, which sets a minimum range. See
+   * scripts/extract-spell-ranges.ts.
    */
   range?: number;
   /**

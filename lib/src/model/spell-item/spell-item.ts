@@ -58,6 +58,8 @@ export interface BaseSpell {
   name?: StringReference;
   /** See SpellReference.keywords */
   keywords?: SpellKeyword[];
+  /** See SpellReference.range */
+  range?: number;
 }
 
 /**

@@ -61,10 +61,15 @@ class BafFactory {
     if (seeIndex === -1) return utils.replaceTriggerTokens(kept, tokens);
     return [
       ...utils.replaceTriggerTokens(kept.slice(0, seeIndex), tokens),
-      ...utils.replaceTriggerTokens(kept.slice(seeIndex + 1), [
-        ...tokens,
-        { key: ScriptTarget.lastSeen, value: ScriptTarget.myself },
-      ]),
+      ...utils.replaceTriggerTokens(
+        // always within its own max range (see BaseCreatureAbility.range)
+        kept
+          .slice(seeIndex + 1)
+          .filter(
+            (t) => !(t.name === "Range" && !t.negation && t.params[0] === ScriptTarget.lastSeen),
+          ),
+        [...tokens, { key: ScriptTarget.lastSeen, value: ScriptTarget.myself }],
+      ),
     ];
   }
 

@@ -130,6 +130,25 @@ describe("addStatementsFromTargetList", () => {
     ]);
   });
 
+  it("drops a max range check on a Myself target, always true, keeping it for the others", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        { name: "See", params: [ScriptTarget.token] },
+        { name: "Range", params: [ScriptTarget.lastSeen, 10] },
+      ],
+      targets: [ScriptTarget.myself, GOODCUTOFF],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([]);
+    expect(statements[1].triggers).toContainEqual({
+      name: "Range",
+      params: [ScriptTarget.lastSeen, 10],
+    });
+  });
+
   it("rewrites a LastSeenBy action target to Myself for a Myself target", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
@@ -170,7 +189,10 @@ describe("addStatementsFromTargetList", () => {
 
     expect(statements[0].triggers).toHaveLength(3);
     expect(statements[1].triggers).toEqual([
-      { name: "Or", triggers: [{ ...triggerFactory.range(30), params: [ScriptTarget.myself, 30] }] },
+      {
+        name: "Or",
+        triggers: [{ ...triggerFactory.range(30), params: [ScriptTarget.myself, 30] }],
+      },
     ]);
   });
 

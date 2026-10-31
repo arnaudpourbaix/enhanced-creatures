@@ -17108,6 +17108,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17144,6 +17145,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17180,6 +17182,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17216,6 +17219,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17252,6 +17256,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17288,6 +17293,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17324,6 +17330,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17360,6 +17367,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17396,6 +17404,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17432,6 +17441,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17462,6 +17472,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17491,6 +17502,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17520,6 +17532,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17549,6 +17562,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17578,6 +17592,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17607,6 +17622,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17636,6 +17652,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17665,6 +17682,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17694,6 +17712,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17723,6 +17742,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17749,6 +17769,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17774,6 +17795,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17799,6 +17821,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17824,6 +17847,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17849,6 +17873,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17874,6 +17899,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17899,6 +17925,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17924,6 +17951,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17949,6 +17977,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -17974,6 +18003,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -18011,6 +18041,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18053,6 +18084,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18095,6 +18127,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18137,6 +18170,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18176,6 +18210,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18214,6 +18249,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18252,6 +18288,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18290,188 +18327,8 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-// Glyph of Warding
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -18512,8 +18369,194 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+// Glyph of Warding
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -18555,6 +18598,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -18596,6 +18640,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -18637,6 +18682,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -18679,6 +18725,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18720,6 +18767,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18761,6 +18809,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18802,6 +18851,7 @@ IF
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18840,6 +18890,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18877,6 +18928,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18914,6 +18966,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
@@ -18951,184 +19004,8 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	!Range(LastSeenBy(Myself),8)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-// Glyph of Warding
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
-	OR(4)
-		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
-		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
-		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
-	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
-		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(CLERIC_GLYPH_OF_WARDING)
-	RandomNumGT(834,309)
-	OR(3)
-		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
-		CheckStatGT(Myself,74,RESISTMAGIC)
-		ImmuneToSpellLevel(Myself,3)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthFarthestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -19168,8 +19045,190 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthFarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(NearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(SecondNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(SecondNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(SecondNearestEnemyOf(Myself),3))
+	OR(4)
+		!TriggerOverride(LastSeenBy(Myself),Range(ThirdNearestEnemyOf(Myself),8))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
+		TriggerOverride(LastSeenBy(Myself),CheckStatGT(ThirdNearestEnemyOf(Myself),74,RESISTMAGIC))
+		TriggerOverride(LastSeenBy(Myself),ImmuneToSpellLevel(ThirdNearestEnemyOf(Myself),3))
+	!TriggerOverride(LastSeenBy(Myself),Range(FourthNearestEnemyOf(Myself),8))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),CLERIC_GLYPH_OF_WARDING)
+		RunAwayFromNoInterruptNoLeaveArea(LastSeenBy(Myself),10)
+END
+
+// Glyph of Warding
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(CLERIC_GLYPH_OF_WARDING)
+	RandomNumGT(834,309)
+	OR(3)
+		CheckStatGT(Myself,99,MAGICDAMAGERESISTANCE)
+		CheckStatGT(Myself,74,RESISTMAGIC)
+		ImmuneToSpellLevel(Myself,3)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FarthestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -19210,6 +19269,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -19250,6 +19310,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -19290,6 +19351,7 @@ IF
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),3)
+	Range(LastSeenBy(Myself),10)
 	OR(4)
 		!TriggerOverride(LastSeenBy(Myself),Range(NearestEnemyOf(Myself),8))
 		TriggerOverride(LastSeenBy(Myself),CheckStatGT(NearestEnemyOf(Myself),99,MAGICDAMAGERESISTANCE))
@@ -25983,6 +26045,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26022,6 +26085,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26061,6 +26125,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26100,6 +26165,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26139,6 +26205,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26178,6 +26245,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26217,6 +26285,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26256,6 +26325,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26295,6 +26365,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -26334,6 +26405,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30509,6 +30581,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30545,6 +30618,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30581,6 +30655,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30617,6 +30692,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30653,6 +30729,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30689,6 +30766,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30725,6 +30803,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30761,6 +30840,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30797,6 +30877,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30827,6 +30908,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30856,6 +30938,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30885,6 +30968,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30914,6 +30998,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30943,6 +31028,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -30972,6 +31058,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -31001,6 +31088,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -31030,6 +31118,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -31059,6 +31148,7 @@ IF
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
+	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
