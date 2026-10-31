@@ -56,7 +56,7 @@ export const CHARM_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.ControlUndead, {
     targets: CONTROL_UNDEAD_TARGET_LISTS,
   }),
-  ...presetFactory.createOrderedSpells(
+  ...presetFactory.createSpells(
     [
       SPELLS.Wizard.Domination,
       SPELLS.Priest.MentalDomination,

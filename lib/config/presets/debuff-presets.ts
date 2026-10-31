@@ -16,11 +16,10 @@ const DEBUFF_TARGET_LISTS: TargetList[] = [
 ];
 
 export const DEBUFF_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createSpells([SPELLS.Wizard.GreaterMalison, FNP_SPELLS.Priest.GreaterMalison], {
-    targets: DEBUFF_TARGET_LISTS,
-  }),
-  ...presetFactory.createOrderedSpells(
+  ...presetFactory.createSpells(
     [
+      SPELLS.Wizard.GreaterMalison,
+      FNP_SPELLS.Priest.GreaterMalison,
       SPELLS.Priest.EnergyDrain,
       SPELLS.Priest.SymbolWeakness,
       FNP_SPELLS.Priest.WavesOfFatigue,
@@ -31,11 +30,18 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.Curse,
       SPELLS.Priest.Doom,
       FNP_SPELLS.Priest.Doom,
+      SPELLS.Wizard.LowerResistance,
+      SPELLS.Priest.FaerieFire,
+      SPELLS.Priest.MoldTouch,
+      SPELLS.Priest.Wither,
+      FNP_SPELLS.Priest.DolorousDecay,
+      FNP_SPELLS.Priest.Wither,
     ],
     {
       targets: DEBUFF_TARGET_LISTS,
     },
   ),
+
   ...presetFactory.createSpell(
     SPELLS.Priest.SymbolPain,
     {

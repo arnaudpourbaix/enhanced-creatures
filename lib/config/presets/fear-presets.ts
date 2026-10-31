@@ -22,8 +22,13 @@ const FEAR_TARGET_LISTS: TargetList[] = [
 ];
 
 export const FEAR_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createOrderedSpells(
-    [SPELLS.Wizard.SymbolFear, SPELLS.Wizard.Horror, SPELLS.Wizard.Spook],
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.SymbolFear,
+      SPELLS.Wizard.Horror,
+      SPELLS.Wizard.Spook,
+      SPELLS.Wizard.EmotionFear,
+    ],
     {
       targets: FEAR_TARGET_LISTS,
     },

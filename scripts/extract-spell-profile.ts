@@ -42,7 +42,7 @@ import { type EffectSource, type RawEffect, readerSource, ResourceReader } from 
 //
 // Run: ts-node scripts/extract-spell-profile.ts [--write] [--game <dir>]
 
-const DEFAULT_GAME = "C:/Games/BG2EETest";
+const DEFAULT_GAME = "C:/Games/BG2EE";
 const DATABASE = path.join("lib", "config", "spells", "spell-database.ts");
 const FNP_DATABASE = path.join("lib", "config", "spells", "fnp-spell-database.ts");
 const REPORT = path.join("assets", "spells", "spell-profile-report.md");

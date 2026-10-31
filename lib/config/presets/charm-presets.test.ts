@@ -23,7 +23,6 @@ describe("CHARM_PRESETS", () => {
 
   it("doesn't make the charms wait for Control Undead", () => {
     const charm = JSON.stringify(preset(SPELLS.Wizard.CharmPerson.file)?.ability.triggers ?? []);
-    expect(charm).toContain(SPELLS.Wizard.Domination.id);
     expect(charm).not.toContain(SPELLS.Wizard.ControlUndead.id);
   });
 });

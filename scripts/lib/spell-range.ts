@@ -8,17 +8,10 @@ const CREATURE_TARGET = 1;
 const OFFENSIVE_ROLES: (SpellRole | undefined)[] = ["damage", "disable", "kill"];
 
 /**
- * Spells putting a touch attack in the caster's hand: their SPL targets the caster and their
- * description says "Personal", yet the charge must still be delivered in melee.
+ * Quivering Palm charges the caster's hand: its SPL targets the caster and its description says
+ * "Personal", yet the charge must still be delivered in melee.
  */
-export const CHARGED_TOUCH = new Set([
-  "SPWI117",
-  "SPWI218",
-  "SPPR121",
-  "SPPR220",
-  "SPPR322",
-  "SPCL820",
-]);
+export const CHARGED_TOUCH = new Set(["SPCL820"]);
 
 /** One state of a spell's SPL (as shipped, or with the install's mods). */
 export interface SplRange {
@@ -41,13 +34,15 @@ export function rangeText(description: string): string | undefined {
  * the engine walking the caster to a longer range target being short enough. Not for a spell on
  * allies or the caster: nothing else would bring its caster closer to an ally, so the gate would
  * only keep it from casting. A cone isn't covered either: its description says "Special", and an
- * allies check usually keeps its targets further.
+ * allies check usually keeps its targets further. Nor is a spell creating a weapon: better cast
+ * ahead of the melee, where it could be interrupted and leave its caster without a weapon.
  */
 export function proposeRange(
   file: string,
-  spell: { role?: SpellRole },
+  spell: { role?: SpellRole; createsItems?: string[] },
   states: (SplRange | undefined)[],
 ): number | undefined {
+  if (spell.createsItems) return undefined;
   if (CHARGED_TOUCH.has(file)) return SHORT_RANGE;
   if (!OFFENSIVE_ROLES.includes(spell.role)) return undefined;
   const found = states.filter((state): state is SplRange => !!state);

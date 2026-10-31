@@ -20,6 +20,7 @@ import {
 } from "../../model/spell-item/spell-reference";
 import triggerFactory from "../../factories/trigger.factory";
 import logService from "../log.service";
+import { sharedRoll } from "./memorized-checks";
 import { ScriptTarget } from "../../model/constants";
 import {
   CreatureAbility,
@@ -151,7 +152,7 @@ class AbilityService {
     };
     // The caster is caught in its own blast too: keep out of it unless told otherwise (see
     // StatementBuilderService.closeRangeFallback for a protected caster).
-    if (result.alliesCheck && result.minRange === undefined) {
+    if (result.alliesCheck && !result.alliesCheck.aroundCaster && result.minRange === undefined) {
       result.minRange = result.alliesCheck.range;
     }
     if ("spell" in ability && ability.spell) {
@@ -159,7 +160,8 @@ class AbilityService {
     }
     result.actions.push(...(ability.actionsAfter ?? []));
     if (!!ability.probability && ability.probability < 100) {
-      const num = randomGenerator.next().value ?? 0;
+      const own = randomGenerator.next().value ?? 0;
+      const num = sharedRoll(abil.spell?.resource ?? abil.preset) ?? own;
       result.triggers.push({
         name: "RandomNumGT",
         params: [num, Math.round(num * (1 - ability.probability / 100))],

@@ -14,7 +14,7 @@ import { ResourceReader } from "./lib/spell-saves";
 //
 // Run: ts-node scripts/import-missing-spells.ts [--game <dir>]
 
-const DEFAULT_GAME = "C:/Games/BG2EETest";
+const DEFAULT_GAME = "C:/Games/BG2EE";
 const CSV = path.join("assets", "spells", "missing-spells.csv");
 const DATABASE = path.join("lib", "config", "spells", "spell-database.ts");
 const IDENTIFIERS = path.join("lib", "src", "model", "ids", "spell.ts");

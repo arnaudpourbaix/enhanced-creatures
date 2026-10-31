@@ -589,6 +589,8 @@ class TriggerFactory {
    *
    * Every check runs through TriggerOverride(target, ...): Range() is always measured from the
    * active creature, so only the target itself can tell how far its enemies are.
+   *
+   * With `aroundCaster`, the caster measures its own nearest allies instead, and isn't one of them.
    */
   alliesSafe(
     check: AlliesCheck,
@@ -599,15 +601,20 @@ class TriggerFactory {
     const count = check.count ?? 3;
     if (count < 0 || count >= Counts.length) throw new Error(`Invalid alliesCheck count ${count}`);
     const safeIf = check.safeIf ?? defaultAllySafe(keywords, level);
-    const ally = (index: number) => `${Counts[index]}NearestEnemyOf(${ScriptTarget.myself})`;
-    const outOfRange = (index: number): Triggers.Trigger =>
-      this.triggerOverride(target, { name: "Range", params: [ally(index), check.range] }, true);
+    const ally = (index: number) =>
+      `${Counts[index]}${check.aroundCaster ? "NearestAllyOf" : "NearestEnemyOf"}(${ScriptTarget.myself})`;
+    const outOfRange = (index: number): Triggers.Trigger => {
+      const range: Triggers.Trigger = { name: "Range", params: [ally(index), check.range] };
+      return check.aroundCaster
+        ? { ...range, negation: true }
+        : this.triggerOverride(target, range, true);
+    };
     const allies = Counts.slice(0, count).map((_, index) => ({
       ...this.or([
         outOfRange(index),
         ...utils
           .replaceTriggerTokens(safeIf, [{ key: ScriptTarget.token, value: ally(index) }])
-          .map((t) => this.triggerOverride(target, t)),
+          .map((t) => (check.aroundCaster ? t : this.triggerOverride(target, t))),
       ]),
       exceptMyself: true,
     }));

@@ -102,6 +102,20 @@ describe("getAbilities", () => {
     expect(withNone.triggers).toEqual([]);
   });
 
+  it("shares one RandomNumGT range between weapon spells, each with its own chance", () => {
+    const [strong, weak, other] = abilityService.getAbilities([
+      { preset: SPELLS.Priest.Harm.file, spell: { id: SPWI001 }, probability: 80 },
+      { preset: SPELLS.Priest.CauseLightWounds.file, spell: { id: SPWI001 }, probability: 40 },
+      { preset: SPELLS.Priest.Heal.file, spell: { id: SPWI001 }, probability: 40 },
+    ]);
+    const roll = (a: typeof strong) =>
+      a.triggers.find((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
+        ?.params;
+    expect(roll(strong)?.[0]).toBe(roll(weak)?.[0]);
+    expect(roll(strong)?.[1]).toBeLessThan(roll(weak)?.[1] ?? 0);
+    expect(roll(other)?.[0]).not.toBe(roll(weak)?.[0]);
+  });
+
   it("assigns increasing RandomNumGT global ids across multiple probabilistic abilities", () => {
     const abilities = abilityService.getAbilities([
       { name: DEFAULT_ABILITY_NAME, probability: 50 },
@@ -632,6 +646,14 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
 });
 
 describe("getAbilities - minRange from alliesCheck", () => {
+  it("leaves minRange unset for an area around the caster", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.MalavonsRage.file, spell: { id: SPWI001 } },
+    ]);
+    expect(ability.minRange).toBeUndefined();
+    expect(ability.range).toBe(8);
+  });
+
   it("defaults minRange to the alliesCheck range", () => {
     const [ability] = abilityService.getAbilities([
       { preset: SPELLS.Wizard.Fireball.file, spell: { id: SPWI001 } },

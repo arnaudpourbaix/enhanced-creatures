@@ -427,7 +427,6 @@ END
 // Web Tangle
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -469,7 +468,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -511,7 +509,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -553,7 +550,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -595,7 +591,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -637,7 +632,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -679,7 +673,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -721,7 +714,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -763,7 +755,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -805,7 +796,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
@@ -848,7 +838,6 @@ END
 // Web Tangle
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -886,7 +875,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -924,7 +912,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -962,7 +949,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1000,7 +986,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1038,7 +1023,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1076,7 +1060,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1114,7 +1097,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1152,7 +1134,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1190,7 +1171,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_FREE_ACTION)
@@ -1229,7 +1209,6 @@ END
 // Web Tangle
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1271,7 +1250,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1313,7 +1291,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1355,7 +1332,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1397,7 +1373,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1439,7 +1414,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1481,7 +1455,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1523,7 +1496,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1565,7 +1537,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1607,7 +1578,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1650,7 +1620,6 @@ END
 // Web Tangle
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1688,7 +1657,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1726,7 +1694,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1764,7 +1731,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1802,7 +1768,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1840,7 +1805,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1878,7 +1842,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1916,7 +1879,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1954,7 +1916,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1992,7 +1953,6 @@ END
 
 IF
 	HaveSpellRES("jasm1s00")
-	!HaveSpell(CLERIC_WAVES_OF_AGONY)
 	RandomNumGT(800,240)
 	CheckStatGT(Myself,74,RESISTMAGIC)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")

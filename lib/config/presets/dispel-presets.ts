@@ -2,6 +2,7 @@ import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
@@ -37,10 +38,33 @@ const DISPEL_TARGET_LISTS: TargetList[] = [
   },
 ];
 
+const BREACH_TARGET_LISTS: TargetList[] = [
+  {
+    name: "Spellcasters",
+    includeStatus: ["Able"],
+    randomOrder: true,
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      triggerFactory.or([triggerFactory.hasBounceEffects(), triggerFactory.hasImmunityEffects()]),
+    ],
+  },
+];
+
 export const DISPEL_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createSpells([SPELLS.Priest.TrueSeeing, SPELLS.Wizard.DetectInvisibility], {
-    triggers: [triggerFactory.detect("PC"), triggerFactory.see("PC", true)],
-  }),
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Priest.TrueSeeing,
+      SPELLS.Wizard.DetectInvisibility,
+      SPELLS.Wizard.TrueSeeing,
+      SPELLS.Wizard.Oracle,
+      SPELLS.Wizard.DetectIllusion,
+      SPELLS.Priest.InvisibilityPurge,
+      FNP_SPELLS.Priest.TrueSeeing,
+    ],
+    {
+      triggers: [triggerFactory.detect("PC"), triggerFactory.see("PC", true)],
+    },
+  ),
   ...presetFactory.createSpell(SPELLS.Innate.MoonDogSight, {
     spell: {
       castOnSelf: true,
@@ -54,23 +78,19 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
       targets: DISPEL_TARGET_LISTS,
     },
   ),
-  ...presetFactory.createOrderedSpells(
-    [SPELLS.Wizard.KhelbensWardingWhip, SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust],
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.KhelbensWardingWhip,
+      SPELLS.Wizard.Breach,
+      SPELLS.Wizard.SpellThrust,
+      SPELLS.Wizard.PierceMagic,
+      SPELLS.Wizard.PierceShield,
+      SPELLS.Wizard.RubyRayOfReversal,
+      SPELLS.Wizard.SecretWord,
+      SPELLS.Wizard.Spellstrike,
+    ],
     {
-      targets: [
-        {
-          name: "Spellcasters",
-          includeStatus: ["Able"],
-          randomOrder: true,
-          triggers: [
-            ...ExcludeUnwantedTargetsTriggers,
-            triggerFactory.or([
-              triggerFactory.hasBounceEffects(),
-              triggerFactory.hasImmunityEffects(),
-            ]),
-          ],
-        },
-      ],
+      targets: BREACH_TARGET_LISTS,
     },
   ),
   ...presetFactory.createSpells([SPELLS.Priest.DetectEvil, SPELLS.Priest.FindTraps], {

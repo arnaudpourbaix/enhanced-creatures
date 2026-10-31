@@ -112,8 +112,8 @@ export interface SpellReference {
   /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
   secondaryRoles?: SpellRole[];
   /**
-   * A summon's worth in a fight, as a spell level, when its creatures are worth more than its own
-   * level says (Call Woodland Beeings' charm): rated by hand, a spell's data can't tell
+   * A spell's worth in a fight, as a spell level, when it's worth more than its own level says (Call
+   * Woodland Beeings' charm, Dragon's Breath): rated by hand, a spell's data can't tell
    */
   worthLevel?: number;
   /** See SpellTier - decent when unset */
@@ -124,11 +124,22 @@ export interface SpellReference {
   /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
   saves?: SpellSaves;
   /**
+   * The weapons this spell puts in its caster's hand, at every caster level: it isn't cast while
+   * holding one (see memorizedChecks), and shares its roll with the others (see sharedRoll). See
+   * scripts/extract-spell-items.ts.
+   */
+  createsItems?: string[];
+  /**
+   * Its preset targets enemies, but an ally doesn't resist it: a combo may aim it at either side
+   * (e.g. a contingency enclosing its caster in a Resilient Sphere).
+   */
+  anySide?: boolean;
+  /**
    * Only cast when the target is within this script Range() distance, not the SPL's own range: a
    * touch or short range spell on enemies declares 10, so its caster doesn't cross the battlefield
    * to deliver it. A longer range spell declares nothing, nor does a spell on allies: nothing else
    * would bring its caster closer to them. On a castOnSelf spell, it's the distance to the enemy the
-   * spell is meant for. Must stay above `alliesCheck.range`, which sets a minimum range. See
+   * spell is meant for: its target, else the nearest one. Must stay above `alliesCheck.range`, which sets a minimum range. See
    * scripts/extract-spell-ranges.ts.
    */
   range?: number;

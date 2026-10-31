@@ -8,7 +8,12 @@ import {
   EffectTargetEnum,
   ItemAbilityTargetEnum,
 } from "../model/spell-item/effect.enums";
-import { minorSequencer, SpellCombo, spellSequencer } from "../model/spell-item/spell-combo";
+import {
+  contingency,
+  minorSequencer,
+  SpellCombo,
+  spellSequencer,
+} from "../model/spell-item/spell-combo";
 import { Spell } from "../model/spell-item/spell-item";
 import logService from "./log.service";
 import spellComboService from "./spell-combo.service";
@@ -310,6 +315,18 @@ describe("isSelf", () => {
 });
 
 describe("checkTargets", () => {
+  it("lets a contingency aim an anySide spell at its caster", () => {
+    const combo = { key: "TestAnySide", ...contingency("helpless", [w.OtilukesResilientSphere]) };
+    expect(() => spellComboService.checkTargets(combo)).not.toThrow();
+  });
+
+  it("still refuses an enemy spell in a contingency aimed at its caster", () => {
+    const combo = { key: "TestEnemy", ...contingency("helpless", [w.Horror]) };
+    expect(() => spellComboService.checkTargets(combo)).toThrow(
+      "Spell combo TestEnemy: its target self doesn't suit its enemy spells",
+    );
+  });
+
   it("throws when a combo mixes self and enemy spells", () => {
     const combo = { key: "TestMixed", ...minorSequencer([w.Shield, w.Horror]) };
     expect(() => spellComboService.checkTargets(combo)).toThrow(

@@ -315,8 +315,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI623~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI611~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI707~ #6 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Mirror Images)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -341,8 +342,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI602~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI611~ #5 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI713~ #6 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Mirror Images)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BODTAN~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~C6TANOV~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9TANOV~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~DW#ODAM2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~IMPBOD1~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~IMPBOD2~) BEGIN 
@@ -385,8 +387,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI707~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Mirror Images)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -415,8 +418,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI713~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0101~ #0 ~innate~ (1) // Minor Sequencer (Magic Missiles)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Contingency (Mirror Images)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END
 			END
 		BUT_ONLY_IF_IT_CHANGES

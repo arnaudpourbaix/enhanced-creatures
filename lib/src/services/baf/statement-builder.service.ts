@@ -23,6 +23,8 @@ import { CustomCodeLocation, Statements } from "../../model/script/script";
 import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 import creatureService from "../creature.service";
+import logService from "../log.service";
+import { memorizedChecks, sharedRollOutOfOrder } from "./memorized-checks";
 import spellComboService, { isContingency, KIND_NAMES } from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
@@ -1204,7 +1206,17 @@ class StatementBuilderService {
     options: BuilderOptions,
     abilities: CreatureAbility[],
   ): void {
-    for (const ability of abilities) {
+    const memorized = creatureService.memorizedSpellFiles(creature);
+    const outOfOrder = sharedRollOutOfOrder(abilities.map((a) => a.triggers));
+    if (outOfOrder) {
+      logService.warn(
+        `${translationService.from(creature.name)}: ${outOfOrder} has a better chance than the spells above it, so a weaker spell can be cast first`,
+      );
+    }
+    for (const raw of abilities) {
+      const castFiles = creatureService.getAbilityCastFiles(raw);
+      const triggers = memorizedChecks(raw.triggers, castFiles, memorized);
+      const ability = { ...raw, triggers };
       if (ability.targets.length)
         this.creatureTargetsAbility(statements, creature, ability, ability.targets, options);
       else this.creatureSelfAbility(statements, creature, ability, options);
@@ -1397,6 +1409,13 @@ class StatementBuilderService {
       { key: ScriptTarget.token, value: ScriptTarget.myself },
     ]);
     if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
+    // no target to measure from: the enemy it's meant for is the nearest one
+    if (ability.range) {
+      triggers.push({
+        name: "Range",
+        params: [`NearestEnemyOf(${ScriptTarget.myself})`, ability.range],
+      });
+    }
     const actions: Actions.Action[] = [...ability.actions];
     if (ability.timer) {
       triggers.unshift(this.timerExpired(ability.timer));

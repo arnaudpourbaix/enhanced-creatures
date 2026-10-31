@@ -43,9 +43,13 @@ describe("proposeRange", () => {
 
   it("gates a charge delivered in melee", () => {
     const self = state("Personal", 1, 5);
-    expect(proposeRange("SPWI117", { role: "damage" }, [self])).toBe(SHORT_RANGE);
     expect(proposeRange("SPCL820", { role: "buff" }, [self])).toBe(SHORT_RANGE);
     expect(proposeRange("OTHER", { role: "damage" }, [self])).toBeUndefined();
+  });
+
+  it("leaves out a spell creating a weapon, even at touch range", () => {
+    const spell = { role: "damage" as const, createsItems: ["CHILLT"] };
+    expect(proposeRange("X", spell, [state("Touch", 1)])).toBeUndefined();
   });
 
   it("gates an offensive touch cast on self", () => {

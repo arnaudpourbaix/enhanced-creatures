@@ -27,7 +27,7 @@ import {
 //
 // Run: ts-node scripts/extract-spell-saves.ts [--write] [--game <dir>]
 
-const DEFAULT_GAME = "C:/Games/BG2EETest";
+const DEFAULT_GAME = "C:/Games/BG2EE";
 const DATABASE = path.join("lib", "config", "spells", "spell-database.ts");
 const REPORT = path.join("assets", "spells", "spell-saves-report.md");
 

@@ -6,12 +6,13 @@ script's Range() gate. Proposed: what a touch or short range spell should declar
 `proposeRange`), nothing for a longer range. Run the script with `--write` to add the
 missing ones; a declared value is a decision, kept as is.
 
-## To declare (0)
+## To declare (1)
 
 | Spell | File | Vanilla | Modded | Declared | Proposed |
 |---|---|---|---|---|---|
+| AbsorbHealth | SPCL102 | 30 (no text) | 1 (no text) |  | 10 |
 
-## Declared range not above the allies check (3)
+## Declared range not above the allies check (2)
 
 The allies check sets a minimum range: such a spell is only cast by a caster safe from it
 (see `StatementBuilderService.closeRangeFallback`), never otherwise.
@@ -19,33 +20,66 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | Spell | File | Vanilla | Modded | Declared | Proposed |
 |---|---|---|---|---|---|
 | ColorSpray | SPWI105 | 30 (50 ft.) | 10 (Special) | 10 |  |
-| PrismaticSpray | SPWI714 | 15 (0) | 10 (Special) | 10 |  |
 | MephitColorSpray | SPIN937 | 30 (no text) | 30 (no text) | 10 |  |
 
-## Declared, for another reason than touch or short range (7)
+## Declared, for another reason than touch or short range (14)
 
 | Spell | File | Vanilla | Modded | Declared | Proposed |
 |---|---|---|---|---|---|
 | BurningHands | SPWI103 | 5 (0) | 2 (Special) | 10 |  |
 | ColorSpray | SPWI105 | 30 (50 ft.) | 10 (Special) | 10 |  |
-| PrismaticSpray | SPWI714 | 15 (0) | 10 (Special) | 10 |  |
+| Fireburst | SPWI523 | 0 (0) | 0 (Personal) | 8 |  |
+| WailOfTheBanshee | SPWI913 | 1 (0) | 1 (Personal) | 20 |  |
+| BlindingBeauty | SPPR704 | 1 (0) | 1 (Personal) | 9 |  |
 | CloakOfFear | SPPR416 | 1 (0) | 1 (Personal) | 10 |  |
+| HolyWord | SPPR710 | 1 (0) | 1 (Personal) | 20 |  |
+| MassCauseLightWounds | SPPR530 | - | 20 (0) | 15 |  |
+| UnholyWord | SPPR715 | 1 (0) | 1 (Personal) | 20 |  |
 | MephitColorSpray | SPIN937 | 30 (no text) | 30 (no text) | 10 |  |
+| CauseDisease | D5P1329 | - | - | 10 |  |
 | Poison | D5P1411 | - | - | 10 |  |
 | SlayLiving | D5P1511 | - | - | 10 |  |
+| Wither | D5F1740 | - | - | 10 |  |
 
-## Not in the install (6)
+## Not in the install (33)
 
 | Spell | File | Vanilla | Modded | Declared | Proposed |
 |---|---|---|---|---|---|
+| AssassinVines | SPPR623 | - | - |  |  |
+| Misfire | SPPR532 | - | - |  |  |
+| NaturesWrath | SPPR624 | - | - |  |  |
+| WavesOfAgony | SPPR533 | - | - |  |  |
 | SpiderSingleTargetWeb | BDSPIDGA | - | - |  |  |
+| AnimateDead | D5P1301 | - | - |  |  |
+| CauseDisease | D5P1329 | - | - | 10 |  |
+| CloakOfFear | D5P1416 | - | - |  |  |
+| DemiShadowMonsters | D5P2527 | - | - |  |  |
+| Emotion | D5P2411 | - | - |  |  |
+| GreaterMalison | D5P2412 | - | - |  |  |
+| Forbiddance | B_C201 | - | - |  |  |
+| MiscastMagic | D5P1310 | - | - |  |  |
 | Poison | D5P1411 | - | - | 10 |  |
+| RigidThinking | D5P1311 | - | - |  |  |
+| Shatter | B_PR201 | - | - |  |  |
+| Shield | D5P2114 | - | - |  |  |
+| ShadowMonsters | D5P2433 | - | - |  |  |
+| WavesOfFatigue | D5P2508 | - | - |  |  |
+| Chaos | D5P1709 | - | - |  |  |
+| CloudOfPestilence | D5P1424 | - | - |  |  |
 | GreaterCommand | D5P1512 | - | - |  |  |
 | MassCauseLightWounds | D5P1530 | - | - |  |  |
+| Shades | D5P2632 | - | - |  |  |
 | SlayLiving | D5P1511 | - | - | 10 |  |
 | WavesOfAgony | D5P1533 | - | - |  |  |
+| DolorousDecay | D5F1610 | - | - |  |  |
+| Harm | D5F1608 | - | - |  |  |
+| MagicResistance | D5F1509 | - | - |  |  |
+| SummonShadows | D5PP422 | - | - |  |  |
+| TrueSeeing | D5F1505 | - | - |  |  |
+| FingerOfDeath | D5F1708 | - | - |  |  |
+| Wither | D5F1740 | - | - | 10 |  |
 
-## All entries (538)
+## All entries (537)
 
 | Spell | File | Vanilla | Modded | Declared | Proposed |
 |---|---|---|---|---|---|
@@ -66,17 +100,17 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | Breach | SPWI513 | 40 (40 ft.) | 40 (Long) |  |  |
 | BreakEnchantment | SPWI410 | 1 (Touch) | 10 (Short) |  |  |
 | BurningHands | SPWI103 | 5 (0) | 2 (Special) | 10 |  |
-| CatsGrace | SPWI229 | - | 1 (Touch) |  |  |
+| CatsGrace | SPWI230 | - | 1 (Touch) |  |  |
 | ChainLightning | SPWI615 | 40 (40 ft.) | 30 (Long) |  |  |
 | Chaos | SPWI711 | 40 (40 ft.) | 30 (Long) |  |  |
 | ChaosShield | SPWI222 | 0 (0) | 1 (Personal) |  |  |
 | CharmPerson | SPWI104 | 60 (Visual range of the caster) | 30 (Long) |  |  |
-| ChillTouch | SPWI117 | 1 (0) | 1 (Personal) | 10 | 10 |
+| ChillTouch | SPWI117 | 1 (0) | 1 (Personal) |  |  |
 | ChromaticOrb | SPWI118 | 90 (90 ft.) | 30 (Long) |  |  |
 | Clairvoyance | SPWI301 | 1 (Special) | 1 (Personal) |  |  |
 | Cloudkill | SPWI502 | 40 (40 ft.) | 30 (Long) |  |  |
 | ColorSpray | SPWI105 | 30 (50 ft.) | 10 (Special) | 10 |  |
-| Combust | SPWI231 | - | 1 (Touch) | 10 | 10 |
+| Combust | SPWI232 | - | 1 (Touch) | 10 | 10 |
 | Comet | SPWI925 | 50 (270 ft.) | 50 (Long) |  |  |
 | ConeOfCold | SPWI503 | 12 (0) | 10 (Special) |  |  |
 | Confusion | SPWI401 | 35 (35 ft.) | 35 (Long) |  |  |
@@ -91,8 +125,8 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | Contagion | SPWI409 | 30 (90 ft.) | 10 (Short) | 10 | 10 |
 | ControlUndead | SPWI720 | 40 (40 ft.) | 30 (Long) |  |  |
 | CreateBoneguard | SPWI966 | - | 20 (20 ft.) |  |  |
-| DancingLights | SPWI126 | - | 30 (0) |  |  |
-| Darkness15Radius | SPWI228 | - | 1 (0) |  |  |
+| DancingLights | SPWI126 | - | 30 (Sight) |  |  |
+| Darkness15Radius | SPWI228 | - | 30 (30 ft.) |  |  |
 | DartsOfBone | SPWI627 | - | 1 (0) |  |  |
 | Deafness | SPWI223 | 40 (180 ft.) | 30 (Long) |  |  |
 | DeathSpell | SPWI605 | 50 (Visual range of the caster) | 30 (Long) |  |  |
@@ -115,14 +149,14 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | Feeblemind | SPWI509 | 40 (40 ft.) | 30 (Long) |  |  |
 | FingerOfDeath | SPWI713 | 40 (Visual range of the caster) | 30 (Long) |  |  |
 | Fireball | SPWI304 | 40 (40 ft.) | 30 (Long) |  |  |
-| Fireburst | SPWI523 | 0 (0) | 0 (Personal) |  |  |
+| Fireburst | SPWI523 | 0 (0) | 0 (Personal) | 8 |  |
 | FireShield | SPWI418 | 40 (0) | 40 (Personal) |  |  |
 | FlameArrow | SPWI303 | 60 (60 ft.) | 30 (Long) |  |  |
 | FleshToStone | SPWI604 | 50 (Visual range of the caster) | 30 (Long) |  |  |
 | Gate | SPWI905 | 30 (30 ft.) | 20 (Medium) |  |  |
 | GhostArmor | SPWI317 | 1 (0) | 1 (Touch) |  |  |
 | Ghostform | SPWI801 | - | 1 (Personal) |  |  |
-| GhoulTouch | SPWI218 | 1 (0) | 1 (Personal) | 10 | 10 |
+| GhoulTouch | SPWI218 | 1 (0) | 1 (Personal) |  |  |
 | Glitterdust | SPWI224 | 20 (30 ft.) | 20 (Medium) |  |  |
 | GlobeOfInvulnerability | SPWI602 | 1 (0) | 1 (Personal) |  |  |
 | Grease | SPWI101 | 30 (30 ft.) | 20 (Medium) |  |  |
@@ -134,7 +168,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | HoldMonster | SPWI507 | 40 (40 ft.) | 30 (Long) |  |  |
 | HoldPerson | SPWI306 | 35 (35 ft.) | 30 (Long) |  |  |
 | Horror | SPWI205 | 40 (40 ft.) | 30 (Long) |  |  |
-| IceKnife | SPWI130 | - | 60 (Visual range of the caster) |  |  |
+| IceKnife | SPWI131 | - | 60 (Visual range of the caster) |  |  |
 | IceLance | SPWI323 | - | 10 (Short) | 10 | 10 |
 | IceStorm | SPWI404 | 40 (Visual range of the caster) | 30 (Long) |  |  |
 | Imprisonment | SPWI910 | 1 (Touch) | 10 (Short) | 10 | 10 |
@@ -151,7 +185,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | LanceOfDisruption | SPWI327 | - | 100 (100 ft.) |  |  |
 | LarlochEnergyDrain | SPWI914 | 1 (Touch) | 10 (Short) | 10 | 10 |
 | LarlochMinorDrain | SPWI119 | 90 (30 ft.) | 30 (Long) |  |  |
-| LichTouch | SPWI631 | - | 1 (Touch) | 10 | 10 |
+| LichTouch | SPWI631 | - | 1 (Touch) |  |  |
 | LightningBolt | SPWI308 | 50 (70 ft.) | 30 (Long) |  |  |
 | LowerResistance | SPWI514 | 40 (40 ft.) | 30 (Long) |  |  |
 | Luck | SPWI209 | 15 (15 ft.) | 20 (Medium) |  |  |
@@ -166,7 +200,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | MeteorSwarm | SPWI911 | 50 (270 ft.) | 30 (Long) |  |  |
 | MindBlank | SPWI802 | 1 (0) | 30 (0) |  |  |
 | MinorGlobeOfInvulnerability | SPWI406 | 1 (0) | 1 (Personal) |  |  |
-| MinorLightningBolt | SPWI230 | - | 50 (Visual range of the caster) |  |  |
+| MinorLightningBolt | SPWI231 | - | 50 (Visual range of the caster) |  |  |
 | MinorSpellDeflection | SPWI318 | 1 (0) | 1 (Personal) |  |  |
 | MirrorImages | SPWI212 | 1 (0) | 1 (Personal) |  |  |
 | MomentOfPrescience | SPWI808 | 1 (0) | 1 (Personal) |  |  |
@@ -199,7 +233,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | PowerWordSleep | SPWI220 | 40 (90 ft.) | 30 (Long) |  |  |
 | PowerWordStun | SPWI715 | 80 (Visual range of the caster) | 30 (Long) |  |  |
 | PrismaticMantle | SPWI708 | 1 (0) | 1 (Personal) |  |  |
-| PrismaticSpray | SPWI714 | 15 (0) | 10 (Special) | 10 |  |
+| PrismaticSpray | SPWI714 | 15 (0) | 10 (Special) |  |  |
 | ProtectionFromAcid | SPWI517 | 1 (Touch) | 1 (Touch) |  |  |
 | ProtectionFromCold | SPWI320 | 1 (Touch) | 1 (Touch) |  |  |
 | ProtectionFromElectricity | SPWI512 | 1 (Touch) | 1 (Touch) |  |  |
@@ -245,7 +279,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | ShapeshiftsWinterWolf | SPWI465 | - | 1 (no text) |  |  |
 | ShapeshiftWolf | SPWI499 | 1 (no text) | 1 (no text) |  |  |
 | Shield | SPWI114 | 1 (0) | 1 (Personal) |  |  |
-| ShockingGrasp | SPWI115 | 1 (Touch) | 1 (Personal) | 10 | 10 |
+| ShockingGrasp | SPWI115 | 1 (Touch) | 1 (Personal) |  |  |
 | Shout | SPWI432 | - | 22 (0) |  |  |
 | ShroudOfFlame | SPWI525 | - | 100 (Visual range of the caster) |  |  |
 | SkullTrap | SPWI313 | 30 (60 ft.) | 20 (Medium) |  |  |
@@ -255,7 +289,6 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | SoulEater | SPWI628 | - | 100 (Visual range of the caster) |  |  |
 | SoundBurst | SPWI223 | 40 (180 ft.) | 30 (Long) |  |  |
 | SpellDeflection | SPWI522 | 1 (0) | 1 (Personal) |  |  |
-| SpellDeflectionSPWI618 | SPWI618 | 1 (0) | 1 (Personal) |  |  |
 | SpellShield | SPWI519 | 1 (0) | 1 (Personal) |  |  |
 | Spellstrike | SPWI903 | 80 (80 ft.) | 30 (Long) |  |  |
 | SpellThrust | SPWI321 | 25 (25 ft.) | 30 (Long) |  |  |
@@ -263,19 +296,19 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | SpiritArmor | SPWI414 | 1 (Touch) | 1 (Touch) |  |  |
 | Spook | SPWI125 | 30 (30 ft.) | 30 (Long) |  |  |
 | StinkingCloud | SPWI213 | 40 (90 ft.) | 30 (Long) |  |  |
-| Stonefist | SPWI129 | - | 1 (0) |  |  |
+| Stonefist | SPWI130 | - | 1 (0) |  |  |
 | Stoneskin | SPWI408 | 1 (0) | 1 (Personal) |  |  |
 | Stormbolts | SPWI904 | - | 1 (0) |  |  |
 | Strength | SPWI214 | 20 (20 ft.) | 10 (Short) |  |  |
 | Suffocate | SPWI725 | - | 30 (Visual range of the caster) |  |  |
-| SummonDarkPlanetar | SPWI924 | 40 (120 ft.) | 30 (Long) |  |  |
+| SummonDarkPlanetar | SPWI924 | 40 (120 ft.) | 30 (120 ft.) |  |  |
 | SummonDeathKnight | SPWI707 | 35 (35 ft.) | 20 (Medium) |  |  |
 | SummonDjinni | SPWI718 | 25 (120 ft.) | 30 (Long) |  |  |
 | SummonEfreeti | SPWI717 | 25 (120 ft.) | 30 (Long) |  |  |
 | SummonFiend | SPWI807 | 35 (Visual range of the caster) | 20 (Medium) |  |  |
-| SummonNishruu | SPWI624 | 25 (120 ft.) | 30 (Long) |  |  |
+| SummonNishruu | SPWI624 | 25 (25 ft.) | 30 (Long) |  |  |
 | SummonNishruuSPWI719 | SPWI719 | 25 (120 ft.) | 30 (Long) |  |  |
-| SummonPlanetar | SPWI923 | 40 (120 ft.) | 30 (Long) |  |  |
+| SummonPlanetar | SPWI923 | 40 (120 ft.) | 30 (120 ft.) |  |  |
 | SummonShadow | SPWI501 | 30 (30 ft.) | 20 (Long) |  |  |
 | SymbolDeath | SPWI817 | 70 (90 ft.) | 30 (Long) |  |  |
 | SymbolFear | SPWI899 | 30 (90 ft.) | 30 (no text) |  |  |
@@ -295,7 +328,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | VeridonsIcyRay | SPWI906 | - | 60 (Visual range of the caster) |  |  |
 | VitriolicSphere | SPWI426 | - | 20 (Medium) |  |  |
 | Vocalize | SPWI219 | 1 (0) | 1 (Personal) |  |  |
-| WailOfTheBanshee | SPWI913 | 1 (0) | 1 (Personal) |  |  |
+| WailOfTheBanshee | SPWI913 | 1 (0) | 1 (Personal) | 20 |  |
 | WavesOfFatigue | SPWI508 | 35 (35 ft.) | 30 (Long) |  |  |
 | Web | SPWI215 | 40 (40 ft.) | 30 (Long) |  |  |
 | Wraithform | SPWI315 | 1 (0) | 1 (0) |  |  |
@@ -303,7 +336,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | AerialServant | SPPR601 | 20 (45 ft.) | 20 (Medium) |  |  |
 | Aid | SPPR201 | 1 (Touch) | 1 (Touch) |  |  |
 | AlicornLance | SPPR222 | - | 100 (Visual range of the caster) |  |  |
-| AnimalGrowth | SPPR524 | - | 50 (Self) |  |  |
+| AnimalGrowth | SPPR524 | - | 1 (Long) |  |  |
 | AnimalRage | SPPR529 | - | 1 (Touch) |  |  |
 | AnimalSummoning1 | SPPR122 | - | 30 (Long) |  |  |
 | AnimalSummoning2 | SPPR221 | - | 30 (Long) |  |  |
@@ -315,25 +348,25 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | AnimateDead | SPPR301 | 30 (30 ft.) | 20 (Medium) |  |  |
 | AnimateSkeletonWarrior | SPPR619 | - | 30 (Long) |  |  |
 | ArmorOfFaith | SPPR111 | 1 (0) | 1 (Personal) |  |  |
-| AssassinVines | SPPR623 | - | 30 (Visual range of the caster) |  |  |
+| AssassinVines | SPPR623 | - | - |  |  |
 | AuraOfFlamingDeath | SPPR730 | 40 (0) | 40 (Personal) |  |  |
 | Banishment | SPPR616 | - | 30 (Long) |  |  |
 | Barkskin | SPPR202 | 1 (Touch) | 1 (Touch) |  |  |
 | BeastClaw | SPPR223 | - | 1 (0) |  |  |
 | BladeBarrier | SPPR603 | 1 (0) | 1 (Personal) |  |  |
 | Bless | SPPR101 | 40 (40 ft.) | 30 (Long) |  |  |
-| BlindingBeauty | SPPR704 | 1 (0) | 1 (Personal) |  |  |
+| BlindingBeauty | SPPR704 | 1 (0) | 1 (Personal) | 9 |  |
 | BloodRage | SPPR423 | - | 30 (Visual range of the caster) |  |  |
 | BoltOfGlory | SPPR612 | 40 (60 ft.) | 30 (Long) |  |  |
 | BreakEnchantment | SPPR307 | 1 (Touch) | 10 (Short) |  |  |
 | CallLightning | SPPR302 | 80 (80 ft.) | 30 (Long) |  |  |
 | CallWoodlandBeeings | SPPR410 | 25 (25 ft.) | 20 (Medium) |  |  |
-| CauseCriticalWounds | SPPR414 | 1 (Touch) | 1 (Personal) | 10 | 10 |
+| CauseCriticalWounds | SPPR414 | 1 (Touch) | 1 (Personal) |  |  |
 | CauseDisease | SPPR329 | - | 1 (Touch) | 10 | 10 |
-| CauseLightWounds | SPPR121 | - | 1 (Personal) | 10 | 10 |
-| CauseModerateWounds | SPPR220 | - | 1 (Personal) | 10 | 10 |
-| CauseMortalWounds | SPPR510 | 1 (Touch) | 1 (Personal) | 10 | 10 |
-| CauseSeriousWounds | SPPR322 | - | 1 (Personal) | 10 | 10 |
+| CauseLightWounds | SPPR121 | - | 1 (Personal) |  |  |
+| CauseModerateWounds | SPPR220 | - | 1 (Personal) |  |  |
+| CauseMortalWounds | SPPR510 | 1 (Touch) | 1 (Personal) |  |  |
+| CauseSeriousWounds | SPPR322 | - | 1 (Personal) |  |  |
 | ChampionsStrength | SPPR507 | 40 (Visual range of the caster) | 20 (Medium) |  |  |
 | Chant | SPPR203 | 0 (0) | 40 (Visual range of the caster) |  |  |
 | Chaos | SPPR709 | 45 (Visual range of the caster) | 30 (Long) |  |  |
@@ -397,14 +430,14 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | GreaterCommand | SPPR512 | 35 (Visual range of the caster) | 30 (Long) |  |  |
 | GreaterDivineProtection | SPPR738 | - | 1 (Touch) |  |  |
 | GreaterRestoration | SPPR713 | 1 (Touch) | 1 (Touch) |  |  |
-| Harm | SPPR608 | 1 (Touch) | 1 (Personal) | 10 | 10 |
+| Harm | SPPR608 | 1 (Touch) | 1 (Personal) |  |  |
 | Heal | SPPR607 | 1 (Touch) | 1 (Touch) |  |  |
 | HealingMist | SPPR739 | - | 100 (Visual range of the caster) |  |  |
 | HoldPerson | SPPR208 | 35 (35 ft.) | 30 (Long) |  |  |
 | HoldPersonOrAnimal | SPPR305 | 35 (35 ft.) | 30 (Long) |  |  |
 | HolyPower | SPPR412 | 1 (0) | 1 (Personal) |  |  |
 | HolySmite | SPPR313 | 25 (Visual range of the caster) | 30 (Long) |  |  |
-| HolyWord | SPPR710 | 1 (0) | 1 (Personal) |  |  |
+| HolyWord | SPPR710 | 1 (0) | 1 (Personal) | 20 |  |
 | Icelance | SPPR327 | - | 10 (Short) | 10 | 10 |
 | IceStorm | SPPR418 | - | 30 (Long) |  |  |
 | ImperviousSanctityOfMind | SPPR736 | - | 30 (0) |  |  |
@@ -413,17 +446,17 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | InvisibilityPurge | SPPR309 | 1 (0) | 1 (Personal) |  |  |
 | Ironskin | SPPR506 | 1 (0) | 1 (Personal) |  |  |
 | LesserRestoration | SPPR417 | 1 (Touch) | 1 (Touch) |  |  |
-| MagicFang | SPPR325 | - | 50 (Self) |  |  |
+| MagicFang | SPPR325 | - | 30 (Long) |  |  |
 | MagicResistance | SPPR509 | 1 (Touch) | 1 (Touch) |  |  |
-| MassCauseLightWounds | SPPR530 | - | 20 (0) |  |  |
+| MassCauseLightWounds | SPPR530 | - | 20 (0) | 15 |  |
 | MassCure | SPPR514 | 20 (0) | 1 (Personal) |  |  |
 | MassRegenerate | SPPR523 | - | 1 (Touch) |  |  |
 | MentalDomination | SPPR405 | 40 (Visual range of the caster) | 30 (Long) |  |  |
 | MiscastMagic | SPPR310 | 50 (Visual range of the caster) | 30 (Long) |  |  |
-| Misfire | SPPR532 | - | 40 (Long) |  |  |
+| Misfire | SPPR532 | - | - |  |  |
 | MoldTouch | SPPR334 | - | 1 (Touch) | 10 | 10 |
 | Moonblade | SPPR331 | - | 1 (0) |  |  |
-| NaturesWrath | SPPR624 | - | 1 (Self) |  |  |
+| NaturesWrath | SPPR624 | - | - |  |  |
 | NegativePlaneProtection | SPPR413 | 30 (Touch) | 1 (Touch) |  |  |
 | NeutralizePoison | SPPR404 | 1 (Touch) | 1 (Touch) |  |  |
 | ObscuringMist | SPPR123 | - | 30 (Long) |  |  |
@@ -436,7 +469,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | ProtectionFromAcid | SPPR519 | - | 1 (Touch) |  |  |
 | ProtectionFromCold | SPPR520 | - | 1 (Touch) |  |  |
 | ProtectionFromEvil | SPPR107 | 1 (Touch) | 1 (Touch) |  |  |
-| ProtectionFromEvil10Radius | SPPR408 | 15 (Touch) | 15 (Personal) |  |  |
+| ProtectionFromEvil10Radius | SPPR408 | 15 (Touch) | 15 (Touch) |  |  |
 | ProtectionFromFire | SPPR306 | 1 (Touch) | 1 (Touch) |  |  |
 | ProtectionFromFireSPPR522 | SPPR522 | - | 1 (Touch) |  |  |
 | ProtectionFromGood | SPPR125 | - | 1 (Touch) |  |  |
@@ -461,7 +494,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | ShieldOfTheArchons | SPPR701 | 1 (Touch) | 1 (Personal) |  |  |
 | Shillelagh | SPPR110 | 1 (0) | 1 (Personal) |  |  |
 | Silence | SPPR211 | 80 (Visual range of the caster) | 30 (Long) |  |  |
-| SlayLiving | SPPR511 | 1 (Touch) | 1 (Personal) | 10 | 10 |
+| SlayLiving | SPPR511 | 1 (Touch) | 1 (Personal) |  |  |
 | SlowPoison | SPPR212 | 1 (Touch) | 1 (Touch) |  |  |
 | SmashingWave | SPPR427 | - | 100 (100 ft.) |  |  |
 | SolsSearingOrb | SPPR614 | 1 (90 ft.) | 1 (Personal) |  |  |
@@ -482,8 +515,8 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | StrengthOfOne | SPPR312 | 1 (0) | 1 (Personal) |  |  |
 | StrengthOfStone | SPPR117 | - | 10 (Personal) |  |  |
 | SummonDeathKnight | SPPR703 | 30 (60 ft.) | 20 (Medium) |  |  |
-| SummonDeva | SPPR726 | 40 (120 ft.) | 30 (Long) |  |  |
-| SummonFallenDeva | SPPR727 | 40 (120 ft.) | 30 (Long) |  |  |
+| SummonDeva | SPPR726 | 40 (120 ft.) | 30 (120 ft.) |  |  |
+| SummonFallenDeva | SPPR727 | 40 (120 ft.) | 30 (120 ft.) |  |  |
 | SummonInsects | SPPR319 | 60 (90 ft.) | 30 (Long) |  |  |
 | Sunray | SPPR707 | 8 (20 ft.) | 1 (Personal) |  |  |
 | Sunscorch | SPPR118 | - | 30 (Long) |  |  |
@@ -497,13 +530,13 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | UndeadWard | SPPR528 | - | 1 (0) |  |  |
 | UnfailingEndurance | SPPR425 | - | 1 (Touch) |  |  |
 | UnholyBlight | SPPR314 | 25 (Visual range of the caster) | 30 (Long) |  |  |
-| UnholyWord | SPPR715 | 1 (0) | 1 (Personal) |  |  |
+| UnholyWord | SPPR715 | 1 (0) | 1 (Personal) | 20 |  |
 | WallOfMoonlight | SPPR429 | - | 100 (Visual range of the caster) |  |  |
-| WavesOfAgony | SPPR533 | - | 35 (35 feet) |  |  |
+| WavesOfAgony | SPPR533 | - | - |  |  |
 | Whirlwind | SPPR621 | - | 100 (Visual range of the caster) |  |  |
 | Wither | SPPR740 | - | 1 (Touch) | 10 | 10 |
 | WrithingFog | SPPR250 | 30 (Visual range of the caster) | 30 (Visual range of the caster) |  |  |
-| AbsorbHealth | SPCL102 | 30 (no text) | 30 (no text) |  |  |
+| AbsorbHealth | SPCL102 | 30 (no text) | 1 (no text) |  | 10 |
 | AnimateDead | SPCL106 | 30 (30 ft.) | 30 (30 ft.) |  |  |
 | AuraOfDespair | SPCL103 | 40 (no text) | 40 (no text) |  |  |
 | AvengerCharmPersonOrMammal | SPCL641 | 25 (no text) | 25 (no text) |  |  |
@@ -524,7 +557,7 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | GreaterSun | SPCL237 | 40 (no text) | 40 (no text) |  |  |
 | HoldUndead | SPCL742 | 35 (35 ft.) | 35 (35 ft.) |  |  |
 | Kai | SPCL144 | 1 (no text) | 1 (no text) |  |  |
-| LayOnHands | SPCL211 | 1 (no text) | 1 (no text) |  |  |
+| LayOnHands | SPCL211 | 1 (no text) | 0 (no text) |  |  |
 | LayOnHandsSPCL815 | SPCL815 | 1 (no text) | 1 (no text) |  |  |
 | LightningBolt | SPCL722 | 50 (70 ft.) | 30 (Long) |  |  |
 | OffensiveSpin | SPCL521 | 1 (no text) | 1 (no text) |  |  |
@@ -557,33 +590,33 @@ The allies check sets a minimum range: such a spell is only cast by a caster saf
 | VampireBatFormChange | SPIN963 | 1 (no text) | 1 (no text) |  |  |
 | VampireGasFormChange | SPIN964 | 1 (no text) | 1 (no text) |  |  |
 | VortexWeb | SPIN575 | 40 (no text) | 40 (no text) |  |  |
-| AnimateDead | D5P1301 | - | 17 (Medium) |  |  |
-| CauseDisease | D5P1329 | - | 1 (Touch) | 10 | 10 |
+| AnimateDead | D5P1301 | - | - |  |  |
+| CauseDisease | D5P1329 | - | - | 10 |  |
 | CircleOfBones | SPPR332 | - | 1 (0) |  |  |
-| CloakOfFear | D5P1416 | - | 1 (Personal) |  |  |
-| DemiShadowMonsters | D5P2527 | - | 20 (Visual range of the caster) |  |  |
+| CloakOfFear | D5P1416 | - | - |  |  |
+| DemiShadowMonsters | D5P2527 | - | - |  |  |
 | Doom | SPPR113 | 25 (25 ft.) | 30 (Long) |  |  |
-| Emotion | D5P2411 | - | 50 (Visual range of the caster) |  |  |
-| GreaterMalison | D5P2412 | - | 30 (Long) |  |  |
-| Forbiddance | B_C201 | - | 35 (Visual range of the caster) |  |  |
-| MiscastMagic | D5P1310 | - | 30 (Long) |  |  |
+| Emotion | D5P2411 | - | - |  |  |
+| GreaterMalison | D5P2412 | - | - |  |  |
+| Forbiddance | B_C201 | - | - |  |  |
+| MiscastMagic | D5P1310 | - | - |  |  |
 | Poison | D5P1411 | - | - | 10 |  |
-| RigidThinking | D5P1311 | - | 35 (Long) |  |  |
-| Shatter | B_PR201 | - | 35 (25') |  |  |
-| Shield | D5P2114 | - | 1 (Personal) |  |  |
-| ShadowMonsters | D5P2433 | - | 20 (Visual range of the caster) |  |  |
-| WavesOfFatigue | D5P2508 | - | 30 (Long) |  |  |
-| Chaos | D5P1709 | - | 27 (Long) |  |  |
-| CloudOfPestilence | D5P1424 | - | 100 (Visual range of the caster) |  |  |
+| RigidThinking | D5P1311 | - | - |  |  |
+| Shatter | B_PR201 | - | - |  |  |
+| Shield | D5P2114 | - | - |  |  |
+| ShadowMonsters | D5P2433 | - | - |  |  |
+| WavesOfFatigue | D5P2508 | - | - |  |  |
+| Chaos | D5P1709 | - | - |  |  |
+| CloudOfPestilence | D5P1424 | - | - |  |  |
 | GreaterCommand | D5P1512 | - | - |  |  |
 | MassCauseLightWounds | D5P1530 | - | - |  |  |
-| Shades | D5P2632 | - | 50 (Visual range of the caster) |  |  |
+| Shades | D5P2632 | - | - |  |  |
 | SlayLiving | D5P1511 | - | - | 10 |  |
 | WavesOfAgony | D5P1533 | - | - |  |  |
-| DolorousDecay | D5F1610 | - | 20 (Medium) |  |  |
-| Harm | D5F1608 | - | 1 (Personal) |  |  |
-| MagicResistance | D5F1509 | - | 1 (Touch) | 10 | 10 |
-| SummonShadows | D5PP422 | - | 17 (Long) |  |  |
-| TrueSeeing | D5F1505 | - | 1 (Personal) |  |  |
-| FingerOfDeath | D5F1708 | - | 30 (Long) |  |  |
-| Wither | D5F1740 | - | 1 (Touch) | 10 | 10 |
+| DolorousDecay | D5F1610 | - | - |  |  |
+| Harm | D5F1608 | - | - |  |  |
+| MagicResistance | D5F1509 | - | - |  |  |
+| SummonShadows | D5PP422 | - | - |  |  |
+| TrueSeeing | D5F1505 | - | - |  |  |
+| FingerOfDeath | D5F1708 | - | - |  |  |
+| Wither | D5F1740 | - | - | 10 |  |

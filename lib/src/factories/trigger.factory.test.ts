@@ -272,6 +272,21 @@ describe("immuneToSpellLevel", () => {
 });
 
 describe("alliesSafe", () => {
+  it("measures the caster's own allies for an area around it", () => {
+    const result = triggerFactory.alliesSafe({
+      range: 8,
+      count: 1,
+      safeIf: [],
+      aroundCaster: true,
+    });
+    expect(JSON.stringify(result)).not.toContain("TriggerOverride");
+    expect(result.at(-1)).toMatchObject({
+      name: "Range",
+      params: ["SecondNearestAllyOf(Myself)", 8],
+      negation: true,
+    });
+  });
+
   const target = "LastSeenBy(Myself)";
   const ally = (prefix: string) => `${prefix}NearestEnemyOf(Myself)`;
   const asTarget = (trigger: Triggers.Trigger, negation = false) => ({

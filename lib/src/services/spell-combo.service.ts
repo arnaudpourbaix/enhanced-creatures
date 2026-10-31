@@ -164,12 +164,15 @@ class SpellComboService {
    * (it is cast at the first one's targets).
    */
   checkTargets(combo: SpellCombo): void {
-    const selves = combo.spells.map((spell) => this.spellIsSelf(combo, spell));
+    // an anySide spell suits either side
+    const selves = combo.spells
+      .filter((spell) => !spell.anySide)
+      .map((spell) => this.spellIsSelf(combo, spell));
     if (selves.some(Boolean) && !selves.every(Boolean)) {
       throw new Error(`Spell combo ${combo.key} mixes self and enemy spells`);
     }
     if (isContingency(combo)) {
-      this.checkContingencyTarget(combo, selves.every(Boolean));
+      this.checkContingencyTarget(combo, selves);
       return;
     }
     if (selves.some(Boolean)) return;
@@ -185,12 +188,13 @@ class SpellComboService {
     }
   }
 
-  private checkContingencyTarget(combo: SpellCombo, selfSpells: boolean): void {
+  private checkContingencyTarget(combo: SpellCombo, selves: boolean[]): void {
     const target = combo.target ?? "self";
     if (combo.kind === "contingency" && target !== "self") {
       throw new Error(`Spell combo ${combo.key}: a contingency can only target the caster`);
     }
-    if (selfSpells !== (target === "self")) {
+    const selfSpells = selves.every(Boolean);
+    if (selves.length && selfSpells !== (target === "self")) {
       throw new Error(
         `Spell combo ${combo.key}: its target ${target} doesn't suit its ${selfSpells ? "self" : "enemy"} spells`,
       );

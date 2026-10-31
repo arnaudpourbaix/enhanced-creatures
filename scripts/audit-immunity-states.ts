@@ -12,7 +12,7 @@ import { ResourceReader } from "./lib/spell-saves";
 //
 // Run: ts-node scripts/audit-immunity-states.ts   (pass --game <dir> to read another install)
 
-const DEFAULT_GAME = "C:/Games/BG2EETest";
+const DEFAULT_GAME = "C:/Games/BG2EE";
 const REPORT = path.join("assets", "spells", "immunity-states-report.md");
 const TYPES = { SPL: 0x3ee, ITM: 0x3ed, "2DA": 0x3f4 } as const;
 

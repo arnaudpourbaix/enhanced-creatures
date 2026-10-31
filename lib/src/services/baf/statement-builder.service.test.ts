@@ -1172,6 +1172,15 @@ describe("precastContingencies (private)", () => {
 });
 
 describe("creatureSelfAbility (private)", () => {
+  it("checks the nearest enemy against a max range, and nothing without one", () => {
+    const statements: Statements = [];
+    const range = { name: "Range", params: ["NearestEnemyOf(Myself)", 10] };
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility({ range: 10 }), options());
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(), options());
+    expect(statements[0].triggers).toContainEqual(range);
+    expect(statements[1].triggers).not.toContainEqual(range);
+  });
+
   it("wraps a self-targeted ability with the shared round timer by default", () => {
     const statements: Statements = [];
     service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(), options());

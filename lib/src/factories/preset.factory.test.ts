@@ -77,10 +77,10 @@ describe("createSpell", () => {
   });
 });
 
-describe("createOrderedSpells", () => {
+describe("createSpells", () => {
   it("copies each spell's own range onto its resulting ability", () => {
     const spells: SpellReference[] = [SPELLS.Wizard.BurningHands, SPELLS.Wizard.Domination];
-    const [withRange, withoutRange] = presetFactory.createOrderedSpells(spells);
+    const [withRange, withoutRange] = presetFactory.createSpells(spells, {});
     expect(withRange.ability.range).toBe(SPELLS.Wizard.BurningHands.range);
     expect(withoutRange.ability.range).toBeUndefined();
   });

@@ -98,6 +98,10 @@ export interface AlliesCheck {
    */
   range: number;
   /**
+   * The area starts from the caster (a burst around it, a cone), who isn't hit: its allies are checked around it, and the target needs no minimum range (see triggerFactory.alliesSafe)
+   */
+  aroundCaster?: boolean;
+  /**
    * Number of allies checked one by one (3 by default): one more ally within radius and the
    * ability isn't used at all
    */

@@ -1,43 +1,41 @@
 import presetFactory from "../../src/factories/preset.factory";
-import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 
-const WEAPON_ITEM_TRIGGERS = triggerFactory.hasItem(
+/** Spells creating a weapon: see SpellReference.createsItems for what keeps them from stacking. */
+export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createSpells(
   [
-    "LIGHT",
-    "MODERATE",
-    "SERIOUS",
-    "CRITICAL",
-    "HARM",
-    "SLAYLIVE",
-    "SHAMMR",
-    "SHAMMR2",
-    "SHAMMR3",
-    "SHAMMR4",
-    "SHAMMR5",
-    "FBLADE1",
-    "FBLADE2",
-    "FBLADE3",
-    "MOONBLA",
-    "PHANBLA",
-    "MELFMET",
-    "BLAKBLAD",
-  ],
-  true,
-);
-
-export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createOrderedSpells(
-  [
-    SPELLS.Priest.Harm,
-    SPELLS.Priest.SlayLiving,
+    SPELLS.Wizard.BlackBladeOfDisaster,
+    SPELLS.Wizard.ChillTouch,
+    SPELLS.Wizard.DartsOfBone,
+    SPELLS.Wizard.EnergyBlades,
+    SPELLS.Wizard.GhoulTouch,
+    SPELLS.Wizard.IronBody,
+    SPELLS.Wizard.LichTouch,
+    SPELLS.Wizard.MelfsMinuteMeteors,
+    SPELLS.Wizard.MordenkainensForceBlade,
+    SPELLS.Wizard.PhantomBlade,
+    SPELLS.Wizard.ShockingGrasp,
+    SPELLS.Wizard.Stonefist,
+    SPELLS.Wizard.TurnPebbleToBoulder,
+    SPELLS.Priest.BeastClaw,
     SPELLS.Priest.CauseCriticalWounds,
-    SPELLS.Priest.CauseSeriousWounds,
-    SPELLS.Priest.SpiritualHammer,
-    SPELLS.Priest.CauseModerateWounds,
     SPELLS.Priest.CauseLightWounds,
+    SPELLS.Priest.CauseModerateWounds,
+    SPELLS.Priest.CauseMortalWounds,
+    SPELLS.Priest.CauseSeriousWounds,
+    SPELLS.Priest.EnergyBlades,
+    SPELLS.Priest.FireSeeds,
+    SPELLS.Priest.FlameBlade,
+    SPELLS.Priest.Harm,
+    FNP_SPELLS.Priest.Harm,
+    SPELLS.Priest.Moonblade,
+    SPELLS.Priest.Shillelagh,
+    SPELLS.Priest.SlayLiving,
+    SPELLS.Priest.SolsSearingOrb,
+    SPELLS.Priest.SpiritualHammer,
+    SPELLS.Priest.StarMetalCudgel,
   ],
-  {
-    triggers: [...WEAPON_ITEM_TRIGGERS],
-  },
+  {},
 );

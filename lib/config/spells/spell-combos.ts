@@ -2,15 +2,14 @@ import {
   chainContingency,
   checkDuplicates,
   contingency,
-  contingencyMaxLevel,
   minorSequencer,
   registerContingencies,
   registerSequencers,
   SpellCombo,
   spellSequencer,
 } from "../../src/model/spell-item/spell-combo";
-import { SPELLS } from "./spell-database";
 import { FNP_SPELLS } from "./fnp-spell-database";
+import { SPELLS } from "./spell-database";
 
 const s = SPELLS.Wizard;
 
@@ -47,7 +46,7 @@ export const CONTINGENCIES = registerContingencies(
     ProtectAndSummon: chainContingency(
       "hit",
       [s.MomentOfPrescience, s.ProtectionFromEnergy, s.MonsterSummoning8],
-      "lastHitter",
+      "self",
     ),
   },
   COMBO_SPELLS,

@@ -22,6 +22,18 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.BatteringRam,
       SPELLS.Wizard.ChromaticOrb,
       SPELLS.Wizard.LarlochMinorDrain,
+      SPELLS.Wizard.BigbysCrushingHand,
+      SPELLS.Wizard.IceKnife,
+      SPELLS.Wizard.IceLance,
+      SPELLS.Wizard.LarlochEnergyDrain,
+      SPELLS.Wizard.MinorLightningBolt,
+      SPELLS.Wizard.OtilukesFreezingSphere,
+      SPELLS.Wizard.VeridonsIcyRay,
+      SPELLS.Priest.AlicornLance,
+      SPELLS.Priest.Icelance,
+      SPELLS.Priest.Implosion,
+      SPELLS.Priest.Sunscorch,
+      FNP_SPELLS.Priest.Poison,
     ],
     {
       targets: CommonTargetLists.Enemies,
@@ -54,5 +66,10 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(FNP_SPELLS.Priest.Shatter, {
     targets: CommonTargetLists.Enemies,
     timer: { name: "Shatter", value: 4 * Durations.round },
+  }),
+
+  ...presetFactory.createSpell(SPELLS.Priest.StaticCharge, {
+    spell: { castOnSelf: true },
+    triggers: [triggerFactory.see("NearestEnemyOf")],
   }),
 ];

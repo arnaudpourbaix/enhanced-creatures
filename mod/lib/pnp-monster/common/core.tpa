@@ -231,9 +231,9 @@ COPY_EXISTING ~jasc0102.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI314" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
 
 // Sequencer
 CREATE SPL "jasc0103"
@@ -267,7 +267,7 @@ COPY_EXISTING ~jasc0105.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI413" END
 
 // Contingency
 CREATE SPL "jasc0106"
@@ -291,26 +291,202 @@ COPY_EXISTING ~jasc0107.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0106" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
 
-// Chain Contingency
+// Contingency
 CREATE SPL "jasc0108"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0108.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11011)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0108" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter1=1 timing=1 probability1=100 STR_VAR resource="jasc0109" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc0109" END
 
-// Chain Contingency
+// Contingency
 CREATE SPL "jasc0109"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0109.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0108" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI613" END
+
+// Contingency
+CREATE SPL "jasc010a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010a" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010b" END
+
+// Contingency
+CREATE SPL "jasc010b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010a" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI609" END
+
+// Contingency
+CREATE SPL "jasc010c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010c" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010d" END
+
+// Contingency
+CREATE SPL "jasc010d"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010d.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010c" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Contingency
+CREATE SPL "jasc010e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010f" END
+
+// Contingency
+CREATE SPL "jasc010f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010e" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI606" END
+
+// Contingency
+CREATE SPL "jasc010g"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010g.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010g" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010h" END
+
+// Contingency
+CREATE SPL "jasc010h"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010h.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010g" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
+
+// Contingency
+CREATE SPL "jasc010i"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010i.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010i" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010j" END
+
+// Contingency
+CREATE SPL "jasc010j"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010j.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010i" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI708" END
+
+// Contingency
+CREATE SPL "jasc010k"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010k.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010k" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010l" END
+
+// Contingency
+CREATE SPL "jasc010l"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010l.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010k" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI813" END
+
+// Contingency
+CREATE SPL "jasc010m"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010m.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010m" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010n" END
+
+// Contingency
+CREATE SPL "jasc010n"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010n.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11010)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010m" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI808" END
+
+// Chain Contingency
+CREATE SPL "jasc010o"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010o.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11011)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0108" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI812" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI812" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI812" END
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010o" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010p" END
+
+// Chain Contingency
+CREATE SPL "jasc010p"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010p.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11011)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010o" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI808" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI803" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI806" END

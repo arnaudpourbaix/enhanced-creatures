@@ -12,7 +12,6 @@ import spellComboService, {
   KIND_NAMES,
 } from "../services/spell-combo.service";
 import logService from "../services/log.service";
-import triggerFactory from "./trigger.factory";
 
 /** A combo's contained spell with its preset's ability. */
 interface ContainedAbility {
@@ -39,31 +38,6 @@ function neverHold(triggers: Triggers.Trigger[]): boolean {
 }
 
 class PresetFactory {
-  /**
-   * Spells will be cast from the first of the list to the last, in that order.
-   */
-  createOrderedSpells(spells: SpellReference[], override?: RawCreatureAbility): AbilityPreset[] {
-    const weakerSpells: SpellReference[] = [];
-    override ??= {};
-    return spells.flatMap((spell) => {
-      const ability: RawCreatureAbility = {
-        name: spell.name,
-        spell: this.spellDefaults(spell),
-        triggers: weakerSpells.length ? triggerFactory.haveSpell(weakerSpells, true) : [],
-        requireVocal: true,
-        probability: DEFAULT_SPELL_PROBABILITY,
-      };
-      if (spell.keywords !== undefined) ability.keywords = spell.keywords;
-      if (spell.level !== undefined) ability.level = spell.level;
-      if (spell.saves !== undefined) ability.saves = spell.saves;
-      if (spell.range !== undefined) ability.range = spell.range;
-      if (spell.alliesCheck !== undefined) ability.alliesCheck = spell.alliesCheck;
-      const presets = this.presetsForFiles(spell, deepmerge(ability, override));
-      weakerSpells.push(spell);
-      return presets;
-    });
-  }
-
   /**
    * `resourceVariants` are other spell files (outside the database) cast through the same preset,
    * unlike `spell.variants` (mod-dependent relocations of the spell itself), which each get their

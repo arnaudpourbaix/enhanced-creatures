@@ -15,7 +15,7 @@ import { readTlk } from "./lib/tlk";
 //
 // Run: ts-node scripts/list-missing-spells.ts [--game <dir>]
 
-const DEFAULT_GAME = "C:/Games/BG2EETest";
+const DEFAULT_GAME = "C:/Games/BG2EE";
 const OUTPUT = path.join("assets", "spells", "missing-spells.csv");
 const SPL_TYPE = 0x3ee;
 /** Wizard spells of levels 1-9, priest spells of levels 1-7, class abilities */

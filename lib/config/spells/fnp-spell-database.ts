@@ -36,7 +36,7 @@ const FNP_PRIEST_SPELLS = {
   },
   CloakOfFear: {
     file: "D5P1416",
-    keywords: ["area"],
+    keywords: ["area", "castOnSelf"],
     level: 3,
     role: "protection",
     castingTime: 1,
@@ -231,6 +231,7 @@ const FNP_PRIEST_SPELLS = {
   Harm: {
     file: "D5F1608",
     level: 6,
+    createsItems: ["HARM"],
     keywords: ["castOnSelf"],
     role: "damage",
     castingTime: 6,
@@ -240,9 +241,8 @@ const FNP_PRIEST_SPELLS = {
   MagicResistance: {
     file: "D5F1509",
     level: 6,
-    range: 10,
     keywords: ["friendly"],
-    role: "disable",
+    role: "buff",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
     name: "spell.MagicResistance.name",

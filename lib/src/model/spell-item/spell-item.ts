@@ -60,6 +60,8 @@ export interface BaseSpell {
   keywords?: SpellKeyword[];
   /** See SpellReference.range */
   range?: number;
+  /** See SpellReference.createsItems */
+  createsItems?: string[];
 }
 
 /**
