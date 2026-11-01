@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: gate touch and short range spells on hostile targets
 - AI: new vampire necromancer combos, changelog commit hook
 - AI: presets for wizard and priest spells, shared rolls
+- AI: review buff to sleep presets against BG2EE spell data
 
 ### Changed
 

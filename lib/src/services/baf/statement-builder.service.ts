@@ -24,7 +24,7 @@ import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
 import creatureService from "../creature.service";
 import logService from "../log.service";
-import { memorizedChecks, sharedRollOutOfOrder } from "./memorized-checks";
+import { memorizedChecks, recastRisks, sharedRollOutOfOrder } from "./memorized-checks";
 import spellComboService, { isContingency, KIND_NAMES } from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
@@ -1110,7 +1110,11 @@ class StatementBuilderService {
   ): void {
     let precast = 0;
     for (const spell of getAllSpells(SPELLS)) {
-      const durationMatch = "duration" in spell && spell.duration === duration && !spell.noPrecast;
+      const durationMatch =
+        "duration" in spell &&
+        spell.duration === duration &&
+        !spell.noPrecast &&
+        ["protection", "buff", "summon", "reactive"].includes(spell.role ?? "");
       const hasSpell =
         creature.data.spells.memorized.some((m) => m.file === spell.file) ||
         creature.adjustments.some((a) =>
@@ -1197,6 +1201,14 @@ class StatementBuilderService {
   }
 
   private creatureAbilities({ statements, creature, options }: HandlerParams): void {
+    const books = [creature.data, ...creature.adjustments.map((a) => a.data)]
+      .flatMap((data) => data.spells.spellbooks ?? [])
+      .filter((book) => book.spellbook);
+    for (const spell of recastRisks(books.flatMap((book) => book.memorized))) {
+      logService.warn(
+        `${translationService.from(creature.name)}: ${spell.file} is memorized several times but has no check against a recast, memorize it once`,
+      );
+    }
     this.parseAbilities(statements, creature, options, creature.behavior.abilities);
   }
 

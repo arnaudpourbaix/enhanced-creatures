@@ -2,6 +2,7 @@ import presetFactory from "../../src/factories/preset.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
+import targetService from "../../src/services/baf/target.service";
 import { SPELLS } from "../spells/spell-database";
 import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
@@ -24,7 +25,6 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     [
       SPELLS.Wizard.Web,
       SPELLS.Wizard.HoldMonster,
-      SPELLS.Priest.HoldPersonOrAnimal,
       SPELLS.Priest.HoldPerson,
       SPELLS.Wizard.HoldPerson,
     ],
@@ -33,6 +33,17 @@ export const HOLD_PRESETS: AbilityPreset[] = [
     },
   ),
 
+  ...presetFactory.createSpell(SPELLS.Priest.HoldPersonOrAnimal, {
+    targets: targetService.combineListWithTriggers(HOLD_TARGET_LISTS, [
+      {
+        name: "Or",
+        triggers: [
+          { name: "General", params: [ScriptTarget.lastSeen, "HUMANOID"] },
+          { name: "General", params: [ScriptTarget.lastSeen, "ANIMAL"] },
+        ],
+      },
+    ]),
+  }),
   ...presetFactory.createSpell(SPELLS.Wizard.HaltUndead, {
     targets: [
       {

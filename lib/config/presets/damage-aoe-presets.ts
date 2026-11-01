@@ -20,6 +20,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.MassCauseLightWounds,
       SPELLS.Wizard.LightningBolt,
       SPELLS.Wizard.AgannazarScorcher,
+      SPELLS.Wizard.VeridonsIcyRay,
       SPELLS.Wizard.BurningHands,
       SPELLS.Wizard.AcidFog,
       SPELLS.Wizard.DragonsBreath,

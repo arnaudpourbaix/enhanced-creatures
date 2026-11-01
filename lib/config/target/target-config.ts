@@ -45,6 +45,10 @@ export const TARGET_LISTS: {
     value: repeat("NearestAllyOf", 6),
   },
   {
+    name: "FarthestAllies",
+    value: repeat("NearestAllyOf", 6).reverse(),
+  },
+  {
     name: "MyselfAndNearestAllies",
     value: ["Myself", ...repeat("NearestAllyOf", 6)],
   },

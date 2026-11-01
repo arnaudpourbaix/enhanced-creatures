@@ -1,4 +1,5 @@
 import { SPELLS } from "../../config/spells/spell-database";
+import presetFactory from "../../src/factories/preset.factory";
 import { MonsterEnum } from "../monster";
 import { CreatureEntry } from "../../src/model/creature/entry";
 import { builtBefore, CreatureKin, kinOf } from "../../src/model/creature/kin";
@@ -48,6 +49,11 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
         ],
       },
     });
+    const [{ ability: toPlayer }] = presetFactory.createSpell(SPELLS.Wizard.DimensionDoor, {
+      targets: [{ name: "Players", randomOrder: true }],
+      range: 180,
+      requireVocal: false,
+    });
     battleHorror.setBehavior({
       abilities: [
         {
@@ -65,10 +71,10 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
           location: "trackTargets",
           type: "insertBefore",
           abilities: [
+            // Unlike a caster's escape, it jumps onto a player
             {
-              preset: SPELLS.Wizard.DimensionDoor.file,
-              range: 180,
-              requireVocal: false,
+              ...toPlayer,
+              spell: { ...toPlayer.spell, id: SPELLS.Wizard.DimensionDoor.id },
             },
           ],
         },

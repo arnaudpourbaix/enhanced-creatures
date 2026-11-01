@@ -13,34 +13,30 @@ export const DEATH_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.Destruction,
       SPELLS.Priest.FingerOfDeath,
       SPELLS.Wizard.FingerOfDeath,
-      SPELLS.Priest.SymbolDeath,
-      SPELLS.Wizard.SymbolDeath,
-      SPELLS.Wizard.Disintegrate,
       SPELLS.Wizard.FleshToStone,
       SPELLS.Wizard.Cloudkill,
       FNP_SPELLS.Priest.FingerOfDeath,
-      FNP_SPELLS.Priest.SlayLiving,
     ],
     {
       targets: CommonTargetLists.Enemies,
     },
   ),
-  ...presetFactory.createSpell(SPELLS.Wizard.PowerWordKill, {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
-      triggerFactory.hplt(61),
-    ]),
-  }),
+  // Only worth it on a sure kill: above 60 HP, targets are immune or a save cancels it
+  ...presetFactory.createSpells(
+    [SPELLS.Wizard.PowerWordKill, SPELLS.Priest.SymbolDeath, SPELLS.Wizard.SymbolDeath],
+    {
+      targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
+        triggerFactory.hplt(60),
+      ]),
+    },
+  ),
 
-  ...presetFactory.createSpell(SPELLS.Priest.Banishment, {
+  ...presetFactory.createSpells([SPELLS.Priest.Banishment, SPELLS.Wizard.DeathSpell], {
     targets: [
       {
         name: "NearestEnemies",
         triggers: SummonsTriggers,
       },
     ],
-  }),
-
-  ...presetFactory.createSpell(SPELLS.Wizard.DeathSpell, {
-    targets: [{ name: "NearestEnemies", triggers: SummonsTriggers }, ...CommonTargetLists.Enemies],
   }),
 ];

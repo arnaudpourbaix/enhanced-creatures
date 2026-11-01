@@ -96,10 +96,15 @@ export interface SpellReference {
   name: StringReference;
   level?: number;
   /**
-   * Drives precasting (see StatementBuilderService.precastSpells), so it is only set on
-   * protection, buff and summon spells - also used by the cast order rules.
+   * Drives precasting (see StatementBuilderService.precastSpells) of protection, buff, summon and
+   * reactive spells, the only ones ever precast - also used by the cast order rules.
    */
   duration?: SpellDurationClass;
+  /**
+   * Keeps working after the cast with nothing telling a script so, but must not be precast like a
+   * `duration` spell: memorize it once (see recastRisks).
+   */
+  lingering?: boolean;
   /**
    * Never precast, however long it lasts: Invisibility would break too much, creatures starting
    * invisible wear a ring for it instead.

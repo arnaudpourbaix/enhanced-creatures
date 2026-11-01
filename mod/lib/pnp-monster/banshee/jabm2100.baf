@@ -360,7 +360,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -394,7 +393,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -428,7 +426,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -462,7 +459,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -496,7 +492,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -530,7 +525,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -564,7 +558,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -598,7 +591,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -632,7 +624,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -666,7 +657,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -697,7 +687,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -727,7 +716,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -757,7 +745,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -787,7 +774,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -817,7 +803,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -847,7 +832,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -877,7 +861,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -907,7 +890,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -937,7 +919,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -967,7 +948,6 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
 	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	Range(LastSeenBy(Myself),10)
 THEN
 	RESPONSE #100
 		SetInterrupt(FALSE)
@@ -992,6 +972,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1024,6 +1005,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1056,6 +1038,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1088,6 +1071,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1120,6 +1104,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1152,6 +1137,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1184,6 +1170,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1216,6 +1203,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1248,6 +1236,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1280,6 +1269,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1313,6 +1303,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1338,6 +1329,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1363,6 +1355,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1388,6 +1381,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1413,6 +1407,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1438,6 +1433,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1463,6 +1459,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1488,6 +1485,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1513,6 +1511,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1538,6 +1537,7 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED)
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1560,6 +1560,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1581,6 +1582,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1602,6 +1604,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1623,6 +1626,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1644,6 +1648,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1665,6 +1670,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1686,6 +1692,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1707,6 +1714,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1728,6 +1736,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
@@ -1749,6 +1758,7 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_WARD)
 	!CheckSpellState(LastSeenBy(Myself),DEATH_IMMUNITY)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)

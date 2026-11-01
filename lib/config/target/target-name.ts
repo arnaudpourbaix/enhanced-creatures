@@ -1,6 +1,7 @@
 export type TargetListName =
   | "Animals"
   | "CloseEnemies"
+  | "FarthestAllies"
   | "FarthestEnemies"
   | "NearestEnemies"
   | "NearestAllies"

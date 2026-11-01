@@ -2,6 +2,7 @@ import presetFactory from "../../src/factories/preset.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { ScriptTarget } from "../../src/model/constants";
 import { TargetList } from "../../src/model/script/target";
+import targetService from "../../src/services/baf/target.service";
 import { SPELLS } from "../spells/spell-database";
 import { ExcludeUnwantedTargetsTriggers } from "../target/common";
 
@@ -53,6 +54,17 @@ const CONTROL_UNDEAD_TARGET_LISTS: TargetList[] = [
 ];
 
 export const CHARM_PRESETS: AbilityPreset[] = [
+  ...presetFactory.createSpell(SPELLS.Priest.CharmPersonOrAnimal, {
+    targets: targetService.combineListWithTriggers(CHARM_TARGET_LISTS, [
+      {
+        name: "Or",
+        triggers: [
+          { name: "General", params: [ScriptTarget.lastSeen, "HUMANOID"] },
+          { name: "General", params: [ScriptTarget.lastSeen, "ANIMAL"] },
+        ],
+      },
+    ]),
+  }),
   ...presetFactory.createSpell(SPELLS.Wizard.ControlUndead, {
     targets: CONTROL_UNDEAD_TARGET_LISTS,
   }),
@@ -61,8 +73,8 @@ export const CHARM_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.Domination,
       SPELLS.Priest.MentalDomination,
       SPELLS.Wizard.DireCharm,
-      SPELLS.Priest.CharmPersonOrAnimal,
       SPELLS.Wizard.CharmPerson,
+      SPELLS.Priest.BlindingBeauty,
     ],
     {
       targets: CHARM_TARGET_LISTS,

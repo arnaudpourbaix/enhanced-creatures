@@ -34,6 +34,8 @@ export type SpellKeyword =
    * Revisions, its file is Banishment, which also slays summons, so the immunity still fits
    */
   | "deathSpell"
+  /** Globes and other spell level immunities don't stop it (Breach) */
+  | "ignoresSpellLevel"
   | "disease"
   | "earthquake"
   | "electrical"
@@ -88,6 +90,8 @@ export type SpellKeyword =
    * Blocked by Shield (wizard spell)
    */
   | "shield"
+  /** Removes spell protections, so none of them stops it (Secret Word, Spellstrike...) */
+  | "spellRemoval"
   | "silence"
   | "sleep"
   | "slow"

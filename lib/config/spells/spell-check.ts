@@ -33,6 +33,8 @@ export type SpellLevelCheck = "immuneToSpellLevel" | "spellReflections";
 export const SPELL_CHECK_SUPPRESSORS: Partial<Record<SpellKeyword, SpellLevelCheck[]>> = {
   friendly: ["immuneToSpellLevel", "spellReflections"],
   area: ["spellReflections"],
+  ignoresSpellLevel: ["immuneToSpellLevel"],
+  spellRemoval: ["immuneToSpellLevel", "spellReflections"],
 };
 
 /**
@@ -92,6 +94,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   friendly: [],
   halfElf: [{ name: "Race", params: [ScriptTarget.token, "HALF_ELF"], negation: true }],
   humanoid: [{ name: "General", params: [ScriptTarget.token, "HUMANOID"] }],
+  ignoresSpellLevel: [],
   hold: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
@@ -144,6 +147,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckSpellState", params: [ScriptTarget.token, "SLEEP_IMMUNITY"], negation: true },
   ],
   slow: [],
+  spellRemoval: [],
   stun: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "STUN_IMMUNITY"], negation: true },

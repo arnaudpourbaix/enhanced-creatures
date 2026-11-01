@@ -35,7 +35,6 @@ export const FEAR_PRESETS: AbilityPreset[] = [
   ),
   ...presetFactory.createSpells([SPELLS.Priest.CloakOfFear, FNP_SPELLS.Priest.CloakOfFear], {
     targets: FEAR_TARGET_LISTS,
-    range: 10,
   }),
   ...presetFactory.createSpell(SPELLS.Innate.MoonDogHowl, {
     targets: targetService.combineListWithTriggers(FEAR_TARGET_LISTS, [

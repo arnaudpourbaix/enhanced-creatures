@@ -8,6 +8,14 @@ import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
 
+const UNHINDERED_SPELLCASTERS = targetService.combineListWithTriggers(
+  CommonTargetLists.Spellcasters,
+  [
+    triggerFactory.checkStatGT(50, "SPELLFAILUREPRIEST", true),
+    triggerFactory.checkStatGT(50, "SPELLFAILUREMAGE", true),
+  ],
+);
+
 export const DISABLING_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [SPELLS.Wizard.Maze, SPELLS.Wizard.Imprisonment, SPELLS.Priest.EtherGate],
@@ -19,31 +27,25 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
   ),
   ...presetFactory.createSpells(
     [
-      SPELLS.Priest.RigidThinking,
-      FNP_SPELLS.Priest.RigidThinking,
       SPELLS.Wizard.PowerWordStun,
       SPELLS.Priest.SymbolStunning,
       SPELLS.Wizard.StinkingCloud,
-      SPELLS.Wizard.SoundBurst,
       SPELLS.Wizard.EmotionHopelessness,
       FNP_SPELLS.Priest.Emotion,
       SPELLS.Priest.SymbolHopelessness,
       SPELLS.Wizard.TeleportField,
       SPELLS.Wizard.Feeblemind,
       SPELLS.Wizard.PowerWordBlind,
-      SPELLS.Priest.BlindingBeauty,
       SPELLS.Priest.HolyWord,
       SPELLS.Priest.UnholyWord,
       SPELLS.Wizard.Slow,
       SPELLS.Wizard.BeltynsBurningBlood,
       SPELLS.Wizard.Grease,
       SPELLS.Wizard.SymbolOfStunning,
-      SPELLS.Wizard.SymbolOfWeakness,
       SPELLS.Wizard.Telekinesis,
       SPELLS.Wizard.GreatShout,
       SPELLS.Wizard.PrismaticSpray,
       SPELLS.Wizard.OtilukesResilientSphere,
-      FNP_SPELLS.Priest.GreaterCommand,
     ],
     {
       targets: CommonTargetLists.AbleEnemies,
@@ -54,35 +56,25 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.CreepingDoom,
       SPELLS.Priest.InsectPlague,
       SPELLS.Priest.SummonInsects,
-      SPELLS.Priest.MiscastMagic,
       SPELLS.Wizard.Shout,
-      FNP_SPELLS.Priest.MiscastMagic,
-SPELLS.Wizard.Shout,
+      SPELLS.Wizard.SoundBurst,
     ],
     {
-      targets: targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
-        triggerFactory.checkStatGT(50, "SPELLFAILUREPRIEST", true),
-        triggerFactory.checkStatGT(50, "SPELLFAILUREMAGE", true),
-      ]),
+      // Their damage and penalties still hurt anyone once the spellcasters are hindered
+      targets: [...UNHINDERED_SPELLCASTERS, ...CommonTargetLists.AbleEnemies],
     },
   ),
+  ...presetFactory.createSpells([SPELLS.Priest.MiscastMagic, FNP_SPELLS.Priest.MiscastMagic], {
+    targets: UNHINDERED_SPELLCASTERS,
+  }),
   ...presetFactory.createSpell(SPELLS.Wizard.Darkness15Radius, {
-    targets: [
-      {
-        name: "NearestEnemies",
-        includeStatus: ["Able"],
-        limit: 6,
-        randomOrder: true,
-      },
-    ],
+    targets: CommonTargetLists.AbleEnemies,
   }),
   ...presetFactory.createSpells([SPELLS.Wizard.ObscuringMist, SPELLS.Priest.ObscuringMist], {
     targets: CommonTargetLists.Fighters,
   }),
   ...presetFactory.createSpell(SPELLS.Priest.Silence, {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
-      triggerFactory.range(15, true),
-    ]),
+    targets: CommonTargetLists.Spellcasters,
   }),
   ...presetFactory.createSpell(SPELLS.Priest.Entangle, {
     targets: targetService.combineListWithTriggers(CommonTargetLists.AbleEnemies, [
@@ -91,7 +83,7 @@ SPELLS.Wizard.Shout,
   }),
 
   ...presetFactory.createSpell(SPELLS.Wizard.ColorSpray, {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.AbleEnemies, []),
+    targets: CommonTargetLists.AbleEnemies,
   }),
   ...presetFactory.createSpell(FNP_SPELLS.Priest.Forbiddance, {
     targets: CommonTargetLists.AbleEnemies,
@@ -99,16 +91,14 @@ SPELLS.Wizard.Shout,
   }),
 
   ...presetFactory.createSpells(
-    [
-      SPELLS.Wizard.PolymorphOther,
-      SPELLS.Wizard.PowerWordSilence,
-      SPELLS.Priest.PolymorphOther,
-      SPELLS.Priest.SpiritualLock,
-    ],
+    [SPELLS.Wizard.PolymorphOther, SPELLS.Wizard.PowerWordSilence, SPELLS.Priest.PolymorphOther],
     {
       targets: CommonTargetLists.Spellcasters,
     },
   ),
+  ...presetFactory.createSpell(SPELLS.Priest.SpiritualLock, {
+    targets: [...CommonTargetLists.Spellcasters, ...CommonTargetLists.AbleEnemies],
+  }),
 
   // turns the undead entering its area, around the caster
   ...presetFactory.createSpell(SPELLS.Priest.UndeadWard, {

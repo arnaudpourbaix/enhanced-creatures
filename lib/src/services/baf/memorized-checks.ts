@@ -1,3 +1,4 @@
+import { AT_WILL } from "../../../config/common";
 import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../../config/spells/spell-database";
 import { ScriptTarget } from "../../model/constants";
@@ -42,6 +43,30 @@ export function sharedRollOutOfOrder(triggers: Triggers.Trigger[][]): string | u
     highest.set(range, threshold);
   }
   return undefined;
+}
+
+/**
+ * The lasting buffs of a spellbook memorized several times with nothing telling a script they are
+ * already up: no state or stat to exclude, so a second copy is cast over the first. At-will ones
+ * have a cooldown.
+ */
+export function recastRisks(
+  memorized: { file: string; memorizedCount?: number }[],
+): SpellReference[] {
+  const risks = memorized
+    .filter(({ memorizedCount = 1 }) => memorizedCount > 1 && memorizedCount < AT_WILL)
+    .flatMap(({ file }) => spellOfFile(file) ?? [])
+    .filter(
+      (s) =>
+        s.lingering ?? (s.duration && ["buff", "protection", "reactive"].includes(s.role ?? "")),
+    )
+    .filter(
+      (s) =>
+        !s.excludeStateChecks?.length &&
+        !s.excludeSpellStates?.length &&
+        !s.excludeStatsChecks?.length,
+    );
+  return [...new Set(risks)];
 }
 
 /** The spell a HaveSpell or HaveSpellRES names, undefined for any other trigger or spell. */

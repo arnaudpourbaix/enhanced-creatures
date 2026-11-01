@@ -1,6 +1,8 @@
 import presetFactory from "../../src/factories/preset.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
+import targetService from "../../src/services/baf/target.service";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { NEW_SPELLS } from "../spells/spells";
@@ -35,10 +37,7 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.EtherealRetribution,
       SPELLS.Priest.SpikeStones,
       SPELLS.Priest.FaerieFire,
-      SPELLS.Priest.MoldTouch,
-      SPELLS.Priest.Wither,
-      FNP_SPELLS.Priest.DolorousDecay,
-      FNP_SPELLS.Priest.Wither,
+      SPELLS.Wizard.SymbolOfWeakness,
       SPELLS.Priest.CloudOfPestilence,
       FNP_SPELLS.Priest.CloudOfPestilence,
     ],
@@ -56,5 +55,10 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
   ),
   ...presetFactory.createSpell(SPELLS.Wizard.RayOfEnfeeblement, {
     targets: CommonTargetLists.PreferringStrong,
+  }),
+  ...presetFactory.createSpells([SPELLS.Priest.CauseDisease, FNP_SPELLS.Priest.CauseDisease], {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Fighters, [
+      triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
+    ]),
   }),
 ];

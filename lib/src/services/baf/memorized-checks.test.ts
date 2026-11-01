@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { SPELLS } from "../../../config/spells/spell-database";
 import triggerFactory from "../../factories/trigger.factory";
 import { Triggers } from "../../model/script/triggers";
-import { memorizedChecks, sharedRoll, sharedRollOutOfOrder } from "./memorized-checks";
+import { AT_WILL } from "../../../config/common";
+import { memorizedChecks, recastRisks, sharedRoll, sharedRollOutOfOrder } from "./memorized-checks";
 
 const { Harm, SlayLiving, FlameBlade, Heal } = SPELLS.Priest;
 
@@ -75,5 +76,40 @@ describe("sharedRollOutOfOrder", () => {
     expect(sharedRollOutOfOrder([roll(700, 300), roll(700, 100)])).toBe("RandomNumGT(700,100)");
     expect(sharedRollOutOfOrder([roll(700, 300), roll(701, 100)])).toBeUndefined();
     expect(sharedRollOutOfOrder([roll(850, 300), roll(851, 100)])).toBeUndefined();
+  });
+});
+
+describe("recastRisks", () => {
+  const { Aid, ArmorOfFaith } = SPELLS.Priest;
+
+  it("finds a lasting buff memorized twice with nothing to check", () => {
+    expect(recastRisks([{ file: Aid.file, memorizedCount: 2 }]).map((r) => r.file)).toEqual([
+      Aid.file,
+    ]);
+  });
+
+  it("ignores a single copy, and an at-will one", () => {
+    expect(recastRisks([{ file: Aid.file }])).toEqual([]);
+    expect(recastRisks([{ file: Aid.file, memorizedCount: AT_WILL }])).toEqual([]);
+  });
+
+  it("ignores a buff with a check, and a spell with no duration", () => {
+    expect(recastRisks([{ file: ArmorOfFaith.file, memorizedCount: 2 }])).toEqual([]);
+    expect(recastRisks([{ file: Heal.file, memorizedCount: 2 }])).toEqual([]);
+  });
+
+  it("finds a lingering damage spell, which has no duration", () => {
+    const { StaticCharge } = SPELLS.Priest;
+    expect(
+      recastRisks([{ file: StaticCharge.file, memorizedCount: 2 }]).map((r) => r.file),
+    ).toEqual([StaticCharge.file]);
+  });
+
+  it("lists a spell once", () => {
+    const memorized = [
+      { file: Aid.file, memorizedCount: 2 },
+      { file: Aid.file, memorizedCount: 3 },
+    ];
+    expect(recastRisks(memorized).map((r) => r.file)).toEqual([Aid.file]);
   });
 });

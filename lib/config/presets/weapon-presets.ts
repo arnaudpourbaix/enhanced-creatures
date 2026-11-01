@@ -33,6 +33,7 @@ export const WEAPON_PRESETS: AbilityPreset[] = presetFactory.createSpells(
     SPELLS.Priest.Moonblade,
     SPELLS.Priest.Shillelagh,
     SPELLS.Priest.SlayLiving,
+    FNP_SPELLS.Priest.SlayLiving,
     SPELLS.Priest.SolsSearingOrb,
     SPELLS.Priest.SpiritualHammer,
     SPELLS.Priest.StarMetalCudgel,

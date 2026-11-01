@@ -11,7 +11,6 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [
       SPELLS.Wizard.BigbyIcyGrasp,
-      SPELLS.Priest.DolorousDecay,
       SPELLS.Priest.BoltOfGlory,
       SPELLS.Wizard.ShroudOfFlame,
       SPELLS.Priest.FlameStrike,
@@ -19,6 +18,7 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.FlameArrow,
       SPELLS.Wizard.VampiricTouch,
       SPELLS.Wizard.Combust,
+      SPELLS.Wizard.Disintegrate,
       SPELLS.Wizard.BatteringRam,
       SPELLS.Wizard.ChromaticOrb,
       SPELLS.Wizard.LarlochMinorDrain,
@@ -28,12 +28,16 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.LarlochEnergyDrain,
       SPELLS.Wizard.MinorLightningBolt,
       SPELLS.Wizard.OtilukesFreezingSphere,
-      SPELLS.Wizard.VeridonsIcyRay,
       SPELLS.Priest.AlicornLance,
       SPELLS.Priest.Icelance,
       SPELLS.Priest.Implosion,
       SPELLS.Priest.Sunscorch,
+      SPELLS.Priest.MoldTouch,
+      SPELLS.Priest.Wither,
+      SPELLS.Priest.DolorousDecay,
       FNP_SPELLS.Priest.Poison,
+      FNP_SPELLS.Priest.Wither,
+      FNP_SPELLS.Priest.DolorousDecay,
     ],
     {
       targets: CommonTargetLists.Enemies,
@@ -58,18 +62,14 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
       triggerFactory.areaType("OUTDOOR"),
     ]),
   }),
-  ...presetFactory.createSpells([SPELLS.Priest.CauseDisease, FNP_SPELLS.Priest.CauseDisease], {
-    targets: targetService.combineListWithTriggers(CommonTargetLists.Fighters, [
-      triggerFactory.checkStatGT(12, "STRENGTH_MODIFIER"),
-    ]),
-  }),
   ...presetFactory.createSpell(FNP_SPELLS.Priest.Shatter, {
     targets: CommonTargetLists.Enemies,
     timer: { name: "Shatter", value: 4 * Durations.round },
   }),
 
   ...presetFactory.createSpell(SPELLS.Priest.StaticCharge, {
+    // Self cast with no target to pick: the list only makes sure a valid enemy is around
     spell: { castOnSelf: true },
-    triggers: [triggerFactory.see("NearestEnemyOf")],
+    targets: CommonTargetLists.Enemies,
   }),
 ];
