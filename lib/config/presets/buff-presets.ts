@@ -114,7 +114,6 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.ProtectionFromElementalEnergy,
       SPELLS.Wizard.ProtectionFromNormalWeapons,
       SPELLS.Wizard.SevenEyes,
-      SPELLS.Wizard.SpellDeflection,
       SPELLS.Wizard.SpellShield,
       SPELLS.Wizard.SpellTrap,
       SPELLS.Wizard.TensersTransformation,
@@ -157,7 +156,11 @@ export const BUFF_PRESETS: AbilityPreset[] = [
     probability: 100,
   }),
   ...presetFactory.createSpells(
-    [SPELLS.Wizard.GreaterSpellDeflection, SPELLS.Wizard.MinorSpellDeflection],
+    [
+      SPELLS.Wizard.GreaterSpellDeflection,
+      SPELLS.Wizard.SpellDeflection,
+      SPELLS.Wizard.MinorSpellDeflection,
+    ],
     {
       triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
     },

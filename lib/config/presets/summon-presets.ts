@@ -103,9 +103,4 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       timer: { name: "Summoning", value: 2 * Durations.round },
     },
   ),
-
-  ...presetFactory.createSpell(SPELLS.Wizard.SoulEater, {
-    targets: CommonTargetLists.Enemies,
-    timer: { name: "Summoning", value: 2 * Durations.round },
-  }),
 ];

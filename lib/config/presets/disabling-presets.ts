@@ -40,6 +40,9 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.SymbolOfStunning,
       SPELLS.Wizard.SymbolOfWeakness,
       SPELLS.Wizard.Telekinesis,
+      SPELLS.Wizard.GreatShout,
+      SPELLS.Wizard.PrismaticSpray,
+      SPELLS.Wizard.OtilukesResilientSphere,
       FNP_SPELLS.Priest.GreaterCommand,
     ],
     {
@@ -52,8 +55,9 @@ export const DISABLING_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.InsectPlague,
       SPELLS.Priest.SummonInsects,
       SPELLS.Priest.MiscastMagic,
+      SPELLS.Wizard.Shout,
       FNP_SPELLS.Priest.MiscastMagic,
-      SPELLS.Priest.Misfire,
+SPELLS.Wizard.Shout,
     ],
     {
       targets: targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [

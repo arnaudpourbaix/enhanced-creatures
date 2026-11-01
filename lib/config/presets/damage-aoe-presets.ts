@@ -1,6 +1,8 @@
 import presetFactory from "../../src/factories/preset.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
+import targetService from "../../src/services/baf/target.service";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
@@ -12,13 +14,10 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [
       SPELLS.Wizard.AbiDalzimHorridWilting,
-      SPELLS.Wizard.Cloudkill,
       SPELLS.Wizard.ChainLightning,
       SPELLS.Wizard.Fireburst,
       SPELLS.Wizard.ConeOfCold,
       SPELLS.Priest.MassCauseLightWounds,
-      SPELLS.Priest.CloudOfPestilence,
-      FNP_SPELLS.Priest.CloudOfPestilence,
       SPELLS.Wizard.LightningBolt,
       SPELLS.Wizard.AgannazarScorcher,
       SPELLS.Wizard.BurningHands,
@@ -26,20 +25,15 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.DragonsBreath,
       SPELLS.Wizard.IncendiaryCloud,
       SPELLS.Wizard.LanceOfDisruption,
-      SPELLS.Wizard.PrismaticSpray,
-      SPELLS.Wizard.Shout,
-      SPELLS.Wizard.Suffocate,
       SPELLS.Wizard.TelekineticStorm,
-      SPELLS.Priest.AssassinVines,
-      SPELLS.Priest.EtherealRetribution,
       SPELLS.Priest.FireTrap,
       SPELLS.Priest.ProduceFire,
       SPELLS.Priest.SpikeGrowth,
-      SPELLS.Priest.SpikeStones,
       SPELLS.Priest.SpiritualWrath,
       SPELLS.Priest.ThornSpray,
       SPELLS.Priest.WallOfMoonlight,
       SPELLS.Priest.WrithingFog,
+      SPELLS.Priest.Whirlwind,
       FNP_SPELLS.Priest.MassCauseLightWounds,
       FNP_SPELLS.Priest.WavesOfAgony,
     ],
@@ -85,5 +79,11 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.MalavonsRage, {
     targets: CommonTargetLists.Enemies,
     range: 8,
+  }),
+  // a finisher: its 3d8 damage is low, but those it kills raise a skeleton and buff the caster
+  ...presetFactory.createSpell(SPELLS.Wizard.SoulEater, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
+      triggerFactory.hplt(12),
+    ]),
   }),
 ];

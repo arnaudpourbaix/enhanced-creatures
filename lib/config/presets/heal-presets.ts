@@ -13,8 +13,8 @@ export const HEAL_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.CureCriticalWounds,
       SPELLS.Priest.CureMediumWounds,
       SPELLS.Priest.CureModerateWounds,
-      SPELLS.Priest.CureLightWounds,
       SPELLS.Priest.CureSeriousWounds,
+      SPELLS.Priest.CureLightWounds,
       SPELLS.Priest.HealingMist,
     ],
     {
@@ -58,7 +58,7 @@ export const HEAL_PRESETS: AbilityPreset[] = [
 
   ...presetFactory.createSpell(SPELLS.Priest.GreaterRestoration, {
     targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
-      { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 50] },
+      { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 30] },
     ]),
   }),
   ...presetFactory.createSpell(SPELLS.Priest.MassCure, {
@@ -76,7 +76,10 @@ export const HEAL_PRESETS: AbilityPreset[] = [
   }),
   ...presetFactory.createSpell(SPELLS.Priest.RemoveParalysis, {
     targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
-      { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_HELPLESS"] },
+      {
+        name: "CheckStatGT",
+        params: [ScriptTarget.lastSeen, 0, "HELD"],
+      },
     ]),
   }),
   ...presetFactory.createSpells([SPELLS.Wizard.BreakEnchantment, SPELLS.Priest.BreakEnchantment], {

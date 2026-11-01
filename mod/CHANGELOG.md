@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Wraith Spider, Dread Wolf and Vampiric Wolf use undead hit dice (d12), so they have more HP
 - Dread Wolf and Vampiric Wolf have their undead turn level raised by one (harder to turn)
 - Mod files reorganised by monster (one folder per monster entry)
+- AI: review area spells, drop spells missing from BG2EE
 
 ### Fixed
 
