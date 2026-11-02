@@ -57,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - At-will: drop the shared-script spellbook brake
 - Regenerate mod without the spellbook brake
 - Regenerate mod (sirine keeps its Polymorph Self forms)
+- Ogre-mage: the Chieftain variant declares the chieftains' spellbook
 
 ### Fixed
 

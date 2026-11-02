@@ -422,27 +422,8 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
     },
   };
   // ogre magi will be led by a chief of great strength (+2 on each Hit Die, attacking and saving as a 9 Hit Dice monster)
-  const autoGenerate = {
-    thac0: { level: 9 },
-    savingThrows: { level: 9 },
-  };
-  const chieftain = base.variant("Chieftain", {
-    autoGenerate,
-    files: ["PLSHOM01", "PALKNI01"],
-    data: {
-      bonusHpPerHitDie: 2,
-      xpv: 975,
-    },
-    adjust: [
-      {
-        files: ["PALKNI01"],
-        data: { level1: 10, level2: 10 },
-      },
-    ],
-  });
-  // the chiefs casting spells an ogre mage doesn't have: their own script
-  chieftain.variant("Spellcaster Chieftain", {
-    autoGenerate,
+  // their spellbook only reaches their own script
+  return base.variant("Chieftain", {
     files: [
       "BDWAVE16",
       "WIOGMA01",
@@ -454,9 +435,25 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
       "KROTAN",
       "NTKROTAN",
       "KAHRK",
+      "PLSHOM01",
+      "PALKNI01",
     ],
-    data: { spells: krotanChief.spells },
+    data: {
+      bonusHpPerHitDie: 2,
+      xpv: 975,
+      spells: krotanChief.spells,
+    },
+    autoGenerate: {
+      thac0: { level: 9 },
+      savingThrows: { level: 9 },
+    },
     adjust: [
+      // the two chiefs casting no spell of it
+      { files: ["PLSHOM01"], data: { spells: { memorized: [] } } },
+      {
+        files: ["PALKNI01"],
+        data: { level1: 10, level2: 10, spells: { memorized: [] } },
+      },
       {
         files: ["BDWAVE16", "WIOGMA01", "WIGENTLE", "DROTH"],
         data: {
@@ -511,7 +508,6 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
       },
     ],
   });
-  return chieftain;
 }
 
 class OgreMageEntry extends CreatureEntry<OgreMage> {
