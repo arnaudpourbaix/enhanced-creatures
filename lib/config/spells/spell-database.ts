@@ -1045,6 +1045,9 @@ const WIZARD_SPELLS = {
     keywords: ["friendly"],
     excludeStateChecks: ["STATE_INVISIBLE"],
     recastTimer: 2,
+    // no attack or spell can target the caster, fast to cast, and it buffs (Fly) or repositions
+    // unseen, then strikes at +4: a party must counter it or suffer (user)
+    tier: "great",
   },
   InvisibilitySphere: {
     file: "SPWI307",

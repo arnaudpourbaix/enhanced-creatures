@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Variants: refuse new spells outside a variant
 - Spells: recastTimer spaces a spell's casts
 - Spells: every spell a creature casts declares its role
+- Spells: Invisibility is a great protection
 
 ### Changed
 
