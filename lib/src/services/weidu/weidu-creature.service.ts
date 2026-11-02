@@ -36,6 +36,7 @@ import weiduGroupService from "./weidu-group.service";
 import weiduItemService from "./weidu-item.service";
 import weiduProjectileService from "./weidu-projectile.service";
 import weiduSpellService from "./weidu-spell.service";
+import scriptPlanService, { CreatureScript } from "../baf/script-plan.service";
 
 class WeiduCreatureService extends AbstractWeiduService {
   generateWeiduScript(creature: Creature): void {
@@ -120,7 +121,8 @@ class WeiduCreatureService extends AbstractWeiduService {
         ext: true,
       })}~${suffix}`,
     );
-    if (creature.adjustments.some((a) => a.summon))
+    const { base, variants } = scriptPlanService.planned(creature);
+    if ((base?.view ?? creature).adjustments.some((a) => a.summon))
       this.add(
         lines,
         `COMPILE ~%MOD_FOLDER%/${this.getScriptName(creature, {
@@ -129,6 +131,12 @@ class WeiduCreatureService extends AbstractWeiduService {
           ext: true,
         })}~${suffix}`,
       );
+    const folder = utils.getCreatureFolder(creature);
+    for (const script of variants) {
+      for (const name of [script.name, script.summonName]) {
+        if (name) this.add(lines, `COMPILE ~%MOD_FOLDER%/${folder}/${name}.baf~${suffix}`);
+      }
+    }
     this.add(lines, "");
   }
 
@@ -576,9 +584,12 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchScripts(lines: CodeLine[], tab: number, creature: Creature) {
+    const { variants } = scriptPlanService.planned(creature);
+    // a scripted variant's files run its own script (see patchVariantScripts)
+    const variantFiles = new Set(variants.flatMap((v) => [...v.files, ...v.summonFiles]));
     const summonAdjustments = creature.adjustments.filter((a) => a.summon);
     const dedupeFiles = (adjustments: CreatureAdjustment[]) => [
-      ...new Set(adjustments.flatMap((a) => a.files)),
+      ...new Set(adjustments.flatMap((a) => a.files).filter((f) => !variantFiles.has(f))),
     ];
     const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
     // A summon file gets the summon script instead of the normal one. The PATCH_IF GAME_IS / ELSE
@@ -632,7 +643,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       slot: creature.data.script.location,
       removeScripts: creature.data.script.remove,
       files: [],
-      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles],
+      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles, ...variantFiles],
       forceFiles: newFiles,
       logging: creature.logging,
     });
@@ -670,17 +681,60 @@ class WeiduCreatureService extends AbstractWeiduService {
       assign(scriptName);
       this.add(lines, `END`, tab);
     }
+    this.patchVariantScripts(lines, tab, creature, variants, locationFiles, newFiles);
     for (const adjustment of creature.adjustments) {
       if (adjustment.data.script.location && adjustment.data.script.location !== "None") {
         this.patchScript({
           lines,
           tab,
-          script: scriptName,
+          script:
+            variants.find((v) => adjustment.files.some((f) => v.files.includes(f)))?.name ??
+            scriptName,
           slot: adjustment.data.script.location,
           removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
           files: adjustment.files,
           skipFiles: [],
           forceFiles: newFiles,
+          logging: creature.logging,
+        });
+      }
+    }
+  }
+
+  /** Each scripted variant's files get its script, its summon files its summon script. */
+  private patchVariantScripts(
+    lines: CodeLine[],
+    tab: number,
+    creature: Creature,
+    variants: CreatureScript[],
+    locationFiles: string[],
+    forceFiles: string[],
+  ) {
+    for (const script of variants) {
+      const tagged = creature.adjustments.some(
+        (a) => a.summon && a.game && a.files.some((f) => script.summonFiles.includes(f)),
+      );
+      if (tagged) {
+        throw new Error(
+          `variant "${script.variant?.label ?? script.name}": game-tagged summon files are not supported`,
+        );
+      }
+      const assignments = [
+        // a file with its own script slot is assigned by its location adjustment
+        { files: script.files.filter((f) => !locationFiles.includes(f)), name: script.name },
+        { files: script.summonFiles, name: script.summonName },
+      ];
+      for (const { files, name } of assignments) {
+        if (!files.length || !name) continue;
+        this.patchScript({
+          lines,
+          tab,
+          files,
+          forceFiles,
+          script: name,
+          slot: creature.data.script.location,
+          removeScripts: creature.data.script.remove,
+          skipFiles: [],
           logging: creature.logging,
         });
       }

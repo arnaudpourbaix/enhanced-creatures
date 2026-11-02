@@ -67,6 +67,14 @@ class ScriptPlanService {
     return scripts;
   }
 
+  /** The base script's planned entry, and each scripted variant's. Unplanned: no variant script. */
+  planned(creature: Creature): { base?: CreatureScript; variants: CreatureScript[] } {
+    // scripts is a definite field, but test doubles built without validation leave it unset
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const [base, ...variants] = creature.scripts ?? [];
+    return { base, variants };
+  }
+
   hasScriptedVariant(creature: Creature): boolean {
     return this.scriptedVariants(creature.variants).length > 0;
   }

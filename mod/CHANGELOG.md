@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Variants: detect variants bringing new spells or abilities
 - Scripts: plan one script per scripted variant
 - Scripts: build a creature view per script
+- Scripts: generate and assign one script per scripted variant
 
 ### Changed
 

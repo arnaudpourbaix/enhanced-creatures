@@ -3,6 +3,8 @@ import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
+import { Variant } from "../../model/creature/variant";
+import { CreatureScript } from "../baf/script-plan.service";
 import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { State } from "../../state";
@@ -438,6 +440,21 @@ describe("addResourceVariantAssignments (private)", () => {
   });
 });
 
+/** A creature planned with one scripted variant ("necro", jabm0102) owning NECRO. */
+function withNecroScript(creature: Creature, summonFiles: string[] = []): Creature {
+  const base = { name: "jabm0100", files: ["PLAIN"], summonFiles: [], view: creature };
+  const necro = {
+    name: "jabm0102",
+    variant: { label: "necro" } as Variant,
+    files: ["NECRO"],
+    summonFiles,
+    summonName: summonFiles.length ? "jabm0103" : undefined,
+    view: creature,
+  };
+  creature.scripts = [base, necro] as CreatureScript[];
+  return creature;
+}
+
 describe("compileScripts (private)", () => {
   it("omits EVALUATE_BUFFER when the creature has no resource variants", () => {
     const lines: CodeLine[] = [];
@@ -455,6 +472,14 @@ describe("compileScripts (private)", () => {
     const compileLines = codes(lines).filter((c) => c.startsWith("COMPILE"));
     expect(compileLines).toHaveLength(2);
     expect(compileLines.every((c) => c.endsWith(" EVALUATE_BUFFER"))).toBe(true);
+  });
+
+  it("compiles every planned script", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(fakeCreature({ folder: "lib/pnp-monster/ankheg" }), ["SUMN"]);
+    service.compileScripts(lines, creature, false);
+    expect(codes(lines)).toContain("COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0102.baf~");
+    expect(codes(lines)).toContain("COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0103.baf~");
   });
 });
 
@@ -671,6 +696,42 @@ describe("patchScripts (private)", () => {
     const out = codes(lines);
     expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JACM1500 END");
     expect(out.some((c) => c.includes("STR_VAR") && c.includes("forceFiles"))).toBe(true);
+  });
+
+  it("the base assignment skips scripted variant files and each variant assigns its own", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(scriptCreature([]));
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    const baseSkip = out.find((c) => c.startsWith("PATCH_DEFINE_ARRAY skipFiles"));
+    expect(baseSkip).toContain("NECRO");
+    const necroFiles = out.indexOf("PATCH_DEFINE_ARRAY files BEGIN NECRO END");
+    expect(necroFiles).toBeGreaterThan(out.indexOf(baseSkip ?? ""));
+    expect(out.slice(necroFiles).some((c) => c.includes("script=jabm0102 "))).toBe(true);
+  });
+
+  it("a scripted variant's summon file gets the variant's summon script, not the base one", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(scriptCreature([summonAdj({ files: ["SUMN"] })]), ["SUMN"]);
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(false);
+    const summonFiles = out.indexOf("PATCH_DEFINE_ARRAY files BEGIN SUMN END");
+    expect(out[summonFiles + 1]).toContain("script=jabm0103 ");
+  });
+
+  it("a location adjustment on a variant member assigns the variant script", () => {
+    const lines: CodeLine[] = [];
+    const location = fakeAdjustment({
+      files: ["NECRO"],
+      data: { script: { location: "Default", remove: [] } } as Partial<CreatureData>,
+    });
+    service.patchScripts(lines, 0, withNecroScript(scriptCreature([location])));
+    const out = codes(lines);
+    expect(out.some((c) => c.includes("slot=Default") && c.includes("script=jabm0102 "))).toBe(
+      true,
+    );
+    expect(out.filter((c) => c === "PATCH_DEFINE_ARRAY files BEGIN NECRO END")).toHaveLength(1);
   });
 
   it("emits no forceFiles array when the creature creates no new files", () => {
