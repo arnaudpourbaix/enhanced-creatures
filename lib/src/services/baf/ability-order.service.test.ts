@@ -12,6 +12,8 @@ import { Spell } from "../../model/spell-item/spell-item";
 import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import spellComboService from "../spell-combo.service";
 import { SEQUENCERS } from "../../../config/spells/spell-combos";
+import { MIRRORED_ENEMY_TARGETS } from "../../../config/spells/mirror-counters";
+import { KEEP_PLAYERS_DISABLED } from "../../../config/target/common";
 
 const FIREBALL = SPELLS.Wizard.Fireball.file;
 const MAGIC_MISSILES = SPELLS.Wizard.MagicMissiles.file;
@@ -48,9 +50,64 @@ function fakeCreature(
 /** The presets, in order: abilities also carry their planned probability */
 const presetsOf = (abilities: RawCreatureAbility[]) => abilities.map((a) => a.preset);
 
+/** Without the Mirror Image counters and last resorts, which have their own tests */
+const regularOf = (abilities: RawCreatureAbility[]) =>
+  abilities.filter((a) => a.targets !== MIRRORED_ENEMY_TARGETS && a.mirrorTarget !== "require");
+
 function fakeAbility(resource: string): CreatureAbility {
   return { resource, actions: [], triggers: [], targets: [] } as unknown as CreatureAbility;
 }
+
+describe("resolve - Mirror Image passes", () => {
+  const FLAME_ARROW = SPELLS.Wizard.FlameArrow.file;
+  const HOLD = SPELLS.Wizard.HoldPerson.file;
+
+  it("gives a remover a counter at mirrored enemies, then its regular pass", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const resolved = abilityOrderService.resolve(
+      fakeCreature({ memorized: [{ file: FLAME_ARROW }] }),
+    );
+    expect(resolved).toHaveLength(2);
+    const [counter, regular] = resolved;
+    expect(counter.targets).toEqual(MIRRORED_ENEMY_TARGETS);
+    expect(counter.preset).toBeUndefined();
+    expect(counter.spell?.resource).toBe(FLAME_ARROW);
+    expect(regular).toMatchObject({ preset: FLAME_ARROW, mirrorTarget: "avoid" });
+    expect(counter.rollRange).toBe(regular.rollRange);
+  });
+
+  it("keeps a single-target spell for mirrored enemies as a last resort", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const resolved = abilityOrderService.resolve(
+      fakeCreature({ memorized: [{ file: HOLD }, { file: FIREBALL }] }),
+    );
+    const passes = resolved.map((a) => [a.preset, a.mirrorTarget]);
+    expect(passes).toHaveLength(3);
+    expect(passes).toContainEqual([HOLD, "avoid"]);
+    expect(passes).toContainEqual([FIREBALL, undefined]);
+    expect(passes.at(-1)).toEqual([HOLD, "require"]);
+  });
+
+  it("keeps a counter's own triggers instead of its preset's", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const dispel = SPELLS.Wizard.DispelMagic.file;
+    const resolved = abilityOrderService.resolve(fakeCreature({ memorized: [{ file: dispel }] }));
+    const counter = resolved.find((a) => a.targets === MIRRORED_ENEMY_TARGETS);
+    expect(counter?.triggers).toEqual(KEEP_PLAYERS_DISABLED);
+    expect(resolved.find((a) => a.preset === dispel)?.targets).toBeUndefined();
+  });
+
+  it("anchors an entry on the regular pass, not the counter", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: FLAME_ARROW }, { file: FIREBALL }],
+      entries: [{ spell: { file: NOT_PROFILED } as never, insertAfter: FLAME_ARROW }],
+    });
+    const resolved = abilityOrderService.resolve(creature);
+    const regular = resolved.findIndex((a) => a.preset === FLAME_ARROW);
+    expect(resolved[regular + 1].preset).toBe(NOT_PROFILED);
+  });
+});
 
 describe("resolve", () => {
   it("leaves an enemy contingency out too: the engine fires it", () => {
@@ -126,8 +183,12 @@ describe("resolve", () => {
       entries: [{ abilityId: 3 }],
     });
     const resolved = abilityOrderService.resolve(creature);
-    expect(presetsOf(resolved)).toEqual([CUSTOM_ABILITY_PRESET, FIREBALL, MAGIC_MISSILES]);
-    expect(resolved[0].probability).toBeGreaterThan(30);
+    expect(presetsOf(regularOf(resolved))).toEqual([
+      CUSTOM_ABILITY_PRESET,
+      FIREBALL,
+      MAGIC_MISSILES,
+    ]);
+    expect(regularOf(resolved)[0].probability).toBeGreaterThan(30);
   });
 
   it("makes summons wait for each other, only with several casts to space out", () => {
@@ -274,7 +335,7 @@ describe("resolve", () => {
       entries: [{ power: domination }],
     });
     const resolved = abilityOrderService.resolve(creature);
-    expect(resolved.map((a) => a.preset ?? a.name)).toEqual([
+    expect(regularOf(resolved).map((a) => a.preset ?? a.name)).toEqual([
       "domination-ability",
       FIREBALL,
       MAGIC_MISSILES,

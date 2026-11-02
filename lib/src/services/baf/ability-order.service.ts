@@ -5,7 +5,9 @@ import { Creature } from "../../model/creature/creature";
 import atWillService, { ROUND } from "../at-will.service";
 import creatureService from "../creature.service";
 import logService from "../log.service";
+import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { COVER_SPELLS } from "../../../config/spells/cover-spells";
+import { MIRRORED_ENEMY_TARGETS, mirrorCounterOf } from "../../../config/spells/mirror-counters";
 import spellComboService from "../spell-combo.service";
 import spellProfileService, { SpellProfile } from "../spell-profile.service";
 import castOrderService, { PlannedCast } from "./cast-order.service";
@@ -42,12 +44,22 @@ class AbilityOrderService {
     const spaced = this.summonsToSpace(plan, creature);
     const wait = { name: SUMMON_WAIT, value: SPELL_SCORING.summon.waitRounds * ROUND };
     const ordered = plan.map((cast): OrderedAbility => {
+      const shared = { probability: cast.probability, rollRange: cast.rollRange };
+      if (cast.pass === "counter") {
+        return {
+          identity: `${cast.file}#counter`,
+          ability: { ...this.counter(cast.file), ...shared },
+        };
+      }
       const entry = scoredEntries.get(cast.file);
       const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
-      const timer = spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
+      const regular = cast.pass === "regular";
+      const timer = regular && spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
+      const mirrorTarget = cast.mirrorTarget ? { mirrorTarget: cast.mirrorTarget } : {};
       return {
-        identity: cast.file,
-        ability: { ...ability, ...timer, probability: cast.probability },
+        // anchors land next to the regular pass
+        identity: regular ? cast.file : `${cast.file}#${cast.pass}`,
+        ability: { ...ability, ...timer, ...mirrorTarget, ...shared },
       };
     });
 
@@ -93,6 +105,23 @@ class AbilityOrderService {
     return castOrderService
       .coveredPlan(profiles)
       .map((cast) => ({ preset: cast.file, probability: cast.probability }));
+  }
+
+  /**
+   * An image remover's ability against mirrored enemies (see MIRROR_COUNTERS): its preset's, aimed
+   * at them, with the counter's own triggers instead of the preset's (True Seeing's waits for an
+   * invisible enemy). Not a preset itself: its targets and triggers would merge with the preset's.
+   */
+  private counter(file: string): RawCreatureAbility {
+    const preset = ABILITY_PRESETS.find((p) => p.preset.toUpperCase() === file.toUpperCase());
+    if (!preset) throw new Error(`Image remover ${file} has no preset`);
+    const { ability } = structuredClone(preset);
+    return {
+      ...ability,
+      spell: { ...ability.spell, resource: file },
+      triggers: structuredClone(mirrorCounterOf(file)?.triggers ?? []),
+      targets: MIRRORED_ENEMY_TARGETS,
+    };
   }
 
   /** Files cast by the creature's hand-written abilities or placed by its entries. */
