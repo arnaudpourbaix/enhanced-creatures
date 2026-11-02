@@ -48,7 +48,7 @@ class ScriptViewService {
     for (const variant of this.chain(script.variant)) this.addBehavior(view, variant.behavior);
     creatureFactory.resolveAbilities(view);
     atWillService.applyCooldowns(view);
-    this.dropUnmemorized(view);
+    this.dropUnmemorized(creature, view);
     return view;
   }
 
@@ -71,16 +71,19 @@ class ScriptViewService {
     }
   }
 
-  /** An ability casting a spell none of the script's files memorize can never fire. */
-  private dropUnmemorized(view: Creature): void {
-    const memorized = new Set(
-      creatureService.memorizedSpellFiles(view).map((f) => f.toUpperCase()),
-    );
+  /**
+   * An ability casting a spell only other scripts' files memorize can never fire here. A spell no
+   * file memorizes is granted in game (Polymorph Self's forms, an item's power): it stays.
+   */
+  private dropUnmemorized(creature: Creature, view: Creature): void {
+    const upper = (files: string[]) => new Set(files.map((f) => f.toUpperCase()));
+    const own = upper(creatureService.memorizedSpellFiles(view));
+    const others = upper(creatureService.memorizedSpellFiles(creature));
     const castable = (ability: CreatureAbility) => {
       // without memorizedSpellCheck, no HaveSpell trigger: it casts what it isn't given
       if (!ability.triggers.some((t) => "name" in t && MEMORIZED_CHECKS.has(t.name))) return true;
-      const files = creatureService.getAbilityCastFiles(ability);
-      return !files.length || files.some((f) => memorized.has(f.toUpperCase()));
+      const files = creatureService.getAbilityCastFiles(ability).map((f) => f.toUpperCase());
+      return !files.some((f) => others.has(f)) || files.some((f) => own.has(f));
     };
     const { behavior } = view;
     behavior.abilities = behavior.abilities.filter(castable);

@@ -734,6 +734,23 @@ describe("patchScripts (private)", () => {
     expect(out.filter((c) => c === "PATCH_DEFINE_ARRAY files BEGIN NECRO END")).toHaveLength(1);
   });
 
+  it("a location adjustment spanning scripts assigns each file its own script", () => {
+    const lines: CodeLine[] = [];
+    const location = fakeAdjustment({
+      files: ["PLAIN", "NECRO", "SUMN"],
+      data: { script: { location: "Default", remove: [] } } as Partial<CreatureData>,
+    });
+    service.patchScripts(lines, 0, withNecroScript(scriptCreature([location]), ["SUMN"]));
+    const out = codes(lines);
+    const assigned = (file: string) => {
+      const at = out.indexOf(`PATCH_DEFINE_ARRAY files BEGIN ${file} END`);
+      return out.slice(at).find((c) => c.includes("slot=Default"));
+    };
+    expect(assigned("PLAIN")).toContain("script=jabm0100 ");
+    expect(assigned("NECRO")).toContain("script=jabm0102 ");
+    expect(assigned("SUMN")).toContain("script=jabm0103 ");
+  });
+
   it("emits no forceFiles array when the creature creates no new files", () => {
     const lines: CodeLine[] = [];
     service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));

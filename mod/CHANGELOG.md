@@ -63,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: keep Magic Missile's mirrored target list for hand-placed casters
 - AI: mirror image passes keep their spell's own target checks
 - Variants: sub-variant spells replace their parent's; kit spells need no variant
+- Scripts: keep abilities for spells granted in game; location slots per script
 
 ## [0.4.0] - 2026-10-09
 

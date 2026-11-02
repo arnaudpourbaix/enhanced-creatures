@@ -682,21 +682,29 @@ class WeiduCreatureService extends AbstractWeiduService {
       this.add(lines, `END`, tab);
     }
     this.patchVariantScripts(lines, tab, creature, variants, locationFiles, newFiles);
+    // a file with its own slot keeps the script it runs: its variant's, or the base one
+    const scriptOf = new Map(
+      variants.flatMap((v) => [
+        ...v.files.map((f) => [f, v.name] as const),
+        ...v.summonFiles.map((f) => [f, v.summonName ?? v.name] as const),
+      ]),
+    );
     for (const adjustment of creature.adjustments) {
       if (adjustment.data.script.location && adjustment.data.script.location !== "None") {
-        this.patchScript({
-          lines,
-          tab,
-          script:
-            variants.find((v) => adjustment.files.some((f) => v.files.includes(f)))?.name ??
-            scriptName,
-          slot: adjustment.data.script.location,
-          removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
-          files: adjustment.files,
-          skipFiles: [],
-          forceFiles: newFiles,
-          logging: creature.logging,
-        });
+        const scripts = [...new Set(adjustment.files.map((f) => scriptOf.get(f) ?? scriptName))];
+        for (const script of scripts) {
+          this.patchScript({
+            lines,
+            tab,
+            script,
+            slot: adjustment.data.script.location,
+            removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
+            files: adjustment.files.filter((f) => (scriptOf.get(f) ?? scriptName) === script),
+            skipFiles: [],
+            forceFiles: newFiles,
+            logging: creature.logging,
+          });
+        }
       }
     }
   }
@@ -722,7 +730,10 @@ class WeiduCreatureService extends AbstractWeiduService {
       const assignments = [
         // a file with its own script slot is assigned by its location adjustment
         { files: script.files.filter((f) => !locationFiles.includes(f)), name: script.name },
-        { files: script.summonFiles, name: script.summonName },
+        {
+          files: script.summonFiles.filter((f) => !locationFiles.includes(f)),
+          name: script.summonName,
+        },
       ];
       for (const { files, name } of assignments) {
         if (!files.length || !name) continue;

@@ -95,6 +95,14 @@ describe("scriptViewService.build", () => {
     expect(resources(views(creature).base)).toEqual([BASE_SPELL, "SPIN999"]);
   });
 
+  it("keeps an ability for a spell no file memorizes: granted in game (Polymorph Self forms)", () => {
+    const creature = fakeCreature([cast(BASE_SPELL), cast(NEW_SPELL), cast("SPWI493")]);
+    necromancer(creature);
+    const { base, necro } = views(creature);
+    expect(resources(base)).toEqual([BASE_SPELL, "SPWI493"]);
+    expect(resources(necro)).toEqual([BASE_SPELL, NEW_SPELL, "SPWI493"]);
+  });
+
   it("variant behavior abilities are added to the base ones in the variant view only", () => {
     const creature = fakeCreature([cast(BASE_SPELL)]);
     necromancer(creature, { behavior: { abilities: [cast(NEW_SPELL)] } });
