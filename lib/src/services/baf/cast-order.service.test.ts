@@ -206,6 +206,15 @@ describe("plan", () => {
     expect(order).toEqual(["BUFF1", "HIT1", "BUFF2", "HIT2"]);
   });
 
+  it("keeps a poor attack for last: it doesn't hold the buffs back (Command)", () => {
+    const order = files([
+      profile("BUFF1", { role: "buff", castingTime: 1, tier: "great" }),
+      profile("BUFF2", { role: "buff", castingTime: 1, tier: "great" }),
+      profile("COMMAND", { role: "disable", tier: "poor" }),
+    ]);
+    expect(order).toEqual(["BUFF1", "BUFF2", "COMMAND"]);
+  });
+
   it("attacks right after the opening protections, before a better buff", () => {
     const order = files([
       profile("GLOBE", { role: "protection", tier: "great" }),
@@ -227,7 +236,7 @@ describe("plan", () => {
   it("leaves party buffs to the alternation without a summon", () => {
     const order = files([
       profile("HASTE", { role: "buff", keywords: ["friendly", "area"], castingTime: 9 }),
-      profile("HIT", {}),
+      profile("HIT", { tier: "great" }),
     ]);
     expect(order).toEqual(["HIT", "HASTE"]);
   });

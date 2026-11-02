@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: the covered phase takes a creature's own protections and buffs
 - Log: each script's cast order in its creature's section
 - AI: spell entries are placed by score, with their own configuration
+- AI: a cleric's priorities: Hold Person, party buffs, Command last
 
 ### Changed
 

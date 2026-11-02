@@ -29,6 +29,7 @@ export type SpellDurationClass =
  * How valuable a spell is within its role, independent of its level (Mirror Image is a great
  * protection even for a high-level caster). `decent` is the default, never written. Guessed for
  * protections by scripts/extract-spell-profile.ts, set by hand elsewhere. `top`: so strong it comes
- * before summons, right after the opening (Maze, Imprisonment).
+ * before summons, right after the opening (Maze, Imprisonment). `poor`: quick and safe but of
+ * little impact, the spell a player keeps for last (Command): a poor attack doesn't hold buffs back.
  */
-export type SpellTier = "top" | "great" | "good" | "decent";
+export type SpellTier = "top" | "great" | "good" | "decent" | "poor";

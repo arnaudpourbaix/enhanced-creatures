@@ -175,7 +175,8 @@ class CastOrderService {
   }
 
   /**
-   * Highest score first, but never two defensive spells in a row while attacks remain, and
+   * Highest score first, but never two defensive spells in a row while attacks remain (poor ones
+   * aside), and
    * `partyBuff` right after the first summon.
    */
   private alternate<T extends { profile: SpellProfile }>(
@@ -188,10 +189,12 @@ class CastOrderService {
     const offensive = sorted.filter((s) => !defensiveRoles.includes(s.profile.role));
     const result: T[] = [];
     let lastDefensive = afterDefensive;
+    // a poor attack (Command) is kept for last: it doesn't hold the buffs back (user)
+    const holdsBuffs = (s: T) => s.profile.tier !== "poor";
     while (defensive.length || offensive.length) {
       const pickDefensive: boolean =
         defensive.length > 0 &&
-        (!offensive.length ||
+        (!offensive.some(holdsBuffs) ||
           (!lastDefensive && sorted.indexOf(defensive[0]) < sorted.indexOf(offensive[0])));
       const next = pickDefensive ? defensive.shift() : offensive.shift();
       if (next) result.push(next);

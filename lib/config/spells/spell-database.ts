@@ -921,6 +921,9 @@ const WIZARD_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -2 }],
     name: "spell.HoldPerson.name",
     keywords: ["hold", "movement", "humanoid", "magicResistance"],
+    // a held target is out of the fight and killable at will: once held, it's game over unless
+    // allies save it (user)
+    tier: "top",
   },
   Horror: {
     file: "SPWI205",
@@ -2893,7 +2896,7 @@ const PRIEST_SPELLS = {
     castingTime: 5,
     duration: "mid",
     name: "spell.Bless.name",
-    keywords: ["friendly"],
+    keywords: ["area", "castOnSelf", "friendly"],
   },
   BlindingBeauty: {
     file: "SPPR704",
@@ -3036,7 +3039,9 @@ const PRIEST_SPELLS = {
     castingTime: 9,
     name: "spell.Chant.name",
     duration: "short",
-    keywords: ["castOnSelf"],
+    keywords: ["area", "castOnSelf", "friendly"],
+    // small but substantial bonuses to every ally around: the more allies, the stronger (user)
+    tier: "great",
   },
   // SPPR709 is CLERIC_CONFUSION both in vanilla and under AllSpellMods (Spell Revisions alone,
   // which isn't a supported install state on its own, briefly renames it to CLERIC_CHAOS - but
@@ -3130,6 +3135,9 @@ const PRIEST_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell], bonus: -4 }],
     name: "spell.Command.name",
     keywords: ["sleep", "magicResistance"],
+    // one target, one round, and a sleeper wakes when hit: the spell a cleric keeps for last,
+    // safe as it's quick (user)
+    tier: "poor",
   },
   ConjureAirElemental: {
     file: "SPPR617",
@@ -3707,6 +3715,9 @@ const PRIEST_SPELLS = {
     saves: [{ types: [SaveTypeEnum.Spell] }],
     name: "spell.HoldPerson.name",
     keywords: ["hold", "humanoid", "magicResistance"],
+    // a held target is out of the fight and killable at will: once held, it's game over unless
+    // allies save it (user)
+    tier: "top",
   },
   HoldPersonOrAnimal: {
     file: "SPPR305",

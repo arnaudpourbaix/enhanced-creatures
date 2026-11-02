@@ -48,15 +48,15 @@ export const SPELL_SCORING = {
   /** + (center - casting time) * factor: fast spells first, and less often interrupted */
   castingTime: { center: 5, factor: 0.5 },
   secondaryRole: 1,
-  /** A buff for every ally around (friendly and area) */
-  partyBuff: 1,
+  /** A buff for every ally around (friendly and area): the more allies, the stronger (user) */
+  partyBuff: 3,
   /**
    * A sequencer scores as its strongest spell raised by `levelPerExtraSpell` per other spell it
    * casts (two Magic Missiles: a level 3 spell, three Fireballs: a level 7 one), at the speed of
    * its release. (User.)
    */
   sequencer: { castingTime: 1, levelPerExtraSpell: 2 },
-  tier: { top: 6, great: 3, good: 1.5, decent: 0 },
+  tier: { top: 6, great: 3, good: 1.5, decent: 0, poor: -3 },
   /** A great spell counts as good once the caster's best level is this far above its own */
   tierDecayGap: 4,
   probability: { base: 40, perPoint: 5, min: 30, max: 90, reactive: 100 },

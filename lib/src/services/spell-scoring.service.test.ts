@@ -125,6 +125,17 @@ describe("score", () => {
     expect(score(profile({ level: 5, tier: "good" }), best(5)) - decent).toBe(1.5);
   });
 
+  it("takes 3 from a poor spell: quick and safe, of little impact (Command)", () => {
+    const decent = score(profile({ level: 5 }), best(5));
+    expect(score(profile({ level: 5, tier: "poor" }), best(5)) - decent).toBe(-3);
+  });
+
+  it("adds 3 for a party buff: the more allies around, the stronger (Chant)", () => {
+    const buff = profile({ role: "buff", keywords: ["friendly"] });
+    const party = profile({ role: "buff", keywords: ["friendly", "area"] });
+    expect(score(party, best(1)) - score(buff, best(1))).toBe(3);
+  });
+
   it("counts Mirror Image as great up to a best level of 5, as good from 6", () => {
     const image = wizard("MirrorImages");
     const asDecent = { ...image, tier: "decent" as const };
