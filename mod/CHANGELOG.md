@@ -43,6 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: review area spells, drop spells missing from BG2EE
 - Design and plan for category rolls and mirror image counters
 - Variant scripts design
+- Variant scripts plan
 
 ### Fixed
 
