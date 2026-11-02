@@ -148,7 +148,8 @@ export class FeyKin extends CreatureKin {
   private createSpeakWithPlants() {
     return this.addSpell({
       name: "monster.fey.ability.speakWithPlants.name",
-      role: "protection",
+      // cast once entangled: it frees her, making her immune to entangle (user)
+      role: "reactive",
       id: FeyIds.SpeakWithPlants,
       description: "monster.fey.ability.speakWithPlants.description",
       icon: "jaak0501",

@@ -492,6 +492,22 @@ THEN
 		SetInterrupt(TRUE)
 END
 
+// Speak With Plants
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("speakWithPlants","LOCALS")
+	ActionListEmpty()
+	HaveSpellRES("jask0502")
+	CheckStatGT(Myself,0,ENTANGLE)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0502",LastSeenBy(Myself))
+		SetGlobalTimer("speakWithPlants","LOCALS",60)
+		SetInterrupt(TRUE)
+END
+
 // Dryad Charm
 IF
 	!StateCheck(Myself,STATE_SILENCED)
@@ -6357,23 +6373,6 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jase1400",LastSeenBy(Myself))
 		RemoveSpellRES("jase1400")
-		SetInterrupt(TRUE)
-END
-
-// Speak With Plants
-IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!GlobalTimerNotExpired("speakWithPlants","LOCALS")
-	ActionListEmpty()
-	HaveSpellRES("jask0502")
-	CheckStatGT(Myself,0,ENTANGLE)
-	RandomNumGT(702,70)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0502",LastSeenBy(Myself))
-		SetGlobalTimer("speakWithPlants","LOCALS",60)
 		SetInterrupt(TRUE)
 END
 
