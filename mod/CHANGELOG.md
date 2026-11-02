@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: review summon, weapon and remaining presets
 - AI: category roll ranges
 - AI: roll range and mirror image checks on abilities
+- AI: image removers
 
 ### Changed
 

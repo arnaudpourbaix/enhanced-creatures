@@ -36,6 +36,16 @@ export const ExcludeUnwantedTargetsTriggers: Triggers.Trigger[] = [
   },
 ];
 
+/**
+ * Wizard Dispel Magic also hits the caster's side, and players: as in Stratagems, not while it
+ * would free one of them.
+ */
+export const KEEP_PLAYERS_DISABLED: Triggers.Trigger[] = [1, 2, 3, 4, 5, 6].flatMap((n) => [
+  { name: "StateCheck", params: [`Player${n}`, "STATE_DISABLED"], negation: true },
+  { name: "CheckStatGT", params: [`Player${n}`, 0, "CLERIC_INSECT_PLAGUE"], negation: true },
+  { name: "Allegiance", params: [`Player${n}`, "ENEMY"], negation: true },
+]);
+
 export const SummonsTriggers: Triggers.Trigger[] = [
   {
     name: "Or",

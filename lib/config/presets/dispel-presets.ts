@@ -3,10 +3,9 @@ import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
-import { Triggers } from "../../src/model/script/triggers";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
-import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+import { ExcludeUnwantedTargetsTriggers, KEEP_PLAYERS_DISABLED } from "../target/common";
 
 const DISPEL_TARGET_LISTS: TargetList[] = [
   {
@@ -52,12 +51,6 @@ const SPELL_REMOVAL_TARGET_LISTS: TargetList[] = [
 
 // The protections worth a Breach, as Stratagems picks them. Its own PRIORITY_BREACH state needs that
 // mod, these don't. It can't remove spell protections, and Deflection, Turning and the like stop it.
-// This one also hits the caster's side, and players: as in Stratagems, not while it would free one
-const KEEP_PLAYERS_DISABLED: Triggers.Trigger[] = [1, 2, 3, 4, 5, 6].flatMap((n) => [
-  { name: "StateCheck", params: [`Player${n}`, "STATE_DISABLED"], negation: true },
-  { name: "CheckStatGT", params: [`Player${n}`, 0, "CLERIC_INSECT_PLAGUE"], negation: true },
-  { name: "Allegiance", params: [`Player${n}`, "ENEMY"], negation: true },
-]);
 
 const BREACH_TARGET_LISTS: TargetList[] = [
   {

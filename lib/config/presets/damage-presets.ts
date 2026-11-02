@@ -46,15 +46,11 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.MelfAcidArrow, {
     targets: [...CommonTargetLists.Spellcasters, ...CommonTargetLists.Enemies],
   }),
+  // against Mirror Image, their counter pass comes first (see MIRROR_COUNTERS)
   ...presetFactory.createSpells(
     [SPELLS.Wizard.MordenkainenForceMissiles, SPELLS.Wizard.MagicMissiles],
     {
-      targets: [
-        ...targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
-          triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
-        ]),
-        ...CommonTargetLists.Enemies,
-      ],
+      targets: CommonTargetLists.Enemies,
     },
   ),
   ...presetFactory.createSpell(SPELLS.Priest.CallLightning, {
