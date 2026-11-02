@@ -35,7 +35,6 @@ export const DEBUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.LowerResistance,
       SPELLS.Wizard.Suffocate,
       SPELLS.Priest.EtherealRetribution,
-      SPELLS.Priest.SpikeStones,
       SPELLS.Priest.FaerieFire,
       SPELLS.Wizard.SymbolOfWeakness,
       SPELLS.Priest.CloudOfPestilence,

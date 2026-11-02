@@ -204,7 +204,7 @@ const FNP_PRIEST_SPELLS = {
     level: 5,
     // hand-picked, missing from the install profiled: as its vanilla counterpart
     createsItems: ["SLAYLIVE"],
-    keywords: ["castOnSelf"],
+    keywords: ["death", "castOnSelf"],
     role: "kill",
     castingTime: 5,
     type: SpellTypeEnum.Priest,
@@ -234,7 +234,7 @@ const FNP_PRIEST_SPELLS = {
     file: "D5F1608",
     level: 6,
     createsItems: ["HARM"],
-    keywords: ["castOnSelf"],
+    keywords: ["causeWounds", "castOnSelf"],
     role: "damage",
     castingTime: 6,
     type: SpellTypeEnum.Priest,

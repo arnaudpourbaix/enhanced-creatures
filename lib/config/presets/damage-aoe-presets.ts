@@ -30,6 +30,7 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.FireTrap,
       SPELLS.Priest.ProduceFire,
       SPELLS.Priest.SpikeGrowth,
+      SPELLS.Priest.SpikeStones,
       SPELLS.Priest.SpiritualWrath,
       SPELLS.Priest.ThornSpray,
       SPELLS.Priest.WallOfMoonlight,

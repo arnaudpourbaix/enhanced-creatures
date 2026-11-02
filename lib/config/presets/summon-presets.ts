@@ -7,21 +7,21 @@ import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists, ExcludeUnwantedTargetsTriggers } from "../target/common";
 
-const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
-  {
-    name: "PreferringWeak",
-    includeStatus: ["Able"],
-    triggers: ExcludeUnwantedTargetsTriggers,
-    randomOrder: true,
-  },
+const SUMMON_ENEMY_TARGET_LISTS: TargetList[] = [
   {
     name: "NearestEnemies",
     includeStatus: ["Able"],
     triggers: ExcludeUnwantedTargetsTriggers,
     randomOrder: true,
   },
+];
+
+const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
+  ...SUMMON_ENEMY_TARGET_LISTS,
   ...CommonTargetLists.MyselfOrAllies,
 ];
+
+const SUMMON_TIMER = { name: "Summoning", value: 2 * Durations.round };
 
 export const SUMMON_PRESETS: AbilityPreset[] = [
   {
@@ -81,12 +81,10 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.Gate,
       SPELLS.Wizard.InvisibleStalker,
       SPELLS.Wizard.MordenkainensSword,
-      SPELLS.Wizard.SummonDarkPlanetar,
       SPELLS.Wizard.SummonDjinni,
       SPELLS.Wizard.SummonEfreeti,
       SPELLS.Wizard.SummonNishruu,
       SPELLS.Wizard.SummonNishruuSPWI719,
-      SPELLS.Wizard.SummonPlanetar,
       SPELLS.Wizard.WyvernCall,
       SPELLS.Priest.ConjureAirElemental,
       SPELLS.Priest.ConjureAnimals,
@@ -96,11 +94,23 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.ElementalSwarm,
       SPELLS.Priest.GiantInsect,
       SPELLS.Priest.Stalker,
+    ],
+    {
+      targets: SUMMON_SPELLS_TARGET_LISTS,
+      timer: SUMMON_TIMER,
+    },
+  ),
+  // Cast on the caster, so only worth it with an enemy in sight
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.SummonDarkPlanetar,
+      SPELLS.Wizard.SummonPlanetar,
       SPELLS.Priest.SummonDeva,
       SPELLS.Priest.SummonFallenDeva,
     ],
     {
-      timer: { name: "Summoning", value: 2 * Durations.round },
+      targets: SUMMON_ENEMY_TARGET_LISTS,
+      timer: SUMMON_TIMER,
     },
   ),
 ];
