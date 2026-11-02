@@ -1168,6 +1168,19 @@ describe("memorizedSpellFiles", () => {
   });
 });
 
+describe("declaredSpellFiles", () => {
+  it("collects memorized, spellbook and combo files uppercased", () => {
+    vi.spyOn(spellComboService, "filesOf").mockReturnValue(["jasc0100"]);
+    const data = emptyAdjustmentData();
+    data.spells.memorized = [{ file: "spwi112" }];
+    data.spells.spellbooks = [{ mod: "SpellRevisions", memorized: [{ file: "spwi212" }] }];
+    data.spells.combos = [{} as SpellCombo];
+    expect(creatureService.declaredSpellFiles(data.spells)).toEqual(
+      new Set(["SPWI112", "SPWI212", "JASC0100"]),
+    );
+  });
+});
+
 describe("checkDuplicateAbilities", () => {
   it("errors when two abilities share the same resource and the same trigger/target signature", () => {
     const creature = fakeSpellCreature({

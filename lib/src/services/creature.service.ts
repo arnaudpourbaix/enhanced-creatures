@@ -12,7 +12,7 @@ import {
   CreatureAutoGenerateSavingThrows,
   CreatureAutoGenerateThac0,
 } from "../model/creature/creature";
-import { CreatureData } from "../model/creature/data";
+import { CreatureData, SpellDeclarations } from "../model/creature/data";
 import {
   AttackPerRoundFigtherTable,
   AttackPerRoundProficiencyTable,
@@ -144,6 +144,20 @@ class CreatureService {
     }
 
     return levels.length ? Math.max(...levels) : baseLevel;
+  }
+
+  /** Every spell file the declaration memorizes (its spellbooks' and combos' too), uppercased. */
+  declaredSpellFiles(spells: SpellDeclarations | undefined): Set<string> {
+    const files = [
+      ...(spells?.memorized ?? []),
+      ...(spells?.spellbooks ?? []).flatMap((book) => book?.memorized ?? []),
+    ].map((m) => m?.file);
+    const comboFiles = (spells?.combos ?? []).flatMap((c) =>
+      spellComboService.filesOf(c as SpellCombo),
+    );
+    return new Set(
+      [...files, ...comboFiles].filter((f): f is string => !!f).map((f) => f.toUpperCase()),
+    );
   }
 
   memorizedSpellFiles(creature: Creature): string[] {

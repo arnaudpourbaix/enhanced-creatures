@@ -19,6 +19,7 @@ const GREATER_LACEDON_FILE = "AC#DT01L";
 const GREATER_LACEDON = "greater lacedon";
 const CREATURE_FILES = [
   "GRON",
+  "DX#DALID",
   "GMAYOR",
   "THESHAL",
   "CD41COR",
@@ -211,5 +212,82 @@ describe("derived variant (Variant.variant)", () => {
     expect(() =>
       lacedon.variant(GREATER_LACEDON, { data: { xpv: 1800 }, files: [FOREIGN_FILE] }),
     ).toThrow(NOT_OWNED);
+  });
+});
+
+describe("scripted variants", () => {
+  const NECRO = "necro";
+  const BASE_SPELL = "SPWI112";
+  const NEW_SPELL = "SPWI212";
+
+  function casterCreature(): Creature {
+    const creature = fakeCreature();
+    creature.data = {
+      ...creatureFactory.createEmptyData(),
+      items: { remove: [], equipped: [] },
+    } as unknown as MainCreatureData;
+    creature.data.spells.memorized = [{ file: BASE_SPELL, memorizedCount: 1 }];
+    return creature;
+  }
+
+  it("a variant adding a spell file the base lacks is scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: BASE_SPELL }, { file: NEW_SPELL }] } },
+      files: ["GRON"],
+    });
+    expect(variant.scripted).toBe(true);
+    expect(variant.newSpellFiles).toEqual([NEW_SPELL]);
+  });
+
+  it("more uses of a base spell is not scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: BASE_SPELL, memorizedCount: 3 }] } },
+      files: ["GRON"],
+    });
+    expect(variant.scripted).toBe(false);
+  });
+
+  it("a variant declaring behavior is scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { level1: 9 },
+      files: ["GRON"],
+      behavior: { abilities: [] },
+    });
+    expect(variant.scripted).toBe(true);
+  });
+
+  it("a sub-variant inheriting its parent's spells is not scripted", () => {
+    const parent = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: NEW_SPELL }] } },
+      files: ["GRON"],
+    });
+    const child = parent.variant("elder necro", { data: { level1: 12 }, files: ["GMAYOR"] });
+    expect(parent.scripted).toBe(true);
+    expect(child.scripted).toBe(false);
+  });
+
+  it("an adjust entry adding a spell the variant lacks throws", () => {
+    expect(() =>
+      variantFactory.add(casterCreature(), NECRO, {
+        data: { level1: 9 },
+        files: ["GRON", "DX#DALID"],
+        adjust: [{ files: ["DX#DALID"], data: { spells: { memorized: [{ file: NEW_SPELL }] } } }],
+      }),
+    ).toThrow(/variant "necro": 'DX#DALID' adds spells SPWI212 - declare a sub-variant/);
+  });
+
+  it("an adjust entry giving more uses of a variant spell is allowed", () => {
+    expect(() =>
+      variantFactory.add(casterCreature(), NECRO, {
+        data: { spells: { memorized: [{ file: NEW_SPELL }] } },
+        files: ["GRON", "GMAYOR"],
+        adjust: [
+          {
+            files: ["GMAYOR"],
+            data: { spells: { memorized: [{ file: NEW_SPELL, memorizedCount: 2 }] } },
+          },
+        ],
+      }),
+    ).not.toThrow();
   });
 });

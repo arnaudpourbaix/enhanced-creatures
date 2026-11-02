@@ -4,6 +4,7 @@ import { Creature } from "../model/creature/creature";
 import { InputCreatureData } from "../model/creature/data-input";
 import { Game, gamesOverlap } from "../model/creature/game";
 import { Variant, VariantInput } from "../model/creature/variant";
+import creatureService from "../services/creature.service";
 import logService from "../services/log.service";
 import translationService from "../services/translation.service";
 import creatureFactory from "./creature.factory";
@@ -21,12 +22,19 @@ class VariantFactory {
           customMerge: (key) => (key === "animation" ? replaceArray : undefined),
         })
       : (input.data ?? {});
-    const variant = new Variant(cre, label, base, members, parent);
+    const inherited = knownSpellFiles(cre, parent);
+    const own = creatureService.declaredSpellFiles(base.spells);
+    const newSpellFiles = [...own]
+      .filter((f) => !inherited.has(f))
+      .sort((a, b) => a.localeCompare(b));
+    const variant = new Variant(cre, label, base, members, parent, newSpellFiles, input.behavior);
 
     // Stamp the variant onto every entry so the documentation can group the cards under it.
+    const adjustments = buildAdjustments(input, base, label);
+    assertNoNewAdjustSpells(adjustments, new Set([...inherited, ...own]), label);
     creatureFactory.setAdjustments(
       cre,
-      buildAdjustments(input, base, label).map((a) => ({ ...a, variant })),
+      adjustments.map((a) => ({ ...a, variant })),
     );
     linkToParent(cre, variant, members);
     return variant;
@@ -66,7 +74,9 @@ function buildAdjustments(
   assertNoDuplicateAdjustFiles(input.adjust ?? [], label);
 
   for (const entry of input.adjust ?? []) {
-    const merged = entry.data ? deepmerge<InputCreatureData>(base, entry.data, { customMerge }) : base;
+    const merged = entry.data
+      ? deepmerge<InputCreatureData>(base, entry.data, { customMerge })
+      : base;
     // autoGenerate is deliberately NOT deep-merged (see VariantInput.adjust doc): an entry
     // inherits the variant's shared autoGenerate as-is unless it declares its own (even `{}`), so
     // a sub-entry with its own level1 can opt out of a shared nominal-level override.
@@ -116,6 +126,35 @@ function customMerge(key: string): typeof replaceArray | undefined {
 
 function replaceArray(_target: unknown[], source: unknown[]): unknown[] {
   return source;
+}
+
+/** The spell files a variant's parent memorizes: the base creature's and every ancestor's. */
+function knownSpellFiles(cre: Creature, variant: Variant | undefined): Set<string> {
+  const base = creatureService.declaredSpellFiles(cre.data.spells);
+  for (let v = variant; v; v = v.parent) {
+    for (const file of creatureService.declaredSpellFiles(v.data.spells)) base.add(file);
+  }
+  return base;
+}
+
+/**
+ * One file of a variant memorizing spells the variant doesn't would bring them to the variant's
+ * script, which its other files run too: that file is a sub-variant of its own.
+ */
+function assertNoNewAdjustSpells(
+  adjustments: PartialCreatureAdjustment[],
+  known: Set<string>,
+  label: string,
+): void {
+  for (const adjustment of adjustments) {
+    const added = [...creatureService.declaredSpellFiles(adjustment.data?.spells)]
+      .filter((f) => !known.has(f))
+      .sort((a, b) => a.localeCompare(b));
+    if (!added.length) continue;
+    throw new Error(
+      `variant "${label}": '${adjustment.files.join(", ")}' adds spells ${added.join(", ")} - declare a sub-variant`,
+    );
+  }
 }
 
 function linkToParent(cre: Creature, variant: Variant, members: string[]): void {

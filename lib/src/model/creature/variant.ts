@@ -1,4 +1,5 @@
 import { PartialCreatureAdjustment } from "./adjustment";
+import type { PartialCreatureBehavior } from "./behavior";
 import type { Creature, CreatureAutoGenerate } from "./creature";
 import { InputCreatureData } from "./data-input";
 
@@ -36,6 +37,11 @@ export interface VariantInput {
    * `adjust` entry that doesn't declare its own). See {@link adjust} for the opt-out rule.
    */
   autoGenerate?: Partial<CreatureAutoGenerate>;
+  /**
+   * Abilities of this variant's own, added to its parent's (see Creature.setBehavior). They only
+   * reach this variant's script: a variant declaring behavior gets its own script.
+   */
+  behavior?: PartialCreatureBehavior;
 }
 
 /**
@@ -58,7 +64,16 @@ export class Variant {
     readonly files: string[],
     /** The variant this one derives from, if any (undefined for a root variant). */
     readonly parent?: Variant,
+    /** Spell files this variant memorizes that its parent doesn't, uppercased and sorted. */
+    readonly newSpellFiles: string[] = [],
+    /** This variant's own behavior input (not merged with its parent's). */
+    readonly behavior?: PartialCreatureBehavior,
   ) {}
+
+  /** New spells or abilities: the variant gets its own script (see ScriptPlanService). */
+  get scripted(): boolean {
+    return this.newSpellFiles.length > 0 || this.behavior !== undefined;
+  }
 
   /** Derive a sub-variant whose `data` stacks on top of this one's. */
   variant(label: string, input: VariantInput): Variant {

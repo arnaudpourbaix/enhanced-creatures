@@ -179,6 +179,14 @@ export class CreatureDataSpells {
   cumulative?: boolean;
 }
 
+/** The spells a creature's data declares, whether full (CreatureData) or input (InputCreatureData) */
+export interface SpellDeclarations {
+  memorized?: ({ file?: string } | undefined)[];
+  spellbooks?: ({ memorized?: ({ file?: string } | undefined)[] } | undefined)[];
+  /** Whole combos even in input data: authors pass a combo, never a part of one */
+  combos?: unknown[];
+}
+
 export interface SpellbookVariant {
   /** Key into SPELLBOOK_MODS (lib/config/mods.ts), which resolves the actual WeiDU check. */
   mod: SpellbookModName;
