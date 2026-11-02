@@ -47,6 +47,7 @@ import { CreatureGrabConfig } from "./grab";
 import { ItemSlot, JEWEL_SLOTS } from "./item";
 import { AbilityEntry } from "./ability";
 import { State } from "../../state";
+import type { CreatureScript } from "../../services/baf/script-plan.service";
 
 export interface NaturalWeaponOptions {
   /** Default: the kind's shared name (NATURAL_WEAPONS). */
@@ -117,6 +118,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
   adjustments: CreatureAdjustment[] = [];
   /** Root variants declared on this creature (sub-variants live under `Variant.children`). */
   variants: Variant[] = [];
+  /** Its BAF scripts, planned at validation (see ScriptPlanService) */
+  scripts: CreatureScript[] = [];
   effectFiles: EffectFile[] = [];
 
   /**
