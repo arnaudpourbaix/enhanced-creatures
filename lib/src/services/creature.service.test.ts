@@ -12,6 +12,7 @@ import { Movement } from "../model/creature/movement";
 import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import { CreatureAbility } from "../model/creature/ability";
+import { CreatureAdjustment } from "../model/creature/adjustment";
 import creatureService from "./creature.service";
 import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
@@ -1993,5 +1994,69 @@ describe("creatureService.checkAgainstCsv", () => {
 
     expect(warn).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
     expect(info).not.toHaveBeenCalled();
+  });
+});
+
+describe("checkAdjustmentSpells", () => {
+  function spellCreature(adjustments: Partial<CreatureAdjustment>[], variants: unknown[] = []) {
+    return {
+      name: "test",
+      data: { spells: { memorized: [{ file: "SPCL321" }] } },
+      adjustments: adjustments.map((a) => ({
+        files: [],
+        data: { script: {}, spells: { memorized: [] } },
+        ...a,
+      })),
+      variants,
+    } as unknown as Creature;
+  }
+  const memorizing = (...files: string[]) =>
+    ({
+      script: {},
+      spells: { memorized: files.map((file) => ({ file })) },
+    }) as unknown as CreatureData;
+
+  it("throws when a plain adjustment adds a spell file the base lacks", () => {
+    const creature = spellCreature([
+      { files: ["F1", "F2"], data: memorizing("SPWI212", "SPWI412") },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).toThrow(
+      ": adjustment for 'F1, F2' adds spells SPWI212, SPWI412 - declare a variant so they get their own script",
+    );
+  });
+
+  it("allows more uses of a base spell", () => {
+    const creature = spellCreature([{ files: ["F1"], data: memorizing("SPCL321") }]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("allows spells on files that run no script", () => {
+    const none = {
+      script: { location: "None" },
+      spells: { memorized: [] },
+    } as unknown as CreatureData;
+    const creature = spellCreature([
+      { files: ["F1"], data: none },
+      { files: ["F1"], data: memorizing("SPWI212") },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("ignores variant adjustments", () => {
+    const creature = spellCreature([
+      { files: ["F1"], data: memorizing("SPWI212"), variant: {} as CreatureAdjustment["variant"] },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("throws a variant's adjust entries adding spells it lacks", () => {
+    const child = {
+      spellErrors: ["variant \"b\": 'F2' adds spells X - declare a sub-variant"],
+      children: [],
+    };
+    const creature = spellCreature([], [{ spellErrors: [], children: [child] }]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).toThrow(
+      ": variant \"b\": 'F2' adds spells X - declare a sub-variant",
+    );
   });
 });

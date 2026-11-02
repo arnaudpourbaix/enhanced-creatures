@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Scripts: plan one script per scripted variant
 - Scripts: build a creature view per script
 - Scripts: generate and assign one script per scripted variant
+- Variants: refuse new spells outside a variant
 
 ### Changed
 

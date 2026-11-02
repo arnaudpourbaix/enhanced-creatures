@@ -219,6 +219,7 @@ class CreatureFactory {
     }
     if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
+    creatureService.checkAdjustmentSpells(creature);
     const handWritten = this.takeHandWritten(creature);
     this.resolveAbilities(creature);
     atWillService.checkDuplicates(creature);

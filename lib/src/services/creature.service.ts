@@ -12,6 +12,7 @@ import {
   CreatureAutoGenerateSavingThrows,
   CreatureAutoGenerateThac0,
 } from "../model/creature/creature";
+import type { Variant } from "../model/creature/variant";
 import { CreatureData, SpellDeclarations } from "../model/creature/data";
 import {
   AttackPerRoundFigtherTable,
@@ -144,6 +145,33 @@ class CreatureService {
     }
 
     return levels.length ? Math.max(...levels) : baseLevel;
+  }
+
+  /**
+   * New spells belong to a variant, which gets its own script: a plain adjustment adding them
+   * would make every file of the creature run them. Files running no script are exempt.
+   */
+  checkAdjustmentSpells(creature: Creature): void {
+    const name = translationService.from(creature.name);
+    const noScript = new Set(
+      creature.adjustments.filter((a) => a.data.script.location === "None").flatMap((a) => a.files),
+    );
+    const known = this.declaredSpellFiles(creature.data.spells);
+    const errors = creature.adjustments
+      .filter((a) => !a.variant && a.files.some((f) => !noScript.has(f)))
+      .flatMap((a) => {
+        const added = [...this.declaredSpellFiles(a.data.spells)]
+          .filter((f) => !known.has(f))
+          .sort((x, y) => x.localeCompare(y));
+        if (!added.length) return [];
+        return [
+          `adjustment for '${a.files.join(", ")}' adds spells ${added.join(", ")} - declare a variant so they get their own script`,
+        ];
+      });
+    const all = (variants: Variant[]): Variant[] =>
+      variants.flatMap((v) => [v, ...all(v.children)]);
+    errors.push(...all(creature.variants).flatMap((v) => v.spellErrors));
+    if (errors.length) throw new Error(errors.map((e) => `${name}: ${e}`).join("; "));
   }
 
   /** Every spell file the declaration memorizes (its spellbooks' and combos' too), uppercased. */
