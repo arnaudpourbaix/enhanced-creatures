@@ -305,8 +305,11 @@ function improvedBodhiSpells(...spells: string[]) {
 }
 
 /** Ch3, the lesson fight: Touch of Death and Sleep only */
-function chapter3Encounter(): PartialCreatureAdjustment[] {
-  return [{ files: ["BODHI2"], data: { spells: improvedBodhiSpells("ibodhi5", "ibodhi6") } }];
+function chapter3Encounter(cre: Creature) {
+  cre.variant("lesson fight", {
+    data: { spells: improvedBodhiSpells("ibodhi5", "ibodhi6") },
+    files: ["BODHI2"],
+  });
 }
 
 /**
@@ -343,7 +346,7 @@ function chapter4Encounter({ claws, trait, drain5, spellholdTrait }: BodhiItems)
 }
 
 /** Ch6, her lair, and ToB: BODHI.ITM's claws, her blood (24 HP/round) and all her SCS spells */
-function chapter6Encounter({ claws, trait, bodhiClaws, blood }: BodhiItems) {
+function chapter6Encounter(cre: Creature, { claws, trait, bodhiClaws, blood }: BodhiItems) {
   const lair = (
     file: string,
     p: { xpv?: number; extra?: EquippedItem[] } = {},
@@ -355,15 +358,18 @@ function chapter6Encounter({ claws, trait, bodhiClaws, blood }: BodhiItems) {
         remove: [],
         equipped: [{ ...claws, file: bodhiClaws }, { ...trait, file: blood }, ...(p.extra ?? [])],
       },
-      spells: improvedBodhiSpells("ibodhi4", "ibodhi5", "ibodhi6", "ibodhi7"),
     },
   });
-  return [
-    lair("C6BODHI", { xpv: 91000 }),
-    lair("CBBODH66"),
-    lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }] }),
-    lair("FINBODH", { xpv: 26000 }),
-  ];
+  cre.variant("lair", {
+    data: { spells: improvedBodhiSpells("ibodhi4", "ibodhi5", "ibodhi6", "ibodhi7") },
+    files: ["C6BODHI", "CBBODH66", "CHEVIL08", "FINBODH"],
+    adjust: [
+      lair("C6BODHI", { xpv: 91000 }),
+      lair("CBBODH66"),
+      lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }] }),
+      lair("FINBODH", { xpv: 26000 }),
+    ],
+  });
 }
 
 /** Black Pits 2, her own campaign: as her file (AC -8 is her natural -4 plus DEX 20) */
@@ -396,11 +402,9 @@ export const abominationVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, age);
   const items = bodhiItems(cre, age);
   bodhiScripts(cre, items);
-  cre.setAdjustments([
-    ...chapter3Encounter(),
-    ...chapter4Encounter(items),
-    ...chapter6Encounter(items),
-    ...blackPitsEncounter(items),
-  ]);
+  chapter3Encounter(cre);
+  cre.setAdjustments(chapter4Encounter(items));
+  chapter6Encounter(cre, items);
+  cre.setAdjustments(blackPitsEncounter(items));
   return cre;
 };

@@ -20,6 +20,7 @@ import { ScriptTarget } from "../../src/model/constants";
 import { RawCreatureAbility } from "../../src/model/creature/ability";
 import { AbstractCreature } from "../../src/model/creature/abstract-creature";
 import { Creature } from "../../src/model/creature/creature";
+import { InputCreatureData } from "../../src/model/creature/data-input";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { ImmunityName } from "../../src/model/final/immunity";
 import { StringReference } from "../../src/model/final/stringref";
@@ -1581,22 +1582,22 @@ export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
     { files: ["L#2EDVAM"], noWeapon: true },
     { files: ["OHHDRAGO"], noWeapon: true },
     { files: ["NTHAEBAL"], noWeapon: true, data: { script: { location: "None" } } }, // TODO: mage !
-    {
-      files: ["DX#DALID"],
-      data: {
-        level1: 18, // should be 16
-        class: "MAGE",
-        kit: "MAGESCHOOL_NECROMANCER",
-        spells: {
-          spellbooks: spellService.createSpellbooks({
-            name: "VampireNecromancerSpellbook",
-            casterLevel: 18,
-            type: "mage",
-          }),
-        },
+  ]);
+  cre.variant("necromancer", {
+    data: {
+      level1: 18, // should be 16
+      class: "MAGE",
+      kit: "MAGESCHOOL_NECROMANCER",
+      spells: {
+        spellbooks: spellService.createSpellbooks({
+          name: "VampireNecromancerSpellbook",
+          casterLevel: 18,
+          type: "mage",
+        }),
       },
     },
-  ]);
+    files: ["DX#DALID"],
+  });
   return cre;
 };
 
@@ -1618,38 +1619,25 @@ export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
     { files: ["OHBVMP01"], data: { level1: 18, class: "MAGE", kit: "MAGESCHOOL_NECROMANCER" } }, //TODO:
     { files: ["OHBVMP02", "VAMPAT01"], data: { level1: 18 } },
     { files: ["OHBVMP03"], data: { level1: 21 } },
-    {
-      files: ["D9BGUARD"],
-      data: {
-        level1: 14,
-        class: "MAGE",
-        kit: "MAGESCHOOL_NECROMANCER",
-        spells: {
-          spellbooks: spellService.createSpellbooks({
-            name: "VampireNecromancerSpellbook",
-            casterLevel: 14,
-            type: "mage",
-          }),
-        },
-      },
-    },
-    {
-      files: ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"],
-      data: {
-        level1: 16,
-        // TODO: check script D0QPTAN1 and D0QPTAN2
-        class: "MAGE",
-        kit: "MAGESCHOOL_NECROMANCER",
-        spells: {
-          spellbooks: spellService.createSpellbooks({
-            name: "VampireNecromancerSpellbook",
-            casterLevel: 16,
-            type: "mage",
-          }),
-        },
-      },
-      // stringRef: "monster.vampire.name.patriarchMage" },
-    },
   ]);
+  const necromancer = (level: number): InputCreatureData => ({
+    level1: level,
+    class: "MAGE",
+    kit: "MAGESCHOOL_NECROMANCER",
+    spells: {
+      spellbooks: spellService.createSpellbooks({
+        name: "VampireNecromancerSpellbook",
+        casterLevel: level,
+        type: "mage",
+      }),
+    },
+  });
+  cre.variant("necromancer", { data: necromancer(14), files: ["D9BGUARD"] });
+  // TODO: check script D0QPTAN1 and D0QPTAN2
+  // stringRef: "monster.vampire.name.patriarchMage"
+  cre.variant("Tanova", {
+    data: necromancer(16),
+    files: ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"],
+  });
   return cre;
 };
