@@ -203,10 +203,13 @@ export type AbilityAnchor = SpellReference | number | string;
 
 export interface AbilityEntry {
   /**
-   * A registry (SPELLS/FNP_SPELLS) spell: overrides its auto-derived position and/or config.
-   * Exactly one of `spell`/`abilityId`/`power` must be set.
+   * A memorized spell cast by its preset (a registry entry, or the file of one with no entry, like
+   * NEW_SPELLS'): overrides its auto-derived position and/or config. Without a position, it's
+   * placed by its score. Exactly one of `spell`/`abilityId`/`power` must be set.
    */
-  spell?: SpellReference;
+  spell?: SpellReference | string;
+  /** A `spell` entry's own configuration on top of its preset (a timer, actions after the cast) */
+  ability?: RawCreatureAbility;
   /**
    * A local Ids enum value for a custom addSpell-created ability, resolved via
    * creature.spell(id)/creature.ability(id). Exactly one of `spell`/`abilityId`/`power` must be set.

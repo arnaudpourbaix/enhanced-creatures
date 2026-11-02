@@ -208,6 +208,39 @@ describe("resolve", () => {
     expect(regularOf(resolved)[0].probability).toBeGreaterThan(30);
   });
 
+  it("places a spell entry without a position by its score, with its own configuration", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const timer = { name: "FIREBALL_WAIT", value: 18 };
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: MAGIC_MISSILES }],
+      entries: [{ spell: SPELLS.Wizard.Fireball, ability: { timer } }],
+    });
+    const regular = regularOf(abilityOrderService.resolve(creature));
+    expect(presetsOf(regular)).toEqual([FIREBALL, MAGIC_MISSILES]);
+    expect(regular[0].timer).toEqual(timer);
+  });
+
+  it("casts a spell entry through another preset when it says so (Vortex Web by Slow's)", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }],
+      entries: [{ spell: FIREBALL, ability: { preset: MAGIC_MISSILES } }],
+    });
+    expect(presetsOf(regularOf(abilityOrderService.resolve(creature)))).toEqual([MAGIC_MISSILES]);
+  });
+
+  it("takes a spell entry's file name too (a spell of no database entry)", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: MAGIC_MISSILES }],
+      entries: [{ spell: FIREBALL }],
+    });
+    expect(presetsOf(regularOf(abilityOrderService.resolve(creature)))).toEqual([
+      FIREBALL,
+      MAGIC_MISSILES,
+    ]);
+  });
+
   it("makes summons wait for each other, only with several casts to space out", () => {
     const wait = { name: "SUMMON_WAIT", value: 12 };
     const timers = (memorized: { file: string; memorizedCount?: number }[]) =>

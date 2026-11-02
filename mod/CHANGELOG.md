@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Spells: Invisibility is a great protection
 - AI: the covered phase takes a creature's own protections and buffs
 - Log: each script's cast order in its creature's section
+- AI: spell entries are placed by score, with their own configuration
 
 ### Changed
 

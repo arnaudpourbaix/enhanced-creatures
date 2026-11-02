@@ -1,6 +1,7 @@
 import { AT_WILL } from "../../../config/common";
 import { SPELL_SCORING } from "../../../config/spell-scoring";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
+import { SpellReference } from "../../model/spell-item/spell-reference";
 import { Creature } from "../../model/creature/creature";
 import atWillService, { ROUND } from "../at-will.service";
 import creatureService from "../creature.service";
@@ -20,6 +21,9 @@ interface OrderedAbility {
   identity: string;
   ability: RawCreatureAbility;
 }
+
+/** A `spell` entry's file: its registry entry's, or the file itself */
+const entryFile = (spell: SpellReference | string) => (typeof spell === "string" ? spell : spell.file);
 
 class AbilityOrderService {
   resolve(creature: Creature): RawCreatureAbility[] {
@@ -168,13 +172,17 @@ class AbilityOrderService {
     const positions = [entry.insertBefore, entry.insertAfter, entry.insertFirst, entry.insertLast];
     if (positions.some((p) => p !== undefined)) return undefined;
     if (entry.power) return spellProfileService.profileOfSpell(entry.power);
+    if (entry.spell) return spellProfileService.profileOf(entryFile(entry.spell), creature);
     if (entry.abilityId === undefined) return undefined;
     return spellProfileService.profileOf(creature.spell(entry.abilityId).file, creature);
   }
 
   /** What an entry casts (its file) and the ability casting it. */
   private cast(entry: AbilityEntry, creature: Creature): OrderedAbility {
-    if (entry.spell) return { identity: entry.spell.file, ability: { preset: entry.spell.file } };
+    if (entry.spell) {
+      const file = entryFile(entry.spell);
+      return { identity: file, ability: { preset: file, ...entry.ability } };
+    }
     if (entry.power) {
       if (!entry.power.ability) throw new Error(`Power ${entry.power.file} has no ability`);
       return { identity: entry.power.file, ability: entry.power.ability };
