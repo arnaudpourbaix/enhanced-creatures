@@ -443,6 +443,26 @@ describe("resolveCovered", () => {
     expect(presetsOf(abilityOrderService.resolveCovered(creature))).toEqual([HOLY_MIGHT]);
   });
 
+  it("covers a creature's own buff cast through its entry, with its own ability (an ogre mage's Fly)", () => {
+    const INVISIBILITY = SPELLS.Wizard.Invisibility.file;
+    const fly = { name: "fly", spell: { resource: "JASM0W01" } };
+    const creature = fakeCreature({
+      memorized: [{ file: INVISIBILITY }, { file: "JASM0W01" }],
+      customSpells: [
+        {
+          id: 4,
+          file: "JASM0W01",
+          ability: fly,
+          spell: { level: 3, type: SpellTypeEnum.Innate, role: "buff", headers: [{ speed: 1 }] },
+        },
+      ],
+      entries: [{ abilityId: 4 }],
+    });
+    const covered = abilityOrderService.resolveCovered(creature);
+    expect(covered).toHaveLength(1);
+    expect(covered[0]).toMatchObject({ ...fly, probability: expect.any(Number) });
+  });
+
   it("gives nothing without a cover spell", () => {
     const creature = fakeCreature({ memorized: [{ file: BLESS }, { file: HOLY_MIGHT }] });
     expect(abilityOrderService.resolveCovered(creature)).toEqual([]);

@@ -90,22 +90,36 @@ class AbilityOrderService {
 
   /**
    * The covered phase's abilities (see CastOrderService.coveredPlan) of a creature memorizing a
-   * cover spell (COVER_SPELLS): its protections and buffs, each with its planned probability.
-   * Only spells the databases know, cast by their presets.
+   * cover spell (COVER_SPELLS): its protections and buffs, each with its planned probability. The
+   * databases' spells cast by their presets, the creature's own powers by their ability entries.
    */
   resolveCovered(creature: Creature): RawCreatureAbility[] {
     const files = creatureService.memorizedSpellFiles(creature);
     if (!files.some((file) => COVER_SPELLS.includes(file.toUpperCase()))) return [];
-    // a spell cast through the creature's own ability keeps its own configuration
-    const explicitFiles = this.explicitFiles(creature, creature.pendingAbilityEntries ?? []);
+    // a spell cast through a hand-written ability keeps its own configuration
+    const handWritten = new Set(
+      [...creature.behavior.abilities, ...creature.behavior.customCodes.flatMap((c) => c.abilities)]
+        .flatMap((a) => creatureService.getAbilityCastFiles(a))
+        .map((f) => f.toUpperCase()),
+    );
+    const entries = new Map(
+      (creature.pendingAbilityEntries ?? []).map((entry) => {
+        const cast = this.cast(entry, creature);
+        return [cast.identity.toUpperCase(), cast.ability] as const;
+      }),
+    );
+    const castable = (file: string) =>
+      !handWritten.has(file.toUpperCase()) &&
+      (entries.has(file.toUpperCase()) || spellProfileService.isCatalogued(file));
     const profiles = files
-      .filter((file) => !explicitFiles.has(file) && spellProfileService.isCatalogued(file))
+      .filter(castable)
       .filter((file) => !spellComboService.comboOfFile(file) || !this.contingency(file))
       .map((file) => spellProfileService.profileOf(file, creature))
       .filter((profile): profile is SpellProfile => profile !== undefined);
-    return castOrderService
-      .coveredPlan(profiles)
-      .map((cast) => ({ preset: cast.file, probability: cast.probability }));
+    return castOrderService.coveredPlan(profiles).map((cast) => ({
+      ...(entries.get(cast.file.toUpperCase()) ?? { preset: cast.file }),
+      probability: cast.probability,
+    }));
   }
 
   /**
