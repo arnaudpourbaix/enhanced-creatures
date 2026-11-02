@@ -104,7 +104,7 @@ function greaterArcherSkeletonVariant(base: Creature): Variant {
 }
 
 function mageSkeletonVariant(base: Creature): Variant {
-  return base.variant("Mage Skeleton", {
+  const mage = base.variant("Mage Skeleton", {
     data: {
       level1: 5,
       class: "MAGE",
@@ -121,25 +121,24 @@ function mageSkeletonVariant(base: Creature): Variant {
       },
       xpv: 900,
     },
-    files: ["BDSKGR07", "BDTEAM60"],
-    adjust: [
-      {
-        files: ["BDTEAM60"],
-        data: {
-          level1: 8,
-          spells: {
-            cumulative: false,
-            spellbooks: spellService.createSpellbooks({
-              name: "EvilUndeadMageNoFF",
-              casterLevel: 8,
-              type: "mage",
-            }),
-          },
-          xpv: 2000,
-        },
-      },
-    ],
+    files: ["BDSKGR07"],
   });
+  mage.variant("Greater Mage Skeleton", {
+    data: {
+      level1: 8,
+      spells: {
+        cumulative: false,
+        spellbooks: spellService.createSpellbooks({
+          name: "EvilUndeadMageNoFF",
+          casterLevel: 8,
+          type: "mage",
+        }),
+      },
+      xpv: 2000,
+    },
+    files: ["BDTEAM60"],
+  });
+  return mage;
 }
 
 export function createArcherSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {

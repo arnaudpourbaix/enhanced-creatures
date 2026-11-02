@@ -13,34 +13,20 @@ function clericSkeletonVariant(base: Creature): Variant {
   return base.variant("Cleric Skeleton", {
     data: {
       class: "CLERIC",
+      level1: 20,
+      ac: 1,
+      xpv: 9500,
+      apr: 2,
       spells: {
+        cumulative: false,
         spellbooks: spellService.createSpellbooks({
           name: "EvilUndeadCleric",
-          casterLevel: base.data.level1.pnpValue,
+          casterLevel: 20,
           type: "cleric",
         }),
       },
     },
     files: ["L#NIMF6"],
-    adjust: [
-      {
-        files: ["L#NIMF6"],
-        data: {
-          level1: 20,
-          ac: 1,
-          xpv: 9500,
-          apr: 2,
-          spells: {
-            cumulative: false,
-            spellbooks: spellService.createSpellbooks({
-              name: "EvilUndeadCleric",
-              casterLevel: 20,
-              type: "cleric",
-            }),
-          },
-        },
-      },
-    ],
   });
 }
 
