@@ -55,54 +55,6 @@ THEN
 		Continue()
 END
 
-// Spellbook: its at-will powers are braked
-IF
-	OR(39)
-		HaveSpellRES("SPWI114")
-		HaveSpellRES("SPWI119")
-		HaveSpellRES("SPWI112")
-		HaveSpellRES("SPWI205")
-		HaveSpellRES("SPWI221")
-		HaveSpellRES("SPWI219")
-		HaveSpellRES("SPWI213")
-		HaveSpellRES("SPWI223")
-		HaveSpellRES("SPWI314")
-		HaveSpellRES("SPWI311")
-		HaveSpellRES("SPWI312")
-		HaveSpellRES("SPWI302")
-		HaveSpellRES("SPWI313")
-		HaveSpellRES("SPWI408")
-		HaveSpellRES("SPWI409")
-		HaveSpellRES("SPWI406")
-		HaveSpellRES("SPWI431")
-		HaveSpellRES("SPWI501")
-		HaveSpellRES("SPWI508")
-		HaveSpellRES("SPWI513")
-		HaveSpellRES("SPWI503")
-		HaveSpellRES("SPWI623")
-		HaveSpellRES("SPWI611")
-		HaveSpellRES("SPWI613")
-		HaveSpellRES("SPWI707")
-		HaveSpellRES("SPWI705")
-		HaveSpellRES("SPWI701")
-		HaveSpellRES("SPWI812")
-		HaveSpellRES("SPWI813")
-		HaveSpellRES("SPWI913")
-		HaveSpellRES("jasc0100")
-		HaveSpellRES("jasc0102")
-		HaveSpellRES("jasc0108")
-		HaveSpellRES("SPWI401")
-		HaveSpellRES("SPWI504")
-		HaveSpellRES("SPWI502")
-		HaveSpellRES("SPWI602")
-		HaveSpellRES("SPWI713")
-		HaveSpellRES("SPWI702")
-THEN
-	RESPONSE #100
-		SetGlobal("JA_SPELLBOOK","LOCALS",1)
-		Continue()
-END
-
 // Disable spellcasting in some areas
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
@@ -8932,9 +8884,7 @@ END
 
 // Control Undead
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -8985,9 +8935,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9038,9 +8986,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9091,9 +9037,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9144,9 +9088,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9197,9 +9139,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9250,9 +9190,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9303,9 +9241,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9356,9 +9292,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -9409,9 +9343,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -11798,9 +11730,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -11849,9 +11779,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -11900,9 +11828,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -11951,9 +11877,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12002,9 +11926,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12053,9 +11975,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12104,9 +12024,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12155,9 +12073,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12206,9 +12122,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12257,9 +12171,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12309,9 +12221,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12355,9 +12265,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12401,9 +12309,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12447,9 +12353,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12493,9 +12397,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12539,9 +12441,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12585,9 +12485,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12631,9 +12529,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12677,9 +12573,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12724,9 +12618,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12769,9 +12661,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12814,9 +12704,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12859,9 +12747,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12904,9 +12790,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12949,9 +12833,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -12994,9 +12876,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13039,9 +12919,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13084,9 +12962,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13130,9 +13006,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13176,9 +13050,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13222,9 +13094,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13268,9 +13138,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13314,9 +13182,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13360,9 +13226,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13406,9 +13270,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13452,9 +13314,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13498,9 +13358,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13544,9 +13402,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13591,9 +13447,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13636,9 +13490,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13681,9 +13533,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13726,9 +13576,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13771,9 +13619,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13816,9 +13662,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13861,9 +13705,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13906,9 +13748,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13951,9 +13791,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -13996,9 +13834,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -43951,9 +43787,7 @@ END
 
 // Control Undead
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44004,9 +43838,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44057,9 +43889,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44110,9 +43940,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44163,9 +43991,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44216,9 +44042,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44269,9 +44093,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44322,9 +44144,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44375,9 +44195,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44428,9 +44246,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0702","LOCALS")
 	HaveSpellRES("jase0702")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44853,9 +44669,7 @@ END
 
 // Domination Gaze
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44904,9 +44718,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -44955,9 +44767,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45006,9 +44816,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45057,9 +44865,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45108,9 +44914,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45159,9 +44963,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45210,9 +45012,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45261,9 +45061,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
@@ -45312,9 +45110,7 @@ THEN
 END
 
 IF
-	OR(2)
-		!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
-		Global("JA_SPELLBOOK","LOCALS",0)
+	!GlobalTimerNotExpired("ATWILL_JASE0705","LOCALS")
 	HaveSpellRES("jase0705")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
