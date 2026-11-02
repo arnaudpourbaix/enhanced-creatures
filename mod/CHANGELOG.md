@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Dread Wolf and Vampiric Wolf have their undead turn level raised by one (harder to turn)
 - Mod files reorganised by monster (one folder per monster entry)
 - AI: review area spells, drop spells missing from BG2EE
+- Design and plan for category rolls and mirror image counters
 
 ### Fixed
 
