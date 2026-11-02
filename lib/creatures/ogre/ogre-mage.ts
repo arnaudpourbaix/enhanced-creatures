@@ -75,7 +75,7 @@ class OgreMage extends Ogre {
     return this.addSpell({
       id: Ids.Fly,
       name: "monster.ogre.ability.fly.name",
-      role: "reactive",
+      role: "buff",
       description: "monster.ogre.ability.fly.description",
       memorizedCount: 1,
       icon: SPELLS.Wizard.Haste.file,
@@ -135,13 +135,8 @@ class OgreMage extends Ogre {
           excludeSpellStates: [SPELL_STATES.flying],
           castOnSelf: true,
         },
-        triggers: [
-          { name: "Detect", params: ["NearestEnemyOf"] },
-          {
-            name: "StateCheck",
-            params: [ScriptTarget.myself, "STATE_INVISIBLE"],
-          },
-        ],
+        // in the open too, as it is while invisible (see the covered phase)
+        triggers: [{ name: "Detect", params: ["NearestEnemyOf"] }],
         probability: 90,
       },
     });

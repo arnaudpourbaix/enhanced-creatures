@@ -430,6 +430,9 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
+	OR(2)
+		StateCheck(Myself,STATE_INVISIBLE)
+		CheckStatGT(Myself,0,SANCTUARY)
 	HaveSpellRES("jasm0w02")
 	Detect(NearestEnemyOf(Myself))
 	!HaveSpellRES("jasm0w00")
@@ -447,14 +450,45 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	ActionListEmpty()
+	OR(2)
+		StateCheck(Myself,STATE_INVISIBLE)
+		CheckStatGT(Myself,0,SANCTUARY)
 	HaveSpellRES("jasm0w01")
 	Detect(NearestEnemyOf(Myself))
-	StateCheck(Myself,STATE_INVISIBLE)
 	!CheckSpellState(Myself,JA_FLYING)
+	RandomNumGT(800,160)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellNoDecRES("jasm0w01",Myself)
+END
+
+// Covered: no attack between protections
+IF
+	OR(2)
+		StateCheck(Myself,STATE_INVISIBLE)
+		CheckStatGT(Myself,0,SANCTUARY)
+	GlobalTimerNotExpired("JA_ROUND","LOCALS")
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+// Gaseous form
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	ActionListEmpty()
+	HaveSpellRES("jasm0w02")
+	Detect(NearestEnemyOf(Myself))
+	!HaveSpellRES("jasm0w00")
+	!HaveSpellRES("SPWI116")
+	!HaveSpellRES("SPWI104")
+	HPPercentLT(Myself,25)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellRES("jasm0w02",LastSeenBy(Myself))
 END
 
 // Invisibility
@@ -7422,6 +7456,21 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
+END
+
+// Fly
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	ActionListEmpty()
+	HaveSpellRES("jasm0w01")
+	Detect(NearestEnemyOf(Myself))
+	!CheckSpellState(Myself,JA_FLYING)
+	RandomNumGT(705,141)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SpellNoDecRES("jasm0w01",Myself)
 END
 
 // Sleep

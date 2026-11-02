@@ -64,6 +64,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Ogre-mage: the Chieftain variant declares the chieftains' spellbook
 - Ogre-mage: Invisibility and Darkness at will, chieftain spells only in their script
 - Ogre-mage: every spell placed by score
+- Ogre-mage: Fly is a buff, cast under cover and in the open
 
 ### Fixed
 
