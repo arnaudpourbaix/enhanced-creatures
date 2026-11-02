@@ -9,6 +9,7 @@ import {
   alliesCheckForFile,
   excludeSpellStatesForFile,
   excludeStateChecksForFile,
+  recastTimerForFile,
   excludeStatsChecksForFile,
   includeStateChecksForFile,
   keywordsForFile,
@@ -370,6 +371,7 @@ class AbilityService {
     // Same fallback as keywords/level above, for the Range() trigger mechanism (see
     // BaseCreatureAbility.range) - independent of the keywords/SpellKeyword system.
     result.range ??= rangeForFile(SPELLS, presetName);
+    result.timer ??= recastTimerForFile(SPELLS, presetName);
     // Same fallback again, but with keywords' precedence rather than deepmerge's: an override's own
     // alliesCheck (or null to disable it) fully replaces the preset's instead of merging safeIf.
     const alliesCheck =

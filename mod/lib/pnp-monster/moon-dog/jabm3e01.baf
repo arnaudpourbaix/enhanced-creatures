@@ -1974,6 +1974,7 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2000,12 +2001,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2032,12 +2035,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2064,12 +2069,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2096,12 +2103,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2128,12 +2137,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2160,12 +2171,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2192,12 +2205,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2224,12 +2239,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2256,12 +2273,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2288,6 +2307,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
@@ -2295,6 +2315,7 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2317,12 +2338,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2345,12 +2368,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2373,12 +2398,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2401,12 +2428,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2429,12 +2458,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2457,12 +2488,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2485,12 +2518,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2513,12 +2548,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2541,12 +2578,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2569,6 +2608,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
@@ -2576,6 +2616,7 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2601,12 +2642,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2632,12 +2675,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2663,12 +2708,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2694,12 +2741,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2725,12 +2774,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2756,12 +2807,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2787,12 +2840,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2818,12 +2873,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2849,12 +2906,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2880,6 +2939,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
@@ -2887,6 +2947,7 @@ END
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2908,12 +2969,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2935,12 +2998,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2962,12 +3027,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -2989,12 +3056,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3016,12 +3085,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3043,12 +3114,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3070,12 +3143,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3097,12 +3172,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3124,12 +3201,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
+	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
 	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,142)
@@ -3151,6 +3230,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Darkness15Radius","LOCALS",60)
 		Spell(LastSeenBy(Myself),WIZARD_DARKNESS_15_FOOT)
 END
 

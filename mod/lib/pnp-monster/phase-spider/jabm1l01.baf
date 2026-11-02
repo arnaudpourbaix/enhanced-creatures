@@ -411,6 +411,7 @@ END
 
 // Phase out
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(Myself,STATE_INVISIBLE)
@@ -423,10 +424,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",Myself)
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(NearestAllyOf(Myself),STATE_INVISIBLE)
@@ -444,10 +447,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(SecondNearestAllyOf(Myself),STATE_INVISIBLE)
@@ -465,10 +470,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(ThirdNearestAllyOf(Myself),STATE_INVISIBLE)
@@ -486,10 +493,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(FourthNearestAllyOf(Myself),STATE_INVISIBLE)
@@ -507,10 +516,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(FifthNearestAllyOf(Myself),STATE_INVISIBLE)
@@ -528,10 +539,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 
 IF
+	!GlobalTimerNotExpired("RECAST_Invisibility","LOCALS")
 	ActionListEmpty()
 	HaveSpellRES("jasm1l00")
 	!StateCheck(SixthNearestAllyOf(Myself),STATE_INVISIBLE)
@@ -549,6 +562,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		SetGlobalTimer("RECAST_Invisibility","LOCALS",12)
 		ForceSpellRES("jasm1l00",LastSeenBy(Myself))
 END
 

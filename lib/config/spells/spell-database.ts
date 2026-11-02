@@ -481,6 +481,7 @@ const WIZARD_SPELLS = {
     castingTime: 2,
     keywords: ["blind", "magicResistance", "area"],
     hiddenIn: "AllSpellMods",
+    recastTimer: 10,
   },
   DartsOfBone: {
     file: "SPWI627",
@@ -1043,6 +1044,7 @@ const WIZARD_SPELLS = {
     name: "spell.Invisibility.name",
     keywords: ["friendly"],
     excludeStateChecks: ["STATE_INVISIBLE"],
+    recastTimer: 2,
   },
   InvisibilitySphere: {
     file: "SPWI307",

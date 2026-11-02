@@ -8,6 +8,7 @@ import { StatsIdentifier } from "../ids/stats";
 import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
+import { Durations } from "../game-data/durations";
 import type { AlliesCheck } from "../creature/ability";
 import { SaveTypeEnum } from "./effect.enums";
 import { EffectTypeEnum } from "./effect.type";
@@ -112,6 +113,12 @@ export interface SpellReference {
   noPrecast?: boolean;
   /** SPL casting speed: lower is faster, and less likely to be interrupted */
   castingTime?: number;
+  /**
+   * Rounds between two casts, for a spell the script can't tell is still working or that must not
+   * be cast too often (Invisibility at will): every ability casting it waits, unless it declares
+   * its own timer. Its timer is named after the spell's key (RECAST_Invisibility).
+   */
+  recastTimer?: number;
   /** See SpellRole - auto-classified by scripts/extract-spell-profile.ts, reviewed by hand */
   role?: SpellRole;
   /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
@@ -401,6 +408,19 @@ export function includeStateChecksForFile(
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.includeStateChecks;
+}
+
+/** The timer spacing the casts of whichever SPELLS entry matches `file` (see recastTimer). */
+export function recastTimerForFile(
+  spells: SpellCollection,
+  file: string,
+): { name: string; value: number } | undefined {
+  const target = file.toUpperCase();
+  const spell = getAllSpells(spells).find((s) =>
+    spellFiles(s).some((f) => f.toUpperCase() === target),
+  );
+  if (!spell?.recastTimer) return undefined;
+  return { name: `RECAST_${spell.key}`, value: spell.recastTimer * Durations.round };
 }
 
 /** Same as includeStateChecksForFile, for CreatureAbilitySpell.excludeStateChecks. */

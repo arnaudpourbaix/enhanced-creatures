@@ -601,6 +601,24 @@ describe("applyPreset - auto-resolves excludeStateChecks from SPELLS", () => {
   });
 });
 
+describe("applyPreset - recast timer from SPELLS", () => {
+  it("spaces a spell's casts by its recastTimer, named after its key (Invisibility)", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Invisibility.file);
+    expect(result.timer).toEqual({ name: "RECAST_Invisibility", value: 12 });
+  });
+
+  it("keeps an ability's own timer", () => {
+    const timer = { name: "darkness", value: 30 };
+    const result = service.applyPreset({ timer }, SPELLS.Wizard.Darkness15Radius.file);
+    expect(result.timer).toEqual(timer);
+  });
+
+  it("gives no timer to a spell without one", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Sleep.file);
+    expect(result.timer).toBeUndefined();
+  });
+});
+
 describe("getAbilities - auto spellChecks via ability.keywords", () => {
   afterEach(() => {
     GLOBAL_CONFIG.spellChecks.stats = true;
