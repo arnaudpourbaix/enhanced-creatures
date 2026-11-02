@@ -1,4 +1,4 @@
-import { SPELL_STATES } from "../../config/common";
+import { AT_WILL, SPELL_STATES } from "../../config/common";
 import { ITEMS } from "../../config/item";
 import { SPELLS } from "../../config/spells/spell-database";
 import effectFactory from "../../src/factories/effect.factory";
@@ -342,8 +342,8 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
       },
       spells: {
         memorized: [
-          { file: SPELLS.Wizard.Invisibility.file, memorizedCount: 1 },
-          { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: 1 },
+          { file: SPELLS.Wizard.Invisibility.file, memorizedCount: AT_WILL },
+          { file: SPELLS.Wizard.Darkness15Radius.file, memorizedCount: AT_WILL },
           { file: SPELLS.Wizard.CharmPerson.file, memorizedCount: 1 },
           { file: SPELLS.Wizard.Sleep.file, memorizedCount: 1 },
         ],
@@ -361,29 +361,12 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
   ogreMage.setBehavior({
     restHeal: true,
     usePotions: true,
+    // the chieftains' own spells (see chieftainVariant) are placed by score in their script
     abilities: [
-      {
-        preset: SPELLS.Wizard.Invisibility.file,
-        spell: {
-          type: "noDec",
-        },
-        timer: {
-          name: "invisible",
-          value: 12,
-        },
-      },
+      entry.preset(SPELLS.Wizard.Invisibility.file),
       entry.ability(Ids.Fly),
-      entry.preset(SPELLS.Wizard.Domination.file),
       entry.ability(Ids.ConeOfCold),
-      entry.preset(SPELLS.Wizard.DireCharm.file),
-      {
-        preset: SPELLS.Wizard.Darkness15Radius.file,
-        spell: {
-          type: "noDec",
-        },
-        timer: { name: "darkness", value: 60 },
-      },
-      entry.preset(SPELLS.Wizard.PowerWordSleep.file),
+      entry.preset(SPELLS.Wizard.Darkness15Radius.file),
       entry.preset(SPELLS.Wizard.Sleep.file),
       entry.preset(SPELLS.Wizard.CharmPerson.file),
       entry.ability(Ids.GaseousForm),

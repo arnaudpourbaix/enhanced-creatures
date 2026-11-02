@@ -59,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Regenerate mod without the spellbook brake
 - Regenerate mod (sirine keeps its Polymorph Self forms)
 - Ogre-mage: the Chieftain variant declares the chieftains' spellbook
+- Ogre-mage: Invisibility and Darkness at will, chieftain spells only in their script
 
 ### Fixed
 
