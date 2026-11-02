@@ -1,9 +1,12 @@
 import { AT_WILL } from "../../../config/common";
 import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
+import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellRole } from "../../../config/spells/spell-role";
 import { SPELLS } from "../../../config/spells/spell-database";
 import { ScriptTarget } from "../../model/constants";
 import { Triggers } from "../../model/script/triggers";
 import { getAllSpells, SpellReference, spellFiles } from "../../model/spell-item/spell-reference";
+import type { SpellProfile } from "../spell-profile.service";
 
 const KNOWN_SPELLS: SpellReference[] = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
 
@@ -26,13 +29,57 @@ export function sharedRoll(file: string | undefined): number | undefined {
   return spell?.role === "summon" ? SUMMON_ROLL : undefined;
 }
 
+/** How a spell reaches its targets: one target, an area, or its caster only */
+export type SpellDelivery = "single" | "area" | "self";
+
+export function spellDelivery(keywords: SpellKeyword[]): SpellDelivery {
+  if (keywords.includes("area")) return "area";
+  return keywords.includes("castOnSelf") ? "self" : "single";
+}
+
+/** The roles sharing a category roll, `kill` counting as `damage` (see categoryRoll) */
+const CATEGORY_ROLES: SpellRole[] = ["protection", "buff", "disable", "damage", "shapeshift"];
+const DELIVERIES: SpellDelivery[] = ["single", "area", "self"];
+/** The first category range: above WEAPON_ROLL and SUMMON_ROLL, below the per-ability ones (800) */
+const CATEGORY_ROLL_BASE = 702;
+const CATEGORY_ROLLS = new Set(
+  CATEGORY_ROLES.flatMap((_, r) => DELIVERIES.map((_, d) => CATEGORY_ROLL_BASE + r * 3 + d)),
+);
+
+/**
+ * The range of the RandomNumGT shared by the spells of `profile`'s category (its role and
+ * delivery, a kill spell counting as damage), so a weaker spell of the category only passes when
+ * the stronger ones above it did (see sharedRoll). None for reactive spells (each fires on its own
+ * condition), summons and weapons (their own shared roll) and useless spells.
+ */
+export function categoryRoll(profile: SpellProfile): number | undefined {
+  if (sharedRoll(profile.file) !== undefined) return undefined;
+  const role = profile.role === "kill" ? "damage" : profile.role;
+  const r = CATEGORY_ROLES.indexOf(role);
+  if (r === -1) return undefined;
+  return CATEGORY_ROLL_BASE + r * 3 + DELIVERIES.indexOf(spellDelivery(profile.keywords));
+}
+
+/** A hostile spell aimed at one target, which Mirror Image deflects. A sequencer isn't one. */
+export function isSingleTargetHostile(profile: SpellProfile): boolean {
+  return (
+    ["damage", "kill", "disable"].includes(profile.role) &&
+    spellDelivery(profile.keywords) === "single" &&
+    !profile.keywords.includes("friendly") &&
+    profile.combo === undefined
+  );
+}
+
 /** The first ability of `triggers` raising the chance of its shared roll, breaking sharedRoll. */
 export function sharedRollOutOfOrder(triggers: Triggers.Trigger[][]): string | undefined {
   const highest = new Map<number, number>();
   const rolls = triggers
     .flat()
     .filter((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
-    .filter(({ params: [range] }) => range === WEAPON_ROLL || range === SUMMON_ROLL);
+    .filter(
+      ({ params: [range] }) =>
+        range === WEAPON_ROLL || range === SUMMON_ROLL || CATEGORY_ROLLS.has(range),
+    );
   for (const {
     params: [range, threshold],
   } of rolls) {

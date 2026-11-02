@@ -3,9 +3,35 @@ import { SPELLS } from "../../../config/spells/spell-database";
 import triggerFactory from "../../factories/trigger.factory";
 import { Triggers } from "../../model/script/triggers";
 import { AT_WILL } from "../../../config/common";
-import { memorizedChecks, recastRisks, sharedRoll, sharedRollOutOfOrder } from "./memorized-checks";
+import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
+import { SpellProfile } from "../spell-profile.service";
+import {
+  categoryRoll,
+  isSingleTargetHostile,
+  memorizedChecks,
+  recastRisks,
+  sharedRoll,
+  sharedRollOutOfOrder,
+} from "./memorized-checks";
 
 const { Harm, SlayLiving, FlameBlade, Heal } = SPELLS.Priest;
+
+/** Flame Arrow, a single-target damage spell, with what `p` changes */
+function profile(p: Partial<SpellProfile>): SpellProfile {
+  return {
+    file: SPELLS.Wizard.FlameArrow.file,
+    level: 3,
+    type: SpellTypeEnum.Wizard,
+    role: "damage",
+    secondaryRoles: [],
+    castingTime: 3,
+    keywords: [],
+    tier: "decent",
+    hitsAllies: false,
+    spellCount: 1,
+    ...p,
+  };
+}
 
 const itemsOf = (triggers: Triggers.Trigger[]) =>
   triggers.flatMap((t) => ("name" in t && t.name === "HasItem" ? [t.params[0]] : []));
@@ -76,6 +102,62 @@ describe("sharedRollOutOfOrder", () => {
     expect(sharedRollOutOfOrder([roll(700, 300), roll(700, 100)])).toBe("RandomNumGT(700,100)");
     expect(sharedRollOutOfOrder([roll(700, 300), roll(701, 100)])).toBeUndefined();
     expect(sharedRollOutOfOrder([roll(850, 300), roll(851, 100)])).toBeUndefined();
+  });
+
+  it("checks a category roll the same way", () => {
+    expect(sharedRollOutOfOrder([roll(702, 600), roll(702, 300)])).toBe("RandomNumGT(702,300)");
+    expect(sharedRollOutOfOrder([roll(702, 300), roll(702, 600)])).toBeUndefined();
+  });
+});
+
+describe("categoryRoll", () => {
+  const single = profile({});
+
+  it("puts kill and damage spells of the same delivery together", () => {
+    expect(categoryRoll(profile({ role: "kill" }))).toBe(categoryRoll(single));
+  });
+
+  it("separates deliveries and roles", () => {
+    const rolls = [
+      single,
+      profile({ keywords: ["area"] }),
+      profile({ keywords: ["castOnSelf"] }),
+      profile({ role: "disable" }),
+    ].map(categoryRoll);
+    expect(new Set(rolls).size).toBe(4);
+  });
+
+  it("leaves reactive, summon and useless spells, and weapons, out", () => {
+    for (const role of ["reactive", "summon", "useless"] as const) {
+      expect(categoryRoll(profile({ role }))).toBeUndefined();
+    }
+    expect(categoryRoll(profile({ file: SPELLS.Priest.SpiritualHammer.file }))).toBeUndefined();
+  });
+
+  it("stays between the summon roll and the per-ability ones", () => {
+    const roles = ["protection", "buff", "disable", "damage", "kill", "shapeshift"] as const;
+    const keywords = [[], ["area"], ["castOnSelf"]] as const;
+    for (const role of roles) {
+      for (const k of keywords) {
+        const range = categoryRoll(profile({ role, keywords: [...k] }));
+        expect(range).toBeGreaterThanOrEqual(702);
+        expect(range).toBeLessThan(800);
+      }
+    }
+  });
+});
+
+describe("isSingleTargetHostile", () => {
+  it("is a hostile spell aimed at one target", () => {
+    expect(isSingleTargetHostile(profile({}))).toBe(true);
+  });
+
+  it("isn't an area spell, a spell on the caster, a friendly spell, a buff or a sequencer", () => {
+    expect(isSingleTargetHostile(profile({ keywords: ["area"] }))).toBe(false);
+    expect(isSingleTargetHostile(profile({ keywords: ["castOnSelf"] }))).toBe(false);
+    expect(isSingleTargetHostile(profile({ keywords: ["friendly"] }))).toBe(false);
+    expect(isSingleTargetHostile(profile({ role: "buff" }))).toBe(false);
+    expect(isSingleTargetHostile(profile({ combo: "spellSequencer" }))).toBe(false);
   });
 });
 
