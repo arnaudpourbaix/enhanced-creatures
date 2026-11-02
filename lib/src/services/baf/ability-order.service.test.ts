@@ -52,7 +52,7 @@ const presetsOf = (abilities: RawCreatureAbility[]) => abilities.map((a) => a.pr
 
 /** Without the Mirror Image counters and last resorts, which have their own tests */
 const regularOf = (abilities: RawCreatureAbility[]) =>
-  abilities.filter((a) => a.targets !== MIRRORED_ENEMY_TARGETS && a.mirrorTarget !== "require");
+  abilities.filter((a) => a.mirrorTarget !== "require" && a.targets !== MIRRORED_ENEMY_TARGETS);
 
 function fakeAbility(resource: string): CreatureAbility {
   return { resource, actions: [], triggers: [], targets: [] } as unknown as CreatureAbility;
@@ -69,11 +69,26 @@ describe("resolve - Mirror Image passes", () => {
     );
     expect(resolved).toHaveLength(2);
     const [counter, regular] = resolved;
-    expect(counter.targets).toEqual(MIRRORED_ENEMY_TARGETS);
+    // its own target lists, with their checks: only mirrored targets in the first one
+    const preset = ABILITY_PRESETS.find((p) => p.preset === FLAME_ARROW);
+    expect(counter.targets).toEqual(preset?.ability.targets);
+    expect(counter.mirrorTarget).toBe("require");
     expect(counter.preset).toBeUndefined();
     expect(counter.spell?.resource).toBe(FLAME_ARROW);
     expect(regular).toMatchObject({ preset: FLAME_ARROW, mirrorTarget: "avoid" });
     expect(counter.rollRange).toBe(regular.rollRange);
+  });
+
+  it("aims a remover without targets (True Seeing) at able mirrored enemies", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const seeing = SPELLS.Wizard.TrueSeeing.file;
+    // reactive: its own block comes first, then the counter
+    const [regular, counter] = abilityOrderService.resolve(
+      fakeCreature({ memorized: [{ file: seeing }] }),
+    );
+    expect(regular.preset).toBe(seeing);
+    expect(counter.targets).toEqual(MIRRORED_ENEMY_TARGETS);
+    expect(MIRRORED_ENEMY_TARGETS[0].includeStatus).toEqual(["Able"]);
   });
 
   it("keeps a single-target spell for mirrored enemies as a last resort", () => {
@@ -85,16 +100,16 @@ describe("resolve - Mirror Image passes", () => {
     expect(passes).toHaveLength(3);
     expect(passes).toContainEqual([HOLD, "avoid"]);
     expect(passes).toContainEqual([FIREBALL, undefined]);
-    // one list of mirrored enemies, not every target list again: scripts stay small
-    expect(resolved.at(-1)).toMatchObject({ preset: HOLD, targets: MIRRORED_ENEMY_TARGETS });
-    expect(resolved.at(-1)?.mirrorTarget).toBeUndefined();
+    // its own first target list only (see mirrorTarget), so its checks stay: scripts stay small
+    expect(resolved.at(-1)).toMatchObject({ preset: HOLD, mirrorTarget: "require" });
+    expect(resolved.at(-1)?.targets).toBeUndefined();
   });
 
   it("keeps a counter's own triggers instead of its preset's", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const dispel = SPELLS.Wizard.DispelMagic.file;
     const resolved = abilityOrderService.resolve(fakeCreature({ memorized: [{ file: dispel }] }));
-    const counter = resolved.find((a) => a.targets === MIRRORED_ENEMY_TARGETS);
+    const counter = resolved.find((a) => a.mirrorTarget === "require");
     expect(counter?.triggers).toEqual(KEEP_PLAYERS_DISABLED);
     expect(resolved.find((a) => a.preset === dispel)?.targets).toBeUndefined();
   });

@@ -188,6 +188,38 @@ describe("getAbilities - mirrorTarget", () => {
     ]);
     expect(ability.targets.map((t) => t.name)).toEqual(["NearestEnemies"]);
   });
+
+  it("keeps only the first target list, with its own checks, with require", () => {
+    const own = { name: "General", params: ["{Target}", "UNDEAD"] };
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [
+          { name: "NearestEnemies", includeStatus: ["Able"], triggers: [own] },
+          { name: "FarthestEnemies" },
+        ],
+        mirrorTarget: "require",
+      },
+    ]);
+    expect(ability.targets).toHaveLength(1);
+    expect(ability.targets[0].includeStatus).toEqual(["Able"]);
+    expect(ability.targets[0].triggers).toEqual([own, { ...mirror, negation: false }]);
+  });
+
+  it("checks a spell cast on its caster on the caster, even with targets", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [{ name: "NearestEnemies" }],
+        spell: { id: SPWI001, castOnSelf: true, excludeStatsChecks: ["TRUE_SIGHT"] },
+      },
+    ]);
+    expect(ability.triggers).toContainEqual({
+      name: "CheckStatGT",
+      params: ["Myself", 0, "TRUE_SIGHT"],
+      negation: true,
+    });
+  });
 });
 
 describe("getAbilities - single spell", () => {

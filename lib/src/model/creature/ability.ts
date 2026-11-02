@@ -159,7 +159,8 @@ export type RawCreatureAbility = Partial<BaseCreatureAbility> & {
   rollRange?: number;
   /**
    * Mirror Image deflects single-target spells: `avoid` skips mirrored targets in every target
-   * list, `require` only takes them (the last resort, see CastOrderService.plan).
+   * list, `require` only takes them, in the first target list alone (the counters and the last
+   * resort, see CastOrderService.plan).
    */
   mirrorTarget?: "avoid" | "require";
 };

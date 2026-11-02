@@ -55,11 +55,8 @@ class AbilityOrderService {
       const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
       const regular = cast.pass === "regular";
       const timer = regular && spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
-      // the last resort takes one list of mirrored enemies, not every target list again: by then
-      // the caster fires at images anyway, and scripts stay small
-      let mirrorTarget: RawCreatureAbility = {};
-      if (cast.pass === "lastResort") mirrorTarget = { targets: MIRRORED_ENEMY_TARGETS };
-      else if (cast.mirrorTarget) mirrorTarget = { mirrorTarget: cast.mirrorTarget };
+      // the last resort keeps only its first target list (see mirrorTarget): scripts stay small
+      const mirrorTarget = cast.mirrorTarget ? { mirrorTarget: cast.mirrorTarget } : {};
       return {
         // anchors land next to the regular pass
         identity: regular ? cast.file : `${cast.file}#${cast.pass}`,
@@ -120,11 +117,16 @@ class AbilityOrderService {
     const preset = ABILITY_PRESETS.find((p) => p.preset.toUpperCase() === file.toUpperCase());
     if (!preset) throw new Error(`Image remover ${file} has no preset`);
     const { ability } = structuredClone(preset);
+    // its own first target list, its checks included (a dispel still spares held enemies); a
+    // remover without targets (True Seeing) gets any able mirrored enemy
+    const targets = ability.targets?.length
+      ? { mirrorTarget: "require" as const }
+      : { targets: MIRRORED_ENEMY_TARGETS };
     return {
       ...ability,
+      ...targets,
       spell: { ...ability.spell, resource: file },
       triggers: structuredClone(mirrorCounterOf(file)?.triggers ?? []),
-      targets: MIRRORED_ENEMY_TARGETS,
     };
   }
 

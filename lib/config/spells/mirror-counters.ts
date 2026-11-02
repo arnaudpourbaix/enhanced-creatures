@@ -34,10 +34,14 @@ export const MIRROR_COUNTERS: MirrorCounter[] = [
   { spell: SPELLS.Wizard.FlameArrow },
 ];
 
-/** Any mirrored enemy, a wizard in practice: Mirror Image is a wizard spell */
+/**
+ * Any able mirrored enemy, a wizard in practice (Mirror Image is a wizard spell): the targets of a
+ * remover without its own, like True Seeing
+ */
 export const MIRRORED_ENEMY_TARGETS: TargetList[] = [
   {
     name: "NearestEnemies",
+    includeStatus: ["Able"],
     randomOrder: true,
     triggers: [
       ...ExcludeUnwantedTargetsTriggers,

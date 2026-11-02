@@ -87,7 +87,8 @@ class AbilityService {
   /**
    * Every target list's mirrored target check, see RawCreatureAbility.mirrorTarget. With `avoid`,
    * a list only taking mirrored targets (a hand-placed caster's Magic Missile preset) is dropped:
-   * it could never match, and the cast order's counter pass aims at them instead.
+   * it could never match, and the cast order's counter pass aims at them instead. With `require`,
+   * only the first list is kept, its own checks included: one list keeps scripts small.
    */
   private mirrorChecks(
     targets: TargetList[] | undefined,
@@ -104,9 +105,8 @@ class AbilityService {
           !trigger.negation,
       );
     const check = triggerFactory.stateCheck("STATE_MIRRORIMAGE", avoid);
-    return targets
-      .filter((t) => !avoid || !takesMirrored(t))
-      .map((t) => ({ ...t, triggers: [...(t.triggers ?? []), check] }));
+    const kept = avoid ? targets.filter((t) => !takesMirrored(t)) : targets.slice(0, 1);
+    return kept.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), check] }));
   }
 
   /**
@@ -200,7 +200,10 @@ class AbilityService {
     ability: RawCreatureAbility,
     spell: CreatureAbilitySpell,
   ): CreatureAbility {
-    const target = ability.targets ? ScriptTarget.token : ScriptTarget.myself;
+    const target =
+      ability.targets && !this.landsOnCaster(ability, spell)
+        ? ScriptTarget.token
+        : ScriptTarget.myself;
     result.isSpell = !spell.isAttack;
     result.resource = spell.resource ?? ability.preset;
     result.resourceVariants = spell.resourceVariants;
@@ -240,6 +243,12 @@ class AbilityService {
       });
     }
     return result;
+  }
+
+  /** A spell landing on its caster checks the caster, even when an enemy in sight gates it */
+  private landsOnCaster(ability: RawCreatureAbility, spell: CreatureAbilitySpell): boolean {
+    const keywords = ability.keywords ?? [];
+    return (spell.castOnSelf ?? keywords.includes("castOnSelf")) && !keywords.includes("area");
   }
 
   private addExclusionTriggers(
