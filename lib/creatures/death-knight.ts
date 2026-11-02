@@ -70,6 +70,7 @@ function wallOfIce(cre: Creature) {
   };
   return cre.addSpell({
     name: "monster.deathKnight.ability.iceWall.name",
+    role: "damage",
     description: "monster.deathKnight.ability.iceWall.description",
     id: Ids.WallOfIce,
     memorizedCount: AT_WILL,
@@ -130,6 +131,7 @@ function wallOfIce(cre: Creature) {
 function fireball(cre: Creature) {
   return cre.addSpell({
     name: "monster.deathKnight.ability.fireball.name",
+    role: "damage",
     description: "monster.deathKnight.ability.fireball.description",
     id: Ids.Fireball,
     memorizedCount: 1,

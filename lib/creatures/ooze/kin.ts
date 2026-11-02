@@ -211,6 +211,7 @@ export class OozeKin extends CreatureKin {
     return this.addSpell({
       id: SlimeIds.ToxicVapors,
       name: "monster.ooze.ability.toxicVapors.name",
+      role: "damage",
       keywords: ["area"],
       description: "monster.ooze.ability.toxicVapors.description",
       icon: SPELLS.Wizard.StinkingCloud.file,

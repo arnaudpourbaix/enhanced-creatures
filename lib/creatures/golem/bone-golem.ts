@@ -26,6 +26,7 @@ class BoneGolem extends Golem {
   createHideousLaugh() {
     return this.addSpell({
       name: "monster.golem.ability.hideousLaugh",
+      role: "disable",
       id: GolemIds.HideousLaugh,
       memorizedCount: 1,
       icon: SPELLS.Priest.CloakOfFear.file,

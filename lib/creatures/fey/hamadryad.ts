@@ -52,6 +52,7 @@ class HamadryadEntry extends CreatureEntry<Fey> {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.entangle.name",
+      role: "disable",
       id: FeyIds.Entangle,
       description: "monster.fey.ability.entangle.description",
       icon: SPELLS.Priest.Entangle.file,

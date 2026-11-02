@@ -149,6 +149,7 @@ function mummyFearAura(cre: Creature, greater: boolean) {
   return cre.addSpell({
     description,
     name: "monster.mummy.ability.fearAura.name",
+    role: "disable",
     id: greater ? Ids.GreaterMummyFearAura : Ids.MummyFearAura,
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,

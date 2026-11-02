@@ -27,6 +27,7 @@ class PhaseSpider extends Spider {
     return this.addSpell({
       id: SpiderIds.PhaseOut,
       name: "monster.spider.ability.phase.name",
+      role: "protection",
       description: "monster.spider.ability.phase.description",
       memorizedCount: 1,
       icon: SPELLS.Wizard.Invisibility.file,

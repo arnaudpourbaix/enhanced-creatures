@@ -33,6 +33,7 @@ export const createFearAura = ({
   description,
   id,
   name: "monster.common.fearAura",
+  role: "disable",
   memorizedCount: 1,
   icon: SPELLS.Priest.CloakOfFear.file,
   secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,

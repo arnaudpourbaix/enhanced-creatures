@@ -80,6 +80,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.venomSpit.name",
+      role: "damage",
       description: "monster.fey.ability.venomSpit.description",
       id: FeyIds.VenomSpit,
       memorizedCount: 1,
@@ -127,6 +128,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.wateryFist.name",
+      role: "damage",
       description: "monster.fey.ability.wateryFist.description",
       id: FeyIds.WateryFist,
       memorizedCount: 1,
@@ -183,6 +185,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.drowningKiss.name",
+      role: "kill",
       description: "monster.fey.ability.drowningKiss.description",
       id: FeyIds.DrowningKiss,
       memorizedCount: 1,
@@ -270,6 +273,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.beguilingAura.name",
+      role: "disable",
       description: "monster.fey.ability.beguilingAura.description",
       id: FeyIds.BeguilingAura,
       memorizedCount: 1,
@@ -332,6 +336,7 @@ class Nereid extends Fey {
     const duration = Durations.eightHours;
     return this.addSpell({
       name: "monster.fey.ability.summonGiantPoisonousSnake.name",
+      role: "summon",
       description: "monster.fey.ability.summonGiantPoisonousSnake.description",
       id: FeyIds.SummonGiantPoisonousSnake,
       memorizedCount: 1,

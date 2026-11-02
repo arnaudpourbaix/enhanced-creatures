@@ -2067,3 +2067,30 @@ describe("checkAdjustmentSpells", () => {
     );
   });
 });
+
+describe("checkSpellRoles", () => {
+  function roleCreature(role: string | undefined) {
+    return {
+      name: "test",
+      data: { spells: { memorized: [{ file: "JASM0100" }] } },
+      adjustments: [],
+      spells: [{ file: "JASM0100", role, name: "monster.test.power" }],
+    } as unknown as Creature;
+  }
+
+  it("throws when a memorized spell the mod creates has no role", () => {
+    expect(() => creatureService.checkSpellRoles(roleCreature(undefined))).toThrow(
+      /JASM0100 .* has no role - scoring can't place it/,
+    );
+  });
+
+  it("accepts a memorized created spell with a role", () => {
+    expect(() => creatureService.checkSpellRoles(roleCreature("damage"))).not.toThrow();
+  });
+
+  it("ignores created spells that aren't memorized (a weapon's hit effect)", () => {
+    const creature = roleCreature(undefined);
+    creature.data.spells.memorized = [];
+    expect(() => creatureService.checkSpellRoles(creature)).not.toThrow();
+  });
+});

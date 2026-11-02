@@ -27,6 +27,7 @@ class BlinkDog extends Dog {
         renew: 1,
       },
       name: "monster.dog.ability.blink",
+      role: "protection",
       id: DogIds.Blink,
       memorizedCount: 1,
       headers: [

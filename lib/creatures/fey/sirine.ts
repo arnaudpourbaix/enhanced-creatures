@@ -57,6 +57,7 @@ class SirineEntry extends CreatureEntry<Fey> {
   private createCharmSong() {
     const technical = this.addSpell({
       name: "monster.fey.ability.charmSong.name",
+      role: "disable",
       keywords: ["area"],
       doc: false,
       icon: SPELLS.Wizard.DireCharm.file,
@@ -85,6 +86,7 @@ class SirineEntry extends CreatureEntry<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.charmSong.name",
+      role: "disable",
       id: FeyIds.CharmSong,
       description: "monster.fey.ability.charmSong.description",
       icon: SPELLS.Wizard.DireCharm.file,
@@ -141,6 +143,7 @@ class SirineEntry extends CreatureEntry<Fey> {
   private createFogCloud() {
     return this.addSpell({
       name: "monster.fey.ability.fogCloud.name",
+      role: "disable",
       id: FeyIds.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
       icon: "SPWI204",

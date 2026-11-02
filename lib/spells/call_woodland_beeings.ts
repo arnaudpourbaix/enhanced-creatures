@@ -28,6 +28,7 @@ const baseEffect: Effect = {
 export const SPELL_CALL_WOODLAND_BEEINGS: Spell = spellService.getSpell(
   {
     name: "spell.callWoodlandBeeings.name",
+    role: "summon",
     description: "spell.callWoodlandBeeings.description",
     copyFrom: SPELLS.Priest.CallWoodlandBeeings.file,
     icon: SPELLS.Priest.CallWoodlandBeeings.file,

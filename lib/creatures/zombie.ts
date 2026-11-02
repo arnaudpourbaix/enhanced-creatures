@@ -143,6 +143,7 @@ function createAnimateDead(cre: Creature) {
   }));
   return cre.addSpell({
     name: "monster.zombie.ability.animateDead.name",
+    role: "summon",
     description: "monster.zombie.ability.animateDead.description",
     id: Ids.ZombieAnimateDead,
     memorizedCount: 1,
@@ -178,6 +179,7 @@ function createStenchOfDecay(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
     name: "monster.zombie.ability.stenchOfDecay.name",
+    role: "disable",
     description: "monster.zombie.ability.stenchOfDecay.description",
     id: Ids.ZombieStenchOfDecay,
     memorizedCount: 1,
@@ -272,6 +274,7 @@ function createOdorOfDeath(cre: Creature) {
   });
   return cre.addSpell({
     name: "monster.zombie.ability.odorOfDeath.name",
+    role: "disable",
     description: "monster.zombie.ability.odorOfDeath.description",
     id: Ids.ZombieOdorOfDeath,
     memorizedCount: 1,

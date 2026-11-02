@@ -75,6 +75,7 @@ class OgreMage extends Ogre {
     return this.addSpell({
       id: Ids.Fly,
       name: "monster.ogre.ability.fly.name",
+      role: "reactive",
       description: "monster.ogre.ability.fly.description",
       memorizedCount: 1,
       icon: SPELLS.Wizard.Haste.file,
@@ -154,6 +155,7 @@ class OgreMage extends Ogre {
     this.createItemGaseousForm();
     return this.addSpell({
       name: "monster.ogre.ability.gaseousForm.name",
+      role: "reactive",
       description: "monster.ogre.ability.gaseousForm.description",
       memorizedCount: 1,
       id: Ids.GaseousForm,

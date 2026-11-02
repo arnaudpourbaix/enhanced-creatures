@@ -105,6 +105,7 @@ class NymphEntry extends CreatureEntry<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
+      role: "disable",
       id: FeyIds.BlindingBeauty,
       description: "monster.fey.ability.blindingBeauty.description",
       type: SpellTypeEnum.Innate,

@@ -96,6 +96,7 @@ export class Cat extends Creature {
     return this.addSpell({
       id: p.id,
       name: "monster.cat.ability.leap.name",
+      role: "damage",
       description: "monster.cat.ability.leap.description",
       icon: SPELLS.Wizard.DimensionDoor.file,
       memorizedCount: 1,

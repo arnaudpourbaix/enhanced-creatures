@@ -37,6 +37,7 @@ class PolarBearEntry extends CreatureEntry<Bear> {
   private createImprovedStreamOfFrost() {
     return this.addSpell({
       name: "monster.bear.improvedStreamOfFrost.name",
+      role: "damage",
       description: "monster.bear.improvedStreamOfFrost.description",
       id: BearIds.ImprovedStreamOfFrost,
       options: { renew: 3 },

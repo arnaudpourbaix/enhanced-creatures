@@ -36,6 +36,7 @@ function ghostFearAura(cre: Creature) {
   const saveType = SaveTypeEnum.Spell;
   return cre.addSpell({
     name: "monster.ghost.ability.fearAura.name",
+    role: "disable",
     description: "monster.ghost.ability.fearAura.description",
     id: Ids.GhostFearAura,
     memorizedCount: 1,

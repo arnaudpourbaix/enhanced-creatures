@@ -171,6 +171,7 @@ export class Spider extends Creature {
       id,
       description,
       name: name ?? "monster.spider.ability.webTangle.name",
+      role: "disable",
       memorizedCount: 1,
       icon: SPELLS.Wizard.Web.file,
       options: { renew: 2 },
@@ -214,6 +215,7 @@ export class Spider extends Creature {
     ];
     return this.addSpell({
       id: p.id,
+      role: "damage",
       name: p.effects?.length
         ? "monster.spider.ability.leapAttack.name"
         : "monster.spider.ability.leap.name",

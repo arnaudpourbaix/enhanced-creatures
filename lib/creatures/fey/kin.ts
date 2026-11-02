@@ -103,6 +103,7 @@ export class FeyKin extends CreatureKin {
   private createCharm() {
     return this.addSpell({
       name: "monster.fey.ability.dryadDireCharm",
+      role: "disable",
       id: FeyIds.DryadCharm,
       icon: SPELLS.Wizard.DireCharm.file,
       castingSound: "CAS_M05",
@@ -147,6 +148,7 @@ export class FeyKin extends CreatureKin {
   private createSpeakWithPlants() {
     return this.addSpell({
       name: "monster.fey.ability.speakWithPlants.name",
+      role: "protection",
       id: FeyIds.SpeakWithPlants,
       description: "monster.fey.ability.speakWithPlants.description",
       icon: "jaak0501",
@@ -217,6 +219,7 @@ export class FeyKin extends CreatureKin {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.animalFriendship.name",
+      role: "disable",
       id: FeyIds.AnimalFriendship,
       description: "monster.fey.ability.animalFriendship.description",
       icon: SPELLS.Priest.CharmPersonOrAnimal.file,
@@ -293,6 +296,7 @@ export class FeyKin extends CreatureKin {
   private createDetectTraps() {
     return this.addSpell({
       name: "monster.fey.ability.detectTraps.name",
+      role: "useless",
       id: FeyIds.DetectTraps,
       description: "monster.fey.ability.detectTraps.description",
       castingSound: "CAS_P04",

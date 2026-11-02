@@ -162,6 +162,7 @@ function auraOfEvil(cre: Creature) {
   };
   return cre.addSpell({
     name: "monster.ghoul.ability.auraOfEvil.name",
+    role: "disable",
     keywords: ["area"],
     description: "monster.ghoul.ability.auraOfEvil.description",
     id: Ids.AuraOfEvil,

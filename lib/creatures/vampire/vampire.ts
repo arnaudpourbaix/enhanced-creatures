@@ -504,6 +504,7 @@ function batSwarm(group: AbstractCreature) {
   });
   return group.addSpell({
     name: "monster.vampire.ability.batSwarm.name",
+    role: "summon",
     description: "monster.vampire.ability.batSwarm.description",
     id: Ids.VampireBatSwarm,
     memorizedCount: 1,
@@ -678,6 +679,7 @@ function animalForm(group: AbstractCreature, form: AnimalForm) {
   };
   return group.addSpell({
     name: form.name,
+    role: "shapeshift",
     description: form.description,
     id: form.id,
     memorizedCount: 1,
@@ -871,6 +873,7 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   const spell = cre.addSpell({
     id: Ids.VampireMistForm,
     name: "monster.vampire.ability.mistForm.name",
+    role: "reactive",
     description: "monster.vampire.ability.mistForm.description",
     memorizedCount: 1,
     // at will, but see MIST_FORM_TIMER for the AI
@@ -1105,6 +1108,7 @@ function vampireForm(cre: Creature, forms: string[]) {
   return cre.addSpell({
     id: Ids.VampireForm,
     name: "monster.vampire.ability.vampireForm.name",
+    role: "reactive",
     description: "monster.vampire.ability.vampireForm.description",
     memorizedCount: 1,
     icon: "PLYMANB",

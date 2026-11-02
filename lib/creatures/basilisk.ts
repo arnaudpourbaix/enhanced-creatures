@@ -269,6 +269,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
     };
     return this.addSpell({
       name: PETRIFYING_GAZE_NAME,
+      role: "kill",
       description: "monster.basilisk.ability.petrifyingGaze.description",
       id: Ids.Petrification,
       secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -384,6 +385,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
     });
     return this.addSpell({
       name: PETRIFYING_GAZE_NAME,
+      role: "kill",
       description: "monster.basilisk.ability.petrifyingGaze.description5e",
       id: Ids.Petrification,
       keywords: ["petrify", "area"],

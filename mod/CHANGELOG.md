@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Scripts: generate and assign one script per scripted variant
 - Variants: refuse new spells outside a variant
 - Spells: recastTimer spaces a spell's casts
+- Spells: every spell a creature casts declares its role
 
 ### Changed
 

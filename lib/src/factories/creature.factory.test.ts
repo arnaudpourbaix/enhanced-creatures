@@ -201,6 +201,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
@@ -223,6 +224,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
@@ -244,6 +246,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(creatureService, "checkAdjustmentFiles").mockReturnValue(false);
@@ -260,6 +263,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
@@ -288,6 +292,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
@@ -320,6 +325,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
@@ -343,6 +349,7 @@ describe("validate", () => {
     vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
     vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});

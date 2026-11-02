@@ -33,6 +33,7 @@ import kitService from "./kit.service";
 import logService from "./log.service";
 import monsterFilesService, { type CreatureCsvRow } from "./monster-files.service";
 import translationService from "./translation.service";
+import { State } from "../state";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
 import spellProfileService from "./spell-profile.service";
@@ -201,6 +202,28 @@ class CreatureService {
       spellComboService.isContingencyFile(file) ||
       spellProfileService.profileOf(file, creature)?.role === "useless"
     );
+  }
+
+  /**
+   * Scoring places every cast by its profile: a spell the mod creates needs its role to have one
+   * (see SpellProfileService.profileOfSpell). Only memorized ones are cast: a weapon's hit effect
+   * or a disease isn't.
+   */
+  checkSpellRoles(creature: Creature): void {
+    const memorized = new Set(this.memorizedSpellFiles(creature).map((f) => f.toUpperCase()));
+    const created = [...creature.spells, ...State.spells];
+    const missing = [
+      ...new Set(
+        created
+          .filter((s) => memorized.has(s.file.toUpperCase()) && s.role === undefined)
+          .map((s) => `${s.file.toUpperCase()} (${String(s.name)})`),
+      ),
+    ];
+    if (missing.length) {
+      throw new Error(
+        `${missing.join(", ")} has no role - scoring can't place it, declare its role`,
+      );
+    }
   }
 
   checkSpellAbilities(creature: Creature): void {
