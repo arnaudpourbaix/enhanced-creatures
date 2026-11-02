@@ -2,6 +2,8 @@
 
 // Abomination Vampire
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4o00.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4o02.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4o03.baf~
 
 // Gaseous Form
 CREATE SPL "jasm4o00"
@@ -554,7 +556,22 @@ BEGIN
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam01 sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o00 END
+			PATCH_DEFINE_ARRAY skipFiles BEGIN BODHI2 C6BODHI CBBODH66 CHEVIL08 FINBODH END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o00 END
+			// Assigning jabm4o02
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam01 sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN BODHI2 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o02 END
+			// Assigning jabm4o03
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam01 sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp dw#chbod BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN C6BODHI CBBODH66 CHEVIL08 FINBODH END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4o03 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BODHI2~) BEGIN 
 				PATCH_IF FILE_EXISTS_IN_GAME ~ibodhi5.spl~ BEGIN
 					ADD_MEMORIZED_SPELL ~ibodhi5~ #0 ~innate~ (90) 
