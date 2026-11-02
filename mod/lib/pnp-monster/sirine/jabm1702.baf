@@ -3805,6 +3805,110 @@ THEN
 		Spell(Myself,WIZARD_POLYMORPH_SELF)
 END
 
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI495")
+	RandomNumLT(1000,111)
+THEN
+	RESPONSE #100
+		SpellRES("SPWI495",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI496")
+	RandomNumLT(1000,125)
+THEN
+	RESPONSE #100
+		SpellRES("SPWI496",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("DW-PSOM")
+	RandomNumLT(1000,143)
+THEN
+	RESPONSE #100
+		SpellRES("DW-PSOM",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("DW-PSHG")
+	RandomNumLT(1000,167)
+THEN
+	RESPONSE #100
+		SpellRES("DW-PSHG",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("DW-PSHH")
+	RandomNumLT(1000,200)
+THEN
+	RESPONSE #100
+		SpellRES("DW-PSHH",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI493")
+	RandomNumLT(1000,250)
+THEN
+	RESPONSE #100
+		SpellRES("SPWI493",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI494")
+	RandomNumLT(1000,333)
+THEN
+	RESPONSE #100
+		SpellRES("SPWI494",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI497")
+	RandomNumLT(1000,500)
+THEN
+	RESPONSE #100
+		SpellRES("SPWI497",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
+// Polymorph Self
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!GlobalTimerNotExpired("polymorph","LOCALS")
+	HaveSpellRES("SPWI490")
+THEN
+	RESPONSE #100
+		SpellRES("SPWI490",Myself)
+		SetGlobalTimer("polymorph","LOCALS",12)
+END
+
 // Mirror Images
 IF
 	CheckStat(Myself,0,POLYMORPHED)
