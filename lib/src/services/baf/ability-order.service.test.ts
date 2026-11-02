@@ -85,7 +85,9 @@ describe("resolve - Mirror Image passes", () => {
     expect(passes).toHaveLength(3);
     expect(passes).toContainEqual([HOLD, "avoid"]);
     expect(passes).toContainEqual([FIREBALL, undefined]);
-    expect(passes.at(-1)).toEqual([HOLD, "require"]);
+    // one list of mirrored enemies, not every target list again: scripts stay small
+    expect(resolved.at(-1)).toMatchObject({ preset: HOLD, targets: MIRRORED_ENEMY_TARGETS });
+    expect(resolved.at(-1)?.mirrorTarget).toBeUndefined();
   });
 
   it("keeps a counter's own triggers instead of its preset's", () => {

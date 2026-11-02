@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: image removers
 - AI: category rolls and mirror image passes in the cast order
 - AI: abilities for the mirror image passes
+- AI: last resort at mirrored enemies takes one target list
 
 ### Changed
 

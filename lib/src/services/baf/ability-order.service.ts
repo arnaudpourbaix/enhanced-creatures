@@ -55,7 +55,11 @@ class AbilityOrderService {
       const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
       const regular = cast.pass === "regular";
       const timer = regular && spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
-      const mirrorTarget = cast.mirrorTarget ? { mirrorTarget: cast.mirrorTarget } : {};
+      // the last resort takes one list of mirrored enemies, not every target list again: by then
+      // the caster fires at images anyway, and scripts stay small
+      let mirrorTarget: RawCreatureAbility = {};
+      if (cast.pass === "lastResort") mirrorTarget = { targets: MIRRORED_ENEMY_TARGETS };
+      else if (cast.mirrorTarget) mirrorTarget = { mirrorTarget: cast.mirrorTarget };
       return {
         // anchors land next to the regular pass
         identity: regular ? cast.file : `${cast.file}#${cast.pass}`,
