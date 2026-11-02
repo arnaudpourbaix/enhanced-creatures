@@ -32,7 +32,93 @@ function profile(file: string, p: Partial<SpellProfile>): SpellProfile {
   };
 }
 
-const files = (profiles: SpellProfile[]) => castOrderService.plan(profiles).map((c) => c.file);
+/** The regular pass's files: the Mirror Image passes have their own tests */
+const files = (profiles: SpellProfile[]) =>
+  castOrderService
+    .plan(profiles)
+    .filter((c) => c.pass === "regular")
+    .map((c) => c.file);
+
+describe("plan - Mirror Image passes and category rolls", () => {
+  beforeEach(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+  });
+
+  const arrow = () => wizard("FlameArrow");
+  const missiles = () => wizard("MagicMissiles");
+  const fireball = () => wizard("Fireball");
+  const passes = (profiles: SpellProfile[]) =>
+    castOrderService.plan(profiles).map((c) => `${c.file}:${c.pass}`);
+
+  it("clears images first, in the counters' order, and keeps a last resort for the rest", () => {
+    const planned = passes([profile("HIT", {}), arrow(), missiles(), fireball()]);
+    const { FlameArrow, MagicMissiles, Fireball } = SPELLS.Wizard;
+    expect(planned.slice(0, 2)).toEqual([
+      `${MagicMissiles.file}:counter`,
+      `${FlameArrow.file}:counter`,
+    ]);
+    expect(planned).toContain(`${Fireball.file}:regular`);
+    // a remover's counter already aims at mirrored targets
+    expect(planned.filter((p) => p.endsWith(":lastResort"))).toEqual(["HIT:lastResort"]);
+    expect(planned.at(-1)).toBe("HIT:lastResort");
+  });
+
+  it("skips mirrored targets with single-target spells, removers included", () => {
+    const plan = castOrderService.plan([profile("HIT", {}), arrow(), missiles(), fireball()]);
+    const regular = (file: string) => plan.find((c) => c.file === file && c.pass === "regular");
+    expect(regular(SPELLS.Wizard.Fireball.file)?.mirrorTarget).toBeUndefined();
+    expect(regular(SPELLS.Wizard.MagicMissiles.file)?.mirrorTarget).toBe("avoid");
+    expect(regular(SPELLS.Wizard.FlameArrow.file)?.mirrorTarget).toBe("avoid");
+    expect(regular("HIT")?.mirrorTarget).toBe("avoid");
+    expect(plan.find((c) => c.pass === "lastResort")?.mirrorTarget).toBe("require");
+  });
+
+  it("shares a roll between single-target damage spells, not with area ones", () => {
+    const plan = castOrderService.plan([arrow(), missiles(), fireball()]);
+    const range = (file: string) => plan.find((c) => c.file === file)?.rollRange;
+    expect(range(SPELLS.Wizard.FlameArrow.file)).toBeDefined();
+    expect(range(SPELLS.Wizard.FlameArrow.file)).toBe(range(SPELLS.Wizard.MagicMissiles.file));
+    expect(range(SPELLS.Wizard.Fireball.file)).not.toBe(range(SPELLS.Wizard.FlameArrow.file));
+  });
+
+  it("gives a counter the best chance of its category", () => {
+    const plan = castOrderService.plan([arrow(), missiles(), fireball()]);
+    const counter = plan.find((c) => c.pass === "counter");
+    const best = Math.max(
+      ...plan.filter((c) => c.rollRange === counter?.rollRange).map((c) => c.probability),
+    );
+    expect(counter?.probability).toBe(best);
+  });
+
+  it("never raises a chance down the script within a category", () => {
+    const plan = castOrderService.plan([
+      profile("STRONG", { level: 8, castingTime: 9 }),
+      profile("WEAK", { level: 2, castingTime: 1 }),
+      arrow(),
+      fireball(),
+    ]);
+    const lowest = new Map<number, number>();
+    for (const cast of plan) {
+      if (cast.rollRange === undefined) continue;
+      expect(cast.probability).toBeLessThanOrEqual(lowest.get(cast.rollRange) ?? 100);
+      lowest.set(cast.rollRange, cast.probability);
+    }
+  });
+
+  it("leaves reactive, opening and summon casts out of category rolls", () => {
+    const plan = castOrderService.plan([
+      profile("HEAL", { role: "reactive" }),
+      profile("GLOBE", { role: "protection", tier: "great" }),
+      profile("CALL", { role: "summon" }),
+    ]);
+    expect(plan.map((c) => c.rollRange)).toEqual([undefined, undefined, undefined]);
+  });
+
+  it("adds no pass without a single-target spell or a remover", () => {
+    const plan = castOrderService.plan([fireball(), profile("GLOBE", { role: "protection" })]);
+    expect(plan.every((c) => c.pass === "regular" && c.mirrorTarget === undefined)).toBe(true);
+  });
+});
 
 describe("plan", () => {
   beforeEach(() => {

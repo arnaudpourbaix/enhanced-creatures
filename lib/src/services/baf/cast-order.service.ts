@@ -1,8 +1,10 @@
 import { SPELL_SCORING } from "../../../config/spell-scoring";
 import { COVER_SPELLS } from "../../../config/spells/cover-spells";
+import { MIRROR_COUNTERS, mirrorCounterOf } from "../../../config/spells/mirror-counters";
 import { SpellRole } from "../../../config/spells/spell-role";
 import { SpellProfile } from "../spell-profile.service";
 import spellScoringService from "../spell-scoring.service";
+import { categoryRoll, isSingleTargetHostile } from "./memorized-checks";
 
 /** A spell's place in the cast order: tried in order, cast if its own roll succeeds. */
 export interface PlannedCast {
@@ -10,6 +12,12 @@ export interface PlannedCast {
   role: SpellRole;
   score: number;
   probability: number;
+  /** `counter` clears Mirror Image, `lastResort` aims at mirrored targets once nothing else can */
+  pass: "regular" | "counter" | "lastResort";
+  /** Its category's shared roll, see categoryRoll */
+  rollRange?: number;
+  /** See RawCreatureAbility.mirrorTarget */
+  mirrorTarget?: "avoid" | "require";
 }
 
 /** A buff for every ally around: worth more once there are summons to benefit from it */
@@ -60,13 +68,69 @@ class CastOrderService {
       : undefined;
     if (partyBuff) scored.splice(scored.indexOf(partyBuff), 1);
     const rest = this.alternate(scored, opening.length > 0, partyBuff);
-    const ordered = [...reactive, ...opening, ...rest, ...shapeshifts];
-    return ordered.map(({ profile, score, probability }) => ({
-      file: profile.file,
-      role: profile.role,
+    const cast = (
+      { profile, score, probability }: (typeof scored)[number],
+      pass: PlannedCast["pass"],
+      shared = true,
+    ): PlannedCast => ({
       score,
       probability,
-    }));
+      pass,
+      file: profile.file,
+      role: profile.role,
+      rollRange: shared ? categoryRoll(profile) : undefined,
+    });
+    const regular = (s: (typeof scored)[number]): PlannedCast => ({
+      ...cast(s, "regular"),
+      mirrorTarget: isSingleTargetHostile(s.profile) ? "avoid" : undefined,
+    });
+    const main = [...rest, ...shapeshifts].map(regular);
+    const counters = this.counters([...reactive, ...rest], main, cast);
+    const lastResort = rest
+      .filter((s) => isSingleTargetHostile(s.profile) && !mirrorCounterOf(s.profile.file))
+      .map((s): PlannedCast => ({ ...cast(s, "lastResort"), mirrorTarget: "require" }));
+    return this.capChances([
+      // reactive spells fire on their own conditions, the opening is capped already (see opening)
+      ...reactive.map((s) => cast(s, "regular", false)),
+      ...opening.map((s) => cast(s, "regular", false)),
+      ...counters,
+      ...main.slice(0, rest.length),
+      ...lastResort,
+      ...main.slice(rest.length),
+    ]);
+  }
+
+  /**
+   * One counter per memorized image remover (MIRROR_COUNTERS), in that list's order, with the best
+   * chance of its category so it comes first in that roll (see categoryRoll).
+   */
+  private counters<T extends { profile: SpellProfile }>(
+    scored: T[],
+    main: PlannedCast[],
+    cast: (s: T, pass: PlannedCast["pass"]) => PlannedCast,
+  ): PlannedCast[] {
+    const rank = (s: T) => MIRROR_COUNTERS.findIndex((c) => c === mirrorCounterOf(s.profile.file));
+    return scored
+      .filter((s) => mirrorCounterOf(s.profile.file))
+      .sort((a, b) => rank(a) - rank(b))
+      .map((s) => {
+        const counter = cast(s, "counter");
+        const chances = main
+          .filter((c) => c.rollRange !== undefined && c.rollRange === counter.rollRange)
+          .map((c) => c.probability);
+        return { ...counter, probability: Math.max(counter.probability, ...chances) };
+      });
+  }
+
+  /** A cast's chance never above an earlier one's of its category: a weaker spell can't come first */
+  private capChances(casts: PlannedCast[]): PlannedCast[] {
+    const lowest = new Map<number, number>();
+    return casts.map((c) => {
+      if (c.rollRange === undefined) return c;
+      const probability = Math.min(c.probability, lowest.get(c.rollRange) ?? c.probability);
+      lowest.set(c.rollRange, probability);
+      return { ...c, probability };
+    });
   }
 
   /**
@@ -79,7 +143,10 @@ class CastOrderService {
     const caster = spellScoringService.casterReference(profiles);
     const durations = SPELL_SCORING.coveredDurationOrder;
     // reactive spells keep coming first: a wounded caster heals before buffing
-    const reactive = this.plan(profiles.filter((p) => p.role === "reactive"));
+    // without the Mirror Image passes: covered, the caster protects itself, it doesn't attack
+    const reactive = this.plan(profiles.filter((p) => p.role === "reactive")).filter(
+      (c) => c.pass === "regular",
+    );
     const protective = profiles
       .filter(
         (p) =>
@@ -97,11 +164,12 @@ class CastOrderService {
           durations.indexOf(a.profile.duration) - durations.indexOf(b.profile.duration) ||
           byCodeUnits(a.profile.file, b.profile.file),
       )
-      .map(({ profile, score, probability }) => ({
-        file: profile.file,
-        role: profile.role,
+      .map(({ profile, score, probability }): PlannedCast => ({
         score,
         probability,
+        file: profile.file,
+        role: profile.role,
+        pass: "regular",
       }));
     return [...reactive, ...protective];
   }
