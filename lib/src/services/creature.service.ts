@@ -38,6 +38,7 @@ import spellService from "./spell.service";
 import spellProfileService from "./spell-profile.service";
 import spellComboService from "./spell-combo.service";
 import { SpellCombo } from "../model/spell-item/spell-combo";
+import { KITS } from "../../config/kit-ability";
 import { WithRequired } from "../model/utility-types";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
@@ -156,7 +157,9 @@ class CreatureService {
     const noScript = new Set(
       creature.adjustments.filter((a) => a.data.script.location === "None").flatMap((a) => a.files),
     );
-    const known = this.declaredSpellFiles(creature.data.spells);
+    // a kit's own abilities (a barbarian's rage) come with the kit, a few blocks each
+    const kitSpells = KITS.flatMap((k) => k.abilities).map((a) => a.resource.toUpperCase());
+    const known = new Set([...this.declaredSpellFiles(creature.data.spells), ...kitSpells]);
     const errors = creature.adjustments
       .filter((a) => !a.variant && a.files.some((f) => !noScript.has(f)))
       .flatMap((a) => {

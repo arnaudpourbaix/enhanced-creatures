@@ -19,6 +19,7 @@ import monsterFilesService from "./monster-files.service";
 import spellComboService from "./spell-combo.service";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SPELLS } from "../../config/spells/spell-database";
+import { KITS } from "../../config/kit-ability";
 import { SpellCombo } from "../model/spell-item/spell-combo";
 
 interface CreatureServicePrivate {
@@ -2039,6 +2040,12 @@ describe("checkAdjustmentSpells", () => {
       { files: ["F1"], data: none },
       { files: ["F1"], data: memorizing("SPWI212") },
     ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("allows the spells a kit grants", () => {
+    const rage = KITS.flatMap((k) => k.abilities).find((a) => a.resource !== "SPCL321")?.resource ?? "";
+    const creature = spellCreature([{ files: ["F1"], data: memorizing(rage) }]);
     expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
   });
 

@@ -291,3 +291,20 @@ describe("scripted variants", () => {
     expect(variant.spellErrors).toEqual([]);
   });
 });
+
+describe("sub-variant spells", () => {
+  it("a sub-variant's spellbooks replace its parent's", () => {
+    captureAdjustments();
+    const parent = variantFactory.add(fakeCreature(), "mage", {
+      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI112" }] }] } },
+      files: ["GRON"],
+    });
+    const child = parent.variant("archmage", {
+      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] }] } },
+      files: ["GMAYOR"],
+    });
+    expect(child.data.spells?.spellbooks).toEqual([
+      { mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] },
+    ]);
+  });
+});
