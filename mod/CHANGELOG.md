@@ -50,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Variant scripts design
 - Variant scripts plan
 - Vampire: spellcasting vampires as scripted variants
+- Ogre-mage: spellcasting chieftains as a scripted sub-variant
 
 ### Fixed
 
