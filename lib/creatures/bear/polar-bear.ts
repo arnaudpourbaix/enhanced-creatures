@@ -163,23 +163,6 @@ class PolarBearEntry extends CreatureEntry<Bear> {
     polar.setAdjustments([
       { files: ["BDGHBRSU"], data: { level1: 9 } },
       {
-        files: ["KALDRAN"],
-        data: {
-          level1: 12,
-          intelligence: 10,
-          morale: 15,
-          immunities: ["cold", "coldSpells"],
-          spells: {
-            memorized: [
-              {
-                file: this.spell(BearIds.ImprovedStreamOfFrost).file,
-                memorizedCount: 1,
-              },
-            ],
-          },
-        },
-      },
-      {
         files: ["BEARPO01", "D9ARPO01", "NTBEARPO", "OBSICE04"],
         stringRef: "monster.bear.name.polar",
       },
@@ -192,6 +175,23 @@ class PolarBearEntry extends CreatureEntry<Bear> {
       //   },
       // },
     ]);
+    polar.variant("Kaldran", {
+      files: ["KALDRAN"],
+      data: {
+        level1: 12,
+        intelligence: 10,
+        morale: 15,
+        immunities: ["cold", "coldSpells"],
+        spells: {
+          memorized: [
+            {
+              file: this.spell(BearIds.ImprovedStreamOfFrost).file,
+              memorizedCount: 1,
+            },
+          ],
+        },
+      },
+    });
     return polar;
   }
 

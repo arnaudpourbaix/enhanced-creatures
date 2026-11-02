@@ -52,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire: spellcasting vampires as scripted variants
 - Ogre-mage: spellcasting chieftains as a scripted sub-variant
 - Skeletons: spellcasting skeletons as scripted variants
+- Sirine, polar bear, sword spider: files with their own spells as scripted variants
 
 ### Fixed
 

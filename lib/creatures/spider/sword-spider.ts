@@ -170,24 +170,24 @@ class SwordSpiderEntry extends CreatureEntry<SwordSpider> {
       { files: ["PLYSPID"], data: { script: { location: "None" } } },
       { files: ["L0SPID"], data: { level1: 16, xpv: 4000 } },
       { files: ["OHHSPI03"], data: { level1: 15, xpv: 4000 } },
-      {
-        files: ["WISPID03"],
-        data: {
-          spells: {
-            removeMemorized: true,
-            memorized: [
-              {
-                file: this.spell(SpiderIds.LightningLeapImpalingAttack).file,
-                memorizedCount: 1,
-              },
-            ],
-          },
-          items: {
-            equipped: [{ file: this.item(SpiderIds.LightningLeg).file, slot: "SHIELD" }],
-          },
+    ]);
+    sword.variant("Lightning Sword Spider", {
+      files: ["WISPID03"],
+      data: {
+        spells: {
+          removeMemorized: true,
+          memorized: [
+            {
+              file: this.spell(SpiderIds.LightningLeapImpalingAttack).file,
+              memorizedCount: 1,
+            },
+          ],
+        },
+        items: {
+          equipped: [{ file: this.item(SpiderIds.LightningLeg).file, slot: "SHIELD" }],
         },
       },
-    ]);
+    });
     return sword;
   }
 }

@@ -513,37 +513,37 @@ class SirineEntry extends CreatureEntry<Fey> {
           },
         },
       },
-      {
-        files: ["AC#DT30S"],
-        data: {
-          items: {
-            remove: ["COMPB05", "BOW01", "BOW05", "SIRINE1", "AROW01", "AROW05"],
-            equipped: [
-              {
-                file: "AC#DTAR2",
-                quantity: 10,
-                slot: "QUIVER1",
-                undroppable: false,
-                unstealable: true,
-              },
-              {
-                file: "AC#DTAR1",
-                quantity: 10,
-                slot: "QUIVER2",
-                undroppable: false,
-                unstealable: true,
-              },
-            ],
-          },
-          spells: {
-            memorized: [
-              { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 1 },
-              { file: SPELLS.Wizard.GreaterMalison.file, memorizedCount: 1 },
-            ],
-          },
+    ]);
+    sirine.variant("Mage Sirine", {
+      files: ["AC#DT30S"],
+      data: {
+        items: {
+          remove: ["COMPB05", "BOW01", "BOW05", "SIRINE1", "AROW01", "AROW05"],
+          equipped: [
+            {
+              file: "AC#DTAR2",
+              quantity: 10,
+              slot: "QUIVER1",
+              undroppable: false,
+              unstealable: true,
+            },
+            {
+              file: "AC#DTAR1",
+              quantity: 10,
+              slot: "QUIVER2",
+              undroppable: false,
+              unstealable: true,
+            },
+          ],
+        },
+        spells: {
+          memorized: [
+            { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 1 },
+            { file: SPELLS.Wizard.GreaterMalison.file, memorizedCount: 1 },
+          ],
         },
       },
-    ]);
+    });
     return sirine;
   }
 }
