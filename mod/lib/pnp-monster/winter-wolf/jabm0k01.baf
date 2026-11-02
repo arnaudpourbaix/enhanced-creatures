@@ -429,7 +429,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -448,7 +448,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -467,7 +467,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -487,7 +487,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -505,7 +505,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -523,7 +523,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("jasm0k00")
-	RandomNumGT(800,640)
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

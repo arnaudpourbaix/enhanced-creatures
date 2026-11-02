@@ -158,7 +158,7 @@ class PolarBearEntry extends CreatureEntry<Bear> {
     polar.createJaws(2, 6);
     polar.setBehavior({
       walk: true,
-      abilities: [this.ability(BearIds.ImprovedStreamOfFrost)],
+      abilities: { entries: [{ power: this.spell(BearIds.ImprovedStreamOfFrost) }] },
       customCodes: [customCodes.wildAnimalsTurningHostile, this.kaldran],
     });
     polar.setAdjustments([

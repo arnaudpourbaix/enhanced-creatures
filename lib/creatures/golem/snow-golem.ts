@@ -102,7 +102,7 @@ class SnowGolemEntry extends CreatureEntry<Golem> {
     snow.createFists({ diceThrown: 2, diceSize: 12 });
     snow.setBehavior({
       restHeal: true,
-      abilities: [this.ability(GolemIds.ConeOfCold)],
+      abilities: { entries: [{ power: this.spell(GolemIds.ConeOfCold) }] },
     });
     snow.setAdjustments([
       { files: ["D9LICE01", "GOLICE01", "WQXGOL"], data: { level1: 20, xpv: 12000 } },

@@ -452,13 +452,15 @@ class NereidEntry extends CreatureEntry<Nereid> {
     nereid.setBehavior({
       restHeal: true,
       dialog: [],
-      abilities: [
-        this.ability(FeyIds.BeguilingAura),
-        this.ability(FeyIds.SummonGiantPoisonousSnake),
-        this.ability(FeyIds.VenomSpit),
-        this.ability(FeyIds.DrowningKiss),
-        this.ability(FeyIds.WateryFist),
-      ],
+      abilities: {
+        entries: [
+          { power: this.spell(FeyIds.BeguilingAura) },
+          { power: this.spell(FeyIds.SummonGiantPoisonousSnake) },
+          { power: this.spell(FeyIds.VenomSpit) },
+          { power: this.spell(FeyIds.DrowningKiss) },
+          { power: this.spell(FeyIds.WateryFist) },
+        ],
+      },
     });
     nereid.setAdjustments([
       { files: ["BDPWATER"], data: { level1: 9, xpv: 3000 } },

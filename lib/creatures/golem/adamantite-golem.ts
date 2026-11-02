@@ -58,7 +58,7 @@ class AdamantiteGolemEntry extends CreatureEntry<Golem> {
     adamantite.createFists({ diceThrown: 4, diceSize: 10 });
     adamantite.setBehavior({
       restHeal: true,
-      // abilities: [this.ability(GolemIds.CloudOfPoisonousGas)],
+      // abilities: { entries: [{ power: this.spell(GolemIds.CloudOfPoisonousGas) }] },
     });
     return adamantite;
   }

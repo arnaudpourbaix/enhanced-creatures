@@ -84,7 +84,7 @@ export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
   fearAura(warrior);
   warrior.setBehavior({
     restHeal: true,
-    abilities: [entry.ability(Ids.SkeletonWarriorFearAura)],
+    abilities: { entries: [{ power: entry.spell(Ids.SkeletonWarriorFearAura) }] },
   });
   warrior.setAttack({
     ranged: true,

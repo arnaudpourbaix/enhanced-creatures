@@ -427,7 +427,9 @@ END
 // Leap Attack
 IF
 	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(FarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -447,7 +449,9 @@ END
 
 IF
 	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(SecondFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -467,7 +471,9 @@ END
 
 IF
 	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -487,7 +493,9 @@ END
 
 IF
 	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(FourthFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -508,7 +516,9 @@ END
 // Leap Attack
 IF
 	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(FarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -528,7 +538,9 @@ END
 
 IF
 	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(SecondFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -548,7 +560,9 @@ END
 
 IF
 	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
@@ -568,7 +582,187 @@ END
 
 IF
 	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(FourthFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(FourthFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(FourthFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n01",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+// Leap Attack
+IF
+	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(FarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FarthestEnemyOf(Myself))
+	WeaponEffectiveVs(FarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(FarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n00",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(SecondFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(SecondFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(SecondFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n00",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(ThirdFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(ThirdFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n00",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n00")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(FourthFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FourthFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(FourthFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(FourthFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n00",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+// Leap Attack
+IF
+	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(FarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(FarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(FarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(FarthestEnemyOf(Myself))
+	WeaponEffectiveVs(FarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(FarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n01",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(SecondFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(SecondFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(SecondFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(SecondFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(SecondFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(SecondFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n01",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	!General(ThirdFarthestEnemyOf(Myself),WEAPON)
+	!CheckStatGT(ThirdFarthestEnemyOf(Myself),0,SANCTUARY)
+	!StateCheck(ThirdFarthestEnemyOf(Myself),STATE_REALLY_DEAD)
+	See(ThirdFarthestEnemyOf(Myself))
+	WeaponEffectiveVs(ThirdFarthestEnemyOf(Myself),MAINHAND)
+	WeaponCanDamage(ThirdFarthestEnemyOf(Myself),MAINHAND)
+	Range(LastSeenBy(Myself),30)
+	!Range(LastSeenBy(Myself),5)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm1n01",LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetInterrupt(TRUE)
+END
+
+IF
+	HaveSpellRES("jasm1n01")
+	RandomNumGT(711,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	!General(FourthFarthestEnemyOf(Myself),WEAPON)
 	!CheckStatGT(FourthFarthestEnemyOf(Myself),0,SANCTUARY)
 	!StateCheck(FourthFarthestEnemyOf(Myself),STATE_REALLY_DEAD)

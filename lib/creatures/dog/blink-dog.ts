@@ -107,7 +107,7 @@ class BlinkDogEntry extends CreatureEntry<BlinkDog> {
     });
     blinkDog.createBlink();
     blinkDog.createJaws({ diceThrown: 1, diceSize: 6 });
-    blinkDog.setBehavior({ abilities: [this.ability(DogIds.Blink)] });
+    blinkDog.setBehavior({ abilities: { entries: [{ power: this.spell(DogIds.Blink) }] } });
     return blinkDog;
   }
 }

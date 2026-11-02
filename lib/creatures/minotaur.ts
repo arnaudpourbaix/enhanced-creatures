@@ -183,7 +183,7 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
     minotaur.createCharge();
     minotaur.setBehavior({
       usePotions: true,
-      abilities: [this.ability(Ids.Charge)],
+      abilities: { entries: [{ power: this.spell(Ids.Charge) }] },
     });
     minotaur.setAdjustments([
       {

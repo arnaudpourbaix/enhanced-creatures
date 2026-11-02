@@ -687,7 +687,12 @@ export function zombieLord(entry: CreatureEntry<Creature>): Creature {
     diceSize: 4,
   });
   lord.setBehavior({
-    abilities: [entry.ability(Ids.ZombieOdorOfDeath), entry.ability(Ids.ZombieAnimateDead)],
+    abilities: {
+      entries: [
+        { power: entry.spell(Ids.ZombieOdorOfDeath) },
+        { power: entry.spell(Ids.ZombieAnimateDead) },
+      ],
+    },
   });
   lord.turnAs = "vampire";
   return lord;
@@ -727,11 +732,13 @@ export function seaZombie(entry: CreatureEntry<Creature>): Creature {
     },
   });
   sea.setBehavior({
-    abilities: [
-      entry.ability(Ids.ZombieOdorOfDeath),
-      entry.ability(Ids.ZombieStenchOfDecay),
-      entry.ability(Ids.ZombieAnimateDead),
-    ],
+    abilities: {
+      entries: [
+        { power: entry.spell(Ids.ZombieOdorOfDeath) },
+        { power: entry.spell(Ids.ZombieStenchOfDecay) },
+        { power: entry.spell(Ids.ZombieAnimateDead) },
+      ],
+    },
   });
   // There is a 50% chance that each drowned one encountered is a priest of level 1d4. These creatures are granted their spells directly from Nerull (or similar deity), receiving only baneful spells.
   seaZombieLordVariant(sea, entry);

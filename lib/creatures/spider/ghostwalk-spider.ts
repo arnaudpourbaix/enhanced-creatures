@@ -104,7 +104,7 @@ class GhostwalkSpiderEntry extends CreatureEntry<Spider> {
     });
     ghostwalk.setBehavior({
       dialog: ["C#LCCENS"],
-      abilities: [this.ability(SpiderIds.InvisibleWebTangle)],
+      abilities: { entries: [{ power: this.spell(SpiderIds.InvisibleWebTangle) }] },
     });
     return ghostwalk;
   }

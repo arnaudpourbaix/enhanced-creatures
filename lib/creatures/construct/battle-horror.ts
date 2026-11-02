@@ -55,17 +55,21 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
       requireVocal: false,
     });
     battleHorror.setBehavior({
-      abilities: [
-        {
-          preset: SPELLS.Wizard.MagicMissiles.file,
-          spell: {
-            type: "noDec",
+      abilities: {
+        entries: [
+          {
+            spell: SPELLS.Wizard.MagicMissiles,
+            ability: {
+              spell: {
+                type: "noDec",
+              },
+              triggers: [{ name: "Range", params: ["NearestEnemyOf", 10], negation: true }],
+              requireVocal: false,
+              timer: { name: "MagicMissiles", value: 18 },
+            },
           },
-          triggers: [{ name: "Range", params: ["NearestEnemyOf", 10], negation: true }],
-          requireVocal: false,
-          timer: { name: "MagicMissiles", value: 18 },
-        },
-      ],
+        ],
+      },
       customCodes: [
         {
           location: "trackTargets",

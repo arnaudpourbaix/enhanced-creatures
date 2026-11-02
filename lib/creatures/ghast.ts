@@ -173,7 +173,7 @@ export function ghast(entry: CreatureEntry<Creature>): Creature {
   carrionStench(ghast);
   ghast.setBehavior({
     restHeal: true,
-    abilities: [entry.ability(Ids.CarrionStench)],
+    abilities: { entries: [{ power: entry.spell(Ids.CarrionStench) }] },
   });
   greaterGhastVariant(ghast);
   lacedonVariant(ghast);

@@ -66,7 +66,7 @@ class MountainLionEntry extends CreatureEntry<Cat> {
       },
     });
     mountainLion.setBehavior({
-      abilities: [this.ability(CatIds.MountainLionLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.MountainLionLeap) }] },
       customCodes: [customCodes.hunterCustomCode],
     });
     mountainLion.setAdjustments([{ files: ["ANLION1"], data: { level1: 15 } }]);

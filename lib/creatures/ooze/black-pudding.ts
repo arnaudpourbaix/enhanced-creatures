@@ -106,7 +106,7 @@ class BlackPuddingEntry extends CreatureEntry<Slime> {
     });
     black.setBehavior({
       restHeal: true,
-      abilities: [this.ability(SlimeIds.BlackPuddingSplit)],
+      abilities: { entries: [{ power: this.spell(SlimeIds.BlackPuddingSplit) }] },
     });
     black.setAdjustments([
       {

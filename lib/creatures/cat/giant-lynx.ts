@@ -66,7 +66,7 @@ class GiantLynxEntry extends CreatureEntry<Cat> {
       },
     });
     giantLynx.setBehavior({
-      abilities: [this.ability(CatIds.LynxLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.LynxLeap) }] },
     });
     giantLynx.setAdjustments([{ files: ["CATLYN01", "CB585AN1"], data: { level1: 4 } }]);
     return giantLynx;

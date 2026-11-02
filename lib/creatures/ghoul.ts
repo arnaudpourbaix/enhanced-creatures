@@ -330,7 +330,7 @@ export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
   ]);
   lord.setBehavior({
     restHeal: true,
-    abilities: [entry.ability(Ids.AuraOfEvil)],
+    abilities: { entries: [{ power: entry.spell(Ids.AuraOfEvil) }] },
   });
   lord.setAdjustments([]);
   lord.turnAs = "mummy"; // PHB: turned as a 7 HD monster (the mummy row)

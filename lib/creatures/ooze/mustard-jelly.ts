@@ -99,7 +99,12 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
     });
     mustard.setBehavior({
       restHeal: true,
-      abilities: [this.ability(SlimeIds.MustardJellySplit), this.ability(SlimeIds.ToxicVapors)],
+      abilities: {
+        entries: [
+          { power: this.spell(SlimeIds.MustardJellySplit) },
+          { power: this.spell(SlimeIds.ToxicVapors) },
+        ],
+      },
     });
     mustard.setAdjustments([
       { files: ["PLYJELL1"], data: { script: { location: "None" } } },

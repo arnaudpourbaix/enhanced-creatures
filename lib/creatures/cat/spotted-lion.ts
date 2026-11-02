@@ -65,7 +65,7 @@ class SpottedLionEntry extends CreatureEntry<Cat> {
       },
     });
     spottedLion.setBehavior({
-      abilities: [this.ability(CatIds.SpottedLionLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.SpottedLionLeap) }] },
     });
     spottedLion.setAdjustments([{ files: ["CATLIOWP"], data: { level1: 9 } }]);
     return spottedLion;

@@ -170,7 +170,7 @@ class AnkhegEntry extends CreatureEntry<Ankheg> {
       ],
     });
     ankheg.setBehavior({
-      abilities: [this.ability(Ids.Stream)],
+      abilities: { entries: [{ power: this.spell(Ids.Stream) }] },
     });
     ankheg.setAdjustments([
       { files: ["BDANKH01"], data: { level1: 10 } },

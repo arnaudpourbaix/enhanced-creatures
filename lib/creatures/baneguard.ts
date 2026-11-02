@@ -107,17 +107,21 @@ export function baneguard(entry: CreatureEntry<Creature>): Creature {
   blink(baneguard);
   baneguard.setBehavior({
     restHeal: true,
-    abilities: [
-      {
-        preset: SPELLS.Wizard.MagicMissiles.file,
-        spell: {
-          type: "noDec",
+    abilities: {
+      entries: [
+        {
+          spell: SPELLS.Wizard.MagicMissiles,
+          ability: {
+            spell: {
+              type: "noDec",
+            },
+            requireVocal: false,
+            timer: { name: "MagicMissiles", value: 18 },
+          },
         },
-        requireVocal: false,
-        timer: { name: "MagicMissiles", value: 18 },
-      },
-      entry.ability(Ids.Blink),
-    ],
+        { power: entry.spell(Ids.Blink) },
+      ],
+    },
   });
   baneguard.setAttack({
     ranged: true,

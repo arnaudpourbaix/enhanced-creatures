@@ -243,14 +243,16 @@ class HamadryadEntry extends CreatureEntry<Fey> {
     hamadryad.setBehavior({
       restHeal: true,
       dialog: ["VAELASA"],
-      abilities: [
-        this.ability(FeyIds.InnateDimensionDoor),
-        this.ability(FeyIds.SpeakWithPlants),
-        this.ability(FeyIds.Entangle),
-        this.ability(FeyIds.DryadCharm),
-        this.ability(FeyIds.AnimalFriendship),
-        this.ability(FeyIds.DetectTraps),
-      ],
+      abilities: {
+        entries: [
+          { power: this.spell(FeyIds.InnateDimensionDoor) },
+          { power: this.spell(FeyIds.SpeakWithPlants) },
+          { power: this.spell(FeyIds.Entangle) },
+          { power: this.spell(FeyIds.DryadCharm) },
+          { power: this.spell(FeyIds.AnimalFriendship) },
+          { power: this.spell(FeyIds.DetectTraps) },
+        ],
+      },
       additionalCodes: [this.feyKin.dryadTrackTarget(), this.feyKin.dryadMeleeCondition()],
       customCodes: [
         {

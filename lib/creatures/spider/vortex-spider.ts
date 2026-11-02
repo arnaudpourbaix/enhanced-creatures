@@ -76,17 +76,22 @@ class VortexSpiderEntry extends CreatureEntry<Spider> {
       saveBonus: -2,
     });
     vortex.setBehavior({
-      abilities: [
-        {
-          preset: SPELLS.Wizard.Slow.file,
-          name: "spell.VortexWeb.name",
-          spell: {
-            resource: SPELLS.Innate.VortexWeb.file,
-            type: "force",
+      abilities: {
+        entries: [
+          {
+            spell: SPELLS.Innate.VortexWeb,
+            ability: {
+              preset: SPELLS.Wizard.Slow.file,
+              name: "spell.VortexWeb.name",
+              spell: {
+                resource: SPELLS.Innate.VortexWeb.file,
+                type: "force",
+              },
+              timer: { name: "VortexWeb", value: 2 * Durations.round },
+            },
           },
-          timer: { name: "VortexWeb", value: 2 * Durations.round },
-        },
-      ],
+        ],
+      },
     });
     return vortex;
   }

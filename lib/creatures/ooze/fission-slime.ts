@@ -88,7 +88,7 @@ class FissionSlimeEntry extends CreatureEntry<Slime> {
       restHeal: true,
       // no split ability since it is handled by existing scripts
       // fission slime is not an official monster, so no rule to follow
-      abilities: [this.ability(SlimeIds.ToxicVapors)],
+      abilities: { entries: [{ power: this.spell(SlimeIds.ToxicVapors) }] },
     });
     return fission;
   }

@@ -65,7 +65,7 @@ class LionEntry extends CreatureEntry<Cat> {
       },
     });
     lion.setBehavior({
-      abilities: [this.ability(CatIds.LionLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.LionLeap) }] },
     });
     return lion;
   }

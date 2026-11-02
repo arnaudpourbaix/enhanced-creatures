@@ -70,7 +70,7 @@ class GargantuanSpiderEntry extends CreatureEntry<Spider> {
       targetPriorities: [{ status: ["HeldAndNotPoisoned"] }],
     });
     gargantuan.setBehavior({
-      abilities: [this.ability(SpiderIds.WebTangle)],
+      abilities: { entries: [{ power: this.spell(SpiderIds.WebTangle) }] },
     });
     return gargantuan;
   }

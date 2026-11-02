@@ -62,19 +62,23 @@ class StoneGolemEntry extends CreatureEntry<Golem> {
     stone.createFists({ diceThrown: 3, diceSize: 8 });
     stone.setBehavior({
       restHeal: true,
-      abilities: [
-        {
-          preset: SPELLS.Wizard.Slow.file,
-          spell: {
-            type: "reallyForce",
-            castOnSelf: true,
-            remove: true,
+      abilities: {
+        entries: [
+          {
+            spell: SPELLS.Wizard.Slow,
+            ability: {
+              spell: {
+                type: "reallyForce",
+                castOnSelf: true,
+                remove: true,
+              },
+              requireVocal: false,
+              range: 10,
+              timer: { name: "Slow", value: 12 },
+            },
           },
-          requireVocal: false,
-          range: 10,
-          timer: { name: "Slow", value: 12 },
-        },
-      ],
+        ],
+      },
     });
     return stone;
   }

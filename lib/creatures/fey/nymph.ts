@@ -235,67 +235,85 @@ class NymphEntry extends CreatureEntry<Fey> {
     nymph.addTrait({ immunities: ["magicResistance"] });
     nymph.setAttack({ melee: false });
     nymph.setBehavior({
-      abilities: [
-        this.ability(FeyIds.BlindingBeauty),
-        this.ability(FeyIds.PriestDimensionDoor),
-        {
-          preset: SPELLS.Priest.CallWoodlandBeeings.file,
-          spell: {
-            type: "force",
-            remove: true,
+      abilities: {
+        entries: [
+          { power: this.spell(FeyIds.BlindingBeauty) },
+          { power: this.spell(FeyIds.PriestDimensionDoor) },
+          {
+            spell: SPELLS.Priest.CallWoodlandBeeings,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.Bless.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.Bless,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.Barkskin.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.Barkskin,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.CallLightning.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.CallLightning,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.SummonInsects.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.SummonInsects,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.Entangle.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.Entangle,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        {
-          preset: SPELLS.Priest.CharmPersonOrAnimal.file,
-          spell: {
-            type: "force",
-            remove: true,
+          {
+            spell: SPELLS.Priest.CharmPersonOrAnimal,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-        this.ability(FeyIds.AnimalFriendship),
-        {
-          preset: SPELLS.Priest.CureLightWounds.file,
-          spell: {
-            type: "force",
-            remove: true,
+          { power: this.spell(FeyIds.AnimalFriendship) },
+          {
+            spell: SPELLS.Priest.CureLightWounds,
+            ability: {
+              spell: {
+                type: "force",
+                remove: true,
+              },
+            },
           },
-        },
-      ],
+        ],
+      },
       additionalCodes: [this.nymphTrackTarget()],
     });
     nymph.setAdjustments([

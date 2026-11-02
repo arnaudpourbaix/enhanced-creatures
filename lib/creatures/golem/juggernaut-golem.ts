@@ -57,7 +57,7 @@ class JuggernautGolemEntry extends CreatureEntry<Golem> {
     juggernaut.createFists({ diceThrown: 2, diceSize: 6 });
     juggernaut.setBehavior({
       restHeal: true,
-      abilities: [this.ability(GolemIds.Charge)],
+      abilities: { entries: [{ power: this.spell(GolemIds.Charge) }] },
     });
     return juggernaut;
   }

@@ -132,7 +132,9 @@ export function banshee(entry: CreatureEntry<Creature>): Creature {
   });
   banshee.setBehavior({
     restHeal: true,
-    abilities: [entry.ability(Ids.BansheeFearAura), entry.ability(Ids.DeathWail)],
+    abilities: {
+      entries: [{ power: entry.spell(Ids.BansheeFearAura) }, { power: entry.spell(Ids.DeathWail) }],
+    },
   });
   banshee.turnAs = "special";
   return banshee;

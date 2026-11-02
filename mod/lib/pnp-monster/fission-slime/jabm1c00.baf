@@ -428,6 +428,7 @@ END
 // Toxic Vapors
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -444,6 +445,7 @@ END
 
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -460,6 +462,7 @@ END
 
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -477,6 +480,7 @@ END
 // Toxic Vapors
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -492,6 +496,7 @@ END
 
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -507,6 +512,7 @@ END
 
 IF
 	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

@@ -432,38 +432,17 @@ class SirineEntry extends CreatureEntry<Fey> {
       restHeal: true,
       canPolymorph: true,
       dialog: ["MEIALA", "NTSILUA", "SIL", "LARRIA"],
-      abilities: [
-        {
-          preset: SPELLS.Wizard.ImprovedInvisibility.file,
-          spell: {
-            type: "force",
-            remove: true,
+      abilities: {
+        entries: [
+          {
+            spell: SPELLS.Wizard.ImprovedInvisibility,
+            ability: { spell: { type: "force", remove: true }, disableInterrupt: true },
           },
-          disableInterrupt: true,
-        },
-        this.ability(FeyIds.CharmSong),
-        this.ability(FeyIds.TouchOfTranquility),
-        this.ability(FeyIds.FogCloud),
-        ...abilityFactory.polymorphSelf({
-          triggers: [
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(FeyIds.CharmSong).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(FeyIds.FogCloud).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Wizard.ImprovedInvisibility.file],
-              negation: true,
-            },
-          ],
-        }),
-      ],
+          { power: this.spell(FeyIds.CharmSong) },
+          { power: this.spell(FeyIds.TouchOfTranquility) },
+          { power: this.spell(FeyIds.FogCloud) },
+        ],
+      },
       customCodes: [
         {
           location: "attack",
@@ -490,6 +469,31 @@ class SirineEntry extends CreatureEntry<Fey> {
             },
           ],
         },
+      ],
+    });
+    // Polymorph Self's forms are given by its cast, never memorized: no score places them, and
+    // its triggers keep it for when the sirine's own spells are spent
+    sirine.setBehavior({
+      abilities: [
+        ...abilityFactory.polymorphSelf({
+          triggers: [
+            {
+              name: "HaveSpellRES",
+              params: [this.spell(FeyIds.CharmSong).file],
+              negation: true,
+            },
+            {
+              name: "HaveSpellRES",
+              params: [this.spell(FeyIds.FogCloud).file],
+              negation: true,
+            },
+            {
+              name: "HaveSpellRES",
+              params: [SPELLS.Wizard.ImprovedInvisibility.file],
+              negation: true,
+            },
+          ],
+        }),
       ],
     });
     sirine.setAdjustments([

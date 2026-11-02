@@ -112,7 +112,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
       diceSize: 10,
     });
     lesser.setBehavior({
-      abilities: [this.ability(Ids.Petrification)],
+      abilities: { entries: [{ power: this.spell(Ids.Petrification) }] },
     });
     return lesser;
   }
@@ -228,7 +228,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
       },
     });
     greater.setBehavior({
-      abilities: [this.ability(Ids.Petrification)],
+      abilities: { entries: [{ power: this.spell(Ids.Petrification) }] },
     });
     greater.setAdjustments([
       {

@@ -117,7 +117,7 @@ class BoneGolemEntry extends CreatureEntry<BoneGolem> {
     bone.createFists({ diceThrown: 3, diceSize: 8, damageType: AbilityDamageTypeEnum.Slashing });
     bone.setBehavior({
       restHeal: true,
-      abilities: [this.ability(GolemIds.HideousLaugh)],
+      abilities: { entries: [{ power: this.spell(GolemIds.HideousLaugh) }] },
     });
     bone.setAdjustments([
       {

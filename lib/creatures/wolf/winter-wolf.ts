@@ -145,7 +145,7 @@ class WinterWolfEntry extends CreatureEntry<WinterWolf> {
       diceThrown: 2,
       diceSize: 4,
     });
-    winter.setBehavior({ abilities: [this.ability(WolfIds.StreamOfFrost)] });
+    winter.setBehavior({ abilities: { entries: [{ power: this.spell(WolfIds.StreamOfFrost) }] } });
     return winter;
   }
 }

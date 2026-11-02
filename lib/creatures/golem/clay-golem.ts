@@ -179,7 +179,7 @@ class ClayGolemEntry extends CreatureEntry<ClayGolem> {
     clay.createFists({ diceThrown: 3, diceSize: 10 });
     clay.setBehavior({
       restHeal: true,
-      abilities: [this.ability(GolemIds.Haste)],
+      abilities: { entries: [{ power: this.spell(GolemIds.Haste) }] },
     });
     clay.setAdjustments([
       { files: ["OBSGOL01", "IGOLEM01"], data: { script: { location: "None" } } },

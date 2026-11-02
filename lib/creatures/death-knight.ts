@@ -284,48 +284,54 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
   knight.setBehavior({
     restHeal: true,
     dialog: ["AC#DTDKN"],
-    abilities: [
-      entry.ability(Ids.DeathKnightFearAura),
-      entry.preset(SPELLS.Wizard.DetectInvisibility.file),
-      {
-        preset: SPELLS.Wizard.PowerWordKill.file,
-        actionsAfter: actionFactory.removeSpell([
-          SPELLS.Wizard.PowerWordBlind,
-          SPELLS.Wizard.PowerWordStun,
-        ]),
-      },
-      {
-        preset: SPELLS.Wizard.PowerWordStun.file,
-        targets: CommonTargetLists.PreferringStrong,
-        actionsAfter: actionFactory.removeSpell([
-          SPELLS.Wizard.PowerWordKill,
-          SPELLS.Wizard.PowerWordBlind,
-        ]),
-        probability: 10,
-      },
-      {
-        preset: SPELLS.Wizard.PowerWordBlind.file,
-        targets: CommonTargetLists.PreferringStrong,
-        actionsAfter: actionFactory.removeSpell([
-          SPELLS.Wizard.PowerWordKill,
-          SPELLS.Wizard.PowerWordStun,
-        ]),
-        probability: 5,
-      },
-      entry.preset(SPELLS.Wizard.DispelMagic.file),
-      entry.ability(Ids.Fireball),
-      {
-        preset: NEW_SPELLS.WizardSymbolOfPain,
-        actionsAfter: actionFactory.removeSpell([SPELLS.Wizard.SymbolFear]),
-        probability: 70,
-      },
-      {
-        preset: SPELLS.Wizard.SymbolFear.file,
-        actionsAfter: actionFactory.removeSpellRES([NEW_SPELLS.WizardSymbolOfPain]),
-        probability: 15,
-      },
-      entry.ability(Ids.WallOfIce),
-    ],
+    abilities: {
+      entries: [
+        { power: entry.spell(Ids.DeathKnightFearAura) },
+        {
+          spell: SPELLS.Wizard.PowerWordKill,
+          ability: {
+            actionsAfter: actionFactory.removeSpell([
+              SPELLS.Wizard.PowerWordBlind,
+              SPELLS.Wizard.PowerWordStun,
+            ]),
+          },
+        },
+        {
+          spell: SPELLS.Wizard.PowerWordStun,
+          ability: {
+            targets: CommonTargetLists.PreferringStrong,
+            actionsAfter: actionFactory.removeSpell([
+              SPELLS.Wizard.PowerWordKill,
+              SPELLS.Wizard.PowerWordBlind,
+            ]),
+          },
+        },
+        {
+          spell: SPELLS.Wizard.PowerWordBlind,
+          ability: {
+            targets: CommonTargetLists.PreferringStrong,
+            actionsAfter: actionFactory.removeSpell([
+              SPELLS.Wizard.PowerWordKill,
+              SPELLS.Wizard.PowerWordStun,
+            ]),
+          },
+        },
+        { power: entry.spell(Ids.Fireball) },
+        {
+          spell: NEW_SPELLS.WizardSymbolOfPain,
+          ability: {
+            actionsAfter: actionFactory.removeSpell([SPELLS.Wizard.SymbolFear]),
+          },
+        },
+        {
+          spell: SPELLS.Wizard.SymbolFear,
+          ability: {
+            actionsAfter: actionFactory.removeSpellRES([NEW_SPELLS.WizardSymbolOfPain]),
+          },
+        },
+        { power: entry.spell(Ids.WallOfIce) },
+      ],
+    },
     customCodes: [
       {
         location: "init",

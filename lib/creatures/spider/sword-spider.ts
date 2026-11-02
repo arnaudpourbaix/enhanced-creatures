@@ -161,10 +161,12 @@ class SwordSpiderEntry extends CreatureEntry<SwordSpider> {
       slot: "SHIELD",
     });
     sword.setBehavior({
-      abilities: [
-        this.ability(SpiderIds.LeapImpalingAttack),
-        this.ability(SpiderIds.LightningLeapImpalingAttack),
-      ],
+      abilities: {
+        entries: [
+          { power: this.spell(SpiderIds.LeapImpalingAttack) },
+          { power: this.spell(SpiderIds.LightningLeapImpalingAttack) },
+        ],
+      },
     });
     sword.setAdjustments([
       { files: ["PLYSPID"], data: { script: { location: "None" } } },

@@ -96,7 +96,7 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
     });
     white.setBehavior({
       restHeal: true,
-      abilities: [this.ability(SlimeIds.WhitePuddingSplit)],
+      abilities: { entries: [{ power: this.spell(SlimeIds.WhitePuddingSplit) }] },
     });
     white.setAdjustments([
       {

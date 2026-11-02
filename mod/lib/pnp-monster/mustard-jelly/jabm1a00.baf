@@ -425,6 +425,107 @@ THEN
 		NoAction()
 END
 
+// Toxic Vapors
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
+// Toxic Vapors
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
+IF
+	HaveSpellRES("jask0800")
+	RandomNumGT(712,71)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!General(LastSeenBy(Myself),WEAPON)
+	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
+	Range(LastSeenBy(Myself),10)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jask0800",Myself)
+END
+
 // Slime Split
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -434,101 +535,6 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm1a00",Myself)
 		RemoveSpellRES("jasm1a00")
-END
-
-// Toxic Vapors
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
-END
-
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
-END
-
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
-END
-
-// Toxic Vapors
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
-END
-
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
-END
-
-IF
-	HaveSpellRES("jask0800")
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!General(LastSeenBy(Myself),WEAPON)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-	Range(LastSeenBy(Myself),10)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jask0800",Myself)
 END
 
 // Attack HeldNearby enemy

@@ -142,7 +142,12 @@ class CheetahEntry extends CreatureEntry<Cheetah> {
       },
     });
     cheetah.setBehavior({
-      abilities: [this.ability(CatIds.CheetahLeap), this.ability(CatIds.BurstOfSpeed)],
+      abilities: {
+        entries: [
+          { power: this.spell(CatIds.CheetahLeap) },
+          { power: this.spell(CatIds.BurstOfSpeed) },
+        ],
+      },
       customCodes: [customCodes.hunterCustomCode],
     });
     return cheetah;

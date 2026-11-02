@@ -308,7 +308,7 @@ export function mummy(entry: CreatureEntry<Creature>): Creature {
   });
   mummy.setBehavior({
     restHeal: true,
-    abilities: [entry.ability(Ids.MummyFearAura)],
+    abilities: { entries: [{ power: entry.spell(Ids.MummyFearAura) }] },
   });
   mummy.setAdjustments([
     { files: ["BDMUMMY"], data: { level1: 9, strength: 18, exceptionalStrength: 100 } },
@@ -401,7 +401,7 @@ export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
   greater.setBehavior({
     restHeal: true,
     abilities: {
-      entries: [{ abilityId: Ids.GreaterMummyFearAura, insertFirst: true }],
+      entries: [{ abilityId: Ids.GreaterMummyFearAura }],
     },
     dialog: ["mumgre01"],
     customCodes: [

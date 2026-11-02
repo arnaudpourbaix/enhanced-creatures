@@ -66,7 +66,7 @@ class JaguarEntry extends CreatureEntry<Cat> {
       },
     });
     jaguar.setBehavior({
-      abilities: [this.ability(CatIds.JaguarLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.JaguarLeap) }] },
       customCodes: [customCodes.hunterCustomCode],
     });
     jaguar.setAdjustments([

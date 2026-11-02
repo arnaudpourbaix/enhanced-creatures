@@ -81,11 +81,13 @@ class DryadEntry extends CreatureEntry<Fey> {
     dryad.setBehavior({
       restHeal: true,
       dialog: ["CDryad", "Ulene", "L#APEST"],
-      abilities: [
-        this.ability(FeyIds.InnateDimensionDoor),
-        this.ability(FeyIds.SpeakWithPlants),
-        this.ability(FeyIds.DryadCharm),
-      ],
+      abilities: {
+        entries: [
+          { power: this.spell(FeyIds.InnateDimensionDoor) },
+          { power: this.spell(FeyIds.SpeakWithPlants) },
+          { power: this.spell(FeyIds.DryadCharm) },
+        ],
+      },
       additionalCodes: [this.feyKin.dryadTrackTarget(), this.feyKin.dryadMeleeCondition()],
       customCodes: [
         {

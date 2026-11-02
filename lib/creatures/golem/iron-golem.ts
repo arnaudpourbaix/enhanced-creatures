@@ -158,7 +158,7 @@ class IronGolemEntry extends CreatureEntry<IronGolem> {
     iron.createFists({ diceThrown: 4, diceSize: 10 });
     iron.setBehavior({
       restHeal: true,
-      abilities: [this.ability(GolemIds.CloudOfPoisonousGas)],
+      abilities: { entries: [{ power: this.spell(GolemIds.CloudOfPoisonousGas) }] },
     });
     iron.setAdjustments([
       {

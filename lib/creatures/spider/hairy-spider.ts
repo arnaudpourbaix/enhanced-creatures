@@ -65,17 +65,20 @@ class HairySpiderEntry extends CreatureEntry<Spider> {
     });
     hairy.addTrait({ immunities: ["crushingDamageResistance"] });
     hairy.setBehavior({
-      abilities: [
-        {
-          preset: SPELLS.Wizard.DetectInvisibility.file,
-          spell: {
-            type: "force",
+      abilities: {
+        entries: [
+          {
+            spell: SPELLS.Wizard.DetectInvisibility,
+            ability: {
+              spell: {
+                type: "force",
+              },
+              timer: { name: "detectInvisibility", value: 18 },
+              requireVocal: false,
+            },
           },
-          timer: { name: "detectInvisibility", value: 18 },
-          requireVocal: false,
-          probability: 30,
-        },
-      ],
+        ],
+      },
     });
     hairy.setAdjustments([{ files: ["BDSPIDER"], data: { script: { location: "None" } } }]);
     return hairy;

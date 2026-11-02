@@ -443,6 +443,7 @@ END
 // Blink
 IF
 	HaveSpellRES("jasm0e00")
+	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -458,6 +459,7 @@ END
 
 IF
 	HaveSpellRES("jasm0e00")
+	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -473,6 +475,7 @@ END
 
 IF
 	HaveSpellRES("jasm0e00")
+	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -488,6 +491,7 @@ END
 
 IF
 	HaveSpellRES("jasm0e00")
+	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthFarthestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

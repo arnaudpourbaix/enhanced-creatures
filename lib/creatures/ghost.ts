@@ -187,7 +187,7 @@ export function ghost(entry: CreatureEntry<Creature>): Creature {
     },
   });
   ghost.setBehavior({
-    abilities: [entry.ability(Ids.GhostFearAura)],
+    abilities: { entries: [{ power: entry.spell(Ids.GhostFearAura) }] },
   });
   ghost.setAdjustments([]);
   return ghost;

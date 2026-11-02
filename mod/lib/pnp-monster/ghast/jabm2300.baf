@@ -338,6 +338,7 @@ END
 // Carrion Stench
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -355,6 +356,7 @@ END
 
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -372,6 +374,7 @@ END
 
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -390,6 +393,7 @@ END
 // Carrion Stench
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -406,6 +410,7 @@ END
 
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -422,6 +427,7 @@ END
 
 IF
 	HaveSpellRES("jasm2301")
+	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

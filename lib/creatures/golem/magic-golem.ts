@@ -166,7 +166,7 @@ class MagicGolemEntry extends CreatureEntry<MagicGolem> {
     magic.createMagicalBlast();
     magic.setBehavior({
       restHeal: true,
-      //abilities: [this.ability(GolemIds.WildMagicFlare)],
+      //abilities: { entries: [{ power: this.spell(GolemIds.WildMagicFlare) }] },
     });
     magic.setAdjustments([]);
     return magic;

@@ -65,7 +65,7 @@ class WildTigerEntry extends CreatureEntry<Cat> {
       },
     });
     wildTiger.setBehavior({
-      abilities: [this.ability(CatIds.TigerLeap)],
+      abilities: { entries: [{ power: this.spell(CatIds.TigerLeap) }] },
     });
     return wildTiger;
   }

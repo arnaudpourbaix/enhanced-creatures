@@ -1535,19 +1535,17 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
   const dive = batDive(bat);
   cre.setBehavior({
     restHeal: true,
-    abilities: [
-      ...mist.abilities,
-      ...(age.abilities?.() ?? []),
-      ...[ownForm, bat, swarm, wolf].map((spell) => {
-        if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
-        return spell.ability;
-      }),
-      dive.takeOff,
-    ],
+    // cast by hand: Mist Form escapes two ways, the dive takes off from its bat form, and an
+    // age's own powers (Bodhi's SCS spells) have no profile to score
+    abilities: [...mist.abilities, ...(age.abilities?.() ?? []), dive.takeOff],
     customCodes: [mist.flee, BAT_FLEE, dive.flight, ...sunlightEscape(age)],
   });
-  // at-will powers take their place among its spells by score (see AbilityOrderService)
-  cre.setBehavior({ abilities: { entries: [{ power: dominate }, { power: control }] } });
+  // its powers take their place among its spells by score (see AbilityOrderService)
+  cre.setBehavior({
+    abilities: {
+      entries: [ownForm, bat, swarm, wolf, dominate, control].map((power) => ({ power })),
+    },
+  });
   // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
   const renamed = cre.files
     .map((f) => f.name)

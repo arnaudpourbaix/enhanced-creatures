@@ -124,7 +124,7 @@ class PhaseSpiderEntry extends CreatureEntry<PhaseSpider> {
       castSpells: [{ spell: this.spell(SpiderIds.PhaseOut).file, delay: 2, doc: "both" }],
     });
     phase.setBehavior({
-      abilities: [this.ability(SpiderIds.PhaseOut)],
+      abilities: { entries: [{ power: this.spell(SpiderIds.PhaseOut) }] },
     });
     phase.setAdjustments([
       {

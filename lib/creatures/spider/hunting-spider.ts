@@ -60,7 +60,7 @@ class HuntingSpiderEntry extends CreatureEntry<Spider> {
       poisonType: "A",
       saveBonus: 2,
     });
-    hunting.setBehavior({ abilities: [this.ability(SpiderIds.LeapAttack)] });
+    hunting.setBehavior({ abilities: { entries: [{ power: this.spell(SpiderIds.LeapAttack) }] } });
     return hunting;
   }
 }

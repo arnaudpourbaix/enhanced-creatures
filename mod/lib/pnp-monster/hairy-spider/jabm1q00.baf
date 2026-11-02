@@ -433,7 +433,6 @@ IF
 	Detect([PC])
 	!See([PC])
 	!CheckSpellState(Myself,DETECT_INVISIBILITY)
-	RandomNumGT(800,560)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
