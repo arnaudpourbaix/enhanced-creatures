@@ -266,28 +266,28 @@ describe("scripted variants", () => {
     expect(child.scripted).toBe(false);
   });
 
-  it("an adjust entry adding a spell the variant lacks throws", () => {
-    expect(() =>
-      variantFactory.add(casterCreature(), NECRO, {
-        data: { level1: 9 },
-        files: ["GRON", "DX#DALID"],
-        adjust: [{ files: ["DX#DALID"], data: { spells: { memorized: [{ file: NEW_SPELL }] } } }],
-      }),
-    ).toThrow(/variant "necro": 'DX#DALID' adds spells SPWI212 - declare a sub-variant/);
+  it("an adjust entry adding a spell the variant lacks is reported", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { level1: 9 },
+      files: ["GRON", "DX#DALID"],
+      adjust: [{ files: ["DX#DALID"], data: { spells: { memorized: [{ file: NEW_SPELL }] } } }],
+    });
+    expect(variant.spellErrors).toEqual([
+      `variant "necro": 'DX#DALID' adds spells SPWI212 - declare a sub-variant`,
+    ]);
   });
 
   it("an adjust entry giving more uses of a variant spell is allowed", () => {
-    expect(() =>
-      variantFactory.add(casterCreature(), NECRO, {
-        data: { spells: { memorized: [{ file: NEW_SPELL }] } },
-        files: ["GRON", "GMAYOR"],
-        adjust: [
-          {
-            files: ["GMAYOR"],
-            data: { spells: { memorized: [{ file: NEW_SPELL, memorizedCount: 2 }] } },
-          },
-        ],
-      }),
-    ).not.toThrow();
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: NEW_SPELL }] } },
+      files: ["GRON", "GMAYOR"],
+      adjust: [
+        {
+          files: ["GMAYOR"],
+          data: { spells: { memorized: [{ file: NEW_SPELL, memorizedCount: 2 }] } },
+        },
+      ],
+    });
+    expect(variant.spellErrors).toEqual([]);
   });
 });

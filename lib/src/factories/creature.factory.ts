@@ -25,6 +25,8 @@ import { ImmunityName } from "../model/final/immunity";
 import { Item } from "../model/spell-item/spell-item";
 import abilityOrderService from "../services/baf/ability-order.service";
 import abilityService from "../services/baf/ability.service";
+import scriptPlanService from "../services/baf/script-plan.service";
+import scriptViewService, { HandWrittenBehavior } from "../services/baf/script-view.service";
 import creatureService from "../services/creature.service";
 import descriptionService from "../services/doc/description.service";
 import immunityService from "../services/effects/immunity.service";
@@ -154,6 +156,26 @@ class CreatureFactory {
     cre.behavior.abilities.push(...abilityService.getAbilities(abilityOrderService.resolve(cre)));
   }
 
+  /**
+   * A variant with spells of its own gets its own script, resolved apart (see ScriptViewService):
+   * the hand-written behavior is kept before the creature's own resolution, which then covers
+   * every variant's abilities. Undefined when every file runs the base script.
+   */
+  private takeHandWritten(creature: Creature): HandWrittenBehavior | undefined {
+    if (!scriptPlanService.hasScriptedVariant(creature)) return undefined;
+    const handWritten = scriptViewService.snapshot(creature);
+    scriptViewService.addVariantBehaviors(creature);
+    return handWritten;
+  }
+
+  private planScripts(creature: Creature, handWritten: HandWrittenBehavior | undefined): void {
+    creature.scripts = scriptPlanService.plan(creature);
+    if (!handWritten) return;
+    for (const script of creature.scripts) {
+      script.view = scriptViewService.build(creature, script, handWritten);
+    }
+  }
+
   checkValidation(creature: Creature) {
     if (creature.valid !== undefined)
       throw new Error(
@@ -197,9 +219,11 @@ class CreatureFactory {
     }
     if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
+    const handWritten = this.takeHandWritten(creature);
     this.resolveAbilities(creature);
     atWillService.checkDuplicates(creature);
     atWillService.applyCooldowns(creature);
+    this.planScripts(creature, handWritten);
     creatureService.checkSpellAbilities(creature);
     creatureService.checkDuplicateAbilities(creature);
     const dialogValid = creatureService.checkDialog(creature);

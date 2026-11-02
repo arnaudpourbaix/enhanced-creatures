@@ -67,6 +67,10 @@ class ScriptPlanService {
     return scripts;
   }
 
+  hasScriptedVariant(creature: Creature): boolean {
+    return this.scriptedVariants(creature.variants).length > 0;
+  }
+
   /** Scripted variants, depth first: a sub-variant right after its parent. */
   private scriptedVariants(variants: Variant[]): Variant[] {
     return variants.flatMap((v) => [

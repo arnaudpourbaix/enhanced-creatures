@@ -31,7 +31,9 @@ class VariantFactory {
 
     // Stamp the variant onto every entry so the documentation can group the cards under it.
     const adjustments = buildAdjustments(input, base, label);
-    assertNoNewAdjustSpells(adjustments, new Set([...inherited, ...own]), label);
+    variant.spellErrors.push(
+      ...adjustSpellErrors(adjustments, new Set([...inherited, ...own]), label),
+    );
     creatureFactory.setAdjustments(
       cre,
       adjustments.map((a) => ({ ...a, variant })),
@@ -139,22 +141,23 @@ function knownSpellFiles(cre: Creature, variant: Variant | undefined): Set<strin
 
 /**
  * One file of a variant memorizing spells the variant doesn't would bring them to the variant's
- * script, which its other files run too: that file is a sub-variant of its own.
+ * script, which its other files run too: that file is a sub-variant of its own. Reported at
+ * validation (see CreatureService.checkAdjustmentSpells).
  */
-function assertNoNewAdjustSpells(
+function adjustSpellErrors(
   adjustments: PartialCreatureAdjustment[],
   known: Set<string>,
   label: string,
-): void {
-  for (const adjustment of adjustments) {
+): string[] {
+  return adjustments.flatMap((adjustment) => {
     const added = [...creatureService.declaredSpellFiles(adjustment.data?.spells)]
       .filter((f) => !known.has(f))
       .sort((a, b) => a.localeCompare(b));
-    if (!added.length) continue;
-    throw new Error(
+    if (!added.length) return [];
+    return [
       `variant "${label}": '${adjustment.files.join(", ")}' adds spells ${added.join(", ")} - declare a sub-variant`,
-    );
-  }
+    ];
+  });
 }
 
 function linkToParent(cre: Creature, variant: Variant, members: string[]): void {

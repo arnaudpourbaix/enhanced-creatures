@@ -53,6 +53,8 @@ export interface VariantInput {
 export class Variant {
   /** Sub-variants derived from this one (documentation renders them nested). */
   readonly children: Variant[] = [];
+  /** Its files adding spells it doesn't have: refused at validation (see CreatureService) */
+  readonly spellErrors: string[] = [];
 
   constructor(
     private readonly creature: Creature,

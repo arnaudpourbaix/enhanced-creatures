@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: regenerate for category rolls and mirror image counters
 - Variants: detect variants bringing new spells or abilities
 - Scripts: plan one script per scripted variant
+- Scripts: build a creature view per script
 
 ### Changed
 
