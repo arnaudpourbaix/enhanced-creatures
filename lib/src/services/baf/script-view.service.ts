@@ -6,6 +6,10 @@ import creatureFactory from "../../factories/creature.factory";
 import atWillService from "../at-will.service";
 import creatureService from "../creature.service";
 import { CreatureScript } from "./script-plan.service";
+import translationService from "../translation.service";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { COVER_SPELLS } from "../../../config/spells/cover-spells";
+import { spellFiles } from "../../model/spell-item/spell-reference";
 
 /** The triggers an ability checks its spell is memorized with (see AbilityService) */
 const MEMORIZED_CHECKS = new Set(["HaveSpell", "HaveSpellRES"]);
@@ -50,6 +54,34 @@ class ScriptViewService {
     atWillService.applyCooldowns(view);
     this.dropUnmemorized(creature, view);
     return view;
+  }
+
+  /**
+   * The script's cast order, for the log: what the creature does under cover (Invisibility,
+   * Sanctuary), then otherwise. Each spell once, at its first place.
+   */
+  describe(view: Creature): string[] {
+    const names = (abilities: CreatureAbility[]) => [
+      ...new Set(abilities.map((a) => translationService.from(a.name))),
+    ];
+    const order = names(view.behavior.abilities);
+    const covered = names(view.behavior.coveredAbilities);
+    if (!covered.length) return order.length ? [`Cast order: ${order.join(", ")}.`] : [];
+    return [
+      `While ${this.cover(view)}: ${covered.join(", ")}, then hold without attacking.`,
+      `Otherwise: ${order.join(", ")}.`,
+    ];
+  }
+
+  private cover(view: Creature): string {
+    const memorized = creatureService.memorizedSpellFiles(view).map((f) => f.toUpperCase());
+    const sanctuary = spellFiles(SPELLS.Priest.Sanctuary).map((f) => f.toUpperCase());
+    const covers = memorized.filter((f) => COVER_SPELLS.includes(f));
+    const states = [
+      ...(covers.some((f) => !sanctuary.includes(f)) ? ["invisible"] : []),
+      ...(covers.some((f) => sanctuary.includes(f)) ? ["under Sanctuary"] : []),
+    ];
+    return states.join(" or ");
   }
 
   /** The variant and its ancestors, root first: each adds its abilities to its parent's. */

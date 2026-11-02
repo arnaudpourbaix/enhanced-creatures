@@ -4,7 +4,8 @@ import { Creature } from "../../model/creature/creature";
 import { BEHAVIOR_DEFAULT } from "../../model/creature/behavior";
 import { MainCreatureData } from "../../model/creature/data";
 import { CreatureAttack } from "../../model/creature/attack";
-import { RawCreatureAbility } from "../../model/creature/ability";
+import { CreatureAbility, RawCreatureAbility } from "../../model/creature/ability";
+import { SPELLS } from "../../../config/spells/spell-database";
 import creatureFactory from "../../factories/creature.factory";
 import abilityService from "./ability.service";
 import creatureService from "../creature.service";
@@ -142,5 +143,53 @@ describe("scriptViewService.build", () => {
       view.behavior.abilities.find((a) => a.resource === POWER)?.timer;
     expect(powerTimer(base)).toBeUndefined();
     expect(powerTimer(necro)).toEqual({ name: `ATWILL_${POWER}`, value: expect.any(Number) });
+  });
+});
+
+describe("scriptViewService.describe", () => {
+  const named = (...names: string[]) => names.map((name) => ({ name }) as CreatureAbility);
+  function described(p: { memorized: string[]; covered: string[]; order: string[] }) {
+    const view = {
+      data: { spells: { memorized: p.memorized.map((file) => ({ file })) } },
+      adjustments: [],
+      behavior: { abilities: named(...p.order), coveredAbilities: named(...p.covered) },
+    } as unknown as Creature;
+    return scriptViewService.describe(view);
+  }
+
+  it("tells what an invisible caster does, then its order otherwise", () => {
+    expect(
+      described({
+        memorized: [SPELLS.Wizard.Invisibility.file],
+        covered: ["spell.Haste.name"],
+        order: ["spell.Invisibility.name", "spell.Haste.name", "spell.Sleep.name"],
+      }),
+    ).toEqual([
+      "While invisible: Haste, then hold without attacking.",
+      "Otherwise: Invisibility, Haste, Sleep.",
+    ]);
+  });
+
+  it("names Sanctuary as the cover of a priest", () => {
+    const [covered] = described({
+      memorized: [SPELLS.Priest.Sanctuary.file],
+      covered: ["spell.Haste.name"],
+      order: ["spell.Sleep.name"],
+    });
+    expect(covered).toBe("While under Sanctuary: Haste, then hold without attacking.");
+  });
+
+  it("lists each spell once, its first place (Mirror Image passes come back later)", () => {
+    expect(
+      described({
+        memorized: [],
+        covered: [],
+        order: ["spell.Sleep.name", "spell.Haste.name", "spell.Sleep.name"],
+      }),
+    ).toEqual(["Cast order: Sleep, Haste."]);
+  });
+
+  it("says nothing without abilities", () => {
+    expect(described({ memorized: [], covered: [], order: [] })).toEqual([]);
   });
 });

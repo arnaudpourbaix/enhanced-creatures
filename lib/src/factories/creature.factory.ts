@@ -170,9 +170,13 @@ class CreatureFactory {
 
   private planScripts(creature: Creature, handWritten: HandWrittenBehavior | undefined): void {
     creature.scripts = scriptPlanService.plan(creature);
-    if (!handWritten) return;
     for (const script of creature.scripts) {
-      script.view = scriptViewService.build(creature, script, handWritten);
+      if (handWritten) script.view = scriptViewService.build(creature, script, handWritten);
+      const lines = scriptViewService.describe(script.view);
+      if (!lines.length) continue;
+      const variant = script.variant ? ` (${script.variant.label})` : "";
+      logService.log(`script ${script.name}${variant}:`);
+      for (const line of lines) logService.log(`    ${line}`);
     }
   }
 
