@@ -46,11 +46,17 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpell(SPELLS.Wizard.MelfAcidArrow, {
     targets: [...CommonTargetLists.Spellcasters, ...CommonTargetLists.Enemies],
   }),
-  // against Mirror Image, their counter pass comes first (see MIRROR_COUNTERS)
+  // mirrored spellcasters first, for a hand-placed caster: one the cast order places has its
+  // counter pass instead, and skips them here (see MIRROR_COUNTERS, RawCreatureAbility.mirrorTarget)
   ...presetFactory.createSpells(
     [SPELLS.Wizard.MordenkainenForceMissiles, SPELLS.Wizard.MagicMissiles],
     {
-      targets: CommonTargetLists.Enemies,
+      targets: [
+        ...targetService.combineListWithTriggers(CommonTargetLists.Spellcasters, [
+          triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
+        ]),
+        ...CommonTargetLists.Enemies,
+      ],
     },
   ),
   ...presetFactory.createSpell(SPELLS.Priest.CallLightning, {

@@ -84,14 +84,29 @@ class AbilityService {
     return this.dedupeTargetLists(withChecks);
   }
 
-  /** Every target list's mirrored target check, see RawCreatureAbility.mirrorTarget. */
+  /**
+   * Every target list's mirrored target check, see RawCreatureAbility.mirrorTarget. With `avoid`,
+   * a list only taking mirrored targets (a hand-placed caster's Magic Missile preset) is dropped:
+   * it could never match, and the cast order's counter pass aims at them instead.
+   */
   private mirrorChecks(
     targets: TargetList[] | undefined,
     mirrorTarget: RawCreatureAbility["mirrorTarget"],
   ): TargetList[] | undefined {
     if (!targets || !mirrorTarget) return targets;
-    const check = triggerFactory.stateCheck("STATE_MIRRORIMAGE", mirrorTarget === "avoid");
-    return targets.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), check] }));
+    const avoid = mirrorTarget === "avoid";
+    const takesMirrored = (t: TargetList) =>
+      (t.triggers ?? []).some(
+        (trigger) =>
+          "name" in trigger &&
+          trigger.name === "StateCheck" &&
+          trigger.params[1] === "STATE_MIRRORIMAGE" &&
+          !trigger.negation,
+      );
+    const check = triggerFactory.stateCheck("STATE_MIRRORIMAGE", avoid);
+    return targets
+      .filter((t) => !avoid || !takesMirrored(t))
+      .map((t) => ({ ...t, triggers: [...(t.triggers ?? []), check] }));
   }
 
   /**

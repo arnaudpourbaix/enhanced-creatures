@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - GH Action Release was not working
+- AI: keep Magic Missile's mirrored target list for hand-placed casters
 
 ## [0.4.0] - 2026-10-09
 

@@ -177,6 +177,17 @@ describe("getAbilities - mirrorTarget", () => {
     ]);
     expect(ability.targets).toEqual([]);
   });
+
+  it("drops a target list only taking mirrored targets with avoid: it could never match", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [{ name: "Spellcasters", triggers: [mirror] }, { name: "NearestEnemies" }],
+        mirrorTarget: "avoid",
+      },
+    ]);
+    expect(ability.targets.map((t) => t.name)).toEqual(["NearestEnemies"]);
+  });
 });
 
 describe("getAbilities - single spell", () => {
