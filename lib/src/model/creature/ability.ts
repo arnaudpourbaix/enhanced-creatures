@@ -152,6 +152,16 @@ export type RawCreatureAbility = Partial<BaseCreatureAbility> & {
    * Probability (0-100)
    */
   probability?: number;
+  /**
+   * The RandomNumGT range to draw from instead of the ability's own: abilities sharing it depend
+   * on each other's roll (see categoryRoll). A spell's own shared roll (sharedRoll) still wins.
+   */
+  rollRange?: number;
+  /**
+   * Mirror Image deflects single-target spells: `avoid` skips mirrored targets in every target
+   * list, `require` only takes them (the last resort, see CastOrderService.plan).
+   */
+  mirrorTarget?: "avoid" | "require";
 };
 
 export type SpellCastType = "normal" | "noDec" | "force" | "reallyForce";

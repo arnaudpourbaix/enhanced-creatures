@@ -116,6 +116,28 @@ describe("getAbilities", () => {
     expect(roll(other)?.[0]).not.toBe(roll(weak)?.[0]);
   });
 
+  it("uses the ability's rollRange, unless the spell has a shared roll", () => {
+    const [arrow, hammer] = abilityService.getAbilities([
+      {
+        preset: SPELLS.Wizard.FlameArrow.file,
+        spell: { id: SPWI001 },
+        probability: 60,
+        rollRange: 705,
+      },
+      {
+        preset: SPELLS.Priest.SpiritualHammer.file,
+        spell: { id: SPWI001 },
+        probability: 60,
+        rollRange: 705,
+      },
+    ]);
+    const roll = (a: typeof arrow) =>
+      a.triggers.find((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
+        ?.params;
+    expect(roll(arrow)).toEqual([705, 282]);
+    expect(roll(hammer)?.[0]).toBe(700);
+  });
+
   it("assigns increasing RandomNumGT global ids across multiple probabilistic abilities", () => {
     const abilities = abilityService.getAbilities([
       { name: DEFAULT_ABILITY_NAME, probability: 50 },
@@ -124,6 +146,36 @@ describe("getAbilities", () => {
     const [firstNum] = (abilities[0].triggers[0] as Triggers.RandomNumGT).params;
     const [secondNum] = (abilities[1].triggers[0] as Triggers.RandomNumGT).params;
     expect(secondNum).toBeGreaterThan(firstNum);
+  });
+});
+
+describe("getAbilities - mirrorTarget", () => {
+  const mirror = { name: "StateCheck", params: ["{Target}", "STATE_MIRRORIMAGE"] };
+  const targets = [{ name: "NearestEnemies" }, { name: "FarthestEnemies" }] as const;
+
+  it("skips mirrored targets in every target list with avoid", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [...targets], mirrorTarget: "avoid" },
+    ]);
+    for (const target of ability.targets) {
+      expect(target.triggers).toContainEqual({ ...mirror, negation: true });
+    }
+  });
+
+  it("only takes mirrored targets with require", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [...targets], mirrorTarget: "require" },
+    ]);
+    for (const target of ability.targets) {
+      expect(target.triggers).toContainEqual({ ...mirror, negation: false });
+    }
+  });
+
+  it("adds no target to an ability without one", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, mirrorTarget: "avoid" },
+    ]);
+    expect(ability.targets).toEqual([]);
   });
 });
 

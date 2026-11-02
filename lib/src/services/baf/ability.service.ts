@@ -84,6 +84,16 @@ class AbilityService {
     return this.dedupeTargetLists(withChecks);
   }
 
+  /** Every target list's mirrored target check, see RawCreatureAbility.mirrorTarget. */
+  private mirrorChecks(
+    targets: TargetList[] | undefined,
+    mirrorTarget: RawCreatureAbility["mirrorTarget"],
+  ): TargetList[] | undefined {
+    if (!targets || !mirrorTarget) return targets;
+    const check = triggerFactory.stateCheck("STATE_MIRRORIMAGE", mirrorTarget === "avoid");
+    return targets.map((t) => ({ ...t, triggers: [...(t.triggers ?? []), check] }));
+  }
+
   /**
    * Drops any TargetList that's a full structural duplicate of an earlier one in the same array.
    * A fallback cascade's tiers can end up identical once a tier-only toggleable check (see
@@ -133,7 +143,7 @@ class AbilityService {
     let targets = !ability.targets || Array.isArray(ability.targets) ? ability.targets : undefined;
     if (!!ability.targets && !Array.isArray(ability.targets)) targets = [ability.targets];
     targets = this.appendSpellCheckTriggers(
-      targets,
+      this.mirrorChecks(targets, ability.mirrorTarget),
       ability.keywords,
       ability.level,
       ability.saves,
@@ -161,7 +171,7 @@ class AbilityService {
     result.actions.push(...(ability.actionsAfter ?? []));
     if (!!ability.probability && ability.probability < 100) {
       const own = randomGenerator.next().value ?? 0;
-      const num = sharedRoll(abil.spell?.resource ?? abil.preset) ?? own;
+      const num = sharedRoll(abil.spell?.resource ?? abil.preset) ?? ability.rollRange ?? own;
       result.triggers.push({
         name: "RandomNumGT",
         params: [num, Math.round(num * (1 - ability.probability / 100))],
