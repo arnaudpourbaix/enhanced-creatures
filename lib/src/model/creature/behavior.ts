@@ -57,11 +57,6 @@ export interface CreatureBehavior {
    * AbilityOrderService.resolveCovered)
    */
   coveredAbilities: CreatureAbility[];
-  /**
-   * Spellbook spells only some of the creature's files have: the script sets JA_SPELLBOOK while
-   * it memorizes one of them, braking its at-will powers then only (see AtWillService)
-   */
-  spellbookFiles?: string[];
   customCodes: CustomCode[];
   additionalCodes: AdditionalCode[];
 }

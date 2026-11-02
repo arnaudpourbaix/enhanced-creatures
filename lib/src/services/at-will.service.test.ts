@@ -90,7 +90,6 @@ describe("applyCooldowns", () => {
     });
     atWillService.applyCooldowns(creature);
     expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
-    expect(creature.behavior.spellbookFiles).toBeUndefined();
   });
 
   it("takes only declared spellbooks for one, not other memorized spells (moon dog Howl)", () => {
@@ -117,7 +116,7 @@ describe("applyCooldowns", () => {
     }
   });
 
-  it("finds a spellbook in an adjustment's spellbook variants (a mage vampire's)", () => {
+  it("cools powers down for an adjustment's spellbook: every file running the script has it (a mage vampire's)", () => {
     const creature = fakeCreature({ powers: [{ file: "DOMINATE", level: 5, speed: 1 }] });
     creature.adjustments = [
       {
@@ -136,11 +135,7 @@ describe("applyCooldowns", () => {
       },
     ] as unknown as Creature["adjustments"];
     atWillService.applyCooldowns(creature);
-    // only some of its files have that spellbook: the script checks in game (JA_SPELLBOOK)
-    expect(timers(creature)).toEqual([
-      { name: "ATWILL_DOMINATE", value: 24, unlessGlobalUnset: "JA_SPELLBOOK" },
-    ]);
-    expect(creature.behavior.spellbookFiles).toEqual([SPELLS.Wizard.Fireball.file]);
+    expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
   });
 
   it("takes only spellbooks built from a SpellBook, not hand-made variants (Improved Bodhi)", () => {
@@ -157,7 +152,6 @@ describe("applyCooldowns", () => {
     ] as unknown as Creature["adjustments"];
     atWillService.applyCooldowns(creature);
     expect(timers(creature)).toEqual([undefined]);
-    expect(creature.behavior.spellbookFiles).toBeUndefined();
   });
 
   it("doesn't take a creature's own few-use powers for a spellbook (vampire Bat Swarm)", () => {

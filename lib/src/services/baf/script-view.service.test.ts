@@ -112,7 +112,7 @@ describe("scriptViewService.build", () => {
     expect(creature.behavior.abilities[0].timer).toBeUndefined();
   });
 
-  it("the base view gets no spellbook brake when the only book moved to a variant", () => {
+  it("an at-will power cools down only in the script of the files with a spellbook", () => {
     const creature = fakeCreature([cast(POWER), cast(NEW_SPELL)]);
     creature.data.spells.memorized = [{ file: POWER, memorizedCount: AT_WILL }];
     creature.variant("necro", {
@@ -129,7 +129,10 @@ describe("scriptViewService.build", () => {
       },
       files: ["NECRO"],
     });
-    const { base } = views(creature);
-    expect(base.behavior.spellbookFiles).toBeUndefined();
+    const { base, necro } = views(creature);
+    const powerTimer = (view: Creature) =>
+      view.behavior.abilities.find((a) => a.resource === POWER)?.timer;
+    expect(powerTimer(base)).toBeUndefined();
+    expect(powerTimer(necro)).toEqual({ name: `ATWILL_${POWER}`, value: expect.any(Number) });
   });
 });

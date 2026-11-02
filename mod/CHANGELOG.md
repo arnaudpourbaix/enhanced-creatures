@@ -54,6 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Skeletons: spellcasting skeletons as scripted variants
 - Sirine, polar bear, sword spider: files with their own spells as scripted variants
 - Regenerate mod with variant scripts
+- At-will: drop the shared-script spellbook brake
 
 ### Fixed
 

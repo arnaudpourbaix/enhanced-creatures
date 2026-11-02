@@ -7,9 +7,6 @@ import { gamesOverlap } from "../model/creature/game";
 import { State } from "../state";
 import translationService from "./translation.service";
 
-/** Set by the script while the creature memorizes a spell of its spellbook */
-export const SPELLBOOK_GLOBAL = "JA_SPELLBOOK";
-
 /** Seconds per round, as timers count */
 export const ROUND = 6;
 
@@ -26,13 +23,11 @@ class AtWillService {
       memorized.filter((m) => (m.memorizedCount ?? 1) >= AT_WILL).map((m) => m.file.toUpperCase()),
     );
     if (!atWill.size) return;
-    // a spellbook in the base data is in every file the script runs for; one only some files
-    // have (an adjustment's, Tanova among patriarchs) is checked in game
-    const everyFile = this.spellbookFiles(creature.data, atWill).length > 0;
-    const adjusted = [
-      ...new Set(creature.adjustments.flatMap((a) => this.spellbookFiles(a.data, atWill))),
-    ];
-    if (!everyFile && adjusted.length) creature.behavior.spellbookFiles = adjusted;
+    // a spellbook only some of the creature's files have is a variant's, in its own script (see
+    // ScriptViewService): every file running this script has it
+    const spellbook = [creature.data, ...creature.adjustments.map((a) => a.data)].some(
+      (data) => this.spellbookFiles(data, atWill).length > 0,
+    );
     const abilities = [
       ...creature.behavior.abilities,
       ...creature.behavior.coveredAbilities,
@@ -43,8 +38,7 @@ class AtWillService {
       if (!file || !atWill.has(file) || ability.timer) continue;
       const power = this.power(file, creature);
       const timer = { name: `ATWILL_${file}`, value: this.cooldown(power.level) * ROUND };
-      if (everyFile || power.castingTime > this.afforded(creature)) ability.timer = timer;
-      else if (adjusted.length) ability.timer = { ...timer, unlessGlobalUnset: SPELLBOOK_GLOBAL };
+      if (spellbook || power.castingTime > this.afforded(creature)) ability.timer = timer;
     }
   }
 

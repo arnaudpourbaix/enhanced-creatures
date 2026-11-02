@@ -62,11 +62,6 @@ export interface BaseCreatureAbility {
   timer?: {
     name: string;
     value: number;
-    /**
-     * The timer only applies while this LOCALS global is set: a creature whose files don't all
-     * have its spellbook brakes its at-will powers only in those that have it (see AtWillService)
-     */
-    unlessGlobalUnset?: string;
   };
   /**
    * Ability doesn't share common round timer
