@@ -363,16 +363,15 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
   ogreMage.setBehavior({
     restHeal: true,
     usePotions: true,
-    // the chieftains' own spells (see chieftainVariant) are placed by score in their script
-    abilities: [
-      entry.preset(SPELLS.Wizard.Invisibility.file),
-      entry.ability(Ids.Fly),
-      entry.ability(Ids.ConeOfCold),
-      entry.preset(SPELLS.Wizard.Darkness15Radius.file),
-      entry.preset(SPELLS.Wizard.Sleep.file),
-      entry.preset(SPELLS.Wizard.CharmPerson.file),
-      entry.ability(Ids.GaseousForm),
-    ],
+    // every spell is placed by score: its memorized ones (the chieftains' too, see
+    // chieftainVariant) by their presets, its own powers by their abilities
+    abilities: {
+      entries: [
+        { abilityId: Ids.Fly },
+        { abilityId: Ids.ConeOfCold },
+        { abilityId: Ids.GaseousForm },
+      ],
+    },
   });
   ogreMage.setAttack({
     targetPriorities: [
