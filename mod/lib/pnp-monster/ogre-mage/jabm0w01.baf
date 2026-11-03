@@ -7466,7 +7466,7 @@ IF
 	HaveSpellRES("jasm0w01")
 	Detect(NearestEnemyOf(Myself))
 	!CheckSpellState(Myself,JA_FLYING)
-	RandomNumGT(705,141)
+	RandomNumGT(707,141)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

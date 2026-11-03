@@ -338,31 +338,11 @@ END
 IF
 	!GlobalTimerNotExpired("StenchOfDecay","LOCALS")
 	HaveSpellRES("jasm2g01")
-	RandomNumGT(708,283)
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("StenchOfDecay","LOCALS",6)
-		ReallyForceSpellRES("jasm2g01",Myself)
-END
-
-// Stench Of Decay
-IF
-	!GlobalTimerNotExpired("StenchOfDecay","LOCALS")
-	HaveSpellRES("jasm2g01")
-	RandomNumGT(708,283)
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSDEATH)
 THEN
 	RESPONSE #100

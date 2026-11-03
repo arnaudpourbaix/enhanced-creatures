@@ -3,7 +3,10 @@
  * scripts/extract-spell-profile.ts, then reviewed by hand.
  */
 export type SpellRole =
-  /** Only cast when its condition happens (healing, dispel, true sight, escape): always first */
+  /**
+   * Only cast when its condition happens (healing, dispel, true sight, escape): always first. Every
+   * aura too, cast whenever it's ready (Fear Aura, Blinding Beauty, Toxic Vapors) (user)
+   */
   | "reactive"
   | "protection"
   | "buff"

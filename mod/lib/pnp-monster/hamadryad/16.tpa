@@ -40,7 +40,6 @@ BEGIN
 			ADD_MEMORIZED_SPELL ~jask0501~ #0 ~innate~ (3) // Dryad Charm
 			ADD_MEMORIZED_SPELL ~jase1400~ #0 ~innate~ (1) // Entangle
 			ADD_MEMORIZED_SPELL ~jask0503~ #0 ~innate~ (1) // Animal Friendship
-			ADD_MEMORIZED_SPELL ~jask0504~ #0 ~innate~ (1) // Detect snares and pits
 			LPF clear_proficiencies END
 			SET_BG2_PROFICIENCY ~PROFICIENCYDAGGER~ 2
 			LPF patchCreature

@@ -28,6 +28,8 @@ class PhaseSpider extends Spider {
       id: SpiderIds.PhaseOut,
       name: "monster.spider.ability.phase.name",
       role: "protection",
+      // an invisibility on itself, as good as Invisibility (see SPELLS.Wizard.Invisibility)
+      tier: "great",
       description: "monster.spider.ability.phase.description",
       memorizedCount: 1,
       icon: SPELLS.Wizard.Invisibility.file,
@@ -45,10 +47,13 @@ class PhaseSpider extends Spider {
           ],
         },
       ],
+      // its header only reaches the spider: cast on itself, never at an ally
       ability: {
-        preset: SPELLS.Wizard.Invisibility.file,
+        name: "monster.spider.ability.phase.name",
         spell: {
           type: "force",
+          castOnSelf: true,
+          excludeStateChecks: ["STATE_INVISIBLE"],
         },
         requireVocal: false,
       },

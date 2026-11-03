@@ -6,14 +6,21 @@ import { SpellProfile } from "../spell-profile.service";
 import spellScoringService from "../spell-scoring.service";
 import { categoryRoll, isSingleTargetHostile } from "./memorized-checks";
 
+type CastPass = "regular" | "counter" | "lastResort" | "self";
+
 /** A spell's place in the cast order: tried in order, cast if its own roll succeeds. */
 export interface PlannedCast {
   file: string;
   role: SpellRole;
   score: number;
   probability: number;
-  /** `counter` clears Mirror Image, `lastResort` aims at mirrored targets once nothing else can */
-  pass: "regular" | "counter" | "lastResort";
+  /**
+   * `counter` clears Mirror Image, `lastResort` aims at mirrored targets once nothing else can,
+   * `self` is a heal's cast on the caster (see isSelfHeal)
+   */
+  pass: CastPass;
+  /** A heal split in two (see isSelfHeal): its regular cast heals the allies, its `self` one the caster */
+  healing?: "allies" | "self";
   /** Its category's shared roll, see categoryRoll */
   rollRange?: number;
   /** See RawCreatureAbility.mirrorTarget */
@@ -25,6 +32,16 @@ const isPartyBuff = (profile: SpellProfile) =>
   profile.role === "buff" &&
   profile.keywords.includes("friendly") &&
   profile.keywords.includes("area");
+
+/**
+ * A heal on one target: healing an ally is worth it at once, but healing itself while still under
+ * fire saves nothing - a player hits back first and heals after the fight. (User.)
+ */
+const isSelfHeal = (profile: SpellProfile) =>
+  profile.role === "reactive" &&
+  profile.keywords.includes("cureWounds") &&
+  profile.keywords.includes("friendly") &&
+  !profile.keywords.includes("area");
 
 /** Plain byte order: the same on every machine, unlike localeCompare */
 const byCodeUnits = (a: string, b: string) => Buffer.compare(Buffer.from(a), Buffer.from(b));
@@ -51,7 +68,11 @@ class CastOrderService {
       for (const s of taken) scored.splice(scored.indexOf(s), 1);
       return taken;
     };
-    const reactive = take((p) => p.role === "reactive");
+    // auras first: any other reactive cast ends the script pass before them (user)
+    const reactive = [
+      ...take((p) => p.role === "reactive" && p.keywords.includes("aura")),
+      ...take((p) => p.role === "reactive"),
+    ];
     const { minScore, max, maxProbability } = SPELL_SCORING.opening;
     const candidates = scored.filter(
       (s) => s.profile.role === "protection" && s.profile.tier !== "decent" && s.score >= minScore,
@@ -84,20 +105,45 @@ class CastOrderService {
       ...cast(s, "regular"),
       mirrorTarget: isSingleTargetHostile(s.profile) ? "avoid" : undefined,
     });
-    const main = [...rest, ...shapeshifts].map(regular);
+    const ordered = this.withSelfHeals(rest, reactive);
+    const main = [...ordered, ...shapeshifts].map((s) =>
+      "self" in s ? { ...cast(s, "self", false), healing: "self" as const } : regular(s),
+    );
     const counters = this.counters([...reactive, ...rest], main, cast);
     const lastResort = rest
       .filter((s) => isSingleTargetHostile(s.profile) && !mirrorCounterOf(s.profile.file))
       .map((s): PlannedCast => ({ ...cast(s, "lastResort"), mirrorTarget: "require" }));
+    const mainCount = ordered.length;
     return this.capChances([
       // reactive spells fire on their own conditions, the opening is capped already (see opening)
-      ...reactive.map((s) => cast(s, "regular", false)),
+      ...reactive.map((s) => ({
+        ...cast(s, "regular", false),
+        ...(isSelfHeal(s.profile) ? { healing: "allies" as const } : {}),
+      })),
       ...opening.map((s) => cast(s, "regular", false)),
       ...counters,
-      ...main.slice(0, rest.length),
+      ...main.slice(0, mainCount),
       ...lastResort,
-      ...main.slice(rest.length),
+      ...main.slice(mainCount),
     ]);
+  }
+
+  /**
+   * Each heal's cast on the caster (see isSelfHeal), right after the last spell of a higher level:
+   * not the last thing it does, but never before a stronger spell. (User.)
+   */
+  private withSelfHeals<T extends { profile: SpellProfile }>(
+    order: T[],
+    reactive: T[],
+  ): (T | (T & { self: true }))[] {
+    const result: (T | (T & { self: true }))[] = [...order];
+    for (const heal of reactive.filter((s) => isSelfHeal(s.profile))) {
+      const higher = result.findLastIndex(
+        (s) => !("self" in s) && s.profile.level > heal.profile.level,
+      );
+      result.splice(higher + 1, 0, { ...heal, self: true });
+    }
+    return result;
   }
 
   /**
@@ -144,9 +190,13 @@ class CastOrderService {
     const durations = SPELL_SCORING.coveredDurationOrder;
     // reactive spells keep coming first: a wounded caster heals before buffing
     // without the Mirror Image passes: covered, the caster protects itself, it doesn't attack
-    const reactive = this.plan(profiles.filter((p) => p.role === "reactive")).filter(
-      (c) => c.pass === "regular",
-    );
+    // a heal isn't split under cover: not under fire, the caster heals itself at once
+    // an aura strikes enemies: it would break the cover
+    const reactive = this.plan(
+      profiles.filter((p) => p.role === "reactive" && !p.keywords.includes("aura")),
+    )
+      .filter((c) => c.pass === "regular")
+      .map(({ healing: _healing, ...c }) => c);
     const protective = profiles
       .filter(
         (p) =>

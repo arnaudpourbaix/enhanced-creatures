@@ -54,6 +54,7 @@ describe("CreatureEntry", () => {
       name: NAME,
       data: { movement: {} },
       attack: { dualWielding: false },
+      behavior: { abilities: [] },
     } as unknown as Creature;
     const from = entry.createFrom({ name: NAME, monster: MonsterEnum.LesserClayGolem, from: stub });
     for (const c of [base, from]) {

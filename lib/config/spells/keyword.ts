@@ -13,6 +13,11 @@ export type SpellKeyword =
    * Affects an area: spell reflections don't stop it (see suppressedSpellLevelChecks)
    */
   | "area"
+  /**
+   * An aura striking the enemies around its caster whenever it's ready: reactive, but kept out of
+   * the covered phase, which it would break (see CastOrderService.coveredPlan)
+   */
+  | "aura"
   | "bleeding"
   | "blind"
   /**

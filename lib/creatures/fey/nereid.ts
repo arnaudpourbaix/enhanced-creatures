@@ -273,7 +273,8 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.beguilingAura.name",
-      role: "disable",
+      // an aura: always first, never held back (user)
+      role: "reactive",
       description: "monster.fey.ability.beguilingAura.description",
       id: FeyIds.BeguilingAura,
       memorizedCount: 1,
@@ -284,7 +285,7 @@ class Nereid extends Fey {
       options: {
         renew: 1,
       },
-      keywords: ["charm", "area"],
+      keywords: ["charm", "area", "aura"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,

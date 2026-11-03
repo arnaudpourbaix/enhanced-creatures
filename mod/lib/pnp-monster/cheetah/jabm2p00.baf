@@ -543,7 +543,7 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jasm2p00")
-	RandomNumGT(705,70)
+	RandomNumGT(707,71)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

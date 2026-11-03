@@ -1018,6 +1018,9 @@ const WIZARD_SPELLS = {
     id: "WIZARD_IMPROVED_INVISIBILITY",
     level: 4,
     role: "protection",
+    // the caster stays invisible while attacking and casting: enemies can still hit it in melee,
+    // but can't target it with their spells - better than Invisibility, great already (user)
+    tier: "top",
     castingTime: 4,
     duration: "short",
     name: "spell.ImprovedInvisibility.name",
@@ -2283,8 +2286,9 @@ const WIZARD_SPELLS = {
     file: "SPWI408",
     id: "WIZARD_STONE_SKIN",
     level: 4,
-    role: "protection",
-    tier: "great",
+    // precast, then cast again as soon as its skins are gone (user)
+    role: "reactive",
+    tier: "top",
     castingTime: 1,
     duration: "long",
     name: "spell.Stoneskin.name",
@@ -2611,6 +2615,8 @@ const WIZARD_SPELLS = {
     level: 2,
     // role: hand-picked, only worth casting when silenced
     role: "reactive",
+    // before the other reactive spells: a silenced caster is useless (user)
+    tier: "top",
     castingTime: 2,
     duration: "short",
     name: "spell.Vocalize.name",

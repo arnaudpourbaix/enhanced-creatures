@@ -1,6 +1,7 @@
 import { AT_WILL } from "../../../config/common";
 import { SPELL_SCORING } from "../../../config/spell-scoring";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
+import { TargetList } from "../../model/script/target";
 import { SpellReference } from "../../model/spell-item/spell-reference";
 import { Creature } from "../../model/creature/creature";
 import atWillService, { ROUND } from "../at-will.service";
@@ -52,19 +53,21 @@ class AbilityOrderService {
       if (cast.pass === "counter") {
         return {
           identity: `${cast.file}#counter`,
-          ability: { ...this.counter(cast.file), ...shared },
+          ability: { ...this.counter(cast.file), ...shared, mirrorPass: "counter" },
         };
       }
       const entry = scoredEntries.get(cast.file);
-      const ability = entry ? this.cast(entry, creature).ability : { preset: cast.file };
+      const own = entry ? this.cast(entry, creature).ability : { preset: cast.file };
+      const ability = cast.healing ? { ...own, targets: this.healTargets(own, cast.healing) } : own;
       const regular = cast.pass === "regular";
       const timer = regular && spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
       // the last resort keeps only its first target list (see mirrorTarget): scripts stay small
       const mirrorTarget = cast.mirrorTarget ? { mirrorTarget: cast.mirrorTarget } : {};
+      const mirrorPass = cast.pass === "lastResort" ? { mirrorPass: "lastResort" as const } : {};
       return {
         // anchors land next to the regular pass
         identity: regular ? cast.file : `${cast.file}#${cast.pass}`,
-        ability: { ...ability, ...timer, ...mirrorTarget, ...shared },
+        ability: { ...ability, ...timer, ...mirrorTarget, ...mirrorPass, ...shared },
       };
     });
 
@@ -146,6 +149,19 @@ class AbilityOrderService {
       spell: { ...ability.spell, resource: file },
       triggers: structuredClone(mirrorCounterOf(file)?.triggers ?? []),
     };
+  }
+
+  /**
+   * A split heal's targets (see PlannedCast.healing): its own or its preset's, the caster and its
+   * allies narrowed to the allies only, or to the caster only.
+   */
+  private healTargets(ability: RawCreatureAbility, healing: "allies" | "self"): TargetList[] {
+    const preset = ABILITY_PRESETS.find((p) => p.preset === ability.preset)?.ability;
+    return (ability.targets ?? preset?.targets ?? []).map((target) => {
+      if (target.name !== "MyselfAndNearestAllies") return target;
+      if (healing === "allies") return { ...target, name: "NearestAllies" };
+      return { ...target, name: "Myself", randomOrder: undefined };
+    });
   }
 
   /** Files cast by the creature's hand-written abilities or placed by its entries. */

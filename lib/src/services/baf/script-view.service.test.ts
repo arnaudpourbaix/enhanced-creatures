@@ -147,7 +147,8 @@ describe("scriptViewService.build", () => {
 });
 
 describe("scriptViewService.describe", () => {
-  const named = (...names: string[]) => names.map((name) => ({ name }) as CreatureAbility);
+  const named = (...names: string[]) =>
+    names.map((name) => ({ name, targets: [] }) as unknown as CreatureAbility);
   function described(p: { memorized: string[]; covered: string[]; order: string[] }) {
     const view = {
       data: { spells: { memorized: p.memorized.map((file) => ({ file })) } },
@@ -187,6 +188,45 @@ describe("scriptViewService.describe", () => {
         order: ["spell.Sleep.name", "spell.Haste.name", "spell.Sleep.name"],
       }),
     ).toEqual(["Cast order: Sleep, Haste."]);
+  });
+
+  it("tells a heal on the allies from the one on itself", () => {
+    const heal = (target: string) =>
+      ({ name: "spell.CureLightWounds.name", targets: [{ name: target }] }) as CreatureAbility;
+    const view = {
+      data: { spells: { memorized: [] } },
+      adjustments: [],
+      behavior: {
+        abilities: [heal("NearestAllies"), ...named("spell.Sleep.name"), heal("Myself")],
+        coveredAbilities: [],
+      },
+    } as unknown as Creature;
+    expect(scriptViewService.describe(view)).toEqual([
+      "Cast order: Cure Light Wounds on allies, Sleep, Cure Light Wounds on self.",
+    ]);
+  });
+
+  it("leaves the Mirror Image passes out of the order", () => {
+    const pass = (name: string, mirrorPass?: "counter" | "lastResort") =>
+      ({ name, targets: [], mirrorPass }) as unknown as CreatureAbility;
+    const view = {
+      data: { spells: { memorized: [] } },
+      adjustments: [],
+      behavior: {
+        abilities: [
+          pass("spell.MirrorImages.name"),
+          pass("spell.MagicMissiles.name", "counter"),
+          pass("spell.Sleep.name"),
+          pass("spell.Combust.name"),
+          pass("spell.MagicMissiles.name"),
+          pass("spell.Combust.name", "lastResort"),
+        ],
+        coveredAbilities: [],
+      },
+    } as unknown as Creature;
+    expect(scriptViewService.describe(view)).toEqual([
+      "Cast order: Mirror Images, Sleep, Combust, Magic Missiles.",
+    ]);
   });
 
   it("says nothing without abilities", () => {

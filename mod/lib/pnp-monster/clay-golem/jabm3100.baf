@@ -399,21 +399,7 @@ IF
 	HaveSpellRES("jasm0o00")
 	Delay(6)
 	!StateCheck(Myself,STATE_HASTED)
-	RandomNumGT(705,70)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ReallyForceSpellRES("jasm0o00",Myself)
-		RemoveSpellRES("jasm0o00")
-END
-
-// Haste
-IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jasm0o00")
-	Delay(6)
-	!StateCheck(Myself,STATE_HASTED)
-	RandomNumGT(705,70)
+	RandomNumGT(707,71)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

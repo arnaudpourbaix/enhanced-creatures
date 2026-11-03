@@ -1679,7 +1679,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jasm2i00")
 	Range(NearestEnemyOf(Myself),5)
-	RandomNumGT(702,70)
+	RandomNumGT(704,70)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

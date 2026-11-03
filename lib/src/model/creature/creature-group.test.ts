@@ -176,6 +176,7 @@ describe("createFrom (files resolution)", () => {
       name: CREATURE_NAME_KEY,
       data: { movement: {} },
       attack: { dualWielding: false },
+      behavior: { abilities: [] },
     } as unknown as Creature;
 
     const cre = group.createFrom({
@@ -197,6 +198,7 @@ describe("createFrom (files resolution)", () => {
       name: CREATURE_NAME_KEY,
       data: { movement: {} },
       attack: { dualWielding: false },
+      behavior: { abilities: [] },
     } as unknown as Creature;
 
     const cre = group.createFrom({
@@ -209,6 +211,25 @@ describe("createFrom (files resolution)", () => {
     const names = cre.files.map((f) => f.name);
     expect(names).toContain("SOME_BACKUP_FILE");
     expect(names).not.toContain("some_backup_file");
+  });
+});
+
+describe("createFrom (abilities)", () => {
+  it("keeps only the source's hand-written abilities: its own validation resolves the rest again", () => {
+    const group = fakeGroup();
+    const handWritten = { name: "hand" };
+    const from = {
+      name: CREATURE_NAME_KEY,
+      data: { movement: {} },
+      attack: { dualWielding: false },
+      handWrittenAbilities: [handWritten],
+      behavior: { abilities: [handWritten, { name: "resolved" }], coveredAbilities: [{}] },
+    } as unknown as Creature;
+
+    const cre = group.createFrom({ name: CREATURE_NAME_KEY, monster: MonsterEnum.Ankheg, from });
+
+    expect(cre.behavior.abilities).toEqual([handWritten]);
+    expect(cre.behavior.coveredAbilities).toEqual([]);
   });
 });
 

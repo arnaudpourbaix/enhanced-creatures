@@ -153,6 +153,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckSpellState", params: [ScriptTarget.token, "STUN_IMMUNITY"], negation: true },
   ],
   // group tags only (see SpellKeyword) - no protection to check
+  aura: [],
   bleeding: [],
   colorSpray: [],
   curePoison: [],

@@ -143,6 +143,9 @@ function fireball(cre: Creature) {
     flags: [SpellFlagEnum.Hostile],
     type: SpellTypeEnum.Wizard,
     level: 3,
+    // 20d6 instead of 10d6, a double fireball: worth the knight's best spells, and cast before
+    // Symbol of Fear scatters its targets (user)
+    worthLevel: 9,
     headers: [
       {
         type: ItemAbilityTypeEnum.Ranged,

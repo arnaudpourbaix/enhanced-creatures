@@ -365,6 +365,9 @@ function domination(group: AbstractCreature, domination: VampireAge["domination"
     memorizedCount: AT_WILL,
     ...supernatural(5, domination.mode === "voice"),
     role: "disable",
+    // someone important is turned against the party: far above Control Undead, whose party undead
+    // are weak, the strong ones (skeleton warriors, death knights) resisting it (user)
+    worthLevel: 8,
     icon: SPELLS.Wizard.Domination.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
@@ -589,6 +592,10 @@ function controlUndead(group: AbstractCreature) {
     ...supernatural(7),
     // it turns undead against their side, like a charm
     role: "disable",
+    // magic resistance blocks the control (skeleton warriors, death knights)
+    keywords: ["magicResistance"],
+    // the party's undead are weak ones: worth a level 3 spell, below a caster's real spells (user)
+    worthLevel: 3,
     icon: SPELLS.Wizard.ControlUndead.file,
     primaryType: ItemAbilityPrimaryTypeEnum.Necromancer,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,

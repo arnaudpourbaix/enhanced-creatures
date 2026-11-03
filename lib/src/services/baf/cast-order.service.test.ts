@@ -133,6 +133,46 @@ describe("plan", () => {
     expect(planned[0]).toMatchObject({ file: "HEAL", probability: 100 });
   });
 
+  it("casts auras before any other reactive spell, whatever their scores (user)", () => {
+    const planned = castOrderService.plan([
+      profile("DISPEL", { role: "reactive", castingTime: 1 }),
+      profile("AURA", { role: "reactive", keywords: ["aura"], castingTime: 9 }),
+    ]);
+    expect(planned.map((c) => c.file)).toEqual(["AURA", "DISPEL"]);
+  });
+
+  it("heals allies first, but itself only after its higher-level spells (user)", () => {
+    const heal = profile("HEAL", {
+      role: "reactive",
+      level: 2,
+      keywords: ["friendly", "cureWounds"],
+    });
+    const plan = castOrderService.plan([
+      profile("LOW", { level: 1, keywords: ["area"] }),
+      profile("HIGH", { level: 5, keywords: ["area"] }),
+      profile("SAME", { level: 2, keywords: ["area"] }),
+      heal,
+    ]);
+    expect(plan.map((c) => `${c.file}:${c.pass}`)).toEqual([
+      "HEAL:regular",
+      "HIGH:regular",
+      "HEAL:self",
+      "SAME:regular",
+      "LOW:regular",
+    ]);
+    expect(plan[0].healing).toBe("allies");
+    expect(plan[2]).toMatchObject({ healing: "self", probability: 100, rollRange: undefined });
+  });
+
+  it("keeps an area heal reactive: it heals the allies too (Mass Cure)", () => {
+    const plan = castOrderService.plan([
+      profile("MASS", { role: "reactive", keywords: ["castOnSelf", "cureWounds"] }),
+      profile("HIT", { level: 1, keywords: ["area"] }),
+    ]);
+    expect(plan.map((c) => `${c.file}:${c.pass}`)).toEqual(["MASS:regular", "HIT:regular"]);
+    expect(plan[0].healing).toBeUndefined();
+  });
+
   it("opens with great and good protections, even before a better attack", () => {
     const order = files([
       profile("BIGHIT", { role: "kill", castingTime: 1, keywords: ["area"] }),
@@ -315,6 +355,22 @@ describe("coveredPlan", () => {
     ]);
     expect(planned.map((c) => c.file)).toEqual(["HEAL", "BUFF"]);
     expect(planned[0].probability).toBe(100);
+  });
+
+  it("leaves auras out under cover: they strike enemies, which breaks it", () => {
+    const planned = castOrderService.coveredPlan([
+      profile("AURA", { role: "reactive", keywords: ["aura"] }),
+      profile("HEAL", { role: "reactive" }),
+    ]);
+    expect(planned.map((c) => c.file)).toEqual(["HEAL"]);
+  });
+
+  it("heals itself first under cover: it isn't under fire there", () => {
+    const planned = castOrderService.coveredPlan([
+      profile("BUFF", { role: "buff", tier: "great", duration: "short" }),
+      profile("HEAL", { role: "reactive", level: 1, keywords: ["friendly", "cureWounds"] }),
+    ]);
+    expect(planned.map((c) => `${c.file}:${c.healing}`)).toEqual(["HEAL:undefined", "BUFF:undefined"]);
   });
 
   it("casts the most valuable first, and at an equal value mid before short", () => {

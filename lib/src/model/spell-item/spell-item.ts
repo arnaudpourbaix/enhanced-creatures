@@ -39,6 +39,8 @@ export interface BaseSpell {
   role?: SpellRole;
   /** What else the spell does, adding to its value */
   secondaryRoles?: SpellRole[];
+  /** See SpellReference.worthLevel */
+  worthLevel?: number;
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
   /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */

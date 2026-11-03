@@ -61,10 +61,18 @@ class ScriptViewService {
    * Sanctuary), then otherwise. Each spell once, at its first place.
    */
   describe(view: Creature): string[] {
+    // a split heal (see PlannedCast.healing) has two places: its allies first, the caster later
+    const on = (a: CreatureAbility) => {
+      const lists = new Set(a.targets.map((t) => t.name));
+      if (lists.size !== 1) return "";
+      if (lists.has("NearestAllies")) return " on allies";
+      return lists.has("Myself") ? " on self" : "";
+    };
     const names = (abilities: CreatureAbility[]) => [
-      ...new Set(abilities.map((a) => translationService.from(a.name))),
+      ...new Set(abilities.map((a) => `${translationService.from(a.name)}${on(a)}`)),
     ];
-    const order = names(view.behavior.abilities);
+    // the casts aimed at mirrored enemies (counters, last resorts) aren't the order
+    const order = names(view.behavior.abilities.filter((a) => !a.mirrorPass));
     const covered = names(view.behavior.coveredAbilities);
     if (!covered.length) return order.length ? [`Cast order: ${order.join(", ")}.`] : [];
     return [

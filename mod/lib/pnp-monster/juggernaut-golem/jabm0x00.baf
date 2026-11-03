@@ -398,20 +398,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jasm0x01")
 	!Range(NearestEnemyOf(Myself),5)
-	RandomNumGT(711,71)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm0x01",Myself)
-		RemoveSpellRES("jasm0x01")
-END
-
-// Charge
-IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jasm0x01")
-	!Range(NearestEnemyOf(Myself),5)
-	RandomNumGT(711,71)
+	RandomNumGT(713,71)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

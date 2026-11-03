@@ -45,7 +45,7 @@ import { CreatureFile } from "./game";
 import { InputCreatureData } from "./data-input";
 import { CreatureGrabConfig } from "./grab";
 import { ItemSlot, JEWEL_SLOTS } from "./item";
-import { AbilityEntry } from "./ability";
+import { AbilityEntry, CreatureAbility } from "./ability";
 import { State } from "../../state";
 import type { CreatureScript } from "../../services/baf/script-plan.service";
 
@@ -146,6 +146,11 @@ export class Creature extends AbstractCreature implements BaseCreature {
    */
   noFiles?: boolean;
   pendingAbilityEntries?: AbilityEntry[];
+  /**
+   * Its abilities before validation added the resolved ones (see CreatureFactory.resolveAbilities):
+   * a creature copied from it resolves its entries again
+   */
+  handWrittenAbilities?: CreatureAbility[];
   /** Undead (or made undead by an adjustment): PnP "turned as" row, when harder to turn than its Hit Dice. */
   turnAs?: TurnUndeadType;
 

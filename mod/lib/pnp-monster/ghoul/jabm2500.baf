@@ -338,7 +338,6 @@ END
 // Aura of Evil
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -354,7 +353,6 @@ END
 
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -370,7 +368,6 @@ END
 
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -387,7 +384,6 @@ END
 // Aura of Evil
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -402,7 +398,6 @@ END
 
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -417,7 +412,6 @@ END
 
 IF
 	HaveSpellRES("jasm2502")
-	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)

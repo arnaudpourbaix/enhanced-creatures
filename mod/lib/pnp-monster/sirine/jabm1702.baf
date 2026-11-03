@@ -310,6 +310,184 @@ THEN
 		SetGlobalTimer("polymorph","LOCALS",12)
 END
 
+// Improved Invisibility
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(Myself,WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(NearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(SecondNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(ThirdNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(FourthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(FifthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
+IF
+	CheckStat(Myself,0,POLYMORPHED)
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
+	!StateCheck(SixthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+	RandomNumGT(800,320)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
+		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
+		SetInterrupt(TRUE)
+END
+
 // Mirror Images
 IF
 	CheckStat(Myself,0,POLYMORPHED)
@@ -318,7 +496,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpell(WIZARD_MIRROR_IMAGE)
 	!StateCheck(Myself,STATE_MIRRORIMAGE)
-	RandomNumGT(800,320)
+	RandomNumGT(801,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -3774,184 +3952,6 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jase1601",LastSeenBy(Myself))
 		RemoveSpellRES("jase1601")
-		SetInterrupt(TRUE)
-END
-
-// Improved Invisibility
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	!CheckStatGT(Myself,0,SANCTUARY)
-	!StateCheck(Myself,STATE_REALLY_DEAD)
-	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
-	!General(Myself,WEAPON)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(Myself,WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(NearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(SecondNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(ThirdNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(FourthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(FifthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
-		SetInterrupt(TRUE)
-END
-
-IF
-	CheckStat(Myself,0,POLYMORPHED)
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_IMPROVED_INVISIBILITY)
-	!StateCheck(SixthNearestAllyOf(Myself),STATE_IMPROVEDINVISIBILITY)
-	RandomNumGT(702,70)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearestAllyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-THEN
-	RESPONSE #100
-		SetInterrupt(FALSE)
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpell(LastSeenBy(Myself),WIZARD_IMPROVED_INVISIBILITY)
-		RemoveSpell(WIZARD_IMPROVED_INVISIBILITY)
 		SetInterrupt(TRUE)
 END
 

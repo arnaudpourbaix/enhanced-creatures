@@ -4,8 +4,13 @@ import { FNP_SPELLS } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
 import { NEW_SPELLS } from "../../config/spells/spells";
 import { Creature } from "../model/creature/creature";
-import { SaveTypeEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
+import {
+  ItemAbilityTargetEnum,
+  SaveTypeEnum,
+  SpellTypeEnum,
+} from "../model/spell-item/effect.enums";
 import { SpellCombo } from "../model/spell-item/spell-combo";
+import { Spell } from "../model/spell-item/spell-item";
 import spellComboService from "./spell-combo.service";
 import spellProfileService from "./spell-profile.service";
 
@@ -40,7 +45,7 @@ describe("profileOf", () => {
 
   it("reads a tier when there is one", () => {
     expect(spellProfileService.profileOf(SPELLS.Wizard.Stoneskin.file, creatureWith())?.tier).toBe(
-      "great",
+      "top",
     );
   });
 
@@ -86,6 +91,36 @@ describe("profileOf", () => {
       ability: { saves },
     };
     expect(spellProfileService.profileOf("OWNSAVE", creatureWith([spell]))?.saves).toEqual(saves);
+  });
+
+  it("reads a creature's own spell's worth level (the Death Knight's 20d6 fireball)", () => {
+    const fireball: Partial<Spell> = {
+      file: "OWNWORTH",
+      level: 3,
+      worthLevel: 9,
+      role: "damage",
+      type: SpellTypeEnum.Wizard,
+      headers: [{ speed: 3 } as Spell["headers"][number]],
+    };
+    expect(spellProfileService.profileOf("OWNWORTH", creatureWith([fireball]))).toMatchObject({
+      level: 3,
+      worthLevel: 9,
+    });
+  });
+
+  it("reads a creature's own spell aimed at its caster as cast on self (a golem's Charge)", () => {
+    const charge = {
+      file: "CHARGE",
+      level: 1,
+      role: "damage",
+      type: SpellTypeEnum.Innate,
+      keywords: [],
+      headers: [{ speed: 1, target: ItemAbilityTargetEnum.Caster }],
+    };
+    const aura = { ...charge, file: "AURA", keywords: ["area"] };
+    const profiles = creatureWith([charge, aura]);
+    expect(spellProfileService.profileOf("CHARGE", profiles)?.keywords).toEqual(["castOnSelf"]);
+    expect(spellProfileService.profileOf("AURA", profiles)?.keywords).toEqual(["area"]);
   });
 
   it("has no profile for a creature's own spell without a role", () => {

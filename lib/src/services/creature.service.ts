@@ -270,8 +270,7 @@ class CreatureService {
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(
           `${translationService.from(creature.name)}: duplicate ability for '${ability.resource ?? ability.name}'${spellText} - the same spell and trigger context is listed twice.`,
-        );
-        continue;
+        );        continue;
       }
       seen.add(signature);
     }

@@ -82,10 +82,42 @@ place to say so.
   effect equivalent for "extinguish nonmagical fire in an area, counter
   magical fire from lower-level spells" - would need creative reinterpretation
   of what this even means in WeiDU/IE terms, not just a translation.
-- ☐ `ability.factory.ts:18` — not a single ability: a design note for a whole
-  "situational polymorph form selection" AI system (pick a form based on
-  combat state - fleeing, melee, ranged). No creature currently uses this
-  path. Substantial feature, not a quick addition.
+- ☐ **Polymorph Self, PnP-style (design on hold, 2026-11-03)** — replaces the
+  `ability.factory.ts:18` note ("situational polymorph form selection"). Only
+  the sirine uses `abilityFactory.polymorphSelf` today. What's settled so far:
+  - **When to shift** (maintainer): no interesting spells left, spell failure,
+    or interrupted in melee on every cast. Silence blocks the cast itself, so
+    it only matters for innate shifts (druids).
+  - **PnP Polymorph Self** (maintainer): one form for the whole duration, no
+    switching. The form gives its physical abilities, movement speed and
+    attacks, without their special effects. No special abilities either (no
+    Web Tangle, breath, rage, Hide). Ending it voluntarily heals 1d12 hit
+    points; letting it expire doesn't.
+  - **Duration:** 1 to 2 turns depending on wizard level. Druid forms have no
+    duration.
+  - **Form list must be redone:** the game's forms carry their special
+    abilities, and without them most are pointless (Mustard Jelly). The
+    maintainer will update Polymorph Self with new forms. A creature only
+    takes forms that beat its own fighting: for the sirine, a decent archer,
+    only the Ogre Mage (strong spells, good melee) and the Mustard Jelly
+    competed before the PnP change.
+  - **Random pick:** forms as one block with one response each. The weights
+    are skewed (e.g. 90/100) because the engine favours the first response.
+  - **Open:**
+    - Who picks the new forms: the maintainer, or proposed from our PnP
+      monsters.
+    - When a creature ends the spell for the 1d12 heal.
+    - Druids' innate forms (level 7).
+    - Wizard Shapechange (level 9) forms: Iron Golem, Mind Flayer, Giant
+      Troll, Marilith, Greater Basilisk, Invisible Stalker.
+  - **Known bugs until then:**
+    - The sirine's Polymorph Self is hand-written, so it sits first in her
+      script.
+    - The Mage Sirine's gate doesn't check Mirror Images or Greater Malison,
+      so she can shift with both still memorized.
+    - Forms are re-picked every 2 rounds (12-second `polymorph` timer).
+    - Fix for the first two: make the cast a scored entry; role
+      `shapeshift` already goes last.
 
 ---
 

@@ -149,12 +149,13 @@ function mummyFearAura(cre: Creature, greater: boolean) {
   return cre.addSpell({
     description,
     name: "monster.mummy.ability.fearAura.name",
-    role: "disable",
+    // an aura: always first, never held back (user)
+    role: "reactive",
     id: greater ? Ids.GreaterMummyFearAura : Ids.MummyFearAura,
     memorizedCount: 1,
     icon: SPELLS.Priest.CloakOfFear.file,
     options: { renew: 2 },
-    keywords: ["hold"],
+    keywords: ["hold", "aura"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

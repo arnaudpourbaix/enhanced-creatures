@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Log: each script's cast order in its creature's section
 - AI: spell entries are placed by score, with their own configuration
 - AI: a cleric's priorities: Hold Person, party buffs, Command last
+- AI: auras first, split heals, worth levels, no duplicate abilities
 
 ### Changed
 

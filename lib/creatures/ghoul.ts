@@ -162,8 +162,9 @@ function auraOfEvil(cre: Creature) {
   };
   return cre.addSpell({
     name: "monster.ghoul.ability.auraOfEvil.name",
-    role: "disable",
-    keywords: ["area"],
+    // an aura: always first, never held back (user)
+    role: "reactive",
+    keywords: ["area", "aura"],
     description: "monster.ghoul.ability.auraOfEvil.description",
     id: Ids.AuraOfEvil,
     options: { renew: 1 },

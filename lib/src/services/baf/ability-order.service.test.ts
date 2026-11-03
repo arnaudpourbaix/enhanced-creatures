@@ -88,6 +88,8 @@ describe("resolve - Mirror Image passes", () => {
     );
     expect(regular.preset).toBe(seeing);
     expect(counter.targets).toEqual(MIRRORED_ENEMY_TARGETS);
+    expect(counter.mirrorPass).toBe("counter");
+    expect(regular.mirrorPass).toBeUndefined();
     expect(MIRRORED_ENEMY_TARGETS[0].includeStatus).toEqual(["Able"]);
   });
 
@@ -101,7 +103,11 @@ describe("resolve - Mirror Image passes", () => {
     expect(passes).toContainEqual([HOLD, "avoid"]);
     expect(passes).toContainEqual([FIREBALL, undefined]);
     // its own first target list only (see mirrorTarget), so its checks stay: scripts stay small
-    expect(resolved.at(-1)).toMatchObject({ preset: HOLD, mirrorTarget: "require" });
+    expect(resolved.at(-1)).toMatchObject({
+      preset: HOLD,
+      mirrorTarget: "require",
+      mirrorPass: "lastResort",
+    });
     expect(resolved.at(-1)?.targets).toBeUndefined();
   });
 
@@ -169,20 +175,38 @@ describe("resolve", () => {
     const creature = fakeCreature({
       memorized: [
         { file: FIREBALL },
-        { file: SPELLS.Wizard.Stoneskin.file },
+        { file: SPELLS.Wizard.MinorGlobeOfInvulnerability.file },
         { file: SPELLS.Priest.CureLightWounds.file },
         { file: SPELLS.Priest.FindTraps.file },
       ],
     });
     const resolved = abilityOrderService.resolve(creature);
-    // healing is reactive, Stoneskin a great protection opening the fight, Find Traps useless
+    // healing allies is reactive, Minor Globe a great protection opening the fight, healing itself
+    // after the stronger Fireball, Find Traps useless
     expect(presetsOf(resolved)).toEqual([
       SPELLS.Priest.CureLightWounds.file,
-      SPELLS.Wizard.Stoneskin.file,
+      SPELLS.Wizard.MinorGlobeOfInvulnerability.file,
       FIREBALL,
+      SPELLS.Priest.CureLightWounds.file,
     ]);
     expect(resolved[0].probability).toBe(100);
     expect(resolved[2].probability).toBeGreaterThan(30);
+  });
+
+  it("heals the allies at once, and itself only on its own later cast", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const heal = SPELLS.Priest.CureLightWounds.file;
+    const creature = fakeCreature({
+      memorized: [{ file: FIREBALL }, { file: heal }],
+      entries: [{ spell: SPELLS.Priest.CureLightWounds, ability: { spell: { type: "force" } } }],
+    });
+    const [allies, , self] = abilityOrderService.resolve(creature);
+    const preset = ABILITY_PRESETS.find((p) => p.preset === heal);
+    const triggers = preset?.ability.targets?.[0].triggers;
+    expect(allies).toMatchObject({ preset: heal, spell: { type: "force" } });
+    expect(allies.targets).toEqual([{ name: "NearestAllies", triggers, randomOrder: true }]);
+    expect(self).toMatchObject({ preset: heal, spell: { type: "force" }, probability: 100 });
+    expect(self.targets).toEqual([{ name: "Myself", triggers }]);
   });
 
   it("inserts an at-will power without a position by its score", () => {

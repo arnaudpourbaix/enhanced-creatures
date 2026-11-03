@@ -15,6 +15,8 @@ export interface BaseCreatureAbility {
   name: StringReference;
   targets: TargetList[];
   triggers: Triggers.Trigger[];
+  /** A cast aimed at mirrored enemies (see CastOrderService.plan): for the log only */
+  mirrorPass?: "counter" | "lastResort";
   /**
    * The spell's SpellKeyword(s) (e.g. SPELLS.Wizard.Horror.keywords) - ability.service.ts
    * auto-appends the matching trigger.factory.spellChecks() triggers to every target list, so a

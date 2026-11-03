@@ -149,6 +149,7 @@ class CreatureFactory {
   }
 
   resolveAbilities(cre: Creature): void {
+    cre.handWrittenAbilities = [...cre.behavior.abilities];
     // first, while the creature's abilities are only its hand-written ones (see resolveCovered)
     cre.behavior.coveredAbilities = abilityService.getAbilities(
       abilityOrderService.resolveCovered(cre),

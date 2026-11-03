@@ -130,6 +130,9 @@ export abstract class CreatureGroup<T extends Creature>
     cre.projectiles = [];
     cre.adjustments = [];
     cre.variants = [];
+    // the source's resolved abilities are resolved again with the copy's own data
+    if (cre.handWrittenAbilities) cre.behavior.abilities = cre.handWrittenAbilities;
+    cre.behavior.coveredAbilities = [];
     if (p.removeAbilities === true) {
       cre.behavior.abilities = [];
     }

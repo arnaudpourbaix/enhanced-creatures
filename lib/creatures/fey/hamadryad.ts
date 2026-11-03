@@ -218,10 +218,10 @@ class HamadryadEntry extends CreatureEntry<Fey> {
               file: this.spell(FeyIds.AnimalFriendship).file,
               memorizedCount: 1,
             },
-            {
-              file: this.spell(FeyIds.DetectTraps).file,
-              memorizedCount: 1,
-            },
+            // {
+            //   file: this.spell(FeyIds.DetectTraps).file,
+            //   memorizedCount: 1,
+            // },
           ],
         },
         effects: {

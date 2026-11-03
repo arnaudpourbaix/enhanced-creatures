@@ -105,7 +105,8 @@ class NymphEntry extends CreatureEntry<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
-      role: "disable",
+      // an aura, cast instantly on its own timer: always first, never held back (user)
+      role: "reactive",
       id: FeyIds.BlindingBeauty,
       description: "monster.fey.ability.blindingBeauty.description",
       type: SpellTypeEnum.Innate,
@@ -114,7 +115,7 @@ class NymphEntry extends CreatureEntry<Fey> {
       options: {
         renew: 1,
       },
-      keywords: ["blind", "area"],
+      keywords: ["blind", "area", "aura"],
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,

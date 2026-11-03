@@ -4,7 +4,7 @@ import { NEW_SPELL_PROFILES } from "../../config/spells/new-spell-profiles";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellDurationClass, SpellRole, SpellTier } from "../../config/spells/spell-role";
 import { Creature } from "../model/creature/creature";
-import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { ItemAbilityTargetEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { Spell } from "../model/spell-item/spell-item";
 import { SequencerKind } from "../model/spell-item/spell-combo";
 import { spellFiles, SpellReference, SpellSaves } from "../model/spell-item/spell-reference";
@@ -179,8 +179,21 @@ class SpellProfileService {
     if (spell.role === undefined) return undefined;
     const castingTime = spell.castingTime ?? spell.headers[0]?.speed ?? 0;
     // its saves are worked out from its effects, on its ability (see SpellService)
-    const source = { ...spell, saves: spell.ability?.saves };
+    const source = { ...spell, saves: spell.ability?.saves, keywords: this.ownKeywords(spell) };
     return this.profile(spell.file, source, spell.type, castingTime);
+  }
+
+  /**
+   * A spell whose every header targets its caster, without an area, is delivered to the caster
+   * only (a golem's Charge): Mirror Image deflects nothing there.
+   */
+  private ownKeywords(spell: Spell): SpellKeyword[] {
+    const keywords = spell.keywords;
+    const onCaster =
+      spell.headers.length > 0 &&
+      spell.headers.every((h) => h.target === ItemAbilityTargetEnum.Caster);
+    if (!onCaster || keywords.includes("area") || keywords.includes("castOnSelf")) return keywords;
+    return [...keywords, "castOnSelf"];
   }
 }
 

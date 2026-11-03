@@ -399,7 +399,7 @@ IF
 	HaveSpellRES("jasm0o00")
 	Delay(6)
 	!StateCheck(Myself,STATE_HASTED)
-	RandomNumGT(705,70)
+	RandomNumGT(707,71)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)

@@ -179,7 +179,6 @@ function createStenchOfDecay(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
     name: "monster.zombie.ability.stenchOfDecay.name",
-    role: "disable",
     description: "monster.zombie.ability.stenchOfDecay.description",
     id: Ids.ZombieStenchOfDecay,
     memorizedCount: 1,
@@ -188,7 +187,8 @@ function createStenchOfDecay(cre: Creature) {
     options: {
       renew: 1,
     },
-    keywords: [],
+    role: "reactive",
+    keywords: ["aura"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
@@ -274,7 +274,6 @@ function createOdorOfDeath(cre: Creature) {
   });
   return cre.addSpell({
     name: "monster.zombie.ability.odorOfDeath.name",
-    role: "disable",
     description: "monster.zombie.ability.odorOfDeath.description",
     id: Ids.ZombieOdorOfDeath,
     memorizedCount: 1,
@@ -283,7 +282,8 @@ function createOdorOfDeath(cre: Creature) {
     options: {
       renew: 1,
     },
-    keywords: [],
+    role: "reactive",
+    keywords: ["aura"],
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
