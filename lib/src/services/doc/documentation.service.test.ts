@@ -1307,6 +1307,21 @@ describe("getSpellQuantity", () => {
 
   it("returns 'every N rounds' for a renew value above 1", () => {
     expect(documentationService.getSpellQuantity(3, 5)).toBe("every 5 rounds");
+    expect(documentationService.getSpellQuantity(3, 45)).toBe("every 45 rounds");
+  });
+
+  it("rounds a fractional renew value to whole rounds", () => {
+    expect(documentationService.getSpellQuantity(3, 4.6)).toBe("every 5 rounds");
+  });
+
+  it("shows turns for a multiple of 10 rounds", () => {
+    expect(documentationService.getSpellQuantity(3, 10)).toBe("every turn");
+    expect(documentationService.getSpellQuantity(3, 30)).toBe("every 3 turns");
+  });
+
+  it("rounds to the nearest turn from 50 rounds", () => {
+    expect(documentationService.getSpellQuantity(3, 51)).toBe("every 5 turns");
+    expect(documentationService.getSpellQuantity(3, 166.66666666666666)).toBe("every 17 turns");
   });
 });
 

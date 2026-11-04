@@ -1779,7 +1779,19 @@ class DocumentationService {
     if (memorizedCount === AT_WILL) return "at will";
     if (!renew) return `${memorizedCount}/day`;
     if (renew <= 1) return "at will";
-    return `every ${renew} rounds`;
+    return `every ${this.getRenewPeriod(renew)}`;
+  }
+
+  // A renew period in rounds, shown in turns (1 turn = 10 rounds) when it is a whole number of
+  // turns or long enough (50+ rounds) that rounding to the nearest turn reads better than an exact
+  // round count; fractional periods are rounded (166.67 rounds -> 17 turns).
+  private getRenewPeriod(renew: number): string {
+    const rounds = Math.round(renew);
+    if (rounds >= 50 || rounds % 10 === 0) {
+      const turns = Math.round(rounds / 10);
+      return turns === 1 ? "turn" : `${turns} turns`;
+    }
+    return `${rounds} rounds`;
   }
 
   private replace(template: { text: string }, key: string, value: string | number | undefined) {
