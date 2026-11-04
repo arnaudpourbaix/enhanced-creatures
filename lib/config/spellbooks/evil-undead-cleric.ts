@@ -28,13 +28,7 @@ export const EvilUndeadClericSpellbook: SpellBook = {
     {
       level: 4,
       base: [s.CloudOfPestilence, s.MentalDomination, s.HolyPower],
-      additionnals: [
-        s.Poison,
-        s.CauseSeriousWounds,
-        s.CloakOfFear,
-        s.FreeAction,
-        s.ProtectionFromGood10Radius,
-      ],
+      additionnals: [s.Poison, s.CauseSeriousWounds, s.CloakOfFear, s.ProtectionFromGood10Radius],
       repeat: [s.Poison, s.MentalDomination, s.CauseSeriousWounds],
     },
     {

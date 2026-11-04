@@ -1,11 +1,16 @@
-import { describe, expect, it } from "vitest";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
+import { afterEach, describe, expect, it } from "vitest";
 import { CodeLine } from "../../model/misc";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Creature, CreatureAutoGenerate } from "../../model/creature/creature";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
+import { Variant } from "../../model/creature/variant";
+import { CreatureScript } from "../baf/script-plan.service";
 import { CreatureData, CreatureScriptEdit } from "../../model/creature/data";
+import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
+import { State } from "../../state";
 import weiduCreatureService from "./weidu-creature.service";
+import spellComboService from "../spell-combo.service";
+import { SEQUENCERS } from "../../../config/spells/spell-combos";
 
 interface WeiduCreatureServicePrivate {
   removeEffects(lines: CodeLine[], tab: number, creature: Creature): void;
@@ -55,7 +60,7 @@ function codes(lines: CodeLine[]): string[] {
 const SPELL_REVISIONS_PATCH_IF = "PATCH_IF MOD_IS_INSTALLED spell_rev.tp2 0 BEGIN";
 const ACTION_FOR_EACH_FILE = "ACTION_FOR_EACH ~file~ IN";
 const END_ELSE_BEGIN = "END ELSE BEGIN";
-const SCRIPT_JAM1SU = "script=jam1su";
+const SCRIPT_JABM0101 = "script=jabm0101";
 
 function fakeAdjustment(
   p: Partial<Omit<CreatureAdjustment, "data">> & { data?: Partial<CreatureData> } = {},
@@ -229,6 +234,16 @@ describe("addMemorizedSpells (private)", () => {
       spells: { memorized: [{ file: "SPWI001", memorizedCount: 1 }] },
     });
     expect(codes(lines)[0]).toContain("ADD_MEMORIZED_SPELL");
+  });
+
+  it("labels a combo SPL by its kind and key", () => {
+    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const lines: CodeLine[] = [];
+    service.addMemorizedSpells(lines, 0, {
+      spells: { memorized: [{ file, memorizedCount: 1 }] },
+    });
+    expect(codes(lines)[0]).toMatch(new RegExp(`^ADD_MEMORIZED_SPELL ~${file}~`));
+    expect(codes(lines)[0]).toMatch(/\/\/ Minor Sequencer \(Magic Missiles\)$/);
   });
 
   it("wraps a single conditional spellbook variant in PATCH_IF, then always adds memorized after", () => {
@@ -425,23 +440,46 @@ describe("addResourceVariantAssignments (private)", () => {
   });
 });
 
+/** A creature planned with one scripted variant ("necro", jabm0102) owning NECRO. */
+function withNecroScript(creature: Creature, summonFiles: string[] = []): Creature {
+  const base = { name: "jabm0100", files: ["PLAIN"], summonFiles: [], view: creature };
+  const necro = {
+    name: "jabm0102",
+    variant: { label: "necro" } as Variant,
+    files: ["NECRO"],
+    summonFiles,
+    summonName: summonFiles.length ? "jabm0103" : undefined,
+    view: creature,
+  };
+  creature.scripts = [base, necro] as CreatureScript[];
+  return creature;
+}
+
 describe("compileScripts (private)", () => {
   it("omits EVALUATE_BUFFER when the creature has no resource variants", () => {
     const lines: CodeLine[] = [];
-    service.compileScripts(lines, fakeCreature({ family: MonsterFamilyEnum.Ankheg }), false);
+    service.compileScripts(lines, fakeCreature({ folder: "lib/pnp-monster/ankheg" }), false);
     expect(codes(lines)[0]).not.toContain("EVALUATE_BUFFER");
   });
 
   it("appends EVALUATE_BUFFER to every COMPILE line when a resource variant is present", () => {
     const lines: CodeLine[] = [];
     const creature = fakeCreature({
-      family: MonsterFamilyEnum.Ankheg,
+      folder: "lib/pnp-monster/ankheg",
       adjustments: [fakeAdjustment({ summon: true })],
     });
     service.compileScripts(lines, creature, true);
     const compileLines = codes(lines).filter((c) => c.startsWith("COMPILE"));
     expect(compileLines).toHaveLength(2);
     expect(compileLines.every((c) => c.endsWith(" EVALUATE_BUFFER"))).toBe(true);
+  });
+
+  it("compiles every planned script", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(fakeCreature({ folder: "lib/pnp-monster/ankheg" }), ["SUMN"]);
+    service.compileScripts(lines, creature, false);
+    expect(codes(lines)).toContain("COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0102.baf~");
+    expect(codes(lines)).toContain("COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0103.baf~");
   });
 });
 
@@ -506,6 +544,43 @@ describe("handleScriptEdit (private)", () => {
     const result = codes(lines);
     expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
   });
+
+  it("emits a block-deleting loop per removeBlocks entry, inside DECOMPILE_AND_PATCH", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, {
+      files: ["RH#ISVMP"],
+      removeBlocks: ["VAMPIRE_DOMINATION", "FOO"],
+    });
+    const result = codes(lines);
+    expect(result.some((c) => c.includes("REPLACE_TEXTUALLY"))).toBe(false);
+    expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~VAMPIRE_DOMINATION~ 0)");
+    expect(result).toContain("SET ec_pos = INDEX_BUFFER (EXACT_MATCH ~FOO~ 0)");
+    expect(
+      result.filter((c) => c === "DELETE_BYTES ec_start (ec_end + 3 - ec_start)"),
+    ).toHaveLength(2);
+    const patchStart = result.indexOf("DECOMPILE_AND_PATCH BEGIN");
+    const butOnly = result.indexOf("BUT_ONLY");
+    const loop = result.indexOf("WHILE (ec_pos >= 0) BEGIN");
+    expect(loop).toBeGreaterThan(patchStart);
+    expect(loop).toBeLessThan(butOnly);
+  });
+});
+
+describe("handleScriptEdit game scope (private)", () => {
+  it("wraps the edit in the game's condition when it has one", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["C6BWEAK"], replaces: [["A", "B"]], game: "bg2" });
+    const result = codes(lines);
+    expect(result[0]).toBe("ACTION_IF GAME_IS ~bg2ee~ BEGIN");
+    expect(result[1]).toBe(ACTION_FOR_EACH_FILE);
+    expect(result.filter((c) => c === "END")).toHaveLength(4);
+  });
+
+  it("leaves an edit without a game unwrapped", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, { files: ["JAM01"], replaces: [["A", "B"]] });
+    expect(codes(lines)[0]).toBe(ACTION_FOR_EACH_FILE);
+  });
 });
 
 describe("patchScript (private)", () => {
@@ -567,7 +642,7 @@ describe("patchScripts (private)", () => {
     const lines: CodeLine[] = [];
     service.patchScripts(lines, 0, scriptCreature([summonAdj({ files: ["SUMU"] })]));
     const out = codes(lines);
-    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(true);
     expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
   });
 
@@ -586,9 +661,9 @@ describe("patchScripts (private)", () => {
     expect(elseIdx).toBeGreaterThan(guardIdx);
     // summon script under the guard, normal script under ELSE
     const summonIdx = out.findIndex(
-      (c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JAM1SU),
+      (c, i) => i > guardIdx && i < elseIdx && c.includes(SCRIPT_JABM0101),
     );
-    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jam1 "));
+    const normalIdx = out.findIndex((c, i) => i > elseIdx && c.includes("script=jabm0100 "));
     expect(summonIdx).toBeGreaterThan(guardIdx);
     expect(normalIdx).toBeGreaterThan(elseIdx);
   });
@@ -602,25 +677,78 @@ describe("patchScripts (private)", () => {
     ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
-    expect(out.some((c) => c.includes(SCRIPT_JAM1SU))).toBe(true);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(true);
     expect(out.some((c) => c.includes("GAME_IS"))).toBe(false);
     expect(out.some((c) => c === END_ELSE_BEGIN)).toBe(false);
-    // BDANKHSU is only ever skipped by the base jam1 assignment, never re-assigned jam1
+    // BDANKHSU is only ever skipped by the base jabm0100 assignment, never re-assigned jabm0100
     expect(out).toContain("PATCH_DEFINE_ARRAY skipFiles BEGIN BDANKHSU END");
-    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JAM1SU));
-    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jam1 "))).toBe(false);
+    const summonScriptIdx = out.findIndex((c) => c.includes(SCRIPT_JABM0101));
+    expect(out.slice(summonScriptIdx).some((c) => c.includes("script=jabm0100 "))).toBe(false);
   });
 
   it("passes newFiles as forceFiles so a mod-created file always gets a script", () => {
     const lines: CodeLine[] = [];
-    const creature = scriptCreature([summonAdj({ files: ["JADRYAD"] })]);
+    const creature = scriptCreature([summonAdj({ files: ["JACM1500"] })]);
     (creature as unknown as { newFiles: { files: string[] }[] }).newFiles = [
-      { files: ["JADRYAD"] },
+      { files: ["JACM1500"] },
     ];
     service.patchScripts(lines, 0, creature);
     const out = codes(lines);
-    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JADRYAD END");
+    expect(out).toContain("PATCH_DEFINE_ARRAY forceFiles BEGIN JACM1500 END");
     expect(out.some((c) => c.includes("STR_VAR") && c.includes("forceFiles"))).toBe(true);
+  });
+
+  it("the base assignment skips scripted variant files and each variant assigns its own", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(scriptCreature([]));
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    const baseSkip = out.find((c) => c.startsWith("PATCH_DEFINE_ARRAY skipFiles"));
+    expect(baseSkip).toContain("NECRO");
+    const necroFiles = out.indexOf("PATCH_DEFINE_ARRAY files BEGIN NECRO END");
+    expect(necroFiles).toBeGreaterThan(out.indexOf(baseSkip ?? ""));
+    expect(out.slice(necroFiles).some((c) => c.includes("script=jabm0102 "))).toBe(true);
+  });
+
+  it("a scripted variant's summon file gets the variant's summon script, not the base one", () => {
+    const lines: CodeLine[] = [];
+    const creature = withNecroScript(scriptCreature([summonAdj({ files: ["SUMN"] })]), ["SUMN"]);
+    service.patchScripts(lines, 0, creature);
+    const out = codes(lines);
+    expect(out.some((c) => c.includes(SCRIPT_JABM0101))).toBe(false);
+    const summonFiles = out.indexOf("PATCH_DEFINE_ARRAY files BEGIN SUMN END");
+    expect(out[summonFiles + 1]).toContain("script=jabm0103 ");
+  });
+
+  it("a location adjustment on a variant member assigns the variant script", () => {
+    const lines: CodeLine[] = [];
+    const location = fakeAdjustment({
+      files: ["NECRO"],
+      data: { script: { location: "Default", remove: [] } } as Partial<CreatureData>,
+    });
+    service.patchScripts(lines, 0, withNecroScript(scriptCreature([location])));
+    const out = codes(lines);
+    expect(out.some((c) => c.includes("slot=Default") && c.includes("script=jabm0102 "))).toBe(
+      true,
+    );
+    expect(out.filter((c) => c === "PATCH_DEFINE_ARRAY files BEGIN NECRO END")).toHaveLength(1);
+  });
+
+  it("a location adjustment spanning scripts assigns each file its own script", () => {
+    const lines: CodeLine[] = [];
+    const location = fakeAdjustment({
+      files: ["PLAIN", "NECRO", "SUMN"],
+      data: { script: { location: "Default", remove: [] } } as Partial<CreatureData>,
+    });
+    service.patchScripts(lines, 0, withNecroScript(scriptCreature([location]), ["SUMN"]));
+    const out = codes(lines);
+    const assigned = (file: string) => {
+      const at = out.indexOf(`PATCH_DEFINE_ARRAY files BEGIN ${file} END`);
+      return out.slice(at).find((c) => c.includes("slot=Default"));
+    };
+    expect(assigned("PLAIN")).toContain("script=jabm0100 ");
+    expect(assigned("NECRO")).toContain("script=jabm0102 ");
+    expect(assigned("SUMN")).toContain("script=jabm0103 ");
   });
 
   it("emits no forceFiles array when the creature creates no new files", () => {
@@ -742,5 +870,38 @@ describe("handleAdjustment (private)", () => {
     const lines: CodeLine[] = [];
     service.handleAdjustment(lines, 0, creature, adjustment);
     expect(codes(lines).some((c) => c.includes("GAME_IS"))).toBe(false);
+  });
+});
+
+describe("addImmunities (private)", () => {
+  const before = State.immunities;
+  afterEach(() => {
+    State.immunities = before;
+  });
+
+  it("emits an LPF call for a regular immunity", () => {
+    State.immunities = [
+      { name: "poison", type: "immunity", immunities: [], effects: [], overrides: [] },
+    ] as unknown as ImmunityConfig[];
+    const lines: CodeLine[] = [];
+    (
+      weiduCreatureService as unknown as {
+        addImmunities(l: CodeLine[], t: number, i: ImmunityName[], a: CreatureAdjustment[]): void;
+      }
+    ).addImmunities(lines, 0, ["poison"], []);
+    expect(lines.some((l) => l.code.startsWith("LPF "))).toBe(true);
+  });
+
+  it("emits no LPF call for a docOnly immunity", () => {
+    State.immunities = [
+      { name: "animal", type: "trait", docOnly: true, immunities: [], effects: [], overrides: [] },
+    ] as unknown as ImmunityConfig[];
+    const lines: CodeLine[] = [];
+    (
+      weiduCreatureService as unknown as {
+        addImmunities(l: CodeLine[], t: number, i: ImmunityName[], a: CreatureAdjustment[]): void;
+      }
+    ).addImmunities(lines, 0, ["animal"], []);
+    expect(lines).toEqual([]);
   });
 });

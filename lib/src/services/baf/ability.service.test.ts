@@ -102,6 +102,42 @@ describe("getAbilities", () => {
     expect(withNone.triggers).toEqual([]);
   });
 
+  it("shares one RandomNumGT range between weapon spells, each with its own chance", () => {
+    const [strong, weak, other] = abilityService.getAbilities([
+      { preset: SPELLS.Priest.Harm.file, spell: { id: SPWI001 }, probability: 80 },
+      { preset: SPELLS.Priest.CauseLightWounds.file, spell: { id: SPWI001 }, probability: 40 },
+      { preset: SPELLS.Priest.Heal.file, spell: { id: SPWI001 }, probability: 40 },
+    ]);
+    const roll = (a: typeof strong) =>
+      a.triggers.find((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
+        ?.params;
+    expect(roll(strong)?.[0]).toBe(roll(weak)?.[0]);
+    expect(roll(strong)?.[1]).toBeLessThan(roll(weak)?.[1] ?? 0);
+    expect(roll(other)?.[0]).not.toBe(roll(weak)?.[0]);
+  });
+
+  it("uses the ability's rollRange, unless the spell has a shared roll", () => {
+    const [arrow, hammer] = abilityService.getAbilities([
+      {
+        preset: SPELLS.Wizard.FlameArrow.file,
+        spell: { id: SPWI001 },
+        probability: 60,
+        rollRange: 705,
+      },
+      {
+        preset: SPELLS.Priest.SpiritualHammer.file,
+        spell: { id: SPWI001 },
+        probability: 60,
+        rollRange: 705,
+      },
+    ]);
+    const roll = (a: typeof arrow) =>
+      a.triggers.find((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
+        ?.params;
+    expect(roll(arrow)).toEqual([705, 282]);
+    expect(roll(hammer)?.[0]).toBe(700);
+  });
+
   it("assigns increasing RandomNumGT global ids across multiple probabilistic abilities", () => {
     const abilities = abilityService.getAbilities([
       { name: DEFAULT_ABILITY_NAME, probability: 50 },
@@ -110,6 +146,79 @@ describe("getAbilities", () => {
     const [firstNum] = (abilities[0].triggers[0] as Triggers.RandomNumGT).params;
     const [secondNum] = (abilities[1].triggers[0] as Triggers.RandomNumGT).params;
     expect(secondNum).toBeGreaterThan(firstNum);
+  });
+});
+
+describe("getAbilities - mirrorTarget", () => {
+  const mirror = { name: "StateCheck", params: ["{Target}", "STATE_MIRRORIMAGE"] };
+  const targets = [{ name: "NearestEnemies" }, { name: "FarthestEnemies" }] as const;
+
+  it("skips mirrored targets in every target list with avoid", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [...targets], mirrorTarget: "avoid" },
+    ]);
+    for (const target of ability.targets) {
+      expect(target.triggers).toContainEqual({ ...mirror, negation: true });
+    }
+  });
+
+  it("only takes mirrored targets with require", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, targets: [...targets], mirrorTarget: "require" },
+    ]);
+    for (const target of ability.targets) {
+      expect(target.triggers).toContainEqual({ ...mirror, negation: false });
+    }
+  });
+
+  it("adds no target to an ability without one", () => {
+    const [ability] = abilityService.getAbilities([
+      { name: DEFAULT_ABILITY_NAME, mirrorTarget: "avoid" },
+    ]);
+    expect(ability.targets).toEqual([]);
+  });
+
+  it("drops a target list only taking mirrored targets with avoid: it could never match", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [{ name: "Spellcasters", triggers: [mirror] }, { name: "NearestEnemies" }],
+        mirrorTarget: "avoid",
+      },
+    ]);
+    expect(ability.targets.map((t) => t.name)).toEqual(["NearestEnemies"]);
+  });
+
+  it("keeps only the first target list, with its own checks, with require", () => {
+    const own = { name: "General", params: ["{Target}", "UNDEAD"] };
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [
+          { name: "NearestEnemies", includeStatus: ["Able"], triggers: [own] },
+          { name: "FarthestEnemies" },
+        ],
+        mirrorTarget: "require",
+      },
+    ]);
+    expect(ability.targets).toHaveLength(1);
+    expect(ability.targets[0].includeStatus).toEqual(["Able"]);
+    expect(ability.targets[0].triggers).toEqual([own, { ...mirror, negation: false }]);
+  });
+
+  it("checks a spell cast on its caster on the caster, even with targets", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        name: DEFAULT_ABILITY_NAME,
+        targets: [{ name: "NearestEnemies" }],
+        spell: { id: SPWI001, castOnSelf: true, excludeStatsChecks: ["TRUE_SIGHT"] },
+      },
+    ]);
+    expect(ability.triggers).toContainEqual({
+      name: "CheckStatGT",
+      params: ["Myself", 0, "TRUE_SIGHT"],
+      negation: true,
+    });
   });
 });
 
@@ -262,81 +371,6 @@ describe("getAbilities - single spell", () => {
       { name: "CheckStatGT", params: ["Myself", 0, "STR"], negation: true },
       { name: "CheckSpellState", params: ["Myself", "some_spellstate"], negation: true },
     ]);
-  });
-});
-
-describe("getAbilities - multi-spell (spells array)", () => {
-  it("marks isSpell true and emits one Spell action per spell", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        spells: [
-          { id: SPWI001, type: "normal" },
-          { id: SPWI002, type: "normal" },
-        ],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.isSpell).toBe(true);
-    expect(ability.infiniteUse).toBe(false);
-    expect(ability.actions).toEqual([
-      { name: "Spell", params: ["LastSeenBy", "SPWI001"] },
-      { name: "Spell", params: ["LastSeenBy", "SPWI002"] },
-    ]);
-  });
-
-  it("throws when spells mix castOnSelf true and false", () => {
-    expect(() =>
-      abilityService.getAbilities([
-        {
-          name: DEFAULT_ABILITY_NAME,
-          spells: [
-            { id: SPWI001, castOnSelf: true },
-            { id: SPWI002, castOnSelf: false },
-          ],
-        } as unknown as RawCreatureAbility,
-      ]),
-    ).toThrow(/Every spells must have the same target in ability ability.unknown/);
-  });
-
-  it("targets Myself for every spell when ability.keywords includes castOnSelf", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        keywords: ["castOnSelf"],
-        spells: [
-          { id: SPWI001, type: "normal" },
-          { id: SPWI002, type: "normal" },
-        ],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.actions).toEqual([
-      { name: "Spell", params: ["Myself", "SPWI001"] },
-      { name: "Spell", params: ["Myself", "SPWI002"] },
-    ]);
-  });
-
-  it("casts an individual spell at its explicit targetName instead of the default target", () => {
-    const [ability] = abilityService.getAbilities([
-      {
-        name: DEFAULT_ABILITY_NAME,
-        spells: [{ id: SPWI001, type: "normal", targetName: "RR#TRAT" }],
-      } as unknown as RawCreatureAbility,
-    ]);
-    expect(ability.actions).toContainEqual({
-      name: "Spell",
-      params: ["RR#TRAT", "SPWI001"],
-    });
-  });
-
-  it("throws for an unrecognized spell.id/type combination (unlike the single-spell path, the spells array never defaults a missing type to 'normal')", () => {
-    expect(() =>
-      abilityService.getAbilities([
-        {
-          name: DEFAULT_ABILITY_NAME,
-          spells: [{ id: SPWI001 }],
-        } as unknown as RawCreatureAbility,
-      ]),
-    ).toThrow(/getSpellAction: unexpected combination/);
   });
 });
 
@@ -567,6 +601,24 @@ describe("applyPreset - auto-resolves excludeStateChecks from SPELLS", () => {
   });
 });
 
+describe("applyPreset - recast timer from SPELLS", () => {
+  it("spaces a spell's casts by its recastTimer, named after its key (Invisibility)", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Invisibility.file);
+    expect(result.timer).toEqual({ name: "RECAST_Invisibility", value: 12 });
+  });
+
+  it("keeps an ability's own timer", () => {
+    const timer = { name: "darkness", value: 30 };
+    const result = service.applyPreset({ timer }, SPELLS.Wizard.Darkness15Radius.file);
+    expect(result.timer).toEqual(timer);
+  });
+
+  it("gives no timer to a spell without one", () => {
+    const result = service.applyPreset({}, SPELLS.Wizard.Sleep.file);
+    expect(result.timer).toBeUndefined();
+  });
+});
+
 describe("getAbilities - auto spellChecks via ability.keywords", () => {
   afterEach(() => {
     GLOBAL_CONFIG.spellChecks.stats = true;
@@ -707,6 +759,14 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
 });
 
 describe("getAbilities - minRange from alliesCheck", () => {
+  it("leaves minRange unset for an area around the caster", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.MalavonsRage.file, spell: { id: SPWI001 } },
+    ]);
+    expect(ability.minRange).toBeUndefined();
+    expect(ability.range).toBe(8);
+  });
+
   it("defaults minRange to the alliesCheck range", () => {
     const [ability] = abilityService.getAbilities([
       { preset: SPELLS.Wizard.Fireball.file, spell: { id: SPWI001 } },
@@ -821,6 +881,8 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
       [IMMUNE_LEVEL_3, ...SPELL_REFLECTIONS],
     ],
     ["the friendly keyword", { keywords: ["friendly"] }, []],
+    ["the castOnSelf keyword", { keywords: ["castOnSelf"] }, []],
+    ["the castOnSelf and area keywords", { keywords: ["castOnSelf", "area"] }, [IMMUNE_LEVEL_3]],
   ] as const)("keeps only the level checks not suppressed by %s", (_, override, expected) => {
     ABILITY_PRESETS.push({
       preset: "JA#TEST_SUPPRESSED_PRESET",
@@ -842,60 +904,7 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
   });
 });
 
-describe("getMinorSequencer / getSequencer", () => {
-  it("builds a 2-spell sequencer with the MinorSequencer name and the standard probability/triggers", () => {
-    const ability = abilityService.getMinorSequencer([
-      "SPWI219", // Vocalize
-      "SPWI206", // Invisibility
-    ] as [string, string]);
-    expect(ability.name).toBe("ability.MinorSequencer");
-    expect(ability.requireVocal).toBe(false);
-    expect(ability.probability).toBe(70);
-    expect(ability.spells).toHaveLength(2);
-  });
-
-  it("throws for an unknown preset name", () => {
-    expect(() =>
-      abilityService.getMinorSequencer(["not_a_real_preset", "x"] as [string, string]),
-    ).toThrow(/Unknown preset not_a_real_preset/);
-  });
-
-  it("throws when a preset resolves without a spell (documented guard; no real preset currently triggers this)", () => {
-    const spy = vi.spyOn(service, "applyPreset").mockReturnValueOnce({});
-    try {
-      expect(() => abilityService.getMinorSequencer(["x", "y"] as [string, string])).toThrow(
-        /Sequencer only supports spells/,
-      );
-    } finally {
-      spy.mockRestore();
-    }
-  });
-
-  it("appends the keyword's SPELL_CHECK_TRIGGERS to a sequenced preset's target list too", () => {
-    const presetName = "JA#TEST_SEQUENCER_KEYWORDS_PRESET";
-    ABILITY_PRESETS.push({
-      preset: presetName,
-      ability: {
-        name: DEFAULT_ABILITY_NAME,
-        keywords: ["acid"],
-        targets: [{ name: "Players" }],
-        spell: { id: SPWI001 },
-      },
-    });
-    try {
-      const ability = abilityService.getMinorSequencer([presetName, presetName] as [
-        string,
-        string,
-      ]);
-      expect(ability.targets).toEqual([
-        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
-        { name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.acid] },
-      ]);
-    } finally {
-      ABILITY_PRESETS.pop();
-    }
-  });
-
+describe("preset spell arrays", () => {
   it("throws when a preset's spell is an array (presets don't support spell arrays)", () => {
     ABILITY_PRESETS.push({
       preset: "JA#TEST_ARRAY_SPELL_PRESET",
@@ -930,5 +939,37 @@ describe("getCustomCodes", () => {
     expect(customCode.statements).toEqual([]);
     expect(customCode.abilities).toHaveLength(1);
     expect(customCode.abilities[0].name).toBe(DEFAULT_ABILITY_NAME);
+  });
+});
+
+describe("getAbilities - preset targets", () => {
+  it("replaces the preset's target lists with the ability's own", () => {
+    const [ability] = abilityService.getAbilities([
+      {
+        preset: SPELLS.Wizard.CharmPerson.file,
+        spell: { resource: "JATEST" },
+        targets: [
+          { name: "Players", triggers: [{ name: "Class", params: ["$obj", "CLERIC_ALL"] }] },
+          { name: "NearestEnemies" },
+        ],
+      },
+    ]);
+    expect(ability.targets.map(({ name }) => name)).toEqual(["Players", "NearestEnemies"]);
+    // they still get the spell's checks
+    expect(ability.targets[0].triggers).toEqual(
+      expect.arrayContaining([...SPELL_CHECK_TRIGGERS.charm]),
+    );
+  });
+
+  it("keeps the preset's target lists without its own", () => {
+    const [ability] = abilityService.getAbilities([
+      { preset: SPELLS.Wizard.CharmPerson.file, spell: { resource: "JATEST" } },
+    ]);
+    expect(ability.targets.map(({ name }) => name)).toEqual([
+      "Fighters",
+      "Fighters",
+      "NearestEnemies",
+      "NearestEnemies",
+    ]);
   });
 });

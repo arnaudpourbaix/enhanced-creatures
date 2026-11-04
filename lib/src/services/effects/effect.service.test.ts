@@ -23,6 +23,24 @@ import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import effectService from "./effect.service";
 
 describe("getEffect", () => {
+  it("writes an attacks-per-round increment as the raw delta, not through the APR table", () => {
+    const effect: Effect = {
+      opcode: EffectTypeEnum.ModifyAttacksPerRound,
+      type: AttackModifierTypeEnum.Increment,
+      value: -1,
+    };
+    effectService.getEffect(effect);
+    expect(effect.parameter1).toBe("-1");
+    expect(effect.parameter2).toBe(`${AttackModifierTypeEnum.Increment}`);
+  });
+
+  it("writes the spell level for opcode 102 (immunity to a spell level)", () => {
+    const effect: Effect = { opcode: EffectTypeEnum.ProtectionFromSpellLevels, level: 2 };
+    effectService.getEffect(effect);
+    expect(effect.opcode).toBe(102);
+    expect(effect.parameter1).toBe("2");
+  });
+
   it("fills parameter1/parameter2 for a plain value+type case (StatisticModifier)", () => {
     const effect: Effect = {
       opcode: EffectTypeEnum.DexterityBonus,

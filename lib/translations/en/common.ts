@@ -1,4 +1,15 @@
 export default {
+  // Names of the natural weapon kinds (lib/config/natural-weapons.ts), shared by every creature.
+  naturalWeapon: {
+    jaws: "Jaws",
+    claws: "Claws",
+    paws: "Paws",
+    fists: "Fists",
+    touch: "Touch",
+    stinger: "Stinger",
+    pseudopod: "Pseudopod",
+    branch: "Branch",
+  },
   immunity: {
     poison: "Immune to poison",
     disease: "Immune to all diseases",
@@ -52,6 +63,7 @@ export default {
     nonSilverNonMagicalWeapons: "Immune to non-magical and non-silver weapons",
     plusOneWeapons: "Immune to all weapons of +1 or less enchantment",
     plusTwoWeapons: "Immune to all weapons of +2 or less enchantment",
+    plusThreeWeapons: "Immune to all weapons of +3 or less enchantment",
     backstab: "Immune to backstab",
     criticalHit: "Immune to critical hits",
     devourBrain: "Immune to devour brain ability",
@@ -120,9 +132,9 @@ Darkvision out to 60 feet.`,
       name: "Skeletal",
       desc: "Skeletal undead suffer no damage from cold-based attacks. Due to their bony frames, edged and piercing weapons inflict only half damage.",
     },
-    extraplanar: {
-      name: "Extraplanar",
-      desc: "Extraplanar creatures are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.",
+    planarEssence: {
+      name: "Planar Essence",
+      desc: "Creatures with a planar essence are immune to Death Spell and are unaffected by all Cure and Cause Wound spells including Heal and Harm.",
     },
     plant: {
       name: "Plant",

@@ -124,6 +124,15 @@ describe("createItem", () => {
     weiduItemService.createItem(lines, fakeItem({ immunities: ["poison"] }));
     expect(codes(lines).some((c) => c.startsWith("LPF "))).toBe(true);
   });
+
+  it("emits no LPF line for a docOnly item immunity", () => {
+    State.immunities = [
+      { name: "animal", type: "trait", docOnly: true },
+    ] as unknown as ImmunityConfig[];
+    const lines: CodeLine[] = [];
+    weiduItemService.createItem(lines, fakeItem({ immunities: ["animal"] }));
+    expect(codes(lines).some((c) => c.startsWith("LPF "))).toBe(false);
+  });
 });
 
 describe("createItemHeader (private)", () => {

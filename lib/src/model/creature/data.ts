@@ -1,4 +1,6 @@
+import { Game } from "./game";
 import weiduUtils from "../../services/utils/weidu.utils";
+import type { SpellBookName } from "../../../config/spellbooks/spellbook-name";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { ImmunityName } from "../final/immunity";
 import { CreatureSize } from "../game-data/sizes";
@@ -13,6 +15,7 @@ import { RaceIdentifier } from "../ids/race";
 import { Effect } from "../spell-item/effect";
 import { ProficiencyTypeEnum } from "../spell-item/effect.enums";
 import { EffectTypeEnum } from "../spell-item/effect.type";
+import type { SpellCombo } from "../spell-item/spell-combo";
 import { WithRequired } from "../utility-types";
 import { EquippedItem } from "./item";
 import { Movement } from "./movement";
@@ -137,7 +140,15 @@ export interface CreatureScriptEdit {
   /**
    * Will call REPLACE_TEXTUALLY
    */
-  replaces: [string, string][];
+  replaces?: [string, string][];
+  /**
+   * Removes every whole IF...END block whose decompiled text contains one of these strings
+   * (case-insensitive, exact match), e.g. a spell IDS name (`VAMPIRE_DOMINATION`) or a resref
+   * (`"RH#DOM"`, which also hits decompiled `// SPIN883.SPL` comments). Applied after `replaces`.
+   */
+  removeBlocks?: string[];
+  /** Only on this game's installs (where its creatures get patched); every game if unset */
+  game?: Game;
 }
 
 export class CreatureDataItems {
@@ -153,6 +164,8 @@ export class CreatureDataSpells {
    */
   spellbooks?: SpellbookVariant[];
   memorized: MemorizedSpell[] = [];
+  /** Sequencers and contingencies memorized in every mod variant, as declared (no level check). */
+  combos?: SpellCombo[];
   removeKnown?: boolean;
   removeMemorized?: boolean | string[];
   /**
@@ -166,9 +179,20 @@ export class CreatureDataSpells {
   cumulative?: boolean;
 }
 
+/** The spells a creature's data declares, whether full (CreatureData) or input (InputCreatureData) */
+export interface SpellDeclarations {
+  memorized?: ({ file?: string } | undefined)[];
+  spellbooks?: ({ memorized?: ({ file?: string } | undefined)[] } | undefined)[];
+  /** Whole combos even in input data: authors pass a combo, never a part of one */
+  combos?: unknown[];
+}
+
 export interface SpellbookVariant {
   /** Key into SPELLBOOK_MODS (lib/config/mods.ts), which resolves the actual WeiDU check. */
   mod: SpellbookModName;
+  /** The SpellBook it was built from (spellService.createSpellbooks): a caster's spellbook, unlike
+   * a variant listing a creature's own powers (Improved Bodhi's) */
+  spellbook?: SpellBookName;
   memorized: MemorizedSpell[];
 }
 
@@ -231,7 +255,7 @@ export function getAnimationValue(
   );
 }
 
-export type ScriptLocation ="Override" | "Class" | "Race" | "General" | "Default" | "None";
+export type ScriptLocation = "Override" | "Class" | "Race" | "General" | "Default" | "None";
 
 export const DATA_DEFAULT: Partial<CreatureData> = {
   immunities: [],
@@ -646,6 +670,10 @@ export const CREATURE_DATA_FIELDS: {
       if (value.spellbooks) {
         data.spells.spellbooks ??= [];
         data.spells.spellbooks.push(...value.spellbooks);
+      }
+      if (value.combos) {
+        data.spells.combos ??= [];
+        data.spells.combos.push(...value.combos);
       }
       if (value.memorized) {
         data.spells.memorized.push(...value.memorized);

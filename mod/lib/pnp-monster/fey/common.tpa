@@ -1,3 +1,0 @@
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaenkis.bam~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jafspkp.bam~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-monster/fey/assets/jaskiss.vvc~ ~override~

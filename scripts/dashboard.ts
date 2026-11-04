@@ -1,16 +1,18 @@
 import * as fs from "fs";
 import * as path from "path";
-import { familyFactories } from "../lib/creatures";
+import { buildAllCreatures } from "../lib/creatures";
 import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
+import { csvBool, requireCsvColumns } from "../lib/src/csv";
 import { CsvSummary, MonsterRowCount, renderDashboard } from "./lib/dashboard-html";
 import { diffMonsters } from "./lib/monster-status";
+import { readModVersion } from "../lib/src/services/doc/doc-version";
 import logService from "../lib/src/services/log.service";
 import mainService from "../lib/src/services/main.service";
 import stateService from "../lib/src/services/state.service";
 import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 
-// Builds every creature family once and renders a single dashboard page with:
+// Builds every creature once and renders a single dashboard page with:
 // - Overview: creatures.csv rows by MonsterId status, monster counts, stats
 //   report headline
 // - Stats report: creatures.csv hp / thac0 / apr vs the documentation (scripts/lib/stats-report.ts)
@@ -28,7 +30,7 @@ function parseArgs(): { assetsDir: string } {
   return { assetsDir };
 }
 
-/** Initializes the services the family builders need, logging to dashboard.log. */
+/** Initializes the services the kin and entry builders need, logging to dashboard.log. */
 async function initBuildPipeline(): Promise<void> {
   logService.filePath = path.join(process.cwd(), "dashboard.log");
   logService.init();
@@ -49,7 +51,7 @@ function summarizeCsv(rows: Record<string, string>[]): {
       summary.noMonsterId++;
       continue;
     }
-    const validated = row.ValidatedMonsterId.trim().toLowerCase() === "true";
+    const validated = csvBool(row.ValidatedMonsterId);
     if (validated) summary.validated++;
     else summary.unvalidated++;
     const count = byMonster.get(monster) ?? { monster, rows: 0, validated: 0 };
@@ -63,9 +65,10 @@ function summarizeCsv(rows: Record<string, string>[]): {
 async function main() {
   const { assetsDir } = parseArgs();
   await initBuildPipeline();
-  const creatures = familyFactories.flatMap((factory) => factory().creatures);
+  const creatures = buildAllCreatures();
 
   const csv = parseCsv(fs.readFileSync(path.join(assetsDir, "creatures.csv"), "utf-8"));
+  requireCsvColumns(csv.header, ["MonsterId", "ValidatedMonsterId"], "creatures.csv");
   const { summary, byMonster } = summarizeCsv(csv.rows);
   const counts = (monster: string): MonsterRowCount =>
     byMonster.get(monster) ?? { monster, rows: 0, validated: 0 };
@@ -74,6 +77,7 @@ async function main() {
 
   const html = renderDashboard({
     generatedAt: new Date(),
+    version: readModVersion(),
     csv: summary,
     monsters: {
       total,

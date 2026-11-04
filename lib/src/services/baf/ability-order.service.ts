@@ -1,104 +1,224 @@
-import { SPELL_PRIORITY_ORDER } from "../../../config/spell-priority-order";
+import { AT_WILL } from "../../../config/common";
+import { SPELL_SCORING } from "../../../config/spell-scoring";
 import { AbilityAnchor, AbilityEntry, RawCreatureAbility } from "../../model/creature/ability";
+import { TargetList } from "../../model/script/target";
+import { SpellReference } from "../../model/spell-item/spell-reference";
 import { Creature } from "../../model/creature/creature";
+import atWillService, { ROUND } from "../at-will.service";
 import creatureService from "../creature.service";
 import logService from "../log.service";
+import { ABILITY_PRESETS } from "../../../config/ability-presets";
+import { COVER_SPELLS } from "../../../config/spells/cover-spells";
+import { MIRRORED_ENEMY_TARGETS, mirrorCounterOf } from "../../../config/spells/mirror-counters";
+import spellComboService from "../spell-combo.service";
+import spellProfileService, { SpellProfile } from "../spell-profile.service";
+import castOrderService, { PlannedCast } from "./cast-order.service";
 import translationService from "../translation.service";
+
+/** The timer shared by a creature's summons, keeping them from coming in a row */
+const SUMMON_WAIT = "SUMMON_WAIT";
 
 interface OrderedAbility {
   identity: string;
   ability: RawCreatureAbility;
 }
 
+/** A `spell` entry's file: its registry entry's, or the file itself */
+const entryFile = (spell: SpellReference | string) => (typeof spell === "string" ? spell : spell.file);
+
 class AbilityOrderService {
   resolve(creature: Creature): RawCreatureAbility[] {
     const entries = creature.pendingAbilityEntries ?? [];
     this.validateEntries(entries);
-    const alreadyCastFiles = [
-      ...creature.behavior.abilities,
-      ...creature.behavior.customCodes.flatMap((c) => c.abilities),
-    ].flatMap((a) => creatureService.getAbilityCastFiles(a));
-    const explicitFiles = new Set([
-      ...alreadyCastFiles,
-      ...entries
-        .map((e) => {
-          if (e.spell) return e.spell.file;
-          if (e.abilityId !== undefined) return creature.spell(e.abilityId).file;
-          return undefined;
-        })
-        .filter((f) => f !== undefined),
-    ]);
+    const explicitFiles = this.explicitFiles(creature, entries);
     const memorizedFiles = creatureService.memorizedSpellFiles(creature);
-    const autoFiles = memorizedFiles.filter((file) => !explicitFiles.has(file));
-
-    // A memorized spell missing from SPELL_PRIORITY_ORDER isn't an error - it just casts
-    // last, after everything explicitly ordered (Infinity sorts after every real index).
-    // Still worth a warning: silently deprioritizing something is easy to miss otherwise.
-    const ordered: OrderedAbility[] = autoFiles
-      .map((file) => {
-        const index = SPELL_PRIORITY_ORDER.indexOf(file);
-        if (index === -1) {
-          logService.warn(
-            `${translationService.from(creature.name)}: spell '${file}' is memorized but is missing from SPELL_PRIORITY_ORDER - casting last by default. Add it there to give it a real priority.`,
-          );
-        }
-        return { identity: file, index: index === -1 ? Infinity : index };
-      })
-      .sort((a, b) => a.index - b.index)
-      .map(({ identity }): OrderedAbility => ({ identity, ability: { preset: identity } }));
+    // contingencies have no ability: they are set up at init (see StatementBuilderService)
+    const autoFiles = memorizedFiles.filter(
+      (file) => !explicitFiles.has(file) && !spellComboService.isContingencyFile(file),
+    );
+    const profiles = autoFiles.map((file) => this.profile(file, creature));
+    // an entry without a position (an at-will power) takes its place by score, when it has one
+    const scoredEntries = new Map<string, AbilityEntry>();
+    for (const entry of entries) {
+      const profile = this.unplacedProfile(entry, creature);
+      if (!profile) continue;
+      profiles.push(profile);
+      scoredEntries.set(profile.file, entry);
+    }
+    const plan = castOrderService.plan(profiles);
+    const spaced = this.summonsToSpace(plan, creature);
+    const wait = { name: SUMMON_WAIT, value: SPELL_SCORING.summon.waitRounds * ROUND };
+    const ordered = plan.map((cast): OrderedAbility => {
+      const shared = { probability: cast.probability, rollRange: cast.rollRange };
+      if (cast.pass === "counter") {
+        return {
+          identity: `${cast.file}#counter`,
+          ability: { ...this.counter(cast.file), ...shared, mirrorPass: "counter" },
+        };
+      }
+      const entry = scoredEntries.get(cast.file);
+      const own = entry ? this.cast(entry, creature).ability : { preset: cast.file };
+      const ability = cast.healing ? { ...own, targets: this.healTargets(own, cast.healing) } : own;
+      const regular = cast.pass === "regular";
+      const timer = regular && spaced.has(cast.file) ? { timer: ability.timer ?? wait } : {};
+      // the last resort keeps only its first target list (see mirrorTarget): scripts stay small
+      const mirrorTarget = cast.mirrorTarget ? { mirrorTarget: cast.mirrorTarget } : {};
+      const mirrorPass = cast.pass === "lastResort" ? { mirrorPass: "lastResort" as const } : {};
+      return {
+        // anchors land next to the regular pass
+        identity: regular ? cast.file : `${cast.file}#${cast.pass}`,
+        ability: { ...ability, ...timer, ...mirrorTarget, ...mirrorPass, ...shared },
+      };
+    });
 
     for (const entry of entries) {
-      let identity: string;
-      let ability: RawCreatureAbility;
-      if (entry.spell) {
-        identity = entry.spell.file;
-        ability = { preset: entry.spell.file };
-      } else {
-        if (entry.abilityId === undefined) {
-          throw new Error("AbilityEntry must set exactly one of spell/abilityId");
-        }
-        identity = creature.spell(entry.abilityId).file;
-        ability = creature.ability(entry.abilityId);
-      }
-      this.splice(ordered, { identity, ability }, entry, creature);
+      if ([...scoredEntries.values()].includes(entry)) continue;
+      this.splice(ordered, this.cast(entry, creature), entry, creature);
     }
 
     return ordered.map((o) => o.ability);
   }
 
   /**
-   * Orders a plain, hand-written list of preset abilities by SPELL_PRIORITY_ORDER - for a
-   * creature whose abilities aren't derived from memorized spells, so `resolve()`'s
-   * entries mechanism doesn't apply, but should still cast in the same priority order as
-   * everything else. Unlike `resolve()`, a preset missing from SPELL_PRIORITY_ORDER throws
-   * instead of casting last: this list is hand-curated, so a missing entry is a mistake to
-   * fix, not something to silently deprioritize.
+   * The planned summons sharing a wait (see SPELL_SCORING.summon): only with at least two casts to
+   * space out, copies of one summon included. An at-will one has its cooldown instead.
    */
-  sortByPriority(abilities: RawCreatureAbility[]): RawCreatureAbility[] {
-    // Compute every index upfront rather than inside the comparator: Array.sort never calls
-    // the comparator for a 0- or 1-length array, which would let an invalid entry slip through.
-    return abilities
-      .map((ability) => ({ ability, index: this.priorityIndex(ability) }))
-      .sort((a, b) => a.index - b.index)
-      .map(({ ability }) => ability);
+  private summonsToSpace(plan: PlannedCast[], creature: Creature): Set<string> {
+    const summons = new Set(plan.filter((c) => c.role === "summon").map((c) => c.file));
+    const counts = new Map<string, number>();
+    for (const m of atWillService.memorized(creature)) {
+      const file = [...summons].find((s) => s.toUpperCase() === m.file.toUpperCase());
+      if (file) counts.set(file, Math.max(counts.get(file) ?? 0, m.memorizedCount ?? 1));
+    }
+    const spaced = [...summons].filter((file) => (counts.get(file) ?? 1) < AT_WILL);
+    const casts = spaced.reduce((sum, file) => sum + (counts.get(file) ?? 1), 0);
+    return new Set(casts > 1 ? spaced : []);
   }
 
-  private priorityIndex(ability: RawCreatureAbility): number {
-    if (!ability.preset) {
-      throw new Error(`Ability has no preset to sort by priority: ${JSON.stringify(ability)}`);
-    }
-    const index = SPELL_PRIORITY_ORDER.indexOf(ability.preset);
-    if (index === -1) {
-      throw new Error(`'${ability.preset}' is missing from SPELL_PRIORITY_ORDER`);
-    }
-    return index;
+  /**
+   * The covered phase's abilities (see CastOrderService.coveredPlan) of a creature memorizing a
+   * cover spell (COVER_SPELLS): its protections and buffs, each with its planned probability. The
+   * databases' spells cast by their presets, the creature's own powers by their ability entries.
+   */
+  resolveCovered(creature: Creature): RawCreatureAbility[] {
+    const files = creatureService.memorizedSpellFiles(creature);
+    if (!files.some((file) => COVER_SPELLS.includes(file.toUpperCase()))) return [];
+    // a spell cast through a hand-written ability keeps its own configuration
+    const handWritten = new Set(
+      [...creature.behavior.abilities, ...creature.behavior.customCodes.flatMap((c) => c.abilities)]
+        .flatMap((a) => creatureService.getAbilityCastFiles(a))
+        .map((f) => f.toUpperCase()),
+    );
+    const entries = new Map(
+      (creature.pendingAbilityEntries ?? []).map((entry) => {
+        const cast = this.cast(entry, creature);
+        return [cast.identity.toUpperCase(), cast.ability] as const;
+      }),
+    );
+    const castable = (file: string) =>
+      !handWritten.has(file.toUpperCase()) &&
+      (entries.has(file.toUpperCase()) || spellProfileService.isCatalogued(file));
+    const profiles = files
+      .filter(castable)
+      .filter((file) => !spellComboService.comboOfFile(file) || !this.contingency(file))
+      .map((file) => spellProfileService.profileOf(file, creature))
+      .filter((profile): profile is SpellProfile => profile !== undefined);
+    return castOrderService.coveredPlan(profiles).map((cast) => ({
+      ...(entries.get(cast.file.toUpperCase()) ?? { preset: cast.file }),
+      probability: cast.probability,
+    }));
   }
 
+  /**
+   * An image remover's ability against mirrored enemies (see MIRROR_COUNTERS): its preset's, aimed
+   * at them, with the counter's own triggers instead of the preset's (True Seeing's waits for an
+   * invisible enemy). Not a preset itself: its targets and triggers would merge with the preset's.
+   */
+  private counter(file: string): RawCreatureAbility {
+    const preset = ABILITY_PRESETS.find((p) => p.preset.toUpperCase() === file.toUpperCase());
+    if (!preset) throw new Error(`Image remover ${file} has no preset`);
+    const { ability } = structuredClone(preset);
+    // its own first target list, its checks included (a dispel still spares held enemies); a
+    // remover without targets (True Seeing) gets any able mirrored enemy
+    const targets = ability.targets?.length
+      ? { mirrorTarget: "require" as const }
+      : { targets: MIRRORED_ENEMY_TARGETS };
+    return {
+      ...ability,
+      ...targets,
+      spell: { ...ability.spell, resource: file },
+      triggers: structuredClone(mirrorCounterOf(file)?.triggers ?? []),
+    };
+  }
+
+  /**
+   * A split heal's targets (see PlannedCast.healing): its own or its preset's, the caster and its
+   * allies narrowed to the allies only, or to the caster only.
+   */
+  private healTargets(ability: RawCreatureAbility, healing: "allies" | "self"): TargetList[] {
+    const preset = ABILITY_PRESETS.find((p) => p.preset === ability.preset)?.ability;
+    return (ability.targets ?? preset?.targets ?? []).map((target) => {
+      if (target.name !== "MyselfAndNearestAllies") return target;
+      if (healing === "allies") return { ...target, name: "NearestAllies" };
+      return { ...target, name: "Myself", randomOrder: undefined };
+    });
+  }
+
+  /** Files cast by the creature's hand-written abilities or placed by its entries. */
+  private explicitFiles(creature: Creature, entries: AbilityEntry[]): Set<string> {
+    const alreadyCastFiles = [
+      ...creature.behavior.abilities,
+      ...creature.behavior.customCodes.flatMap((c) => c.abilities),
+    ].flatMap((a) => creatureService.getAbilityCastFiles(a));
+    return new Set([...alreadyCastFiles, ...entries.map((e) => this.cast(e, creature).identity)]);
+  }
+
+  private contingency(file: string): boolean {
+    return spellComboService.isContingencyFile(file);
+  }
+
+  private profile(file: string, creature: Creature): SpellProfile {
+    const profile = spellProfileService.profileOf(file, creature);
+    if (!profile) throw new Error(`Memorized spell '${file}' has no spell profile`);
+    return profile;
+  }
+
+  /** The profile of an entry without a position (an at-will power), placed by its score. */
+  private unplacedProfile(entry: AbilityEntry, creature: Creature): SpellProfile | undefined {
+    const positions = [entry.insertBefore, entry.insertAfter, entry.insertFirst, entry.insertLast];
+    if (positions.some((p) => p !== undefined)) return undefined;
+    if (entry.power) return spellProfileService.profileOfSpell(entry.power);
+    if (entry.spell) return spellProfileService.profileOf(entryFile(entry.spell), creature);
+    if (entry.abilityId === undefined) return undefined;
+    return spellProfileService.profileOf(creature.spell(entry.abilityId).file, creature);
+  }
+
+  /** What an entry casts (its file) and the ability casting it. */
+  private cast(entry: AbilityEntry, creature: Creature): OrderedAbility {
+    if (entry.spell) {
+      const file = entryFile(entry.spell);
+      return { identity: file, ability: { preset: file, ...entry.ability } };
+    }
+    if (entry.power) {
+      if (!entry.power.ability) throw new Error(`Power ${entry.power.file} has no ability`);
+      return { identity: entry.power.file, ability: entry.power.ability };
+    }
+    if (entry.abilityId === undefined) {
+      throw new Error("AbilityEntry must set exactly one of spell/abilityId/power");
+    }
+    return {
+      identity: creature.spell(entry.abilityId).file,
+      ability: creature.ability(entry.abilityId),
+    };
+  }
+
+  /** The creature's cast order, under its log section, for review. */
   private validateEntries(entries: AbilityEntry[]): void {
     for (const entry of entries) {
-      if ((entry.spell !== undefined) === (entry.abilityId !== undefined)) {
+      const kinds = [entry.spell, entry.abilityId, entry.power].filter((k) => k !== undefined);
+      if (kinds.length !== 1) {
         throw new Error(
-          `Ability entry must set exactly one of 'spell' or 'abilityId': ${JSON.stringify(entry)}`,
+          `Ability entry must set exactly one of 'spell', 'abilityId' or 'power': ${JSON.stringify(entry)}`,
         );
       }
       const positions = [

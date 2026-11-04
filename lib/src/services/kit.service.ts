@@ -128,7 +128,7 @@ class KitService {
         memorizedCount -= ability.count(previousLevel);
       }
       const spell = spellService.getSpellInfo(ability.resource);
-      const name = spell.name ? translationService.from(spell.name) : ability.resource;
+      const name = translationService.from(spell.name);
       if (memorizedCount > 0) {
         logService.info(`adding ${name} (x${memorizedCount}) to memorized spells`);
         baseCreature.data.spells.memorized.push({

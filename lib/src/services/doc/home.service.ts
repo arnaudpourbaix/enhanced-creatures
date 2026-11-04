@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { marked } from "marked";
 import logService from "../log.service";
+import { readModVersion, stampVersion } from "./doc-version";
 import utils from "../utils/utils.service";
 
 // Player documentation is authored in PLAYER.md (repo root) and rendered into docs/index.html,
@@ -22,7 +23,7 @@ class HomeService {
         cause: e,
       });
     }
-    const html = this.render(templateText, markdown);
+    const html = stampVersion(this.render(templateText, markdown), readModVersion());
     try {
       utils.writeFile("docs/index.html", html);
     } catch (e) {

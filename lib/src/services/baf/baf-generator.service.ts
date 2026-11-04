@@ -18,15 +18,18 @@ import { ALIGN_IDENTIFIERS } from "../../model/ids/align";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import weiduCreatureService from "../weidu/weidu-creature.service";
+import scriptPlanService from "./script-plan.service";
 
 class BafGeneratorService {
   generate(creature: Creature): void {
-    const folder = utils.getFamilyFolder(creature.family);
+    const folder = utils.getCreatureFolder(creature);
+    const { base, variants } = scriptPlanService.planned(creature);
+    const view = base?.view ?? creature;
     utils.writeFile(
       path.join(folder, weiduCreatureService.getScriptName(creature, { ext: true })),
-      this.buildContent(creature, { summon: false }),
+      this.buildContent(view, { summon: false }),
     );
-    if (creature.adjustments.some((a) => a.summon)) {
+    if (view.adjustments.some((a) => a.summon)) {
       utils.writeFile(
         path.join(
           folder,
@@ -35,16 +38,29 @@ class BafGeneratorService {
             summon: true,
           }),
         ),
-        this.buildContent(creature, { summon: true }),
+        this.buildContent(view, { summon: true }),
       );
+    }
+    for (const script of variants) {
+      utils.writeFile(
+        path.join(folder, `${script.name}.baf`),
+        this.buildContent(script.view, { summon: false }, script.variant?.label),
+      );
+      if (script.summonName) {
+        utils.writeFile(
+          path.join(folder, `${script.summonName}.baf`),
+          this.buildContent(script.view, { summon: true }),
+        );
+      }
     }
   }
 
-  buildContent(creature: Creature, options: { summon: boolean }): string {
+  buildContent(creature: Creature, options: { summon: boolean }, variant?: string): string {
     const statements: Statements = statementBuilderService.buildStatements(creature, options);
     const code = statements.map((statement) => this.generateStatement(statement)).join("");
     if (options.summon) return code;
-    return `// ${translationService.from(creature.name)}${CR}${CR}${code}`;
+    const label = variant ? ` (${variant})` : "";
+    return `// ${translationService.from(creature.name)}${label}${CR}${CR}${code}`;
   }
 
   generateStatement(statement: ConditionalStatement): string {

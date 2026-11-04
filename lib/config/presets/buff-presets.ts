@@ -1,10 +1,12 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { PRESET_NAMES } from "../common";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
-import { CommonTargetLists } from "../target/common";
+import targetService from "../../src/services/baf/target.service";
+import { CommonTargetLists, ExcludeUnwantedTargetsTriggers } from "../target/common";
 
 export const BUFF_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
@@ -23,6 +25,40 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.Aid,
       SPELLS.Wizard.Invisibility,
       SPELLS.Wizard.ImprovedInvisibility,
+      SPELLS.Wizard.CatsGrace,
+      SPELLS.Wizard.EmotionCourage,
+      SPELLS.Wizard.EmotionHope,
+      SPELLS.Wizard.GhostArmor,
+      SPELLS.Wizard.Luck,
+      SPELLS.Wizard.MassInvisibility,
+      SPELLS.Wizard.ProtectionFromAcid,
+      SPELLS.Wizard.ProtectionFromCold,
+      SPELLS.Wizard.ProtectionFromElectricity,
+      SPELLS.Wizard.ProtectionFromEvil,
+      SPELLS.Wizard.ProtectionFromFire,
+      SPELLS.Wizard.ProtectionFromMagicEnergy,
+      SPELLS.Wizard.ProtectionFromMissiles,
+      SPELLS.Wizard.ProtectionFromPetrification,
+      SPELLS.Wizard.ResistElements,
+      SPELLS.Wizard.ResistFear,
+      SPELLS.Wizard.SpiritArmor,
+      SPELLS.Wizard.Strength,
+      SPELLS.Priest.AnimalRage,
+      SPELLS.Priest.BloodRage,
+      SPELLS.Priest.ChampionsStrength,
+      SPELLS.Priest.ChaoticCommands,
+      SPELLS.Priest.DeathWard,
+      SPELLS.Priest.Exaltation,
+      SPELLS.Priest.NegativePlaneProtection,
+      SPELLS.Priest.ProtectionFromAcid,
+      SPELLS.Priest.ProtectionFromCold,
+      SPELLS.Priest.ProtectionFromFire,
+      SPELLS.Priest.ProtectionFromFireSPPR522,
+      SPELLS.Priest.ProtectionFromLightning,
+      SPELLS.Priest.ResistAcidAndCorrosion,
+      SPELLS.Priest.ResistElements,
+      SPELLS.Priest.SpiritWard,
+      FNP_SPELLS.Priest.MagicResistance,
     ],
     {
       targets: CommonTargetLists.MyselfOrAllies,
@@ -43,13 +79,11 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.GreaterDivineProtection,
       SPELLS.Priest.HolyPower,
       SPELLS.Priest.Ironskin,
-      SPELLS.Wizard.MirrorImages,
+      SPELLS.Wizard.GlobeOfInvulnerability,
       SPELLS.Wizard.MinorGlobeOfInvulnerability,
-      SPELLS.Wizard.NahalRecklessDweomer,
+      SPELLS.Wizard.MirrorImages,
       SPELLS.Priest.PhysicalMirror,
-      SPELLS.Priest.ProtectionFromLightning,
       SPELLS.Wizard.ProtectionFromMagicalWeapons,
-      SPELLS.Wizard.ProtectionFromMissiles,
       SPELLS.Wizard.ReflectedImage,
       SPELLS.Priest.Repulsion,
       SPELLS.Priest.RighteousMagic,
@@ -58,28 +92,125 @@ export const BUFF_PRESETS: AbilityPreset[] = [
       FNP_SPELLS.Priest.Shield,
       SPELLS.Priest.ShieldOfTheArchons,
       SPELLS.Wizard.Stoneskin,
+      SPELLS.Wizard.ProtectionFromEnergy,
+      SPELLS.Wizard.ProtectionFromTheElements,
+      SPELLS.Wizard.PrismaticMantle,
+      SPELLS.Wizard.AbsoluteImmunity,
+      SPELLS.Wizard.AntimagicShell,
+      SPELLS.Wizard.ChaosShield,
+      SPELLS.Wizard.Clairvoyance,
+      SPELLS.Wizard.DispellingScreen,
+      SPELLS.Wizard.Ghostform,
+      SPELLS.Wizard.ImprovedAlacrity,
+      SPELLS.Wizard.ImprovedChaosShield,
+      SPELLS.Wizard.InvisibilitySphere,
+      SPELLS.Wizard.MageArmor,
+      SPELLS.Wizard.MestilsAcidSheath,
+      SPELLS.Wizard.MindBlank,
+      SPELLS.Wizard.ProtectionFromNormalWeapons,
+      SPELLS.Wizard.SevenEyes,
+      SPELLS.Wizard.SpellShield,
+      SPELLS.Wizard.SpellTrap,
+      SPELLS.Wizard.TensersTransformation,
+      SPELLS.Wizard.TimeStop,
+      SPELLS.Wizard.TrollishFortitude,
+      SPELLS.Wizard.TrueStrike,
+      SPELLS.Wizard.Wraithform,
+      SPELLS.Priest.AuraOfFlamingDeath,
+      SPELLS.Priest.DefensiveHarmony,
+      SPELLS.Priest.FalseDawn,
+      SPELLS.Priest.FiendishWarding,
+      SPELLS.Priest.GlobeOfBlades,
+      SPELLS.Priest.ImperviousSanctityOfMind,
+      SPELLS.Priest.PixieDust,
+      SPELLS.Priest.Prayer,
+      SPELLS.Priest.Recitation,
+      SPELLS.Priest.RighteousWrathOfTheFaithful,
+      SPELLS.Priest.StormShell,
+      SPELLS.Priest.StormShield,
+      SPELLS.Priest.StrengthOfOne,
+      SPELLS.Priest.StrengthOfStone,
     ],
     {},
   ),
+  // It doubles its target's attacks per round: allies with several of them gain the most
+  ...presetFactory.createSpell(SPELLS.Wizard.ImprovedHaste, {
+    targets: [
+      ...targetService.combineListWithTriggers(CommonTargetLists.MyselfOrAllies, [
+        triggerFactory.checkStatGT(1, "NUMBEROFATTACKS"),
+      ]),
+      ...CommonTargetLists.MyselfOrAllies,
+    ],
+  }),
+  // Summoned animals count: they are what a druid mostly has
+  ...presetFactory.createSpells([SPELLS.Priest.AnimalGrowth, SPELLS.Priest.MagicFang], {
+    targets: [
+      {
+        name: "NearestAllies",
+        triggers: [{ name: "General", params: [ScriptTarget.lastSeen, "ANIMAL"] }],
+        randomOrder: true,
+      },
+    ],
+    range: 30,
+  }),
+  ...presetFactory.createSpell(SPELLS.Priest.SpiritualClarity, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
+      {
+        name: "Or",
+        triggers: [
+          { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_PANIC"] },
+          { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_CONFUSED"] },
+          { name: "StateCheck", params: [ScriptTarget.lastSeen, "STATE_FEEBLEMINDED"] },
+        ],
+      },
+    ]),
+  }),
   ...presetFactory.createSpell(SPELLS.Wizard.Vocalize, {
     triggers: [triggerFactory.stateCheck("STATE_SILENCED")],
     requireVocal: false,
     probability: 100,
   }),
-  ...presetFactory.createSpells([SPELLS.Wizard.MinorSpellDeflection], {
-    triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.GreaterSpellDeflection,
+      SPELLS.Wizard.SpellDeflection,
+      SPELLS.Wizard.MinorSpellDeflection,
+    ],
+    {
+      triggers: triggerFactory.seeOneInTargetList("Spellcasters"),
+    },
+  ),
+  // It only lasts a moment: not before enemies are on the caster
+  ...presetFactory.createSpell(SPELLS.Wizard.MomentOfPrescience, {
+    triggers: [
+      triggerFactory.or([
+        { name: "Range", params: ["NearestEnemyOf", 10] },
+        triggerFactory.attackedBy("ANYONE", "DEFAULT"),
+      ]),
+    ],
   }),
   ...presetFactory.createSpell(SPELLS.Wizard.ShadowDoor, {
     triggers: [triggerFactory.detect("NearestEnemyOf"), triggerFactory.hplt(75)],
   }),
+  // An escape from a close enemy, to the farthest ally with no enemy around
   ...presetFactory.createSpell(SPELLS.Wizard.DimensionDoor, {
-    targets: [
-      {
-        name: "Players",
-        randomOrder: true,
-      },
-    ],
-    range: 900,
+    triggers: [{ name: "Range", params: ["NearestEnemyOf", 10] }],
+    targets: targetService.combineListWithTriggers(
+      [
+        {
+          name: "FarthestAllies",
+          triggers: ExcludeUnwantedTargetsTriggers,
+        },
+      ],
+      [
+        { name: "Range", params: [ScriptTarget.lastSeen, 20], negation: true },
+        triggerFactory.triggerOverride(
+          ScriptTarget.lastSeen,
+          { name: "Range", params: [`NearestEnemyOf(${ScriptTarget.myself})`, 20] },
+          true,
+        ),
+      ],
+    ),
   }),
   {
     preset: PRESET_NAMES.DimensionDoorOffscreen,

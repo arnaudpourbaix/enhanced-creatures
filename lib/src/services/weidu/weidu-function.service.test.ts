@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SPELL_PROTECTIONS } from "../../../config/spells/spell-protection";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { CodeLine } from "../../model/misc";
 import { PortraitIconEnum } from "../../model/spell-item/effect.enums";
 import { SpellGroup } from "../../model/spell-item/spell-group";
 import { SpellProtection, SpellProtectionRelation } from "../../model/spell-item/spell-protection";
+import { State } from "../../state";
+import utils from "../utils/utils.service";
 import weiduFunctionService from "./weidu-function.service";
 
 interface WeiduFunctionServicePrivate {
@@ -17,6 +19,7 @@ function fakeImmunity(overrides: Partial<ImmunityConfig> = {}): ImmunityConfig {
     name: "poison",
     type: "immunity",
     doc: true,
+    docOnly: false,
     immunities: [],
     preventEffects: [],
     preventIcons: [],
@@ -32,6 +35,18 @@ function fakeImmunity(overrides: Partial<ImmunityConfig> = {}): ImmunityConfig {
 }
 
 describe("callImmunityFunction", () => {
+  it("evaluates the strings STR_VAR, which holds install-time variables", () => {
+    const lines: CodeLine[] = [];
+    weiduFunctionService.callImmunityFunction(
+      lines,
+      fakeImmunity({ strings: ["%ja_strrefs_poison%"] }),
+      0,
+    );
+    expect(lines.map((l) => l.code).join(" ")).toContain(
+      'strings=EVALUATE_BUFFER "%ja_strrefs_poison%"',
+    );
+  });
+
   it("emits a display_icons STR_VAR when the immunity config sets displayIcons", () => {
     const lines: CodeLine[] = [];
     weiduFunctionService.callImmunityFunction(
@@ -93,5 +108,51 @@ describe("generateSpellResource (private)", () => {
       0,
     );
     expect(lines.some((l) => l.code.includes("ACTION_DEFINE_ARRAY spells"))).toBe(true);
+  });
+});
+
+describe("generateStringRefs", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("sets every existing string's variables to the strrefs of the game being installed", () => {
+    let content = "";
+    vi.spyOn(utils, "writeFile").mockImplementation((_f, c) => {
+      content = c;
+    });
+    weiduFunctionService.generateStringRefs();
+    const bg2Branch = content.indexOf("END ELSE BEGIN");
+    expect(content).toContain("ACTION_IF GAME_IS ~bgee~ BEGIN");
+    expect(content.indexOf("OUTER_SET ja_strref_two_levels_drained = 25803")).toBeLessThan(
+      bg2Branch,
+    );
+    expect(content.indexOf("OUTER_SET ja_strref_two_levels_drained = 40968")).toBeGreaterThan(
+      bg2Branch,
+    );
+    expect(content).toContain("OUTER_SPRINT ja_strrefs_bleed ~54335~");
+  });
+});
+
+describe("generateImmunities", () => {
+  const before = State.immunities;
+  afterEach(() => {
+    State.immunities = before;
+    vi.restoreAllMocks();
+  });
+
+  it("emits no patch function for a docOnly immunity, but does for the others", () => {
+    const docOnly = fakeImmunity({ name: "animal", type: "trait", docOnly: true });
+    const regular = fakeImmunity({ name: "poison" });
+    State.immunities = [docOnly, regular] as typeof State.immunities;
+    const written: string[] = [];
+    vi.spyOn(utils, "writeFile").mockImplementation((_f, content) => {
+      written.push(content);
+    });
+    weiduFunctionService.generateImmunities();
+    const content = written.join("");
+    expect(content).toContain(`DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(regular)}`);
+    expect(content).not.toContain(
+      `DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(docOnly)}`,
+    );
+    expect(content).not.toContain("animal");
   });
 });

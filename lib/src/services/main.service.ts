@@ -3,54 +3,115 @@ import { availabilityOverlaps, isAvailableInMod, MOD_LAYER_ORDER } from "../../c
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
+import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
-import { familyFactories } from "../../creatures";
-import { MonsterFamilyEnum } from "../../creatures/monster";
+import { entryFactories } from "../../creatures/entries";
+import { KinEnum } from "../../creatures/kin";
+import { kinFactories } from "../../creatures/kins";
 import { Creature } from "../model/creature/creature";
+import { GeneratedGroup } from "../model/creature/creature-group";
+import { CreatureEntry } from "../model/creature/entry";
+import { CreatureKin } from "../model/creature/kin";
 import { SpellBookModVariant, spellBookVariants } from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
+import resourceClashService from "./resource-clash.service";
+import spellComboService from "./spell-combo.service";
 import stateService from "./state.service";
+import { State } from "../state";
+import { ITEMS } from "../../config/item";
+import { NEW_SPELLS } from "../../config/spells/spells";
+import { NEW_SPELL_PROFILES } from "../../config/spells/new-spell-profiles";
+import { SpellRole } from "../../config/spells/spell-role";
 import translationService from "./translation.service";
 import weiduCoreService from "./weidu/weidu-core.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
-import weiduFamilyService from "./weidu/weidu-family.service";
+import weiduGroupService from "./weidu/weidu-group.service";
 import weiduFunctionService from "./weidu/weidu-function.service";
+import weiduIndexService from "./weidu/weidu-index.service";
+
+/** A database spell, as far as checkSpellProfiles is concerned */
+interface ProfiledSpell {
+  file: string;
+  id?: string;
+  role?: SpellRole;
+  castingTime?: number;
+}
 
 class MainService {
   generateCreatures() {
     logService.section("Generating creatures");
-    const families: MonsterFamilyEnum[] = [];
-    for (const factory of familyFactories) {
-      // Deferred per family so each creature's generation output (errors included) joins its own
-      // "Creating ..." section, instead of trailing under the family's last created creature.
-      logService.beginDeferred();
-      try {
-        this.generateFamily(factory, families);
-      } finally {
-        logService.flushSections();
-      }
-    }
+    this.generateKinsAndEntries(kinFactories, entryFactories);
+    logService.section("Generating documentation");
     documentationService.generate();
     homeService.generate();
   }
 
-  private generateFamily(factory: (typeof familyFactories)[number], families: MonsterFamilyEnum[]) {
-    const family = factory();
-    descriptionService.generateCreatureSpells(family.spells);
-    descriptionService.generateCreatureItems(family.items);
-    if (families.includes(family.id)) {
-      throw new Error(`Family '${MonsterFamilyEnum[family.id]}' already declared`);
+  // Deferred per kin or entry so each creature's generation output (errors included) joins its
+  // own "Creating ..." section, instead of trailing under the group's last created creature.
+  private deferred(generate: () => void) {
+    logService.beginDeferred();
+    try {
+      generate();
+    } finally {
+      logService.flushSections();
     }
-    families.push(family.id);
-    weiduFamilyService.createOrUpdateMainFile(family.id);
-    weiduFamilyService.generateFamilyData(family);
-    for (const creature of family.creatures) {
+  }
+
+  /**
+   * Builds and generates every kin, then every entry (each given the built kins), in registry
+   * order, then the pnp-monster index that installs them in that order. Two groups claiming the
+   * same folder is an error (the second would clean the first's generated files away).
+   */
+  generateKinsAndEntries(
+    kins: readonly (() => CreatureKin)[] = kinFactories,
+    entries: readonly ((
+      kins: Map<KinEnum, CreatureKin>,
+    ) => CreatureEntry<Creature>)[] = entryFactories,
+  ) {
+    const generated = new Set<string>();
+    const claim = (folder: string) => {
+      if (generated.has(folder)) throw new Error(`Folder '${folder}' already generated`);
+      generated.add(folder);
+    };
+    const builtKins = new Map<KinEnum, CreatureKin>();
+    for (const factory of kins) {
+      this.deferred(() => {
+        const kin = factory();
+        claim(kin.folder);
+        builtKins.set(kin.id, kin);
+        const { id, items, spells, projectiles } = kin;
+        this.generateGroup({ id, items, spells, projectiles, creatures: [] }, kin.folder);
+      });
+    }
+    const builtEntries: CreatureEntry<Creature>[] = [];
+    for (const factory of entries) {
+      this.deferred(() => {
+        const entry = factory(builtKins);
+        claim(entry.folder);
+        builtEntries.push(entry);
+        this.generateGroup(entry, entry.folder);
+      });
+    }
+    weiduIndexService.generate(
+      [...builtKins.keys()],
+      builtEntries.map((e) => ({ id: e.id, kin: e.kin?.id, dependsOn: e.dependsOn })),
+    );
+  }
+
+  // One entry or kin: its own resources and main.tpa, then each creature's files.
+  private generateGroup(group: GeneratedGroup, folder: string) {
+    descriptionService.generateCreatureSpells(group.spells);
+    descriptionService.generateCreatureItems(group.items);
+    weiduGroupService.createOrUpdateMainFile(folder);
+    weiduGroupService.generateGroupData(group, folder);
+    for (const creature of group.creatures) {
       logService.withSection(
         creature,
         `Generating ${translationService.from(creature.name)}...`,
@@ -59,8 +120,8 @@ class MainService {
         },
       );
     }
-    weiduFamilyService.generateFinalCode(family);
-    documentationService.addFamily(family);
+    weiduGroupService.generateFinalCode(group, folder);
+    documentationService.addGroup(group);
   }
 
   generateCreature(creature: Creature) {
@@ -97,11 +158,14 @@ class MainService {
 
   generateCommonCode() {
     logService.section("Generating common code");
+    weiduFunctionService.generateStringRefs();
     weiduCoreService.generateSpellStates();
     weiduCoreService.generateProjectiles();
     weiduFunctionService.generateSpellResources();
     weiduFunctionService.generateSpellFunctions();
     weiduFunctionService.generateImmunities();
+    weiduCoreService.generateImmunityStates();
+    weiduCoreService.generateSpellCombos();
     weiduCoreService.writeFile();
   }
 
@@ -136,6 +200,43 @@ class MainService {
   private presetSpellId(spell: SpellReference, file: string): SpellIdentifier | undefined {
     const variant = spell.variants?.find((v) => v.file === file);
     return variant ? variant.id : spell.id;
+  }
+
+  /** Checks each sequencer and contingency holds spells cast at the same kind of targets. */
+  checkSpellCombos(combos: SpellCombo[] = SPELL_COMBOS) {
+    logService.section("Checking spell combos");
+    for (const combo of combos) spellComboService.checkTargets(combo);
+  }
+
+  /**
+   * Every spell of the databases (SPELLS, Faiths and Powers) needs the data the cast order rules
+   * use: a role and a casting time (see scripts/extract-spell-profile.ts), and every spell this mod
+   * creates a NEW_SPELL_PROFILES entry. All incomplete spells are reported at once.
+   */
+  checkSpellProfiles(
+    spells: SpellReference[] = getAllSpells(SPELLS),
+    fnpSpells: ProfiledSpell[] = getAllFnpSpells(),
+    newSpells: string[] = Object.values(NEW_SPELLS),
+  ) {
+    logService.section("Checking spell profiles");
+    const incomplete = [...spells, ...fnpSpells].flatMap((spell: ProfiledSpell) => {
+      const missing = [
+        ...(spell.role === undefined ? ["role"] : []),
+        ...(spell.castingTime === undefined ? ["castingTime"] : []),
+      ];
+      if (!missing.length) return [];
+      const name = spell.id === undefined ? spell.file : `${spell.file} (${spell.id})`;
+      return [`  - ${name}: ${missing.join(", ")}`];
+    });
+    for (const file of newSpells) {
+      if (!(file in NEW_SPELL_PROFILES))
+        incomplete.push(`  - ${file}: no NEW_SPELL_PROFILES entry`);
+    }
+    if (incomplete.length > 0) {
+      throw new Error(
+        `Spells missing role/castingTime (${incomplete.length}):\n${incomplete.join("\n")}`,
+      );
+    }
   }
 
   checkSpells() {
@@ -192,14 +293,29 @@ class MainService {
     }
   }
 
+  /** Every SPL/ITM shipped (generated + handwritten common ones) must have a unique base name. */
+  checkResourceClashes() {
+    resourceClashService.check(
+      [
+        ...State.spells.map((s) => s.file),
+        ...spellComboService.allSpells().map((s) => s.file),
+        ...Object.values(NEW_SPELLS),
+      ],
+      [...State.items.map((i) => i.file), ...Object.values(ITEMS)],
+    );
+  }
+
   async generateAll(): Promise<void> {
     logService.init();
     await stateService.init();
     this.checkPresets();
+    this.checkSpellCombos();
     this.checkSpells();
+    this.checkSpellProfiles();
     this.checkSpellbooks();
     this.generateCreatures();
     this.generateCommonCode();
+    this.checkResourceClashes();
     this.generateTranslations();
     logService.summary();
     if (logService.hasErrors()) {

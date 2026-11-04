@@ -5,6 +5,7 @@ import type { Creature } from "../../lib/src/model/creature/creature";
 import { Game, gamesOverlap } from "../../lib/src/model/creature/game";
 import { AttackPerRoundTable } from "../../lib/src/model/game-data/attack-per-round";
 import adjustmentService from "../../lib/src/services/doc/adjustment.service";
+import { requireCsvColumns } from "../../lib/src/csv";
 import { parseCsv } from "./csv";
 import {
   MonsterReport,
@@ -45,6 +46,11 @@ function num(raw: string | undefined): number | undefined {
 
 export function loadStatsCsv(assetsDir: string): Map<string, CsvRow[]> {
   const csv = parseCsv(fs.readFileSync(path.join(assetsDir, "creatures.csv"), "utf-8"));
+  requireCsvColumns(
+    csv.header,
+    ["file", "game", "name", "level", "hp", "thac0", "apr"],
+    "creatures.csv",
+  );
   const byFile = new Map<string, CsvRow[]>();
   for (const r of csv.rows) {
     const game = r.game === "bg1" || r.game === "bg2" ? r.game : undefined;

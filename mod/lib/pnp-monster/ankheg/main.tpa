@@ -5,4 +5,4 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME ~L#XZEANK.BCS~ BEGIN
 	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/assets/L#XZEANK.BAF~
 END
-INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/1.tpa" // Ankheg
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/ankheg/01.tpa" // Ankheg

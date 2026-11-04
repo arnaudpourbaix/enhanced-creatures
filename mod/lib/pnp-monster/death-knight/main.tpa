@@ -1,0 +1,12 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/death-knight/common.tpa"
+ACTION_IF FILE_EXISTS_IN_GAME ~CB3579DK.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/death-knight/assets/CB3579DK.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~DVDEATHK.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/death-knight/assets/dvdeathk.BAF~
+END
+ACTION_IF FILE_EXISTS_IN_GAME ~DW#DEATH.BCS~ BEGIN
+	COMPILE ~%MOD_FOLDER%/lib/pnp-monster/death-knight/assets/dw#death.BAF~
+END
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/death-knight/22.tpa" // Death Knight

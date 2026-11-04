@@ -18,7 +18,7 @@
 
 <body>
   <header class="site-nav">
-    <a class="brand" href="index.html">&#9876; Enhanced Creatures</a>
+    <a class="brand" href="index.html">&#9876; Enhanced Creatures <span class="version">v{{version}}</span></a>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="monsters.html" class="active">Monsters</a></li>
@@ -45,16 +45,13 @@
       creatures.
     </p>
   </header>
+  {{typeFilter}}
   <div class="layout">
     <nav class="sidebar">
-      <div class="file-search">
-        <input type="search" class="file-search-input" autocomplete="off" spellcheck="false"
-          placeholder="Find a creature by .cre file…" aria-label="Find a creature by its file name" />
-        <ul class="file-search-results" hidden></ul>
-      </div>
-      <ul>{{families}}</ul>
+      <ul>{{entries}}</ul>
     </nav>
     <main class="content">
+      <p class="no-match" hidden>No creature matches.</p>
       {{monsters}}
     </main>
   </div>

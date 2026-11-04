@@ -109,6 +109,10 @@ describe("ReleaseService", () => {
       execFileSync.mock.invocationCallOrder[testCallOrder],
     );
     expect(writeTp2Version).toHaveBeenCalledWith(expect.any(String), VERSION);
+    // docs stamp the tp2 version into their headers, so it has to be bumped before generating
+    expect(writeTp2Version.mock.invocationCallOrder[0]).toBeLessThan(
+      generateAll.mock.invocationCallOrder[0],
+    );
     expect(rollover).toHaveBeenCalledWith(
       expect.any(String),
       VERSION,

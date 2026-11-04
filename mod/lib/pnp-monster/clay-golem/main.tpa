@@ -1,0 +1,4 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/clay-golem/0o.tpa" // Clay Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/clay-golem/31.tpa" // Lesser Clay Golem
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/clay-golem/32.tpa" // Greater Clay Golem

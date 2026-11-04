@@ -1,7 +1,13 @@
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
-import { getAllSpells, SpellReference, spellsByKeyword } from "../model/spell-item/spell-reference";
+import {
+  getAllSpells,
+  SpellReference,
+  negatingSaves,
+  SpellSaves,
+  spellsByKeyword,
+} from "../model/spell-item/spell-reference";
 import { SpellGroup } from "../model/spell-item/spell-group";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBookName } from "../../config/spellbooks/spellbook-name";
@@ -14,7 +20,9 @@ import {
 } from "../model/game-data/spell-level";
 import { Effect } from "../model/spell-item/effect";
 import {
+  EffectFlagsEnum,
   EffectIDSFileEnum,
+  EffectTargetEnum,
   EffectTimingEnum,
   ItemAbilityLocationEnum,
   ItemAbilityTargetEnum,
@@ -28,15 +36,26 @@ import {
   Spell,
   SpellHeader,
 } from "../model/spell-item/spell-item";
+import {
+  COMBO_RULES,
+  contingencyMaxLevel,
+  SpellCombo,
+  SpellComboKind,
+} from "../model/spell-item/spell-combo";
 import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
+import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { State } from "../state";
 import abilityService from "./baf/ability.service";
 import effectService from "./effects/effect.service";
 import logService from "./log.service";
+import spellComboService from "./spell-combo.service";
 import translationService from "./translation.service";
 import utils from "./utils/utils.service";
 
 class SpellService {
+  /** The "none fits" warnings already given (book, caster level, kind), see pickCombos. */
+  private comboWarnings = new Set<string>();
+
   getSpell(spell: PartialSpell, file: string): Spell {
     // headers/effectFiles are pulled out only to exclude them from the `...others` spread below
     // (each is built up separately below via addHeader()/the effectFiles loop); the destructured
@@ -66,7 +85,8 @@ class SpellService {
     for (const header of spell.headers ?? []) {
       this.addHeader(header, result, file);
     }
-    if (result.icon && /\d{3}$/.test(result.icon)) {
+    // vanilla icons only (SPWI305 -> SPWI305C); mod names (ja...) are exact
+    if (result.icon && !/^ja/i.test(result.icon) && /\d{3}$/.test(result.icon)) {
       result.icon = `${result.icon}C`;
     }
     // result.type/result.level are typed as always-set (defaulted above), but the `...others`
@@ -80,11 +100,12 @@ class SpellService {
     if (result.level === undefined && !result.copyFrom) result.level = 1;
     result.effects = this.getEffects(result.effects, result, file);
     if (result.ability && result.keywords.length) result.ability.keywords = result.keywords;
-    // The ability casts this spell, not its preset's: the preset's level mustn't leak in (e.g. an
-    // innate aura reusing Cloak of Fear's preset isn't a level 4 spell). Without an explicit
-    // level it isn't really a spell at all, so no ImmuneToSpellLevel check (see
-    // BaseCreatureAbility.level).
-    if (result.ability?.preset) result.ability.level ??= spell.level ?? null;
+    // an explicit null means "not really a spell" (no spell-level check): only fill in undefined
+    if (result.ability?.level === undefined && result.ability)
+      result.ability.level = this.abilityLevel(spell, !!result.ability.preset);
+    // Its own effects say which saves negate it (a copyFrom spell's effects aren't known here, so
+    // its preset's are used instead).
+    if (result.ability && !result.copyFrom) result.ability.saves ??= this.getSaves(result);
     if (result.ability?.spell) {
       result.ability.spell.resource = file;
       result.ability.name ??= spell.name;
@@ -119,13 +140,45 @@ class SpellService {
     });
   }
 
+  /**
+   * The level the ability's spell protections are checked against (see BaseCreatureAbility.level):
+   * the spell's explicit power (what the protections actually test) or level, with or without a
+   * preset. Without either it isn't really a spell at all: no check, and a preset's level mustn't
+   * leak in (e.g. an innate aura reusing Cloak of Fear's preset isn't a level 4 spell).
+   */
+  private abilityLevel(spell: PartialSpell, preset: boolean): number | null | undefined {
+    const level = spell.power ?? spell.level;
+    if (level !== undefined) return level;
+    return preset ? null : undefined;
+  }
+
+  /** The saving throws negating the spell, from its headers' effects (see negatingSaves). */
+  private getSaves(spell: Spell): SpellSaves {
+    const halves = [EffectFlagsEnum.SaveForHalf, EffectFlagsEnum.FailForHalf];
+    return negatingSaves(
+      spell.headers
+        .flatMap((header) => header.effects)
+        .map(({ opcode, target, saveTypes, saveBonus, flags }) => ({
+          opcode,
+          saveBonus,
+          self: target === EffectTargetEnum.Self,
+          saveTypes: saveTypes ?? [],
+          halved:
+            typeof flags === "number"
+              ? halves.some((flag) => flags & (2 ** flag))
+              : halves.some((flag) => flags?.includes(flag)),
+        })),
+    );
+  }
+
   private addHeader(header: PartialSpellHeader, spell: Spell, file: string): void {
     const result: SpellHeader = { ...header, effects: header.effects ?? [] };
     // type is required by SpellHeader, but defended anyway - see spell.service.test.ts's
     // "throws when a header has no type", which bypasses the type with `{} as any`.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!result.type) throw new Error(`Header type is required!`);
-    if (!result.icon && spell.icon && /\d{3}$/.test(spell.icon)) {
+    // vanilla icons only (SPWI305 -> SPWI305B); mod names (ja...) are exact
+    if (!result.icon && spell.icon && !/^ja/i.test(spell.icon) && /\d{3}$/.test(spell.icon)) {
       result.icon = `${spell.icon}B`;
     }
     result.range ??= 0;
@@ -231,7 +284,7 @@ class SpellService {
 
   getSpellName(file: string): string | null {
     const spell = State.spells.find((s) => s.file === file);
-    if (!spell?.name) return this.getExistingSpellName(file);
+    if (!spell?.name) return spellComboService.labelOf(file) ?? this.getExistingSpellName(file);
     return translationService.from(spell.name);
   }
 
@@ -251,7 +304,7 @@ class SpellService {
 
   getAllSpellNames(): { file: string; name: StringReference }[] {
     const spells = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
-    return spells.flatMap((spell) => (spell.name ? [{ file: spell.file, name: spell.name }] : []));
+    return spells.map((spell) => ({ file: spell.file, name: spell.name }));
   }
 
   /**
@@ -270,7 +323,7 @@ class SpellService {
   }): MemorizedSpell[] {
     const book = this.getSpellbook(params.name);
     const [variant] = spellBookVariants(book);
-    return this.buildMemorized(params.name, variant.values, params);
+    return this.buildMemorized(params.name, variant.values, params, book, variant.mod);
   }
 
   /**
@@ -287,7 +340,8 @@ class SpellService {
     const book = this.getSpellbook(params.name);
     return spellBookVariants(book).map((variant) => ({
       mod: variant.mod,
-      memorized: this.buildMemorized(params.name, variant.values, params),
+      spellbook: params.name,
+      memorized: this.buildMemorized(params.name, variant.values, params, book, variant.mod),
     }));
   }
 
@@ -301,6 +355,8 @@ class SpellService {
     name: SpellBookName,
     values: SpellBookSpells[],
     params: { casterLevel: number; type: "mage" | "cleric"; wisdom?: number },
+    book: SpellBook,
+    mod: SpellbookModName,
   ): MemorizedSpell[] {
     const table = params.type === "cleric" ? ClericSpellTable : MageSpellTable;
     const levelEntry = table.find((t) => t.level === params.casterLevel) ?? table.at(-1);
@@ -323,7 +379,46 @@ class SpellService {
       }
       memorized.push(...this.pickSpellsForLevel(bookLevel, slots));
     }
+    if (params.type === "mage") {
+      const combos = [...(book.sequencers ?? []), ...(book.contingencies ?? [])];
+      memorized.push(...this.pickCombos(combos, params.casterLevel, mod, name));
+    }
     return memorized;
+  }
+
+  /**
+   * For each kind of combo whose spell the caster level has, memorizes the first combo of that kind
+   * that fits (a contingency's spell can't be above `contingencyMaxLevel`), warning when none does:
+   * once per book, caster level and kind, not once per mod variant.
+   */
+  pickCombos(
+    combos: SpellCombo[],
+    casterLevel: number,
+    mod: SpellbookModName,
+    bookName: string,
+  ): MemorizedSpell[] {
+    const picks: MemorizedSpell[] = [];
+    for (const kind of Object.keys(COMBO_RULES) as SpellComboKind[]) {
+      if (casterLevel < COMBO_RULES[kind].minCasterLevel) continue;
+      const maxLevel = kind === "contingency" ? contingencyMaxLevel(casterLevel) : Infinity;
+      const fits = (combo: SpellCombo) =>
+        combo.kind === kind && combo.spells.every((s) => (s.level ?? 0) <= maxLevel);
+      const combo = combos.find(fits);
+      if (combo) {
+        picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
+      } else {
+        this.warnNoCombo(bookName, casterLevel, kind);
+      }
+    }
+    return picks;
+  }
+
+  /** Warns (once per book, caster level and kind) that no combo of `kind` fits, see pickCombos. */
+  private warnNoCombo(bookName: string, casterLevel: number, kind: SpellComboKind): void {
+    const key = `${bookName}|${casterLevel}|${kind}`;
+    if (this.comboWarnings.has(key)) return;
+    this.comboWarnings.add(key);
+    logService.warn(`${bookName}: caster level ${casterLevel} allows a ${kind} but none fits`);
   }
 
   private pickSpellsForLevel(spells: SpellBookSpells, slots: number): MemorizedSpell[] {
@@ -347,4 +442,5 @@ class SpellService {
 }
 
 const spellService = new SpellService();
+spellComboService.useSpellBuilder(spellService);
 export default spellService;

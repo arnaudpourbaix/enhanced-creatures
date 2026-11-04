@@ -11,12 +11,10 @@ const defaults: RawCreatureAbility = {
 };
 
 export const KIT_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createSpell(SPELLS.Class.BerserkerRage, {
+  ...presetFactory.createSpells([SPELLS.Class.BerserkerRage, SPELLS.Class.BarbarianRage], {
     ...defaults,
   }),
-  ...presetFactory.createSpell(SPELLS.Class.BarbarianRage, {
-    ...defaults,
-  }),
+  
   ...presetFactory.createSpell(SPELLS.Class.PoisonWeapon, {
     ...defaults,
     triggers: [triggerFactory.hasPoisonWeapon(true)],

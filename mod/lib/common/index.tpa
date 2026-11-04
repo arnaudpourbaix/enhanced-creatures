@@ -1,5 +1,6 @@
 INCLUDE ~%MOD_FOLDER%/lib/common/regexp.tph~  // allows regexp to match tabs and newlines (from the G3 BG2 Fixpack)
 INCLUDE "%MOD_FOLDER%/lib/common/comp_vars.tpa"  // Game engines stuff
+INCLUDE "%MOD_FOLDER%/lib/common/string-refs.tpa"  // Existing strings' strrefs for this game (generated)
 INCLUDE "%MOD_FOLDER%/lib/common/ids.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/2da.tpa"
 INCLUDE "%MOD_FOLDER%/lib/common/cre_item_spell.tpa"

@@ -6,7 +6,8 @@ import { Actions } from "../script/actions";
 import { Triggers } from "../script/triggers";
 import { TargetList } from "../script/target";
 import { StringReference } from "../final/stringref";
-import { SpellReference, SpellVariant } from "../spell-item/spell-reference";
+import { SpellReference, SpellSaves, SpellVariant } from "../spell-item/spell-reference";
+import type { Spell } from "../spell-item/spell-item";
 import { SplStateIdentifier } from "../ids/splstate";
 import { SpellStateValue } from "../../../config/common";
 
@@ -14,6 +15,8 @@ export interface BaseCreatureAbility {
   name: StringReference;
   targets: TargetList[];
   triggers: Triggers.Trigger[];
+  /** A cast aimed at mirrored enemies (see CastOrderService.plan): for the log only */
+  mirrorPass?: "counter" | "lastResort";
   /**
    * The spell's SpellKeyword(s) (e.g. SPELLS.Wizard.Horror.keywords) - ability.service.ts
    * auto-appends the matching trigger.factory.spellChecks() triggers to every target list, so a
@@ -29,11 +32,18 @@ export interface BaseCreatureAbility {
    * mechanism doesn't use SpellKeyword/SPELL_CHECK_TRIGGERS at all. Spell Turning/Trap/Deflection
    * and Shield of the Archons, which ImmuneToSpellLevel misses, are excluded alongside it (see
    * triggerFactory.spellReflections), unless a keyword suppresses them (see
-   * SPELL_CHECK_SUPPRESSORS).
+   * suppressedSpellLevelChecks).
    * `null` means "not really a spell" (e.g. an addSpell-created ability with no explicit level):
    * no check, and no fallback to its preset's level either.
    */
   level?: number | null;
+  /**
+   * The saving throws negating the spell (see SpellSaves) - ability.service.ts auto-appends
+   * TriggerFactory.saveChecks() to every target list, gated by GLOBAL_CONFIG.spellChecks.stats.
+   * Derived from the effects of a spell created with addSpell; falls back to its preset's SPELLS
+   * entry otherwise. An empty list means no save check, and no fallback either.
+   */
+  saves?: SpellSaves;
   /**
    * Ability maximum range (if applicable)
    */
@@ -51,7 +61,10 @@ export interface BaseCreatureAbility {
   /**
    * For ability that can be cast every n seconds (one hour is 300)
    */
-  timer?: { name: string; value: number };
+  timer?: {
+    name: string;
+    value: number;
+  };
   /**
    * Ability doesn't share common round timer
    */
@@ -81,6 +94,10 @@ export interface AlliesCheck {
    * Area of effect radius around the target, in script Range() units
    */
   range: number;
+  /**
+   * The area starts from the caster (a burst around it, a cone), who isn't hit: its allies are checked around it, and the target needs no minimum range (see triggerFactory.alliesSafe)
+   */
+  aroundCaster?: boolean;
   /**
    * Number of allies checked one by one (3 by default): one more ally within radius and the
    * ability isn't used at all
@@ -132,22 +149,17 @@ export type RawCreatureAbility = Partial<BaseCreatureAbility> & {
    * Probability (0-100)
    */
   probability?: number;
-};
-
-export type RawCreatureSequencerAbility = Partial<BaseCreatureAbility> & {
-  spells: CreatureAbilitySpell[];
   /**
-   * Actions before casting a spell
+   * The RandomNumGT range to draw from instead of the ability's own: abilities sharing it depend
+   * on each other's roll (see categoryRoll). A spell's own shared roll (sharedRoll) still wins.
    */
-  actionsBefore?: Actions.Action[];
+  rollRange?: number;
   /**
-   * Actions after casting a spell
+   * Mirror Image deflects single-target spells: `avoid` skips mirrored targets in every target
+   * list, `require` only takes them, in the first target list alone (the counters and the last
+   * resort, see CastOrderService.plan).
    */
-  actionsAfter?: Actions.Action[];
-  /**
-   * Probability (0-100)
-   */
-  probability?: number;
+  mirrorTarget?: "avoid" | "require";
 };
 
 export type SpellCastType = "normal" | "noDec" | "force" | "reallyForce";
@@ -193,15 +205,24 @@ export type AbilityAnchor = SpellReference | number | string;
 
 export interface AbilityEntry {
   /**
-   * A registry (SPELLS/FNP_SPELLS) spell: overrides its auto-derived position and/or config.
-   * Exactly one of `spell`/`abilityId` must be set.
+   * A memorized spell cast by its preset (a registry entry, or the file of one with no entry, like
+   * NEW_SPELLS'): overrides its auto-derived position and/or config. Without a position, it's
+   * placed by its score. Exactly one of `spell`/`abilityId`/`power` must be set.
    */
-  spell?: SpellReference;
+  spell?: SpellReference | string;
+  /** A `spell` entry's own configuration on top of its preset (a timer, actions after the cast) */
+  ability?: RawCreatureAbility;
   /**
    * A local Ids enum value for a custom addSpell-created ability, resolved via
-   * creature.spell(id)/creature.ability(id). Exactly one of `spell`/`abilityId` must be set.
+   * creature.spell(id)/creature.ability(id). Exactly one of `spell`/`abilityId`/`power` must be set.
    */
   abilityId?: number;
+  /**
+   * A power shared on the creature's family (created on its entry, like a vampire's Domination),
+   * cast by its own ability: out of creature.spell()'s reach. Without a position, it's placed by
+   * its score. Exactly one of `spell`/`abilityId`/`power` must be set.
+   */
+  power?: Spell;
   insertBefore?: AbilityAnchor;
   insertAfter?: AbilityAnchor;
   insertFirst?: true;

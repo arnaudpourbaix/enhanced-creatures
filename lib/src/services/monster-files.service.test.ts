@@ -238,11 +238,11 @@ describe("monsterFilesService.getName", () => {
 const ROW_HEADER =
   "file;level;overrideScript;classScript;raceScript;generalScript;defaultScript;" +
   "helmet;shield;lring;rring;amulet;weapon1;weapon2;weapon3;weapon4;" +
-  "MonsterId;ValidatedMonsterId;ValidatedLevel;ValidatedItems;ValidatedScript;game;name";
+  "MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name";
 
 // column order for a ROW_HEADER row:
 // file;level;override;class;race;general;default;helmet;shield;lring;rring;amulet;
-// weapon1;weapon2;weapon3;weapon4;MonsterId;ValidatedMonsterId;VLevel;VItems;VScript;game;name
+// weapon1;weapon2;weapon3;weapon4;MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name
 
 describe("parseCreatureRowsCsv", () => {
   it("extracts level, slot items and scripts in canonical order, dropping blanks", () => {
@@ -298,15 +298,11 @@ describe("parseCreatureRowsCsv", () => {
     ]);
   });
 
-  it("defaults the flags to false when the columns are absent", () => {
-    const csv = ["file;level;game;name", "AAA;1;;A"].join("\n");
-    expect(parseCreatureRowsCsv(csv).get("AAA")).toEqual([
-      expect.objectContaining({
-        validatedLevel: false,
-        validatedItems: false,
-        validatedScript: false,
-      }),
-    ]);
+  it("throws naming the missing columns instead of reading them as blank", () => {
+    const csv = ROW_HEADER.replace("vlvl;vitems", "ValidatedLevel;ValidatedItems");
+    expect(() => parseCreatureRowsCsv(csv)).toThrow(
+      "assets/creatures.csv is missing column(s): vlvl, vitems",
+    );
   });
 
   it("groups game-tagged duplicate rows under the uppercased file key", () => {

@@ -1,9 +1,11 @@
 import { StringReference } from "../model/final/stringref";
+import { Durations } from "../model/game-data/durations";
 import { RaceIdentifier } from "../model/ids/race";
 import {
   BaseEffect,
   Effect,
   ModifierTypeEffect,
+  RegenerationEffect,
   StatisticModifierEffect,
   StatisticModifierOpcode,
 } from "../model/spell-item/effect";
@@ -21,12 +23,18 @@ import {
   LightingEffectEnum,
   LightingEffectTargetEnum,
   PortraitIconEnum,
+  RegenerationTypeEnum,
   SaveTypeEnum,
 } from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import creatureService from "../services/creature.service";
 import effectService from "../services/effects/effect.service";
 import { StringRefUtils } from "../services/utils/string-ref.utils";
+
+// float tolerance on hp/round arithmetic
+const EPSILON = 1e-9;
+// cap on stacked "1 hp every N seconds" effects (3 covers every whole hp/round exactly)
+const MAX_REGENERATION_SLICES = 3;
 
 class EffectFactory {
   /**
@@ -296,7 +304,13 @@ class EffectFactory {
       },
       {
         opcode: EffectTypeEnum.DisplayString,
-        stringRef: StringRefUtils.getStringId("Dire charmed"),
+        stringRef: StringRefUtils.getString(
+          [CharmTypeEnum.NeutralDireCharm, CharmTypeEnum.HostileDireCharm].includes(
+            payload.charmType,
+          )
+            ? "Dire charmed"
+            : "Charmed",
+        ),
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         dispelResistance: payload.dispelResistance,
         saveTypes: payload.saveType !== undefined ? [payload.saveType] : undefined,
@@ -371,7 +385,7 @@ class EffectFactory {
       },
       {
         opcode: EffectTypeEnum.DisplayString,
-        stringRef: StringRefUtils.getStringId("Blinded"),
+        stringRef: StringRefUtils.getString("Blinded"),
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         dispelResistance: params.dispelResistance,
         saveTypes: params.saveType ? [params.saveType] : undefined,
@@ -446,12 +460,15 @@ class EffectFactory {
   }
 
   levelDrain(params: { levels: number; saveType?: SaveTypeEnum; saveBonus?: number }) {
-    let stringRef = StringRefUtils.getStringId("One Level Drained");
-    if (params.levels === 2) {
-      stringRef = StringRefUtils.getStringId("Two Levels Drained");
-    } else if (params.levels === 3) {
-      stringRef = StringRefUtils.getStringId("Three Levels Drained");
-    }
+    const texts = [
+      "One Level Drained",
+      "Two Levels Drained",
+      "Three Levels Drained",
+      "Four Levels Drained",
+      "Five Levels Drained",
+    ] as const;
+    if (params.levels > texts.length) throw new Error("string unhandled");
+    const stringRef = StringRefUtils.getString(texts[Math.max(params.levels, 1) - 1]);
     const effects: Effect[] = [
       {
         opcode: EffectTypeEnum.LevelDrain,
@@ -474,6 +491,12 @@ class EffectFactory {
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
         saveTypes: params.saveType ? [params.saveType] : undefined,
         saveBonus: params.saveBonus,
+      },
+      {
+        opcode: EffectTypeEnum.CreatureRGBColorFade,
+        color: { red: 60, green: 90, blue: 120 },
+        fadeSpeed: 25,
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
       },
     ];
     return effectService.getEffects(effects);
@@ -512,6 +535,15 @@ class EffectFactory {
     }));
   }
 
+  lightningResistance(value: number): Effect[] {
+    const opcodes: StatisticModifierOpcode[] = [EffectTypeEnum.ElectricityResistanceModifier];
+    return opcodes.map((opcode): StatisticModifierEffect => ({
+      opcode,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    }));
+  }
+
   physicalResistance(value: number): Effect[] {
     const opcodes: StatisticModifierOpcode[] = [
       EffectTypeEnum.SlashingResistanceModifier,
@@ -524,6 +556,53 @@ class EffectFactory {
       value,
       type: EffectStatisticModifierEnum.Set,
     }));
+  }
+
+  /**
+   * Regeneration in hp/round (a round is 6 seconds).
+   * Whole hp/second go in one "amount hp per second" effect, the rest in "1 hp every N seconds"
+   * effects. Item/spell effects only take integer parameter1/2 (no frequency multiplier, which is
+   * EFF-only), so a rate no single effect expresses (e.g. 4 hp/round = 1 hp/1.5s) is split into
+   * stacked effects (1 hp/2s + 1 hp/6s). The split stops after MAX_REGENERATION_SLICES slow
+   * effects, dropping any leftover.
+   */
+  regeneration(hpPerRound: number): Effect[] {
+    if (hpPerRound <= 0) {
+      throw new Error(`Regeneration must be positive, got ${hpPerRound} hp/round`);
+    }
+    const effect = (type: RegenerationTypeEnum, amount: number): RegenerationEffect => ({
+      opcode: EffectTypeEnum.Regeneration,
+      amount,
+      type,
+      icon: PortraitIconEnum.Regenerate,
+    });
+    const effects: RegenerationEffect[] = [];
+    const perSecond = Math.floor(hpPerRound / Durations.round + EPSILON);
+    if (perSecond > 0) effects.push(effect(RegenerationTypeEnum.AmountHPperSecond, perSecond));
+    let rest = hpPerRound - perSecond * Durations.round;
+    for (let slice = 0; rest > EPSILON && slice < MAX_REGENERATION_SLICES; slice++) {
+      // greedy: the fastest "1 hp every N seconds" that doesn't overshoot what's left
+      const seconds = Math.ceil(Durations.round / rest - EPSILON);
+      effects.push(effect(RegenerationTypeEnum.OneHPperAmountSeconds, seconds));
+      rest -= Durations.round / seconds;
+    }
+    return effects;
+  }
+
+  /**
+   * Split probabilities over a list of effect so each effect has an even chance to trigger
+   */
+  splitProbabilities(effects: Effect[]): Effect[] {
+    const step = 100 / effects.length;
+    return effects.map((effect, index): Effect => {
+      let probability1 = Math.round((index + 1) * step - 1);
+      if (probability1 > 90) probability1 = 100;
+      return {
+        ...effect,
+        probability1,
+        probability2: Math.round(index * step),
+      };
+    });
   }
 }
 

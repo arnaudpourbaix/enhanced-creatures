@@ -48,6 +48,7 @@ class StateService {
       const result: ImmunityConfig = {
         ...i,
         doc: i.doc ?? true,
+        docOnly: i.docOnly ?? false,
         immunities: i.immunities ?? [],
         preventEffects: i.preventEffects ?? [],
         preventIcons: i.preventIcons ?? [],

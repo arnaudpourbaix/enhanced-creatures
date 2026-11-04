@@ -1,6 +1,7 @@
 export type TargetListName =
   | "Animals"
   | "CloseEnemies"
+  | "FarthestAllies"
   | "FarthestEnemies"
   | "NearestEnemies"
   | "NearestAllies"
@@ -17,6 +18,7 @@ export type TargetListName =
 export type TargetStatusName =
   | "Able" // Not affected by any disabling status
   | "Blinded"
+  | "CharmedAlly" // charmed onto the creature's side: attacked once no enemy can be (see attack())
   | "Grabbed"
   | "Held"
   | "HeldAndNotPoisoned"

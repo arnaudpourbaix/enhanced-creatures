@@ -14,7 +14,7 @@ export interface SpellCheckConfig {
    */
   stats: boolean;
   /**
-   * Check for races
+   * Check for races and creature types (e.g. humanoid only)
    */
   races: boolean;
   /**
@@ -63,7 +63,7 @@ export const SPELL_CHECK_CONFIG_KEYWORDS: Record<keyof SpellCheckConfig, SpellKe
     "stun",
   ],
   stats: ["acid", "cold", "electrical", "fire", "magicResistance", "poison"],
-  races: ["elf", "halfElf"],
+  races: ["elf", "halfElf", "humanoid"],
   classes: [],
   kits: [],
 };

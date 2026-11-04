@@ -5,3 +5,13 @@ CHANGELOG.md text eol=crlf
 mod/languages/**/*.tra text eol=crlf
 mod/lib/pnp-monster/** text eol=crlf
 mod/lib/common/*.tpa text eol=crlf
+
+# Game binaries: must come after the text rules above, which would otherwise rewrite their LF bytes
+*.[cC][rR][eE] binary
+*.[bB][aA][mM] binary
+*.[vV][vV][cC] binary
+*.[iI][tT][mM] binary
+*.[sS][pP][lL] binary
+*.[pP][rR][oO] binary
+*.[eE][fF][fF] binary
+*.[wW][aA][vV] binary

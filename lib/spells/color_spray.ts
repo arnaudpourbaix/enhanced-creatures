@@ -169,7 +169,7 @@ const blindEffects: (level: number) => Effect[] = (level: number) => {
     },
     {
       opcode: EffectTypeEnum.DisplayString,
-      stringRef: StringRefUtils.getStringId("Blinded"),
+      stringRef: StringRefUtils.getString("Blinded"),
       timing: EffectTimingEnum.InstantPermanentUntilDeath,
       minLevel: level + 1,
       maxLevel: level + 2,
@@ -236,7 +236,7 @@ const confusionEffects: (level: number) => Effect[] = (level: number) => {
     },
     {
       opcode: EffectTypeEnum.DisplayString,
-      stringRef: StringRefUtils.getStringId("Confused"),
+      stringRef: StringRefUtils.getString("Confused"),
       timing: EffectTimingEnum.InstantPermanentUntilDeath,
       minLevel: level + 3,
       ...baseEffect,

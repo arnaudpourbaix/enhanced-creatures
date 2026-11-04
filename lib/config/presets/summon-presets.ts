@@ -7,21 +7,21 @@ import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists, ExcludeUnwantedTargetsTriggers } from "../target/common";
 
-const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
-  {
-    name: "PreferringWeak",
-    includeStatus: ["Able"],
-    triggers: ExcludeUnwantedTargetsTriggers,
-    randomOrder: true,
-  },
+const SUMMON_ENEMY_TARGET_LISTS: TargetList[] = [
   {
     name: "NearestEnemies",
     includeStatus: ["Able"],
     triggers: ExcludeUnwantedTargetsTriggers,
     randomOrder: true,
   },
+];
+
+const SUMMON_SPELLS_TARGET_LISTS: TargetList[] = [
+  ...SUMMON_ENEMY_TARGET_LISTS,
   ...CommonTargetLists.MyselfOrAllies,
 ];
+
+const SUMMON_TIMER = { name: "Summoning", value: 2 * Durations.round };
 
 export const SUMMON_PRESETS: AbilityPreset[] = [
   {
@@ -34,14 +34,17 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       probability: DEFAULT_SPELL_PROBABILITY,
     },
   },
-  ...presetFactory.createOrderedSpells(
+  ...presetFactory.createSpells(
     [
       SPELLS.Wizard.MonsterSummoning8,
       SPELLS.Priest.Gate,
+      SPELLS.Wizard.SummonFiend,
       SPELLS.Priest.SummonDeathKnight,
+      SPELLS.Wizard.SummonDeathKnight,
       SPELLS.Priest.AnimalSummoning7,
       SPELLS.Wizard.MonsterSummoning7,
       SPELLS.Priest.AnimateSkeletonWarrior,
+      SPELLS.Wizard.AnimateSkeletonWarrior,
       FNP_SPELLS.Priest.Shades,
       SPELLS.Wizard.Shades,
       FNP_SPELLS.Priest.SummonShadows,
@@ -65,9 +68,49 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.MonsterSummoning2,
       SPELLS.Priest.AnimalSummoning1,
       SPELLS.Wizard.MonsterSummoning1,
+      SPELLS.Wizard.ConjureAirElemental,
+      SPELLS.Wizard.ConjureEarthElemental,
+      SPELLS.Wizard.ConjureFireElemental,
+      SPELLS.Wizard.ConjureLesserAirElemental,
+      SPELLS.Wizard.ConjureLesserEarthElemental,
+      SPELLS.Wizard.ConjureLesserFireElemental,
+      SPELLS.Wizard.ConjureLesserWaterElemental,
+      SPELLS.Wizard.ConjureWaterElemental,
+      SPELLS.Wizard.CreateBoneguard,
+      SPELLS.Wizard.DemiShadowMonsters,
+      SPELLS.Wizard.Gate,
+      SPELLS.Wizard.InvisibleStalker,
+      SPELLS.Wizard.MordenkainensSword,
+      SPELLS.Wizard.SummonDjinni,
+      SPELLS.Wizard.SummonEfreeti,
+      SPELLS.Wizard.SummonNishruu,
+      SPELLS.Wizard.SummonNishruuSPWI719,
+      SPELLS.Wizard.WyvernCall,
+      SPELLS.Priest.ConjureAirElemental,
+      SPELLS.Priest.ConjureAnimals,
+      SPELLS.Priest.ConjureEarthElemental,
+      SPELLS.Priest.ConjureFireElemental,
+      SPELLS.Priest.ElementalPrinceCall,
+      SPELLS.Priest.ElementalSwarm,
+      SPELLS.Priest.GiantInsect,
+      SPELLS.Priest.Stalker,
     ],
     {
-      timer: { name: "Summoning", value: 2 * Durations.round },
+      targets: SUMMON_SPELLS_TARGET_LISTS,
+      timer: SUMMON_TIMER,
+    },
+  ),
+  // Cast on the caster, so only worth it with an enemy in sight
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Wizard.SummonDarkPlanetar,
+      SPELLS.Wizard.SummonPlanetar,
+      SPELLS.Priest.SummonDeva,
+      SPELLS.Priest.SummonFallenDeva,
+    ],
+    {
+      targets: SUMMON_ENEMY_TARGET_LISTS,
+      timer: SUMMON_TIMER,
     },
   ),
 ];

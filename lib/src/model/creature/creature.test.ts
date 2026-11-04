@@ -1,6 +1,15 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { MonsterItemIconEnum } from "../../../config/item";
+import poisonService from "../../services/effects/poison.service";
+import {
+  AbilityDamageTypeEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+} from "../spell-item/effect.enums";
+import { Weapon, WeaponCastSpell } from "../spell-item/spell-item";
 import { MainCreatureData } from "./data";
 import { Creature } from "./creature";
+import { CreatureGrabConfig } from "./grab";
 
 function fakeCreature(): Creature {
   const creature = new Creature(1);
@@ -90,5 +99,108 @@ describe("addItem (override)", () => {
     creature.data.items.equipped = [{ file: first.file, slot: ["LRING"] }];
     const second = creature.addItem({ equippedSlot: ["LRING"] });
     expect(creature.data.items.equipped).toEqual([{ file: second.file, slot: ["LRING"] }]);
+  });
+});
+
+describe("addNaturalWeapon", () => {
+  const jaws = {
+    diceThrown: 1,
+    diceSize: 6,
+    speed: 3,
+  } as const;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("applies the kind defaults", () => {
+    const weapon = fakeCreature().addNaturalWeapon("jaws", jaws);
+    expect(weapon.icon).toBe(MonsterItemIconEnum.Jaws);
+    expect(weapon.header.damageType).toBe(AbilityDamageTypeEnum.Piercing);
+    expect(weapon.header.type).toBe(ItemAbilityTypeEnum.Melee);
+    expect(weapon.header.abilityflags).toContain(ItemAbilityFlagEnum.AddStrengthBonus);
+    expect(weapon.header.speed).toBe(3);
+    expect(weapon.header.diceThrown).toBe(1);
+    expect(weapon.header.diceSize).toBe(6);
+  });
+
+  it("names the weapon after its kind unless a name key is given", () => {
+    const creature = fakeCreature();
+    expect(creature.addNaturalWeapon("jaws", jaws).stringRef).toBe("common.naturalWeapon.jaws");
+    expect(creature.addNaturalWeapon("fists", jaws).stringRef).toBe("common.naturalWeapon.fists");
+    const paws = creature.addNaturalWeapon("claws", {
+      ...jaws,
+      stringRef: "common.naturalWeapon.paws",
+    });
+    expect(paws.stringRef).toBe("common.naturalWeapon.paws");
+  });
+
+  it("lets options override icon and damage type", () => {
+    const weapon = fakeCreature().addNaturalWeapon("claws", {
+      ...jaws,
+      icon: MonsterItemIconEnum.Ghoul,
+      damageType: AbilityDamageTypeEnum.Crushing,
+    });
+    expect(weapon.icon).toBe(MonsterItemIconEnum.Ghoul);
+    expect(weapon.header.damageType).toBe(AbilityDamageTypeEnum.Crushing);
+  });
+
+  it("equips WEAPON1 by default, the given slot, or nothing with slot null", () => {
+    const creature = fakeCreature();
+    expect(creature.addNaturalWeapon("jaws", jaws).equippedSlot).toEqual(["WEAPON1"]);
+    expect(creature.addNaturalWeapon("jaws", { ...jaws, slot: "SHIELD" }).equippedSlot).toEqual([
+      "SHIELD",
+    ]);
+    expect(creature.addNaturalWeapon("jaws", { ...jaws, slot: null }).equippedSlot).toEqual([]);
+  });
+
+  it("casts the poison spell before the explicit cast spells", () => {
+    const creature = fakeCreature();
+    const getSpell = vi
+      .spyOn(poisonService, "getSpell")
+      .mockReturnValue({ spell: "POISON" } as WeaponCastSpell);
+    const addWeapon = vi.spyOn(creature, "addWeapon").mockReturnValue({} as Weapon);
+    creature.addNaturalWeapon("jaws", {
+      ...jaws,
+      poison: { poisonType: "A", saveBonus: 2 },
+      castSpells: [{ spell: "OTHER" } as WeaponCastSpell],
+    });
+    expect(getSpell).toHaveBeenCalledWith({ poisonType: "A", saveBonus: 2 });
+    expect(addWeapon.mock.calls[0][0].castSpells?.map((c) => c.spell)).toEqual(["POISON", "OTHER"]);
+  });
+
+  it("passes grab through and sets no undefined keys", () => {
+    const creature = fakeCreature();
+    const addWeapon = vi.spyOn(creature, "addWeapon").mockReturnValue({} as Weapon);
+    const grab: CreatureGrabConfig = { onlyGrabProneTarget: true };
+    creature.addNaturalWeapon("jaws", { ...jaws, grab });
+    const arg = addWeapon.mock.calls[0][0];
+    expect(arg.grab).toBe(grab);
+    expect(Object.values(arg.weapon)).not.toContain(undefined);
+    expect(Object.values(arg.weapon.header)).not.toContain(undefined);
+  });
+
+  it("passes the creature-specific options through to the weapon and its header", () => {
+    const creature = fakeCreature();
+    const addWeapon = vi.spyOn(creature, "addWeapon").mockReturnValue({} as Weapon);
+    const animationSwing = { overhand: 10, backhand: 20, thrust: 70 };
+    creature.addNaturalWeapon("stinger", {
+      ...jaws,
+      id: 7,
+      range: 2,
+      projectile: "JAPROJ",
+      animationSwing,
+      damageBonus: 4,
+      immunities: ["poison"],
+      doc: false,
+    });
+    const { weapon } = addWeapon.mock.calls[0][0];
+    expect(weapon).toMatchObject({ id: 7, immunities: ["poison"], doc: false });
+    expect(weapon.header).toMatchObject({
+      range: 2,
+      projectile: "JAPROJ",
+      animationSwing,
+      damageBonus: 4,
+    });
   });
 });

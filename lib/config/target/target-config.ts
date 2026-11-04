@@ -45,6 +45,10 @@ export const TARGET_LISTS: {
     value: repeat("NearestAllyOf", 6),
   },
   {
+    name: "FarthestAllies",
+    value: repeat("NearestAllyOf", 6).reverse(),
+  },
+  {
     name: "MyselfAndNearestAllies",
     value: ["Myself", ...repeat("NearestAllyOf", 6)],
   },
@@ -75,6 +79,8 @@ export const TARGET_LISTS: {
   {
     name: "PreferringWeak",
     value: [
+      // the easiest to hit first, whatever its class (the classes below usually wear the worst AC)
+      "WorstAC",
       ...enemyOfClassTypes(["MAGE", "MAGE_THIEF", "THIEF", "BARD", "CLERIC_MAGE", "CLERIC", "0"]),
     ],
   },
@@ -360,6 +366,32 @@ export const TARGET_STATUS: TargetStatus[] = [
       {
         name: "StateCheck",
         params: [ScriptTarget.token, "STATE_SLEEPING"],
+      },
+    ],
+  },
+  {
+    // A party member (or summon) the creature's side charmed: a free victim once no enemy is left
+    // to attack, so the party can't just kite the creature away until the charm expires.
+    status: "CharmedAlly",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: false,
+    targetsAllies: true,
+    triggers: [
+      {
+        name: "Allegiance",
+        params: [ScriptTarget.myself, "ENEMY"],
+      },
+    ],
+    targetTriggers: [
+      {
+        name: "StateCheck",
+        params: [ScriptTarget.token, "STATE_CHARMED"],
+      },
+      // from the party's side: charm never changes Allegiance (a stale LastSeenBy may be one of the
+      // creature's allies the party charmed, an enemy the other tiers attack)
+      {
+        name: "Allegiance",
+        params: [ScriptTarget.token, "GOODCUTOFF"],
       },
     ],
   },

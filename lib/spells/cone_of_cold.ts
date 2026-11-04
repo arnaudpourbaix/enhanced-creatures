@@ -44,6 +44,7 @@ export const createConeOfCold = ({
   memorizedCount,
   options,
   name: "spell.coneOfCold.name",
+  role: "damage",
   icon: SPELLS.Wizard.ConeOfCold.file,
   castingSound: "CAS_M06",
   flags: [SpellFlagEnum.Hostile, SpellFlagEnum.BreakSanctuary],

@@ -8,6 +8,7 @@ import { ClassIdentifier } from "../../model/ids/class";
 import { KitIdentifier } from "../../model/ids/kit";
 import { ImmunityName } from "../../model/final/immunity";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
 import creatureService from "../creature.service";
 import hitPointService from "../hit-point.service";
 import itemService from "../item.service";
@@ -39,6 +40,7 @@ export interface EffectiveAdjustment {
   level: AdjustmentField<number>;
   hp: AdjustmentField<number>;
   thac0: AdjustmentField<number>;
+  meleeThac0: AdjustmentField<number>;
   ac: AdjustmentField<number>;
   apr: AdjustmentField<number>;
   movement: AdjustmentField<number>;
@@ -65,6 +67,8 @@ export interface EffectiveAdjustment {
    * than something to merge across adjustments. `undefined` when nothing in the fold sets it.
    */
   spellbooks?: SpellbookVariant[];
+  /** The sequencers and contingencies the folded adjustments declare (`spells.combos`). */
+  combos: SpellCombo[];
   proficiencies: { type: ProficiencyTypeEnum; value: number; changed: boolean }[];
   /**
    * The variant that owns every adjustment folded into this effective, if they all share one.
@@ -173,6 +177,7 @@ class AdjustmentService {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         base.thac0!,
       ),
+      meleeThac0: this.getMeleeThac0(matching, base),
       ac: this.getAc(matching, creature),
       apr: this.getApr(matching, creature, classValue, levelValue, equipped, proficiencies),
       movement: this.field(
@@ -242,6 +247,8 @@ class AdjustmentService {
       // despite the non-optional type.
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       spellbooks: this.lastDefined(matching, (d) => d.spells?.spellbooks),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      combos: [...new Set(matching.flatMap((a) => a.data.spells?.combos ?? []))],
       variant: this.commonVariant(matching),
       game,
       equipped,
@@ -318,6 +325,22 @@ class AdjustmentService {
     return (
       rawHp + hitPointService.getDisplayHitPointBonus({ class: classValue, constitution, level })
     );
+  }
+
+  // Both sides go through getMeleeThac0 with their own effective strength, so a file that only
+  // changes strength still gets its melee THAC0 flagged as changed.
+  private getMeleeThac0(
+    matching: CreatureAdjustment[],
+    base: CreatureData,
+  ): AdjustmentField<number> {
+    const effective = creatureService.getMeleeThac0({
+      thac0: this.lastDefined(matching, (d) => d.thac0) ?? base.thac0,
+      strength: this.lastDefined(matching, (d) => d.strength) ?? base.strength,
+      exceptionalStrength:
+        this.lastDefined(matching, (d) => d.exceptionalStrength) ?? base.exceptionalStrength,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.field(effective, creatureService.getMeleeThac0(base)!);
   }
 
   // checkData already ran checkDexterityArmorClassBonus on every adjustment's own data using only
@@ -551,6 +574,7 @@ class AdjustmentService {
       effective.level.changed ||
       effective.hp.changed ||
       effective.thac0.changed ||
+      effective.meleeThac0.changed ||
       effective.ac.changed ||
       effective.apr.changed ||
       effective.movement.changed ||
@@ -574,6 +598,7 @@ class AdjustmentService {
       effective.immunities.some((i) => i.changed) ||
       effective.memorized.some((m) => m.changed) ||
       !!effective.spellbooks?.length ||
+      effective.combos.length > 0 ||
       effective.proficiencies.some((p) => p.changed)
     );
   }
@@ -596,7 +621,7 @@ class AdjustmentService {
     if (!shared) return undefined;
     // A member file the variant's own `adjust` entries never target still goes through the
     // ordinary per-file fold in getEffectiveDataForFile, which can pick up adjustments the variant
-    // knows nothing about - e.g. family.ts's applyCsvSummonFiles appending an xpv=0 patch to a
+    // knows nothing about - e.g. creature-group.ts's applyCsvSummonFiles appending an xpv=0 patch to a
     // creatures.csv-flagged summon after the variant was declared. Building the profile from that
     // same fold (for a file with no variant-owned deviation) keeps it identical to what such a
     // "vanilla" member actually renders as; hand-rolling it from `shared` alone drifted out of
@@ -629,6 +654,7 @@ class AdjustmentService {
       "level",
       "hp",
       "thac0",
+      "meleeThac0",
       "ac",
       "apr",
       "movement",

@@ -12,9 +12,15 @@ import { Movement } from "../model/creature/movement";
 import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import { CreatureAbility } from "../model/creature/ability";
+import { CreatureAdjustment } from "../model/creature/adjustment";
 import creatureService from "./creature.service";
 import logService from "./log.service";
 import monsterFilesService from "./monster-files.service";
+import spellComboService from "./spell-combo.service";
+import { ABILITY_PRESETS } from "../../config/ability-presets";
+import { SPELLS } from "../../config/spells/spell-database";
+import { KITS } from "../../config/kit-ability";
+import { SpellCombo } from "../model/spell-item/spell-combo";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -481,6 +487,16 @@ describe("getStrengthBonus", () => {
   });
 });
 
+describe("getMeleeThac0", () => {
+  it("applies the strength to-hit bonus", () => {
+    expect(creatureService.getMeleeThac0({ thac0: 11, strength: 19 })).toBe(8);
+  });
+
+  it("returns undefined when thac0 is unset", () => {
+    expect(creatureService.getMeleeThac0({ strength: 19 })).toBeUndefined();
+  });
+});
+
 describe("getDexterityArmorClassBonus (private)", () => {
   const service = creatureService as unknown as CreatureServicePrivate;
 
@@ -847,6 +863,8 @@ function fakeSpellCreature(p: {
   memorized?: MemorizedSpell[];
   spellbooks?: SpellbookVariant[];
   adjustmentsMemorized?: MemorizedSpell[][];
+  combos?: SpellCombo[];
+  adjustmentsCombos?: SpellCombo[][];
   abilities?: CreatureAbility[];
   customCodeAbilities?: CreatureAbility[][];
 }): Creature {
@@ -856,11 +874,14 @@ function fakeSpellCreature(p: {
       spells: {
         memorized: p.memorized ?? [],
         spellbooks: p.spellbooks,
+        combos: p.combos,
       },
     },
-    adjustments: (p.adjustmentsMemorized ?? []).map((memorized) => ({
-      data: { spells: { memorized } },
-    })),
+    adjustments: (p.adjustmentsMemorized ?? p.adjustmentsCombos?.map(() => []) ?? []).map(
+      (memorized, index) => ({
+        data: { spells: { memorized, combos: p.adjustmentsCombos?.[index] } },
+      }),
+    ),
     behavior: {
       abilities: p.abilities ?? [],
       customCodes: (p.customCodeAbilities ?? []).map((abilities) => ({ abilities })),
@@ -881,6 +902,84 @@ describe("checkSpellAbilities", () => {
     expect(warnSpy).not.toHaveBeenCalled();
     errorSpy.mockRestore();
     warnSpy.mockRestore();
+  });
+
+  it("expects no ability for a useless spell: it is never cast", () => {
+    const creature = fakeSpellCreature({
+      memorized: [{ file: SPELLS.Priest.FindTraps.file }],
+      abilities: [],
+    });
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    creatureService.checkSpellAbilities(creature);
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+  });
+
+  it("expects no ability for a self contingency: it is precast", () => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+    const file = spellComboService.comboFile(
+      {
+        key: "TestCheckStoneskinOnHit",
+        kind: "contingency",
+        condition: "hit",
+        spells: [SPELLS.Wizard.Stoneskin],
+      },
+      "Vanilla",
+    );
+    const creature = fakeSpellCreature({ memorized: [{ file }], abilities: [] });
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    creatureService.checkSpellAbilities(creature);
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+  });
+
+  describe("combos declared on the creature's data (no spellbook)", () => {
+    const missiles: SpellCombo = {
+      key: "TestDeclaredMissiles",
+      kind: "minorSequencer",
+      spells: [SPELLS.Wizard.MagicMissiles, SPELLS.Wizard.MagicMissiles],
+    };
+    const stoneskin: SpellCombo = {
+      key: "TestDeclaredStoneskinOnHit",
+      kind: "contingency",
+      condition: "hit",
+      spells: [SPELLS.Wizard.Stoneskin],
+    };
+
+    it("counts them as memorized, in every mod variant", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [missiles] });
+      expect(creatureService.memorizedSpellFiles(creature)).toEqual(
+        spellComboService.filesOf(missiles),
+      );
+    });
+
+    it("counts an adjustment's ones as memorized", () => {
+      const creature = fakeSpellCreature({ adjustmentsCombos: [[missiles]] });
+      expect(creatureService.memorizedSpellFiles(creature)).toEqual(
+        spellComboService.filesOf(missiles),
+      );
+    });
+
+    it("errors when a declared sequencer has no ability", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [missiles] });
+      const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+      creatureService.checkSpellAbilities(creature);
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(spellComboService.filesOf(missiles)[0]),
+      );
+      errorSpy.mockRestore();
+    });
+
+    it("expects no ability for a declared self contingency", () => {
+      spellComboService.usePresets(ABILITY_PRESETS);
+      const creature = fakeSpellCreature({ combos: [stoneskin] });
+      const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+      creatureService.checkSpellAbilities(creature);
+      expect(errorSpy).not.toHaveBeenCalled();
+      errorSpy.mockRestore();
+    });
   });
 
   it("errors when a spell in the default memorized list has no matching ability", () => {
@@ -1068,6 +1167,19 @@ describe("memorizedSpellFiles", () => {
   it("returns an empty array when nothing is memorized", () => {
     const creature = fakeSpellCreature({});
     expect(creatureService.memorizedSpellFiles(creature)).toEqual([]);
+  });
+});
+
+describe("declaredSpellFiles", () => {
+  it("collects memorized, spellbook and combo files uppercased", () => {
+    vi.spyOn(spellComboService, "filesOf").mockReturnValue(["jasc0100"]);
+    const data = emptyAdjustmentData();
+    data.spells.memorized = [{ file: "spwi112" }];
+    data.spells.spellbooks = [{ mod: "SpellRevisions", memorized: [{ file: "spwi212" }] }];
+    data.spells.combos = [{} as SpellCombo];
+    expect(creatureService.declaredSpellFiles(data.spells)).toEqual(
+      new Set(["SPWI112", "SPWI212", "JASC0100"]),
+    );
   });
 });
 
@@ -1779,7 +1891,7 @@ describe("creatureService.checkAgainstCsv", () => {
     expect(warn).toHaveBeenCalledWith("AAA : items (helmet=HELM01)");
   });
 
-  it("suppresses a file whose row has ValidatedItems=true", () => {
+  it("suppresses a file whose row has vitems=true", () => {
     const row = csvRow({
       file: "AAA",
       items: [{ slot: "helmet", file: "HELM01" }],
@@ -1883,5 +1995,102 @@ describe("creatureService.checkAgainstCsv", () => {
 
     expect(warn).toHaveBeenCalledWith("AAA : scripts (overrideScript=0X1DG)");
     expect(info).not.toHaveBeenCalled();
+  });
+});
+
+describe("checkAdjustmentSpells", () => {
+  function spellCreature(adjustments: Partial<CreatureAdjustment>[], variants: unknown[] = []) {
+    return {
+      name: "test",
+      data: { spells: { memorized: [{ file: "SPCL321" }] } },
+      adjustments: adjustments.map((a) => ({
+        files: [],
+        data: { script: {}, spells: { memorized: [] } },
+        ...a,
+      })),
+      variants,
+    } as unknown as Creature;
+  }
+  const memorizing = (...files: string[]) =>
+    ({
+      script: {},
+      spells: { memorized: files.map((file) => ({ file })) },
+    }) as unknown as CreatureData;
+
+  it("throws when a plain adjustment adds a spell file the base lacks", () => {
+    const creature = spellCreature([
+      { files: ["F1", "F2"], data: memorizing("SPWI212", "SPWI412") },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).toThrow(
+      ": adjustment for 'F1, F2' adds spells SPWI212, SPWI412 - declare a variant so they get their own script",
+    );
+  });
+
+  it("allows more uses of a base spell", () => {
+    const creature = spellCreature([{ files: ["F1"], data: memorizing("SPCL321") }]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("allows spells on files that run no script", () => {
+    const none = {
+      script: { location: "None" },
+      spells: { memorized: [] },
+    } as unknown as CreatureData;
+    const creature = spellCreature([
+      { files: ["F1"], data: none },
+      { files: ["F1"], data: memorizing("SPWI212") },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("allows the spells a kit grants", () => {
+    const rage = KITS.flatMap((k) => k.abilities).find((a) => a.resource !== "SPCL321")?.resource ?? "";
+    const creature = spellCreature([{ files: ["F1"], data: memorizing(rage) }]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("ignores variant adjustments", () => {
+    const creature = spellCreature([
+      { files: ["F1"], data: memorizing("SPWI212"), variant: {} as CreatureAdjustment["variant"] },
+    ]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
+  });
+
+  it("throws a variant's adjust entries adding spells it lacks", () => {
+    const child = {
+      spellErrors: ["variant \"b\": 'F2' adds spells X - declare a sub-variant"],
+      children: [],
+    };
+    const creature = spellCreature([], [{ spellErrors: [], children: [child] }]);
+    expect(() => creatureService.checkAdjustmentSpells(creature)).toThrow(
+      ": variant \"b\": 'F2' adds spells X - declare a sub-variant",
+    );
+  });
+});
+
+describe("checkSpellRoles", () => {
+  function roleCreature(role: string | undefined) {
+    return {
+      name: "test",
+      data: { spells: { memorized: [{ file: "JASM0100" }] } },
+      adjustments: [],
+      spells: [{ file: "JASM0100", role, name: "monster.test.power" }],
+    } as unknown as Creature;
+  }
+
+  it("throws when a memorized spell the mod creates has no role", () => {
+    expect(() => creatureService.checkSpellRoles(roleCreature(undefined))).toThrow(
+      /JASM0100 .* has no role - scoring can't place it/,
+    );
+  });
+
+  it("accepts a memorized created spell with a role", () => {
+    expect(() => creatureService.checkSpellRoles(roleCreature("damage"))).not.toThrow();
+  });
+
+  it("ignores created spells that aren't memorized (a weapon's hit effect)", () => {
+    const creature = roleCreature(undefined);
+    creature.data.spells.memorized = [];
+    expect(() => creatureService.checkSpellRoles(creature)).not.toThrow();
   });
 });

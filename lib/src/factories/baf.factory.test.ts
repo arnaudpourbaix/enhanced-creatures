@@ -32,6 +32,22 @@ describe("addStatementsFromTargetList", () => {
     });
   });
 
+  it("checks the side of a target that can be on either side (WorstAC)", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [triggerFactory.range(30)],
+      targets: ["WorstAC", GOODCUTOFF],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([
+      { ...triggerFactory.range(30), params: ["WorstAC", 30] },
+      ...triggerFactory.sideCheck("WorstAC"),
+    ]);
+    expect(statements[1].triggers).toHaveLength(1);
+  });
+
   it("only puts the comment on the first generated statement", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
@@ -114,6 +130,25 @@ describe("addStatementsFromTargetList", () => {
     ]);
   });
 
+  it("drops a max range check on a Myself target, always true, keeping it for the others", () => {
+    const statements: Statements = [];
+    bafFactory.addStatementsFromTargetList({
+      statements,
+      triggers: [
+        { name: "See", params: [ScriptTarget.token] },
+        { name: "Range", params: [ScriptTarget.lastSeen, 10] },
+      ],
+      targets: [ScriptTarget.myself, GOODCUTOFF],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([]);
+    expect(statements[1].triggers).toContainEqual({
+      name: "Range",
+      params: [ScriptTarget.lastSeen, 10],
+    });
+  });
+
   it("rewrites a LastSeenBy action target to Myself for a Myself target", () => {
     const statements: Statements = [];
     bafFactory.addStatementsFromTargetList({
@@ -154,7 +189,10 @@ describe("addStatementsFromTargetList", () => {
 
     expect(statements[0].triggers).toHaveLength(3);
     expect(statements[1].triggers).toEqual([
-      { name: "Or", triggers: [{ ...triggerFactory.range(30), params: [ScriptTarget.myself, 30] }] },
+      {
+        name: "Or",
+        triggers: [{ ...triggerFactory.range(30), params: [ScriptTarget.myself, 30] }],
+      },
     ]);
   });
 
@@ -201,6 +239,30 @@ describe("addOneBlockTargetList", () => {
     ]);
   });
 
+  it("skips a party target (WorstAC) on the caster's side in its own Or", () => {
+    const statements: Statements = [];
+    bafFactory.addOneBlockTargetList({
+      statements,
+      targets: ["WorstAC", GOODCUTOFF],
+      targetTriggers: [triggerFactory.range(30)],
+      responses: responseFactory.response([]),
+    });
+
+    expect(statements[0].triggers).toEqual([
+      {
+        name: "Or",
+        triggers: [
+          { ...triggerFactory.range(30), params: ["WorstAC", 30], negation: true },
+          ...triggerFactory.sideCheck("WorstAC").map(triggerFactory.inverseNegation),
+        ],
+      },
+      {
+        name: "Or",
+        triggers: [{ ...triggerFactory.range(30), params: [GOODCUTOFF, 30], negation: true }],
+      },
+    ]);
+  });
+
   it("inserts inBetweenStatements between the leading Or block and the final action statement", () => {
     const statements: Statements = [];
     const inBetween: Statements = [{ triggers: [], responses: responseFactory.response([]) }];
@@ -243,6 +305,20 @@ describe("addOneBlockTargetList", () => {
     expect(
       (final.responses[0].actions[0] as Actions.Action & { params: unknown[] }).params,
     ).toEqual([ScriptTarget.lastSeen]);
+  });
+
+  it("guards the final statement against a LastSeenBy on the caster's own side", () => {
+    const statements: Statements = [];
+    bafFactory.addOneBlockTargetList({
+      statements,
+      targets: [GOODCUTOFF],
+      targetTriggers: [],
+      responses: responseFactory.response([]),
+    });
+
+    const final = statements[statements.length - 1];
+    expect(final.triggers).toEqual(triggerFactory.lastSeenIsOpponent());
+    expect(statements[0].triggers).not.toContainEqual(triggerFactory.lastSeenIsOpponent()[0]);
   });
 
   it("reverses target order when reverse is set", () => {

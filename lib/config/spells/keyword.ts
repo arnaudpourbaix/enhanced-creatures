@@ -10,11 +10,20 @@ export type SpellKeyword =
    */
   | "acid"
   /**
-   * Affects an area: spell reflections don't stop it (see SPELL_CHECK_SUPPRESSORS)
+   * Affects an area: spell reflections don't stop it (see suppressedSpellLevelChecks)
    */
   | "area"
+  /**
+   * An aura striking the enemies around its caster whenever it's ready: reactive, but kept out of
+   * the covered phase, which it would break (see CastOrderService.coveredPlan)
+   */
+  | "aura"
   | "bleeding"
   | "blind"
+  /**
+   * Cast on its caster. Without the area keyword, it skips the level-driven checks on its target
+   * list, like a friendly spell (see suppressedSpellLevelChecks)
+   */
   | "castOnSelf"
   | "causeWounds"
   | "charm"
@@ -25,6 +34,13 @@ export type SpellKeyword =
   | "curePoison"
   | "cureWounds"
   | "death"
+  /**
+   * The Death Spell itself, not every death effect (see the deathSpell immunity). Under Spell
+   * Revisions, its file is Banishment, which also slays summons, so the immunity still fits
+   */
+  | "deathSpell"
+  /** Globes and other spell level immunities don't stop it (Breach) */
+  | "ignoresSpellLevel"
   | "disease"
   | "earthquake"
   | "electrical"
@@ -39,8 +55,12 @@ export type SpellKeyword =
   | "fireball"
   | "flameArrow"
   /**
-   * Means that the spell is friendly and we should not check for protections (see
-   * SPELL_CHECK_SUPPRESSORS)
+   * Gaze attack: blocked by gaze attack immunity (see the gazeAttacks immunity)
+   */
+  | "gaze"
+  /**
+   * Means that the spell is wanted by its (allied) target and we should not check for protections
+   * (see suppressedSpellLevelChecks). Not needed on a castOnSelf spell
    */
   | "friendly"
   | "globeOfInvulnerability"
@@ -50,6 +70,11 @@ export type SpellKeyword =
    */
   | "halfElf"
   | "hold"
+  /**
+   * Only affects humanoids (e.g. a charm whose effect is restricted to GENERAL.IDS HUMANOID) -
+   * skip other targets
+   */
+  | "humanoid"
   | "illusion"
   | "insect"
   | "levelDrain"
@@ -70,6 +95,8 @@ export type SpellKeyword =
    * Blocked by Shield (wizard spell)
    */
   | "shield"
+  /** Removes spell protections, so none of them stops it (Secret Word, Spellstrike...) */
+  | "spellRemoval"
   | "silence"
   | "sleep"
   | "slow"

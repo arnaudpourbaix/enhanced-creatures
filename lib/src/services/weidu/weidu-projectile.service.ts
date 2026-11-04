@@ -48,9 +48,12 @@ class WeiduProjectileService extends AbstractWeiduService {
     if (projectile.projectileInfo) {
       const info = projectile.projectileInfo;
       this.writeFlag(lines, 0x100, 4, info.bamProjectileFlags, 1);
+      this.write(lines, 0x104, 8, info.travelingAnimation, 1);
+      this.write(lines, 0x114, 1, info.projectileNumber, 1);
       this.write(lines, 0x116, 2, info.lightSpotIntensity, 1);
       this.write(lines, 0x118, 2, info.lightSpotWidth, 1);
       this.write(lines, 0x11a, 2, info.lightSpotHeight, 1);
+      this.write(lines, 0x133, 1, info.faceTargetGranularity, 1);
       this.write(lines, 0x134, 2, info.projectileSmokeAnimation, 1);
     }
     if (projectile.areaEffectInfo) {
@@ -66,7 +69,15 @@ class WeiduProjectileService extends AbstractWeiduService {
       this.write(lines, 0x216, 1, info.triggerCount, 1);
       this.write(lines, 0x217, 1, info.explosionEffect, 1);
       this.write(lines, 0x218, 1, info.explosionColor, 1);
+      this.write(lines, 0x21a, 2, info.explosionProjectile, 1);
+      this.write(lines, 0x21c, 8, info.explosionAnimation, 1);
       this.write(lines, 0x224, 2, info.coneWidth, 1);
+      this.write(lines, 0x228, 8, info.spreadAnimation, 1);
+      this.write(lines, 0x230, 8, info.ringAnimation, 1);
+      this.write(lines, 0x238, 8, info.areaSound, 1);
+      this.writeFlag(lines, 0x240, 4, info.areaExtendedFlags, 1);
+      this.write(lines, 0x248, 2, info.animationGranularity, 1);
+      this.write(lines, 0x24a, 2, info.animationGranularityDivider, 1);
     }
     this.add(lines, `ADD_PROJECTILE ~override/${projectile.file}.pro~ ~${projectile.name}~`, 0);
     this.add(lines, "", 0);

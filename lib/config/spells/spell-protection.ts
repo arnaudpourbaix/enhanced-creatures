@@ -10,6 +10,7 @@ export type SpellProtectionName =
   | "CLERIC"
   | "ANYONE"
   | "NOT_MALE_HUMANOID"
+  | "DEATH_IMMUNITY"
   | "UNDEAD_OR_GOLEM";
 
 /**
@@ -39,6 +40,12 @@ export const SPELL_PROTECTIONS: SpellProtection[] = [
     stat: SpellProtectionStat.Class,
     value: "CLERIC_ALL",
     relation: SpellProtectionRelation.Equal,
+  },
+  {
+    name: "DEATH_IMMUNITY",
+    stat: SpellProtectionStat.Splstate,
+    relation: SpellProtectionRelation.Equal,
+    value: "DEATH_WARD",
   },
   {
     name: "NOT_MALE_HUMANOID",

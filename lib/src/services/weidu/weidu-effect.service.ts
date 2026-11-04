@@ -116,7 +116,7 @@ class WeiduEffectService extends AbstractWeiduService {
     if (effect.dispelResistance) intVars.push(`resist_dispel=${effect.dispelResistance}`);
     if (effect.duration) intVars.push(`duration=${effect.duration}`);
     if (effect.probability1) intVars.push(`probability1=${effect.probability1}`);
-    if (effect.probability2) intVars.push(`probability2=${effect.probability2}`);
+    if (effect.probability2 !== undefined) intVars.push(`probability2=${effect.probability2}`);
     if (effect.diceSize) intVars.push(`dicesize=${effect.diceSize}`);
     if (effect.diceThrown) intVars.push(`dicenumber=${effect.diceThrown}`);
   }

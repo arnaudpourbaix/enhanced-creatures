@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { Effect } from "../model/spell-item/effect";
-import { EffectIDSFileEnum, EffectTimingEnum } from "../model/spell-item/effect.enums";
+import {
+  EffectIDSFileEnum,
+  EffectTimingEnum,
+  PortraitIconEnum,
+  RegenerationTypeEnum,
+} from "../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import effectFactory from "./effect.factory";
+import { StringRefUtils } from "../services/utils/string-ref.utils";
 
 describe("repeatEffect", () => {
   it("returns each effect once, InstantPermanent, for a single round", () => {
@@ -41,7 +47,11 @@ describe("repeatEffect", () => {
     const result = effectFactory.repeatEffect(2, effects);
     expect(result).toEqual([
       { opcode: EffectTypeEnum.Regeneration, amount: 1, timing: EffectTimingEnum.InstantPermanent },
-      { opcode: EffectTypeEnum.PlaySound, resource: "EFF_M08", timing: EffectTimingEnum.InstantPermanent },
+      {
+        opcode: EffectTypeEnum.PlaySound,
+        resource: "EFF_M08",
+        timing: EffectTimingEnum.InstantPermanent,
+      },
       {
         opcode: EffectTypeEnum.Regeneration,
         amount: 1,
@@ -107,5 +117,66 @@ describe("paralyze", () => {
         idsEntry: "ANYONE",
       }),
     );
+  });
+});
+
+describe("regeneration", () => {
+  it.each([
+    [6, RegenerationTypeEnum.AmountHPperSecond, 1],
+    [12, RegenerationTypeEnum.AmountHPperSecond, 2],
+    [1, RegenerationTypeEnum.OneHPperAmountSeconds, 6],
+    [2, RegenerationTypeEnum.OneHPperAmountSeconds, 3],
+    [3, RegenerationTypeEnum.OneHPperAmountSeconds, 2],
+    [0.5, RegenerationTypeEnum.OneHPperAmountSeconds, 12],
+  ])("%d hp/round -> type %d, amount %d", (hpPerRound, type, amount) => {
+    expect(effectFactory.regeneration(hpPerRound)).toEqual([
+      {
+        opcode: EffectTypeEnum.Regeneration,
+        type,
+        amount,
+        icon: PortraitIconEnum.Regenerate,
+      },
+    ]);
+  });
+
+  const perSecond = (amount: number) => ({
+    type: RegenerationTypeEnum.AmountHPperSecond,
+    amount,
+  });
+  const oneEvery = (amount: number) => ({
+    type: RegenerationTypeEnum.OneHPperAmountSeconds,
+    amount,
+  });
+
+  it.each([
+    // 4 hp/round = 1 hp/2s (3) + 1 hp/6s (1)
+    [4, [oneEvery(2), oneEvery(6)]],
+    // 5 hp/round = 1 hp/2s (3) + 1 hp/3s (2)
+    [5, [oneEvery(2), oneEvery(3)]],
+    // 9 hp/round = 1 hp/s (6) + 1 hp/2s (3)
+    [9, [perSecond(1), oneEvery(2)]],
+    // 16 hp/round = 2 hp/s (12) + 1 hp/2s (3) + 1 hp/6s (1)
+    [16, [perSecond(2), oneEvery(2), oneEvery(6)]],
+  ])("stacks effects for %d hp/round, which no single effect expresses", (hpPerRound, expected) => {
+    expect(effectFactory.regeneration(hpPerRound)).toMatchObject(expected);
+  });
+
+  it("rejects non-positive values", () => {
+    expect(() => effectFactory.regeneration(0)).toThrow();
+  });
+});
+
+describe("levelDrain", () => {
+  it.each([
+    [4, "Four Levels Drained"],
+    [5, "Five Levels Drained"],
+  ])("drains %i levels and says so", (levels, text) => {
+    const effects = effectFactory.levelDrain({ levels });
+    expect(effects.find((e) => e.opcode === EffectTypeEnum.LevelDrain)).toMatchObject({
+      amount: levels,
+    });
+    expect(effects.find((e) => e.opcode === EffectTypeEnum.DisplayString)).toMatchObject({
+      stringRef: StringRefUtils.getString(text),
+    });
   });
 });

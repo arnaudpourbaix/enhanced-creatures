@@ -1,5 +1,6 @@
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellDurationClass, SpellRole, SpellTier } from "../../../config/spells/spell-role";
 import { isAvailableInMod } from "../../../config/mods";
 import { SpellIdentifier } from "../ids/spell";
 import { StateIdentifier } from "../ids/state";
@@ -7,7 +8,72 @@ import { StatsIdentifier } from "../ids/stats";
 import { SplStateIdentifier } from "../ids/splstate";
 import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
+import { Durations } from "../game-data/durations";
 import type { AlliesCheck } from "../creature/ability";
+import { SaveTypeEnum } from "./effect.enums";
+import { EffectTypeEnum } from "./effect.type";
+
+/**
+ * The saving throw negating one effect of a spell: the save types it allows (the target rolls
+ * with its best one), and the bonus added to the target's roll (negative: a penalty).
+ */
+export interface SpellSave {
+  types: SaveTypeEnum[];
+  /** Default: 0 */
+  bonus?: number;
+}
+
+/**
+ * The saving throws that negate a spell, one per effect. A target escapes the spell only by
+ * saving against every effect, so the AI skips it only once it can't fail any of them (see
+ * TriggerFactory.saveChecks). Effects without a save, or whose save only halves damage, aren't
+ * listed.
+ */
+export type SpellSaves = SpellSave[];
+
+/**
+ * Adds `saves` up, an entry per distinct set of save types: a target can fail either of two
+ * entries with the same types as soon as it can fail the lowest bonus, so that one is kept.
+ */
+export function mergeSaves(saves: SpellSave[]): SpellSaves {
+  const merged = new Map<string, SpellSave>();
+  for (const save of saves) {
+    const key = save.types.join();
+    const bonus = Math.min(save.bonus ?? 0, merged.get(key)?.bonus ?? Infinity);
+    merged.set(key, bonus ? { types: save.types, bonus } : { types: save.types });
+  }
+  return [...merged.values()];
+}
+
+/** What negatingSaves needs to know about an effect. */
+export interface SaveEffect {
+  opcode: EffectTypeEnum;
+  saveTypes: SaveTypeEnum[];
+  saveBonus?: number;
+  /** Its save only halves the damage (save for half / fail for half) */
+  halved: boolean;
+  /** It only lands on the caster, not on the spell's target */
+  self?: boolean;
+}
+
+/**
+ * The saving throws negating a spell with these effects (see SpellSaves): one entry per distinct
+ * set of save types (see mergeSaves). Other effects without a save (visuals, strings, guards...)
+ * are left out, but damage a save can't negate (none, or only halved) means the spell can't be
+ * escaped at all: no saves then. Effects landing on the caster don't count. Shared by the spells
+ * this mod creates and the extraction of the game's own.
+ */
+export function negatingSaves(effects: SaveEffect[]): SpellSaves {
+  const saves: SpellSave[] = [];
+  for (const effect of effects.filter((e) => !e.self)) {
+    const types = [...new Set(effect.saveTypes)]
+      .filter((type) => type <= SaveTypeEnum.PetrifyPolymorph)
+      .sort((a, b) => a - b);
+    if (effect.opcode === EffectTypeEnum.Damage && (effect.halved || !types.length)) return [];
+    if (types.length && !effect.halved) saves.push({ types, bonus: effect.saveBonus });
+  }
+  return mergeSaves(saves);
+}
 
 /**
  * A mod-conditional override of `file`/`id` on the SpellReference it belongs to - some mods
@@ -28,15 +94,65 @@ export interface SpellReference {
   file: string;
   id?: SpellIdentifier;
   /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
-  name?: StringReference;
+  name: StringReference;
   level?: number;
-  duration?:
-    | "long" // several hours
-    | "mid" // several turns
-    | "short"; // several rounds to one turn
-  keywords?: SpellKeyword[];
   /**
-   * Max range for this spell
+   * Drives precasting (see StatementBuilderService.precastSpells) of protection, buff, summon and
+   * reactive spells, the only ones ever precast - also used by the cast order rules.
+   */
+  duration?: SpellDurationClass;
+  /**
+   * Keeps working after the cast with nothing telling a script so, but must not be precast like a
+   * `duration` spell: memorize it once (see recastRisks).
+   */
+  lingering?: boolean;
+  /**
+   * Never precast, however long it lasts: Invisibility would break too much, creatures starting
+   * invisible wear a ring for it instead.
+   */
+  noPrecast?: boolean;
+  /** SPL casting speed: lower is faster, and less likely to be interrupted */
+  castingTime?: number;
+  /**
+   * Rounds between two casts, for a spell the script can't tell is still working or that must not
+   * be cast too often (Invisibility at will): every ability casting it waits, unless it declares
+   * its own timer. Its timer is named after the spell's key (RECAST_Invisibility).
+   */
+  recastTimer?: number;
+  /** See SpellRole - auto-classified by scripts/extract-spell-profile.ts, reviewed by hand */
+  role?: SpellRole;
+  /** What else the spell does, adding to its value (Battering Ram damages and puts to sleep) */
+  secondaryRoles?: SpellRole[];
+  /**
+   * A spell's worth in a fight, as a spell level, when it's worth more than its own level says (Call
+   * Woodland Beeings' charm, Dragon's Breath): rated by hand, a spell's data can't tell
+   */
+  worthLevel?: number;
+  /** See SpellTier - decent when unset */
+  tier?: SpellTier;
+  /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */
+  hitsAllies?: boolean;
+  keywords?: SpellKeyword[];
+  /** See SpellSaves - feeds BaseCreatureAbility.saves the same way `level` feeds its own. */
+  saves?: SpellSaves;
+  /**
+   * The weapons this spell puts in its caster's hand, at every caster level: it isn't cast while
+   * holding one (see memorizedChecks), and shares its roll with the others (see sharedRoll). See
+   * scripts/extract-spell-items.ts.
+   */
+  createsItems?: string[];
+  /**
+   * Its preset targets enemies, but an ally doesn't resist it: a combo may aim it at either side
+   * (e.g. a contingency enclosing its caster in a Resilient Sphere).
+   */
+  anySide?: boolean;
+  /**
+   * Only cast when the target is within this script Range() distance, not the SPL's own range: a
+   * touch or short range spell on enemies declares 10, so its caster doesn't cross the battlefield
+   * to deliver it. A longer range spell declares nothing, nor does a spell on allies: nothing else
+   * would bring its caster closer to them. On a castOnSelf spell, it's the distance to the enemy the
+   * spell is meant for: its target, else the nearest one. Must stay above `alliesCheck.range`, which sets a minimum range. See
+   * scripts/extract-spell-ranges.ts.
    */
   range?: number;
   /**
@@ -171,7 +287,7 @@ export function resolveForMod(spell: SpellReference, mod: SpellbookModName): Spe
 
 /**
  * Every file a spell could resolve to across mods - its base `file` plus each `variants` entry's
- * file. For a static resource list (SPELL_GROUPS, SPELL_PRIORITY_ORDER) this is all that's needed:
+ * file. For a static resource list (SPELL_GROUPS) this is all that's needed:
  * unlike a compiled ability, listing a file that doesn't exist under some install is harmless there
  * (see spell-group.ts), so there's no need to pick the "right" one at generation time.
  */
@@ -253,15 +369,24 @@ export function rangeForFile(spells: SpellCollection, file: string): number | un
 }
 
 /**
+ * The `saves` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
+ * matches `file` (case-insensitive), or undefined when no entry matches or it has none. Mirrors
+ * levelForFile, backing the automatic resolution in AbilityService.applyPreset.
+ */
+export function savesForFile(spells: SpellCollection, file: string): SpellSaves | undefined {
+  const target = file.toUpperCase();
+  return getAllSpells(spells).find((spell) =>
+    spellFiles(spell).some((f) => f.toUpperCase() === target),
+  )?.saves;
+}
+
+/**
  * The `alliesCheck` of whichever SPELLS-registry entry's `file` - or one of its `variants[].file` -
  * matches `file` (case-insensitive), or undefined when no entry matches or it has none. Mirrors
  * rangeForFile, backing the automatic resolution in AbilityService.applyPreset: an ability cast
  * through a standard spell's preset (e.g. a monster's stronger Fireball) inherits its allies check.
  */
-export function alliesCheckForFile(
-  spells: SpellCollection,
-  file: string,
-): AlliesCheck | undefined {
+export function alliesCheckForFile(spells: SpellCollection, file: string): AlliesCheck | undefined {
   const target = file.toUpperCase();
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
@@ -283,6 +408,19 @@ export function includeStateChecksForFile(
   return getAllSpells(spells).find((spell) =>
     spellFiles(spell).some((f) => f.toUpperCase() === target),
   )?.includeStateChecks;
+}
+
+/** The timer spacing the casts of whichever SPELLS entry matches `file` (see recastTimer). */
+export function recastTimerForFile(
+  spells: SpellCollection,
+  file: string,
+): { name: string; value: number } | undefined {
+  const target = file.toUpperCase();
+  const spell = getAllSpells(spells).find((s) =>
+    spellFiles(s).some((f) => f.toUpperCase() === target),
+  );
+  if (!spell?.recastTimer) return undefined;
+  return { name: `RECAST_${spell.key}`, value: spell.recastTimer * Durations.round };
 }
 
 /** Same as includeStateChecksForFile, for CreatureAbilitySpell.excludeStateChecks. */

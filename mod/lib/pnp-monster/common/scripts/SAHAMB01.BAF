@@ -1,0 +1,33 @@
+IF
+    OR(2)
+        GlobalGT("villynatyjob","GLOBAL",0)
+        Dead("sahpr2")  // Prince Villynaty
+THEN
+    RESPONSE #100
+        EscapeArea()
+END
+
+IF
+    See([PC])
+    Range(LastSeenBy(Myself),12)
+    !GlobalTimerNotExpired("Shout","LOCALS")
+    !General(Myself,UNDEAD)
+    !Gender(Myself,SUMMONED)
+    !Gender(Myself,20)
+THEN
+    RESPONSE #30
+        SetGlobalTimer("Shout","LOCALS",TWENTY_MINUTES)
+        SetGlobalTimer("DMWWHostileFish","GLOBAL",ONE_ROUND)
+        DisplayStringHead(Myself,53784)  // Surfacers! Feel our wrath!
+        Continue()
+    RESPONSE #30
+        SetGlobalTimer("Shout","LOCALS",TWENTY_MINUTES)
+        SetGlobalTimer("DMWWHostileFish","GLOBAL",ONE_ROUND)
+        DisplayStringHead(Myself,53785)  // The Shark God take you!
+        Continue()
+    RESPONSE #30
+        SetGlobalTimer("Shout","LOCALS",TWENTY_MINUTES)
+        SetGlobalTimer("DMWWHostileFish","GLOBAL",ONE_ROUND)
+        DisplayStringHead(Myself,53786)  // I shall taste your blood, manlings!
+        Continue()
+END

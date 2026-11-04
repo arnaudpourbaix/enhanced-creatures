@@ -1,0 +1,5 @@
+LAM load_secondary_types
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/2e.tpa" // Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/3y.tpa" // Zombie Lord
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/2f.tpa" // Ju-ju Zombie
+INCLUDE "%MOD_FOLDER%/lib/pnp-monster/zombie/2g.tpa" // Sea Zombie

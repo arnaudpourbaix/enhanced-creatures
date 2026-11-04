@@ -1,10 +1,10 @@
+import atWillService from "../services/at-will.service";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Creature } from "../model/creature/creature";
 import { EquippedItem } from "../model/creature/item";
 import { MainCreatureData } from "../model/creature/data";
 import { Item } from "../model/spell-item/spell-item";
 import { PartialCreatureAdjustment } from "../model/creature/adjustment";
-import { MonsterFamilyEnum } from "../../creatures/monster";
 import creatureFactory from "./creature.factory";
 import logService from "../services/log.service";
 import abilityOrderService from "../services/baf/ability-order.service";
@@ -122,6 +122,19 @@ describe("setBehavior", () => {
     expect(creature.behavior.abilities).toEqual([]);
   });
 
+  it("refuses a second entries list: one creature, one script, declared once", () => {
+    const creature = fakeCreature();
+    creature.name = "common.potion.use";
+    creatureFactory.setBehavior(creature, {
+      abilities: { entries: [{ spell: { file: "sppr101" } }] },
+    });
+    expect(() =>
+      creatureFactory.setBehavior(creature, {
+        abilities: { entries: [{ spell: { file: "sppr101" } }] },
+      }),
+    ).toThrow(/entries/);
+  });
+
   it("still resolves a plain array eagerly, unchanged from today", () => {
     const creature = fakeCreature();
     creatureFactory.setBehavior(creature, {
@@ -151,6 +164,7 @@ describe("resolveAbilities", () => {
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
       .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
+    vi.spyOn(abilityOrderService, "resolveCovered").mockReturnValue([]);
     creatureFactory.resolveAbilities(creature);
     expect(resolveSpy).toHaveBeenCalledWith(creature);
     expect(creature.behavior.abilities).toHaveLength(1);
@@ -163,6 +177,7 @@ describe("resolveAbilities", () => {
     const resolveSpy = vi
       .spyOn(abilityOrderService, "resolve")
       .mockReturnValue([{ name: PLACEHOLDER_NAME_KEY, triggers: [], targets: [] }]);
+    vi.spyOn(abilityOrderService, "resolveCovered").mockReturnValue([]);
     creatureFactory.resolveAbilities(creature);
     expect(creature.pendingAbilityEntries).toBeUndefined();
     expect(resolveSpy).toHaveBeenCalledWith(creature);
@@ -178,20 +193,22 @@ describe("validate", () => {
 
   it("marks the creature invalid when checkDialog fails, even though every other check passes", () => {
     const creature = fakeCreature();
-    creature.family = MonsterFamilyEnum.Ankheg;
     creature.files = [{ name: "TESTCRE" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
 
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(creature);
 
     expect(creature.valid).toBe(false);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("is not valid, please fix it"));
@@ -199,19 +216,21 @@ describe("validate", () => {
 
   it("keeps the creature valid when checkDialog passes and every other check passes", () => {
     const creature = fakeCreature();
-    creature.family = MonsterFamilyEnum.Ankheg;
     creature.files = [{ name: "TESTCRE2" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(creature);
 
     expect(creature.valid).toBe(true);
     expect(logSpy).not.toHaveBeenCalled();
@@ -219,19 +238,21 @@ describe("validate", () => {
 
   it("marks the creature invalid when checkAdjustmentFiles fails, even though every other check passes", () => {
     const creature = fakeCreature();
-    creature.family = MonsterFamilyEnum.Ankheg;
     creature.files = [{ name: "TESTCRE3" }];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(creatureService, "checkAdjustmentFiles").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
 
-    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(creature);
 
     expect(creature.valid).toBe(false);
   });
@@ -239,24 +260,25 @@ describe("validate", () => {
   it("allows the same resref on two creatures when their games don't overlap", () => {
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
     const a = fakeCreature();
-    a.family = MonsterFamilyEnum.Ankheg;
     a.files = [{ name: "SHARED", game: "bg1" }];
     a.name = PLACEHOLDER_NAME_KEY;
-    creatureFactory.validate(a, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(a);
 
     const b = fakeCreature();
     b.id = 2;
-    b.family = MonsterFamilyEnum.Ankheg;
     b.files = [{ name: "SHARED", game: "bg2" }];
     b.name = PLACEHOLDER_NAME_KEY;
-    creatureFactory.validate(b, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(b);
 
     expect(warn).not.toHaveBeenCalledWith(
       expect.stringContaining("already declared in other creatures"),
@@ -267,24 +289,25 @@ describe("validate", () => {
   it("still flags the same resref when one side is both-games", () => {
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
     const a = fakeCreature();
-    a.family = MonsterFamilyEnum.Ankheg;
     a.files = [{ name: "SHARED2" }];
     a.name = PLACEHOLDER_NAME_KEY;
-    creatureFactory.validate(a, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(a);
 
     const b = fakeCreature();
     b.id = 3;
-    b.family = MonsterFamilyEnum.Ankheg;
     b.files = [{ name: "SHARED2", game: "bg1" }];
     b.name = PLACEHOLDER_NAME_KEY;
-    creatureFactory.validate(b, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(b);
 
     expect(warn).toHaveBeenCalledWith(
       expect.stringContaining("already declared in other creatures"),
@@ -294,19 +317,21 @@ describe("validate", () => {
 
   it("marks a file-less but otherwise valid creature noFiles, not generated and not warned", () => {
     const creature = fakeCreature();
-    creature.family = MonsterFamilyEnum.Ankheg;
     creature.files = [];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(true);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(creature);
 
     expect(creature.valid).toBe(false);
     expect(creature.noFiles).toBe(true);
@@ -316,19 +341,21 @@ describe("validate", () => {
 
   it("doesn't mark a file-less creature noFiles when another check fails", () => {
     const creature = fakeCreature();
-    creature.family = MonsterFamilyEnum.Ankheg;
     creature.files = [];
     creature.name = PLACEHOLDER_NAME_KEY;
 
     vi.spyOn(creatureService, "check").mockImplementation(() => {});
     vi.spyOn(creatureFactory, "resolveAbilities").mockImplementation(() => {});
+    vi.spyOn(atWillService, "applyCooldowns").mockImplementation(() => {});
+    vi.spyOn(atWillService, "checkDuplicates").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkSpellAbilities").mockImplementation(() => {});
+    vi.spyOn(creatureService, "checkSpellRoles").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDuplicateAbilities").mockImplementation(() => {});
     vi.spyOn(creatureService, "checkDialog").mockReturnValue(false);
     vi.spyOn(immunityService, "handleImmunities").mockImplementation(() => {});
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
-    creatureFactory.validate(creature, MonsterFamilyEnum.Ankheg);
+    creatureFactory.validate(creature);
 
     expect(creature.valid).toBe(false);
     expect(creature.noFiles).toBe(false);

@@ -1,3 +1,4 @@
+import { ScriptTarget } from "../../model/constants";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { TargetListName } from "../../../config/target-name";
@@ -211,6 +212,30 @@ function fakeCreature(intelligence?: number): Creature {
 }
 
 describe("getTargetPriorities", () => {
+  it("keeps a filtered priority's triggers, and the default statuses after it", () => {
+    const drainable = {
+      name: "CheckSpellState",
+      params: [ScriptTarget.token, "ITEM_LEVELDRAIN"],
+      negation: true,
+    } as const;
+    expect(
+      targetService.getTargetPriorities(fakeCreature(), {
+        targetPriorities: [
+          { targets: ["NearestEnemies"], triggers: [drainable], label: "drainable" },
+        ],
+      }),
+    ).toEqual([
+      {
+        targets: ["NearestEnemies"],
+        status: ["Wounded", "NoCheck"],
+        triggers: [drainable],
+        label: "drainable",
+      },
+      { targets: ["NearestEnemies"], status: ["Wounded", "NoCheck"] },
+      { targets: ["Players"], status: ["Sleep"] },
+    ]);
+  });
+
   it("defaults to NoCheck for enemies and Sleep for players when intelligence is unset", () => {
     expect(targetService.getTargetPriorities(fakeCreature(), {})).toEqual([
       { targets: ["NearestEnemies"], status: ["Wounded", "NoCheck"] },

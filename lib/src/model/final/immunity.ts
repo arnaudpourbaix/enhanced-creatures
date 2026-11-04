@@ -7,11 +7,13 @@ import { EffectTypeEnum } from "../spell-item/effect.type";
 import { StringReference } from "./stringref";
 
 export type ImmunityName =
+  | "aberration"
   | "abilityDrain"
   | "acid"
   | "acidResistance"
   | "acidSpells"
   | "airAffinity"
+  | "animal"
   | "backstab"
   | "bleeding"
   | "blindness"
@@ -33,12 +35,12 @@ export type ImmunityName =
   | "deathSpell"
   | "devourBrain"
   | "disease"
+  | "dragon"
   | "earthAffinity"
   | "earthquake"
   | "elemental"
   | "energyDrain"
   | "entangle"
-  | "extraplanar"
   | "fatigue"
   | "fear"
   | "fey"
@@ -74,15 +76,18 @@ export type ImmunityName =
   | "mindSpells"
   | "missileDamage"
   | "missileDamageResistance"
+  | "monstrousHumanoid"
   | "necromancyEffects"
   | "nonMagicalWeapons"
   | "nonSilverNonMagicalWeapons"
   | "ooze"
+  | "outsider"
   | "petrification"
   | "physicalDamage"
   | "physicalDamageResistance"
   | "piercingDamage"
   | "piercingDamageResistance"
+  | "planarEssence"
   | "plant"
   | "polymorph"
   | "poison"
@@ -90,6 +95,7 @@ export type ImmunityName =
   | "poisonSpells"
   | "plusOneWeapons"
   | "plusTwoWeapons"
+  | "plusThreeWeapons"
   | "seeInvisible"
   | "skeletal"
   | "slashingDamage"
@@ -107,6 +113,11 @@ export interface ImmunityConfig {
   name: ImmunityName;
   type: "trait" | "immunity" | "resistance";
   doc: boolean;
+  /**
+   * Docs-only trait (e.g. a creature type with no in-game effect): generates no WeiDU function,
+   * no LPF call and no item effect.
+   */
+  docOnly: boolean;
   stringRef?: TranslationKey;
   description?: StringReference;
   immunities: ImmunityName[];

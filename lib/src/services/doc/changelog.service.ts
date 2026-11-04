@@ -4,6 +4,7 @@ import { marked } from "marked";
 import { State } from "../../state";
 import logService from "../log.service";
 import utils from "../utils/utils.service";
+import { readModVersion, stampVersion } from "./doc-version";
 
 class ChangelogService {
   generate() {
@@ -23,7 +24,7 @@ class ChangelogService {
         cause: e,
       });
     }
-    const html = this.render(templateText, markdown);
+    const html = stampVersion(this.render(templateText, markdown), readModVersion());
     try {
       utils.writeFile("docs/changelog.html", html);
     } catch (e) {

@@ -1,4 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import path from "path";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { State } from "../../state";
 import stateService from "../state.service";
 import bafGeneratorService from "./baf-generator.service";
@@ -11,6 +12,10 @@ import { ConditionalStatement } from "../../model/script/script";
 import { GenericScriptParameterData } from "../../model/script/data";
 import { Actions } from "../../model/script/actions";
 import { Triggers } from "../../model/script/triggers";
+import { Creature } from "../../model/creature/creature";
+import { Variant } from "../../model/creature/variant";
+import { CreatureScript } from "./script-plan.service";
+import statementBuilderService from "./statement-builder.service";
 
 // This is the compiler from the typed BAF AST (Actions.Action / Triggers.Trigger)
 // to the actual WeiDU script text. State.actions/State.triggers (parameter
@@ -212,5 +217,32 @@ describe("generateStatement", () => {
     ].join(CR);
 
     expect(bafGeneratorService.generateStatement(statement)).toBe(expected);
+  });
+});
+
+describe("generate", () => {
+  it("writes one file per planned script", () => {
+    vi.spyOn(statementBuilderService, "buildStatements").mockReturnValue([]);
+    vi.spyOn(utils, "getCreatureFolder").mockReturnValue("folder");
+    const write = vi.spyOn(utils, "writeFile").mockImplementation(() => undefined);
+    const creature = { id: 1, name: "common.potion.use", adjustments: [] } as unknown as Creature;
+    creature.scripts = [
+      { name: "jabm0100", files: ["PLAIN"], summonFiles: [], view: creature },
+      {
+        name: "jabm0102",
+        variant: { label: "necro" } as Variant,
+        files: ["NECRO"],
+        summonFiles: [],
+        view: creature,
+      },
+    ] as CreatureScript[];
+    bafGeneratorService.generate(creature);
+    const written = Object.fromEntries(write.mock.calls.map(([file, content]) => [file, content]));
+    expect(Object.keys(written)).toEqual([
+      path.join("folder", "jabm0100.baf"),
+      path.join("folder", "jabm0102.baf"),
+    ]);
+    expect(written[path.join("folder", "jabm0102.baf")]).toMatch(/^\/\/ .+ \(necro\)/);
+    vi.restoreAllMocks();
   });
 });

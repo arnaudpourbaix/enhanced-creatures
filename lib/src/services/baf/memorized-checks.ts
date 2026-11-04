@@ -1,0 +1,160 @@
+import { AT_WILL } from "../../../config/common";
+import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
+import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellRole } from "../../../config/spells/spell-role";
+import { SPELLS } from "../../../config/spells/spell-database";
+import { ScriptTarget } from "../../model/constants";
+import { Triggers } from "../../model/script/triggers";
+import { getAllSpells, SpellReference, spellFiles } from "../../model/spell-item/spell-reference";
+import type { SpellProfile } from "../spell-profile.service";
+
+const KNOWN_SPELLS: SpellReference[] = [...getAllSpells(SPELLS), ...getAllFnpSpells()];
+
+const spellOfFile = (file: string) =>
+  KNOWN_SPELLS.find((s) => spellFiles(s).some((f) => f.toUpperCase() === file.toUpperCase()));
+
+/** The range of the RandomNumGT weapon spells share, then the one summons do: see sharedRoll. */
+const WEAPON_ROLL = 700;
+const SUMMON_ROLL = 701;
+
+/**
+ * The range of the RandomNumGT shared by the spells of `file`'s family, undefined for any other
+ * spell. Scripting draws one random value per tick for a given range: with chances falling down the
+ * script, a weaker spell only passes when the stronger ones above it did, so a failed roll can't
+ * make a caster settle for a weak weapon or summon while it still has a strong one.
+ */
+export function sharedRoll(file: string | undefined): number | undefined {
+  const spell = file === undefined ? undefined : spellOfFile(file);
+  if (spell?.createsItems) return WEAPON_ROLL;
+  return spell?.role === "summon" ? SUMMON_ROLL : undefined;
+}
+
+/** How a spell reaches its targets: one target, an area, or its caster only */
+export type SpellDelivery = "single" | "area" | "self";
+
+export function spellDelivery(keywords: SpellKeyword[]): SpellDelivery {
+  if (keywords.includes("area")) return "area";
+  return keywords.includes("castOnSelf") ? "self" : "single";
+}
+
+/** The roles sharing a category roll, `kill` counting as `damage` (see categoryRoll) */
+const CATEGORY_ROLES: SpellRole[] = ["protection", "buff", "disable", "damage", "shapeshift"];
+const DELIVERIES: SpellDelivery[] = ["single", "area", "self"];
+/** The first category range: above WEAPON_ROLL and SUMMON_ROLL, below the per-ability ones (800) */
+const CATEGORY_ROLL_BASE = 702;
+const CATEGORY_ROLLS = new Set(
+  CATEGORY_ROLES.flatMap((_, r) => DELIVERIES.map((_, d) => CATEGORY_ROLL_BASE + r * 3 + d)),
+);
+
+/**
+ * The range of the RandomNumGT shared by the spells of `profile`'s category (its role and
+ * delivery, a kill spell counting as damage), so a weaker spell of the category only passes when
+ * the stronger ones above it did (see sharedRoll). None for reactive spells (each fires on its own
+ * condition), summons and weapons (their own shared roll) and useless spells.
+ */
+export function categoryRoll(profile: SpellProfile): number | undefined {
+  if (sharedRoll(profile.file) !== undefined) return undefined;
+  const role = profile.role === "kill" ? "damage" : profile.role;
+  const r = CATEGORY_ROLES.indexOf(role);
+  if (r === -1) return undefined;
+  return CATEGORY_ROLL_BASE + r * 3 + DELIVERIES.indexOf(spellDelivery(profile.keywords));
+}
+
+/** A hostile spell aimed at one target, which Mirror Image deflects. A sequencer isn't one. */
+export function isSingleTargetHostile(profile: SpellProfile): boolean {
+  return (
+    ["damage", "kill", "disable"].includes(profile.role) &&
+    spellDelivery(profile.keywords) === "single" &&
+    !profile.keywords.includes("friendly") &&
+    profile.combo === undefined
+  );
+}
+
+/** The first ability of `triggers` raising the chance of its shared roll, breaking sharedRoll. */
+export function sharedRollOutOfOrder(triggers: Triggers.Trigger[][]): string | undefined {
+  const highest = new Map<number, number>();
+  const rolls = triggers
+    .flat()
+    .filter((t): t is Triggers.RandomNumGT => "name" in t && t.name === "RandomNumGT")
+    .filter(
+      ({ params: [range] }) =>
+        range === WEAPON_ROLL || range === SUMMON_ROLL || CATEGORY_ROLLS.has(range),
+    );
+  for (const {
+    params: [range, threshold],
+  } of rolls) {
+    const previous = highest.get(range);
+    if (previous !== undefined && threshold < previous) {
+      return `RandomNumGT(${range},${threshold})`;
+    }
+    highest.set(range, threshold);
+  }
+  return undefined;
+}
+
+/**
+ * The lasting buffs of a spellbook memorized several times with nothing telling a script they are
+ * already up: no state or stat to exclude, so a second copy is cast over the first. At-will ones
+ * have a cooldown.
+ */
+export function recastRisks(
+  memorized: { file: string; memorizedCount?: number }[],
+): SpellReference[] {
+  const risks = memorized
+    .filter(({ memorizedCount = 1 }) => memorizedCount > 1 && memorizedCount < AT_WILL)
+    .flatMap(({ file }) => spellOfFile(file) ?? [])
+    .filter(
+      (s) =>
+        s.lingering ?? (s.duration && ["buff", "protection", "reactive"].includes(s.role ?? "")),
+    )
+    .filter(
+      (s) =>
+        !s.excludeStateChecks?.length &&
+        !s.excludeSpellStates?.length &&
+        !s.excludeStatsChecks?.length,
+    );
+  return [...new Set(risks)];
+}
+
+/** The spell a HaveSpell or HaveSpellRES names, undefined for any other trigger or spell. */
+function spellOfTrigger(trigger: Triggers.Trigger): SpellReference | undefined {
+  if (!("name" in trigger)) return undefined;
+  if (trigger.name === "HaveSpell") return KNOWN_SPELLS.find((s) => s.id === trigger.params[0]);
+  if (trigger.name === "HaveSpellRES") return spellOfFile(trigger.params[0]);
+  return undefined;
+}
+
+/**
+ * Limits an ability's checks about other spells to what its creature memorizes, so a script doesn't
+ * test spells it can't have:
+ * - a `!HaveSpell` on a spell it doesn't memorize is always true, and is dropped
+ * - a spell creating a weapon (SpellReference.createsItems) isn't cast while holding the weapon of
+ *   itself or of any memorized spell
+ *
+ * A spell no database knows keeps its check. The item checks go before a final RandomNumGT.
+ */
+export function memorizedChecks(
+  triggers: Triggers.Trigger[],
+  castFiles: string[],
+  memorizedFiles: string[],
+): Triggers.Trigger[] {
+  const memorized = memorizedFiles.flatMap((file) => spellOfFile(file) ?? []);
+  const isMemorized = (spell: SpellReference) =>
+    spellFiles(spell).some((f) => memorizedFiles.some((m) => m.toUpperCase() === f.toUpperCase()));
+  const kept = triggers.filter((trigger) => {
+    if (!("negation" in trigger) || !trigger.negation) return true;
+    const spell = spellOfTrigger(trigger);
+    return !spell || isMemorized(spell);
+  });
+  const cast = castFiles.flatMap((file) => spellOfFile(file) ?? []);
+  if (!cast.some((spell) => spell.createsItems)) return kept;
+  const items = [...new Set([...cast, ...memorized].flatMap((s) => s.createsItems ?? []))];
+  const checks: Triggers.Trigger[] = items.map((item) => ({
+    name: "HasItem",
+    params: [item, ScriptTarget.myself],
+    negation: true,
+  }));
+  const random = kept.findIndex((t) => "name" in t && t.name === "RandomNumGT");
+  const at = random < 0 ? kept.length : random;
+  return [...kept.slice(0, at), ...checks, ...kept.slice(at)];
+}

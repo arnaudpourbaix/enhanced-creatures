@@ -1,22 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { MonsterFamilyEnum, MonsterEnum } from "../../creatures/monster";
+import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import { ImmunityName } from "../model/final/immunity";
-import { HitDiceTable } from "../model/game-data/hp";
 import hitPointService from "./hit-point.service";
 
 function fakeCreature(
   p: {
     id?: MonsterEnum;
-    family?: MonsterFamilyEnum;
     immunities?: ImmunityName[];
   } = {},
 ): Creature {
   return {
     id: p.id ?? MonsterEnum.WildDog,
-    family: p.family ?? MonsterFamilyEnum.Dog,
     data: { immunities: p.immunities ?? [] },
+    items: [],
+    adjustments: [],
   } as unknown as Creature;
 }
 
@@ -44,20 +43,45 @@ describe("hitPointService.getHitPoints", () => {
     expect(value).toBe(40); // 5 * 8
   });
 
-  it("resolves hit dice from the creature's family via HitDiceTable (Undead -> 12 HD)", () => {
+  it.each([
+    ["fey", 6],
+    ["ooze", 10],
+    ["undead", 12],
+    ["dragon", 12],
+  ] as [ImmunityName, number][])(
+    "resolves hit dice from the creature's type (%s -> %i HD)",
+    (type, hd) => {
+      const value = hitPointService.getHitPoints({
+        data: { level1: { pnpValue: 3, value: 3, type: "none" } },
+        creature: fakeCreature({ immunities: [type] }),
+      });
+      expect(value).toBe(3 * hd);
+    },
+  );
+
+  it("gives a creature without a hit-dice type 8 HD", () => {
     const value = hitPointService.getHitPoints({
       data: { level1: { pnpValue: 3, value: 3, type: "none" } },
-      creature: fakeCreature({ family: MonsterFamilyEnum.Undead }),
+      creature: fakeCreature(),
+    });
+    expect(value).toBe(24); // 3 * 8
+  });
+
+  it("takes the largest die when the creature has several types (vermin + undead -> 12 HD)", () => {
+    const value = hitPointService.getHitPoints({
+      data: { level1: { pnpValue: 3, value: 3, type: "none" } },
+      creature: fakeCreature({ immunities: ["vermin", "undead"] }),
     });
     expect(value).toBe(36); // 3 * 12
   });
 
-  it("resolves hit dice from an immunity type via HitDiceTable when family/monster don't match (construct -> 10 HD)", () => {
+  it("keeps the base creature's die for an adjustment adding a type (zombie ankheg stays d10)", () => {
     const value = hitPointService.getHitPoints({
-      data: { level1: { pnpValue: 4, value: 4, type: "none" } },
-      creature: fakeCreature({ immunities: ["construct"] }),
+      data: { level1: { pnpValue: 15, value: 15, type: "none" }, immunities: ["undead"] },
+      creature: fakeCreature({ immunities: ["magicalBeast"] }),
+      parent: { immunities: ["magicalBeast"] } as unknown as CreatureData,
     });
-    expect(value).toBe(40); // 4 * 10
+    expect(value).toBe(150); // 15 * 10
   });
 
   it("adds a constitution bonus based on the creature's constitution score when not a player class", () => {
@@ -127,19 +151,6 @@ describe("hitPointService.getHitPoints", () => {
         creature: fakeCreature(),
       }),
     ).toThrow(/constitution not found in table: 999/);
-  });
-
-  it("resolves hit dice via a monsterId-keyed HitDiceTable entry (documented but currently unused by real config)", () => {
-    HitDiceTable.push({ monsterId: MonsterEnum.WildDog, hd: 20 });
-    try {
-      const value = hitPointService.getHitPoints({
-        data: { level1: { pnpValue: 2, value: 2, type: "none" } },
-        creature: fakeCreature({ id: MonsterEnum.WildDog }),
-      });
-      expect(value).toBe(40); // 2 * 20
-    } finally {
-      HitDiceTable.pop();
-    }
   });
 
   it("falls back to the parent's constitution/bonusHp/class when the adjustment data doesn't override them", () => {

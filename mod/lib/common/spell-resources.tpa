@@ -6,11 +6,12 @@ DEFINE_ACTION_FUNCTION get_acid_resources RET_ARRAY resources BEGIN
 		"SPWI724"
 		"SPWI211"
 		"SPWI426"
+		"SPPR722"
 		"SPIN994"
 		"SPIN596"
 		"SPIN691"
 		"SPIN913"
-		"jas0m1"
+		"jasm0100"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -31,10 +32,10 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"SPWI228"
 		"SPWI815"
 		"SPWI714"
-		"SPPR704"
 		"SPPR424"
 		"SPPR707"
 		"SPPR118"
+		"SPCL239"
 		"SPIN937"
 		"spdr101"
 		"spin595"
@@ -52,9 +53,9 @@ DEFINE_ACTION_FUNCTION get_blind_resources RET_ARRAY resources BEGIN
 		"wand19.itm"
 		"wand19"
 		"wand19d"
-		"jas8f8"
-		"jasbf8"
-		"jas3m72"
+		"jase1502"
+		"jase1602"
+		"jasm3603"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -65,10 +66,15 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPWI818"
 		"SPWI117"
 		"SPWI503"
+		"SPWI131"
 		"SPWI323"
 		"SPWI404"
 		"SPWI626"
 		"SPWI227"
+		"SPWI906"
+		"SPPR327"
+		"SPPR418"
+		"SPPR250"
 		"d1#wi503"
 		"DVCONEC"
 		"SPCRYO01"
@@ -77,12 +83,12 @@ DEFINE_ACTION_FUNCTION get_cold_resources RET_ARRAY resources BEGIN
 		"SPIN162"
 		"SPIN833"
 		"WAND06"
-		"jas0f3"
-		"jas5m72"
-		"jas0m43"
-		"jas0m20"
-		"jas0m14"
-		"jas1m4a"
+		"jase0f00"
+		"jasm0k00"
+		"jasm1v00"
+		"jasm0w00"
+		"jasm3605"
+		"jasm2201"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -103,8 +109,8 @@ DEFINE_ACTION_FUNCTION get_cloud_resources RET_ARRAY resources BEGIN
 		"SPWI016"
 		"DW#TRPIN"
 		"dvckill"
-		"jasbf8"
-		"jas0m1a"
+		"jasm0q00"
+		"jase1602"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -121,11 +127,7 @@ END
 
 DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
-		"SPWI105"
 		"SPWI401"
-		"SPWI509"
-		"SPPR709"
-		"SPPR715"
 		"SPPR311"
 		"SPIN937"
 		"SPIN582"
@@ -133,7 +135,7 @@ DEFINE_ACTION_FUNCTION get_confusion_resources RET_ARRAY resources BEGIN
 		"SPIN839"
 		"SPIN976"
 		"SPPR983"
-		"jascf8"
+		"jase1603"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -154,8 +156,9 @@ DEFINE_ACTION_FUNCTION get_causeWounds_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPPR414"
 		"SPPR121"
-		"SPPR322"
 		"SPPR220"
+		"SPPR510"
+		"SPPR322"
 		"SPPR608"
 		"SPPR530"
 		"SPIN202"
@@ -199,18 +202,28 @@ END
 DEFINE_ACTION_FUNCTION get_death_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI605"
+		"SPWI713"
 		"SPWI912"
+		"SPWI817"
 		"SPWI913"
 		"SPPR737"
 		"SPPR720"
 		"SPPR708"
-		"SPPR710"
-		"SPPR715"
 		"SPPR511"
 		"SPPR719"
 		"cdxvdth"
-		"jas2m72"
-		"jas1m49"
+		"jasm3602"
+		"jasm2101"
+		"jasm3y07"
+	END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
+	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
+END
+
+DEFINE_ACTION_FUNCTION get_deathSpell_resources RET_ARRAY resources BEGIN
+	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI605"
+		"cdxvdth"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -219,12 +232,16 @@ END
 DEFINE_ACTION_FUNCTION get_disease_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI409"
+		"SPWI811"
 		"SPPR329"
 		"SPPR320"
+		"SPPR610"
+		"SPPR334"
 		"SPPR706"
-		"jas1m4d"
-		"jas3m4e"
-		"jas3m4f"
+		"jasm2501"
+		"jasm2603"
+		"jasm2703"
+		"jasm2g00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -245,11 +262,14 @@ DEFINE_ACTION_FUNCTION get_electrical_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI615"
 		"SPWI308"
-		"SPWI230"
+		"SPWI231"
+		"SPWI904"
 		"SPPR302"
+		"SPPR333"
 		"SPPR421"
-		"CDSTAF12"
+		"SPPR722"
 		"SPCL722"
+		"CDSTAF12"
 		"SPIN579"
 		"SPIN714"
 		"SPIN932"
@@ -276,7 +296,7 @@ DEFINE_ACTION_FUNCTION get_entangle_resources RET_ARRAY resources BEGIN
 		"SPWM111"
 		"SPIN688"
 		"BDBOW06"
-		"jas4f8"
+		"jase1400"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -292,10 +312,12 @@ END
 
 DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI430"
 		"SPWI205"
 		"SPWI125"
-		"SPWI899"
+		"SPWI956"
 		"SPPR416"
+		"SPCL103"
 		"SPIN891"
 		"SPIN203"
 		"SPIN536"
@@ -305,20 +327,19 @@ DEFINE_ACTION_FUNCTION get_fear_resources RET_ARRAY resources BEGIN
 		"SPIN895"
 		"SPIN981"
 		"SPWI811"
-		"SPWI956"
 		"SPWM123"
 		"dw#licfi"
 		"ca#sfear"
 		"A^causfr"
 		"DVFEARSM"
 		"DVHORRO"
-		"jas0m1b"
-		"jas0m49"
-		"jas2m4e"
-		"jas2m4f"
-		"jas0m52"
-		"jas0m4a"
-		"jas0m5d"
+		"jasm0r00"
+		"jasm2100"
+		"jasm2602"
+		"jasm2702"
+		"jasm2a00"
+		"jasm2200"
+		"jasm2l00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -329,19 +350,22 @@ DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 		"SPWI217"
 		"SPWI427"
 		"SPWI103"
-		"SPWI231"
+		"SPWI232"
 		"SPWI712"
 		"SPWI922"
-		"SPWI523"
 		"SPWI304"
+		"SPWI523"
 		"SPWI303"
 		"SPWI810"
 		"SPWI911"
 		"SPWI525"
 		"SPPR705"
+		"SPPR217"
 		"SPPR503"
 		"SPPR420"
 		"SPPR118"
+		"SPCL239"
+		"SPCL236"
 		"SPIN131"
 		"SPIN160"
 		"SPIN561"
@@ -358,8 +382,8 @@ DEFINE_ACTION_FUNCTION get_fire_resources RET_ARRAY resources BEGIN
 		"DW#TRPIN"
 		"DW#TRPMS"
 		"CA#FSTOM"
-		"jas0m7b"
-		"jas2m4a"
+		"jasm3f00"
+		"jasm2202"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -378,6 +402,15 @@ DEFINE_ACTION_FUNCTION get_flameArrow_resources RET_ARRAY resources BEGIN
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
 END
 
+DEFINE_ACTION_FUNCTION get_gaze_resources RET_ARRAY resources BEGIN
+	ACTION_DEFINE_ARRAY spells BEGIN
+		"jase0700"
+		"jase0705"
+	END
+	ACTION_DEFINE_ARRAY ids BEGIN  END
+	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
+END
+
 DEFINE_ACTION_FUNCTION get_fireball_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI304"
@@ -389,7 +422,7 @@ DEFINE_ACTION_FUNCTION get_fireball_resources RET_ARRAY resources BEGIN
 		"SPWI001"
 		"SPIN957"
 		"wand05a"
-		"jas2m4a"
+		"jasm2202"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -425,19 +458,21 @@ END
 DEFINE_ACTION_FUNCTION get_hold_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI818"
+		"SPWI324"
 		"SPWI507"
 		"SPWI306"
 		"SPWI215"
 		"SPPR208"
 		"SPPR305"
-		"jas0m40"
-		"jas0m3a"
-		"jas0m4c"
-		"jas0m4b"
-		"jas0m4d"
-		"jas2m4e"
-		"jas2m4f"
-		"jas0m5b"
+		"SPCL742"
+		"jasm1s00"
+		"jasm1m00"
+		"jasm2400"
+		"jasm2500"
+		"jasm2300"
+		"jasm2602"
+		"jasm2702"
+		"jasm2j00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -474,7 +509,7 @@ END
 DEFINE_ACTION_FUNCTION get_lightningBolt_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI308"
-		"SPWI230"
+		"SPWI231"
 		"b_tal10"
 		"c0dm302"
 		"spcl722"
@@ -483,7 +518,6 @@ DEFINE_ACTION_FUNCTION get_lightningBolt_resources RET_ARRAY resources BEGIN
 		"spin933"
 		"spin989"
 		"SPWI002"
-		"SPWI231"
 		"SPWI399"
 		"SPWI997"
 		"wand07"
@@ -505,7 +539,9 @@ END
 
 DEFINE_ACTION_FUNCTION get_maze_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"SPWI910"
 		"SPWI813"
+		"SPPR750"
 		"SPIN774"
 		"BDZHADRO"
 	END
@@ -545,7 +581,7 @@ DEFINE_ACTION_FUNCTION get_petrify_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI604"
 		"SPWI604D"
-		"jas0f2"
+		"jase0100"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -555,26 +591,27 @@ DEFINE_ACTION_FUNCTION get_poison_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
 		"SPWI502"
 		"SPPR411"
+		"SPPR722"
 		"SPWI016"
 		"SPIN979"
 		"SPIN642"
 		"dvckill"
-		"jas0m3"
-		"jas0m45"
-		"jas0m1a"
-		"jas0m73"
-		"jas1m40"
-		"jas1m3a"
-		"jas0m38"
-		"jas0m3e"
-		"jas0m37"
-		"jas1m41"
-		"jas1m39"
-		"jas0m3f"
-		"jas0m3c"
-		"jas0m46"
-		"jas0m47"
-		"jas0m48"
+		"jasm0300"
+		"jasm1x00"
+		"jasm3700"
+		"jasm1y00"
+		"jasm1z00"
+		"jasm2000"
+		"jasm0q00"
+		"jasm1s01"
+		"jasm1m01"
+		"jasm1k00"
+		"jasm1q00"
+		"jasm1j00"
+		"jasm1t01"
+		"jasm1l01"
+		"jasm1r00"
+		"jasm1o00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END
@@ -603,8 +640,8 @@ DEFINE_ACTION_FUNCTION get_web_resources RET_ARRAY resources BEGIN
 		"spletter"
 		"wand14"
 		"wtpin05"
-		"jas0m40"
-		"jas0m3a"
+		"jasm1s00"
+		"jasm1m00"
 	END
 	ACTION_DEFINE_ARRAY ids BEGIN  END
 	LAF MERGE_SPELL_ARRAY_WITH_IDS STR_VAR ids spells RET_ARRAY resources=spells END

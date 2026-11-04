@@ -1,0 +1,18 @@
+IF
+    Die()
+THEN
+    RESPONSE #100
+        SetGlobal("deadJoye","AR1513",1)  // Bodhi's Hunt Level 2
+        ReallyForceSpellDead(Myself,DACE_MIST_FORM_CHANGE)  // SPIN803.SPL (No such index)
+END
+
+IF
+    !Range([PC],10)
+    Global("deadJoye","AR1513",2)  // Bodhi's Hunt Level 2
+THEN
+    RESPONSE #100
+        OpenDoor("Door08")
+        OpenDoor("Door09")
+        MoveToObject([PC])
+END
+

@@ -5,6 +5,7 @@ import spellEn from "./en/spell";
 import itemEn from "./en/item";
 import descriptionEn from "./en/description";
 import abilityEn from "./en/ability";
+import docEn from "./en/doc";
 
 export const LANGUAGES = [
   "english",
@@ -33,6 +34,7 @@ export const getTranslationKeys = (language: Language) => {
         description: descriptionEn,
         item: itemEn,
         ability: abilityEn,
+        doc: docEn,
       };
   }
 };

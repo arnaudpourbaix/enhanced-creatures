@@ -3,9 +3,9 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { SpellKeyword } from "../../config/spells/keyword";
 import {
   SPELL_CHECK_GATE_KEYWORDS,
-  SPELL_CHECK_SUPPRESSORS,
   SPELL_CHECK_TRIGGERS,
   SpellLevelCheck,
+  suppressedSpellLevelChecks,
 } from "../../config/spells/spell-check";
 import { keywordCheckCategory } from "../../config/spells/spell-check-config";
 import { defaultAllySafe } from "../../config/target/ally-safe";
@@ -23,9 +23,22 @@ import { StatsIdentifier } from "../model/ids/stats";
 import { ParamObject } from "../model/parameter";
 import { Aera } from "../model/script/aera";
 import { Triggers } from "../model/script/triggers";
-import { SpellReference } from "../model/spell-item/spell-reference";
+import { SaveTypeEnum } from "../model/spell-item/effect.enums";
+import { SpellReference, SpellSaves } from "../model/spell-item/spell-reference";
 import targetService from "../services/baf/target.service";
 import utils from "../services/utils/utils.service";
+
+/** The stat holding each saving throw (the other SaveTypeEnum values are flags, not saves). */
+export const SAVE_STATS: Partial<Record<SaveTypeEnum, StatsIdentifier>> = {
+  [SaveTypeEnum.Spell]: "SAVEVSSPELL",
+  [SaveTypeEnum.Breath]: "SAVEVSBREATH",
+  [SaveTypeEnum.ParalyzePoisonDeath]: "SAVEVSDEATH",
+  [SaveTypeEnum.RodStaffWand]: "SAVEVSWANDS",
+  [SaveTypeEnum.PetrifyPolymorph]: "SAVEVSPOLY",
+};
+
+/** Target objects picked among the party, whatever the caster's side */
+const PARTY_OBJECTS = ["WorstAC"];
 
 class TriggerFactory {
   or(triggers: Triggers.Trigger[]): Triggers.Trigger {
@@ -66,6 +79,14 @@ class TriggerFactory {
 
   hpPercentLt(value: number, negation = false): Triggers.Trigger {
     return { name: "HPPercentLT", params: [ScriptTarget.token, value], negation };
+  }
+
+  levelLt(value: number, negation = false): Triggers.Trigger {
+    return { name: "LevelLT", params: [ScriptTarget.token, value], negation };
+  }
+
+  levelGt(value: number, negation = false): Triggers.Trigger {
+    return { name: "LevelGT", params: [ScriptTarget.token, value], negation };
   }
 
   range(value: number, negation = false): Triggers.Trigger {
@@ -167,6 +188,17 @@ class TriggerFactory {
     };
   }
 
+  /** The creature is covered: invisible, or under Sanctuary (its own or an ally's) */
+  covered(): Triggers.Trigger {
+    return {
+      name: "Or",
+      triggers: [
+        { name: "StateCheck", params: [ScriptTarget.myself, "STATE_INVISIBLE"] },
+        { name: "CheckStatGT", params: [ScriptTarget.myself, 0, "SANCTUARY"] },
+      ],
+    };
+  }
+
   globalRoundTimerExpired(): Triggers.Trigger {
     return {
       name: "GlobalTimerNotExpired",
@@ -242,12 +274,10 @@ class TriggerFactory {
 
   /**
    * The level-driven checks (see SpellLevelCheck) excluding protected targets, minus those
-   * suppressed by one of `keywords` (see SPELL_CHECK_SUPPRESSORS).
+   * suppressed by `keywords` (see suppressedSpellLevelChecks).
    */
   spellLevelChecks(level: number, keywords: SpellKeyword[] = []): Triggers.Trigger[] {
-    const suppressed = new Set(
-      keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []),
-    );
+    const suppressed = suppressedSpellLevelChecks(keywords);
     const checks: Record<SpellLevelCheck, () => Triggers.Trigger[]> = {
       immuneToSpellLevel: () => [this.immuneToSpellLevel(level, true)],
       spellReflections: () => this.spellReflections(),
@@ -397,6 +427,43 @@ class TriggerFactory {
     return results;
   }
 
+  /**
+   * LastSeenBy is an enemy of the caster now: an evil caster won't target an evil LastSeenBy, a
+   * good one a good one, charm swapping these. LastSeenBy keeps its last value when no See()
+   * succeeds, so without this an attack aimed at it can land on an ally - typically a party
+   * member the caster just charmed, once no real enemy is left in sight.
+   */
+  lastSeenIsOpponent(): Triggers.Trigger[] {
+    // Charm swaps sides (the engine's Enemy/Ally objects follow it) but never Allegiance: an enemy
+    // now is on the other side and not charmed, or on the caster's own side and charmed by the party
+    const target = ScriptTarget.lastSeen;
+    return [false, true].flatMap((charmed) =>
+      (["EVILCUTOFF", "GOODCUTOFF"] as const).map((cutoff): Triggers.Trigger => ({
+        name: "Or",
+        triggers: [
+          { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+          { name: "Allegiance", params: [target, cutoff], negation: !charmed },
+          { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: charmed },
+        ],
+      })),
+    );
+  }
+
+  /**
+   * A party target object (WorstAC: the party member with the worst AC) is an enemy only to a
+   * hostile caster, and only while not charmed (then on the caster's side). Nothing for the other
+   * objects, which are enemies by definition.
+   */
+  sideCheck(target: string): Triggers.Trigger[] {
+    if (!PARTY_OBJECTS.includes(target)) return [];
+    // Allegiance never changes through effects: a charmed target is told by its state (a charmed
+    // caster runs no script)
+    return [
+      { name: "Allegiance", params: [ScriptTarget.myself, "EVILCUTOFF"] },
+      { name: "StateCheck", params: [target, "STATE_CHARMED"], negation: true },
+    ];
+  }
+
   // this: void - doesn't use `this`, and is passed around unbound (e.g. baf.factory.ts's
   // `.map(triggerFactory.inverseNegation)`).
   inverseNegation(this: void, trigger: Triggers.Trigger): Triggers.Trigger {
@@ -455,9 +522,40 @@ class TriggerFactory {
       .map((keyword) => SPELL_CHECK_TRIGGERS[keyword])
       // group tags (cloud, castOnSelf, ...) and effects with no known protection check nothing
       .filter((triggers) => triggers.length);
-    if (effects.length <= 1) return effects.flat();
+    return this.anyOf(effects);
+  }
+
+  /**
+   * Triggers skipping a target unlikely to fail the spell's saving throws: a target only escapes
+   * the spell by saving against all its effects, and it escapes an effect when any of its save
+   * types is too good. A save is good enough to keep the target when it's above the save's bonus
+   * plus 1 per 5% of GLOBAL_CONFIG.saveCheckMinFailChance (a d20): at 0%, the target only needs to
+   * be able to fail, like SCS (save above 0 without a bonus). Empty when
+   * GLOBAL_CONFIG.spellChecks.stats is off.
+   */
+  saveChecks(saves: SpellSaves = []): Triggers.Trigger[] {
+    if (!GLOBAL_CONFIG.spellChecks.stats) return [];
+    const margin = Math.round(GLOBAL_CONFIG.saveCheckMinFailChance / 5);
+    return this.anyOf(
+      saves
+        .map(({ types, bonus }) => ({
+          threshold: (bonus ?? 0) + margin,
+          stats: [...new Set(types.map((type) => SAVE_STATS[type]))].filter((s) => s !== undefined),
+        }))
+        .filter(({ stats }) => stats.length)
+        .map(({ threshold, stats }) => stats.map((stat) => this.checkStatGT(threshold, stat))),
+    );
+  }
+
+  /**
+   * "One of these groups passes", each group being the AND of its triggers. BAF has no AND inside
+   * OR, so that's distributed into OR clauses (one trigger per group each), dropping any clause
+   * implied by a smaller one.
+   */
+  private anyOf(groups: Triggers.Trigger[][]): Triggers.Trigger[] {
+    if (groups.length <= 1) return groups.flat();
     let clauses: Triggers.Trigger[][] = [[]];
-    for (const triggers of effects) {
+    for (const triggers of groups) {
       clauses = clauses.flatMap((clause) => triggers.map((t) => [...clause, t]));
     }
     const keyed = clauses.map((clause) => {
@@ -491,6 +589,8 @@ class TriggerFactory {
    *
    * Every check runs through TriggerOverride(target, ...): Range() is always measured from the
    * active creature, so only the target itself can tell how far its enemies are.
+   *
+   * With `aroundCaster`, the caster measures its own nearest allies instead, and isn't one of them.
    */
   alliesSafe(
     check: AlliesCheck,
@@ -501,15 +601,20 @@ class TriggerFactory {
     const count = check.count ?? 3;
     if (count < 0 || count >= Counts.length) throw new Error(`Invalid alliesCheck count ${count}`);
     const safeIf = check.safeIf ?? defaultAllySafe(keywords, level);
-    const ally = (index: number) => `${Counts[index]}NearestEnemyOf(${ScriptTarget.myself})`;
-    const outOfRange = (index: number): Triggers.Trigger =>
-      this.triggerOverride(target, { name: "Range", params: [ally(index), check.range] }, true);
+    const ally = (index: number) =>
+      `${Counts[index]}${check.aroundCaster ? "NearestAllyOf" : "NearestEnemyOf"}(${ScriptTarget.myself})`;
+    const outOfRange = (index: number): Triggers.Trigger => {
+      const range: Triggers.Trigger = { name: "Range", params: [ally(index), check.range] };
+      return check.aroundCaster
+        ? { ...range, negation: true }
+        : this.triggerOverride(target, range, true);
+    };
     const allies = Counts.slice(0, count).map((_, index) => ({
       ...this.or([
         outOfRange(index),
         ...utils
           .replaceTriggerTokens(safeIf, [{ key: ScriptTarget.token, value: ally(index) }])
-          .map((t) => this.triggerOverride(target, t)),
+          .map((t) => (check.aroundCaster ? t : this.triggerOverride(target, t))),
       ]),
       exceptMyself: true,
     }));
@@ -532,6 +637,22 @@ class TriggerFactory {
       }),
       exceptMyself: true,
     };
+  }
+
+  /**
+   * Triggers checking that `enemy` (one of the active creature's enemies) stands within melee
+   * `range` and that its main hand weapon can hit and damage the active creature, which may be
+   * immune to it (+1 weapons...). WeaponEffectiveVs and WeaponCanDamage test the weapon of the
+   * creature running them, so they run through TriggerOverride(enemy, ...), where Myself is the
+   * enemy: the active creature, right next to it, is taken to be its nearest enemy.
+   */
+  enemyCanHurtInMelee(enemy: string, range = 4): Triggers.Trigger[] {
+    const self = `NearestEnemyOf(${ScriptTarget.myself})`;
+    return [
+      { name: "Range", params: [enemy, range] },
+      this.triggerOverride(enemy, { name: "WeaponEffectiveVs", params: [self, "MAINHAND"] }),
+      this.triggerOverride(enemy, { name: "WeaponCanDamage", params: [self, "MAINHAND"] }),
+    ];
   }
 
   /**

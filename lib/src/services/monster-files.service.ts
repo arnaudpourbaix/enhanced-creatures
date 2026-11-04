@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { MonsterEnum } from "../../creatures/monster";
 import { CreatureFile, Game, gamesOverlap } from "../model/creature/game";
+import { csvBool, readCsvRecords, requireCsvColumns } from "../csv";
 
 const CSV_PATH = "assets/creatures.csv";
 const FILE_COLUMN = "file";
@@ -30,20 +31,20 @@ const SCRIPT_COLUMNS = [
   "generalScript",
   "defaultScript",
 ] as const;
-const VALIDATED_LEVEL_COLUMN = "ValidatedLevel";
-const VALIDATED_ITEMS_COLUMN = "ValidatedItems";
-const VALIDATED_SCRIPT_COLUMN = "ValidatedScript";
+const VALIDATED_LEVEL_COLUMN = "vlvl";
+const VALIDATED_ITEMS_COLUMN = "vitems";
+const VALIDATED_SCRIPT_COLUMN = "vscript";
+
+/** creatures.csv records, after checking it still has every column the caller reads. */
+function readCreaturesCsv(raw: string, columns: readonly string[]) {
+  const records = readCsvRecords(raw);
+  requireCsvColumns(records.header, columns, CSV_PATH);
+  return records;
+}
 
 function gameValue(raw: string | undefined): Game | undefined {
   const v = (raw ?? "").trim().toLowerCase();
   return v === "bg1" || v === "bg2" ? v : undefined;
-}
-
-// assets/creatures.csv is regularly round-tripped through Excel, which writes a UTF-8 BOM
-// (U+FEFF). Strip it so header.indexOf("file") (and every other column lookup) still resolves.
-function csvLines(raw: string): string[] {
-  const body = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
-  return body.split(/\r?\n/).filter((line) => line.length > 0);
 }
 
 export interface CreatureCsvRow {
@@ -58,8 +59,16 @@ export interface CreatureCsvRow {
 }
 
 export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [
+    FILE_COLUMN,
+    GAME_COLUMN,
+    LEVEL_COLUMN,
+    ...SLOT_COLUMNS,
+    ...SCRIPT_COLUMNS,
+    VALIDATED_LEVEL_COLUMN,
+    VALIDATED_ITEMS_COLUMN,
+    VALIDATED_SCRIPT_COLUMN,
+  ]);
   const at = (col: string) => header.indexOf(col);
   const fileIdx = at(FILE_COLUMN);
   const gameIdx = at(GAME_COLUMN);
@@ -71,8 +80,7 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
   const vScriptIdx = at(VALIDATED_SCRIPT_COLUMN);
 
   const result = new Map<string, CreatureCsvRow[]>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
+  for (const fields of rows) {
     const file = fields[fileIdx] ?? "";
     if (!file) continue;
     const levelRaw = (fields[levelIdx] ?? "").trim();
@@ -82,14 +90,14 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
       game: gameValue(fields[gameIdx]),
       level: levelRaw === "" || Number.isNaN(levelNum) ? undefined : levelNum,
       items: slotIdx
-        .filter(({ i }) => i >= 0 && (fields[i] ?? "").trim() !== "")
+        .filter(({ i }) => (fields[i] ?? "").trim() !== "")
         .map(({ slot, i }) => ({ slot, file: fields[i].trim() })),
       scripts: scriptIdx
-        .filter(({ i }) => i >= 0 && (fields[i] ?? "").trim() !== "")
+        .filter(({ i }) => (fields[i] ?? "").trim() !== "")
         .map(({ slot, i }) => ({ slot, value: fields[i].trim() })),
-      validatedLevel: (fields[vLevelIdx] ?? "") === "true",
-      validatedItems: (fields[vItemsIdx] ?? "") === "true",
-      validatedScript: (fields[vScriptIdx] ?? "") === "true",
+      validatedLevel: csvBool(fields[vLevelIdx]),
+      validatedItems: csvBool(fields[vItemsIdx]),
+      validatedScript: csvBool(fields[vScriptIdx]),
     };
     const key = file.toUpperCase();
     const existing = result.get(key);
@@ -107,19 +115,22 @@ export function pickCreatureRow(
 }
 
 export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [
+    FILE_COLUMN,
+    MONSTER_ID_COLUMN,
+    VALIDATED_COLUMN,
+    GAME_COLUMN,
+  ]);
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
   const validatedIdx = header.indexOf(VALIDATED_COLUMN);
   const gameIdx = header.indexOf(GAME_COLUMN);
 
   const result = new Map<string, CreatureFile[]>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
-    const validated = fields[validatedIdx] ?? "";
+  for (const fields of rows) {
+    const validated = csvBool(fields[validatedIdx]);
     const monsterId = fields[monsterIdIdx] ?? "";
-    if (validated !== "true" || !monsterId) continue;
+    if (!validated || !monsterId) continue;
     const entry: CreatureFile = { name: fields[fileIdx] ?? "", game: gameValue(fields[gameIdx]) };
     const existing = result.get(monsterId);
     if (existing) existing.push(entry);
@@ -129,19 +140,22 @@ export function parseMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
 }
 
 export function parseUnvalidatedMonsterFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [
+    FILE_COLUMN,
+    MONSTER_ID_COLUMN,
+    VALIDATED_COLUMN,
+    GAME_COLUMN,
+  ]);
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
   const validatedIdx = header.indexOf(VALIDATED_COLUMN);
   const gameIdx = header.indexOf(GAME_COLUMN);
 
   const result = new Map<string, CreatureFile[]>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
-    const validated = fields[validatedIdx] ?? "";
+  for (const fields of rows) {
+    const validated = csvBool(fields[validatedIdx]);
     const monsterId = fields[monsterIdIdx] ?? "";
-    if (validated === "true" || !monsterId) continue;
+    if (validated || !monsterId) continue;
     const entry: CreatureFile = { name: fields[fileIdx] ?? "", game: gameValue(fields[gameIdx]) };
     const existing = result.get(monsterId);
     if (existing) existing.push(entry);
@@ -153,8 +167,13 @@ export function parseUnvalidatedMonsterFilesCsv(raw: string): Map<string, Creatu
 export function parseMonsterDialogCsv(
   raw: string,
 ): Map<string, { file: string; deathvar: string; dialog: string }[]> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [
+    FILE_COLUMN,
+    DEATHVAR_COLUMN,
+    DIALOG_COLUMN,
+    MONSTER_ID_COLUMN,
+    VALIDATED_COLUMN,
+  ]);
   const fileIdx = header.indexOf(FILE_COLUMN);
   const deathvarIdx = header.indexOf(DEATHVAR_COLUMN);
   const dialogIdx = header.indexOf(DIALOG_COLUMN);
@@ -162,11 +181,10 @@ export function parseMonsterDialogCsv(
   const validatedIdx = header.indexOf(VALIDATED_COLUMN);
 
   const result = new Map<string, { file: string; deathvar: string; dialog: string }[]>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
-    const validated = fields[validatedIdx] ?? "";
+  for (const fields of rows) {
+    const validated = csvBool(fields[validatedIdx]);
     const monsterId = fields[monsterIdIdx] ?? "";
-    if (validated !== "true" || !monsterId) continue;
+    if (!validated || !monsterId) continue;
     const row = {
       file: fields[fileIdx] ?? "",
       deathvar: fields[deathvarIdx] ?? "",
@@ -180,8 +198,13 @@ export function parseMonsterDialogCsv(
 }
 
 export function parseMonsterSummonFilesCsv(raw: string): Map<string, CreatureFile[]> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [
+    FILE_COLUMN,
+    MONSTER_ID_COLUMN,
+    VALIDATED_COLUMN,
+    SUMMON_COLUMN,
+    GAME_COLUMN,
+  ]);
   const fileIdx = header.indexOf(FILE_COLUMN);
   const monsterIdIdx = header.indexOf(MONSTER_ID_COLUMN);
   const validatedIdx = header.indexOf(VALIDATED_COLUMN);
@@ -189,12 +212,11 @@ export function parseMonsterSummonFilesCsv(raw: string): Map<string, CreatureFil
   const gameIdx = header.indexOf(GAME_COLUMN);
 
   const result = new Map<string, CreatureFile[]>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
-    const validated = fields[validatedIdx] ?? "";
+  for (const fields of rows) {
+    const validated = csvBool(fields[validatedIdx]);
     const monsterId = fields[monsterIdIdx] ?? "";
-    const summon = fields[summonIdx] ?? "";
-    if (validated !== "true" || !monsterId || summon !== "true") continue;
+    const summon = csvBool(fields[summonIdx]);
+    if (!validated || !monsterId || !summon) continue;
     const entry: CreatureFile = { name: fields[fileIdx] ?? "", game: gameValue(fields[gameIdx]) };
     const existing = result.get(monsterId);
     if (existing) existing.push(entry);
@@ -204,14 +226,12 @@ export function parseMonsterSummonFilesCsv(raw: string): Map<string, CreatureFil
 }
 
 export function parseFileNamesCsv(raw: string): Map<string, string> {
-  const lines = csvLines(raw);
-  const header = lines[0].split(";");
+  const { header, rows } = readCreaturesCsv(raw, [FILE_COLUMN, NAME_COLUMN]);
   const fileIdx = header.indexOf(FILE_COLUMN);
   const nameIdx = header.indexOf(NAME_COLUMN);
 
   const result = new Map<string, string>();
-  for (const line of lines.slice(1)) {
-    const fields = line.split(";");
+  for (const fields of rows) {
     const file = fields[fileIdx] ?? "";
     const name = fields[nameIdx] ?? "";
     if (!file || !name) continue;

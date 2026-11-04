@@ -12,7 +12,8 @@ import {
   CreatureAutoGenerateSavingThrows,
   CreatureAutoGenerateThac0,
 } from "../model/creature/creature";
-import { CreatureData } from "../model/creature/data";
+import type { Variant } from "../model/creature/variant";
+import { CreatureData, SpellDeclarations } from "../model/creature/data";
 import {
   AttackPerRoundFigtherTable,
   AttackPerRoundProficiencyTable,
@@ -32,8 +33,13 @@ import kitService from "./kit.service";
 import logService from "./log.service";
 import monsterFilesService, { type CreatureCsvRow } from "./monster-files.service";
 import translationService from "./translation.service";
+import { State } from "../state";
 import weaponService from "./weapon.service";
 import spellService from "./spell.service";
+import spellProfileService from "./spell-profile.service";
+import spellComboService from "./spell-combo.service";
+import { SpellCombo } from "../model/spell-item/spell-combo";
+import { KITS } from "../../config/kit-ability";
 import { WithRequired } from "../model/utility-types";
 
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
@@ -143,8 +149,81 @@ class CreatureService {
     return levels.length ? Math.max(...levels) : baseLevel;
   }
 
+  /**
+   * New spells belong to a variant, which gets its own script: a plain adjustment adding them
+   * would make every file of the creature run them. Files running no script are exempt.
+   */
+  checkAdjustmentSpells(creature: Creature): void {
+    const name = translationService.from(creature.name);
+    const noScript = new Set(
+      creature.adjustments.filter((a) => a.data.script.location === "None").flatMap((a) => a.files),
+    );
+    // a kit's own abilities (a barbarian's rage) come with the kit, a few blocks each
+    const kitSpells = KITS.flatMap((k) => k.abilities).map((a) => a.resource.toUpperCase());
+    const known = new Set([...this.declaredSpellFiles(creature.data.spells), ...kitSpells]);
+    const errors = creature.adjustments
+      .filter((a) => !a.variant && a.files.some((f) => !noScript.has(f)))
+      .flatMap((a) => {
+        const added = [...this.declaredSpellFiles(a.data.spells)]
+          .filter((f) => !known.has(f))
+          .sort((x, y) => x.localeCompare(y));
+        if (!added.length) return [];
+        return [
+          `adjustment for '${a.files.join(", ")}' adds spells ${added.join(", ")} - declare a variant so they get their own script`,
+        ];
+      });
+    const all = (variants: Variant[]): Variant[] =>
+      variants.flatMap((v) => [v, ...all(v.children)]);
+    errors.push(...all(creature.variants).flatMap((v) => v.spellErrors));
+    if (errors.length) throw new Error(errors.map((e) => `${name}: ${e}`).join("; "));
+  }
+
+  /** Every spell file the declaration memorizes (its spellbooks' and combos' too), uppercased. */
+  declaredSpellFiles(spells: SpellDeclarations | undefined): Set<string> {
+    const files = [
+      ...(spells?.memorized ?? []),
+      ...(spells?.spellbooks ?? []).flatMap((book) => book?.memorized ?? []),
+    ].map((m) => m?.file);
+    const comboFiles = (spells?.combos ?? []).flatMap((c) =>
+      spellComboService.filesOf(c as SpellCombo),
+    );
+    return new Set(
+      [...files, ...comboFiles].filter((f): f is string => !!f).map((f) => f.toUpperCase()),
+    );
+  }
+
   memorizedSpellFiles(creature: Creature): string[] {
     return [...new Set(this.getSpellGroups(creature).flatMap((g) => g.files))];
+  }
+
+  /** A contingency is set up at init and a useless spell never cast: neither has an ability. */
+  private needsNoAbility(file: string, creature: Creature): boolean {
+    return (
+      spellComboService.isContingencyFile(file) ||
+      spellProfileService.profileOf(file, creature)?.role === "useless"
+    );
+  }
+
+  /**
+   * Scoring places every cast by its profile: a spell the mod creates needs its role to have one
+   * (see SpellProfileService.profileOfSpell). Only memorized ones are cast: a weapon's hit effect
+   * or a disease isn't.
+   */
+  checkSpellRoles(creature: Creature): void {
+    const memorized = new Set(this.memorizedSpellFiles(creature).map((f) => f.toUpperCase()));
+    const created = [...creature.spells, ...State.spells];
+    const missing = [
+      ...new Set(
+        created
+          .filter((s) => memorized.has(s.file.toUpperCase()) && s.role === undefined)
+          .map((s) => `${s.file.toUpperCase()} (${String(s.name)})`),
+      ),
+    ];
+    if (missing.length) {
+      throw new Error(
+        `${missing.join(", ")} has no role - scoring can't place it, declare its role`,
+      );
+    }
   }
 
   checkSpellAbilities(creature: Creature): void {
@@ -157,7 +236,7 @@ class CreatureService {
     const memorizedFiles = new Set(groups.flatMap((g) => g.files));
     for (const group of groups) {
       for (const file of group.files) {
-        if (abilityResources.has(file)) continue;
+        if (abilityResources.has(file) || this.needsNoAbility(file, creature)) continue;
         const spellName = spellService.getSpellName(file);
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(
@@ -191,8 +270,7 @@ class CreatureService {
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(
           `${translationService.from(creature.name)}: duplicate ability for '${ability.resource ?? ability.name}'${spellText} - the same spell and trigger context is listed twice.`,
-        );
-        continue;
+        );        continue;
       }
       seen.add(signature);
     }
@@ -307,9 +385,15 @@ class CreatureService {
       const files = [...new Set(variant.memorized.map((s) => s.file))];
       if (files.length) groups.push({ label: variant.mod, files });
     }
+    const comboFiles = this.declaredComboFiles(creature.data.spells.combos);
+    if (comboFiles.length) groups.push({ label: "combos", files: comboFiles });
     creature.adjustments.forEach((adjustment, index) => {
       const files = [...new Set(adjustment.data.spells.memorized.map((s) => s.file))];
       if (files.length) groups.push({ label: `adjustment #${index}`, files });
+      const adjustmentCombos = this.declaredComboFiles(adjustment.data.spells.combos);
+      if (adjustmentCombos.length) {
+        groups.push({ label: `adjustment #${index} (combos)`, files: adjustmentCombos });
+      }
       for (const variant of adjustment.data.spells.spellbooks ?? []) {
         const variantFiles = [...new Set(variant.memorized.map((s) => s.file))];
         if (variantFiles.length) {
@@ -318,6 +402,11 @@ class CreatureService {
       }
     });
     return groups;
+  }
+
+  /** The SPLs memorized for combos declared on the creature's data (every mod variant's). */
+  private declaredComboFiles(combos: SpellCombo[] | undefined): string[] {
+    return [...new Set((combos ?? []).flatMap((c) => spellComboService.filesOf(c)))];
   }
 
   getAttacksPerRound(value: number): {
@@ -390,6 +479,13 @@ class CreatureService {
       throw new Error(`strength not found in table: ${data.strength}/${exStrength}`);
     }
     return item;
+  }
+
+  // Melee THAC0 a player actually faces: the engine applies the strength to-hit bonus on top of
+  // the CRE value, but only for melee attacks.
+  getMeleeThac0(data: Partial<CreatureData>): number | undefined {
+    if (data.thac0 === undefined) return undefined;
+    return data.thac0 - this.getStrengthBonus(data).hit;
   }
 
   getFinalArmorClass(base: BaseCreature) {
@@ -494,8 +590,9 @@ class CreatureService {
     // than the creature's own real Hit Dice would already give (e.g. a stale override left behind
     // after level1 grew past it).
     if (options?.level) level = Math.max(level, options.level);
-    if (!!data.bonusHp && data.bonusHp >= 3) {
-      level++;
+    const effectiveLevel = this.getEffectiveHitDice(level, data.bonusHp);
+    if (effectiveLevel !== level) {
+      level = effectiveLevel;
       logService.log(`${figureSet.arrowRight} calculating THAC0 as a level ${level} creature`);
     }
     const item = Thac0Table.find((t) => t.level === level);
@@ -507,6 +604,11 @@ class CreatureService {
         `level: ${level}, hp bonus: ${data.bonusHp ?? 0}, thac0: ${data.thac0}, calculated: ${item.thac0}`,
       );
     else data.thac0 = item.thac0;
+  }
+
+  /** PnP "+N" Hit Dice: +3 or more counts as the next Hit Die (e.g. a 4+3 HD wight fights as 5). */
+  getEffectiveHitDice(level: number, bonusHp = 0): number {
+    return bonusHp >= 3 ? level + 1 : level;
   }
 
   convertMovement(movement: number): number {

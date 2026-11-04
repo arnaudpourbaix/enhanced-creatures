@@ -1,9 +1,10 @@
 import * as fs from "fs";
 import path from "path";
 import { SpellGroupName } from "../../../config/spells/spell-group-name";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
+import { ENTRY_FOLDERS, EntryEnum } from "../../../creatures/entry";
+import { KIN_FOLDERS, KinEnum } from "../../../creatures/kin";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
-import { StringReference } from "../../model/final/stringref";
+import { ExistingString, StringReference } from "../../model/final/stringref";
 import { Actions } from "../../model/script/actions";
 import { Response } from "../../model/script/script";
 import { Triggers } from "../../model/script/triggers";
@@ -13,6 +14,7 @@ import { MemorizedSpellType, Spell } from "../../model/spell-item/spell-item";
 import { SpellProtectionStat } from "../../model/spell-item/spell-protection";
 import { State } from "../../state";
 import translationService from "./../translation.service";
+import { StringRefUtils } from "./string-ref.utils";
 import { getAllFnpSpells } from "../../../config/spells/fnp-spell-database";
 
 class UtilsService {
@@ -72,8 +74,10 @@ class UtilsService {
     return results;
   }
 
-  resolveStringRef(value: StringReference | undefined): string | undefined {
+  resolveStringRef(value: StringReference | ExistingString | undefined): string | undefined {
     if (value === undefined) return;
+    // the game's strref, set at install time by lib/common/string-refs.tpa
+    else if (typeof value === "object") return StringRefUtils.variable(value.existing);
     else if (typeof value === "string") {
       const ref = translationService.stringRef(value);
       return `RESOLVE_STR_REF(@${ref})`; // create a new string ref from language key
@@ -165,8 +169,19 @@ class UtilsService {
     fs.writeFileSync(file, normalized);
   }
 
-  getFamilyFolder(family: MonsterFamilyEnum): string {
-    return `lib/pnp-monster/${MonsterFamilyEnum[family].toLowerCase()}`;
+  getEntryFolder(entry: EntryEnum): string {
+    return `lib/pnp-monster/${ENTRY_FOLDERS[entry]}`;
+  }
+
+  getKinFolder(kin: KinEnum): string {
+    return `lib/pnp-monster/kin/${KIN_FOLDERS[kin]}`;
+  }
+
+  /** Mod-relative folder a creature's generated files go to: its entry's. */
+  getCreatureFolder(creature: { folder?: string }): string {
+    if (creature.folder === undefined)
+      throw new Error("Creature has no folder (not built by an entry)");
+    return creature.folder;
   }
 
   getIdsFileFromSpellProtectionStat(stat: SpellProtectionStat): string {

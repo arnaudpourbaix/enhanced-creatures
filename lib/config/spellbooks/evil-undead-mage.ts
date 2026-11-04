@@ -33,8 +33,8 @@ export const EvilUndeadMageSpellbook: SpellBook = {
     {
       level: 5,
       base: [s.DemiShadowMonsters, s.HoldMonster],
-      additionnals: [s.Breach, s.SummonShadow],
-      repeat: [s.ShroudOfFlame, s.Breach],
+      additionnals: [s.Breach, s.SummonShadow, s.ShroudOfFlame],
+      repeat: [s.Breach],
     },
     {
       level: 6,
@@ -94,8 +94,8 @@ export const EvilUndeadMageNoFFSpellbook: SpellBook = {
     {
       level: 5,
       base: [s.DemiShadowMonsters, s.HoldMonster],
-      additionnals: [s.Breach, s.SummonShadow],
-      repeat: [s.ShroudOfFlame, s.Breach],
+      additionnals: [s.Breach, s.SummonShadow, s.ShroudOfFlame],
+      repeat: [s.Breach],
     },
     {
       level: 6,

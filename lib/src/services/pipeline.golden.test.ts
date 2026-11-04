@@ -14,12 +14,12 @@ import { State } from "../state";
 // way to test the WeiDU/TPA output: string reference numbers embedded in
 // generated .tpa/.tra files come from a single global counter
 // (translationService.availableStringRef) that increments across the whole
-// run in family order, so any single creature/family's TPA output is only
+// run in entry order, so any single creature/entry's TPA output is only
 // reproducible by running the full pipeline, not in isolation.
 //
-// lib/pnp-monster is copied into the temp dir first because some families
-// (fey/undead/wolf/common) have a hand-authored companion `common.tpa` that
-// weiduFamilyService reads (not generates) when assembling main.tpa.
+// lib/pnp-monster is copied into the temp dir first because some entry and kin
+// folders (death-knight, nereid, kin/cat, kin/fey) have a hand-authored companion `common.tpa` that
+// weiduGroupService reads (not generates) when assembling main.tpa.
 // lib/common, tra, and docs are never *read* by the pipeline (only specific
 // files within them are written), so they're compared by exact known path
 // instead of a full-tree copy+diff — those trees also contain large amounts
@@ -87,6 +87,11 @@ beforeAll(async () => {
   const pnpMonsterSrc = path.join(MOD_ROOT, PNP_MONSTER_DIR);
   copyRecursive(pnpMonsterSrc, path.join(tempDir, PNP_MONSTER_DIR));
   fs.copyFileSync(path.join(MOD_ROOT, "CHANGELOG.md"), path.join(tempDir, "CHANGELOG.md"));
+  // The docs read the mod version from the tp2 (doc-version.ts).
+  fs.copyFileSync(
+    path.join(MOD_ROOT, "enhanced_creatures.tp2"),
+    path.join(tempDir, "enhanced_creatures.tp2"),
+  );
 
   await stateService.init();
   State.modFolder = tempDir;

@@ -11,6 +11,7 @@ import { SpellKeyword } from "./keyword";
 export const SPELL_CHECK_GATE_KEYWORDS: ReadonlySet<SpellKeyword> = new Set<SpellKeyword>([
   "elf",
   "halfElf",
+  "humanoid",
   "magicResistance",
   "missile",
   "shield",
@@ -26,12 +27,31 @@ export type SpellLevelCheck = "immuneToSpellLevel" | "spellReflections";
 
 /**
  * Keywords that turn level-driven checks off: a friendly spell is wanted by its target, and spell
- * reflections don't stop an area spell.
+ * reflections don't stop an area spell. A castOnSelf spell that isn't an area spell is also
+ * exempt from both (see suppressedSpellLevelChecks).
  */
 export const SPELL_CHECK_SUPPRESSORS: Partial<Record<SpellKeyword, SpellLevelCheck[]>> = {
   friendly: ["immuneToSpellLevel", "spellReflections"],
   area: ["spellReflections"],
+  ignoresSpellLevel: ["immuneToSpellLevel"],
+  spellRemoval: ["immuneToSpellLevel", "spellReflections"],
 };
+
+/**
+ * The level-driven checks `keywords` turn off: those of SPELL_CHECK_SUPPRESSORS, plus both for a
+ * castOnSelf spell without the area keyword - it only lands on its caster, so a target list
+ * (e.g. the allies Protection from Evil 10' looks for) only gates when to cast, and that target's
+ * protections are irrelevant. A castOnSelf area spell (Cloak of Fear, ...) hits the targets of
+ * its list, so it keeps its checks.
+ */
+export function suppressedSpellLevelChecks(keywords: SpellKeyword[]): Set<SpellLevelCheck> {
+  const suppressed = new Set(keywords.flatMap((keyword) => SPELL_CHECK_SUPPRESSORS[keyword] ?? []));
+  if (keywords.includes("castOnSelf") && !keywords.includes("area")) {
+    suppressed.add("immuneToSpellLevel");
+    suppressed.add("spellReflections");
+  }
+  return suppressed;
+}
 
 /**
  * How to test each SpellCheckKeyword against the current target. A keyword can expand to one or
@@ -58,22 +78,23 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_IMMUNITY"], negation: true },
   ],
+  deathSpell: [],
   disease: [],
   electrical: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTELECTRICITY"] }],
   elf: [{ name: "Race", params: [ScriptTarget.token, "ELF"], negation: true }],
   fear: [
+    { name: "CheckSpellState", params: [ScriptTarget.token, "PANIC_IMMUNITY"], negation: true },
     // Remove Fear, Resist Fear (both also set RESIST_FEAR below)
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "WIZARD_RESIST_FEAR"], negation: true },
     // Permanent immunities: Blackguard, the mod's own fear immunity (see IMMUNITIES), ...
     { name: "CheckSpellState", params: [ScriptTarget.token, "RESIST_FEAR"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "EXALTATION"], negation: true },
-    // Kit ability not tied to any stat or spell state (opcode 101 against panic only)
-    { name: "Kit", params: [ScriptTarget.token, "CAVALIER"], negation: true },
-    { name: "General", params: [ScriptTarget.token, "UNDEAD"], negation: true },
   ],
   fire: [{ name: "CheckStatLT", params: [ScriptTarget.token, 50, "RESISTFIRE"] }],
   friendly: [],
   halfElf: [{ name: "Race", params: [ScriptTarget.token, "HALF_ELF"], negation: true }],
+  humanoid: [{ name: "General", params: [ScriptTarget.token, "HUMANOID"] }],
+  ignoresSpellLevel: [],
   hold: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckStatGT", params: [ScriptTarget.token, 0, "CLERIC_FREE_ACTION"], negation: true },
@@ -126,11 +147,13 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
     { name: "CheckSpellState", params: [ScriptTarget.token, "SLEEP_IMMUNITY"], negation: true },
   ],
   slow: [],
+  spellRemoval: [],
   stun: [
     { name: "CheckSpellState", params: [ScriptTarget.token, "CHAOTIC_COMMANDS"], negation: true },
     { name: "CheckSpellState", params: [ScriptTarget.token, "STUN_IMMUNITY"], negation: true },
   ],
   // group tags only (see SpellKeyword) - no protection to check
+  aura: [],
   bleeding: [],
   colorSpray: [],
   curePoison: [],
@@ -140,6 +163,7 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   fatigue: [],
   fireball: [],
   flameArrow: [],
+  gaze: [],
   globeOfInvulnerability: [],
   ground: [],
   illusion: [],
@@ -150,3 +174,12 @@ export const SPELL_CHECK_TRIGGERS: Record<SpellKeyword, Triggers.Trigger[]> = {
   necromancyEffects: [],
   web: [],
 };
+
+/** Every spell state some keyword's checks test on the target (CheckSpellState). */
+export const CHECKED_SPELL_STATES: ReadonlySet<string> = new Set(
+  Object.values(SPELL_CHECK_TRIGGERS)
+    .flat()
+    .flatMap((trigger) =>
+      trigger.name === "CheckSpellState" && "params" in trigger ? [String(trigger.params[1])] : [],
+    ),
+);

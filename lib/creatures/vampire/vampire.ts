@@ -1,0 +1,1710 @@
+/**
+ * Vampires, by age category (Van Richten's Guide to Vampires, "Powers by Age"):
+ * fledgling, mature, old, very old, ancient, eminent, patriarch.
+ *
+ * Every age is built from the same table row (see VAMPIRE_AGES), so a vampire's powers only
+ * differ by what the table says.
+ */
+import { AT_WILL, SPELL_STATES } from "../../config/common";
+import { GLOBAL_CONFIG } from "../../config/generate";
+import { CHARM_TARGET_LISTS } from "../../config/presets/charm-presets";
+import { SpellKeyword } from "../../config/spells/keyword";
+import { SPELLS } from "../../config/spells/spell-database";
+import { ExcludeUnwantedTargetsTriggers } from "../../config/target/common";
+import { Counts } from "../../config/target/target-config";
+import actionFactory from "../../src/factories/action.factory";
+import effectFactory from "../../src/factories/effect.factory";
+import responseFactory from "../../src/factories/response.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
+import { RawCreatureAbility } from "../../src/model/creature/ability";
+import { AbstractCreature } from "../../src/model/creature/abstract-creature";
+import { Creature } from "../../src/model/creature/creature";
+import type { CreatureEntry } from "../../src/model/creature/entry";
+import { ImmunityName } from "../../src/model/final/immunity";
+import { StringReference } from "../../src/model/final/stringref";
+import { Durations } from "../../src/model/game-data/durations";
+import { AnimationIdentifiers } from "../../src/model/ids/animate";
+import { PartialCustomCode } from "../../src/model/script/script";
+import { TargetList } from "../../src/model/script/target";
+import { Triggers } from "../../src/model/script/triggers";
+import { Effect } from "../../src/model/spell-item/effect";
+import {
+  AbilityDamageTypeEnum,
+  AnimationChangeTypeEnum,
+  AttackModifierTypeEnum,
+  CastSpellOnConditionTargetEnum,
+  CharmTypeEnum,
+  DisableButtonEnum,
+  DisableSpellcastingTypeEnum,
+  EffectBonusToEnum,
+  EffectDispelResistanceEnum,
+  EffectModifierTypeEnum,
+  EffectStatisticModifierEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
+  EffectVisualEffectLocationEnum,
+  ItemAbilityFlagEnum,
+  ItemAbilityLocationEnum,
+  ItemAbilityPrimaryTypeEnum,
+  ItemAbilitySecondaryTypeEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+  LightingEffectEnum,
+  LightingEffectTargetEnum,
+  PortraitIconEnum,
+  SaveTypeEnum,
+  SpellFlagEnum,
+  SpellTypeEnum,
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import {
+  AreaExtendedFlagsEnum,
+  AreaProjectileEnum,
+  BamProjectileFlagsEnum,
+  ProjectileExplosionEffectEnum,
+  ProjectileExtendedFlagsEnum,
+} from "../../src/model/spell-item/projectile";
+import { PartialSpellHeader, Spell } from "../../src/model/spell-item/spell-item";
+import {
+  SpellProtectionRelation,
+  SpellProtectionStat,
+} from "../../src/model/spell-item/spell-protection";
+import targetService from "../../src/services/baf/target.service";
+import monsterFilesService from "../../src/services/monster-files.service";
+import spellService from "../../src/services/spell.service";
+import { StringRefUtils } from "../../src/services/utils/string-ref.utils";
+import utils from "../../src/services/utils/utils.service";
+import { TranslationKey } from "../../translations/i18n";
+import { MonsterEnum } from "../monster";
+import type { TurnUndeadType } from "../types/turn-level";
+import { createClaws } from "../types/undead";
+
+export enum Ids {
+  VampireGazeDomination2,
+  VampireGazeDomination3,
+  VampireVoiceDomination,
+  VampireWillDomination,
+  VampireBatSwarm,
+  VampireControlUndead,
+  VampireWolfForm,
+  VampireWolfFormOwnSpeed,
+  VampireBatForm,
+  VampireBatFormOwnSpeed,
+  VampireMistForm,
+  VampireForm,
+  VampireWillDominationAbomination,
+  VampireDrinkBlood,
+}
+
+/**
+ * How a vampire dominates its victims: younger vampires must meet their eyes, ancient and eminent
+ * ones only need to be heard, and a patriarch needs neither.
+ */
+export type DominationMode = "gaze" | "voice" | "will";
+
+export interface VampireAge {
+  monster: MonsterEnum;
+  name: TranslationKey;
+  level1: number;
+  bonusHp: number;
+  /** PHB: vampires are turned as vampires, as ghosts with 10 HD, as liches with 11+ HD. */
+  turnAs: TurnUndeadType;
+  strength: number;
+  exceptionalStrength?: number;
+  intelligence: number;
+  dexterity: number;
+  charisma: number;
+  movement: number;
+  xpv: number;
+  domination: { id: Ids; mode: DominationMode; saveBonus: number };
+  /** Weapon needed to hit: immune to every weapon below it */
+  weaponImmunity: ImmunityName;
+  regeneration: number;
+  magicResistance: number;
+  /** How long (seconds) the vampire withstands sunlight before fleeing it, undefined if immune */
+  sunlight?: number;
+  /** Armor Class, 1 (PnP) if unset */
+  ac?: number;
+  /** Attacks per round, 1 (PnP) if unset */
+  apr?: number;
+  /** Levels drained by the claws, 2 if unset */
+  drainLevels?: number;
+  /** Trait immunities on top of the weapon immunity and cold/lightning resistances */
+  extraImmunities?: ImmunityName[];
+  /** Trait effects on top of regeneration, magic resistance and the death contingency */
+  extraEffects?: Effect[];
+}
+
+const VAMPIRE_AGES: VampireAge[] = [
+  {
+    monster: MonsterEnum.VampireFledgling,
+    name: "monster.vampire.name.fledgling",
+    level1: 8,
+    bonusHp: 3,
+    turnAs: "vampire",
+    strength: 18,
+    exceptionalStrength: 76,
+    intelligence: 16,
+    dexterity: 16,
+    charisma: 14,
+    movement: 12,
+    xpv: 8000,
+    domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
+    weaponImmunity: "nonMagicalWeapons",
+    regeneration: 3,
+    magicResistance: 0,
+    sunlight: 0,
+  },
+  {
+    monster: MonsterEnum.VampireMature,
+    name: "monster.vampire.name.mature",
+    level1: 9,
+    bonusHp: 3,
+    turnAs: "vampire",
+    strength: 18, // the table says 19/91, which can't exist: read as 18/91
+    exceptionalStrength: 91,
+    intelligence: 16,
+    dexterity: 17,
+    charisma: 15,
+    movement: 15,
+    xpv: 9000,
+    domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
+    weaponImmunity: "nonMagicalWeapons",
+    regeneration: 3,
+    magicResistance: 5,
+    sunlight: Durations.round,
+  },
+  {
+    monster: MonsterEnum.VampireOld,
+    name: "monster.vampire.name.old",
+    level1: 10,
+    bonusHp: 2,
+    turnAs: "ghost",
+    strength: 18,
+    exceptionalStrength: 100,
+    intelligence: 17,
+    dexterity: 17,
+    charisma: 16,
+    movement: 15,
+    xpv: 11000,
+    domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
+    weaponImmunity: "plusOneWeapons",
+    regeneration: 3,
+    magicResistance: 10,
+    sunlight: 5 * Durations.round,
+  },
+  {
+    monster: MonsterEnum.VampireVeryOld,
+    name: "monster.vampire.name.veryOld",
+    level1: 11,
+    bonusHp: 1,
+    turnAs: "lich",
+    strength: 18,
+    exceptionalStrength: 100,
+    intelligence: 18,
+    dexterity: 18,
+    charisma: 17,
+    movement: 18,
+    xpv: 12000,
+    domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
+    weaponImmunity: "plusOneWeapons",
+    regeneration: 4,
+    magicResistance: 15,
+    sunlight: 10 * Durations.round,
+  },
+  {
+    monster: MonsterEnum.VampireAncient,
+    name: "monster.vampire.name.ancient",
+    level1: 12,
+    bonusHp: 0,
+    turnAs: "lich",
+    strength: 19,
+    intelligence: 18,
+    dexterity: 18,
+    charisma: 18,
+    movement: 18,
+    xpv: 14000,
+    domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
+    weaponImmunity: "plusTwoWeapons",
+    regeneration: 4,
+    magicResistance: 20,
+    sunlight: 3 * Durations.turn,
+  },
+  {
+    monster: MonsterEnum.VampireEminent,
+    name: "monster.vampire.name.eminent",
+    level1: 13,
+    bonusHp: 0,
+    turnAs: "lich",
+    strength: 20,
+    intelligence: 19,
+    dexterity: 19,
+    charisma: 18,
+    movement: 21,
+    xpv: 15000,
+    domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
+    weaponImmunity: "plusTwoWeapons",
+    regeneration: 4,
+    magicResistance: 25,
+    sunlight: Durations.hour,
+  },
+  {
+    monster: MonsterEnum.VampirePatriarch,
+    name: "monster.vampire.name.patriarch",
+    level1: 14,
+    bonusHp: 0,
+    turnAs: "lich",
+    strength: 21,
+    intelligence: 20,
+    dexterity: 20,
+    charisma: 19,
+    movement: 24,
+    xpv: 17000,
+    domination: { id: Ids.VampireWillDomination, mode: "will", saveBonus: -5 },
+    weaponImmunity: "plusThreeWeapons",
+    regeneration: 5,
+    magicResistance: 30,
+  },
+];
+
+/**
+ * Above Patriarch, from the game's abominations: Bodhi's Ch2–3 strength (see BODHI.md), which
+ * Phlydian's file matches. Bodhi's own encounters are her variant (bodhi.ts).
+ */
+export const ABOMINATION_AGE: VampireAge = {
+  monster: MonsterEnum.VampireAbomination,
+  name: "monster.vampire.name.abomination",
+  level1: 25,
+  bonusHp: 0,
+  turnAs: "lich", // irrelevant: immune to turn undead
+  strength: 24,
+  intelligence: 20,
+  dexterity: 24,
+  charisma: 19,
+  movement: 27,
+  xpv: 21000,
+  domination: { id: Ids.VampireWillDominationAbomination, mode: "will", saveBonus: -6 },
+  weaponImmunity: "plusThreeWeapons",
+  regeneration: 12,
+  magicResistance: 75,
+  ac: -10, // the files' natural -4 plus DEX 24 (the engine adds it)
+  apr: 3,
+  drainLevels: 3,
+  extraImmunities: [
+    "cold",
+    "lightning",
+    "magicDamageResistance",
+    "deathEffects",
+    "turnUndead",
+    "seeInvisible",
+  ],
+  extraEffects: physicalResistance(10), // Phlydian's file; Bodhi's 25 is hers (bodhi.ts)
+};
+
+/** Slashing, crushing, piercing and missile resistances set to `value` */
+export function physicalResistance(value: number): Effect[] {
+  return (
+    [
+      EffectTypeEnum.SlashingResistanceModifier,
+      EffectTypeEnum.CrushingResistanceModifier,
+      EffectTypeEnum.PiercingResistanceModifier,
+      EffectTypeEnum.MissilesResistanceModifier,
+    ] as const
+  ).map((opcode) => ({ opcode, value, type: EffectStatisticModifierEnum.Set }));
+}
+
+const DOMINATION_TEXTS: Record<
+  DominationMode,
+  { name: StringReference; description: StringReference; keywords: SpellKeyword[] }
+> = {
+  gaze: {
+    name: "monster.vampire.ability.domination.gazeName",
+    description: "monster.vampire.ability.domination.gazeDescription",
+    keywords: ["gaze"],
+  },
+  voice: {
+    name: "monster.vampire.ability.domination.voiceName",
+    description: "monster.vampire.ability.domination.voiceDescription",
+    keywords: [],
+  },
+  will: {
+    name: "monster.vampire.ability.domination.willName",
+    description: "monster.vampire.ability.domination.willDescription",
+    keywords: [],
+  },
+};
+
+/** The game's weapons slaying undead on hit: maces of disruption, Azuredge. */
+const UNDEAD_SLAYING_WEAPONS = ["BLUN12", "BLUN25", "AX1H10"];
+
+/**
+ * Who a vampire dominates first, like SCS: the party's undead slayers - clerics, who turn undead,
+ * undead hunters, whom its level drain can't touch, or anyone wielding an undead-slaying weapon -
+ * then turned against their friends. Other paladins turn undead too, but weakly: they'd rather
+ * fight in melee, and come with the fighters.
+ */
+const UNDEAD_SLAYERS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    keywords: ["elf"],
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      {
+        name: "Or",
+        triggers: [
+          { name: "Class", params: [ScriptTarget.token, "CLERIC_ALL"] },
+          { name: "Kit", params: [ScriptTarget.token, "UNDEADHUNTER"] },
+          ...UNDEAD_SLAYING_WEAPONS.map((item): Triggers.Trigger => ({
+            name: "HasItem",
+            params: [item, ScriptTarget.token],
+          })),
+        ],
+      },
+    ],
+    randomOrder: true,
+  },
+];
+
+/** A vampire in wolf, bat or gaseous form can't use its other powers. */
+export const NOT_SHAPECHANGED: Triggers.Trigger[] = [
+  SPELL_STATES.animalForm,
+  SPELL_STATES.gaseousForm,
+].map((state) => ({
+  name: "CheckSpellState",
+  params: [ScriptTarget.myself, state],
+  negation: true,
+}));
+
+/** How long a wolf or bat form lasts before the vampire takes back its own form. */
+const ANIMAL_FORM_DURATION = 3 * Durations.round;
+
+/**
+ * A vampire's power is a wizard spell, so that its forms can block it (opcode 145) while its own
+ * innate ones (the forms, its own form) stay usable. But a supernatural one: dead magic, wild
+ * surges and the areas without spellcasting don't stop it, nor silence unless it's a voice.
+ */
+function supernatural(level: number, silenceable = false) {
+  return {
+    level,
+    type: SpellTypeEnum.Wizard,
+    flags: [SpellFlagEnum.IgnoreDead, ...(silenceable ? [] : [SpellFlagEnum.CastableWhenSilenced])],
+  };
+}
+
+/**
+ * Domination: any person dominated by the vampire is affected as if by a charm person spell, with
+ * a saving throw vs. spell penalty that grows with the vampire's age.
+ * A gaze needs the victim to meet the vampire's eyes: it is blocked by gaze attack immunity, and
+ * the vampire doesn't try it on blinded creatures. Voice and will don't have these limits, but a
+ * silenced vampire can't use its voice.
+ */
+function domination(group: AbstractCreature, domination: VampireAge["domination"]) {
+  const texts = DOMINATION_TEXTS[domination.mode];
+  return group.addSpell({
+    name: texts.name,
+    description: texts.description,
+    id: domination.id,
+    memorizedCount: AT_WILL,
+    ...supernatural(5, domination.mode === "voice"),
+    role: "disable",
+    // someone important is turned against the party: far above Control Undead, whose party undead
+    // are weak, the strong ones (skeleton warriors, death knights) resisting it (user)
+    worthLevel: 8,
+    icon: SPELLS.Wizard.Domination.file,
+    primaryType: ItemAbilityPrimaryTypeEnum.Enchanter,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    // a charm, only for humanoids (like its effect), resisted by magic resistance
+    keywords: ["charm", ...texts.keywords, "humanoid", "magicResistance"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        location: ItemAbilityLocationEnum.Spell,
+        target: ItemAbilityTargetEnum.LivingActor,
+        range: 30,
+        speed: 1,
+        // like the original SPIN883, so protections from gaze projectiles (e.g. blindness) apply
+        projectile: domination.mode === "gaze" ? "GAZE" : undefined,
+        effects: effectFactory.charm({
+          charmType: CharmTypeEnum.HostileDomination,
+          duration: 8 * Durations.round,
+          dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+          saveType: SaveTypeEnum.Spell,
+          saveBonus: domination.saveBonus,
+        }),
+      },
+    ],
+    ability: {
+      // the undead slayers first, then the charms' usual targets
+      targets: [...UNDEAD_SLAYERS, ...CHARM_TARGET_LISTS],
+      requireVocal: domination.mode === "voice",
+      spellcasting: false,
+      spell: {
+        type: "force",
+        excludeStateChecks: domination.mode === "gaze" ? ["STATE_BLIND"] : undefined,
+      },
+      triggers: NOT_SHAPECHANGED,
+    },
+  });
+}
+
+/** How often a bat swarm strikes the creatures caught in it. */
+const BAT_SWARM_PULSE = 15; // 1 second, in frames
+
+/** Rounds a bat swarm stays: 1, plus 1 per 2 caster levels (5 for a fledgling, 13 at level 25). */
+const batSwarmRounds = (level: number) => 1 + Math.floor(level / 2);
+
+/**
+ * The game's bat flight (BG2's bat creature animation ABATG1, kept to its first 5 cycles: one per
+ * direction, south to north), in the vampire's assets.
+ */
+const BAT_FLIGHT_BAM = "jaae4900";
+
+/**
+ * Animal control: the vampire summons a swarm of bats covering a 20-foot radius. Those caught
+ * within it are blinded, suffer a -4 penalty to attack rolls and Armor Class, and have their
+ * movement rate cut in half. The bats are controlled by the vampire: they only harm its enemies.
+ * The swarm strikes every second, and each creature is affected at most once per round: leaving
+ * the swarm ends its effects by the next round. They last one pulse longer than that protection,
+ * so the strike renewing them lands before they wear off.
+ * It stays 1 round plus 1 per 2 caster levels. The swarm's lifetime is its projectile's trigger
+ * count, so each duration is a projectile of its own, used by one header per 2 levels.
+ */
+function batSwarm(group: AbstractCreature) {
+  const base = {
+    timing: EffectTimingEnum.InstantLimited,
+    duration: Durations.round + 1,
+    dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+  };
+  const effects: Effect[] = [
+    ...effectFactory.blindness(base),
+    {
+      opcode: EffectTypeEnum.Thac0Bonus,
+      type: EffectStatisticModifierEnum.Increment,
+      value: -4,
+      ...base,
+    },
+    {
+      opcode: EffectTypeEnum.ArmorClassBonus,
+      bonusTo: EffectBonusToEnum.AllWeapons,
+      value: -4,
+      ...base,
+    },
+    {
+      opcode: EffectTypeEnum.MovementRateBonus,
+      type: EffectModifierTypeEnum.SetPercentOf,
+      value: 50,
+      ...base,
+    },
+    { opcode: EffectTypeEnum.ProtectionFromSpell, ...base, duration: Durations.round },
+  ];
+  // one header per 2 levels, from the youngest vampire's level (lower ones use the first)
+  const levels: number[] = [];
+  for (let level = VAMPIRE_AGES[0].level1; level <= VAMPIRE_MAX_LEVEL; level += 2) {
+    levels.push(level);
+  }
+  const headers: PartialSpellHeader[] = levels.map((level) => {
+    const rounds = batSwarmRounds(level);
+    const projectile = group.addProjectile({
+      copyFromFile: "dvstink",
+      name: `Vampire bat swarm (${rounds} rounds)`,
+      // Bats instead of the stinking cloud, each one with a random direction (cycle) and wing
+      // beat (frame)
+      extendedFlags: [
+        ProjectileExtendedFlagsEnum.StartRandomFrame,
+        ProjectileExtendedFlagsEnum.StartRandomSequence,
+      ],
+      // a bat flies to the spot (no more colouring it green)
+      projectileInfo: {
+        bamProjectileFlags: [BamProjectileFlagsEnum.EnableAreaLightingUsage],
+        travelingAnimation: BAT_FLIGHT_BAM,
+        faceTargetGranularity: 5, // its 5 cycles, from south to north
+      },
+      areaEffectInfo: {
+        areaProjectileFlags: [AreaProjectileEnum.AffectOnlyEnemies],
+        explosionDelay: BAT_SWARM_PULSE,
+        triggerCount: (rounds * Durations.round * 15) / BAT_SWARM_PULSE,
+        triggerRadius: 360,
+        areaOfEffect: 360, // 20-foot radius
+        explosionEffect: ProjectileExplosionEffectEnum.CUSTOM,
+        // scattered all over the area for as long as it lasts, as the game's own clouds do
+        spreadAnimation: BAT_FLIGHT_BAM,
+        areaExtendedFlags: [
+          AreaExtendedFlagsEnum.StartScattered,
+          AreaExtendedFlagsEnum.RepeatScattering,
+          AreaExtendedFlagsEnum.Cloud,
+        ],
+      },
+    });
+    return {
+      minLevel: level,
+      type: ItemAbilityTypeEnum.Ranged,
+      location: ItemAbilityLocationEnum.Spell,
+      target: ItemAbilityTargetEnum.AnyPointWithinRange,
+      range: 30,
+      speed: 1,
+      projectile: projectile.file,
+      effects: effects.map((effect) => ({ ...effect })),
+    };
+  });
+  return group.addSpell({
+    name: "monster.vampire.ability.batSwarm.name",
+    role: "summon",
+    description: "monster.vampire.ability.batSwarm.description",
+    id: Ids.VampireBatSwarm,
+    memorizedCount: 1,
+    ...supernatural(2),
+    keywords: ["area"],
+    castingSound: "CAS_P03",
+    icon: SPELLS.Class.SummonSpiritAnimal.file,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    headers,
+    ability: {
+      targets: [{ name: "NearestEnemies" }],
+      triggers: NOT_SHAPECHANGED,
+      spell: { type: "force", remove: true },
+      spellcasting: false,
+      probability: 50,
+    },
+  });
+}
+
+/**
+ * The charm visual (SPNWCHRM), copied under the vampire's own name: undead are immune to charm,
+ * which also blocks SPNWCHRM on them.
+ */
+const CONTROL_UNDEAD_VISUAL = "jave4900";
+
+/** Highest vampire level, for some bosses: the youngest vampire is the lowest one. */
+const VAMPIRE_MAX_LEVEL = 25;
+
+/**
+ * Controlling undead: the vampire controls a lesser undead, of up to half its Hit Dice. One header
+ * per caster level, so a vampire with more Hit Dice (an older one, or a stronger file) controls
+ * stronger undead. Mindless undead get no saving throw, but PnP's intelligent undead save vs.
+ * paralysis can't be told apart from them here, so none get one.
+ * The book pools the Hit Dice of every controlled creature; each control is checked on its own.
+ */
+function controlUndead(group: AbstractCreature) {
+  // Highest undead level controlled by each header, from the youngest vampire to the strongest
+  const minLevel = Math.floor(VAMPIRE_AGES[0].level1 / 2);
+  const maxLevel = Math.floor(VAMPIRE_MAX_LEVEL / 2);
+  const levels = Array.from({ length: maxLevel - minLevel + 1 }, (_, i) => minLevel + i);
+  const headers: PartialSpellHeader[] = levels.map((level) => {
+    // feedback of the vanilla Control Undead, only shown when the control takes hold
+    const base = {
+      dispelResistance: EffectDispelResistanceEnum.DispelNotBypassResistance,
+      maxLevel: level,
+    };
+    const feedback = { ...base, timing: EffectTimingEnum.InstantPermanentUntilDeath };
+    return {
+      minLevel: 2 * level,
+      type: ItemAbilityTypeEnum.Melee,
+      location: ItemAbilityLocationEnum.Spell,
+      target: ItemAbilityTargetEnum.LivingActor,
+      range: 30,
+      speed: 1,
+      effects: [
+        {
+          opcode: EffectTypeEnum.CharmControlCreature,
+          generalType: "UNDEAD",
+          charmType: CharmTypeEnum.HostileDomination,
+          timing: EffectTimingEnum.InstantPermanent,
+          ...base,
+        },
+        {
+          opcode: EffectTypeEnum.PlayVisualEffect,
+          playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+          resource: CONTROL_UNDEAD_VISUAL,
+          ...feedback,
+        },
+        {
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: StringRefUtils.getString("Controlled"),
+          ...feedback,
+        },
+        { opcode: EffectTypeEnum.PlaySound, resource: "EFF_M15", ...feedback },
+      ],
+    };
+  });
+  return group.addSpell({
+    name: "monster.vampire.ability.controlUndead.name",
+    description: "monster.vampire.ability.controlUndead.description",
+    id: Ids.VampireControlUndead,
+    memorizedCount: AT_WILL,
+    ...supernatural(7),
+    // it turns undead against their side, like a charm
+    role: "disable",
+    // magic resistance blocks the control (skeleton warriors, death knights)
+    keywords: ["magicResistance"],
+    // the party's undead are weak ones: worth a level 3 spell, below a caster's real spells (user)
+    worthLevel: 3,
+    icon: SPELLS.Wizard.ControlUndead.file,
+    primaryType: ItemAbilityPrimaryTypeEnum.Necromancer,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    ability: {
+      // not the common enemy lists, which leave out summons: animated dead are the usual targets
+      targets: targetService.combineListWithTriggers(
+        [{ name: "NearestEnemies" }],
+        [
+          { name: "General", params: [ScriptTarget.token, "UNDEAD"] },
+          // Target level <= half the caster level, i.e. for each k: target >= k implies caster >=
+          // 2k. Matches the header picked from the caster level, which controls up to level / 2.
+          // The first header's undead are within reach of every vampire.
+          triggerFactory.levelLt(maxLevel + 1),
+          ...levels.slice(1).map((k): Triggers.Trigger => ({
+            name: "Or",
+            triggers: [
+              triggerFactory.levelLt(k),
+              { name: "LevelGT", params: [ScriptTarget.myself, 2 * k - 1] },
+            ],
+          })),
+        ],
+      ),
+      triggers: NOT_SHAPECHANGED,
+      spell: { type: "force" },
+      spellcasting: false,
+    },
+    headers,
+  });
+}
+
+interface AnimalForm {
+  id: Ids;
+  name: TranslationKey;
+  description: TranslationKey;
+  animation: AnimationIdentifiers;
+  icon: string | string[];
+  damage: { diceThrown: number; diceSize: number; type: AbilityDamageTypeEnum };
+  effects: Effect[];
+  immunities?: ImmunityName[];
+  ability: RawCreatureAbility;
+}
+
+/**
+ * Shapechanging: wolf and bat forms (AC 2, ML 16, everything else the vampire's own). The form
+ * is a weapon in the magical weapon slot, so it replaces the level-draining claws. While
+ * changing, the vampire suffers a +4 penalty to its Armor Class and -1 to all saving throws.
+ */
+function animalForm(group: AbstractCreature, form: AnimalForm) {
+  const item = group.addWeapon({
+    weapon: {
+      id: form.id,
+      stringRef: form.name,
+      description: form.description,
+      immunities: form.immunities,
+      equippedSlot: [],
+      header: {
+        type: ItemAbilityTypeEnum.Melee,
+        diceThrown: form.damage.diceThrown,
+        diceSize: form.damage.diceSize,
+        damageType: form.damage.type,
+        speed: 3,
+        abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+      },
+      effects: [
+        {
+          opcode: EffectTypeEnum.ArmorClassBonus,
+          value: 2,
+          bonusTo: EffectBonusToEnum.SetBaseArmorClassToValue,
+        },
+        {
+          opcode: EffectTypeEnum.AnimationChange,
+          animationId: form.animation,
+          animationType: AnimationChangeTypeEnum.TemporaryChange,
+        },
+        { opcode: EffectTypeEnum.SetExtendedSpellState, state: SPELL_STATES.animalForm },
+        // its powers are wizard spells (see supernatural): only its innate forms stay usable
+        { opcode: EffectTypeEnum.DisableSpellcasting, type: DisableSpellcastingTypeEnum.Wizard },
+        { opcode: EffectTypeEnum.DisableButton, button: DisableButtonEnum.SpellSelect },
+        ...form.effects,
+      ],
+    },
+  });
+  const changing = {
+    timing: EffectTimingEnum.InstantLimited,
+    duration: Durations.round,
+    target: EffectTargetEnum.Self,
+  };
+  return group.addSpell({
+    name: form.name,
+    role: "shapeshift",
+    description: form.description,
+    id: form.id,
+    memorizedCount: 1,
+    icon: Array.isArray(form.icon) ? form.icon[0] : form.icon,
+    primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+    secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
+    // at will: given back one round after the cast (the form lasts longer anyway)
+    options: { renew: 1 },
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        location: ItemAbilityLocationEnum.Ability,
+        target: ItemAbilityTargetEnum.Caster,
+        speed: 1,
+        icon: Array.isArray(form.icon) ? form.icon[1] : undefined,
+        effects: [
+          {
+            opcode: EffectTypeEnum.CreateWeapon,
+            amount: 1,
+            resource: item.file,
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: ANIMAL_FORM_DURATION,
+          },
+          {
+            opcode: EffectTypeEnum.ArmorClassBonus,
+            value: -4,
+            bonusTo: EffectBonusToEnum.AllWeapons,
+            ...changing,
+          },
+          {
+            opcode: EffectTypeEnum.AllSavingThrowsBonus,
+            value: -1,
+            type: EffectStatisticModifierEnum.Increment,
+            ...changing,
+          },
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            target: EffectTargetEnum.Self,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+            resource: "SPDISPM3",
+          },
+          { opcode: EffectTypeEnum.PlaySound, resource: "MSTCHNG" },
+          {
+            opcode: EffectTypeEnum.PlaySound,
+            resource: "MSTCHNG",
+            timing: EffectTimingEnum.DelayPermanent,
+            duration: ANIMAL_FORM_DURATION,
+          },
+        ],
+      },
+    ],
+    ability: {
+      ...form.ability,
+      triggers: [...NOT_SHAPECHANGED, ...(form.ability.triggers ?? [])],
+      // The cast removes the copy, renew gives it back once the form ends: renew alone can't take
+      // it away (opcode 172 keeps memorized copies of an 8-character resource), so a cast that
+      // doesn't use it up (noDec) would pile up a new copy each time.
+      spell: { type: "force", remove: true, castOnSelf: true },
+    },
+  });
+}
+
+/**
+ * A form's movement rate never slows the vampire down: an older vampire, already as fast as the
+ * form's own 18 or faster, keeps its speed (the form's "own speed" variant).
+ */
+const ANIMAL_FORM_MOVEMENT = effectFactory.naturalMovementSpeed(18);
+
+/** Wolf form: Dmg 3d12, MV 18, SZ L. Used on an enemy its level drain can't harm. */
+function wolfForm(group: AbstractCreature, ownSpeed: boolean) {
+  return animalForm(group, {
+    id: ownSpeed ? Ids.VampireWolfFormOwnSpeed : Ids.VampireWolfForm,
+    name: "monster.vampire.ability.wolfForm.name",
+    description: "monster.vampire.ability.wolfForm.description",
+    animation: "WOLF_VAMPIRIC",
+    icon: SPELLS.Innate.ShapeshiftWolf.file,
+    damage: { diceThrown: 3, diceSize: 12, type: AbilityDamageTypeEnum.Piercing },
+    effects: ownSpeed ? [] : [ANIMAL_FORM_MOVEMENT],
+    ability: {
+      targets: [
+        {
+          name: "NearestEnemies",
+          limit: 1,
+          triggers: [
+            triggerFactory.or([
+              { name: "CheckStatGT", params: [ScriptTarget.token, 0, "LEVEL_DRAIN_IMMUNITY"] },
+              { name: "CheckSpellState", params: [ScriptTarget.token, "ITEM_LEVELDRAIN"] },
+            ]),
+          ],
+        },
+      ],
+      probability: 50,
+    },
+  });
+}
+
+/**
+ * Bat form: Dmg 2d6, MV Fl 18, -3 to opponents' attack rolls, SZ M. Used when badly hurt.
+ * Flying, it is unaffected by ground spells (hover) and flies over enemies and allies alike.
+ */
+function batForm(group: AbstractCreature, ownSpeed: boolean) {
+  return animalForm(group, {
+    id: ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
+    name: "monster.vampire.ability.batForm.name",
+    description: "monster.vampire.ability.batForm.description",
+    animation: "BAT_INSIDE",
+    icon: ["PLYWYVNC", "PLYWYVNB"],
+    damage: { diceThrown: 2, diceSize: 6, type: AbilityDamageTypeEnum.Piercing },
+    effects: [
+      ...(ownSpeed ? [] : [ANIMAL_FORM_MOVEMENT]),
+      { opcode: EffectTypeEnum.ArmorClassBonus, value: 3, bonusTo: EffectBonusToEnum.AllWeapons },
+      { opcode: EffectTypeEnum.SetExtendedSpellState, state: SPELL_STATES.flying },
+      { opcode: EffectTypeEnum.NoCollisionDetection, passWalls: false },
+      { opcode: EffectTypeEnum.ModifyCollisionBehavior },
+    ],
+    immunities: ["hover"],
+    ability: {
+      triggers: [
+        { name: "Detect", params: ["NearestEnemyOf"] },
+        { name: "HPPercentLT", params: [ScriptTarget.myself, 50] },
+      ],
+      probability: 50,
+    },
+  });
+}
+
+/**
+ * How long the gaseous form lasts: just the time to run away or reposition, since its fire
+ * vulnerability makes a longer one an easy kill for fire spells.
+ */
+const MIST_FORM_DURATION = Durations.round;
+
+/**
+ * Gaseous form is at will, but the AI waits 4 rounds between two: chaining them, it would keep
+ * away for good.
+ */
+const MIST_FORM_TIMER = 4 * Durations.round;
+
+/**
+ * Gaseous form: a vapor that only fire harms (MV 3 less than normal), flowing through creatures.
+ * In a fight, the vampire uses it to break off when badly hurt in melee, or when surrounded, and
+ * get away. (At 0 hit points, the game's own gaseous form makes it escape.)
+ */
+function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
+  const mist = cre.addItem({
+    id: Ids.VampireMistForm,
+    stringRef: "monster.vampire.ability.mistForm.name",
+    description: "monster.vampire.ability.mistForm.description",
+    // only fire harms a vapor: fire spells, and the fire damage of a weapon's hits (the weapon
+    // itself does nothing). Gas floats: no ground spells, web or entangle
+    immunities: ["poison", "cold", "lightning", "acid", "magicDamage", "physicalDamage", "hover"],
+    header: { type: ItemAbilityTypeEnum.Melee },
+    effects: [
+      {
+        opcode: EffectTypeEnum.FireResistanceModifier,
+        type: EffectStatisticModifierEnum.Set,
+        value: -50,
+      },
+      {
+        opcode: EffectTypeEnum.MagicalFireResistanceModifier,
+        type: EffectStatisticModifierEnum.Set,
+        value: -50,
+      },
+      { opcode: EffectTypeEnum.DisplayPortraitIcon, icon: PortraitIconEnum.Invulnerable },
+      { opcode: EffectTypeEnum.NoCollisionDetection, passWalls: true },
+      { opcode: EffectTypeEnum.ModifyCollisionBehavior },
+      effectFactory.naturalMovementSpeed(age.movement - 3),
+      {
+        opcode: EffectTypeEnum.ModifyAttacksPerRound,
+        type: AttackModifierTypeEnum.Final,
+        value: 0,
+      },
+      // hard to land a blow on a mist (positive is a bonus, as bat form's 3)
+      {
+        opcode: EffectTypeEnum.ArmorClassBonus,
+        bonusTo: EffectBonusToEnum.AllWeapons,
+        value: 10,
+      },
+      // its powers are wizard spells (see supernatural): only its innate forms stay usable
+      { opcode: EffectTypeEnum.DisableSpellcasting, type: DisableSpellcastingTypeEnum.Wizard },
+      { opcode: EffectTypeEnum.DisableButton, button: DisableButtonEnum.SpellSelect },
+      {
+        opcode: EffectTypeEnum.AnimationChange,
+        animationId: "BLOB_MIST_CREATURE",
+        animationType: AnimationChangeTypeEnum.TemporaryChange,
+      },
+      { opcode: EffectTypeEnum.SetExtendedSpellState, state: SPELL_STATES.gaseousForm },
+    ],
+  });
+  const spell = cre.addSpell({
+    id: Ids.VampireMistForm,
+    name: "monster.vampire.ability.mistForm.name",
+    role: "reactive",
+    description: "monster.vampire.ability.mistForm.description",
+    memorizedCount: 1,
+    // at will, but see MIST_FORM_TIMER for the AI
+    options: { renew: 1 },
+    icon: "dvwi106c",
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        target: ItemAbilityTargetEnum.Caster,
+        icon: "dvwi106b",
+        effects: [
+          // back from a wolf or bat form first, by removing its weapon: their spells, and so their
+          // renewal, are left alone (like vampireForm)
+          ...forms.map((form): Effect => ({
+            resource: formItem(form),
+            opcode: EffectTypeEnum.RemoveItem,
+            target: EffectTargetEnum.Self,
+          })),
+          {
+            opcode: EffectTypeEnum.CreateWeapon,
+            amount: 1,
+            resource: mist.file,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: MIST_FORM_DURATION,
+            target: EffectTargetEnum.Self,
+          },
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+            resource: "SPDISPMA",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            target: EffectTargetEnum.Self,
+          },
+          {
+            opcode: EffectTypeEnum.PlaySound,
+            resource: "MSTCHNG",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            target: EffectTargetEnum.Self,
+          },
+        ],
+      },
+    ],
+    // badly hurt in melee
+    ability: {
+      triggers: [
+        ...NOT_SHAPECHANGED,
+        { name: "HPPercentLT", params: [ScriptTarget.myself, 35] },
+        ...triggerFactory.enemyCanHurtInMelee(`NearestEnemyOf(${ScriptTarget.myself})`),
+      ],
+      probability: 50,
+      // same as the animal forms: renew alone wouldn't take the copy away
+      spell: { type: "force", remove: true, castOnSelf: true },
+    },
+  });
+  if (!spell.ability) throw new Error(`No ability for ${spell.file}`);
+  // shared with the surrounded one below
+  spell.ability.timer = { name: "JA_MIST_FORM", value: MIST_FORM_TIMER };
+  // surrounded: BAF can't count the enemies that can hurt it, so its 3 nearest ones must
+  const surrounded: RawCreatureAbility = {
+    ...spell.ability,
+    triggers: [
+      ...NOT_SHAPECHANGED,
+      ...["NearestEnemyOf", "SecondNearestEnemyOf", "ThirdNearestEnemyOf"].flatMap((enemy) =>
+        triggerFactory.enemyCanHurtInMelee(`${enemy}(${ScriptTarget.myself})`),
+      ),
+    ],
+  };
+  const flee: PartialCustomCode = {
+    location: "init",
+    type: "insertBefore",
+    statements: [
+      {
+        comment: "Gaseous form: get away from enemies",
+        triggers: [
+          { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.gaseousForm] },
+        ],
+        responses: responseFactory.response([
+          {
+            name: "RunAwayFromNoLeaveArea",
+            params: [`NearestEnemyOf(${ScriptTarget.myself})`, 90],
+          },
+        ]),
+      },
+    ],
+  };
+  return { abilities: [spell.ability, surrounded], item: mist.file, flee };
+}
+
+/** HP percentage under which a vampire in bat form flies away rather than fight. */
+const BAT_FLEE_HP = 65;
+
+/**
+ * Bat form is the badly hurt vampire's escape, like SCS: while still hurt it flies away from its
+ * enemies, regenerating, and comes back to the fight once the form ends.
+ */
+const BAT_FLEE: PartialCustomCode = {
+  location: "init",
+  type: "insertBefore",
+  statements: [
+    {
+      comment: "Bat form: get away from enemies while hurt",
+      triggers: [
+        { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.animalForm] },
+        { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.flying] },
+        { name: "HPPercentLT", params: [ScriptTarget.myself, BAT_FLEE_HP] },
+      ],
+      responses: responseFactory.response([
+        {
+          name: "RunAwayFromNoLeaveArea",
+          params: [`NearestEnemyOf(${ScriptTarget.myself})`, 90],
+        },
+      ]),
+    },
+  ],
+};
+
+/** Outdoors by day, from 6:00 to 21:59 like SCS (the hour as a number: TIME.IDS isn't vanilla) */
+const IN_SUNLIGHT: Triggers.Trigger[] = [
+  { name: "AreaType", params: ["OUTDOOR"] },
+  { name: "TimeGT", params: [5] },
+  { name: "TimeLT", params: [22] },
+];
+
+const SUNLIGHT = "JA_SUNLIGHT";
+const SUNLIGHT_TIMER = "JA_SUNLIGHT_TIMER";
+
+/**
+ * Sunlight: a hostile vampire in a fight withstands it for its age's time, then escapes it like
+ * SCS's do: replaced by a bat leaving the area (no kill). Getting out of the sun starts over. None
+ * for an age immune to it.
+ */
+function sunlightEscape(age: VampireAge): PartialCustomCode[] {
+  if (age.sunlight === undefined) return [];
+  const exposed = triggerFactory.global(SUNLIGHT, 1);
+  // already implied by being past "Do nothing if..." (noActionOutsideOfCombat), stated anyway
+  const hostile: Triggers.Trigger = {
+    name: "Allegiance",
+    params: [ScriptTarget.myself, "EVILCUTOFF"],
+  };
+  return [
+    {
+      // always, in or out of a fight
+      location: "init",
+      type: "insertAfter",
+      statements: [
+        {
+          comment: "Out of the sun: withstanding it starts over",
+          triggers: [
+            exposed,
+            { name: "Or", triggers: IN_SUNLIGHT.map((t) => ({ ...t, negation: true })) },
+          ],
+          responses: responseFactory.response([
+            actionFactory.setGlobal(SUNLIGHT, 0),
+            { name: "Continue" },
+          ]),
+        },
+      ],
+    },
+    {
+      // hostile and in a fight
+      location: "noActionOutsideOfCombat",
+      type: "insertAfter",
+      statements: [
+        {
+          comment: "Sunlight: starts withstanding it",
+          triggers: [hostile, triggerFactory.global(SUNLIGHT, 0), ...IN_SUNLIGHT],
+          responses: responseFactory.response([
+            actionFactory.setGlobal(SUNLIGHT, 1),
+            actionFactory.setGlobalTimer(SUNLIGHT_TIMER, age.sunlight),
+            { name: "Continue" },
+          ]),
+        },
+        {
+          comment: "Sunlight: can't withstand it any longer",
+          triggers: [
+            hostile,
+            exposed,
+            ...IN_SUNLIGHT,
+            triggerFactory.globalTimerExpired(SUNLIGHT_TIMER),
+          ],
+          responses: responseFactory.response([
+            {
+              name: "ReallyForceSpellDead",
+              params: [ScriptTarget.myself, SPELLS.Innate.VampireBatFormChange.id],
+            },
+          ]),
+        },
+      ],
+    },
+  ];
+}
+
+/** The vampire's melee reach */
+const REACH = GLOBAL_CONFIG.bafConstants.meleeRange;
+
+/** An enemy (ScriptTarget.token) the vampire's level drain works on */
+const DRAINABLE = triggerFactory.spellChecks(["levelDrain"]);
+
+const IN_BAT_FORM: Triggers.Trigger[] = [
+  { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.animalForm] },
+  { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.flying] },
+];
+
+/** Not hurt enough to flee as a bat (see BAT_FLEE) */
+const HEALTHY: Triggers.Trigger = {
+  name: "HPPercentLT",
+  params: [ScriptTarget.myself, BAT_FLEE_HP],
+  negation: true,
+};
+
+/** A drainable enemy out of the vampire's reach */
+const DISTANT_VICTIM: Triggers.Trigger[] = [
+  ...DRAINABLE,
+  { name: "Range", params: [ScriptTarget.token, REACH], negation: true },
+];
+
+/** The item a form's spell turns the vampire into (its CreateWeapon) */
+function formItem(spell: Spell): string {
+  const create = spell.headers
+    .flatMap((header) => header.effects)
+    .find((effect) => effect.opcode === EffectTypeEnum.CreateWeapon);
+  if (!create?.resource) throw new Error(`No form item in ${spell.file}`);
+  return create.resource;
+}
+
+/**
+ * Vampire form: the vampire takes back its own form at will, removing its wolf, bat or mist
+ * form's weapon. The form spells, and their renewal, are left alone. Used by a bat landing next to
+ * a victim it can drain (see batDive).
+ */
+function vampireForm(cre: Creature, forms: string[]) {
+  return cre.addSpell({
+    id: Ids.VampireForm,
+    name: "monster.vampire.ability.vampireForm.name",
+    role: "reactive",
+    description: "monster.vampire.ability.vampireForm.description",
+    memorizedCount: 1,
+    icon: "PLYMANB",
+    primaryType: ItemAbilityPrimaryTypeEnum.Transmuter,
+    secondaryType: ItemAbilitySecondaryTypeEnum.NonCombat,
+    options: { renew: 1 },
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        location: ItemAbilityLocationEnum.Ability,
+        target: ItemAbilityTargetEnum.Caster,
+        speed: 1,
+        icon: "PLYMAN",
+        effects: [
+          ...forms.map((resource): Effect => ({
+            resource,
+            opcode: EffectTypeEnum.RemoveItem,
+            target: EffectTargetEnum.Self,
+          })),
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            target: EffectTargetEnum.Self,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+            resource: "SPDISPM3",
+          },
+          { opcode: EffectTypeEnum.PlaySound, resource: "MSTCHNG" },
+        ],
+      },
+    ],
+    ability: {
+      // landing: a bat within reach of an enemy it can drain
+      triggers: IN_BAT_FORM,
+      targets: [
+        {
+          name: "NearestEnemies",
+          triggers: [...DRAINABLE, { name: "Range", params: [ScriptTarget.token, REACH] }],
+        },
+      ],
+      spell: { type: "force", remove: true, castOnSelf: true },
+    },
+  });
+}
+
+/**
+ * Like SCS, a healthy vampire flies over the front line to a victim it can drain: it takes bat
+ * form when the nearest enemy is out of reach or undrainable while a drainable one is in sight
+ * further away (half the time), flies to it, and lands with its own form (see vampireForm).
+ * The victim is the weakest first (worst AC, then mages, thieves...), then the nearest.
+ */
+function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCustomCode } {
+  if (!bat.ability) throw new Error(`No ability for ${bat.file}`);
+  const nearest = `NearestEnemyOf(${ScriptTarget.myself})`;
+  const nearestUnsuitable: Triggers.Trigger = {
+    name: "Or",
+    triggers: [
+      { name: "Range", params: [nearest, REACH], negation: true },
+      ...triggerFactory.inverseNegations(
+        utils.replaceTriggerTokens(DRAINABLE, [{ key: ScriptTarget.token, value: nearest }]),
+      ),
+    ],
+  };
+  const takeOff: RawCreatureAbility = {
+    ...bat.ability,
+    triggers: [...NOT_SHAPECHANGED, HEALTHY, nearestUnsuitable],
+    targets: (["PreferringWeak", "NearestEnemies"] as const).map((name) => ({
+      name,
+      triggers: [
+        ...DRAINABLE,
+        {
+          name: "Range",
+          params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
+          negation: true,
+        },
+      ],
+    })),
+    probability: 50,
+  };
+  const victims = [
+    ...targetService.getList("PreferringWeak").targets,
+    ...Counts.slice(0, 6).map((count) => `${count}NearestEnemyOf(${ScriptTarget.myself})`),
+  ];
+  const flight: PartialCustomCode = {
+    location: "attack",
+    type: "insertBefore",
+    statements: victims.map((victim, index) => {
+      return {
+        comment: index ? undefined : "Bat form: fly over the enemies to a victim to drain",
+        triggers: [
+          ...IN_BAT_FORM,
+          HEALTHY,
+          { name: "See", params: [victim] },
+          ...utils.replaceTriggerTokens(DISTANT_VICTIM, [
+            { key: ScriptTarget.token, value: victim },
+          ]),
+          ...triggerFactory.sideCheck(victim),
+        ],
+        responses: responseFactory.response([{ name: "MoveToObject", params: [victim] }]),
+      };
+    }),
+  };
+  return { takeOff, flight };
+}
+
+/**
+ * Drink Blood, the 5e vampire's bite on a victim it controls: a creature it has charmed (the only
+ * kind its PnP powers make helpless). A spell rather than an attack: no roll against a willing
+ * victim, no weapon to swap. It takes 10 maximum HP for 8 hours (no damage protection or healing
+ * gets them back), heals the vampire 10, and costs it one attack that round, the bite taking the
+ * place of one (5e: only one of a vampire's attacks can be a bite).
+ * Not given to any vampire for now (2026-10-26): 5e vampires bite instead of draining levels, and
+ * ours follow 2e, whose claws drain levels. Kept in case; to restore it, add to vampire()
+ * `sharedPower(entry, cre, Ids.VampireDrinkBlood, () => drinkBlood(entry))` and its ability.
+ */
+export function drinkBlood(group: AbstractCreature): Spell {
+  const duration = Durations.eightHours;
+  const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
+  return group.addSpell({
+    name: "monster.vampire.ability.drinkBlood.name",
+    description: "monster.vampire.ability.drinkBlood.description",
+    id: Ids.VampireDrinkBlood,
+    memorizedCount: AT_WILL,
+    level: 1,
+    type: SpellTypeEnum.Innate,
+    flags: [SpellFlagEnum.IgnoreDead, SpellFlagEnum.CastableWhenSilenced],
+    icon: SPELLS.Wizard.VampiricTouch.file,
+    secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        location: ItemAbilityLocationEnum.Spell,
+        target: ItemAbilityTargetEnum.LivingActor,
+        range: 5,
+        speed: 1,
+        effects: [
+          // only a charmed victim: the spell does nothing on anyone else
+          {
+            opcode: EffectTypeEnum.ProtectionFromResourceAndMessage,
+            type: {
+              stat: SpellProtectionStat.State,
+              relation: SpellProtectionRelation.BinaryNotMatch,
+            },
+            value: "STATE_CHARMED",
+          },
+          {
+            opcode: EffectTypeEnum.MaximumHPModifier,
+            value: -10,
+            type: EffectStatisticModifierEnum.Increment,
+            timing: EffectTimingEnum.InstantLimited,
+            duration,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.DisplayPortraitIcon,
+            icon: PortraitIconEnum.AbilityScoreDrained,
+            timing: EffectTimingEnum.InstantLimited,
+            duration,
+            dispelResistance,
+          },
+          // shown like the game's Vampiric Touch: a necromantic flash on the victim...
+          {
+            opcode: EffectTypeEnum.LightingEffects,
+            effect: LightingEffectEnum.NecromancyEarth,
+            lightingTarget: LightingEffectTargetEnum.SpellTarget,
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetUnattached,
+            resource: "SPHANDAT",
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          // ...and a healing glow on the vampire
+          {
+            opcode: EffectTypeEnum.PlayVisualEffect,
+            playWhere: EffectVisualEffectLocationEnum.OverTargetAttached,
+            resource: "SPHEALIN",
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: 3,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.CurrentHPbonus,
+            value: 10,
+            type: EffectModifierTypeEnum.Increment,
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+            dispelResistance,
+          },
+          {
+            opcode: EffectTypeEnum.ModifyAttacksPerRound,
+            value: -1,
+            type: AttackModifierTypeEnum.Increment,
+            target: EffectTargetEnum.Self,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: Durations.round,
+            dispelResistance,
+          },
+        ],
+      },
+    ],
+    // cast at a charmed ally, in its own form or as a bat, not as a wolf or as mist; a bite, not
+    // a spell: no globe check
+    ability: {
+      level: null,
+      targets: [
+        {
+          name: "NearestAllies",
+          triggers: [{ name: "StateCheck", params: [ScriptTarget.token, "STATE_CHARMED"] }],
+        },
+      ],
+      triggers: [
+        {
+          name: "CheckSpellState",
+          params: [ScriptTarget.myself, SPELL_STATES.gaseousForm],
+          negation: true,
+        },
+        {
+          name: "Or",
+          triggers: [
+            {
+              name: "CheckSpellState",
+              params: [ScriptTarget.myself, SPELL_STATES.animalForm],
+              negation: true,
+            },
+            { name: "CheckSpellState", params: [ScriptTarget.myself, SPELL_STATES.flying] },
+          ],
+        },
+      ],
+      spell: { type: "force" },
+      spellcasting: false,
+      canUseWhenPolymorphed: true,
+    },
+  });
+}
+
+/**
+ * A power every age with the same one shares: created once, on the entry (its files are the
+ * entry's), then memorized by each of them.
+ */
+function sharedPower(
+  entry: CreatureEntry<Creature>,
+  cre: Creature,
+  id: Ids,
+  create: () => Spell,
+): Spell {
+  const spell = entry.spells.find((s) => s.id === id) ?? create();
+  cre.memorizeSpell(spell.file, spell.memorizedCount ?? 1);
+  return spell;
+}
+
+/**
+ * The vampire's traits: weapon immunity, resistances, regeneration and the mist form on death
+ * (`mistOnDeath: false` for a vampire whose own script ends it for good on death)
+ */
+export function vampireTrait(
+  age: Pick<
+    VampireAge,
+    "weaponImmunity" | "regeneration" | "magicResistance" | "extraImmunities" | "extraEffects"
+  >,
+  { mistOnDeath = true }: { mistOnDeath?: boolean } = {},
+): { immunities: ImmunityName[]; effects: Effect[] } {
+  const effects: Effect[] = [...effectFactory.regeneration(age.regeneration)];
+  if (mistOnDeath) {
+    effects.push({
+      opcode: EffectTypeEnum.CastSpellOnCondition,
+      conditionTarget: CastSpellOnConditionTargetEnum.Myself,
+      condition: "Die()",
+      special: 2,
+      timing: EffectTimingEnum.InstantWhileEquipped,
+      target: EffectTargetEnum.Self,
+      resource: SPELLS.Innate.VampireGasFormChange.file,
+    });
+  }
+  if (age.magicResistance) {
+    effects.push({
+      opcode: EffectTypeEnum.MagicResistanceModifier,
+      type: EffectStatisticModifierEnum.Set,
+      value: age.magicResistance,
+    });
+  }
+  effects.push(...(age.extraEffects ?? []));
+  return {
+    immunities: [
+      age.weaponImmunity,
+      "coldResistance",
+      "lightningResistance",
+      ...(age.extraImmunities ?? []),
+    ],
+    effects,
+  };
+}
+
+export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creature {
+  const cre = entry.create({
+    monster: age.monster,
+    name: age.name,
+    files: [],
+    data: {
+      level1: age.level1,
+      bonusHp: age.bonusHp,
+      strength: age.strength,
+      exceptionalStrength: age.exceptionalStrength,
+      dexterity: age.dexterity,
+      constitution: 9,
+      intelligence: age.intelligence,
+      wisdom: 15,
+      charisma: age.charisma,
+      ac: age.ac ?? 1,
+      apr: age.apr ?? 1,
+      xpv: age.xpv,
+      alignment: "CHAOTIC_EVIL",
+      morale: 16,
+      general: "UNDEAD",
+      race: "VAMPIRE",
+      class: "VAMPIRE",
+      size: { value: "Medium", tall: true, long: false },
+      movement: age.movement,
+      immunities: ["undead"],
+      moveSilent: 100,
+      items: {
+        remove: [
+          "ring95",
+          "immune1",
+          "immune2",
+          "immune3",
+          "immchs",
+          "vamp",
+          "vamp1",
+          "vamp2",
+          "vamp3",
+          "vampreg",
+          "vampreg1",
+          "vampreg2",
+          "dw#bldd",
+          "dw#bldd1",
+          "dw#bldd2",
+          "dw#bldd3",
+          "dw#vmwol",
+          "dw#vmbat",
+          "dagg24",
+          "helmnoan",
+          "boot01",
+        ],
+      },
+      script: {
+        remove: [
+          "bdvamp01",
+          "c6vampir",
+          "d0qpvafl",
+          "D0QPTAN1",
+          "D0QPTAN2",
+          "D0QPTAN3",
+          "dw#vmmin",
+          "ohbvamp",
+          "ohbfig01",
+          "ohbmag04",
+          "ohbthief",
+          "ppvampir",
+          "ppvamp",
+          "sarvam02",
+          "vampir01",
+          "vampir02",
+          "VAMEMI01",
+          "vampat01",
+          "vvamp",
+        ],
+        edits: [
+          {
+            files: ["RH#ISVMP", "rh#advmp", "L#RVVAMP", "AC#WVAMP", "OHHDRAGO"],
+            removeBlocks: ["VAMPIRE_DOMINATION"],
+          },
+        ],
+      },
+    },
+  });
+  createClaws(cre, {
+    diceThrown: 1,
+    diceSize: 6,
+    effects: effectFactory.levelDrain({ levels: age.drainLevels ?? 2 }),
+  });
+  // Like SCS: the vampire goes for those its level drain works on first (anyone not immune nor
+  // protected by an item), whatever their state, then for the others. Among the able ones, the
+  // weakest first (worst AC, then mages, thieves...), before the nearest. Only with its own claws:
+  // a wolf (against those it can't drain) or a bat fights what's nearest.
+  const drainable = {
+    triggers: DRAINABLE,
+    conditions: NOT_SHAPECHANGED,
+    label: "drainable",
+  };
+  cre.setAttack({
+    targetPriorities: [
+      {
+        targets: ["NearestEnemies"],
+        status: ["HeldNearby", "StunnedNearby", "Wounded", "Slowed", "Unprotected"],
+        ...drainable,
+      },
+      { targets: ["PreferringWeak"], status: ["Able"], ...drainable },
+      {
+        targets: ["NearestEnemies"],
+        status: ["Able", "Held", "Stunned", "NoCheck"],
+        ...drainable,
+      },
+    ],
+  });
+  cre.addTrait(vampireTrait(age));
+  const ownSpeed = age.movement >= 18;
+  const dominate = sharedPower(entry, cre, age.domination.id, () =>
+    domination(entry, age.domination),
+  );
+  const swarm = sharedPower(entry, cre, Ids.VampireBatSwarm, () => batSwarm(entry));
+  const control = sharedPower(entry, cre, Ids.VampireControlUndead, () => controlUndead(entry));
+  const wolf = sharedPower(
+    entry,
+    cre,
+    ownSpeed ? Ids.VampireWolfFormOwnSpeed : Ids.VampireWolfForm,
+    () => wolfForm(entry, ownSpeed),
+  );
+  const bat = sharedPower(
+    entry,
+    cre,
+    ownSpeed ? Ids.VampireBatFormOwnSpeed : Ids.VampireBatForm,
+    () => batForm(entry, ownSpeed),
+  );
+  const mist = mistForm(cre, age, [wolf, bat]);
+  const ownForm = vampireForm(cre, [formItem(wolf), formItem(bat), mist.item]);
+  const dive = batDive(bat);
+  cre.setBehavior({
+    restHeal: true,
+    // cast by hand: Mist Form escapes two ways, and the dive takes off from its bat form
+    abilities: [...mist.abilities, dive.takeOff],
+    customCodes: [mist.flee, BAT_FLEE, dive.flight, ...sunlightEscape(age)],
+  });
+  // its powers take their place among its spells by score (see AbilityOrderService)
+  cre.setBehavior({
+    abilities: {
+      entries: [ownForm, bat, swarm, wolf, dominate, control].map((power) => ({ power })),
+    },
+  });
+  // Files called "... Vampire" (or "Vampyre") in game take their age's name; named vampires
+  const renamed = cre.files
+    .map((f) => f.name)
+    .filter((file) => {
+      const name = monsterFilesService.getName(file) ?? "";
+      return /vamp[iy]re/i.test(name) && !/\b(child|mage)\b/i.test(name);
+    });
+  if (renamed.length) cre.setAdjustments([{ files: renamed, stringRef: age.name }]);
+  cre.turnAs = age.turnAs;
+  return cre;
+}
+
+export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[0]);
+  cre.setAdjustments([
+    { files: ["YSCHVAM"], data: { level1: 6, xpv: 3000, script: { location: "None" } } },
+    {
+      files: ["X#CUTVA1", "X#CUTVA2", "X#CUTVA3", "X#CUTVA4"],
+      data: { spells: { removeMemorized: true } },
+    },
+  ]);
+  return cre;
+};
+
+export const matureVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[1]);
+
+export const oldVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[2]);
+  cre.setAdjustments([]);
+  return cre;
+};
+
+export const veryOldVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[3]);
+  cre.setAdjustments([
+    { files: ["L#2EDVAM"], noWeapon: true },
+    { files: ["OHHDRAGO"], noWeapon: true },
+    { files: ["NTHAEBAL"], noWeapon: true, data: { script: { location: "None" } } }, // TODO: mage !
+  ]);
+
+  necromancerVariant(cre, 16, ["DX#DALID"]);
+  return cre;
+};
+
+export const ancientVampire = (entry: CreatureEntry<Creature>) => vampire(entry, VAMPIRE_AGES[4]);
+
+export const eminentVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[5]);
+  cre.setAdjustments([
+    { files: ["PPJOYE2"], data: { script: { location: "None" } } },
+    // A vampire/vampyre hybrid: keeps the vampyre's 3 attacks on top of every vampire power
+    { files: ["NEVM4"], data: { apr: 3 } },
+  ]);
+  return cre;
+};
+
+export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, VAMPIRE_AGES[6]);
+  cre.setAdjustments([
+    { files: ["OHBVMP01"], data: { level1: 18, class: "MAGE", kit: "MAGESCHOOL_NECROMANCER" } }, //TODO:
+    { files: ["OHBVMP02", "VAMPAT01"], data: { level1: 18 } },
+    { files: ["OHBVMP03"], data: { level1: 21 } },
+  ]);
+  necromancerVariant(cre, 14, ["D9BGUARD"]);
+  necromancerVariant(cre, 16, ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"]);
+  return cre;
+};
+
+/** Phlydian and Bodhi; Bodhi's encounters are her own variant (see bodhi.ts, wired in index.ts) */
+export const abominationVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, ABOMINATION_AGE);
+  // Phlydian's own script keeps only her greeting: shifting, casting and fighting are ours, as is
+  // the targeting of tactics mods' versions (their Continue() blocks)
+  cre.data.script.edits = [
+    ...(cre.data.script.edits ?? []),
+    {
+      files: ["SARVAM01"],
+      game: "bg2",
+      removeBlocks: [
+        "ReallyForceSpell",
+        "AttackOneRound",
+        "MoveToObject",
+        "RandomWalk",
+        "OpenDoor",
+        "Continue()",
+      ],
+    },
+  ];
+  return cre;
+};
+
+function necromancerVariant(cre: Creature, level: number, files: string[]) {
+  cre.variant("Necromancer Vampire", {
+    data: {
+      level1: level,
+      class: "MAGE",
+      kit: "MAGESCHOOL_NECROMANCER",
+      spells: {
+        spellbooks: spellService.createSpellbooks({
+          name: "VampireNecromancerSpellbook",
+          casterLevel: level,
+          type: "mage",
+        }),
+      },
+    },
+    files,
+  });
+}

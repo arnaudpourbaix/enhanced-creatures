@@ -127,6 +127,12 @@ export const SPELL_GROUPS: SpellGroup[] = [
     ],
   },
   {
+    name: "deathSpell",
+    spells: [
+      "cdxvdth", // Death Spell (mod)
+    ],
+  },
+  {
     name: "disease",
     spells: [],
   },
@@ -216,6 +222,10 @@ export const SPELL_GROUPS: SpellGroup[] = [
   {
     name: "flameArrow",
     spells: ["d5f2303", "d5p2303", "d5p2303W", "d5y391i", "SPWI888"],
+  },
+  {
+    name: "gaze",
+    spells: [],
   },
   {
     name: "fireball",

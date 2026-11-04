@@ -1,6 +1,8 @@
 import { JEWEL_SLOTS } from "../src/model/creature/item";
 import { ImmunityConfig } from "../src/model/final/immunity";
 import { MISSILE_WEAPONS } from "../src/model/ids/projectile";
+import { SplStateIdentifier } from "../src/model/ids/splstate";
+import { CHECKED_SPELL_STATES } from "./spells/spell-check";
 import { Effect } from "../src/model/spell-item/effect";
 import {
   CastingTimeModifierTypeEnum,
@@ -139,7 +141,8 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "charm",
     type: "immunity",
     stringRef: "common.immunity.charm",
-    preventEffects: [EffectTypeEnum.CharmCreature, EffectTypeEnum.CharmControlCreature],
+    // not CharmControlCreature (241): made to bypass charm immunity (control undead, vampires...)
+    preventEffects: [EffectTypeEnum.CharmCreature],
     preventIcons: [PortraitIconEnum.Charm, PortraitIconEnum.DireCharm, PortraitIconEnum.Domination],
     strings: StringRefUtils.getStringIds("charm"),
     animations: ["SPNWCHRM"],
@@ -338,7 +341,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "causeWoundSpells",
     type: "immunity",
     stringRef: "common.immunity.causeWoundSpells",
-    effects: ["LIGHT", "SERIOUS", "CRITICAL", "HARM"].map((resource) => ({
+    effects: ["LIGHT", "MODERATE", "SERIOUS", "CRITICAL", "HARM"].map((resource) => ({
       opcode: EffectTypeEnum.ProtectionFromResource,
       type: "ANYONE",
       resource,
@@ -529,7 +532,7 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     name: "deathSpell",
     type: "immunity",
     stringRef: "common.immunity.deathSpell",
-    spellGroups: ["death"],
+    spellGroups: ["deathSpell"],
     displaySpellIneffective: true,
   },
   {
@@ -600,6 +603,19 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     ],
   },
   {
+    name: "plusThreeWeapons",
+    type: "immunity",
+    stringRef: "common.immunity.plusThreeWeapons",
+    immunities: ["plusTwoWeapons"],
+    effects: [
+      {
+        opcode: EffectTypeEnum.ProtectionFromWeapons,
+        type: ProtectionFromWeaponsTypeEnum.Enchanted,
+        enchantment: 3,
+      },
+    ],
+  },
+  {
     name: "backstab",
     type: "immunity",
     stringRef: "common.immunity.backstab",
@@ -643,6 +659,8 @@ export const IMMUNITIES: (AtLeast<ImmunityConfig, "name" | "type" | "stringRef">
     type: "immunity",
     stringRef: "common.immunity.gazeAttacks",
     immunities: ["petrification"],
+    spellGroups: ["gaze"],
+    displaySpellIneffective: true,
   },
 ];
 
@@ -961,10 +979,10 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     ],
   },
   {
-    name: "extraplanar",
+    name: "planarEssence",
     type: "trait",
-    stringRef: "common.traits.extraplanar.name",
-    description: "common.traits.extraplanar.desc",
+    stringRef: "common.traits.planarEssence.name",
+    description: "common.traits.planarEssence.desc",
     immunities: ["cureWoundSpells", "causeWoundSpells", "deathSpell"],
   },
   {
@@ -1139,7 +1157,6 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     type: "trait",
     doc: false,
     stringRef: "common.traits.ghostVisual1",
-    itemSlot: { file: ITEMS.Vermin, slot: JEWEL_SLOTS },
     effects: [
       {
         opcode: EffectTypeEnum.SetColorGlowPulse,
@@ -1170,4 +1187,71 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
       },
     ],
   },
+  {
+    name: "aberration",
+    type: "trait",
+    docOnly: true,
+    stringRef: "doc.types.aberration.name",
+    description: "doc.types.aberration.desc",
+  },
+  {
+    name: "animal",
+    type: "trait",
+    docOnly: true,
+    stringRef: "doc.types.animal.name",
+    description: "doc.types.animal.desc",
+  },
+  {
+    name: "dragon",
+    type: "trait",
+    docOnly: true,
+    stringRef: "doc.types.dragon.name",
+    description: "doc.types.dragon.desc",
+  },
+  {
+    name: "monstrousHumanoid",
+    type: "trait",
+    docOnly: true,
+    stringRef: "doc.types.monstrousHumanoid.name",
+    description: "doc.types.monstrousHumanoid.desc",
+  },
+  {
+    name: "outsider",
+    type: "trait",
+    docOnly: true,
+    stringRef: "doc.types.outsider.name",
+    description: "doc.types.outsider.desc",
+  },
 ];
+
+/** An immunity's spell state, and the opcode an effect must be immune to for it to apply. */
+export interface ImmunityState {
+  state: SplStateIdentifier;
+  opcode: EffectTypeEnum;
+}
+
+/**
+ * The spell states the immunities set (see SPELL_CHECK_TRIGGERS, which tests them), each with the
+ * first opcode its immunity prevents: the one any source granting that immunity blocks (e.g.
+ * panic for fear, or power word kill for death effects, rather than slay alone). The core
+ * component sets them on every game spell or item granting the immunity (kit abilities,
+ * rings...), so the AI sees a party's protections too.
+ */
+export const IMMUNITY_STATES: ImmunityState[] = IMMUNITIES.flatMap(({ preventEffects, effects }) =>
+  preventEffects?.length
+    ? (effects ?? []).flatMap((effect) =>
+        effect.opcode === EffectTypeEnum.SetExtendedSpellState && effect.state
+          ? [{ state: effect.state as SplStateIdentifier, opcode: preventEffects[0] }]
+          : [],
+      )
+    : [],
+);
+
+/**
+ * The immunity states the AI checks (see CHECKED_SPELL_STATES): those the core component gives
+ * the game's spells and items. The others (e.g. ITEM_POISON: poison immunity also raises the
+ * poison resistance the AI checks) would cost install time for nothing.
+ */
+export const CHECKED_IMMUNITY_STATES: ImmunityState[] = IMMUNITY_STATES.filter(({ state }) =>
+  CHECKED_SPELL_STATES.has(state),
+);

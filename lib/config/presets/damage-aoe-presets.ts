@@ -1,6 +1,8 @@
 import presetFactory from "../../src/factories/preset.factory";
+import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
+import targetService from "../../src/services/baf/target.service";
 import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
 import { CommonTargetLists } from "../target/common";
@@ -11,16 +13,31 @@ import { CommonTargetLists } from "../target/common";
 export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
   ...presetFactory.createSpells(
     [
-      SPELLS.Wizard.Cloudkill,
+      SPELLS.Wizard.AbiDalzimHorridWilting,
       SPELLS.Wizard.ChainLightning,
       SPELLS.Wizard.Fireburst,
       SPELLS.Wizard.ConeOfCold,
       SPELLS.Priest.MassCauseLightWounds,
-      SPELLS.Priest.CloudOfPestilence,
-      FNP_SPELLS.Priest.CloudOfPestilence,
       SPELLS.Wizard.LightningBolt,
       SPELLS.Wizard.AgannazarScorcher,
+      SPELLS.Wizard.VeridonsIcyRay,
       SPELLS.Wizard.BurningHands,
+      SPELLS.Wizard.AcidFog,
+      SPELLS.Wizard.DragonsBreath,
+      SPELLS.Wizard.IncendiaryCloud,
+      SPELLS.Wizard.LanceOfDisruption,
+      SPELLS.Wizard.TelekineticStorm,
+      SPELLS.Priest.FireTrap,
+      SPELLS.Priest.ProduceFire,
+      SPELLS.Priest.SpikeGrowth,
+      SPELLS.Priest.SpikeStones,
+      SPELLS.Priest.SpiritualWrath,
+      SPELLS.Priest.ThornSpray,
+      SPELLS.Priest.WallOfMoonlight,
+      SPELLS.Priest.WrithingFog,
+      SPELLS.Priest.Whirlwind,
+      FNP_SPELLS.Priest.MassCauseLightWounds,
+      FNP_SPELLS.Priest.WavesOfAgony,
     ],
     {
       targets: CommonTargetLists.Enemies,
@@ -35,6 +52,18 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       SPELLS.Priest.GlyphOfWarding,
       SPELLS.Priest.HolySmite,
       SPELLS.Priest.UnholyBlight,
+      SPELLS.Wizard.AcidStorm,
+      SPELLS.Wizard.Comet,
+      SPELLS.Wizard.DelayedBlastFireball,
+      SPELLS.Wizard.MeteorSwarm,
+      SPELLS.Wizard.SnillocsSnowballSwarm,
+      SPELLS.Priest.Cloudburst,
+      SPELLS.Priest.Earthquake,
+      SPELLS.Priest.FireStorm,
+      SPELLS.Priest.IceStorm,
+      SPELLS.Priest.SmashingWave,
+      SPELLS.Priest.SpiritFire,
+      SPELLS.Priest.StormOfVengeance,
     ],
     {
       targets: CommonTargetLists.FarthestEnemies,
@@ -43,4 +72,20 @@ export const DAMAGE_AOE_PRESETS: AbilityPreset[] = [
       ],
     },
   ),
+
+  // centered on the caster: each is cast with an enemy within its area, from its projectile
+  ...presetFactory.createSpells([SPELLS.Wizard.Stormbolts, SPELLS.Priest.Sunray], {
+    targets: CommonTargetLists.Enemies,
+    range: 15,
+  }),
+  ...presetFactory.createSpell(SPELLS.Wizard.MalavonsRage, {
+    targets: CommonTargetLists.Enemies,
+    range: 8,
+  }),
+  // a finisher: its 3d8 damage is low, but those it kills raise a skeleton and buff the caster
+  ...presetFactory.createSpell(SPELLS.Wizard.SoulEater, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
+      triggerFactory.hplt(12),
+    ]),
+  }),
 ];

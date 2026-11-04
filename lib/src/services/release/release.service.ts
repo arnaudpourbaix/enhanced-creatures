@@ -51,11 +51,14 @@ class ReleaseService {
 
       this.checkTestsPass();
 
-      await mainService.generateAll();
-
+      // Bump the version files before regenerating: every docs page shows the tp2 VERSION in its
+      // nav header, so generating first would commit docs still labelled with the old version.
       releaseVersionFilesService.writePackageVersion(this.packageJsonPath, version);
       this.syncPackageLock();
       releaseVersionFilesService.writeTp2Version(this.tp2Path, version);
+
+      await mainService.generateAll();
+
       const today = new Date().toISOString().slice(0, 10);
       releaseChangelogService.rollover(this.changelogPath, version, today);
       changelogService.generate();
@@ -97,9 +100,9 @@ class ReleaseService {
     }
   }
 
-  // enableRandomTargetOrder and enableSecondaryTypes are deliberately off in the committed tree:
-  // the first shuffles .baf target order (churning every committed file for no config change), the
-  // second slows installation. A release build is exactly when the *shipped* mod should carry both
+  // enableRandomTargetOrder, enableSecondaryTypes and enableImmunityStates are deliberately off in
+  // the committed tree: the first shuffles .baf target order (churning every committed file for no
+  // config change), the others slow installation. A release build is exactly when the *shipped* mod should carry both
   // - baked-in target variety and integrated secondary types. So regenerate once with both forced
   // on, build the zip from that output, then hard-reset the mod working tree so none of that churn
   // (which is also non-deterministic for the shuffle) reaches a commit. Runs for every resume

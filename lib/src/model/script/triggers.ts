@@ -48,6 +48,7 @@ export namespace Triggers {
     | "HasItemSlot"
     | "CheckItemSlot"
     | "CurrentAmmo"
+    | "Difficulty"
     | "Global"
     | "GlobalGT"
     | "GlobalLT"
@@ -139,6 +140,8 @@ export namespace Triggers {
     | "CanTurn"
     | "TurnedBy"
     | "AreaType"
+    | "TimeGT"
+    | "TimeLT"
     | "InMyArea"
     | "InMyGroup"
     | "InParty"
@@ -218,6 +221,17 @@ export namespace Triggers {
   export interface HasItem extends BaseTrigger {
     name: "HasItem";
     params: [string, ParamObject];
+  }
+
+  export interface HasItemEquiped extends BaseTrigger {
+    name: "HasItemEquiped";
+    params: [string, ParamObject];
+  }
+
+  /** The game difficulty, a DIFFLEV.IDS symbol: EASIEST, EASY, NORMAL, HARD or HARDEST */
+  export interface Difficulty extends BaseTrigger {
+    name: "Difficulty";
+    params: [string];
   }
 
   export interface HasItemSlot extends BaseTrigger {
@@ -586,6 +600,12 @@ export namespace Triggers {
     params: [AreaTypeValue];
   }
 
+  /** The game hour (0-23) is above / below the given one. */
+  export interface Time extends BaseTrigger {
+    name: "TimeGT" | "TimeLT";
+    params: [number];
+  }
+
   export interface InMyArea extends BaseTrigger {
     name: "InMyArea";
     params: [ParamObject];
@@ -683,6 +703,8 @@ export namespace Triggers {
     | HaveKnownSpellRES
     | HasWeaponEquiped
     | HasItem
+    | HasItemEquiped
+    | Difficulty
     | HasItemSlot
     | CurrentAmmo
     | Gender
@@ -757,6 +779,7 @@ export namespace Triggers {
     | HasImmunityEffects
     | ImmuneToSpellLevel
     | AreaType
+    | Time
     | InMyArea
     | InParty
     | False
@@ -923,6 +946,12 @@ export namespace Triggers {
       description:
         "Returns true only if the party has a total number of items of the type specified less than the 2nd parameter.",
       section: "Item",
+    },
+    {
+      name: "Difficulty",
+      parameters: "I:Difficulty*DIFFLEV",
+      description: "Returns true only if the current game difficulty is the one specified.",
+      section: "Misc.",
     },
     {
       name: "HasItemEquiped",
@@ -1564,6 +1593,18 @@ export namespace Triggers {
       parameters: "I:Number*AREATYPE",
       description:
         "Returns true only if the area in which the active CRE is, has the specified type flag set. Note that the value is OR'd. This trigger can cause a crash if it evaluates to true and is used as the first trigger in a dead NPCs dream script.",
+      section: "Party or area check",
+    },
+    {
+      name: "TimeGT",
+      parameters: "I:Time*Time",
+      description: "Returns true only if the current game hour is greater than the specified one.",
+      section: "Party or area check",
+    },
+    {
+      name: "TimeLT",
+      parameters: "I:Time*Time",
+      description: "Returns true only if the current game hour is less than the specified one.",
       section: "Party or area check",
     },
     {

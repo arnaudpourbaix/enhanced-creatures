@@ -25,7 +25,10 @@ class BafFactory {
       const isMyself = target === ScriptTarget.myself;
       const triggers = isMyself
         ? this.selfTriggers(p.triggers)
-        : utils.replaceTriggerTokens(p.triggers, [{ key: ScriptTarget.token, value: target }]);
+        : [
+            ...utils.replaceTriggerTokens(p.triggers, [{ key: ScriptTarget.token, value: target }]),
+            ...triggerFactory.sideCheck(target),
+          ];
       // Actions built for a target list (e.g. AbilityService's Spell(LastSeenBy, ...)) aim at
       // LastSeenBy directly, which for Myself would render as LastSeenBy(Myself).
       const responseTokens = isMyself
@@ -58,10 +61,15 @@ class BafFactory {
     if (seeIndex === -1) return utils.replaceTriggerTokens(kept, tokens);
     return [
       ...utils.replaceTriggerTokens(kept.slice(0, seeIndex), tokens),
-      ...utils.replaceTriggerTokens(kept.slice(seeIndex + 1), [
-        ...tokens,
-        { key: ScriptTarget.lastSeen, value: ScriptTarget.myself },
-      ]),
+      ...utils.replaceTriggerTokens(
+        // always within its own max range (see BaseCreatureAbility.range)
+        kept
+          .slice(seeIndex + 1)
+          .filter(
+            (t) => !(t.name === "Range" && !t.negation && t.params[0] === ScriptTarget.lastSeen),
+          ),
+        [...tokens, { key: ScriptTarget.lastSeen, value: ScriptTarget.myself }],
+      ),
     ];
   }
 
@@ -81,6 +89,8 @@ class BafFactory {
     reverse?: boolean;
     comment?: string;
     inBetweenStatements?: Statements;
+    /** The targets are the creature's allies: its targetTriggers check their side instead. */
+    targetsAllies?: boolean;
   }): void => {
     p.reverse = p.reverse ?? false;
     const targets = p.reverse ? [...p.targets].reverse() : [...p.targets];
@@ -88,9 +98,12 @@ class BafFactory {
     for (const target of targets) {
       const orTrigger: Triggers.Trigger = {
         name: "Or",
-        triggers: utils
-          .replaceTriggerTokens(p.targetTriggers, [{ key: ScriptTarget.token, value: target }])
-          .map(triggerFactory.inverseNegation),
+        triggers: [
+          ...utils.replaceTriggerTokens(p.targetTriggers, [
+            { key: ScriptTarget.token, value: target },
+          ]),
+          ...(p.targetsAllies ? [] : triggerFactory.sideCheck(target)),
+        ].map(triggerFactory.inverseNegation),
       };
       triggers.push(orTrigger);
     }
@@ -104,7 +117,13 @@ class BafFactory {
     const responses = utils.replaceResponseTokens(p.responses, [
       { key: ScriptTarget.token, value: lastSeenBy },
     ]);
-    const finalTriggers = [...(p.triggers ?? []), ...p.targetTriggers];
+    // The final statement runs on its own (Continue doesn't gate it): when the Or block saw nobody,
+    // LastSeenBy is stale and may be an ally by now, hence the side check.
+    const finalTriggers = [
+      ...(p.triggers ?? []),
+      ...p.targetTriggers,
+      ...(p.targetsAllies ? [] : triggerFactory.lastSeenIsOpponent()),
+    ];
     p.statements.push({
       triggers: utils.replaceTriggerTokens(finalTriggers, [
         { key: ScriptTarget.token, value: lastSeenBy },

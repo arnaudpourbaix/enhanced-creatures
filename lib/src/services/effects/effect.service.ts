@@ -10,6 +10,7 @@ import {
   ScriptingStateModifierEffect,
 } from "../../model/spell-item/effect";
 import {
+  AttackModifierTypeEnum,
   DispelEffectTypeEnum,
   DispelEffectWeaponTypeEnum,
   EffectDamageModeEnum,
@@ -120,7 +121,7 @@ class EffectService {
         effect.parameter2 = `${effect.type}`;
         break;
       case EffectTypeEnum.ReplaceCreature:
-        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveCreature}`;
+        effect.parameter2 = `${effect.type ?? ReplaceCreatureTypeEnum.RemoveSilently}`;
         break;
       case EffectTypeEnum.MovementRateBonus:
       case EffectTypeEnum.MovementRateBonus2:
@@ -190,6 +191,9 @@ class EffectService {
         break;
       case EffectTypeEnum.ProtectionFromOpcode:
         effect.parameter2 = `${effect.type}`;
+        break;
+      case EffectTypeEnum.ProtectionFromSpellLevels:
+        effect.parameter1 = `${effect.level}`;
         break;
       case EffectTypeEnum.Poison:
         effect.parameter1 = `${effect.amount}`;
@@ -321,6 +325,12 @@ class EffectService {
         effect.parameter2 = `${effect.animationType}`;
         break;
       case EffectTypeEnum.ModifyAttacksPerRound: {
+        // an increment is a delta (its sign kept), not an attacks-per-round value to encode
+        if (effect.type === AttackModifierTypeEnum.Increment) {
+          effect.parameter1 = `${effect.value}`;
+          effect.parameter2 = `${effect.type}`;
+          break;
+        }
         const apr = creatureService.getAttacksPerRound(effect.value);
         if (apr.doubleApr)
           throw new Error(`Can't have more than 5 APR in an effect: ${effect.value}`);

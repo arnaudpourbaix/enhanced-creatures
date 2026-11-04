@@ -2,7 +2,8 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { describe, expect, it } from "vitest";
-import { MonsterFamilyEnum } from "../../../creatures/monster";
+import { EntryEnum } from "../../../creatures/entry";
+import { KinEnum } from "../../../creatures/kin";
 import { ImmunityConfig } from "../../model/final/immunity";
 import { Spell } from "../../model/spell-item/spell-item";
 import { SpellGroup } from "../../model/spell-item/spell-group";
@@ -137,6 +138,10 @@ describe("resolveStringRef", () => {
 
   it("falls back to the raw number when it can't be resolved to any translation", () => {
     expect(utils.resolveStringRef(999999999)).toBe("999999999");
+  });
+
+  it("resolves an existing string to the variable holding the game's strref", () => {
+    expect(utils.resolveStringRef({ existing: "Controlled" })).toBe("ja_strref_controlled");
   });
 });
 
@@ -273,12 +278,6 @@ describe("getFile", () => {
       name: "ja#m4",
       ext: "baf",
     });
-  });
-});
-
-describe("getFamilyFolder", () => {
-  it("lowercases the family enum name into the pnp-monster path", () => {
-    expect(utils.getFamilyFolder(MonsterFamilyEnum.Bear)).toBe("lib/pnp-monster/bear");
   });
 });
 
@@ -469,5 +468,19 @@ describe("writeFile", () => {
       State.modFolder = originalModFolder;
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
+  });
+});
+
+describe("entry, kin and creature folders", () => {
+  it("places entries under pnp-monster and kins under pnp-monster/kin", () => {
+    expect(utils.getEntryFolder(EntryEnum.ClayGolem)).toBe("lib/pnp-monster/clay-golem");
+    expect(utils.getKinFolder(KinEnum.Fey)).toBe("lib/pnp-monster/kin/fey");
+  });
+
+  it("uses a creature's entry folder, and throws without one", () => {
+    expect(utils.getCreatureFolder({ folder: "lib/pnp-monster/dryad" })).toBe(
+      "lib/pnp-monster/dryad",
+    );
+    expect(() => utils.getCreatureFolder({})).toThrow(/no folder/);
   });
 });

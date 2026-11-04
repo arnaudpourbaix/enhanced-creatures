@@ -1,3 +1,4 @@
+import { CLOUD_STOP_SHOUTS, CLOUDS } from "../../../config/clouds";
 import { GLOBAL_CONFIG } from "../../../config/generate";
 import { POTIONS } from "../../../config/potion";
 import { SPELLS } from "../../../config/spells/spell-database";
@@ -18,8 +19,12 @@ import { BuilderOptions } from "../../model/misc";
 import { MemorizedSpellType } from "../../model/spell-item/spell-item";
 import { Actions } from "../../model/script/actions";
 import { CustomCodeLocation, Statements } from "../../model/script/script";
-import { TargetList } from "../../model/script/target";
+import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
+import creatureService from "../creature.service";
+import logService from "../log.service";
+import { memorizedChecks, recastRisks, sharedRollOutOfOrder } from "./memorized-checks";
+import spellComboService, { isContingency, KIND_NAMES } from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -55,6 +60,8 @@ class StatementBuilderService {
     // otherwise indistinguishable, to the type checker, from one that will be called detached.
     this.execute(this.destroyUponDeath.bind(this), "destroyUponDeath", p);
     this.execute(this.dialog.bind(this), "dialog", p);
+    // before init, which turns its global off
+    this.execute(this.precastContingencies.bind(this), "precastContingencies", p);
     this.execute(this.init.bind(this), "init", p);
     this.execute(this.disableSpellcasting.bind(this), "disableSpellcasting", p);
     this.execute(this.rest.bind(this), "rest", p);
@@ -67,8 +74,10 @@ class StatementBuilderService {
     this.execute(this.randomWalkNoCombat.bind(this), "randomWalkNoCombat", p);
     this.execute(this.noActionOutsideOfCombat.bind(this), "noActionOutsideOfCombat", p);
     this.execute(this.handlePanic.bind(this), "handlePanic", p);
+    this.execute(this.avoidClouds.bind(this), "avoidClouds", p);
     this.execute(this.thievesAbilities.bind(this), "thievesAbilities", p);
     this.execute(this.precastMidDurationSpells.bind(this), "precastMidDurationSpells", p);
+    this.execute(this.coveredAbilities.bind(this), "coveredAbilities", p);
     this.execute(this.creatureAbilities.bind(this), "creatureAbilities", p);
     this.execute(this.potions.bind(this), "potions", p);
     this.execute(this.attack.bind(this), "attack", p);
@@ -79,25 +88,27 @@ class StatementBuilderService {
 
   private execute(fn: (p: HandlerParams) => void, location: CustomCodeLocation, p: HandlerParams) {
     const { statements, creature, options } = p;
-    const custom = creature.behavior.customCodes.find((c) => c.location === location);
+    // every custom code at this location, in order (e.g. a vampire's mist and bat form escapes)
+    const customs = creature.behavior.customCodes.filter((c) => c.location === location);
     // statements/abilities are required by CustomCode, and always filled in by
     // abilityService.getCustomCodes() in the real config-loading path - but defended anyway,
     // see statement-builder.service.test.ts's "defaults ... when omitted" tests, which call
     // execute() directly with a custom code that skips that normalization.
     /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-    if (custom?.type === "insertBefore") {
+    const insert = (custom: (typeof customs)[number]) => {
       this.processStatements(statements, custom.statements ?? []);
       this.parseAbilities(statements, creature, options, custom.abilities ?? []);
-    }
-    if (custom?.type !== "replace") {
+    };
+    customs.filter((c) => c.type === "insertBefore").forEach(insert);
+    const replacing = customs.filter((c) => c.type === "replace");
+    if (!replacing.length) {
       fn(p);
     } else {
-      this.parseAbilities(statements, creature, options, custom.abilities ?? []);
+      for (const custom of replacing) {
+        this.parseAbilities(statements, creature, options, custom.abilities ?? []);
+      }
     }
-    if (custom?.type === "insertAfter") {
-      this.processStatements(statements, custom.statements ?? []);
-      this.parseAbilities(statements, creature, options, custom.abilities ?? []);
-    }
+    customs.filter((c) => c.type === "insertAfter").forEach(insert);
     /* eslint-enable @typescript-eslint/no-unnecessary-condition */
   }
 
@@ -158,11 +169,98 @@ class StatementBuilderService {
     });
   }
 
+  /**
+   * Like SCS: a creature hearing a cloud it can be affected by (see CLOUDS) gets out of it. A melee
+   * creature seeing an enemy rather closes in, out of the cloud and among enemies the caster won't
+   * cloud, or keeps fighting if already close. Then, a creature seeing no enemy stays put rather
+   * than walk into the cloud.
+   */
+  private avoidClouds({ statements, creature }: Pick<HandlerParams, "statements" | "creature">) {
+    if (!GLOBAL_CONFIG.avoidClouds || creature.hasImmunity("cloudSpells")) {
+      return;
+    }
+    const enemy = `NearestEnemyOf(${ScriptTarget.myself})`;
+    const seeEnemy: Triggers.Trigger = { name: "See", params: [enemy] };
+    const melee = creature.attack.melee && !creature.attack.ranged;
+    const heard = (shouts: number[]): Triggers.Trigger[] => {
+      const triggers = shouts.map((shout): Triggers.Trigger => ({
+        name: "Heard",
+        params: ["[ANYONE]", shout],
+      }));
+      return triggers.length > 1 ? [{ name: "Or", triggers }] : triggers;
+    };
+    const runAway: Actions.Action = {
+      name: "RunAwayFromNoLeaveArea",
+      params: [`LastHeardBy(${ScriptTarget.myself})`, 30],
+    };
+    const { general, race } = creature.data;
+    const clouds = CLOUDS.filter(
+      ({ immune }) => !immune?.general?.includes(general) && !immune?.race?.includes(race),
+    );
+    for (const cloud of clouds) {
+      const triggers: Triggers.Trigger[] = [
+        ...heard(cloud.shouts),
+        { name: "Range", params: [`LastHeardBy(${ScriptTarget.myself})`, cloud.range] },
+        ...(cloud.immune?.general ?? []).map((value): Triggers.Trigger => ({
+          name: "General",
+          params: [ScriptTarget.myself, value],
+          negation: true,
+        })),
+        ...(cloud.immune?.race ?? []).map((value): Triggers.Trigger => ({
+          name: "Race",
+          params: [ScriptTarget.myself, value],
+          negation: true,
+        })),
+        ...(cloud.affected ?? []),
+      ];
+      // a resistant creature only bothers when no enemy is in sight
+      const resisting: Triggers.Trigger = {
+        name: "Or",
+        triggers: [
+          {
+            name: "CheckStatGT",
+            params: [ScriptTarget.myself, cloud.magicResistance ?? 80, "RESISTMAGIC"],
+            negation: true,
+          },
+          { ...seeEnemy, negation: true },
+        ],
+      };
+      if (!melee) {
+        statements.push({
+          comment: `Get out of ${cloud.name}`,
+          triggers: [...triggers, resisting],
+          responses: responseFactory.response([runAway]),
+        });
+        continue;
+      }
+      statements.push({
+        comment: `Get out of ${cloud.name}`,
+        triggers: [...triggers, { ...seeEnemy, negation: true }],
+        responses: responseFactory.response([runAway]),
+      });
+      statements.push({
+        comment: `Get out of ${cloud.name}: close in on the enemies`,
+        triggers: [
+          ...triggers,
+          resisting,
+          seeEnemy,
+          { name: "Range", params: [enemy, 8], negation: true },
+        ],
+        responses: responseFactory.response([{ name: "MoveToObject", params: [enemy] }]),
+      });
+    }
+    statements.push({
+      comment: "Cloud around, no enemy in sight: stay put rather than walk into it",
+      triggers: [{ ...seeEnemy, negation: true }, ...heard(CLOUD_STOP_SHOUTS)],
+      responses: responseFactory.response([{ name: "NoAction" }]),
+    });
+  }
+
   private handlePanic({
     statements,
     creature,
   }: Pick<HandlerParams, "statements" | "creature">): void {
-    if (utils.hasImmunity(creature.data.immunities, "fear")) return;
+    if (creature.hasImmunity("fear")) return;
     statements.push({
       comment: "Handle Panic state",
       triggers: [
@@ -383,7 +481,7 @@ class StatementBuilderService {
     });
   }
 
-  private help({ statements, creature, options }: HandlerParams): void {
+  private help({ statements, creature }: HandlerParams): void {
     if (!creature.behavior.help) return;
     statements.push({
       comment: "Help every 3 rounds",
@@ -767,9 +865,13 @@ class StatementBuilderService {
           options,
           targetList,
           targetPriority.status,
+          targetPriority,
         );
       }
     }
+    // Last attack, before tracking: with no enemy left to attack, a charmed ally is struck rather
+    // than chasing the party, so kiting the creature away doesn't keep the victim safe.
+    this.attackTargetWithStatuses(statements, creature, options, "NearestAllies", ["CharmedAlly"]);
   }
 
   private attackTargetWithStatuses(
@@ -778,21 +880,22 @@ class StatementBuilderService {
     options: BuilderOptions,
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
+    {
+      triggers: priorityTriggers = [],
+      conditions = [],
+      label,
+    }: Pick<TargetPriority, "triggers" | "conditions" | "label"> = {},
   ): void {
     const additionals = this.getAdditionals(creature, "attack");
     for (const status of statusNameList) {
-      const statusDetails = TARGET_STATUS.find((t) => t.status === status);
+      const statusDetails = this.getTargetStatusDetails(status, targetListName);
       const weaponAttackSlot =
         creature.attack.targetStatusWeaponSlot.find((t) => t.status.includes(status))?.slot ??
         creature.attack.defaultWeaponSlot;
-      if (!statusDetails) throw new Error(`Target status details ${status} not found!`);
-      if (statusDetails.targetTriggers.some((t) => "triggers" in t))
-        throw new Error(`OR triggers not handled currently: ${status}`);
-      if (statusDetails.canOnlyTargetPlayer && targetListName !== "Players")
-        throw new Error(`Status ${status} must target party`);
       const list = targetService.getList(targetListName);
       const targetTriggers = [
         ...statusDetails.targetTriggers,
+        ...priorityTriggers,
         ...triggerFactory.validAttackTarget({
           isTargetPlayer: statusDetails.canOnlyTargetPlayer,
           maxRange: creature.attack.maxRange,
@@ -805,7 +908,11 @@ class StatementBuilderService {
           params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
         });
       }
-      const triggers: Triggers.Trigger[] = [...statusDetails.triggers, ...additionals.triggers];
+      const triggers: Triggers.Trigger[] = [
+        ...statusDetails.triggers,
+        ...conditions,
+        ...additionals.triggers,
+      ];
       if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
       // if (creature.canPolymorph) {
       //   const poly: Triggers.Trigger = {
@@ -829,11 +936,22 @@ class StatementBuilderService {
         triggers,
         targetTriggers,
         responses,
-        comment: `Attack ${statusDetails.status} enemy`,
+        comment: `Attack ${[statusDetails.status, label, statusDetails.targetsAllies ? "ally" : "enemy"].filter(Boolean).join(" ")}`,
         targets: list.targets,
         inBetweenStatements: selectWeaponStatements,
+        targetsAllies: statusDetails.targetsAllies,
       });
     }
+  }
+
+  private getTargetStatusDetails(status: TargetStatusName, targetListName: TargetListName) {
+    const statusDetails = TARGET_STATUS.find((t) => t.status === status);
+    if (!statusDetails) throw new Error(`Target status details ${status} not found!`);
+    if (statusDetails.targetTriggers.some((t) => "triggers" in t))
+      throw new Error(`OR triggers not handled currently: ${status}`);
+    if (statusDetails.canOnlyTargetPlayer && targetListName !== "Players")
+      throw new Error(`Status ${status} must target party`);
+    return statusDetails;
   }
 
   private selectWeaponMeleeRangeStatements(options: BuilderOptions): Statements {
@@ -931,6 +1049,35 @@ class StatementBuilderService {
     }
   }
 
+  /**
+   * Sets up every contingency the creature (or any adjustment, any spellbook variant) memorizes,
+   * along with init: rest resets it and restores the SPL, so a contingency is armed again. The SPL
+   * is gone once cast, which is what keeps a summon (no init) from recasting it.
+   */
+  private precastContingencies({
+    statements,
+    creature,
+  }: Pick<HandlerParams, "statements" | "creature">): void {
+    for (const file of creatureService.memorizedSpellFiles(creature)) {
+      const combo = spellComboService.comboOfFile(file);
+      if (!combo || !isContingency(combo)) continue;
+      const kind = translationService.from(KIND_NAMES[combo.kind]).toLowerCase();
+      statements.push({
+        comment: `Precast ${kind} "${combo.key}"`,
+        triggers: [
+          triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0),
+          triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+          { name: "HaveSpellRES", params: [file] },
+        ],
+        responses: responseFactory.response([
+          { name: "ApplySpellRES", params: [file, ScriptTarget.myself] },
+          { name: "RemoveSpellRES", params: [file] },
+          { name: "Continue" },
+        ]),
+      });
+    }
+  }
+
   private precastLongDurationSpells({ statements, creature, options }: HandlerParams): void {
     this.precastSpells(
       statements,
@@ -961,7 +1108,11 @@ class StatementBuilderService {
   ): void {
     let precast = 0;
     for (const spell of getAllSpells(SPELLS)) {
-      const durationMatch = "duration" in spell && spell.duration === duration;
+      const durationMatch =
+        "duration" in spell &&
+        spell.duration === duration &&
+        !spell.noPrecast &&
+        ["protection", "buff", "summon", "reactive"].includes(spell.role ?? "");
       const hasSpell =
         creature.data.spells.memorized.some((m) => m.file === spell.file) ||
         creature.adjustments.some((a) =>
@@ -994,7 +1145,37 @@ class StatementBuilderService {
     }
   }
 
+  /**
+   * Under cover (Sanctuary, Invisibility): the creature's protections and buffs first, then a hold
+   * so it doesn't attack - breaking the cover - between them. Once none is left, it acts as usual.
+   */
+  private coveredAbilities({ statements, creature, options }: HandlerParams): void {
+    const abilities = creature.behavior.coveredAbilities;
+    if (!abilities.length) return;
+    const covered = triggerFactory.covered();
+    this.parseAbilities(
+      statements,
+      creature,
+      options,
+      abilities.map((ability) => ({ ...ability, triggers: [covered, ...ability.triggers] })),
+    );
+    const roundRunning = { ...triggerFactory.globalRoundTimerExpired(), negation: false };
+    statements.push({
+      comment: "Covered: no attack between protections",
+      triggers: [covered, roundRunning],
+      responses: responseFactory.response([{ name: "NoAction" }]),
+    });
+  }
+
   private creatureAbilities({ statements, creature, options }: HandlerParams): void {
+    const books = [creature.data, ...creature.adjustments.map((a) => a.data)]
+      .flatMap((data) => data.spells.spellbooks ?? [])
+      .filter((book) => book.spellbook);
+    for (const spell of recastRisks(books.flatMap((book) => book.memorized))) {
+      logService.warn(
+        `${translationService.from(creature.name)}: ${spell.file} is memorized several times but has no check against a recast, memorize it once`,
+      );
+    }
     this.parseAbilities(statements, creature, options, creature.behavior.abilities);
   }
 
@@ -1004,7 +1185,17 @@ class StatementBuilderService {
     options: BuilderOptions,
     abilities: CreatureAbility[],
   ): void {
-    for (const ability of abilities) {
+    const memorized = creatureService.memorizedSpellFiles(creature);
+    const outOfOrder = sharedRollOutOfOrder(abilities.map((a) => a.triggers));
+    if (outOfOrder) {
+      logService.warn(
+        `${translationService.from(creature.name)}: ${outOfOrder} has a better chance than the spells above it, so a weaker spell can be cast first`,
+      );
+    }
+    for (const raw of abilities) {
+      const castFiles = creatureService.getAbilityCastFiles(raw);
+      const triggers = memorizedChecks(raw.triggers, castFiles, memorized);
+      const ability = { ...raw, triggers };
       if (ability.targets.length)
         this.creatureTargetsAbility(statements, creature, ability, ability.targets, options);
       else this.creatureSelfAbility(statements, creature, ability, options);
@@ -1197,6 +1388,13 @@ class StatementBuilderService {
       { key: ScriptTarget.token, value: ScriptTarget.myself },
     ]);
     if (options.summon) triggers.unshift({ name: "ActionListEmpty" });
+    // no target to measure from: the enemy it's meant for is the nearest one
+    if (ability.range) {
+      triggers.push({
+        name: "Range",
+        params: [`NearestEnemyOf(${ScriptTarget.myself})`, ability.range],
+      });
+    }
     const actions: Actions.Action[] = [...ability.actions];
     if (ability.timer) {
       triggers.unshift(triggerFactory.globalTimerExpired(ability.timer.name));

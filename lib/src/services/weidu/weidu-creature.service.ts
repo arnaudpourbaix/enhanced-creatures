@@ -1,5 +1,10 @@
 import { GLOBAL_CONFIG } from "../../../config/generate";
-import { resolveWeiduCheck, resourcePlaceholderToken, SPELLBOOK_MODS } from "../../../config/mods";
+import {
+  MOD_LAYER_ORDER,
+  resolveWeiduCheck,
+  resourcePlaceholderToken,
+  SPELLBOOK_MODS,
+} from "../../../config/mods";
 import { SpellVariant } from "../../model/spell-item/spell-reference";
 import { CR, TAB } from "../../model/constants";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
@@ -17,18 +22,21 @@ import { StringReference } from "../../model/final/stringref";
 import { CodeLine } from "../../model/misc";
 import { ProficiencyTypeEnum } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import spellComboService from "../spell-combo.service";
 import { State } from "../../state";
 import immunityService from "../effects/immunity.service";
 import itemService from "../item.service";
 import logService from "../log.service";
 import translationService from "../translation.service";
+import { getResourceName, toCode } from "../utils/misc.func";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
 import weiduEffectService from "./weidu-effect.service";
-import weiduFamilyService from "./weidu-family.service";
+import weiduGroupService from "./weidu-group.service";
 import weiduItemService from "./weidu-item.service";
 import weiduProjectileService from "./weidu-projectile.service";
 import weiduSpellService from "./weidu-spell.service";
+import scriptPlanService, { CreatureScript } from "../baf/script-plan.service";
 
 class WeiduCreatureService extends AbstractWeiduService {
   generateWeiduScript(creature: Creature): void {
@@ -49,11 +57,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     }
     this.patchCreatures(lines, 0, creature);
     const content = lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    utils.writeFile(
-      `${utils.getFamilyFolder(creature.family)}/${creature.id.toString(16)}.tpa`,
-      content,
-    );
-    weiduFamilyService.createOrUpdateMainFile(creature.family, creature);
+    utils.writeFile(`${utils.getCreatureFolder(creature)}/${toCode(creature.id)}.tpa`, content);
+    weiduGroupService.createOrUpdateMainFile(utils.getCreatureFolder(creature), creature);
   }
 
   private handleScriptEdits(lines: CodeLine[], creature: Creature) {
@@ -64,20 +69,47 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private handleScriptEdit(lines: CodeLine[], edit: CreatureScriptEdit) {
-    this.add(lines, "ACTION_FOR_EACH ~file~ IN");
-    for (const file of edit.files) this.add(lines, `"${file}"`, 1);
-    this.add(lines, "BEGIN", 0);
-    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, 1);
-    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, 2);
-    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, 3);
-    for (const replace of edit.replaces) {
-      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, 4);
+    // scoped to a game: only where that game's creatures get patched too
+    const t = edit.game ? 1 : 0;
+    if (edit.game) this.add(lines, `ACTION_IF ${GAME_IS_CONDITION[edit.game]} BEGIN`, 0);
+    this.add(lines, "ACTION_FOR_EACH ~file~ IN", t);
+    for (const file of edit.files) this.add(lines, `"${file}"`, t + 1);
+    this.add(lines, "BEGIN", t);
+    this.add(lines, `ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN`, t + 1);
+    this.add(lines, `COPY_EXISTING ~%file%.bcs~ ~override~`, t + 2);
+    this.add(lines, `DECOMPILE_AND_PATCH BEGIN`, t + 3);
+    for (const replace of edit.replaces ?? []) {
+      this.add(lines, `REPLACE_TEXTUALLY ~${replace[0]}~ ~${replace[1]}~`, t + 4);
     }
-    this.add(lines, `END`, 3);
-    this.add(lines, `BUT_ONLY`, 2);
-    this.add(lines, `END`, 1);
-    this.add(lines, `END`, 0);
+    for (const text of edit.removeBlocks ?? []) {
+      this.removeBlocksContaining(lines, t + 4, text);
+    }
+    this.add(lines, `END`, t + 3);
+    this.add(lines, `BUT_ONLY`, t + 2);
+    this.add(lines, `END`, t + 1);
+    this.add(lines, `END`, t);
+    if (edit.game) this.add(lines, `END`, 0);
     this.add(lines, ``, 0);
+  }
+
+  /**
+   * Deletes each decompiled IF...END block containing `text`: from every match, walks back to the
+   * block's `IF` and forward to its `END` (both at column 0 in decompiled BAF, unlike the indented
+   * trigger/action lines), then searches again from where the deleted block started.
+   */
+  private removeBlocksContaining(lines: CodeLine[], tab: number, text: string) {
+    const find = (from: string) => `INDEX_BUFFER (EXACT_MATCH ~${text}~ ${from})`;
+    this.add(lines, `SET ec_pos = ${find("0")}`, tab);
+    this.add(lines, `WHILE (ec_pos >= 0) BEGIN`, tab);
+    this.add(lines, `SET ec_start = RINDEX_BUFFER (~^IF~ ec_pos)`, tab + 1);
+    this.add(lines, `SET ec_end = INDEX_BUFFER (~^END~ ec_pos)`, tab + 1);
+    this.add(lines, `PATCH_IF (ec_start >= 0 AND ec_end > ec_pos) BEGIN`, tab + 1);
+    this.add(lines, `DELETE_BYTES ec_start (ec_end + 3 - ec_start)`, tab + 2);
+    this.add(lines, `SET ec_pos = ${find("ec_start")}`, tab + 2);
+    this.add(lines, `END ELSE BEGIN`, tab + 1);
+    this.add(lines, `SET ec_pos = ${find("ec_pos + 1")}`, tab + 2);
+    this.add(lines, `END`, tab + 1);
+    this.add(lines, `END`, tab);
   }
 
   private compileScripts(lines: CodeLine[], creature: Creature, evaluateBuffer: boolean) {
@@ -89,7 +121,8 @@ class WeiduCreatureService extends AbstractWeiduService {
         ext: true,
       })}~${suffix}`,
     );
-    if (creature.adjustments.some((a) => a.summon))
+    const { base, variants } = scriptPlanService.planned(creature);
+    if ((base?.view ?? creature).adjustments.some((a) => a.summon))
       this.add(
         lines,
         `COMPILE ~%MOD_FOLDER%/${this.getScriptName(creature, {
@@ -98,6 +131,12 @@ class WeiduCreatureService extends AbstractWeiduService {
           ext: true,
         })}~${suffix}`,
       );
+    const folder = utils.getCreatureFolder(creature);
+    for (const script of variants) {
+      for (const name of [script.name, script.summonName]) {
+        if (name) this.add(lines, `COMPILE ~%MOD_FOLDER%/${folder}/${name}.baf~${suffix}`);
+      }
+    }
     this.add(lines, "");
   }
 
@@ -164,7 +203,7 @@ class WeiduCreatureService extends AbstractWeiduService {
   ) {
     const copy = entry.copyFromExisting
       ? `COPY_EXISTING ~${entry.copyFromExisting}.cre~`
-      : `COPY ~%MOD_FOLDER%/${utils.getFamilyFolder(creature.family)}/assets/${entry.copyFrom ?? ""}.cre~`;
+      : `COPY ~%MOD_FOLDER%/${utils.getCreatureFolder(creature)}/assets/${entry.copyFrom ?? ""}.cre~`;
     this.add(lines, `${copy} ~override/${file}.cre~`, tab);
     if (entry.stringRef) {
       this.writeName(lines, tab, entry.stringRef);
@@ -194,7 +233,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     // The whole per-file block (FILE_EXISTS_IN_GAME -> COPY_EXISTING -> body ->
     // BUT_ONLY_IF_IT_CHANGES) is emitted once as an action function; each per-game loop below just
     // calls it per file, rather than duplicating the ~200-line body once per game group.
-    const fn = `jam${creature.id.toString(16)}_patch`;
+    const fn = `jam${toCode(creature.id)}_patch`;
     this.add(lines, `DEFINE_ACTION_FUNCTION ${fn}`, tab);
     this.add(lines, `STR_VAR file = ~~`, tab);
     this.add(lines, `BEGIN`, tab);
@@ -381,6 +420,7 @@ class WeiduCreatureService extends AbstractWeiduService {
     for (const name of immunities) {
       const immunity = State.immunities.find((i) => i.name === name);
       if (!immunity) throw new Error(`Immunity ${name} not found !`);
+      if (immunity.docOnly) continue;
       if (!immunity.itemSlot) {
         const files = immunityService.getOverrides(name, adjustments);
         this.executeCodeWithExcludedFiles(
@@ -447,7 +487,19 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private addMemorizedSpells(lines: CodeLine[], tab: number, data: CreatureData) {
-    const spellbooks = data.spells.spellbooks;
+    const combos = data.spells.combos ?? [];
+    // declared combos go in every mod variant (named per mod), so they need variants even when
+    // the creature has no spellbook
+    const base =
+      data.spells.spellbooks ??
+      (combos.length ? MOD_LAYER_ORDER.map((mod) => ({ mod, memorized: [] })) : undefined);
+    const spellbooks = base?.map((sb) => ({
+      ...sb,
+      memorized: [
+        ...sb.memorized,
+        ...combos.map((c) => ({ file: spellComboService.comboFile(c, sb.mod), memorizedCount: 1 })),
+      ],
+    }));
     if (spellbooks?.length) {
       // A spellbook variant with no weiduCheck (e.g. Vanilla) is the mutually-exclusive fallback
       // of the chain below - used only when none of the mod-gated variants match - not an extra
@@ -489,7 +541,8 @@ class WeiduCreatureService extends AbstractWeiduService {
       const infos = utils.getSpellInfos(m.file);
       const level = m.level ?? infos.level - 1;
       const spell = State.spells.find((s) => s.file === m.file);
-      const comment = spell ? `// ${translationService.from(spell.name)}` : "";
+      const label = spell ? translationService.from(spell.name) : spellComboService.labelOf(m.file);
+      const comment = label ? `// ${label}` : "";
       let code = `ADD_MEMORIZED_SPELL ~${m.file}~ #${level} ~${infos.type}~ (${m.memorizedCount ?? 1}) ${comment}`;
       if (m.memorizedCount === 0) code = `REMOVE_MEMORIZED_SPELL ~${m.file}~`;
       this.add(lines, code, tab);
@@ -531,9 +584,12 @@ class WeiduCreatureService extends AbstractWeiduService {
   }
 
   private patchScripts(lines: CodeLine[], tab: number, creature: Creature) {
+    const { variants } = scriptPlanService.planned(creature);
+    // a scripted variant's files run its own script (see patchVariantScripts)
+    const variantFiles = new Set(variants.flatMap((v) => [...v.files, ...v.summonFiles]));
     const summonAdjustments = creature.adjustments.filter((a) => a.summon);
     const dedupeFiles = (adjustments: CreatureAdjustment[]) => [
-      ...new Set(adjustments.flatMap((a) => a.files)),
+      ...new Set(adjustments.flatMap((a) => a.files).filter((f) => !variantFiles.has(f))),
     ];
     const fileGame = new Map(creature.files.map((f) => [f.name, f.game] as const));
     // A summon file gets the summon script instead of the normal one. The PATCH_IF GAME_IS / ELSE
@@ -587,7 +643,7 @@ class WeiduCreatureService extends AbstractWeiduService {
       slot: creature.data.script.location,
       removeScripts: creature.data.script.remove,
       files: [],
-      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles],
+      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles, ...variantFiles],
       forceFiles: newFiles,
       logging: creature.logging,
     });
@@ -625,17 +681,71 @@ class WeiduCreatureService extends AbstractWeiduService {
       assign(scriptName);
       this.add(lines, `END`, tab);
     }
+    this.patchVariantScripts(lines, tab, creature, variants, locationFiles, newFiles);
+    // a file with its own slot keeps the script it runs: its variant's, or the base one
+    const scriptOf = new Map(
+      variants.flatMap((v) => [
+        ...v.files.map((f) => [f, v.name] as const),
+        ...v.summonFiles.map((f) => [f, v.summonName ?? v.name] as const),
+      ]),
+    );
     for (const adjustment of creature.adjustments) {
       if (adjustment.data.script.location && adjustment.data.script.location !== "None") {
+        const scripts = [...new Set(adjustment.files.map((f) => scriptOf.get(f) ?? scriptName))];
+        for (const script of scripts) {
+          this.patchScript({
+            lines,
+            tab,
+            script,
+            slot: adjustment.data.script.location,
+            removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
+            files: adjustment.files.filter((f) => (scriptOf.get(f) ?? scriptName) === script),
+            skipFiles: [],
+            forceFiles: newFiles,
+            logging: creature.logging,
+          });
+        }
+      }
+    }
+  }
+
+  /** Each scripted variant's files get its script, its summon files its summon script. */
+  private patchVariantScripts(
+    lines: CodeLine[],
+    tab: number,
+    creature: Creature,
+    variants: CreatureScript[],
+    locationFiles: string[],
+    forceFiles: string[],
+  ) {
+    for (const script of variants) {
+      const tagged = creature.adjustments.some(
+        (a) => a.summon && a.game && a.files.some((f) => script.summonFiles.includes(f)),
+      );
+      if (tagged) {
+        throw new Error(
+          `variant "${script.variant?.label ?? script.name}": game-tagged summon files are not supported`,
+        );
+      }
+      const assignments = [
+        // a file with its own script slot is assigned by its location adjustment
+        { files: script.files.filter((f) => !locationFiles.includes(f)), name: script.name },
+        {
+          files: script.summonFiles.filter((f) => !locationFiles.includes(f)),
+          name: script.summonName,
+        },
+      ];
+      for (const { files, name } of assignments) {
+        if (!files.length || !name) continue;
         this.patchScript({
           lines,
           tab,
-          script: scriptName,
-          slot: adjustment.data.script.location,
-          removeScripts: [...creature.data.script.remove, ...adjustment.data.script.remove],
-          files: adjustment.files,
+          files,
+          forceFiles,
+          script: name,
+          slot: creature.data.script.location,
+          removeScripts: creature.data.script.remove,
           skipFiles: [],
-          forceFiles: newFiles,
           logging: creature.logging,
         });
       }
@@ -840,9 +950,9 @@ class WeiduCreatureService extends AbstractWeiduService {
     creature: Creature,
     options: { withPath?: boolean; summon?: boolean; ext?: boolean },
   ) {
-    const path = options.withPath ? `${utils.getFamilyFolder(creature.family)}/` : "";
+    const path = options.withPath ? `${utils.getCreatureFolder(creature)}/` : "";
     const ext = options.ext === true ? ".baf" : "";
-    const name = `jam${creature.id.toString(16)}${options.summon ? "su" : ""}${ext}`;
+    const name = `${getResourceName("b", "m", creature.id, options.summon ? 1 : 0)}${ext}`;
     return `${path}${name}`;
   }
 }

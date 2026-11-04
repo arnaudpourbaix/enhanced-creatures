@@ -1,1 +1,2 @@
-export type SpellBookName = "EvilUndeadCleric" | "EvilUndeadMage" | "EvilUndeadMageNoFF";
+export type SpellBookName =
+  "EvilUndeadCleric" | "EvilUndeadMage" | "EvilUndeadMageNoFF" | "VampireNecromancerSpellbook";

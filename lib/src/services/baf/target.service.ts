@@ -97,25 +97,7 @@ class TargetService {
     const defaults = this.getDefaultStatus(creature);
     const targetPriorities = attack.targetPriorities ?? [];
     const results: TargetPriority[] = [];
-    for (const t of targetPriorities) {
-      if (!t.status && !t.targets) throw new Error(`Empty targetPriority is not allowed !`);
-      else if (!t.targets) {
-        if (!t.status) throw new Error(`Empty targetPriority is not allowed !`);
-        results.push(...this.getTargetPrioritiesFromStatusList(t.status));
-      } else if (!t.status) {
-        results.push({
-          targets: t.targets,
-          status: t.targets.every((i) => i === "Players")
-            ? defaults.allStatus
-            : defaults.targetStatus,
-        });
-      } else {
-        results.push({
-          status: t.status,
-          targets: t.targets,
-        });
-      }
-    }
+    for (const t of targetPriorities) results.push(...this.resolvePriority(t, defaults));
     const defaultTargetStatus = this.getLeftoversStatusList(
       defaults.targetStatus,
       "NearestEnemies",
@@ -139,13 +121,41 @@ class TargetService {
     return results;
   }
 
+  /** A creature's own target priority, its missing targets or statuses set from the defaults. */
+  private resolvePriority(
+    t: Partial<TargetPriority>,
+    defaults: { allStatus: TargetStatusName[]; targetStatus: TargetStatusName[] },
+  ): TargetPriority[] {
+    const filter = {
+      ...(t.triggers && { triggers: t.triggers }),
+      ...(t.conditions && { conditions: t.conditions }),
+      ...(t.label && { label: t.label }),
+    };
+    if (!t.targets) {
+      if (!t.status) throw new Error(`Empty targetPriority is not allowed !`);
+      return this.getTargetPrioritiesFromStatusList(t.status).map((p) => ({ ...p, ...filter }));
+    }
+    const status =
+      t.status ??
+      (t.targets.every((i) => i === "Players") ? defaults.allStatus : defaults.targetStatus);
+    return [{ targets: t.targets, status, ...filter }];
+  }
+
   private getLeftoversStatusList(
     list: TargetStatusName[],
     target: TargetListName,
     priorities: TargetPriority[],
   ): TargetStatusName[] {
+    // a filtered priority only takes some targets: the others still need the default one
     return list.filter(
-      (s) => !priorities.some((p) => p.targets.includes(target) && p.status.includes(s)),
+      (s) =>
+        !priorities.some(
+          (p) =>
+            !p.triggers?.length &&
+            !p.conditions?.length &&
+            p.targets.includes(target) &&
+            p.status.includes(s),
+        ),
     );
   }
 

@@ -1,49 +1,21 @@
-import { Family } from "../src/model/creature/family";
-import { createAnkhegs } from "./ankhegs";
-import { createBasilisks } from "./basilisks";
-import { createBears } from "./bears";
-import { createCats } from "./cats";
-import { createConstructs } from "./constructs";
-import { createCarrionCrawlers } from "./crawlers";
-import { createDogs } from "./dogs";
-import { createElementals } from "./elementals";
-import { createEttercaps } from "./ettercaps";
-import { createEttins } from "./ettin";
-import { createFeys } from "./feys";
-import { createGolems } from "./golems";
-import { createMinotaurs } from "./minotaurs";
-import { createOgres } from "./ogres";
-import { createPlants } from "./plants";
-import { createSlimes } from "./slimes";
-import { createSnakes } from "./snakes";
-import { createSpiders } from "./spiders";
-import { createUndeads } from "./undead";
-import { createWolves } from "./wolves";
-import { createWyverns } from "./wyvern";
+import { Creature } from "../src/model/creature/creature";
+import { CreatureKin } from "../src/model/creature/kin";
+import { entryFactories } from "./entries";
+import { KinEnum } from "./kin";
+import { kinFactories } from "./kins";
 
-export const familyFactories: (() => Family)[] = [
-  createAnkhegs,
-  createBasilisks,
-  createBears,
-  createCarrionCrawlers,
-  createCats,
-  createConstructs,
-  createDogs,
-  createElementals,
-  createEttercaps,
-  createEttins,
-  createFeys,
-  createGolems,
-  createMinotaurs,
-  createOgres,
-  createSlimes,
-  createPlants,
-  createSnakes,
-  createSpiders,
-  createWolves,
-  createWyverns,
-  createUndeads,
-];
+/** Builds every kin, then every entry (given the built kins), and returns all their creatures. */
+export function buildAllCreatures(): Creature[] {
+  const kins = new Map<KinEnum, CreatureKin>();
+  for (const factory of kinFactories) {
+    const kin = factory();
+    kins.set(kin.id, kin);
+  }
+  return entryFactories.flatMap((factory) => factory(kins).creatures);
+}
+
+// Creatures are built by the entries (./entries.ts) and kins (./kins.ts). Notes on monsters
+// not implemented yet:
 
 /*
 "SHOAL", // Shoal the Nereid

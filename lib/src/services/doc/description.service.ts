@@ -145,8 +145,17 @@ class DescriptionService {
 
   private getEffectsDescription(effects: Effect[], target: ItemAbilityTargetEnum): string[] {
     const results: string[] = [];
+    // effectFactory.regeneration() stacks several effects for rates no single one expresses:
+    // describe them as one total, where the first one is
+    const regenerations = effects.filter(
+      (e): e is RegenerationEffect =>
+        e.opcode === EffectTypeEnum.Regeneration &&
+        e.type !== RegenerationTypeEnum.AmountHPpercentagePerSecond,
+    );
     for (const effect of effects) {
-      if (effect.opcode === EffectTypeEnum.CastSpell) {
+      if (regenerations.length > 1 && regenerations.includes(effect as RegenerationEffect)) {
+        if (effect === regenerations[0]) results.push(this.getTotalRegeneration(regenerations));
+      } else if (effect.opcode === EffectTypeEnum.CastSpell) {
         results.push(...this.getItemSpellDescription(effect));
       } else {
         results.push(...this.getEffectDescription(effect, target));
@@ -333,13 +342,26 @@ class DescriptionService {
         effect.type,
       )
     )
-      return [`Regeneration: ${effect.amount} hp/second`];
+      return [`Regeneration: ${effect.amount * Durations.round} hp/round`];
     else if (effect.type === RegenerationTypeEnum.AmountHPpercentagePerSecond)
-      return [`Regeneration: ${effect.amount}% hp/second`];
-    else if (effect.amount === 6) return [`Regeneration: 1 hp/round`];
-    const rounds = effect.amount / 6;
-    if (rounds > 1 && effect.amount % 6 === 0) return [`Regeneration: 1 hp/${rounds} rounds`];
+      return [`Regeneration: ${effect.amount * Durations.round}% hp/round`];
+    if (Durations.round % effect.amount === 0)
+      return [`Regeneration: ${Durations.round / effect.amount} hp/round`];
+    if (effect.amount % Durations.round === 0)
+      return [`Regeneration: 1 hp/${effect.amount / Durations.round} rounds`];
     return [`Regeneration: 1 hp/${effect.amount} seconds`];
+  }
+
+  private getTotalRegeneration(effects: RegenerationEffect[]): string {
+    const hpPerRound = effects.reduce(
+      (total, effect) =>
+        total +
+        (effect.type === RegenerationTypeEnum.OneHPperAmountSeconds
+          ? Durations.round / effect.amount
+          : effect.amount * Durations.round),
+      0,
+    );
+    return `Regeneration: ${Math.round(hpPerRound * 100) / 100} hp/round`;
   }
 
   private getParalyze(effect: IdsEffect, target: ItemAbilityTargetEnum): string[] {
@@ -401,7 +423,9 @@ class DescriptionService {
 
   private getLevelDrain(effect: DrainEffect): string[] {
     const results: string[] = [];
-    results.push(`Drain ${effect.amount} level from target${this.getSaveText(effect)}.`);
+    results.push(
+      `Drain ${effect.amount} level${effect.amount > 1 ? "s" : ""} from target${this.getSaveText(effect)}.`,
+    );
     return results;
   }
 

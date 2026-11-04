@@ -1,0 +1,105 @@
+// Generated file (don't edit)
+
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	OUTER_SET ja_strref_hasted = 14023
+	OUTER_SET ja_strref_cone_of_cold = 26492
+	OUTER_SET ja_strref_poison = 14017
+	OUTER_SET ja_strref_poisoned = 14662
+	OUTER_SET ja_strref_diseased = 31238
+	OUTER_SET ja_strref_bleeding = 25137
+	OUTER_SET ja_strref_paralyzed = 14650
+	OUTER_SET ja_strref_held = 14102
+	OUTER_SET ja_strref_stun = 14043
+	OUTER_SET ja_strref_stunned = 26050
+	OUTER_SET ja_strref_one_level_drained = 25802
+	OUTER_SET ja_strref_two_levels_drained = 25803
+	OUTER_SET ja_strref_three_levels_drained = 25804
+	OUTER_SET ja_strref_four_levels_drained = 25805
+	OUTER_SET ja_strref_five_levels_drained = 25806
+	OUTER_SET ja_strref_sleep = 12047
+	OUTER_SET ja_strref_unconscious = 20438
+	OUTER_SET ja_strref_dire_charm = 26328
+	OUTER_SET ja_strref_dominated = 26206
+	OUTER_SET ja_strref_charmed = 14672
+	OUTER_SET ja_strref_controlled = 31245
+	OUTER_SET ja_strref_dire_charmed = 14780
+	OUTER_SET ja_strref_panic = 14007
+	OUTER_SET ja_strref_morale_failure_panic = 20568
+	OUTER_SET ja_strref_rigid_thinking = 14791
+	OUTER_SET ja_strref_feebleminded = 23744
+	OUTER_SET ja_strref_confused = 14782
+	OUTER_SET ja_strref_petrified = 14665
+	OUTER_SET ja_strref_polymorph = 14128
+	OUTER_SET ja_strref_polymorphed = 25124
+	OUTER_SET ja_strref_death = 14026
+	OUTER_SET ja_strref_blinded = 14674
+	OUTER_SPRINT ja_strrefs_haste ~14023 14667 26019~
+	OUTER_SPRINT ja_strrefs_cone_of_cold ~26492 12066 13009 13079~
+	OUTER_SPRINT ja_strrefs_poison ~14017 24454 26215 14662 17397 25425~
+	OUTER_SPRINT ja_strrefs_disease ~31238~
+	OUTER_SPRINT ja_strrefs_bleed ~25137~
+	OUTER_SPRINT ja_strrefs_held ~14650 14102 17404 25866 31730 31738 31769 31785 31799~
+	OUTER_SPRINT ja_strrefs_stun ~14043 25862 26050~
+	OUTER_SPRINT ja_strrefs_level_drain ~25802 25803 25804 25805 25806~
+	OUTER_SPRINT ja_strrefs_sleep ~12047 12958 13027 14001 17405 26040 26371 20438 25130~
+	OUTER_SPRINT ja_strrefs_charm ~26328 12050 12996 13066 17392 26206 14672 31787 14780~
+	OUTER_SPRINT ja_strrefs_control ~31245~
+	OUTER_SPRINT ja_strrefs_panic ~14007 17427 25817 25818 20568~
+	OUTER_SPRINT ja_strrefs_rigid_thinking ~14791 12101 12931 17393 26182 26184 23744~
+	OUTER_SPRINT ja_strrefs_confusion ~14782 17394 25807~
+	OUTER_SPRINT ja_strrefs_petrified ~14665 24179 25863~
+	OUTER_SPRINT ja_strrefs_polymorph ~14128 25124 31729 31732 31757~
+	OUTER_SPRINT ja_strrefs_death ~14026 15473 25282~
+	OUTER_SPRINT ja_strrefs_blind ~14674 26295 31786~
+END ELSE BEGIN // bg2ee, eet
+	OUTER_SET ja_strref_hasted = 14023
+	OUTER_SET ja_strref_cone_of_cold = 12066
+	OUTER_SET ja_strref_poison = 14017
+	OUTER_SET ja_strref_poisoned = 14662
+	OUTER_SET ja_strref_diseased = 54337
+	OUTER_SET ja_strref_bleeding = 54335
+	OUTER_SET ja_strref_paralyzed = 14650
+	OUTER_SET ja_strref_held = 14102
+	OUTER_SET ja_strref_stun = 14043
+	OUTER_SET ja_strref_stunned = 1280
+	OUTER_SET ja_strref_one_level_drained = 41495
+	OUTER_SET ja_strref_two_levels_drained = 40968
+	OUTER_SET ja_strref_three_levels_drained = 40969
+	OUTER_SET ja_strref_four_levels_drained = 40979
+	OUTER_SET ja_strref_five_levels_drained = 41616
+	OUTER_SET ja_strref_sleep = 12047
+	OUTER_SET ja_strref_unconscious = 20438
+	OUTER_SET ja_strref_dire_charm = 12050
+	OUTER_SET ja_strref_dominated = 8364
+	OUTER_SET ja_strref_charmed = 14672
+	OUTER_SET ja_strref_controlled = 61418
+	OUTER_SET ja_strref_dire_charmed = 14780
+	OUTER_SET ja_strref_panic = 14007
+	OUTER_SET ja_strref_morale_failure_panic = 20568
+	OUTER_SET ja_strref_rigid_thinking = 14791
+	OUTER_SET ja_strref_feebleminded = 23744
+	OUTER_SET ja_strref_confused = 14782
+	OUTER_SET ja_strref_petrified = 14665
+	OUTER_SET ja_strref_polymorph = 14128
+	OUTER_SET ja_strref_polymorphed = 339
+	OUTER_SET ja_strref_death = 14026
+	OUTER_SET ja_strref_blinded = 14674
+	OUTER_SPRINT ja_strrefs_haste ~14023 14667~
+	OUTER_SPRINT ja_strrefs_cone_of_cold ~12066 13009 13079~
+	OUTER_SPRINT ja_strrefs_poison ~14017 5805 32304 14662 17397 30988~
+	OUTER_SPRINT ja_strrefs_disease ~54337~
+	OUTER_SPRINT ja_strrefs_bleed ~54335~
+	OUTER_SPRINT ja_strrefs_held ~14650 14102 340 384 915 1473 8823 17404~
+	OUTER_SPRINT ja_strrefs_stun ~14043 1280 74272~
+	OUTER_SPRINT ja_strrefs_level_drain ~41495 40968 40969 40979 41616~
+	OUTER_SPRINT ja_strrefs_sleep ~12047 12958 13027 14001 17405 20438~
+	OUTER_SPRINT ja_strrefs_charm ~12050 12996 13066 17392 8364 14672 1476 14780~
+	OUTER_SPRINT ja_strrefs_control ~61418~
+	OUTER_SPRINT ja_strrefs_panic ~14007 17427 20568~
+	OUTER_SPRINT ja_strrefs_rigid_thinking ~14791 12101 12931 17393 23744~
+	OUTER_SPRINT ja_strrefs_confusion ~14782 17394~
+	OUTER_SPRINT ja_strrefs_petrified ~14665 38043~
+	OUTER_SPRINT ja_strrefs_polymorph ~14128 339 351 809 1482 54332~
+	OUTER_SPRINT ja_strrefs_death ~14026~
+	OUTER_SPRINT ja_strrefs_blind ~14674 1474~
+END

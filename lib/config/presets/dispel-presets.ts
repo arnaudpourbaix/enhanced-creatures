@@ -1,9 +1,11 @@
 import presetFactory from "../../src/factories/preset.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import { AbilityPreset } from "../../src/model/misc";
 import { TargetList } from "../../src/model/script/target";
+import { FNP_SPELLS } from "../spells/fnp-spell-database";
 import { SPELLS } from "../spells/spell-database";
-import { ExcludeUnwantedTargetsTriggers } from "../target/common";
+import { ExcludeUnwantedTargetsTriggers, KEEP_PLAYERS_DISABLED } from "../target/common";
 
 const DISPEL_TARGET_LISTS: TargetList[] = [
   {
@@ -22,10 +24,8 @@ const DISPEL_TARGET_LISTS: TargetList[] = [
           triggerFactory.checkStatGT(0, "TRUE_SIGHT"),
           triggerFactory.checkStatGT(0, "WIZARD_RESIST_FEAR"),
           triggerFactory.checkStatGT(0, "CLERIC_CHAOTIC_COMMANDS"),
-          triggerFactory.checkStatGT(49, "CLERIC_FREE_ACTION"),
-          triggerFactory.checkStatGT(49, "CLERIC_DEFENSIVE_HARMONY"),
-          triggerFactory.checkStatGT(49, "RESISTFIRE"),
-          triggerFactory.checkStatGT(49, "RESISTCOLD"),
+          triggerFactory.checkStatGT(0, "CLERIC_FREE_ACTION"),
+          triggerFactory.checkStatGT(0, "CLERIC_DEFENSIVE_HARMONY"),
           triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"),
           triggerFactory.stateCheck("STATE_MIRRORIMAGE"),
           triggerFactory.stateCheck("STATE_HASTED"),
@@ -37,10 +37,55 @@ const DISPEL_TARGET_LISTS: TargetList[] = [
   },
 ];
 
+const SPELL_REMOVAL_TARGET_LISTS: TargetList[] = [
+  {
+    name: "Spellcasters",
+    includeStatus: ["Able"],
+    randomOrder: true,
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      triggerFactory.or([triggerFactory.hasBounceEffects(), triggerFactory.hasImmunityEffects()]),
+    ],
+  },
+];
+
+// The protections worth a Breach, as Stratagems picks them. Its own PRIORITY_BREACH state needs that
+// mod, these don't. It can't remove spell protections, and Deflection, Turning and the like stop it.
+
+const BREACH_TARGET_LISTS: TargetList[] = [
+  {
+    name: "NearestEnemies",
+    includeStatus: ["Able"],
+    randomOrder: true,
+    triggers: [
+      ...ExcludeUnwantedTargetsTriggers,
+      triggerFactory.checkStat(1, "WIZARD_SPELL_IMMUNITY", true),
+      triggerFactory.or([
+        triggerFactory.checkStatGT(0, "STONESKINS"),
+        triggerFactory.checkStatGT(0, "CLERIC_CHAOTIC_COMMANDS"),
+        triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_ENERGY"),
+        triggerFactory.checkStatGT(0, "WIZARD_PROTECTION_FROM_MAGIC_WEAPONS"),
+        { name: "CheckSpellState", params: [ScriptTarget.token, "DEATH_WARD"] },
+      ]),
+    ],
+  },
+];
+
 export const DISPEL_PRESETS: AbilityPreset[] = [
-  ...presetFactory.createSpells([SPELLS.Priest.TrueSeeing, SPELLS.Wizard.DetectInvisibility], {
-    triggers: [triggerFactory.detect("PC"), triggerFactory.see("PC", true)],
-  }),
+  ...presetFactory.createSpells(
+    [
+      SPELLS.Priest.TrueSeeing,
+      SPELLS.Wizard.DetectInvisibility,
+      SPELLS.Wizard.TrueSeeing,
+      SPELLS.Wizard.Oracle,
+      SPELLS.Wizard.DetectIllusion,
+      SPELLS.Priest.InvisibilityPurge,
+      FNP_SPELLS.Priest.TrueSeeing,
+    ],
+    {
+      triggers: [triggerFactory.detect("PC"), triggerFactory.see("PC", true)],
+    },
+  ),
   ...presetFactory.createSpell(SPELLS.Innate.MoonDogSight, {
     spell: {
       castOnSelf: true,
@@ -48,32 +93,31 @@ export const DISPEL_PRESETS: AbilityPreset[] = [
     triggers: [triggerFactory.detect("PC")],
     requireVocal: false,
   }),
+  ...presetFactory.createSpells([SPELLS.Priest.DispelMagic, SPELLS.Wizard.RemoveMagic], {
+    targets: DISPEL_TARGET_LISTS,
+  }),
+  ...presetFactory.createSpell(SPELLS.Wizard.DispelMagic, {
+    triggers: KEEP_PLAYERS_DISABLED,
+    targets: DISPEL_TARGET_LISTS,
+  }),
   ...presetFactory.createSpells(
-    [SPELLS.Wizard.DispelMagic, SPELLS.Priest.DispelMagic, SPELLS.Wizard.RemoveMagic],
+    [
+      SPELLS.Wizard.KhelbensWardingWhip,
+      SPELLS.Wizard.SpellThrust,
+      SPELLS.Wizard.PierceMagic,
+      SPELLS.Wizard.PierceShield,
+      SPELLS.Wizard.RubyRayOfReversal,
+      SPELLS.Wizard.SecretWord,
+      SPELLS.Wizard.Spellstrike,
+    ],
     {
-      targets: DISPEL_TARGET_LISTS,
+      targets: SPELL_REMOVAL_TARGET_LISTS,
     },
   ),
-  ...presetFactory.createOrderedSpells([SPELLS.Wizard.Breach, SPELLS.Wizard.SpellThrust], {
-    targets: [
-      {
-        name: "Spellcasters",
-        includeStatus: ["Able"],
-        randomOrder: true,
-        triggers: [
-          ...ExcludeUnwantedTargetsTriggers,
-          triggerFactory.or([
-            triggerFactory.hasBounceEffects(),
-            triggerFactory.hasImmunityEffects(),
-          ]),
-        ],
-      },
-    ],
+  ...presetFactory.createSpell(SPELLS.Wizard.Breach, {
+    targets: BREACH_TARGET_LISTS,
   }),
   ...presetFactory.createSpells([SPELLS.Priest.DetectEvil, SPELLS.Priest.FindTraps], {
-    spell: {
-      castOnSelf: true,
-    },
     triggers: [{ name: "False" }], // leave it as a manual cast
   }),
 ];

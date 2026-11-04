@@ -5,6 +5,7 @@ import {
   getItemFilename,
   getProjectileFilename,
   getSpellFilename,
+  ResourceScope,
 } from "../../services/utils/misc.func";
 import { BaseEffect } from "../spell-item/effect";
 import {
@@ -31,7 +32,7 @@ export abstract class AbstractCreature {
   items: Item[];
   spells: Spell[];
   projectiles: Projectile[];
-  abstract fileType: "m" | "f";
+  abstract fileType: ResourceScope;
 
   constructor(id: number) {
     this.id = id;

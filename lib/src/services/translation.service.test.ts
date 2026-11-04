@@ -20,6 +20,21 @@ describe("stringRef", () => {
   it("returns the registered stringRef for a known key", () => {
     expect(translationService.stringRef(POTION_USE_KEY)).toBeTypeOf("number");
   });
+
+  it("does not number docs-only translations", () => {
+    expect(() => translationService.stringRef("doc.entry.vampire")).toThrow(/not registered/);
+    expect(translationService.from("doc.entry.vampire")).toBe("Vampire");
+  });
+
+  it("resolves a multi-line doc.types description whole, without numbering it", () => {
+    expect(() => translationService.stringRef("doc.types.dragon.desc")).toThrow(/not registered/);
+    const lines = translationService.from("doc.types.dragon.desc").split("\n");
+    expect(lines).toEqual([
+      "A dragon is a reptilelike creature, usually winged, with magical or unusual abilities.",
+      "Immunity to magic sleep effects and paralysis effects.",
+      "Darkvision out to 60 feet and low-light vision.",
+    ]);
+  });
 });
 
 describe("fromOptional", () => {

@@ -1,4 +1,5 @@
 import { SpellKeyword } from "../../../config/spells/keyword";
+import { SpellRole, SpellTier } from "../../../config/spells/spell-role";
 import { RawCreatureAbility } from "../creature/ability";
 import { ItemSlot } from "../creature/item";
 import { ImmunityName } from "../final/immunity";
@@ -34,9 +35,35 @@ export interface BaseSpell {
   file: string;
   type: SpellTypeEnum;
   level: number;
+  /** See SpellRole: how the cast order rules treat it (at-will powers declare it) */
+  role?: SpellRole;
+  /** What else the spell does, adding to its value */
+  secondaryRoles?: SpellRole[];
+  /** See SpellReference.worthLevel */
+  worthLevel?: number;
+  /** See SpellTier - decent when unset */
+  tier?: SpellTier;
+  /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */
+  hitsAllies?: boolean;
+  /**
+   * Casting speed of a spell from another mod (Faiths and Powers), read from the game by
+   * scripts/extract-spell-profile.ts; a spell this mod creates uses its headers' speed
+   */
+  castingTime?: number;
+  /**
+   * Power level written to every effect (default: `level`), which is what globes and Spell
+   * Turning/Deflection/Trap test - e.g. BG2's vampire domination: a level 1 innate whose effects
+   * have power 5. Also the level the AI checks those protections against (see
+   * BaseCreatureAbility.level).
+   */
+  power?: number;
   name?: StringReference;
   /** See SpellReference.keywords */
   keywords?: SpellKeyword[];
+  /** See SpellReference.range */
+  range?: number;
+  /** See SpellReference.createsItems */
+  createsItems?: string[];
 }
 
 /**
@@ -54,7 +81,7 @@ export type SpellSecondaryType = ItemAbilitySecondaryTypeEnum | "Fear" | "Diseas
 
 export interface Spell extends BaseSpell {
   /**
-   * Used for retrieving a spell inside family factories
+   * Used for retrieving a spell inside entry and kin factories
    */
   id?: number;
 
@@ -129,7 +156,7 @@ export interface Item {
    */
   copyFrom?: string;
   /**
-   * Used for retrieving an item inside family factories
+   * Used for retrieving an item inside entry and kin factories
    */
   id?: number;
   /**

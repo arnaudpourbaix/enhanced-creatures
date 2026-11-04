@@ -23,14 +23,11 @@ export type CastSpellOnConditionType =
   | "CheckSpellState(Myself,Extra)";
 
 export enum SummonCreatureModeEnum {
-  MatchTarget0 = 0,
-  MatchTarget1 = 1,
-  FromCRE2 = 2,
-  MatchTarget3 = 3,
-  FromCRE4 = 4,
-  Hostile = 5,
-  FromCRE6 = 6,
-  FromCRE8 = 8,
+  PositionEffectAllegianceMatchTarget = 0,
+  PositionEffectAllegianceMatchCRE = 2,
+  PositionTargetAllegianceMatchTarget = 3,
+  PositionTargetAllegianceCRE = 4,
+  PositionEffectAllegianceTargetOpposite = 5,
 }
 
 export enum CastingTimeModifierTypeEnum {
@@ -1352,7 +1349,7 @@ export enum CriticalHitEffectAttackTypeEnum {
 }
 
 export enum ReplaceCreatureTypeEnum {
-  RemoveCreature = 0,
+  RemoveSilently = 0,
   ChunkingDeath = 1,
   NormalDeath = 2,
   SpawnAtTarget = 3,

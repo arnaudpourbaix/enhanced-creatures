@@ -1,5 +1,6 @@
+import atWillService from "../services/at-will.service";
 import figureSet from "figures";
-import { MonsterEnum, MonsterFamilyEnum } from "../../creatures/monster";
+import { MonsterEnum } from "../../creatures/monster";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "../model/creature/adjustment";
 import {
   BEHAVIOR_DEFAULT,
@@ -24,6 +25,8 @@ import { ImmunityName } from "../model/final/immunity";
 import { Item } from "../model/spell-item/spell-item";
 import abilityOrderService from "../services/baf/ability-order.service";
 import abilityService from "../services/baf/ability.service";
+import scriptPlanService from "../services/baf/script-plan.service";
+import scriptViewService, { HandWrittenBehavior } from "../services/baf/script-view.service";
 import creatureService from "../services/creature.service";
 import descriptionService from "../services/doc/description.service";
 import immunityService from "../services/effects/immunity.service";
@@ -130,6 +133,12 @@ class CreatureFactory {
       ...others,
     };
     if (abilities && !Array.isArray(abilities)) {
+      // one script per creature: its entries are declared once, in its own code
+      if (cre.pendingAbilityEntries) {
+        throw new Error(
+          `Creature ${translationService.from(cre.name)}: ability entries are already declared, declare them all at once`,
+        );
+      }
       cre.pendingAbilityEntries = abilities.entries;
     } else {
       cre.behavior.abilities.push(...abilityService.getAbilities(abilities));
@@ -140,7 +149,36 @@ class CreatureFactory {
   }
 
   resolveAbilities(cre: Creature): void {
+    cre.handWrittenAbilities = [...cre.behavior.abilities];
+    // first, while the creature's abilities are only its hand-written ones (see resolveCovered)
+    cre.behavior.coveredAbilities = abilityService.getAbilities(
+      abilityOrderService.resolveCovered(cre),
+    );
     cre.behavior.abilities.push(...abilityService.getAbilities(abilityOrderService.resolve(cre)));
+  }
+
+  /**
+   * A variant with spells of its own gets its own script, resolved apart (see ScriptViewService):
+   * the hand-written behavior is kept before the creature's own resolution, which then covers
+   * every variant's abilities. Undefined when every file runs the base script.
+   */
+  private takeHandWritten(creature: Creature): HandWrittenBehavior | undefined {
+    if (!scriptPlanService.hasScriptedVariant(creature)) return undefined;
+    const handWritten = scriptViewService.snapshot(creature);
+    scriptViewService.addVariantBehaviors(creature);
+    return handWritten;
+  }
+
+  private planScripts(creature: Creature, handWritten: HandWrittenBehavior | undefined): void {
+    creature.scripts = scriptPlanService.plan(creature);
+    for (const script of creature.scripts) {
+      if (handWritten) script.view = scriptViewService.build(creature, script, handWritten);
+      const lines = scriptViewService.describe(script.view);
+      if (!lines.length) continue;
+      const variant = script.variant ? ` (${script.variant.label})` : "";
+      logService.log(`script ${script.name}${variant}:`);
+      for (const line of lines) logService.log(`    ${line}`);
+    }
   }
 
   checkValidation(creature: Creature) {
@@ -150,14 +188,10 @@ class CreatureFactory {
       );
   }
 
-  validate(creature: Creature, family: MonsterFamilyEnum) {
+  validate(creature: Creature) {
     let valid = true;
     if (State.creatures.some((c) => c.id === creature.id)) {
       throw new Error(`Monster '${MonsterEnum[creature.id]}' already declared`);
-    }
-    if (creature.family !== family) {
-      logService.warn(`Family doesn't match: ${creature.family} <-> ${family}`);
-      valid = false;
     }
     const hasFiles = creature.files.length > 0;
     if (!hasFiles) {
@@ -190,7 +224,13 @@ class CreatureFactory {
     }
     if (valid && hasFiles) State.creatures.push(creature);
     creatureService.check(creature);
+    creatureService.checkAdjustmentSpells(creature);
+    creatureService.checkSpellRoles(creature);
+    const handWritten = this.takeHandWritten(creature);
     this.resolveAbilities(creature);
+    atWillService.checkDuplicates(creature);
+    atWillService.applyCooldowns(creature);
+    this.planScripts(creature, handWritten);
     creatureService.checkSpellAbilities(creature);
     creatureService.checkDuplicateAbilities(creature);
     const dialogValid = creatureService.checkDialog(creature);

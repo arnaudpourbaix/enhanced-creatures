@@ -1,5 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { GLOBAL_CONFIG } from "../../../config/generate";
 import { JEWEL_SLOTS } from "../../model/creature/item";
+import spellComboService from "../spell-combo.service";
+// builds the combo SPLs (see SpellComboService.useSpellBuilder), and loads the presets they need
+import "../spell.service";
 import weiduCoreService from "./weidu-core.service";
 
 describe("getIcon", () => {
@@ -19,5 +23,73 @@ describe("getIcon", () => {
   it("returns the matching single-slot icon for known single slots", () => {
     expect(weiduCoreService.getIcon({ file: "x", slot: "HELMET" })).toBe("IHELM01");
     expect(weiduCoreService.getIcon({ file: "x", slot: "BOOTS" })).toBe("IBOOT01");
+  });
+});
+
+describe("generateImmunityStates", () => {
+  const codes = () =>
+    (weiduCoreService as unknown as { lines: { code: string }[] }).lines.map((l) => l.code);
+
+  beforeEach(() => {
+    GLOBAL_CONFIG.enableImmunityStates = true;
+  });
+  afterEach(() => {
+    GLOBAL_CONFIG.enableImmunityStates = false;
+  });
+
+  it("emits nothing outside a release build (it slows installation)", () => {
+    GLOBAL_CONFIG.enableImmunityStates = false;
+    const before = codes().length;
+    weiduCoreService.generateImmunityStates();
+    expect(codes()).toHaveLength(before);
+  });
+
+  it("scans the game's spells and items, except this mod's", () => {
+    weiduCoreService.generateImmunityStates();
+    expect(codes()).toContain(
+      String.raw`COPY_EXISTING_REGEXP GLOB ~^.+\.\(itm\|spl\)$~ ~override~`,
+    );
+    expect(codes().some((c) => c.includes("STRING_COMPARE_REGEXP ~^ja.*~"))).toBe(true);
+  });
+
+  it("resolves each state once, before scanning the files", () => {
+    weiduCoreService.generateImmunityStates();
+    const lines = codes();
+    const resolved = lines.lastIndexOf(
+      "OUTER_SET state_CHARM_IMMUNITY = IDS_OF_SYMBOL (~splstate~ ~CHARM_IMMUNITY~)",
+    );
+    const scan = lines.findIndex((c, i) => i > resolved && c.startsWith("COPY_EXISTING_REGEXP"));
+    expect(resolved).toBeGreaterThan(-1);
+    expect(scan).toBeGreaterThan(resolved);
+    expect(lines.slice(scan).filter((c) => c.includes("IDS_OF_SYMBOL"))).toEqual([]);
+  });
+
+  it("replaces each immunity's state with a clone of the immunity", () => {
+    weiduCoreService.generateImmunityStates();
+    const lines = codes();
+    const check = lines.lastIndexOf("PATCH_IF immune_5 BEGIN");
+    expect(lines.slice(check + 1, check + 3)).toEqual([
+      "LPF DELETE_EFFECT INT_VAR match_opcode=328 match_parameter2=state_CHARM_IMMUNITY END",
+      "LPF CLONE_EFFECT INT_VAR match_opcode=101 match_parameter2=5 opcode=328 parameter1=0 parameter2=state_CHARM_IMMUNITY special=1 END",
+    ]);
+  });
+});
+
+describe("generateSpellCombos", () => {
+  const codes = () =>
+    (weiduCoreService as unknown as { lines: { code: string }[] }).lines.map((l) => l.code);
+
+  it("creates every combo SPL", () => {
+    weiduCoreService.generateSpellCombos();
+    const files = spellComboService.allSpells().map((s) => s.file);
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) expect(codes()).toContain(`CREATE SPL "${file}"`);
+  });
+
+  it("writes their effects with power 0, so spell protections ignore the combo itself", () => {
+    weiduCoreService.generateSpellCombos();
+    const effects = codes().filter((c) => c.includes("opcode=146"));
+    expect(effects.length).toBeGreaterThan(0);
+    for (const effect of effects) expect(effect).not.toMatch(/power=[1-9]/);
   });
 });

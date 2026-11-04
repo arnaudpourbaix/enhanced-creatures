@@ -1,4 +1,6 @@
+import presetFactory from "../src/factories/preset.factory";
 import { AbilityPreset } from "../src/model/misc";
+import spellComboService from "../src/services/spell-combo.service";
 import { DEFAULT_SPELL_PROBABILITY } from "./common";
 import { BUFF_PRESETS } from "./presets/buff-presets";
 import { CHARM_PRESETS } from "./presets/charm-presets";
@@ -16,6 +18,7 @@ import { KIT_PRESETS } from "./presets/kit-presets";
 import { SLEEP_PRESETS } from "./presets/sleep-presets";
 import { SUMMON_PRESETS } from "./presets/summon-presets";
 import { WEAPON_PRESETS } from "./presets/weapon-presets";
+import { SPELL_COMBOS } from "./spells/spell-combos";
 import { SPELLS } from "./spells/spell-database";
 
 // Spells from SPELLS with no preset defined yet.
@@ -45,7 +48,7 @@ const NEW_PRESETS: AbilityPreset[] = [
   },
 ];
 
-export const ABILITY_PRESETS: AbilityPreset[] = [
+const SPELL_PRESETS: AbilityPreset[] = [
   ...BUFF_PRESETS,
   ...HEAL_PRESETS,
   ...KIT_PRESETS,
@@ -63,4 +66,12 @@ export const ABILITY_PRESETS: AbilityPreset[] = [
   ...SUMMON_PRESETS,
   ...WEAPON_PRESETS,
   ...NEW_PRESETS,
+];
+
+spellComboService.usePresets(SPELL_PRESETS);
+
+export const ABILITY_PRESETS: AbilityPreset[] = [
+  ...SPELL_PRESETS,
+  // sequencers and contingencies, built from their spells' presets
+  ...presetFactory.createCombos(SPELL_COMBOS, SPELL_PRESETS),
 ];

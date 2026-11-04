@@ -39,6 +39,8 @@ export type PartialAdditionalCode = PartialBy<AdditionalCode, "triggers" | "acti
 
 export type CustomCodeLocation =
   | "attack"
+  | "avoidClouds"
+  | "coveredAbilities"
   | "creatureAbilities"
   | "destroyUponDeath"
   | "detectCombat"
@@ -51,6 +53,7 @@ export type CustomCodeLocation =
   | "kitAbilities"
   | "noActionOutsideOfCombat"
   | "potions"
+  | "precastContingencies"
   | "precastLongDurationSpells"
   | "precastMidDurationSpells"
   | "randomWalkNoCombat"

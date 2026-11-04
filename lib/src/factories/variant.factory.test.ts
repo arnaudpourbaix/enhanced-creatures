@@ -19,6 +19,7 @@ const GREATER_LACEDON_FILE = "AC#DT01L";
 const GREATER_LACEDON = "greater lacedon";
 const CREATURE_FILES = [
   "GRON",
+  "DX#DALID",
   "GMAYOR",
   "THESHAL",
   "CD41COR",
@@ -66,7 +67,7 @@ describe("variantFactory.add", () => {
       adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
     });
     expect(get()).toEqual([
-      { files: ["GRON", "CD41COR"], data: { level1: 6, strength: 18 } },
+      { files: ["GRON"], data: { level1: 6, strength: 18 } },
       { files: ["CD41COR"], data: { level1: 10, strength: 18 } },
     ]);
   });
@@ -81,18 +82,41 @@ describe("variantFactory.add", () => {
           files: ["AC#BOSS"],
           data: { level1: 14 },
           noWeapon: true,
-          stringRef: "monster.undead.name.ghast",
+          stringRef: "monster.ghast.name",
         },
       ],
     });
     expect(get()).toEqual([
-      { files: ["AC#BOSS"], data: { strength: 18 } },
       {
         files: ["AC#BOSS"],
         data: { level1: 14, strength: 18 },
         noWeapon: true,
-        stringRef: "monster.undead.name.ghast",
+        stringRef: "monster.ghast.name",
       },
+    ]);
+  });
+
+  it("does not apply the grouped entry on top of a file's own adjust entry (no doubled memorized spells)", () => {
+    const get = captureAdjustments();
+    const memorized = [{ file: "SPWI501", memorizedCount: 1 }];
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { spells: { memorized } },
+      files: ["CD41COR"],
+      adjust: [{ files: ["CD41COR"], data: { level1: 10 } }],
+    });
+    expect(get()).toEqual([{ files: ["CD41COR"], data: { level1: 10, spells: { memorized } } }]);
+  });
+
+  it("keeps the grouped entry for a file whose adjust entry is game-scoped", () => {
+    const get = captureAdjustments();
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { strength: 18 },
+      files: ["CD41COR"],
+      adjust: [{ files: ["CD41COR"], game: "bg1", data: { level1: 10 } }],
+    });
+    expect(get()).toEqual([
+      { files: ["CD41COR"], data: { strength: 18 } },
+      { files: ["CD41COR"], game: "bg1", data: { level1: 10, strength: 18 } },
     ]);
   });
 
@@ -111,6 +135,16 @@ describe("variantFactory.add", () => {
     variantFactory.add(fakeCreature(), "empty", { files: ["GRON"] });
     expect(get()).toEqual([]);
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('variant "empty"'));
+  });
+
+  it("doesn't warn without data when every file has its own adjust entry", () => {
+    captureAdjustments();
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    variantFactory.add(fakeCreature(), "group", {
+      files: ["GRON"],
+      adjust: [{ files: ["GRON"], data: { level1: 5 } }],
+    });
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it("returns a handle with member files uppercased and deduped", () => {
@@ -188,5 +222,99 @@ describe("derived variant (Variant.variant)", () => {
     expect(() =>
       lacedon.variant(GREATER_LACEDON, { data: { xpv: 1800 }, files: [FOREIGN_FILE] }),
     ).toThrow(NOT_OWNED);
+  });
+});
+
+describe("scripted variants", () => {
+  const NECRO = "necro";
+  const BASE_SPELL = "SPWI112";
+  const NEW_SPELL = "SPWI212";
+
+  function casterCreature(): Creature {
+    const creature = fakeCreature();
+    creature.data = {
+      ...creatureFactory.createEmptyData(),
+      items: { remove: [], equipped: [] },
+    } as unknown as MainCreatureData;
+    creature.data.spells.memorized = [{ file: BASE_SPELL, memorizedCount: 1 }];
+    return creature;
+  }
+
+  it("a variant adding a spell file the base lacks is scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: BASE_SPELL }, { file: NEW_SPELL }] } },
+      files: ["GRON"],
+    });
+    expect(variant.scripted).toBe(true);
+    expect(variant.newSpellFiles).toEqual([NEW_SPELL]);
+  });
+
+  it("more uses of a base spell is not scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: BASE_SPELL, memorizedCount: 3 }] } },
+      files: ["GRON"],
+    });
+    expect(variant.scripted).toBe(false);
+  });
+
+  it("a variant declaring behavior is scripted", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { level1: 9 },
+      files: ["GRON"],
+      behavior: { abilities: [] },
+    });
+    expect(variant.scripted).toBe(true);
+  });
+
+  it("a sub-variant inheriting its parent's spells is not scripted", () => {
+    const parent = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: NEW_SPELL }] } },
+      files: ["GRON"],
+    });
+    const child = parent.variant("elder necro", { data: { level1: 12 }, files: ["GMAYOR"] });
+    expect(parent.scripted).toBe(true);
+    expect(child.scripted).toBe(false);
+  });
+
+  it("an adjust entry adding a spell the variant lacks is reported", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { level1: 9 },
+      files: ["GRON", "DX#DALID"],
+      adjust: [{ files: ["DX#DALID"], data: { spells: { memorized: [{ file: NEW_SPELL }] } } }],
+    });
+    expect(variant.spellErrors).toEqual([
+      `variant "necro": 'DX#DALID' adds spells SPWI212 - declare a sub-variant`,
+    ]);
+  });
+
+  it("an adjust entry giving more uses of a variant spell is allowed", () => {
+    const variant = variantFactory.add(casterCreature(), NECRO, {
+      data: { spells: { memorized: [{ file: NEW_SPELL }] } },
+      files: ["GRON", "GMAYOR"],
+      adjust: [
+        {
+          files: ["GMAYOR"],
+          data: { spells: { memorized: [{ file: NEW_SPELL, memorizedCount: 2 }] } },
+        },
+      ],
+    });
+    expect(variant.spellErrors).toEqual([]);
+  });
+});
+
+describe("sub-variant spells", () => {
+  it("a sub-variant's spellbooks replace its parent's", () => {
+    captureAdjustments();
+    const parent = variantFactory.add(fakeCreature(), "mage", {
+      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI112" }] }] } },
+      files: ["GRON"],
+    });
+    const child = parent.variant("archmage", {
+      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] }] } },
+      files: ["GMAYOR"],
+    });
+    expect(child.data.spells?.spellbooks).toEqual([
+      { mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] },
+    ]);
   });
 });

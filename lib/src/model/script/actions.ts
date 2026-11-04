@@ -72,6 +72,7 @@ export namespace Actions {
     | "Hide"
     | "Panic"
     | "Turn"
+    | "AddExperienceParty"
     | "Rest"
     | "Shout"
     | "DestroySelf"
@@ -101,7 +102,8 @@ export namespace Actions {
     | "RandomTurn"
     | "OpenDoor"
     | "StartCutSceneMode"
-    | "StartCutScene";
+    | "StartCutScene"
+    | "EscapeArea";
 
   export interface Attack {
     name: "Attack";
@@ -259,6 +261,12 @@ export namespace Actions {
     params: [string, ParamObject];
   }
 
+  /** ReallyForceSpell, working even in the round the caster dies */
+  export interface ReallyForceSpellDead {
+    name: "ReallyForceSpellDead";
+    params: [ParamObject, SpellIdentifier];
+  }
+
   export interface ApplySpell {
     name: "ApplySpell";
     params: [ParamObject, SpellIdentifier];
@@ -316,6 +324,11 @@ export namespace Actions {
 
   export interface Turn {
     name: "Turn";
+  }
+
+  export interface AddExperienceParty {
+    name: "AddExperienceParty";
+    params: [number];
   }
 
   export interface Rest {
@@ -442,6 +455,10 @@ export namespace Actions {
     name: "StartCutSceneMode";
   }
 
+  export interface EscapeArea {
+    name: "EscapeArea";
+  }
+
   export interface StartCutScene {
     name: "StartCutScene";
     params: [string];
@@ -478,6 +495,7 @@ export namespace Actions {
     | ForceSpellRES
     | ReallyForceSpell
     | ReallyForceSpellRES
+    | ReallyForceSpellDead
     | ApplySpell
     | ApplySpellRES
     | RemoveSpell
@@ -491,6 +509,7 @@ export namespace Actions {
     | Hide
     | Panic
     | Turn
+    | AddExperienceParty
     | Rest
     | Shout
     | DestroySelf
@@ -516,7 +535,8 @@ export namespace Actions {
     | RandomTurn
     | OpenDoor
     | StartCutSceneMode
-    | StartCutScene;
+    | StartCutScene
+    | EscapeArea;
 
   // This is WeiDU action reference/documentation data, not application logic - many entries
   // legitimately share the same `parameters` signature or `section` grouping by coincidence of
@@ -937,6 +957,13 @@ export namespace Actions {
       section: "Misc",
     },
     {
+      name: "AddExperienceParty",
+      parameters: "I:XP*",
+      description:
+        "This action adds the specified amount of experience to the party. The experience is divided among party members.",
+      section: "Misc",
+    },
+    {
       name: "Turn",
       parameters: "",
       description:
@@ -1153,6 +1180,20 @@ export namespace Actions {
       parameters: "S:CutScene*",
       description:
         "This action starts a cutscene; a cinematic sequence that removes the GUI and player control. The cutscene parameter is the script name to run. The second variant can enable condition checking (trigger evaluation, off by default) when the second parameter is set to TRUE.",
+      section: "Misc",
+    },
+    {
+      name: "EscapeArea",
+      parameters: "",
+      description:
+        "This action, in its first form, instructs the active creature to leave the current area, either by walking, or, if the path is blocked, by simply disappearing. In the actions second form the action functions as a combination of EscapeAreaDestroy() and MoveBetweenAreas(). The parameters are similar to MoveBetweenAreas(), in that it takes in all the same information, but unlike MoveBetweenAreas(), the character will search for the nearest enabled travel trigger, move to that, then execute his movement to the specified area. If no travel trigger is found, the creature will just execute the movement. The action is uninterruptable; actions listed this one in a script may not execute as intended.",
+      section: "Misc",
+    },
+    {
+      name: "EscapeAreaDestroy",
+      parameters: "I:Delay*",
+      description:
+        "This action instructs the active creature to search for the nearest travel trigger point for the specified time (measured in second) before giving up and just disappearing.",
       section: "Misc",
     },
   ];

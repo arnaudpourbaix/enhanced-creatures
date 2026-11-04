@@ -1,5 +1,5 @@
-COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaspainA.BAM~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaspainB.BAM~ ~override~
-COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaspainC.BAM~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaac0000.bam~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaac0001.bam~ ~override~
+COPY ~%MOD_FOLDER%/lib/pnp-spell/symbol_pain/jaac0002.bam~ ~override~
 
 LAF create_spell_SymbolPain END

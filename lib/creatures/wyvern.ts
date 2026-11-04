@@ -1,14 +1,8 @@
-import { MonsterItemIconEnum } from "../config/item";
 import { Creature } from "../src/model/creature/creature";
-import { CreatureFamily } from "../src/model/creature/family";
-import {
-  AbilityDamageTypeEnum,
-  ItemAbilityFlagEnum,
-  ItemAbilityTypeEnum,
-  PnPPoisonType,
-} from "../src/model/spell-item/effect.enums";
-import poisonService from "../src/services/effects/poison.service";
-import { MonsterEnum, MonsterFamilyEnum } from "./monster";
+import { CreatureEntry } from "../src/model/creature/entry";
+import { PnPPoisonType } from "../src/model/spell-item/effect.enums";
+import { EntryEnum } from "./entry";
+import { MonsterEnum } from "./monster";
 
 enum Ids {
   Stinger,
@@ -22,48 +16,29 @@ class Wyvern extends Creature {
     poisonType: PnPPoisonType;
     saveBonus: number;
   }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.wyvern.weapon.stinger",
-        id: Ids.Stinger,
-        icon: MonsterItemIconEnum.Wolf,
-        equippedSlot: ["WEAPON1"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 3,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
-      castSpells: [poisonService.getSpell({ poisonType: p.poisonType, saveBonus: p.saveBonus })],
+    return this.addNaturalWeapon("stinger", {
+      id: Ids.Stinger,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 3,
+      poison: { poisonType: p.poisonType, saveBonus: p.saveBonus },
     });
   }
 
   createJaws(p: { diceThrown: number; diceSize: number }) {
-    return this.addWeapon({
-      weapon: {
-        stringRef: "monster.wyvern.weapon.jaws",
-        id: Ids.Jaws,
-        icon: MonsterItemIconEnum.Jaws,
-        equippedSlot: ["SHIELD"],
-        header: {
-          type: ItemAbilityTypeEnum.Melee,
-          diceThrown: p.diceThrown,
-          diceSize: p.diceSize,
-          damageType: AbilityDamageTypeEnum.Piercing,
-          speed: 2,
-          abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
-        },
-      },
+    return this.addNaturalWeapon("jaws", {
+      id: Ids.Jaws,
+      diceThrown: p.diceThrown,
+      diceSize: p.diceSize,
+      speed: 2,
+      slot: "SHIELD",
     });
   }
 }
 
-class WyvernFamily extends CreatureFamily<Wyvern> {
+class WyvernEntry extends CreatureEntry<Wyvern> {
   constructor() {
-    super(MonsterFamilyEnum.Wyvern);
+    super(EntryEnum.Wyvern);
     this.addCreature(() => this.wyvern());
     this.addCreature(() => this.baby());
     this.addCreature(() => this.greater());
@@ -101,6 +76,7 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
         gender: "NIETHER",
         size: { value: "Gargantuan", tall: false, long: true },
         movement: 24,
+        immunities: ["dragon"],
         items: {
           remove: ["RING97", "BDWYV01", "WYVERN1", "WYVERN2", "WYVERNSU"],
         },
@@ -245,4 +221,4 @@ class WyvernFamily extends CreatureFamily<Wyvern> {
     return drake;
   }
 }
-export const createWyverns = () => new WyvernFamily();
+export const createWyvernEntry = () => new WyvernEntry();

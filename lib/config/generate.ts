@@ -16,10 +16,20 @@ const SPELL_CHECKS: SpellCheckConfig = {
 export const GLOBAL_CONFIG = {
   spellChecks: SPELL_CHECKS,
   /**
+   * Minimum chance (in %, by steps of 5: a d20) for a target to fail a spell's saving throw, below
+   * which the AI doesn't target it with that spell (see TriggerFactory.saveChecks). 0: the target
+   * only needs to be able to fail, like SCS. Needs spellChecks.stats.
+   */
+  saveCheckMinFailChance: 0,
+  /**
    * Add WeaponEffectiveVs/WeaponCanDamage (main hand) to attack target triggers, so a creature
    * doesn't attack a target its weapon can't hit or damage.
    */
   weaponCheck: true,
+  /**
+   * Get out of hostile clouds (see CLOUDS): only with Stratagems, whose clouds shout to warn.
+   */
+  avoidClouds: true,
   /**
    * Areas where creatures can't cast spells (innate abilities still work): entering one sets
    * bafConstants.disableSpellcasting, which every spellcasting block checks (see
@@ -31,6 +41,7 @@ export const GLOBAL_CONFIG = {
     spellResources: "lib/common/spell-resources.tpa",
     spellFunctions: "lib/common/spell-functions.tpa",
     immunities: "lib/common/immunities.tpa",
+    stringRefs: "lib/common/string-refs.tpa",
   },
   constitutionAffectHitPoint: true,
   spellcasterPrecastMidDurationSpells: false,
@@ -47,6 +58,13 @@ export const GLOBAL_CONFIG = {
    */
   enableSecondaryTypes: false,
   /**
+   * Give the game's spells and items granting an immunity its spell state (see
+   * WeiduCoreService.generateImmunityStates), so the AI sees a party's protections. Keep disabled
+   * during development because it increases installation time (a pass over every spell and
+   * item). Enable once, right before a release build.
+   */
+  enableImmunityStates: false,
+  /**
    * Randomize the order additional spells are picked from when filling a spellbook
    * (see spell.service.ts's createSpellbook). Keep disabled during development: shuffling
    * would churn committed output with no real config change behind it.
@@ -58,8 +76,6 @@ export const GLOBAL_CONFIG = {
     initGlobal: "JA_INIT",
     precastLongDurationSpells: "JA_PRECAST_LONG",
     precastMidDurationSpells: "JA_PRECAST_MID",
-    minorSequencer: "JA_MINOR_SEQUENCER",
-    sequencer: "JA_SEQUENCER",
     restTimer: "JA_REST",
     shoutTimer: "JA_SHOUT",
     helpTimer: "JA_HELP",

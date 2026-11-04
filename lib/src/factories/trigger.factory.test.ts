@@ -3,6 +3,8 @@ import { GLOBAL_CONFIG } from "../../config/generate";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { allySafe, defaultAllySafe } from "../../config/target/ally-safe";
 import { ScriptTarget } from "../model/constants";
+import { StatsIdentifier } from "../model/ids/stats";
+import { SaveTypeEnum } from "../model/spell-item/effect.enums";
 import { Triggers } from "../model/script/triggers";
 import triggerFactory from "./trigger.factory";
 
@@ -192,6 +194,65 @@ describe("spellChecks", () => {
   });
 });
 
+describe("saveChecks", () => {
+  const save = (stat: StatsIdentifier, threshold = 0) =>
+    triggerFactory.checkStatGT(threshold, stat);
+
+  afterEach(() => {
+    GLOBAL_CONFIG.spellChecks.stats = true;
+    GLOBAL_CONFIG.saveCheckMinFailChance = 0;
+  });
+
+  it("defaults to an empty list", () => {
+    expect(triggerFactory.saveChecks()).toEqual([]);
+  });
+
+  it("skips a target that can't fail the spell's save", () => {
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell] }])).toEqual([
+      save("SAVEVSSPELL"),
+    ]);
+  });
+
+  it("lowers the threshold by the save's penalty", () => {
+    // a save of 0 still fails 25% of the time at -6: kept until the save reaches -6
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell], bonus: -6 }])).toEqual([
+      save("SAVEVSSPELL", -6),
+    ]);
+  });
+
+  it("raises the threshold by 1 per 5% of the minimum fail chance", () => {
+    GLOBAL_CONFIG.saveCheckMinFailChance = 25;
+    // the save of 0 above, which fails 25% of the time, is still kept
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell], bonus: -6 }])).toEqual([
+      save("SAVEVSSPELL", -1),
+    ]);
+  });
+
+  it("needs every save type of one effect to be failable, the target rolling its best", () => {
+    expect(
+      triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell, SaveTypeEnum.RodStaffWand] }]),
+    ).toEqual([save("SAVEVSSPELL"), save("SAVEVSWANDS")]);
+  });
+
+  it("only skips a target that can't fail any effect", () => {
+    expect(
+      triggerFactory.saveChecks([
+        { types: [SaveTypeEnum.Spell] },
+        { types: [SaveTypeEnum.Breath], bonus: 2 },
+      ]),
+    ).toEqual([triggerFactory.or([save("SAVEVSSPELL"), save("SAVEVSBREATH", 2)])]);
+  });
+
+  it("ignores save flags that aren't saving throws", () => {
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.BypassMirrorImage] }])).toEqual([]);
+  });
+
+  it("checks nothing when stats checks are disabled", () => {
+    GLOBAL_CONFIG.spellChecks.stats = false;
+    expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell] }])).toEqual([]);
+  });
+});
+
 describe("immuneToSpellLevel", () => {
   it("builds a CheckStatGT-shaped ImmuneToSpellLevel trigger against the target token", () => {
     expect(triggerFactory.immuneToSpellLevel(3)).toEqual({
@@ -211,6 +272,21 @@ describe("immuneToSpellLevel", () => {
 });
 
 describe("alliesSafe", () => {
+  it("measures the caster's own allies for an area around it", () => {
+    const result = triggerFactory.alliesSafe({
+      range: 8,
+      count: 1,
+      safeIf: [],
+      aroundCaster: true,
+    });
+    expect(JSON.stringify(result)).not.toContain("TriggerOverride");
+    expect(result.at(-1)).toMatchObject({
+      name: "Range",
+      params: ["SecondNearestAllyOf(Myself)", 8],
+      negation: true,
+    });
+  });
+
   const target = "LastSeenBy(Myself)";
   const ally = (prefix: string) => `${prefix}NearestEnemyOf(Myself)`;
   const asTarget = (trigger: Triggers.Trigger, negation = false) => ({
@@ -288,6 +364,30 @@ describe("enemyNearTarget", () => {
   });
 });
 
+describe("enemyCanHurtInMelee", () => {
+  it("checks the enemy's range, then its weapon against its nearest enemy", () => {
+    const enemy = "SecondNearestEnemyOf(Myself)";
+    const weapon = (name: "WeaponEffectiveVs" | "WeaponCanDamage") => ({
+      name: "TriggerOverride",
+      object: enemy,
+      trigger: { name, params: ["NearestEnemyOf(Myself)", "MAINHAND"] },
+      negation: false,
+    });
+    expect(triggerFactory.enemyCanHurtInMelee(enemy)).toEqual([
+      { name: "Range", params: [enemy, 4] },
+      weapon("WeaponEffectiveVs"),
+      weapon("WeaponCanDamage"),
+    ]);
+  });
+
+  it("takes a custom range", () => {
+    expect(triggerFactory.enemyCanHurtInMelee("NearestEnemyOf(Myself)", 8)[0]).toEqual({
+      name: "Range",
+      params: ["NearestEnemyOf(Myself)", 8],
+    });
+  });
+});
+
 describe("casterSafe", () => {
   it("checks the caster against any of safeIf", () => {
     expect(
@@ -319,6 +419,44 @@ describe("casterSafe", () => {
 describe("defaultAllySafe", () => {
   it("only adds magic resistance without damage keywords nor level", () => {
     expect(defaultAllySafe(["hold"], null)).toEqual([allySafe.magicResistance()]);
+  });
+});
+
+describe("lastSeenIsOpponent", () => {
+  it("keeps a LastSeenBy that is an enemy now: charm swaps sides, Allegiance stays", () => {
+    const charmed = (negation: boolean): Triggers.Trigger => ({
+      name: "StateCheck",
+      params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
+      negation,
+    });
+    // not charmed: on the other side; charmed: on the caster's own side (the party charmed it)
+    const sideCheck = (cutoff: string, charm: boolean): Triggers.Trigger => ({
+      name: "Or",
+      triggers: [
+        { name: "Allegiance", params: [ScriptTarget.myself, cutoff], negation: true },
+        { name: "Allegiance", params: [ScriptTarget.lastSeen, cutoff], negation: !charm },
+        charmed(charm),
+      ],
+    });
+    expect(triggerFactory.lastSeenIsOpponent()).toEqual([
+      sideCheck("EVILCUTOFF", false),
+      sideCheck("GOODCUTOFF", false),
+      sideCheck("EVILCUTOFF", true),
+      sideCheck("GOODCUTOFF", true),
+    ]);
+  });
+});
+
+describe("sideCheck", () => {
+  it("keeps WorstAC, a party member, for a hostile caster, unless it is charmed", () => {
+    expect(triggerFactory.sideCheck("WorstAC")).toEqual([
+      { name: "Allegiance", params: [ScriptTarget.myself, "EVILCUTOFF"] },
+      { name: "StateCheck", params: ["WorstAC", "STATE_CHARMED"], negation: true },
+    ]);
+  });
+
+  it("adds nothing for an object that is always an enemy", () => {
+    expect(triggerFactory.sideCheck("NearestEnemyOf(Myself)")).toEqual([]);
   });
 });
 

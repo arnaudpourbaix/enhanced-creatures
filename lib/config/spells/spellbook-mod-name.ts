@@ -11,4 +11,6 @@ export type SpellbookModName =
    * SpellReference (and a spellbook's non-vanilla SpellBookModVariant) should target this, not the
    * individual mods above.
    */
-  | "AllSpellMods";
+  | "AllSpellMods"
+  /** SCS (Stratagems) "Improved Bodhi", or the older Tactics version: they create ibodhi*.spl */
+  | "ImprovedBodhi";

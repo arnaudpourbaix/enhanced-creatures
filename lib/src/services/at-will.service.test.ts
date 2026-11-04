@@ -1,0 +1,277 @@
+import { describe, expect, it } from "vitest";
+import { AT_WILL } from "../../config/common";
+import { SPELLS } from "../../config/spells/spell-database";
+import { CreatureAbility } from "../model/creature/ability";
+import { Creature } from "../model/creature/creature";
+import { MainCreatureData, MemorizedSpell } from "../model/creature/data";
+import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { State } from "../state";
+import atWillService from "./at-will.service";
+
+interface Power {
+  file: string;
+  level: number;
+  speed: number;
+  timer?: { name: string; value: number };
+}
+
+/** A creature with its at-will `powers` (each cast by an ability) and other memorized `spells` */
+function fakeCreature(p: {
+  powers: Power[];
+  spells?: string[];
+  /** Its own powers with a few uses, not at will (a vampire's Bat Swarm) */
+  ownPowers?: string[];
+  /** Its spellbook: the spells of a `spellbooks` variant */
+  spellbook?: string[];
+  melee?: boolean;
+  ranged?: boolean;
+}): Creature {
+  const creature = new Creature(1);
+  creature.name = "common.potion.use";
+  creature.data = {
+    spells: {
+      memorized: [
+        ...p.powers.map((power) => ({ file: power.file, memorizedCount: AT_WILL })),
+        ...[...(p.spells ?? []), ...(p.ownPowers ?? [])].map((file) => ({
+          file,
+          memorizedCount: 1,
+        })),
+      ],
+      spellbooks: p.spellbook && [
+        {
+          mod: "Vanilla",
+          spellbook: "VampireNecromancerSpellbook",
+          memorized: p.spellbook.map((file) => ({ file, memorizedCount: 1 })),
+        },
+      ],
+    },
+  } as unknown as MainCreatureData;
+  creature.adjustments = [];
+  creature.attack = { melee: p.melee ?? true, ranged: p.ranged ?? false } as Creature["attack"];
+  creature.spells = [
+    ...p.powers.map((power) => ({
+      file: power.file,
+      level: power.level,
+      type: SpellTypeEnum.Innate,
+      memorizedCount: AT_WILL,
+      headers: [{ speed: power.speed }],
+    })),
+    ...(p.ownPowers ?? []).map((file) => ({ file, level: 3, headers: [{ speed: 1 }] })),
+  ] as unknown as Creature["spells"];
+  creature.behavior = {
+    abilities: p.powers.map(
+      (power) => ({ resource: power.file, timer: power.timer }) as unknown as CreatureAbility,
+    ),
+    coveredAbilities: [],
+    customCodes: [],
+  } as unknown as Creature["behavior"];
+  return creature;
+}
+
+const timers = (creature: Creature) => creature.behavior.abilities.map((a) => a.timer);
+
+describe("applyCooldowns", () => {
+  it("cools a slow power down for a melee creature: it costs its attacks (Wall of Ice)", () => {
+    const creature = fakeCreature({ powers: [{ file: "WALLICE", level: 2, speed: 4 }] });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([{ name: "ATWILL_WALLICE", value: 12 }]);
+  });
+
+  it("lets a melee creature use a fast power freely: it still attacks (vampire Domination)", () => {
+    const creature = fakeCreature({ powers: [{ file: "DOMINATE", level: 5, speed: 2 }] });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+  });
+
+  it("cools any power down next to a spellbook: it takes the round's spell", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "DOMINATE", level: 5, speed: 1 }],
+      spellbook: [SPELLS.Wizard.Fireball.file],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
+  });
+
+  it("takes only declared spellbooks for one, not other memorized spells (moon dog Howl)", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "DOMINATE", level: 5, speed: 1 }],
+      spells: [SPELLS.Wizard.Fireball.file, SPELLS.Innate.MoonDogHowl.file],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+  });
+
+  it("reads a power shared on the creature's family from the created spells (a vampire's)", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "SHARED", level: 5, speed: 1 }],
+      spellbook: [SPELLS.Wizard.Fireball.file],
+    });
+    State.spells.push(...creature.spells);
+    creature.spells = [];
+    try {
+      atWillService.applyCooldowns(creature);
+      expect(timers(creature)).toEqual([{ name: "ATWILL_SHARED", value: 24 }]);
+    } finally {
+      State.spells.splice(-1, 1);
+    }
+  });
+
+  it("cools powers down for an adjustment's spellbook: every file running the script has it (a mage vampire's)", () => {
+    const creature = fakeCreature({ powers: [{ file: "DOMINATE", level: 5, speed: 1 }] });
+    creature.adjustments = [
+      {
+        data: {
+          spells: {
+            memorized: [],
+            spellbooks: [
+              {
+                mod: "Vanilla",
+                spellbook: "VampireNecromancerSpellbook",
+                memorized: [{ file: SPELLS.Wizard.Fireball.file }],
+              },
+            ],
+          },
+        },
+      },
+    ] as unknown as Creature["adjustments"];
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([{ name: "ATWILL_DOMINATE", value: 24 }]);
+  });
+
+  it("takes only spellbooks built from a SpellBook, not hand-made variants (Improved Bodhi)", () => {
+    const creature = fakeCreature({ powers: [{ file: "DOMINATE", level: 5, speed: 1 }] });
+    creature.adjustments = [
+      {
+        data: {
+          spells: {
+            memorized: [],
+            spellbooks: [{ mod: "ImprovedBodhi", memorized: [{ file: "IBODHI7" }] }],
+          },
+        },
+      },
+    ] as unknown as Creature["adjustments"];
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+  });
+
+  it("doesn't take a creature's own few-use powers for a spellbook (vampire Bat Swarm)", () => {
+    const creature = fakeCreature({
+      powers: [{ file: "DOMINATE", level: 5, speed: 1 }],
+      ownPowers: ["BATSWARM"],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+  });
+
+  it("lets a ranged creature afford a longer cast", () => {
+    const fighter = { melee: false, ranged: true };
+    const four = fakeCreature({ ...fighter, powers: [{ file: "POWER4", level: 2, speed: 4 }] });
+    const five = fakeCreature({ ...fighter, powers: [{ file: "POWER5", level: 2, speed: 5 }] });
+    atWillService.applyCooldowns(four);
+    atWillService.applyCooldowns(five);
+    expect(timers(four)).toEqual([undefined]);
+    expect(timers(five)).toEqual([{ name: "ATWILL_POWER5", value: 12 }]);
+  });
+
+  it("lets a creature that neither fights nor casts use its powers freely", () => {
+    const creature = fakeCreature({
+      melee: false,
+      powers: [{ file: "AURA", level: 4, speed: 9 }],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([undefined]);
+  });
+
+  it("gives each power its own timer, and keeps one an ability declares", () => {
+    const own = { name: "polymorph", value: 12 };
+    const creature = fakeCreature({
+      powers: [
+        { file: "WALLICE", level: 2, speed: 4 },
+        { file: "FIRESTORM", level: 6, speed: 6 },
+        { file: "SHAPE", level: 3, speed: 5, timer: own },
+      ],
+    });
+    atWillService.applyCooldowns(creature);
+    expect(timers(creature)).toEqual([
+      { name: "ATWILL_WALLICE", value: 12 },
+      { name: "ATWILL_FIRESTORM", value: 24 },
+      own,
+    ]);
+  });
+});
+
+describe("checkDuplicates", () => {
+  const dominate = { file: "DOMINATE", memorizedCount: AT_WILL };
+  /** A creature with files A and B, `memorized` as its base list */
+  function withAdjustments(memorized: object[], adjustments: object[] = []): Creature {
+    const creature = fakeCreature({ powers: [] });
+    creature.files = [{ name: "A" }, { name: "B" }] as Creature["files"];
+    creature.data.spells.memorized = memorized as MemorizedSpell[];
+    creature.adjustments = adjustments as Creature["adjustments"];
+    return creature;
+  }
+  const adjustment = (files: string[], spells: object) => ({
+    files,
+    data: { spells: { memorized: [], ...spells } },
+  });
+
+  it("refuses an at-will spell listed twice", () => {
+    const creature = withAdjustments([dominate, dominate]);
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*A/);
+  });
+
+  it("refuses an adjustment adding an at-will spell its file already has", () => {
+    const creature = withAdjustments([dominate], [adjustment(["B"], { memorized: [dominate] })]);
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*B/);
+  });
+
+  it("refuses two adjustments adding it to the same file", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], { memorized: [dominate] }),
+        adjustment(["A", "B"], { memorized: [dominate] }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).toThrow(/DOMINATE.*A/);
+  });
+
+  it("accepts adjustments adding it to different files (Bodhi's encounters)", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], { spellbooks: [{ mod: "ImprovedBodhi", memorized: [dominate] }] }),
+        adjustment(["B"], { spellbooks: [{ mod: "ImprovedBodhi", memorized: [dominate] }] }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts a replacing adjustment listing it again: the earlier count is wiped", () => {
+    const creature = withAdjustments(
+      [dominate],
+      [adjustment(["A"], { memorized: [dominate], cumulative: false })],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts it in each spellbook variant: only one of them is used", () => {
+    const creature = withAdjustments(
+      [],
+      [
+        adjustment(["A"], {
+          spellbooks: [
+            { mod: "Vanilla", memorized: [dominate] },
+            { mod: "AllSpellMods", memorized: [dominate] },
+          ],
+        }),
+      ],
+    );
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+
+  it("accepts a few-use spell listed twice: only at-will ones are checked", () => {
+    const creature = withAdjustments([{ file: "BATSWARM" }, { file: "BATSWARM" }]);
+    expect(() => atWillService.checkDuplicates(creature)).not.toThrow();
+  });
+});

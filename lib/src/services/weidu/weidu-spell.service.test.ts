@@ -155,4 +155,17 @@ describe("createSpellHeader (private)", () => {
     const effectLine = codes(lines).find((c) => c.includes("opcode=1"));
     expect(effectLine).toContain("power=5");
   });
+
+  it("passes the spell's power through over its level", () => {
+    const lines: CodeLine[] = [];
+    service.createSpellHeader(
+      lines,
+      fakeSpell({ level: 1, power: 5 }),
+      fakeHeader({ effects: [{ opcode: 1, target: 1 }] as unknown as Effect[] }),
+      0,
+      1,
+    );
+    const effectLine = codes(lines).find((c) => c.includes("opcode=1"));
+    expect(effectLine).toContain("power=5");
+  });
 });

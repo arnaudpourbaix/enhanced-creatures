@@ -33,6 +33,9 @@ export const createFearAura = ({
   description,
   id,
   name: "monster.common.fearAura",
+  // an aura: always first, never held back (user)
+  role: "reactive",
+  keywords: ["aura"],
   memorizedCount: 1,
   icon: SPELLS.Priest.CloakOfFear.file,
   secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,

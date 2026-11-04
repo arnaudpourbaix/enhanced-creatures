@@ -1,6 +1,9 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { CLOUDS } from "../../../config/clouds";
 import { GLOBAL_CONFIG } from "../../../config/generate";
+import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { POTIONS } from "../../../config/potion";
+import { SPELLS } from "../../../config/spells/spell-database";
 import { TargetListName, TargetStatusName } from "../../../config/target-name";
 import { CreatureAbility } from "../../model/creature/ability";
 import { CreatureAttack } from "../../model/creature/attack";
@@ -16,8 +19,12 @@ import {
   PartialCustomCode,
   Statements,
 } from "../../model/script/script";
-import { TargetList } from "../../model/script/target";
+import { ScriptTarget } from "../../model/constants";
+import { TargetList, TargetPriority } from "../../model/script/target";
 import { Triggers } from "../../model/script/triggers";
+import { SpellCombo } from "../../model/spell-item/spell-combo";
+import triggerFactory from "../../factories/trigger.factory";
+import spellComboService from "../spell-combo.service";
 import stateService from "../state.service";
 import utils from "../utils/utils.service";
 import targetService from "./target.service";
@@ -34,6 +41,7 @@ interface StatementBuilderServicePrivate {
   processStatements(statements: Statements, newStatements: Statements): void;
   dialog(p: Pick<HandlerParams, "statements" | "creature">): void;
   handlePanic(p: Pick<HandlerParams, "statements" | "creature">): void;
+  avoidClouds(p: Pick<HandlerParams, "statements" | "creature">): void;
   destroyUponDeath(p: Pick<HandlerParams, "statements" | "options">): void;
   init(p: Pick<HandlerParams, "statements" | "options">): void;
   disableSpellcasting(p: Pick<HandlerParams, "statements">): void;
@@ -55,6 +63,7 @@ interface StatementBuilderServicePrivate {
     options: BuilderOptions,
     targetListName: TargetListName,
     statusNameList: TargetStatusName[],
+    filter?: Pick<TargetPriority, "triggers" | "conditions" | "label">,
   ): void;
   runAway(statements: Statements, options: BuilderOptions): void;
   reposition(statements: Statements, options: BuilderOptions): void;
@@ -67,7 +76,9 @@ interface StatementBuilderServicePrivate {
   potions(p: HandlerParams): void;
   precastLongDurationSpells(p: Pick<HandlerParams, "statements" | "options">): void;
   precastMidDurationSpells(p: Pick<HandlerParams, "statements" | "options">): void;
+  precastContingencies(p: Pick<HandlerParams, "statements" | "creature">): void;
   creatureAbilities(p: HandlerParams): void;
+  coveredAbilities(p: HandlerParams): void;
   parseAbilities(
     statements: Statements,
     creature: Creature,
@@ -132,6 +143,9 @@ function fakeCreature(
     },
     seeInvisible() {
       return utils.hasImmunity(data.immunities, "seeInvisible");
+    },
+    hasImmunity(name: string) {
+      return utils.hasImmunity(data.immunities, name);
     },
   } as unknown as Creature;
 }
@@ -211,6 +225,43 @@ describe("handlePanic (private)", () => {
       { name: "RunAwayFromNoLeaveArea", params: ["NearestEnemyOf", 15] },
     ]);
     expect(statements[1].responses[0].actions).toEqual([{ name: "RandomWalkContinuous" }]);
+  });
+});
+
+describe("avoidClouds (private)", () => {
+  const comments = (creature: Creature) => {
+    const statements: Statements = [];
+    service.avoidClouds({ statements, creature });
+    return statements.map(({ comment }) => comment ?? "");
+  };
+
+  afterEach(() => {
+    GLOBAL_CONFIG.avoidClouds = true;
+  });
+
+  it("runs away from each cloud, then stays put while seeing no enemy", () => {
+    const ranged = comments(fakeCreature({ attack: { melee: false, ranged: true } }));
+    expect(ranged).toHaveLength(CLOUDS.length + 1);
+    expect(ranged).toContain("Get out of Cloudkill");
+    expect(ranged.at(-1)).toMatch(/stay put/);
+  });
+
+  it("has a melee creature seeing an enemy close in on it instead", () => {
+    const melee = comments(fakeCreature());
+    expect(melee).toHaveLength(2 * CLOUDS.length + 1);
+    expect(melee).toContain("Get out of Cloudkill: close in on the enemies");
+  });
+
+  it("leaves out the clouds the creature's type is immune to", () => {
+    const undead = comments(fakeCreature({ data: { general: "UNDEAD" } }));
+    expect(undead.some((c) => /Cloudkill|Stinking|Suffocate/.test(c))).toBe(false);
+    expect(undead).toContain("Get out of Death Fog");
+  });
+
+  it("adds nothing for a creature immune to clouds, or when disabled", () => {
+    expect(comments(fakeCreature({ data: { immunities: ["cloudSpells"] } }))).toEqual([]);
+    GLOBAL_CONFIG.avoidClouds = false;
+    expect(comments(fakeCreature())).toEqual([]);
   });
 });
 
@@ -687,6 +738,46 @@ describe("attack (private)", () => {
       true,
     );
   });
+
+  describe("charmed allies", () => {
+    const attackStatements = () => {
+      const statements: Statements = [];
+      service.attack({
+        statements,
+        creature: fakeCreature({
+          attack: {
+            targetPriorities: [{ targets: ["NearestEnemies"], status: ["NoCheck"] }],
+          },
+        }),
+        options: options(),
+      });
+      return statements;
+    };
+
+    it("attacks charmed allies last, once no enemy could be attacked", () => {
+      const statements = attackStatements();
+      const charmedIndex = statements.findIndex((s) => s.comment === "Attack CharmedAlly ally");
+      expect(charmedIndex).toBeGreaterThan(
+        statements.findIndex((s) => s.comment === "Attack NoCheck enemy"),
+      );
+      expect(charmedIndex).toBe(statements.length - 2);
+    });
+
+    it("only attacks a charmed LastSeenBy from the party's side, as an enemy-side creature", () => {
+      const triggers = attackStatements().at(-1)?.triggers;
+      expect(triggers).toContainEqual({ name: "Allegiance", params: ["Myself", "ENEMY"] });
+      expect(triggers).toContainEqual({
+        name: "StateCheck",
+        params: [ScriptTarget.lastSeen, "STATE_CHARMED"],
+      });
+      // charm never changes Allegiance: a charmed party member stays GOODCUTOFF
+      expect(triggers).toContainEqual({
+        name: "Allegiance",
+        params: [ScriptTarget.lastSeen, "GOODCUTOFF"],
+      });
+      expect(triggers).not.toContainEqual(triggerFactory.lastSeenIsOpponent()[0]);
+    });
+  });
 });
 
 describe("attackTargetWithStatuses (private)", () => {
@@ -724,6 +815,44 @@ describe("attackTargetWithStatuses (private)", () => {
     ]);
     expect(statements).toHaveLength(2);
     expect(statements[0].comment).toBe("Attack Able enemy");
+  });
+
+  it("only attacks targets passing a priority's triggers, labelled in the comment", () => {
+    const statements: Statements = [];
+    const drainable = {
+      name: "CheckSpellState",
+      params: [ScriptTarget.token, "ITEM_LEVELDRAIN"],
+      negation: true,
+    } as const;
+    service.attackTargetWithStatuses(
+      statements,
+      fakeCreature(),
+      options(),
+      "NearestEnemies",
+      ["Able"],
+      { triggers: [drainable], label: "drainable" },
+    );
+    expect(statements[0].comment).toBe("Attack Able drainable enemy");
+    expect(JSON.stringify(statements)).toContain("ITEM_LEVELDRAIN");
+  });
+
+  it("only attacks while a priority's conditions hold on the creature itself", () => {
+    const statements: Statements = [];
+    const notWolf = {
+      name: "CheckSpellState",
+      params: [ScriptTarget.myself, "JA_ANIMALFORM"],
+      negation: true,
+    } as const;
+    service.attackTargetWithStatuses(
+      statements,
+      fakeCreature(),
+      options(),
+      "NearestEnemies",
+      ["Able"],
+      { conditions: [notWolf] },
+    );
+    // the last statement is the attack itself, behind the per-target checks
+    expect(statements.at(-1)?.triggers).toContainEqual(notWolf);
   });
 
   describe("preferred statuses (preferWithin)", () => {
@@ -920,6 +1049,14 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     );
   });
 
+  it("never precasts a noPrecast spell, however long it lasts (Invisibility)", () => {
+    expect(SPELLS.Wizard.Invisibility.duration).toBe("long");
+    const statements: Statements = [];
+    const creature = fakeCreature({ data: { spells: { memorized: [{ file: "SPWI206" }] } } });
+    service.precastLongDurationSpells({ statements, creature, options: options() });
+    expect(statements).toEqual([]);
+  });
+
   it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
     expect(GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells).toBe(false);
     const statements: Statements = [];
@@ -942,7 +1079,107 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
   });
 });
 
+describe("precastContingencies (private)", () => {
+  const stoneskinOnHit: SpellCombo = {
+    key: "TestStoneskinOnHit",
+    kind: "contingency",
+    condition: "hit",
+    spells: [SPELLS.Wizard.Stoneskin],
+  };
+  const precast = (file: string): Statements[number] => ({
+    comment: 'Precast contingency "TestStoneskinOnHit"',
+    triggers: [
+      triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0),
+      triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+      { name: "HaveSpellRES", params: [file] },
+    ],
+    responses: [
+      {
+        weight: 100,
+        actions: [
+          { name: "ApplySpellRES", params: [file, ScriptTarget.myself] },
+          { name: "RemoveSpellRES", params: [file] },
+          { name: "Continue" },
+        ],
+      },
+    ],
+  });
+
+  beforeAll(() => {
+    spellComboService.usePresets(ABILITY_PRESETS);
+  });
+
+  it("sets up a memorized contingency along with init, which rest resets", () => {
+    const file = spellComboService.comboFile(stoneskinOnHit, "Vanilla");
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file }, { file: "SPWI408" }] } } as Partial<CreatureData>,
+    });
+    const result = statementBuilderService.buildStatements(creature, options());
+    const index = result.findIndex((s) => s.comment === 'Precast contingency "TestStoneskinOnHit"');
+    expect(result[index]).toEqual(precast(file));
+    expect(index).toBeLessThan(result.findIndex((s) => s.comment === "Init"));
+  });
+
+  it("finds a self contingency memorized by an adjustment's spellbook variant", () => {
+    const file = spellComboService.comboFile(stoneskinOnHit, "AllSpellMods");
+    const creature = fakeCreature();
+    creature.adjustments = [
+      {
+        data: {
+          spells: { memorized: [], spellbooks: [{ mod: "AllSpellMods", memorized: [{ file }] }] },
+        },
+      },
+    ] as unknown as Creature["adjustments"];
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual([precast(file)]);
+  });
+
+  it("sets up a self contingency declared on the creature's data, without a spellbook", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [], combos: [stoneskinOnHit] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual(spellComboService.filesOf(stoneskinOnHit).map(precast));
+  });
+
+  it("names a chain contingency's kind", () => {
+    const chain: SpellCombo = {
+      key: "TestChainOnHit",
+      kind: "chainContingency",
+      condition: "hit",
+      spells: [SPELLS.Wizard.Stoneskin, SPELLS.Wizard.Stoneskin, SPELLS.Wizard.Stoneskin],
+    };
+    const file = spellComboService.comboFile(chain, "Vanilla");
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file }] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements[0].comment).toBe('Precast chain contingency "TestChainOnHit"');
+  });
+
+  it("skips spells that aren't contingencies", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI408" }] } } as Partial<CreatureData>,
+    });
+    const statements: Statements = [];
+    service.precastContingencies({ statements, creature });
+    expect(statements).toEqual([]);
+  });
+});
+
 describe("creatureSelfAbility (private)", () => {
+  it("checks the nearest enemy against a max range, and nothing without one", () => {
+    const statements: Statements = [];
+    const range = { name: "Range", params: ["NearestEnemyOf(Myself)", 10] };
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility({ range: 10 }), options());
+    service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(), options());
+    expect(statements[0].triggers).toContainEqual(range);
+    expect(statements[1].triggers).not.toContainEqual(range);
+  });
+
   it("wraps a self-targeted ability with the shared round timer by default", () => {
     const statements: Statements = [];
     service.creatureSelfAbility(statements, fakeCreature(), fakeAbility(), options());
@@ -1257,6 +1494,40 @@ describe("parseAbilities / creatureAbilities (private)", () => {
   });
 });
 
+describe("coveredAbilities (private)", () => {
+  const covered = {
+    name: "Or",
+    triggers: [
+      { name: "StateCheck", params: [ScriptTarget.myself, "STATE_INVISIBLE"] },
+      { name: "CheckStatGT", params: [ScriptTarget.myself, 0, "SANCTUARY"] },
+    ],
+  };
+
+  it("casts each covered ability only while covered, then holds while the round goes on", () => {
+    const statements: Statements = [];
+    service.coveredAbilities({
+      statements,
+      creature: fakeCreature({ behavior: { coveredAbilities: [fakeAbility(), fakeAbility()] } }),
+      options: options(),
+    });
+    expect(statements).toHaveLength(3);
+    for (const statement of statements) expect(statement.triggers).toContainEqual(covered);
+    const hold = statements[2];
+    expect(hold.triggers).toContainEqual({
+      name: "GlobalTimerNotExpired",
+      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      negation: false,
+    });
+    expect(JSON.stringify(hold.responses)).toContain("NoAction");
+  });
+
+  it("writes nothing without covered abilities", () => {
+    const statements: Statements = [];
+    service.coveredAbilities({ statements, creature: fakeCreature(), options: options() });
+    expect(statements).toEqual([]);
+  });
+});
+
 describe("execute (private, custom-code dispatch)", () => {
   it("calls the default function when there is no matching custom code", () => {
     const statements: Statements = [];
@@ -1340,6 +1611,33 @@ describe("execute (private, custom-code dispatch)", () => {
       { statements, creature, options: options() },
     );
     expect(statements.map((s) => s.comment)).toEqual(["custom", "default"]);
+  });
+
+  it("applies every custom code at a location, in order", () => {
+    const statements: Statements = [];
+    const custom = (type: "insertBefore" | "insertAfter", comment: string) => ({
+      location: "rest" as const,
+      type,
+      statements: [{ triggers: [], responses: [], comment }],
+      abilities: [],
+    });
+    const creature = fakeCreature({
+      behavior: {
+        customCodes: [
+          custom("insertBefore", "mist"),
+          custom("insertAfter", "after"),
+          custom("insertBefore", "bat"),
+        ],
+      },
+    });
+    service.execute(
+      function ({ statements: stmts }: HandlerParams) {
+        stmts.push({ triggers: [], responses: [], comment: "default" });
+      },
+      "rest",
+      { statements, creature, options: options() },
+    );
+    expect(statements.map((s) => s.comment)).toEqual(["mist", "bat", "default", "after"]);
   });
 
   it("runs custom statements after the default function for 'insertAfter'", () => {

@@ -1,4 +1,6 @@
-export const VALIDATION_COLUMNS = ["ValidatedLevel", "ValidatedItems", "ValidatedScript"] as const;
+import { csvBool } from "../../lib/src/csv";
+
+export const VALIDATION_COLUMNS = ["vlvl", "vitems", "vscript"] as const;
 export type ValidationColumn = (typeof VALIDATION_COLUMNS)[number];
 
 /**
@@ -41,8 +43,7 @@ export function applyValidationColumns(input: {
     const next: Record<string, string> = { ...row };
     for (const col of VALIDATION_COLUMNS) {
       const current = row[col] ?? "";
-      next[col] =
-        current === "true" || (owned && !input.findingKeys[col].has(key)) ? "true" : "";
+      next[col] = csvBool(current) || (owned && !input.findingKeys[col].has(key)) ? "true" : "";
     }
     return next;
   });
