@@ -17,7 +17,7 @@
 
 <body>
   <header class="site-nav">
-    <a class="brand" href="index.html">&#9876; Enhanced Creatures <span class="version">v0.4.0</span></a>
+    <a class="brand" href="index.html">&#9876; Enhanced Creatures <span class="version">v0.5.0</span></a>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="monsters.html">Monsters</a></li>
@@ -31,15 +31,93 @@
 <p>All notable changes to Enhanced Creatures are documented here.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
 <h2>[Unreleased]</h2>
+<h2>[0.5.0] - 2026-11-04</h2>
+<h3>Added</h3>
+<ul>
+<li>Current version in doc&#39;s header</li>
+<li>Zombies</li>
+<li>Vampires</li>
+<li>Docs: the monsters page groups the versions of a monster under one entry heading, with a &quot;Common to all&quot; box for what they share, and an A-Z sidebar</li>
+<li>Docs: D&amp;D 3e creature types are shown as tags on each monster, with a type filter</li>
+<li>Ettin is now installed (it was generated but never included by the installer)</li>
+<li>AI: rework how summons and disables are valued</li>
+<li>AI: gate touch and short range spells on hostile targets</li>
+<li>AI: new vampire necromancer combos, changelog commit hook</li>
+<li>AI: presets for wizard and priest spells, shared rolls</li>
+<li>AI: review buff to sleep presets against BG2EE spell data</li>
+<li>AI: review summon, weapon and remaining presets</li>
+<li>AI: category roll ranges</li>
+<li>AI: roll range and mirror image checks on abilities</li>
+<li>AI: image removers</li>
+<li>AI: category rolls and mirror image passes in the cast order</li>
+<li>AI: abilities for the mirror image passes</li>
+<li>AI: last resort at mirrored enemies takes one target list</li>
+<li>AI: regenerate for category rolls and mirror image counters</li>
+<li>Variants: detect variants bringing new spells or abilities</li>
+<li>Scripts: plan one script per scripted variant</li>
+<li>Scripts: build a creature view per script</li>
+<li>Scripts: generate and assign one script per scripted variant</li>
+<li>Variants: refuse new spells outside a variant</li>
+<li>Spells: recastTimer spaces a spell&#39;s casts</li>
+<li>Spells: every spell a creature casts declares its role</li>
+<li>Spells: Invisibility is a great protection</li>
+<li>AI: the covered phase takes a creature&#39;s own protections and buffs</li>
+<li>Log: each script&#39;s cast order in its creature&#39;s section</li>
+<li>AI: spell entries are placed by score, with their own configuration</li>
+<li>AI: a cleric&#39;s priorities: Hold Person, party buffs, Command last</li>
+<li>AI: auras first, split heals, worth levels, no duplicate abilities</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>All mod resources renamed to a new naming scheme (a monster&#39;s base-36 code, also shown in the docs as #code). <strong>Uninstall the previous version before installing</strong>. Creatures already in a saved game (and summons created from mod creature files) keep the old names, so they lose this mod&#39;s scripts (AI), abilities and trait items; start a new game (or visit fresh areas) for the full effect</li>
+<li>Displacer Beast is now a Magical Beast (same immunities); its hit dice are d10, so it has more HP</li>
+<li>Spectral Hound is now a Magical Beast (immune to infravision-type effects, like other magical beasts); its hit dice are d10, so it has more HP</li>
+<li>Hell Hound and Moon Dog are now Outsiders with the Planar Essence trait (immune to cure/cause wounds and death spells)</li>
+<li>Dread Wolf and Vampiric Wolf are now Undead and gain the undead immunities</li>
+<li>Undead are turned according to the PnP turning table: &quot;+3&quot; Hit Dice count as the next row (e.g. wights, wraiths, mummies, spectres are harder to turn), and creatures turned as a specific undead use that row (e.g. ju-ju zombies as spectres, zombie lords as vampires). Banshees are now easier to turn</li>
+<li>Wyvern, Baby Wyvern and Greater Wyvern use dragon hit dice (d12), so they have more HP</li>
+<li>Wraith Spider, Dread Wolf and Vampiric Wolf use undead hit dice (d12), so they have more HP</li>
+<li>Dread Wolf and Vampiric Wolf have their undead turn level raised by one (harder to turn)</li>
+<li>Mod files reorganised by monster (one folder per monster entry)</li>
+<li>AI: review area spells, drop spells missing from BG2EE</li>
+<li>Design and plan for category rolls and mirror image counters</li>
+<li>Variant scripts design</li>
+<li>Variant scripts plan</li>
+<li>Vampire: spellcasting vampires as scripted variants</li>
+<li>Ogre-mage: spellcasting chieftains as a scripted sub-variant</li>
+<li>Skeletons: spellcasting skeletons as scripted variants</li>
+<li>Sirine, polar bear, sword spider: files with their own spells as scripted variants</li>
+<li>Regenerate mod with variant scripts</li>
+<li>At-will: drop the shared-script spellbook brake</li>
+<li>Regenerate mod without the spellbook brake</li>
+<li>Regenerate mod (sirine keeps its Polymorph Self forms)</li>
+<li>Ogre-mage: the Chieftain variant declares the chieftains&#39; spellbook</li>
+<li>Ogre-mage: Invisibility and Darkness at will, chieftain spells only in their script</li>
+<li>Ogre-mage: every spell placed by score</li>
+<li>Ogre-mage: Fly is a buff, cast under cover and in the open</li>
+<li>Creatures: every spell placed by score</li>
+<li>Vampire: one necromancer variant helper; DX#DALID at level 16</li>
+<li>Vampire: Bodhi is a variant of the abomination age</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>GH Action Release was not working</li>
+<li>AI: keep Magic Missile&#39;s mirrored target list for hand-placed casters</li>
+<li>AI: mirror image passes keep their spell&#39;s own target checks</li>
+<li>Variants: sub-variant spells replace their parent&#39;s; kit spells need no variant</li>
+<li>Scripts: keep abilities for spells granted in game; location slots per script</li>
+<li>Fey: Speak with Plants is reactive, cast once entangled</li>
+<li>Vampire patriarch</li>
+</ul>
 <h2>[0.4.0] - 2026-10-09</h2>
 <h3>Added</h3>
 <ul>
 <li>Many Undead</li>
-<li></li>
 </ul>
 <h3>Fixed</h3>
 <ul>
 <li>BAF script fixes and improvements (spell triggers, attacks, tracking)</li>
+<li>Many other fixes</li>
 </ul>
 <h2>[0.3.0] - 2026-09-16</h2>
 <h3>Added</h3>
