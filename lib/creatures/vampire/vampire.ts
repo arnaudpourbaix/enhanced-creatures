@@ -1463,6 +1463,8 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
           "bdvamp01",
           "c6vampir",
           "d0qpvafl",
+          "D0QPTAN1",
+          "D0QPTAN2",
           "D0QPTAN3",
           "dw#vmmin",
           "ohbvamp",
@@ -1616,7 +1618,6 @@ export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
     { files: ["OHBVMP03"], data: { level1: 21 } },
   ]);
   necromancerVariant(cre, 14, ["D9BGUARD"]);
-  // TODO: check script D0QPTAN1 and D0QPTAN2
   necromancerVariant(cre, 16, ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"]);
   return cre;
 };
