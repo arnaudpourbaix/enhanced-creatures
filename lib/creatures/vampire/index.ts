@@ -1,7 +1,8 @@
 import { SimpleEntry } from "../../src/model/creature/simple-entry";
 import { EntryEnum } from "../entry";
-import { abominationVampire } from "./bodhi";
+import { bodhiVariant } from "./bodhi";
 import {
+  abominationVampire,
   ancientVampire,
   eminentVampire,
   fledglingVampire,
@@ -20,5 +21,5 @@ export const createVampireEntry = () =>
     ancientVampire,
     eminentVampire,
     patriarchVampire,
-    abominationVampire,
+    (entry) => bodhiVariant(abominationVampire(entry)),
   ]);

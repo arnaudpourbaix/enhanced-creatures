@@ -5,8 +5,9 @@ import { ScriptTarget } from "../../src/model/constants";
 import { RawCreatureAbility } from "../../src/model/creature/ability";
 import { PartialCreatureAdjustment } from "../../src/model/creature/adjustment";
 import { Creature } from "../../src/model/creature/creature";
-import type { CreatureEntry } from "../../src/model/creature/entry";
+import { InputCreatureData } from "../../src/model/creature/data-input";
 import { EquippedItem } from "../../src/model/creature/item";
+import { Variant, VariantInput } from "../../src/model/creature/variant";
 import { ImmunityName } from "../../src/model/final/immunity";
 import { Durations } from "../../src/model/game-data/durations";
 import { Effect } from "../../src/model/spell-item/effect";
@@ -18,9 +19,14 @@ import {
   ItemCategoryEnum,
 } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
-import { MonsterEnum } from "../monster";
 import { createClaws } from "../types/undead";
-import { Ids, NOT_SHAPECHANGED, VampireAge, vampire, vampireTrait } from "./vampire";
+import {
+  ABOMINATION_AGE,
+  NOT_SHAPECHANGED,
+  VampireAge,
+  physicalResistance,
+  vampireTrait,
+} from "./vampire";
 
 /**
  * Bodhi's powers from SCS "Improved Bodhi" (stratagems/bodhi/bodhi.tpa): SCS's own ibodhi spells,
@@ -119,45 +125,6 @@ function improvedAbilities(): RawCreatureAbility[] {
   ];
 }
 
-/** Bodhi's age, above Patriarch: her Ch2–3 strength (Bodhi only for now; see BODHI.md) */
-export const ABOMINATION_AGE: VampireAge = {
-  monster: MonsterEnum.VampireAbomination,
-  name: "monster.vampire.name.abomination",
-  level1: 25,
-  bonusHp: 0,
-  turnAs: "lich", // irrelevant: immune to turn undead
-  strength: 24,
-  intelligence: 20,
-  dexterity: 24,
-  charisma: 19,
-  movement: 27,
-  xpv: 21000,
-  domination: { id: Ids.VampireWillDominationAbomination, mode: "will", saveBonus: -6 },
-  weaponImmunity: "plusThreeWeapons",
-  regeneration: 12,
-  magicResistance: 75,
-  ac: -10, // her files' natural -4 plus DEX 24 (the engine adds it)
-  apr: 3,
-  drainLevels: 3,
-  extraImmunities: [
-    "cold",
-    "lightning",
-    "magicDamageResistance",
-    "deathEffects",
-    "turnUndead",
-    "seeInvisible",
-  ],
-  abilities: improvedAbilities,
-  extraEffects: (
-    [
-      EffectTypeEnum.SlashingResistanceModifier,
-      EffectTypeEnum.CrushingResistanceModifier,
-      EffectTypeEnum.PiercingResistanceModifier,
-      EffectTypeEnum.MissilesResistanceModifier,
-    ] as const
-  ).map((opcode) => ({ opcode, value: 25, type: EffectStatisticModifierEnum.Set })),
-};
-
 /** Blocks of Bodhi's own scripts that fight, move or cast: what makes a block not story */
 const STORY_ONLY_REMOVED_BLOCKS = [
   "AttackOneRound",
@@ -167,6 +134,9 @@ const STORY_ONLY_REMOVED_BLOCKS = [
   "RandomWalk",
   "ibodhi",
   "dw#nprun",
+  // SCS's chase and movement leftovers: they fire without Continue() and skip our script's turn
+  "chasetimer",
+  "dw#move0",
   "dw#hprem",
   "OpenDoor",
   "EscapeArea",
@@ -185,6 +155,10 @@ interface BodhiItems {
   drain5: string;
   /** Claws as BODHI.ITM: 5 levels, 4 magic damage and +4 max HP for her (Ch6, ToB) */
   bodhiClaws: string;
+  /** The age's trait with her 25% physical resistances (SCS's; Black Pits' own file) */
+  bodhiTrait: string;
+  /** Her trait without the mist form on death: the Pocket Plane and Hell echoes' scripts end her */
+  finalTrait: string;
   spellholdTrait: string;
   blackPitsTrait: string;
   /** +12 HP/round, the item the holy water destroys */
@@ -213,6 +187,9 @@ function bodhiItems(cre: Creature, age: VampireAge): BodhiItems {
   const [claws, trait] = cre.data.items.equipped;
   const newClaws = (effects: Effect[]) =>
     createClaws(cre, { effects, diceThrown: 1, diceSize: 6, equipped: false }).file;
+  const bodhiAge = { ...age, extraEffects: physicalResistance(25) };
+  const bodhiTrait = encounterTrait(cre, vampireTrait(bodhiAge));
+  const finalTrait = encounterTrait(cre, vampireTrait(bodhiAge, { mistOnDeath: false }));
   // Spellhold: she must hunt the party without winning (BODHI.md), at her own files' strength
   const spellholdTrait = encounterTrait(
     cre,
@@ -226,7 +203,7 @@ function bodhiItems(cre: Creature, age: VampireAge): BodhiItems {
       regeneration: 60,
       extraImmunities: (age.extraImmunities ?? []).filter((i) => i !== "cold" && i !== "lightning"),
       extraEffects: [
-        ...(age.extraEffects ?? []),
+        ...physicalResistance(25),
         { opcode: EffectTypeEnum.ProtectionFromSpellLevels, level: 1 },
         { opcode: EffectTypeEnum.ProtectionFromSpellLevels, level: 2 },
       ],
@@ -254,6 +231,8 @@ function bodhiItems(cre: Creature, age: VampireAge): BodhiItems {
     trait,
     drain5,
     bodhiClaws,
+    bodhiTrait,
+    finalTrait,
     spellholdTrait,
     blackPitsTrait,
     blood,
@@ -263,7 +242,8 @@ function bodhiItems(cre: Creature, age: VampireAge): BodhiItems {
 /**
  * Her scripts: the holy water in her lair (BLPOOL3 → C6BWEAK) destroys her blood instead of the
  * removed VAMPREG2, and her own scripts keep only their story (dialogues, death, spawns, the
- * Spellhold hunt): fighting, moving and casting are ours, on vanilla, SCS or UB versions alike.
+ * Spellhold hunt, including its moves across the maze): fighting, moving and casting are ours, on
+ * vanilla, SCS or UB versions alike.
  * Only on BG2, where her files are: never strip her scripts without patching her.
  */
 function bodhiScripts(cre: Creature, items: BodhiItems) {
@@ -276,38 +256,67 @@ function bodhiScripts(cre: Creature, items: BodhiItems) {
       replaces: [['DestroyItem("VAMPREG2")', `DestroyItem("${items.blood}")`]],
     },
     {
-      files: ["BODHI2", "C6BODHI", "finbodhi", "ppbodhi4"],
+      files: ["BODHI2", "C6BODHI", "finbodhi"],
       game: "bg2",
       removeBlocks: STORY_ONLY_REMOVED_BLOCKS,
     },
+    {
+      // UB's "Cat and Mouse": out of sight, she walks to each PC in turn, then wanders. That's
+      // the hunt through the Spellhold maze, which our AI (local only) doesn't do
+      files: ["ppbodhi4"],
+      game: "bg2",
+      removeBlocks: STORY_ONLY_REMOVED_BLOCKS.filter(
+        (b) => b !== "MoveToObject" && b !== "RandomWalk",
+      ),
+    },
   ];
-  // the Pocket Plane challenge has no story of hers: chalDIE handles it
-  cre.data.script.remove.push("dw#chbod");
+  // the Pocket Plane challenge has no story of hers: chalDIE handles it; SCS's Spellhold script
+  // only turns her to mist on death, which our trait already does (a second cast would stack)
+  cre.data.script.remove.push("dw#chbod", "dw#ppbod");
 }
 
 /**
- * SCS's own Bodhi spells, memorized only when SCS installed them (never copied: they're SCS's);
- * each encounter keeps the ones its SCS script cast
+ * SCS's own Bodhi spells, memorized only when SCS installed them (never copied: they're SCS's),
+ * with the powers casting them; each encounter keeps the ones its SCS script cast
  */
-function improvedBodhiSpells(...spells: string[]) {
+function improvedBodhi(...spells: string[]): Pick<VariantInput, "data" | "behavior"> {
   return {
-    memorized: [],
-    spellbooks: [
-      {
-        mod: "ImprovedBodhi" as const,
-        memorized: spells.map((file) => ({
-          file,
-          memorizedCount: file === "ibodhi7" ? 1 : AT_WILL,
-        })),
+    data: {
+      spells: {
+        memorized: [],
+        spellbooks: [
+          {
+            mod: "ImprovedBodhi",
+            memorized: spells.map((file) => ({
+              file,
+              memorizedCount: file === "ibodhi7" ? 1 : AT_WILL,
+            })),
+          },
+        ],
       },
-    ],
+    },
+    behavior: {
+      abilities: improvedAbilities().filter(
+        (a) => typeof a.spell === "object" && spells.includes(a.spell.resource ?? ""),
+      ),
+    },
   };
 }
 
+/**
+ * Her own trait in the age's place from the lesson fight on: 25% physical resistances, as SCS
+ * gives her (Ch2–3 keep the age's 10%; Spellhold and Black Pits have theirs)
+ */
+function wearsBodhiTrait({ trait, bodhiTrait }: BodhiItems): InputCreatureData {
+  return { items: { remove: [trait.file], equipped: [{ ...trait, file: bodhiTrait }] } };
+}
+
 /** Ch3, the lesson fight: Touch of Death and Sleep only */
-function chapter3Encounter(cre: Creature) {
-  cre.variant("lesson fight", {
-    data: { spells: improvedBodhiSpells("ibodhi5", "ibodhi6") },
+function chapter3Encounter(bodhi: Variant, items: BodhiItems) {
+  const powers = improvedBodhi("ibodhi5", "ibodhi6");
+  bodhi.variant("lesson fight", {
+    ...powers,
+    data: { ...powers.data, ...wearsBodhiTrait(items) },
     files: ["BODHI2"],
   });
 }
@@ -345,29 +354,44 @@ function chapter4Encounter({ claws, trait, drain5, spellholdTrait }: BodhiItems)
   ];
 }
 
+/**
+ * Check the Bodies' Ch2 dialogue copy (she apologises, then leaves as a bat): plain Ch2 Bodhi,
+ * without its "Skull" off-hand (2d8 + STR and an extra attack, which no other Bodhi has)
+ */
+function checkTheBodiesEncounter(): PartialCreatureAdjustment[] {
+  return [{ files: ["CBBODH66"], data: { items: { remove: ["S2-16"] } } }];
+}
+
 /** Ch6, her lair, and ToB: BODHI.ITM's claws, her blood (24 HP/round) and all her SCS spells */
-function chapter6Encounter(cre: Creature, { claws, trait, bodhiClaws, blood }: BodhiItems) {
+function chapter6Encounter(bodhi: Variant, items: BodhiItems) {
+  const { claws, trait, bodhiClaws, bodhiTrait, finalTrait, blood } = items;
   const lair = (
     file: string,
-    p: { xpv?: number; extra?: EquippedItem[] } = {},
+    p: { xpv?: number; extra?: EquippedItem[]; final?: boolean } = {},
   ): PartialCreatureAdjustment => ({
     files: [file],
     data: {
       ...(p.xpv ? { xpv: p.xpv } : {}),
       items: {
-        remove: [],
-        equipped: [{ ...claws, file: bodhiClaws }, { ...trait, file: blood }, ...(p.extra ?? [])],
+        remove: [trait.file],
+        equipped: [
+          { ...claws, file: bodhiClaws },
+          { ...trait, file: p.final ? finalTrait : bodhiTrait },
+          { ...trait, file: blood },
+          ...(p.extra ?? []),
+        ],
       },
     },
   });
-  cre.variant("lair", {
-    data: { spells: improvedBodhiSpells("ibodhi4", "ibodhi5", "ibodhi6", "ibodhi7") },
-    files: ["C6BODHI", "CBBODH66", "CHEVIL08", "FINBODH"],
+  const powers = improvedBodhi("ibodhi4", "ibodhi5", "ibodhi6", "ibodhi7");
+  bodhi.variant("lair", {
+    ...powers,
+    files: ["C6BODHI", "CHEVIL08", "FINBODH"],
     adjust: [
       lair("C6BODHI", { xpv: 91000 }),
-      lair("CBBODH66"),
-      lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }] }),
-      lair("FINBODH", { xpv: 26000 }),
+      // echoes in the Pocket Plane and in Hell: chalDIE / finbodhi destroy her on death, no mist
+      lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }], final: true }),
+      lair("FINBODH", { xpv: 26000, final: true }),
     ],
   });
 }
@@ -394,17 +418,23 @@ function blackPitsEncounter({ claws, trait, drain5, blackPitsTrait }: BodhiItems
 }
 
 /**
- * Bodhi: see BODHI.md and docs/superpowers/specs/2026-10-26-bodhi-abomination-design.md.
- * The age is her Ch2–3 strength; each other encounter adjusts it, never below its own files.
+ * Bodhi, a variant of the abomination: see BODHI.md and
+ * docs/superpowers/specs/2026-10-26-bodhi-abomination-design.md. The age is her Ch2–3 strength;
+ * each other encounter adjusts it, never below its own files.
  */
-export const abominationVampire = (entry: CreatureEntry<Creature>) => {
-  const age = ABOMINATION_AGE;
-  const cre = vampire(entry, age);
-  const items = bodhiItems(cre, age);
+export function bodhiVariant(cre: Creature): Creature {
+  const items = bodhiItems(cre, ABOMINATION_AGE);
   bodhiScripts(cre, items);
-  chapter3Encounter(cre);
-  cre.setAdjustments(chapter4Encounter(items));
-  chapter6Encounter(cre, items);
-  cre.setAdjustments(blackPitsEncounter(items));
+  const bodhi = cre.variant("Bodhi", {
+    // Ch2–3 (BODHI, BODHIAMB) is the plain abomination: only her later encounters are adjusted
+    files: ["CBBODH66", "PPBODHI3", "PPBODHI4", "VVBODHI", "OHB3BODH"],
+    adjust: [
+      ...checkTheBodiesEncounter(),
+      ...chapter4Encounter(items),
+      ...blackPitsEncounter(items),
+    ],
+  });
+  chapter3Encounter(bodhi, items);
+  chapter6Encounter(bodhi, items);
   return cre;
-};
+}

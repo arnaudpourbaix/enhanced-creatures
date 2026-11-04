@@ -2721,10 +2721,10 @@ Immune to turn undead
 True sight
 Regeneration: 12 hp/round
 Magic Resistance: 75%
-Slashing Resistance: 25%
-Crushing Resistance: 25%
-Piercing Resistance: 25%
-Missiles Resistance: 25%~
+Slashing Resistance: 10%
+Crushing Resistance: 10%
+Piercing Resistance: 10%
+Missiles Resistance: 10%~
 @11369 = ~Claws
 
 Melee damage: 1D6 (Slashing)

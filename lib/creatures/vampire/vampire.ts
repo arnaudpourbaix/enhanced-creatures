@@ -134,8 +134,6 @@ export interface VampireAge {
   extraImmunities?: ImmunityName[];
   /** Trait effects on top of regeneration, magic resistance and the death contingency */
   extraEffects?: Effect[];
-  /** Abilities of its own, right after the mist escape (built lazily) */
-  abilities?: () => RawCreatureAbility[];
 }
 
 const VAMPIRE_AGES: VampireAge[] = [
@@ -269,6 +267,52 @@ const VAMPIRE_AGES: VampireAge[] = [
     magicResistance: 30,
   },
 ];
+
+/**
+ * Above Patriarch, from the game's abominations: Bodhi's Ch2–3 strength (see BODHI.md), which
+ * Phlydian's file matches. Bodhi's own encounters are her variant (bodhi.ts).
+ */
+export const ABOMINATION_AGE: VampireAge = {
+  monster: MonsterEnum.VampireAbomination,
+  name: "monster.vampire.name.abomination",
+  level1: 25,
+  bonusHp: 0,
+  turnAs: "lich", // irrelevant: immune to turn undead
+  strength: 24,
+  intelligence: 20,
+  dexterity: 24,
+  charisma: 19,
+  movement: 27,
+  xpv: 21000,
+  domination: { id: Ids.VampireWillDominationAbomination, mode: "will", saveBonus: -6 },
+  weaponImmunity: "plusThreeWeapons",
+  regeneration: 12,
+  magicResistance: 75,
+  ac: -10, // the files' natural -4 plus DEX 24 (the engine adds it)
+  apr: 3,
+  drainLevels: 3,
+  extraImmunities: [
+    "cold",
+    "lightning",
+    "magicDamageResistance",
+    "deathEffects",
+    "turnUndead",
+    "seeInvisible",
+  ],
+  extraEffects: physicalResistance(10), // Phlydian's file; Bodhi's 25 is hers (bodhi.ts)
+};
+
+/** Slashing, crushing, piercing and missile resistances set to `value` */
+export function physicalResistance(value: number): Effect[] {
+  return (
+    [
+      EffectTypeEnum.SlashingResistanceModifier,
+      EffectTypeEnum.CrushingResistanceModifier,
+      EffectTypeEnum.PiercingResistanceModifier,
+      EffectTypeEnum.MissilesResistanceModifier,
+    ] as const
+  ).map((opcode) => ({ opcode, value, type: EffectStatisticModifierEnum.Set }));
+}
 
 const DOMINATION_TEXTS: Record<
   DominationMode,
@@ -1368,16 +1412,20 @@ function sharedPower(
   return spell;
 }
 
-/** The vampire's traits: weapon immunity, resistances, regeneration and the mist form on death */
+/**
+ * The vampire's traits: weapon immunity, resistances, regeneration and the mist form on death
+ * (`mistOnDeath: false` for a vampire whose own script ends it for good on death)
+ */
 export function vampireTrait(
   age: Pick<
     VampireAge,
     "weaponImmunity" | "regeneration" | "magicResistance" | "extraImmunities" | "extraEffects"
   >,
+  { mistOnDeath = true }: { mistOnDeath?: boolean } = {},
 ): { immunities: ImmunityName[]; effects: Effect[] } {
-  const effects: Effect[] = [
-    ...effectFactory.regeneration(age.regeneration),
-    {
+  const effects: Effect[] = [...effectFactory.regeneration(age.regeneration)];
+  if (mistOnDeath) {
+    effects.push({
       opcode: EffectTypeEnum.CastSpellOnCondition,
       conditionTarget: CastSpellOnConditionTargetEnum.Myself,
       condition: "Die()",
@@ -1385,8 +1433,8 @@ export function vampireTrait(
       timing: EffectTimingEnum.InstantWhileEquipped,
       target: EffectTargetEnum.Self,
       resource: SPELLS.Innate.VampireGasFormChange.file,
-    },
-  ];
+    });
+  }
   if (age.magicResistance) {
     effects.push({
       opcode: EffectTypeEnum.MagicResistanceModifier,
@@ -1473,7 +1521,6 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
           "ohbthief",
           "ppvampir",
           "ppvamp",
-          "sarvam01",
           "sarvam02",
           "vampir01",
           "vampir02",
@@ -1543,9 +1590,8 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
   const dive = batDive(bat);
   cre.setBehavior({
     restHeal: true,
-    // cast by hand: Mist Form escapes two ways, the dive takes off from its bat form, and an
-    // age's own powers (Bodhi's SCS spells) have no profile to score
-    abilities: [...mist.abilities, ...(age.abilities?.() ?? []), dive.takeOff],
+    // cast by hand: Mist Form escapes two ways, and the dive takes off from its bat form
+    abilities: [...mist.abilities, dive.takeOff],
     customCodes: [mist.flee, BAT_FLEE, dive.flight, ...sunlightEscape(age)],
   });
   // its powers take their place among its spells by score (see AbilityOrderService)
@@ -1619,6 +1665,29 @@ export const patriarchVampire = (entry: CreatureEntry<Creature>) => {
   ]);
   necromancerVariant(cre, 14, ["D9BGUARD"]);
   necromancerVariant(cre, 16, ["BODTAN", "C6TANOV", "D9TANOV", "DW#ODAM2", "IMPBOD1", "IMPBOD2"]);
+  return cre;
+};
+
+/** Phlydian and Bodhi; Bodhi's encounters are her own variant (see bodhi.ts, wired in index.ts) */
+export const abominationVampire = (entry: CreatureEntry<Creature>) => {
+  const cre = vampire(entry, ABOMINATION_AGE);
+  // Phlydian's own script keeps only her greeting: shifting, casting and fighting are ours, as is
+  // the targeting of tactics mods' versions (their Continue() blocks)
+  cre.data.script.edits = [
+    ...(cre.data.script.edits ?? []),
+    {
+      files: ["SARVAM01"],
+      game: "bg2",
+      removeBlocks: [
+        "ReallyForceSpell",
+        "AttackOneRound",
+        "MoveToObject",
+        "RandomWalk",
+        "OpenDoor",
+        "Continue()",
+      ],
+    },
+  ];
   return cre;
 };
 

@@ -112,6 +112,19 @@ describe("scriptViewService.build", () => {
     expect(resources(necro)).toEqual([BASE_SPELL, NEW_SPELL]);
   });
 
+  it("sibling variants may declare the same ability: the creature lists it once", () => {
+    const creature = fakeCreature([cast(BASE_SPELL)]);
+    creature.files.push({ name: "LICH" });
+    necromancer(creature, { behavior: { abilities: [cast(NEW_SPELL)] } });
+    creature.variant("lich", {
+      data: { spells: { memorized: [{ file: NEW_SPELL }, { file: POWER }] } },
+      files: ["LICH"],
+      behavior: { abilities: [cast(NEW_SPELL), cast(POWER)] },
+    });
+    scriptViewService.addVariantBehaviors(creature);
+    expect(resources(creature)).toEqual([BASE_SPELL, NEW_SPELL, POWER]);
+  });
+
   it("views don't share abilities", () => {
     const creature = fakeCreature([cast(BASE_SPELL), cast(NEW_SPELL)]);
     necromancer(creature);

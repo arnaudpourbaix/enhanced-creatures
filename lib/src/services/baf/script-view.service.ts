@@ -1,4 +1,4 @@
-import { AbilityEntry, CreatureAbility } from "../../model/creature/ability";
+import { AbilityEntry, CreatureAbility, RawCreatureAbility } from "../../model/creature/ability";
 import { CreatureBehavior, PartialCreatureBehavior } from "../../model/creature/behavior";
 import { Creature } from "../../model/creature/creature";
 import { Variant } from "../../model/creature/variant";
@@ -39,7 +39,19 @@ class ScriptViewService {
   addVariantBehaviors(creature: Creature): void {
     const all = (variants: Variant[]): Variant[] =>
       variants.flatMap((v) => [v, ...all(v.children)]);
-    for (const variant of all(creature.variants)) this.addBehavior(creature, variant.behavior);
+    // sibling variants never share a script, so they may declare the same ability: listed once
+    const added = new Set<string>();
+    const isNew = (ability: RawCreatureAbility) => {
+      const key = JSON.stringify(ability);
+      return !added.has(key) && !!added.add(key);
+    };
+    for (const { behavior } of all(creature.variants)) {
+      const abilities = behavior?.abilities;
+      this.addBehavior(
+        creature,
+        Array.isArray(abilities) ? { ...behavior, abilities: abilities.filter(isNew) } : behavior,
+      );
+    }
   }
 
   build(creature: Creature, script: CreatureScript, handWritten: HandWrittenBehavior): Creature {

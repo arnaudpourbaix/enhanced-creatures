@@ -51,7 +51,7 @@ the final value.
 | 6 | VVBODHI | ? ("VV" mod, `vampsttp.bcs`) | 14 F/T | 120 | 22 | 21 | −1 | 5/2 | 0 | 0 | 50 | VAMP3 (5) | **none** ⚠ | 12 HP/round (VAMPREG2) | SCS forms + blood drain, Domination |
 | 7 | CUBODHI | ? no spawn found, no script (cutscene?) | 25 | 85 | 24 | 24 | 1 | 3 | 75 | 0 | 100 | VAMP (2) | +3 | none | — |
 | 8 | C6BODHI | Ch6, her lair (AR0809) | 25 F/T | 183 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | BODHI (5, +4 magic dmg) | +3 | 24 HP/round (VAMPREG2 ×2) | SCS forms + blood drain, Domination, the same three protections; every `ibodhi` spell |
-| 9 | CBBODH66 | Check the Bodies mod | 25 | 102 | 24 | 24 | −1 | 3 | 75 | 0 | 100 | VAMP (2) + a "Skull" shield | +2 | none | — |
+| 9 | CBBODH66 | Check the Bodies mod, Ch2 dialogue (apologises, leaves as a bat) | 25 | 102 | 24 | 24 | −1 | 3 | 75 | 0 | 100 | VAMP (2) + S2-16 "Skull" off-hand (2d8 slashing + STR, one more attack) | +2 | none | — |
 | 10 | DRBOD | ? no spawn, no script, no items, 0 XP | 25 | 85 | 24 | 24 | 1 | 3 | 75 | 0 | 100 | none | none | none | display only |
 | 11 | CHEVIL08 | ToB, Pocket Plane challenge | 25 F/T | 183 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | BODHI (5) | +3 | 12 HP/round (VAMPREG2) | like C6BODHI, but the weaker blood drain (−1 CON); Spell Warding amulet, Boots of Speed, healing potion |
 | 12 | FINBODH | ToB, Ascension final battle | 25 F/T | 183 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | BODHI (5) | +3 | 24 HP/round (VAMPREG2 ×2) | like C6BODHI, without the minimum-HP item |
@@ -103,9 +103,9 @@ Rules:
 
 | Tier | CREs | Lvl | HP (auto) | STR | DEX | AC | APR | MR | Phys res | Cold/Elec | Drain | Regen / round | Extras |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Ch2–3 | BODHI, BODHIAMB, CUBODHI, BODHI2 | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 3 | 12 | 50% magic damage resistance, immune to Death, see invisible (from BODHI2) |
+| Ch2–3 | BODHI, BODHIAMB, CUBODHI, CBBODH66, BODHI2 | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 10 (BODHI2: 25) | 100 | 3 | 12 | 50% magic damage resistance, immune to Death, see invisible (from BODHI2) |
 | Spellhold | PPBODHI3, PPBODHI4, VVBODHI | 15 | 180 | 21–22 | 20–21 | −1 | 5/2 | 30 | 0 | 50 | 3–5 (her own weapon) | 12 | between Patriarch and Abomination: template + each file's own values, never below them. Level 15 rather than 14: the table gives THAC0 5, no worse than her files' 6 and 5, with no hand-set value (2026-10-26) (STR 22 / DEX 21 on PPBODHI4 and VVBODHI) |
-| Ch6 | C6BODHI, CBBODH66 | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 5 (+4 magic) | 24 | same + the BODHI weapon's magic damage |
+| Ch6 | C6BODHI | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 5 (+4 magic) | 24 | same + the BODHI weapon's magic damage |
 | ToB | CHEVIL08, FINBODH, DRBOD | 25 | 300 | 24 | 24 | −4 | 3 | 75 | 25 | 100 | 5 (+4 magic) | 24 | same as Ch6; CHEVIL08 keeps her equipment |
 | BP2 | OHB3BODH | 25 | 300 | 21 | 20 | −4 | 3 | 75 | 25 | 50 | 5 | 60 | own campaign: her CRE + template; keeps immunity to level 1–2 spells |
 
@@ -139,9 +139,19 @@ the age, down to that tier's values but never below those files' own. That's
 rather than leaving them on Patriarch with raising adjustments: it keeps every
 Bodhi file in one age.
 
-Abomination is for Bodhi only for now (2026-10-26). Other vampires above
-Patriarch (Black Pits 2's OHB3VMP*, the D9 memory vampires, Tanova…) haven't
-been reviewed yet; they may join later if it fits.
+Abomination was for Bodhi only at first (2026-10-26). Since 2026-11-04 the age
+lives with the others (`ABOMINATION_AGE` in vampire.ts) and Bodhi is a variant
+of it (`bodhiVariant` in bodhi.ts: Spellhold and Black Pits as its adjustments,
+lesson fight and lair as sub-variants carrying her SCS powers). Phlydian
+(SARVAM01, Spellhold's prison) is a plain abomination: her file matches BODHI2,
+and none of her scripts casts Bodhi's powers. The age keeps Phlydian's 10%
+physical resistances, and so does Bodhi in Ch2–3 (BODHI, BODHIAMB, and
+CBBODH66, which also loses its S2-16 off-hand: no other Bodhi has one). From the
+lesson fight on she wears her own 25% trait, following SCS (BODHI2, C6BODHI,
+CHEVIL08, FINBODH), and Black Pits keeps its
+file's 25%. Spellhold has none (decided 2026-11-04). Other vampires above Patriarch
+(Black Pits 2's OHB3VMP*, the D9 memory vampires, Tanova…) haven't been
+reviewed yet; they may join later if it fits.
 
 ## Open questions
 
@@ -235,9 +245,24 @@ scripts haven't been looked at yet.
   C6BODHI, next to SPIN964. Ours only casts SPIN964 through the traits item
   (op 232). Check that SPIN809 isn't the one the plot needs.
 - ☐ C6BODHI: spawns Grimward Archers (`DMWW_Bodhi_Init` on AR0809).
-- ☐ finbodhi: `STATE_REALLY_DEAD` → visual effects + `DestroySelf()`.
-- ☐ PPBODHI4: the whole hunt plot (`J#RealBodhi`, `J#BodhiHunts`, spawn
-  waves, ultimatum dialogue on ar1514). It runs before its combat blocks.
+- ☑ finbodhi: `STATE_REALLY_DEAD` → visual effects + `DestroySelf()`, kept.
+  CHEVIL08 (`chalDIE`: `Die()` → visuals + `DestroySelf()`) and FINBODH are
+  echoes whose death is final, so they wear Bodhi's trait without the mist form
+  on death (2026-11-04). Our usual trait casts SPIN964 on `Die()`, which
+  replaces her with GASFORM4 (`ESCAPE` script): a mist leaving the area instead
+  of her scripted end. AR6200's checks (`Dead`/`!Exists("finbodh")`) hold
+  either way.
+- ☑ SCS's chase leftovers in BODHI2, C6BODHI and finbodhi (`chasetimer`
+  blocks, `HasItem("dw#move0")` → `NoAction()`) are stripped: they fire
+  without `Continue()` and take our script's turn (2026-11-04).
+- ☑ PPBODHI4 (UB's "Cat and Mouse", 2026-11-04): the hunt plot stays
+  (`J#RealBodhi`, `J#BodhiHunts`, spawn waves, ultimatum dialogue on ar1514),
+  and so do its hunt moves: out of sight she walks to Player1–6 in turn, then
+  `RandomWalkContinuous()`. Our AI only searches nearby, so without them she
+  would stop hunting through the maze. Its domination, Control Undead and
+  melee blocks go. SCS's `dw#ppbod` (general slot) is removed: it only turns
+  her to mist on `Die()`, which our trait already does (op 232, SPIN964), and
+  SCS's `dw#vmmin` (default slot) is removed with the other vampire scripts.
 
 ### Blood pools: Elven Holy Water weakens her (Ch6)
 

@@ -57,7 +57,7 @@ function buildAdjustments(
   const groupedFiles = (input.files ?? []).filter((f) => !fullyAdjusted.has(f.toUpperCase()));
   if (groupedFiles.length && hasKeys(base)) {
     adjustments.push({ files: groupedFiles, data: base, autoGenerate: input.autoGenerate });
-  } else if (input.files?.length && !hasKeys(base)) {
+  } else if (groupedFiles.length && !hasKeys(base)) {
     logService.warn(
       `variant "${label}" lists files but resolves to no data - those files get no adjustment`,
     );

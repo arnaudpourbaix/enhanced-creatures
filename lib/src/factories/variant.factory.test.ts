@@ -137,6 +137,16 @@ describe("variantFactory.add", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('variant "empty"'));
   });
 
+  it("doesn't warn without data when every file has its own adjust entry", () => {
+    captureAdjustments();
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    variantFactory.add(fakeCreature(), "group", {
+      files: ["GRON"],
+      adjust: [{ files: ["GRON"], data: { level1: 5 } }],
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
+
   it("returns a handle with member files uppercased and deduped", () => {
     captureAdjustments();
     const variant = variantFactory.add(fakeCreature(), "lacedon", {
