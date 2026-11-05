@@ -173,7 +173,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=6000
-					hp=154
+					hp=88
 					ac=0
 					thac0=9
 					apr=2
@@ -221,8 +221,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM1902~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDTREANT~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WITREANT~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
-				WRITE_SHORT 0x24 117 // hp
-				WRITE_SHORT 0x26 117 // hp
+				WRITE_SHORT 0x24 72 // hp
+				WRITE_SHORT 0x26 72 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand
@@ -236,8 +236,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM1901~) BEGIN 
 				WRITE_LONG 0x14 2000 // xpv
-				WRITE_SHORT 0x24 91 // hp
-				WRITE_SHORT 0x26 91 // hp
+				WRITE_SHORT 0x24 56 // hp
+				WRITE_SHORT 0x26 56 // hp
 				WRITE_BYTE 0x52 13 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 12 // saveWand
@@ -251,8 +251,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM1900~) BEGIN 
 				WRITE_LONG 0x14 1400 // xpv
-				WRITE_SHORT 0x24 65 // hp
-				WRITE_SHORT 0x26 65 // hp
+				WRITE_SHORT 0x24 40 // hp
+				WRITE_SHORT 0x26 40 // hp
 				WRITE_BYTE 0x52 15 // thac0
 				WRITE_BYTE 0x54 11 // saveDeath
 				WRITE_BYTE 0x55 13 // saveWand

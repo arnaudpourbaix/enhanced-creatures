@@ -45,7 +45,11 @@ class HitPointService {
       p.data.class ?? p.parent?.class ?? "NO_CLASS",
     );
     const hpPerLevel =
-      GLOBAL_CONFIG.constitutionAffectHitPoint && !isPlayerClass ? constitutionHp.warriorHp : 0;
+      GLOBAL_CONFIG.constitutionAffectHitPoint &&
+      !isPlayerClass &&
+      !creatureTypeHooksService.hasNoConstitutionHp(p.creature)
+        ? constitutionHp.warriorHp
+        : 0;
     const value = p.level * hpPerLevel;
     const log = value > 0 ? `+${value} (con) ` : "";
     return { value, log };
@@ -64,7 +68,6 @@ class HitPointService {
     constitution?: number;
     level: number;
   }): number {
-    if (!GLOBAL_CONFIG.constitutionAffectHitPoint) return 0;
     if (!PLAYER_CLASS_IDENTIFIERS.includes(p.class ?? "NO_CLASS")) return 0;
     const constitutionHp = ConstitutionTable.find((t) => t.con === (p.constitution ?? 10));
     return constitutionHp ? p.level * constitutionHp.warriorHp : 0;

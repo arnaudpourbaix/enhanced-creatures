@@ -23,6 +23,7 @@ import { applyTurnLevel } from "./turn-level";
 export const undeadType: CreatureTypeModule = {
   type: "undead",
   hitDie: 12,
+  noConstitutionHp: true,
   afterBuild: (creature) => {
     applyUndeadGeneral(creature);
     applyTurnLevel(creature);

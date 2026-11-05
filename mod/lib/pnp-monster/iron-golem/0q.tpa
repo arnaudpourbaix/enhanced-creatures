@@ -112,7 +112,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=13000
-					hp=300
+					hp=210
 					ac=3
 					thac0=3
 					apr=1
@@ -146,8 +146,8 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN OHBBANNO END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0q00 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBBANNO~) BEGIN 
-				WRITE_SHORT 0x24 480 // hp
-				WRITE_SHORT 0x26 480 // hp
+				WRITE_SHORT 0x24 330 // hp
+				WRITE_SHORT 0x26 330 // hp
 				WRITE_BYTE 0x52 "-10" // thac0
 				WRITE_BYTE 0x54 3 // saveDeath
 				WRITE_BYTE 0x55 5 // saveWand

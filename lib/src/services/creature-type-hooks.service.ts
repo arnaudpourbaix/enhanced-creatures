@@ -9,6 +9,8 @@ export interface CreatureTypeModule {
   type: ImmunityName;
   /** Hit die size of the type's creatures (the largest one wins for a creature with several). */
   hitDie?: number;
+  /** Not a living type: no constitution hit point bonus (constructs, undead). */
+  noConstitutionHp?: boolean;
   /**
    * Run once a creature is fully built, before validation, when the creature or one of its
    * adjustments has the type (an adjustment can add a type: zombie ankhegs are undead). The hook
@@ -57,6 +59,13 @@ class CreatureTypeHooksService {
       .map((type) => this.modules.find((m) => m.type === type)?.hitDie)
       .filter((die) => die !== undefined);
     return dice.length ? Math.max(...dice) : undefined;
+  }
+
+  /** Whether one of the creature's own types skips the constitution hit point bonus. */
+  hasNoConstitutionHp(creature: Creature): boolean {
+    return creatureTypeService
+      .getCreatureTypes(creature)
+      .some((type) => this.modules.find((m) => m.type === type)?.noConstitutionHp);
   }
 }
 

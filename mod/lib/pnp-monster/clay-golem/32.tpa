@@ -74,7 +74,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=8000
-					hp=226
+					hp=170
 					ac=7
 					thac0=7
 					apr=1
@@ -107,8 +107,8 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm3200 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBGOL01~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
-				WRITE_SHORT 0x24 394 // hp
-				WRITE_SHORT 0x26 394 // hp
+				WRITE_SHORT 0x24 290 // hp
+				WRITE_SHORT 0x26 290 // hp
 				WRITE_SHORT 0x46 "-1" // ac
 				WRITE_SHORT 0x48 "-1" // ac
 				WRITE_BYTE 0x52 "-5" // thac0

@@ -50,7 +50,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=35
-					hp=10
+					hp=9
 					ac=10
 					thac0=19
 					apr=1
@@ -95,8 +95,8 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDEADOG~) BEGIN 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DOGWISU~) BEGIN 
-				WRITE_SHORT 0x24 28 // hp
-				WRITE_SHORT 0x26 28 // hp
+				WRITE_SHORT 0x24 25 // hp
+				WRITE_SHORT 0x26 25 // hp
 				WRITE_BYTE 0x52 17 // thac0
 				WRITE_BYTE 0x54 13 // saveDeath
 				WRITE_BYTE 0x55 15 // saveWand

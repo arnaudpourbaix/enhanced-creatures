@@ -56,7 +56,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=420
-					hp=31
+					hp=25
 					ac=3
 					thac0=17
 					apr=4
@@ -98,8 +98,8 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0901 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CRYPTCRA~) BEGIN 
 				WRITE_LONG 0x14 650 // xpv
-				WRITE_SHORT 0x24 91 // hp
-				WRITE_SHORT 0x26 91 // hp
+				WRITE_SHORT 0x24 73 // hp
+				WRITE_SHORT 0x26 73 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand
@@ -109,8 +109,8 @@ BEGIN
 				WRITE_BYTE 0x234 9 // level1
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDCRAWMU~) BEGIN 
-				WRITE_SHORT 0x24 71 // hp
-				WRITE_SHORT 0x26 71 // hp
+				WRITE_SHORT 0x24 57 // hp
+				WRITE_SHORT 0x26 57 // hp
 				WRITE_BYTE 0x52 13 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 12 // saveWand
@@ -120,8 +120,8 @@ BEGIN
 				WRITE_BYTE 0x234 7 // level1
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CARRIOSU~) BEGIN 
-				WRITE_SHORT 0x24 51 // hp
-				WRITE_SHORT 0x26 51 // hp
+				WRITE_SHORT 0x24 41 // hp
+				WRITE_SHORT 0x26 41 // hp
 				WRITE_BYTE 0x52 15 // thac0
 				WRITE_BYTE 0x54 11 // saveDeath
 				WRITE_BYTE 0x55 13 // saveWand

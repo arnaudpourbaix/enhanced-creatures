@@ -52,7 +52,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=65
-					hp=20
+					hp=18
 					ac=9
 					thac0=19
 					apr=1
@@ -94,8 +94,8 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~UBNIMDOG~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#NIDOG~) BEGIN 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~FSDOG~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#2EDDOG~) BEGIN 
-				WRITE_SHORT 0x24 29 // hp
-				WRITE_SHORT 0x26 29 // hp
+				WRITE_SHORT 0x24 26 // hp
+				WRITE_SHORT 0x26 26 // hp
 				WRITE_BYTE 0x52 17 // thac0
 				WRITE_BYTE 0x54 13 // saveDeath
 				WRITE_BYTE 0x55 15 // saveWand
@@ -105,8 +105,8 @@ BEGIN
 				WRITE_BYTE 0x234 3 // level1
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~GPDOG1~) BEGIN 
-				WRITE_SHORT 0x24 38 // hp
-				WRITE_SHORT 0x26 38 // hp
+				WRITE_SHORT 0x24 34 // hp
+				WRITE_SHORT 0x26 34 // hp
 				WRITE_BYTE 0x52 17 // thac0
 				WRITE_BYTE 0x54 13 // saveDeath
 				WRITE_BYTE 0x55 15 // saveWand

@@ -118,7 +118,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=1400
-					hp=105
+					hp=91
 					ac=3
 					thac0=13
 					apr=1
@@ -159,8 +159,8 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN WYVERNSU END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1y01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~PWYVV01~) BEGIN 
-				WRITE_SHORT 0x24 147 // hp
-				WRITE_SHORT 0x26 147 // hp
+				WRITE_SHORT 0x24 127 // hp
+				WRITE_SHORT 0x26 127 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand

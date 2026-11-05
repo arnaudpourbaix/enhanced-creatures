@@ -128,7 +128,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=1400
-					hp=63
+					hp=51
 					ac=6
 					thac0=13
 					apr=2
@@ -169,8 +169,8 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1w01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~GAROCK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~HLMAFER~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBMIN01~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBMINSU~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHNGHALL~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~SLANDOR~) BEGIN 
 				WRITE_LONG 0x14 3000 // xpv
-				WRITE_SHORT 0x24 84 // hp
-				WRITE_SHORT 0x26 84 // hp
+				WRITE_SHORT 0x24 68 // hp
+				WRITE_SHORT 0x26 68 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 12 // saveWand
@@ -191,8 +191,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBMIN01~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
-				WRITE_SHORT 0x24 113 // hp
-				WRITE_SHORT 0x26 113 // hp
+				WRITE_SHORT 0x24 91 // hp
+				WRITE_SHORT 0x26 91 // hp
 				WRITE_BYTE 0x52 9 // thac0
 				WRITE_BYTE 0x54 7 // saveDeath
 				WRITE_BYTE 0x55 9 // saveWand
@@ -204,8 +204,8 @@ BEGIN
 				ADD_MEMORIZED_SPELL ~SPCL152~ #0 ~innate~ (1) 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHBMINSU~) BEGIN 
-				WRITE_SHORT 0x24 133 // hp
-				WRITE_SHORT 0x26 133 // hp
+				WRITE_SHORT 0x24 107 // hp
+				WRITE_SHORT 0x26 107 // hp
 				WRITE_BYTE 0x52 7 // thac0
 				WRITE_BYTE 0x54 5 // saveDeath
 				WRITE_BYTE 0x55 7 // saveWand
@@ -218,8 +218,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHNGHALL~) BEGIN 
 				WRITE_LONG 0x14 5000 // xpv
-				WRITE_SHORT 0x24 143 // hp
-				WRITE_SHORT 0x26 143 // hp
+				WRITE_SHORT 0x24 115 // hp
+				WRITE_SHORT 0x26 115 // hp
 				WRITE_BYTE 0x52 7 // thac0
 				WRITE_BYTE 0x54 5 // saveDeath
 				WRITE_BYTE 0x55 7 // saveWand
@@ -245,8 +245,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~HLMAFER~) BEGIN 
 				WRITE_LONG 0x14 6000 // xpv
-				WRITE_SHORT 0x24 173 // hp
-				WRITE_SHORT 0x26 173 // hp
+				WRITE_SHORT 0x24 139 // hp
+				WRITE_SHORT 0x26 139 // hp
 				WRITE_BYTE 0x52 3 // thac0
 				WRITE_BYTE 0x54 3 // saveDeath
 				WRITE_BYTE 0x55 5 // saveWand
@@ -259,8 +259,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~GAROCK~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~ROCK~) BEGIN 
 				WRITE_LONG 0x14 10000 // xpv
-				WRITE_SHORT 0x24 203 // hp
-				WRITE_SHORT 0x26 203 // hp
+				WRITE_SHORT 0x24 163 // hp
+				WRITE_SHORT 0x26 163 // hp
 				WRITE_BYTE 0x52 1 // thac0
 				WRITE_BYTE 0x54 3 // saveDeath
 				WRITE_BYTE 0x55 5 // saveWand
@@ -276,8 +276,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SLANDOR~) BEGIN 
 				WRITE_LONG 0x14 10000 // xpv
-				WRITE_SHORT 0x24 203 // hp
-				WRITE_SHORT 0x26 203 // hp
+				WRITE_SHORT 0x24 163 // hp
+				WRITE_SHORT 0x26 163 // hp
 				WRITE_BYTE 0x52 1 // thac0
 				WRITE_BYTE 0x54 3 // saveDeath
 				WRITE_BYTE 0x55 5 // saveWand

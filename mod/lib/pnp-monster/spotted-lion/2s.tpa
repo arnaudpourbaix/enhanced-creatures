@@ -133,7 +133,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=975
-					hp=68
+					hp=50
 					ac=5
 					thac0=15
 					apr=2
@@ -174,8 +174,8 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN CATLIOWP END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm2s01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CATLIOWP~) BEGIN 
-				WRITE_SHORT 0x24 101 // hp
-				WRITE_SHORT 0x26 101 // hp
+				WRITE_SHORT 0x24 74 // hp
+				WRITE_SHORT 0x26 74 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand

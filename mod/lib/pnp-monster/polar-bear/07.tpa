@@ -106,7 +106,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=1400
-					hp=100
+					hp=84
 					ac=6
 					thac0=11
 					apr=2
@@ -154,8 +154,8 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN KALDRAN END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0702 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDGHBRSU~) BEGIN 
-				WRITE_SHORT 0x24 98 // hp
-				WRITE_SHORT 0x26 98 // hp
+				WRITE_SHORT 0x24 80 // hp
+				WRITE_SHORT 0x26 80 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand
@@ -169,8 +169,8 @@ BEGIN
 					WRITE_LONG 0xc RESOLVE_STR_REF(@10146)
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~KALDRAN~) BEGIN 
-				WRITE_SHORT 0x24 128 // hp
-				WRITE_SHORT 0x26 128 // hp
+				WRITE_SHORT 0x24 104 // hp
+				WRITE_SHORT 0x26 104 // hp
 				WRITE_BYTE 0x52 9 // thac0
 				WRITE_BYTE 0x54 7 // saveDeath
 				WRITE_BYTE 0x55 9 // saveWand

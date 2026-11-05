@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { GLOBAL_CONFIG } from "../../config/generate";
 import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
@@ -20,6 +21,23 @@ function fakeCreature(
 }
 
 describe("hitPointService.getHitPoints", () => {
+  const configured = GLOBAL_CONFIG.constitutionAffectHitPoint;
+  beforeEach(() => {
+    GLOBAL_CONFIG.constitutionAffectHitPoint = true;
+  });
+  afterEach(() => {
+    GLOBAL_CONFIG.constitutionAffectHitPoint = configured;
+  });
+
+  it("adds no constitution bonus when constitutionAffectHitPoint is off", () => {
+    GLOBAL_CONFIG.constitutionAffectHitPoint = false;
+    const value = hitPointService.getHitPoints({
+      data: { level1: { pnpValue: 5, value: 5, type: "none" }, constitution: 18 },
+      creature: fakeCreature(),
+    });
+    expect(value).toBe(40); // 5*8, con 18 ignored
+  });
+
   it("throws when level1 is unknown and there is no parent", () => {
     expect(() => hitPointService.getHitPoints({ data: {}, creature: fakeCreature() })).toThrow(
       /level1 is unknown/,
@@ -94,6 +112,17 @@ describe("hitPointService.getHitPoints", () => {
     });
     expect(value).toBe(60); // 40 (base) + 5*4 (con 18 -> warriorHp 4)
   });
+
+  it.each([["construct"], ["undead"]] as [ImmunityName][])(
+    "does not apply a constitution bonus to a non-living type (%s)",
+    (type) => {
+      const value = hitPointService.getHitPoints({
+        data: { level1: { pnpValue: 5, value: 5, type: "none" }, constitution: 18 },
+        creature: fakeCreature({ immunities: [type] }),
+      });
+      expect(value).toBe(type === "construct" ? 50 : 60); // 5 x d10 / 5 x d12, no con bonus
+    },
+  );
 
   it("does not apply a constitution bonus for player classes", () => {
     const value = hitPointService.getHitPoints({
@@ -176,6 +205,18 @@ describe("hitPointService.getDisplayHitPointBonus", () => {
       level: 9,
     });
     expect(value).toBe(45); // 9 * 5 (con 19 -> warriorHp 5)
+  });
+
+  it("returns the bonus even when constitutionAffectHitPoint is off (the engine always applies it)", () => {
+    const configured = GLOBAL_CONFIG.constitutionAffectHitPoint;
+    GLOBAL_CONFIG.constitutionAffectHitPoint = false;
+    const value = hitPointService.getDisplayHitPointBonus({
+      class: "FIGHTER",
+      constitution: 18,
+      level: 5,
+    });
+    GLOBAL_CONFIG.constitutionAffectHitPoint = configured;
+    expect(value).toBe(20); // 5 * 4 (con 18 -> warriorHp 4)
   });
 
   it("returns 0 for a non-player class (getHitPoints already included the bonus there)", () => {

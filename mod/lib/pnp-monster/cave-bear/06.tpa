@@ -99,7 +99,7 @@ BEGIN
 			LPF patchCreature
 				INT_VAR
 					xpv=650
-					hp=74
+					hp=62
 					ac=6
 					thac0=13
 					apr=2
@@ -141,8 +141,8 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0601 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BD328OSO~) BEGIN 
 				WRITE_LONG 0x14 900 // xpv
-				WRITE_SHORT 0x24 86 // hp
-				WRITE_SHORT 0x26 86 // hp
+				WRITE_SHORT 0x24 70 // hp
+				WRITE_SHORT 0x26 70 // hp
 				WRITE_BYTE 0x52 13 // thac0
 				WRITE_BYTE 0x54 10 // saveDeath
 				WRITE_BYTE 0x55 12 // saveWand
@@ -153,8 +153,8 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDBEARCA~) BEGIN 
 				WRITE_LONG 0x14 975 // xpv
-				WRITE_SHORT 0x24 96 // hp
-				WRITE_SHORT 0x26 96 // hp
+				WRITE_SHORT 0x24 78 // hp
+				WRITE_SHORT 0x26 78 // hp
 				WRITE_BYTE 0x52 11 // thac0
 				WRITE_BYTE 0x54 8 // saveDeath
 				WRITE_BYTE 0x55 10 // saveWand

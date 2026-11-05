@@ -43,7 +43,7 @@ export const GLOBAL_CONFIG = {
     immunities: "lib/common/immunities.tpa",
     stringRefs: "lib/common/string-refs.tpa",
   },
-  constitutionAffectHitPoint: true,
+  constitutionAffectHitPoint: false,
   spellcasterPrecastMidDurationSpells: false,
   /**
    * Keep disabled during development: shuffling target order on every
