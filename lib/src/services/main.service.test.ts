@@ -10,6 +10,8 @@ import { MonsterEnum } from "../../creatures/monster";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
+import { Spellbooks } from "../../config/spellbooks/spellbook";
+import { SpellBook } from "../model/spell-item/spellbook";
 import { Creature } from "../model/creature/creature";
 import { SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellReference } from "../model/spell-item/spell-reference";
@@ -67,7 +69,47 @@ describe("checkSpellCombos", () => {
   it("accepts the registry", () => {
     expect(() => mainService.checkSpellCombos()).not.toThrow();
   });
+});
 
+describe("checkSpellbooks", () => {
+  const w = SPELLS.Wizard;
+  const books = [...Spellbooks];
+  const level = (n: number, base: SpellReference[]) => ({
+    level: n,
+    base,
+    additionnals: [],
+    repeat: [],
+  });
+  /** Leaves `book` as the only spellbook, so the real ones can't fail the test. */
+  const onlyBook = (book: Partial<SpellBook>) =>
+    Spellbooks.splice(0, Spellbooks.length, { name: "TestBook" as never, values: [], ...book });
+
+  beforeEach(() => vi.spyOn(logService, "section").mockImplementation(() => {}));
+  afterEach(() => {
+    Spellbooks.splice(0, Spellbooks.length, ...books);
+    vi.restoreAllMocks();
+  });
+
+  it("accepts the spellbooks", () => {
+    expect(() => mainService.checkSpellbooks()).not.toThrow();
+  });
+
+  it("rejects a spell listed under another level", () => {
+    onlyBook({ values: [level(1, [w.MagicMissiles]), level(9, [w.MagicMissiles])] });
+    expect(() => mainService.checkSpellbooks()).toThrow(
+      `Spellbook "TestBook" lists ${w.MagicMissiles.file} (level 1) in its level 9 spells.`,
+    );
+  });
+
+  it("checks explicit mod variants too", () => {
+    onlyBook({
+      values: [level(1, [w.MagicMissiles])],
+      variants: [{ mod: "FaithsAndPowers", values: [level(2, [w.MagicMissiles])] }],
+    });
+    expect(() => mainService.checkSpellbooks()).toThrow(
+      `Spellbook "TestBook" (FaithsAndPowers variant) lists ${w.MagicMissiles.file} (level 1) in its level 2 spells.`,
+    );
+  });
 });
 
 describe("checkSpellProfiles", () => {

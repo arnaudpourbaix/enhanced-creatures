@@ -9,11 +9,11 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/vampire/jabm4j02.baf~
 CREATE SPL "jasm4j00"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4j00.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10428)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10430)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~dvwi106c~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10429)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10431)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 STR_VAR icon="dvwi106b" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0702" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0703" END
@@ -26,13 +26,13 @@ COPY_EXISTING ~jasm4j00.SPL~  ~override~
 CREATE SPL "jasm4j01"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4j01.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10430)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10432)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x25 8
 	WRITE_BYTE 0x27 13
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~PLYMANB~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10431)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10433)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 speed=1 STR_VAR icon="PLYMAN" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0702" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=112 target=1 power=1 probability1=100 STR_VAR resource="jaie0703" END
@@ -52,7 +52,7 @@ CREATE ITM "jaim4j00"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10001)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11355)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11357)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jaim4j00.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -78,11 +78,11 @@ COPY_EXISTING ~jaim4j00.itm~ ~override~
 // Very Old Vampire traits
 CREATE ITM "jaim4j01"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11354)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11354)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11356)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11356)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11356)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11358)
 COPY_EXISTING ~jaim4j01.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=6 parameter2=3 timing=2 probability1=100 special=42 END
@@ -99,10 +99,10 @@ CREATE ITM "jaim4j02"
 	WRITE_SHORT 0x68 1
 	WRITE_SHORT 0x72 1
 	WRITE_LONG 0x6a 0xaa
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10428)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@10428)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10430)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10430)
 	WRITE_LONG 0x18 64
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10429)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10431)
 	WRITE_LONG 0x60 4
 COPY_EXISTING ~jaim4j02.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -251,24 +251,24 @@ BEGIN
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN1 D0QPTAN2 D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY skipFiles BEGIN C0PMVM2F C0PMVM2M NTHAEBAL DX#DALID END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j00 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j00 END
 			// Assigning jabm4j01
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN1 D0QPTAN2 D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN C0PMVM2F C0PMVM2M END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j01 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j01 END
 			// Assigning jabm4j02
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN bdvamp01 c6vampir d0qpvafl D0QPTAN1 D0QPTAN2 D0QPTAN3 dw#vmmin ohbvamp ohbfig01 ohbmag04 ohbthief ppvampir ppvamp sarvam02 vampir01 vampir02 VAMEMI01 vampat01 vvamp BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN DX#DALID END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j02 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4j02 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0PMVM2F~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0PMVM2M~) BEGIN 
-					WRITE_LONG 0x8 RESOLVE_STR_REF(@10402)
-					WRITE_LONG 0xc RESOLVE_STR_REF(@10402)
+					WRITE_LONG 0x8 RESOLVE_STR_REF(@10404)
+					WRITE_LONG 0xc RESOLVE_STR_REF(@10404)
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#2EDVAM~) BEGIN 
 			END
@@ -305,7 +305,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ (2) 
 					ADD_MEMORIZED_SPELL ~SPWI409~ #3 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI406~ #3 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI431~ #3 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI427~ #3 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI501~ #4 ~wizard~ (2) 
 					ADD_MEMORIZED_SPELL ~SPWI508~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI513~ #4 ~wizard~ (1) 
@@ -317,8 +317,8 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -336,7 +336,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ (2) 
 					ADD_MEMORIZED_SPELL ~SPWI409~ #3 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI406~ #3 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI401~ #3 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI414~ #3 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI504~ #4 ~wizard~ (2) 
 					ADD_MEMORIZED_SPELL ~SPWI502~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI513~ #4 ~wizard~ (1) 
@@ -348,8 +348,8 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc0106~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
+					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0PMVM2F~) BEGIN 

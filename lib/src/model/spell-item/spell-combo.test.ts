@@ -6,6 +6,7 @@ import {
   contingency,
   contingencyMaxLevel,
   minorSequencer,
+  registerComboGroups,
   registerCombos,
   spellSequencer,
   validateCombo,
@@ -106,5 +107,36 @@ describe("registerCombos", () => {
   it("accepts priest spells", () => {
     const bless = SPELLS.Priest.Bless;
     expect(() => registerCombos({ A: minorSequencer([bless, bless]) }, KNOWN)).not.toThrow();
+  });
+});
+
+describe("registerComboGroups", () => {
+  const empty = {
+    MinorSequencers: {},
+    SpellSequencers: {},
+    Contingencies: {},
+    ChainContingencies: {},
+  };
+
+  it("keys each combo inside its group", () => {
+    const combos = registerComboGroups(
+      { ...empty, MinorSequencers: { A: minorSequencer([MM, MM]) } },
+      KNOWN,
+    );
+    expect(combos.MinorSequencers.A.key).toBe("A");
+    expect(combos.MinorSequencers.A.kind).toBe("minorSequencer");
+  });
+
+  it("rejects a key used in two groups", () => {
+    expect(() =>
+      registerComboGroups(
+        {
+          ...empty,
+          MinorSequencers: { A: minorSequencer([MM, MM]) },
+          Contingencies: { A: contingency("hit", [MM]) },
+        },
+        KNOWN,
+      ),
+    ).toThrow("Spell combo A is in both MinorSequencers and Contingencies");
   });
 });

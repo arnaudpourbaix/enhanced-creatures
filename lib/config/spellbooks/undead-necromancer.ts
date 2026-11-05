@@ -1,11 +1,11 @@
 import { SpellBook } from "../../src/model/spell-item/spellbook";
-import { CONTINGENCIES, SEQUENCERS } from "../spells/spell-combos";
+import { COMBOS } from "../spells/spell-combos";
 import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Wizard;
 
-export const VampireNecromancerSpellbook: SpellBook = {
-  name: "VampireNecromancerSpellbook",
+export const EvilUndeadNecromancerSpellbook: SpellBook = {
+  name: "EvilUndeadNecromancer",
   // Necromancer: no Illusion or Enchantment/Charm
   values: [
     {
@@ -17,8 +17,8 @@ export const VampireNecromancerSpellbook: SpellBook = {
     {
       level: 2,
       base: [s.Horror, s.RayOfEnfeeblement, s.Vocalize],
-      additionnals: [s.StinkingCloud, s.SoundBurst],
-      repeat: [s.Combust, s.MelfAcidArrow],
+      additionnals: [s.StinkingCloud, s.SoundBurst, s.GhoulTouch],
+      repeat: [s.MelfAcidArrow],
     },
     {
       level: 3,
@@ -30,7 +30,7 @@ export const VampireNecromancerSpellbook: SpellBook = {
       level: 4,
       base: [s.Stoneskin, s.Contagion, s.MinorGlobeOfInvulnerability],
       additionnals: [],
-      repeat: [s.Stoneskin, s.MordenkainenForceMissiles],
+      repeat: [s.BeltynsBurningBlood, s.Stoneskin],
     },
     {
       level: 5,
@@ -40,15 +40,15 @@ export const VampireNecromancerSpellbook: SpellBook = {
     },
     {
       level: 6,
-      base: [s.AnimateSkeletonWarrior, s.ProtectionFromMagicalWeapons, s.ImprovedHaste],
+      base: [s.AnimateSkeletonWarrior, s.ProtectionFromMagicalWeapons],
       additionnals: [],
-      repeat: [s.Disintegrate, s.OtilukesFreezingSphere],
+      repeat: [s.Disintegrate, s.OtilukesFreezingSphere, s.AnimateSkeletonWarrior],
     },
     {
       level: 7,
-      base: [s.SummonDeathKnight, s.KhelbensWardingWhip, s.GreaterSpellDeflection],
+      base: [s.SummonDeathKnight, s.KhelbensWardingWhip, s.FingerOfDeath, s.GreaterSpellDeflection],
       additionnals: [],
-      repeat: [],
+      repeat: [s.FingerOfDeath],
     },
     {
       level: 8,
@@ -63,11 +63,16 @@ export const VampireNecromancerSpellbook: SpellBook = {
       repeat: [s.LarlochEnergyDrain],
     },
   ],
-  sequencers: [SEQUENCERS.Lifedrain, SEQUENCERS.LarlochMinorDrain],
-  contingencies: [
-    CONTINGENCIES.MomentOfPrescience,
-    CONTINGENCIES.PrismaticMantle,
-    CONTINGENCIES.ImprovedHaste,
-    CONTINGENCIES.Stoneskin,
+  minorSequencers: [
+    COMBOS.MinorSequencers.LarlochMinorDrain,
+    COMBOS.MinorSequencers.RayOfEnfeeblement,
   ],
+  spellSequencers: [COMBOS.SpellSequencers.Lifedrain],
+  contingencies: [
+    COMBOS.Contingencies.MomentOfPrescience,
+    COMBOS.Contingencies.PrismaticMantle,
+    COMBOS.Contingencies.ProtectionFromMagicalWeapons,
+    COMBOS.Contingencies.Stoneskin,
+  ],
+  chainContingencies: [COMBOS.ChainContingencies.ProtectAndSummon],
 };

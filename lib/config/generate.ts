@@ -128,7 +128,7 @@ export const GLOBAL_CONFIG = {
       "WTASIGHT",
       "wtrunsgt",
     ],
-    genericScriptsToRemoveRx: [/DW#GP.+/, /DW#MG.+/, /DW1.+/, /DW2.+/, /DW3.+/],
+    genericScriptsToRemoveRx: [/DW#GP.+/, /DW#MG.+/, /DW#PR.+/, /DW1.+/, /DW2.+/, /DW3.+/],
     genericScriptsToKeep: [
       "BDHELP",
       "BDSHOUT",

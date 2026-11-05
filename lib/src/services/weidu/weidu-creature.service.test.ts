@@ -10,7 +10,7 @@ import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { State } from "../../state";
 import weiduCreatureService from "./weidu-creature.service";
 import spellComboService from "../spell-combo.service";
-import { SEQUENCERS } from "../../../config/spells/spell-combos";
+import { COMBOS } from "../../../config/spells/spell-combos";
 
 interface WeiduCreatureServicePrivate {
   removeEffects(lines: CodeLine[], tab: number, creature: Creature): void;
@@ -237,7 +237,7 @@ describe("addMemorizedSpells (private)", () => {
   });
 
   it("labels a combo SPL by its kind and key", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     const lines: CodeLine[] = [];
     service.addMemorizedSpells(lines, 0, {
       spells: { memorized: [{ file, memorizedCount: 1 }] },

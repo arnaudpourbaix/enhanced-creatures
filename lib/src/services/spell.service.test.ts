@@ -435,16 +435,16 @@ describe("createSpellbook", () => {
   it("throws when the spellbook has no spells for a level the caster table requires", () => {
     expect(() =>
       spellService.createSpellbook({
-        name: "EvilUndeadCleric",
+        name: "UndeadCleric",
         casterLevel: 16,
         type: "mage",
       }),
-    ).toThrow(/EvilUndeadCleric has no spells defined for level 8!/);
+    ).toThrow(/UndeadCleric has no spells defined for level 8!/);
   });
 
   it("fills a level from base spells only when slots don't exceed the base list", () => {
     const result = spellService.createSpellbook({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 1,
       type: "cleric",
     });
@@ -453,7 +453,7 @@ describe("createSpellbook", () => {
 
   it("falls back to additionnals, in order, once base spells are exhausted", () => {
     const result = spellService.createSpellbook({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 9,
       type: "cleric",
     });
@@ -467,7 +467,7 @@ describe("createSpellbook", () => {
 
   it("adds a cleric's wisdom bonus spells on top of the caster table's base count", () => {
     const result = spellService.createSpellbook({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 1,
       type: "cleric",
       wisdom: 18,
@@ -481,7 +481,7 @@ describe("createSpellbook", () => {
 
   it("ignores wisdom for a mage spellbook", () => {
     const result = spellService.createSpellbook({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 1,
       type: "mage",
       wisdom: 25,
@@ -491,7 +491,7 @@ describe("createSpellbook", () => {
 
   it("cycles the repeat list to fill remaining slots, consolidating repeats into memorizedCount", () => {
     const result = spellService.createSpellbook({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 50,
       type: "cleric",
     });
@@ -511,14 +511,14 @@ describe("createSpellbook", () => {
   it("shuffles additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is enabled", () => {
     GLOBAL_CONFIG.randomizeSpellbookAdditionals = true;
     const shuffleSpy = vi.spyOn(utils, "shuffleArray");
-    spellService.createSpellbook({ name: "EvilUndeadCleric", casterLevel: 9, type: "cleric" });
+    spellService.createSpellbook({ name: "UndeadCleric", casterLevel: 9, type: "cleric" });
     expect(shuffleSpy).toHaveBeenCalled();
     shuffleSpy.mockRestore();
   });
 
   it("does not shuffle additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is disabled", () => {
     const shuffleSpy = vi.spyOn(utils, "shuffleArray");
-    spellService.createSpellbook({ name: "EvilUndeadCleric", casterLevel: 9, type: "cleric" });
+    spellService.createSpellbook({ name: "UndeadCleric", casterLevel: 9, type: "cleric" });
     expect(shuffleSpy).not.toHaveBeenCalled();
     shuffleSpy.mockRestore();
   });
@@ -539,24 +539,24 @@ describe("createSpellbooks", () => {
 
   it("builds one SpellbookVariant per mod sharing that spellbook name", () => {
     const result = spellService.createSpellbooks({
-      name: "EvilUndeadCleric",
+      name: "UndeadCleric",
       casterLevel: 1,
       type: "cleric",
     });
     expect(result).toEqual([
       {
         mod: "AllSpellMods",
-        spellbook: "EvilUndeadCleric",
+        spellbook: "UndeadCleric",
         memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
       },
       {
         mod: "Vanilla",
-        spellbook: "EvilUndeadCleric",
+        spellbook: "UndeadCleric",
         memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
       },
       {
         mod: "FaithsAndPowers",
-        spellbook: "EvilUndeadCleric",
+        spellbook: "UndeadCleric",
         memorized: [{ file: s.Sanctuary.file, memorizedCount: 1 }],
       },
     ]);
@@ -567,10 +567,11 @@ describe("pickCombos", () => {
   const w = SPELLS.Wizard;
   const level5 = w.Cloudkill;
   const mod = "Vanilla";
+  const bookCount = Spellbooks.length;
 
   afterEach(() => {
     vi.restoreAllMocks();
-    Spellbooks.length = 4;
+    Spellbooks.length = bookCount;
   });
 
   const file = (c: SpellCombo) => spellComboService.comboFile(c, mod);
@@ -582,13 +583,23 @@ describe("pickCombos", () => {
     key: "TestSeq",
   };
 
-  it("picks the first contingency whose spell fits the caster level", () => {
+  it("only picks a contingency whose spell fits the caster level", () => {
     const at12 = spellService.pickCombos([heavy, stoneskin], 12, mod, "B").map((m) => m.file);
-    const at15 = spellService.pickCombos([heavy, stoneskin], 15, mod, "B").map((m) => m.file);
     expect(at12).toContain(file(stoneskin));
     expect(at12).not.toContain(file(heavy));
-    expect(at15).toContain(file(heavy));
-    expect(at15).not.toContain(file(stoneskin));
+  });
+
+  it("picks at random among the combos that fit, the same way every time", () => {
+    const pick = (book: string) =>
+      spellService.pickCombos([heavy, stoneskin], 15, mod, book).map((m) => m.file);
+    const books = Array.from({ length: 20 }, (_, i) => `Book${i}`);
+    const picks = books.map(pick);
+    expect(picks.every((p) => p.length === 1)).toBe(true);
+    expect(new Set(picks.flat())).toEqual(new Set([file(heavy), file(stoneskin)]));
+    expect(books.map(pick)).toEqual(picks);
+    expect(spellService.pickCombos([heavy, stoneskin], 15, "AllSpellMods", "Book0")).toHaveLength(
+      1,
+    );
   });
 
   it("picks nothing and doesn't warn below the first caster level", () => {
@@ -634,9 +645,15 @@ describe("pickCombos", () => {
 
   describe("in createSpellbooks", () => {
     const addBook = (extra: Partial<SpellBook>) => {
-      const base = Spellbooks.find((b) => b.name === "EvilUndeadMage");
-      if (!base) throw new Error("no EvilUndeadMage");
-      Spellbooks.push({ ...base, name: "TestMage" as never, ...extra });
+      const base = Spellbooks.find((b) => b.name === "EvilUndeadNecromancer");
+      if (!base) throw new Error("no EvilUndeadNecromancer");
+      const noCombos = {
+        minorSequencers: undefined,
+        spellSequencers: undefined,
+        contingencies: undefined,
+        chainContingencies: undefined,
+      };
+      Spellbooks.push({ ...base, ...noCombos, name: "TestMage" as never, ...extra });
     };
     const create = (casterLevel: number) =>
       spellService.createSpellbooks({ name: "TestMage" as never, casterLevel, type: "mage" })[0]
@@ -654,7 +671,7 @@ describe("pickCombos", () => {
       addBook({});
       const without = create(16);
       Spellbooks.pop();
-      addBook({ sequencers: [minor, sequencer], contingencies: [heavy] });
+      addBook({ minorSequencers: [minor], spellSequencers: [sequencer], contingencies: [heavy] });
       const withCombos = create(16);
       const comboFiles = [file(minor), file(sequencer), file(heavy)];
       expect(withCombos.filter((m) => comboFiles.includes(m.file))).toEqual(

@@ -289,6 +289,20 @@ class UtilsService {
     }
     return result;
   }
+
+  /**
+   * A random-looking index in [0, count) that only depends on `seed` (FNV-1a hash), for picks
+   * that must not change between generations. 0 when `count` is 0.
+   */
+  seededIndex(seed: string, count: number): number {
+    if (count <= 0) return 0;
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < seed.length; i++) {
+      hash ^= seed.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193) >>> 0;
+    }
+    return hash % count;
+  }
 }
 
 const utils = new UtilsService();

@@ -1,11 +1,10 @@
 import { SpellBook } from "../../src/model/spell-item/spellbook";
-import { EvilUndeadClericSpellbook } from "./evil-undead-cleric";
-import { EvilUndeadMageNoFFSpellbook, EvilUndeadMageSpellbook } from "./evil-undead-mage";
-import { VampireNecromancerSpellbook } from "./vampire-mage";
+import { UndeadClericSpellbook as UndeadClericSpellbook } from "./undead-cleric";
+import { EvilUndeadNecromancerSpellbook as UndeadNecromancerSpellbook } from "./undead-necromancer";
+import { VampireNecromancerSpellbook } from "./vampire-necromancer";
 
 export const Spellbooks: SpellBook[] = [
-  EvilUndeadClericSpellbook,
-  EvilUndeadMageSpellbook,
-  EvilUndeadMageNoFFSpellbook,
+  UndeadClericSpellbook,
+  UndeadNecromancerSpellbook,
   VampireNecromancerSpellbook,
 ];

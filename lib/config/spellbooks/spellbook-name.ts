@@ -1,2 +1,2 @@
 export type SpellBookName =
-  "EvilUndeadCleric" | "EvilUndeadMage" | "EvilUndeadMageNoFF" | "VampireNecromancerSpellbook";
+  "UndeadCleric" | "EvilUndeadNecromancer" | "VampireNecromancerSpellbook";

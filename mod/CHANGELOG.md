@@ -42,6 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - AI: auras first, split heals, worth levels, no duplicate abilities
 - Doc: show long spell renew periods in turns
 - HP: drop the constitution hit point house rule
+- Spells: combo groups, random combo pick, spellbook level check
 
 ### Changed
 

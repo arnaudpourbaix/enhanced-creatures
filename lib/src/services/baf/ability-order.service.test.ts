@@ -11,7 +11,7 @@ import { SpellCombo } from "../../model/spell-item/spell-combo";
 import { Spell } from "../../model/spell-item/spell-item";
 import { SpellTypeEnum } from "../../model/spell-item/effect.enums";
 import spellComboService from "../spell-combo.service";
-import { SEQUENCERS } from "../../../config/spells/spell-combos";
+import { COMBOS } from "../../../config/spells/spell-combos";
 import { MIRRORED_ENEMY_TARGETS } from "../../../config/spells/mirror-counters";
 import { KEEP_PLAYERS_DISABLED } from "../../../config/target/common";
 
@@ -164,9 +164,9 @@ describe("resolve", () => {
   it("gives an ability to a sequencer declared on the creature's data, without a spellbook", () => {
     spellComboService.usePresets(ABILITY_PRESETS);
     const creature = fakeCreature();
-    creature.data.spells.combos = [SEQUENCERS.MagicMissiles];
+    creature.data.spells.combos = [COMBOS.MinorSequencers.MagicMissiles];
     expect(presetsOf(abilityOrderService.resolve(creature))).toEqual(
-      spellComboService.filesOf(SEQUENCERS.MagicMissiles),
+      spellComboService.filesOf(COMBOS.MinorSequencers.MagicMissiles),
     );
   });
 

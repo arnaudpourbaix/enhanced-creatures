@@ -380,16 +380,23 @@ class SpellService {
       memorized.push(...this.pickSpellsForLevel(bookLevel, slots));
     }
     if (params.type === "mage") {
-      const combos = [...(book.sequencers ?? []), ...(book.contingencies ?? [])];
+      const combos = [
+        ...(book.minorSequencers ?? []),
+        ...(book.spellSequencers ?? []),
+        ...(book.contingencies ?? []),
+        ...(book.chainContingencies ?? []),
+      ];
       memorized.push(...this.pickCombos(combos, params.casterLevel, mod, name));
     }
     return memorized;
   }
 
   /**
-   * For each kind of combo whose spell the caster level has, memorizes the first combo of that kind
-   * that fits (a contingency's spell can't be above `contingencyMaxLevel`), warning when none does:
-   * once per book, caster level and kind, not once per mod variant.
+   * For each kind of combo whose spell the caster level has, memorizes one combo of that kind among
+   * those that fit (a contingency's spell can't be above `contingencyMaxLevel`), warning when none
+   * does: once per book, caster level and kind, not once per mod variant. The pick is random but
+   * seeded by book, caster level and kind, so every generation (and every mod variant) makes the
+   * same one.
    */
   pickCombos(
     combos: SpellCombo[],
@@ -403,8 +410,10 @@ class SpellService {
       const maxLevel = kind === "contingency" ? contingencyMaxLevel(casterLevel) : Infinity;
       const fits = (combo: SpellCombo) =>
         combo.kind === kind && combo.spells.every((s) => (s.level ?? 0) <= maxLevel);
-      const combo = combos.find(fits);
-      if (combo) {
+      const fitting = combos.filter(fits);
+      if (fitting.length > 0) {
+        const combo =
+          fitting[utils.seededIndex(`${bookName}|${casterLevel}|${kind}`, fitting.length)];
         picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
       } else {
         this.warnNoCombo(bookName, casterLevel, kind);

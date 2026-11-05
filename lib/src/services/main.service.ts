@@ -15,7 +15,11 @@ import { Creature } from "../model/creature/creature";
 import { GeneratedGroup } from "../model/creature/creature-group";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
-import { SpellBookModVariant, spellBookVariants } from "../model/spell-item/spellbook";
+import {
+  SpellBookModVariant,
+  SpellBookSpells,
+  spellBookVariants,
+} from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
 import documentationService from "./doc/documentation.service";
@@ -274,8 +278,33 @@ class MainService {
   checkSpellbooks() {
     logService.section("Checking spellbooks");
     for (const book of Spellbooks) {
+      this.checkSpellbookLevels(`Spellbook "${book.name}"`, book.values);
+      for (const variant of book.variants ?? []) {
+        this.checkSpellbookLevels(
+          `Spellbook "${book.name}" (${variant.mod} variant)`,
+          variant.values,
+        );
+      }
       for (const variant of spellBookVariants(book)) {
         if (MOD_LAYER_ORDER.includes(variant.mod)) this.checkSpellbookVariant(book.name, variant);
+      }
+    }
+  }
+
+  /**
+   * Every spell a spellbook level lists must be of that level: a level 1 spell in the level 9
+   * entry is a typo, not a choice. Checks what is authored (`values` and explicit variants), not
+   * the spells fallbacks resolve to.
+   */
+  private checkSpellbookLevels(label: string, values: SpellBookSpells[]): void {
+    for (const level of values) {
+      for (const spell of [...level.base, ...level.additionnals, ...level.repeat]) {
+        if (spell.level !== level.level) {
+          throw new Error(
+            `${label} lists ${spell.file} (level ${spell.level ?? "unknown"}) ` +
+              `in its level ${level.level} spells.`,
+          );
+        }
       }
     }
   }

@@ -92,6 +92,8 @@ describe("entry dependencies", () => {
     [EntryEnum.ArcherSkeleton, [EntryEnum.Skeleton]],
     [EntryEnum.GiantSkeleton, [EntryEnum.Skeleton]],
     [EntryEnum.SkeletonMonster, [EntryEnum.Skeleton]],
+    [EntryEnum.MageSkeleton, [EntryEnum.Skeleton]],
+    [EntryEnum.ClericSkeleton, [EntryEnum.Skeleton]],
     // Runtime: summons or creates a creature file of another entry.
     [EntryEnum.Nereid, [EntryEnum.GiantPoisonousSnake]],
     [EntryEnum.OliveSlime, [EntryEnum.OliveSlimeCreature]],

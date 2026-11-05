@@ -393,6 +393,18 @@
       "skeleton"
     ]
   },
+  "mage-skeleton": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
+  "cleric-skeleton": {
+    "kin": "skeleton",
+    "dependsOn": [
+      "skeleton"
+    ]
+  },
   "skeleton-warrior": {
     "kin": null,
     "dependsOn": []

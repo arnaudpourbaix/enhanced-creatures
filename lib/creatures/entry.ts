@@ -109,6 +109,8 @@ export enum EntryEnum {
   Wight = 101,
   Wraith = 102,
   Vampyre = 103,
+  MageSkeleton = 104,
+  ClericSkeleton = 105,
 }
 
 const entryIds = Object.values(EntryEnum).filter((v): v is EntryEnum => typeof v === "number");

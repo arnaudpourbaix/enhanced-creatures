@@ -20,7 +20,7 @@ function clericSkeletonVariant(base: Creature): Variant {
       spells: {
         cumulative: false,
         spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadCleric",
+          name: "UndeadCleric",
           casterLevel: 20,
           type: "cleric",
         }),

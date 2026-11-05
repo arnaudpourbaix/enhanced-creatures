@@ -111,7 +111,7 @@ function mageSkeletonVariant(base: Creature): Variant {
       spells: {
         cumulative: false,
         spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadMageNoFF",
+          name: "EvilUndeadNecromancer",
           casterLevel: 5,
           type: "mage",
         }),
@@ -129,7 +129,7 @@ function mageSkeletonVariant(base: Creature): Variant {
       spells: {
         cumulative: false,
         spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadMageNoFF",
+          name: "EvilUndeadNecromancer",
           casterLevel: 8,
           type: "mage",
         }),

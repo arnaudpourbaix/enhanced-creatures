@@ -362,7 +362,7 @@ export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
       },
       spells: {
         spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadCleric",
+          name: "UndeadCleric",
           casterLevel: 20,
           type: "cleric",
           wisdom: 22,

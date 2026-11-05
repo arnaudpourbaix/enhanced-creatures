@@ -183,9 +183,21 @@ export function checkDuplicates(combos: SpellCombo[]): void {
   }
 }
 
-/** A registry: each entry keeps its own key and kind, so `SEQUENCERS.` completes in editors. */
+/** A registry: each entry keeps its own key and kind, so `COMBOS.Contingencies.` completes in editors. */
 export type ComboRegistry<T extends Record<string, ComboEntry>> = {
   [P in keyof T]: SpellCombo<T[P]["kind"]>;
+};
+
+/** The combos a registry holds, one group per kind. */
+export interface ComboGroupEntries {
+  MinorSequencers: Record<string, ComboEntry<"minorSequencer">>;
+  SpellSequencers: Record<string, ComboEntry<"spellSequencer">>;
+  Contingencies: Record<string, ComboEntry<"contingency">>;
+  ChainContingencies: Record<string, ComboEntry<"chainContingency">>;
+}
+
+export type ComboGroups<T extends ComboGroupEntries> = {
+  [G in keyof T]: T[G] extends Record<string, ComboEntry> ? ComboRegistry<T[G]> : never;
 };
 
 /**
@@ -205,14 +217,31 @@ export function registerCombos<T extends Record<string, ComboEntry>>(
   return combos;
 }
 
-/** registerCombos for minor and spell sequencers only. */
-export const registerSequencers = <T extends Record<string, ComboEntry<SequencerKind>>>(
-  entries: T,
+/**
+ * registerCombos for every group at once: each group only holds its own kind, and a key can't be
+ * used twice, even in different groups (it names the combo's SPL and documentation entry).
+ */
+export function registerComboGroups<T extends ComboGroupEntries>(
+  groups: T,
   spells: SpellReference[],
-): ComboRegistry<T> => registerCombos(entries, spells);
-
-/** registerCombos for contingencies and chain contingencies only. */
-export const registerContingencies = <T extends Record<string, ComboEntry<ContingencyKind>>>(
-  entries: T,
-  spells: SpellReference[],
-): ComboRegistry<T> => registerCombos(entries, spells);
+): ComboGroups<T> {
+  const seen = new Map<string, string>();
+  for (const [group, entries] of Object.entries(groups)) {
+    for (const key of Object.keys(entries as Record<string, ComboEntry>)) {
+      const other = seen.get(key);
+      if (other !== undefined)
+        throw new Error(`Spell combo ${key} is in both ${other} and ${group}`);
+      seen.set(key, group);
+    }
+  }
+  const registered = Object.fromEntries(
+    Object.entries(groups).map(([group, entries]) => [
+      group,
+      registerCombos(entries as Record<string, ComboEntry>, spells),
+    ]),
+  ) as ComboGroups<T>;
+  checkDuplicates(
+    Object.values(registered).flatMap((group) => Object.values<SpellCombo>(group as never)),
+  );
+  return registered;
+}

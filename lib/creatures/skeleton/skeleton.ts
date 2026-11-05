@@ -35,7 +35,7 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
       movement: 12,
       immunities: ["undead"],
       items: {
-        remove: ["ring95", "ring99", "undtype", "HELMNOAN"],
+        remove: ["ring95", "ring99", "undtype", "IMMCHS", "HELMNOAN"],
       },
       script: {
         remove: ["L#HAUSK"],

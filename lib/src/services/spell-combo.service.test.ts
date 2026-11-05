@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
-import { SEQUENCERS } from "../../config/spells/spell-combos";
+import { COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import {
@@ -45,9 +45,11 @@ afterEach(() => {
 
 describe("comboFile", () => {
   it("names a registry combo in the common scope, shared by mods with the same content", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     expect(file).toMatch(/^jasc01[0-9a-z]{2}$/);
-    expect(spellComboService.comboFile(SEQUENCERS.MagicMissiles, "AllSpellMods")).toBe(file);
+    expect(spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "AllSpellMods")).toBe(
+      file,
+    );
   });
 
   it("gives one SPL per distinct resolved content", () => {
@@ -105,7 +107,7 @@ describe("filesOf", () => {
       "SPWX112",
       "SPWX112",
     ]);
-    expect(spellComboService.filesOf(SEQUENCERS.MagicMissiles)).toHaveLength(1);
+    expect(spellComboService.filesOf(COMBOS.MinorSequencers.MagicMissiles)).toHaveLength(1);
   });
 
   it("skips mods where a contained spell isn't available", () => {
@@ -123,7 +125,7 @@ describe("filesOf", () => {
 
 describe("generated SPLs", () => {
   it("casts a sequencer's spells instantly, in order, at its smallest range", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     const spell = splOf(file);
     expect(spell.name).toBe("ability.MinorSequencer");
     expect(spell.level).toBe(1);
@@ -149,7 +151,7 @@ describe("generated SPLs", () => {
 
   it("targets the caster when the combo is self-targeted", () => {
     vi.spyOn(spellComboService, "isSelf").mockReturnValue(true);
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     expect(splOf(file).headers[0].target).toBe(ItemAbilityTargetEnum.Caster);
   });
 
@@ -209,7 +211,7 @@ describe("generated SPLs", () => {
 
 describe("spell protections", () => {
   it.each([
-    ["a sequencer", SEQUENCERS.MagicMissiles, false],
+    ["a sequencer", COMBOS.MinorSequencers.MagicMissiles, false],
     [
       "a self contingency",
       {
@@ -244,7 +246,7 @@ describe("allSpells", () => {
     const registry = spellComboService.allSpells().length;
     spellComboService.comboFile(combo, "Vanilla");
     spellComboService.comboFile(combo, "AllSpellMods");
-    spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     const files = spellComboService.allSpells().map((s) => s.file);
     expect(new Set(files).size).toBe(files.length);
     // the registry's + the set-up and wrapper of the test contingency
@@ -255,7 +257,7 @@ describe("allSpells", () => {
 
 describe("labelOf", () => {
   it("names a combo SPL by its kind and key", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     expect(spellComboService.labelOf(file.toUpperCase())).toBe("Minor Sequencer (Magic Missiles)");
     expect(spellComboService.labelOf("SPWI112")).toBeUndefined();
   });
@@ -277,15 +279,17 @@ describe("labelOf", () => {
 
 describe("comboOfFile", () => {
   it("finds the combo a memorized SPL belongs to", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
-    expect(spellComboService.comboOfFile(file.toUpperCase())).toBe(SEQUENCERS.MagicMissiles);
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
+    expect(spellComboService.comboOfFile(file.toUpperCase())).toBe(
+      COMBOS.MinorSequencers.MagicMissiles,
+    );
     expect(spellComboService.comboOfFile("SPWI112")).toBeUndefined();
   });
 
   it("names the registry first", () => {
-    const file = spellComboService.comboFile(SEQUENCERS.MagicMissiles, "Vanilla");
+    const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
     spellComboService.reset();
-    expect(spellComboService.comboOfFile(file)).toBe(SEQUENCERS.MagicMissiles);
+    expect(spellComboService.comboOfFile(file)).toBe(COMBOS.MinorSequencers.MagicMissiles);
   });
 });
 
@@ -344,7 +348,7 @@ describe("checkTargets", () => {
 
   it("stays silent for a repeated spell", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
-    spellComboService.checkTargets(SEQUENCERS.MagicMissiles);
+    spellComboService.checkTargets(COMBOS.MinorSequencers.MagicMissiles);
     expect(warn).not.toHaveBeenCalled();
   });
 

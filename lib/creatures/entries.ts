@@ -96,6 +96,8 @@ import { createSpikeSkeletonEntry } from "./skeleton/spike-skeleton";
 import { createArcherSkeletonEntry } from "./skeleton/archer-skeleton";
 import { createGiantSkeletonEntry } from "./skeleton/giant-skeleton";
 import { createSkeletonMonsterEntry } from "./skeleton/skeleton-monster";
+import { createMageSkeletonEntry } from "./skeleton/mage-skeleton";
+import { createClericSkeletonEntry } from "./skeleton/cleric-skeleton";
 import { createSkeletonWarriorEntry } from "./skeleton-warrior";
 import { createDeathKnightEntry } from "./death-knight";
 import { createSpectreEntry } from "./spectre";
@@ -111,7 +113,7 @@ import { createVampyreEntry } from "./vampyre";
  * entry (`kins.get(KinEnum.Fey)`).
  *
  * Load-bearing orders (a later entry reads what an earlier one built): Helmed Horror < Battle Horror <
- * Doom Sayer; Ogre < Ogre Shaman; Skeleton < Spike, Archer and Giant Skeletons, Skeleton Monster.
+ * Doom Sayer; Ogre < Ogre Shaman; Skeleton < Spike, Archer, Giant, Mage and Cleric Skeletons, Skeleton Monster.
  */
 export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry<Creature>)[] = [
   createAnkhegEntry,
@@ -208,6 +210,8 @@ export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry
   createArcherSkeletonEntry,
   createGiantSkeletonEntry,
   createSkeletonMonsterEntry,
+  createMageSkeletonEntry,
+  createClericSkeletonEntry,
   createSkeletonWarriorEntry,
   createDeathKnightEntry,
   createSpectreEntry,

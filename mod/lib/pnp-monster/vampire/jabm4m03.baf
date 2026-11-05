@@ -4,11 +4,11 @@
 IF
 	Global("JA_INIT","LOCALS",0)
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0106")
+	HaveSpellRES("jasc0109")
 THEN
 	RESPONSE #100
-		ApplySpellRES("jasc0106",Myself)
-		RemoveSpellRES("jasc0106")
+		ApplySpellRES("jasc0109",Myself)
+		RemoveSpellRES("jasc0109")
 		Continue()
 END
 
@@ -4500,463 +4500,6 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		SpellRES("SPWI112",LastSeenBy(Myself))
-END
-
-// Mordenkainen's Force Missiles
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([0.0.0.MAGE_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([0.0.0.MAGE_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([0.0.0.CLERIC_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([0.0.0.CLERIC_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([0.0.0.DRUID_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([0.0.0.DRUID_ALL]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOfType([0.0.0.BARD]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOfType([0.0.0.BARD]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,71)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOfType([0.0.0.BARD]))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		SpellRES("SPWI431",LastSeenBy(Myself))
 END
 
 // Summon Death Knight
@@ -10387,7 +9930,7 @@ END
 // Sequencer
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -10417,13 +9960,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -10453,13 +9996,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -10489,13 +10032,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -10525,13 +10068,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -10561,13 +10104,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -10597,13 +10140,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -10633,13 +10176,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -10669,13 +10212,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -10705,13 +10248,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -10741,14 +10284,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 // Sequencer
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -10771,13 +10314,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -10800,13 +10343,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -10829,13 +10372,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -10858,13 +10401,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -10887,13 +10430,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -10916,13 +10459,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -10945,13 +10488,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -10974,13 +10517,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -11003,13 +10546,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -11032,14 +10575,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 // Sequencer
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
@@ -11058,13 +10601,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
@@ -11083,13 +10626,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
@@ -11108,13 +10651,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
@@ -11133,13 +10676,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
@@ -11158,13 +10701,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
@@ -11183,13 +10726,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
@@ -11208,13 +10751,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
@@ -11233,13 +10776,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
@@ -11258,13 +10801,13 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	HaveSpellRES("jasc0102")
+	HaveSpellRES("jasc0104")
 	RandomNumGT(711,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
@@ -11283,8 +10826,8 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasc0102",LastSeenBy(Myself))
-		RemoveSpellRES("jasc0102")
+		ForceSpellRES("jasc0104",LastSeenBy(Myself))
+		RemoveSpellRES("jasc0104")
 END
 
 // Waves of Fatigue
@@ -23449,685 +22992,13 @@ THEN
 		Spell(LastSeenBy(Myself),WIZARD_PROTECTION_FROM_NORMAL_MISSILES)
 END
 
-// Confusion
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-	TriggerOverride(LastSeenBy(Myself),Range(NearestAllyOf(Myself),10))
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-// Confusion
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_CONFUSION)
-	RandomNumGT(709,177)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
-	!CheckSpellState(LastSeenBy(Myself),CONFUSION_IMMUNITY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	CheckStatGT(LastSeenBy(Myself),-2,SAVEVSSPELL)
-	!CheckStatGT(LastSeenBy(Myself),0,HELD)
-	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
-	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
-	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
-	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
-	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_CONFUSION)
-END
-
 // Bat Swarm
 IF
 	!GlobalTimerNotExpired("SUMMON_WAIT","LOCALS")
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24149,7 +23020,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24171,7 +23042,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24193,7 +23064,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24215,7 +23086,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24237,7 +23108,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24259,7 +23130,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24281,7 +23152,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24303,7 +23174,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24325,7 +23196,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24348,7 +23219,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24369,7 +23240,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24390,7 +23261,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24411,7 +23282,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24432,7 +23303,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24453,7 +23324,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24474,7 +23345,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24495,7 +23366,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24516,7 +23387,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24537,7 +23408,7 @@ IF
 	HaveSpellRES("jase0701")
 	!CheckSpellState(Myself,JA_ANIMALFORM)
 	!CheckSpellState(Myself,JA_GASEOUSFORM)
-	RandomNumGT(819,246)
+	RandomNumGT(817,245)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -24551,6 +23422,149 @@ THEN
 		SetGlobalTimer("SUMMON_WAIT","LOCALS",12)
 		ForceSpellRES("jase0701",LastSeenBy(Myself))
 		RemoveSpellRES("jase0701")
+END
+
+// Spirit Armor
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!CheckStatGT(Myself,0,SANCTUARY)
+	!StateCheck(Myself,STATE_REALLY_DEAD)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	!General(Myself,WEAPON)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(Myself,WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_SPIRIT_ARMOR)
+	RandomNumGT(702,190)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestAllyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_SPIRIT_ARMOR)
 END
 
 // Slow
@@ -26212,12 +25226,12 @@ THEN
 		Spell(LastSeenBy(Myself),WIZARD_CONTAGION)
 END
 
-// Mordenkainen's Force Missiles
+// Beltyn's Burning Blood
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26229,9 +25243,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26247,14 +25260,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26266,9 +25279,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26284,14 +25296,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26303,9 +25315,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26321,14 +25332,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26340,9 +25351,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26358,14 +25368,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26377,9 +25387,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26395,14 +25404,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26414,9 +25423,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26432,14 +25440,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26451,9 +25459,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26469,14 +25476,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26488,9 +25495,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26506,14 +25512,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26525,9 +25531,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26543,14 +25548,14 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26562,9 +25567,8 @@ IF
 	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
 	!Gender(LastSeenBy(Myself),ILLUSIONARY)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
@@ -26580,316 +25584,15 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
-// Mordenkainen's Force Missiles
+// Beltyn's Burning Blood
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SecondNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(ThirdNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FourthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(FifthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SixthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(SeventhNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(EighthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(NinthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	See(TenthNearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
-	!Gender(LastSeenBy(Myself),SUMMONED)
-	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
-	!Gender(LastSeenBy(Myself),ILLUSIONARY)
-	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
-	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
-	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
-	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
-END
-
-// Mordenkainen's Force Missiles
-IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26897,25 +25600,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26923,25 +25632,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26949,25 +25664,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -26975,25 +25696,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FifthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27001,25 +25728,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SixthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27027,25 +25760,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SeventhNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27053,25 +25792,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(EighthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27079,25 +25824,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(NinthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27105,25 +25856,31 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
-	HaveSpell(WIZARD_MORDENKAINENS_FORCE_MISSILES)
-	RandomNumGT(711,299)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,297)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(TenthNearestEnemyOf(Myself))
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -27131,18 +25888,24 @@ IF
 	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
 	!General(LastSeenBy(Myself),WEAPON)
 	!StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-	!CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE5)
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
-	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
 	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
 	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
 	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(LastSeenBy(Myself),WIZARD_MORDENKAINENS_FORCE_MISSILES)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 // Horror
@@ -43042,6 +41805,367 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		Spell(LastSeenBy(Myself),WIZARD_CONTAGION)
+END
+
+// Beltyn's Burning Blood
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FourthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(FifthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SixthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(SeventhNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(EighthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(NinthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
+END
+
+IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
+	!StateCheck(Myself,STATE_SILENCED)
+	HaveSpell(WIZARD_BELTYNS_BURNING_BLOOD)
+	RandomNumGT(708,404)
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	See(TenthNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+	!StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+	!Gender(LastSeenBy(Myself),SUMMONED)
+	!Gender(LastSeenBy(Myself),SUMMONED_DEMON)
+	!Gender(LastSeenBy(Myself),ILLUSIONARY)
+	StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+	CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),4)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
+	!CheckStatGT(LastSeenBy(Myself),0,HELD)
+	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
+	!StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+	!StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+	!StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		Spell(LastSeenBy(Myself),WIZARD_BELTYNS_BURNING_BLOOD)
 END
 
 // Control Undead

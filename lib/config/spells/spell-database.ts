@@ -5356,3 +5356,5 @@ setFallback(WIZARD_SPELLS.OtilukesFreezingSphere, WIZARD_SPELLS.ChainLightning);
 setFallback(WIZARD_SPELLS.SummonDeathKnight, WIZARD_SPELLS.FingerOfDeath);
 setFallback(WIZARD_SPELLS.GreaterSpellDeflection, WIZARD_SPELLS.ProtectionFromTheElements);
 setFallback(WIZARD_SPELLS.MomentOfPrescience, WIZARD_SPELLS.Maze);
+setFallback(WIZARD_SPELLS.BeltynsBurningBlood, WIZARD_SPELLS.SpiritArmor);
+setFallback(WIZARD_SPELLS.MonsterSummoning8, WIZARD_SPELLS.SummonFiend);

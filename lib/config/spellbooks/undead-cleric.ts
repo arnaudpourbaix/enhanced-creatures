@@ -4,8 +4,8 @@ import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Priest;
 
-export const EvilUndeadClericSpellbook: SpellBook = {
-  name: "EvilUndeadCleric",
+export const UndeadClericSpellbook: SpellBook = {
+  name: "UndeadCleric",
   values: [
     {
       level: 1,
@@ -28,19 +28,13 @@ export const EvilUndeadClericSpellbook: SpellBook = {
     {
       level: 4,
       base: [s.CloudOfPestilence, s.MentalDomination, s.HolyPower],
-      additionnals: [s.Poison, s.CauseSeriousWounds, s.CloakOfFear, s.ProtectionFromGood10Radius],
-      repeat: [s.Poison, s.MentalDomination, s.CauseSeriousWounds],
+      additionnals: [s.Poison, s.CloakOfFear, s.ProtectionFromGood10Radius],
+      repeat: [s.Poison, s.MentalDomination],
     },
     {
       level: 5,
       base: [s.GreaterCommand, s.FlameStrike, s.SlayLiving],
-      additionnals: [
-        s.MagicResistance,
-        s.PhysicalMirror,
-        s.TrueSeeing,
-        s.MassCauseLightWounds,
-        s.RighteousMagic,
-      ],
+      additionnals: [s.MagicResistance, s.TrueSeeing, s.MassCauseLightWounds, s.RighteousMagic],
       repeat: [s.FlameStrike, s.SlayLiving],
     },
     {
@@ -91,12 +85,11 @@ export const EvilUndeadClericSpellbook: SpellBook = {
           additionnals: [
             s.HolyPower,
             s.Poison,
-            s.CauseSeriousWounds,
             s.CloakOfFear,
             s.FreeAction,
             FNP_SPELLS.Priest.WavesOfFatigue,
           ],
-          repeat: [s.Poison, s.MentalDomination, s.CauseSeriousWounds],
+          repeat: [s.Poison, s.MentalDomination],
         },
         {
           level: 5,
@@ -104,7 +97,6 @@ export const EvilUndeadClericSpellbook: SpellBook = {
           additionnals: [
             s.FlameStrike,
             s.MagicResistance,
-            s.PhysicalMirror,
             s.TrueSeeing,
             s.MassCauseLightWounds,
             s.RighteousMagic,

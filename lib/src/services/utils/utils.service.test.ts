@@ -484,3 +484,17 @@ describe("entry, kin and creature folders", () => {
     expect(() => utils.getCreatureFolder({})).toThrow(/no folder/);
   });
 });
+
+describe("seededIndex", () => {
+  it("stays in range and only depends on the seed", () => {
+    const seeds = Array.from({ length: 50 }, (_, i) => `book|${i}|contingency`);
+    const picks = seeds.map((seed) => utils.seededIndex(seed, 3));
+    expect(picks.every((p) => p >= 0 && p < 3)).toBe(true);
+    expect(seeds.map((seed) => utils.seededIndex(seed, 3))).toEqual(picks);
+    expect(new Set(picks).size).toBe(3);
+  });
+
+  it("is 0 without choices", () => {
+    expect(utils.seededIndex("any", 0)).toBe(0);
+  });
+});
