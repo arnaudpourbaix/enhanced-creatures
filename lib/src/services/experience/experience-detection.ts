@@ -1,3 +1,4 @@
+import { CreatureAbility } from "../../model/creature/ability";
 import { CreatureAdjustment } from "../../model/creature/adjustment";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
@@ -288,19 +289,56 @@ function allSpells(creature: Creature): Spell[] {
   return [...creature.spells, ...(sharedSpells.get(creature) ?? [])];
 }
 
+/** The spells the scope has memorized (its own list or any spellbook variant), upper case. */
+function memorizedFiles(creature: Creature, effective: EffectiveAdjustment): string[] {
+  const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
+  return [
+    ...effective.memorized.filter((m) => (m.spell.memorizedCount ?? 1) > 0).map((m) => m.spell.file),
+    ...spellbooks.flatMap((variant) => variant.memorized.map((m) => m.file)),
+  ].map((f) => f.toUpperCase());
+}
+
+/**
+ * The behaviour abilities this scope can use. The behaviour belongs to the whole creature, but an
+ * ability waiting for a memorized spell (HaveSpell...) only fires where that spell is memorized:
+ * the polar bears' improved stream of frost is Kaldran's alone.
+ */
+function usableAbilities(creature: Creature, effective: EffectiveAdjustment): CreatureAbility[] {
+  const memorized = new Set(memorizedFiles(creature, effective));
+  return creature.behavior.abilities.filter(
+    (ability) =>
+      !needsMemorizedSpell(ability) ||
+      creatureService.getAbilityCastFiles(ability).some((f) => memorized.has(f.toUpperCase())),
+  );
+}
+
+const MEMORIZATION_TRIGGERS = new Set(["HaveSpell", "HaveSpellRES", "HaveAnySpells"]);
+
+/** Whether the ability's triggers (or its target lists') check for a memorized spell. */
+function needsMemorizedSpell(ability: CreatureAbility): boolean {
+  const walk = (node: unknown): boolean => {
+    if (Array.isArray(node)) return node.some(walk);
+    if (!node || typeof node !== "object") return false;
+    const { name, negation, triggers } = node as {
+      name?: unknown;
+      negation?: unknown;
+      triggers?: unknown;
+    };
+    if (typeof name === "string" && MEMORIZATION_TRIGGERS.has(name) && !negation) return true;
+    return walk(triggers);
+  };
+  return walk(ability.triggers) || walk(ability.targets);
+}
+
 /**
  * The creature's own spells (made with addSpell) it can use: cast by its behaviour abilities, or
  * memorized (its own spellbook or any spellbook variant) - e.g. the basilisk's petrifying gaze.
  */
 function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] {
-  const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
   const files = new Set(
     [
-      ...creature.behavior.abilities.flatMap((a) => creatureService.getAbilityCastFiles(a)),
-      ...effective.memorized
-        .filter((m) => (m.spell.memorizedCount ?? 1) > 0)
-        .map((m) => m.spell.file),
-      ...spellbooks.flatMap((variant) => variant.memorized.map((m) => m.file)),
+      ...usableAbilities(creature, effective).flatMap((a) => creatureService.getAbilityCastFiles(a)),
+      ...memorizedFiles(creature, effective),
     ].map((f) => f.toUpperCase()),
   );
   const seen = new Set<string>();
@@ -546,7 +584,7 @@ function highestSpell(
       file: spell.file,
       level: spell.level ?? spellLevel(spell.file),
     })),
-    ...scope.creature.behavior.abilities.map((ability) => ({
+    ...usableAbilities(scope.creature, effective).map((ability) => ({
       file: creatureService.getAbilityCastFiles(ability)[0] ?? "ability",
       level: ability.level ?? undefined,
     })),

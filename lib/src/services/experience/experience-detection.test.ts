@@ -776,6 +776,25 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("an ability waiting for a memorized spell counts only where it is memorized", () => {
+    const ability = {
+      resource: SPELL,
+      triggers: [{ name: "HaveSpellRES", params: [SPELL] }],
+    } as never;
+    const spells = [{ file: SPELL, effects: [effect(EffectTypeEnum.Damage)] }];
+    const creature = fakeCreature({
+      spells,
+      abilities: [ability],
+      adjustments: [
+        { files: [FILE], data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } },
+      ] as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([
+      { ability: "specialAttack", source: SPELL },
+    ]);
+  });
+
   it("an equipped own item's on-hit effects count", () => {
     const creature = fakeCreature({
       data: equipped(WEAPON, "WEAPON1"),
