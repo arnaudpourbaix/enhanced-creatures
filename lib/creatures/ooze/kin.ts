@@ -132,6 +132,11 @@ export class Slime extends Creature {
       description,
       name: "monster.ooze.ability.split.name",
       xpAbility: "specialDefense",
+      // memorized once: the script casts it while memorized (HaveSpellRES) and removes it, and the
+      // split copies drop it (removeMemorized), so a split ooze never splits again
+      memorizedCount: 1,
+      // cast on being hit, by its own triggers
+      role: "reactive",
       icon: SPELLS.Wizard.MirrorImages.file,
       headers: [
         {

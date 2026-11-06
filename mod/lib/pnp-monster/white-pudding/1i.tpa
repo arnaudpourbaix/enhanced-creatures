@@ -82,6 +82,7 @@ BEGIN
 			PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
 				REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			END
+			ADD_MEMORIZED_SPELL ~jasm1i00~ #0 ~innate~ (1) // Slime Split
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR

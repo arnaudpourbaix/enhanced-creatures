@@ -90,6 +90,7 @@ BEGIN
 				REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
 			END
 			ADD_MEMORIZED_SPELL ~jask0800~ #0 ~innate~ (1) // Toxic Vapors
+			ADD_MEMORIZED_SPELL ~jasm1a00~ #0 ~innate~ (1) // Slime Split
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
@@ -153,7 +154,7 @@ BEGIN
 				WRITE_LONG 0x14 0 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM1A01~) BEGIN 
-				WRITE_LONG 0x14 4000 // xpv
+				WRITE_LONG 0x14 5000 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END
