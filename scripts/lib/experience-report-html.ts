@@ -22,13 +22,13 @@ function th(key: string, label: string, numeric = false, sorted = false): string
   return `<th data-sort="${key}"${attr}>${label}</th>`;
 }
 
-/** (formula - book) / book in whole percents; undefined without a book value. */
+/** (new - old) / old in whole percents (formula vs book or in-game XP); undefined without an old value. */
 export function gapPercent(book: number | undefined, formula: number): number | undefined {
   if (!book) return undefined;
   return Math.round(((formula - book) / book) * 100);
 }
 
-/** The gap's size for sorting (biggest first either way); -1 without a book value. */
+/** The gap's size for sorting (biggest first either way); -1 without an old value. */
 function gapSortValue(book: number | undefined, formula: number): number {
   const gap = gapPercent(book, formula);
   return gap === undefined ? -1 : Math.abs(gap);
@@ -42,14 +42,6 @@ function gapCell(book: number | undefined, formula: number): string {
   if (gap > 0) tone = "up";
   else if (gap < 0) tone = "down";
   return `<td class="num"><span class="delta ${tone}">${signed(gap)}%</span></td>`;
-}
-
-function diffCell(r: ExperienceReportRow): string {
-  if (r.difference === undefined) return `<td class="num"></td>`;
-  let tone = "flat";
-  if (r.difference > 0) tone = "up";
-  else if (r.difference < 0) tone = "down";
-  return `<td class="num"><span class="delta ${tone}">${signed(r.difference)}</span></td>`;
 }
 
 function fileCell(r: ExperienceReportRow): string {
@@ -71,10 +63,11 @@ function allRow(r: ExperienceReportRow): string {
     `<tr${rowClass} data-status="${r.status}" data-search="${search}" ` +
     `data-monster="${escapeHtml(r.monster)}" data-file="${escapeHtml(r.file)}" ` +
     `data-ingame="${r.inGameXp ?? -1}" data-newxp="${r.newXp}" ` +
-    `data-difference="${r.difference ?? 0}">` +
+    `data-gap="${gapSortValue(r.inGameXp, r.newXp)}">` +
     `<td class="monster-name">${escapeHtml(r.monster)}</td>${fileCell(r)}` +
     `<td>${r.status}${reason}</td>` +
-    `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.newXp}</td>${diffCell(r)}` +
+    `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.newXp}</td>` +
+    gapCell(r.inGameXp, r.newXp) +
     `<td class="breakdown">${breakdown}</td></tr>`
   );
 }
@@ -84,12 +77,16 @@ function dropRow(r: ExperienceReportRow): string {
   return (
     `<tr data-search="${search}" ` +
     `data-monster="${escapeHtml(r.monster)}" data-file="${escapeHtml(r.file)}" ` +
-    `data-ingame="${r.inGameXp ?? -1}" data-formula="${r.score.xp}">` +
+    `data-ingame="${r.inGameXp ?? -1}" data-formula="${r.score.xp}" ` +
+    `data-gap="${gapSortValue(r.inGameXp, r.score.xp)}">` +
     `<td class="monster-name">${escapeHtml(r.monster)}</td>${fileCell(r)}` +
     `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.score.xp}</td>` +
+    gapCell(r.inGameXp, r.score.xp) +
     `<td class="breakdown">${escapeHtml(r.score.breakdown)}</td></tr>`
   );
 }
+
+const GAP_HEADER = th("gap", "Difference %", true);
 
 export function renderExperienceTab(d: ExperienceReportData): string {
   const options = [
@@ -130,7 +127,7 @@ in-game XP keeps the in-game value (a drop, to review).</p>
 <h2>All files (${d.rows.length})</h2>
 <div class="table-wrap"><table class="counts" id="xp-all"><thead><tr>
 ${th("monster", "Monster")}${th("file", "File")}<th>Status</th>${th("ingame", "In-game XP", true)}
-${th("newxp", "New XP", true)}${th("difference", "Difference", true)}<th>Breakdown</th>
+${th("newxp", "New XP", true)}${GAP_HEADER}<th>Breakdown</th>
 </tr></thead><tbody>${d.rows.map(allRow).join("")}</tbody></table></div>
 </section>
 <section class="card" data-xp-panel="drops">
@@ -138,7 +135,7 @@ ${th("newxp", "New XP", true)}${th("difference", "Difference", true)}<th>Breakdo
 <p class="muted">The formula gives less than the in-game XP, so the in-game value is kept.</p>
 <div class="table-wrap"><table class="counts" id="xp-drops"><thead><tr>
 ${th("monster", "Monster")}${th("file", "File")}${th("ingame", "In-game XP", true)}
-${th("formula", "Formula XP", true)}<th>Breakdown</th>
+${th("formula", "Formula XP", true)}${GAP_HEADER}<th>Breakdown</th>
 </tr></thead><tbody>${d.drops.map(dropRow).join("")}</tbody></table></div>
 </section>
 <section class="card" data-xp-panel="conflicts">
@@ -146,7 +143,7 @@ ${th("formula", "Formula XP", true)}<th>Breakdown</th>
 <p class="muted">Base creatures whose book XP disagrees with their formula score.</p>
 <div class="table-wrap"><table class="counts" id="xp-conflicts"><thead><tr>
 ${th("monster", "Monster")}${th("book", "Book XP", true)}${th("formula", "Formula XP", true)}
-${th("gap", "Difference %", true)}<th>Breakdown</th>
+${GAP_HEADER}<th>Breakdown</th>
 </tr></thead><tbody>${conflicts}</tbody></table></div>
 </section>
 </div>`;

@@ -105,7 +105,8 @@ class NymphEntry extends CreatureEntry<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.blindingBeauty.name",
-      worthLevel: 5, // permanent blindness to every onlooker
+      // not a spell: a supernatural aura blinding every onlooker for good, like the nereid's
+      xpAbility: "specialMagicalAttack",
       // an aura, cast instantly on its own timer: always first, never held back (user)
       role: "reactive",
       id: FeyIds.BlindingBeauty,

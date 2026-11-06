@@ -17,6 +17,7 @@ export type XpAbility =
   | "greaterSpells"
   | "supremeSpells"
   | "magicResistance"
+  | "lowMagicResistance"
   | "missileWeapons"
   | "multipleAttacks30"
   | "paralysis"
@@ -56,7 +57,9 @@ export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }
   // Table 32 stops at "level 3 or greater" (user): higher spells are a bigger threat
   greaterSpells: { modifier: 3, label: "level 5-6 spells" },
   supremeSpells: { modifier: 4, label: "level 7-9 spells" },
-  magicResistance: { modifier: 2, label: "magic resistance" },
+  // Table 32 has one magic resistance row (user): a 20% one is far from a 75% one
+  magicResistance: { modifier: 2, label: "magic resistance 50%+" },
+  lowMagicResistance: { modifier: 1, label: "magic resistance 20-49%" },
   missileWeapons: { modifier: 1, label: "missile weapons" },
   multipleAttacks30: { modifier: 2, label: "multiple attacks over 30 damage" },
   paralysis: { modifier: 2, label: "paralysis" },

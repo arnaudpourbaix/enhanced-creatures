@@ -108,6 +108,36 @@ describe("experience report", () => {
     expect(report.conflicts[0].bookXp).toBe(650);
   });
 
+  it("shows every table's difference in percent, sorted on its size", () => {
+    const html = renderExperienceTab(
+      buildExperienceReport([
+        fake(1, [
+          row({
+            file: "UP.cre",
+            status: "formula",
+            inGameXp: 1000,
+            newXp: 1500,
+            score: score(1500, "U"),
+          }),
+          row({
+            file: "DOWN.cre",
+            status: "drop",
+            inGameXp: 2000,
+            newXp: 2000,
+            score: score(1000, "D"),
+          }),
+        ]),
+      ]),
+    );
+    const allRow = html.split("<tr").find((r) => r.includes('data-file="UP.cre"')) ?? "";
+    expect(allRow).toContain(`data-gap="50"`);
+    expect(allRow).toContain(">+50%<");
+    const dropRows = html.split('id="xp-drops"')[1].split("<tr");
+    const dropRow = dropRows.find((r) => r.includes('data-file="DOWN.cre"')) ?? "";
+    expect(dropRow).toContain(`data-gap="50"`);
+    expect(dropRow).toContain(">-50%<");
+  });
+
   it("renders the sections and escapes data", () => {
     const html = renderExperienceTab(report);
     expect(html).toContain("All files");

@@ -230,11 +230,23 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("magicResistance from the folded resistMagic", () => {
+  it("lowMagicResistance from a folded resistMagic of 20-49%", () => {
     const creature = fakeCreature({ adjustments: [{ files: [FILE], data: { resistMagic: 25 } }] });
     expect(detectStatAbilities({ creature, file: FILE })).toEqual([
-      { ability: "magicResistance", source: "25% magic resistance" },
+      { ability: "lowMagicResistance", source: "25% magic resistance" },
     ]);
+  });
+
+  it("magicResistance from a folded resistMagic of 50% or more", () => {
+    const creature = fakeCreature({ adjustments: [{ files: [FILE], data: { resistMagic: 50 } }] });
+    expect(detectStatAbilities({ creature, file: FILE })).toEqual([
+      { ability: "magicResistance", source: "50% magic resistance" },
+    ]);
+  });
+
+  it("no magic resistance ability under 20%", () => {
+    const creature = fakeCreature({ adjustments: [{ files: [FILE], data: { resistMagic: 15 } }] });
+    expect(detectStatAbilities({ creature, file: FILE })).toEqual([]);
   });
 
   it("magicResistance from a magic resistance immunity", () => {
@@ -244,6 +256,41 @@ describe("detectStatAbilities", () => {
     expect(detectStatAbilities({ creature })).toEqual([
       { ability: "magicResistance", source: "magicResistance" },
     ]);
+  });
+
+  it("lowMagicResistance from a positive magic resistance effect on a trait item", () => {
+    const creature = fakeCreature({
+      items: [
+        {
+          trait: true,
+          effects: [{ opcode: EffectTypeEnum.MagicResistanceModifier, value: 20 }] as never,
+        },
+      ],
+    });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "lowMagicResistance", source: "20% magic resistance" },
+    ]);
+  });
+
+  it("the highest of resistMagic and a magic resistance effect sets the tier", () => {
+    const creature = fakeCreature({
+      data: {
+        resistMagic: 30,
+        effects: { list: [{ opcode: EffectTypeEnum.MagicResistanceModifier, value: 75 }] },
+      } as never,
+    });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "magicResistance", source: "75% magic resistance" },
+    ]);
+  });
+
+  it("no magicResistance from a magic resistance effect lowering it", () => {
+    const creature = fakeCreature({
+      data: {
+        effects: { list: [{ opcode: EffectTypeEnum.MagicResistanceModifier, value: -10 }] },
+      } as never,
+    });
+    expect(detectStatAbilities({ creature })).toEqual([]);
   });
 
   it("regeneration from a base effect", () => {

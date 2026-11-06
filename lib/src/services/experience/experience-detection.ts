@@ -189,11 +189,8 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   ];
   pushIfAny(detected, "extraHitPoints", extraHp);
 
-  const resistMagic = folded(scope, (d) => d.resistMagic) ?? 0;
-  pushIfAny(detected, "magicResistance", [
-    resistMagic > 0 ? `${resistMagic}% magic resistance` : undefined,
-    ...matching(immunities, MAGIC_RESISTANCE_IMMUNITIES),
-  ]);
+  const magicResistance = magicResistanceAbility(scope, immunities);
+  if (magicResistance) detected.push(magicResistance);
 
   if (hasRegeneration(scope)) {
     detected.push({ ability: "regeneration", source: "regeneration effect" });
@@ -1091,6 +1088,33 @@ function resistanceEffectSources(scope: ExperienceScope): (string | undefined)[]
     );
     return value > 0 ? `${value}% ${label} resistance` : undefined;
   });
+}
+
+/** Magic resistance below this is no ability; from it to the next tier it is a lesser one (user). */
+const LOW_MAGIC_RESISTANCE = 20;
+const MAGIC_RESISTANCE = 50;
+
+/**
+ * Magic resistance by tier (user): a full immunity or 50%+ = magicResistance, 20-49% =
+ * lowMagicResistance, less = nothing. The value is the highest of the folded resistMagic and
+ * the permanent magic resistance effects (e.g. the sirine's 20% trait).
+ */
+function magicResistanceAbility(
+  scope: ExperienceScope,
+  immunities: ImmunityName[],
+): DetectedAbility | undefined {
+  const immune = matching(immunities, MAGIC_RESISTANCE_IMMUNITIES);
+  if (immune.length) return { ability: "magicResistance", source: immune.join(", ") };
+  const value = Math.max(
+    folded(scope, (d) => d.resistMagic) ?? 0,
+    ...permanentEffects(scope).map((e) =>
+      e.opcode === EffectTypeEnum.MagicResistanceModifier && "value" in e ? e.value : 0,
+    ),
+  );
+  const source = `${value}% magic resistance`;
+  if (value >= MAGIC_RESISTANCE) return { ability: "magicResistance", source };
+  if (value >= LOW_MAGIC_RESISTANCE) return { ability: "lowMagicResistance", source };
+  return undefined;
 }
 
 function matching(immunities: ImmunityName[], wanted: ReadonlySet<ImmunityName>): ImmunityName[] {
