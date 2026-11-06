@@ -163,7 +163,7 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   if (effective.ac.value <= 0) {
     detected.push({ ability: "acZeroOrLower", source: `AC ${effective.ac.value}` });
   }
-  const apr = attacksPerRound(effective);
+  const apr = attacksPerRound(scope, effective);
   if (apr >= 4) {
     detected.push({ ability: "fourAttacks", source: `${apr} attacks` });
   }
@@ -250,7 +250,7 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   addDamageAbilities(
     scope.creature,
     weapons,
-    attacksPerRound(effective),
+    attacksPerRound(scope, effective),
     strengthDamage(effective),
     add,
   );
@@ -814,11 +814,14 @@ function targetEffects(spell: Spell): Effect[] {
 }
 
 /**
- * The scope's real attacks per round: the game encodes half attacks as 6-10 (8 = 5/2, Bodhi's
- * spellhold files), decoded with AttackPerRoundTable.
+ * The scope's real attacks per round. The documented value is the stored one doubled when
+ * `doubleApr` is set (a carrion crawler's 8 is 4 x 2: real); without it, the game encodes half
+ * attacks as 6-10 (8 = 5/2, Bodhi's spellhold files), decoded with AttackPerRoundTable.
  */
-function attacksPerRound(effective: EffectiveAdjustment): number {
+function attacksPerRound(scope: ExperienceScope, effective: EffectiveAdjustment): number {
   const raw = effective.apr.value;
+  const doubleApr = folded(scope, (d) => d.doubleApr) ?? false;
+  if (doubleApr) return raw;
   return AttackPerRoundTable.find((t) => !t.doubleApr && t.value === raw)?.apr ?? raw;
 }
 

@@ -846,6 +846,13 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("a doubled apr is real: 4 x 2 = 8 attacks give four or more attacks (carrion crawler)", () => {
+    const creature = fakeCreature({ data: { apr: 4, doubleApr: true } });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "fourAttacks", source: "8 attacks" },
+    ]);
+  });
+
   it("the game's half-attack code is decoded: 8 is 2.5 attacks, the round counts 3", () => {
     const creature = fakeCreature({
       data: { apr: 8 },
