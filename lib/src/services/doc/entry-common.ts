@@ -15,5 +15,15 @@ function keysOf(parts: CardParts): Set<string> {
 export function getCommonKeys(members: CardParts[]): Set<string> {
   if (members.length < 2) return new Set();
   const [first, ...rest] = members.map(keysOf);
-  return new Set([...first].filter((key) => rest.every((keys) => keys.has(key))));
+  const common = new Set([...first].filter((key) => rest.every((keys) => keys.has(key))));
+  // Attacks only make sense read together: they are shared only when every member's whole attack
+  // set is, so no card shows half its attacks (the wyverns' common jaws stay next to each stinger)
+  const wholeAttacksShared = members.every((m) => m.weapons.every((w) => common.has(w.descKey)));
+  if (!wholeAttacksShared) {
+    for (const w of members.flatMap((m) => m.weapons)) {
+      common.delete(w.key);
+      common.delete(w.descKey);
+    }
+  }
+  return common;
 }

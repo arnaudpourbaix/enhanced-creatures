@@ -48,6 +48,20 @@ describe("getCommonKeys", () => {
     expect(common.size).toBe(0);
   });
 
+  it("shares no weapon when a member's other weapons differ (whole attack sets only)", () => {
+    const common = getCommonKeys([
+      parts({}, [
+        ["weapon:0:sting1d6+1", "weaponDesc:0:sting1d6+1"],
+        ["weapon:1:jaws", "weaponDesc:1:jaws"],
+      ]),
+      parts({}, [
+        ["weapon:0:sting1d6+4", "weaponDesc:0:sting1d6+4"],
+        ["weapon:1:jaws", "weaponDesc:1:jaws"],
+      ]),
+    ]);
+    expect([...common]).toEqual([]);
+  });
+
   it("requires every member, not most", () => {
     const common = getCommonKeys([
       parts({ traitLinks: ["trait:undead"] }),
