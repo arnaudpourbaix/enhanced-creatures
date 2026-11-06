@@ -125,7 +125,10 @@ ${th("monster", "Monster")}${th("book", "Book XP", true)}${th("formula", "Formul
 
 export const EXPERIENCE_STYLE = `
 tr.zero td { color: var(--muted); }
-td.breakdown { white-space: normal; font-size: 12px; color: var(--muted); }
+#tab-experience .page { max-width: none; }
+td.breakdown { white-space: normal; min-width: 560px; font-size: 13px; line-height: 1.5;
+  color: var(--text); }
+@media (max-width: 760px) { td.breakdown { min-width: 320px; } }
 #tab-experience td.file { font-family: ui-monospace, Consolas, monospace; }
 #tab-experience .toolbar { position: static; }
 #tab-experience select { padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
