@@ -295,6 +295,25 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
+  it("the hover trait marks a flier", () => {
+    const creature = fakeCreature({ items: [{ trait: true, immunities: ["hover"] }] });
+    expect(detectStatAbilities({ creature })).toEqual([{ ability: "flies", source: "hover" }]);
+  });
+
+  it("a flier's ground spell immunities are its flying, not spell immunity", () => {
+    registerImmunity("hover", ["entangle", "web"]);
+    const creature = fakeCreature({ items: [{ trait: true, immunities: ["hover"] }] });
+    expect(detectStatAbilities({ creature })).toEqual([{ ability: "flies", source: "hover" }]);
+  });
+
+  it("an equipped trait owned by a fellow member counts (greater wyvern keeps the hover)", () => {
+    const creature = fakeCreature({ data: equipped("TRAIT", "AMULET") });
+    setSharedResources(creature, {
+      items: [{ file: "TRAIT", trait: true, immunities: ["hover"], effects: [] }] as never,
+    });
+    expect(detectStatAbilities({ creature })).toEqual([{ ability: "flies", source: "hover" }]);
+  });
+
   it("movement 9 or less is slow, 15 or more fast, a player's 12 neither", () => {
     const at = (pnpValue: number) =>
       detectStatAbilities({

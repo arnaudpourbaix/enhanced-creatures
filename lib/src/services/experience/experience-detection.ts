@@ -113,6 +113,9 @@ const MAGICAL_WEAPONS_ONLY: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "plusThreeWeapons",
 ]);
 
+/** The hover trait marks a flier. */
+const FLYING: ReadonlySet<ImmunityName> = new Set<ImmunityName>(["hover"]);
+
 /** Immunities that grant magic resistance (50% and 100%). */
 const MAGIC_RESISTANCE_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "magicResistance",
@@ -208,6 +211,9 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   ]);
 
   pushIfAny(detected, "magicalWeaponsOnly", matching(immunities, MAGICAL_WEAPONS_ONLY));
+
+  // A flier carries the hover trait (no ground effects): wyverns, a helmed horror (user)
+  pushIfAny(detected, "flies", matching(immunities, FLYING));
 
   for (const ability of folded(scope, (d) => d.xpAbilities) ?? []) {
     detected.push({ ability, source: "declared" });
@@ -841,25 +847,27 @@ function folded<T>(
 }
 
 /**
- * The effective immunities, the engine-forced ones and the trait item's, each flattened through
+ * The effective immunities, the engine-forced ones and the trait items', each flattened through
  * the immunities it nests (State.immunities, the walk utils.hasImmunity does). The trait's count
  * too: creatures carry most of their defenses (e.g. banshee's nonMagicalWeapons) on it, and type
  * traits like `undead` or `skeletal` hold the actual spell and weapon defenses only as nested
  * names. A name missing from State.immunities is kept as is, with nothing nested.
  */
 function immunitiesOf(scope: ExperienceScope, effective: EffectiveAdjustment): ImmunityName[] {
-  const trait = scope.creature.items.find((item) => item.trait);
   const seen = new Set<ImmunityName>();
   const visit = (name: ImmunityName): void => {
     if (seen.has(name)) return;
     seen.add(name);
+    // Flying is what makes a flier immune to ground spells (entangle, web): counted as flies,
+    // never as spell immunity too (user)
+    if (FLYING.has(name)) return;
     const config = State.immunities.find((immunity) => immunity.name === name);
     for (const nested of config?.immunities ?? []) visit(nested);
   };
   [
     ...effective.immunities.map((i) => i.name),
     ...scope.creature.autoImmunities,
-    ...(trait?.immunities ?? []),
+    ...traitItems(scope, effective).flatMap((item) => item.immunities),
   ].forEach(visit);
   return [...seen];
 }
@@ -869,8 +877,30 @@ function permanentEffects(scope: ExperienceScope): Effect[] {
   return [
     ...scope.creature.data.effects.list,
     ...matchingAdjustments(scope).flatMap((a) => a.data.effects.list),
-    ...scope.creature.items.filter((item) => item.trait).flatMap((item) => item.effects),
+    ...traitItems(scope, effectiveOf(scope)).flatMap((item) => item.effects),
   ];
+}
+
+/**
+ * The scope's trait items: its own (unless an adjustment removes them) and the equipped ones a
+ * fellow member or the entry owns - a createFrom copy keeps its source's traits (the greater
+ * wyvern's hover).
+ */
+function traitItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
+  const removed = new Set(
+    [
+      ...scope.creature.data.items.remove,
+      ...matchingAdjustments(scope).flatMap((a) => a.data.items.remove),
+    ].map((f) => f.toUpperCase()),
+  );
+  const own = scope.creature.items.filter(
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- fixtures omit files
+    (item) => item.trait && !removed.has((item.file ?? "").toUpperCase()),
+  );
+  const equipped = effective.equipped
+    .map((e) => equippedItem(scope.creature, e.item.file))
+    .filter((item): item is Item => item?.trait === true);
+  return [...new Set([...own, ...equipped])];
 }
 
 function hasRegeneration(scope: ExperienceScope): boolean {
