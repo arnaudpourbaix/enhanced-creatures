@@ -597,6 +597,7 @@ function addDamageAbilities(
   apr: number,
   add: (ability: XpAbility, source: string) => void,
 ): void {
+  const attacks: { file: string; max: number }[] = [];
   for (const item of items) {
     const dice = diceOf(item);
     if (!dice) continue;
@@ -605,10 +606,31 @@ function addDamageAbilities(
     const bonus = dice.bonus ? `${sign}${dice.bonus}` : "";
     if (max >= 20)
       add("singleAttack20", `${item.file}: ${dice.thrown}d${dice.size}${bonus} = ${max}`);
-    if (apr > 1 && max * apr >= 30) {
-      add("multipleAttacks30", `${item.file}: ${max} x ${apr} attacks = ${max * apr}`);
-    }
+    attacks.push({ file: item.file, max });
   }
+  const round = roundAttacks(attacks, apr);
+  const total = round.reduce((sum, a) => sum + a.max, 0);
+  if (round.length > 1 && total >= 30) {
+    const parts = round.map((a) => a.file + " " + String(a.max)).join(" + ");
+    add("multipleAttacks30", `${parts} = ${total}`);
+  }
+}
+
+/**
+ * The attacks of one round at their maximum damage: each weapon once, strongest first, the
+ * strongest `apr` when it has more weapons than attacks; extra attacks repeat the weakest weapon
+ * (claw/claw/bite: the bite and both claws, not the bite three times).
+ */
+function roundAttacks(
+  attacks: { file: string; max: number }[],
+  apr: number,
+): { file: string; max: number }[] {
+  const sorted = [...attacks].sort((a, b) => b.max - a.max);
+  const count = Math.max(1, Math.floor(apr));
+  const round = sorted.slice(0, count);
+  const weakest = sorted.at(-1);
+  while (weakest && round.length < count) round.push(weakest);
+  return round;
 }
 
 /** The file, followed by its name when it resolves. */

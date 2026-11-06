@@ -998,7 +998,7 @@ describe("detectAttackAbilities", () => {
     });
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "singleAttack20", source: `${WEAPON}: 2d10+2 = 22` },
-      { ability: "multipleAttacks30", source: `${WEAPON}: 22 x 2 attacks = 44` },
+      { ability: "multipleAttacks30", source: `${WEAPON} 22 + ${WEAPON} 22 = 44` },
     ]);
   });
 
@@ -1015,7 +1015,47 @@ describe("detectAttackAbilities", () => {
       items: [naturalWeapon({ diceThrown: 3, diceSize: 6 })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "multipleAttacks30", source: `${WEAPON}: 18 x 2 attacks = 36` },
+      { ability: "multipleAttacks30", source: `${WEAPON} 18 + ${WEAPON} 18 = 36` },
+    ]);
+  });
+
+  it("claw/claw/bite sums the bite once and repeats the weaker claws", () => {
+    const creature = fakeCreature({
+      data: { apr: 3 },
+      items: [
+        naturalWeapon({ diceThrown: 2, diceSize: 8 }, { file: "BITE" }),
+        naturalWeapon({ diceThrown: 1, diceSize: 6 }, { file: "CLAWS" }),
+      ],
+    });
+    // bite 16 + claws 6 + claws 6 = 28: under 30, where 16 x 3 = 48 was over
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("claw/claw/bite over 30 lists each attack", () => {
+    const creature = fakeCreature({
+      data: { apr: 3 },
+      items: [
+        naturalWeapon({ diceThrown: 2, diceSize: 10 }, { file: "BITE" }),
+        naturalWeapon({ diceThrown: 1, diceSize: 8 }, { file: "CLAWS" }),
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: "BITE: 2d10 = 20" },
+      { ability: "multipleAttacks30", source: "BITE 20 + CLAWS 8 + CLAWS 8 = 36" },
+    ]);
+  });
+
+  it("more weapons than attacks counts only the strongest ones", () => {
+    const creature = fakeCreature({
+      data: { apr: 2 },
+      items: [
+        naturalWeapon({ diceThrown: 2, diceSize: 8 }, { file: "A" }),
+        naturalWeapon({ diceThrown: 2, diceSize: 8 }, { file: "B" }),
+        naturalWeapon({ diceThrown: 1, diceSize: 4 }, { file: "C" }),
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "multipleAttacks30", source: "A 16 + B 16 = 32" },
     ]);
   });
 
