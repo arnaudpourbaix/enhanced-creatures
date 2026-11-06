@@ -22,6 +22,28 @@ function th(key: string, label: string, numeric = false, sorted = false): string
   return `<th data-sort="${key}"${attr}>${label}</th>`;
 }
 
+/** (formula - book) / book in whole percents; undefined without a book value. */
+export function gapPercent(book: number | undefined, formula: number): number | undefined {
+  if (!book) return undefined;
+  return Math.round(((formula - book) / book) * 100);
+}
+
+/** The gap's size for sorting (biggest first either way); -1 without a book value. */
+function gapSortValue(book: number | undefined, formula: number): number {
+  const gap = gapPercent(book, formula);
+  return gap === undefined ? -1 : Math.abs(gap);
+}
+
+/** The signed gap, colored like the other differences; sorted on its size (data-gap). */
+function gapCell(book: number | undefined, formula: number): string {
+  const gap = gapPercent(book, formula);
+  if (gap === undefined) return `<td class="num"></td>`;
+  let tone = "flat";
+  if (gap > 0) tone = "up";
+  else if (gap < 0) tone = "down";
+  return `<td class="num"><span class="delta ${tone}">${signed(gap)}%</span></td>`;
+}
+
 function diffCell(r: ExperienceReportRow): string {
   if (r.difference === undefined) return `<td class="num"></td>`;
   let tone = "flat";
@@ -78,9 +100,11 @@ export function renderExperienceTab(d: ExperienceReportData): string {
     .map(
       (c) =>
         `<tr data-search="${escapeHtml(c.monster.toLowerCase())}" data-monster="${escapeHtml(c.monster)}" ` +
-        `data-book="${c.bookXp ?? -1}" data-formula="${c.score.xp}">` +
+        `data-book="${c.bookXp ?? -1}" data-formula="${c.score.xp}" ` +
+        `data-gap="${gapSortValue(c.bookXp, c.score.xp)}">` +
         `<td class="monster-name">${escapeHtml(c.monster)}</td>` +
         `<td class="num">${num(c.bookXp)}</td><td class="num">${c.score.xp}</td>` +
+        gapCell(c.bookXp, c.score.xp) +
         `<td class="breakdown">${escapeHtml(c.score.breakdown)}</td></tr>`,
     )
     .join("");
@@ -122,7 +146,7 @@ ${th("formula", "Formula XP", true)}<th>Breakdown</th>
 <p class="muted">Base creatures whose book XP disagrees with their formula score.</p>
 <div class="table-wrap"><table class="counts" id="xp-conflicts"><thead><tr>
 ${th("monster", "Monster")}${th("book", "Book XP", true)}${th("formula", "Formula XP", true)}
-<th>Breakdown</th>
+${th("gap", "Difference %", true)}<th>Breakdown</th>
 </tr></thead><tbody>${conflicts}</tbody></table></div>
 </section>
 </div>`;

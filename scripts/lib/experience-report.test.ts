@@ -3,7 +3,7 @@ import type { Creature } from "../../lib/src/model/creature/creature";
 import { ExperienceRow } from "../../lib/src/services/experience/experience.service";
 import { ExperienceScore } from "../../lib/src/services/experience/experience-table";
 import { buildExperienceReport } from "./experience-report";
-import { renderExperienceTab } from "./experience-report-html";
+import { gapPercent, renderExperienceTab } from "./experience-report-html";
 
 function score(xp: number, breakdown = "HD 9 -> 975"): ExperienceScore {
   return {
@@ -120,5 +120,13 @@ describe("experience report", () => {
     const out = renderExperienceTab(evil);
     expect(out).not.toContain("<x>");
     expect(out).toContain("&lt;x&gt;.cre");
+  });
+});
+
+describe("gapPercent", () => {
+  it("is the formula's difference to the book, in whole percents", () => {
+    expect(gapPercent(7000, 11000)).toBe(57);
+    expect(gapPercent(4000, 3000)).toBe(-25);
+    expect(gapPercent(undefined, 3000)).toBeUndefined();
   });
 });
