@@ -276,6 +276,8 @@ function createOdorOfDeath(cre: Creature) {
   });
   return cre.addSpell({
     name: "monster.zombie.ability.odorOfDeath.name",
+    // One aura with random outcomes (weakness, disease, nausea, death): counts once, as a whole
+    xpAbility: "specialMagicalAttack",
     description: "monster.zombie.ability.odorOfDeath.description",
     id: Ids.ZombieOdorOfDeath,
     memorizedCount: 1,
@@ -533,7 +535,6 @@ function createOdorOfDeathNausea(cre: Creature) {
 function createOdorOfDeathDeath(cre: Creature) {
   return cre.addSpell({
     name: "monster.zombie.ability.odorOfDeath.death",
-    xpAbility: "specialMagicalAttack",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,
