@@ -44,6 +44,8 @@ interface XpScope {
   inGameXp?: number;
 }
 
+const GAMES: Game[] = ["bg1", "bg2"];
+
 const UNCHANGED_REASON = "adjustment changes nothing the formula reads";
 
 class ExperienceService {
@@ -106,12 +108,14 @@ class ExperienceService {
     const rows = monsterFilesService.getCreatureRows(file.name, file.game);
     const values = new Set(rows.map((r) => r.xpv));
     if (file.game === undefined && values.size > 1) {
-      const byGame = new Map<Game | undefined, number | undefined>();
-      for (const row of rows) if (!byGame.has(row.game)) byGame.set(row.game, row.xpv);
-      // The untagged row first, so the game-tagged patches after it win in their game.
-      return [...byGame]
-        .sort(([a], [b]) => Number(a !== undefined) - Number(b !== undefined))
-        .map(([game, inGameXp]) => ({ file: file.name, split: true, game, inGameXp }));
+      // One scope per concrete game, an untagged row standing for the games no row is tagged
+      // for: every patch carries a game, so getGameScopes still yields both games for the docs.
+      return GAMES.map((game) => ({
+        file: file.name,
+        split: true,
+        inGameXp: pickCreatureRow(rows, game)?.xpv,
+        game,
+      }));
     }
     const inGameXp = this.inGameXp(file.name, file.game);
     return [{ file: file.name, game: file.game, split: false, inGameXp }];
@@ -143,7 +147,9 @@ class ExperienceService {
     if (matching.some((a) => a.data.xpv === 0)) return row("zero", "xpv 0", 0);
     if (inGameXp === 0) return row("zero", "0 in game", 0);
     if (!matching.length) return row("book", "no adjustment", bookXp);
-    if (score.total === base.total && this.sameAbilities(score, base)) {
+    // Unchanged never lowers the in-game XP: below it, the row is a drop like any other.
+    const lowersInGame = inGameXp !== undefined && bookXp < inGameXp;
+    if (score.total === base.total && this.sameAbilities(score, base) && !lowersInGame) {
       return row("unchanged", UNCHANGED_REASON, bookXp);
     }
     if (inGameXp === undefined || score.xp >= inGameXp) {

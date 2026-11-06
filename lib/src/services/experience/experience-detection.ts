@@ -386,11 +386,27 @@ function highestSpell(
       file: creatureService.getAbilityCastFiles(ability)[0] ?? "ability",
       level: ability.level ?? undefined,
     })),
-  ].filter((c): c is { file: string; level: number } => c.level !== undefined);
+  ].filter(
+    (c): c is { file: string; level: number } => c.level !== undefined && !isClassSpell(c.file),
+  );
   return candidates.reduce<{ file: string; level: number } | undefined>(
     (best, c) => (best === undefined || c.level > best.level ? c : best),
     undefined,
   );
+}
+
+let classSpellFiles: Set<string> | undefined;
+
+/**
+ * Class and kit abilities (SPELLS' Class category, SPCL files, e.g. SPCL423 Poison Weapon) are
+ * not spellcasting, whatever level they carry.
+ */
+function isClassSpell(file: string): boolean {
+  classSpellFiles ??= new Set(
+    Object.values(SPELLS.Class).flatMap((spell) => spellFiles(spell).map((f) => f.toUpperCase())),
+  );
+  const upper = file.toUpperCase();
+  return upper.startsWith("SPCL") || classSpellFiles.has(upper);
 }
 
 let spellLevels: Map<string, number | undefined> | undefined;

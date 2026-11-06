@@ -115,7 +115,7 @@ describe("experienceService.evaluate", () => {
   });
 
   it("marks a script-only adjustment unchanged and appends nothing", () => {
-    mockRows(row(650));
+    mockRows(row(100));
     const creature = fakeCreature({
       xpv: 120,
       adjustments: [{ data: { script: { remove: [], location: "X" } } as Partial<CreatureData> }],
@@ -129,6 +129,42 @@ describe("experienceService.evaluate", () => {
       }),
     ]);
     expect(appended(creature, 1)).toEqual([]);
+  });
+
+  it("turns an unchanged row into a drop when the book XP is below the in-game XP", () => {
+    mockRows(row(91000));
+    const creature = fakeCreature({
+      xpv: 21000,
+      adjustments: [{ data: { script: { remove: [], location: "X" } } as Partial<CreatureData> }],
+    });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ status: "drop", inGameXp: 91000, newXp: 91000 }),
+    ]);
+    expect(creature.experience[0].reason).toBe(creature.experience[0].score.breakdown);
+    expect(appended(creature, 1)).toEqual([
+      { files: [FILE], game: undefined, variant: undefined, xpv: 91000 },
+    ]);
+  });
+
+  it("keeps an unchanged row when the book XP is at least the in-game XP", () => {
+    mockRows(row(120));
+    const creature = fakeCreature({
+      xpv: 120,
+      adjustments: [{ data: { script: { remove: [], location: "X" } } as Partial<CreatureData> }],
+    });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ status: "unchanged", newXp: 120 }),
+    ]);
+    expect(appended(creature, 1)).toEqual([]);
+  });
+
+  it("keeps a book row below the in-game XP as book", () => {
+    mockRows(row(91000));
+    expect(experienceService.evaluate(fakeCreature({ xpv: 21000 })).rows).toEqual([
+      expect.objectContaining({ status: "book", newXp: 21000 }),
+    ]);
   });
 
   it("writes the formula XP when it beats the in-game XP", () => {
@@ -188,6 +224,20 @@ describe("experienceService.evaluate", () => {
 
   it("splits a file whose game rows disagree on the in-game XP", () => {
     mockRows(row(650, "bg1"), row(1400, "bg2"));
+    const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ game: "bg1", status: "formula", inGameXp: 650, newXp: 975 }),
+      expect.objectContaining({ game: "bg2", status: "drop", inGameXp: 1400, newXp: 1400 }),
+    ]);
+    expect(appended(creature, 1)).toEqual([
+      { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+    ]);
+  });
+
+  it("tags the untagged row's patch with the remaining game in a mixed split", () => {
+    mockRows(row(650), row(1400, "bg2"));
     const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
     experienceService.apply(creature);
     expect(creature.experience).toEqual([

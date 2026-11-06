@@ -704,6 +704,17 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature })).toEqual([{ ability: "lowSpells", source: SPELL }]);
   });
 
+  it("class and kit abilities (SPCL files) are not spellcasting", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPCL423", memorizedCount: 1 }] } } as never,
+      abilities: [
+        { resource: "SPCL423", level: 1 },
+        { resource: "SPCL999", level: 4 },
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
   it("missileWeapons from a ranged attack", () => {
     const creature = fakeCreature({ ranged: true });
     expect(detectAttackAbilities({ creature })).toEqual([

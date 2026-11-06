@@ -93,6 +93,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Fey: Speak with Plants is reactive, cast once entangled
 - Vampire patriarch
 - XP: expand nested immunities before detecting spell and weapon immunity
+- XP: never lower in-game XP, skip class abilities, tag split patches
 
 ## [0.4.0] - 2026-10-09
 
