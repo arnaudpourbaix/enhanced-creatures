@@ -78,9 +78,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire: Bodhi is a variant of the abomination age
 - Skeleton: mage and cleric variants move to their own entries
 - XP: experience of adjusted creatures now follows the AD&D 2e DMG rule (Hit Dice + special abilities); a creature never gives less XP than in the original game
-- Roadmap: XP formula - strength on natural attacks, bosses and drops
-- Roadmap: strength double-dip is a global in-game issue, not only XP
-- Roadmap: a power level on every created spell
 
 ### Fixed
 
