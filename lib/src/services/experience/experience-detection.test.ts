@@ -1104,6 +1104,26 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("a melee hit adds the strength damage bonus (juju zombie 3d4 at 20 strength)", () => {
+    const creature = fakeCreature({
+      data: { strength: 20 },
+      items: [naturalWeapon({ diceThrown: 3, diceSize: 4 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 3d4+8 str = 20` },
+    ]);
+  });
+
+  it("18/00 strength adds +6", () => {
+    const creature = fakeCreature({
+      data: { strength: 18, exceptionalStrength: 100 },
+      items: [naturalWeapon({ diceThrown: 2, diceSize: 8 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 2d8+6 str = 22` },
+    ]);
+  });
+
   it("no damage abilities under the thresholds", () => {
     const creature = fakeCreature({
       data: { apr: 3 },

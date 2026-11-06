@@ -11,6 +11,7 @@ import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
   SpellTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
@@ -226,7 +227,7 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   addOnHitAbilities(scope.creature, effective, weapons, add);
   addSpellLevelAbility(scope, effective, add);
   addMissileAbility(scope, effective, add);
-  addDamageAbilities(weapons, effective.apr.value, add);
+  addDamageAbilities(weapons, effective.apr.value, strengthDamage(effective), add);
 
   return ATTACK_ABILITIES.filter((ability) => sources.has(ability)).map((ability) => ({
     ability,
@@ -662,21 +663,37 @@ function diceOf(item: Item): { thrown: number; size: number; bonus: number } | u
   return { thrown: header.diceThrown, size: header.diceSize, bonus: header.damageBonus ?? 0 };
 }
 
+/** "+2", "-1", or "" for 0. */
+function signed(value: number): string {
+  if (!value) return "";
+  return value > 0 ? `+${value}` : String(value);
+}
+
+/** The scope's strength damage bonus (StrengthTable), added to its melee hits. */
+function strengthDamage(effective: EffectiveAdjustment): number {
+  return creatureService.getStrengthBonus({
+    strength: effective.strength.value,
+    exceptionalStrength: effective.exceptionalStrength.value,
+  }).damage;
+}
+
 /** singleAttack20 / multipleAttacks30 from the wielded items whose dice are known. */
 function addDamageAbilities(
   items: Item[],
   apr: number,
+  strength: number,
   add: (ability: XpAbility, source: string) => void,
 ): void {
   const attacks: { file: string; max: number }[] = [];
   for (const item of items) {
     const dice = diceOf(item);
     if (!dice) continue;
-    const max = dice.thrown * dice.size + dice.bonus;
-    const sign = dice.bonus > 0 ? "+" : "";
-    const bonus = dice.bonus ? `${sign}${dice.bonus}` : "";
-    if (max >= 20)
-      add("singleAttack20", `${item.file}: ${dice.thrown}d${dice.size}${bonus} = ${max}`);
+    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8 = 20)
+    const str = item.header?.type === ItemAbilityTypeEnum.Melee ? strength : 0;
+    const max = dice.thrown * dice.size + dice.bonus + str;
+    const strLabel = str ? signed(str) + " str" : "";
+    const label = `${dice.thrown}d${dice.size}${signed(dice.bonus)}${strLabel}`;
+    if (max >= 20) add("singleAttack20", `${item.file}: ${label} = ${max}`);
     attacks.push({ file: item.file, max });
   }
   const round = roundAttacks(attacks, apr);
