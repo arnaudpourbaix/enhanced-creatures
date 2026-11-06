@@ -57,7 +57,7 @@ function ogre(entry: CreatureEntry<Ogre>): Ogre {
       },
     },
   });
-  ogre.createFists({ diceSize: 1, diceThrown: 10, id: Ids.Ogre });
+  ogre.createFists({ diceThrown: 1, diceSize: 10, id: Ids.Ogre });
   ogre.createFists({ diceThrown: 2, diceSize: 6, id: Ids.OgreLeader, equipped: false });
   ogre.setBehavior({
     restHeal: true,
