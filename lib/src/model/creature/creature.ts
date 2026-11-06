@@ -9,6 +9,10 @@ import translationService from "../../services/translation.service";
 import logService from "../../services/log.service";
 import { ResourceScope } from "../../services/utils/misc.func";
 import utils from "../../services/utils/utils.service";
+import type {
+  ExperienceConflict,
+  ExperienceRow,
+} from "../../services/experience/experience.service";
 import { ImmunityName } from "../final/immunity";
 import { StringReference } from "../final/stringref";
 import { ClassIdentifier } from "../ids/class";
@@ -153,6 +157,10 @@ export class Creature extends AbstractCreature implements BaseCreature {
   handWrittenAbilities?: CreatureAbility[];
   /** Undead (or made undead by an adjustment): PnP "turned as" row, when harder to turn than its Hit Dice. */
   turnAs?: TurnUndeadType;
+  /** XP of each creature file scope, by status (see ExperienceService). Set after validation. */
+  experience: ExperienceRow[] = [];
+  /** The base creature's book XP against its formula score; set only when they disagree. */
+  baseExperience?: ExperienceConflict;
 
   // Not actually useless: narrows the base class's plain `number` id parameter to MonsterEnum,
   // so `new Creature(id)` only accepts valid monster ids.

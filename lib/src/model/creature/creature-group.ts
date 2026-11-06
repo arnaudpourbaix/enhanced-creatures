@@ -1,6 +1,7 @@
 import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
+import experienceService from "../../services/experience/experience.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
 import translationService from "../../services/translation.service";
@@ -140,6 +141,8 @@ export abstract class CreatureGroup<T extends Creature>
       cre.data.spells.memorized = [];
     }
     cre.valid = undefined;
+    cre.experience = [];
+    cre.baseExperience = undefined;
     if (p.from.attack.dualWielding) cre.data.apr++;
     this.creatures.push(cre);
     return cre;
@@ -209,6 +212,8 @@ export abstract class CreatureGroup<T extends Creature>
       creatureTypeHooksService.afterBuild(creature);
       this.applyCsvSummonFiles(creature);
       creature.validate();
+      // After validation: the XP formula reads the resolved behaviour abilities.
+      experienceService.apply(creature);
       const hasNothingToActOn =
         !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
       if (hasNothingToActOn) logService.discardCapture();

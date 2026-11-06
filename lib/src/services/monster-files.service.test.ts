@@ -238,11 +238,11 @@ describe("monsterFilesService.getName", () => {
 const ROW_HEADER =
   "file;level;overrideScript;classScript;raceScript;generalScript;defaultScript;" +
   "helmet;shield;lring;rring;amulet;weapon1;weapon2;weapon3;weapon4;" +
-  "MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name";
+  "MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name;xpv";
 
 // column order for a ROW_HEADER row:
 // file;level;override;class;race;general;default;helmet;shield;lring;rring;amulet;
-// weapon1;weapon2;weapon3;weapon4;MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name
+// weapon1;weapon2;weapon3;weapon4;MonsterId;ValidatedMonsterId;vlvl;vitems;vscript;game;name;xpv
 
 describe("parseCreatureRowsCsv", () => {
   it("extracts level, slot items and scripts in canonical order, dropping blanks", () => {
@@ -256,6 +256,7 @@ describe("parseCreatureRowsCsv", () => {
         file: "ABELA",
         game: undefined,
         level: 6,
+        xpv: undefined,
         items: [
           { slot: "lring", file: "RING95" },
           { slot: "weapon1", file: "SW1H01" },
@@ -283,6 +284,27 @@ describe("parseCreatureRowsCsv", () => {
     const m = parseCreatureRowsCsv(csv);
     expect(m.get("AAA")).toEqual([expect.objectContaining({ level: undefined })]);
     expect(m.get("BBB")).toEqual([expect.objectContaining({ level: undefined })]);
+  });
+
+  it("parses the xpv column, a blank or non-numeric value as undefined", () => {
+    const csv = [
+      ROW_HEADER,
+      "AAA;1;None;None;None;None;None;;;;;;;;;;N;true;;;;;A;650",
+      "BBB;1;None;None;None;None;None;;;;;;;;;;N;true;;;;;B;0",
+      "CCC;1;None;None;None;None;None;;;;;;;;;;N;true;;;;;C;",
+      "DDD;1;None;None;None;None;None;;;;;;;;;;N;true;;;;;D;x",
+    ].join("\n");
+    const m = parseCreatureRowsCsv(csv);
+    expect(m.get("AAA")).toEqual([expect.objectContaining({ xpv: 650 })]);
+    expect(m.get("BBB")).toEqual([expect.objectContaining({ xpv: 0 })]);
+    expect(m.get("CCC")).toEqual([expect.objectContaining({ xpv: undefined })]);
+    expect(m.get("DDD")).toEqual([expect.objectContaining({ xpv: undefined })]);
+  });
+
+  it("requires the xpv column", () => {
+    expect(() => parseCreatureRowsCsv(ROW_HEADER.replace(";xpv", ""))).toThrow(
+      "assets/creatures.csv is missing column(s): xpv",
+    );
   });
 
   it("reads the three Validated* flags, treating only 'true' as set", () => {
@@ -323,6 +345,7 @@ describe("pickCreatureRow", () => {
     game,
     file: "X",
     level: 0,
+    xpv: undefined,
     items: [],
     scripts: [],
     validatedLevel: false,

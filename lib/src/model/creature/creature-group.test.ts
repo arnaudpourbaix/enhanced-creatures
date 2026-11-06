@@ -11,6 +11,7 @@ import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
 import creatureFactory from "../../factories/creature.factory";
 import translationService from "../../services/translation.service";
+import experienceService from "../../services/experience/experience.service";
 
 class TestGroup extends CreatureGroup<Creature> {
   fileType: ResourceScope = "e";
@@ -415,6 +416,7 @@ describe("addCreature", () => {
   it("builds, validates, and keeps the creature when nothing throws", () => {
     const group = fakeGroup();
     const validateSpy = vi.spyOn(creatureFactory, "validate").mockImplementation(() => {});
+    const applySpy = vi.spyOn(experienceService, "apply").mockImplementation(() => {});
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
 
     group.addCreature(() =>
@@ -427,6 +429,11 @@ describe("addCreature", () => {
 
     expect(group.creatures).toHaveLength(1);
     expect(validateSpy).toHaveBeenCalledWith(group.creatures[0]);
+    // XP is scored once validation resolved the abilities
+    expect(applySpy).toHaveBeenCalledWith(group.creatures[0]);
+    expect(applySpy.mock.invocationCallOrder[0]).toBeGreaterThan(
+      validateSpy.mock.invocationCallOrder[0],
+    );
     expect(errorSpy).not.toHaveBeenCalled();
   });
 

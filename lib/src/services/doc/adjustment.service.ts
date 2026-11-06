@@ -125,6 +125,17 @@ class AdjustmentService {
     return result;
   }
 
+  /**
+   * The game scopes a file's adjustments split it into: one per game its adjustments are tagged
+   * for, else a single `undefined` scope (see getEffectiveDataForFile).
+   */
+  getGameScopes(creature: Creature, file: string): (Game | undefined)[] {
+    const taggedGames = [
+      ...new Set(creature.adjustments.filter((a) => a.files.includes(file)).map((a) => a.game)),
+    ].filter((g): g is Game => g !== undefined);
+    return taggedGames.length ? taggedGames : [undefined];
+  }
+
   // A file whose adjustments target more than one game (e.g. GORF: a bg1 lieutenant and a weaker
   // bg2 "Squisher") can never be folded into a single coherent creature - the two games never run
   // together. Split such a file into one effective per game scope, folding the game-agnostic
@@ -132,11 +143,7 @@ class AdjustmentService {
   // scope-less effective, exactly as before.
   private getEffectiveDataForFile(creature: Creature, file: string): EffectiveAdjustment[] {
     const all = creature.adjustments.filter((a) => a.files.includes(file));
-    const taggedGames = [...new Set(all.map((a) => a.game))].filter(
-      (g): g is Game => g !== undefined,
-    );
-    const scopes: (Game | undefined)[] = taggedGames.length ? taggedGames : [undefined];
-    return scopes.map((game) =>
+    return this.getGameScopes(creature, file).map((game) =>
       this.buildEffectiveForScope(
         creature,
         file,

@@ -1480,6 +1480,7 @@ function csvRow(over: Partial<CreatureCsvRow>): CreatureCsvRow {
     file: "F",
     game: undefined,
     level: undefined,
+    xpv: undefined,
     items: [],
     scripts: [],
     validatedLevel: false,

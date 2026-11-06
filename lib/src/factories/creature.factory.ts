@@ -78,6 +78,14 @@ class CreatureFactory {
 
   setAdjustments(cre: Creature, adjustments: PartialCreatureAdjustment[]) {
     this.checkValidation(cre);
+    this.appendAdjustments(cre, adjustments);
+  }
+
+  /**
+   * Appends adjustments without the validation check: for generated entries added once the
+   * creature is validated (e.g. ExperienceService's XP patches, which need resolved abilities).
+   */
+  appendAdjustments(cre: Creature, adjustments: PartialCreatureAdjustment[]) {
     for (const adjustment of adjustments) {
       const result: CreatureAdjustment = {
         ...adjustment,

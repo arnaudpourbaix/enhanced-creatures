@@ -13,6 +13,7 @@ const SUMMON_COLUMN = "summon";
 const NAME_COLUMN = "name";
 const GAME_COLUMN = "game";
 const LEVEL_COLUMN = "level";
+const XPV_COLUMN = "xpv";
 const SLOT_COLUMNS = [
   "helmet",
   "shield",
@@ -51,6 +52,8 @@ export interface CreatureCsvRow {
   file: string;
   game?: Game;
   level: number | undefined;
+  /** The file's in-game XP value; undefined when blank. */
+  xpv: number | undefined;
   items: { slot: string; file: string }[];
   scripts: { slot: string; value: string }[];
   validatedLevel: boolean;
@@ -63,6 +66,7 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
     FILE_COLUMN,
     GAME_COLUMN,
     LEVEL_COLUMN,
+    XPV_COLUMN,
     ...SLOT_COLUMNS,
     ...SCRIPT_COLUMNS,
     VALIDATED_LEVEL_COLUMN,
@@ -73,6 +77,7 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
   const fileIdx = at(FILE_COLUMN);
   const gameIdx = at(GAME_COLUMN);
   const levelIdx = at(LEVEL_COLUMN);
+  const xpvIdx = at(XPV_COLUMN);
   const slotIdx = SLOT_COLUMNS.map((slot) => ({ slot, i: at(slot) }));
   const scriptIdx = SCRIPT_COLUMNS.map((slot) => ({ slot, i: at(slot) }));
   const vLevelIdx = at(VALIDATED_LEVEL_COLUMN);
@@ -83,12 +88,11 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
   for (const fields of rows) {
     const file = fields[fileIdx] ?? "";
     if (!file) continue;
-    const levelRaw = (fields[levelIdx] ?? "").trim();
-    const levelNum = Number(levelRaw);
     const row: CreatureCsvRow = {
       file,
       game: gameValue(fields[gameIdx]),
-      level: levelRaw === "" || Number.isNaN(levelNum) ? undefined : levelNum,
+      level: csvNumber(fields[levelIdx]),
+      xpv: csvNumber(fields[xpvIdx]),
       items: slotIdx
         .filter(({ i }) => (fields[i] ?? "").trim() !== "")
         .map(({ slot, i }) => ({ slot, file: fields[i].trim() })),
@@ -105,6 +109,13 @@ export function parseCreatureRowsCsv(raw: string): Map<string, CreatureCsvRow[]>
     else result.set(key, [row]);
   }
   return result;
+}
+
+/** A numeric cell; blank or non-numeric is undefined. */
+function csvNumber(raw: string | undefined): number | undefined {
+  const text = (raw ?? "").trim();
+  const value = Number(text);
+  return text === "" || Number.isNaN(value) ? undefined : value;
 }
 
 export function pickCreatureRow(
