@@ -127,6 +127,36 @@ Moved to [BODHI.md](BODHI.md) (scripts, abilities, CRE review and progression).
 
 ---
 
+## 🟡 XP formula (2e DMG Tables 31/32, `lib/src/services/experience/`)
+
+### ☐ Strength double-dips on natural attacks
+
+Most 2e monsters have no Strength score: their listed damage is the whole hit. The engine needs
+a strength for every creature, and the damage rows (single attack 20+, multiple attacks 30+)
+currently add its bonus to every melee hit, so monsters get it twice. Bears show it best: from
+the black to the polar bear the claws and bite dice grow *and* the strength grows, so each step
+counts the same extra might twice. The greater basilisk is the other clear case: book 7000 is
+exactly the formula without strength (17), its 20 strength pushes it to 11000.
+
+Agreed rule (user, 2026-11-07):
+
+1. Natural attacks (claws, bite, sting, slam, pseudopod) ignore strength: their dice are the
+   monster's full damage.
+2. Manufactured weapons (an ogre's club, an ettin's clubs, a minotaur's axe, a battle horror's
+   greatsword) add the strength bonus, as a 2e wielder does.
+
+Known cost: the juju zombie fights with its fists and loses the 3d4+8 = 20 that matched its
+Monstrous Manual 975 (base creatures keep their book XP anyway). Look for more rules to improve
+the damage rows rather than per-creature flags (user: no opt-in flag).
+
+### ☐ Bosses and drops
+
+Files whose formula XP is below their in-game XP keep the in-game value (`drop` status, listed
+on the dashboard's Experience tab). The final rule must be automated; to decide from the drop
+list.
+
+---
+
 ## 🔵 Needs investigation (unclear without more context)
 
 - 🔵 `spell-group.ts:54` — `// TODO: check these:` above 4 "SpellPack b6" and 3
