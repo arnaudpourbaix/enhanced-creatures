@@ -617,6 +617,14 @@ function abilityOfEffect(
   return undefined;
 }
 
+/**
+ * Spells that add nothing to a creature's power, so never raise its spell bonus: Dimension Door
+ * (and Spell Revisions' Dimension Jump that replaces it), a once-a-day teleport (user).
+ */
+const NO_POWER_SPELLS = new Set(
+  [SPELLS.Wizard.DimensionDoor.file, "SPWI128"].map((f) => f.toUpperCase()),
+);
+
 /** The highest spell level among memorized spells, spellbook variants and leveled abilities. */
 function highestSpell(
   scope: ExperienceScope,
@@ -640,7 +648,8 @@ function highestSpell(
       level: ability.level ?? undefined,
     })),
   ].filter(
-    (c): c is { file: string; level: number } => c.level !== undefined && !isClassSpell(c.file),
+    (c): c is { file: string; level: number } =>
+      c.level !== undefined && !isClassSpell(c.file) && !NO_POWER_SPELLS.has(c.file.toUpperCase()),
   );
   return candidates.reduce<{ file: string; level: number } | undefined>(
     (best, c) => (best === undefined || c.level > best.level ? c : best),

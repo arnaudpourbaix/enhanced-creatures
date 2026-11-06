@@ -683,6 +683,22 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("Dimension Door never raises the spell bonus", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [
+            { file: "SPWI402", memorizedCount: 1 },
+            { file: "SPWI112", memorizedCount: 1 },
+          ],
+        },
+      } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "lowSpells", source: "SPWI112" },
+    ]);
+  });
+
   it("an invisibility spell memorized once is only a spell", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 1 }] } } as never,
