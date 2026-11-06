@@ -57,6 +57,10 @@ export abstract class CreatureEntry<T extends Creature> extends CreatureGroup<T>
     return this.kin?.spells ?? [];
   }
 
+  protected override kinItems(): Item[] {
+    return this.kin?.items ?? [];
+  }
+
   override spell(id: number): Spell {
     return this.withKin(
       () => super.spell(id),

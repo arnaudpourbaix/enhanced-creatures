@@ -1,7 +1,7 @@
 import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
-import { setSharedSpells } from "../../services/experience/experience-detection";
+import { setSharedResources } from "../../services/experience/experience-detection";
 import experienceService from "../../services/experience/experience.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
@@ -60,6 +60,11 @@ export abstract class CreatureGroup<T extends Creature>
 
   /** Spells of the kin this group shares resources with (none for a kin itself). */
   protected kinSpells(): Spell[] {
+    return [];
+  }
+
+  /** Items of the kin this group shares resources with (none for a kin itself). */
+  protected kinItems(): Item[] {
     return [];
   }
 
@@ -219,11 +224,10 @@ export abstract class CreatureGroup<T extends Creature>
       this.applyCsvSummonFiles(creature);
       creature.validate();
       // After validation: the XP formula reads the resolved behaviour abilities.
-      setSharedSpells(creature, [
-        ...this.spells,
-        ...this.creatures.flatMap((c) => c.spells),
-        ...this.kinSpells(),
-      ]);
+      setSharedResources(creature, {
+        spells: [...this.spells, ...this.creatures.flatMap((c) => c.spells), ...this.kinSpells()],
+        items: [...this.items, ...this.creatures.flatMap((c) => c.items), ...this.kinItems()],
+      });
       experienceService.apply(creature);
       const hasNothingToActOn =
         !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;

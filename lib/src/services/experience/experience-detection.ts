@@ -281,14 +281,30 @@ export function spellAbilities(creature: Creature, spell: Spell): XpAbility[] {
  * Spells shared by a creature entry's members (e.g. the basilisks' petrifying gaze, made once on
  * the entry): the creature group registers them, so detection finds them like the creature's own.
  */
-const sharedSpells = new WeakMap<Creature, Spell[]>();
+const sharedResources = new WeakMap<Creature, { spells: Spell[]; items: Item[] }>();
 
-export function setSharedSpells(creature: Creature, spells: Spell[]): void {
-  sharedSpells.set(creature, spells);
+/**
+ * Registers the resources a creature can use without owning them: its entry's and kin's, and its
+ * fellow members' (a copy made with createFrom keeps equipping the source's items, e.g. the greater
+ * wyvern wields the wyvern's jaws).
+ */
+export function setSharedResources(
+  creature: Creature,
+  shared: { spells?: Spell[]; items?: Item[] },
+): void {
+  sharedResources.set(creature, { spells: shared.spells ?? [], items: shared.items ?? [] });
 }
 
 function allSpells(creature: Creature): Spell[] {
-  return [...creature.spells, ...(sharedSpells.get(creature) ?? [])];
+  return [...creature.spells, ...(sharedResources.get(creature)?.spells ?? [])];
+}
+
+/** Items equipped by file: the creature's own first, then the shared ones. */
+function equippedItem(creature: Creature, file: string): Item | undefined {
+  const key = file.toUpperCase();
+  return [...creature.items, ...(sharedResources.get(creature)?.items ?? [])].find(
+    (item) => item.file.toUpperCase() === key,
+  );
 }
 
 /** The spells the scope has memorized (its own list or any spellbook variant), upper case. */
@@ -522,12 +538,13 @@ const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
  * `noWeapon`. The trait item holds the creature's permanent traits, not attacks.
  */
 function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
-  const equipped = new Set(effective.equipped.map((e) => e.item.file));
   const unslottedNatural = (item: Item): boolean =>
     !effective.noWeapon && !item.equippedSlot.length && diceOf(item) !== undefined;
-  return scope.creature.items.filter(
-    (item) => !item.trait && (equipped.has(item.file) || unslottedNatural(item)),
-  );
+  const own = scope.creature.items.filter((item) => !item.trait && unslottedNatural(item));
+  const equipped = effective.equipped
+    .map((e) => equippedItem(scope.creature, e.item.file))
+    .filter((item): item is Item => item !== undefined && !item.trait);
+  return [...new Set([...own, ...equipped])];
 }
 
 function collectSpell(

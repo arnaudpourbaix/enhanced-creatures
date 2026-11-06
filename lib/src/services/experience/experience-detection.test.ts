@@ -22,7 +22,7 @@ import {
   detectHitDice,
   detectStatAbilities,
   matchingAdjustments,
-  setSharedSpells,
+  setSharedResources,
 } from "./experience-detection";
 
 const FILE = "TESTCRE";
@@ -670,9 +670,7 @@ describe("detectAttackAbilities", () => {
       ],
       abilities: [{ resource: SPELL }],
     });
-    expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "highSpells", source: SPELL },
-    ]);
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "highSpells", source: SPELL }]);
   });
 
   it("an invisibility spell memorized at will is invisible at will", () => {
@@ -794,9 +792,11 @@ describe("detectAttackAbilities", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } as never,
     });
-    setSharedSpells(creature, [
-      { file: SPELL, effects: [effect(EffectTypeEnum.Petrification)], headers: [] } as never,
-    ]);
+    setSharedResources(creature, {
+      spells: [
+        { file: SPELL, effects: [effect(EffectTypeEnum.Petrification)], headers: [] } as never,
+      ],
+    });
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "petrification", source: SPELL },
     ]);
@@ -1121,6 +1121,18 @@ describe("detectAttackAbilities", () => {
     });
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "singleAttack20", source: `${WEAPON}: 2d8+6 str = 22` },
+    ]);
+  });
+
+  it("an equipped item owned by a fellow member counts (greater wyvern wields the wyvern's jaws)", () => {
+    const creature = fakeCreature({ data: equipped("JAWS", "WEAPON2") });
+    setSharedResources(creature, {
+      items: [
+        naturalWeapon({ diceThrown: 2, diceSize: 10 }, { file: "JAWS", equippedSlot: ["WEAPON2"] }),
+      ] as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: "JAWS: 2d10 = 20" },
     ]);
   });
 
