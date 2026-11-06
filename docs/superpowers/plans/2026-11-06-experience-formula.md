@@ -196,7 +196,7 @@ Signals:
   ≥ 3 → `highSpells`, 1–2 → `lowSpells`. The source is the file of the highest spell.
 - **`missileWeapons`:** `creature.attack.ranged`, or an equipped item in a launcher/quiver slot.
 - **Damage:** for each natural weapon, max damage = `diceThrown × diceSize + (damageBonus ?? 0)`. If the maximum is ≥ 20 → `singleAttack20`. If effective APR > 1 and max × APR ≥ 30 → `multipleAttacks30`. Equipped items whose dice aren't known in mod data are ignored.
-- **Declared only** (never detected): `bloodDrain`, `breathWeapon`, `flies`, `swallowsWhole`, `magicalItems`, `specialMagicalAttack`, `specialAttack`. These come only from `xpAbilities` (Task 2). `specialDefense` is also detected from damage resistances (nested `*DamageResistance` immunities, resistX >= 50).
+- **Declared only** (never detected): `bloodDrain`, `breathWeapon`, `flies`, `swallowsWhole`, `magicalItems`, `specialDefense`, `specialMagicalAttack`, `specialAttack`. These come only from `xpAbilities` (Task 2). Damage resistances (any value above 0) count as `weaponImmunity`.
 - **Known limit:** `behavior.abilities` is per creature, not per file. A file therefore inherits every ability of its creature. Variants that change behaviour get their own script and creature entry, so this holds in practice.
 
 - [ ] **Step 1: Write failing tests**, one per mapping. For example: a natural weapon whose effects include `Poison` → `poison` with the weapon as source; memorized level-2 and level-4 spells → only `highSpells`; a 2d10+2 natural weapon at APR 2 → both `singleAttack20` and `multipleAttacks30`; an adjustment with `noWeapon` drops the weapon's on-hit abilities.

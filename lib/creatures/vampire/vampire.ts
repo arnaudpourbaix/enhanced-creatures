@@ -1480,6 +1480,10 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
       size: { value: "Medium", tall: true, long: false },
       movement: age.movement,
       immunities: ["undead"],
+      // Table 32 powers the XP detection can't see: the wolf, bat and mist forms (special
+      // defense), the domination and bat swarm (special magical attack), the forms' own attacks
+      // (special non-magical attack)
+      xpAbilities: ["specialDefense", "specialMagicalAttack", "specialAttack"],
       moveSilent: 100,
       items: {
         remove: [

@@ -293,7 +293,7 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("a skeleton's type traits give spell immunity and a special defense through nested immunities", () => {
+  it("a skeleton's type traits give spell and weapon immunity through nested immunities", () => {
     registerImmunity("undead", ["sleep", "hold", "mindSpells", "poison"]);
     registerImmunity("mindSpells", ["charm", "fear", "hold"]);
     registerImmunity("skeletal", [
@@ -310,7 +310,7 @@ describe("detectStatAbilities", () => {
     expect(detectStatAbilities({ creature })).toEqual([
       { ability: "spellImmunity", source: "charm, coldSpells, hold, mindSpells, sleep" },
       {
-        ability: "specialDefense",
+        ability: "weaponImmunity",
         source: "missileDamageResistance, piercingDamageResistance, slashingDamageResistance",
       },
     ]);
@@ -332,18 +332,18 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("specialDefense from any damage resistance above 0", () => {
+  it("weaponImmunity from any damage resistance above 0", () => {
     const creature = fakeCreature({
       adjustments: [
         { files: [FILE], data: { resistCrushing: 50, resistPiercing: 25, resistMissile: 0 } },
       ],
     });
     expect(detectStatAbilities({ creature, file: FILE })).toEqual([
-      { ability: "specialDefense", source: "50% crushing resistance, 25% piercing resistance" },
+      { ability: "weaponImmunity", source: "50% crushing resistance, 25% piercing resistance" },
     ]);
   });
 
-  it("specialDefense from a positive resistance effect on a trait item", () => {
+  it("weaponImmunity from a positive resistance effect on a trait item", () => {
     const creature = fakeCreature({
       items: [
         {
@@ -358,33 +358,45 @@ describe("detectStatAbilities", () => {
       ],
     });
     expect(detectStatAbilities({ creature })).toEqual([
-      { ability: "specialDefense", source: "25% slashing resistance, 25% missile resistance" },
+      { ability: "weaponImmunity", source: "25% slashing resistance, 25% missile resistance" },
     ]);
   });
 
-  it("specialDefense from a resistance effect in the creature data", () => {
+  it("weaponImmunity from a resistance effect in the creature data", () => {
     const creature = fakeCreature({
       data: {
         effects: { list: [{ opcode: EffectTypeEnum.CrushingResistanceModifier, value: 10 }] },
       } as never,
     });
     expect(detectStatAbilities({ creature })).toEqual([
-      { ability: "specialDefense", source: "10% crushing resistance" },
+      { ability: "weaponImmunity", source: "10% crushing resistance" },
     ]);
   });
 
-  it("no specialDefense without a damage resistance", () => {
+  it("no weaponImmunity without a damage resistance", () => {
     const creature = fakeCreature({ data: { resistSlashing: 0 } });
     expect(detectStatAbilities({ creature })).toEqual([]);
   });
 
-  it("a full weapon immunity and a damage resistance are two separate abilities", () => {
+  it("a full weapon immunity and a damage resistance count once as weaponImmunity", () => {
     const creature = fakeCreature({
       data: { immunities: ["missileWeapons", "slashingDamageResistance"], resistPiercing: 60 },
     });
     expect(detectStatAbilities({ creature })).toEqual([
-      { ability: "weaponImmunity", source: "missileWeapons" },
-      { ability: "specialDefense", source: "slashingDamageResistance, 60% piercing resistance" },
+      {
+        ability: "weaponImmunity",
+        source: "missileWeapons, slashingDamageResistance, 60% piercing resistance",
+      },
+    ]);
+  });
+
+  it("a damage resistance and magical-weapons-only are two separate abilities", () => {
+    const creature = fakeCreature({
+      data: { immunities: ["nonMagicalWeapons"], resistSlashing: 25 },
+    });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "weaponImmunity", source: "25% slashing resistance" },
+      { ability: "magicalWeaponsOnly", source: "nonMagicalWeapons" },
     ]);
   });
 

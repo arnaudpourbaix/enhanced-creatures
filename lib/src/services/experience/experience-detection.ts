@@ -84,8 +84,8 @@ const WEAPON_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
 
 /**
  * Partial damage reduction: the `*DamageResistance` immunities set the resistance to 50%
- * (immunity-config.ts), like any folded resist value above 0. Not an immunity to any
- * weapon: a "special defense form, unlisted".
+ * (immunity-config.ts). Like any folded resist value or resistance effect above 0, it is the
+ * "immunity to any weapon, including ½ damage" row, counted once with the full immunities.
  */
 const DAMAGE_RESISTANCES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "physicalDamageResistance",
@@ -180,9 +180,8 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
 
   pushIfAny(detected, "spellImmunity", matching(immunities, SPELL_IMMUNITIES));
 
-  pushIfAny(detected, "weaponImmunity", matching(immunities, WEAPON_IMMUNITIES));
-
-  pushIfAny(detected, "specialDefense", [
+  pushIfAny(detected, "weaponImmunity", [
+    ...matching(immunities, WEAPON_IMMUNITIES),
     ...matching(immunities, DAMAGE_RESISTANCES),
     ...WEAPON_RESISTANCES.map(({ key, label }) => {
       const value = folded(scope, (d) => d[key]) ?? 0;
