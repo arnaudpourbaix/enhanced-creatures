@@ -120,6 +120,13 @@ const WEAPON_RESISTANCES = [
   { key: "resistMissile", label: "missile" },
 ] as const;
 
+const RESISTANCE_EFFECTS = [
+  { opcode: EffectTypeEnum.SlashingResistanceModifier, label: "slashing" },
+  { opcode: EffectTypeEnum.CrushingResistanceModifier, label: "crushing" },
+  { opcode: EffectTypeEnum.PiercingResistanceModifier, label: "piercing" },
+  { opcode: EffectTypeEnum.MissilesResistanceModifier, label: "missile" },
+] as const;
+
 /** The adjustments folded into the scope, in authored order (same filter as getEffectiveForGame). */
 export function matchingAdjustments(scope: ExperienceScope): CreatureAdjustment[] {
   const { file, game } = scope;
@@ -180,6 +187,7 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
       const value = folded(scope, (d) => d[key]) ?? 0;
       return value > 0 ? `${value}% ${label} resistance` : undefined;
     }),
+    ...resistanceEffectSources(scope),
   ]);
 
   pushIfAny(detected, "magicalWeaponsOnly", matching(immunities, MAGICAL_WEAPONS_ONLY));
@@ -351,18 +359,23 @@ function collectEffect(
 }
 
 /** Opcodes that always map to an ability, whoever they land on. */
-const OPCODE_ABILITIES: ReadonlyMap<EffectTypeEnum, XpAbility> = new Map<EffectTypeEnum, XpAbility>([
-  [EffectTypeEnum.Poison, "poison"],
-  [EffectTypeEnum.Paralyze, "paralysis"],
-  [EffectTypeEnum.Hold, "paralysis"],
-  [EffectTypeEnum.HoldCreatureSpell, "paralysis"],
-  [EffectTypeEnum.Petrification, "petrification"],
-  [EffectTypeEnum.LevelDrain, "energyDrain"],
-  [EffectTypeEnum.Disease, "causesDisease"],
-  [EffectTypeEnum.Panic, "weaknessOrFear"],
-]);
+const OPCODE_ABILITIES: ReadonlyMap<EffectTypeEnum, XpAbility> = new Map<EffectTypeEnum, XpAbility>(
+  [
+    [EffectTypeEnum.Poison, "poison"],
+    [EffectTypeEnum.Paralyze, "paralysis"],
+    [EffectTypeEnum.Hold, "paralysis"],
+    [EffectTypeEnum.HoldCreatureSpell, "paralysis"],
+    [EffectTypeEnum.Petrification, "petrification"],
+    [EffectTypeEnum.LevelDrain, "energyDrain"],
+    [EffectTypeEnum.Disease, "causesDisease"],
+    [EffectTypeEnum.Panic, "weaknessOrFear"],
+  ],
+);
 
-function abilityOfEffect(effect: Effect, header: ItemSpellHeader | undefined): XpAbility | undefined {
+function abilityOfEffect(
+  effect: Effect,
+  header: ItemSpellHeader | undefined,
+): XpAbility | undefined {
   const direct = OPCODE_ABILITIES.get(effect.opcode);
   if (direct) return direct;
   if (effect.opcode === EffectTypeEnum.StrengthBonus) {
@@ -388,7 +401,10 @@ function highestSpell(
     ...spellbooks.flatMap((variant) => variant.memorized),
   ].filter((spell) => (spell.memorizedCount ?? 1) > 0);
   const candidates = [
-    ...memorized.map((spell) => ({ file: spell.file, level: spell.level ?? spellLevel(spell.file) })),
+    ...memorized.map((spell) => ({
+      file: spell.file,
+      level: spell.level ?? spellLevel(spell.file),
+    })),
     ...scope.creature.behavior.abilities.map((ability) => ({
       file: creatureService.getAbilityCastFiles(ability)[0] ?? "ability",
       level: ability.level ?? undefined,
@@ -446,7 +462,8 @@ function addDamageAbilities(
     const max = dice.thrown * dice.size + dice.bonus;
     const sign = dice.bonus > 0 ? "+" : "";
     const bonus = dice.bonus ? `${sign}${dice.bonus}` : "";
-    if (max >= 20) add("singleAttack20", `${item.file}: ${dice.thrown}d${dice.size}${bonus} = ${max}`);
+    if (max >= 20)
+      add("singleAttack20", `${item.file}: ${dice.thrown}d${dice.size}${bonus} = ${max}`);
     if (apr > 1 && max * apr >= 30) {
       add("multipleAttacks30", `${item.file}: ${max} x ${apr} attacks = ${max * apr}`);
     }
@@ -507,13 +524,29 @@ function immunitiesOf(scope: ExperienceScope, effective: EffectiveAdjustment): I
   return [...seen];
 }
 
-function hasRegeneration(scope: ExperienceScope): boolean {
-  const effects = [
+/** The permanent effects of the creature: data, folded adjustments and trait items. */
+function permanentEffects(scope: ExperienceScope): Effect[] {
+  return [
     ...scope.creature.data.effects.list,
     ...matchingAdjustments(scope).flatMap((a) => a.data.effects.list),
     ...scope.creature.items.filter((item) => item.trait).flatMap((item) => item.effects),
   ];
-  return effects.some((effect) => effect.opcode === EffectTypeEnum.Regeneration);
+}
+
+function hasRegeneration(scope: ExperienceScope): boolean {
+  return permanentEffects(scope).some((effect) => effect.opcode === EffectTypeEnum.Regeneration);
+}
+
+/** Positive weapon resistance set by effects (e.g. a vampire's physical resistance trait). */
+function resistanceEffectSources(scope: ExperienceScope): (string | undefined)[] {
+  const effects = permanentEffects(scope);
+  return RESISTANCE_EFFECTS.map(({ opcode, label }) => {
+    const value = Math.max(
+      0,
+      ...effects.map((e) => (e.opcode === opcode && "value" in e ? e.value : 0)),
+    );
+    return value > 0 ? `${value}% ${label} resistance` : undefined;
+  });
 }
 
 function matching(immunities: ImmunityName[], wanted: ReadonlySet<ImmunityName>): ImmunityName[] {
