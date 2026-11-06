@@ -90,21 +90,26 @@ in-game XP keeps the in-game value (a drop, to review).</p>
 <div class="summary">
 <div class="stat"><b>${d.rows.length}</b><span class="muted">files</span></div>
 <div class="stat good"><b>${d.changed}</b><span class="muted">files whose XP changed</span></div>
-<div class="stat warn"><b>${d.drops.length}</b><span class="muted">drops to review</span></div>
-<div class="stat bad"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></div>
+<button type="button" class="stat warn" data-xp-view="drops"><b>${d.drops.length}</b><span class="muted">drops to review</span></button>
+<button type="button" class="stat bad" data-xp-view="conflicts"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></button>
 </div>
-<section class="card">
-<h2>All files (${d.rows.length})</h2>
-<div class="toolbar">
+<div class="xp-nav">
+<div class="xp-views" role="tablist">
+<button type="button" role="tab" data-xp-view="all">All files <span class="count">${d.rows.length}</span></button>
+<button type="button" role="tab" data-xp-view="drops">XP drops to review <span class="count">${d.drops.length}</span></button>
+<button type="button" role="tab" data-xp-view="conflicts">Base XP conflicts <span class="count">${d.conflicts.length}</span></button>
+</div>
 <input type="search" id="xp-search" placeholder="Filter by monster or file">
-<label>Status <select id="xp-status">${options}</select></label>
+<label class="xp-status-filter">Status <select id="xp-status">${options}</select></label>
 </div>
+<section class="card" data-xp-panel="all">
+<h2>All files (${d.rows.length})</h2>
 <div class="table-wrap"><table class="counts" id="xp-all"><thead><tr>
 ${th("monster", "Monster")}${th("file", "File")}<th>Status</th>${th("ingame", "In-game XP", true)}
 ${th("newxp", "New XP", true)}${th("difference", "Difference", true)}<th>Breakdown</th>
 </tr></thead><tbody>${d.rows.map(allRow).join("")}</tbody></table></div>
 </section>
-<section class="card">
+<section class="card" data-xp-panel="drops">
 <h2>XP drops to review (${d.drops.length})</h2>
 <p class="muted">The formula gives less than the in-game XP, so the in-game value is kept.</p>
 <div class="table-wrap"><table class="counts" id="xp-drops"><thead><tr>
@@ -112,7 +117,7 @@ ${th("monster", "Monster")}${th("file", "File")}${th("ingame", "In-game XP", tru
 ${th("formula", "Formula XP", true)}<th>Breakdown</th>
 </tr></thead><tbody>${d.drops.map(dropRow).join("")}</tbody></table></div>
 </section>
-<section class="card">
+<section class="card" data-xp-panel="conflicts">
 <h2>Base XP conflicts (${d.conflicts.length})</h2>
 <p class="muted">Base creatures whose book XP disagrees with their formula score.</p>
 <div class="table-wrap"><table class="counts" id="xp-conflicts"><thead><tr>
@@ -130,19 +135,53 @@ td.breakdown { white-space: normal; min-width: 560px; font-size: 13px; line-heig
   color: var(--text); }
 @media (max-width: 760px) { td.breakdown { min-width: 320px; } }
 #tab-experience td.file { font-family: ui-monospace, Consolas, monospace; }
-#tab-experience .toolbar { position: static; }
+#tab-experience [data-xp-panel] { display: none; }
+#tab-experience[data-xp-active="all"] [data-xp-panel="all"],
+#tab-experience[data-xp-active="drops"] [data-xp-panel="drops"],
+#tab-experience[data-xp-active="conflicts"] [data-xp-panel="conflicts"] { display: block; }
+#tab-experience:not([data-xp-active="all"]) .xp-status-filter { display: none; }
+.xp-nav { position: sticky; top: var(--header-h); z-index: 5; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 8px 16px; margin: 16px 0; padding: 8px 0; background: var(--bg); }
+.xp-views { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--surface); }
+.xp-views button { border: 0; border-radius: 6px; padding: 6px 12px; background: transparent;
+  color: var(--muted); font: inherit; cursor: pointer; }
+.xp-views button:hover { color: var(--text); }
+.xp-views button[aria-selected="true"] { background: var(--bg); color: var(--text);
+  box-shadow: 0 0 0 1px var(--border); }
+.xp-views .count { margin-left: 4px; font-size: 12px; color: var(--muted); }
+#tab-experience .summary button.stat { font: inherit; text-align: left; cursor: pointer; }
+#xp-search { min-width: 220px; padding: 5px 8px; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--surface); color: var(--text); font: inherit; }
+@media (max-width: 760px) { .xp-views { flex-wrap: wrap; } #xp-search { min-width: 0; flex: 1; } }
 #tab-experience select { padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
   background: var(--surface); color: var(--text); font: inherit; }
 `;
 
 export const EXPERIENCE_SCRIPT = `
+const xpTab = document.getElementById("tab-experience");
 const xpSearch = document.getElementById("xp-search");
 const xpStatus = document.getElementById("xp-status");
+const XP_VIEWS = ["all", "drops", "conflicts"];
+function showXpView(view) {
+  if (!XP_VIEWS.includes(view)) view = "all";
+  xpTab.dataset.xpActive = view;
+  for (const b of xpTab.querySelectorAll(".xp-views button")) {
+    b.setAttribute("aria-selected", String(b.dataset.xpView === view));
+  }
+  try { localStorage.setItem("xp-view", view); } catch (e) {}
+}
+for (const b of xpTab.querySelectorAll("[data-xp-view]")) {
+  b.addEventListener("click", () => showXpView(b.dataset.xpView));
+}
+let savedXpView = "all";
+try { savedXpView = localStorage.getItem("xp-view") || "all"; } catch (e) {}
+showXpView(savedXpView);
 function filterExperience() {
   const q = xpSearch.value.trim().toLowerCase();
-  for (const row of document.querySelectorAll("#xp-all tbody tr")) {
-    const show = (!q || row.dataset.search.includes(q)) && (!xpStatus.value || row.dataset.status === xpStatus.value);
-    row.classList.toggle("hidden", !show);
+  for (const row of xpTab.querySelectorAll("table.counts tbody tr")) {
+    const statusOk = row.closest("#xp-all") ? !xpStatus.value || row.dataset.status === xpStatus.value : true;
+    row.classList.toggle("hidden", !((!q || row.dataset.search.includes(q)) && statusOk));
   }
 }
 xpSearch.addEventListener("input", filterExperience);
