@@ -104,6 +104,14 @@ class AdjustmentService {
     return this.buildEffectiveForScope(creature, file, game, matching);
   }
 
+  /**
+   * The base creature's documented stats, with no adjustment folded in - what
+   * `getEffectiveForGame` returns for a file no adjustment covers.
+   */
+  getBaseEffective(creature: Creature): EffectiveAdjustment {
+    return { ...this.buildEffectiveForScope(creature, "", undefined, []), files: [] };
+  }
+
   private getAllFiles(adjustments: CreatureAdjustment[]): string[] {
     const seen = new Set<string>();
     const result: string[] = [];

@@ -111,6 +111,16 @@ describe("setAdjustments", () => {
     expect(creature.adjustments[0].game).toBe("bg2");
     expect(creature.adjustments[0].files).toEqual(["TEST_ADJ"]);
   });
+
+  it("carries declared xpAbilities, which no CREATURE_DATA_FIELDS entry covers", () => {
+    const creature = fakeCreature();
+    const adjustment = {
+      files: ["test_adj"],
+      data: { xpAbilities: ["flies"] },
+    } as unknown as PartialCreatureAdjustment;
+    creatureFactory.setAdjustments(creature, [adjustment]);
+    expect(creature.adjustments[0].data.xpAbilities).toEqual(["flies"]);
+  });
 });
 
 describe("setBehavior", () => {

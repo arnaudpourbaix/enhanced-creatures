@@ -16,6 +16,7 @@ import { Effect } from "../spell-item/effect";
 import { ProficiencyTypeEnum } from "../spell-item/effect.enums";
 import { EffectTypeEnum } from "../spell-item/effect.type";
 import type { SpellCombo } from "../spell-item/spell-combo";
+import type { XpAbility } from "../../services/experience/experience-table";
 import { WithRequired } from "../utility-types";
 import { EquippedItem } from "./item";
 import { Movement } from "./movement";
@@ -96,6 +97,12 @@ export interface CreatureData {
   resistCrushing?: number;
   resistPiercing?: number;
   resistMissile?: number;
+  /**
+   * 2e DMG special abilities (Table 32) the stats can't reveal, added to the detected ones when
+   * scoring experience. Never written to CRE files (not a CREATURE_DATA_FIELDS entry); an
+   * adjustment's list replaces the base list.
+   */
+  xpAbilities?: XpAbility[];
   script: CreatureDataScript;
   proficiencies: CreatureDataProficiencies;
   immunities: ImmunityName[];

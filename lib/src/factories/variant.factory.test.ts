@@ -302,6 +302,21 @@ describe("scripted variants", () => {
   });
 });
 
+describe("declared xpAbilities", () => {
+  it("an adjust entry's list replaces the variant's", () => {
+    const get = captureAdjustments();
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { xpAbilities: ["swallowsWhole"] },
+      files: ["GRON", "GMAYOR"],
+      adjust: [{ files: ["GMAYOR"], data: { xpAbilities: ["flies"] } }],
+    });
+    expect(get()).toEqual([
+      { files: ["GRON"], data: { xpAbilities: ["swallowsWhole"] } },
+      { files: ["GMAYOR"], data: { xpAbilities: ["flies"] } },
+    ]);
+  });
+});
+
 describe("sub-variant spells", () => {
   it("a sub-variant's spellbooks replace its parent's", () => {
     captureAdjustments();

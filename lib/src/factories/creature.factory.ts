@@ -59,6 +59,8 @@ class CreatureFactory {
         (data as unknown as Record<string, unknown>)[field.key] = input[field.key];
       }
     }
+    // Not a CREATURE_DATA_FIELDS entry (it never reaches CRE files), so copied by hand.
+    if (input.xpAbilities !== undefined) data.xpAbilities = [...input.xpAbilities];
     return data;
   }
 

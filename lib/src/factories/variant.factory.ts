@@ -119,9 +119,12 @@ function assertNoDuplicateAdjustFiles(adjust: PartialCreatureAdjustment[], label
 // the shared profile's (wrong, weaker) one instead of the adjust entry's override.
 // `animation` is a priority list (see CreatureData.animation): concatenating two would put the
 // parent's vanilla fallback in the middle, so it's replaced too. A sub-variant's base merges the
-// same way: its own spellbook replaces its parent's.
+// same way: its own spellbook replaces its parent's. `xpAbilities` is a declared list the
+// experience score reads whole, so an entry's own list replaces the variant's too.
+const REPLACED_ARRAYS = new Set(["memorized", "spellbooks", "animation", "xpAbilities"]);
+
 function customMerge(key: string): typeof replaceArray | undefined {
-  if (key !== "memorized" && key !== "spellbooks" && key !== "animation") return undefined;
+  if (!REPLACED_ARRAYS.has(key)) return undefined;
   return replaceArray;
 }
 
