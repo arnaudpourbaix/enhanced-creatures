@@ -106,7 +106,6 @@ function leaderVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
     data: {
       level1: 7,
       ac: 3,
-      xpv: 650,
       items: {
         equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },
@@ -129,7 +128,6 @@ function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
     level1: 9,
     morale: 18,
     class: "FIGHTER",
-    xpv: 2000,
     proficiencies: [
       { type: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD, value: 5 },
       { type: ProficiencyTypeEnum.PROFICIENCYLONGSWORD, value: 5 },
@@ -157,7 +155,6 @@ function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
       level1: 7,
       bonusHp: 4,
       ac: 2,
-      xpv: 975,
       items: {
         equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },
@@ -199,7 +196,7 @@ function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
       },
       {
         files: ["UDOGRE"],
-        data: { level1: 15, ac: -3, xpv: 3000 },
+        data: { level1: 15, ac: -3 },
       },
     ],
   });

@@ -82,7 +82,7 @@ export function shadow(entry: CreatureEntry<Creature>): Creature {
     },
     {
       files: ["BDSHAD02", "L#GNOAL", "L#GNOEN"],
-      data: { level1: 5, xpv: 650, strength: 18 },
+      data: { level1: 5, strength: 18 },
     },
   ]);
   shadow.setBehavior({

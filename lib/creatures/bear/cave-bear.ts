@@ -61,8 +61,8 @@ class CaveBearEntry extends CreatureEntry<Bear> {
       walk: true,
     });
     cave.setAdjustments([
-      { files: ["BD328OSO"], data: { level1: 8, xpv: 900 } },
-      { files: ["BDBEARCA"], data: { level1: 9, xpv: 975 } },
+      { files: ["BD328OSO"], data: { level1: 8 } },
+      { files: ["BDBEARCA"], data: { level1: 9 } },
       { files: ["OHDANIM1"], data: { script: { location: "None" } } },
     ]);
     return cave;

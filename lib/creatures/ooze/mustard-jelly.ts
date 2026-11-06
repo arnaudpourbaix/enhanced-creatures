@@ -112,7 +112,6 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
         files: [NEW_CREATURES.SplitMustardJelly],
         data: {
           hp: 56,
-          xpv: 2000,
           movement: 18,
           spells: {
             removeMemorized: [this.spell(SlimeIds.MustardJellySplit).file],

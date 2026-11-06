@@ -657,7 +657,7 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
         apr: 2,
       },
     },
-    { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2, xpv: 2250 } },
+    { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2 } },
   ]);
   juju.turnAs = "spectre";
   return juju;
@@ -763,7 +763,7 @@ function seaZombieLordVariant(base: Creature, entry: CreatureEntry<Creature>): V
       },
     },
     files: ["SAHZOM01"],
-    adjust: [{ files: ["SAHZOM01"], data: { level1: 12, ac: -3, xpv: 2000, apr: 3 } }],
+    adjust: [{ files: ["SAHZOM01"], data: { level1: 12, ac: -3, apr: 3 } }],
   });
 }
 

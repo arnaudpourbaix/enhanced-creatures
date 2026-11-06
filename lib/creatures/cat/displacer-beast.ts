@@ -119,7 +119,6 @@ class DisplacerBeastEntry extends CreatureEntry<Cat> {
         files: ["BDDISPBP"],
         data: {
           level1: 9,
-          xpv: 1100,
           strength: 19,
           constitution: 19,
           ac: 2,
@@ -129,14 +128,12 @@ class DisplacerBeastEntry extends CreatureEntry<Cat> {
         files: ["JY_00DB1"],
         data: {
           level1: 12,
-          xpv: 1200,
         },
       },
       {
         files: ["JY_00DB"],
         data: {
           level1: 14,
-          xpv: 3000,
           apr: 4,
           resistMagic: 50,
         },

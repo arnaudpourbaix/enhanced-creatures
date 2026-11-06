@@ -387,7 +387,6 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
     level2: 12,
     strength: 19,
     class: "FIGHTER_MAGE",
-    xpv: 3500,
     proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
     spells: {
       memorized: [
@@ -419,7 +418,6 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
     ],
     data: {
       bonusHpPerHitDie: 2,
-      xpv: 975,
       spells: krotanChief.spells,
     },
     autoGenerate: {
@@ -438,7 +436,6 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
         data: {
           level1: 7,
           level2: 7,
-          xpv: 1400,
           class: "FIGHTER_MAGE",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 4 }],
           spells: {
@@ -456,7 +453,6 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
         data: {
           level1: 9,
           level2: 9,
-          xpv: 2000,
           class: "FIGHTER_MAGE",
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYHALBERD, value: 5 }],
           spells: {
@@ -483,7 +479,7 @@ function chieftainVariant(entry: CreatureEntry<OgreMage>, base: Ogre): Variant {
       },
       {
         files: ["KROTAN", "NTKROTAN"],
-        data: { ...krotanChief, level1: 15, level2: 15, xpv: 4000 },
+        data: { ...krotanChief, level1: 15, level2: 15 },
       },
     ],
   });

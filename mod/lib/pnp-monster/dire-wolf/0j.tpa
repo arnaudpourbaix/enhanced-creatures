@@ -97,7 +97,6 @@ BEGIN
 			PATCH_DEFINE_ARRAY files BEGIN WOLFDISU A#FERA04 A#FERA03 END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm0j01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~A#FERA04~) BEGIN 
-				WRITE_LONG 0x14 450 // xpv
 				WRITE_SHORT 0x24 84 // hp
 				WRITE_SHORT 0x26 84 // hp
 				WRITE_BYTE 0x52 11 // thac0

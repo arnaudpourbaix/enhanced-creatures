@@ -105,7 +105,6 @@ function greaterSkeletonWarriorVariant(base: Creature): Variant {
       level1: 13,
       bonusHp: 12,
       class: "FIGHTER",
-      xpv: 6000,
     },
     files: [
       "ICHARY",
@@ -143,7 +142,6 @@ function greaterSkeletonWarriorVariant(base: Creature): Variant {
           proficiencies,
           level1: 20,
           ac: -6,
-          xpv: 8000,
         },
       },
     ],

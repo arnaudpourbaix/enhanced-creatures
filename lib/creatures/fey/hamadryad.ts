@@ -274,7 +274,7 @@ class HamadryadEntry extends CreatureEntry<Fey> {
       },
       {
         files: ["WQXHAMA"],
-        data: { level1: 12, ac: -2, xpv: 3650 },
+        data: { level1: 12, ac: -2 },
       },
       {
         files: ["VAELASA"],

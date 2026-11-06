@@ -121,7 +121,6 @@ BEGIN
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm1b01 END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1b00 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM1B01~) BEGIN 
-				WRITE_LONG 0x14 1000 // xpv
 				WRITE_SHORT 0x24 50 // hp
 				WRITE_SHORT 0x26 50 // hp
 				REMOVE_MEMORIZED_SPELLS

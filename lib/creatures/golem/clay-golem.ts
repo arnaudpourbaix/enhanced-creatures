@@ -247,7 +247,7 @@ class ClayGolemEntry extends CreatureEntry<ClayGolem> {
       ],
     });
     greaterClay.setAdjustments([
-      { files: ["OHBGOL01"], data: { level1: 26, xpv: 0, ac: -1 }, noWeapon: true },
+      { files: ["OHBGOL01"], data: { level1: 26, ac: -1 }, noWeapon: true },
     ]);
     return greaterClay;
   }

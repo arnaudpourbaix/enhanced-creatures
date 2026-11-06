@@ -84,7 +84,7 @@ class CarrionCrawlerEntry extends CreatureEntry<Crawler> {
       targetPriorities: [{ status: ["Able"] }],
     });
     carrionCrawler.setAdjustments([
-      { files: ["CRYPTCRA"], data: { level1: 9, xpv: 650 } },
+      { files: ["CRYPTCRA"], data: { level1: 9 } },
       { files: ["BDCRAWMU"], data: { level1: 7 } },
       { files: ["CARRIOSU"], data: { level1: 5 } },
     ]);

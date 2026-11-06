@@ -502,7 +502,6 @@ class SirineEntry extends CreatureEntry<Fey> {
         files: ["AC#DT20S"],
         data: {
           level1: 11,
-          xpv: 5000,
           spells: {
             memorized: [{ file: this.spell(FeyIds.CharmSong).file, memorizedCount: 2 }],
           },
@@ -514,7 +513,6 @@ class SirineEntry extends CreatureEntry<Fey> {
           level1: 11,
           ac: -4,
           apr: 3,
-          xpv: 6000,
           spells: {
             memorized: [{ file: this.spell(FeyIds.CharmSong).file, memorizedCount: 2 }],
           },

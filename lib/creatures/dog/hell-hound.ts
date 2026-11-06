@@ -127,7 +127,7 @@ class HellHoundEntry extends CreatureEntry<HellHound> {
     hellHound.setBehavior({
       abilities: { entries: [{ power: this.spell(DogIds.BreathFire) }] },
     });
-    hellHound.setAdjustments([{ files: ["HELLHO01", "OBSFIR05"], data: { level1: 7, xpv: 1400 } }]);
+    hellHound.setAdjustments([{ files: ["HELLHO01", "OBSFIR05"], data: { level1: 7 } }]);
     return hellHound;
   }
 }

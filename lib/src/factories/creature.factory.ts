@@ -245,12 +245,13 @@ class CreatureFactory {
     creatureService.checkDuplicateAbilities(creature);
     const dialogValid = creatureService.checkDialog(creature);
     const adjustmentFilesValid = creatureService.checkAdjustmentFiles(creature);
+    const adjustmentXpValid = creatureService.checkAdjustmentXp(creature);
     immunityService.handleImmunities(creature);
     creatureService.checkWeapons(creature);
     creatureService.checkAgainstCsv(creature);
     descriptionService.generateCreatureSpells(creature.spells);
     descriptionService.generateCreatureItems(creature.items);
-    const otherwiseValid = valid && dialogValid && adjustmentFilesValid;
+    const otherwiseValid = valid && dialogValid && adjustmentFilesValid && adjustmentXpValid;
     creature.valid = otherwiseValid && hasFiles;
     creature.noFiles = otherwiseValid && !hasFiles;
     if (!otherwiseValid) {

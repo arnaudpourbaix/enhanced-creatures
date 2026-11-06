@@ -170,8 +170,8 @@ class SwordSpiderEntry extends CreatureEntry<SwordSpider> {
     });
     sword.setAdjustments([
       { files: ["PLYSPID"], data: { script: { location: "None" } } },
-      { files: ["L0SPID"], data: { level1: 16, xpv: 4000 } },
-      { files: ["OHHSPI03"], data: { level1: 15, xpv: 4000 } },
+      { files: ["L0SPID"], data: { level1: 16 } },
+      { files: ["OHHSPI03"], data: { level1: 15 } },
     ]);
     sword.variant("Lightning Sword Spider", {
       files: ["WISPID03"],

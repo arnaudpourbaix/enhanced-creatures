@@ -193,7 +193,6 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
           level1: 8,
           bonusHp: 4,
           exceptionalStrength: 50,
-          xpv: 3000,
         },
       },
       {
@@ -209,7 +208,6 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         files: ["OHBMIN01"],
         data: {
           level1: 11,
-          xpv: 4000,
         },
       },
       {
@@ -222,14 +220,12 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         files: ["OHNGHALL"],
         data: {
           level1: 14,
-          xpv: 5000,
         },
       },
       {
         files: ["GROMMIN"],
         data: {
           level1: 16,
-          xpv: 10000,
           class: "CLERIC",
           spells: {
             removeMemorized: false,
@@ -243,7 +239,6 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         files: ["HLMAFER"],
         data: {
           level1: 17,
-          xpv: 6000,
         },
       },
       {
@@ -252,7 +247,6 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         data: {
           level1: 20,
           exceptionalStrength: 100,
-          xpv: 10000,
           proficiencies: [
             { type: ProficiencyTypeEnum.PROFICIENCYAXE, value: 5 },
             { type: ProficiencyTypeEnum.PROFICIENCY2WEAPON, value: 3 },
@@ -264,7 +258,6 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         data: {
           level1: 20,
           exceptionalStrength: 100,
-          xpv: 10000,
         },
       },
       {

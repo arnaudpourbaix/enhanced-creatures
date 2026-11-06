@@ -367,11 +367,10 @@ function chapter6Encounter(bodhi: Variant, items: BodhiItems) {
   const { claws, trait, bodhiClaws, bodhiTrait, finalTrait, blood } = items;
   const lair = (
     file: string,
-    p: { xpv?: number; extra?: EquippedItem[]; final?: boolean } = {},
+    p: { extra?: EquippedItem[]; final?: boolean } = {},
   ): PartialCreatureAdjustment => ({
     files: [file],
     data: {
-      ...(p.xpv ? { xpv: p.xpv } : {}),
       items: {
         remove: [trait.file],
         equipped: [
@@ -388,10 +387,10 @@ function chapter6Encounter(bodhi: Variant, items: BodhiItems) {
     ...powers,
     files: ["C6BODHI", "CHEVIL08", "FINBODH"],
     adjust: [
-      lair("C6BODHI", { xpv: 91000 }),
+      lair("C6BODHI"),
       // echoes in the Pocket Plane and in Hell: chalDIE / finbodhi destroy her on death, no mist
       lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }], final: true }),
-      lair("FINBODH", { xpv: 26000, final: true }),
+      lair("FINBODH", { final: true }),
     ],
   });
 }
@@ -404,7 +403,6 @@ function blackPitsEncounter({ claws, trait, drain5, blackPitsTrait }: BodhiItems
       strength: 21,
       dexterity: 20,
       ac: -8,
-      xpv: 25000,
       items: {
         remove: [trait.file],
         equipped: [

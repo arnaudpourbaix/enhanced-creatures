@@ -366,14 +366,12 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       files: ["AC#DTDKN"],
       data: {
         level1: 15,
-        xpv: 10000,
       },
     },
     {
       files: ["DEATHK", "NTDEATH1", "CB3579DK"],
       data: {
         level1: 15,
-        xpv: 10000,
       },
     },
     {
@@ -384,7 +382,6 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       files: ["C0DEATHK", "DEATHKNI", "DECK615", "MELSUM02", "UDDEATH", "UDDEATH2", "O#DAEMAJ"],
       data: {
         level1: 18,
-        xpv: 12000,
       },
     },
   ]);

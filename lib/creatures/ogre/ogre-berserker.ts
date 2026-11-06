@@ -131,7 +131,6 @@ function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Var
     ],
     data: {
       level1: 7,
-      xpv: 1400,
       strength: 19,
       exceptionalStrength: 0,
       proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 4 }],
@@ -141,7 +140,6 @@ function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Var
         files: ["BDSLUG", "BDSLUG2"],
         data: {
           level1: 9,
-          xpv: 2000,
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 }],
         },
       },
@@ -149,7 +147,6 @@ function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Var
         files: ["BDBERTOR", "BDEINER"],
         data: {
           level1: 11,
-          xpv: 2000,
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 }],
         },
       },
@@ -157,7 +154,6 @@ function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Var
         files: ["BDYAROK"],
         data: {
           level1: 11,
-          xpv: 2000,
           ac: 10,
           proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 5 }],
         },

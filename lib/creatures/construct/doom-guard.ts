@@ -126,7 +126,6 @@ class DoomGuardEntry extends CreatureEntry<Construct> {
         data: {
           level1: 8,
           ac: -3,
-          xpv: 3000,
         },
       },
     ]);

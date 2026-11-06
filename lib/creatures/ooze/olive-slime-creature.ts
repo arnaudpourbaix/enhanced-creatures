@@ -97,7 +97,6 @@ class OliveSlimeCreatureEntry extends CreatureEntry<Slime> {
         data: {
           size: { value: "Huge", tall: false, long: true },
           level1: 12,
-          xpv: 2000,
           items: {
             equipped: [{ file: this.item(SlimeIds.HugeOliveSlimeCreature).file, slot: "WEAPON1" }],
           },

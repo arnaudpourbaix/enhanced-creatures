@@ -82,7 +82,7 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
   });
   spectre.setAdjustments([
     { files: ["SARSPIR", "L0MERCH", "L0SUMM5", "SPECTR01"], data: { level1: 10 } },
-    { files: ["SAHSPC01"], data: { level1: 10, xpv: 5000 } },
+    { files: ["SAHSPC01"], data: { level1: 10 } },
   ]);
   return spectre;
 }

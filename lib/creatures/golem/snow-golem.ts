@@ -105,7 +105,7 @@ class SnowGolemEntry extends CreatureEntry<Golem> {
       abilities: { entries: [{ power: this.spell(GolemIds.ConeOfCold) }] },
     });
     snow.setAdjustments([
-      { files: ["D9LICE01", "GOLICE01", "WQXGOL"], data: { level1: 20, xpv: 12000 } },
+      { files: ["D9LICE01", "GOLICE01", "WQXGOL"], data: { level1: 20 } },
       { files: ["GORGOLI"], data: { level1: 18 } },
     ]);
     return snow;

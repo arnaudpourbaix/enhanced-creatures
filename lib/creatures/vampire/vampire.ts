@@ -1615,7 +1615,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
 export const fledglingVampire = (entry: CreatureEntry<Creature>) => {
   const cre = vampire(entry, VAMPIRE_AGES[0]);
   cre.setAdjustments([
-    { files: ["YSCHVAM"], data: { level1: 6, xpv: 3000, script: { location: "None" } } },
+    { files: ["YSCHVAM"], data: { level1: 6, script: { location: "None" } } },
     {
       files: ["X#CUTVA1", "X#CUTVA2", "X#CUTVA3", "X#CUTVA4"],
       data: { spells: { removeMemorized: true } },

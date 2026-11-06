@@ -136,7 +136,6 @@ class PhaseSpiderEntry extends CreatureEntry<PhaseSpider> {
         files: ["SPIDPHAS"],
         data: {
           level1: 12,
-          xpv: 4000,
         },
       },
     ]);

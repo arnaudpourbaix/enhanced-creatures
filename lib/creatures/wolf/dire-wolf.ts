@@ -59,7 +59,7 @@ class DireWolfEntry extends CreatureEntry<Wolf> {
     dire.setAdjustments([
       {
         files: ["A#FERA04"],
-        data: { level1: 10, strength: 18, xpv: 450 },
+        data: { level1: 10, strength: 18 },
       },
       {
         files: ["RUFIE"],

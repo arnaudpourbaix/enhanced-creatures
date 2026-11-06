@@ -1362,6 +1362,28 @@ function fakeAdjustmentFilesCreature(files: string[], adjustmentFiles: string[])
   } as unknown as Creature;
 }
 
+describe("checkAdjustmentXp", () => {
+  function creatureWithXpv(xpv: number | undefined): Creature {
+    return {
+      name: "test",
+      files: [{ name: "KNOWN1" }],
+      adjustments: [{ files: ["KNOWN1"], data: { ...emptyAdjustmentData(), xpv } }],
+    } as unknown as Creature;
+  }
+
+  it("errors and fails when an adjustment sets a non-zero xpv", () => {
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    expect(creatureService.checkAdjustmentXp(creatureWithXpv(2250))).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("sets xpv 2250"));
+    vi.restoreAllMocks();
+  });
+
+  it("allows xpv 0 and no xpv", () => {
+    expect(creatureService.checkAdjustmentXp(creatureWithXpv(0))).toBe(true);
+    expect(creatureService.checkAdjustmentXp(creatureWithXpv(undefined))).toBe(true);
+  });
+});
+
 describe("checkAdjustmentFiles", () => {
   it("passes when every adjustment file is known", () => {
     const creature = fakeAdjustmentFilesCreature(["KNOWN1"], ["KNOWN1"]);

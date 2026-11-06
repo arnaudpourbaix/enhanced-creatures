@@ -98,7 +98,6 @@ function greaterWraithVariant(base: Creature): Variant {
     data: {
       level1: 9,
       ac: 2,
-      xpv: 3000,
     },
     files: ["AC#DT30W", "FIRWRA01"],
     adjust: [],

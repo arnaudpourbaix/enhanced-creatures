@@ -332,6 +332,20 @@ class CreatureService {
     return ok;
   }
 
+  checkAdjustmentXp(creature: Creature): boolean {
+    let ok = true;
+    for (const adjustment of creature.adjustments) {
+      const xpv = adjustment.data.xpv;
+      if (xpv !== undefined && xpv !== 0) {
+        logService.error(
+          `${translationService.from(creature.name)}: adjustment for '${adjustment.files.join(", ")}' sets xpv ${xpv}; adjustment XP comes from the DMG formula (experience.service), only 0 is allowed.`,
+        );
+        ok = false;
+      }
+    }
+    return ok;
+  }
+
   private adjustmentHasUngatedEffects(a: CreatureAdjustment): boolean {
     const d = a.data;
     // `summon` is NOT in this list: weiduCreatureService.patchScripts gates a game-tagged summon

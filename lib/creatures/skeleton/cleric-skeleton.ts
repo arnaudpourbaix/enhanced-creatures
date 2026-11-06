@@ -80,7 +80,6 @@ export function clericSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
       apr: 2,
       size: { value: "Large", tall: true, long: false },
       spells: clericSpells(20),
-      xpv: 9500,
     },
     files: ["L#NIMF6"],
   });

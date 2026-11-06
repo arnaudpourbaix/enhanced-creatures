@@ -65,7 +65,6 @@ function veteranVariant(base: Ogre): Variant {
       strength: 18,
       exceptionalStrength: 95,
       constitution: 15,
-      xpv: 420,
     },
     files: ["GNARL", "HAIRTO"],
   });

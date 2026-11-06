@@ -32,7 +32,7 @@ export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
     {
       files: ["SKELACI", "SKELICE", "SKELFIRE"],
       // original thac0: 14-15
-      data: { level1: 2, xpv: 120 },
+      data: { level1: 2 },
     },
     {
       // Restless Dead
@@ -42,7 +42,7 @@ export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
     {
       files: ["SKELDIS"],
       // original thac0: 12
-      data: { level1: 3, xpv: 120 },
+      data: { level1: 3 },
     },
   ]);
   greaterArcherSkeletonVariant(archer);
@@ -57,7 +57,6 @@ function greaterArcherSkeletonVariant(base: Creature): Variant {
       dexterity: 16,
       constitution: 11,
       ac: 6,
-      xpv: 420,
     },
     files: [
       "0XUDDG",
@@ -94,9 +93,9 @@ function greaterArcherSkeletonVariant(base: Creature): Variant {
           "D9ELARYY",
           "D9ELARZZ",
         ],
-        data: { level1: 6, xpv: 500 },
+        data: { level1: 6 },
       },
-      { files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } },
+      { files: ["0XUDDG"], data: { level1: 12, apr: 2 } },
     ],
   });
 }

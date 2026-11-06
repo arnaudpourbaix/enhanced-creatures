@@ -166,7 +166,6 @@ BEGIN
 			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm1g00 END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1g00 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SCHLUM~) BEGIN 
-				WRITE_LONG 0x14 2000 // xpv
 				WRITE_SHORT 0x24 122 // hp
 				WRITE_SHORT 0x26 122 // hp
 				WRITE_BYTE 0x52 9 // thac0
@@ -177,6 +176,9 @@ BEGIN
 				WRITE_BYTE 0x58 10 // saveSpell
 				WRITE_BYTE 0x234 12 // level1
 				REPLACE_CRE_ITEM ~jaim1g01~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SCHLUM~) BEGIN 
+				WRITE_LONG 0x14 3000 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

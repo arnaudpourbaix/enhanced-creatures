@@ -235,7 +235,6 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
         files: ["L#NSSULJ"],
         data: {
           level1: 15,
-          xpv: 10000,
         },
       },
     ]);

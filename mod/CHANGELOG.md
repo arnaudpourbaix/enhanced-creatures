@@ -47,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: detect stat, immunity and declared XP abilities
 - XP: detect attack, ability and spell XP abilities
 - XP: compute and write adjustment XP by status
+- XP: adjustment XP only from the formula
 
 ### Changed
 

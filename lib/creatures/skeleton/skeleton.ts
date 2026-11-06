@@ -92,7 +92,6 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
         strength: 19,
         ac: -1,
         apr: 3,
-        xpv: 3000,
       },
     },
     {
@@ -103,7 +102,6 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
       files: ["KNIGHTSK"],
       data: {
         level1: 9,
-        xpv: 900,
         strength: 18,
         exceptionalStrength: 9,
         apr: 2,
@@ -112,12 +110,12 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
     },
     {
       files: ["KRYSKEL1", "KRYSKEL2", "KRYSKEL3", "KRYSKEL4", "KRYSKEL5", "KRYSKEL6"],
-      data: { level1: 2, xpv: 90 },
+      data: { level1: 2 },
     },
     {
       // Restless Dead
       files: ["YSRSDEAD"],
-      data: { level1: 2, xpv: 100, script: { location: "None" } },
+      data: { level1: 2, script: { location: "None" } },
     },
   ]);
   greaterSkeletonVariant(skeleton);
@@ -131,7 +129,6 @@ function greaterSkeletonVariant(base: Creature): Variant {
       strength: 12,
       dexterity: 16,
       ac: 4,
-      xpv: 400,
     },
     files: [
       "GPSKEL1",
@@ -172,7 +169,6 @@ function assasinVariant(base: Variant): Variant {
       moveSilent: 100,
       class: "THIEF",
       kit: "ASSASIN",
-      xpv: 6000,
     },
     files: ["D9SKL02", "D9SKL08", "HGSKL02"],
   });

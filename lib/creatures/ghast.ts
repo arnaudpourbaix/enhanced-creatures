@@ -183,14 +183,13 @@ export function ghast(entry: CreatureEntry<Creature>): Creature {
 
 function greaterGhastVariant(base: Creature): Variant {
   return base.variant("Greater Ghast", {
-    data: { level1: 8, strength: 18, exceptionalStrength: 100, xpv: 975 },
+    data: { level1: 8, strength: 18, exceptionalStrength: 100 },
     files: ["CD41COR", "BDJUNIA2", "GRAEL", "GRON", "GMAYOR", "THESHAL", "GHASTGSU", "WICULT1"],
     adjust: [
       {
         files: ["GRAEL"],
         data: {
           level1: 15,
-          xpv: 5000,
           ac: -4,
         },
       },
@@ -211,7 +210,7 @@ function lacedonVariant(base: Creature): Variant {
 
 function greaterLacedonVariant(lacedon: Variant): Variant {
   return lacedon.variant("Greater Lacedon", {
-    data: { level1: 9, strength: 19, xpv: 1800 },
+    data: { level1: 9, strength: 19 },
     files: ["AC#DT01L", "LACEDO02"],
   });
 }

@@ -103,7 +103,6 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
         files: [NEW_CREATURES.SplitWhitePudding],
         data: {
           hp: 45, // a little less than half hp since it splits after taking some damage
-          xpv: 700,
           spells: { removeMemorized: true },
         },
       },

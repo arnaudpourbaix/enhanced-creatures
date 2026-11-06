@@ -74,7 +74,6 @@ function veteranVariant(base: Ogre): Variant {
       bonusHp: 3,
       strength: 18,
       ac: 3,
-      xpv: 520,
     },
     adjust: [
       {
@@ -122,7 +121,6 @@ function chieftainVariant(base: Ogre): Variant {
       ac: 10,
       class: "FIGHTER",
       morale: 20,
-      xpv: 4000,
     },
     adjust: [
       {
@@ -139,7 +137,6 @@ function chieftainVariant(base: Ogre): Variant {
         data: {
           ...berserkerKit,
           level1: 19,
-          xpv: 8000,
         },
       },
       {

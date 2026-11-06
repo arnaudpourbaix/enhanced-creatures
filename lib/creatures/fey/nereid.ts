@@ -464,7 +464,7 @@ class NereidEntry extends CreatureEntry<Nereid> {
       },
     });
     nereid.setAdjustments([
-      { files: ["BDPWATER"], data: { level1: 9, xpv: 3000 } },
+      { files: ["BDPWATER"], data: { level1: 9 } },
       { files: ["RE_MEKRN"], data: { level1: 5 }, stringRef: "monster.fey.name.nereid" },
     ]);
     return nereid;
