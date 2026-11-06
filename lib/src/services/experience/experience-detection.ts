@@ -68,25 +68,30 @@ export const SPELL_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>
   // fear, stun, blindness, petrification, poison, ... are effect immunities, not spell immunities.
 ]);
 
-/**
- * Immunities to a weapon damage type. The `*DamageResistance` ones set the resistance to 50%
- * (immunity-config.ts): half damage, the same bar as a folded resist value >= 50, so they count.
- */
+/** Full immunities to a weapon damage type or to missile weapons. */
 const WEAPON_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "physicalDamage",
   "slashingDamage",
   "crushingDamage",
   "piercingDamage",
   "missileDamage",
+  // Projectile protection against every missile weapon.
+  "missileWeapons",
+  // Immune to *enchanted* weapons (the magic golem): a weapon immunity, not "magical weapons only".
+  "magicalWeapons",
+]);
+
+/**
+ * Partial damage reduction: the `*DamageResistance` immunities set the resistance to 50%
+ * (immunity-config.ts), the same bar as a folded resist value >= 50. Not an immunity to any
+ * weapon: a "special defense form, unlisted".
+ */
+const DAMAGE_RESISTANCES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "physicalDamageResistance",
   "slashingDamageResistance",
   "crushingDamageResistance",
   "piercingDamageResistance",
   "missileDamageResistance",
-  // Projectile protection against every missile weapon.
-  "missileWeapons",
-  // Immune to *enchanted* weapons (the magic golem): a weapon immunity, not "magical weapons only".
-  "magicalWeapons",
 ]);
 
 /**
@@ -167,8 +172,10 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
 
   pushIfAny(detected, "spellImmunity", matching(immunities, SPELL_IMMUNITIES));
 
-  pushIfAny(detected, "weaponImmunity", [
-    ...matching(immunities, WEAPON_IMMUNITIES),
+  pushIfAny(detected, "weaponImmunity", matching(immunities, WEAPON_IMMUNITIES));
+
+  pushIfAny(detected, "specialDefense", [
+    ...matching(immunities, DAMAGE_RESISTANCES),
     ...WEAPON_RESISTANCES.map(({ key, label }) => {
       const value = folded(scope, (d) => d[key]) ?? 0;
       return value >= 50 ? `${value}% ${label} resistance` : undefined;

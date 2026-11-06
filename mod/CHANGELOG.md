@@ -48,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: detect attack, ability and spell XP abilities
 - XP: compute and write adjustment XP by status
 - XP: adjustment XP only from the formula
+- XP: damage resistances are a special defense, not a weapon immunity
 
 ### Changed
 

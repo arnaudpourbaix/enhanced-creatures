@@ -269,7 +269,7 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("a skeleton's type traits give spell and weapon immunity through nested immunities", () => {
+  it("a skeleton's type traits give spell immunity and a special defense through nested immunities", () => {
     registerImmunity("undead", ["sleep", "hold", "mindSpells", "poison"]);
     registerImmunity("mindSpells", ["charm", "fear", "hold"]);
     registerImmunity("skeletal", [
@@ -286,7 +286,7 @@ describe("detectStatAbilities", () => {
     expect(detectStatAbilities({ creature })).toEqual([
       { ability: "spellImmunity", source: "charm, coldSpells, hold, mindSpells, sleep" },
       {
-        ability: "weaponImmunity",
+        ability: "specialDefense",
         source: "missileDamageResistance, piercingDamageResistance, slashingDamageResistance",
       },
     ]);
@@ -308,18 +308,28 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("weaponImmunity from a damage resistance of 50 or more", () => {
+  it("specialDefense from a damage resistance of 50 or more", () => {
     const creature = fakeCreature({
       adjustments: [{ files: [FILE], data: { resistCrushing: 50, resistPiercing: 25 } }],
     });
     expect(detectStatAbilities({ creature, file: FILE })).toEqual([
-      { ability: "weaponImmunity", source: "50% crushing resistance" },
+      { ability: "specialDefense", source: "50% crushing resistance" },
     ]);
   });
 
-  it("no weaponImmunity under 50% resistance", () => {
+  it("no specialDefense under 50% resistance", () => {
     const creature = fakeCreature({ data: { resistSlashing: 49, resistMissile: 30 } });
     expect(detectStatAbilities({ creature })).toEqual([]);
+  });
+
+  it("a full weapon immunity and a damage resistance are two separate abilities", () => {
+    const creature = fakeCreature({
+      data: { immunities: ["missileWeapons", "slashingDamageResistance"], resistPiercing: 60 },
+    });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "weaponImmunity", source: "missileWeapons" },
+      { ability: "specialDefense", source: "slashingDamageResistance, 60% piercing resistance" },
+    ]);
   });
 
   it("magicalWeaponsOnly from a non-magical weapons immunity", () => {
