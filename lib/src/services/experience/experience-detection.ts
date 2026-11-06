@@ -296,6 +296,11 @@ export function spellAbilities(creature: Creature, spell: Spell): XpAbility[] {
   const found = new Set<XpAbility>();
   collectSpell(creature, spell, found, new Set());
   harmfulOnlyIfUnlisted(found);
+  // A spell or spell-like power counts through the spell tier: its charm or slay is no special
+  // attack on top (a dryad's charm, a banshee's death wail)
+  if (isSpellPower(spell) || spellLikeLevel(creature, spell) !== undefined) {
+    found.delete("specialAttack");
+  }
   const power = powerAbility(spell, found);
   if (power) found.add(power);
   return [...found];
@@ -414,11 +419,33 @@ function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefine
   if (found.size && !dealsDamage(spell)) return undefined;
   // A power cast as a wizard or priest spell (the ogre mage's cone of cold) is a spell: it counts
   // through its spell level (highestSpell), not as an attack form too
-  if (isSpellPower(spell)) return undefined;
+  if (isSpellPower(spell) || presetSpellLevel(spell) !== undefined) return undefined;
   if (spell.role === "kill" || spell.role === "summon") return "specialMagicalAttack";
   if (spell.role === "protection") return "specialDefense";
   if (spell.role === "reactive") return undefined;
   return "specialAttack";
+}
+
+/**
+ * The level of the real spell an own innate power is scripted as: its ability preset (the dryad's
+ * and the sirine's charms are Dire Charm), the same level the scripts score it at.
+ */
+function presetSpellLevel(spell: Spell): number | undefined {
+  const preset = spell.ability?.preset;
+  return preset === undefined ? undefined : spellLevel(preset);
+}
+
+/**
+ * The spell level an innate power scripted as a real spell counts at - unless its effects already
+ * count as a listed ability (a fear aura is weakness or fear, a holding web paralysis): not twice.
+ */
+function spellLikeLevel(creature: Creature, spell: Spell): number | undefined {
+  const level = presetSpellLevel(spell);
+  if (level === undefined) return undefined;
+  const found = new Set<XpAbility>();
+  collectSpell(creature, spell, found, new Set());
+  found.delete("specialAttack"); // a harmful effect with no row of its own (a charm)
+  return found.size ? undefined : level;
 }
 
 function isSpellPower(spell: Spell): boolean {
@@ -724,7 +751,7 @@ function highestSpell(
   const candidates = [
     ...memorized.map((spell) => ({ file: spell.file, level: worth(spell.file, spell.level) })),
     ...ownSpells(scope.creature, effective)
-      .filter(isSpellPower)
+      .filter((spell) => isSpellPower(spell) || spellLikeLevel(scope.creature, spell) !== undefined)
       .map((spell) => ({ file: spell.file, level: worth(spell.file, spell.level) })),
     ...usableAbilities(scope.creature, effective).map((ability) => {
       const file = creatureService.getAbilityCastFiles(ability)[0] ?? "ability";
@@ -779,9 +806,14 @@ function spellWorth(
   level: number | undefined,
 ): number | undefined {
   const own = allSpells(creature).find((s) => s.file.toUpperCase() === file.toUpperCase());
-  // An own innate power (a vampire's wolf form) is no spellcasting, even when memorized
-  if (own)
-    return own.xpAbility === null || !isSpellPower(own) ? undefined : (own.worthLevel ?? own.level);
+  if (own) {
+    if (own.xpAbility === null) return undefined;
+    if (isSpellPower(own)) return own.worthLevel ?? own.level;
+    // An innate power scripted as a real spell is spell-like (a dryad's charm is Dire Charm);
+    // any other innate power (a vampire's wolf form) is no spellcasting, even when memorized
+    const preset = spellLikeLevel(creature, own);
+    return preset === undefined ? undefined : (own.worthLevel ?? preset);
+  }
   return spellLevel(file) ?? level;
 }
 

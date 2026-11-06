@@ -719,6 +719,49 @@ describe("detectAttackAbilities", () => {
     expect(tier(9)).toEqual(["supremeSpells"]);
   });
 
+  it("an innate power scripted as a real spell counts at that spell's level (dryad charm)", () => {
+    const creature = fakeCreature({
+      spells: [
+        { file: SPELL, type: 4, level: 1, role: "disable", ability: { preset: "SPWI316" } },
+      ] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    // Dire Charm is level 3: a spell-like ability, no special attack
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["highSpells"]);
+  });
+
+  it("a spell-like power already giving a listed ability counts only that (fear aura)", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          type: 4,
+          level: 1,
+          ability: { preset: "SPWI316" },
+          effects: [effect(EffectTypeEnum.Panic)],
+        },
+      ] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["weaknessOrFear"]);
+  });
+
+  it("a spell-like charm counts as a spell, not also as a special attack", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          type: 4,
+          level: 1,
+          ability: { preset: "SPWI316" },
+          effects: [effect(EffectTypeEnum.CharmCreature)],
+        },
+      ] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["highSpells"]);
+  });
+
   it("a memorized own innate power is no spell (vampire wolf form)", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } as never,
