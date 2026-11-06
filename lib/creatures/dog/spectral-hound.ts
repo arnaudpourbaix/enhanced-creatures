@@ -69,6 +69,7 @@ class SpectralHoundEntry extends CreatureEntry<Dog> {
     const astralPlaneShift: WeaponCastSpell = {
       spell: {
         name: "monster.dog.ability.astralPlaneShift",
+        xpAbility: "specialDefense",
         secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
         headers: [
           {

@@ -1,5 +1,6 @@
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { SpellRole, SpellTier } from "../../../config/spells/spell-role";
+import type { XpAbility } from "../../services/experience/experience-table";
 import { RawCreatureAbility } from "../creature/ability";
 import { ItemSlot } from "../creature/item";
 import { ImmunityName } from "../final/immunity";
@@ -84,6 +85,11 @@ export interface Spell extends BaseSpell {
    * Used for retrieving a spell inside entry and kin factories
    */
   id?: number;
+  /**
+   * The 2e DMG Table 32 row this own power counts as for XP, when its role can't tell (a breath
+   * weapon, an escape form, an aura); `null` counts nothing. See experience-detection.ts.
+   */
+  xpAbility?: XpAbility | null;
 
   name: StringReference;
 

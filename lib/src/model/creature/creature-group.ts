@@ -1,6 +1,7 @@
 import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
+import { setSharedSpells } from "../../services/experience/experience-detection";
 import experienceService from "../../services/experience/experience.service";
 import logService from "../../services/log.service";
 import monsterFilesService from "../../services/monster-files.service";
@@ -56,6 +57,11 @@ export abstract class CreatureGroup<T extends Creature>
   logging = false;
 
   abstract createCreature(id: MonsterEnum): T;
+
+  /** Spells of the kin this group shares resources with (none for a kin itself). */
+  protected kinSpells(): Spell[] {
+    return [];
+  }
 
   /** Stamps a creature built by create() or createFrom() as a member of this group. */
   protected abstract adopt(creature: T): void;
@@ -213,6 +219,11 @@ export abstract class CreatureGroup<T extends Creature>
       this.applyCsvSummonFiles(creature);
       creature.validate();
       // After validation: the XP formula reads the resolved behaviour abilities.
+      setSharedSpells(creature, [
+        ...this.spells,
+        ...this.creatures.flatMap((c) => c.spells),
+        ...this.kinSpells(),
+      ]);
       experienceService.apply(creature);
       const hasNothingToActOn =
         !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;

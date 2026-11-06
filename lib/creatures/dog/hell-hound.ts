@@ -37,6 +37,7 @@ class HellHound extends Dog {
     }));
     return this.addSpell({
       name: "monster.dog.ability.breathFire.name",
+      xpAbility: "breathWeapon",
       role: "damage",
       description: "monster.dog.ability.breathFire.description",
       id: DogIds.BreathFire,

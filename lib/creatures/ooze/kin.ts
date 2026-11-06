@@ -131,6 +131,7 @@ export class Slime extends Creature {
       id,
       description,
       name: "monster.ooze.ability.split.name",
+      xpAbility: "specialDefense",
       icon: SPELLS.Wizard.MirrorImages.file,
       headers: [
         {

@@ -26,6 +26,7 @@ class WinterWolf extends Wolf {
   createStreamOfFrost() {
     this.addSpell({
       name: "monster.wolf.ability.streamOfFrost.name",
+      xpAbility: "breathWeapon",
       role: "damage",
       description: "monster.wolf.ability.streamOfFrost.description",
       id: WolfIds.StreamOfFrost,

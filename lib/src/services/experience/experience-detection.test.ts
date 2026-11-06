@@ -10,6 +10,7 @@ import {
   EffectTargetEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
+  SpellTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { Item, ItemHeader, Spell } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
@@ -21,6 +22,7 @@ import {
   detectHitDice,
   detectStatAbilities,
   matchingAdjustments,
+  setSharedSpells,
 } from "./experience-detection";
 
 const FILE = "TESTCRE";
@@ -623,6 +625,155 @@ describe("detectAttackAbilities", () => {
       abilities: [{ resource: SPELL }],
     });
     expect(detectAttackAbilities({ creature })).toEqual([{ ability: "paralysis", source: SPELL }]);
+  });
+
+  it("a memorized own spell counts through its header effects (basilisk gaze)", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } as never,
+      spells: [
+        {
+          file: SPELL,
+          headers: [{ effects: [effect(EffectTypeEnum.Petrification)] }] as never,
+        },
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "petrification", source: SPELL },
+    ]);
+  });
+
+  it("an own innate power dealing damage is a special non-magical attack (ankheg stream)", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          type: SpellTypeEnum.Innate,
+          headers: [{ effects: [effect(EffectTypeEnum.Damage)] }] as never,
+        },
+      ],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialAttack", source: SPELL },
+    ]);
+  });
+
+  it("an own wizard power dealing damage is a special magical attack", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: SpellTypeEnum.Wizard, effects: [effect(EffectTypeEnum.Damage)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialMagicalAttack", source: SPELL },
+    ]);
+  });
+
+  it("an own buff or grab is a special non-magical attack (haste, burst of speed, grab)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, role: "buff" }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialAttack", source: SPELL },
+    ]);
+  });
+
+  it("an own killing or summoning power is a special magical attack", () => {
+    for (const role of ["kill", "summon"] as const) {
+      const creature = fakeCreature({
+        spells: [{ file: SPELL, role }],
+        abilities: [{ resource: SPELL }],
+      });
+      expect(detectAttackAbilities({ creature })).toEqual([
+        { ability: "specialMagicalAttack", source: SPELL },
+      ]);
+    }
+  });
+
+  it("a killing power that is already a listed ability is not counted twice (petrifying gaze)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, role: "kill", effects: [effect(EffectTypeEnum.Petrification)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "petrification", source: SPELL },
+    ]);
+  });
+
+  it("an own protection power is a special defense (blink)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, role: "protection" }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialDefense", source: SPELL },
+    ]);
+  });
+
+  it("an own reactive power counts nothing unless tagged", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, role: "reactive" }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("an explicit xpAbility tag wins, null counts nothing", () => {
+    const tagged = fakeCreature({
+      spells: [{ file: SPELL, role: "reactive", xpAbility: "specialDefense" }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature: tagged })).toEqual([
+      { ability: "specialDefense", source: SPELL },
+    ]);
+    const none = fakeCreature({
+      spells: [{ file: SPELL, xpAbility: null, effects: [effect(EffectTypeEnum.Damage)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature: none })).toEqual([]);
+  });
+
+  it("a tagged breath cast by a weapon counts as a breath weapon", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, xpAbility: "breathWeapon" }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["breathWeapon"]);
+  });
+
+  it("a damaging power cast by a weapon is a special attack (bear hug)", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, effects: [effect(EffectTypeEnum.Damage)] }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["specialAttack"]);
+  });
+
+  it("a poison cast by a weapon is only poison", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, secondaryType: "Poison" }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["poison"]);
+  });
+
+  it("a weapon dealing extra damage on a hit is a special attack (rake, acid)", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Damage)] })],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["specialAttack"]);
+  });
+
+  it("finds a power shared by the creature's entry (basilisk gaze)", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } as never,
+    });
+    setSharedSpells(creature, [
+      { file: SPELL, effects: [effect(EffectTypeEnum.Petrification)], headers: [] } as never,
+    ]);
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "petrification", source: SPELL },
+    ]);
   });
 
   it("an equipped own item's on-hit effects count", () => {

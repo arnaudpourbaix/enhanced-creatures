@@ -42,6 +42,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.attackEvasion.name",
+      xpAbility: "specialDefense",
       description: "monster.fey.ability.attackEvasion.description",
       id: FeyIds.AttackEvasion,
       castingSound: "NERED06",
@@ -273,6 +274,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.beguilingAura.name",
+      xpAbility: "specialMagicalAttack",
       // an aura: always first, never held back (user)
       role: "reactive",
       description: "monster.fey.ability.beguilingAura.description",

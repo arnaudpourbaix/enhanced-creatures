@@ -162,6 +162,7 @@ function auraOfEvil(cre: Creature) {
   };
   return cre.addSpell({
     name: "monster.ghoul.ability.auraOfEvil.name",
+    xpAbility: "specialAttack",
     // an aura: always first, never held back (user)
     role: "reactive",
     keywords: ["area", "aura"],

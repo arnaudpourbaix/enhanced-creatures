@@ -179,6 +179,7 @@ function createStenchOfDecay(cre: Creature) {
   const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
   return cre.addSpell({
     name: "monster.zombie.ability.stenchOfDecay.name",
+    xpAbility: "specialAttack",
     description: "monster.zombie.ability.stenchOfDecay.description",
     id: Ids.ZombieStenchOfDecay,
     memorizedCount: 1,
@@ -531,6 +532,7 @@ function createOdorOfDeathNausea(cre: Creature) {
 function createOdorOfDeathDeath(cre: Creature) {
   return cre.addSpell({
     name: "monster.zombie.ability.odorOfDeath.death",
+    xpAbility: "specialMagicalAttack",
     headers: [
       {
         type: ItemAbilityTypeEnum.Melee,

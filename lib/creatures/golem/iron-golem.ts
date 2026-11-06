@@ -25,6 +25,7 @@ class IronGolem extends Golem {
   createCloudOfPoisonousGas() {
     return this.addSpell({
       name: "monster.golem.ability.cloudOfPoisonousGas.name",
+      xpAbility: "breathWeapon",
       role: "damage",
       description: "monster.golem.ability.cloudOfPoisonousGas.description",
       id: GolemIds.CloudOfPoisonousGas,

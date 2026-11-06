@@ -923,6 +923,7 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
   const spell = cre.addSpell({
     id: Ids.VampireMistForm,
     name: "monster.vampire.ability.mistForm.name",
+    xpAbility: "specialDefense",
     role: "reactive",
     description: "monster.vampire.ability.mistForm.description",
     memorizedCount: 1,

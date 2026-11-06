@@ -177,6 +177,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
       castSpell: {
         spell: {
           name: "monster.basilisk.ability.foulBreath.name",
+          xpAbility: "breathWeapon",
           keywords: ["area"],
           description: "monster.basilisk.ability.foulBreath.description",
           secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,

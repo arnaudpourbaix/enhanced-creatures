@@ -40,6 +40,7 @@ class DreadWolf extends Wolf {
     this.addSpell({
       id: WolfIds.DreadWolfDownState,
       name: "monster.wolf.ability.dreadWolfDownState.name",
+      xpAbility: null,
       headers: [
         {
           target: ItemAbilityTargetEnum.Caster,

@@ -10,6 +10,7 @@ import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   ItemAbilityTargetEnum,
+  SpellTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Item, ItemSpellHeader, Spell } from "../../model/spell-item/spell-item";
@@ -220,7 +221,7 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   };
 
   const weapons = wieldedItems(scope, effective);
-  addOnHitAbilities(scope.creature, weapons, add);
+  addOnHitAbilities(scope.creature, effective, weapons, add);
   addSpellLevelAbility(scope, effective, add);
   addMissileAbility(scope, effective, add);
   addDamageAbilities(weapons, effective.apr.value, add);
@@ -235,26 +236,117 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
 type AddSource = (ability: XpAbility, source: string) => void;
 
 /** The weapons' on-hit effects (the weapon as source), then the behaviour abilities' spells. */
-function addOnHitAbilities(creature: Creature, weapons: Item[], add: AddSource): void {
+function addOnHitAbilities(
+  creature: Creature,
+  effective: EffectiveAdjustment,
+  weapons: Item[],
+  add: AddSource,
+): void {
   for (const item of weapons) {
     const found = new Set<XpAbility>();
     for (const effect of item.header?.effects ?? []) {
       collectEffect(creature, effect, item.header, found, new Set());
     }
+    // Extra damage on a hit (an ooze's acid, a cat's rear-claw rake): an unlisted attack form
+    if (item.header?.effects.some((e) => e.opcode === EffectTypeEnum.Damage)) {
+      found.add("specialAttack");
+    }
     found.forEach((ability) => {
       add(ability, labelOf(item.file, item.stringRef));
     });
   }
-  const files = creature.behavior.abilities.flatMap((a) => creatureService.getAbilityCastFiles(a));
-  for (const file of files) {
-    const spell = creature.spells.find((s) => s.file === file);
-    if (!spell) continue;
-    const found = new Set<XpAbility>();
-    collectSpell(creature, spell, found, new Set());
-    found.forEach((ability) => {
+  for (const spell of ownSpells(creature, effective)) {
+    for (const ability of spellAbilities(creature, spell)) {
       add(ability, labelOf(spell.file, spell.name));
-    });
+    }
   }
+}
+
+/**
+ * The Table 32 abilities one of the creature's own powers gives: what its effects do (poison,
+ * paralysis, ...) plus the unlisted form the power itself is (see powerAbility).
+ */
+export function spellAbilities(creature: Creature, spell: Spell): XpAbility[] {
+  const found = new Set<XpAbility>();
+  collectSpell(creature, spell, found, new Set());
+  const power = powerAbility(spell, found);
+  if (power) found.add(power);
+  return [...found];
+}
+
+/**
+ * Spells shared by a creature entry's members (e.g. the basilisks' petrifying gaze, made once on
+ * the entry): the creature group registers them, so detection finds them like the creature's own.
+ */
+const sharedSpells = new WeakMap<Creature, Spell[]>();
+
+export function setSharedSpells(creature: Creature, spells: Spell[]): void {
+  sharedSpells.set(creature, spells);
+}
+
+function allSpells(creature: Creature): Spell[] {
+  return [...creature.spells, ...(sharedSpells.get(creature) ?? [])];
+}
+
+/**
+ * The creature's own spells (made with addSpell) it can use: cast by its behaviour abilities, or
+ * memorized (its own spellbook or any spellbook variant) - e.g. the basilisk's petrifying gaze.
+ */
+function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] {
+  const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
+  const files = new Set(
+    [
+      ...creature.behavior.abilities.flatMap((a) => creatureService.getAbilityCastFiles(a)),
+      ...effective.memorized
+        .filter((m) => (m.spell.memorizedCount ?? 1) > 0)
+        .map((m) => m.spell.file),
+      ...spellbooks.flatMap((variant) => variant.memorized.map((m) => m.file)),
+    ].map((f) => f.toUpperCase()),
+  );
+  const seen = new Set<string>();
+  return allSpells(creature).filter((s) => {
+    const file = s.file.toUpperCase();
+    if (!files.has(file) || seen.has(file)) return false;
+    seen.add(file);
+    return true;
+  });
+}
+
+/**
+ * The unlisted form an own power is (its explicit `xpAbility` tag wins, see collectSpell):
+ * - a killing or summoning power: special magical attack
+ * - an escape or protection power: special defense
+ * - a reactive power (an aura, a form): nothing unless tagged
+ * - any other power (damage, disable, buff such as haste or a burst of speed, grab): a special
+ *   attack, magical when the power is a wizard or priest spell (a vampire's bat swarm), else
+ *   natural (the ankheg's acid stream)
+ * A power already counting as a listed ability (poison, petrification...) without dealing damage
+ * is no unlisted form.
+ */
+function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefined {
+  if (spell.xpAbility !== undefined) return undefined;
+  // Already a listed ability (a petrifying gaze, a poison): not an unlisted form too, unless it
+  // also deals damage (a ghost's draining touch)
+  if (found.size && !dealsDamage(spell)) return undefined;
+  if (spell.role === "kill" || spell.role === "summon") return "specialMagicalAttack";
+  if (spell.role === "protection") return "specialDefense";
+  if (spell.role === "reactive") return undefined;
+  return spell.type === SpellTypeEnum.Wizard || spell.type === SpellTypeEnum.Priest
+    ? "specialMagicalAttack"
+    : "specialAttack";
+}
+
+/** Damage (opcode 12) to the power's target, not to its caster. */
+function dealsDamage(spell: Spell): boolean {
+  const effects = [
+    ...spell.effects,
+    ...spell.headers.flatMap((h) =>
+      h.target === ItemAbilityTargetEnum.Caster ? [] : h.effects,
+    ),
+  ];
+  return effects.some(
+    (e) => e.opcode === EffectTypeEnum.Damage && e.target !== EffectTargetEnum.Self,
+  );
 }
 
 function addSpellLevelAbility(
@@ -329,6 +421,11 @@ const ATTACK_ABILITIES: XpAbility[] = [
   "missileWeapons",
   "singleAttack20",
   "multipleAttacks30",
+  "breathWeapon",
+  "flies",
+  "specialDefense",
+  "specialMagicalAttack",
+  "specialAttack",
 ];
 
 const QUIVER_SLOTS: ReadonlySet<ItemSlot> = new Set<ItemSlot>([
@@ -372,6 +469,8 @@ function collectSpell(
 ): void {
   if (visited.has(spell.file)) return;
   visited.add(spell.file);
+  // An explicit tag counts wherever the power is reached (a weapon's cast breath, an aura's death)
+  if (spell.xpAbility) found.add(spell.xpAbility);
   const secondary = spell.secondaryType && SECONDARY_TYPE_ABILITIES[String(spell.secondaryType)];
   if (secondary) found.add(secondary);
   for (const effect of spell.effects) collectEffect(creature, effect, undefined, found, visited);
@@ -390,8 +489,14 @@ function collectEffect(
   const ability = abilityOfEffect(effect, header);
   if (ability) found.add(ability);
   if (!CAST_OPCODES.has(effect.opcode) || effect.resource === undefined) return;
-  const spell = creature.spells.find((s) => s.file === effect.resource);
-  if (spell) collectSpell(creature, spell, found, visited);
+  const spell = allSpells(creature).find((s) => s.file === effect.resource);
+  if (!spell || visited.has(spell.file)) return;
+  // A power cast by a weapon or another power (a bear's hug) counts like a power used directly
+  const own = new Set<XpAbility>();
+  collectSpell(creature, spell, own, visited);
+  const power = powerAbility(spell, own);
+  if (power) own.add(power);
+  own.forEach((a) => found.add(a));
 }
 
 /** Opcodes that always map to an ability, whoever they land on. */

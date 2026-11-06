@@ -75,6 +75,7 @@ class OgreMage extends Ogre {
     return this.addSpell({
       id: Ids.Fly,
       name: "monster.ogre.ability.fly.name",
+      xpAbility: "flies",
       role: "buff",
       description: "monster.ogre.ability.fly.description",
       memorizedCount: 1,
@@ -150,6 +151,7 @@ class OgreMage extends Ogre {
     this.createItemGaseousForm();
     return this.addSpell({
       name: "monster.ogre.ability.gaseousForm.name",
+      xpAbility: "specialDefense",
       role: "reactive",
       description: "monster.ogre.ability.gaseousForm.description",
       memorizedCount: 1,
