@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
@@ -14,6 +14,7 @@ import {
 import { Item, ItemHeader, Spell } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
 import translationService from "../translation.service";
+import monsterFilesService from "../monster-files.service";
 import {
   detectAbilities,
   detectAttackAbilities,
@@ -26,7 +27,28 @@ const FILE = "TESTCRE";
 
 afterEach(() => {
   State.immunities = [];
+  vi.restoreAllMocks();
 });
+
+/** Mocks creatures.csv: each file's weapon1..n game items. */
+function csvWeapons(byFile: Record<string, string[]>): void {
+  vi.spyOn(monsterFilesService, "getCreatureRows").mockImplementation((file) => {
+    const weapons = byFile[file.toUpperCase()];
+    if (!weapons) return [];
+    return [
+      {
+        file,
+        level: undefined,
+        xpv: undefined,
+        items: weapons.map((w, i) => ({ slot: `weapon${i + 1}`, file: w })),
+        scripts: [],
+        validatedLevel: false,
+        validatedItems: false,
+        validatedScript: false,
+      },
+    ];
+  });
+}
 
 function registerImmunity(name: ImmunityName, immunities: ImmunityName[]): void {
   State.immunities.push({ name, immunities } as unknown as ImmunityConfig);
@@ -45,6 +67,7 @@ function fakeCreature(p: {
   abilities?: Partial<CreatureAbility>[];
   ranged?: boolean;
   autoImmunities?: ImmunityName[];
+  files?: string[];
 }): Creature {
   const data: CreatureData = {
     level1: { pnpValue: 5, type: "none", value: 5 },
@@ -76,6 +99,7 @@ function fakeCreature(p: {
   return {
     data,
     id: 1,
+    files: (p.files ?? []).map((name) => ({ name })),
     attack: { dualWielding: false, melee: true, ranged: p.ranged ?? false },
     behavior: {
       abilities: (p.abilities ?? []).map((a) => ({ actions: [], ...a })),
@@ -757,11 +781,44 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
-  it("missileWeapons from a ranged attack", () => {
+  it("a ranged attack setting alone is not a missile weapon", () => {
     const creature = fakeCreature({ ranged: true });
-    expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "missileWeapons", source: "ranged attack" },
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([]);
+  });
+
+  it("missileWeapons from a ranged game weapon in the file's creatures.csv row", () => {
+    csvWeapons({ [FILE]: ["BOW01", "HALB01"] });
+    const creature = fakeCreature({});
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([
+      { ability: "missileWeapons", source: "BOW01" },
     ]);
+  });
+
+  it("a melee game weapon is not a missile weapon", () => {
+    csvWeapons({ [FILE]: ["SW2H02"] });
+    expect(detectAttackAbilities({ creature: fakeCreature({}), file: FILE })).toEqual([]);
+  });
+
+  it("a removed ranged game weapon is not a missile weapon", () => {
+    csvWeapons({ [FILE]: ["BOW01"] });
+    const creature = fakeCreature({
+      adjustments: [{ files: [FILE], data: { items: { equipped: [], remove: ["BOW01"] } } }],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([]);
+  });
+
+  it("the base creature uses missile weapons when most of its unadjusted files do", () => {
+    csvWeapons({ A: ["BOW01"], B: ["XBOW01"], C: ["SW1H01"] });
+    const creature = fakeCreature({ files: ["A", "B", "C"] });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "missileWeapons", source: "BOW01, XBOW01" },
+    ]);
+  });
+
+  it("the base creature is melee when most of its unadjusted files are", () => {
+    csvWeapons({ A: ["BOW01"], B: ["SW1H01"], C: ["B1-6"] });
+    const creature = fakeCreature({ files: ["A", "B", "C"] });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
   it("missileWeapons from an item in a quiver slot", () => {

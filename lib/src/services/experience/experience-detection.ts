@@ -17,6 +17,7 @@ import { getAllSpells, spellFiles } from "../../model/spell-item/spell-reference
 import { State } from "../../state";
 import { SPELLS } from "../../../config/spells/spell-database";
 import creatureService from "../creature.service";
+import monsterFilesService from "../monster-files.service";
 import adjustmentService, { EffectiveAdjustment } from "../doc/adjustment.service";
 import translationService from "../translation.service";
 import { DetectedAbility, HitDice, XpAbility } from "./experience-table";
@@ -222,7 +223,7 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   const weapons = wieldedItems(scope, effective);
   addOnHitAbilities(scope.creature, weapons, add);
   addSpellLevelAbility(scope, effective, add);
-  addMissileAbility(scope.creature, effective, add);
+  addMissileAbility(scope, effective, add);
   addDamageAbilities(weapons, effective.apr.value, add);
 
   return ATTACK_ABILITIES.filter((ability) => sources.has(ability)).map((ability) => ({
@@ -267,17 +268,53 @@ function addSpellLevelAbility(
   add(spell.level >= 3 ? "highSpells" : "lowSpells", spell.file);
 }
 
+/**
+ * A missile weapon the file actually wields: a mod-equipped item in a quiver slot, or a ranged game
+ * weapon in its creatures.csv weapon slots (not removed by the mod). `attack.ranged` only allows
+ * ranged attacks - most skeletons have it and still fight in melee - so it is not a signal. The
+ * base creature (no file) uses missile weapons when most of its unadjusted files do.
+ */
 function addMissileAbility(
-  creature: Creature,
+  scope: ExperienceScope,
   effective: EffectiveAdjustment,
   add: AddSource,
 ): void {
-  if (creature.attack.ranged) add("missileWeapons", "ranged attack");
   for (const { item } of effective.equipped) {
     const slots = Array.isArray(item.slot) ? item.slot : [item.slot];
     if (slots.some((slot) => QUIVER_SLOTS.has(slot))) add("missileWeapons", item.file);
   }
+  if (scope.file !== undefined) {
+    for (const weapon of rangedGameWeapons(scope)) add("missileWeapons", weapon);
+    return;
+  }
+  const covered = new Set(scope.creature.adjustments.flatMap((a) => a.files));
+  const perFile = scope.creature.files
+    .filter((f) => !covered.has(f.name))
+    .map((f) => rangedGameWeapons({ ...scope, file: f.name, game: f.game }));
+  if (perFile.filter((w) => w.length).length * 2 > perFile.length) {
+    for (const weapon of perFile.flat()) add("missileWeapons", weapon);
+  }
 }
+
+/** Ranged game weapons in the scope file's creatures.csv weapon slots, minus the removed items. */
+function rangedGameWeapons(scope: ExperienceScope): string[] {
+  if (scope.file === undefined) return [];
+  const removed = new Set(
+    [
+      ...scope.creature.data.items.remove,
+      ...matchingAdjustments(scope).flatMap((a) => a.data.items.remove),
+    ].map((f) => f.toUpperCase()),
+  );
+  return monsterFilesService
+    .getCreatureRows(scope.file, scope.game)
+    .flatMap((row) => row.items)
+    .filter((i) => i.slot.startsWith("weapon"))
+    .map((i) => i.file.toUpperCase())
+    .filter((f) => !removed.has(f) && RANGED_WEAPON_PREFIXES.some((p) => f.startsWith(p)));
+}
+
+/** Vanilla resref prefixes of launchers and thrown weapons (bows, crossbows, slings, darts). */
+const RANGED_WEAPON_PREFIXES = ["BOW", "XBOW", "SLNG", "DART"];
 
 /** Output order of detectAttackAbilities. */
 const ATTACK_ABILITIES: XpAbility[] = [
