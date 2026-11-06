@@ -554,8 +554,12 @@ function collectSpell(
   if (visited.has(spell.file)) return;
   visited.add(spell.file);
   if (spell.xpAbility === null) return; // explicitly counts nothing
-  // An explicit tag counts wherever the power is reached (a weapon's cast breath, an aura's death)
-  if (spell.xpAbility) found.add(spell.xpAbility);
+  // An explicit tag counts wherever the power is reached (a weapon's cast breath, an aura's
+  // death), and is the whole power: its effects (the foul breath's slay) are part of it
+  if (spell.xpAbility) {
+    found.add(spell.xpAbility);
+    return;
+  }
   const secondary = spell.secondaryType && SECONDARY_TYPE_ABILITIES[String(spell.secondaryType)];
   if (secondary) found.add(secondary);
   for (const effect of spell.effects) collectEffect(creature, effect, undefined, found, visited);

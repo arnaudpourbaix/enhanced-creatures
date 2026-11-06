@@ -853,6 +853,14 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("a tagged power is only its tag: its own effects don't count again (foul breath's slay)", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, xpAbility: "breathWeapon", effects: [effect(EffectTypeEnum.Slay)] }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["breathWeapon"]);
+  });
+
   it("a harmful effect on a hit with no row of its own is a special attack (stun)", () => {
     const creature = fakeCreature({
       items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Stun)] })],
