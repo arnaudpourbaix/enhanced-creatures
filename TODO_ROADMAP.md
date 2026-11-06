@@ -163,6 +163,24 @@ per-creature flags (user: no opt-in flag).
 The damage rows will follow the global fix: natural attacks scored on their dice alone,
 manufactured weapons with the strength bonus.
 
+### ☐ A power level on every created spell
+
+The spell scoring and the XP formula both guess how strong a creature's own power is (an
+`addSpell`, a weapon's cast spell, a poison) from its type, preset, effects and role; most XP
+mismatches so far came from that guessing (vampire powers typed as wizard spells only for their
+forms, innate powers at level 1, charms scripted through a Dire Charm preset). Of the 87
+`addSpell` calls, only 3 have a `worthLevel`, 20 an explicit `level`, 12 a preset.
+
+Plan (user, 2026-11-07):
+
+1. One required power level on every created spell, on the spell level scale (1-9; 0 = no power,
+   like an innate dimension door), read by both the spell scoring and the XP formula so they
+   always agree. The `xpAbility` tag stays for *what* a power is (breath, flying, special
+   defense), the power level says *how strong*.
+2. The generator refuses a created spell without one (like the adjustment `xpv` check).
+3. One pass over the existing spells: propose a level for each (from its effects, preset and PnP
+   equivalent) as a table for the user to review before writing them.
+
 ### ☐ Bosses and drops
 
 Files whose formula XP is below their in-game XP keep the in-game value (`drop` status, listed
