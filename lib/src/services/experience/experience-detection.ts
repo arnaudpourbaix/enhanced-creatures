@@ -247,7 +247,13 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   addOnHitAbilities(scope.creature, effective, weapons, add);
   addSpellLevelAbility(scope, effective, add);
   addMissileAbility(scope, effective, add);
-  addDamageAbilities(weapons, attacksPerRound(effective), strengthDamage(effective), add);
+  addDamageAbilities(
+    scope.creature,
+    weapons,
+    attacksPerRound(effective),
+    strengthDamage(effective),
+    add,
+  );
 
   return ATTACK_ABILITIES.filter((ability) => sources.has(ability)).map((ability) => ({
     ability,
@@ -268,7 +274,7 @@ function addOnHitAbilities(
   for (const item of weapons) {
     const found = new Set<XpAbility>();
     for (const effect of item.header?.effects ?? []) {
-      collectEffect(creature, effect, item.header, found, new Set());
+      collectEffect(creature, effect, item.header, found, new Set(), true);
     }
     harmfulOnlyIfUnlisted(found);
     found.forEach((ability) => {
@@ -567,7 +573,7 @@ const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
  */
 function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
   const unslottedNatural = (item: Item): boolean =>
-    !effective.noWeapon && !item.equippedSlot.length && diceOf(item) !== undefined;
+    !effective.noWeapon && !item.equippedSlot.length && diceOf(scope.creature, item) !== undefined;
   const own = scope.creature.items.filter((item) => !item.trait && unslottedNatural(item));
   const equipped = effective.equipped
     .map((e) => equippedItem(scope.creature, e.item.file))
@@ -604,18 +610,22 @@ function collectEffect(
   header: ItemSpellHeader | undefined,
   found: Set<XpAbility>,
   visited: Set<string>,
+  onHit = false,
 ): void {
   const ability = abilityOfEffect(effect, header);
   if (ability) found.add(ability);
   if (!CAST_OPCODES.has(effect.opcode) || effect.resource === undefined) return;
   const spell = allSpells(creature).find((s) => s.file === effect.resource);
   if (!spell || visited.has(spell.file)) return;
-  // A power cast by a weapon or another power (a bear's hug) counts like a power used directly
+  // A power cast by a weapon or another power counts like a power used directly - except that
+  // damage a hit casts (an ankheg's digestive enzymes, a bear's hug) is the hit's extra damage: it
+  // feeds the damage rows (onHitDamage), it is no attack form (user)
   const own = new Set<XpAbility>();
   collectSpell(creature, spell, own, visited);
   harmfulOnlyIfUnlisted(own);
   const power = powerAbility(spell, own);
-  if (power) own.add(power);
+  const extraDamage = onHit && power === "specialAttack" && dealsDamage(spell);
+  if (power && !extraDamage) own.add(power);
   own.forEach((a) => found.add(a));
 }
 
@@ -747,11 +757,16 @@ function spellLevel(file: string): number | undefined {
   return spellLevels.get(file);
 }
 
-function diceOf(item: Item): { thrown: number; size: number; bonus: number } | undefined {
+function diceOf(
+  creature: Creature,
+  item: Item,
+): { thrown: number; size: number; bonus: number } | undefined {
   const header = item.header;
   if (header?.diceThrown === undefined || header.diceSize === undefined) return undefined;
   // A diceless "weapon" dealing no damage only carries a form's effects (a vampire's mist form)
-  if (header.diceThrown * header.diceSize === 0 && onHitDamage(item) === 0) return undefined;
+  if (header.diceThrown * header.diceSize === 0 && onHitDamage(creature, item) === 0) {
+    return undefined;
+  }
   return { thrown: header.diceThrown, size: header.diceSize, bonus: header.damageBonus ?? 0 };
 }
 
@@ -762,16 +777,40 @@ function signed(value: number): string {
 }
 
 /**
- * The maximum extra damage a weapon's hit deals (opcode 12 on its header: a flaming sword's fire,
- * an ooze's acid, a cat's rake): it adds to the attack for the damage thresholds (user).
+ * The maximum extra damage a weapon's hit deals: opcode 12 on its header (a flaming sword's fire,
+ * an ooze's acid, a cat's rake) and the damage of the powers the hit casts (an ankheg's digestive
+ * enzymes, 1d4 acid four times). It adds to the attack for the damage thresholds (user).
  */
-function onHitDamage(item: Item): number {
-  return (item.header?.effects ?? [])
+function onHitDamage(creature: Creature, item: Item): number {
+  const effects = item.header?.effects ?? [];
+  const cast = effects
+    .filter((e) => CAST_OPCODES.has(e.opcode) && e.resource !== undefined)
+    .map((e) => allSpells(creature).find((spell) => spell.file === e.resource))
+    .filter((spell): spell is Spell => spell !== undefined)
+    .reduce((sum, spell) => sum + damageOf(targetEffects(spell)), 0);
+  return damageOf(effects) + cast;
+}
+
+/** The maximum damage (opcode 12) of a list of effects, repeated ones each counting. */
+function damageOf(effects: Effect[]): number {
+  return effects
     .filter((e) => e.opcode === EffectTypeEnum.Damage)
     .reduce((sum, e) => {
       const d = e as { diceThrown?: number; diceSize?: number; amount?: number };
       return sum + (d.diceThrown ?? 0) * (d.diceSize ?? 0) + (d.amount ?? 0);
     }, 0);
+}
+
+/** A power's effects that land on its target (not the ones on its caster). */
+function targetEffects(spell: Spell): Effect[] {
+  return [
+    ...spell.effects.filter((e) => e.target !== EffectTargetEnum.Self),
+    ...spell.headers.flatMap((h) =>
+      h.target === ItemAbilityTargetEnum.Caster
+        ? []
+        : h.effects.filter((e) => e.target !== EffectTargetEnum.Self),
+    ),
+  ];
 }
 
 /**
@@ -793,6 +832,7 @@ function strengthDamage(effective: EffectiveAdjustment): number {
 
 /** singleAttack20 / multipleAttacks30 from the wielded items whose dice are known. */
 function addDamageAbilities(
+  creature: Creature,
   items: Item[],
   apr: number,
   strength: number,
@@ -800,11 +840,11 @@ function addDamageAbilities(
 ): void {
   const attacks: { file: string; max: number }[] = [];
   for (const item of items) {
-    const dice = diceOf(item);
+    const dice = diceOf(creature, item);
     if (!dice) continue;
     // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8 = 20)
     const str = item.header?.type === ItemAbilityTypeEnum.Melee ? strength : 0;
-    const extra = onHitDamage(item);
+    const extra = onHitDamage(creature, item);
     const max = dice.thrown * dice.size + dice.bonus + str + extra;
     const strLabel = (str ? signed(str) + " str" : "") + (extra ? signed(extra) + " on hit" : "");
     const base = dice.thrown * dice.size ? `${dice.thrown}d${dice.size}` : "";

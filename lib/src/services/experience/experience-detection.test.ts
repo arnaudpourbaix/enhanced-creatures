@@ -811,12 +811,15 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["breathWeapon"]);
   });
 
-  it("a damaging power cast by a weapon is a special attack (bear hug)", () => {
+  it("a damaging power cast by a hit is extra damage, no special attack (bear hug)", () => {
     const creature = fakeCreature({
       items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
-      spells: [{ file: SPELL, effects: [effect(EffectTypeEnum.Damage)] }],
+      spells: [
+        { file: SPELL, effects: [effect(EffectTypeEnum.Damage, { diceThrown: 2, diceSize: 8 })] },
+      ],
     });
-    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["specialAttack"]);
+    // 1d4 + the hug's 2d8 = 20: the damage counts, the hug is no special attack
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["singleAttack20"]);
   });
 
   it("a poison cast by a weapon is only poison", () => {
@@ -897,6 +900,25 @@ describe("detectAttackAbilities", () => {
       abilities: [{ resource: SPELL }],
     });
     expect(detectAttackAbilities({ creature })).toEqual([{ ability: "paralysis", source: SPELL }]);
+  });
+
+  it("a power cast by a hit adds its damage to the attack (ankheg digestive enzymes)", () => {
+    const acid = effect(EffectTypeEnum.Damage, { diceThrown: 1, diceSize: 4 });
+    const creature = fakeCreature({
+      items: [
+        naturalWeapon({
+          diceThrown: 3,
+          diceSize: 6,
+          effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })],
+        }),
+      ],
+      spells: [{ file: SPELL, headers: [{ effects: [acid, acid, acid, acid] }] as never }],
+    });
+    // 3d6 = 18 + 4 x 1d4 = 16
+    expect(detectAttackAbilities({ creature })).toContainEqual({
+      ability: "singleAttack20",
+      source: `${WEAPON}: 3d6+16 on hit = 34`,
+    });
   });
 
   it("a harmful effect on a hit with no row of its own is a special attack (stun)", () => {
