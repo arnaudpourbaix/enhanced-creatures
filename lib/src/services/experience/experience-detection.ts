@@ -17,6 +17,7 @@ import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Item, ItemSpellHeader, Spell } from "../../model/spell-item/spell-item";
 import { getAllSpells, spellFiles } from "../../model/spell-item/spell-reference";
 import { State } from "../../state";
+import { AT_WILL } from "../../../config/common";
 import { SPELLS } from "../../../config/spells/spell-database";
 import creatureService from "../creature.service";
 import monsterFilesService from "../monster-files.service";
@@ -293,7 +294,9 @@ function allSpells(creature: Creature): Spell[] {
 function memorizedFiles(creature: Creature, effective: EffectiveAdjustment): string[] {
   const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
   return [
-    ...effective.memorized.filter((m) => (m.spell.memorizedCount ?? 1) > 0).map((m) => m.spell.file),
+    ...effective.memorized
+      .filter((m) => (m.spell.memorizedCount ?? 1) > 0)
+      .map((m) => m.spell.file),
     ...spellbooks.flatMap((variant) => variant.memorized.map((m) => m.file)),
   ].map((f) => f.toUpperCase());
 }
@@ -337,7 +340,9 @@ function needsMemorizedSpell(ability: CreatureAbility): boolean {
 function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] {
   const files = new Set(
     [
-      ...usableAbilities(creature, effective).flatMap((a) => creatureService.getAbilityCastFiles(a)),
+      ...usableAbilities(creature, effective).flatMap((a) =>
+        creatureService.getAbilityCastFiles(a),
+      ),
       ...memorizedFiles(creature, effective),
     ].map((f) => f.toUpperCase()),
   );
@@ -356,8 +361,8 @@ function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] 
  * - an escape or protection power: special defense
  * - a reactive power (an aura, a form): nothing unless tagged
  * - any other power (damage, disable, buff such as haste or a burst of speed, grab): a special
- *   attack, magical when the power is a wizard or priest spell (a vampire's bat swarm), else
- *   natural (the ankheg's acid stream)
+ *   non-magical attack (the ankheg's acid stream)
+ * A power cast as a wizard or priest spell counts through its spell level only.
  * A power already counting as a listed ability (poison, petrification...) without dealing damage
  * is no unlisted form.
  */
@@ -366,21 +371,24 @@ function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefine
   // Already a listed ability (a petrifying gaze, a poison): not an unlisted form too, unless it
   // also deals damage (a ghost's draining touch)
   if (found.size && !dealsDamage(spell)) return undefined;
+  // A power cast as a wizard or priest spell (the ogre mage's cone of cold) is a spell: it counts
+  // through its spell level (highestSpell), not as an attack form too
+  if (isSpellPower(spell)) return undefined;
   if (spell.role === "kill" || spell.role === "summon") return "specialMagicalAttack";
   if (spell.role === "protection") return "specialDefense";
   if (spell.role === "reactive") return undefined;
-  return spell.type === SpellTypeEnum.Wizard || spell.type === SpellTypeEnum.Priest
-    ? "specialMagicalAttack"
-    : "specialAttack";
+  return "specialAttack";
+}
+
+function isSpellPower(spell: Spell): boolean {
+  return spell.type === SpellTypeEnum.Wizard || spell.type === SpellTypeEnum.Priest;
 }
 
 /** Damage (opcode 12) to the power's target, not to its caster. */
 function dealsDamage(spell: Spell): boolean {
   const effects = [
     ...spell.effects,
-    ...spell.headers.flatMap((h) =>
-      h.target === ItemAbilityTargetEnum.Caster ? [] : h.effects,
-    ),
+    ...spell.headers.flatMap((h) => (h.target === ItemAbilityTargetEnum.Caster ? [] : h.effects)),
   ];
   return effects.some(
     (e) => e.opcode === EffectTypeEnum.Damage && e.target !== EffectTargetEnum.Self,
@@ -393,8 +401,30 @@ function addSpellLevelAbility(
   add: AddSource,
 ): void {
   const spell = highestSpell(scope, effective);
-  if (!spell || spell.level < 1) return;
-  add(spell.level >= 3 ? "highSpells" : "lowSpells", spell.file);
+  if (spell && spell.level >= 1) add(spell.level >= 3 ? "highSpells" : "lowSpells", spell.file);
+  for (const file of atWillInvisibility(scope.creature, effective)) add("invisibleAtWill", file);
+}
+
+/** Invisibility spells, memorized at will (the ogre mage's), make a creature invisible at will. */
+const INVISIBILITY_SPELLS = new Set(
+  [
+    SPELLS.Wizard.Invisibility.file,
+    SPELLS.Wizard.ImprovedInvisibility.file,
+    SPELLS.Wizard.MassInvisibility.file,
+  ].map((f) => f.toUpperCase()),
+);
+
+function atWillInvisibility(creature: Creature, effective: EffectiveAdjustment): string[] {
+  const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
+  return [
+    ...effective.memorized.map((m) => m.spell),
+    ...spellbooks.flatMap((variant) => variant.memorized),
+  ]
+    .filter(
+      (m) => (m.memorizedCount ?? 1) >= AT_WILL && INVISIBILITY_SPELLS.has(m.file.toUpperCase()),
+    )
+    .map((m) => m.file.toUpperCase())
+    .filter((file, i, all) => all.indexOf(file) === i);
 }
 
 /**
@@ -584,6 +614,9 @@ function highestSpell(
       file: spell.file,
       level: spell.level ?? spellLevel(spell.file),
     })),
+    ...ownSpells(scope.creature, effective)
+      .filter(isSpellPower)
+      .map((spell) => ({ file: spell.file, level: spell.level })),
     ...usableAbilities(scope.creature, effective).map((ability) => ({
       file: creatureService.getAbilityCastFiles(ability)[0] ?? "ability",
       level: ability.level ?? undefined,

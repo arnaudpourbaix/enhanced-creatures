@@ -658,13 +658,39 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
-  it("an own wizard power dealing damage is a special magical attack", () => {
+  it("an own wizard power is a spell: its level counts, not an attack form (cone of cold)", () => {
     const creature = fakeCreature({
-      spells: [{ file: SPELL, type: SpellTypeEnum.Wizard, effects: [effect(EffectTypeEnum.Damage)] }],
+      spells: [
+        {
+          file: SPELL,
+          type: SpellTypeEnum.Wizard,
+          level: 5,
+          effects: [effect(EffectTypeEnum.Damage)],
+        },
+      ],
       abilities: [{ resource: SPELL }],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "specialMagicalAttack", source: SPELL },
+      { ability: "highSpells", source: SPELL },
+    ]);
+  });
+
+  it("an invisibility spell memorized at will is invisible at will", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 90 }] } } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "invisibleAtWill", source: "SPWI206" },
+      { ability: "lowSpells", source: "SPWI206" },
+    ]);
+  });
+
+  it("an invisibility spell memorized once is only a spell", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 1 }] } } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "lowSpells", source: "SPWI206" },
     ]);
   });
 
