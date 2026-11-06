@@ -10,12 +10,14 @@ import { readModVersion } from "../lib/src/services/doc/doc-version";
 import logService from "../lib/src/services/log.service";
 import mainService from "../lib/src/services/main.service";
 import stateService from "../lib/src/services/state.service";
+import { buildExperienceReport } from "./lib/experience-report";
 import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 
 // Builds every creature once and renders a single dashboard page with:
 // - Overview: creatures.csv rows by MonsterId status, monster counts, stats
 //   report headline
 // - Stats report: creatures.csv hp / thac0 / apr vs the documentation (scripts/lib/stats-report.ts)
+// - Experience: the XP decided per file, drops to review, base XP conflicts
 // - Missing monsters: missing / file-less / unvalidated monsters, each with the number of
 //   creatures.csv rows carrying its MonsterId
 //
@@ -75,6 +77,7 @@ async function main() {
   const { missing, unvalidated, noFiles, total } = diffMonsters(creatures);
   const unknown = [...byMonster.keys()].filter((m) => !(m in MonsterEnum));
 
+  const experience = buildExperienceReport(creatures);
   const html = renderDashboard({
     generatedAt: new Date(),
     version: readModVersion(),
@@ -87,6 +90,7 @@ async function main() {
       unknown: unknown.map(counts),
     },
     stats: buildStatsReport(creatures, loadStatsCsv(assetsDir)),
+    experience,
   });
 
   if (unknown.length) console.warn(`Unknown MonsterId in creatures.csv: ${unknown.join(", ")}`);
@@ -101,6 +105,11 @@ async function main() {
   console.log(
     `Monsters: ${missing.length} missing, ${noFiles.length} without creatures yet, ` +
       `${unvalidated.length} failing validation`,
+  );
+  const changed = experience.rows.filter((r) => r.status === "formula" && r.difference).length;
+  console.log(
+    `Experience: ${changed} changed, ${experience.drops.length} drops, ` +
+      `${experience.conflicts.length} conflicts`,
   );
 }
 

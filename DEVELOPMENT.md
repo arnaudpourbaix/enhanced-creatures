@@ -29,7 +29,7 @@ I highly recommend [Visual Studio Code](https://code.visualstudio.com/) with the
 ## Dashboard
 
 A dashboard can be generated with `npm run dashboard`.
-It will create `mod/docs/dashboard.html`, which is shipped and published with the rest of the docs. This dashboard shows several interesting things.
+It will create `mod/docs/dashboard.html`, which is shipped and published with the rest of the docs. This dashboard shows several interesting things: the Overview, the Stats report, the Experience tab (the XP decided for every file, the XP drops to review and the base XP conflicts) and the missing monsters.
 
 ## Generate
 

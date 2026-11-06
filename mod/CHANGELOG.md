@@ -50,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: adjustment XP only from the formula
 - XP: damage resistances are a special defense, not a weapon immunity
 - XP: resistance modifier effects count as a special defense
+- Dashboard: experience tab
 
 ### Changed
 

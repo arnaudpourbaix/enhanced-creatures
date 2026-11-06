@@ -1,3 +1,5 @@
+import { ExperienceReportData } from "./experience-report";
+import { EXPERIENCE_SCRIPT, EXPERIENCE_STYLE, renderExperienceTab } from "./experience-report-html";
 import {
   escapeHtml,
   renderStatsBody,
@@ -44,6 +46,7 @@ export interface DashboardData {
     unknown: MonsterRowCount[];
   };
   stats: StatsReportData;
+  experience: ExperienceReportData;
 }
 
 function pct(part: number, total: number): string {
@@ -82,11 +85,12 @@ function stackedBar(segments: Segment[]): string {
 }
 
 function renderOverview(d: DashboardData): string {
-  const { csv, monsters, stats } = d;
+  const { csv, monsters, stats, experience } = d;
   const missing = monsters.missing.length;
   const unvalidated = monsters.unvalidated.length;
   const noFiles = monsters.noFiles.length;
   const ok = monsters.total - missing - unvalidated - noFiles;
+  const xpChanged = experience.rows.filter((r) => r.status === "formula" && r.difference).length;
   const flaggedFiles = stats.flagged.reduce((sum, r) => sum + r.flagged.length, 0);
   return `
 <section class="card">
@@ -129,6 +133,15 @@ ${stat(stats.flagged.length, `of ${stats.monsters} monsters flagged`)}
 ${stat(new Set(stats.missing).size, "not compared")}
 </div>
 <p><a href="#stats">See stats report →</a></p>
+</section>
+<section class="card">
+<h2>Experience</h2>
+<div class="summary">
+${stat(xpChanged, "files whose XP changed", "good")}
+${stat(experience.drops.length, "XP drops to review", experience.drops.length ? "warn" : "")}
+${stat(experience.conflicts.length, "base XP conflicts", experience.conflicts.length ? "bad" : "")}
+</div>
+<p><a href="#experience">See experience →</a></p>
 </section>`;
 }
 
@@ -280,7 +293,7 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
 `;
 
 const SCRIPT = `
-const tabs = ["overview", "stats", "missing"];
+const tabs = ["overview", "stats", "experience", "missing"];
 function showTab() {
   const hash = location.hash.slice(1);
   let current = tabs.includes(hash) ? hash : "overview";
@@ -301,7 +314,7 @@ const missingSearch = document.getElementById("missing-search");
 const hideEmpty = document.getElementById("missing-hide-empty");
 function filterCounts() {
   const q = missingSearch.value.trim().toLowerCase();
-  for (const row of document.querySelectorAll("table.counts tbody tr")) {
+  for (const row of document.querySelectorAll("#tab-missing table.counts tbody tr")) {
     const show = (!q || row.dataset.search.includes(q)) && !(hideEmpty.checked && row.dataset.rows === "0");
     row.classList.toggle("hidden", !show);
   }
@@ -313,14 +326,14 @@ for (const table of document.querySelectorAll("table.counts")) {
   for (const th of table.querySelectorAll("th[data-sort]")) {
     th.addEventListener("click", () => {
       const key = th.dataset.sort;
-      const asc = th.classList.contains("sorted") ? !th.classList.contains("asc") : key === "monster";
+      const asc = th.classList.contains("sorted") ? !th.classList.contains("asc") : key === "monster" || key === "file";
       table.querySelectorAll("th").forEach((h) => h.classList.remove("sorted", "asc"));
       th.classList.add("sorted");
       th.classList.toggle("asc", asc);
       const body = table.tBodies[0];
       const rows = [...body.rows].sort((a, b) => {
-        const diff = key === "monster"
-          ? a.dataset.monster.localeCompare(b.dataset.monster)
+        const diff = key === "monster" || key === "file"
+          ? a.dataset[key].localeCompare(b.dataset[key])
           : Number(a.dataset[key]) - Number(b.dataset[key]);
         return asc ? diff : -diff;
       });
@@ -344,7 +357,7 @@ export function renderDashboard(d: DashboardData): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 <link href="main.css" rel="stylesheet" type="text/css">
-<style>${STATS_STYLE}${STYLE}</style>
+<style>${STATS_STYLE}${STYLE}${EXPERIENCE_STYLE}</style>
 </head>
 <body>
 <header class="site-nav">
@@ -360,6 +373,7 @@ export function renderDashboard(d: DashboardData): string {
 <div class="tabs">
 <a href="#overview">Overview</a>
 <a href="#stats">Stats report<span class="badge">${d.stats.flagged.reduce((s, r) => s + r.flagged.length, 0)}</span></a>
+<a href="#experience">Experience<span class="badge">${d.experience.drops.length}</span></a>
 <a href="#missing">Missing monsters<span class="badge">${d.monsters.missing.length}</span></a>
 </div>
 <span class="generated muted">Generated ${generated} UTC</span>
@@ -374,8 +388,9 @@ interesting to see what is done and what is coming. Terms such as <code>creature
 </aside>
 <section class="tab-panel" id="tab-overview"><div class="page">${renderOverview(d)}</div></section>
 <section class="tab-panel" id="tab-stats">${renderStatsBody(d.stats)}</section>
+<section class="tab-panel" id="tab-experience">${renderExperienceTab(d.experience)}</section>
 <section class="tab-panel" id="tab-missing"><div class="page">${renderMissing(d)}</div></section>
-<script>${STATS_SCRIPT}${SCRIPT}</script>
+<script>${STATS_SCRIPT}${SCRIPT}${EXPERIENCE_SCRIPT}</script>
 </body>
 </html>
 `;
