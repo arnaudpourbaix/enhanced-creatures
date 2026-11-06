@@ -308,17 +308,17 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
-  it("specialDefense from a damage resistance of 50 or more", () => {
+  it("specialDefense from any damage resistance above 0", () => {
     const creature = fakeCreature({
-      adjustments: [{ files: [FILE], data: { resistCrushing: 50, resistPiercing: 25 } }],
+      adjustments: [{ files: [FILE], data: { resistCrushing: 50, resistPiercing: 25, resistMissile: 0 } }],
     });
     expect(detectStatAbilities({ creature, file: FILE })).toEqual([
-      { ability: "specialDefense", source: "50% crushing resistance" },
+      { ability: "specialDefense", source: "50% crushing resistance, 25% piercing resistance" },
     ]);
   });
 
-  it("no specialDefense under 50% resistance", () => {
-    const creature = fakeCreature({ data: { resistSlashing: 49, resistMissile: 30 } });
+  it("no specialDefense without a damage resistance", () => {
+    const creature = fakeCreature({ data: { resistSlashing: 0 } });
     expect(detectStatAbilities({ creature })).toEqual([]);
   });
 

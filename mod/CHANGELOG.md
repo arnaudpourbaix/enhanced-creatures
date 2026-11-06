@@ -97,6 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: expand nested immunities before detecting spell and weapon immunity
 - XP: never lower in-game XP, skip class abilities, tag split patches
 - XP: keep explicit xpv 0 on the Clay Golem OHBGOL01 adjustment
+- XP: any damage resistance above 0 is a special defense
 
 ## [0.4.0] - 2026-10-09
 
