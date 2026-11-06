@@ -1,5 +1,3 @@
-import { Variant } from "../../src/model/creature/variant";
-import spellService from "../../src/services/spell.service";
 import { MonsterEnum } from "../monster";
 import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
@@ -8,27 +6,6 @@ import { SimpleEntry } from "../../src/model/creature/simple-entry";
 import { builtBefore, type CreatureKin } from "../../src/model/creature/kin";
 import { KinEnum } from "../kin";
 import { skeletonKin } from "./kin";
-
-function clericSkeletonVariant(base: Creature): Variant {
-  return base.variant("Cleric Skeleton", {
-    data: {
-      class: "CLERIC",
-      level1: 20,
-      ac: 1,
-      xpv: 9500,
-      apr: 2,
-      spells: {
-        cumulative: false,
-        spellbooks: spellService.createSpellbooks({
-          name: "UndeadCleric",
-          casterLevel: 20,
-          type: "cleric",
-        }),
-      },
-    },
-    files: ["L#NIMF6"],
-  });
-}
 
 /** Derives from the Skeleton (`base`), built by the Skeleton entry. */
 export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature): Creature {
@@ -47,7 +24,6 @@ export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature):
     size: { value: "Large", tall: true, long: false },
     xpv: 650,
   });
-  clericSkeletonVariant(monster);
   monster.setAdjustments([
     {
       files: ["C0DESUM3"],

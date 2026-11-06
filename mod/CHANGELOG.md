@@ -75,6 +75,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Creatures: every spell placed by score
 - Vampire: one necromancer variant helper; DX#DALID at level 16
 - Vampire: Bodhi is a variant of the abomination age
+- Skeleton: mage and cleric variants move to their own entries
 
 ### Fixed
 

@@ -1,5 +1,4 @@
 import { Variant } from "../../src/model/creature/variant";
-import spellService from "../../src/services/spell.service";
 import { MonsterEnum } from "../monster";
 import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
@@ -47,7 +46,6 @@ export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
     },
   ]);
   greaterArcherSkeletonVariant(archer);
-  mageSkeletonVariant(archer);
   return archer;
 }
 
@@ -101,44 +99,6 @@ function greaterArcherSkeletonVariant(base: Creature): Variant {
       { files: ["0XUDDG"], data: { level1: 12, apr: 2, xpv: 750 } },
     ],
   });
-}
-
-function mageSkeletonVariant(base: Creature): Variant {
-  const mage = base.variant("Mage Skeleton", {
-    data: {
-      level1: 5,
-      class: "MAGE",
-      spells: {
-        cumulative: false,
-        spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadNecromancer",
-          casterLevel: 5,
-          type: "mage",
-        }),
-      },
-      script: {
-        remove: ["BDSKGR07"],
-      },
-      xpv: 900,
-    },
-    files: ["BDSKGR07"],
-  });
-  mage.variant("Greater Mage Skeleton", {
-    data: {
-      level1: 8,
-      spells: {
-        cumulative: false,
-        spellbooks: spellService.createSpellbooks({
-          name: "EvilUndeadNecromancer",
-          casterLevel: 8,
-          type: "mage",
-        }),
-      },
-      xpv: 2000,
-    },
-    files: ["BDTEAM60"],
-  });
-  return mage;
 }
 
 export function createArcherSkeletonEntry(kins: Map<KinEnum, CreatureKin>) {

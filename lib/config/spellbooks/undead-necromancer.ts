@@ -4,8 +4,8 @@ import { SPELLS } from "../spells/spell-database";
 
 const s = SPELLS.Wizard;
 
-export const EvilUndeadNecromancerSpellbook: SpellBook = {
-  name: "EvilUndeadNecromancer",
+export const UndeadNecromancerSpellbook: SpellBook = {
+  name: "UndeadNecromancer",
   // Necromancer: no Illusion or Enchantment/Charm
   values: [
     {

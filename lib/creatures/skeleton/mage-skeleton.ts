@@ -12,7 +12,7 @@ function mageSpells(level: number) {
   return {
     cumulative: false,
     spellbooks: spellService.createSpellbooks({
-      name: "EvilUndeadNecromancer",
+      name: "UndeadNecromancer",
       casterLevel: level,
       type: "mage",
     }),
@@ -39,6 +39,19 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     class: "MAGE",
     intelligence: 12,
     spells: mageSpells(7),
+  });
+  mage.variant("Lesser Mage Skeleton", {
+    data: {
+      level1: 5,
+      spells: mageSpells(5),
+      script: { remove: ["BDSKGR07"] },
+      xpv: 900,
+    },
+    files: ["BDSKGR07"],
+  });
+  mage.variant("Adept Mage Skeleton", {
+    data: { level1: 8, spells: mageSpells(8), xpv: 2000 },
+    files: ["BDTEAM60"],
   });
   mageSkeletonVariant(mage, "Experienced Mage Skeleton", 12, [
     "D9SM12",

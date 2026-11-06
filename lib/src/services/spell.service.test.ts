@@ -645,8 +645,8 @@ describe("pickCombos", () => {
 
   describe("in createSpellbooks", () => {
     const addBook = (extra: Partial<SpellBook>) => {
-      const base = Spellbooks.find((b) => b.name === "EvilUndeadNecromancer");
-      if (!base) throw new Error("no EvilUndeadNecromancer");
+      const base = Spellbooks.find((b) => b.name === "UndeadNecromancer");
+      if (!base) throw new Error("no UndeadNecromancer");
       const noCombos = {
         minorSequencers: undefined,
         spellSequencers: undefined,
