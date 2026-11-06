@@ -19,6 +19,7 @@ import { Item, ItemSpellHeader, Spell } from "../../model/spell-item/spell-item"
 import { getAllSpells, spellFiles } from "../../model/spell-item/spell-reference";
 import { State } from "../../state";
 import { AT_WILL } from "../../../config/common";
+import { AttackPerRoundTable } from "../../model/game-data/attack-per-round";
 import { SPELLS } from "../../../config/spells/spell-database";
 import creatureService from "../creature.service";
 import monsterFilesService from "../monster-files.service";
@@ -154,8 +155,9 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   if (effective.ac.value <= 0) {
     detected.push({ ability: "acZeroOrLower", source: `AC ${effective.ac.value}` });
   }
-  if (effective.apr.value >= 4) {
-    detected.push({ ability: "fourAttacks", source: `${effective.apr.value} attacks` });
+  const apr = attacksPerRound(effective);
+  if (apr >= 4) {
+    detected.push({ ability: "fourAttacks", source: `${apr} attacks` });
   }
   if (effective.intelligence.value >= 13) {
     detected.push({
@@ -227,7 +229,7 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   addOnHitAbilities(scope.creature, effective, weapons, add);
   addSpellLevelAbility(scope, effective, add);
   addMissileAbility(scope, effective, add);
-  addDamageAbilities(weapons, effective.apr.value, strengthDamage(effective), add);
+  addDamageAbilities(weapons, attacksPerRound(effective), strengthDamage(effective), add);
 
   return ATTACK_ABILITIES.filter((ability) => sources.has(ability)).map((ability) => ({
     ability,
@@ -249,10 +251,6 @@ function addOnHitAbilities(
     const found = new Set<XpAbility>();
     for (const effect of item.header?.effects ?? []) {
       collectEffect(creature, effect, item.header, found, new Set());
-    }
-    // Extra damage on a hit (an ooze's acid, a cat's rear-claw rake): an unlisted attack form
-    if (item.header?.effects.some((e) => e.opcode === EffectTypeEnum.Damage)) {
-      found.add("specialAttack");
     }
     found.forEach((ability) => {
       add(ability, labelOf(item.file, item.stringRef));
@@ -555,6 +553,7 @@ function collectSpell(
 ): void {
   if (visited.has(spell.file)) return;
   visited.add(spell.file);
+  if (spell.xpAbility === null) return; // explicitly counts nothing
   // An explicit tag counts wherever the power is reached (a weapon's cast breath, an aura's death)
   if (spell.xpAbility) found.add(spell.xpAbility);
   const secondary = spell.secondaryType && SECONDARY_TYPE_ABILITIES[String(spell.secondaryType)];
@@ -585,6 +584,26 @@ function collectEffect(
   own.forEach((a) => found.add(a));
 }
 
+/** Disabling or deadly effects with no Table 32 row of their own (stun, sleep, charm...). */
+const HARMFUL_OPCODES: EffectTypeEnum[] = [
+  EffectTypeEnum.Stun,
+  EffectTypeEnum.Sleep,
+  EffectTypeEnum.Slow,
+  EffectTypeEnum.Blindness,
+  EffectTypeEnum.Confusion,
+  EffectTypeEnum.CharmCreature,
+  EffectTypeEnum.CharmControlCreature,
+  EffectTypeEnum.Silence,
+  EffectTypeEnum.Web,
+  EffectTypeEnum.EntangleOverlay,
+  EffectTypeEnum.Maze,
+  EffectTypeEnum.Imprisonment,
+  EffectTypeEnum.PolymorphIntoSpecific,
+  EffectTypeEnum.DrainWizardSpells,
+  EffectTypeEnum.Slay,
+  EffectTypeEnum.KillTarget,
+];
+
 /** Opcodes that always map to an ability, whoever they land on. */
 const OPCODE_ABILITIES: ReadonlyMap<EffectTypeEnum, XpAbility> = new Map<EffectTypeEnum, XpAbility>(
   [
@@ -596,6 +615,8 @@ const OPCODE_ABILITIES: ReadonlyMap<EffectTypeEnum, XpAbility> = new Map<EffectT
     [EffectTypeEnum.LevelDrain, "energyDrain"],
     [EffectTypeEnum.Disease, "causesDisease"],
     [EffectTypeEnum.Panic, "weaknessOrFear"],
+    // Any other harmful effect, not a Table 32 row of its own: an unlisted attack form (user)
+    ...HARMFUL_OPCODES.map((opcode) => [opcode, "specialAttack"] as const),
   ],
 );
 
@@ -686,6 +707,8 @@ function spellLevel(file: string): number | undefined {
 function diceOf(item: Item): { thrown: number; size: number; bonus: number } | undefined {
   const header = item.header;
   if (header?.diceThrown === undefined || header.diceSize === undefined) return undefined;
+  // A diceless "weapon" dealing no damage only carries a form's effects (a vampire's mist form)
+  if (header.diceThrown * header.diceSize === 0 && onHitDamage(item) === 0) return undefined;
   return { thrown: header.diceThrown, size: header.diceSize, bonus: header.damageBonus ?? 0 };
 }
 
@@ -693,6 +716,28 @@ function diceOf(item: Item): { thrown: number; size: number; bonus: number } | u
 function signed(value: number): string {
   if (!value) return "";
   return value > 0 ? `+${value}` : String(value);
+}
+
+/**
+ * The maximum extra damage a weapon's hit deals (opcode 12 on its header: a flaming sword's fire,
+ * an ooze's acid, a cat's rake): it adds to the attack for the damage thresholds (user).
+ */
+function onHitDamage(item: Item): number {
+  return (item.header?.effects ?? [])
+    .filter((e) => e.opcode === EffectTypeEnum.Damage)
+    .reduce((sum, e) => {
+      const d = e as { diceThrown?: number; diceSize?: number; amount?: number };
+      return sum + (d.diceThrown ?? 0) * (d.diceSize ?? 0) + (d.amount ?? 0);
+    }, 0);
+}
+
+/**
+ * The scope's real attacks per round: the game encodes half attacks as 6-10 (8 = 5/2, Bodhi's
+ * spellhold files), decoded with AttackPerRoundTable.
+ */
+function attacksPerRound(effective: EffectiveAdjustment): number {
+  const raw = effective.apr.value;
+  return AttackPerRoundTable.find((t) => !t.doubleApr && t.value === raw)?.apr ?? raw;
 }
 
 /** The scope's strength damage bonus (StrengthTable), added to its melee hits. */
@@ -716,9 +761,11 @@ function addDamageAbilities(
     if (!dice) continue;
     // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8 = 20)
     const str = item.header?.type === ItemAbilityTypeEnum.Melee ? strength : 0;
-    const max = dice.thrown * dice.size + dice.bonus + str;
-    const strLabel = str ? signed(str) + " str" : "";
-    const label = `${dice.thrown}d${dice.size}${signed(dice.bonus)}${strLabel}`;
+    const extra = onHitDamage(item);
+    const max = dice.thrown * dice.size + dice.bonus + str + extra;
+    const strLabel = (str ? signed(str) + " str" : "") + (extra ? signed(extra) + " on hit" : "");
+    const base = dice.thrown * dice.size ? `${dice.thrown}d${dice.size}` : "";
+    const label = `${base}${signed(dice.bonus)}${strLabel}`.replace(/^\+/, "");
     if (max >= 20) add("singleAttack20", `${item.file}: ${label} = ${max}`);
     attacks.push({ file: item.file, max });
   }
@@ -740,7 +787,8 @@ function roundAttacks(
   apr: number,
 ): { file: string; max: number }[] {
   const sorted = [...attacks].sort((a, b) => b.max - a.max);
-  const count = Math.max(1, Math.floor(apr));
+  // 2.5 attacks alternate 2 and 3: the stronger round counts
+  const count = Math.max(1, Math.ceil(apr));
   const round = sorted.slice(0, count);
   const weakest = sorted.at(-1);
   while (weakest && round.length < count) round.push(weakest);

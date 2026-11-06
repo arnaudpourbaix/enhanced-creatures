@@ -797,9 +797,65 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["poison"]);
   });
 
-  it("a weapon dealing extra damage on a hit is a special attack (rake, acid)", () => {
+  it("a weapon's extra damage on a hit adds to its damage, it is no special attack", () => {
     const creature = fakeCreature({
-      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Damage)] })],
+      items: [
+        naturalWeapon({
+          diceThrown: 2,
+          diceSize: 6,
+          effects: [effect(EffectTypeEnum.Damage, { diceThrown: 1, diceSize: 6, amount: 2 })],
+        }),
+      ],
+    });
+    // 2d6 = 12, + 1d6+2 fire on hit = 20
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 2d6+8 on hit = 20` },
+    ]);
+  });
+
+  it("the game's half-attack code is decoded: 8 is 2.5 attacks, the round counts 3", () => {
+    const creature = fakeCreature({
+      data: { apr: 8 },
+      items: [naturalWeapon({ diceThrown: 2, diceSize: 6 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "multipleAttacks30", source: `${WEAPON} 12 + ${WEAPON} 12 + ${WEAPON} 12 = 36` },
+    ]);
+    expect(detectStatAbilities({ creature }).map((a) => a.ability)).not.toContain("fourAttacks");
+  });
+
+  it("a diceless weapon dealing no damage is no attack (mist form)", () => {
+    const creature = fakeCreature({
+      data: { apr: 3, strength: 24 },
+      items: [
+        naturalWeapon({ diceThrown: 1, diceSize: 6 }, { file: "CLAWS" }),
+        naturalWeapon({ diceThrown: 0, diceSize: 0 }, { file: "MIST" }),
+      ],
+    });
+    // claws 1d6+12 = 18, three times = 54 (the mist adds no attack)
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "multipleAttacks30", source: "CLAWS 18 + CLAWS 18 + CLAWS 18 = 54" },
+    ]);
+  });
+
+  it("a diceless weapon dealing damage on a hit is an attack (magic golem blast)", () => {
+    const creature = fakeCreature({
+      items: [
+        naturalWeapon({
+          diceThrown: 0,
+          diceSize: 0,
+          effects: [effect(EffectTypeEnum.Damage, { amount: 30 })],
+        }),
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 30 on hit = 30` },
+    ]);
+  });
+
+  it("a harmful effect on a hit with no row of its own is a special attack (stun)", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Stun)] })],
     });
     expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["specialAttack"]);
   });
