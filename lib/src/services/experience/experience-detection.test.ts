@@ -700,7 +700,47 @@ describe("detectAttackAbilities", () => {
       ],
       abilities: [{ resource: SPELL }],
     });
-    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "highSpells", source: SPELL }]);
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "greaterSpells", source: SPELL },
+    ]);
+  });
+
+  it("spell tiers: 1-2, 3-4, 5-6 and 7-9", () => {
+    const tier = (level: number) =>
+      detectAttackAbilities({
+        creature: fakeCreature({
+          spells: [{ file: SPELL, type: 1, level }] as never,
+          abilities: [{ resource: SPELL }],
+        }),
+      }).map((a) => a.ability);
+    expect(tier(2)).toEqual(["lowSpells"]);
+    expect(tier(4)).toEqual(["highSpells"]);
+    expect(tier(6)).toEqual(["greaterSpells"]);
+    expect(tier(9)).toEqual(["supremeSpells"]);
+  });
+
+  it("a memorized own innate power is no spell (vampire wolf form)", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] } } as never,
+      spells: [{ file: SPELL, type: 4, level: 1 }] as never,
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).not.toContain("lowSpells");
+  });
+
+  it("a spell counts at its hand-rated worth (control undead: level 7, worth 3)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: 1, level: 7, worthLevel: 3 }] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["highSpells"]);
+  });
+
+  it("an own spell tagged to count nothing never raises the spell bonus (innate dimension door)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: 1, level: 4, xpAbility: null }] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
   it("an invisibility spell memorized at will is invisible at will", () => {

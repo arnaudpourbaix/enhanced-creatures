@@ -39,6 +39,8 @@ export const createDimensionDoor = ({
   memorizedCount,
   name: "spell.dimensionDoor.name",
   role: "reactive",
+  // a short teleport adds nothing to a creature's power: never raises its XP (user)
+  xpAbility: null,
   description: "spell.dimensionDoor.description",
   doc: "name",
   castingSound: "CAS_M08",

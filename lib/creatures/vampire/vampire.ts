@@ -390,6 +390,9 @@ function supernatural(level: number, silenceable = false) {
     level,
     type: SpellTypeEnum.Wizard,
     flags: [SpellFlagEnum.IgnoreDead, ...(silenceable ? [] : [SpellFlagEnum.CastableWhenSilenced])],
+    // for XP, the vampire's declared special attack and defense forms count its powers: not as
+    // spells too (a wizard spell only for the forms' blocking)
+    xpAbility: null,
   };
 }
 

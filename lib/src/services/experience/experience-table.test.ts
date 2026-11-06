@@ -51,4 +51,12 @@ describe("experience table", () => {
     expect(s.abilities.map((a) => a.ability)).toEqual(["fatalPoison"]);
     expect(s.total).toBe(8);
   });
+  it("only the highest spell tier counts", () => {
+    const s = scoreExperience({ whole: 9, plus: false }, [
+      { ability: "highSpells", source: "Fireball" },
+      { ability: "supremeSpells", source: "Power Word Kill" },
+    ]);
+    expect(s.abilities.map((a) => a.ability)).toEqual(["supremeSpells"]);
+    expect(s.total).toBe(13);
+  });
 });

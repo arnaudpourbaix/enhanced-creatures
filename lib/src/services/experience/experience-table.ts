@@ -14,6 +14,8 @@ export type XpAbility =
   | "invisibleAtWill"
   | "lowSpells"
   | "highSpells"
+  | "greaterSpells"
+  | "supremeSpells"
   | "magicResistance"
   | "missileWeapons"
   | "multipleAttacks30"
@@ -50,7 +52,10 @@ export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }
   weaponImmunity: { modifier: 1, label: "weapon immunity" },
   invisibleAtWill: { modifier: 1, label: "invisible at will" },
   lowSpells: { modifier: 1, label: "level 1-2 spells" },
-  highSpells: { modifier: 2, label: "level 3+ spells" },
+  highSpells: { modifier: 2, label: "level 3-4 spells" },
+  // Table 32 stops at "level 3 or greater" (user): higher spells are a bigger threat
+  greaterSpells: { modifier: 3, label: "level 5-6 spells" },
+  supremeSpells: { modifier: 4, label: "level 7-9 spells" },
   magicResistance: { modifier: 2, label: "magic resistance" },
   missileWeapons: { modifier: 1, label: "missile weapons" },
   multipleAttacks30: { modifier: 2, label: "multiple attacks over 30 damage" },
@@ -108,6 +113,19 @@ export function xpForHitDiceValue(value: number): number {
 }
 
 const POISONS: XpAbility[] = ["fatalPoison", "strongPoison", "poison", "weakPoison"];
+const SPELL_TIERS: XpAbility[] = ["supremeSpells", "greaterSpells", "highSpells", "lowSpells"];
+
+/** Keeps only the strongest of a group of abilities that don't add up. */
+function strongestOf(abilities: DetectedAbility[], group: XpAbility[]): DetectedAbility[] {
+  const members = abilities.filter((a) => group.includes(a.ability));
+  if (members.length < 2) return abilities;
+  const strongest = members.reduce(
+    (best, a) =>
+      XP_ABILITIES[a.ability].modifier > XP_ABILITIES[best.ability].modifier ? a : best,
+    members[0],
+  );
+  return abilities.filter((a) => !group.includes(a.ability) || a === strongest);
+}
 
 export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): ExperienceScore {
   const seen = new Set<XpAbility>();
@@ -118,19 +136,9 @@ export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): Exper
     seen.add(a.ability);
     return true;
   });
-  if (seen.has("highSpells")) {
-    abilities = abilities.filter((a) => a.ability !== "lowSpells");
-  }
-  // A creature's strongest poison counts, not each of its poisons
-  const poisons = abilities.filter((a) => POISONS.includes(a.ability));
-  if (poisons.length > 1) {
-    const strongest = poisons.reduce(
-      (best, a) =>
-        XP_ABILITIES[a.ability].modifier > XP_ABILITIES[best.ability].modifier ? a : best,
-      poisons[0],
-    );
-    abilities = abilities.filter((a) => !POISONS.includes(a.ability) || a === strongest);
-  }
+  // Only the highest spell tier counts, and a creature's strongest poison, not each of them
+  abilities = strongestOf(abilities, SPELL_TIERS);
+  abilities = strongestOf(abilities, POISONS);
   const value = hitDiceValue(hd);
   const total = value + abilities.reduce((sum, a) => sum + XP_ABILITIES[a.ability].modifier, 0);
   const xp = xpForHitDiceValue(total);

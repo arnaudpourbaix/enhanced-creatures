@@ -443,11 +443,19 @@ function addSpellLevelAbility(
 ): void {
   const spell = highestSpell(scope, effective);
   if (spell && spell.level >= 1) {
-    add(spell.level >= 3 ? "highSpells" : "lowSpells", spellLabel(spell.file));
+    add(spellTier(spell.level), spellLabel(spell.file));
   }
   for (const file of atWillInvisibility(scope.creature, effective)) {
     add("invisibleAtWill", spellLabel(file));
   }
+}
+
+/** The spell tier of a highest spell level: 1-2, 3-4, 5-6, 7-9 (user, beyond Table 32's 3+). */
+function spellTier(level: number): XpAbility {
+  if (level >= 7) return "supremeSpells";
+  if (level >= 5) return "greaterSpells";
+  if (level >= 3) return "highSpells";
+  return "lowSpells";
 }
 
 /** Invisibility spells, memorized at will (the ogre mage's), make a creature invisible at will. */
@@ -535,6 +543,8 @@ const ATTACK_ABILITIES: XpAbility[] = [
   "causesDisease",
   "weaknessOrFear",
   "invisibleAtWill",
+  "supremeSpells",
+  "greaterSpells",
   "highSpells",
   "lowSpells",
   "missileWeapons",
@@ -709,18 +719,17 @@ function highestSpell(
     ...effective.memorized.map((m) => m.spell),
     ...spellbooks.flatMap((variant) => variant.memorized),
   ].filter((spell) => (spell.memorizedCount ?? 1) > 0);
+  const worth = (file: string, level: number | undefined) =>
+    spellWorth(scope.creature, file, level);
   const candidates = [
-    ...memorized.map((spell) => ({
-      file: spell.file,
-      level: spell.level ?? spellLevel(spell.file),
-    })),
+    ...memorized.map((spell) => ({ file: spell.file, level: worth(spell.file, spell.level) })),
     ...ownSpells(scope.creature, effective)
       .filter(isSpellPower)
-      .map((spell) => ({ file: spell.file, level: spell.level })),
-    ...usableAbilities(scope.creature, effective).map((ability) => ({
-      file: creatureService.getAbilityCastFiles(ability)[0] ?? "ability",
-      level: ability.level ?? undefined,
-    })),
+      .map((spell) => ({ file: spell.file, level: worth(spell.file, spell.level) })),
+    ...usableAbilities(scope.creature, effective).map((ability) => {
+      const file = creatureService.getAbilityCastFiles(ability)[0] ?? "ability";
+      return { file, level: worth(file, ability.level ?? undefined) };
+    }),
   ].filter(
     (c): c is { file: string; level: number } =>
       c.level !== undefined && !isClassSpell(c.file) && !NO_POWER_SPELLS.has(c.file.toUpperCase()),
@@ -751,10 +760,29 @@ let spellLevels: Map<string, number | undefined> | undefined;
 function spellLevel(file: string): number | undefined {
   spellLevels ??= new Map(
     getAllSpells(SPELLS)
-      .flatMap((spell) => spellFiles(spell).map((f) => [f, spell.level] as const))
+      .flatMap((spell) =>
+        spellFiles(spell).map((f) => [f, spell.worthLevel ?? spell.level] as const),
+      )
       .reverse(), // the first entry for a file wins
   );
   return spellLevels.get(file);
+}
+
+/**
+ * The level a spell counts at for the spell bonus: its worth in a fight when rated by hand
+ * (`worthLevel`: a vampire's control undead is level 7 but worth 3), else its level. An own power
+ * tagged `xpAbility: null` (an innate dimension door) never raises the bonus.
+ */
+function spellWorth(
+  creature: Creature,
+  file: string,
+  level: number | undefined,
+): number | undefined {
+  const own = allSpells(creature).find((s) => s.file.toUpperCase() === file.toUpperCase());
+  // An own innate power (a vampire's wolf form) is no spellcasting, even when memorized
+  if (own)
+    return own.xpAbility === null || !isSpellPower(own) ? undefined : (own.worthLevel ?? own.level);
+  return spellLevel(file) ?? level;
 }
 
 function diceOf(
