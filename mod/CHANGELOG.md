@@ -43,6 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Doc: show long spell renew periods in turns
 - HP: drop the constitution hit point house rule
 - Spells: combo groups, random combo pick, spellbook level check
+- XP: 2e DMG Table 31/32 scoring
 
 ### Changed
 
