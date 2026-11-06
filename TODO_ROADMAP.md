@@ -127,16 +127,13 @@ Moved to [BODHI.md](BODHI.md) (scripts, abilities, CRE review and progression).
 
 ---
 
-## 🟡 XP formula (2e DMG Tables 31/32, `lib/src/services/experience/`)
+## 🟡 Strength double-dips on natural attacks (every creature, in game)
 
-### ☐ Strength double-dips on natural attacks
-
-Most 2e monsters have no Strength score: their listed damage is the whole hit. The engine needs
-a strength for every creature, and the damage rows (single attack 20+, multiple attacks 30+)
-currently add its bonus to every melee hit, so monsters get it twice. Bears show it best: from
-the black to the polar bear the claws and bite dice grow *and* the strength grows, so each step
-counts the same extra might twice. The greater basilisk is the other clear case: book 7000 is
-exactly the formula without strength (17), its 20 strength pushes it to 11000.
+Most 2e monsters have no Strength score: their listed damage is the whole hit and their THAC0
+comes from their Hit Dice. The engine needs a strength for every creature and adds its damage
+(and to-hit) bonus to every melee hit, so monsters with natural attacks get their might twice
+and can become too powerful. Bears show it best: from the black to the polar bear the claws and
+bite dice grow *and* the strength grows. The greater basilisk too: 2d8 bite + 8 for 20 strength.
 
 Agreed rule (user, 2026-11-07):
 
@@ -145,9 +142,26 @@ Agreed rule (user, 2026-11-07):
 2. Manufactured weapons (an ogre's club, an ettin's clubs, a minotaur's axe, a battle horror's
    greatsword) add the strength bonus, as a 2e wielder does.
 
-Known cost: the juju zombie fights with its fists and loses the 3d4+8 = 20 that matched its
-Monstrous Manual 975 (base creatures keep their book XP anyway). Look for more rules to improve
-the damage rows rather than per-creature flags (user: no opt-in flag).
+Options for rule 1 in game (to decide):
+
+- Compensate in the natural weapon itself: its damage bonus minus the creature's strength damage
+  bonus (and to-hit the same), computed where natural weapons are made. Keeps strength for
+  everything else (grab, hug and bend-bars checks, carrying).
+- Give natural-attack monsters a neutral strength (no bonus) unless their 2e entry lists one.
+  Simpler, but strength also drives grab/hug checks.
+
+Known cost: the juju zombie fights with its fists; its 3d4 is meant to go with its strength
+(it matched its Monstrous Manual 975 XP that way). Look for better rules rather than
+per-creature flags (user: no opt-in flag).
+
+---
+
+## 🟡 XP formula (2e DMG Tables 31/32, `lib/src/services/experience/`)
+
+### ☐ Strength double-dips on natural attacks — see the global item above
+
+The damage rows will follow the global fix: natural attacks scored on their dice alone,
+manufactured weapons with the strength bonus.
 
 ### ☐ Bosses and drops
 
