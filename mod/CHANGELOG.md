@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Spells: combo groups, random combo pick, spellbook level check
 - XP: 2e DMG Table 31/32 scoring
 - XP: detect stat, immunity and declared XP abilities
+- XP: detect attack, ability and spell XP abilities
 
 ### Changed
 

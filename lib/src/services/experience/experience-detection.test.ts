@@ -4,9 +4,23 @@ import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
 import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
-import { Item } from "../../model/spell-item/spell-item";
+import { CreatureAbility } from "../../model/creature/ability";
+import {
+  EffectStatisticModifierEnum,
+  EffectTargetEnum,
+  ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
+} from "../../model/spell-item/effect.enums";
+import { Item, ItemHeader, Spell } from "../../model/spell-item/spell-item";
 import { State } from "../../state";
-import { detectHitDice, detectStatAbilities, matchingAdjustments } from "./experience-detection";
+import translationService from "../translation.service";
+import {
+  detectAbilities,
+  detectAttackAbilities,
+  detectHitDice,
+  detectStatAbilities,
+  matchingAdjustments,
+} from "./experience-detection";
 
 const FILE = "TESTCRE";
 
@@ -20,8 +34,16 @@ function registerImmunity(name: ImmunityName, immunities: ImmunityName[]): void 
 
 function fakeCreature(p: {
   data?: Partial<CreatureData>;
-  adjustments?: { files: string[]; game?: Game; data: Partial<CreatureData> }[];
+  adjustments?: {
+    files: string[];
+    game?: Game;
+    noWeapon?: boolean;
+    data: Partial<CreatureData>;
+  }[];
   items?: Partial<Item>[];
+  spells?: Partial<Spell>[];
+  abilities?: Partial<CreatureAbility>[];
+  ranged?: boolean;
   autoImmunities?: ImmunityName[];
 }): Creature {
   const data: CreatureData = {
@@ -54,12 +76,22 @@ function fakeCreature(p: {
   return {
     data,
     id: 1,
-    attack: { dualWielding: false },
+    attack: { dualWielding: false, melee: true, ranged: p.ranged ?? false },
+    behavior: {
+      abilities: (p.abilities ?? []).map((a) => ({ actions: [], ...a })),
+    },
     autoImmunities: p.autoImmunities ?? [],
-    items: (p.items ?? []).map((i) => ({ immunities: [], effects: [], trait: false, ...i })),
+    items: (p.items ?? []).map((i) => ({
+      immunities: [],
+      effects: [],
+      equippedSlot: [],
+      trait: false,
+      ...i,
+    })),
+    spells: (p.spells ?? []).map((s) => ({ effects: [], headers: [], ...s })),
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
-      noWeapon: false,
+      noWeapon: a.noWeapon ?? false,
       game: a.game,
       summon: false,
       scriptName: false,
@@ -339,5 +371,400 @@ describe("detectStatAbilities", () => {
       adjustments: [{ files: [FILE], game: "bg1", data: { ac: -2 } }],
     });
     expect(detectStatAbilities({ creature, file: FILE, game: "bg2" })).toEqual([]);
+  });
+});
+
+const WEAPON = "TESTW1";
+const SPELL = "TESTS1";
+
+/** A natural weapon in no slot (picked by weapon switching), 1d4 unless the header says otherwise. */
+function naturalWeapon(header: Partial<ItemHeader> = {}, item: Partial<Item> = {}): Partial<Item> {
+  return {
+    file: WEAPON,
+    header: {
+      type: ItemAbilityTypeEnum.Melee,
+      diceThrown: 1,
+      diceSize: 4,
+      effects: [],
+      ...header,
+    },
+    ...item,
+  };
+}
+
+function equipped(file: string, slot: string): Partial<CreatureData> {
+  return { items: { equipped: [{ file, slot }], remove: [] } } as unknown as Partial<CreatureData>;
+}
+
+function effect(opcode: EffectTypeEnum, extra: object = {}) {
+  return { opcode, ...extra } as never;
+}
+
+describe("detectAttackAbilities", () => {
+  it("detects nothing on a plain creature", () => {
+    expect(detectAttackAbilities({ creature: fakeCreature({}) })).toEqual([]);
+  });
+
+  it("poison from a natural weapon's on-hit effect, the weapon as source", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "poison", source: WEAPON }]);
+  });
+
+  it("the source names the weapon when its name is known", () => {
+    const stringRef = translationService.addCustomTranslation(["Venom Claw"]);
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] }, { stringRef })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "poison", source: `${WEAPON} (Venom Claw)` },
+    ]);
+  });
+
+  it("poison from the poison option: a cast spell with the Poison secondary type", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, secondaryType: "Poison" }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "poison", source: WEAPON }]);
+  });
+
+  it("follows cast spells to their effects", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [
+        {
+          file: SPELL,
+          headers: [
+            {
+              type: ItemAbilityTypeEnum.Melee,
+              effects: [effect(EffectTypeEnum.CastSpellOnCondition, { resource: "TESTS2" })],
+            },
+          ],
+        },
+        { file: "TESTS2", effects: [effect(EffectTypeEnum.LevelDrain)] },
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "energyDrain", source: WEAPON },
+    ]);
+  });
+
+  it.each([
+    [EffectTypeEnum.Poison, "poison"],
+    [EffectTypeEnum.Paralyze, "paralysis"],
+    [EffectTypeEnum.Hold, "paralysis"],
+    [EffectTypeEnum.HoldCreatureSpell, "paralysis"],
+    [EffectTypeEnum.Petrification, "petrification"],
+    [EffectTypeEnum.LevelDrain, "energyDrain"],
+    [EffectTypeEnum.Disease, "causesDisease"],
+    [EffectTypeEnum.Panic, "weaknessOrFear"],
+  ])("maps opcode %s to %s", (opcode, ability) => {
+    const creature = fakeCreature({ items: [naturalWeapon({ effects: [effect(opcode)] })] });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability, source: WEAPON }]);
+  });
+
+  it.each([
+    ["Disease", "causesDisease"],
+    ["Fear", "weaknessOrFear"],
+  ] as const)("maps the %s secondary type to %s", (secondaryType, ability) => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
+      spells: [{ file: SPELL, secondaryType }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability, source: WEAPON }]);
+  });
+
+  it("weaknessOrFear from a negative Strength modifier", () => {
+    const drain = effect(EffectTypeEnum.StrengthBonus, {
+      type: EffectStatisticModifierEnum.Increment,
+      value: -1,
+    });
+    const creature = fakeCreature({ items: [naturalWeapon({ effects: [drain] })] });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "weaknessOrFear", source: WEAPON },
+    ]);
+  });
+
+  it("no weaknessOrFear from a Strength bonus", () => {
+    const bonus = effect(EffectTypeEnum.StrengthBonus, {
+      type: EffectStatisticModifierEnum.Increment,
+      value: 2,
+    });
+    const creature = fakeCreature({ items: [naturalWeapon({ effects: [bonus] })] });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("invisibleAtWill from an ability's spell turning the caster invisible", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          headers: [
+            {
+              type: ItemAbilityTypeEnum.Magical,
+              target: ItemAbilityTargetEnum.Caster,
+              effects: [effect(EffectTypeEnum.Invisibility)],
+            },
+          ],
+        },
+      ],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "invisibleAtWill", source: SPELL },
+    ]);
+  });
+
+  it("invisibleAtWill from a self-targeted Invisibility effect", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          effects: [effect(EffectTypeEnum.Invisibility, { target: EffectTargetEnum.Self })],
+        },
+      ],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "invisibleAtWill", source: SPELL },
+    ]);
+  });
+
+  it("no invisibleAtWill when Invisibility lands on someone else", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Invisibility)] })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("behaviour abilities count through their spells' effects, the spell as source", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, effects: [effect(EffectTypeEnum.Hold)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "paralysis", source: SPELL }]);
+  });
+
+  it("an equipped own item's on-hit effects count", () => {
+    const creature = fakeCreature({
+      data: equipped(WEAPON, "WEAPON1"),
+      items: [
+        {
+          file: WEAPON,
+          equippedSlot: ["WEAPON1"],
+          header: { type: ItemAbilityTypeEnum.Melee, effects: [effect(EffectTypeEnum.Disease)] },
+        },
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "causesDisease", source: WEAPON },
+    ]);
+  });
+
+  it("an item an adjustment equips counts for its file only", () => {
+    const creature = fakeCreature({
+      items: [
+        {
+          file: WEAPON,
+          header: { type: ItemAbilityTypeEnum.Melee, effects: [effect(EffectTypeEnum.Disease)] },
+        },
+      ],
+      adjustments: [{ files: [FILE], data: equipped(WEAPON, "WEAPON1") }],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([
+      { ability: "causesDisease", source: WEAPON },
+    ]);
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("an adjustment with noWeapon drops the weapons' on-hit abilities", () => {
+    const creature = fakeCreature({
+      data: equipped("TESTW2", "WEAPON2"),
+      items: [
+        naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] }),
+        {
+          file: "TESTW2",
+          equippedSlot: ["WEAPON2"],
+          header: { type: ItemAbilityTypeEnum.Melee, effects: [effect(EffectTypeEnum.Disease)] },
+        },
+      ],
+      adjustments: [{ files: [FILE], noWeapon: true, data: {} }],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([]);
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual([
+      "poison",
+      "causesDisease",
+    ]);
+  });
+
+  it("a natural weapon whose slot an adjustment fills with another item is not wielded", () => {
+    const creature = fakeCreature({
+      data: equipped(WEAPON, "WEAPON1"),
+      items: [
+        naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] }, { equippedSlot: ["WEAPON1"] }),
+      ],
+      adjustments: [{ files: [FILE], data: equipped("SW1H01", "WEAPON1") }],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([]);
+  });
+
+  it("ignores the trait item's effects", () => {
+    const creature = fakeCreature({
+      items: [{ trait: true, effects: [effect(EffectTypeEnum.Poison)] }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+
+  it("one entry per ability, joining its sources", () => {
+    const creature = fakeCreature({
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] })],
+      spells: [{ file: SPELL, effects: [effect(EffectTypeEnum.Poison)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "poison", source: `${WEAPON}, ${SPELL}` },
+    ]);
+  });
+
+  it("memorized level 2 and level 4 spells give only highSpells", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [
+            { file: "SPWI203", memorizedCount: 1, level: 2 },
+            { file: "SPWI404", memorizedCount: 1, level: 4 },
+          ],
+        },
+      } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "highSpells", source: "SPWI404" },
+    ]);
+  });
+
+  it("lowSpells from a memorized level 1 spell resolved through SPELLS", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI112", memorizedCount: 1 }] } } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "lowSpells", source: "SPWI112" },
+    ]);
+  });
+
+  it("a spell an adjustment memorizes counts for its file", () => {
+    const creature = fakeCreature({
+      adjustments: [
+        { files: [FILE], data: { spells: { memorized: [{ file: "SPWI304" }] } } as never },
+      ],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([
+      { ability: "highSpells", source: "SPWI304" },
+    ]);
+  });
+
+  it("a spell whose memorized count drops to zero is gone", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI304", memorizedCount: 1 }] } } as never,
+      adjustments: [
+        {
+          files: [FILE],
+          data: { spells: { memorized: [{ file: "SPWI304", memorizedCount: 0 }] } } as never,
+        },
+      ],
+    });
+    expect(detectAttackAbilities({ creature, file: FILE })).toEqual([]);
+  });
+
+  it("takes the highest level across spellbook variants", () => {
+    const creature = fakeCreature({
+      data: {
+        spells: {
+          memorized: [{ file: "SPWI112", memorizedCount: 1 }],
+          spellbooks: [
+            { mod: "SpellRevisions", memorized: [{ file: "SPWI112", memorizedCount: 1 }] },
+            { mod: "FaithsAndPowers", memorized: [{ file: "SPWI304", memorizedCount: 1 }] },
+          ],
+        },
+      } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "highSpells", source: "SPWI304" },
+    ]);
+  });
+
+  it("behaviour abilities with a numeric level count as spells, null ones do not", () => {
+    const creature = fakeCreature({
+      abilities: [
+        { resource: "TESTS9", level: null },
+        { resource: SPELL, level: 2 },
+      ],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "lowSpells", source: SPELL }]);
+  });
+
+  it("missileWeapons from a ranged attack", () => {
+    const creature = fakeCreature({ ranged: true });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "missileWeapons", source: "ranged attack" },
+    ]);
+  });
+
+  it("missileWeapons from an item in a quiver slot", () => {
+    const creature = fakeCreature({ data: equipped("AROW01", "QUIVER1") });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "missileWeapons", source: "AROW01" },
+    ]);
+  });
+
+  it("a 2d10+2 natural weapon at 2 attacks gives singleAttack20 and multipleAttacks30", () => {
+    const creature = fakeCreature({
+      data: { apr: 2 },
+      items: [naturalWeapon({ diceThrown: 2, diceSize: 10, damageBonus: 2 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 2d10+2 = 22` },
+      { ability: "multipleAttacks30", source: `${WEAPON}: 22 x 2 attacks = 44` },
+    ]);
+  });
+
+  it("a single 1d20 attack gives only singleAttack20", () => {
+    const creature = fakeCreature({ items: [naturalWeapon({ diceThrown: 1, diceSize: 20 })] });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "singleAttack20", source: `${WEAPON}: 1d20 = 20` },
+    ]);
+  });
+
+  it("3d6 at 2 attacks gives only multipleAttacks30", () => {
+    const creature = fakeCreature({
+      data: { apr: 2 },
+      items: [naturalWeapon({ diceThrown: 3, diceSize: 6 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "multipleAttacks30", source: `${WEAPON}: 18 x 2 attacks = 36` },
+    ]);
+  });
+
+  it("no damage abilities under the thresholds", () => {
+    const creature = fakeCreature({
+      data: { apr: 3 },
+      items: [naturalWeapon({ diceThrown: 1, diceSize: 8, damageBonus: 1 })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+});
+
+describe("detectAbilities", () => {
+  it("returns the stat abilities followed by the attack abilities", () => {
+    const creature = fakeCreature({
+      data: { ac: -1, xpAbilities: ["flies"] },
+      items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] })],
+    });
+    expect(detectAbilities({ creature })).toEqual([
+      { ability: "acZeroOrLower", source: "AC -1" },
+      { ability: "flies", source: "declared" },
+      { ability: "poison", source: WEAPON },
+    ]);
   });
 });
