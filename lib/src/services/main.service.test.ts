@@ -24,6 +24,7 @@ import logService from "./log.service";
 import spellComboService from "./spell-combo.service";
 import mainService from "./main.service";
 import stateService from "./state.service";
+import translationService from "./translation.service";
 import weiduCreatureService from "./weidu/weidu-creature.service";
 
 // Several tests below spy on logService.log without restoring it themselves, relying on getting a
@@ -193,6 +194,31 @@ describe("generateCreature", () => {
 
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("weidu boom"));
     expect(creature.valid).toBe(false);
+  });
+});
+
+describe("checkPowerLevels", () => {
+  afterEach(() => {
+    State.spells = [];
+  });
+
+  it("logs an error for a created innate spell with neither a power level nor a tag", () => {
+    const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
+    vi.spyOn(translationService, "from").mockReturnValue("Leap");
+    const innate = {
+      type: SpellTypeEnum.Innate,
+      level: 1,
+      effects: [],
+      headers: [],
+      effectFiles: [],
+    };
+    State.spells = [
+      { ...innate, file: "LEAP", name: "monster.cat.ability.leap.name" },
+      { ...innate, file: "CHARM", worthLevel: 5 },
+    ] as never;
+    mainService.checkPowerLevels();
+    expect(errorSpy).toHaveBeenCalledTimes(1);
+    expect(errorSpy.mock.calls[0][0]).toMatch(/LEAP \(Leap\) needs a power level/);
   });
 });
 

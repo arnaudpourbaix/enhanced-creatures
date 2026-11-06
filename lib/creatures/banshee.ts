@@ -39,6 +39,7 @@ function bansheeFearAura(cre: Creature) {
 function deathWail(cre: Creature) {
   return cre.addSpell({
     name: "monster.banshee.ability.deathWail.name",
+    worthLevel: 9, // Wail of the Banshee
     role: "kill",
     description: "monster.banshee.ability.deathWail.description",
     id: Ids.DeathWail,

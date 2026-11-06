@@ -151,6 +151,7 @@ class OgreMage extends Ogre {
     this.createItemGaseousForm();
     return this.addSpell({
       name: "monster.ogre.ability.gaseousForm.name",
+      worthLevel: 1, // an escape, not worth much in a fight (user)
       // too short and weak an escape to be a special defense (user)
       xpAbility: null,
       role: "reactive",

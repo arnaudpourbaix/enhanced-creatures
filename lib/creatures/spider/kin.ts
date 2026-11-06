@@ -219,6 +219,7 @@ export class Spider extends Creature {
       name: p.effects?.length
         ? "monster.spider.ability.leapAttack.name"
         : "monster.spider.ability.leap.name",
+      xpAbility: "specialAttack",
       description: p.effects?.length
         ? "monster.spider.ability.leapAttack.description"
         : "monster.spider.ability.leap.description",

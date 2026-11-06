@@ -274,7 +274,7 @@ function addOnHitAbilities(
   for (const item of weapons) {
     const found = new Set<XpAbility>();
     for (const effect of item.header?.effects ?? []) {
-      collectEffect(creature, effect, item.header, found, new Set(), true);
+      collectEffect(allSpells(creature), effect, item.header, found, new Set(), true);
     }
     harmfulOnlyIfUnlisted(found);
     found.forEach((ability) => {
@@ -294,10 +294,10 @@ function addOnHitAbilities(
  */
 export function spellAbilities(creature: Creature, spell: Spell): XpAbility[] {
   const found = new Set<XpAbility>();
-  collectSpell(creature, spell, found, new Set());
+  collectSpell(allSpells(creature), spell, found, new Set());
   harmfulOnlyIfUnlisted(found);
   // A spell or spell-like power counts through the spell tier: its charm or slay is no special
-  // attack on top (a dryad's charm, a banshee's death wail)
+  // attack on top (a dryad's charm, a banshee's death wail), and a power level 0 counts nothing
   if (isSpellPower(spell) || spellLikeLevel(creature, spell) !== undefined) {
     found.delete("specialAttack");
   }
@@ -408,7 +408,7 @@ function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] 
  * - a reactive power (an aura, a form): nothing unless tagged
  * - any other power (damage, disable, buff such as haste or a burst of speed, grab): a special
  *   non-magical attack (the ankheg's acid stream)
- * A power cast as a wizard or priest spell counts through its spell level only.
+ * A power cast as a wizard or priest spell, or given a power level, counts through that level only.
  * A power already counting as a listed ability (poison, petrification...) without dealing damage
  * is no unlisted form.
  */
@@ -417,9 +417,10 @@ function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefine
   // Already a listed ability (a petrifying gaze, a poison): not an unlisted form too, unless it
   // also deals damage (a ghost's draining touch)
   if (found.size && !dealsDamage(spell)) return undefined;
-  // A power cast as a wizard or priest spell (the ogre mage's cone of cold) is a spell: it counts
-  // through its spell level (highestSpell), not as an attack form too
-  if (isSpellPower(spell) || presetSpellLevel(spell) !== undefined) return undefined;
+  // A power cast as a wizard or priest spell (the ogre mage's cone of cold) or given a power level
+  // (a dryad's charm) is a spell: it counts through that level (highestSpell), not as an attack
+  // form too
+  if (isSpellPower(spell) || spell.worthLevel !== undefined) return undefined;
   if (spell.role === "kill" || spell.role === "summon") return "specialMagicalAttack";
   if (spell.role === "protection") return "specialDefense";
   if (spell.role === "reactive") return undefined;
@@ -427,25 +428,64 @@ function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefine
 }
 
 /**
- * The level of the real spell an own innate power is scripted as: its ability preset (the dryad's
- * and the sirine's charms are Dire Charm), the same level the scripts score it at.
+ * The spell level a spell-like innate power counts at: its power level (`worthLevel`, the dryad's
+ * charm is worth 5) - unless its effects already count as a listed ability (a fear aura is
+ * weakness or fear, a holding web paralysis): not twice. A body's attack form (a leap, a wolf
+ * form) has no power level: it is never a spell (user).
  */
-function presetSpellLevel(spell: Spell): number | undefined {
-  const preset = spell.ability?.preset;
-  return preset === undefined ? undefined : spellLevel(preset);
+function spellLikeLevel(creature: Creature, spell: Spell): number | undefined {
+  if (isSpellPower(spell) || spell.worthLevel === undefined) return undefined;
+  return listedAbilities(allSpells(creature), spell).size ? undefined : spell.worthLevel;
 }
 
 /**
- * The spell level an innate power scripted as a real spell counts at - unless its effects already
- * count as a listed ability (a fear aura is weakness or fear, a holding web paralysis): not twice.
+ * The Table 32 rows a power's effects give (followed through the spells it casts), without the
+ * special attack every harmful effect with no row of its own falls back on (a charm).
  */
-function spellLikeLevel(creature: Creature, spell: Spell): number | undefined {
-  const level = presetSpellLevel(spell);
-  if (level === undefined) return undefined;
+function listedAbilities(spells: readonly Spell[], spell: Spell): Set<XpAbility> {
   const found = new Set<XpAbility>();
-  collectSpell(creature, spell, found, new Set());
-  found.delete("specialAttack"); // a harmful effect with no row of its own (a charm)
-  return found.size ? undefined : level;
+  collectSpell(spells, spell, found, new Set());
+  found.delete("specialAttack");
+  return found;
+}
+
+/**
+ * The innate spells this mod creates that say neither how strong they are nor what they are: a
+ * spell-like power needs a power level (`worthLevel`, 0 for no power), a body's attack form an
+ * explicit `xpAbility` (`null` for nothing), unless its effects already give a listed Table 32
+ * row (a paralyzing touch). The spells another created spell casts (a fear aura's parts) take
+ * their parent's, damage a weapon's hit casts (a bear's hug) counts through the damage rows, and
+ * wizard and priest spells and copies of game spells have a real level (user).
+ */
+export function missingPowerLevels(spells: readonly Spell[], items: readonly Item[] = []): Spell[] {
+  const castOnHit = new Set(
+    items.flatMap((item) =>
+      (item.header?.effects ?? []).flatMap((e) =>
+        CAST_OPCODES.has(e.opcode) && typeof e.resource === "string"
+          ? [e.resource.toUpperCase()]
+          : [],
+      ),
+    ),
+  );
+  const resources = (spell: Spell) =>
+    [...spell.effects, ...spell.headers.flatMap((h) => h.effects), ...spell.effectFiles].flatMap(
+      (e) => (typeof e.resource === "string" ? [e.resource.toUpperCase()] : []),
+    );
+  const parts = new Set(
+    spells.flatMap((spell) => resources(spell).filter((f) => f !== spell.file.toUpperCase())),
+  );
+  const declared = (spell: Spell) =>
+    spell.worthLevel !== undefined || spell.xpAbility !== undefined;
+  const covered = (spell: Spell) => {
+    const file = spell.file.toUpperCase();
+    if (parts.has(file)) return true;
+    if (castOnHit.has(file) && dealsDamage(spell)) return true;
+    return listedAbilities(spells, spell).size > 0;
+  };
+  return spells.filter(
+    (spell) =>
+      spell.type === SpellTypeEnum.Innate && !spell.copyFrom && !declared(spell) && !covered(spell),
+  );
 }
 
 function isSpellPower(spell: Spell): boolean {
@@ -619,7 +659,7 @@ function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): I
 }
 
 function collectSpell(
-  creature: Creature,
+  spells: readonly Spell[],
   spell: Spell,
   found: Set<XpAbility>,
   visited: Set<string>,
@@ -635,14 +675,14 @@ function collectSpell(
   }
   const secondary = spell.secondaryType && SECONDARY_TYPE_ABILITIES[String(spell.secondaryType)];
   if (secondary) found.add(secondary);
-  for (const effect of spell.effects) collectEffect(creature, effect, undefined, found, visited);
+  for (const effect of spell.effects) collectEffect(spells, effect, undefined, found, visited);
   for (const header of spell.headers) {
-    for (const effect of header.effects) collectEffect(creature, effect, header, found, visited);
+    for (const effect of header.effects) collectEffect(spells, effect, header, found, visited);
   }
 }
 
 function collectEffect(
-  creature: Creature,
+  spells: readonly Spell[],
   effect: Effect,
   header: ItemSpellHeader | undefined,
   found: Set<XpAbility>,
@@ -652,13 +692,13 @@ function collectEffect(
   const ability = abilityOfEffect(effect, header);
   if (ability) found.add(ability);
   if (!CAST_OPCODES.has(effect.opcode) || effect.resource === undefined) return;
-  const spell = allSpells(creature).find((s) => s.file === effect.resource);
+  const spell = spells.find((s) => s.file === effect.resource);
   if (!spell || visited.has(spell.file)) return;
   // A power cast by a weapon or another power counts like a power used directly - except that
   // damage a hit casts (an ankheg's digestive enzymes, a bear's hug) is the hit's extra damage: it
   // feeds the damage rows (onHitDamage), it is no attack form (user)
   const own = new Set<XpAbility>();
-  collectSpell(creature, spell, own, visited);
+  collectSpell(spells, spell, own, visited);
   harmfulOnlyIfUnlisted(own);
   const power = powerAbility(spell, own);
   const extraDamage = onHit && power === "specialAttack" && dealsDamage(spell);
@@ -798,7 +838,8 @@ function spellLevel(file: string): number | undefined {
 /**
  * The level a spell counts at for the spell bonus: its worth in a fight when rated by hand
  * (`worthLevel`: a vampire's control undead is level 7 but worth 3), else its level. An own power
- * tagged `xpAbility: null` (an innate dimension door) never raises the bonus.
+ * tagged `xpAbility: null` (an innate dimension door) never raises the bonus, nor does an innate
+ * power with no power level (a body's attack form).
  */
 function spellWorth(
   creature: Creature,
@@ -809,10 +850,7 @@ function spellWorth(
   if (own) {
     if (own.xpAbility === null) return undefined;
     if (isSpellPower(own)) return own.worthLevel ?? own.level;
-    // An innate power scripted as a real spell is spell-like (a dryad's charm is Dire Charm);
-    // any other innate power (a vampire's wolf form) is no spellcasting, even when memorized
-    const preset = spellLikeLevel(creature, own);
-    return preset === undefined ? undefined : (own.worthLevel ?? preset);
+    return spellLikeLevel(creature, own);
   }
   return spellLevel(file) ?? level;
 }

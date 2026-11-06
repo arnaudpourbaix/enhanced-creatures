@@ -422,21 +422,6 @@ THEN
 		ReallyForceSpellRES("jasm3601",Myself)
 END
 
-// Summon Giant Poisonous Snake
-IF
-	HaveSpellRES("jasm3604")
-	RandomNumGT(800,200)
-	See(NearestEnemyOf(Myself))
-	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
-	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
-	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-	!General(LastSeenBy(Myself),WEAPON)
-THEN
-	RESPONSE #100
-		ForceSpellRES("jasm3604",Myself)
-		RemoveSpellRES("jasm3604")
-END
-
 // Drowning Kiss
 IF
 	HaveSpellRES("jasm3602")
@@ -586,6 +571,21 @@ THEN
 		ActionOverride(LastSeenBy(Myself),FaceObject([EVILCUTOFF.0.FAIRY.FAIRY_NEREID.0.FEMALE.CHAOTIC_NEUTRAL]))
 		ForceSpellRES("jasm3602",LastSeenBy(Myself))
 		RemoveSpellRES("jasm3602")
+END
+
+// Summon Giant Poisonous Snake
+IF
+	HaveSpellRES("jasm3604")
+	RandomNumGT(801,200)
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
+	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
+	!StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+	!General(LastSeenBy(Myself),WEAPON)
+THEN
+	RESPONSE #100
+		ForceSpellRES("jasm3604",Myself)
+		RemoveSpellRES("jasm3604")
 END
 
 // Watery Fist

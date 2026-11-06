@@ -25,6 +25,7 @@ class Cheetah extends Cat {
     const duration = 3 * Durations.round;
     return this.addSpell({
       name: "monster.cat.ability.burstOfSpeed.name",
+      xpAbility: "specialAttack",
       role: "buff",
       description: "monster.cat.ability.burstOfSpeed.description",
       id: CatIds.BurstOfSpeed,

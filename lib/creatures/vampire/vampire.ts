@@ -553,6 +553,7 @@ function batSwarm(group: AbstractCreature) {
   });
   return group.addSpell({
     name: "monster.vampire.ability.batSwarm.name",
+    worthLevel: 4, // blinded, -4 AC and to-hit, half movement, no save (user)
     role: "summon",
     description: "monster.vampire.ability.batSwarm.description",
     id: Ids.VampireBatSwarm,
@@ -733,6 +734,8 @@ function animalForm(group: AbstractCreature, form: AnimalForm) {
   return group.addSpell({
     name: form.name,
     role: "shapeshift",
+    // a body's form, never a spell (user)
+    xpAbility: "specialAttack",
     description: form.description,
     id: form.id,
     memorizedCount: 1,
@@ -1162,6 +1165,7 @@ function vampireForm(cre: Creature, forms: string[]) {
   return cre.addSpell({
     id: Ids.VampireForm,
     name: "monster.vampire.ability.vampireForm.name",
+    xpAbility: null, // only ends another form
     role: "reactive",
     description: "monster.vampire.ability.vampireForm.description",
     memorizedCount: 1,

@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - HP: drop the constitution hit point house rule
 - Spells: combo groups, random combo pick, spellbook level check
 - Dashboard: experience tab
+- XP: a power level or a tag on every created spell
 
 ### Changed
 

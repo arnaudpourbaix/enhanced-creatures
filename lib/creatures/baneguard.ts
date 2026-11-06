@@ -23,6 +23,7 @@ function blink(cre: Creature) {
     icon: SPELLS.Wizard.TeleportField.file,
     options: { renew: 14 },
     name: "monster.baneguard.ability.blink",
+    worthLevel: 3,
     role: "protection",
     id: Ids.Blink,
     memorizedCount: 1,

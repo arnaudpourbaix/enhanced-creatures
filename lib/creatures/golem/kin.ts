@@ -100,6 +100,7 @@ export class Golem extends Creature {
     });
     return this.addSpell({
       name: "monster.golem.ability.charge.name",
+      xpAbility: "specialAttack",
       role: "damage",
       description: "monster.golem.ability.charge.description",
       id: GolemIds.Charge,

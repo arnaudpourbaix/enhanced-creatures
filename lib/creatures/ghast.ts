@@ -70,6 +70,7 @@ function carrionStench(cre: Creature) {
   };
   return cre.addSpell({
     name: "monster.ghast.ability.carrionStench.name",
+    xpAbility: "specialAttack",
     role: "disable",
     keywords: ["area"],
     description: "monster.ghast.ability.carrionStench.description",

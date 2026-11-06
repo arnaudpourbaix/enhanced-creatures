@@ -26,6 +26,7 @@ class ClayGolem extends Golem {
   createHaste() {
     return this.addSpell({
       name: "monster.golem.ability.haste",
+      worthLevel: 3,
       role: "buff",
       id: GolemIds.Haste,
       memorizedCount: 1,

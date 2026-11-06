@@ -103,6 +103,7 @@ export class FeyKin extends CreatureKin {
   private createCharm() {
     return this.addSpell({
       name: "monster.fey.ability.dryadDireCharm",
+      worthLevel: 5, // Domination-class: -3 save, humanoids only (user)
       role: "disable",
       id: FeyIds.DryadCharm,
       icon: SPELLS.Wizard.DireCharm.file,
@@ -148,6 +149,7 @@ export class FeyKin extends CreatureKin {
   private createSpeakWithPlants() {
     return this.addSpell({
       name: "monster.fey.ability.speakWithPlants.name",
+      worthLevel: 0, // only entangle immunity in a fight
       // cast once entangled: it frees her, making her immune to entangle (user)
       role: "reactive",
       id: FeyIds.SpeakWithPlants,
@@ -220,6 +222,7 @@ export class FeyKin extends CreatureKin {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.animalFriendship.name",
+      worthLevel: 1,
       role: "disable",
       id: FeyIds.AnimalFriendship,
       description: "monster.fey.ability.animalFriendship.description",
@@ -297,6 +300,7 @@ export class FeyKin extends CreatureKin {
   private createDetectTraps() {
     return this.addSpell({
       name: "monster.fey.ability.detectTraps.name",
+      worthLevel: 0,
       role: "useless",
       id: FeyIds.DetectTraps,
       description: "monster.fey.ability.detectTraps.description",

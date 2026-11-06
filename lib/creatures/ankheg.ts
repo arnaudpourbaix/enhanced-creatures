@@ -32,6 +32,7 @@ class Ankheg extends Creature {
   createStream() {
     return this.addSpell({
       name: "monster.ankheg.enzymeStream.name",
+      xpAbility: "specialAttack",
       role: "damage",
       description: "monster.ankheg.enzymeStream.description",
       memorizedCount: 1,

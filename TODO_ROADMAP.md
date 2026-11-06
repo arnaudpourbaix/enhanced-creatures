@@ -163,23 +163,22 @@ per-creature flags (user: no opt-in flag).
 The damage rows will follow the global fix: natural attacks scored on their dice alone,
 manufactured weapons with the strength bonus.
 
-### ☐ A power level on every created spell
+### ✅ A power level on every created spell
 
-The spell scoring and the XP formula both guess how strong a creature's own power is (an
-`addSpell`, a weapon's cast spell, a poison) from its type, preset, effects and role; most XP
-mismatches so far came from that guessing (vampire powers typed as wizard spells only for their
-forms, innate powers at level 1, charms scripted through a Dire Charm preset). Of the 87
-`addSpell` calls, only 3 have a `worthLevel`, 20 an explicit `level`, 12 a preset.
+Done 2026-11-06. Every innate spell the mod creates now says how strong it is or what it is, and
+the generator refuses one that says neither (`missingPowerLevels`, run after the creatures):
 
-Plan (user, 2026-11-07):
-
-1. One required power level on every created spell, on the spell level scale (1-9; 0 = no power,
-   like an innate dimension door), read by both the spell scoring and the XP formula so they
-   always agree. The `xpAbility` tag stays for *what* a power is (breath, flying, special
-   defense), the power level says *how strong*.
-2. The generator refuses a created spell without one (like the adjustment `xpv` check).
-3. One pass over the existing spells: propose a level for each (from its effects, preset and PnP
-   equivalent) as a table for the user to review before writing them.
+- **Spell-like power** (magic matching a spell: a charm, Blink, Fog Cloud, a death wail): a
+  `worthLevel` rated against the PnP spell doing the same (the dryad's charm is Domination-class,
+  5; the sirine's song is Dire Charm on everyone in sight, 7), 0 for no power. The spell scoring
+  and the XP spell bonus both read it; a preset no longer sets a spell level.
+- **A body's attack form** (a leap, a charge, a wolf or bat form, a grab): never a spell, no level;
+  it declares an explicit `xpAbility` (user).
+- **Nothing needed** when the effects already give a listed Table 32 row (petrifying gaze,
+  paralyzing touch, fear aura, disease, poison), for a spell another created spell casts (its
+  parent carries it), and for damage a weapon's hit casts (a bear's hug: the damage rows).
+- Wizard and priest typed powers keep their level (`worthLevel` when worth something else: bat
+  swarm 4, animate dead 7, the ogre mage's gaseous form 1).
 
 ### ☐ Bosses and drops
 

@@ -75,6 +75,7 @@ class Minotaur extends Creature {
     return this.addSpell({
       id: Ids.Charge,
       name: "monster.minotaur.ability.charge.name",
+      xpAbility: "specialAttack",
       role: "damage",
       description: "monster.minotaur.ability.charge.description",
       memorizedCount: 1,

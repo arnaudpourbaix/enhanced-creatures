@@ -81,6 +81,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.venomSpit.name",
+      xpAbility: "specialAttack",
       role: "damage",
       description: "monster.fey.ability.venomSpit.description",
       id: FeyIds.VenomSpit,
@@ -129,6 +130,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.wateryFist.name",
+      worthLevel: 1,
       role: "damage",
       description: "monster.fey.ability.wateryFist.description",
       id: FeyIds.WateryFist,
@@ -186,6 +188,7 @@ class Nereid extends Fey {
     const dispelResistance = EffectDispelResistanceEnum.NaturalNonMagical;
     return this.addSpell({
       name: "monster.fey.ability.drowningKiss.name",
+      worthLevel: 5, // Slay Living, males only
       role: "kill",
       description: "monster.fey.ability.drowningKiss.description",
       id: FeyIds.DrowningKiss,
@@ -339,6 +342,7 @@ class Nereid extends Fey {
     const duration = Durations.eightHours;
     return this.addSpell({
       name: "monster.fey.ability.summonGiantPoisonousSnake.name",
+      xpAbility: "specialMagicalAttack", // her pet, not a spell
       role: "summon",
       description: "monster.fey.ability.summonGiantPoisonousSnake.description",
       id: FeyIds.SummonGiantPoisonousSnake,

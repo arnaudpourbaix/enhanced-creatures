@@ -86,6 +86,7 @@ class SirineEntry extends CreatureEntry<Fey> {
     });
     return this.addSpell({
       name: "monster.fey.ability.charmSong.name",
+      worthLevel: 7, // Dire Charm on everyone within 30 feet (user)
       role: "disable",
       id: FeyIds.CharmSong,
       description: "monster.fey.ability.charmSong.description",
@@ -143,6 +144,7 @@ class SirineEntry extends CreatureEntry<Fey> {
   private createFogCloud() {
     return this.addSpell({
       name: "monster.fey.ability.fogCloud.name",
+      worthLevel: 2,
       role: "disable",
       id: FeyIds.FogCloud,
       description: "monster.fey.ability.fogCloud.description",
@@ -195,6 +197,7 @@ class SirineEntry extends CreatureEntry<Fey> {
     } satisfies BaseEffect;
     return this.addSpell({
       name: "monster.fey.ability.touchOfTranquility.name",
+      worthLevel: 5, // Feeblemind
       id: FeyIds.TouchOfTranquility,
       // Only ever reached via the weapon's on-hit CastSpell effect (below) - it isn't a
       // memorized/learnable ability, so it never gets its own Abilities entry (see

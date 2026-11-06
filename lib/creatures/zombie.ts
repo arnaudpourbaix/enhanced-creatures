@@ -143,6 +143,7 @@ function createAnimateDead(cre: Creature) {
   }));
   return cre.addSpell({
     name: "monster.zombie.ability.animateDead.name",
+    worthLevel: 7, // save vs death or slain: Finger of Death
     role: "summon",
     description: "monster.zombie.ability.animateDead.description",
     id: Ids.ZombieAnimateDead,

@@ -212,6 +212,7 @@ export class OozeKin extends CreatureKin {
     return this.addSpell({
       id: SlimeIds.ToxicVapors,
       name: "monster.ooze.ability.toxicVapors.name",
+      xpAbility: "specialAttack",
       // an aura: always first, never held back (user)
       role: "reactive",
       keywords: ["area", "aura"],

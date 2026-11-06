@@ -64,6 +64,7 @@ export function vampyre(entry: CreatureEntry<Creature>): Creature {
       {
         spell: {
           name: "monster.vampyre.ability.bite.name",
+          xpAbility: "specialAttack",
           description: "monster.vampyre.ability.bite.description",
           secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
           headers: [{ type: ItemAbilityTypeEnum.Melee, range: 5, effects: biteEffects(6) }],

@@ -22,6 +22,7 @@ import {
   detectHitDice,
   detectStatAbilities,
   matchingAdjustments,
+  missingPowerLevels,
   setSharedResources,
 } from "./experience-detection";
 
@@ -719,18 +720,24 @@ describe("detectAttackAbilities", () => {
     expect(tier(9)).toEqual(["supremeSpells"]);
   });
 
-  it("an innate power scripted as a real spell counts at that spell's level (dryad charm)", () => {
+  it("an innate power counts at its power level (dryad charm: Dire Charm preset, worth 5)", () => {
     const creature = fakeCreature({
       spells: [
-        { file: SPELL, type: 4, level: 1, role: "disable", ability: { preset: "SPWI316" } },
+        {
+          file: SPELL,
+          type: 4,
+          level: 1,
+          worthLevel: 5,
+          role: "disable",
+          ability: { preset: "SPWI316" },
+        },
       ] as never,
       abilities: [{ resource: SPELL }],
     });
-    // Dire Charm is level 3: a spell-like ability, no special attack
-    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["highSpells"]);
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["greaterSpells"]);
   });
 
-  it("a spell-like power already giving a listed ability counts only that (fear aura)", () => {
+  it("a preset alone doesn't make an innate power a spell", () => {
     const creature = fakeCreature({
       spells: [
         {
@@ -738,6 +745,22 @@ describe("detectAttackAbilities", () => {
           type: 4,
           level: 1,
           ability: { preset: "SPWI316" },
+          effects: [effect(EffectTypeEnum.CharmCreature)],
+        },
+      ] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["specialAttack"]);
+  });
+
+  it("a power level on a power already giving a listed ability counts only that (fear aura)", () => {
+    const creature = fakeCreature({
+      spells: [
+        {
+          file: SPELL,
+          type: 4,
+          level: 1,
+          worthLevel: 4,
           effects: [effect(EffectTypeEnum.Panic)],
         },
       ] as never,
@@ -753,13 +776,21 @@ describe("detectAttackAbilities", () => {
           file: SPELL,
           type: 4,
           level: 1,
-          ability: { preset: "SPWI316" },
+          worthLevel: 3,
           effects: [effect(EffectTypeEnum.CharmCreature)],
         },
       ] as never,
       abilities: [{ resource: SPELL }],
     });
     expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["highSpells"]);
+  });
+
+  it("an innate power of power level 0 counts nothing (speak with plants)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: 4, level: 1, worthLevel: 0 }] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
   it("a memorized own innate power is no spell (vampire wolf form)", () => {
@@ -1386,5 +1417,77 @@ describe("detectAbilities", () => {
       { ability: "flies", source: "declared" },
       { ability: "poison", source: WEAPON },
     ]);
+  });
+});
+
+describe("missingPowerLevels", () => {
+  const innate = (file: string, p: Partial<Spell> = {}) =>
+    ({
+      file,
+      type: SpellTypeEnum.Innate,
+      level: 1,
+      effects: [],
+      headers: [],
+      effectFiles: [],
+      ...p,
+    }) as Spell;
+  const files = (spells: Spell[]) => missingPowerLevels(spells).map((s) => s.file);
+
+  it("refuses an innate power with neither a power level nor a tag (a leap)", () => {
+    expect(files([innate("LEAP", { effects: [effect(EffectTypeEnum.Damage)] })])).toEqual(["LEAP"]);
+  });
+
+  it("accepts a power level, 0 included, or an explicit tag, null included", () => {
+    const spells = [
+      innate("CHARM", { worthLevel: 5 }),
+      innate("PLANTS", { worthLevel: 0 }),
+      innate("LEAP", { xpAbility: "specialAttack" }),
+      innate("REVERT", { xpAbility: null }),
+    ];
+    expect(files(spells)).toEqual([]);
+  });
+
+  it("accepts a power its effects already count through a listed row (a paralyzing touch)", () => {
+    expect(files([innate("TOUCH", { effects: [effect(EffectTypeEnum.Hold)] })])).toEqual([]);
+  });
+
+  it("a harmful effect with no row of its own isn't enough (a charm)", () => {
+    const charm = innate("CHARM", { effects: [effect(EffectTypeEnum.CharmCreature)] });
+    expect(files([charm])).toEqual(["CHARM"]);
+  });
+
+  it("finds a listed row through the spells a power casts (a fear aura's parts)", () => {
+    const part = innate("PART", { effects: [effect(EffectTypeEnum.Panic)] });
+    const aura = innate("AURA", {
+      effects: [{ ...effect(EffectTypeEnum.CastSpell), resource: "PART" }],
+    });
+    expect(files([aura, part])).toEqual([]);
+  });
+
+  it("skips a sub-spell another created spell casts: its parent carries the level", () => {
+    const part = innate("PART", { effects: [effect(EffectTypeEnum.CharmCreature)] });
+    const song = innate("SONG", {
+      worthLevel: 7,
+      effects: [{ ...effect(EffectTypeEnum.CastSpell), resource: "PART" }],
+    });
+    expect(files([song, part])).toEqual([]);
+  });
+
+  it("skips damage a weapon's hit casts: it counts through the damage rows (a bear's hug)", () => {
+    const hug = innate("HUG", { effects: [effect(EffectTypeEnum.Damage)] });
+    const paws = {
+      file: "PAWS",
+      header: { effects: [{ ...effect(EffectTypeEnum.CastSpell), resource: "HUG" }] },
+    } as unknown as Item;
+    expect(missingPowerLevels([hug], [paws])).toEqual([]);
+    expect(missingPowerLevels([hug], [])).toEqual([hug]);
+  });
+
+  it("skips wizard and priest spells and copies of game spells: their level is a real one", () => {
+    const spells = [
+      innate("CONE", { type: SpellTypeEnum.Wizard, level: 5 }),
+      innate("CALL", { copyFrom: "SPPR410" }),
+    ];
+    expect(files(spells)).toEqual([]);
   });
 });

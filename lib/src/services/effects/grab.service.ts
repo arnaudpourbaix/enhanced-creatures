@@ -49,6 +49,8 @@ class GrabService {
         name: GRAB_DEFAULT_CONFIG.grabStringRef,
         description: translationService.addCustomTranslation([description]),
         doc: false,
+        // a body's attack form, never a spell (user)
+        xpAbility: "specialAttack",
         headers: [
           {
             type: ItemAbilityTypeEnum.Melee,

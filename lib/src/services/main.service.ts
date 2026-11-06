@@ -22,6 +22,7 @@ import {
 } from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
 import descriptionService from "./doc/description.service";
+import { missingPowerLevels } from "./experience/experience-detection";
 import documentationService from "./doc/documentation.service";
 import homeService from "./doc/home.service";
 import logService from "./log.service";
@@ -334,6 +335,18 @@ class MainService {
     );
   }
 
+  /**
+   * Refuses a created innate spell saying neither how strong it is nor what it is (see
+   * missingPowerLevels): the spell scoring and the XP formula would have to guess.
+   */
+  checkPowerLevels() {
+    for (const spell of missingPowerLevels(State.spells, State.items)) {
+      logService.error(
+        `Spell ${spell.file} (${translationService.from(spell.name)}) needs a power level (worthLevel, 0 for no power) or, for a non-spell power, an explicit xpAbility.`,
+      );
+    }
+  }
+
   async generateAll(): Promise<void> {
     logService.init();
     await stateService.init();
@@ -343,6 +356,7 @@ class MainService {
     this.checkSpellProfiles();
     this.checkSpellbooks();
     this.generateCreatures();
+    this.checkPowerLevels();
     this.generateCommonCode();
     this.checkResourceClashes();
     this.generateTranslations();
