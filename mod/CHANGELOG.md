@@ -90,6 +90,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Scripts: keep abilities for spells granted in game; location slots per script
 - Fey: Speak with Plants is reactive, cast once entangled
 - Vampire patriarch
+- Doc: Attacks list the main hand before the off-hand
 
 ## [0.4.0] - 2026-10-09
 

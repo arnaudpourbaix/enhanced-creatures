@@ -115,6 +115,19 @@ const SPELL_LEVEL_PATTERN = /^(?:SPWI|SPPR)(\d)/;
 
 // Stat labels shared by the creature card, the panel's base card and the adjustment cards.
 const ARMOR_CLASS_LABEL = "Armor Class";
+/**
+ * Equipped items with the off-hand (SHIELD slot) after the main hand, otherwise in equipped order:
+ * a createFrom copy keeps its source's items first (the baby wyvern's jaws, off-hand) before its
+ * own main weapon (its stinger), and the Attacks section always lists the main weapon first.
+ */
+function mainHandFirst<T>(items: T[], equippedOf: (item: T) => EquippedItem): T[] {
+  const offHand = (item: T): boolean => {
+    const slot = equippedOf(item).slot;
+    return Array.isArray(slot) ? slot.length === 1 && slot[0] === "SHIELD" : slot === "SHIELD";
+  };
+  return [...items.filter((i) => !offHand(i)), ...items.filter(offHand)];
+}
+
 const APR_LABEL = "Attacks per Round";
 
 // THAC0 as stored on the CRE, followed by the melee THAC0 once the engine adds the strength
@@ -508,7 +521,7 @@ class DocumentationService {
     // main hand and how many of the attacks it actually got.
     const dualWielding = creature.attack.dualWielding;
     const mainHandAttacks = this.getEffectiveApr(creature) - (dualWielding ? 1 : 0);
-    for (const equippedItem of creature.data.items.equipped) {
+    for (const equippedItem of mainHandFirst(creature.data.items.equipped, (e) => e)) {
       const weapon = itemService.isEquippedWeapon(equippedItem)
         ? State.items.find((i) => i.file === equippedItem.file)
         : undefined;
@@ -1181,7 +1194,7 @@ class DocumentationService {
     const dualWielding = creature.attack.dualWielding;
     const mainHandAttacks = effective.apr.value - (dualWielding ? 1 : 0);
     const docWeapons: { item: EquippedItem; weapon: Item; changed: boolean }[] = [];
-    for (const { item, changed } of effective.equipped) {
+    for (const { item, changed } of mainHandFirst(effective.equipped, (e) => e.item)) {
       const weapon = itemService.isEquippedWeapon(item)
         ? State.items.find((i) => i.file === item.file)
         : undefined;
