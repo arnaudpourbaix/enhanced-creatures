@@ -4,6 +4,7 @@ import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
 import { ImmunityName } from "../../model/final/immunity";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import { State } from "../../state";
 import adjustmentService, { EffectiveAdjustment } from "../doc/adjustment.service";
 import { DetectedAbility, HitDice } from "./experience-table";
 
@@ -15,9 +16,8 @@ export interface ExperienceScope {
 }
 
 /**
- * Immunities that block a specific spell or spell family (2e DMG "immune to a spell"). Nested
- * immunities are not expanded: a trait like `undead` only counts when the creature also lists
- * one of these names itself.
+ * Immunities that block a specific spell or spell family (2e DMG "immune to a spell"), matched
+ * after nested immunities are expanded (a trait like `undead` nests sleep, hold, mindSpells, ...).
  */
 export const SPELL_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "acidSpells",
@@ -55,7 +55,10 @@ export const SPELL_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>
   // fear, stun, blindness, petrification, poison, ... are effect immunities, not spell immunities.
 ]);
 
-/** Immunities to a weapon damage type; the `*Resistance` ones are 50%, the weaponImmunity bar. */
+/**
+ * Immunities to a weapon damage type. The `*DamageResistance` ones set the resistance to 50%
+ * (immunity-config.ts): half damage, the same bar as a folded resist value >= 50, so they count.
+ */
 const WEAPON_IMMUNITIES: ReadonlySet<ImmunityName> = new Set<ImmunityName>([
   "physicalDamage",
   "slashingDamage",
@@ -187,19 +190,27 @@ function folded<T>(
 }
 
 /**
- * The effective immunities, the engine-forced ones and the trait item's. The trait's count too:
- * creatures carry most of their defenses (e.g. banshee's nonMagicalWeapons) on it, the same way
- * Creature.hasImmunity reads them.
+ * The effective immunities, the engine-forced ones and the trait item's, each flattened through
+ * the immunities it nests (State.immunities, the walk utils.hasImmunity does). The trait's count
+ * too: creatures carry most of their defenses (e.g. banshee's nonMagicalWeapons) on it, and type
+ * traits like `undead` or `skeletal` hold the actual spell and weapon defenses only as nested
+ * names. A name missing from State.immunities is kept as is, with nothing nested.
  */
 function immunitiesOf(scope: ExperienceScope, effective: EffectiveAdjustment): ImmunityName[] {
   const trait = scope.creature.items.find((item) => item.trait);
-  return [
-    ...new Set([
-      ...effective.immunities.map((i) => i.name),
-      ...scope.creature.autoImmunities,
-      ...(trait?.immunities ?? []),
-    ]),
-  ];
+  const seen = new Set<ImmunityName>();
+  const visit = (name: ImmunityName): void => {
+    if (seen.has(name)) return;
+    seen.add(name);
+    const config = State.immunities.find((immunity) => immunity.name === name);
+    for (const nested of config?.immunities ?? []) visit(nested);
+  };
+  [
+    ...effective.immunities.map((i) => i.name),
+    ...scope.creature.autoImmunities,
+    ...(trait?.immunities ?? []),
+  ].forEach(visit);
+  return [...seen];
 }
 
 function hasRegeneration(scope: ExperienceScope): boolean {

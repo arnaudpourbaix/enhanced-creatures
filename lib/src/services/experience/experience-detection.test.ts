@@ -1,13 +1,22 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
-import { ImmunityName } from "../../model/final/immunity";
+import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Item } from "../../model/spell-item/spell-item";
+import { State } from "../../state";
 import { detectHitDice, detectStatAbilities, matchingAdjustments } from "./experience-detection";
 
 const FILE = "TESTCRE";
+
+afterEach(() => {
+  State.immunities = [];
+});
+
+function registerImmunity(name: ImmunityName, immunities: ImmunityName[]): void {
+  State.immunities.push({ name, immunities } as unknown as ImmunityConfig);
+}
 
 function fakeCreature(p: {
   data?: Partial<CreatureData>;
@@ -225,6 +234,38 @@ describe("detectStatAbilities", () => {
     });
     expect(detectStatAbilities({ creature, file: FILE })).toEqual([
       { ability: "spellImmunity", source: "charm, hold" },
+    ]);
+  });
+
+  it("a skeleton's type traits give spell and weapon immunity through nested immunities", () => {
+    registerImmunity("undead", ["sleep", "hold", "mindSpells", "poison"]);
+    registerImmunity("mindSpells", ["charm", "fear", "hold"]);
+    registerImmunity("skeletal", [
+      "cold",
+      "coldSpells",
+      "slashingDamageResistance",
+      "missileDamageResistance",
+      "piercingDamageResistance",
+    ]);
+    const creature = fakeCreature({
+      data: { immunities: ["undead"] },
+      items: [{ trait: true, immunities: ["skeletal"] }],
+    });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "spellImmunity", source: "charm, coldSpells, hold, mindSpells, sleep" },
+      {
+        ability: "weaponImmunity",
+        source: "missileDamageResistance, piercingDamageResistance, slashingDamageResistance",
+      },
+    ]);
+  });
+
+  it("nested immunities that loop are walked once", () => {
+    registerImmunity("undead", ["mindSpells"]);
+    registerImmunity("mindSpells", ["undead", "charm"]);
+    const creature = fakeCreature({ data: { immunities: ["undead"] } });
+    expect(detectStatAbilities({ creature })).toEqual([
+      { ability: "spellImmunity", source: "charm, mindSpells" },
     ]);
   });
 
