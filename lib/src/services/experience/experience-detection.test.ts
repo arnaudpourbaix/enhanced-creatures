@@ -528,7 +528,7 @@ describe("detectAttackAbilities", () => {
       items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Poison)] }, { stringRef })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "poison", source: `${WEAPON} (Venom Claw)` },
+      { ability: "poison", source: "Venom Claw" },
     ]);
   });
 
@@ -708,8 +708,8 @@ describe("detectAttackAbilities", () => {
       data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 90 }] } } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "invisibleAtWill", source: "SPWI206" },
-      { ability: "lowSpells", source: "SPWI206" },
+      { ability: "invisibleAtWill", source: "Invisibility" },
+      { ability: "lowSpells", source: "Invisibility" },
     ]);
   });
 
@@ -725,7 +725,7 @@ describe("detectAttackAbilities", () => {
       } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "lowSpells", source: "SPWI112" },
+      { ability: "lowSpells", source: "Magic Missiles" },
     ]);
   });
 
@@ -734,7 +734,7 @@ describe("detectAttackAbilities", () => {
       data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 1 }] } } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "lowSpells", source: "SPWI206" },
+      { ability: "lowSpells", source: "Invisibility" },
     ]);
   });
 
@@ -1032,7 +1032,7 @@ describe("detectAttackAbilities", () => {
       } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "highSpells", source: "SPWI404" },
+      { ability: "highSpells", source: "Ice Storm" },
     ]);
   });
 
@@ -1041,7 +1041,7 @@ describe("detectAttackAbilities", () => {
       data: { spells: { memorized: [{ file: "SPWI112", memorizedCount: 1 }] } } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "lowSpells", source: "SPWI112" },
+      { ability: "lowSpells", source: "Magic Missiles" },
     ]);
   });
 
@@ -1052,7 +1052,7 @@ describe("detectAttackAbilities", () => {
       ],
     });
     expect(detectAttackAbilities({ creature, file: FILE })).toEqual([
-      { ability: "highSpells", source: "SPWI304" },
+      { ability: "highSpells", source: "Fireball" },
     ]);
   });
 
@@ -1082,7 +1082,7 @@ describe("detectAttackAbilities", () => {
       } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "highSpells", source: "SPWI304" },
+      { ability: "highSpells", source: "Fireball" },
     ]);
   });
 

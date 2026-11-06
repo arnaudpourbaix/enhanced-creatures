@@ -22,6 +22,7 @@ import { AT_WILL } from "../../../config/common";
 import { AttackPerRoundTable } from "../../model/game-data/attack-per-round";
 import { SPELLS } from "../../../config/spells/spell-database";
 import creatureService from "../creature.service";
+import spellService from "../spell.service";
 import monsterFilesService from "../monster-files.service";
 import adjustmentService, { EffectiveAdjustment } from "../doc/adjustment.service";
 import translationService from "../translation.service";
@@ -435,8 +436,12 @@ function addSpellLevelAbility(
   add: AddSource,
 ): void {
   const spell = highestSpell(scope, effective);
-  if (spell && spell.level >= 1) add(spell.level >= 3 ? "highSpells" : "lowSpells", spell.file);
-  for (const file of atWillInvisibility(scope.creature, effective)) add("invisibleAtWill", file);
+  if (spell && spell.level >= 1) {
+    add(spell.level >= 3 ? "highSpells" : "lowSpells", spellLabel(spell.file));
+  }
+  for (const file of atWillInvisibility(scope.creature, effective)) {
+    add("invisibleAtWill", spellLabel(file));
+  }
 }
 
 /** Invisibility spells, memorized at will (the ogre mage's), make a creature invisible at will. */
@@ -474,7 +479,10 @@ function addMissileAbility(
 ): void {
   for (const { item } of effective.equipped) {
     const slots = Array.isArray(item.slot) ? item.slot : [item.slot];
-    if (slots.some((slot) => QUIVER_SLOTS.has(slot))) add("missileWeapons", item.file);
+    if (slots.some((slot) => QUIVER_SLOTS.has(slot))) {
+      const owned = equippedItem(scope.creature, item.file);
+      add("missileWeapons", owned ? labelOf(owned.file, owned.stringRef) : item.file);
+    }
   }
   if (scope.file !== undefined) {
     for (const weapon of rangedGameWeapons(scope)) add("missileWeapons", weapon);
@@ -801,8 +809,9 @@ function addDamageAbilities(
     const strLabel = (str ? signed(str) + " str" : "") + (extra ? signed(extra) + " on hit" : "");
     const base = dice.thrown * dice.size ? `${dice.thrown}d${dice.size}` : "";
     const label = `${base}${signed(dice.bonus)}${strLabel}`.replace(/^\+/, "");
-    if (max >= 20) add("singleAttack20", `${item.file}: ${label} = ${max}`);
-    attacks.push({ file: item.file, max });
+    const name = labelOf(item.file, item.stringRef);
+    if (max >= 20) add("singleAttack20", `${name}: ${label} = ${max}`);
+    attacks.push({ file: name, max });
   }
   const round = roundAttacks(attacks, apr);
   const total = round.reduce((sum, a) => sum + a.max, 0);
@@ -830,7 +839,7 @@ function roundAttacks(
   return round;
 }
 
-/** The file, followed by its name when it resolves. */
+/** The item's or spell's name when it resolves (the dashboard reader's view), else its file. */
 function labelOf(file: string, name: StringReference | undefined): string {
   let text: string | undefined;
   try {
@@ -838,7 +847,17 @@ function labelOf(file: string, name: StringReference | undefined): string {
   } catch {
     text = undefined; // a game strref this mod has no text for
   }
-  return text ? `${file} (${text})` : file;
+  if (text) return text; // an empty translation falls back too
+  return spellLabel(file);
+}
+
+/** A spell's display name (own or game spell), its file when it has none. */
+function spellLabel(file: string): string {
+  try {
+    return spellService.getSpellName(file) ?? file;
+  } catch {
+    return file; // a game strref this mod has no text for
+  }
 }
 
 function effectiveOf(scope: ExperienceScope): EffectiveAdjustment {
