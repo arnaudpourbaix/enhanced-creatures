@@ -106,9 +106,8 @@ async function main() {
     `Monsters: ${missing.length} missing, ${noFiles.length} without creatures yet, ` +
       `${unvalidated.length} failing validation`,
   );
-  const changed = experience.rows.filter((r) => r.status === "formula" && r.difference).length;
   console.log(
-    `Experience: ${changed} changed, ${experience.drops.length} drops, ` +
+    `Experience: ${experience.changed} files whose XP changed, ${experience.drops.length} drops, ` +
       `${experience.conflicts.length} conflicts`,
   );
 }

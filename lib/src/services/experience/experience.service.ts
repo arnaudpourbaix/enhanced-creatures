@@ -3,7 +3,7 @@ import type { Creature } from "../../model/creature/creature";
 import { CreatureFile, Game } from "../../model/creature/game";
 import creatureFactory from "../../factories/creature.factory";
 import adjustmentService from "../doc/adjustment.service";
-import monsterFilesService, { pickCreatureRow } from "../monster-files.service";
+import monsterFilesService, { CreatureCsvRow, pickCreatureRow } from "../monster-files.service";
 import {
   detectAbilities,
   detectHitDice,
@@ -92,33 +92,50 @@ class ExperienceService {
   }
 
   /**
-   * The file's game scopes: one per game its adjustments are tagged for, else the file's own
-   * game, split again per creatures.csv row when the rows disagree on the in-game XP.
+   * The file's game scopes: one per game its adjustments are tagged for plus every other game
+   * the file is in (so no game silently keeps the book XP), else the file's own game, split per
+   * game when the games' creatures.csv rows disagree on the in-game XP.
    */
   private scopesOf(creature: Creature, file: CreatureFile): XpScope[] {
-    const games = adjustmentService.getGameScopes(creature, file.name);
-    if (games.some((g) => g !== undefined)) {
-      return games.map((game) => ({
-        file: file.name,
-        split: true,
-        inGameXp: this.inGameXp(file.name, game),
-        game,
-      }));
-    }
     const rows = monsterFilesService.getCreatureRows(file.name, file.game);
-    const values = new Set(rows.map((r) => r.xpv));
-    if (file.game === undefined && values.size > 1) {
-      // One scope per concrete game, an untagged row standing for the games no row is tagged
-      // for: every patch carries a game, so getGameScopes still yields both games for the docs.
-      return GAMES.map((game) => ({
-        file: file.name,
-        split: true,
-        inGameXp: pickCreatureRow(rows, game)?.xpv,
-        game,
+    const fileGames = this.gamesOf(rows, file.game);
+    const scope = (game: Game): XpScope => ({
+      file: file.name,
+      split: true,
+      inGameXp: pickCreatureRow(rows, game)?.xpv,
+      game,
+    });
+    const tagged = adjustmentService
+      .getGameScopes(creature, file.name)
+      .filter((g): g is Game => g !== undefined);
+    if (tagged.length) {
+      // A tagged game reads its own rows, even one the file has no creatures.csv row for.
+      const own = tagged.map((game) => ({
+        ...scope(game),
+        inGameXp: this.inGameXp(file.name, game),
       }));
+      // Its other games get a game-tagged patch too, so none keeps the book XP by accident.
+      return [...own, ...fileGames.filter((g) => !tagged.includes(g)).map(scope)];
+    }
+    // Rows of one game never split the file on their own: duplicate rows of a game (from
+    // different mods) resolve to its first creatures.csv row, as pickCreatureRow does.
+    const values = new Set(fileGames.map((game) => pickCreatureRow(rows, game)?.xpv));
+    if (file.game === undefined && values.size > 1) {
+      // Every patch carries a game, so getGameScopes still yields every game for the docs.
+      return fileGames.map(scope);
     }
     const inGameXp = this.inGameXp(file.name, file.game);
     return [{ file: file.name, game: file.game, split: false, inGameXp }];
+  }
+
+  /**
+   * The games a file is in: its own game when tagged, else the games of its creatures.csv rows,
+   * an untagged row standing for every game. A file with no row has no known game.
+   */
+  private gamesOf(rows: CreatureCsvRow[], game: Game | undefined): Game[] {
+    if (game !== undefined) return rows.length ? [game] : [];
+    if (rows.some((r) => r.game === undefined)) return GAMES;
+    return GAMES.filter((g) => rows.some((r) => r.game === g));
   }
 
   private inGameXp(file: string, game: Game | undefined): number | undefined {

@@ -35,9 +35,14 @@ function fileCell(r: ExperienceReportRow): string {
   return `<td class="file">${escapeHtml(r.file)}${game}</td>`;
 }
 
+/** Statuses whose reason is short; formula and drop reasons are the breakdown, in its column. */
+const SHORT_REASONS: ExperienceStatus[] = ["zero", "book", "unchanged"];
+
 function allRow(r: ExperienceReportRow): string {
-  const showReason = r.status === "unchanged" && r.reason;
+  const showReason = SHORT_REASONS.includes(r.status) && r.reason;
   const reason = showReason ? `<br><span class="muted">${escapeHtml(r.reason)}</span>` : "";
+  // Zero files are worth nothing: no breakdown, which is only for files that give XP.
+  const breakdown = r.status === "zero" ? "" : escapeHtml(r.score.breakdown);
   const rowClass = r.status === "zero" ? ` class="zero"` : "";
   const search = escapeHtml(`${r.monster} ${r.file}`.toLowerCase());
   return (
@@ -48,7 +53,7 @@ function allRow(r: ExperienceReportRow): string {
     `<td class="monster-name">${escapeHtml(r.monster)}</td>${fileCell(r)}` +
     `<td>${r.status}${reason}</td>` +
     `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.newXp}</td>${diffCell(r)}` +
-    `<td class="breakdown">${escapeHtml(r.score.breakdown)}</td></tr>`
+    `<td class="breakdown">${breakdown}</td></tr>`
   );
 }
 
@@ -65,7 +70,6 @@ function dropRow(r: ExperienceReportRow): string {
 }
 
 export function renderExperienceTab(d: ExperienceReportData): string {
-  const changed = d.rows.filter((r) => r.status === "formula" && r.difference).length;
   const options = [
     `<option value="">All statuses</option>`,
     ...STATUSES.map((s) => `<option value="${s}">${s} (${d.counts[s]})</option>`),
@@ -85,7 +89,7 @@ export function renderExperienceTab(d: ExperienceReportData): string {
 in-game XP keeps the in-game value (a drop, to review).</p>
 <div class="summary">
 <div class="stat"><b>${d.rows.length}</b><span class="muted">files</span></div>
-<div class="stat good"><b>${changed}</b><span class="muted">XP changed</span></div>
+<div class="stat good"><b>${d.changed}</b><span class="muted">files whose XP changed</span></div>
 <div class="stat warn"><b>${d.drops.length}</b><span class="muted">drops to review</span></div>
 <div class="stat bad"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></div>
 </div>

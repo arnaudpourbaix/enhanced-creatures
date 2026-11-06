@@ -90,7 +90,6 @@ function renderOverview(d: DashboardData): string {
   const unvalidated = monsters.unvalidated.length;
   const noFiles = monsters.noFiles.length;
   const ok = monsters.total - missing - unvalidated - noFiles;
-  const xpChanged = experience.rows.filter((r) => r.status === "formula" && r.difference).length;
   const flaggedFiles = stats.flagged.reduce((sum, r) => sum + r.flagged.length, 0);
   return `
 <section class="card">
@@ -137,7 +136,7 @@ ${stat(new Set(stats.missing).size, "not compared")}
 <section class="card">
 <h2>Experience</h2>
 <div class="summary">
-${stat(xpChanged, "files whose XP changed", "good")}
+${stat(experience.changed, "files whose XP changed", "good")}
 ${stat(experience.drops.length, "XP drops to review", experience.drops.length ? "warn" : "")}
 ${stat(experience.conflicts.length, "base XP conflicts", experience.conflicts.length ? "bad" : "")}
 </div>

@@ -6,7 +6,14 @@ import { buildExperienceReport } from "./experience-report";
 import { renderExperienceTab } from "./experience-report-html";
 
 function score(xp: number, breakdown = "HD 9 -> 975"): ExperienceScore {
-  return { hitDice: { whole: 9, plus: false }, hitDiceValue: 9, abilities: [], total: 9, xp, breakdown };
+  return {
+    hitDice: { whole: 9, plus: false },
+    hitDiceValue: 9,
+    abilities: [],
+    total: 9,
+    xp,
+    breakdown,
+  };
 }
 
 function row(over: Partial<ExperienceRow> & Pick<ExperienceRow, "file" | "status">): ExperienceRow {
@@ -14,7 +21,11 @@ function row(over: Partial<ExperienceRow> & Pick<ExperienceRow, "file" | "status
 }
 
 // MonsterEnum.OGRE / GOBLIN are real members, so the ids resolve to names.
-function fake(id: number, experience: ExperienceRow[], baseExperience?: Creature["baseExperience"]) {
+function fake(
+  id: number,
+  experience: ExperienceRow[],
+  baseExperience?: Creature["baseExperience"],
+) {
   return { id, experience, baseExperience } as unknown as Creature;
 }
 
@@ -48,6 +59,47 @@ describe("experience report", () => {
     expect(by("A.cre").difference).toBe(325);
     expect(by("B.cre").difference).toBeUndefined();
     expect(by("D.cre").difference).toBeUndefined();
+  });
+
+  it("counts every non-zero file whose XP changed, whatever its status", () => {
+    expect(report.changed).toBe(1);
+    const mixed = buildExperienceReport([
+      fake(1, [
+        row({ file: "A.cre", status: "book", inGameXp: 650, newXp: 120 }),
+        row({ file: "B.cre", status: "unchanged", inGameXp: 100, newXp: 120 }),
+        row({ file: "C.cre", status: "drop", inGameXp: 2000, newXp: 2000 }),
+        row({ file: "D.cre", status: "zero", inGameXp: 650, newXp: 0 }),
+        row({ file: "E.cre", status: "formula", newXp: 420 }),
+      ]),
+    ]);
+    expect(mixed.changed).toBe(2);
+  });
+
+  it("shows short reasons under the status and no breakdown for zero files", () => {
+    const html = renderExperienceTab(
+      buildExperienceReport([
+        fake(1, [
+          row({ file: "Z.cre", status: "zero", reason: "summon", score: score(0, "ZERO-BD") }),
+          row({ file: "B.cre", status: "book", reason: "no adjustment", newXp: 7 }),
+          row({ file: "U.cre", status: "unchanged", reason: "nothing read", newXp: 7 }),
+          row({
+            file: "F.cre",
+            status: "formula",
+            reason: "FORMULA-BD",
+            score: score(9, "FORMULA-BD"),
+          }),
+        ]),
+      ]),
+    );
+    const rowOf = (file: string) =>
+      html.match(new RegExp(`<tr[^>]*data-file="${file}".*?</tr>`))![0];
+    expect(rowOf("Z.cre")).toContain(`zero<br><span class="muted">summon</span>`);
+    expect(rowOf("Z.cre")).toContain(`<td class="breakdown"></td>`);
+    expect(rowOf("B.cre")).toContain(`book<br><span class="muted">no adjustment</span>`);
+    expect(rowOf("U.cre")).toContain(`unchanged<br><span class="muted">nothing read</span>`);
+    expect(rowOf("F.cre")).toContain(`<td>formula</td>`);
+    expect(rowOf("F.cre")).toContain(`<td class="breakdown">FORMULA-BD</td>`);
+    expect(html).toContain("files whose XP changed");
   });
 
   it("carries the monster name on conflicts", () => {

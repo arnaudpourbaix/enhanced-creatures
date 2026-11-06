@@ -282,6 +282,54 @@ describe("experienceService.evaluate", () => {
     ]);
   });
 
+  it("scores the file's other games next to a game-tagged adjustment", () => {
+    mockRows(row(650, "bg1"), row(1400, "bg2"));
+    const creature = fakeCreature({
+      xpv: 120,
+      adjustments: [BUMP, { game: "bg1", data: { hp: 50 } }],
+    });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ game: "bg1", status: "formula", inGameXp: 650, newXp: 975 }),
+      expect.objectContaining({ game: "bg2", status: "drop", inGameXp: 1400, newXp: 1400 }),
+    ]);
+    expect(appended(creature, 2)).toEqual([
+      { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+    ]);
+  });
+
+  it("adds no other game for a file in the tagged game only", () => {
+    mockRows(row(650, "bg1"));
+    const creature = fakeCreature({ xpv: 120, adjustments: [{ game: "bg1", ...BUMP }] });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ game: "bg1", status: "formula", newXp: 975 }),
+    ]);
+  });
+
+  it("does not split on duplicate rows of one game, using its first row", () => {
+    mockRows(row(650, "bg2"), row(1400, "bg2"));
+    const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ game: undefined, status: "formula", inGameXp: 650, newXp: 975 }),
+    ]);
+    expect(appended(creature, 1)).toEqual([
+      { files: [FILE], game: undefined, variant: undefined, xpv: 975 },
+    ]);
+  });
+
+  it("splits only into the file's games when one game has duplicate rows", () => {
+    mockRows(row(650, "bg1"), row(1400, "bg2"), row(900, "bg2"));
+    const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
+    experienceService.apply(creature);
+    expect(appended(creature, 1)).toEqual([
+      { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+    ]);
+  });
+
   it("uses the formula when the file has no in-game XP", () => {
     mockRows(row(undefined));
     const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });

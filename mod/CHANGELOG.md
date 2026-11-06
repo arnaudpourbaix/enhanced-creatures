@@ -43,13 +43,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Doc: show long spell renew periods in turns
 - HP: drop the constitution hit point house rule
 - Spells: combo groups, random combo pick, spellbook level check
-- XP: 2e DMG Table 31/32 scoring
-- XP: detect stat, immunity and declared XP abilities
-- XP: detect attack, ability and spell XP abilities
-- XP: compute and write adjustment XP by status
-- XP: adjustment XP only from the formula
-- XP: damage resistances are a special defense, not a weapon immunity
-- XP: resistance modifier effects count as a special defense
 - Dashboard: experience tab
 
 ### Changed
@@ -84,8 +77,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire: one necromancer variant helper; DX#DALID at level 16
 - Vampire: Bodhi is a variant of the abomination age
 - Skeleton: mage and cleric variants move to their own entries
-- Spec: experience from the 2e DMG formula
-- Plan: experience formula implementation plan
+- XP: experience of adjusted creatures now follows the AD&D 2e DMG rule (Hit Dice + special abilities); a creature never gives less XP than in the original game
 
 ### Fixed
 
@@ -96,10 +88,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Scripts: keep abilities for spells granted in game; location slots per script
 - Fey: Speak with Plants is reactive, cast once entangled
 - Vampire patriarch
-- XP: expand nested immunities before detecting spell and weapon immunity
-- XP: never lower in-game XP, skip class abilities, tag split patches
-- XP: keep explicit xpv 0 on the Clay Golem OHBGOL01 adjustment
-- XP: any damage resistance above 0 is a special defense
 
 ## [0.4.0] - 2026-10-09
 

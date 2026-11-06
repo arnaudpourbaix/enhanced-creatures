@@ -1363,6 +1363,8 @@ function fakeAdjustmentFilesCreature(files: string[], adjustmentFiles: string[])
 }
 
 describe("checkAdjustmentXp", () => {
+  afterEach(() => vi.restoreAllMocks());
+
   function creatureWithXpv(xpv: number | undefined): Creature {
     return {
       name: "test",
@@ -1375,7 +1377,6 @@ describe("checkAdjustmentXp", () => {
     const errorSpy = vi.spyOn(logService, "error").mockImplementation(() => {});
     expect(creatureService.checkAdjustmentXp(creatureWithXpv(2250))).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("sets xpv 2250"));
-    vi.restoreAllMocks();
   });
 
   it("allows xpv 0 and no xpv", () => {
@@ -2067,7 +2068,8 @@ describe("checkAdjustmentSpells", () => {
   });
 
   it("allows the spells a kit grants", () => {
-    const rage = KITS.flatMap((k) => k.abilities).find((a) => a.resource !== "SPCL321")?.resource ?? "";
+    const rage =
+      KITS.flatMap((k) => k.abilities).find((a) => a.resource !== "SPCL321")?.resource ?? "";
     const creature = spellCreature([{ files: ["F1"], data: memorizing(rage) }]);
     expect(() => creatureService.checkAdjustmentSpells(creature)).not.toThrow();
   });
