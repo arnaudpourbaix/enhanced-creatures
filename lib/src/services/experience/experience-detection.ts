@@ -269,6 +269,7 @@ function addOnHitAbilities(
     for (const effect of item.header?.effects ?? []) {
       collectEffect(creature, effect, item.header, found, new Set());
     }
+    harmfulOnlyIfUnlisted(found);
     found.forEach((ability) => {
       add(ability, labelOf(item.file, item.stringRef));
     });
@@ -287,6 +288,7 @@ function addOnHitAbilities(
 export function spellAbilities(creature: Creature, spell: Spell): XpAbility[] {
   const found = new Set<XpAbility>();
   collectSpell(creature, spell, found, new Set());
+  harmfulOnlyIfUnlisted(found);
   const power = powerAbility(spell, found);
   if (power) found.add(power);
   return [...found];
@@ -509,7 +511,10 @@ const RANGED_WEAPON_PREFIXES = ["BOW", "XBOW", "SLNG", "DART"];
 
 /** Output order of detectAttackAbilities. */
 const ATTACK_ABILITIES: XpAbility[] = [
+  "fatalPoison",
+  "strongPoison",
   "poison",
+  "weakPoison",
   "paralysis",
   "petrification",
   "energyDrain",
@@ -600,9 +605,18 @@ function collectEffect(
   // A power cast by a weapon or another power (a bear's hug) counts like a power used directly
   const own = new Set<XpAbility>();
   collectSpell(creature, spell, own, visited);
+  harmfulOnlyIfUnlisted(own);
   const power = powerAbility(spell, own);
   if (power) own.add(power);
   own.forEach((a) => found.add(a));
+}
+
+/**
+ * A harmful effect with no row of its own counts as a special attack only when the power or weapon
+ * has no listed one: a web tangle that holds is paralysis, not paralysis and a special attack.
+ */
+function harmfulOnlyIfUnlisted(found: Set<XpAbility>): void {
+  if (found.size > 1) found.delete("specialAttack");
 }
 
 /** Disabling or deadly effects with no Table 32 row of their own (stun, sleep, charm...). */

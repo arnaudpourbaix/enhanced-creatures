@@ -29,7 +29,10 @@ export type XpAbility =
   | "swallowsWhole"
   | "weaknessOrFear"
   | "slowMovement"
-  | "fastMovement";
+  | "fastMovement"
+  | "fatalPoison"
+  | "strongPoison"
+  | "weakPoison";
 
 /** 2e DMG Table 32: special ability modifiers. */
 export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }> = {
@@ -54,6 +57,10 @@ export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }
   paralysis: { modifier: 2, label: "paralysis" },
   petrification: { modifier: 3, label: "petrification" },
   poison: { modifier: 2, label: "poison" },
+  // The 2e poison table runs from 5 damage to death (user): a typed poison counts by its tier
+  fatalPoison: { modifier: 3, label: "fatal poison" },
+  strongPoison: { modifier: 2, label: "strong poison" },
+  weakPoison: { modifier: 1, label: "weak poison" },
   magicalItems: { modifier: 1, label: "magical items" },
   regeneration: { modifier: 1, label: "regeneration" },
   singleAttack20: { modifier: 2, label: "single attack over 20 damage" },
@@ -100,6 +107,8 @@ export function xpForHitDiceValue(value: number): number {
   return TABLE_31[value];
 }
 
+const POISONS: XpAbility[] = ["fatalPoison", "strongPoison", "poison", "weakPoison"];
+
 export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): ExperienceScore {
   const seen = new Set<XpAbility>();
   let abilities = detected.filter((a) => {
@@ -111,6 +120,16 @@ export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): Exper
   });
   if (seen.has("highSpells")) {
     abilities = abilities.filter((a) => a.ability !== "lowSpells");
+  }
+  // A creature's strongest poison counts, not each of its poisons
+  const poisons = abilities.filter((a) => POISONS.includes(a.ability));
+  if (poisons.length > 1) {
+    const strongest = poisons.reduce(
+      (best, a) =>
+        XP_ABILITIES[a.ability].modifier > XP_ABILITIES[best.ability].modifier ? a : best,
+      poisons[0],
+    );
+    abilities = abilities.filter((a) => !POISONS.includes(a.ability) || a === strongest);
   }
   const value = hitDiceValue(hd);
   const total = value + abilities.reduce((sum, a) => sum + XP_ABILITIES[a.ability].modifier, 0);

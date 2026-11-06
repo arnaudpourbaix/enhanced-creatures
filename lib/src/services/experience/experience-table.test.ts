@@ -43,4 +43,12 @@ describe("experience table", () => {
     expect(s).toMatchObject({ total: 5, xp: 175 });
     expect(s.breakdown).toBe("6 HD → 6, -1 slow movement (movement 6) = 5 → 175");
   });
+  it("only the strongest poison counts", () => {
+    const s = scoreExperience({ whole: 5, plus: false }, [
+      { ability: "weakPoison", source: "claws" },
+      { ability: "fatalPoison", source: "stinger" },
+    ]);
+    expect(s.abilities.map((a) => a.ability)).toEqual(["fatalPoison"]);
+    expect(s.total).toBe(8);
+  });
 });

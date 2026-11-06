@@ -891,6 +891,14 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["breathWeapon"]);
   });
 
+  it("a harmful effect next to a listed one adds no special attack (web tangle that holds)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, effects: [effect(EffectTypeEnum.Web), effect(EffectTypeEnum.Hold)] }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([{ ability: "paralysis", source: SPELL }]);
+  });
+
   it("a harmful effect on a hit with no row of its own is a special attack (stun)", () => {
     const creature = fakeCreature({
       items: [naturalWeapon({ effects: [effect(EffectTypeEnum.Stun)] })],

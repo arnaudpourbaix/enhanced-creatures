@@ -1,3 +1,4 @@
+import type { XpAbility } from "../experience/experience-table";
 import {
   poisonFatalDamage,
   poisonImmediateDeathDuration,
@@ -27,6 +28,34 @@ import descriptionService from "../doc/description.service";
 import logService from "../log.service";
 import translationService from "../translation.service";
 
+/**
+ * The Table 32 row each 2e poison type counts as for XP (user): a fatal poison is very dangerous
+ * (+3), a 30-damage one strong (+2), a lesser damage one weak (+1); the non-damaging ones count as
+ * what they do (paralytic and coma as paralysis, debilitative as weakness, the mild penalties as a
+ * weak poison).
+ */
+const POISON_XP_ABILITIES: Record<PnPPoisonType, XpAbility> = {
+  A: "weakPoison",
+  B: "weakPoison",
+  C: "weakPoison",
+  D: "strongPoison",
+  E: "fatalPoison",
+  F: "fatalPoison",
+  G: "weakPoison",
+  H: "weakPoison",
+  I: "strongPoison",
+  J: "fatalPoison",
+  K: "weakPoison",
+  L: "weakPoison",
+  M: "weakPoison",
+  N: "fatalPoison",
+  O: "paralysis",
+  P: "weaknessOrFear",
+  Q: "paralysis",
+  R: "weakPoison",
+  S: "weakPoison",
+};
+
 class PoisonService {
   // POISONS has one entry per PnPPoisonType member, so this is always found.
   private getPoisonModel(poisonType: PnPPoisonType): PoisonModel {
@@ -47,6 +76,7 @@ class PoisonService {
         name: translationService.addCustomTranslation([name]),
         description: translationService.addCustomTranslation([description]),
         secondaryType: "Poison",
+        xpAbility: POISON_XP_ABILITIES[payload.poisonType],
         keywords: ["poison"],
         headers: [{ type: ItemAbilityTypeEnum.Melee, effects }],
       },
