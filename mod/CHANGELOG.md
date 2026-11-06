@@ -77,6 +77,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire: Bodhi is a variant of the abomination age
 - Skeleton: mage and cleric variants move to their own entries
 - Spec: experience from the 2e DMG formula
+- Plan: experience formula implementation plan
 
 ### Fixed
 
