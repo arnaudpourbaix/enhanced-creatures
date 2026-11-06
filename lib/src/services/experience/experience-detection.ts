@@ -133,6 +133,10 @@ const RESISTANCE_EFFECTS = [
   { opcode: EffectTypeEnum.MissilesResistanceModifier, label: "missile" },
 ] as const;
 
+/** PnP movement at or below which a creature is slow (easy to kite), at or above which fast. */
+const SLOW_MOVEMENT = 9;
+const FAST_MOVEMENT = 15;
+
 /** The adjustments folded into the scope, in authored order (same filter as getEffectiveForGame). */
 export function matchingAdjustments(scope: ExperienceScope): CreatureAdjustment[] {
   const { file, game } = scope;
@@ -158,6 +162,13 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   const apr = attacksPerRound(effective);
   if (apr >= 4) {
     detected.push({ ability: "fourAttacks", source: `${apr} attacks` });
+  }
+  // Not in the DMG (user): one step of 3 from a player's 12
+  const movement = effective.movement.value;
+  if (movement <= SLOW_MOVEMENT) {
+    detected.push({ ability: "slowMovement", source: `movement ${movement}` });
+  } else if (movement >= FAST_MOVEMENT) {
+    detected.push({ ability: "fastMovement", source: `movement ${movement}` });
   }
   if (effective.intelligence.value >= 13) {
     detected.push({

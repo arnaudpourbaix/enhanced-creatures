@@ -295,6 +295,17 @@ describe("detectStatAbilities", () => {
     ]);
   });
 
+  it("movement 9 or less is slow, 15 or more fast, a player's 12 neither", () => {
+    const at = (pnpValue: number) =>
+      detectStatAbilities({
+        creature: fakeCreature({ data: { movement: { pnpValue } } as never }),
+      });
+    expect(at(6)).toEqual([{ ability: "slowMovement", source: "movement 6" }]);
+    expect(at(9)).toEqual([{ ability: "slowMovement", source: "movement 9" }]);
+    expect(at(12)).toEqual([]);
+    expect(at(15)).toEqual([{ ability: "fastMovement", source: "movement 15" }]);
+  });
+
   it("a skeleton's type traits give spell and weapon immunity through nested immunities", () => {
     registerImmunity("undead", ["sleep", "hold", "mindSpells", "poison"]);
     registerImmunity("mindSpells", ["charm", "fear", "hold"]);

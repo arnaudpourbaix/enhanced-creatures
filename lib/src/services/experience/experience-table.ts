@@ -1,11 +1,35 @@
 export type XpAbility =
-  | "acZeroOrLower" | "bloodDrain" | "breathWeapon" | "causesDisease" | "energyDrain"
-  | "flies" | "fourAttacks" | "extraHitPoints" | "highIntelligence" | "magicalWeaponsOnly"
-  | "spellImmunity" | "weaponImmunity" | "invisibleAtWill" | "lowSpells" | "highSpells"
-  | "magicResistance" | "missileWeapons" | "multipleAttacks30" | "paralysis"
-  | "petrification" | "poison" | "magicalItems" | "regeneration" | "singleAttack20"
-  | "specialDefense" | "specialMagicalAttack" | "specialAttack" | "swallowsWhole"
-  | "weaknessOrFear";
+  | "acZeroOrLower"
+  | "bloodDrain"
+  | "breathWeapon"
+  | "causesDisease"
+  | "energyDrain"
+  | "flies"
+  | "fourAttacks"
+  | "extraHitPoints"
+  | "highIntelligence"
+  | "magicalWeaponsOnly"
+  | "spellImmunity"
+  | "weaponImmunity"
+  | "invisibleAtWill"
+  | "lowSpells"
+  | "highSpells"
+  | "magicResistance"
+  | "missileWeapons"
+  | "multipleAttacks30"
+  | "paralysis"
+  | "petrification"
+  | "poison"
+  | "magicalItems"
+  | "regeneration"
+  | "singleAttack20"
+  | "specialDefense"
+  | "specialMagicalAttack"
+  | "specialAttack"
+  | "swallowsWhole"
+  | "weaknessOrFear"
+  | "slowMovement"
+  | "fastMovement";
 
 /** 2e DMG Table 32: special ability modifiers. */
 export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }> = {
@@ -38,13 +62,26 @@ export const XP_ABILITIES: Record<XpAbility, { modifier: number; label: string }
   specialAttack: { modifier: 1, label: "special attack" },
   swallowsWhole: { modifier: 2, label: "swallows whole" },
   weaknessOrFear: { modifier: 2, label: "weakness or fear" },
+  // Not in the DMG (user): a slow creature is easy to kite with missiles, a fast one outruns you
+  slowMovement: { modifier: -1, label: "slow movement" },
+  fastMovement: { modifier: 1, label: "fast movement" },
 };
 
-export interface HitDice { whole: number; plus: boolean }
-export interface DetectedAbility { ability: XpAbility; source: string }
+export interface HitDice {
+  whole: number;
+  plus: boolean;
+}
+export interface DetectedAbility {
+  ability: XpAbility;
+  source: string;
+}
 export interface ExperienceScore {
-  hitDice: HitDice; hitDiceValue: number; abilities: DetectedAbility[];
-  total: number; xp: number; breakdown: string;
+  hitDice: HitDice;
+  hitDiceValue: number;
+  abilities: DetectedAbility[];
+  total: number;
+  xp: number;
+  breakdown: string;
 }
 
 const TABLE_31 = [7, 15, 35, 65, 120, 175, 270, 420, 650, 975, 1400, 2000, 2000];
@@ -80,7 +117,16 @@ export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): Exper
   const xp = xpForHitDiceValue(total);
   const parts = [`${hd.whole}${hd.plus ? "+" : ""} HD → ${value}`];
   for (const a of abilities) {
-    parts.push(`+${XP_ABILITIES[a.ability].modifier} ${XP_ABILITIES[a.ability].label} (${a.source})`);
+    const { modifier, label } = XP_ABILITIES[a.ability];
+    const sign = modifier < 0 ? "" : "+";
+    parts.push(`${sign}${modifier} ${label} (${a.source})`);
   }
-  return { abilities, total, xp, hitDice: hd, hitDiceValue: value, breakdown: `${parts.join(", ")} = ${total} → ${xp}` };
+  return {
+    abilities,
+    total,
+    xp,
+    hitDice: hd,
+    hitDiceValue: value,
+    breakdown: `${parts.join(", ")} = ${total} → ${xp}`,
+  };
 }
