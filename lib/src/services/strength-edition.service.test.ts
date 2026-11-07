@@ -84,6 +84,27 @@ describe("strengthEditionService.apply", () => {
     expect(data).toMatchObject({ strength: 18, exceptionalStrength: 100, thac0: 11 });
   });
 
+  it("an adjustment's own to-hit replaces the creature's on the inherited THAC0", () => {
+    // the creature's THAC0 18 is already corrected by its -1: 17 before, 16 with the +1
+    const parent = {
+      thac0: 18,
+      strength2e: { strength: 18, exceptionalStrength: 100, hit: -1, source },
+    } as CreatureData;
+    const data = { strength2e: { strength: 18, exceptionalStrength: 100, hit: 1, source } };
+    strengthEditionService.apply({ data, parent, edition: "2e" });
+    expect(data).toMatchObject({ thac0: 16 });
+  });
+
+  it("an adjustment with its own strength gets the creature's THAC0 without its 2e correction", () => {
+    const parent = {
+      thac0: 18,
+      strength2e: { strength: 18, exceptionalStrength: 100, hit: -1, source },
+    } as CreatureData;
+    const data = { strength: 18, exceptionalStrength: 50 };
+    strengthEditionService.apply({ data, parent, edition: "2e" });
+    expect(data).toEqual({ strength: 18, exceptionalStrength: 50, thac0: 17 });
+  });
+
   it("a to-hit correction without THAC0 fails", () => {
     const data = { strength: 19, strength2e: { strength: 18, hit: 1, source } };
     expect(() => {

@@ -317,15 +317,31 @@ describe("declared xpAbilities", () => {
   });
 });
 
+describe("strength2e", () => {
+  it("an adjust entry's strength2e replaces the variant's, no field leaks", () => {
+    const get = captureAdjustments();
+    variantFactory.add(fakeCreature(), GREATER_GHAST, {
+      data: { strength2e: { strength: 18, exceptionalStrength: 100, hit: 1, source: "chief" } },
+      files: ["GRON", "GMAYOR"],
+      adjust: [{ files: ["GMAYOR"], data: { strength2e: { source: "no bonus" } } }],
+    });
+    expect(get()[1].data.strength2e).toEqual({ source: "no bonus" });
+  });
+});
+
 describe("sub-variant spells", () => {
   it("a sub-variant's spellbooks replace its parent's", () => {
     captureAdjustments();
     const parent = variantFactory.add(fakeCreature(), "mage", {
-      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI112" }] }] } },
+      data: {
+        spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI112" }] }] },
+      },
       files: ["GRON"],
     });
     const child = parent.variant("archmage", {
-      data: { spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] }] } },
+      data: {
+        spells: { spellbooks: [{ mod: "SpellRevisions", memorized: [{ file: "SPWI912" }] }] },
+      },
       files: ["GMAYOR"],
     });
     expect(child.data.spells?.spellbooks).toEqual([

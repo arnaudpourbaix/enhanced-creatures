@@ -18,26 +18,43 @@ class StrengthEditionService {
   apply(p: { data: Partial<CreatureData>; parent?: CreatureData; edition: StrengthEdition }): void {
     if (p.edition !== "2e") return;
     const { data, parent } = p;
-    const ownStrength = data.strength !== undefined || data.exceptionalStrength !== undefined;
     const own = data.strength2e;
-    const inherited = own || ownStrength ? undefined : parent?.strength2e;
-    const strength2e: Strength2e | undefined = own ?? inherited;
-    if (!strength2e) return;
+    const ownStrength = data.strength !== undefined || data.exceptionalStrength !== undefined;
     // an inherited score is already in the creature's own (resolved) data, written for every file
     if (own) {
       data.strength = own.strength ?? NO_BONUS_STRENGTH;
       data.exceptionalStrength = own.strength === undefined ? 0 : (own.exceptionalStrength ?? 0);
     }
-    const hit = strength2e.hit ?? 0;
-    if (!hit) return;
+    const hit = this.hitOf(own, ownStrength, parent);
     if (data.thac0 !== undefined) {
       data.thac0 -= hit;
-    } else if (!parent) {
-      throw new Error(
-        `2e strength to-hit correction ${hit} needs a THAC0 (set one or enable autoGenerate.thac0)`,
-      );
+      return;
     }
-    // an adjustment without its own THAC0 keeps the creature's, already corrected
+    if (!parent) {
+      if (hit) {
+        throw new Error(
+          `2e strength to-hit correction ${hit} needs a THAC0 (set one or enable autoGenerate.thac0)`,
+        );
+      }
+      return;
+    }
+    // no THAC0 of its own: the creature's plays, already corrected by the creature's to-hit
+    const parentHit = parent.strength2e?.hit ?? 0;
+    if (hit === parentHit) return;
+    if (parent.thac0 === undefined) {
+      throw new Error(`2e strength to-hit correction ${hit} needs a THAC0 on the creature`);
+    }
+    data.thac0 = parent.thac0 + parentHit - hit;
+  }
+
+  /**
+   * The to-hit correction that plays: the data's own strength2e, else none for an adjustment
+   * with its own strength (a game-file value: untouched), else the creature's.
+   */
+  private hitOf(own: Strength2e | undefined, ownStrength: boolean, parent?: CreatureData): number {
+    if (own) return own.hit ?? 0;
+    if (ownStrength || !parent) return 0;
+    return parent.strength2e?.hit ?? 0;
   }
 }
 

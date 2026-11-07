@@ -123,8 +123,12 @@ function assertNoDuplicateAdjustFiles(adjust: PartialCreatureAdjustment[], label
 // experience score reads whole, so an entry's own list replaces the variant's too.
 const REPLACED_ARRAYS = new Set(["memorized", "spellbooks", "animation", "xpAbilities"]);
 
+// `strength2e` is one 2e record (score, to-hit, source): an entry's own replaces the variant's
+// whole, so no field of it (a chieftain's to-hit) leaks into a "no bonus" entry.
+const REPLACED_OBJECTS = new Set(["strength2e"]);
+
 function customMerge(key: string): typeof replaceArray | undefined {
-  if (!REPLACED_ARRAYS.has(key)) return undefined;
+  if (!REPLACED_ARRAYS.has(key) && !REPLACED_OBJECTS.has(key)) return undefined;
   return replaceArray;
 }
 
