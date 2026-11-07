@@ -99,7 +99,10 @@ export interface ExperienceScore {
   breakdown: string;
 }
 
-const TABLE_31 = [7, 15, 35, 65, 120, 175, 270, 420, 650, 975, 1400, 2000, 2000];
+// 2e DMG Table 31, indexed by Hit Dice value. Its "11 to 12+: 2,000" row is smoothed (user): 12 is
+// halfway to 13's 3,000, so a stronger creature on the plateau (a cave bear's 12 against a brown
+// bear's 11) is worth more.
+const TABLE_31 = [7, 15, 35, 65, 120, 175, 270, 420, 650, 975, 1400, 2000, 2500];
 
 export function hitDiceValue(hd: HitDice): number {
   return hd.plus && hd.whole < 10 ? hd.whole + 1 : hd.whole;

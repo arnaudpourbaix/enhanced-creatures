@@ -3,9 +3,13 @@ import { hitDiceValue, scoreExperience, xpForHitDiceValue } from "./experience-t
 
 describe("experience table", () => {
   it("maps every Table 31 row", () => {
-    expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15].map(xpForHitDiceValue)).toEqual([
-      7, 15, 35, 65, 120, 175, 270, 420, 650, 975, 1400, 2000, 2000, 3000, 5000,
+    expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15].map(xpForHitDiceValue)).toEqual([
+      7, 15, 35, 65, 120, 175, 270, 420, 650, 975, 1400, 2000, 3000, 5000,
     ]);
+  });
+  it("smooths Table 31's 11-12 plateau: 12 is halfway to 13", () => {
+    // a cave bear (12) above a brown bear (11), both 2000 in the DMG (user)
+    expect(xpForHitDiceValue(12)).toBe(2500);
   });
   it("a plus moves up one row only below 10 HD", () => {
     expect(hitDiceValue({ whole: 4, plus: true })).toBe(5);
