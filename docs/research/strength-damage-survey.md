@@ -205,7 +205,7 @@ forum), and the user's rulings. Everything not listed has no 2e strength found a
 | Vampire (fledgling) | 18/76                                                                         | —                                 | MM: "18/76, receiving a bonus of +2 to hit and +4 to damage"  |
 | Vampire ages        | mature 18/91, old 18/00, very old 18/00, ancient 19, eminent 20, patriarch 21 | —                                 | Ravenloft age table (forum quote); the mod already matches it |
 | Death knight        | 18/00                                                                         | —                                 | MM: "A death knight has a strength of 18(00)"                 |
-| Skeleton warrior    | no damage bonus                                                               | +3                                | MM: "By weapon (+3 to attack roll)", "an innate ability"      |
+| Skeleton warrior    | no damage bonus                                                               | — (its +3 is in its trait)        | MM: "By weapon (+3 to attack roll)", "an innate ability"      |
 | Juju zombie         | no damage bonus                                                               | —                                 | MM: damage "3-12" (3d4), no strength                          |
 | Monster skeleton    | no damage bonus                                                               | —                                 | MM: giant weapons "without any Strength bonuses"              |
 

@@ -26,7 +26,7 @@ interface Strength2e {
   exceptionalStrength?: number;
   /**
    * To-hit the 2e table can't give with that score (the MM's own value minus the score's), applied
-   * through THAC0: an ogre chieftain +1 (MM +4, 18/00 gives +3), an ogre -1, a skeleton warrior +3
+   * through THAC0: an ogre chieftain +1 (MM +4, 18/00 gives +3), an ogre -1 (not a to-hit the creature already has, like the skeleton warrior's trait +3)
    */
   hit?: number;
   /** Where it comes from: an MM quote, or "inferred: ..." for a judgment */

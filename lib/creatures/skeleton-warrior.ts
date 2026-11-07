@@ -38,9 +38,8 @@ export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
       bonusHp: 7, // +2 to +12
       strength: 18,
       exceptionalStrength: 40,
-      // no strength bonus in 2e, only an innate +3 to hit
+      // no strength bonus in 2e; its innate +3 to hit is the trait's Thac0Bonus below
       strength2e: {
-        hit: 3,
         source: "MM skeleton warrior: By weapon (+3 to attack roll), an innate ability",
       },
       dexterity: 14,
