@@ -6,6 +6,9 @@ import { SpellCheckConfig } from "./spells/spell-check-config";
 /** Which strength plays: today's 3e/5e scores, or the 2e ones a creature records (strength2e) */
 export type StrengthEdition = "3e+" | "2e";
 
+/** How an XP score is computed: the 2e DMG formula, or the threat duels */
+export type ExperienceSystem = "dmg" | "threat";
+
 export interface PlayerConfig {
   /** The checks a spell's target must pass before the AI casts it (see SpellCheckConfig) */
   spellChecks: SpellCheckConfig;
@@ -21,6 +24,12 @@ export interface PlayerConfig {
    * (experience.service); the book XP stays for the Base XP conflicts.
    */
   experience2e: boolean;
+  /**
+   * "dmg": scores are the 2e DMG formula (Hit Dice value + abilities, Table 31). "threat": the
+   * duels against a reference fighter and archer of the creature's level (threat/). The rest of
+   * the XP pipeline is shared. Spec: docs/superpowers/specs/2026-11-07-threat-experience-design.md
+   */
+  experienceSystem: ExperienceSystem;
   /**
    * Minimum chance (in %, by steps of 5: a d20) for a target to fail a spell's saving throw, below
    * which the AI doesn't target it with that spell (see TriggerFactory.saveChecks). 0: the target
@@ -71,6 +80,7 @@ export const PLAYER_CONFIG: PlayerConfig = {
   },
   strengthEdition: "3e+",
   experience2e: true,
+  experienceSystem: "dmg",
   saveCheckMinFailChance: 0,
   weaponCheck: true,
   avoidClouds: true,

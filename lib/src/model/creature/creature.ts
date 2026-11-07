@@ -13,6 +13,7 @@ import type {
   ExperienceConflict,
   ExperienceRow,
 } from "../../services/experience/experience.service";
+import type { ExperienceScore } from "../../services/experience/experience-table";
 import { ImmunityName } from "../final/immunity";
 import { StringReference } from "../final/stringref";
 import { ClassIdentifier } from "../ids/class";
@@ -161,6 +162,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
   experience: ExperienceRow[] = [];
   /** The base creature's book XP against its formula score; set only when they disagree. */
   baseExperience?: ExperienceConflict;
+  /** The base creature's formula score, whatever its book XP (see ExperienceService.apply). */
+  baseScore?: ExperienceScore;
 
   // Not actually useless: narrows the base class's plain `number` id parameter to MonsterEnum,
   // so `new Creature(id)` only accepts valid monster ids.
