@@ -21,6 +21,7 @@ import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SPELLS } from "../../config/spells/spell-database";
 import { KITS } from "../../config/kit-ability";
 import { SpellCombo } from "../model/spell-item/spell-combo";
+import { GLOBAL_CONFIG } from "../../config/generate";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -318,6 +319,36 @@ describe("checkData - attacks per round across adjustments", () => {
     expect(creature.data.apr).toBe(4);
     expect(creature.data.doubleApr).toBe(true);
     expect(movement.hasImprovedHaste).toBe(true);
+  });
+});
+
+describe("checkData - 2e strength", () => {
+  afterEach(() => {
+    GLOBAL_CONFIG.strengthEdition = "3e+";
+  });
+
+  it("plays the 2e strength and corrects the auto-generated THAC0", () => {
+    GLOBAL_CONFIG.strengthEdition = "2e";
+    const creature = {
+      data: {
+        movement: new Movement(9),
+        level1: { pnpValue: 5, value: 5, type: "none" },
+        strength: 19,
+        strength2e: { strength: 18, exceptionalStrength: 100, hit: -1, source: "MM" },
+        saveBreath: 10,
+        immunities: [],
+        items: { equipped: [] },
+      },
+      items: [],
+      adjustments: [],
+      attack: { dualWielding: false },
+      autoGenerate: { thac0: true, hitPoints: false, enchantment: false, meleeRange: false },
+    } as unknown as Creature;
+
+    creatureService.checkData({ creature, base: creature, isAdjustment: false });
+
+    // level 5: THAC0 15, one worse for the MM's +2 to hit (18/00 gives +3)
+    expect(creature.data).toMatchObject({ strength: 18, exceptionalStrength: 100, thac0: 16 });
   });
 });
 

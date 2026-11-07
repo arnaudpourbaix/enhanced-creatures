@@ -21,6 +21,24 @@ import { WithRequired } from "../utility-types";
 import { EquippedItem } from "./item";
 import { Movement } from "./movement";
 
+/**
+ * The strength a creature's 2e entry gives (or implies), kept next to its 3e/5e `strength`;
+ * GLOBAL_CONFIG.strengthEdition picks which plays (see strength-edition.service.ts and
+ * docs/superpowers/specs/2026-11-07-strength-2e-design.md).
+ */
+export interface Strength2e {
+  /** The 2e score; absent when the 2e entry gives no strength bonus at all */
+  strength?: number;
+  exceptionalStrength?: number;
+  /**
+   * To-hit the 2e table can't give with that score (the MM's value minus the score's), applied
+   * through THAC0: an ogre chieftain +1 (MM +4, 18/00 gives +3), an ogre -1
+   */
+  hit?: number;
+  /** Where it comes from: an MM quote, or "inferred: ..." for a judgment */
+  source: string;
+}
+
 export interface CreatureData {
   level1?: Level;
   level2?: Level;
@@ -103,6 +121,11 @@ export interface CreatureData {
    * adjustment's list replaces the base list.
    */
   xpAbilities?: XpAbility[];
+  /**
+   * The 2e strength, played instead of `strength` when GLOBAL_CONFIG.strengthEdition is "2e".
+   * Never written to CRE files (not a CREATURE_DATA_FIELDS entry): resolved in checkData.
+   */
+  strength2e?: Strength2e;
   script: CreatureDataScript;
   proficiencies: CreatureDataProficiencies;
   immunities: ImmunityName[];

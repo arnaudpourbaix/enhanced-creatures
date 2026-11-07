@@ -28,6 +28,7 @@ import { Actions } from "../model/script/actions";
 import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import hitPointService from "./hit-point.service";
+import strengthEditionService from "./strength-edition.service";
 import itemService from "./item.service";
 import kitService from "./kit.service";
 import logService from "./log.service";
@@ -113,6 +114,12 @@ class CreatureService {
       autoGenerate: { ...p.creature.autoGenerate, ...adjustmentAutoGenerate },
       creature: p.creature,
       parent: p.isAdjustment ? p.creature.data : undefined,
+    });
+    // after autoGenerate: the 2e to-hit correction applies to the generated THAC0
+    strengthEditionService.apply({
+      data,
+      parent: p.isAdjustment ? p.creature.data : undefined,
+      edition: GLOBAL_CONFIG.strengthEdition,
     });
   }
 
@@ -270,7 +277,8 @@ class CreatureService {
         const spellText = spellName ? ` (${spellName})` : "";
         logService.error(
           `${translationService.from(creature.name)}: duplicate ability for '${ability.resource ?? ability.name}'${spellText} - the same spell and trigger context is listed twice.`,
-        );        continue;
+        );
+        continue;
       }
       seen.add(signature);
     }

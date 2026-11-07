@@ -13,8 +13,17 @@ const SPELL_CHECKS: SpellCheckConfig = {
   kits: true,
 };
 
+/** Which strength plays: today's 3e/5e scores, or the 2e ones a creature records (strength2e) */
+export type StrengthEdition = "3e+" | "2e";
+
 export const GLOBAL_CONFIG = {
   spellChecks: SPELL_CHECKS,
+  /**
+   * "2e": creatures, variants and adjustments with a `strength2e` play it (see
+   * strength-edition.service.ts); "3e+": today's strengths everywhere. Spec:
+   * docs/superpowers/specs/2026-11-07-strength-2e-design.md
+   */
+  strengthEdition: "3e+" as StrengthEdition,
   /**
    * Minimum chance (in %, by steps of 5: a d20) for a target to fail a spell's saving throw, below
    * which the AI doesn't target it with that spell (see TriggerFactory.saveChecks). 0: the target
