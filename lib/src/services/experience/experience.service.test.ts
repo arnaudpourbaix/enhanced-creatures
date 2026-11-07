@@ -3,6 +3,7 @@ import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
 import monsterFilesService, { CreatureCsvRow } from "../monster-files.service";
+import { PLAYER_CONFIG } from "../../../config/player-config";
 import experienceService from "./experience.service";
 
 const FILE = "F";
@@ -28,6 +29,7 @@ function emptyData(): Partial<CreatureData> {
 
 function fakeCreature(p: {
   xpv?: number;
+  xpv2e?: number;
   level?: number;
   files?: { name: string; game?: Game }[];
   adjustments?: { game?: Game; summon?: boolean; data: Partial<CreatureData> }[];
@@ -48,6 +50,7 @@ function fakeCreature(p: {
     apr: 1,
     doubleApr: false,
     xpv: p.xpv,
+    xpv2e: p.xpv2e,
     alignment: "NEUTRAL",
     morale: 10,
     size: "Large",
@@ -104,6 +107,60 @@ function appended(creature: Creature, ownCount: number) {
     xpv: a.data.xpv,
   }));
 }
+
+describe("experience2e off: base creatures scored by the formula", () => {
+  afterEach(() => {
+    PLAYER_CONFIG.experience2e = true;
+  });
+
+  it("scores a file no adjustment covers and writes it", () => {
+    PLAYER_CONFIG.experience2e = false;
+    mockRows(row(100));
+    const creature = fakeCreature({ xpv: 300, xpv2e: 300 });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ status: "formula", inGameXp: 100, newXp: 120 }),
+    ]);
+    expect(appended(creature, 0)).toEqual([
+      { files: [FILE], game: undefined, variant: undefined, xpv: 120 },
+    ]);
+  });
+
+  it("keeps the in-game XP of a file no adjustment covers when the formula is below it", () => {
+    PLAYER_CONFIG.experience2e = false;
+    mockRows(row(650));
+    const creature = fakeCreature({ xpv: 300, xpv2e: 300 });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ status: "drop", inGameXp: 650, newXp: 650 }),
+    ]);
+  });
+
+  it("an as-base row takes the base formula, not the book XP", () => {
+    PLAYER_CONFIG.experience2e = false;
+    mockRows(row(100));
+    const creature = fakeCreature({
+      xpv: 300,
+      xpv2e: 300,
+      adjustments: [{ data: { script: { remove: [], location: "X" } } as Partial<CreatureData> }],
+    });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({ status: "asBase", newXp: 120 }),
+    ]);
+  });
+
+  it("the base creature plays its formula XP and the conflict compares it with the book", () => {
+    PLAYER_CONFIG.experience2e = false;
+    mockRows(row(100));
+    const creature = fakeCreature({ xpv: 300, xpv2e: 300 });
+    experienceService.apply(creature);
+    expect(creature.data.xpv).toBe(120);
+    expect(creature.baseExperience).toEqual(
+      expect.objectContaining({ bookXp: 300, score: expect.objectContaining({ xp: 120 }) }),
+    );
+  });
+});
 
 describe("experienceService.evaluate", () => {
   it("keeps the book XP for a file no adjustment covers", () => {

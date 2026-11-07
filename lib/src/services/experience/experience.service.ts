@@ -1,6 +1,7 @@
 import { CreatureAdjustment, PartialCreatureAdjustment } from "../../model/creature/adjustment";
 import type { Creature } from "../../model/creature/creature";
 import { CreatureFile, Game } from "../../model/creature/game";
+import { PLAYER_CONFIG } from "../../../config/player-config";
 import creatureFactory from "../../factories/creature.factory";
 import adjustmentService from "../doc/adjustment.service";
 import monsterFilesService, { CreatureCsvRow, pickCreatureRow } from "../monster-files.service";
@@ -53,14 +54,19 @@ class ExperienceService {
   private readonly synthetic = new WeakSet<CreatureAdjustment>();
   private readonly applied = new WeakSet<Creature>();
 
-  evaluate(creature: Creature): { rows: ExperienceRow[]; conflict?: ExperienceConflict } {
+  evaluate(creature: Creature): {
+    rows: ExperienceRow[];
+    conflict?: ExperienceConflict;
+    base: ExperienceScore;
+  } {
     const base = this.score({ creature });
     const rows = creature.files.flatMap((file) =>
       this.scopesOf(creature, file).map((scope) => this.rowOf(creature, scope, base)),
     );
-    const conflict =
-      creature.data.xpv === base.xp ? undefined : { bookXp: creature.data.xpv, score: base };
-    return { rows, conflict };
+    // the book XP (xpv2e), whichever XP plays
+    const bookXp = creature.data.xpv2e ?? creature.data.xpv;
+    const conflict = bookXp === base.xp ? undefined : { bookXp, score: base };
+    return { rows, conflict, base };
   }
 
   /**
@@ -70,9 +76,12 @@ class ExperienceService {
   apply(creature: Creature): void {
     if (this.applied.has(creature)) return;
     this.applied.add(creature);
-    const { rows, conflict } = this.evaluate(creature);
+    const { rows, conflict, base } = this.evaluate(creature);
     creature.experience = rows;
     creature.baseExperience = conflict;
+    // scored by the formula: the base creature's own XP (its CRE and doc) is the base score, each
+    // file's row patch (formula or drop) then sets what that file plays
+    if (!PLAYER_CONFIG.experience2e) creature.data.xpv = base.xp;
 
     const patches: PartialCreatureAdjustment[] = rows
       .filter((row) => this.writes(row))
@@ -158,15 +167,19 @@ class ExperienceService {
       newXp,
       score,
     });
-    const bookXp = creature.data.xpv ?? inGameXp ?? 0;
+    // the base creature's XP: its book value (experience2e), else its formula score
+    const bookXp = PLAYER_CONFIG.experience2e ? (creature.data.xpv ?? inGameXp ?? 0) : base.xp;
 
     if (matching.some((a) => a.summon)) return row("zero", "summon", 0);
     if (matching.some((a) => a.data.xpv === 0)) return row("zero", "xpv 0", 0);
     if (inGameXp === 0) return row("zero", "0 in game", 0);
-    if (!matching.length) return row("book", "no adjustment", bookXp);
+    if (!matching.length && PLAYER_CONFIG.experience2e) return row("book", "no adjustment", bookXp);
     // As base never lowers the in-game XP: below it, the row is a drop like any other.
     const lowersInGame = inGameXp !== undefined && bookXp < inGameXp;
-    if (score.total === base.total && this.sameAbilities(score, base) && !lowersInGame) {
+    // a file with no adjustment is the base creature itself: scored, not "as base"
+    const asBase =
+      matching.length > 0 && score.total === base.total && this.sameAbilities(score, base);
+    if (asBase && !lowersInGame) {
       return row("asBase", AS_BASE_REASON, bookXp);
     }
     if (inGameXp === undefined || score.xp >= inGameXp) {

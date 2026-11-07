@@ -16,6 +16,12 @@ export interface PlayerConfig {
    */
   strengthEdition: StrengthEdition;
   /**
+   * true: a base creature plays its 2e book XP (xpv2e, the Monstrous Manual value). false: base
+   * creatures are scored by the 2e DMG formula like adjustments, never below their in-game XP
+   * (experience.service); the book XP stays for the Base XP conflicts.
+   */
+  experience2e: boolean;
+  /**
    * Minimum chance (in %, by steps of 5: a d20) for a target to fail a spell's saving throw, below
    * which the AI doesn't target it with that spell (see TriggerFactory.saveChecks). 0: the target
    * only needs to be able to fail, like SCS. Needs spellChecks.stats.
@@ -64,6 +70,7 @@ export const PLAYER_CONFIG: PlayerConfig = {
     kits: true,
   },
   strengthEdition: "3e+",
+  experience2e: true,
   saveCheckMinFailChance: 0,
   weaponCheck: true,
   avoidClouds: true,
