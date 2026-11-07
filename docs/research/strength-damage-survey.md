@@ -182,3 +182,36 @@ their own strength or attacks get their own row ("base" = the creature's own dat
    same bonus (20 → 18/91)?
 3. Attack count: keep 2e attack counts, or follow 5e (bears: 2 attacks)?
 4. XP: the formula counts strength today; it should follow whatever the game does.
+
+## 2e strengths found (reviewed with the user, 2026-11-07)
+
+Sources: the 2e Monstrous Manual text (AD&D Core Rules 2.0 Expansion CD, mirrored on
+discmaster.textfiles.com, `webhelp/mm`), the Ravenloft vampire age table (quoted on the Beamdog
+forum), and the user's rulings. Everything not listed has no 2e strength found and keeps its
+3e/5e value.
+
+| Creature            | 2e strength                                                                   | To-hit correction                 | Source                                                        |
+| ------------------- | ----------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------- |
+| Ogre                | 18/00                                                                         | −1 (MM +2 to hit, 18/00 gives +3) | MM: "1-10 (or by weapon +6)", "Strength bonus of +2 to hit"   |
+| Ogre leader         | 18/00                                                                         | —                                 | MM: "+6 with weapon", +3 to hit                               |
+| Ogre chieftain      | 18/00                                                                         | +1 (MM +4 to hit)                 | MM: "+6 with weapon", +4 to hit                               |
+| Ogre shaman         | 18/00                                                                         | −1                                | user: just an ogre                                            |
+| Ogre berserker      | 18/00                                                                         | +1                                | user: not in the MM, as a chieftain                           |
+| Half-ogre           | 18                                                                            | —                                 | MM: "an additional 2 points of damage, due to his mass"       |
+| Ogrillon            | 17                                                                            | —                                 | MM: punch 1d6+1 (16 also fits; user: 17 for its size)         |
+| Ogre mage           | 18/00                                                                         | —                                 | inferred (user): MM says taller than ogres                    |
+| Minotaur            | 18                                                                            | —                                 | MM: "equivalent human Strength of 18", weapon "+2"            |
+| Elder minotaur      | 18/50                                                                         | —                                 | MM: "elder minotaur with 18/50 Strength"                      |
+| Vampire (fledgling) | 18/76                                                                         | —                                 | MM: "18/76, receiving a bonus of +2 to hit and +4 to damage"  |
+| Vampire ages        | mature 18/91, old 18/00, very old 18/00, ancient 19, eminent 20, patriarch 21 | —                                 | Ravenloft age table (forum quote); the mod already matches it |
+| Death knight        | 18/00                                                                         | —                                 | MM: "A death knight has a strength of 18(00)"                 |
+| Skeleton warrior    | no damage bonus                                                               | +3                                | MM: "By weapon (+3 to attack roll)", "an innate ability"      |
+| Juju zombie         | no damage bonus                                                               | —                                 | MM: damage "3-12" (3d4), no strength                          |
+| Monster skeleton    | no damage bonus                                                               | —                                 | MM: giant weapons "without any Strength bonuses"              |
+
+Not in the Monstrous Manual, no 2e value found: wax golem (Ravenloft), helmed horror, battle
+horror, Doom Guard, Doom Sayer, vampire abomination (the mod's own boss).
+
+Mod values that differ from 2e today: ogre 19 (leader and chieftain inherit it), ogre shaman 18,
+berserker chieftain variant 19, half-ogre 17, skeleton warrior 18/40, juju zombie 20, monster
+skeleton 17.
