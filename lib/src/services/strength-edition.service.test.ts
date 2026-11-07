@@ -60,16 +60,37 @@ describe("strengthEditionService.apply", () => {
     expect(data).toEqual({});
   });
 
-  it("an adjustment with its own strength is untouched", () => {
+  it("an adjustment's own strength doesn't play in 2e: it inherits the creature's 2e", () => {
     const parent = { strength2e: { strength: 18, hit: 2, source } } as CreatureData;
     for (const own of [
       { strength: 18, thac0: 13 },
       { exceptionalStrength: 50, thac0: 13 },
     ]) {
-      const data = { ...own };
+      const data: Partial<CreatureData> = { ...own };
       strengthEditionService.apply({ data, parent, edition: "2e" });
-      expect(data).toEqual(own);
+      expect(data).toEqual({ thac0: 11 });
     }
+  });
+
+  it("an adjustment's own strength stays in 3e+", () => {
+    const parent = { strength2e: { strength: 18, hit: 2, source } } as CreatureData;
+    const data = { strength: 18, exceptionalStrength: 50, thac0: 13 };
+    strengthEditionService.apply({ data, parent, edition: "3e+" });
+    expect(data).toEqual({ strength: 18, exceptionalStrength: 50, thac0: 13 });
+  });
+
+  it("a creature without strength2e plays no bonus in 2e", () => {
+    for (const own of [{ strength: 20, exceptionalStrength: 0 }, {}]) {
+      const data: Partial<CreatureData> = { ...own, thac0: 12 };
+      strengthEditionService.apply({ data, edition: "2e" });
+      expect(data).toEqual({ strength: NO_BONUS_STRENGTH, exceptionalStrength: 0, thac0: 12 });
+    }
+  });
+
+  it("a creature without strength2e keeps its strength in 3e+", () => {
+    const data = { strength: 20, thac0: 12 };
+    strengthEditionService.apply({ data, edition: "3e+" });
+    expect(data).toEqual({ strength: 20, thac0: 12 });
   });
 
   it("an adjustment's own strength2e wins over the creature's", () => {
@@ -95,14 +116,14 @@ describe("strengthEditionService.apply", () => {
     expect(data).toMatchObject({ thac0: 16 });
   });
 
-  it("an adjustment with its own strength gets the creature's THAC0 without its 2e correction", () => {
+  it("an adjustment with its own strength and no THAC0 keeps the creature's corrected one", () => {
     const parent = {
       thac0: 18,
       strength2e: { strength: 18, exceptionalStrength: 100, hit: -1, source },
     } as CreatureData;
-    const data = { strength: 18, exceptionalStrength: 50 };
+    const data: Partial<CreatureData> = { strength: 18, exceptionalStrength: 50 };
     strengthEditionService.apply({ data, parent, edition: "2e" });
-    expect(data).toEqual({ strength: 18, exceptionalStrength: 50, thac0: 17 });
+    expect(data).toEqual({});
   });
 
   it("resolving the same data twice corrects THAC0 once", () => {

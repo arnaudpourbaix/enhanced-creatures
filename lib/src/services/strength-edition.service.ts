@@ -7,16 +7,18 @@ export const NO_BONUS_STRENGTH = 15;
 /**
  * Resolves the 2e strength (CreatureData.strength2e) into the strength, exceptional strength and
  * THAC0 that play, once per creature or adjustment (creatureService.checkData), so the CRE patch,
- * the doc, the XP formula and the AI all read the same values. See
- * docs/superpowers/specs/2026-11-07-strength-2e-design.md.
+ * the doc, the XP formula and the AI all read the same values. In 2e, strength only comes from 2e
+ * (user): every known 2e strength is recorded, so `strength` is a 3e/5e or hand-chosen value and
+ * never plays there. See docs/superpowers/specs/2026-11-07-strength-2e-design.md.
  */
 class StrengthEditionService {
   /** Data already resolved: checkData running twice on it must not correct THAC0 twice */
   private readonly resolved = new WeakSet<object>();
 
   /**
-   * `parent` is the creature's data when `data` is an adjustment's: an adjustment inherits the
-   * creature's strength2e unless it sets its own strength (a game-file value) or strength2e.
+   * `parent` is the creature's data when `data` is an adjustment's. In 2e, a creature plays its
+   * strength2e, else no bonus; an adjustment plays its own strength2e, else the creature's (its own
+   * `strength` is dropped).
    */
   apply(p: { data: Partial<CreatureData>; parent?: CreatureData; edition: StrengthEdition }): void {
     // a malformed record fails in both editions, not only once someone switches to 2e
@@ -25,13 +27,18 @@ class StrengthEditionService {
     this.resolved.add(p.data);
     const { data, parent } = p;
     const own = data.strength2e;
-    const ownStrength = data.strength !== undefined || data.exceptionalStrength !== undefined;
-    // an inherited score is already in the creature's own (resolved) data, written for every file
     if (own) {
       data.strength = own.strength ?? NO_BONUS_STRENGTH;
       data.exceptionalStrength = own.strength === undefined ? 0 : (own.exceptionalStrength ?? 0);
+    } else if (parent) {
+      // the creature's resolved strength is written for every file: an adjustment inherits it
+      delete data.strength;
+      delete data.exceptionalStrength;
+    } else {
+      data.strength = NO_BONUS_STRENGTH;
+      data.exceptionalStrength = 0;
     }
-    const hit = this.hitOf(own, ownStrength, parent);
+    const hit = own ? (own.hit ?? 0) : (parent?.strength2e?.hit ?? 0);
     if (data.thac0 !== undefined) {
       data.thac0 -= hit;
       return;
@@ -62,16 +69,6 @@ class StrengthEditionService {
         `strength2e exceptional strength ${ex} needs a strength of 18 and 1-100 (${s2e.source})`,
       );
     }
-  }
-
-  /**
-   * The to-hit correction that plays: the data's own strength2e, else none for an adjustment
-   * with its own strength (a game-file value: untouched), else the creature's.
-   */
-  private hitOf(own: Strength2e | undefined, ownStrength: boolean, parent?: CreatureData): number {
-    if (own) return own.hit ?? 0;
-    if (ownStrength || !parent) return 0;
-    return parent.strength2e?.hit ?? 0;
   }
 }
 
