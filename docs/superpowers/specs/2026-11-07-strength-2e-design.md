@@ -49,7 +49,7 @@ GLOBAL_CONFIG.strengthEdition: "3e+" | "2e" // default "3e+": nothing changes
 - `"2e"`: every creature, variant or adjustment with `strength2e` plays it:
   - `strength` and `exceptionalStrength` take the 2e score;
   - without a 2e score (no bonus), the strength becomes a neutral one with no to-hit or damage
-    bonus (see open question 1);
+    bonus (see the open question);
   - `hit` lowers THAC0 by that much (the engine adds the strength to-hit on top of the CRE THAC0,
     see `getMeleeThac0`).
 
@@ -85,12 +85,15 @@ No creature test files: the resolution is tested in the service/factory with fix
 with and without `strength2e`, an adjustment's own strength winning, the no-bonus case, the THAC0
 correction). With the default `"3e+"`, the golden test proves the generated mod is unchanged.
 
-## Open questions
+## Decisions (user, 2026-11-07)
 
-1. **Neutral strength for "no bonus"**: which score? 2e's 8–15 all give +0/+0; 15 keeps the most
-   for everything else that reads strength (grabs, hugs, bend bars, carrying). Alternative: keep
-   the score and cancel its bonus with an effect (more work, strength checks unchanged).
-2. **Natural weapons of 2e creatures**: the MM ogre hits for "1-10" bare and "+6" only with a
-   weapon, but its fists get the strength bonus in the engine. Keep that (consistent strength,
-   the user's preference so far) or let a 2e creature's natural weapons follow its entry?
-3. **Default**: stays `"3e+"` until the in-game comparison (roadmap step 5).
+1. **Default**: `"3e+"` until the in-game comparison (roadmap step 5).
+2. **Natural weapons keep the strength bonus**: strength belongs to the creature, so a 2e ogre
+   (18/00) hits 1d10+6 with its fists too, though the MM lists "1-10" bare and "+6" with a weapon.
+
+## Open question
+
+1. **Neutral strength for "no bonus"** (skeleton warrior, juju zombie, monster skeleton): the
+   engine needs a score, and 2e's 8-15 all give +0/+0. Proposed: 15, the highest of them, since
+   strength also drives grab and hug escapes, bend bars and carrying (the juju zombie: 20 -> 15,
+   3d4 as in the MM). Alternative: keep the score and cancel its bonus with an effect (more work).
