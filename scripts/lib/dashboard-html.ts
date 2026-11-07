@@ -1,4 +1,5 @@
 import { ExperienceReportData } from "./experience-report";
+import { renderStrengthCard, StrengthRow } from "./strength-report";
 import { EXPERIENCE_SCRIPT, EXPERIENCE_STYLE, renderExperienceTab } from "./experience-report-html";
 import {
   escapeHtml,
@@ -47,6 +48,8 @@ export interface DashboardData {
   };
   stats: StatsReportData;
   experience: ExperienceReportData;
+  /** The 2e strengths recorded (Overview tab) */
+  strength: StrengthRow[];
 }
 
 function pct(part: number, total: number): string {
@@ -141,7 +144,8 @@ ${stat(experience.drops.length, "XP drops to review", experience.drops.length ? 
 ${stat(experience.conflicts.length, "base XP conflicts", experience.conflicts.length ? "bad" : "")}
 </div>
 <p><a href="#experience">See experience →</a></p>
-</section>`;
+</section>
+${renderStrengthCard(d.strength)}`;
 }
 
 function renderCountRow(m: MonsterRowCount, max: number): string {

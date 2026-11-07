@@ -11,6 +11,7 @@ import logService from "../lib/src/services/log.service";
 import mainService from "../lib/src/services/main.service";
 import stateService from "../lib/src/services/state.service";
 import { buildExperienceReport } from "./lib/experience-report";
+import { buildStrengthReport } from "./lib/strength-report";
 import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 
 // Builds every creature once and renders a single dashboard page with:
@@ -90,6 +91,7 @@ async function main() {
       unknown: unknown.map(counts),
     },
     stats: buildStatsReport(creatures, loadStatsCsv(assetsDir)),
+    strength: buildStrengthReport(creatures),
     experience,
   });
 
