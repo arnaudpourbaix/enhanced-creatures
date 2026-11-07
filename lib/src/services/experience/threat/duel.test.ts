@@ -168,9 +168,30 @@ describe("rangedDuel", () => {
     expect(confused.monsterRounds).toBeLessThan(30);
   });
 
+  it("a weak ranged attack or power never lowers a slow monster's ratio", () => {
+    const slow = profile({ level: 6, hp: 60, ac: 4, thac0: 15, movement: 6, apr: 2 });
+    const brute = { ...slow, attacks: [attack(10), attack(10)] };
+    const dart = { ...brute, attacks: [...brute.attacks, attack(1.5, [], true)] };
+    const bolt = { ...brute, powers: [power({ ranged: true, uses: 1, average: 3 })] };
+    const archer = referenceArcher(6);
+    const base = rangedDuel(brute, archer).ratio;
+    expect(rangedDuel(dart, archer).ratio).toBeGreaterThanOrEqual(base);
+    expect(rangedDuel(bolt, archer).ratio).toBeGreaterThanOrEqual(base);
+    expect(threat(dart).threat).toBeGreaterThanOrEqual(threat(brute).threat);
+    expect(threat(bolt).threat).toBeGreaterThanOrEqual(threat(brute).threat);
+  });
+
   it("a ranged monster shoots back", () => {
+    const shot = attack(3.5, [], true);
+    const archer = profile({ movement: 6, thac0: 15, attacks: [shot, shot] });
+    const result = rangedDuel(archer, referenceArcher(2));
+    expect(result.monsterRounds).toBeLessThan(30);
+    expect(result.notes[0]).toBe("shoots back");
+  });
+
+  it("a shooter weaker than being kited keeps the kited duel", () => {
     const archer = profile({ movement: 6, attacks: [attack(3.5, [], true)] });
-    expect(rangedDuel(archer, referenceArcher(2)).monsterRounds).toBeLessThan(30);
+    expect(rangedDuel(archer, referenceArcher(2)).notes[0]).toBe("kited");
   });
 });
 

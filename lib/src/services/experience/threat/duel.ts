@@ -319,13 +319,23 @@ export function rangedDuel(p: CombatProfile, archer: ReferenceCombatant): DuelRe
     result.notes.unshift("closes in after a free round of arrows");
     return result;
   };
-  if (isRanged(p, archer)) {
-    const ranged = p.attacks.filter((a) => a.ranged);
-    const shooting = duel(p, archer, ranged, p.powers, { resist });
-    shooting.notes.unshift("shoots back");
-    return fast ? better(shooting, closing()) : shooting;
-  }
-  if (fast) return closing();
+  // Kited by a faster archer, or closing in: the duel it has without shooting back
+  const unranged = fast ? closing() : kitedDuel(p, archer, resist, closing);
+  if (!isRanged(p, archer)) return unranged;
+  const ranged = p.attacks.filter((a) => a.ranged);
+  const shooting = duel(p, archer, ranged, p.powers, { resist });
+  shooting.notes.unshift("shoots back");
+  // Shooting back only when it beats the melee duel: a weak dart never lowers the ratio
+  return better(shooting, unranged);
+}
+
+/** A slow monster kited at half rate: only its ranged powers reach the archer */
+function kitedDuel(
+  p: CombatProfile,
+  archer: ReferenceCombatant,
+  resist: number,
+  closing: () => DuelResult,
+): DuelResult {
   const rangedPowers = p.powers.filter((power) => power.ranged);
   const kited = duel(p, archer, [], rangedPowers, { resist, rate: KITING_RATE });
   kited.notes.unshift("kited");
