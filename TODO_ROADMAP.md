@@ -142,9 +142,19 @@ and 3e+ on purpose. Since then (user):
 - In 3e/5e dice grow with the creature too: dice alone don't carry strength.
 - Bears with 2 attacks per round (5e's bite + claws) is on the table.
 
-Still to decide: the reference per creature, the strength scale (keep the 2e-table scores or
-convert to the score with the same 5e bonus), the attack counts. Look for better rules rather than
-per-creature flags (user: no opt-in flag); the juju zombie's 3d4 fists depend on its strength.
+Done (2026-11-07, [spec](docs/superpowers/specs/2026-11-07-strength-2e-design.md)): every 2e
+strength found is recorded as `strength2e` (ogres, minotaur, vampire ages, death knight, and
+"no bonus" for the skeleton warrior, juju zombie and monster skeleton), and
+`GLOBAL_CONFIG.strengthEdition` (`"3e+"` by default, `"2e"`) picks which plays; the dashboard
+Overview lists them.
+
+Still to do:
+
+- Compare in game with `"2e"` (ogres, the juju zombie, skeleton warriors), then pick the default.
+- Creatures with no 2e strength (bears, cats, canines, golems, basilisks, wyverns...): the
+  reference per creature, the strength scale (keep the 2e-table scores or convert to the score
+  with the same 5e bonus), the attack counts (bears: 2?). Look for better rules rather than
+  per-creature flags (user: no opt-in flag).
 
 ---
 
