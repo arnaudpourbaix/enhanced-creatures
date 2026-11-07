@@ -118,16 +118,18 @@ export function xpForHitDiceValue(value: number): number {
 const POISONS: XpAbility[] = ["fatalPoison", "strongPoison", "poison", "weakPoison"];
 const SPELL_TIERS: XpAbility[] = ["supremeSpells", "greaterSpells", "highSpells", "lowSpells"];
 
-/** Abilities that reach a foe from afar: a creature with one doesn't need to close in. */
-const RANGED: XpAbility[] = ["missileWeapons", "breathWeapon", ...SPELL_TIERS];
+/**
+ * Abilities that make ground movement irrelevant (user): flying (hover, an at-will Fly: its speed
+ * is the flight's, already worth "flies") or shooting a wielded missile weapon instead of closing
+ * in. Spells and breath weapons don't: vampires, hell hounds and golems still kill in melee, and a
+ * fast one is hard to kite.
+ */
+const MOVEMENT_IRRELEVANT: XpAbility[] = ["flies", "missileWeapons"];
 const MOVEMENT: XpAbility[] = ["slowMovement", "fastMovement"];
 
-/**
- * Movement only matters to a melee creature (user): one with missiles, spells or a breath weapon
- * isn't held back by being slow, nor much helped by being fast.
- */
-function meleeMovementOnly(abilities: DetectedAbility[]): DetectedAbility[] {
-  if (!abilities.some((a) => RANGED.includes(a.ability))) return abilities;
+/** Movement only counts for a creature that walks into melee: see MOVEMENT_IRRELEVANT. */
+function groundMeleeMovementOnly(abilities: DetectedAbility[]): DetectedAbility[] {
+  if (!abilities.some((a) => MOVEMENT_IRRELEVANT.includes(a.ability))) return abilities;
   return abilities.filter((a) => !MOVEMENT.includes(a.ability));
 }
 
@@ -155,7 +157,7 @@ export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): Exper
   // Only the highest spell tier counts, and a creature's strongest poison, not each of them
   abilities = strongestOf(abilities, SPELL_TIERS);
   abilities = strongestOf(abilities, POISONS);
-  abilities = meleeMovementOnly(abilities);
+  abilities = groundMeleeMovementOnly(abilities);
   const value = hitDiceValue(hd);
   const total = value + abilities.reduce((sum, a) => sum + XP_ABILITIES[a.ability].modifier, 0);
   const xp = xpForHitDiceValue(total);

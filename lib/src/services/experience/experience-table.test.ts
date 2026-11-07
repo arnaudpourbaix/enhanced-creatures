@@ -43,29 +43,26 @@ describe("experience table", () => {
     expect(s).toMatchObject({ total: 5, xp: 175 });
     expect(s.breakdown).toBe("6 HD → 6, -1 slow movement (movement 6) = 5 → 175");
   });
-  it("movement only counts for a melee creature", () => {
-    for (const ranged of [
-      "missileWeapons",
-      "lowSpells",
-      "supremeSpells",
-      "breathWeapon",
-    ] as const) {
-      const slow = scoreExperience({ whole: 6, plus: false }, [
-        { ability: "slowMovement", source: "movement 6" },
-        { ability: ranged, source: "x" },
-      ]);
-      expect(slow.abilities.map((a) => a.ability)).toEqual([ranged]);
-      const fast = scoreExperience({ whole: 6, plus: false }, [
-        { ability: "fastMovement", source: "movement 18" },
-        { ability: ranged, source: "x" },
-      ]);
-      expect(fast.abilities.map((a) => a.ability)).toEqual([ranged]);
+  it("movement doesn't count for a flier or a missile wielder", () => {
+    for (const exempt of ["missileWeapons", "flies"] as const) {
+      for (const movement of ["slowMovement", "fastMovement"] as const) {
+        const s = scoreExperience({ whole: 6, plus: false }, [
+          { ability: movement, source: "movement" },
+          { ability: exempt, source: "x" },
+        ]);
+        expect(s.abilities.map((a) => a.ability)).toEqual([exempt]);
+      }
     }
-    const melee = scoreExperience({ whole: 6, plus: false }, [
-      { ability: "fastMovement", source: "movement 18" },
-      { ability: "poison", source: "bite" },
-    ]);
-    expect(melee.abilities.map((a) => a.ability)).toEqual(["fastMovement", "poison"]);
+  });
+  it("movement counts for a creature killing in melee, spells or breath included", () => {
+    // a fast vampire is hard to kite, whatever its spells (user)
+    for (const other of ["supremeSpells", "breathWeapon", "poison"] as const) {
+      const s = scoreExperience({ whole: 6, plus: false }, [
+        { ability: "fastMovement", source: "movement 18" },
+        { ability: other, source: "x" },
+      ]);
+      expect(s.abilities.map((a) => a.ability)).toEqual(["fastMovement", other]);
+    }
   });
   it("only the strongest poison counts", () => {
     const s = scoreExperience({ whole: 5, plus: false }, [
