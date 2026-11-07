@@ -180,6 +180,7 @@ function powersHazard(
   ref: ReferenceCombatant,
   fighterRounds: number,
 ): number {
+  if (fighterRounds <= 0) return 0;
   const hazards = powers
     .map((power) => ({ power, hazard: castHazard(power, ref) }))
     .filter((h) => h.hazard > 0)
@@ -287,14 +288,19 @@ function mix(a: DuelResult, b: DuelResult, share: number, note: string): DuelRes
   };
 }
 
-/** The chance a round confuses the archer, breaking his kiting: attacks and at-will powers */
-function confusionChance(p: CombatProfile, archer: ReferenceCombatant): number {
-  const chances = attackRound(p, meleeAttacks(p), archer).confusions;
-  for (const power of p.powers.filter((pw) => pw.uses === Infinity)) {
-    for (const effect of power.effects.filter((e) => e.kind === "confusion")) {
-      chances.push(effectFail(effect, archer) * effect.chance);
-    }
-  }
+/**
+ * The chance a round confuses the kiting archer, breaking his kiting: only ranged powers reach him
+ * (his melee never lands); limited uses spread over his rounds, N ÷ R_f
+ */
+function confusionChance(p: CombatProfile, archer: ReferenceCombatant, rounds: number): number {
+  const chances = p.powers
+    .filter((power) => power.ranged)
+    .flatMap((power) => {
+      const spread = Math.min(1, power.uses / rounds);
+      return power.effects
+        .filter((e) => e.kind === "confusion")
+        .map((e) => effectFail(e, archer) * e.chance * spread);
+    });
   return either(chances);
 }
 
@@ -317,7 +323,7 @@ export function rangedDuel(p: CombatProfile, archer: ReferenceCombatant): DuelRe
   const rangedPowers = p.powers.filter((power) => power.ranged);
   const kited = duel(p, archer, [], rangedPowers, { resist, rate: KITING_RATE });
   kited.notes.unshift("kited");
-  const share = Math.min(1, confusionChance(p, archer) * kited.fighterRounds);
+  const share = Math.min(1, confusionChance(p, archer, kited.fighterRounds) * kited.fighterRounds);
   if (!share) return kited;
   return mix(kited, closing(), share, `confusion breaks the kiting ${percent(share)} of the fight`);
 }

@@ -13,6 +13,8 @@ const paralysis: HitEffect = {
   duration: 12,
 };
 
+const confusion: HitEffect = { ...paralysis, kind: "confusion", saves: [], chance: 0.5 };
+
 function attack(average: number, effects: HitEffect[] = [], ranged = false): ProfileAttack {
   return { name: "attack", average, ranged, effects };
 }
@@ -111,6 +113,15 @@ describe("meleeDuel", () => {
     expect(result.monsterRounds).toBeCloseTo(result.fighterRounds / 0.3, 3);
   });
 
+  it("a 0 HP monster gives no NaN", () => {
+    const gaze = power({ effects: [{ ...paralysis, saves: [] }] });
+    const p = profile({ hp: 0, attacks: [attack(10)], powers: [gaze] });
+    const result = meleeDuel(p, referenceFighter(2));
+    expect(result.notes.join()).not.toContain("NaN");
+    // its attacks still count: 10 × 60% ÷ 26 HP
+    expect(result.monsterRounds).toBeCloseTo(26 / 6, 3);
+  });
+
   it("a game damage spell counts from the table, as an area", () => {
     const fireball = power({ uses: Infinity, ranged: true, level: 3, role: "damage" });
     const ref = referenceFighter(2);
@@ -130,6 +141,19 @@ describe("rangedDuel", () => {
 
   it("a fast melee monster reaches the archer", () => {
     expect(rangedDuel(brute(15), referenceArcher(2)).monsterRounds).toBeLessThan(30);
+  });
+
+  it("melee confusion doesn't break the kiting: its melee never lands", () => {
+    const confusing = profile({ movement: 6, attacks: [attack(10, [confusion])] });
+    expect(rangedDuel(confusing, referenceArcher(2)).monsterRounds).toBe(30);
+  });
+
+  it("a ranged confusion power breaks the kiting for part of the fight", () => {
+    const pattern = power({ ranged: true, uses: 1, effects: [confusion] });
+    const result = rangedDuel(brute(6), referenceArcher(2));
+    const confused = rangedDuel({ ...brute(6), powers: [pattern] }, referenceArcher(2));
+    expect(result.monsterRounds).toBe(30);
+    expect(confused.monsterRounds).toBeLessThan(30);
   });
 
   it("a ranged monster shoots back", () => {
