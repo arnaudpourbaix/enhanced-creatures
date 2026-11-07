@@ -43,6 +43,30 @@ describe("experience table", () => {
     expect(s).toMatchObject({ total: 5, xp: 175 });
     expect(s.breakdown).toBe("6 HD → 6, -1 slow movement (movement 6) = 5 → 175");
   });
+  it("movement only counts for a melee creature", () => {
+    for (const ranged of [
+      "missileWeapons",
+      "lowSpells",
+      "supremeSpells",
+      "breathWeapon",
+    ] as const) {
+      const slow = scoreExperience({ whole: 6, plus: false }, [
+        { ability: "slowMovement", source: "movement 6" },
+        { ability: ranged, source: "x" },
+      ]);
+      expect(slow.abilities.map((a) => a.ability)).toEqual([ranged]);
+      const fast = scoreExperience({ whole: 6, plus: false }, [
+        { ability: "fastMovement", source: "movement 18" },
+        { ability: ranged, source: "x" },
+      ]);
+      expect(fast.abilities.map((a) => a.ability)).toEqual([ranged]);
+    }
+    const melee = scoreExperience({ whole: 6, plus: false }, [
+      { ability: "fastMovement", source: "movement 18" },
+      { ability: "poison", source: "bite" },
+    ]);
+    expect(melee.abilities.map((a) => a.ability)).toEqual(["fastMovement", "poison"]);
+  });
   it("only the strongest poison counts", () => {
     const s = scoreExperience({ whole: 5, plus: false }, [
       { ability: "weakPoison", source: "claws" },

@@ -118,6 +118,19 @@ export function xpForHitDiceValue(value: number): number {
 const POISONS: XpAbility[] = ["fatalPoison", "strongPoison", "poison", "weakPoison"];
 const SPELL_TIERS: XpAbility[] = ["supremeSpells", "greaterSpells", "highSpells", "lowSpells"];
 
+/** Abilities that reach a foe from afar: a creature with one doesn't need to close in. */
+const RANGED: XpAbility[] = ["missileWeapons", "breathWeapon", ...SPELL_TIERS];
+const MOVEMENT: XpAbility[] = ["slowMovement", "fastMovement"];
+
+/**
+ * Movement only matters to a melee creature (user): one with missiles, spells or a breath weapon
+ * isn't held back by being slow, nor much helped by being fast.
+ */
+function meleeMovementOnly(abilities: DetectedAbility[]): DetectedAbility[] {
+  if (!abilities.some((a) => RANGED.includes(a.ability))) return abilities;
+  return abilities.filter((a) => !MOVEMENT.includes(a.ability));
+}
+
 /** Keeps only the strongest of a group of abilities that don't add up. */
 function strongestOf(abilities: DetectedAbility[], group: XpAbility[]): DetectedAbility[] {
   const members = abilities.filter((a) => group.includes(a.ability));
@@ -142,6 +155,7 @@ export function scoreExperience(hd: HitDice, detected: DetectedAbility[]): Exper
   // Only the highest spell tier counts, and a creature's strongest poison, not each of them
   abilities = strongestOf(abilities, SPELL_TIERS);
   abilities = strongestOf(abilities, POISONS);
+  abilities = meleeMovementOnly(abilities);
   const value = hitDiceValue(hd);
   const total = value + abilities.reduce((sum, a) => sum + XP_ABILITIES[a.ability].modifier, 0);
   const xp = xpForHitDiceValue(total);
