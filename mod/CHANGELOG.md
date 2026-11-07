@@ -92,6 +92,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire patriarch
 - Doc: Attacks list the main hand before the off-hand
 - Ooze: puddings and mustard jelly split again
+- Docs: creature search finds monsters with adjustments
 
 ## [0.4.0] - 2026-10-09
 

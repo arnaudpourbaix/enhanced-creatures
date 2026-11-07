@@ -357,14 +357,20 @@
     var noMatch = document.querySelector(".no-match");
     var state = { type: "", query: "" };
 
-    // Card id -> lowercase creature name, read from its title (without its creature code).
+    // Card id -> lowercase creature name: a plain card's <h3> title (without its creature code),
+    // or a card with adjustments' data-title (its title is a <summary>, not an <h3>).
     var names = {};
     document.querySelectorAll(".content .creature").forEach(function (card) {
+      var adjustments = card.querySelector(".creature-adjustments[data-title]");
       var title = card.querySelector("h3");
-      if (!title) return;
-      var code = title.querySelector(".creature-code");
-      var text = title.textContent;
-      if (code) text = text.replace(code.textContent, "");
+      var text = "";
+      if (adjustments) {
+        text = adjustments.getAttribute("data-title");
+      } else if (title) {
+        var code = title.querySelector(".creature-code");
+        text = title.textContent;
+        if (code) text = text.replace(code.textContent, "");
+      }
       names[card.id] = text.trim().toLowerCase();
     });
     // Card id -> its upper-case .cre files, from the page's file index.
