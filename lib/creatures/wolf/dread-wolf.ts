@@ -162,7 +162,7 @@ class DreadWolfEntry extends CreatureEntry<DreadWolf> {
         charisma: 8,
         ac: 6,
         apr: 1,
-        xpv: 650,
+        xpv2e: 650,
         alignment: "NEUTRAL_EVIL",
         morale: 18,
         general: "ANIMAL",

@@ -127,7 +127,7 @@ class PolarBearEntry extends CreatureEntry<Bear> {
         charisma: 7,
         ac: 6,
         apr: 3,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

@@ -19,7 +19,7 @@ export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
   });
   archer.setData({
     level1: 2,
-    xpv: 175,
+    xpv2e: 175,
     morale: 20,
     script: {
       remove: ["0XUDDG"],

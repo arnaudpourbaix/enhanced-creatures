@@ -62,6 +62,7 @@ class CreatureFactory {
     // Not CREATURE_DATA_FIELDS entries (they never reach CRE files), so copied by hand.
     if (input.xpAbilities !== undefined) data.xpAbilities = [...input.xpAbilities];
     if (input.strength2e !== undefined) data.strength2e = { ...input.strength2e };
+    if (input.xpv2e !== undefined) data.xpv2e = input.xpv2e;
     return data;
   }
 

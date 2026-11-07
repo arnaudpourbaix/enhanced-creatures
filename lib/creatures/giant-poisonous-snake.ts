@@ -57,7 +57,7 @@ class GiantPoisonousSnakeEntry extends CreatureEntry<Snake> {
         charisma: 3,
         ac: 5,
         apr: 1,
-        xpv: 420,
+        xpv2e: 420,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

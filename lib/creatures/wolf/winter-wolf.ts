@@ -119,7 +119,7 @@ class WinterWolfEntry extends CreatureEntry<WinterWolf> {
         charisma: 8,
         ac: 5,
         apr: 1,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "NEUTRAL_EVIL",
         morale: 13,
         general: "ANIMAL",

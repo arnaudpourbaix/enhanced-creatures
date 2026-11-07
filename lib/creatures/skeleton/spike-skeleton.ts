@@ -20,7 +20,7 @@ export function spikeSkeleton(entry: CreatureEntry<Creature>, base: Creature): C
     level1: 3,
     ac: 6,
     morale: 20,
-    xpv: 650,
+    xpv2e: 650,
   });
   //TODO:
   // Further, each time the skeleton hits or is hit, 1d3 spikes explode in a bonespray,

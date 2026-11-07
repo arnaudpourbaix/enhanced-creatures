@@ -39,7 +39,7 @@ class HelmedHorrorEntry extends CreatureEntry<Construct> {
         charisma: 10,
         ac: 2,
         apr: 1,
-        xpv: 2000,
+        xpv2e: 2000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "MONSTER",

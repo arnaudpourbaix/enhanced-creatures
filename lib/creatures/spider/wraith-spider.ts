@@ -41,7 +41,7 @@ class WraithSpiderEntry extends CreatureEntry<Spider> {
         charisma: 1,
         ac: 5,
         apr: 1,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "LAWFUL_EVIL",
         morale: 15,
         general: "MONSTER",

@@ -37,7 +37,7 @@ class GrizzlyBearEntry extends CreatureEntry<Bear> {
         charisma: 7,
         ac: 5,
         apr: 3,
-        xpv: 1500,
+        xpv2e: 1500,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

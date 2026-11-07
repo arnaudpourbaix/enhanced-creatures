@@ -328,7 +328,7 @@ class SirineEntry extends CreatureEntry<Fey> {
         charisma: 17,
         ac: 3,
         apr: 1,
-        xpv: 3000,
+        xpv2e: 3000,
         alignment: "NEUTRAL",
         morale: 12,
         general: "HUMANOID",

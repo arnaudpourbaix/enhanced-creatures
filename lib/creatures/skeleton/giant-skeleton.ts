@@ -27,7 +27,7 @@ export function giantSkeleton(entry: CreatureEntry<Creature>, base: Creature): C
     morale: 20,
     size: { value: "Large", tall: true, long: false },
     class: "CLERIC_MAGE",
-    xpv: 975,
+    xpv2e: 975,
     spells: {
       memorized: [{ file: SPELLS.Wizard.Fireball.file, memorizedCount: 1 }],
     },

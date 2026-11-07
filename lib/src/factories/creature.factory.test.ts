@@ -122,6 +122,10 @@ describe("setAdjustments", () => {
     expect(creature.adjustments[0].data.xpAbilities).toEqual(["flies"]);
   });
 
+  it("carries xpv2e, which no CREATURE_DATA_FIELDS entry covers", () => {
+    expect(creatureFactory.getData(undefined, { xpv2e: 975 }, false).xpv2e).toBe(975);
+  });
+
   it("carries strength2e, which no CREATURE_DATA_FIELDS entry covers", () => {
     const creature = fakeCreature();
     const strength2e = { strength: 18, exceptionalStrength: 100, hit: 1, source: "MM" };

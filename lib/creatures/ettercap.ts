@@ -40,7 +40,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
         charisma: 8,
         ac: 6,
         apr: 3,
-        xpv: 650,
+        xpv2e: 650,
         alignment: "NEUTRAL_EVIL",
         morale: 13,
         general: "MONSTER",

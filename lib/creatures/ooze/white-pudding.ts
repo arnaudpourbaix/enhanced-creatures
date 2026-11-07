@@ -46,7 +46,7 @@ class WhitePuddingEntry extends CreatureEntry<Slime> {
         charisma: 1,
         ac: 8,
         apr: 1,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "NEUTRAL",
         morale: 12,
         general: "MONSTER",

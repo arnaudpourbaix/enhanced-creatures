@@ -24,7 +24,7 @@ function ogrillon(entry: CreatureEntry<Ogre>): Ogre {
       charisma: 7,
       ac: 6,
       apr: 2,
-      xpv: 175,
+      xpv2e: 175,
       alignment: "CHAOTIC_EVIL",
       morale: 10,
       general: "GIANTHUMANOID",

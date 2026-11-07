@@ -38,7 +38,7 @@ class OliveSlimeEntry extends CreatureEntry<Slime> {
         charisma: 1,
         ac: 9,
         apr: 1,
-        xpv: 420,
+        xpv2e: 420,
         alignment: "NEUTRAL",
         morale: 10,
         general: "MONSTER",

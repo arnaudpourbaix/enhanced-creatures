@@ -66,7 +66,7 @@ function berserker(entry: CreatureEntry<OgreBerserker>): OgreBerserker {
       charisma: 7,
       ac: 3,
       apr: 1,
-      xpv: 650,
+      xpv2e: 650,
       alignment: "CHAOTIC_EVIL",
       morale: 12,
       general: "GIANTHUMANOID",

@@ -42,7 +42,7 @@ class SnowGolemEntry extends CreatureEntry<Golem> {
         charisma: 1,
         ac: 1,
         apr: 2,
-        xpv: 7000,
+        xpv2e: 7000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

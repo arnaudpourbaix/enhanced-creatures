@@ -35,7 +35,7 @@ class MountainLionEntry extends CreatureEntry<Cat> {
         charisma: 8,
         ac: 6,
         apr: 3,
-        xpv: 270,
+        xpv2e: 270,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

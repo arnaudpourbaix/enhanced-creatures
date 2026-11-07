@@ -81,7 +81,7 @@ export function baneguard(entry: CreatureEntry<Creature>): Creature {
       charisma: 5,
       ac: 7,
       apr: 1, // 3 in vanilla
-      xpv: 975,
+      xpv2e: 975,
       alignment: "NEUTRAL_EVIL",
       morale: 12,
       general: "UNDEAD",

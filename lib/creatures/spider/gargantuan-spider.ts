@@ -36,7 +36,7 @@ class GargantuanSpiderEntry extends CreatureEntry<Spider> {
         charisma: 4,
         ac: 4,
         apr: 1,
-        xpv: 3000,
+        xpv2e: 3000,
         alignment: "CHAOTIC_EVIL",
         morale: 14,
         general: "MONSTER",

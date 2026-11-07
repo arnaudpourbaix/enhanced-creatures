@@ -51,7 +51,7 @@ class CarrionCrawlerEntry extends CreatureEntry<Crawler> {
         class: "CARRIONCRAWLER",
         gender: "NIETHER",
         size: { value: "Large", tall: false, long: true },
-        xpv: 420,
+        xpv2e: 420,
         movement: 12,
         items: {
           remove: ["CARRIO1", "BDCCRAW1"],

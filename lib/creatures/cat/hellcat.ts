@@ -40,7 +40,7 @@ class HellcatEntry extends CreatureEntry<Cat> {
         charisma: 10,
         ac: 5,
         apr: 3,
-        xpv: 5000,
+        xpv2e: 5000,
         alignment: "LAWFUL_EVIL",
         morale: 13,
         general: "MONSTER",

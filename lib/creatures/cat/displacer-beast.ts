@@ -43,7 +43,7 @@ class DisplacerBeastEntry extends CreatureEntry<Cat> {
         charisma: 8,
         ac: 6,
         apr: 2,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "LAWFUL_EVIL",
         morale: 14,
         general: "MONSTER",

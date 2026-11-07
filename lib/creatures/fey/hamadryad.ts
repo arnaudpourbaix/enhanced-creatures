@@ -185,7 +185,7 @@ class HamadryadEntry extends CreatureEntry<Fey> {
         charisma: 18,
         ac: 6,
         apr: 1,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "NEUTRAL",
         morale: 12,
         general: "HUMANOID",

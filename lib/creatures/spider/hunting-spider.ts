@@ -35,7 +35,7 @@ class HuntingSpiderEntry extends CreatureEntry<Spider> {
         charisma: 4,
         ac: 4,
         apr: 1,
-        xpv: 650,
+        xpv2e: 650,
         alignment: "NEUTRAL",
         morale: 13,
         general: "MONSTER",

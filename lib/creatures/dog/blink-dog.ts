@@ -92,7 +92,7 @@ class BlinkDogEntry extends CreatureEntry<BlinkDog> {
         charisma: 11,
         ac: 5,
         apr: 1,
-        xpv: 270,
+        xpv2e: 270,
         alignment: "NEUTRAL",
         morale: 12,
         general: "ANIMAL",

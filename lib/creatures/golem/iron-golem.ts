@@ -132,7 +132,7 @@ class IronGolemEntry extends CreatureEntry<IronGolem> {
         charisma: 1,
         ac: 3,
         apr: 1,
-        xpv: 13000,
+        xpv2e: 13000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

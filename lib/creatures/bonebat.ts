@@ -66,7 +66,7 @@ export function bonebat(entry: CreatureEntry<Creature>): Creature {
       charisma: 14,
       ac: 7,
       apr: 1,
-      xpv: 975,
+      xpv2e: 975,
       alignment: "NEUTRAL_EVIL",
       morale: 12,
       general: "UNDEAD",

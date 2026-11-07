@@ -37,7 +37,7 @@ class GrayOozeEntry extends CreatureEntry<Slime> {
         charisma: 2,
         ac: 8,
         apr: 1,
-        xpv: 270,
+        xpv2e: 270,
         alignment: "NEUTRAL",
         morale: 10,
         general: "MONSTER",

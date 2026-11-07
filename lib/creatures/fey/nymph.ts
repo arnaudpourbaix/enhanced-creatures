@@ -200,7 +200,7 @@ class NymphEntry extends CreatureEntry<Fey> {
         charisma: 19,
         ac: 7,
         apr: 0,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "NEUTRAL_GOOD",
         morale: 7,
         general: "HUMANOID",

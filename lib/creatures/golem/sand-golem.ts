@@ -33,7 +33,7 @@ class SandGolemEntry extends CreatureEntry<Golem> {
         charisma: 1,
         ac: 3,
         apr: 1,
-        xpv: 2000,
+        xpv2e: 2000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

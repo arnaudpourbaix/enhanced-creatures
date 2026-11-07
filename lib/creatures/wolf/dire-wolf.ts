@@ -35,7 +35,7 @@ class DireWolfEntry extends CreatureEntry<Wolf> {
         charisma: 7,
         ac: 6,
         apr: 1,
-        xpv: 175,
+        xpv2e: 175,
         alignment: "NEUTRAL",
         morale: 10,
         general: "ANIMAL",

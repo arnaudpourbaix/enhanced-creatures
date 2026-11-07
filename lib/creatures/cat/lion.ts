@@ -34,7 +34,7 @@ class LionEntry extends CreatureEntry<Cat> {
         charisma: 8,
         ac: 5,
         apr: 3,
-        xpv: 650,
+        xpv2e: 650,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

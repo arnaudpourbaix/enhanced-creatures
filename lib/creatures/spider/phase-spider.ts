@@ -90,7 +90,7 @@ class PhaseSpiderEntry extends CreatureEntry<PhaseSpider> {
         charisma: 6,
         ac: 7,
         apr: 1,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "NEUTRAL",
         morale: 15,
         general: "MONSTER",

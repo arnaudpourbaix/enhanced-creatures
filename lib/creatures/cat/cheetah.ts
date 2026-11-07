@@ -111,7 +111,7 @@ class CheetahEntry extends CreatureEntry<Cheetah> {
         charisma: 6,
         ac: 5,
         apr: 3,
-        xpv: 175,
+        xpv2e: 175,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

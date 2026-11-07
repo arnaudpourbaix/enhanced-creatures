@@ -34,7 +34,7 @@ class WorgEntry extends CreatureEntry<Wolf> {
         charisma: 8,
         ac: 6,
         apr: 1,
-        xpv: 120,
+        xpv2e: 120,
         alignment: "NEUTRAL_EVIL",
         morale: 11,
         general: "ANIMAL",

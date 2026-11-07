@@ -123,7 +123,7 @@ class SwordSpiderEntry extends CreatureEntry<SwordSpider> {
         charisma: 4,
         ac: 3,
         apr: 2,
-        xpv: 2000,
+        xpv2e: 2000,
         alignment: "CHAOTIC_EVIL",
         morale: 13,
         general: "MONSTER",

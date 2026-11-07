@@ -35,7 +35,7 @@ class FleshGolemEntry extends CreatureEntry<Golem> {
         charisma: 5,
         ac: 9,
         apr: 2,
-        xpv: 2000,
+        xpv2e: 2000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

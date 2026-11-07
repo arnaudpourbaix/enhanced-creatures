@@ -39,7 +39,7 @@ class BlackBearEntry extends CreatureEntry<Bear> {
         charisma: 7,
         ac: 7,
         apr: 3,
-        xpv: 175,
+        xpv2e: 175,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

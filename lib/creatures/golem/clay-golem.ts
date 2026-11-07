@@ -136,7 +136,7 @@ class ClayGolemEntry extends CreatureEntry<ClayGolem> {
         charisma: 1,
         ac: 7,
         apr: 1,
-        xpv: 5000,
+        xpv2e: 5000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",
@@ -200,7 +200,7 @@ class ClayGolemEntry extends CreatureEntry<ClayGolem> {
     lesserClay.setData({
       level1: 9,
       strength: 19,
-      xpv: 3000,
+      xpv2e: 3000,
       animation: "GOLEM_MINI",
     });
     lesserClay.addTrait({
@@ -227,7 +227,7 @@ class ClayGolemEntry extends CreatureEntry<ClayGolem> {
     greaterClay.setData({
       level1: 14,
       strength: 22,
-      xpv: 8000,
+      xpv2e: 8000,
       script: {
         edits: [
           {

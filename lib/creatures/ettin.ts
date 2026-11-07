@@ -67,7 +67,7 @@ class EttinEntry extends CreatureEntry<Ettin> {
         charisma: 8,
         ac: 3,
         apr: 2,
-        xpv: 3000,
+        xpv2e: 3000,
         alignment: "CHAOTIC_EVIL",
         morale: 14,
         general: "GIANTHUMANOID",

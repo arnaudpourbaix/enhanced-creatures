@@ -33,7 +33,7 @@ class JuggernautGolemEntry extends CreatureEntry<Golem> {
         charisma: 1,
         ac: 2,
         apr: 2,
-        xpv: 11000,
+        xpv2e: 11000,
         alignment: "NEUTRAL",
         morale: 16,
         general: "GIANTHUMANOID",

@@ -72,7 +72,7 @@ class TreantEntry extends CreatureEntry<Plant> {
         charisma: 12,
         ac: 0,
         apr: 2,
-        xpv: 6000,
+        xpv2e: 6000,
         alignment: "CHAOTIC_GOOD",
         morale: 16,
         general: "PLANT",

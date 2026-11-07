@@ -106,7 +106,7 @@ class VampiricWolfEntry extends CreatureEntry<VampiricWolf> {
         charisma: 7,
         ac: 2,
         apr: 1,
-        xpv: 2000,
+        xpv2e: 2000,
         alignment: "NEUTRAL_EVIL",
         morale: 14,
         general: "UNDEAD",

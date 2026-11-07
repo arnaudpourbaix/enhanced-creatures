@@ -35,7 +35,7 @@ class HugeSpiderEntry extends CreatureEntry<Spider> {
         charisma: 4,
         ac: 6,
         apr: 1,
-        xpv: 270,
+        xpv2e: 270,
         alignment: "NEUTRAL",
         morale: 8,
         general: "MONSTER",

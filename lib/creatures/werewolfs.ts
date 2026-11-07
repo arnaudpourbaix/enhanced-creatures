@@ -23,7 +23,7 @@
 //     movement: 18,
 //     ac: 7,
 //     apr: 1,
-//     xpv: 65,
+//     xpv2e: 65,
 //     alignment: "NEUTRAL",
 //     morale: 10,
 //     moraleBreak: 4,

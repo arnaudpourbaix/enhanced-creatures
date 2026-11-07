@@ -35,7 +35,7 @@ class StoneGolemEntry extends CreatureEntry<Golem> {
         charisma: 1,
         ac: 5,
         apr: 1,
-        xpv: 8000,
+        xpv2e: 8000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",
@@ -95,7 +95,7 @@ class StoneGolemEntry extends CreatureEntry<Golem> {
     lesserStone.setData({
       level1: 10,
       strength: 20,
-      xpv: 4000,
+      xpv2e: 4000,
       script: {
         edits: [
           {

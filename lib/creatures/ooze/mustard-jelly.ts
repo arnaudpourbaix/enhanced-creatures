@@ -47,7 +47,7 @@ class MustardJellyEntry extends CreatureEntry<Slime> {
         charisma: 10,
         ac: 4,
         apr: 1,
-        xpv: 4000,
+        xpv2e: 4000,
         alignment: "NEUTRAL",
         morale: 14,
         general: "MONSTER",

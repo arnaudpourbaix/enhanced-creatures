@@ -148,7 +148,7 @@ export function ghost(entry: CreatureEntry<Creature>): Creature {
       charisma: 17,
       ac: 0,
       apr: 1,
-      xpv: 7000,
+      xpv2e: 7000,
       alignment: "LAWFUL_EVIL",
       morale: 15,
       general: "UNDEAD",

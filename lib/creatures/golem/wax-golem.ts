@@ -36,7 +36,7 @@ class WaxGolemEntry extends CreatureEntry<Golem> {
         charisma: 1,
         ac: 4,
         apr: 1,
-        xpv: 5000,
+        xpv2e: 5000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

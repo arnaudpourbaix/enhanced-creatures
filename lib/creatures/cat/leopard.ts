@@ -34,7 +34,7 @@ class LeopardEntry extends CreatureEntry<Cat> {
         charisma: 6,
         ac: 6,
         apr: 3,
-        xpv: 270,
+        xpv2e: 270,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

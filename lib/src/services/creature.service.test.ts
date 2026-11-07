@@ -382,6 +382,43 @@ describe("checkData - 2e strength", () => {
   });
 });
 
+describe("checkData - xpv2e", () => {
+  function baseWithXp(data: Record<string, unknown>): Creature {
+    return {
+      data: {
+        movement: new Movement(9),
+        saveBreath: 10,
+        immunities: [],
+        items: { equipped: [] },
+        ...data,
+      },
+      items: [],
+      adjustments: [],
+      attack: { dualWielding: false },
+      autoGenerate: { thac0: false, hitPoints: false, enchantment: false, meleeRange: false },
+    } as unknown as Creature;
+  }
+
+  it("a base creature plays its 2e book XP", () => {
+    const creature = baseWithXp({ xpv2e: 975 });
+    creatureService.checkData({ creature, base: creature, isAdjustment: false });
+    expect(creature.data.xpv).toBe(975);
+  });
+
+  it("the 2e book XP replaces an xpv a createFrom copy took from its source", () => {
+    const creature = baseWithXp({ xpv: 650, xpv2e: 975 });
+    creatureService.checkData({ creature, base: creature, isAdjustment: false });
+    expect(creature.data.xpv).toBe(975);
+  });
+
+  it("an adjustment doesn't take an xpv2e", () => {
+    const creature = baseWithXp({ xpv2e: 975 });
+    expect(() => {
+      creatureService.checkData({ creature, base: fakeBase({ xpv2e: 420 }), isAdjustment: true });
+    }).toThrow(/xpv2e/);
+  });
+});
+
 describe("autogenerateThac0 (private)", () => {
   const service = creatureService as unknown as CreatureServicePrivate;
 

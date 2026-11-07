@@ -90,7 +90,7 @@ class HellHoundEntry extends CreatureEntry<HellHound> {
         charisma: 6,
         ac: 4,
         apr: 1,
-        xpv: 420,
+        xpv2e: 420,
         alignment: "LAWFUL_EVIL",
         morale: 13,
         general: "MONSTER",

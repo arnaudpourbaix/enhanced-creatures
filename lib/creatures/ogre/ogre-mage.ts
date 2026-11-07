@@ -310,7 +310,7 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
       charisma: 17,
       ac: 4,
       apr: 1,
-      xpv: 650,
+      xpv2e: 650,
       alignment: "LAWFUL_EVIL",
       morale: 14,
       general: "GIANTHUMANOID",

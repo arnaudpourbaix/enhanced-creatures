@@ -39,7 +39,7 @@ class MoonDogEntry extends CreatureEntry<Dog> {
         charisma: 15,
         ac: 0,
         apr: 1,
-        xpv: 9000,
+        xpv2e: 9000,
         alignment: "NEUTRAL_GOOD",
         morale: 18,
         general: "ANIMAL",

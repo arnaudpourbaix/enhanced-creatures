@@ -42,7 +42,7 @@ class DryadEntry extends CreatureEntry<Fey> {
         charisma: 18,
         ac: 9,
         apr: 1,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "NEUTRAL",
         morale: 12,
         general: "HUMANOID",

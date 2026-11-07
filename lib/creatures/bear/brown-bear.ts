@@ -37,7 +37,7 @@ class BrownBearEntry extends CreatureEntry<Bear> {
         charisma: 7,
         ac: 6,
         apr: 3,
-        xpv: 420,
+        xpv2e: 420,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

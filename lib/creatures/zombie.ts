@@ -589,7 +589,7 @@ export function zombie(entry: CreatureEntry<Creature>): Creature {
       charisma: 5,
       ac: 8,
       apr: 1,
-      xpv: 65,
+      xpv2e: 65,
       alignment: "NEUTRAL",
       morale: 15,
       general: "UNDEAD",
@@ -632,7 +632,7 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
     dexterity: 16,
     movement: 9,
     ac: 6,
-    xpv: 975,
+    xpv2e: 975,
     alignment: "NEUTRAL_EVIL",
   });
   juju.addTrait({
@@ -682,7 +682,7 @@ export function zombieLord(entry: CreatureEntry<Creature>): Creature {
     intelligence: 9,
     alignment: "NEUTRAL_EVIL",
     ac: 6,
-    xpv: 650,
+    xpv2e: 650,
     morale: 9,
     apr: 2,
   });
@@ -716,7 +716,7 @@ export function seaZombie(entry: CreatureEntry<Creature>): Creature {
     intelligence: 6,
     alignment: "CHAOTIC_EVIL",
     ac: 7,
-    xpv: 420,
+    xpv2e: 420,
     morale: 19,
     items: {
       remove: ["zomsea", "SAHZOM01"],
@@ -783,7 +783,7 @@ export function zombieMonster(entry: CreatureEntry<Creature>): Creature {
     level1: 6,
     movement: 9,
     ac: 6,
-    xpv: 650,
+    xpv2e: 650,
     size: { value: "Large", tall: true, long: false },
   });
   createClaws(monster, {

@@ -49,7 +49,7 @@ export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
       charisma: 4,
       ac: 2,
       apr: 1, // for some reason, they have 2 in vanilla, maybe to emulate apr of a lvl 9 fighter
-      xpv: 4000,
+      xpv2e: 4000,
       alignment: "NEUTRAL",
       morale: 15,
       general: "UNDEAD",

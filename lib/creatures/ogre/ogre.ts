@@ -32,7 +32,7 @@ function ogre(entry: CreatureEntry<Ogre>): Ogre {
       charisma: 7,
       ac: 5,
       apr: 1,
-      xpv: 270,
+      xpv2e: 270,
       alignment: "CHAOTIC_EVIL",
       morale: 12,
       general: "GIANTHUMANOID",

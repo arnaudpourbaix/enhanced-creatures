@@ -226,7 +226,7 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       charisma: 10,
       ac: 0,
       apr: 1,
-      xpv: 6000,
+      xpv2e: 6000,
       alignment: "CHAOTIC_EVIL",
       morale: 17,
       general: "UNDEAD",

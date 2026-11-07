@@ -35,7 +35,7 @@ class GhostwalkSpiderEntry extends CreatureEntry<Spider> {
         charisma: 8,
         ac: 6,
         apr: 2,
-        xpv: 5000,
+        xpv2e: 5000,
         alignment: "CHAOTIC_EVIL",
         morale: 13,
         general: "MONSTER",

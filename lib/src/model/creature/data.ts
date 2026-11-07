@@ -126,6 +126,12 @@ export interface CreatureData {
    * Never written to CRE files (not a CREATURE_DATA_FIELDS entry): resolved in checkData.
    */
   strength2e?: Strength2e;
+  /**
+   * The base creature's 2e book XP (Monstrous Manual), kept next to the XP that plays. Base
+   * creatures only (adjustment XP comes from the DMG formula). Never written to CRE files: resolved
+   * into `xpv` in checkData.
+   */
+  xpv2e?: number;
   script: CreatureDataScript;
   proficiencies: CreatureDataProficiencies;
   immunities: ImmunityName[];

@@ -38,7 +38,7 @@ class VortexSpiderEntry extends CreatureEntry<Spider> {
         charisma: 6,
         ac: 4,
         apr: 1,
-        xpv: 2700,
+        xpv2e: 2700,
         alignment: "CHAOTIC_EVIL",
         morale: 10,
         general: "MONSTER",

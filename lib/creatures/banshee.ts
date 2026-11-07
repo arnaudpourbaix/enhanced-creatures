@@ -102,7 +102,7 @@ export function banshee(entry: CreatureEntry<Creature>): Creature {
       charisma: 17,
       ac: 0,
       apr: 1,
-      xpv: 4000,
+      xpv2e: 4000,
       alignment: "CHAOTIC_EVIL",
       morale: 13,
       general: "UNDEAD",

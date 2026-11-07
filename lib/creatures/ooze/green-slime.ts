@@ -45,7 +45,7 @@ class GreenSlimeEntry extends CreatureEntry<Slime> {
         charisma: 1,
         ac: 9,
         apr: 1,
-        xpv: 65,
+        xpv2e: 65,
         alignment: "NEUTRAL",
         morale: 10,
         general: "MONSTER",

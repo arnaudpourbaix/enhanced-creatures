@@ -34,7 +34,7 @@ class GiantLynxEntry extends CreatureEntry<Cat> {
         charisma: 10,
         ac: 6,
         apr: 3,
-        xpv: 175,
+        xpv2e: 175,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

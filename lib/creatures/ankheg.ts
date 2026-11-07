@@ -100,7 +100,7 @@ class AnkhegEntry extends CreatureEntry<Ankheg> {
         charisma: 6,
         ac: 2,
         apr: 1,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "NEUTRAL",
         morale: 9,
         general: "MONSTER",

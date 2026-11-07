@@ -51,7 +51,7 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
       charisma: 11,
       ac: 2,
       apr: 1,
-      xpv: 3000,
+      xpv2e: 3000,
       alignment: "LAWFUL_EVIL",
       morale: 15,
       general: "UNDEAD",

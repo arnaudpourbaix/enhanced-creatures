@@ -24,7 +24,7 @@ export function skeleton(entry: CreatureEntry<Creature>): Creature {
       ac: 7,
       apr: 1,
       thac0: 19,
-      xpv: 65,
+      xpv2e: 65,
       alignment: "NEUTRAL",
       morale: 12,
       general: "UNDEAD",

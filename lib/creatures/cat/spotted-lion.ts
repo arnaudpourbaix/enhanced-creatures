@@ -34,7 +34,7 @@ class SpottedLionEntry extends CreatureEntry<Cat> {
         charisma: 10,
         ac: 5,
         apr: 3,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

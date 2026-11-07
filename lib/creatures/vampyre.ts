@@ -32,7 +32,7 @@ export function vampyre(entry: CreatureEntry<Creature>): Creature {
       charisma: 18,
       ac: 4,
       apr: 3,
-      xpv: 2000,
+      xpv2e: 2000,
       alignment: "CHAOTIC_EVIL",
       morale: 12,
       general: "MONSTER",

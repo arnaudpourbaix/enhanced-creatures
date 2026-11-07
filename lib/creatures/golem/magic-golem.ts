@@ -135,7 +135,7 @@ class MagicGolemEntry extends CreatureEntry<MagicGolem> {
         charisma: 1,
         ac: -2,
         apr: 1,
-        xpv: 8000,
+        xpv2e: 8000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

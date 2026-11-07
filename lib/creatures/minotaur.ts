@@ -153,7 +153,7 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         charisma: 9,
         ac: 6,
         apr: 2,
-        xpv: 1400,
+        xpv2e: 1400,
         alignment: "CHAOTIC_EVIL",
         morale: 13,
         general: "GIANTHUMANOID",

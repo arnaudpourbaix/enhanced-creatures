@@ -35,7 +35,7 @@ class WolfEntry extends CreatureEntry<Wolf> {
         charisma: 6,
         ac: 7,
         apr: 1,
-        xpv: 65,
+        xpv2e: 65,
         alignment: "NEUTRAL",
         morale: 10,
         general: "ANIMAL",

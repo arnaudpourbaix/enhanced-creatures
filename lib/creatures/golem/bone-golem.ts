@@ -85,7 +85,7 @@ class BoneGolemEntry extends CreatureEntry<BoneGolem> {
         charisma: 1,
         ac: 0,
         apr: 1,
-        xpv: 18000,
+        xpv2e: 18000,
         alignment: "NEUTRAL",
         morale: 20,
         general: "GIANTHUMANOID",

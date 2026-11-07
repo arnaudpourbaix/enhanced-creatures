@@ -51,7 +51,7 @@ export function wight(entry: CreatureEntry<Creature>): Creature {
       charisma: 15,
       ac: 5,
       apr: 1,
-      xpv: 1400,
+      xpv2e: 1400,
       alignment: "LAWFUL_EVIL",
       morale: 14,
       general: "UNDEAD",

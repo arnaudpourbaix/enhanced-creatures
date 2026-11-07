@@ -119,7 +119,8 @@ export interface VampireAge {
   dexterity: number;
   charisma: number;
   movement: number;
-  xpv: number;
+  /** 2e book XP (Monstrous Manual) */
+  xpv2e: number;
   domination: { id: Ids; mode: DominationMode; saveBonus: number };
   /** Weapon needed to hit: immune to every weapon below it */
   weaponImmunity: ImmunityName;
@@ -157,7 +158,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 16,
     charisma: 14,
     movement: 12,
-    xpv: 8000,
+    xpv2e: 8000,
     domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
@@ -181,7 +182,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 17,
     charisma: 15,
     movement: 15,
-    xpv: 9000,
+    xpv2e: 9000,
     domination: { id: Ids.VampireGazeDomination2, mode: "gaze", saveBonus: -2 },
     weaponImmunity: "nonMagicalWeapons",
     regeneration: 3,
@@ -205,7 +206,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 17,
     charisma: 16,
     movement: 15,
-    xpv: 11000,
+    xpv2e: 11000,
     domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
     weaponImmunity: "plusOneWeapons",
     regeneration: 3,
@@ -229,7 +230,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 18,
     charisma: 17,
     movement: 18,
-    xpv: 12000,
+    xpv2e: 12000,
     domination: { id: Ids.VampireGazeDomination3, mode: "gaze", saveBonus: -3 },
     weaponImmunity: "plusOneWeapons",
     regeneration: 4,
@@ -248,7 +249,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 18,
     charisma: 18,
     movement: 18,
-    xpv: 14000,
+    xpv2e: 14000,
     domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
@@ -267,7 +268,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 19,
     charisma: 18,
     movement: 21,
-    xpv: 15000,
+    xpv2e: 15000,
     domination: { id: Ids.VampireVoiceDomination, mode: "voice", saveBonus: -4 },
     weaponImmunity: "plusTwoWeapons",
     regeneration: 4,
@@ -286,7 +287,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     dexterity: 20,
     charisma: 19,
     movement: 24,
-    xpv: 17000,
+    xpv2e: 17000,
     domination: { id: Ids.VampireWillDomination, mode: "will", saveBonus: -5 },
     weaponImmunity: "plusThreeWeapons",
     regeneration: 5,
@@ -309,7 +310,7 @@ export const ABOMINATION_AGE: VampireAge = {
   dexterity: 24,
   charisma: 19,
   movement: 27,
-  xpv: 21000,
+  xpv2e: 21000,
   domination: { id: Ids.VampireWillDominationAbomination, mode: "will", saveBonus: -6 },
   weaponImmunity: "plusThreeWeapons",
   regeneration: 12,
@@ -1506,7 +1507,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
       charisma: age.charisma,
       ac: age.ac ?? 1,
       apr: age.apr ?? 1,
-      xpv: age.xpv,
+      xpv2e: age.xpv2e,
       alignment: "CHAOTIC_EVIL",
       morale: 16,
       general: "UNDEAD",

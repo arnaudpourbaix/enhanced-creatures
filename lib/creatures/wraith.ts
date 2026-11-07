@@ -52,7 +52,7 @@ export function wraith(entry: CreatureEntry<Creature>): Creature {
       charisma: 15,
       ac: 4,
       apr: 1,
-      xpv: 2000,
+      xpv2e: 2000,
       alignment: "LAWFUL_EVIL",
       morale: 15,
       general: "UNDEAD",

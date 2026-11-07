@@ -25,7 +25,7 @@ export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature):
     ac: 6,
     animation: "SKELETON_MONSTER",
     size: { value: "Large", tall: true, long: false },
-    xpv: 650,
+    xpv2e: 650,
   });
   monster.setAdjustments([
     {

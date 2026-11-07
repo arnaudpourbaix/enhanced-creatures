@@ -26,7 +26,7 @@ function shaman(entry: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
       charisma: 7,
       ac: 5,
       apr: 1,
-      xpv: 420,
+      xpv2e: 420,
       alignment: "CHAOTIC_EVIL",
       morale: 12,
       general: "GIANTHUMANOID",

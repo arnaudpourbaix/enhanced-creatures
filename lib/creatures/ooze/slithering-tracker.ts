@@ -42,7 +42,7 @@ class SlitheringTrackerEntry extends CreatureEntry<Slime> {
         charisma: 2,
         ac: 5,
         apr: 1,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "NEUTRAL",
         morale: 15,
         general: "MONSTER",

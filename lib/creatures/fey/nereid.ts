@@ -418,7 +418,7 @@ class NereidEntry extends CreatureEntry<Nereid> {
         charisma: 18,
         ac: 10,
         apr: 0,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "CHAOTIC_NEUTRAL",
         morale: 11,
         general: "HUMANOID",

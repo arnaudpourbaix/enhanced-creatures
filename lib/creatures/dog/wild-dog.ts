@@ -37,7 +37,7 @@ class WildDogEntry extends CreatureEntry<Dog> {
         ac: 7,
         thac0: 19,
         apr: 1,
-        xpv: 35,
+        xpv2e: 35,
         alignment: "NEUTRAL",
         morale: 6,
         general: "ANIMAL",

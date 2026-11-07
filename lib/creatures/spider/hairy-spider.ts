@@ -36,7 +36,7 @@ class HairySpiderEntry extends CreatureEntry<Spider> {
         ac: 8,
         apr: 1,
         thac0: 20,
-        xpv: 65,
+        xpv2e: 65,
         alignment: "NEUTRAL_EVIL",
         morale: 10,
         general: "MONSTER",

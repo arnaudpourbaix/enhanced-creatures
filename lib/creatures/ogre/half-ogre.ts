@@ -29,7 +29,7 @@ function halfOgre(entry: CreatureEntry<Ogre>): Ogre {
       charisma: 10,
       ac: 5,
       apr: 1,
-      xpv: 175,
+      xpv2e: 175,
       alignment: "CHAOTIC_EVIL",
       morale: 12,
       general: "GIANTHUMANOID",

@@ -36,7 +36,7 @@ class WarDogEntry extends CreatureEntry<Dog> {
         charisma: 11,
         ac: 6,
         apr: 1,
-        xpv: 65,
+        xpv2e: 65,
         alignment: "NEUTRAL",
         morale: 9,
         general: "MONSTER",

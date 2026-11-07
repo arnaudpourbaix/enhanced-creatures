@@ -93,6 +93,7 @@ class CreatureService {
 
   checkData(p: { creature: Creature; base: BaseCreature; isAdjustment: boolean }): void {
     const data = p.base.data;
+    this.resolveExperience(data, p.isAdjustment);
     logService.log(
       `base files: ${JSON.stringify(
         p.isAdjustment ? (p.base as unknown as { files: string[] }).files : p.creature.fileNames,
@@ -121,6 +122,18 @@ class CreatureService {
       parent: p.isAdjustment ? p.creature.data : undefined,
       edition: PLAYER_CONFIG.strengthEdition,
     });
+  }
+
+  /**
+   * A base creature plays its 2e book XP (xpv2e): it replaces an xpv a createFrom copy took from
+   * its source. Adjustment XP comes from the DMG formula (experience.service), never a book value.
+   */
+  private resolveExperience(data: Partial<CreatureData>, isAdjustment: boolean): void {
+    if (data.xpv2e === undefined) return;
+    if (isAdjustment) {
+      throw new Error(`xpv2e ${data.xpv2e} on an adjustment: only base creatures have a book XP`);
+    }
+    data.xpv = data.xpv2e;
   }
 
   checkWeapons(creature: Creature) {

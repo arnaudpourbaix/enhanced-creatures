@@ -38,7 +38,7 @@ class BattleHorrorEntry extends CreatureEntry<Construct> {
       strength: 20,
       class: "FIGHTER_MAGE",
       alignment: "LAWFUL_EVIL",
-      xpv: 4000,
+      xpv2e: 4000,
       items: {
         remove: ["SW1H11"],
       },

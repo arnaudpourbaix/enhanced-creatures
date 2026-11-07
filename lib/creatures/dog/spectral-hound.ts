@@ -45,7 +45,7 @@ class SpectralHoundEntry extends CreatureEntry<Dog> {
         charisma: 12,
         ac: -1,
         apr: 1,
-        xpv: 975,
+        xpv2e: 975,
         alignment: "CHAOTIC_EVIL",
         morale: 19,
         general: "MONSTER",

@@ -37,7 +37,7 @@ class CaveBearEntry extends CreatureEntry<Bear> {
         charisma: 7,
         ac: 6,
         apr: 3,
-        xpv: 650,
+        xpv2e: 650,
         alignment: "NEUTRAL",
         morale: 9,
         general: "ANIMAL",

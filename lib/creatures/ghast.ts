@@ -139,7 +139,7 @@ export function ghast(entry: CreatureEntry<Creature>): Creature {
       charisma: 6,
       ac: 4,
       apr: 3,
-      xpv: 650,
+      xpv2e: 650,
       alignment: "CHAOTIC_EVIL",
       morale: 14,
       general: "UNDEAD",
