@@ -76,6 +76,8 @@ export interface ProfileAttack {
 export interface ProfilePower {
   name: string;
   uses: number;
+  /** Rounds between casts, for a power a behaviour ability casts on a timer */
+  cooldown?: number;
   ranged: boolean;
   area: boolean;
   average: number;
@@ -419,9 +421,12 @@ function ownPowers(creature: Creature, effective: EffectiveAdjustment): ProfileP
       new Set([spell.file.toUpperCase()]),
     );
     const profile = spellProfileService.profileOfSpell(spell);
+    const count = counts.get(spell.file.toUpperCase());
+    const timer = count === undefined ? timerOf(creature, spell.file) : undefined;
     return {
       name: labelOf(spell.file, spell.name),
-      uses: usesOf(counts.get(spell.file.toUpperCase()), timerOf(creature, spell.file)),
+      uses: usesOf(count, timer),
+      ...(timer ? { cooldown: timer / Durations.round } : {}),
       ranged: spell.headers.some(
         (h) => h.target !== ItemAbilityTargetEnum.Caster && (h.range ?? 0) > MELEE_RANGE,
       ),

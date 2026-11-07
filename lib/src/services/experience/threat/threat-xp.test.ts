@@ -42,14 +42,24 @@ describe("fitThreat", () => {
   });
 
   it("ignores non-positive samples", () => {
-    const fit = fitThreat([...make(0.6, 2), { hitDiceValue: 3, threat: 0, book: 50 }, { hitDiceValue: 3, threat: 1, book: 0 }]);
+    const fit = fitThreat([
+      ...make(0.6, 2),
+      { hitDiceValue: 3, threat: 0, book: 50 },
+      { hitDiceValue: 3, threat: 1, book: 0 },
+    ]);
     expect(fit.samples).toBe(8);
   });
 
   it("reproduces the book total", () => {
     const samples = make(0.8, 1.5).map((x, i) => ({ ...x, book: x.book * (i % 2 ? 1.3 : 0.7) }));
     const fit = fitThreat(samples);
-    const total = samples.reduce((a, x) => a + xpForHitDiceValue(x.hitDiceValue) * fit.s * x.threat ** fit.k, 0);
-    expect(total).toBeCloseTo(samples.reduce((a, x) => a + x.book, 0), 6);
+    const total = samples.reduce(
+      (a, x) => a + xpForHitDiceValue(x.hitDiceValue) * fit.s * x.threat ** fit.k,
+      0,
+    );
+    expect(total).toBeCloseTo(
+      samples.reduce((a, x) => a + x.book, 0),
+      6,
+    );
   });
 });

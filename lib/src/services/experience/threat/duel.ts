@@ -174,6 +174,12 @@ function castHazard(power: ProfilePower, ref: ReferenceCombatant): number {
   return (damage / ref.hp + either(cast.endings)) * (power.area ? AREA_FACTOR : 1);
 }
 
+/** A power's casts over `rounds`: its uses, one at the start then one per cooldown */
+function castsIn(power: ProfilePower, rounds: number): number {
+  const cooldown = power.cooldown ? Math.ceil(rounds / power.cooldown) : Infinity;
+  return Math.min(power.uses, cooldown, rounds);
+}
+
 /** The powers' hazard a round: the strongest cast first, one a round, over the fighter's rounds */
 function powersHazard(
   powers: ProfilePower[],
@@ -188,7 +194,7 @@ function powersHazard(
   let rounds = fighterRounds;
   let total = 0;
   for (const { power, hazard } of hazards) {
-    const casts = Math.min(power.uses, rounds);
+    const casts = Math.min(castsIn(power, fighterRounds), rounds);
     total += casts * hazard;
     rounds -= casts;
   }
@@ -296,7 +302,7 @@ function confusionChance(p: CombatProfile, archer: ReferenceCombatant, rounds: n
   const chances = p.powers
     .filter((power) => power.ranged)
     .flatMap((power) => {
-      const spread = Math.min(1, power.uses / rounds);
+      const spread = Math.min(1, castsIn(power, rounds) / rounds);
       return power.effects
         .filter((e) => e.kind === "confusion")
         .map((e) => effectFail(e, archer) * e.chance * spread);

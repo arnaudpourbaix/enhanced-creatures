@@ -113,6 +113,18 @@ describe("meleeDuel", () => {
     expect(result.monsterRounds).toBeCloseTo(result.fighterRounds / 0.3, 3);
   });
 
+  it("a power on a cooldown casts once at the start, then once per cooldown", () => {
+    // 6 uses over the 30-round cap, but a 5-round cooldown: once in a 2-round duel
+    const leap = power({
+      uses: 6,
+      cooldown: 5,
+      effects: [{ ...paralysis, saves: [], chance: 0.3 }],
+    });
+    const result = meleeDuel(profile({ powers: [leap] }), referenceFighter(2));
+    expect(result.fighterRounds).toBeLessThan(5);
+    expect(result.monsterRounds).toBeCloseTo(result.fighterRounds / 0.3, 3);
+  });
+
   it("a 0 HP monster gives no NaN", () => {
     const gaze = power({ effects: [{ ...paralysis, saves: [] }] });
     const p = profile({ hp: 0, attacks: [attack(10)], powers: [gaze] });

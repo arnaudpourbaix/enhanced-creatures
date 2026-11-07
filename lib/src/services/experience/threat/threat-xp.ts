@@ -18,7 +18,11 @@ const MIN_K = 0.25;
 const MAX_K = 1;
 
 /** XP = Table 31 (Hit Dice value) x s x threat^k, rounded to 10. */
-export function threatXp(hitDiceValue: number, threat: number, fit: ThreatFit = THREAT_FIT): number {
+export function threatXp(
+  hitDiceValue: number,
+  threat: number,
+  fit: ThreatFit = THREAT_FIT,
+): number {
   return Math.round((xpForHitDiceValue(hitDiceValue) * fit.s * threat ** fit.k) / 10) * 10;
 }
 

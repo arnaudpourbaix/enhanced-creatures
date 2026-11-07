@@ -350,6 +350,8 @@ describe("combatProfile", () => {
     });
     // 30 rounds x 6 s / 24 s = 7.5, rounded up
     expect(combatProfile({ creature }).powers[0].uses).toBe(8);
+    // 24 s = 4 rounds between casts
+    expect(combatProfile({ creature }).powers[0].cooldown).toBe(4);
   });
 
   it("a power an ability casts with no timer is at will", () => {
