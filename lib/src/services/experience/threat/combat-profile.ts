@@ -186,6 +186,9 @@ const MAGIC_RESISTANCE_IMMUNITY = 0.5;
 const MISSILE_AVERAGE = 3.5;
 const MISSILES_PER_ROUND = 2;
 
+/** The longest duel the threat system plays (its R_f cap) */
+const DUEL_ROUNDS = 30;
+
 /** Above this range a power reaches past melee (touch powers have 1 to 5) */
 const MELEE_RANGE = 5;
 
@@ -418,7 +421,7 @@ function ownPowers(creature: Creature, effective: EffectiveAdjustment): ProfileP
     const profile = spellProfileService.profileOfSpell(spell);
     return {
       name: labelOf(spell.file, spell.name),
-      uses: usesOf(counts.get(spell.file.toUpperCase())),
+      uses: usesOf(counts.get(spell.file.toUpperCase()), timerOf(creature, spell.file)),
       ranged: spell.headers.some(
         (h) => h.target !== ItemAbilityTargetEnum.Caster && (h.range ?? 0) > MELEE_RANGE,
       ),
@@ -477,10 +480,29 @@ function memorizedCounts(creature: Creature, effective: EffectiveAdjustment): Ma
   return counts;
 }
 
-/** Unlimited at will (or cast by a behaviour ability without being memorized) */
-function usesOf(count: number | undefined): number {
-  if (count === undefined || count >= AT_WILL) return Infinity;
+/**
+ * A memorized power's count, unlimited at will. One only a behaviour ability casts: unlimited
+ * without a timer, else the casts its cooldown allows over the longest duel.
+ */
+function usesOf(count: number | undefined, timer?: number): number {
+  if (count === undefined) {
+    return timer ? Math.ceil((DUEL_ROUNDS * Durations.round) / timer) : Infinity;
+  }
+  if (count >= AT_WILL) return Infinity;
   return count;
+}
+
+/**
+ * The cooldown in seconds of the abilities casting a file: the shortest one, undefined when one
+ * casts it with no timer (or none casts it).
+ */
+function timerOf(creature: Creature, file: string): number | undefined {
+  const key = file.toUpperCase();
+  const casting = creature.behavior.abilities.filter((ability) =>
+    creatureService.getAbilityCastFiles(ability).some((f) => f.toUpperCase() === key),
+  );
+  if (!casting.length || casting.some((ability) => !ability.timer?.value)) return undefined;
+  return Math.min(...casting.map((ability) => ability.timer?.value ?? Infinity));
 }
 
 /** An invisibility memorized at will, or an own power turning itself invisible. */

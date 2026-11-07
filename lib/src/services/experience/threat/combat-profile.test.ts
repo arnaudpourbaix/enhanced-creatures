@@ -28,6 +28,7 @@ function fakeCreature(p: {
   data?: Partial<CreatureData>;
   items?: Partial<Item>[];
   spells?: Partial<Spell>[];
+  abilities?: object[];
 }): Creature {
   const data = {
     level1: { pnpValue: 5, type: "none", value: 5 },
@@ -60,7 +61,7 @@ function fakeCreature(p: {
     id: 1,
     files: [],
     attack: { dualWielding: false, melee: true, ranged: false },
-    behavior: { abilities: [] },
+    behavior: { abilities: (p.abilities ?? []).map((a) => ({ actions: [], ...a })) },
     autoImmunities: [],
     items: (p.items ?? []).map((i) => ({
       immunities: [],
@@ -340,6 +341,23 @@ describe("combatProfile", () => {
     expect(power).toMatchObject({ name: SPELL, uses: Infinity, ranged: true, area: true });
     expect(power.average).toBe(8);
     expect(power.effects.map((e) => e.kind)).toEqual(["ending"]);
+  });
+
+  it("a power an ability casts on a timer counts its casts over a 30-round duel", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: SpellTypeEnum.Innate }],
+      abilities: [{ resource: SPELL, timer: { name: "leap", value: 24 } }],
+    });
+    // 30 rounds x 6 s / 24 s = 7.5, rounded up
+    expect(combatProfile({ creature }).powers[0].uses).toBe(8);
+  });
+
+  it("a power an ability casts with no timer is at will", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: SpellTypeEnum.Innate }],
+      abilities: [{ resource: SPELL }],
+    });
+    expect(combatProfile({ creature }).powers[0].uses).toBe(Infinity);
   });
 
   it("a memorized own power counts its uses", () => {
