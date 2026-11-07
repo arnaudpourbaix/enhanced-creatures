@@ -131,3 +131,32 @@ creature: vampires, hell hounds and golems still kill up close.
 | Declared abilities   | `xpAbilities` on the creature's data                         |
 | A power's ability    | `xpAbility` / `worthLevel` on the created spell              |
 | The switch           | `PLAYER_CONFIG.experience2e` (`lib/config/player-config.ts`) |
+
+## Threat system (opt-in, weights provisional)
+
+A second way to score XP, from how hard a creature is to beat rather than from the DMG tables.
+Full design: [the spec](../superpowers/specs/2026-11-07-threat-experience-design.md). Code:
+`lib/src/services/experience/threat/`.
+
+- **The setting**: `PLAYER_CONFIG.experienceSystem` is `"dmg"` (default, the formula above) or
+  `"threat"`. Everything else is shared: statuses, "never below the in-game XP", zero files.
+  `experience2e` still decides book XP against a computed score for base creatures.
+- **The reference** (`reference.ts`): a fighter and an archer of the creature's own level.
+  Fighter: 13 HP per level up to 9 then +3, Strength 18/50, two d8 swords, specialization,
+  2.5 attacks a round (3 at 7, 3.5 at 13), enchantment +0 to +3, AC 10 down to -5 at 20, 2e
+  warrior THAC0 and saves. Archer: Dexterity +2, two arrows a round, AC 4 better.
+- **Two duels** (`combat-profile.ts`, `duel.ts`): the rounds the creature needs to drop the
+  reference against the rounds the reference needs to drop it, once against the fighter and once
+  against the archer. The threat T is the square root of the two ratios, adjusted for invisibility
+  and for factors the creature declares.
+- **XP** (`threat-xp.ts`) = Table 31 value x s x T^k, rounded to 10, never below the in-game XP.
+- **The fit** (`threat-fit.ts`): s and k are fitted on the base creatures' book XP. Committed fit:
+  s = 2.059, k = 0.25 (clamped at its lower limit, the raw slope is 0.159), 107 samples. Total
+  on those monsters: threat 342,620 against book 342,665. Refit with `npm run fit-threat`
+  (`scripts/fit-threat.ts`) after any change to the weights.
+- **Where to read it**: the dashboard's Experience tab, XP proposals view, shows threat against
+  book per creature.
+- **Far from book, to review**: greater basilisk 3140 (book 7000), ghoul lord 790 (3000),
+  ghast 350 (650), ghoul 70 (175).
+
+The weights are provisional: tune them on the proposals view, then refit.

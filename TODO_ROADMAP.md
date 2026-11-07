@@ -181,6 +181,15 @@ the generator refuses one that says neither (`missingPowerLevels`, run after the
 - Wizard and priest typed powers keep their level (`worthLevel` when worth something else: bat
   swarm 4, animate dead 7, the ogre mage's gaseous form 1).
 
+### 🟡 Threat system (opt-in)
+
+Built 2026-11-07: `experienceSystem: "threat"` scores XP from duels against a reference fighter
+and archer (`docs/research/experience-rules.md`, "Threat system"). Default stays `dmg`.
+
+- ☐ Calibrate the weights on the Experience tab's XP proposals view, refit (`npm run fit-threat`).
+- ☐ Review the far-from-book cases (greater basilisk, ghoul lord, ghast, ghoul).
+- ☐ Review the adjustments' XP in the proposals view (next).
+
 ### ☐ Bosses and drops
 
 Files whose formula XP is below their in-game XP keep the in-game value (`drop` status, listed
