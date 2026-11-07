@@ -562,17 +562,20 @@ function addMissileAbility(
       add("missileWeapons", owned ? labelOf(owned.file, owned.stringRef) : item.file);
     }
   }
-  if (scope.file !== undefined) {
-    for (const weapon of rangedGameWeapons(scope)) add("missileWeapons", weapon);
-    return;
-  }
+  for (const weapon of scopeGameWeapons(scope)) add("missileWeapons", weapon);
+}
+
+/**
+ * The scope's ranged game weapons (rangedGameWeapons): for the base creature (no file), those of
+ * its unadjusted files when most of them hold one, else none.
+ */
+export function scopeGameWeapons(scope: ExperienceScope): string[] {
+  if (scope.file !== undefined) return rangedGameWeapons(scope);
   const covered = new Set(scope.creature.adjustments.flatMap((a) => a.files));
   const perFile = scope.creature.files
     .filter((f) => !covered.has(f.name))
     .map((f) => rangedGameWeapons({ ...scope, file: f.name, game: f.game }));
-  if (perFile.filter((w) => w.length).length * 2 > perFile.length) {
-    for (const weapon of perFile.flat()) add("missileWeapons", weapon);
-  }
+  return perFile.filter((w) => w.length).length * 2 > perFile.length ? perFile.flat() : [];
 }
 
 /** Ranged game weapons in the scope file's creatures.csv weapon slots, minus the removed items. */

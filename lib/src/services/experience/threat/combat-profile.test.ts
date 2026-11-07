@@ -251,6 +251,27 @@ describe("combatProfile", () => {
     ]);
   });
 
+  it("the base creature shoots when most of its unadjusted files hold a launcher", () => {
+    vi.spyOn(monsterFilesService, "getCreatureRows").mockImplementation((file) => [
+      {
+        file,
+        level: undefined,
+        xpv: undefined,
+        items: file === "OTHER" ? [] : [{ slot: "weapon1", file: "BOW01" }],
+        scripts: [],
+        validatedLevel: false,
+        validatedItems: false,
+        validatedScript: false,
+      },
+    ]);
+    const creature = fakeCreature({ items: [naturalWeapon()] });
+    const files = (names: string[]) => names.map((name) => ({ name })) as Creature["files"];
+    creature.files = files([FILE, "SECOND", "OTHER"]);
+    expect(combatProfile({ creature }).attacks.filter((a) => a.ranged)).toHaveLength(2);
+    creature.files = files([FILE, "OTHER"]);
+    expect(combatProfile({ creature }).attacks.filter((a) => a.ranged)).toHaveLength(0);
+  });
+
   it("a nonMagicalWeapons immunity needs a +1 weapon", () => {
     const creature = fakeCreature({ data: { immunities: ["nonMagicalWeapons"] } });
     expect(combatProfile({ creature }).weaponEnchantment).toBe(1);

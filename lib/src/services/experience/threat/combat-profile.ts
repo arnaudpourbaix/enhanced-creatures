@@ -37,8 +37,8 @@ import {
   ownSpells,
   permanentEffects,
   QUIVER_SLOTS,
-  rangedGameWeapons,
   roundAttacks,
+  scopeGameWeapons,
   SPELL_IMMUNITIES,
   spellAbilities,
   spellLabel,
@@ -277,11 +277,12 @@ function quiverFiles(effective: EffectiveAdjustment): string[] {
 
 /**
  * Two missiles a round from a missile weapon: an equipped quiver item (its own damage when its dice
- * are known) or a game launcher in its creatures.csv weapon slots (1d6 arrows).
+ * are known) or a game launcher in its creatures.csv weapon slots (1d6 arrows), for the base
+ * creature those of most of its unadjusted files.
  */
 function missileAttacks(scope: ExperienceScope, effective: EffectiveAdjustment): ProfileAttack[] {
   const quiver = quiverFiles(effective).map((file) => equippedItem(scope.creature, file) ?? file);
-  const first = quiver.at(0) ?? rangedGameWeapons(scope).at(0);
+  const first = quiver.at(0) ?? scopeGameWeapons(scope).at(0);
   if (first === undefined) return [];
   const attack =
     typeof first === "string"
