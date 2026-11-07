@@ -107,7 +107,7 @@ async function main() {
       `${unvalidated.length} failing validation`,
   );
   console.log(
-    `Experience: ${experience.changed} files whose XP changed, ${experience.drops.length} drops, ` +
+    `Experience: ${experience.changed} adjustments whose XP changed, ${experience.drops.length} drops, ` +
       `${experience.conflicts.length} conflicts`,
   );
 }

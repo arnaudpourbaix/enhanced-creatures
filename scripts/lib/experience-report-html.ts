@@ -3,7 +3,7 @@ import { ExperienceReportData, ExperienceReportRow } from "./experience-report";
 import { escapeHtml } from "./stats-report-html";
 
 // HTML rendering for the dashboard's Experience tab (data from scripts/lib/experience-report.ts):
-// the files whose XP changed, the drops to review, the base XP conflicts and every file's XP
+// the adjustments whose XP changed, the drops to review, the base XP conflicts and every file's XP
 // decision, as sortable table.counts tables (sorting is wired by the dashboard script).
 
 const STATUSES: ExperienceStatus[] = ["formula", "drop", "asBase", "book", "zero"];
@@ -144,7 +144,7 @@ export function renderExperienceTab(d: ExperienceReportData): string {
 in-game XP keeps the in-game value (a drop, to review). Adjustments' old XP was mostly arbitrary,
 so All files is for reference: the changes, drops and conflicts are what to review.</p>
 <div class="summary">
-<button type="button" class="stat good" data-xp-view="changed"><b>${d.changed}</b><span class="muted">files whose XP changed</span></button>
+<button type="button" class="stat good" data-xp-view="changed"><b>${d.changed}</b><span class="muted">adjustments whose XP changed</span></button>
 <button type="button" class="stat warn" data-xp-view="drops"><b>${d.drops.length}</b><span class="muted">drops to review</span></button>
 <button type="button" class="stat bad" data-xp-view="conflicts"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></button>
 <button type="button" class="stat" data-xp-view="all"><b>${d.rows.length}</b><span class="muted">files</span></button>
@@ -161,9 +161,10 @@ ${legend()}
 <label class="xp-status-filter">Status <select id="xp-status">${options}</select></label>
 </div>
 <section class="card" data-xp-panel="changed">
-<h2>Files whose XP changed (${d.changed})</h2>
-<p class="muted">The new XP differs from the in-game XP: the formula score, or the book value of a
-base creature or of an adjustment that changes nothing the formula reads (as base).</p>
+<h2>Adjustments whose XP changed (${d.changed})</h2>
+<p class="muted">Adjusted files whose new XP differs from the in-game XP: the formula score, or
+their base creature's XP when the adjustment changes nothing the formula reads (as base). Files
+with no adjustment take their monster's book XP, checked once per monster in Base XP conflicts.</p>
 ${fileTable("xp-changed", d.changedRows)}
 </section>
 <section class="card" data-xp-panel="drops">

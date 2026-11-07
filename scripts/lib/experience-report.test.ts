@@ -61,7 +61,7 @@ describe("experience report", () => {
     expect(by("D.cre").difference).toBeUndefined();
   });
 
-  it("counts every non-zero file whose XP changed, whatever its status", () => {
+  it("counts the adjustments whose XP changed, not the book files", () => {
     expect(report.changed).toBe(1);
     const mixed = buildExperienceReport([
       fake(1, [
@@ -70,10 +70,11 @@ describe("experience report", () => {
         row({ file: "C.cre", status: "drop", inGameXp: 2000, newXp: 2000 }),
         row({ file: "D.cre", status: "zero", inGameXp: 650, newXp: 0 }),
         row({ file: "E.cre", status: "formula", newXp: 420 }),
+        row({ file: "F.cre", status: "formula", inGameXp: 100, newXp: 200 }),
       ]),
     ]);
     expect(mixed.changed).toBe(2);
-    expect(mixed.changedRows.map((r) => r.file)).toEqual(["A.cre", "B.cre"]);
+    expect(mixed.changedRows.map((r) => r.file)).toEqual(["B.cre", "F.cre"]);
   });
 
   it("opens on the changed files, all files last", () => {
@@ -117,7 +118,7 @@ describe("experience report", () => {
     expect(rowOf("U.cre")).toContain(`as base<br><span class="muted">nothing read</span>`);
     expect(rowOf("F.cre")).toContain(`<td>formula</td>`);
     expect(rowOf("F.cre")).toContain(`<td class="breakdown">FORMULA-BD</td>`);
-    expect(html).toContain("files whose XP changed");
+    expect(html).toContain("adjustments whose XP changed");
   });
 
   it("carries the monster name on conflicts", () => {
