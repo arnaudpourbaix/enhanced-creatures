@@ -321,12 +321,12 @@ export function setSharedResources(
   sharedResources.set(creature, { spells: shared.spells ?? [], items: shared.items ?? [] });
 }
 
-function allSpells(creature: Creature): Spell[] {
+export function allSpells(creature: Creature): Spell[] {
   return [...creature.spells, ...(sharedResources.get(creature)?.spells ?? [])];
 }
 
 /** Items equipped by file: the creature's own first, then the shared ones. */
-function equippedItem(creature: Creature, file: string): Item | undefined {
+export function equippedItem(creature: Creature, file: string): Item | undefined {
   const key = file.toUpperCase();
   return [...creature.items, ...(sharedResources.get(creature)?.items ?? [])].find(
     (item) => item.file.toUpperCase() === key,
@@ -334,7 +334,7 @@ function equippedItem(creature: Creature, file: string): Item | undefined {
 }
 
 /** The spells the scope has memorized (its own list or any spellbook variant), upper case. */
-function memorizedFiles(creature: Creature, effective: EffectiveAdjustment): string[] {
+export function memorizedFiles(creature: Creature, effective: EffectiveAdjustment): string[] {
   const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
   return [
     ...effective.memorized
@@ -380,7 +380,7 @@ function needsMemorizedSpell(ability: CreatureAbility): boolean {
  * The creature's own spells (made with addSpell) it can use: cast by its behaviour abilities, or
  * memorized (its own spellbook or any spellbook variant) - e.g. the basilisk's petrifying gaze.
  */
-function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] {
+export function ownSpells(creature: Creature, effective: EffectiveAdjustment): Spell[] {
   const files = new Set(
     [
       ...usableAbilities(creature, effective).flatMap((a) =>
@@ -531,7 +531,7 @@ const INVISIBILITY_SPELLS = new Set(
   ].map((f) => f.toUpperCase()),
 );
 
-function atWillInvisibility(creature: Creature, effective: EffectiveAdjustment): string[] {
+export function atWillInvisibility(creature: Creature, effective: EffectiveAdjustment): string[] {
   const spellbooks = effective.spellbooks ?? creature.data.spells.spellbooks ?? [];
   return [
     ...effective.memorized.map((m) => m.spell),
@@ -576,7 +576,7 @@ function addMissileAbility(
 }
 
 /** Ranged game weapons in the scope file's creatures.csv weapon slots, minus the removed items. */
-function rangedGameWeapons(scope: ExperienceScope): string[] {
+export function rangedGameWeapons(scope: ExperienceScope): string[] {
   if (scope.file === undefined) return [];
   const removed = new Set(
     [
@@ -621,7 +621,7 @@ const ATTACK_ABILITIES: XpAbility[] = [
   "specialAttack",
 ];
 
-const QUIVER_SLOTS: ReadonlySet<ItemSlot> = new Set<ItemSlot>([
+export const QUIVER_SLOTS: ReadonlySet<ItemSlot> = new Set<ItemSlot>([
   "QUIVER1",
   "QUIVER2",
   "QUIVER3",
@@ -635,7 +635,7 @@ const SECONDARY_TYPE_ABILITIES: Partial<Record<string, XpAbility>> = {
 };
 
 /** Opcodes whose `resource` is a spell cast on hit (or on condition), followed to its effects. */
-const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
+export const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
   EffectTypeEnum.CastSpell,
   EffectTypeEnum.CastSpellOnCondition,
 ]);
@@ -645,7 +645,7 @@ const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
  * loadout under `noWeapon`), plus natural weapons in no slot (picked by weapon switching) unless
  * `noWeapon`. The trait item holds the creature's permanent traits, not attacks.
  */
-function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
+export function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
   const unslottedNatural = (item: Item): boolean =>
     !effective.noWeapon && !item.equippedSlot.length && diceOf(scope.creature, item) !== undefined;
   const own = scope.creature.items.filter((item) => !item.trait && unslottedNatural(item));
@@ -852,7 +852,7 @@ function spellWorth(
   return spellLevel(file) ?? level;
 }
 
-function diceOf(
+export function diceOf(
   creature: Creature,
   item: Item,
 ): { thrown: number; size: number; bonus: number } | undefined {
@@ -876,7 +876,7 @@ function signed(value: number): string {
  * an ooze's acid, a cat's rake) and the damage of the powers the hit casts (an ankheg's digestive
  * enzymes, 1d4 acid four times). It adds to the attack for the damage thresholds (user).
  */
-function onHitDamage(creature: Creature, item: Item): number {
+export function onHitDamage(creature: Creature, item: Item): number {
   const effects = item.header?.effects ?? [];
   const cast = effects
     .filter((e) => CAST_OPCODES.has(e.opcode) && e.resource !== undefined)
@@ -897,7 +897,7 @@ function damageOf(effects: Effect[]): number {
 }
 
 /** A power's effects that land on its target (not the ones on its caster). */
-function targetEffects(spell: Spell): Effect[] {
+export function targetEffects(spell: Spell): Effect[] {
   return [
     ...spell.effects.filter((e) => e.target !== EffectTargetEnum.Self),
     ...spell.headers.flatMap((h) =>
@@ -913,7 +913,7 @@ function targetEffects(spell: Spell): Effect[] {
  * `doubleApr` is set (a carrion crawler's 8 is 4 x 2: real); without it, the game encodes half
  * attacks as 6-10 (8 = 5/2, Bodhi's spellhold files), decoded with AttackPerRoundTable.
  */
-function attacksPerRound(scope: ExperienceScope, effective: EffectiveAdjustment): number {
+export function attacksPerRound(scope: ExperienceScope, effective: EffectiveAdjustment): number {
   const raw = effective.apr.value;
   const doubleApr = folded(scope, (d) => d.doubleApr) ?? false;
   if (doubleApr) return raw;
@@ -921,7 +921,7 @@ function attacksPerRound(scope: ExperienceScope, effective: EffectiveAdjustment)
 }
 
 /** The scope's strength damage bonus (StrengthTable), added to its melee hits. */
-function strengthDamage(effective: EffectiveAdjustment): number {
+export function strengthDamage(effective: EffectiveAdjustment): number {
   return creatureService.getStrengthBonus({
     strength: effective.strength.value,
     exceptionalStrength: effective.exceptionalStrength.value,
@@ -964,10 +964,7 @@ function addDamageAbilities(
  * strongest `apr` when it has more weapons than attacks; extra attacks repeat the weakest weapon
  * (claw/claw/bite: the bite and both claws, not the bite three times).
  */
-function roundAttacks(
-  attacks: { file: string; max: number }[],
-  apr: number,
-): { file: string; max: number }[] {
+export function roundAttacks<T extends { max: number }>(attacks: T[], apr: number): T[] {
   const sorted = [...attacks].sort((a, b) => b.max - a.max);
   // 2.5 attacks alternate 2 and 3: the stronger round counts
   const count = Math.max(1, Math.ceil(apr));
@@ -978,7 +975,7 @@ function roundAttacks(
 }
 
 /** The item's or spell's name when it resolves (the dashboard reader's view), else its file. */
-function labelOf(file: string, name: StringReference | undefined): string {
+export function labelOf(file: string, name: StringReference | undefined): string {
   let text: string | undefined;
   try {
     text = name === undefined ? undefined : translationService.from(name);
@@ -990,7 +987,7 @@ function labelOf(file: string, name: StringReference | undefined): string {
 }
 
 /** A spell's display name (own or game spell), its file when it has none. */
-function spellLabel(file: string): string {
+export function spellLabel(file: string): string {
   try {
     return spellService.getSpellName(file) ?? file;
   } catch {
@@ -998,14 +995,14 @@ function spellLabel(file: string): string {
   }
 }
 
-function effectiveOf(scope: ExperienceScope): EffectiveAdjustment {
+export function effectiveOf(scope: ExperienceScope): EffectiveAdjustment {
   return scope.file === undefined
     ? adjustmentService.getBaseEffective(scope.creature)
     : adjustmentService.getEffectiveForGame(scope.creature, scope.file, scope.game);
 }
 
 /** The last value the scope's adjustments define, else the base creature's. */
-function folded<T>(
+export function folded<T>(
   scope: ExperienceScope,
   get: (data: CreatureData) => T | undefined,
 ): T | undefined {
@@ -1024,7 +1021,10 @@ function folded<T>(
  * traits like `undead` or `skeletal` hold the actual spell and weapon defenses only as nested
  * names. A name missing from State.immunities is kept as is, with nothing nested.
  */
-function immunitiesOf(scope: ExperienceScope, effective: EffectiveAdjustment): ImmunityName[] {
+export function immunitiesOf(
+  scope: ExperienceScope,
+  effective: EffectiveAdjustment,
+): ImmunityName[] {
   const seen = new Set<ImmunityName>();
   const visit = (name: ImmunityName): void => {
     if (seen.has(name)) return;
@@ -1044,7 +1044,7 @@ function immunitiesOf(scope: ExperienceScope, effective: EffectiveAdjustment): I
 }
 
 /** The permanent effects of the creature: data, folded adjustments and trait items. */
-function permanentEffects(scope: ExperienceScope): Effect[] {
+export function permanentEffects(scope: ExperienceScope): Effect[] {
   return [
     ...scope.creature.data.effects.list,
     ...matchingAdjustments(scope).flatMap((a) => a.data.effects.list),
