@@ -298,6 +298,11 @@ function ogreMage(entry: CreatureEntry<OgreMage>): OgreMage {
       bonusHp: 2,
       strength: 18,
       exceptionalStrength: 100,
+      strength2e: {
+        strength: 18,
+        exceptionalStrength: 100,
+        source: "inferred (user): MM says ogre magi are taller than ogres, ogre leaders are 18/00",
+      },
       dexterity: 10,
       constitution: 17,
       intelligence: 16,

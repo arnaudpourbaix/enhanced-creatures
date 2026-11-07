@@ -19,6 +19,9 @@ export function skeletonMonster(entry: CreatureEntry<Creature>, base: Creature):
   monster.setData({
     level1: 6,
     strength: 17,
+    strength2e: {
+      source: "MM monster skeleton: giant-sized weapons without any Strength bonuses",
+    },
     ac: 6,
     animation: "SKELETON_MONSTER",
     size: { value: "Large", tall: true, long: false },

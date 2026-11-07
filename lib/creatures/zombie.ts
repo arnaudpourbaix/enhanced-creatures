@@ -627,6 +627,8 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
     thac0: 15,
     intelligence: 6,
     strength: 20,
+    // no strength bonus in 2e: its fists are the whole hit
+    strength2e: { source: "MM ju-ju zombie: damage 3-12, no strength" },
     dexterity: 16,
     movement: 9,
     ac: 6,

@@ -214,6 +214,11 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
       level2: 20,
       strength: 18,
       exceptionalStrength: 100,
+      strength2e: {
+        strength: 18,
+        exceptionalStrength: 100,
+        source: "MM death knight: a strength of 18(00)",
+      },
       dexterity: 11,
       constitution: 9,
       intelligence: 18,

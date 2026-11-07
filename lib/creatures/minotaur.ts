@@ -142,6 +142,11 @@ class MinotaurEntry extends CreatureEntry<Minotaur> {
         level1: 6,
         bonusHp: 3,
         strength: 18,
+        // the elder minotaur (an adjustment) already sets the MM's 18/50 itself
+        strength2e: {
+          strength: 18,
+          source: "MM minotaur: equivalent human Strength of 18, weapon damage +2",
+        },
         dexterity: 11,
         constitution: 16,
         intelligence: 6,

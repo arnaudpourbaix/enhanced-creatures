@@ -8,6 +8,7 @@ import { Creature } from "../../src/model/creature/creature";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { AreaProjectileEnum } from "../../src/model/spell-item/projectile";
 import { Item } from "../../src/model/spell-item/spell-item";
+import { Strength2e } from "../../src/model/creature/data";
 import { KinEnum } from "../kin";
 
 /**
@@ -24,6 +25,30 @@ export enum Ids {
   Ogre,
   OgreLeader,
 }
+
+/**
+ * 2e Monstrous Manual ogre strengths (see docs/research/strength-damage-survey.md): "1-10 (or by
+ * weapon +6)" is 18/00; "Ogres wielding weapons get a Strength bonus of +2 to hit; leaders have
+ * +3, chieftains have +4", 18/00 giving +3.
+ */
+const OGRE_MM = "MM ogre: 1-10 (or by weapon +6), Strength bonus of +2 to hit";
+export const OGRE_STRENGTH_2E: Strength2e = {
+  strength: 18,
+  exceptionalStrength: 100,
+  hit: -1,
+  source: OGRE_MM,
+};
+export const OGRE_LEADER_STRENGTH_2E: Strength2e = {
+  strength: 18,
+  exceptionalStrength: 100,
+  source: "MM ogre leader: +6 with weapon, +3 to hit",
+};
+export const OGRE_CHIEFTAIN_STRENGTH_2E: Strength2e = {
+  strength: 18,
+  exceptionalStrength: 100,
+  hit: 1,
+  source: "MM ogre chieftain: +6 with weapon, +4 to hit",
+};
 
 export class Ogre extends Creature {
   /**

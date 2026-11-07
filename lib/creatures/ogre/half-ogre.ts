@@ -18,6 +18,10 @@ function halfOgre(entry: CreatureEntry<Ogre>): Ogre {
       level1: 2,
       bonusHp: 6,
       strength: 17,
+      strength2e: {
+        strength: 18,
+        source: "MM half-ogre: an additional 2 points of damage, due to his mass",
+      },
       dexterity: 10,
       constitution: 14,
       intelligence: 9,

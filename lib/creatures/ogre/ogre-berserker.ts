@@ -13,7 +13,12 @@ import {
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { MonsterEnum } from "../monster";
-import { Ogre, OgreKin } from "./kin";
+import { OGRE_CHIEFTAIN_STRENGTH_2E, Ogre, OgreKin } from "./kin";
+
+const BERSERKER_STRENGTH_2E = {
+  ...OGRE_CHIEFTAIN_STRENGTH_2E,
+  source: "user: not in the MM, as an ogre chieftain",
+};
 
 class OgreBerserker extends Ogre {
   /**
@@ -53,6 +58,7 @@ function berserker(entry: CreatureEntry<OgreBerserker>): OgreBerserker {
       bonusHp: 1,
       strength: 18,
       exceptionalStrength: 100,
+      strength2e: BERSERKER_STRENGTH_2E,
       dexterity: 8,
       constitution: 17,
       intelligence: 8,
@@ -133,6 +139,7 @@ function chieftainVariant(_entry: CreatureEntry<OgreBerserker>, base: Ogre): Var
       level1: 7,
       strength: 19,
       exceptionalStrength: 0,
+      strength2e: BERSERKER_STRENGTH_2E,
       proficiencies: [{ type: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR, value: 4 }],
     },
     adjust: [

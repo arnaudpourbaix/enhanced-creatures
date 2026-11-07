@@ -15,6 +15,8 @@ function ogrillon(entry: CreatureEntry<Ogre>): Ogre {
       level1: 2,
       bonusHp: 4,
       strength: 17,
+      // 16 fits too: 17 for its size (user)
+      strength2e: { strength: 17, source: "MM ogrillon: each punch delivers 1d6+1" },
       dexterity: 9,
       constitution: 14,
       intelligence: 6,

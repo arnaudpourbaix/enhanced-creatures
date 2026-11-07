@@ -6,7 +6,14 @@ import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
-import { Ids, Ogre, OgreKin } from "./kin";
+import {
+  Ids,
+  OGRE_CHIEFTAIN_STRENGTH_2E,
+  OGRE_LEADER_STRENGTH_2E,
+  OGRE_STRENGTH_2E,
+  Ogre,
+  OgreKin,
+} from "./kin";
 
 function ogre(entry: CreatureEntry<Ogre>): Ogre {
   const ogre = entry.create({
@@ -17,6 +24,7 @@ function ogre(entry: CreatureEntry<Ogre>): Ogre {
       level1: 4,
       bonusHp: 1,
       strength: 19,
+      strength2e: OGRE_STRENGTH_2E,
       dexterity: 8,
       constitution: 16,
       intelligence: 8,
@@ -106,6 +114,7 @@ function leaderVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
     data: {
       level1: 7,
       ac: 3,
+      strength2e: OGRE_LEADER_STRENGTH_2E,
       items: {
         equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },
@@ -155,6 +164,7 @@ function chieftainVariant(entry: CreatureEntry<Ogre>, base: Ogre): Variant {
       level1: 7,
       bonusHp: 4,
       ac: 2,
+      strength2e: OGRE_CHIEFTAIN_STRENGTH_2E,
       items: {
         equipped: [{ file: entry.item(Ids.OgreLeader).file, slot: "WEAPON1" }],
       },

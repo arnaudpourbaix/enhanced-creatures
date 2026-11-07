@@ -5,6 +5,7 @@
  * Every age is built from the same table row (see VAMPIRE_AGES), so a vampire's powers only
  * differ by what the table says.
  */
+import { Strength2e } from "../../src/model/creature/data";
 import { AT_WILL, SPELL_STATES } from "../../config/common";
 import { GLOBAL_CONFIG } from "../../config/generate";
 import { CHARM_TARGET_LISTS } from "../../config/presets/charm-presets";
@@ -112,6 +113,8 @@ export interface VampireAge {
   turnAs: TurnUndeadType;
   strength: number;
   exceptionalStrength?: number;
+  /** The 2e strength (MM fledgling, Ravenloft age table); none for the abomination (ours) */
+  strength2e?: Strength2e;
   intelligence: number;
   dexterity: number;
   charisma: number;
@@ -145,6 +148,11 @@ const VAMPIRE_AGES: VampireAge[] = [
     turnAs: "vampire",
     strength: 18,
     exceptionalStrength: 76,
+    strength2e: {
+      strength: 18,
+      exceptionalStrength: 76,
+      source: "MM vampire: Strength 18/76, +2 to hit and +4 to damage",
+    },
     intelligence: 16,
     dexterity: 16,
     charisma: 14,
@@ -164,6 +172,11 @@ const VAMPIRE_AGES: VampireAge[] = [
     turnAs: "vampire",
     strength: 18, // the table says 19/91, which can't exist: read as 18/91
     exceptionalStrength: 91,
+    strength2e: {
+      strength: 18,
+      exceptionalStrength: 91,
+      source: "Ravenloft vampire age table (mature)",
+    },
     intelligence: 16,
     dexterity: 17,
     charisma: 15,
@@ -183,6 +196,11 @@ const VAMPIRE_AGES: VampireAge[] = [
     turnAs: "ghost",
     strength: 18,
     exceptionalStrength: 100,
+    strength2e: {
+      strength: 18,
+      exceptionalStrength: 100,
+      source: "Ravenloft vampire age table (old)",
+    },
     intelligence: 17,
     dexterity: 17,
     charisma: 16,
@@ -202,6 +220,11 @@ const VAMPIRE_AGES: VampireAge[] = [
     turnAs: "lich",
     strength: 18,
     exceptionalStrength: 100,
+    strength2e: {
+      strength: 18,
+      exceptionalStrength: 100,
+      source: "Ravenloft vampire age table (very old)",
+    },
     intelligence: 18,
     dexterity: 18,
     charisma: 17,
@@ -220,6 +243,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     bonusHp: 0,
     turnAs: "lich",
     strength: 19,
+    strength2e: { strength: 19, source: "Ravenloft vampire age table (ancient)" },
     intelligence: 18,
     dexterity: 18,
     charisma: 18,
@@ -238,6 +262,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     bonusHp: 0,
     turnAs: "lich",
     strength: 20,
+    strength2e: { strength: 20, source: "Ravenloft vampire age table (eminent)" },
     intelligence: 19,
     dexterity: 19,
     charisma: 18,
@@ -256,6 +281,7 @@ const VAMPIRE_AGES: VampireAge[] = [
     bonusHp: 0,
     turnAs: "lich",
     strength: 21,
+    strength2e: { strength: 21, source: "Ravenloft vampire age table (patriarch)" },
     intelligence: 20,
     dexterity: 20,
     charisma: 19,
@@ -1472,6 +1498,7 @@ export function vampire(entry: CreatureEntry<Creature>, age: VampireAge): Creatu
       bonusHp: age.bonusHp,
       strength: age.strength,
       exceptionalStrength: age.exceptionalStrength,
+      strength2e: age.strength2e,
       dexterity: age.dexterity,
       constitution: 9,
       intelligence: age.intelligence,

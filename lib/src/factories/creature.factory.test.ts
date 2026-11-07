@@ -121,6 +121,17 @@ describe("setAdjustments", () => {
     creatureFactory.setAdjustments(creature, [adjustment]);
     expect(creature.adjustments[0].data.xpAbilities).toEqual(["flies"]);
   });
+
+  it("carries strength2e, which no CREATURE_DATA_FIELDS entry covers", () => {
+    const creature = fakeCreature();
+    const strength2e = { strength: 18, exceptionalStrength: 100, hit: 1, source: "MM" };
+    const adjustment = {
+      files: ["test_adj"],
+      data: { strength2e },
+    } as unknown as PartialCreatureAdjustment;
+    creatureFactory.setAdjustments(creature, [adjustment]);
+    expect(creature.adjustments[0].data.strength2e).toEqual(strength2e);
+  });
 });
 
 describe("setBehavior", () => {

@@ -5,7 +5,7 @@ import { CreatureEntry } from "../../src/model/creature/entry";
 import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
-import { Ogre, OgreKin } from "./kin";
+import { OGRE_STRENGTH_2E, Ogre, OgreKin } from "./kin";
 
 function shaman(entry: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
   const shaman = entry.create({
@@ -17,6 +17,8 @@ function shaman(entry: CreatureEntry<Ogre>, kin?: OgreKin): Ogre {
       level2: 5,
       bonusHp: 3,
       strength: 18,
+      // just an ogre (user)
+      strength2e: { ...OGRE_STRENGTH_2E, source: "user: an ogre shaman is just an ogre" },
       dexterity: 8,
       constitution: 16,
       intelligence: 12,
