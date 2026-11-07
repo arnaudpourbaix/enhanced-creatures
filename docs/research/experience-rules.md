@@ -147,16 +147,16 @@ Full design: [the spec](../superpowers/specs/2026-11-07-threat-experience-design
   warrior THAC0 and saves. Archer: Dexterity +2, two arrows a round, AC 4 better.
 - **Two duels** (`combat-profile.ts`, `duel.ts`): the rounds the creature needs to drop the
   reference against the rounds the reference needs to drop it, once against the fighter and once
-  against the archer. The threat T is the square root of the two ratios, adjusted for invisibility
-  and for factors the creature declares.
+  against the archer. The threat T is the square root of the two ratios' product (their geometric
+  mean), x 1.2 when invisible at will and x 1.1 per ability the creature declares.
 - **XP** (`threat-xp.ts`) = Table 31 value x s x T^k, rounded to 10, never below the in-game XP.
 - **The fit** (`threat-fit.ts`): s and k are fitted on the base creatures' book XP. Committed fit:
-  s = 2.059, k = 0.25 (clamped at its lower limit, the raw slope is 0.159), 107 samples. Total
+  s = 2.041, k = 0.25 (clamped at its lower limit, the raw slope is 0.164), 107 samples. Total
   on those monsters: threat 342,620 against book 342,665. Refit with `npm run fit-threat`
   (`scripts/fit-threat.ts`) after any change to the weights.
 - **Where to read it**: the dashboard's Experience tab, XP proposals view, shows threat against
   book per creature.
-- **Far from book, to review**: greater basilisk 3140 (book 7000), ghoul lord 790 (3000),
+- **Far from book, to review**: greater basilisk 3110 (book 7000), ghoul lord 790 (3000),
   ghast 350 (650), ghoul 70 (175).
 
 The weights are provisional: tune them on the proposals view, then refit.
