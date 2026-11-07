@@ -14,6 +14,7 @@ import { Item, ItemHeader, Spell } from "../../../model/spell-item/spell-item";
 import { State } from "../../../state";
 import monsterFilesService from "../../monster-files.service";
 import { combatProfile } from "./combat-profile";
+import { threat } from "./duel";
 
 const FILE = "TESTCRE";
 const WEAPON = "TESTW1";
@@ -362,6 +363,38 @@ describe("combatProfile", () => {
     expect(power).toMatchObject({ name: SPELL, uses: Infinity, ranged: true, area: true });
     expect(power.average).toBe(8);
     expect(power.effects.map((e) => e.kind)).toEqual(["ending"]);
+  });
+
+  it("no weapon: no attacks, the threat still scores, from its powers or the 30-round cap", () => {
+    const bare = combatProfile({ creature: fakeCreature({}) });
+    expect(bare.attacks).toEqual([]);
+    const unarmed = threat(bare);
+    expect(unarmed.melee.monsterRounds).toBe(30);
+    expect(unarmed.ranged.monsterRounds).toBe(30);
+    expect(Number.isFinite(unarmed.threat) && unarmed.threat > 0).toBe(true);
+    const caster = fakeCreature({
+      data: { spells: { memorized: [{ file: SPELL, memorizedCount: 90 }] } } as never,
+      spells: [
+        {
+          file: SPELL,
+          type: SpellTypeEnum.Innate,
+          headers: [
+            {
+              range: 30,
+              effects: [effect(EffectTypeEnum.Damage, { diceThrown: 2, diceSize: 6, amount: 1 })],
+            },
+          ] as never,
+        },
+      ],
+    });
+    const profile = combatProfile({ creature: caster });
+    expect(profile.attacks).toEqual([]);
+    const powered = threat(profile);
+    expect(powered.melee.monsterRounds).toBeLessThan(30);
+    expect(powered.ranged.monsterRounds).toBeLessThan(30);
+    expect(powered.threat).toBeGreaterThan(unarmed.threat);
+    const notes = [...powered.melee.notes, ...powered.ranged.notes].join();
+    expect(notes).not.toContain("NaN");
   });
 
   it("a power an ability casts on a timer counts its casts over a 30-round duel", () => {

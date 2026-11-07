@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
+import { ItemAbilityTypeEnum } from "../../model/spell-item/effect.enums";
 import monsterFilesService, { CreatureCsvRow } from "../monster-files.service";
 import { PLAYER_CONFIG } from "../../../config/player-config";
 import experienceService from "./experience.service";
@@ -511,5 +512,28 @@ describe("experienceSystem threat", () => {
       expect.objectContaining({ status: "asBase", newXp: 120 }),
     ]);
     expect(appended(creature, 1)).toEqual([]);
+  });
+
+  it.each([
+    ["more hit points", { hp: 120 }],
+    ["more attacks", { apr: 3 }],
+  ])("scores an adjustment with %s above its base", (_name, data) => {
+    PLAYER_CONFIG.experienceSystem = "threat";
+    PLAYER_CONFIG.experience2e = true;
+    mockRows(row(undefined));
+    const creature = fakeCreature({ xpv: 120, adjustments: [{ data }] });
+    creature.items = [
+      {
+        file: "CLAW",
+        header: { type: ItemAbilityTypeEnum.Melee, diceThrown: 1, diceSize: 8, effects: [] },
+        immunities: [],
+        effects: [],
+        equippedSlot: [],
+        trait: false,
+      },
+    ] as unknown as Creature["items"];
+    const { base, rows } = experienceService.evaluate(creature);
+    expect(rows).toEqual([expect.objectContaining({ status: "formula" })]);
+    expect(rows[0].newXp).toBeGreaterThan(base.xp);
   });
 });
