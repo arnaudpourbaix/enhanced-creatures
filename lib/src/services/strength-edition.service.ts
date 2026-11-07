@@ -11,12 +11,18 @@ export const NO_BONUS_STRENGTH = 15;
  * docs/superpowers/specs/2026-11-07-strength-2e-design.md.
  */
 class StrengthEditionService {
+  /** Data already resolved: checkData running twice on it must not correct THAC0 twice */
+  private readonly resolved = new WeakSet<object>();
+
   /**
    * `parent` is the creature's data when `data` is an adjustment's: an adjustment inherits the
    * creature's strength2e unless it sets its own strength (a game-file value) or strength2e.
    */
   apply(p: { data: Partial<CreatureData>; parent?: CreatureData; edition: StrengthEdition }): void {
-    if (p.edition !== "2e") return;
+    // a malformed record fails in both editions, not only once someone switches to 2e
+    if (p.data.strength2e) this.validate(p.data.strength2e);
+    if (p.edition !== "2e" || this.resolved.has(p.data)) return;
+    this.resolved.add(p.data);
     const { data, parent } = p;
     const own = data.strength2e;
     const ownStrength = data.strength !== undefined || data.exceptionalStrength !== undefined;
@@ -45,6 +51,17 @@ class StrengthEditionService {
       throw new Error(`2e strength to-hit correction ${hit} needs a THAC0 on the creature`);
     }
     data.thac0 = parent.thac0 + parentHit - hit;
+  }
+
+  /** An exceptional strength is 18/01 to 18/00 (1-100), and only on an 18 */
+  private validate(s2e: Strength2e): void {
+    const ex = s2e.exceptionalStrength;
+    if (ex === undefined) return;
+    if (s2e.strength !== 18 || ex < 1 || ex > 100) {
+      throw new Error(
+        `strength2e exceptional strength ${ex} needs a strength of 18 and 1-100 (${s2e.source})`,
+      );
+    }
   }
 
   /**

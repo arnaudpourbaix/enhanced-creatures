@@ -350,6 +350,36 @@ describe("checkData - 2e strength", () => {
     // level 5: THAC0 15, one worse for the MM's +2 to hit (18/00 gives +3)
     expect(creature.data).toMatchObject({ strength: 18, exceptionalStrength: 100, thac0: 16 });
   });
+
+  it("corrects an adjustment's own generated THAC0 once, with the creature's to-hit", () => {
+    GLOBAL_CONFIG.strengthEdition = "2e";
+    const creature = {
+      data: {
+        movement: new Movement(9),
+        level1: { pnpValue: 5, value: 5, type: "none" },
+        strength: 19,
+        strength2e: { strength: 18, exceptionalStrength: 100, hit: -1, source: "MM" },
+        saveBreath: 10,
+        immunities: [],
+        items: { equipped: [] },
+      },
+      items: [],
+      adjustments: [],
+      attack: { dualWielding: false },
+      autoGenerate: { thac0: true, hitPoints: false, enchantment: false, meleeRange: false },
+    } as unknown as Creature;
+    const adjustment = fakeBase({
+      level1: { pnpValue: 4, value: 4, type: "none" },
+      saveBreath: 10,
+    });
+
+    creatureService.checkData({ creature, base: creature, isAdjustment: false });
+    creatureService.checkData({ creature, base: adjustment, isAdjustment: true });
+
+    // level 4: THAC0 17, one worse for the inherited -1; its score is the creature's (18/00)
+    expect(adjustment.data.thac0).toBe(18);
+    expect(adjustment.data.strength).toBeUndefined();
+  });
 });
 
 describe("autogenerateThac0 (private)", () => {

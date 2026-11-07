@@ -105,6 +105,29 @@ describe("strengthEditionService.apply", () => {
     expect(data).toEqual({ strength: 18, exceptionalStrength: 50, thac0: 17 });
   });
 
+  it("resolving the same data twice corrects THAC0 once", () => {
+    const data = { strength: 19, thac0: 15, strength2e: { strength: 18, hit: -1, source } };
+    strengthEditionService.apply({ data, edition: "2e" });
+    strengthEditionService.apply({ data, edition: "2e" });
+    expect(data.thac0).toBe(16);
+  });
+
+  it("rejects an exceptional strength on a score other than 18, in both editions", () => {
+    for (const edition of ["3e+", "2e"] as const) {
+      const data = { strength: 19, strength2e: { strength: 19, exceptionalStrength: 50, source } };
+      expect(() => {
+        strengthEditionService.apply({ data, edition });
+      }).toThrow(/exceptional/);
+    }
+  });
+
+  it("rejects an exceptional strength outside 1-100", () => {
+    const data = { strength: 18, strength2e: { strength: 18, exceptionalStrength: 101, source } };
+    expect(() => {
+      strengthEditionService.apply({ data, edition: "3e+" });
+    }).toThrow(/exceptional/);
+  });
+
   it("a to-hit correction without THAC0 fails", () => {
     const data = { strength: 19, strength2e: { strength: 18, hit: 1, source } };
     expect(() => {
