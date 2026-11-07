@@ -53,6 +53,13 @@ describe("experience proposals", () => {
     expect(p.totals).toMatchObject({ rows: 1, inGame: 400, book: 420, threat: 340 });
   });
 
+  it("ends a row's breakdown with Table 31 × s × T^k = XP, as the service does", () => {
+    const ankheg = buildProposals(creatures, threatOf, fit).rows.find(
+      (r) => r.monster === "Ankheg",
+    )!;
+    expect(ankheg.notes).toMatch(/; threat 2 → 120 × 2 × 2\^0\.5 = 340$/);
+  });
+
   it("renders the threat columns, the fit line and both reference tables", () => {
     const html = renderProposals(buildProposals(creatures, threatOf, fit));
     const ankheg = html.match(/<tr[^>]*data-monster="Ankheg".*?<\/tr>/)![0];

@@ -26,6 +26,21 @@ export function threatXp(
   return Math.round((xpForHitDiceValue(hitDiceValue) * fit.s * threat ** fit.k) / 10) * 10;
 }
 
+/** Two decimals at most, trailing zeros dropped (30, 2.4, 1.06) */
+function decimals(value: number): string {
+  return String(Math.round(value * 100) / 100);
+}
+
+/** The breakdown's last step: "threat 2 → 120 × 2 × 2^0.5 = 340" */
+export function threatXpText(
+  hitDiceValue: number,
+  threat: number,
+  fit: ThreatFit = THREAT_FIT,
+): string {
+  const formula = `${xpForHitDiceValue(hitDiceValue)} × ${decimals(fit.s)} × ${decimals(threat)}^${decimals(fit.k)}`;
+  return `threat ${decimals(threat)} → ${formula} = ${threatXp(hitDiceValue, threat, fit)}`;
+}
+
 /**
  * Fits k (least-squares slope of log(book / Table 31) on log T, clamped) and s (so the total XP
  * equals the book total). Samples with a non-positive threat or book are ignored (log undefined).

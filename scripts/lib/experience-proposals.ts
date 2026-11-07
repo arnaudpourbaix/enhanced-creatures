@@ -12,6 +12,7 @@ import {
   ThreatFit,
   ThreatSample,
   threatXp,
+  threatXpText,
 } from "../../lib/src/services/experience/threat/threat-xp";
 import { escapeHtml } from "./stats-report-html";
 
@@ -146,7 +147,11 @@ export function buildProposals(
       ranged: rounds(t.ranged),
       threat: decimals(t.threat),
       threatXp: threatXp(base.hitDiceValue, t.threat, fit),
-      notes: `${duelNotes("melee", t.melee)}; ${duelNotes("ranged", t.ranged)}`,
+      notes: [
+        duelNotes("melee", t.melee),
+        duelNotes("ranged", t.ranged),
+        threatXpText(base.hitDiceValue, t.threat, fit),
+      ].join("; "),
     };
     rows.push(row);
     addToTotals(totals, row);

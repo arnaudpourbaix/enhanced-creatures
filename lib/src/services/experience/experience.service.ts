@@ -11,16 +11,10 @@ import {
   ExperienceScope,
   matchingAdjustments,
 } from "./experience-detection";
-import {
-  ExperienceScore,
-  hitDiceValue,
-  scoreExperience,
-  xpForHitDiceValue,
-} from "./experience-table";
+import { ExperienceScore, hitDiceValue, scoreExperience } from "./experience-table";
 import { combatProfile } from "./threat/combat-profile";
 import { DuelResult, threat } from "./threat/duel";
-import { THREAT_FIT } from "./threat/threat-fit";
-import { threatXp } from "./threat/threat-xp";
+import { threatXp, threatXpText } from "./threat/threat-xp";
 
 /**
  * How a file scope's XP is decided: `zero` (summon, xpv 0 or worth 0 in game), `book` (no
@@ -212,12 +206,10 @@ class ExperienceService {
     const value = hitDiceValue(hitDice);
     const result = threat(combatProfile(scope));
     const xp = threatXp(value, result.threat);
-    const t = round(result.threat);
-    const formula = `${xpForHitDiceValue(value)} × ${round(THREAT_FIT.s)} × ${t}^${round(THREAT_FIT.k)}`;
     const breakdown = [
       `duel: ${duelText(result.melee, "fighter", " rounds")}`,
       `archer: ${duelText(result.ranged, "archer")}`,
-      `threat ${t} → ${formula} = ${xp}`,
+      threatXpText(value, result.threat),
     ].join("; ");
     return { hitDiceValue: value, abilities: [], total: value, hitDice, xp, breakdown };
   }
